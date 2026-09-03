@@ -109,8 +109,8 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
         _logger.LogInformation("Worker {Index} registered with master via SignalR", registration.WorkerIndex);
     }
 
-    public Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken) =>
-        _connection.InvokeAsync(HubMethodNames.Heartbeat, workerIndex, cancellationToken);
+    public Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken) =>
+        _connection.InvokeAsync(HubMethodNames.Heartbeat, status, cancellationToken);
 
     public Task WaitForCancellationAsync(CancellationToken cancellationToken) =>
         _cancellationRequested.Task.WaitAsync(cancellationToken);

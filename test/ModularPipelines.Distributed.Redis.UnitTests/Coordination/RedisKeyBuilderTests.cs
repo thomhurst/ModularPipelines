@@ -98,6 +98,7 @@ public class RedisKeyBuilderTests
         await Assert.That(allKeys).Contains(builder.WorkQueue);
         await Assert.That(allKeys).Contains(builder.Results);
         await Assert.That(allKeys).Contains(builder.Workers);
+        await Assert.That(allKeys).Contains(builder.WorkerStatuses);
         await Assert.That(allKeys).Contains(builder.CompletionFlag);
         await Assert.That(allKeys).Contains(builder.CancellationFlag);
     }
@@ -109,6 +110,6 @@ public class RedisKeyBuilderTests
 
         var allKeys = builder.AllStorageKeys.ToList();
 
-        await Assert.That(allKeys).Count().IsEqualTo(5);
+        await Assert.That(allKeys).Count().IsEqualTo(6);
     }
 }

@@ -1021,7 +1021,7 @@ internal class DistributedModuleExecutor(
 
 internal sealed class DistributedRoutingException(
     string moduleTypeName,
-    IReadOnlySet<Capability> requiredCapabilities,
+    IReadOnlyCollection<Capability> requiredCapabilities,
     int registeredWorkerCount)
     : InvalidOperationException(
         $"No execution route is available for distributed module {moduleTypeName}. " +

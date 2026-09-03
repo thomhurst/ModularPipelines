@@ -12,6 +12,7 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
     private readonly Lock _queueLock = new();
     private readonly ConcurrentDictionary<string, TaskCompletionSource<SerializedModuleResult>> _results = new();
     private readonly ConcurrentDictionary<int, WorkerRegistration> _workers = new();
+    private readonly ConcurrentDictionary<int, WorkerStatus> _workerStatuses = new();
     private readonly ConcurrentDictionary<int, DateTimeOffset> _heartbeats = new();
     private readonly TaskCompletionSource _cancellationRequested = new(
         TaskCreationOptions.RunContinuationsAsynchronously);
@@ -95,16 +96,27 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
     public Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
     {
         _workers[registration.WorkerIndex] = registration;
+        var initialStatus = new WorkerStatus(registration.WorkerIndex)
+        {
+            RunIdentifier = registration.RunIdentifier,
+        };
+        _workerStatuses.AddOrUpdate(
+            registration.WorkerIndex,
+            initialStatus,
+            (_, currentStatus) => string.Equals(
+                currentStatus.RunIdentifier,
+                registration.RunIdentifier,
+                StringComparison.Ordinal)
+                ? currentStatus
+                : initialStatus);
         _heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
         return Task.CompletedTask;
     }
 
-    public Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken)
+    public Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken)
     {
-        if (_workers.ContainsKey(workerIndex))
-        {
-            _heartbeats[workerIndex] = DateTimeOffset.UtcNow;
-        }
+        _workerStatuses[status.WorkerIndex] = status;
+        _heartbeats[status.WorkerIndex] = DateTimeOffset.UtcNow;
 
         return Task.CompletedTask;
     }
@@ -115,10 +127,17 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
         IReadOnlyList<WorkerRegistration> result =
         [
             .. _workers.Values.Where(worker =>
-                worker.UnattributedCommandCount.HasValue
-                || (_heartbeats.TryGetValue(worker.WorkerIndex, out var heartbeat)
+                WorkerStatus.IsLive(
+                    _workerStatuses.GetValueOrDefault(worker.WorkerIndex),
+                    _heartbeats.TryGetValue(worker.WorkerIndex, out var heartbeat)
                     && heartbeat >= oldestLiveHeartbeat)),
         ];
+        return Task.FromResult(result);
+    }
+
+    public Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(CancellationToken cancellationToken)
+    {
+        IReadOnlyList<WorkerStatus> result = [.. _workerStatuses.Values];
         return Task.FromResult(result);
     }
 

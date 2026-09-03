@@ -681,7 +681,7 @@ public class DistributedWorkPublisherTests
         await Assert.That(assignment.DependencyResults).IsNotNull();
         await Assert.That(assignment.DependencyResults!.Count).IsEqualTo(1);
 
-        var compressedJson = assignment.DependencyResults[0].SerializedJson;
+        var compressedJson = assignment.DependencyResults[0].Payload;
         await Assert.That(compressedJson).StartsWith(DistributedWorkPublisher.GzipPrefix);
         // Compressed should be much smaller than the 300 KB original
         await Assert.That(compressedJson.Length).IsLessThan(100 * 1024);

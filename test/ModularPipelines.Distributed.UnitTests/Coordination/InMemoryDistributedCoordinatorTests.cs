@@ -26,7 +26,7 @@ public class InMemoryDistributedCoordinatorTests
 
         var registration = new WorkerRegistration(
             WorkerIndex: 1,
-            Capabilities: new HashSet<Capability> { "linux" },
+            Capabilities: [ "linux" ],
             RegisteredAt: DateTimeOffset.UtcNow);
 
         await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
@@ -67,7 +67,7 @@ public class InMemoryDistributedCoordinatorTests
                 WorkerTimeout = TimeSpan.FromMilliseconds(10),
             }));
         await coordinator.RegisterWorkerAsync(
-            new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
+            new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
             CancellationToken.None);
 
         await Task.Delay(30);
@@ -98,9 +98,9 @@ public class InMemoryDistributedCoordinatorTests
         var dockerAssignment = new ModuleAssignment(
             ModuleTypeName: "Docker.Module",
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<Capability> { "docker" },
+            RequiredCapabilities: [ "docker" ],
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, false));
+            Configuration: new ModuleAssignmentOptions(null, false));
 
         await coordinator.EnqueueModuleAsync(dockerAssignment, CancellationToken.None);
 

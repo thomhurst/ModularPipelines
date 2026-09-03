@@ -31,6 +31,18 @@ internal class DistributedPipelineHub(
             Registration = registration,
         };
 
+        var supersededWorker = state.RegisterWorker(workerState);
+        PendingReconnect? supersededReconnect = null;
+        var supersededAssignment = supersededWorker?.ClearAssignment();
+        if (supersededAssignment is not null
+            && state.ResultWaiters.TryGetValue(supersededAssignment.ModuleTypeName, out var waiter)
+            && !waiter.Task.IsCompleted)
+        {
+            supersededReconnect = state.TrackPendingReconnect(
+                supersededWorker!,
+                supersededAssignment);
+        }
+
         // A reconnect may restore work only when the worker claims the same in-flight
         // module. The stable index alone is insufficient because a replacement process
         // can reuse it without owning the original execution.
@@ -45,9 +57,10 @@ internal class DistributedPipelineHub(
                 recoveredAssignment!.ModuleTypeName);
         }
 
-        state.Workers[connectionId] = workerState;
-        state.Registrations[registration.WorkerIndex] = registration;
-        state.Heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
+        if (supersededReconnect is not null)
+        {
+            _ = ReEnqueueAfterGraceAsync(state, _logger, supersededReconnect);
+        }
 
         // Cancellation is durable master state. A worker that was disconnected
         // during the original broadcast must receive it before registration returns.
@@ -55,7 +68,7 @@ internal class DistributedPipelineHub(
         {
             await Clients.Caller.SendAsync(
                 HubMethodNames.BroadcastCancellation,
-                Context.ConnectionAborted);
+                Context.ConnectionAborted).ConfigureAwait(false);
         }
 
         _logger.LogInformation("Worker {Index} registered via connection {ConnectionId} with capabilities: {Capabilities}",
@@ -65,12 +78,22 @@ internal class DistributedPipelineHub(
     /// <summary>
     /// Records liveness for a connected worker.
     /// </summary>
-    public Task Heartbeat(int workerIndex)
+    public Task Heartbeat(WorkerStatus status)
     {
-        if (_masterState.Workers.TryGetValue(Context.ConnectionId, out var worker)
-            && worker.Registration.WorkerIndex == workerIndex)
+        var connectionId = Context.ConnectionId;
+        if (_masterState.Workers.TryGetValue(connectionId, out var worker))
         {
-            _masterState.Heartbeats[workerIndex] = DateTimeOffset.UtcNow;
+            _masterState.TryRecordHeartbeat(worker, status);
+            return Task.CompletedTask;
+        }
+
+        // A reconnect heartbeat can race with RegisterWorker on a separate SignalR invocation.
+        // Keep it connection-scoped until registration proves ownership of the worker index.
+        _masterState.PendingWorkerStatuses[connectionId] = status;
+        if (_masterState.Workers.TryGetValue(connectionId, out worker)
+            && _masterState.PendingWorkerStatuses.TryRemove(connectionId, out var pendingStatus))
+        {
+            _masterState.TryRecordHeartbeat(worker, pendingStatus);
         }
 
         return Task.CompletedTask;
@@ -83,16 +106,25 @@ internal class DistributedPipelineHub(
     {
         var state = _masterState;
 
+        if (!state.Workers.TryGetValue(Context.ConnectionId, out var sendingWorker))
+        {
+            return;
+        }
+
         _logger.LogDebug("Received result for {Module} from worker {Worker}",
             result.ModuleTypeName, result.WorkerIndex);
 
         // 1. Complete the result and atomically capture workers involved in reconnect
         // recovery before a concurrent registration can start tracking the assignment.
-        var workersToRelease = (await state.CompleteResultAsync(result)).ToHashSet();
-        if (state.Workers.TryGetValue(Context.ConnectionId, out var sendingWorker))
+        var completion = await state.TryCompleteWorkerResultAsync(sendingWorker, result)
+            .ConfigureAwait(false);
+        if (!completion.Accepted)
         {
-            workersToRelease.Add(sendingWorker);
+            return;
         }
+
+        var workersToRelease = completion.WorkersToRelease.ToHashSet();
+        workersToRelease.Add(sendingWorker);
 
         // 2. Broadcast ReceiveDependencyResult to all workers for CompletionSource pre-population
         await Clients.Others.SendAsync(HubMethodNames.ReceiveDependencyResult, result);
@@ -124,6 +156,7 @@ internal class DistributedPipelineHub(
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
+        _masterState.PendingWorkerStatuses.TryRemove(Context.ConnectionId, out _);
         if (_masterState.Workers.TryRemove(Context.ConnectionId, out var workerState))
         {
             var workerIndex = workerState.Registration.WorkerIndex;
@@ -153,7 +186,7 @@ internal class DistributedPipelineHub(
             }
         }
 
-        await base.OnDisconnectedAsync(exception);
+        await base.OnDisconnectedAsync(exception).ConfigureAwait(false);
     }
 
     /// <summary>

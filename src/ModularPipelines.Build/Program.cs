@@ -182,7 +182,7 @@ file static class BuildPipelineConfiguration
         });
         builder.AddSignalRDistributedCoordinator(o =>
         {
-            o.MaximumReceiveMessageSize = 64 * 1024 * 1024;
+            o.MaxReceiveMessageSize = 64 * 1024 * 1024;
             // Distributed CI must install cloudflared before enabling multiple instances.
             o.EnableTunnel = true;
         });

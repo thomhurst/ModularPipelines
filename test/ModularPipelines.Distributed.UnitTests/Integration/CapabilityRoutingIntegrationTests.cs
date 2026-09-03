@@ -13,9 +13,9 @@ public class CapabilityRoutingIntegrationTests
         var assignment = new ModuleAssignment(
             ModuleTypeName: "Docker.Module",
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<Capability> { "docker" },
+            RequiredCapabilities: [ "docker" ],
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, false));
+            Configuration: new ModuleAssignmentOptions(null, false));
 
         await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
 
@@ -35,9 +35,9 @@ public class CapabilityRoutingIntegrationTests
         var assignment = new ModuleAssignment(
             ModuleTypeName: "Docker.Module",
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<Capability> { "docker" },
+            RequiredCapabilities: [ "docker" ],
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, false));
+            Configuration: new ModuleAssignmentOptions(null, false));
 
         await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
 
@@ -54,27 +54,27 @@ public class CapabilityRoutingIntegrationTests
     {
         var dockerWorker = new WorkerRegistration(
             WorkerIndex: 1,
-            Capabilities: new HashSet<Capability> { "linux", "docker" },
+            Capabilities: [ "linux", "docker" ],
             RegisteredAt: DateTimeOffset.UtcNow);
 
         var plainWorker = new WorkerRegistration(
             WorkerIndex: 2,
-            Capabilities: new HashSet<Capability> { "linux" },
+            Capabilities: [ "linux" ],
             RegisteredAt: DateTimeOffset.UtcNow);
 
         var dockerAssignment = new ModuleAssignment(
             ModuleTypeName: "Docker.Module",
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<Capability> { "docker" },
+            RequiredCapabilities: [ "docker" ],
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, false));
+            Configuration: new ModuleAssignmentOptions(null, false));
 
         var plainAssignment = new ModuleAssignment(
             ModuleTypeName: "Plain.Module",
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<Capability>(),
+            RequiredCapabilities: [],
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, false));
+            Configuration: new ModuleAssignmentOptions(null, false));
 
         // Docker worker can execute both
         await Assert.That(CapabilityMatcher.CanExecute(dockerAssignment, dockerWorker)).IsTrue();

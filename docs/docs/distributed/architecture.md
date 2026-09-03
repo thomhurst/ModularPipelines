@@ -161,7 +161,7 @@ This guarantees no result is missed regardless of timing.
 
 Module results are serialized via `ModuleResultSerializer` using `System.Text.Json`. The `ModuleTypeRegistry` maintains a mapping from module type names to their concrete .NET types, so results can be deserialized back to the correct `ModuleResult<T>`.
 
-The `ReadOnlySetJsonConverter` keeps `IReadOnlySet<Capability>` fields (used in `ModuleAssignment.RequiredCapabilities` and `WorkerRegistration.Capabilities`) as plain string arrays on the wire.
+Capability collections on `ModuleAssignment` and `WorkerRegistration` are lists, so the default JSON serializer writes them as plain string arrays on the wire.
 
 ## Implementing a Custom Coordinator
 

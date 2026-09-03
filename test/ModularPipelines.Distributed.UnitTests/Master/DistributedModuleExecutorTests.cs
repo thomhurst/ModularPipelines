@@ -367,6 +367,10 @@ public class DistributedModuleExecutorTests
             return await inner.GetRegisteredWorkersAsync(cancellationToken);
         }
 
+        public Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(
+            CancellationToken cancellationToken) =>
+            inner.GetWorkerStatusesAsync(cancellationToken);
+
         public async Task SignalCompletionAsync(CancellationToken cancellationToken)
         {
             await inner.SignalCompletionAsync(cancellationToken);
@@ -376,8 +380,8 @@ public class DistributedModuleExecutorTests
         public Task BroadcastCancellationAsync(CancellationToken cancellationToken)
             => inner.BroadcastCancellationAsync(cancellationToken);
 
-        public Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken)
-            => inner.SendHeartbeatAsync(workerIndex, cancellationToken);
+        public Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken)
+            => inner.SendHeartbeatAsync(status, cancellationToken);
 
         public Task WaitForCancellationAsync(CancellationToken cancellationToken)
             => inner.WaitForCancellationAsync(cancellationToken);
@@ -2448,7 +2452,7 @@ public class DistributedModuleExecutorTests
         await Assert.That(noDequeue.ResultWaitStarted.Task.IsCompleted).IsFalse();
 
         await coordinator.RegisterWorkerAsync(
-            new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
+            new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
             CancellationToken.None);
         noDequeue.ReleaseWorkerQuery();
         await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
@@ -2520,7 +2524,7 @@ public class DistributedModuleExecutorTests
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         var registeredWorkers = new List<WorkerRegistration>
         {
-            new(1, new HashSet<Capability> { Capability.Linux }, DateTimeOffset.UtcNow),
+            new(1, [Capability.Linux], DateTimeOffset.UtcNow),
         };
         coordinator.Setup(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(() => registeredWorkers.AsReadOnly());
@@ -2680,7 +2684,7 @@ public class DistributedModuleExecutorTests
         [
             new WorkerRegistration(
                 1,
-                new HashSet<Capability> { Capability.Gpu },
+                [Capability.Gpu],
                 DateTimeOffset.UtcNow),
         ];
         await executionTask;

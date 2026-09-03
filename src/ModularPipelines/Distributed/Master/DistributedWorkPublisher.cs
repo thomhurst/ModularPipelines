@@ -65,9 +65,9 @@ internal class DistributedWorkPublisher(
         return new ModuleAssignment(
             ModuleTypeName: moduleType.FullName!,
             ResultTypeName: resultTypeName,
-            RequiredCapabilities: requiredCapabilities,
+            RequiredCapabilities: [.. requiredCapabilities],
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(
+            Configuration: new ModuleAssignmentOptions(
                 TimeoutSeconds: config.Timeout is not null ? (int?) config.Timeout.Value.TotalSeconds : null,
                 AlwaysRun: config.AlwaysRun
             ),
@@ -190,13 +190,13 @@ internal class DistributedWorkPublisher(
 
     /// <summary>
     /// Prefix marker for GZip-compressed dependency result JSON.
-    /// When <c>SerializedJson</c> starts with this prefix, the remainder is a base64-encoded
+    /// When <c>Payload</c> starts with this prefix, the remainder is a base64-encoded
     /// GZip payload that must be decompressed before JSON deserialization.
     /// </summary>
     internal const string GzipPrefix = "gzip:";
 
     /// <summary>
-    /// Threshold in bytes above which a dependency result's <c>SerializedJson</c> is compressed
+    /// Threshold in bytes above which a dependency result's <c>Payload</c> is compressed
     /// using GZip to prevent coordinator payloads from exceeding transport limits (e.g., Redis
     /// 10 MB request cap). Text-heavy results like build output compress at ~10:1 ratio.
     /// </summary>
@@ -268,9 +268,9 @@ internal class DistributedWorkPublisher(
             var serialized = _serializer.Serialize(result, depType.FullName!, depResultTypeName, workerIndex);
 
             // Compress large results to stay within transport payload limits.
-            if (serialized.SerializedJson.Length > CompressionThresholdBytes)
+            if (serialized.Payload.Length > CompressionThresholdBytes)
             {
-                serialized = serialized with { SerializedJson = CompressJson(serialized.SerializedJson) };
+                serialized = serialized with { Payload = CompressJson(serialized.Payload) };
             }
 
             results.Add(serialized);
