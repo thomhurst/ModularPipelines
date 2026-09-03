@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
@@ -225,6 +226,151 @@ public class CliScraperTraversalTests
         await Assert.That(logger.Warnings).Contains(warning =>
             warning.Exception is InvalidOperationException
             && warning.Message.Contains("Failed to validate subcommand discovery: fake parent"));
+
+        var outputDirectory = Path.Combine(
+            Path.GetTempPath(),
+            "mp-cli-traversal-tests",
+            Guid.NewGuid().ToString("N"));
+        try
+        {
+            var diagnosticsPath = await scraper.WriteCoverageFailureDiagnosticsAsync(
+                outputDirectory,
+                CoverageFailure("fake parent child"),
+                CancellationToken.None);
+            var diagnostics = await File.ReadAllTextAsync(diagnosticsPath!);
+
+            await Assert.That(diagnostics).Contains("Manage parent resources.");
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task SharedTraversal_Preserves_Mismatched_Parent_Help_For_Diagnostics()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage:
+                  fake <command>
+
+                Available Commands:
+                  parent: Manage parent resources
+                """,
+            ["parent --help"] = """
+                MISMATCHED PARENT RESPONSE
+
+                Usage:
+                  fake sibling [flags]
+                """,
+        });
+        var scraper = new TestCobraScraper(executor);
+
+        _ = await ScrapeAsync(scraper);
+
+        var outputDirectory = Path.Combine(
+            Path.GetTempPath(),
+            "mp-cli-traversal-tests",
+            Guid.NewGuid().ToString("N"));
+        try
+        {
+            var diagnosticsPath = await scraper.WriteCoverageFailureDiagnosticsAsync(
+                outputDirectory,
+                CoverageFailure("fake parent child"),
+                CancellationToken.None);
+            var diagnostics = await File.ReadAllTextAsync(diagnosticsPath!);
+
+            await Assert.That(diagnostics).Contains("MISMATCHED PARENT RESPONSE");
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task SharedTraversal_Preserves_Known_Group_That_Became_A_Leaf()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage: fake <command>
+
+                Available Commands:
+                  parent: Manage parent resources
+                """,
+            ["parent --help"] = """
+                CURRENT PARENT LEAF HELP
+
+                Usage: fake parent [flags]
+
+                Flags:
+                  --value string   Supply a value
+                """,
+        });
+        var scraper = new TestCobraScraper(executor);
+        scraper.PreserveRawHelpForCommandGroups(["fake parent"]);
+
+        _ = await ScrapeAsync(scraper);
+
+        var outputDirectory = Path.Combine(
+            Path.GetTempPath(),
+            "mp-cli-traversal-tests",
+            Guid.NewGuid().ToString("N"));
+        try
+        {
+            var diagnosticsPath = await scraper.WriteCoverageFailureDiagnosticsAsync(
+                outputDirectory,
+                CoverageFailure("fake parent child"),
+                CancellationToken.None);
+            var diagnostics = await File.ReadAllTextAsync(diagnosticsPath!);
+
+            await Assert.That(diagnostics).Contains("CURRENT PARENT LEAF HELP");
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Cached_Help_Is_Recorded_For_Coverage_Diagnostics()
+    {
+        using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
+        cache.Set("fake parent", "CACHED PARENT HELP");
+        var scraper = new TestCobraScraper(
+            new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)),
+            cache: cache);
+
+        _ = await scraper.GetHelp(["fake", "parent"]);
+
+        var outputDirectory = Path.Combine(
+            Path.GetTempPath(),
+            "mp-cli-traversal-tests",
+            Guid.NewGuid().ToString("N"));
+        try
+        {
+            var diagnosticsPath = await scraper.WriteCoverageFailureDiagnosticsAsync(
+                outputDirectory,
+                CoverageFailure("fake parent child"),
+                CancellationToken.None);
+            var diagnostics = await File.ReadAllTextAsync(diagnosticsPath!);
+            using var document = JsonDocument.Parse(diagnostics);
+            var missingHelpPaths = document.RootElement
+                .GetProperty("missingHelpPaths")
+                .EnumerateArray()
+                .Select(static element => element.GetString())
+                .ToArray();
+
+            await Assert.That(diagnostics).Contains("CACHED PARENT HELP");
+            await Assert.That(missingHelpPaths).DoesNotContain("fake parent");
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
     }
 
     [Test]
@@ -1087,12 +1233,39 @@ public class CliScraperTraversalTests
         return commands;
     }
 
+    private static CommandCoverageEvaluation CoverageFailure(string removedCommand) => new()
+    {
+        ManifestPath = "unused",
+        Manifest = new CommandCoverageManifest
+        {
+            FormatVersion = 1,
+            ToolName = "fake",
+            ToolVersion = "2.0",
+            CommandCount = 1,
+            CommandTreeSha256 = "unused",
+            Commands = ["fake sibling"],
+            CommandGroups = ["fake"],
+            Exclusions = [],
+        },
+        HasPreviousBaseline = true,
+        PreviousCommandCount = 2,
+        PreviousToolVersion = "1.0",
+        AddedCommands = [],
+        RemovedCommands = [removedCommand],
+        KnownGroupsWithoutChildren = ["fake parent"],
+        Violations = ["Known command groups lost all children: fake parent."],
+        ChangesApproved = false,
+    };
+
     private sealed class TestCobraScraper : CobraCliScraper
     {
-        public TestCobraScraper(ICliCommandExecutor executor, ILogger? logger = null)
+        public TestCobraScraper(
+            ICliCommandExecutor executor,
+            ILogger? logger = null,
+            IHelpTextCache? cache = null)
             : base(
                 executor,
-                new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+                cache ?? new HelpTextCache(NullLogger<HelpTextCache>.Instance),
                 logger ?? NullLogger<TestCobraScraper>.Instance)
         {
         }
@@ -1116,6 +1289,9 @@ public class CliScraperTraversalTests
         public bool DeclaresCommandGroup(string helpText) => HelpDeclaresCommandGroup(helpText);
 
         public IReadOnlyList<string> GetSubcommands(string helpText) => ExtractSubcommands(helpText).ToList();
+
+        public Task<string?> GetHelp(string[] commandPath) =>
+            GetHelpTextAsync(commandPath, CancellationToken.None);
     }
 
     private sealed class RecordingLogger : ILogger

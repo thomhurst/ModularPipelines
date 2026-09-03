@@ -70,7 +70,11 @@ public partial class TerraformCliScraper : CliScraperBase
             ? string.Join(" ", commandPath.Skip(1)) + " -help"
             : "-help";
 
-        var result = await Executor.ExecuteAsync(ExecutablePath, args, cancellationToken);
+        var result = await ExecuteAndRecordHelpCommandAsync(
+            commandPath,
+            ExecutablePath,
+            args,
+            cancellationToken);
 
         // Terraform outputs help to stdout
         var helpText = !string.IsNullOrEmpty(result.StandardOutput)

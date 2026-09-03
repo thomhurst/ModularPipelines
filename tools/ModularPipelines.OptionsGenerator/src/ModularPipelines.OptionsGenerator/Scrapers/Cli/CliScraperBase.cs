@@ -16,6 +16,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 public abstract partial class CliScraperBase : ICliScraper
 {
     private static readonly string[] DefaultUsageSynopsisHeadings = ["usage"];
+    private readonly CliScrapeProvenance _scrapeProvenance = new();
+    private readonly HashSet<string> _knownCommandGroups = new(StringComparer.OrdinalIgnoreCase);
 
     protected readonly ICliCommandExecutor Executor;
     protected readonly IHelpTextCache HelpCache;
@@ -391,6 +393,7 @@ public abstract partial class CliScraperBase : ICliScraper
 
         if (ShouldSkipPath(path, helpText))
         {
+            _scrapeProvenance.DiscardLeafHelp(path);
             return;
         }
 
@@ -403,17 +406,16 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         var subcommands = ExtractSubcommands(path, helpText).ToList();
-        try
+        var declaresCommandGroup = HelpDeclaresCommandGroup(helpText);
+        PreserveGroupHelp(path, subcommands, declaresCommandGroup);
+        if (!TryValidateSubcommandDiscovery(path, helpText, subcommands))
         {
-            ValidateSubcommandDiscovery(path, helpText, subcommands);
-        }
-        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
-        {
-            Logger.LogWarning(ex, "Failed to validate subcommand discovery: {Command}", string.Join(" ", path));
             return;
         }
 
         await ParseAndWriteCommandAsync(path, helpText, subcommands, commandChannel, cancellationToken);
+        DiscardLeafHelp(path, subcommands, declaresCommandGroup);
+
         await EnqueueSubcommandsAsync(
             path,
             subcommands,
@@ -421,6 +423,47 @@ public abstract partial class CliScraperBase : ICliScraper
             coordinator,
             visitedPaths,
             cancellationToken);
+    }
+
+    private void PreserveGroupHelp(
+        string[] path,
+        IReadOnlyCollection<string> subcommands,
+        bool declaresCommandGroup)
+    {
+        if (subcommands.Count > 0 || declaresCommandGroup)
+        {
+            _scrapeProvenance.PreserveGroupHelp(path);
+        }
+    }
+
+    private bool TryValidateSubcommandDiscovery(
+        string[] path,
+        string helpText,
+        IReadOnlyCollection<string> subcommands)
+    {
+        try
+        {
+            ValidateSubcommandDiscovery(path, helpText, subcommands);
+            return true;
+        }
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
+        {
+            Logger.LogWarning(ex, "Failed to validate subcommand discovery: {Command}", string.Join(" ", path));
+            return false;
+        }
+    }
+
+    private void DiscardLeafHelp(
+        string[] path,
+        IReadOnlyCollection<string> subcommands,
+        bool declaresCommandGroup)
+    {
+        if (subcommands.Count == 0
+            && !declaresCommandGroup
+            && !_knownCommandGroups.Contains(string.Join(' ', path)))
+        {
+            _scrapeProvenance.DiscardLeafHelp(path);
+        }
     }
 
     private bool ShouldSkipDeepPath(string[] path)
@@ -654,6 +697,11 @@ public abstract partial class CliScraperBase : ICliScraper
 
         if (HelpCache.TryGet(cacheKey, out var cached))
         {
+            if (!string.IsNullOrEmpty(cached))
+            {
+                _scrapeProvenance.RecordCacheHit(commandPath, cached);
+            }
+
             return cached;
         }
 
@@ -662,7 +710,11 @@ public abstract partial class CliScraperBase : ICliScraper
             ? string.Join(" ", commandPath.Skip(1)) + " --help"
             : "--help";
 
-        var result = await Executor.ExecuteAsync(ExecutablePath, args, cancellationToken);
+        var result = await ExecuteAndRecordHelpCommandAsync(
+            commandPath,
+            ExecutablePath,
+            args,
+            cancellationToken);
 
         if (!ShouldAcceptHelpResult(commandPath, result))
         {
@@ -686,6 +738,38 @@ public abstract partial class CliScraperBase : ICliScraper
 
         Logger.LogWarning("No help text for command: {Command}", cacheKey);
         return null;
+    }
+
+    private protected async Task<CliCommandResult> ExecuteAndRecordHelpCommandAsync(
+        IReadOnlyList<string> commandPath,
+        string executablePath,
+        string arguments,
+        CancellationToken cancellationToken,
+        string? workingDirectory = null,
+        bool preserveRawHelp = false)
+    {
+        var result = await Executor.ExecuteAsync(
+            executablePath,
+            arguments,
+            cancellationToken,
+            workingDirectory);
+        _scrapeProvenance.Record(commandPath, arguments, result, preserveRawHelp);
+        return result;
+    }
+
+    internal Task<string?> WriteCoverageFailureDiagnosticsAsync(
+        string outputDirectory,
+        CommandCoverageEvaluation coverage,
+        CancellationToken cancellationToken) =>
+        _scrapeProvenance.WriteCoverageFailureDiagnosticsAsync(
+            outputDirectory,
+            coverage,
+            cancellationToken);
+
+    internal void PreserveRawHelpForCommandGroups(IEnumerable<string> commandGroups)
+    {
+        _knownCommandGroups.Clear();
+        _knownCommandGroups.UnionWith(commandGroups);
     }
 
     /// <summary>
