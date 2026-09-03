@@ -193,7 +193,10 @@ internal class ModuleExecutor : IExecutionBackend
         IModuleScheduler scheduler,
         CancellationToken cancellationToken)
     {
-        using var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        // ModuleRunner already observes the engine cancellation token. Linking it to the
+        // worker-pool token would abort scheduling before cancellation results and AlwaysRun
+        // modules can finish their normal pipeline lifecycle.
+        using var cancellationTokenSource = new CancellationTokenSource();
 
         RegisterCancellationCallback(cancellationTokenSource, scheduler);
 

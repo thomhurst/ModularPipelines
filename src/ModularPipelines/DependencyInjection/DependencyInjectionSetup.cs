@@ -408,8 +408,10 @@ internal static class DependencyInjectionSetup
         services.TryAddSingleton<RoleDetector>();
         services.TryAddSingleton<DistributedWorkPublisher>();
         services.TryAddSingleton<DistributedResultCollector>();
-        services.TryAddSingleton<DistributedModuleExecutor>();
-        services.TryAddSingleton<WorkerModuleExecutor>();
+        services.TryAddSingleton(static serviceProvider =>
+            ActivatorUtilities.CreateInstance<DistributedModuleExecutor>(serviceProvider));
+        services.TryAddSingleton(static serviceProvider =>
+            ActivatorUtilities.CreateInstance<WorkerModuleExecutor>(serviceProvider));
         services.TryAddSingleton<IExecutionBackend>(serviceProvider =>
         {
             if (serviceProvider.GetService<DistributedModeRegistration>() is null)

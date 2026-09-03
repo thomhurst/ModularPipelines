@@ -90,6 +90,13 @@ internal class PipelineExecutor : IPipelineExecutor
     {
         foreach (var result in results)
         {
+            if (modules.Any(module =>
+                    module.AsInternal().ResultTask is { IsCompletedSuccessfully: true } resultTask
+                    && ReferenceEquals(resultTask.Result, result)))
+            {
+                continue;
+            }
+
             var matchingModules = modules
                 .Where(module => result.TypeName is not null
                     ? string.Equals(module.GetType().FullName, result.TypeName, StringComparison.Ordinal)
