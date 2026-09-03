@@ -1475,6 +1475,8 @@ ModularPipelines.Distributed.DistributedOptions.CapabilityTimeout.set -> void
 ModularPipelines.Distributed.DistributedOptions.Capabilities.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.Capability>!
 ModularPipelines.Distributed.DistributedOptions.ModuleResultTimeout.get -> System.TimeSpan
 ModularPipelines.Distributed.DistributedOptions.ModuleResultTimeout.set -> void
+ModularPipelines.Distributed.DistributedOptions.MinimumWorkerCount.get -> int
+ModularPipelines.Distributed.DistributedOptions.MinimumWorkerCount.set -> void
 ModularPipelines.Distributed.DistributedOptions.Role.get -> ModularPipelines.Distributed.DistributedRole
 ModularPipelines.Distributed.DistributedOptions.Role.set -> void
 ModularPipelines.Distributed.DistributedOptions.RunIdentifier.get -> string?
@@ -2068,6 +2070,8 @@ ModularPipelines.Reporting.ModuleOutputExcerpt.TruncatedBytes.get -> long
 ModularPipelines.Reporting.ModuleOutputExcerpt.TruncatedBytes.init -> void
 ModularPipelines.Reporting.ModuleRunReport
 ModularPipelines.Reporting.ModuleRunReport.<Clone>$() -> ModularPipelines.Reporting.ModuleRunReport!
+ModularPipelines.Reporting.ModuleRunReport.CacheHitAtMaster.get -> bool
+ModularPipelines.Reporting.ModuleRunReport.CacheHitAtMaster.init -> void
 ModularPipelines.Reporting.ModuleRunReport.CommandCount.get -> int
 ModularPipelines.Reporting.ModuleRunReport.CommandCount.init -> void
 ModularPipelines.Reporting.ModuleRunReport.Duration.get -> System.TimeSpan

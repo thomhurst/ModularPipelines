@@ -20,6 +20,7 @@ builder.AddDistributedMode(o =>
     o.Capabilities = [Capability.Docker, Capability.Gpu];
     o.RunIdentifier = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
     o.CapabilityTimeout = TimeSpan.FromMinutes(5);
+    o.MinimumWorkerCount = 0;
     o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
     o.AutoDetectOsCapability = true;
 });
@@ -32,7 +33,8 @@ builder.AddDistributedMode(o =>
 | `TotalInstances` | `int` | `1` | Total number of instances (master + workers). |
 | `Capabilities` | `IReadOnlyList<Capability>` | `[]` | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values. |
 | `RunIdentifier` | `string?` | `null` | Identifier shared by every process in this pipeline run. |
-| `CapabilityTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(5)` | Maximum time to wait for worker registration before distributing work among the available workers. |
+| `CapabilityTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(5)` | Registration grace period before an assignment with no capable worker fails with an explicit routing error. |
+| `MinimumWorkerCount` | `int` | `0` | Number of external workers required before dispatch starts. Keep zero for immediate dispatch; set `TotalInstances - 1` for the former full-worker barrier. |
 | `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely. |
 | `AutoDetectOsCapability` | `bool` | `true` | Automatically add the current OS as a capability (`"windows"`, `"linux"`, `"macos"`, or `"freebsd"`). |
 
@@ -46,7 +48,8 @@ You can also bind from configuration:
     "InstanceIndex": 0,
     "TotalInstances": 4,
     "Capabilities": ["docker"],
-    "CapabilityTimeout": "00:05:00"
+    "CapabilityTimeout": "00:05:00",
+    "MinimumWorkerCount": 0
   }
 }
 ```
