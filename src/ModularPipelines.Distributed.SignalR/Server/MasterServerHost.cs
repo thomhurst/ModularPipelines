@@ -105,6 +105,9 @@ internal class MasterServerHost : IAsyncDisposable
     private class ForwardingLoggerProvider(ILoggerFactory factory) : ILoggerProvider
     {
         public ILogger CreateLogger(string categoryName) => factory.CreateLogger(categoryName);
-        public void Dispose() { }
+
+        public void Dispose()
+        {
+        }
     }
 }
