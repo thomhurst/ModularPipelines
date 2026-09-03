@@ -105,6 +105,11 @@ internal class PipelineExecutor : IPipelineExecutor
             _executionBackendContext.TryApplyResult(matchingModules[0], result);
         }
 
+        if (!_executionBackend.OwnsEntirePlan)
+        {
+            return;
+        }
+
         var incompleteModules = modules
             .Where(module => !module.AsInternal().ResultTask.IsCompleted)
             .Select(module => module.GetType().FullName ?? module.GetType().Name)

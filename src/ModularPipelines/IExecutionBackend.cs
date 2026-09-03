@@ -8,11 +8,19 @@ namespace ModularPipelines;
 /// </summary>
 /// <remarks>
 /// Implement this interface to provide a custom orchestration backend, such as a cloud task queue
-/// or one isolated process per module. Before completing, a backend must either return or apply a
-/// result for every planned module.
+/// or one isolated process per module. A backend that <see cref="OwnsEntirePlan"/> must either return
+/// or apply a result for every planned module before completing.
 /// </remarks>
 public interface IExecutionBackend
 {
+    /// <summary>
+    /// Gets a value indicating whether this backend owns every module in the supplied execution plan.
+    /// </summary>
+    /// <remarks>
+    /// Return <see langword="false"/> when this process executes only a claimed subset of the plan.
+    /// </remarks>
+    bool OwnsEntirePlan { get; }
+
     /// <summary>
     /// Executes the planned modules and returns their results.
     /// </summary>

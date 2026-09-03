@@ -42,6 +42,8 @@ internal class ModuleExecutor : IExecutionBackend
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly ILogger<ModuleExecutor> _logger;
 
+    public bool OwnsEntirePlan => true;
+
     public ModuleExecutor(
         IModuleSchedulerFactory schedulerFactory,
         IModuleRunner moduleRunner,

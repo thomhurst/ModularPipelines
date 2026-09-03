@@ -49,6 +49,8 @@ internal class WorkerModuleExecutor(
     private readonly ILogger<WorkerModuleExecutor> _logger = logger;
     private readonly DistributedConditionRouting? _conditionRouting = conditionRouting;
 
+    public bool OwnsEntirePlan => false;
+
     public async Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
         IReadOnlyList<IModule> modules,
         IExecutionBackendContext context,

@@ -47,6 +47,8 @@ public class ModuleApiSurfaceTests
         {
             await Assert.That(typeof(IExecutionBackend).IsPublic).IsTrue();
             await Assert.That(typeof(IExecutionBackendContext).IsPublic).IsTrue();
+            await Assert.That(typeof(IExecutionBackend).GetProperty(nameof(IExecutionBackend.OwnsEntirePlan)))
+                .IsNotNull();
             await Assert.That(executeMethod).IsNotNull();
             await Assert.That(executeMethod!.ReturnType)
                 .IsEqualTo(typeof(Task<IReadOnlyList<IModuleResult>>));

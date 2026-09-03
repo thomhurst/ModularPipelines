@@ -53,6 +53,8 @@ internal class DistributedModuleExecutor(
     private readonly ArtifactLifecycleManager? _artifactLifecycleManager = artifactLifecycleManager;
     private readonly ILogger<DistributedModuleExecutor> _logger = logger;
 
+    public bool OwnsEntirePlan => true;
+
     public async Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
         IReadOnlyList<IModule> modules,
         IExecutionBackendContext context,
