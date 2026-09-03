@@ -60,7 +60,6 @@ ModularPipelines.WinGet.Options.WingetConfigureOptions.Enable.get -> bool?
 ModularPipelines.WinGet.Options.WingetConfigureOptions.Enable.set -> void
 ModularPipelines.WinGet.Options.WingetConfigureOptions.File.get -> string?
 ModularPipelines.WinGet.Options.WingetConfigureOptions.File.set -> void
-ModularPipelines.WinGet.Options.WingetConfigureOptions.History.get -> string?
 ModularPipelines.WinGet.Options.WingetConfigureOptions.History.set -> void
 ModularPipelines.WinGet.Options.WingetConfigureOptions.ModulePath.get -> string?
 ModularPipelines.WinGet.Options.WingetConfigureOptions.ModulePath.set -> void
@@ -70,9 +69,7 @@ ModularPipelines.WinGet.Options.WingetConfigureOptions.ProcessorPath.get -> stri
 ModularPipelines.WinGet.Options.WingetConfigureOptions.ProcessorPath.set -> void
 ModularPipelines.WinGet.Options.WingetConfigureOptions.Proxy.get -> string?
 ModularPipelines.WinGet.Options.WingetConfigureOptions.Proxy.set -> void
-ModularPipelines.WinGet.Options.WingetConfigureOptions.SuppressInitialDetails.get -> string?
 ModularPipelines.WinGet.Options.WingetConfigureOptions.SuppressInitialDetails.set -> void
-ModularPipelines.WinGet.Options.WingetConfigureOptions.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetConfigureOptions.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetConfigureOptions.WingetConfigureOptions() -> void
 ModularPipelines.WinGet.Options.WingetConfigureOptions.WingetConfigureOptions(ModularPipelines.WinGet.Options.WingetConfigureOptions! original) -> void
@@ -144,13 +141,11 @@ ModularPipelines.WinGet.Options.WingetDownloadOptions.Architecture.get -> string
 ModularPipelines.WinGet.Options.WingetDownloadOptions.Architecture.set -> void
 ModularPipelines.WinGet.Options.WingetDownloadOptions.AuthenticationAccount.get -> string?
 ModularPipelines.WinGet.Options.WingetDownloadOptions.AuthenticationAccount.set -> void
-ModularPipelines.WinGet.Options.WingetDownloadOptions.AuthenticationMode.get -> bool?
 ModularPipelines.WinGet.Options.WingetDownloadOptions.AuthenticationMode.set -> void
 ModularPipelines.WinGet.Options.WingetDownloadOptions.DisableInteractivity.get -> bool?
 ModularPipelines.WinGet.Options.WingetDownloadOptions.DisableInteractivity.set -> void
 ModularPipelines.WinGet.Options.WingetDownloadOptions.DownloadDirectory.get -> string?
 ModularPipelines.WinGet.Options.WingetDownloadOptions.DownloadDirectory.set -> void
-ModularPipelines.WinGet.Options.WingetDownloadOptions.Exact.get -> string?
 ModularPipelines.WinGet.Options.WingetDownloadOptions.Exact.set -> void
 ModularPipelines.WinGet.Options.WingetDownloadOptions.Header.get -> string?
 ModularPipelines.WinGet.Options.WingetDownloadOptions.Header.set -> void
@@ -186,7 +181,6 @@ ModularPipelines.WinGet.Options.WingetDownloadOptions.Source.get -> string?
 ModularPipelines.WinGet.Options.WingetDownloadOptions.Source.set -> void
 ModularPipelines.WinGet.Options.WingetDownloadOptions.Version.get -> bool?
 ModularPipelines.WinGet.Options.WingetDownloadOptions.Version.set -> void
-ModularPipelines.WinGet.Options.WingetDownloadOptions.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetDownloadOptions.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetDownloadOptions.WingetDownloadOptions() -> void
 ModularPipelines.WinGet.Options.WingetDownloadOptions.WingetDownloadOptions(ModularPipelines.WinGet.Options.WingetDownloadOptions! original) -> void
@@ -226,7 +220,6 @@ ModularPipelines.WinGet.Options.WingetDscv3Options.Output.get -> string?
 ModularPipelines.WinGet.Options.WingetDscv3Options.Output.set -> void
 ModularPipelines.WinGet.Options.WingetDscv3Options.Proxy.get -> string?
 ModularPipelines.WinGet.Options.WingetDscv3Options.Proxy.set -> void
-ModularPipelines.WinGet.Options.WingetDscv3Options.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetDscv3Options.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetDscv3Options.WingetDscv3Options() -> void
 ModularPipelines.WinGet.Options.WingetDscv3Options.WingetDscv3Options(ModularPipelines.WinGet.Options.WingetDscv3Options! original) -> void
@@ -310,7 +303,6 @@ ModularPipelines.WinGet.Options.WingetExportOptions.AcceptSourceAgreements.get -
 ModularPipelines.WinGet.Options.WingetExportOptions.AcceptSourceAgreements.set -> void
 ModularPipelines.WinGet.Options.WingetExportOptions.DisableInteractivity.get -> bool?
 ModularPipelines.WinGet.Options.WingetExportOptions.DisableInteractivity.set -> void
-ModularPipelines.WinGet.Options.WingetExportOptions.IncludeVersions.get -> string?
 ModularPipelines.WinGet.Options.WingetExportOptions.IncludeVersions.set -> void
 ModularPipelines.WinGet.Options.WingetExportOptions.NoProxy.get -> bool?
 ModularPipelines.WinGet.Options.WingetExportOptions.NoProxy.set -> void
@@ -320,7 +312,6 @@ ModularPipelines.WinGet.Options.WingetExportOptions.Proxy.get -> string?
 ModularPipelines.WinGet.Options.WingetExportOptions.Proxy.set -> void
 ModularPipelines.WinGet.Options.WingetExportOptions.Source.get -> string?
 ModularPipelines.WinGet.Options.WingetExportOptions.Source.set -> void
-ModularPipelines.WinGet.Options.WingetExportOptions.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetExportOptions.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetExportOptions.WingetExportOptions() -> void
 ModularPipelines.WinGet.Options.WingetExportOptions.WingetExportOptions(ModularPipelines.WinGet.Options.WingetExportOptions! original) -> void
@@ -331,7 +322,6 @@ ModularPipelines.WinGet.Options.WingetFeaturesOptions.NoProxy.get -> bool?
 ModularPipelines.WinGet.Options.WingetFeaturesOptions.NoProxy.set -> void
 ModularPipelines.WinGet.Options.WingetFeaturesOptions.Proxy.get -> string?
 ModularPipelines.WinGet.Options.WingetFeaturesOptions.Proxy.set -> void
-ModularPipelines.WinGet.Options.WingetFeaturesOptions.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetFeaturesOptions.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetFeaturesOptions.WingetFeaturesOptions() -> void
 ModularPipelines.WinGet.Options.WingetFeaturesOptions.WingetFeaturesOptions(ModularPipelines.WinGet.Options.WingetFeaturesOptions! original) -> void
@@ -340,13 +330,11 @@ ModularPipelines.WinGet.Options.WingetHashOptions.DisableInteractivity.get -> bo
 ModularPipelines.WinGet.Options.WingetHashOptions.DisableInteractivity.set -> void
 ModularPipelines.WinGet.Options.WingetHashOptions.File.get -> string?
 ModularPipelines.WinGet.Options.WingetHashOptions.File.set -> void
-ModularPipelines.WinGet.Options.WingetHashOptions.Msix.get -> string?
 ModularPipelines.WinGet.Options.WingetHashOptions.Msix.set -> void
 ModularPipelines.WinGet.Options.WingetHashOptions.NoProxy.get -> bool?
 ModularPipelines.WinGet.Options.WingetHashOptions.NoProxy.set -> void
 ModularPipelines.WinGet.Options.WingetHashOptions.Proxy.get -> string?
 ModularPipelines.WinGet.Options.WingetHashOptions.Proxy.set -> void
-ModularPipelines.WinGet.Options.WingetHashOptions.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetHashOptions.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetHashOptions.WingetHashOptions() -> void
 ModularPipelines.WinGet.Options.WingetHashOptions.WingetHashOptions(ModularPipelines.WinGet.Options.WingetHashOptions! original) -> void
@@ -369,7 +357,6 @@ ModularPipelines.WinGet.Options.WingetImportOptions.NoUpgrade.get -> bool?
 ModularPipelines.WinGet.Options.WingetImportOptions.NoUpgrade.set -> void
 ModularPipelines.WinGet.Options.WingetImportOptions.Proxy.get -> string?
 ModularPipelines.WinGet.Options.WingetImportOptions.Proxy.set -> void
-ModularPipelines.WinGet.Options.WingetImportOptions.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetImportOptions.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetImportOptions.WingetImportOptions() -> void
 ModularPipelines.WinGet.Options.WingetImportOptions.WingetImportOptions(ModularPipelines.WinGet.Options.WingetImportOptions! original) -> void
@@ -378,13 +365,11 @@ ModularPipelines.WinGet.Options.WingetInstallOptions.AcceptPackageAgreements.get
 ModularPipelines.WinGet.Options.WingetInstallOptions.AcceptPackageAgreements.set -> void
 ModularPipelines.WinGet.Options.WingetInstallOptions.AcceptSourceAgreements.get -> bool?
 ModularPipelines.WinGet.Options.WingetInstallOptions.AcceptSourceAgreements.set -> void
-ModularPipelines.WinGet.Options.WingetInstallOptions.AllowReboot.get -> string?
 ModularPipelines.WinGet.Options.WingetInstallOptions.AllowReboot.set -> void
 ModularPipelines.WinGet.Options.WingetInstallOptions.Architecture.get -> string?
 ModularPipelines.WinGet.Options.WingetInstallOptions.Architecture.set -> void
 ModularPipelines.WinGet.Options.WingetInstallOptions.AuthenticationAccount.get -> string?
 ModularPipelines.WinGet.Options.WingetInstallOptions.AuthenticationAccount.set -> void
-ModularPipelines.WinGet.Options.WingetInstallOptions.AuthenticationMode.get -> bool?
 ModularPipelines.WinGet.Options.WingetInstallOptions.AuthenticationMode.set -> void
 ModularPipelines.WinGet.Options.WingetInstallOptions.Custom.get -> string?
 ModularPipelines.WinGet.Options.WingetInstallOptions.Custom.set -> void
@@ -394,9 +379,7 @@ ModularPipelines.WinGet.Options.WingetInstallOptions.DependencySource.get -> str
 ModularPipelines.WinGet.Options.WingetInstallOptions.DependencySource.set -> void
 ModularPipelines.WinGet.Options.WingetInstallOptions.DisableInteractivity.get -> bool?
 ModularPipelines.WinGet.Options.WingetInstallOptions.DisableInteractivity.set -> void
-ModularPipelines.WinGet.Options.WingetInstallOptions.Exact.get -> string?
 ModularPipelines.WinGet.Options.WingetInstallOptions.Exact.set -> void
-ModularPipelines.WinGet.Options.WingetInstallOptions.Force.get -> string?
 ModularPipelines.WinGet.Options.WingetInstallOptions.Force.set -> void
 ModularPipelines.WinGet.Options.WingetInstallOptions.Header.get -> string?
 ModularPipelines.WinGet.Options.WingetInstallOptions.Header.set -> void
@@ -442,11 +425,9 @@ ModularPipelines.WinGet.Options.WingetInstallOptions.SkipDependencies.get -> boo
 ModularPipelines.WinGet.Options.WingetInstallOptions.SkipDependencies.set -> void
 ModularPipelines.WinGet.Options.WingetInstallOptions.Source.get -> string?
 ModularPipelines.WinGet.Options.WingetInstallOptions.Source.set -> void
-ModularPipelines.WinGet.Options.WingetInstallOptions.UninstallPrevious.get -> string?
 ModularPipelines.WinGet.Options.WingetInstallOptions.UninstallPrevious.set -> void
 ModularPipelines.WinGet.Options.WingetInstallOptions.Version.get -> bool?
 ModularPipelines.WinGet.Options.WingetInstallOptions.Version.set -> void
-ModularPipelines.WinGet.Options.WingetInstallOptions.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetInstallOptions.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetInstallOptions.WingetInstallOptions() -> void
 ModularPipelines.WinGet.Options.WingetInstallOptions.WingetInstallOptions(ModularPipelines.WinGet.Options.WingetInstallOptions! original) -> void
@@ -455,7 +436,6 @@ ModularPipelines.WinGet.Options.WingetListOptions.AcceptSourceAgreements.get -> 
 ModularPipelines.WinGet.Options.WingetListOptions.AcceptSourceAgreements.set -> void
 ModularPipelines.WinGet.Options.WingetListOptions.AuthenticationAccount.get -> string?
 ModularPipelines.WinGet.Options.WingetListOptions.AuthenticationAccount.set -> void
-ModularPipelines.WinGet.Options.WingetListOptions.AuthenticationMode.get -> bool?
 ModularPipelines.WinGet.Options.WingetListOptions.AuthenticationMode.set -> void
 ModularPipelines.WinGet.Options.WingetListOptions.Count.get -> string?
 ModularPipelines.WinGet.Options.WingetListOptions.Count.set -> void
@@ -463,7 +443,6 @@ ModularPipelines.WinGet.Options.WingetListOptions.Details.get -> bool?
 ModularPipelines.WinGet.Options.WingetListOptions.Details.set -> void
 ModularPipelines.WinGet.Options.WingetListOptions.DisableInteractivity.get -> bool?
 ModularPipelines.WinGet.Options.WingetListOptions.DisableInteractivity.set -> void
-ModularPipelines.WinGet.Options.WingetListOptions.Exact.get -> string?
 ModularPipelines.WinGet.Options.WingetListOptions.Exact.set -> void
 ModularPipelines.WinGet.Options.WingetListOptions.Header.get -> string?
 ModularPipelines.WinGet.Options.WingetListOptions.Header.set -> void
@@ -487,9 +466,7 @@ ModularPipelines.WinGet.Options.WingetListOptions.Source.get -> string?
 ModularPipelines.WinGet.Options.WingetListOptions.Source.set -> void
 ModularPipelines.WinGet.Options.WingetListOptions.Tag.get -> string?
 ModularPipelines.WinGet.Options.WingetListOptions.Tag.set -> void
-ModularPipelines.WinGet.Options.WingetListOptions.UpgradeAvailable.get -> string?
 ModularPipelines.WinGet.Options.WingetListOptions.UpgradeAvailable.set -> void
-ModularPipelines.WinGet.Options.WingetListOptions.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetListOptions.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetListOptions.WingetListOptions() -> void
 ModularPipelines.WinGet.Options.WingetListOptions.WingetListOptions(ModularPipelines.WinGet.Options.WingetListOptions! original) -> void
@@ -592,7 +569,6 @@ ModularPipelines.WinGet.Options.WingetPinOptions.NoProxy.get -> bool?
 ModularPipelines.WinGet.Options.WingetPinOptions.NoProxy.set -> void
 ModularPipelines.WinGet.Options.WingetPinOptions.Proxy.get -> string?
 ModularPipelines.WinGet.Options.WingetPinOptions.Proxy.set -> void
-ModularPipelines.WinGet.Options.WingetPinOptions.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetPinOptions.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetPinOptions.WingetPinOptions() -> void
 ModularPipelines.WinGet.Options.WingetPinOptions.WingetPinOptions(ModularPipelines.WinGet.Options.WingetPinOptions! original) -> void
@@ -655,13 +631,10 @@ ModularPipelines.WinGet.Options.WingetRepairOptions.Architecture.get -> string?
 ModularPipelines.WinGet.Options.WingetRepairOptions.Architecture.set -> void
 ModularPipelines.WinGet.Options.WingetRepairOptions.AuthenticationAccount.get -> string?
 ModularPipelines.WinGet.Options.WingetRepairOptions.AuthenticationAccount.set -> void
-ModularPipelines.WinGet.Options.WingetRepairOptions.AuthenticationMode.get -> bool?
 ModularPipelines.WinGet.Options.WingetRepairOptions.AuthenticationMode.set -> void
 ModularPipelines.WinGet.Options.WingetRepairOptions.DisableInteractivity.get -> bool?
 ModularPipelines.WinGet.Options.WingetRepairOptions.DisableInteractivity.set -> void
-ModularPipelines.WinGet.Options.WingetRepairOptions.Exact.get -> string?
 ModularPipelines.WinGet.Options.WingetRepairOptions.Exact.set -> void
-ModularPipelines.WinGet.Options.WingetRepairOptions.Force.get -> string?
 ModularPipelines.WinGet.Options.WingetRepairOptions.Force.set -> void
 ModularPipelines.WinGet.Options.WingetRepairOptions.Header.get -> string?
 ModularPipelines.WinGet.Options.WingetRepairOptions.Header.set -> void
@@ -699,7 +672,6 @@ ModularPipelines.WinGet.Options.WingetRepairOptions.Source.get -> string?
 ModularPipelines.WinGet.Options.WingetRepairOptions.Source.set -> void
 ModularPipelines.WinGet.Options.WingetRepairOptions.Version.get -> string?
 ModularPipelines.WinGet.Options.WingetRepairOptions.Version.set -> void
-ModularPipelines.WinGet.Options.WingetRepairOptions.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetRepairOptions.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetRepairOptions.WingetRepairOptions() -> void
 ModularPipelines.WinGet.Options.WingetRepairOptions.WingetRepairOptions(ModularPipelines.WinGet.Options.WingetRepairOptions! original) -> void
@@ -708,13 +680,11 @@ ModularPipelines.WinGet.Options.WingetSearchOptions.AcceptSourceAgreements.get -
 ModularPipelines.WinGet.Options.WingetSearchOptions.AcceptSourceAgreements.set -> void
 ModularPipelines.WinGet.Options.WingetSearchOptions.AuthenticationAccount.get -> string?
 ModularPipelines.WinGet.Options.WingetSearchOptions.AuthenticationAccount.set -> void
-ModularPipelines.WinGet.Options.WingetSearchOptions.AuthenticationMode.get -> bool?
 ModularPipelines.WinGet.Options.WingetSearchOptions.AuthenticationMode.set -> void
 ModularPipelines.WinGet.Options.WingetSearchOptions.Count.get -> string?
 ModularPipelines.WinGet.Options.WingetSearchOptions.Count.set -> void
 ModularPipelines.WinGet.Options.WingetSearchOptions.DisableInteractivity.get -> bool?
 ModularPipelines.WinGet.Options.WingetSearchOptions.DisableInteractivity.set -> void
-ModularPipelines.WinGet.Options.WingetSearchOptions.Exact.get -> string?
 ModularPipelines.WinGet.Options.WingetSearchOptions.Exact.set -> void
 ModularPipelines.WinGet.Options.WingetSearchOptions.Header.get -> string?
 ModularPipelines.WinGet.Options.WingetSearchOptions.Header.set -> void
@@ -734,9 +704,7 @@ ModularPipelines.WinGet.Options.WingetSearchOptions.Source.get -> string?
 ModularPipelines.WinGet.Options.WingetSearchOptions.Source.set -> void
 ModularPipelines.WinGet.Options.WingetSearchOptions.Tag.get -> string?
 ModularPipelines.WinGet.Options.WingetSearchOptions.Tag.set -> void
-ModularPipelines.WinGet.Options.WingetSearchOptions.Versions.get -> string?
 ModularPipelines.WinGet.Options.WingetSearchOptions.Versions.set -> void
-ModularPipelines.WinGet.Options.WingetSearchOptions.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetSearchOptions.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetSearchOptions.WingetSearchOptions() -> void
 ModularPipelines.WinGet.Options.WingetSearchOptions.WingetSearchOptions(ModularPipelines.WinGet.Options.WingetSearchOptions! original) -> void
@@ -762,7 +730,6 @@ ModularPipelines.WinGet.Options.WingetSettingsOptions.NoProxy.get -> bool?
 ModularPipelines.WinGet.Options.WingetSettingsOptions.NoProxy.set -> void
 ModularPipelines.WinGet.Options.WingetSettingsOptions.Proxy.get -> string?
 ModularPipelines.WinGet.Options.WingetSettingsOptions.Proxy.set -> void
-ModularPipelines.WinGet.Options.WingetSettingsOptions.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetSettingsOptions.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetSettingsOptions.WingetSettingsOptions() -> void
 ModularPipelines.WinGet.Options.WingetSettingsOptions.WingetSettingsOptions(ModularPipelines.WinGet.Options.WingetSettingsOptions! original) -> void
@@ -801,11 +768,9 @@ ModularPipelines.WinGet.Options.WingetShowOptions.Architecture.get -> string?
 ModularPipelines.WinGet.Options.WingetShowOptions.Architecture.set -> void
 ModularPipelines.WinGet.Options.WingetShowOptions.AuthenticationAccount.get -> string?
 ModularPipelines.WinGet.Options.WingetShowOptions.AuthenticationAccount.set -> void
-ModularPipelines.WinGet.Options.WingetShowOptions.AuthenticationMode.get -> bool?
 ModularPipelines.WinGet.Options.WingetShowOptions.AuthenticationMode.set -> void
 ModularPipelines.WinGet.Options.WingetShowOptions.DisableInteractivity.get -> bool?
 ModularPipelines.WinGet.Options.WingetShowOptions.DisableInteractivity.set -> void
-ModularPipelines.WinGet.Options.WingetShowOptions.Exact.get -> string?
 ModularPipelines.WinGet.Options.WingetShowOptions.Exact.set -> void
 ModularPipelines.WinGet.Options.WingetShowOptions.Header.get -> string?
 ModularPipelines.WinGet.Options.WingetShowOptions.Header.set -> void
@@ -833,9 +798,7 @@ ModularPipelines.WinGet.Options.WingetShowOptions.Source.get -> string?
 ModularPipelines.WinGet.Options.WingetShowOptions.Source.set -> void
 ModularPipelines.WinGet.Options.WingetShowOptions.Version.get -> bool?
 ModularPipelines.WinGet.Options.WingetShowOptions.Version.set -> void
-ModularPipelines.WinGet.Options.WingetShowOptions.Versions.get -> string?
 ModularPipelines.WinGet.Options.WingetShowOptions.Versions.set -> void
-ModularPipelines.WinGet.Options.WingetShowOptions.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetShowOptions.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetShowOptions.WingetShowOptions() -> void
 ModularPipelines.WinGet.Options.WingetShowOptions.WingetShowOptions(ModularPipelines.WinGet.Options.WingetShowOptions! original) -> void
@@ -912,7 +875,6 @@ ModularPipelines.WinGet.Options.WingetSourceOptions.NoProxy.get -> bool?
 ModularPipelines.WinGet.Options.WingetSourceOptions.NoProxy.set -> void
 ModularPipelines.WinGet.Options.WingetSourceOptions.Proxy.get -> string?
 ModularPipelines.WinGet.Options.WingetSourceOptions.Proxy.set -> void
-ModularPipelines.WinGet.Options.WingetSourceOptions.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetSourceOptions.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetSourceOptions.WingetSourceOptions() -> void
 ModularPipelines.WinGet.Options.WingetSourceOptions.WingetSourceOptions(ModularPipelines.WinGet.Options.WingetSourceOptions! original) -> void
@@ -962,13 +924,10 @@ ModularPipelines.WinGet.Options.WingetUninstallOptions.AcceptSourceAgreements.ge
 ModularPipelines.WinGet.Options.WingetUninstallOptions.AcceptSourceAgreements.set -> void
 ModularPipelines.WinGet.Options.WingetUninstallOptions.AuthenticationAccount.get -> string?
 ModularPipelines.WinGet.Options.WingetUninstallOptions.AuthenticationAccount.set -> void
-ModularPipelines.WinGet.Options.WingetUninstallOptions.AuthenticationMode.get -> bool?
 ModularPipelines.WinGet.Options.WingetUninstallOptions.AuthenticationMode.set -> void
 ModularPipelines.WinGet.Options.WingetUninstallOptions.DisableInteractivity.get -> bool?
 ModularPipelines.WinGet.Options.WingetUninstallOptions.DisableInteractivity.set -> void
-ModularPipelines.WinGet.Options.WingetUninstallOptions.Exact.get -> string?
 ModularPipelines.WinGet.Options.WingetUninstallOptions.Exact.set -> void
-ModularPipelines.WinGet.Options.WingetUninstallOptions.Force.get -> string?
 ModularPipelines.WinGet.Options.WingetUninstallOptions.Force.set -> void
 ModularPipelines.WinGet.Options.WingetUninstallOptions.Header.get -> string?
 ModularPipelines.WinGet.Options.WingetUninstallOptions.Header.set -> void
@@ -986,7 +945,6 @@ ModularPipelines.WinGet.Options.WingetUninstallOptions.Name.get -> string?
 ModularPipelines.WinGet.Options.WingetUninstallOptions.Name.set -> void
 ModularPipelines.WinGet.Options.WingetUninstallOptions.NoProxy.get -> bool?
 ModularPipelines.WinGet.Options.WingetUninstallOptions.NoProxy.set -> void
-ModularPipelines.WinGet.Options.WingetUninstallOptions.Preserve.get -> string?
 ModularPipelines.WinGet.Options.WingetUninstallOptions.Preserve.set -> void
 ModularPipelines.WinGet.Options.WingetUninstallOptions.ProductCode.get -> string?
 ModularPipelines.WinGet.Options.WingetUninstallOptions.ProductCode.set -> void
@@ -1004,7 +962,6 @@ ModularPipelines.WinGet.Options.WingetUninstallOptions.Source.get -> string?
 ModularPipelines.WinGet.Options.WingetUninstallOptions.Source.set -> void
 ModularPipelines.WinGet.Options.WingetUninstallOptions.Version.get -> string?
 ModularPipelines.WinGet.Options.WingetUninstallOptions.Version.set -> void
-ModularPipelines.WinGet.Options.WingetUninstallOptions.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetUninstallOptions.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetUninstallOptions.WingetUninstallOptions() -> void
 ModularPipelines.WinGet.Options.WingetUninstallOptions.WingetUninstallOptions(ModularPipelines.WinGet.Options.WingetUninstallOptions! original) -> void
@@ -1013,21 +970,17 @@ ModularPipelines.WinGet.Options.WingetUpgradeOptions.AcceptPackageAgreements.get
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.AcceptPackageAgreements.set -> void
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.AcceptSourceAgreements.get -> bool?
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.AcceptSourceAgreements.set -> void
-ModularPipelines.WinGet.Options.WingetUpgradeOptions.AllowReboot.get -> string?
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.AllowReboot.set -> void
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.Architecture.get -> string?
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.Architecture.set -> void
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.AuthenticationAccount.get -> string?
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.AuthenticationAccount.set -> void
-ModularPipelines.WinGet.Options.WingetUpgradeOptions.AuthenticationMode.get -> bool?
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.AuthenticationMode.set -> void
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.Custom.get -> string?
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.Custom.set -> void
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.DisableInteractivity.get -> bool?
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.DisableInteractivity.set -> void
-ModularPipelines.WinGet.Options.WingetUpgradeOptions.Exact.get -> string?
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.Exact.set -> void
-ModularPipelines.WinGet.Options.WingetUpgradeOptions.Force.get -> string?
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.Force.set -> void
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.Header.get -> string?
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.Header.set -> void
@@ -1071,11 +1024,9 @@ ModularPipelines.WinGet.Options.WingetUpgradeOptions.SkipDependencies.get -> boo
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.SkipDependencies.set -> void
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.Source.get -> string?
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.Source.set -> void
-ModularPipelines.WinGet.Options.WingetUpgradeOptions.UninstallPrevious.get -> string?
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.UninstallPrevious.set -> void
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.Version.get -> bool?
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.Version.set -> void
-ModularPipelines.WinGet.Options.WingetUpgradeOptions.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.WingetUpgradeOptions() -> void
 ModularPipelines.WinGet.Options.WingetUpgradeOptions.WingetUpgradeOptions(ModularPipelines.WinGet.Options.WingetUpgradeOptions! original) -> void
@@ -1088,12 +1039,10 @@ ModularPipelines.WinGet.Options.WingetValidateOptions.NoProxy.get -> bool?
 ModularPipelines.WinGet.Options.WingetValidateOptions.NoProxy.set -> void
 ModularPipelines.WinGet.Options.WingetValidateOptions.Proxy.get -> string?
 ModularPipelines.WinGet.Options.WingetValidateOptions.Proxy.set -> void
-ModularPipelines.WinGet.Options.WingetValidateOptions.Wait.get -> string?
 ModularPipelines.WinGet.Options.WingetValidateOptions.Wait.set -> void
 ModularPipelines.WinGet.Options.WingetValidateOptions.WingetValidateOptions() -> void
 ModularPipelines.WinGet.Options.WingetValidateOptions.WingetValidateOptions(ModularPipelines.WinGet.Options.WingetValidateOptions! original) -> void
 ModularPipelines.WinGet.Services.IWinget
-override abstract ModularPipelines.WinGet.Options.WingetOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetOptions!
 override ModularPipelines.WinGet.Options.WingetConfigureExportOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetConfigureExportOptions!
 override ModularPipelines.WinGet.Options.WingetConfigureExportOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.WinGet.Options.WingetConfigureExportOptions.Equals(object? obj) -> bool
@@ -1351,6 +1300,7 @@ override ModularPipelines.WinGet.Options.WingetValidateOptions.Equals(object? ob
 override ModularPipelines.WinGet.Options.WingetValidateOptions.GetHashCode() -> int
 override ModularPipelines.WinGet.Options.WingetValidateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.WinGet.Options.WingetValidateOptions.ToString() -> string!
+override abstract ModularPipelines.WinGet.Options.WingetOptions.<Clone>$() -> ModularPipelines.WinGet.Options.WingetOptions!
 override sealed ModularPipelines.WinGet.Options.WingetConfigureExportOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
 override sealed ModularPipelines.WinGet.Options.WingetConfigureListOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool
 override sealed ModularPipelines.WinGet.Options.WingetConfigureOptions.Equals(ModularPipelines.WinGet.Options.WingetOptions? other) -> bool

@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "go",
-  "toolVersion": "go version go1.27.0 linux/amd64",
+  "toolVersion": "go version go1.27.1 linux/amd64",
   "commandCount": 23,
   "commandTreeSha256": "93c8759ef56e6f27c819ff7e849e2156e7837444f7311267b71d63d48ea78f5d",
   "commands": [
