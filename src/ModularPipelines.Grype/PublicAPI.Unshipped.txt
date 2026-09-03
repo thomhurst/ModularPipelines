@@ -1,4 +1,10 @@
 #nullable enable
+*REMOVED*ModularPipelines.Grype.Options.GrypeDbOptions.Command.get -> string?
+*REMOVED*ModularPipelines.Grype.Options.GrypeDbOptions.Command.set -> void
+*REMOVED*ModularPipelines.Grype.Options.GrypeDbSearchOptions.Command.get -> string?
+*REMOVED*ModularPipelines.Grype.Options.GrypeDbSearchOptions.Command.set -> void
+*REMOVED*ModularPipelines.Grype.Options.GrypeExplainOptions.VulnerabilityId.get -> string?
+*REMOVED*ModularPipelines.Grype.Options.GrypeExplainOptions.VulnerabilityId.set -> void
 *REMOVED*ModularPipelines.Grype.Services.GrypeDb.GrypeDb(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.Grype.Services.GrypeDbSearch.GrypeDbSearch(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.Grype.Services.IGrype.ExplainAsync(ModularPipelines.Grype.Options.GrypeExplainOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
@@ -35,7 +41,6 @@ ModularPipelines.Grype.Services.IGrypeDb.ListAsync(ModularPipelines.Grype.Option
 ModularPipelines.Grype.Services.IGrypeDb.ProvidersAsync(ModularPipelines.Grype.Options.GrypeDbProvidersOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Grype.Services.IGrypeDb.StatusAsync(ModularPipelines.Grype.Options.GrypeDbStatusOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Grype.Services.IGrypeDb.UpdateAsync(ModularPipelines.Grype.Options.GrypeDbUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-static ModularPipelines.Grype.Extensions.GrypeExtensions.Grype(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Grype.Services.IGrype!
 virtual ModularPipelines.Grype.Services.GrypeDb.CheckAsync(ModularPipelines.Grype.Options.GrypeDbCheckOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Grype.Services.GrypeDb.DeleteAsync(ModularPipelines.Grype.Options.GrypeDbDeleteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Grype.Services.GrypeDb.DiffAsync(ModularPipelines.Grype.Options.GrypeDbDiffOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
