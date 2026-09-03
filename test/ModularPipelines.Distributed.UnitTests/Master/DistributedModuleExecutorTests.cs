@@ -21,6 +21,7 @@ using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.Distributed.UnitTests.Master;
 
@@ -1119,6 +1120,48 @@ public class DistributedModuleExecutorTests
         await executor.ExecuteAsync([module]);
 
         // Assert — always signals completion, even on failure
+        coordinator.Verify(c => c.SignalCompletionAsync(CancellationToken.None), Times.Once());
+    }
+
+    [Test]
+    [Timeout(15_000)]
+    public async Task Executor_Signals_Completion_When_Worker_Readiness_Is_Cancelled(
+        CancellationToken testCancellation)
+    {
+        var workerQueryStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var coordinator = new Mock<IDistributedCoordinator>();
+        coordinator
+            .Setup(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
+            .Returns<CancellationToken>(async cancellationToken =>
+            {
+                workerQueryStarted.TrySetResult();
+                await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+                return Array.Empty<WorkerRegistration>();
+            });
+        coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        using var executionCancellation = CancellationTokenSource.CreateLinkedTokenSource(testCancellation);
+        var resultRegistry = new ModuleResultRegistry();
+        var executor = CreateExecutor(
+            CreateMockScheduler(),
+            resultRegistry: resultRegistry,
+            coordinator: coordinator.Object,
+            distributedOptions: new DistributedOptions
+            {
+                TotalInstances = 2,
+                CapabilityTimeout = TestHostSettings.DefaultTestTimeout,
+            });
+        var execution = executor.ExecuteAsync(
+            [new DistributedModule()],
+            new ExecutionBackendContext(resultRegistry),
+            executionCancellation.Token);
+
+        await workerQueryStarted.Task.WaitAsync(testCancellation);
+        await executionCancellation.CancelAsync();
+        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+            await execution.WaitAsync(testCancellation));
+
         coordinator.Verify(c => c.SignalCompletionAsync(CancellationToken.None), Times.Once());
     }
 

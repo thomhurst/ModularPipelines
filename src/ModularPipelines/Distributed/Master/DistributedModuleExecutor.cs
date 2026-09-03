@@ -92,11 +92,11 @@ internal class DistributedModuleExecutor(
         using var executionCts = CancellationTokenSource.CreateLinkedTokenSource(
             _lifetime.ApplicationStopping,
             cancellationToken);
-        await WaitForWorkersAsync(executionCts.Token);
-
         IModuleScheduler? scheduler = null;
         try
         {
+            await WaitForWorkersAsync(executionCts.Token);
+
             scheduler = _schedulerFactory.Create();
             scheduler.InitializeModules(modules);
             UsedHistoryModuleSchedulerInitializer.Precomplete(
