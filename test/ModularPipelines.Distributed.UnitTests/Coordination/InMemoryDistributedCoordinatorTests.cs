@@ -100,7 +100,7 @@ public class InMemoryDistributedCoordinatorTests
             ResultTypeName: "System.String",
             RequiredCapabilities: new HashSet<Capability> { "docker" },
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, false));
 
         await coordinator.EnqueueModuleAsync(dockerAssignment, CancellationToken.None);
 

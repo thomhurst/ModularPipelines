@@ -76,7 +76,7 @@ public class DependencyResultPropagationTests
             ResultTypeName: typeof(string).FullName!,
             RequiredCapabilities: new HashSet<Capability>(),
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false),
+            Configuration: new ModuleAssignmentConfiguration(null, false),
             DependencyResults: [serializedDep]);
 
         // Create module instances
@@ -120,7 +120,7 @@ public class DependencyResultPropagationTests
             ResultTypeName: typeof(int).FullName!,
             RequiredCapabilities: new HashSet<Capability>(),
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false),
+            Configuration: new ModuleAssignmentConfiguration(null, false),
             DependencyResults: null);
 
         // Act & Assert — should not throw
@@ -136,7 +136,7 @@ public class DependencyResultPropagationTests
             ResultTypeName: typeof(int).FullName!,
             RequiredCapabilities: new HashSet<Capability>(),
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false),
+            Configuration: new ModuleAssignmentConfiguration(null, false),
             DependencyResults: []);
 
         // Act & Assert — check guard condition

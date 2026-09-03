@@ -62,7 +62,6 @@ internal class DistributedWorkPublisher(
 
         var dependencyResults = GatherDependencyResults(module);
 
-        // Distributed workers do not yet consume portable retry configuration.
         return new ModuleAssignment(
             ModuleTypeName: moduleType.FullName!,
             ResultTypeName: resultTypeName,
@@ -70,7 +69,6 @@ internal class DistributedWorkPublisher(
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(
                 TimeoutSeconds: config.Timeout is not null ? (int?) config.Timeout.Value.TotalSeconds : null,
-                RetryCount: 0,
                 AlwaysRun: config.AlwaysRun
             ),
             DependencyResults: dependencyResults)

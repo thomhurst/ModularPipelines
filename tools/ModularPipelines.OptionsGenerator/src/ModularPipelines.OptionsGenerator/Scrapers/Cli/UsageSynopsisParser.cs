@@ -679,11 +679,10 @@ public static class UsageSynopsisParser
 
         return selectedArguments
             .Select(argument => alternatives.All(alternative =>
-                alternative.PositionalArguments.Any(candidate =>
-                    candidate.IsRequired
-                    && candidate.PropertyName.Equals(
-                        argument.PropertyName,
-                        StringComparison.OrdinalIgnoreCase)))
+                IsRequiredInAlternative(
+                    argument,
+                    selectedArguments.Count,
+                    alternative.PositionalArguments))
                     ? argument
                     : argument with
                     {
@@ -691,6 +690,27 @@ public static class UsageSynopsisParser
                         IsRequired = false,
                     })
             .ToList();
+    }
+
+    private static bool IsRequiredInAlternative(
+        CliPositionalArgument selectedArgument,
+        int selectedArgumentCount,
+        IReadOnlyList<CliPositionalArgument> alternativeArguments)
+    {
+        if (alternativeArguments.Any(candidate =>
+                candidate.IsRequired
+                && candidate.PropertyName.Equals(
+                    selectedArgument.PropertyName,
+                    StringComparison.OrdinalIgnoreCase)))
+        {
+            return true;
+        }
+
+        return alternativeArguments.Count == selectedArgumentCount
+               && alternativeArguments.Any(candidate =>
+                   candidate.IsRequired
+                   && candidate.PositionIndex == selectedArgument.PositionIndex
+                   && candidate.Phase == selectedArgument.Phase);
     }
 
     private static IReadOnlyList<string> ExtractSynopses(

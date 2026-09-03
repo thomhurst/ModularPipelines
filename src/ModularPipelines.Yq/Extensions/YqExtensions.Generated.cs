@@ -30,5 +30,4 @@ public static class YqExtensions
         services.TryAddScoped<IYq, Services.Yq>();
         return services;
     }
-
 }

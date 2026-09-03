@@ -30,5 +30,4 @@ public static class PipExtensions
         services.TryAddScoped<IPip, Services.Pip>();
         return services;
     }
-
 }

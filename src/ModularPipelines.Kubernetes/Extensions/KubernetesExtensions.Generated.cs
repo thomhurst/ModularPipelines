@@ -38,5 +38,4 @@ public static class KubernetesExtensions
         services.TryAddScoped<IKubernetesTop, KubernetesTop>();
         return services;
     }
-
 }

@@ -64,7 +64,11 @@ public partial class MavenCliScraper : CliScraperBase
         }
 
         // Maven uses -h for help
-        var result = await Executor.ExecuteAsync(ExecutablePath, "-h", cancellationToken);
+        var result = await ExecuteAndRecordHelpCommandAsync(
+            commandPath,
+            ExecutablePath,
+            "-h",
+            cancellationToken);
 
         var helpText = !string.IsNullOrEmpty(result.StandardOutput)
             ? result.StandardOutput

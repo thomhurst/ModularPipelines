@@ -32,5 +32,4 @@ public static class SyftExtensions
         services.TryAddScoped<ISyftConfig, SyftConfig>();
         return services;
     }
-
 }

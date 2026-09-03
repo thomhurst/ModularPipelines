@@ -129,7 +129,7 @@ public static class DistributedCoordinatorContract
             ResultTypeName: "System.String",
             RequiredCapabilities: new HashSet<Capability>(),
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, 0, false));
+            Configuration: new ModuleAssignmentConfiguration(null, false));
     }
 
     private static SerializedModuleResult CreateResult(string moduleTypeName)

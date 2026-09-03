@@ -37,5 +37,4 @@ public static class MinikubeExtensions
         services.TryAddScoped<IMinikubeService, MinikubeService>();
         return services;
     }
-
 }

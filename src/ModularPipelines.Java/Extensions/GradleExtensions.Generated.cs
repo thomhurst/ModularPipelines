@@ -30,5 +30,4 @@ public static class GradleExtensions
         services.TryAddScoped<IGradle, Services.Gradle>();
         return services;
     }
-
 }

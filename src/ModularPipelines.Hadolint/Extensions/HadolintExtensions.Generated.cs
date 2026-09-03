@@ -30,5 +30,4 @@ public static class HadolintExtensions
         services.TryAddScoped<IHadolint, Services.Hadolint>();
         return services;
     }
-
 }

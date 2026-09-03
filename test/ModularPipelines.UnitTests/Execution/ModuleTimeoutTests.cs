@@ -199,28 +199,45 @@ public class ModuleTimeoutTests : TestBase
     [Test]
     public async Task Timeout_Fault_During_Grace_Period_Counts_As_Response()
     {
-        var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
-            async cancellationToken =>
-            {
-                try
-                {
-                    await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
-                }
-                catch (OperationCanceledException)
-                {
-                    throw new TimeoutException("Inner operation timed out.");
-                }
-
-                return true;
-            },
-            TimeSpan.FromMilliseconds(10),
-            CancellationToken.None);
-
-        using (Assert.Multiple())
+        for (var iteration = 0; iteration < 25; iteration++)
         {
-            await Assert.That(result.TimedOut).IsTrue();
-            await Assert.That(result.WasCancellationTokenRespected).IsTrue();
+            var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+                async cancellationToken =>
+                {
+                    var completion = new TaskCompletionSource<bool>(
+                        TaskCreationOptions.RunContinuationsAsynchronously);
+                    using var registration = cancellationToken.Register(
+                        static state => ((TaskCompletionSource<bool>) state!).TrySetException(
+                            new TimeoutException("Inner operation timed out.")),
+                        completion);
+                    return await completion.Task.ConfigureAwait(false);
+                },
+                TimeSpan.FromMilliseconds(10),
+                CancellationToken.None);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(result.TimedOut).IsTrue();
+                await Assert.That(result.WasCancellationTokenRespected).IsTrue();
+            }
         }
+    }
+
+    [Test]
+    public async Task Completed_Factory_Task_Wins_When_Factory_Raises_External_Cancellation()
+    {
+        using var externalCancellation = new CancellationTokenSource();
+        var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+            _ =>
+            {
+                externalCancellation.Cancel();
+                return Task.FromResult(true);
+            },
+            TimeSpan.FromSeconds(10),
+            externalCancellation.Token);
+
+        await Assert.That(result.Value).IsTrue();
+        await Assert.That(result.TimedOut).IsFalse();
     }
 
     [Test]
@@ -275,6 +292,30 @@ public class ModuleTimeoutTests : TestBase
     }
 
     [Test]
+    public async Task Synchronous_Cancellation_Exception_Preserves_Original_Diagnostics()
+    {
+        using var cancellation = new CancellationTokenSource();
+        var innerException = new InvalidOperationException("Inner cancellation detail.");
+        var expectedException = new FactoryCancellationException(
+            "Factory cancellation detail.",
+            innerException,
+            cancellation.Token);
+
+        var exception = await Assert.ThrowsAsync<FactoryCancellationException>(() =>
+            TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync<bool>(
+                _ => throw expectedException,
+                TimeSpan.FromSeconds(1),
+                CancellationToken.None));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception).IsSameReferenceAs(expectedException);
+            await Assert.That(exception!.InnerException).IsSameReferenceAs(innerException);
+            await Assert.That(exception.CancellationToken).IsEqualTo(cancellation.Token);
+        }
+    }
+
+    [Test]
     public async Task Completion_With_Asynchronous_Continuations_Before_Deadline_Is_Not_Claimed_By_Timeout()
     {
         var completion = new TaskCompletionSource<bool>(
@@ -300,10 +341,11 @@ public class ModuleTimeoutTests : TestBase
     public async Task Completed_Execution_Published_After_Deadline_Signal_Wins()
     {
         using var attemptCancellation = new CancellationTokenSource();
-        var signalState = new TimeoutHelper.CancellationSignalState<bool>(attemptCancellation);
+        var cancellationSignals = new TimeoutHelper.CancellationSignals<bool>(attemptCancellation);
+        var signalState = cancellationSignals.Deadline;
 
         signalState.SignalCancellation();
-        signalState.PublishExecutionTask(Task.FromResult(true));
+        cancellationSignals.PublishExecutionTask(Task.FromResult(true));
 
         using (Assert.Multiple())
         {
@@ -316,12 +358,30 @@ public class ModuleTimeoutTests : TestBase
     public async Task Cancelled_Execution_Published_After_Deadline_Signal_Belongs_To_Deadline()
     {
         using var attemptCancellation = new CancellationTokenSource();
-        var signalState = new TimeoutHelper.CancellationSignalState<bool>(attemptCancellation);
+        var cancellationSignals = new TimeoutHelper.CancellationSignals<bool>(attemptCancellation);
+        var signalState = cancellationSignals.Deadline;
 
         signalState.SignalCancellation();
-        signalState.PublishExecutionTask(Task.FromCanceled<bool>(attemptCancellation.Token));
+        cancellationSignals.PublishExecutionTask(Task.FromCanceled<bool>(attemptCancellation.Token));
 
         await Assert.That(await signalState.Signal.Task).IsFalse();
+    }
+
+    [Test]
+    public async Task Execution_Publication_Is_Shared_By_Both_Cancellation_Signals()
+    {
+        using var attemptCancellation = new CancellationTokenSource();
+        var cancellationSignals = new TimeoutHelper.CancellationSignals<bool>(attemptCancellation);
+
+        cancellationSignals.PublishExecutionTask(Task.FromResult(true));
+        cancellationSignals.Deadline.SignalCancellation();
+        cancellationSignals.ExternalCancellation.SignalCancellation();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(await cancellationSignals.Deadline.Signal.Task).IsTrue();
+            await Assert.That(await cancellationSignals.ExternalCancellation.Signal.Task).IsTrue();
+        }
     }
 
     [Test]
@@ -345,4 +405,10 @@ public class ModuleTimeoutTests : TestBase
             await Assert.That(result.WasCancellationTokenRespected).IsTrue();
         }
     }
+
+    private sealed class FactoryCancellationException(
+        string message,
+        Exception innerException,
+        CancellationToken cancellationToken)
+        : OperationCanceledException(message, innerException, cancellationToken);
 }

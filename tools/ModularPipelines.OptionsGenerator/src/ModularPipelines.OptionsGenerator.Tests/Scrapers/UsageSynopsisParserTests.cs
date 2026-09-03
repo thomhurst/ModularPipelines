@@ -786,6 +786,27 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Keeps_Required_Operand_Positions_Across_Renamed_Alternate_Forms()
+    {
+        const string helpText = """
+            Usage:
+              podman compose cp [OPTIONS] SERVICE:SRC_PATH DEST_PATH|-
+              podman compose cp [OPTIONS] SRC_PATH|- SERVICE:DEST_PATH
+            """;
+
+        var result = UsageSynopsisParser.Parse(
+            helpText,
+            ["podman", "compose", "cp"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.PositionalArguments).Count().IsEqualTo(2);
+            await Assert.That(result.PositionalArguments.All(argument => argument.IsRequired)).IsTrue();
+            await Assert.That(result.PositionalArguments.All(argument => argument.CSharpType == "string")).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Models_Standalone_Switch_On_Separate_Synopsis_As_Required_Alternative()
     {
         const string helpText = """

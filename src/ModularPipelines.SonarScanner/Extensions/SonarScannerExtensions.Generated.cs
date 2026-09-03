@@ -30,5 +30,4 @@ public static class SonarScannerExtensions
         services.TryAddScoped<ISonarScanner, Services.SonarScanner>();
         return services;
     }
-
 }

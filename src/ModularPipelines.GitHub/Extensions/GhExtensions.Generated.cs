@@ -56,5 +56,4 @@ public static class GhExtensions
         services.TryAddScoped<IGhWorkflow, GhWorkflow>();
         return services;
     }
-
 }
