@@ -28,6 +28,12 @@ internal class SignalRMasterState
     public ConcurrentDictionary<int, WorkerStatus> WorkerStatuses { get; } = new();
 
     /// <summary>
+    /// Status received before a reconnecting connection finishes registration.
+    /// Entries remain connection-scoped until registration proves worker ownership.
+    /// </summary>
+    public ConcurrentDictionary<string, WorkerStatus> PendingWorkerStatuses { get; } = new();
+
+    /// <summary>
     /// Latest heartbeat for each registered worker.
     /// </summary>
     public ConcurrentDictionary<int, DateTimeOffset> Heartbeats { get; } = new();

@@ -45,9 +45,13 @@ internal class DistributedPipelineHub(
                 recoveredAssignment!.ModuleTypeName);
         }
 
-        state.Workers[connectionId] = workerState;
         state.Registrations[registration.WorkerIndex] = registration;
-        var initialStatus = new WorkerStatus(registration.WorkerIndex)
+        state.Workers[connectionId] = workerState;
+        var pendingStatus = state.PendingWorkerStatuses.TryRemove(connectionId, out var status)
+                            && IsStatusForRegistration(status, registration)
+            ? status
+            : null;
+        var initialStatus = pendingStatus ?? new WorkerStatus(registration.WorkerIndex)
         {
             RunIdentifier = registration.RunIdentifier,
         };
@@ -58,7 +62,7 @@ internal class DistributedPipelineHub(
                 currentStatus.RunIdentifier,
                 registration.RunIdentifier,
                 StringComparison.Ordinal)
-                ? currentStatus
+                ? pendingStatus ?? currentStatus
                 : initialStatus);
         state.Heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
 
@@ -68,7 +72,7 @@ internal class DistributedPipelineHub(
         {
             await Clients.Caller.SendAsync(
                 HubMethodNames.BroadcastCancellation,
-                Context.ConnectionAborted);
+                Context.ConnectionAborted).ConfigureAwait(false);
         }
 
         _logger.LogInformation("Worker {Index} registered via connection {ConnectionId} with capabilities: {Capabilities}",
@@ -80,16 +84,21 @@ internal class DistributedPipelineHub(
     /// </summary>
     public Task Heartbeat(WorkerStatus status)
     {
-        if (_masterState.Workers.TryGetValue(Context.ConnectionId, out var worker)
-            && worker.Registration.WorkerIndex != status.WorkerIndex)
+        var connectionId = Context.ConnectionId;
+        if (_masterState.Workers.TryGetValue(connectionId, out var worker))
         {
+            TryRecordHeartbeat(worker, status);
             return Task.CompletedTask;
         }
 
         // A reconnect heartbeat can race with RegisterWorker on a separate SignalR invocation.
-        // Persist it first so final metrics cannot be dropped during that window.
-        _masterState.WorkerStatuses[status.WorkerIndex] = status;
-        _masterState.Heartbeats[status.WorkerIndex] = DateTimeOffset.UtcNow;
+        // Keep it connection-scoped until registration proves ownership of the worker index.
+        _masterState.PendingWorkerStatuses[connectionId] = status;
+        if (_masterState.Workers.TryGetValue(connectionId, out worker)
+            && _masterState.PendingWorkerStatuses.TryRemove(connectionId, out var pendingStatus))
+        {
+            TryRecordHeartbeat(worker, pendingStatus);
+        }
 
         return Task.CompletedTask;
     }
@@ -142,6 +151,7 @@ internal class DistributedPipelineHub(
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
+        _masterState.PendingWorkerStatuses.TryRemove(Context.ConnectionId, out _);
         if (_masterState.Workers.TryRemove(Context.ConnectionId, out var workerState))
         {
             var workerIndex = workerState.Registration.WorkerIndex;
@@ -171,8 +181,31 @@ internal class DistributedPipelineHub(
             }
         }
 
-        await base.OnDisconnectedAsync(exception);
+        await base.OnDisconnectedAsync(exception).ConfigureAwait(false);
     }
+
+    private void TryRecordHeartbeat(WorkerState worker, WorkerStatus status)
+    {
+        var registration = worker.Registration;
+        if (!_masterState.Registrations.TryGetValue(status.WorkerIndex, out var currentRegistration)
+            || !ReferenceEquals(currentRegistration, registration)
+            || !IsStatusForRegistration(status, registration))
+        {
+            return;
+        }
+
+        _masterState.WorkerStatuses[status.WorkerIndex] = status;
+        _masterState.Heartbeats[status.WorkerIndex] = DateTimeOffset.UtcNow;
+    }
+
+    private static bool IsStatusForRegistration(
+        WorkerStatus status,
+        WorkerRegistration registration) =>
+        status.WorkerIndex == registration.WorkerIndex
+        && string.Equals(
+            status.RunIdentifier,
+            registration.RunIdentifier,
+            StringComparison.Ordinal);
 
     /// <summary>
     /// After the reconnect grace period, re-enqueues a disconnected worker's in-flight

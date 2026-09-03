@@ -51,6 +51,10 @@ public class DistributedPipelineHubTests
         };
 
         await hub.Heartbeat(status);
+
+        await Assert.That(state.WorkerStatuses.ContainsKey(1)).IsFalse();
+        await Assert.That(state.Heartbeats.ContainsKey(1)).IsFalse();
+
         await hub.RegisterWorker(
             new WorkerRegistration(1, [], DateTimeOffset.UtcNow)
             {
@@ -60,6 +64,41 @@ public class DistributedPipelineHubTests
 
         await Assert.That(state.WorkerStatuses[1]).IsSameReferenceAs(status);
         await Assert.That(state.Heartbeats.ContainsKey(1)).IsTrue();
+    }
+
+    [Test]
+    public async Task Superseded_Connection_Cannot_Overwrite_Current_Worker_Status()
+    {
+        var state = new SignalRMasterState();
+        var oldHub = CreateHub(state, "old-connection");
+        var currentHub = CreateHub(state, "current-connection");
+        var oldRegistration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow)
+        {
+            RunIdentifier = "old-run",
+        };
+        var currentRegistration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow)
+        {
+            RunIdentifier = "current-run",
+        };
+
+        await oldHub.RegisterWorker(oldRegistration, resumingModuleTypeName: null);
+        await currentHub.RegisterWorker(currentRegistration, resumingModuleTypeName: null);
+        var currentStatus = new WorkerStatus(1)
+        {
+            RunIdentifier = "current-run",
+            UnattributedCommandCount = 2,
+        };
+        await currentHub.Heartbeat(currentStatus);
+        var currentHeartbeat = state.Heartbeats[1];
+
+        await oldHub.Heartbeat(new WorkerStatus(1)
+        {
+            RunIdentifier = "old-run",
+            UnattributedCommandCount = 99,
+        });
+
+        await Assert.That(state.WorkerStatuses[1]).IsSameReferenceAs(currentStatus);
+        await Assert.That(state.Heartbeats[1]).IsEqualTo(currentHeartbeat);
     }
 
     [Test]
@@ -165,5 +204,17 @@ public class DistributedPipelineHubTests
             1,
             "{}",
             DateTimeOffset.UtcNow);
+    }
+
+    private static DistributedPipelineHub CreateHub(SignalRMasterState state, string connectionId)
+    {
+        var context = new Mock<HubCallerContext>();
+        context.SetupGet(instance => instance.ConnectionId).Returns(connectionId);
+        return new DistributedPipelineHub(
+            state,
+            NullLogger<DistributedPipelineHub>.Instance)
+        {
+            Context = context.Object,
+        };
     }
 }
