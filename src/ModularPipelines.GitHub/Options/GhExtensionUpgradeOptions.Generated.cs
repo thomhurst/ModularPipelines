@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.GitHub.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.GitHub.Options;
 
@@ -18,7 +19,7 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("extension", "upgrade")]
-public record GhExtensionUpgradeOptions : GhOptions
+public record GhExtensionUpgradeOptions : GhOptions, IValidatableObject
 {
     /// <summary>
     /// Upgrade all extensions
@@ -49,5 +50,14 @@ public record GhExtensionUpgradeOptions : GhOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Name { get; set; }
+
+    /// <inheritdoc />
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(Name) || All == true))
+        {
+            yield return new ValidationResult("At least one of Name or All must be specified.", [nameof(Name), nameof(All)]);
+        }
+    }
 
 }

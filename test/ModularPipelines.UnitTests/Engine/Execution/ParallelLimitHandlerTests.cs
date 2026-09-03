@@ -139,7 +139,7 @@ public class ParallelLimitHandlerTests
         var moduleState = new ModuleState(new TestModule(), typeof(TestModule));
         var ambientLogger = new Mock<IInternalModuleLogger>();
 
-        await using (new ModuleLoggerScope(ambientLogger.Object, typeof(TestModule)))
+        using (new ModuleOutputContextScope(typeof(TestModule), ambientLogger.Object))
         {
             await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
             await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
@@ -463,7 +463,7 @@ public class ParallelLimitHandlerTests
         var ambientLogger = new Mock<IInternalModuleLogger>();
         var ambientWriter = ambientLogger.As<IConsoleWriter>().Object;
 
-        await using (new ModuleLoggerScope(ambientLogger.Object, typeof(TestModule)))
+        using (new ModuleOutputContextScope(typeof(TestModule), ambientLogger.Object))
         {
             await moduleRunner.ExecuteAsync(moduleState, scheduler.Object, CancellationToken.None);
         }
