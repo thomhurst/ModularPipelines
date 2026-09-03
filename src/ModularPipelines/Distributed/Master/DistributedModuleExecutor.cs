@@ -130,7 +130,8 @@ internal class DistributedModuleExecutor(
                 _resultRegistry);
 
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(executionCts.Token);
-            using var masterWorkerCts = CancellationTokenSource.CreateLinkedTokenSource(executionCts.Token);
+            using var masterWorkerCts = CancellationTokenSource.CreateLinkedTokenSource(
+                _lifetime.ApplicationStopping);
             var executionToken = cts.Token;
             using var cancellationRegistration = executionToken.Register(
                 () => CompleteCancelledModules(scheduler, _resultRegistrar, executionToken));
@@ -647,15 +648,29 @@ internal class DistributedModuleExecutor(
         _logger.LogInformation("Master worker loop started with capabilities: {Capabilities}",
             string.Join(", ", capabilities));
 
+        using var dequeueCancellationCts = CancellationTokenSource.CreateLinkedTokenSource(
+            pipelineCancellationToken,
+            workerCancellationToken);
         while (!workerCancellationToken.IsCancellationRequested)
         {
+            var observePipelineCancellation = !pipelineCancellationToken.IsCancellationRequested;
+            var dequeueCancellationToken = observePipelineCancellation
+                ? dequeueCancellationCts.Token
+                : workerCancellationToken;
             try
             {
                 var assignment = await _workerCoordinator
-                    .DequeueModuleAsync(capabilities, workerCancellationToken)
+                    .DequeueModuleAsync(capabilities, dequeueCancellationToken)
                     .ConfigureAwait(false);
                 if (assignment is null)
                 {
+                    if (observePipelineCancellation
+                        && pipelineCancellationToken.IsCancellationRequested
+                        && !workerCancellationToken.IsCancellationRequested)
+                    {
+                        continue;
+                    }
+
                     break;
                 }
 
@@ -678,6 +693,13 @@ internal class DistributedModuleExecutor(
                     modules,
                     moduleLookup,
                     executionCancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) when (observePipelineCancellation
+                                                       && pipelineCancellationToken.IsCancellationRequested
+                                                       && !workerCancellationToken.IsCancellationRequested)
+            {
+                // Pipeline cancellation interrupts the current dequeue. Retry with the
+                // worker lifetime so late AlwaysRun assignments can still be serviced.
             }
             catch (OperationCanceledException)
             {
