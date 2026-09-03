@@ -284,7 +284,7 @@ internal class ArtifactContextImpl : IArtifactContext, IModuleScopedArtifactCont
 
     private string GetCurrentModuleTypeName()
         => _moduleTypeName
-           ?? ModuleLogger.CurrentModuleType.Value?.FullName
+           ?? AmbientModuleOutputContext.Current?.ModuleType.FullName
            ?? throw new InvalidOperationException(
                "Artifacts can only be published while a module is executing.");
 }
