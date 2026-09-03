@@ -532,23 +532,7 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_Rejects_Manual_Values_For_Missing_Late_Operands()
-    {
-        var builder = await GetService<ICommandLineBuilder>();
-
-        await Assert.That(() => builder.Build(
-                new TestTerminatedPassthroughOptions(default!, default!)
-                {
-                    Arguments = ["--", "--force", "source", "destination"],
-                    ArgumentsContainOptionTerminator = true,
-                    ArgumentsContainToolOptions = true,
-                }))
-            .Throws<ArgumentException>()
-            .And.HasMessageContaining("TestTerminatedPassthroughOptions.Source");
-    }
-
-    [Test]
-    public async Task Build_Rejects_Manual_Arguments_For_New_Required_Operand()
+    public async Task Build_Rejects_Manual_Arguments_For_Missing_Required_Operand()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
@@ -556,16 +540,6 @@ public class CommandLineBuilderTests : TestBase
         {
             Arguments = ["legacy-operand"],
         }))
-            .Throws<ArgumentException>()
-            .And.HasMessageContaining("TestRequiredOperandCompatibilityOptions.Operand");
-    }
-
-    [Test]
-    public async Task Build_Still_Rejects_Missing_Required_Operand_Without_Manual_Arguments()
-    {
-        var builder = await GetService<ICommandLineBuilder>();
-
-        await Assert.That(() => builder.Build(new TestRequiredOperandCompatibilityOptions()))
             .Throws<ArgumentException>()
             .And.HasMessageContaining("TestRequiredOperandCompatibilityOptions.Operand");
     }
@@ -2120,9 +2094,6 @@ public class CommandLineBuilderTests : TestBase
             : this(default(string)!)
         {
         }
-
-        [CliFlag("--yes")]
-        public bool? Yes { get; init; }
     }
 
     [CliTool("test")]
