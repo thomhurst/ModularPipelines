@@ -194,17 +194,19 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 
     public async Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken)
     {
+        var serverTimeMilliseconds = await GetServerTimeMillisecondsAsync().ConfigureAwait(false);
         await _database.HashSetAsync(
             _keys.Workers,
             _keys.WorkerHeartbeatField(workerIndex),
-            DateTimeOffset.UtcNow.ToUnixTimeSeconds()).ConfigureAwait(false);
+            serverTimeMilliseconds).ConfigureAwait(false);
         await _database.KeyExpireAsync(_keys.Workers, _keyExpiration).ConfigureAwait(false);
     }
 
     public async Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken cancellationToken)
     {
+        var serverTimeMilliseconds = await GetServerTimeMillisecondsAsync().ConfigureAwait(false);
         var entries = await _database.HashGetAllAsync(_keys.Workers).ConfigureAwait(false);
-        var oldestLiveHeartbeat = DateTimeOffset.UtcNow.Subtract(_workerTimeout).ToUnixTimeSeconds();
+        var oldestLiveHeartbeat = serverTimeMilliseconds - _workerTimeout.TotalMilliseconds;
         var heartbeats = entries
             .Where(entry => entry.Name.ToString().StartsWith("heartbeat:", StringComparison.Ordinal))
             .ToDictionary(
@@ -283,7 +285,8 @@ local priority_band = 1000000000000
 local items = redis.call('ZREVRANGE', KEYS[1], 0, -1, 'WITHSCORES')
 local caps = cjson.decode(ARGV[1])
 local worker_timeout = tonumber(ARGV[2])
-local now = tonumber(redis.call('TIME')[1])
+local server_time = redis.call('TIME')
+local now = (tonumber(server_time[1]) * 1000) + math.floor(tonumber(server_time[2]) / 1000)
 local worker_entries = redis.call('HGETALL', KEYS[2])
 local live_workers = {}
 
@@ -374,7 +377,7 @@ return best_item";
         var result = await _database.ScriptEvaluateAsync(
             ScanAndClaimScript,
             [(RedisKey) _keys.WorkQueue, (RedisKey) _keys.Workers],
-            [capsJson, _workerTimeout.TotalSeconds]);
+            [capsJson, _workerTimeout.TotalMilliseconds]);
 
         if (result.IsNull)
         {
@@ -382,5 +385,20 @@ return best_item";
         }
 
         return JsonSerializer.Deserialize<ModuleAssignment>(result.ToString()!, _jsonOptions);
+    }
+
+    private async Task<long> GetServerTimeMillisecondsAsync()
+    {
+        var result = await _database.ExecuteAsync(
+            "TIME",
+            Array.Empty<object>(),
+            CommandFlags.None).ConfigureAwait(false);
+        var parts = (RedisResult[]?) result;
+        if (parts is not { Length: 2 })
+        {
+            throw new InvalidOperationException("Redis TIME returned an invalid response.");
+        }
+
+        return checked(((long) parts[0] * 1000) + ((long) parts[1] / 1000));
     }
 }

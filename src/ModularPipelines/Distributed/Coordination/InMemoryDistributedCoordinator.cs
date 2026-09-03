@@ -16,6 +16,8 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
     private readonly TaskCompletionSource _cancellationRequested = new(
         TaskCreationOptions.RunContinuationsAsynchronously);
     private readonly TimeSpan _workerTimeout = options?.Value.WorkerTimeout ?? TimeSpan.FromSeconds(30);
+    private SchedulingWorker[] _priorityWorkerSnapshot = [];
+    private bool _queuePrioritiesInitialized;
     private long _enqueueSequence;
     private volatile bool _completed;
 
@@ -23,7 +25,7 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
     {
         lock (_queueLock)
         {
-            var liveWorkers = GetLiveWorkersForScheduling().ToArray();
+            var liveWorkers = RefreshQueuePrioritiesIfWorkerFleetChanged();
             _workQueue.Enqueue(
                 assignment,
                 AssignmentQueuePriority.Create(
@@ -56,7 +58,7 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
 
                 lock (_queueLock)
                 {
-                    RefreshQueuePriorities();
+                    RefreshQueuePrioritiesIfWorkerFleetChanged();
                     var skippedAssignments = new List<(ModuleAssignment Assignment, AssignmentQueuePriority Priority)>();
                     var queuedCount = _workQueue.Count;
                     for (var i = 0; i < queuedCount; i++)
@@ -165,10 +167,31 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
         }
     }
 
-    private void RefreshQueuePriorities()
+    private WorkerRegistration[] RefreshQueuePrioritiesIfWorkerFleetChanged()
+    {
+        var liveWorkers = GetLiveWorkersForScheduling()
+            .OrderBy(static worker => worker.WorkerIndex)
+            .ToArray();
+        var currentSnapshot = liveWorkers
+            .Select(static worker => new SchedulingWorker(
+                worker.WorkerIndex,
+                worker.Capabilities.ToHashSet()))
+            .ToArray();
+        if (_queuePrioritiesInitialized
+            && HasSameSchedulingWorkers(_priorityWorkerSnapshot, currentSnapshot))
+        {
+            return liveWorkers;
+        }
+
+        RefreshQueuePriorities(liveWorkers);
+        _priorityWorkerSnapshot = currentSnapshot;
+        _queuePrioritiesInitialized = true;
+        return liveWorkers;
+    }
+
+    private void RefreshQueuePriorities(IReadOnlyCollection<WorkerRegistration> liveWorkers)
     {
         var assignments = new List<(ModuleAssignment Assignment, long Sequence)>(_workQueue.Count);
-        var liveWorkers = GetLiveWorkersForScheduling().ToArray();
         while (_workQueue.TryDequeue(out var assignment, out var priority))
         {
             assignments.Add((assignment, priority.Sequence));
@@ -182,6 +205,27 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
         }
     }
 
+    private static bool HasSameSchedulingWorkers(
+        IReadOnlyList<SchedulingWorker> previous,
+        IReadOnlyList<SchedulingWorker> current)
+    {
+        if (previous.Count != current.Count)
+        {
+            return false;
+        }
+
+        for (var i = 0; i < previous.Count; i++)
+        {
+            if (previous[i].WorkerIndex != current[i].WorkerIndex
+                || !previous[i].Capabilities.SetEquals(current[i].Capabilities))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private IEnumerable<WorkerRegistration> GetLiveWorkersForScheduling()
     {
         var oldestLiveHeartbeat = DateTimeOffset.UtcNow - _workerTimeout;
@@ -189,6 +233,10 @@ internal class InMemoryDistributedCoordinator(IOptions<DistributedOptions>? opti
             _heartbeats.TryGetValue(worker.WorkerIndex, out var heartbeat)
             && heartbeat >= oldestLiveHeartbeat);
     }
+
+    private readonly record struct SchedulingWorker(
+        int WorkerIndex,
+        IReadOnlySet<Capability> Capabilities);
 
     private readonly record struct AssignmentQueuePriority(
         ModulePriority Priority,

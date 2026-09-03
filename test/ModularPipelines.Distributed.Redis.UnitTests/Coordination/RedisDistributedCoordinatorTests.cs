@@ -9,6 +9,10 @@ namespace ModularPipelines.Distributed.Redis.UnitTests.Coordination;
 
 public class RedisDistributedCoordinatorTests
 {
+    private const long ServerTimeSeconds = 1_700_000_000;
+    private const long ServerTimeMicroseconds = 456_000;
+    private const long ServerTimeMilliseconds = 1_700_000_000_456;
+
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         Converters = { new ReadOnlySetJsonConverter() },
@@ -30,6 +34,15 @@ public class RedisDistributedCoordinatorTests
         {
             KeyExpirationSeconds = 3600,
         };
+        _dbMock.Setup(db => db.ExecuteAsync(
+                "TIME",
+                It.IsAny<ICollection<object>?>(),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync(RedisResult.Create(
+            [
+                RedisResult.Create((RedisValue) ServerTimeSeconds),
+                RedisResult.Create((RedisValue) ServerTimeMicroseconds),
+            ]));
         _coordinator = new RedisDistributedCoordinator(_dbMock.Object, _subscriberMock.Object, _keys, _options);
     }
 
@@ -107,11 +120,13 @@ public class RedisDistributedCoordinatorTests
         _dbMock.Verify(db => db.ScriptEvaluateAsync(
             It.Is<string>(script =>
                 script.Contains("redis.call('TIME')", StringComparison.Ordinal)
+                && script.Contains("/ 1000", StringComparison.Ordinal)
                 && !script.Contains("redis.call('EXISTS'", StringComparison.Ordinal)),
             It.Is<RedisKey[]?>(keys => keys!.Length == 2
                 && keys[0] == _keys.WorkQueue
                 && keys[1] == _keys.Workers),
-            It.IsAny<RedisValue[]?>(),
+            It.Is<RedisValue[]?>(values => values != null
+                && (double) values[1] == TimeSpan.FromSeconds(30).TotalMilliseconds),
             It.IsAny<CommandFlags>()), Times.Once);
     }
 
@@ -215,7 +230,7 @@ public class RedisDistributedCoordinatorTests
         _dbMock.Verify(db => db.HashSetAsync(
             _keys.Workers,
             (RedisValue) "heartbeat:7",
-            It.Is<RedisValue>(value => (long) value > 0),
+            It.Is<RedisValue>(value => (long) value == ServerTimeMilliseconds),
             It.IsAny<When>(),
             It.IsAny<CommandFlags>()), Times.Once);
     }
@@ -231,8 +246,8 @@ public class RedisDistributedCoordinatorTests
             [
                 new HashEntry("1", JsonSerializer.Serialize(worker1, JsonOptions)),
                 new HashEntry("2", JsonSerializer.Serialize(worker2, JsonOptions)),
-                new HashEntry("heartbeat:1", DateTimeOffset.UtcNow.ToUnixTimeSeconds()),
-                new HashEntry("heartbeat:2", DateTimeOffset.UtcNow.ToUnixTimeSeconds()),
+                new HashEntry("heartbeat:1", ServerTimeMilliseconds),
+                new HashEntry("heartbeat:2", ServerTimeMilliseconds),
             ]);
 
         var workers = await _coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
