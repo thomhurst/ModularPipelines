@@ -410,7 +410,10 @@ public class DistributedWorkPublisherTests
         typeRegistry.Register(typeof(IndependentModule));
         var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
-        var conditionRouting = new DistributedConditionRouting(new DistributedOptions());
+        var routingOptions = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
+        var conditionRouting = new DistributedConditionRouting(
+            routingOptions,
+            new ModularPipelines.Distributed.Configuration.RoleDetector(routingOptions));
         var module = new IndependentModule();
         conditionRouting.MarkConditionGroupSatisfied(module, typeof(DistributedWorkPublisherTests));
         var publisher = new DistributedWorkPublisher(

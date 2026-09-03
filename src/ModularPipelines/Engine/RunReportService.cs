@@ -5,7 +5,6 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Capabilities;
-using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -19,7 +18,7 @@ internal sealed class RunReportService(
     IBuildSystemDetector buildSystemDetector,
     IOptions<PipelineOptions> pipelineOptions,
     IOptions<DistributedOptions> distributedOptions,
-    RoleDetector roleDetector,
+    IExecutionLocationContext executionLocationContext,
     IDistributedWorkerCoordinator distributedCoordinator,
     ICommandExecutionCounter commandExecutionCounter,
     ILogger<RunReportService> logger,
@@ -48,7 +47,7 @@ internal sealed class RunReportService(
         CancellationToken cancellationToken = default)
     {
         var runId = Guid.NewGuid().ToString("N");
-        var isDistributedWorker = IsDistributedWorker();
+        var isDistributedWorker = executionLocationContext.IsWorker;
         await SynchronizeDistributedMetricsAsync(isDistributedWorker, summary, cancellationToken)
             .ConfigureAwait(false);
 
@@ -125,7 +124,7 @@ internal sealed class RunReportService(
         {
             await PublishWorkerMetricsAsync(cancellationToken).ConfigureAwait(false);
         }
-        else if (IsDistributedMaster())
+        else if (executionLocationContext.IsMaster)
         {
             await AggregateWorkerMetricsAsync(summary, cancellationToken).ConfigureAwait(false);
         }
@@ -342,22 +341,6 @@ internal sealed class RunReportService(
         return options.AutoWriteInCi && buildSystemDetector.IsKnownBuildAgent
             ? _pathResolver.Resolve(Path.Combine("artifacts", "run-report.json"))
             : null;
-    }
-
-    private bool IsDistributedWorker()
-    {
-        var options = distributedOptions.Value;
-        return options.Enabled
-               && options.TotalInstances > 1
-               && roleDetector.DetectRole() == DistributedRole.Worker;
-    }
-
-    private bool IsDistributedMaster()
-    {
-        var options = distributedOptions.Value;
-        return options.Enabled
-               && options.TotalInstances > 1
-               && roleDetector.DetectRole() == DistributedRole.Master;
     }
 
     private async Task PublishWorkerMetricsAsync(CancellationToken cancellationToken)

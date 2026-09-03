@@ -4,6 +4,10 @@ namespace ModularPipelines.Engine;
 
 internal interface IExecutionLocationContext
 {
+    bool IsMaster { get; }
+
+    bool IsWorker { get; }
+
     bool ShouldDeferOperatingSystemConditions { get; }
 
     bool IsRoutingPrepared(IModule module);

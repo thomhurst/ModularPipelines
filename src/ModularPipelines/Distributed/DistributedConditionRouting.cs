@@ -16,23 +16,17 @@ internal sealed class DistributedConditionRouting(
     private readonly ConditionalWeakTable<IModule, HashSet<Type>> _locallySatisfiedGroups = new();
     private readonly ConditionalWeakTable<IModule, object> _preparedModules = new();
 
-    public DistributedConditionRouting(DistributedOptions options)
-        : this(
-            Microsoft.Extensions.Options.Options.Create(options),
-            new RoleDetector(Microsoft.Extensions.Options.Options.Create(options)))
-    {
-    }
+    public bool IsMaster => IsDistributedExecution
+                            && _roleDetector.DetectRole() == DistributedRole.Master;
 
-    public bool ShouldDeferOperatingSystemConditions
-    {
-        get
-        {
-            return _options.Enabled
-                   && _options.TotalInstances > 1
-                   && !DistributedAssignmentExecutionScope.IsActive
-                   && _roleDetector.DetectRole() == DistributedRole.Master;
-        }
-    }
+    public bool IsWorker => IsDistributedExecution
+                            && _roleDetector.DetectRole() == DistributedRole.Worker;
+
+    public bool ShouldDeferOperatingSystemConditions => IsMaster;
+
+    private bool IsDistributedExecution => _options.Enabled
+                                           && _options.TotalInstances > 1
+                                           && !DistributedAssignmentExecutionScope.IsActive;
 
     public bool IsRoutingPrepared(IModule module) => _preparedModules.TryGetValue(module, out _);
 

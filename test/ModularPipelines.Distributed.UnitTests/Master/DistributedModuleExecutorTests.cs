@@ -1047,7 +1047,10 @@ public class DistributedModuleExecutorTests
         typeRegistry.Register(typeof(MixedGroupedOperatingSystemModule));
         var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
-        var conditionRouting = new DistributedConditionRouting(new DistributedOptions());
+        var routingOptions = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
+        var conditionRouting = new DistributedConditionRouting(
+            routingOptions,
+            new ModularPipelines.Distributed.Configuration.RoleDetector(routingOptions));
         var module = new MixedGroupedOperatingSystemModule();
         var conditionHandler = new Mock<IModuleConditionHandler>();
         conditionHandler
@@ -1151,7 +1154,7 @@ public class DistributedModuleExecutorTests
     {
         var failure = new InvalidOperationException("Routing failed");
         var conditionHandler = new Mock<IModuleConditionHandler>();
-        conditionHandler.Setup(handler => handler.PrepareDistributedRoutingAsync(
+        conditionHandler.Setup(handler => handler.PrepareExecutionRoutingAsync(
                 It.IsAny<IModule>(),
                 It.IsAny<CancellationToken>()))
             .ThrowsAsync(failure);

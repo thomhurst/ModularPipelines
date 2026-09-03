@@ -50,8 +50,7 @@ public class IgnoredModuleResultRegistrarTests
                 contextProvider.Object,
                 new ModuleDependencyRegistry(),
                 Mock.Of<IModuleMetadataRegistry>(),
-                options,
-                new RoleDetector(options),
+                new DistributedConditionRouting(options, new RoleDetector(options)),
                 NullLogger<IgnoredModuleResultRegistrar>.Instance,
                 new ModulePlanningSkipEvaluator(
                     Mock.Of<IServiceProvider>(),
