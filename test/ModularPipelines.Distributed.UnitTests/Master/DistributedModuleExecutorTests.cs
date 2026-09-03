@@ -389,7 +389,7 @@ public class DistributedModuleExecutorTests
         var module = new CachedDistributedModule();
         var moduleState = new ModuleState(module, typeof(CachedDistributedModule));
         var scheduler = CreateMockScheduler(moduleState);
-        var coordinator = new Mock<IDistributedCoordinator>();
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(c => c.DequeueModuleAsync(
                 It.IsAny<IReadOnlySet<Capability>>(),
                 It.IsAny<CancellationToken>()))
@@ -450,7 +450,7 @@ public class DistributedModuleExecutorTests
                 null,
                 ModuleStatus.RestoredFromCache))
             .Throws(stateException);
-        var coordinator = new Mock<IDistributedCoordinator>();
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(c => c.DequeueModuleAsync(
                 It.IsAny<IReadOnlySet<Capability>>(),
                 It.IsAny<CancellationToken>()))
