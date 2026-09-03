@@ -39,29 +39,9 @@ var builder = Pipeline.CreateBuilder(args);
 
 
 
-// Parse instance info from arguments or environment
+// Enable distributed mode from the standard MODULARPIPELINES_* environment variables
 
-var instanceIndex = int.Parse(
-
-    Environment.GetEnvironmentVariable("INSTANCE_INDEX") ?? "0");
-
-var totalInstances = int.Parse(
-
-    Environment.GetEnvironmentVariable("TOTAL_INSTANCES") ?? "1");
-
-
-
-// Enable distributed mode
-
-builder.AddDistributedMode(o =>
-
-{
-
-    o.InstanceIndex = instanceIndex;
-
-    o.TotalInstances = totalInstances;
-
-});
+builder.AddDistributedMode();
 
 
 
@@ -107,13 +87,13 @@ uuidgen
 **Terminal 1 (Master):**
 
 ```
-RUN_IDENTIFIER="paste-same-generated-uuid-here" INSTANCE_INDEX=0 TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
+MODULARPIPELINES_RUN_ID="paste-same-generated-uuid-here" MODULARPIPELINES_INSTANCE_INDEX=0 MODULARPIPELINES_TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
 ```
 
 **Terminal 2 (Worker):**
 
 ```
-RUN_IDENTIFIER="paste-same-generated-uuid-here" INSTANCE_INDEX=1 TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
+MODULARPIPELINES_RUN_ID="paste-same-generated-uuid-here" MODULARPIPELINES_INSTANCE_INDEX=1 MODULARPIPELINES_TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
 ```
 
 The master will enqueue modules, the worker will pick them up and execute them, and results flow back to the master.
@@ -127,9 +107,9 @@ In GitHub Actions, use a matrix strategy to launch multiple instances. See the [
 Every Redis key is prefixed with a run identifier so concurrent or repeated pipeline runs on the same Redis instance don't collide. The identifier is resolved from:
 
 1. Explicit `RedisDistributedOptions.RunIdentifier` configuration
-2. The `RUN_IDENTIFIER` environment variable
+2. The `MODULARPIPELINES_RUN_ID` environment variable
 
-Commit hashes are not safe because repeated executions of the same commit would reuse stale keys. For local or CI multi-process runs, export one invocation-specific `RUN_IDENTIFIER` value before starting every process:
+Commit hashes are not safe because repeated executions of the same commit would reuse stale keys. For local or CI multi-process runs, export one invocation-specific `MODULARPIPELINES_RUN_ID` value before starting every process:
 
 ```
 builder.AddRedisDistributedCoordinator(o =>
@@ -138,7 +118,7 @@ builder.AddRedisDistributedCoordinator(o =>
 
     o.ConnectionString = "your-redis-url";
 
-    o.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER");
+    o.RunIdentifier = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
 
 });
 ```
@@ -170,23 +150,7 @@ var builder = Pipeline.CreateBuilder(args);
 
 
 
-var instanceIndex = int.Parse(
-
-    Environment.GetEnvironmentVariable("INSTANCE_INDEX") ?? "0");
-
-
-
-builder.AddDistributedMode(o =>
-
-{
-
-    o.InstanceIndex = instanceIndex;
-
-    o.TotalInstances = int.Parse(
-
-        Environment.GetEnvironmentVariable("TOTAL_INSTANCES") ?? "1");
-
-});
+builder.AddDistributedMode();
 
 
 

@@ -7,14 +7,14 @@ This page describes the internal architecture of distributed mode for contributo
 ### Master Startup[​](#master-startup "Direct link to Master Startup")
 
 1. `AddDistributedMode` enables distributed services and configures `DistributedOptions`.
-2. While the pipeline is built, `PipelineBuilder` activates distributed mode when `Enabled` is `true` and `TotalInstances` is greater than one.
-3. `RoleDetector` checks `MODULAR_PIPELINES_INSTANCE` first. A valid environment value of `0` selects the master even when `DistributedOptions.InstanceIndex` is non-zero; any other valid integer selects a worker. When the variable is absent or invalid, `InstanceIndex == 0` selects the master. The master replaces the default `IModuleExecutor` with `DistributedModuleExecutor`. The environment variable affects role selection only; it does not change `DistributedOptions.InstanceIndex`.
+2. While the pipeline is built, `PipelineBuilder` activates distributed mode whenever `AddDistributedMode` was called. `TotalInstances` describes topology; it is not a second activation switch.
+3. `RoleDetector` honors an explicit `DistributedOptions.Role`. With the default `Auto` role, `InstanceIndex == 0` selects master and any other index selects worker. The master replaces the default `IModuleExecutor` with `DistributedModuleExecutor`.
 4. A registered `IDistributedCoordinatorFactory` is wrapped in a deferred coordinator, so its `CreateAsync` method runs when the coordinator is first used. A directly registered `IDistributedCoordinator` is used as-is.
 5. Before scheduling work, the master registers module types for serialization and waits up to `DistributedOptions.CapabilityTimeout` for the configured workers to register.
 
 ### Worker Startup[​](#worker-startup "Direct link to Worker Startup")
 
-1. `RoleDetector` checks `MODULAR_PIPELINES_INSTANCE` before `DistributedOptions.InstanceIndex`. A valid non-zero environment value selects a worker, while `0` selects the master even when `InstanceIndex` is non-zero. Without a valid override, every non-zero `InstanceIndex` is a worker. Workers replace the default `IModuleExecutor` with `WorkerModuleExecutor`. Registration and run-report metrics still use `DistributedOptions.InstanceIndex`, so every worker must configure a distinct non-zero index even when the environment variable selects its role.
+1. `RoleDetector` selects `Worker` explicitly, or derives it from a non-zero `DistributedOptions.InstanceIndex` when `Role` is `Auto`. Workers replace the default `IModuleExecutor` with `WorkerModuleExecutor`. Registration and run-report metrics use `DistributedOptions.InstanceIndex`, so every worker must configure a distinct index.
 2. The worker registers all available module types for serialization.
 3. The worker builds its capability set from configured capabilities and, by default, the auto-detected operating-system capability.
 4. The worker registers its capabilities with the coordinator via `RegisterWorkerAsync`. During run-report finalization it calls the method again to upsert its final command metrics.

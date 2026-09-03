@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.2">
 <title data-rh="true">Architecture | Modular Pipelines</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://thomhurst.github.io/ModularPipelines/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://thomhurst.github.io/ModularPipelines/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://thomhurst.github.io/ModularPipelines/docs/next/distributed/architecture"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Architecture | Modular Pipelines"><meta data-rh="true" name="description" content="This page describes the internal architecture of distributed mode for contributors and advanced users."><meta data-rh="true" property="og:description" content="This page describes the internal architecture of distributed mode for contributors and advanced users."><link data-rh="true" rel="icon" href="/ModularPipelines/img/modular-pipelines-favicon.png"><link data-rh="true" rel="canonical" href="https://thomhurst.github.io/ModularPipelines/docs/next/distributed/architecture"><link data-rh="true" rel="alternate" href="https://thomhurst.github.io/ModularPipelines/docs/next/distributed/architecture" hreflang="en"><link data-rh="true" rel="alternate" href="https://thomhurst.github.io/ModularPipelines/docs/next/distributed/architecture" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Distributed Mode","item":"https://thomhurst.github.io/ModularPipelines/docs/next/category/distributed-mode"},{"@type":"ListItem","position":2,"name":"Architecture","item":"https://thomhurst.github.io/ModularPipelines/docs/next/distributed/architecture"}]}</script><link rel="stylesheet" href="/ModularPipelines/assets/css/styles.2040e1cc.css">
-<script src="/ModularPipelines/assets/js/runtime~main.de0b1cf8.js" defer="defer"></script>
+<script src="/ModularPipelines/assets/js/runtime~main.986e2416.js" defer="defer"></script>
 <script src="/ModularPipelines/assets/js/main.4902043b.js" defer="defer"></script>
 </head>
 <body>
@@ -17,14 +17,12 @@
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="master-startup">Master Startup<a href="#master-startup" class="hash-link" aria-label="Direct link to Master Startup" title="Direct link to Master Startup" translate="no">​</a></h3>
 <ol>
 <li class=""><code>AddDistributedMode</code> enables distributed services and configures <code>DistributedOptions</code>.</li>
-<li class="">While the pipeline is built, <code>PipelineBuilder</code> activates distributed mode when
-<code>Enabled</code> is <code>true</code> and <code>TotalInstances</code> is greater than one.</li>
-<li class=""><code>RoleDetector</code> checks <code>MODULAR_PIPELINES_INSTANCE</code> first. A valid environment value
-of <code>0</code> selects the master even when <code>DistributedOptions.InstanceIndex</code> is non-zero;
-any other valid integer selects a worker. When the variable is absent or invalid,
-<code>InstanceIndex == 0</code> selects the master. The master replaces the default
-<code>IModuleExecutor</code> with <code>DistributedModuleExecutor</code>. The environment variable affects
-role selection only; it does not change <code>DistributedOptions.InstanceIndex</code>.</li>
+<li class="">While the pipeline is built, <code>PipelineBuilder</code> activates distributed mode whenever
+<code>AddDistributedMode</code> was called. <code>TotalInstances</code> describes topology; it is not a
+second activation switch.</li>
+<li class=""><code>RoleDetector</code> honors an explicit <code>DistributedOptions.Role</code>. With the default <code>Auto</code>
+role, <code>InstanceIndex == 0</code> selects master and any other index selects worker. The
+master replaces the default <code>IModuleExecutor</code> with <code>DistributedModuleExecutor</code>.</li>
 <li class="">A registered <code>IDistributedCoordinatorFactory</code> is wrapped in a deferred coordinator,
 so its <code>CreateAsync</code> method runs when the coordinator is first used. A directly
 registered <code>IDistributedCoordinator</code> is used as-is.</li>
@@ -33,13 +31,10 @@ up to <code>DistributedOptions.CapabilityTimeout</code> for the configured worke
 </ol>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="worker-startup">Worker Startup<a href="#worker-startup" class="hash-link" aria-label="Direct link to Worker Startup" title="Direct link to Worker Startup" translate="no">​</a></h3>
 <ol>
-<li class=""><code>RoleDetector</code> checks <code>MODULAR_PIPELINES_INSTANCE</code> before
-<code>DistributedOptions.InstanceIndex</code>. A valid non-zero environment value selects a
-worker, while <code>0</code> selects the master even when <code>InstanceIndex</code> is non-zero. Without
-a valid override, every non-zero <code>InstanceIndex</code> is a worker. Workers replace the
-default <code>IModuleExecutor</code> with <code>WorkerModuleExecutor</code>. Registration and run-report
-metrics still use <code>DistributedOptions.InstanceIndex</code>, so every worker must configure
-a distinct non-zero index even when the environment variable selects its role.</li>
+<li class=""><code>RoleDetector</code> selects <code>Worker</code> explicitly, or derives it from a non-zero
+<code>DistributedOptions.InstanceIndex</code> when <code>Role</code> is <code>Auto</code>. Workers replace the default
+<code>IModuleExecutor</code> with <code>WorkerModuleExecutor</code>. Registration and run-report metrics use
+<code>DistributedOptions.InstanceIndex</code>, so every worker must configure a distinct index.</li>
 <li class="">The worker registers all available module types for serialization.</li>
 <li class="">The worker builds its capability set from configured capabilities and, by default,
 the auto-detected operating-system capability.</li>
