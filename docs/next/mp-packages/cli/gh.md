@@ -261,7 +261,6 @@ public class RunCommandModule : Module<CommandResult>
 | `gh ssh-key add`                | `GhSshKeyAddOptions`                |
 | `gh ssh-key delete`             | `GhSshKeyDeleteOptions`             |
 | `gh ssh-key list`               | `GhSshKeyListOptions`               |
-| `gh stack`                      | `GhStackOptions`                    |
 | `gh status`                     | `GhStatusOptions`                   |
 | `gh variable`                   | `GhVariableOptions`                 |
 | `gh variable delete`            | `GhVariableDeleteOptions`           |
