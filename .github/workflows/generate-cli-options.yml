@@ -1,6 +1,22 @@
 name: Generate CLI Options
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/generate-cli-options.yml'
+      - 'Directory.Build.props'
+      - 'Directory.Packages.props'
+      - 'global.json'
+      - 'scripts/GeneratedOptionsProvenance.ps1'
+      - 'scripts/Write-GeneratedOptionsProvenance.ps1'
+      - 'src/ModularPipelines/Attributes/CliOptionValueArity.cs'
+      - 'src/ModularPipelines/Attributes/CommandLinePhase.cs'
+      - 'src/ModularPipelines/Helpers/Internal/WindowsCommandResolver.cs'
+      - 'src/ModularPipelines/Options/AdditionalCommandLineArgument.cs'
+      - 'src/ModularPipelines/Options/CommandLineToolOptions.cs'
+      - 'tools/Directory.Build.props'
+      - 'tools/ModularPipelines.OptionsGenerator/**'
   schedule:
     # Run every Sunday at 2:00 AM UTC
     - cron: '0 2 * * 0'
@@ -133,6 +149,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.tool-catalog.outputs.linux) }}
+    concurrency:
+      group: ${{ github.workflow }}-generated-refresh-${{ matrix.tool }}
+      cancel-in-progress: false
+      queue: max
 
     steps:
       - name: Check if tool should run
@@ -146,6 +166,19 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
           persist-credentials: false
+
+      - name: Disable inherited auto-merge for push refreshes
+        if: steps.should-run.outputs.run == 'true' && github.event_name == 'push'
+        run: |
+          pr_number="$(gh pr list --state open --head "automated/update-cli-options-${{ matrix.tool }}" --json number --jq '.[0].number // empty')"
+          if [ -n "$pr_number" ]; then
+            auto_merge_enabled="$(gh pr view "$pr_number" --json autoMergeRequest --jq '.autoMergeRequest != null')"
+            if [ "$auto_merge_enabled" = "true" ]; then
+              gh pr merge "$pr_number" --disable-auto
+            fi
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
 
       - name: Setup .NET
         if: steps.should-run.outputs.run == 'true'
@@ -612,6 +645,17 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
+      - name: Record generator provenance
+        if: steps.should-run.outputs.run == 'true'
+        shell: pwsh
+        run: |
+          scripts/Write-GeneratedOptionsProvenance.ps1 `
+            -RepositoryRoot "$env:GITHUB_WORKSPACE" `
+            -Tool "${{ matrix.tool }}" `
+            -PackageDirectory "${{ matrix.outputDirectory }}" `
+            -NamespacePrefix "${{ matrix.prefix }}" `
+            -ChangeManifest "$env:RUNNER_TEMP/generated-paths.txt"
+
       - name: Synchronize generated public API baselines
         if: steps.should-run.outputs.run == 'true'
         shell: pwsh
@@ -736,7 +780,7 @@ jobs:
           committer: thomhurst <9139608+thomhurst@users.noreply.github.com>
 
       - name: Enable auto-merge
-        if: steps.create-pr.outputs.pull-request-number && (github.event_name != 'workflow_dispatch' || inputs['enable-auto-merge'])
+        if: steps.create-pr.outputs.pull-request-number && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs['enable-auto-merge']))
         run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash
         env:
           GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
@@ -755,6 +799,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.tool-catalog.outputs.windows) }}
+    concurrency:
+      group: ${{ github.workflow }}-generated-refresh-${{ matrix.tool }}
+      cancel-in-progress: false
+      queue: max
 
     steps:
       - name: Check if tool should run
@@ -769,6 +817,33 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
           persist-credentials: false
+
+      - name: Disable inherited auto-merge for push refreshes
+        if: steps.should-run.outputs.run == 'true' && github.event_name == 'push'
+        shell: pwsh
+        run: |
+          $prNumber = gh pr list `
+            --state open `
+            --head "automated/update-cli-options-${{ matrix.tool }}" `
+            --json number `
+            --jq '.[0].number // empty'
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
+          if (-not [string]::IsNullOrWhiteSpace($prNumber)) {
+            $autoMergeEnabled = gh pr view $prNumber --json autoMergeRequest --jq '.autoMergeRequest != null'
+            if ($LASTEXITCODE -ne 0) {
+              exit $LASTEXITCODE
+            }
+            if ($autoMergeEnabled -eq 'true') {
+              gh pr merge $prNumber --disable-auto
+              if ($LASTEXITCODE -ne 0) {
+                exit $LASTEXITCODE
+              }
+            }
+          }
+        env:
+          GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
 
       - name: Setup .NET
         if: steps.should-run.outputs.run == 'true'
@@ -920,6 +995,17 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
+      - name: Record generator provenance
+        if: steps.should-run.outputs.run == 'true'
+        shell: pwsh
+        run: |
+          scripts/Write-GeneratedOptionsProvenance.ps1 `
+            -RepositoryRoot "$env:GITHUB_WORKSPACE" `
+            -Tool "${{ matrix.tool }}" `
+            -PackageDirectory "${{ matrix.outputDirectory }}" `
+            -NamespacePrefix "${{ matrix.prefix }}" `
+            -ChangeManifest "$env:RUNNER_TEMP/generated-paths.txt"
+
       - name: Synchronize generated public API baselines
         if: steps.should-run.outputs.run == 'true'
         shell: pwsh
@@ -1024,7 +1110,7 @@ jobs:
           committer: thomhurst <9139608+thomhurst@users.noreply.github.com>
 
       - name: Enable auto-merge
-        if: steps.create-pr.outputs.pull-request-number && (github.event_name != 'workflow_dispatch' || inputs['enable-auto-merge'])
+        if: steps.create-pr.outputs.pull-request-number && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs['enable-auto-merge']))
         shell: pwsh
         run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash
         env:
