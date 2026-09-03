@@ -12,8 +12,21 @@ if (-not $resolvedTestRoot.StartsWith(
 }
 
 New-Item -ItemType Directory -Path $resolvedTestRoot | Out-Null
+$packageDirectory = Join-Path $resolvedTestRoot 'src/Target.Package'
+$foreignDirectory = Join-Path $resolvedTestRoot 'src/Foreign.Package'
+New-Item -ItemType Directory -Path $packageDirectory, $foreignDirectory | Out-Null
+$targetUri = [Uri]::new((Join-Path $packageDirectory 'Target.cs')).AbsoluteUri
+$foreignUri = [Uri]::new((Join-Path $foreignDirectory 'Foreign.cs')).AbsoluteUri
 
 function Write-Sarif([string] $Path, [object[]] $Results) {
+    foreach ($result in $Results) {
+        if (-not $result.ContainsKey('locations')) {
+            $result.locations = @(@{
+                physicalLocation = @{ artifactLocation = @{ uri = $targetUri } }
+            })
+        }
+    }
+
     @{
         version = '2.1.0'
         runs = @(@{ results = $Results })
@@ -31,9 +44,19 @@ try {
         }
         @{ ruleId = 'RS0017'; message = "Symbol 'Api.Upper' is part of the declared API, but is either not public or could not be found" }
         @{ ruleId = 'RS0017'; message = "Symbol 'Api.Upper' is part of the declared API, but is either not public or could not be found" }
+        @{
+            ruleId = 'RS0017'
+            message = "Symbol 'Foreign.Api' is part of the declared API, but is either not public or could not be found"
+            locations = @(@{
+                physicalLocation = @{ artifactLocation = @{ uri = $foreignUri } }
+            })
+        }
     )
 
-    & $snapshotScript -ErrorLogPath $errorLog -SnapshotPath $snapshot
+    & $snapshotScript `
+        -ErrorLogPath $errorLog `
+        -SnapshotPath $snapshot `
+        -PackageDirectory $packageDirectory
 
     $actual = @(Get-Content -LiteralPath $snapshot)
     $expected = @('Api.Upper', 'api.Lower')
@@ -48,7 +71,10 @@ try {
         @{ ruleId = 'RS0017'; message = 'Unexpected message shape' }
     )
     try {
-        & $snapshotScript -ErrorLogPath $errorLog -SnapshotPath $snapshot
+        & $snapshotScript `
+            -ErrorLogPath $errorLog `
+            -SnapshotPath $snapshot `
+            -PackageDirectory $packageDirectory
         throw 'Malformed RS0017 diagnostic should have failed.'
     }
     catch {
@@ -58,7 +84,10 @@ try {
     }
 
     Write-Sarif $errorLog @()
-    & $snapshotScript -ErrorLogPath $errorLog -SnapshotPath $snapshot
+    & $snapshotScript `
+        -ErrorLogPath $errorLog `
+        -SnapshotPath $snapshot `
+        -PackageDirectory $packageDirectory
     if ((Get-Item -LiteralPath $snapshot).Length -ne 0) {
         throw 'Empty removal evidence should produce an empty snapshot.'
     }

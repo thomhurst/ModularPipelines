@@ -12,8 +12,21 @@ if (-not $resolvedTestRoot.StartsWith(
 }
 
 New-Item -ItemType Directory -Path $resolvedTestRoot | Out-Null
+$packageDirectory = Join-Path $resolvedTestRoot 'src/Target.Package'
+$foreignDirectory = Join-Path $resolvedTestRoot 'src/Foreign.Package'
+New-Item -ItemType Directory -Path $packageDirectory, $foreignDirectory | Out-Null
+$targetUri = [Uri]::new((Join-Path $packageDirectory 'Target.cs')).AbsoluteUri
+$foreignUri = [Uri]::new((Join-Path $foreignDirectory 'Foreign.cs')).AbsoluteUri
 
 function Write-Sarif([string] $Path, [object[]] $Results) {
+    foreach ($result in $Results) {
+        if (-not $result.ContainsKey('locations')) {
+            $result.locations = @(@{
+                physicalLocation = @{ artifactLocation = @{ uri = $targetUri } }
+            })
+        }
+    }
+
     @{
         version = '2.1.0'
         runs = @(@{ results = $Results })
@@ -29,11 +42,19 @@ try {
         @{ ruleId = 'RS0016'; message = "Symbol 'api.Lower' is not part of the declared public API" }
         @{ ruleId = 'RS0016'; message = "Symbol 'Api.Upper' is not part of the declared public API" }
         @{ ruleId = 'RS0016'; message = "Symbol 'Api.Upper' is not part of the declared public API" }
+        @{
+            ruleId = 'RS0016'
+            message = "Symbol 'Foreign.Api' is not part of the declared public API"
+            locations = @(@{
+                physicalLocation = @{ artifactLocation = @{ uri = $foreignUri } }
+            })
+        }
     )
 
     & $snapshotScript `
         -ErrorLogPath $errorLog `
         -SnapshotPath $snapshot `
+        -PackageDirectory $packageDirectory `
         -RequireEntries
 
     $actual = @(Get-Content -LiteralPath $snapshot)
@@ -49,7 +70,10 @@ try {
         @{ ruleId = 'RS0016'; message = 'Unexpected message shape' }
     )
     try {
-        & $snapshotScript -ErrorLogPath $errorLog -SnapshotPath $snapshot
+        & $snapshotScript `
+            -ErrorLogPath $errorLog `
+            -SnapshotPath $snapshot `
+            -PackageDirectory $packageDirectory
         throw 'Malformed RS0016 diagnostic should have failed.'
     }
     catch {
@@ -63,6 +87,7 @@ try {
         & $snapshotScript `
             -ErrorLogPath $errorLog `
             -SnapshotPath $snapshot `
+            -PackageDirectory $packageDirectory `
             -RequireEntries
         throw 'Empty required snapshot should have failed.'
     }

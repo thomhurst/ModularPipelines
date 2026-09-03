@@ -48,6 +48,7 @@ jobs:
           tools/ModularPipelines.OptionsGenerator/scripts/Test-WritePublicApiSnapshotFromSarif.ps1
           tools/ModularPipelines.OptionsGenerator/scripts/Test-WriteRemovedPublicApiSnapshotFromSarif.ps1
           tools/ModularPipelines.OptionsGenerator/scripts/Test-MergePublicApiBaselineSnapshot.ps1
+          tools/ModularPipelines.OptionsGenerator/scripts/Test-SyncPublicApiBaselines.ps1
       - name: Reject stale generated enum attributes
         shell: pwsh
         run: tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedEnumAttributes.ps1
@@ -618,67 +619,16 @@ jobs:
           PublicApiAnalyzerProject: ${{ matrix.package }}
         run: |
           $packageDirectory = "src/${{ steps.package.outputs.package }}"
-          $shipped = Join-Path $packageDirectory 'PublicAPI.Shipped.txt'
-          $unshipped = Join-Path $packageDirectory 'PublicAPI.Unshipped.txt'
-          $originalShipped = Join-Path $env:RUNNER_TEMP 'PublicAPI.Shipped.original.txt'
-          $originalUnshipped = Join-Path $env:RUNNER_TEMP 'PublicAPI.Unshipped.original.txt'
-          Copy-Item -LiteralPath $shipped -Destination $originalShipped
-          Copy-Item -LiteralPath $unshipped -Destination $originalUnshipped
           $buildArguments = if ('${{ matrix.tool }}' -eq 'gcloud') {
             @('/m:1', '-p:UseSharedCompilation=false')
           } else {
             @()
           }
-          $removalErrorLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.removals.sarif'
-          $removalBuildLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.removal-build.log'
-          $confirmedRemovals = Join-Path $env:RUNNER_TEMP 'PublicAPI.ConfirmedRemovals.txt'
-          dotnet build "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
-            -c Release `
-            --no-incremental `
-            -p:TreatWarningsAsErrors=false `
-            -p:WarningsAsErrors= `
-            "-p:ErrorLog=$removalErrorLog" `
-            @buildArguments *> $removalBuildLog
-          if ($LASTEXITCODE -ne 0) {
-            Get-Content -LiteralPath $removalBuildLog
-            throw 'Failed to collect confirmed public API removals.'
-          }
-
-          tools/ModularPipelines.OptionsGenerator/scripts/Write-RemovedPublicApiSnapshotFromSarif.ps1 `
-            -ErrorLogPath $removalErrorLog `
-            -SnapshotPath $confirmedRemovals
-
-          foreach ($baseline in $shipped, $unshipped) {
-            $headers = @(Get-Content -LiteralPath $baseline | Where-Object { $_.StartsWith('#') })
-            [System.IO.File]::WriteAllLines($baseline, $headers, [System.Text.UTF8Encoding]::new($false))
-          }
-
-          $errorLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.current.sarif'
-          $buildLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.snapshot-build.log'
-          dotnet build "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
-            -c Release `
-            --no-incremental `
-            -p:TreatWarningsAsErrors=false `
-            -p:WarningsAsErrors= `
-            "-p:ErrorLog=$errorLog" `
-            @buildArguments *> $buildLog
-          if ($LASTEXITCODE -ne 0) {
-            Get-Content -LiteralPath $buildLog
-            throw 'Failed to create the current public API snapshot.'
-          }
-
-          tools/ModularPipelines.OptionsGenerator/scripts/Write-PublicApiSnapshotFromSarif.ps1 `
-            -ErrorLogPath $errorLog `
-            -SnapshotPath $unshipped `
-            -RequireEntries
-
-          tools/ModularPipelines.OptionsGenerator/scripts/Merge-PublicApiBaselineSnapshot.ps1 `
-            -OriginalShippedPath $originalShipped `
-            -OriginalUnshippedPath $originalUnshipped `
-            -CurrentApiSnapshotPath $unshipped `
-            -ConfirmedRemovedApiPath $confirmedRemovals `
-            -ShippedOutputPath $shipped `
-            -UnshippedOutputPath $unshipped
+          tools/ModularPipelines.OptionsGenerator/scripts/Sync-PublicApiBaselines.ps1 `
+            -PackageDirectory $packageDirectory `
+            -ProjectPath "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
+            -TemporaryDirectory $env:RUNNER_TEMP `
+            -ExtraBuildArguments $buildArguments
 
       - name: Check for changes
         if: steps.should-run.outputs.run == 'true'
@@ -977,60 +927,10 @@ jobs:
           PublicApiAnalyzerProject: ${{ matrix.package }}
         run: |
           $packageDirectory = "src/${{ steps.package.outputs.package }}"
-          $shipped = Join-Path $packageDirectory 'PublicAPI.Shipped.txt'
-          $unshipped = Join-Path $packageDirectory 'PublicAPI.Unshipped.txt'
-          $originalShipped = Join-Path $env:RUNNER_TEMP 'PublicAPI.Shipped.original.txt'
-          $originalUnshipped = Join-Path $env:RUNNER_TEMP 'PublicAPI.Unshipped.original.txt'
-          Copy-Item -LiteralPath $shipped -Destination $originalShipped
-          Copy-Item -LiteralPath $unshipped -Destination $originalUnshipped
-          $removalErrorLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.removals.sarif'
-          $removalBuildLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.removal-build.log'
-          $confirmedRemovals = Join-Path $env:RUNNER_TEMP 'PublicAPI.ConfirmedRemovals.txt'
-          dotnet build "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
-            -c Release `
-            --no-incremental `
-            -p:TreatWarningsAsErrors=false `
-            -p:WarningsAsErrors= `
-            "-p:ErrorLog=$removalErrorLog" *> $removalBuildLog
-          if ($LASTEXITCODE -ne 0) {
-            Get-Content -LiteralPath $removalBuildLog
-            throw 'Failed to collect confirmed public API removals.'
-          }
-
-          tools/ModularPipelines.OptionsGenerator/scripts/Write-RemovedPublicApiSnapshotFromSarif.ps1 `
-            -ErrorLogPath $removalErrorLog `
-            -SnapshotPath $confirmedRemovals
-
-          foreach ($baseline in $shipped, $unshipped) {
-            $headers = @(Get-Content -LiteralPath $baseline | Where-Object { $_.StartsWith('#') })
-            [System.IO.File]::WriteAllLines($baseline, $headers, [System.Text.UTF8Encoding]::new($false))
-          }
-
-          $errorLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.current.sarif'
-          $buildLog = Join-Path $env:RUNNER_TEMP 'PublicAPI.snapshot-build.log'
-          dotnet build "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
-            -c Release `
-            --no-incremental `
-            -p:TreatWarningsAsErrors=false `
-            -p:WarningsAsErrors= `
-            "-p:ErrorLog=$errorLog" *> $buildLog
-          if ($LASTEXITCODE -ne 0) {
-            Get-Content -LiteralPath $buildLog
-            throw 'Failed to create the current public API snapshot.'
-          }
-
-          tools/ModularPipelines.OptionsGenerator/scripts/Write-PublicApiSnapshotFromSarif.ps1 `
-            -ErrorLogPath $errorLog `
-            -SnapshotPath $unshipped `
-            -RequireEntries
-
-          tools/ModularPipelines.OptionsGenerator/scripts/Merge-PublicApiBaselineSnapshot.ps1 `
-            -OriginalShippedPath $originalShipped `
-            -OriginalUnshippedPath $originalUnshipped `
-            -CurrentApiSnapshotPath $unshipped `
-            -ConfirmedRemovedApiPath $confirmedRemovals `
-            -ShippedOutputPath $shipped `
-            -UnshippedOutputPath $unshipped
+          tools/ModularPipelines.OptionsGenerator/scripts/Sync-PublicApiBaselines.ps1 `
+            -PackageDirectory $packageDirectory `
+            -ProjectPath "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
+            -TemporaryDirectory $env:RUNNER_TEMP
 
       - name: Check for changes
         if: steps.should-run.outputs.run == 'true'

@@ -2,6 +2,7 @@
 param(
     [Parameter(Mandatory)][string] $ErrorLogPath,
     [Parameter(Mandatory)][string] $SnapshotPath,
+    [Parameter(Mandatory)][string] $PackageDirectory,
     [switch] $RequireEntries
 )
 
@@ -10,19 +11,17 @@ $messagePrefix = "Symbol '"
 $messageSuffix = "' is not part of the declared public API"
 $comparer = [System.StringComparer]::Ordinal
 
-if (-not (Test-Path -LiteralPath $ErrorLogPath -PathType Leaf)) {
-    throw "Compiler error log does not exist: $ErrorLogPath"
-}
-
 if (-not (Test-Path -LiteralPath $SnapshotPath -PathType Leaf)) {
     throw "Public API snapshot does not exist: $SnapshotPath"
 }
 
-$sarif = Get-Content -LiteralPath $ErrorLogPath -Raw | ConvertFrom-Json
-$results = @($sarif.runs | ForEach-Object { @($_.results) })
+$results = @(& (Join-Path $PSScriptRoot 'Get-ProjectSarifResults.ps1') `
+    -ErrorLogPath $ErrorLogPath `
+    -PackageDirectory $PackageDirectory `
+    -RuleId RS0016)
 $apis = [System.Collections.Generic.HashSet[string]]::new($comparer)
 
-foreach ($result in $results | Where-Object { $_.ruleId -eq 'RS0016' }) {
+foreach ($result in $results) {
     $message = if ($result.message -is [string]) {
         [string] $result.message
     }
