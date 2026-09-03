@@ -110,7 +110,7 @@ public class CliScraperTraversalTests
     [Test]
     [Arguments("Aliases:\n  un, del, delete")]
     [Arguments("Additional help topics:\n  fake parent advanced  Advanced help")]
-    [Arguments("Available Commands: (see below)\n  child  Execute a child command")]
+    [Arguments("Available Commands: (see below)\nchild  Execute a child command")]
     public async Task CobraListSectionIsNotUsedAsDescription(string section)
     {
         var helpText = $"""
@@ -125,6 +125,25 @@ public class CliScraperTraversalTests
             helpText);
 
         await Assert.That(command!.Description).IsNull();
+    }
+
+    [Test]
+    public async Task CobraLabeledDescriptionWithIndentedContinuationIsPreserved()
+    {
+        const string helpText = """
+            Note:
+              Requires administrator privileges.
+
+            Usage:
+              fake parent [flags]
+            """;
+
+        var command = await new TestCobraScraper(new StubExecutor(new Dictionary<string, string>())).Parse(
+            ["fake", "parent"],
+            helpText);
+
+        await Assert.That(command!.Description)
+            .IsEqualTo("Requires administrator privileges.");
     }
 
     [Test]

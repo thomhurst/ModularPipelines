@@ -247,9 +247,8 @@ public abstract partial class CobraCliScraper : CliScraperBase
         var lines = helpText.Split('\n');
 
         // Skip empty lines and look for the first non-usage, non-section line
-        for (var index = 0; index < lines.Length; index++)
+        foreach (var line in lines)
         {
-            var line = lines[index];
             var trimmed = line.Trim();
 
             if (string.IsNullOrEmpty(trimmed))
@@ -257,7 +256,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 continue;
             }
 
-            if (IsDescriptionSectionBoundary(lines, index))
+            if (DescriptionSectionHeaderPattern().IsMatch(trimmed))
             {
                 return null;
             }
@@ -287,44 +286,6 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
         return null;
     }
-
-    private static bool IsDescriptionSectionBoundary(string[] lines, int index)
-    {
-        var line = lines[index].TrimEnd('\r');
-        var trimmed = line.Trim();
-
-        if (DescriptionSectionHeaderPattern().IsMatch(trimmed))
-        {
-            return true;
-        }
-
-        // Cobra extensions can add arbitrary list sections such as "Aliases:" or
-        // "Additional help topics:". A top-level label followed by indented content
-        // is structural; a label followed by top-level prose (for example Metadata:)
-        // is not. Usage remains skippable because some tools print prose after it.
-        if (line.Length != line.TrimStart().Length ||
-            trimmed.StartsWith("Usage:", StringComparison.OrdinalIgnoreCase) ||
-            trimmed.IndexOf(':') <= 0 ||
-            !char.IsLetter(trimmed[0]))
-        {
-            return false;
-        }
-
-        for (var nextIndex = index + 1; nextIndex < lines.Length; nextIndex++)
-        {
-            var nextLine = lines[nextIndex].TrimEnd('\r');
-
-            if (string.IsNullOrWhiteSpace(nextLine))
-            {
-                continue;
-            }
-
-            return char.IsWhiteSpace(nextLine[0]);
-        }
-
-        return false;
-    }
-
     /// <summary>
     /// Parses options from Cobra-style help text.
     /// Handles both standard Cobra format (Docker, Helm) and kubectl's variant.
@@ -1034,12 +995,11 @@ public abstract partial class CobraCliScraper : CliScraperBase
     private static partial Regex CommandsSectionPattern();
 
     /// <summary>
-    /// Matches command, flag, option, and example section headers that terminate a Cobra description.
-    /// Supports grouped headers such as "Basic Commands (Beginner):" and qualified headers such as
-    /// "Examples: (see below)" without matching ordinary prose that merely ends in "Commands".
+    /// Matches known Cobra list-section headers that terminate a description.
+    /// Supports prefixed and qualified headers without matching arbitrary labels such as "Note:".
     /// </summary>
     [GeneratedRegex(
-        @"^(?:(?:Commands|Flags|Options|Examples)[ \t]*:.*|(?:[A-Za-z][\w /-]*[ \t]+)?(?:Commands|Flags|Options|Examples)(?:[ \t]*\([^)]*\))?[ \t]*:|(?:Commands|Flags|Options|Examples))[ \t]*$",
+        @"^(?:(?:Commands|Flags|Options|Examples)|(?:[A-Za-z][\w /-]*[ \t]+)?(?:Commands|Flags|Options|Examples|Aliases|Arguments|Subcommands|Help[ \t]+Topics|See[ \t]+Also)(?:[ \t]*\([^)]*\))?[ \t]*:.*)[ \t]*$",
         RegexOptions.IgnoreCase)]
     private static partial Regex DescriptionSectionHeaderPattern();
 
