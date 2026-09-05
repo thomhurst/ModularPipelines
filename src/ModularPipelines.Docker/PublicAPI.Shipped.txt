@@ -2,42 +2,6 @@
 ModularPipelines.Context.ModularPipelines_Docker_3a902440f4bc4c72ToolsExtensions
 ModularPipelines.Context.ModularPipelines_Docker_3a902440f4bc4c72ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
 ModularPipelines.Context.ModularPipelines_Docker_3a902440f4bc4c72ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Docker.get -> ModularPipelines.Docker.Services.IDocker!
-ModularPipelines.Docker.Enums.DockerBuilderBakeProgress
-ModularPipelines.Docker.Enums.DockerBuilderBakeProgress.Auto = 0 -> ModularPipelines.Docker.Enums.DockerBuilderBakeProgress
-ModularPipelines.Docker.Enums.DockerBuilderBakeProgress.None = 1 -> ModularPipelines.Docker.Enums.DockerBuilderBakeProgress
-ModularPipelines.Docker.Enums.DockerBuilderBakeProgress.Plain = 2 -> ModularPipelines.Docker.Enums.DockerBuilderBakeProgress
-ModularPipelines.Docker.Enums.DockerBuilderBakeProgress.Quiet = 3 -> ModularPipelines.Docker.Enums.DockerBuilderBakeProgress
-ModularPipelines.Docker.Enums.DockerBuilderBakeProgress.Rawjson = 4 -> ModularPipelines.Docker.Enums.DockerBuilderBakeProgress
-ModularPipelines.Docker.Enums.DockerBuilderBakeProgress.Tty = 5 -> ModularPipelines.Docker.Enums.DockerBuilderBakeProgress
-ModularPipelines.Docker.Enums.DockerBuilderBuildProgress
-ModularPipelines.Docker.Enums.DockerBuilderBuildProgress.Auto = 0 -> ModularPipelines.Docker.Enums.DockerBuilderBuildProgress
-ModularPipelines.Docker.Enums.DockerBuilderBuildProgress.None = 1 -> ModularPipelines.Docker.Enums.DockerBuilderBuildProgress
-ModularPipelines.Docker.Enums.DockerBuilderBuildProgress.Plain = 2 -> ModularPipelines.Docker.Enums.DockerBuilderBuildProgress
-ModularPipelines.Docker.Enums.DockerBuilderBuildProgress.Quiet = 3 -> ModularPipelines.Docker.Enums.DockerBuilderBuildProgress
-ModularPipelines.Docker.Enums.DockerBuilderBuildProgress.Rawjson = 4 -> ModularPipelines.Docker.Enums.DockerBuilderBuildProgress
-ModularPipelines.Docker.Enums.DockerBuilderBuildProgress.Tty = 5 -> ModularPipelines.Docker.Enums.DockerBuilderBuildProgress
-ModularPipelines.Docker.Enums.DockerBuilderDapBuildProgress
-ModularPipelines.Docker.Enums.DockerBuilderDapBuildProgress.Auto = 0 -> ModularPipelines.Docker.Enums.DockerBuilderDapBuildProgress
-ModularPipelines.Docker.Enums.DockerBuilderDapBuildProgress.None = 1 -> ModularPipelines.Docker.Enums.DockerBuilderDapBuildProgress
-ModularPipelines.Docker.Enums.DockerBuilderDapBuildProgress.Plain = 2 -> ModularPipelines.Docker.Enums.DockerBuilderDapBuildProgress
-ModularPipelines.Docker.Enums.DockerBuilderDapBuildProgress.Quiet = 3 -> ModularPipelines.Docker.Enums.DockerBuilderDapBuildProgress
-ModularPipelines.Docker.Enums.DockerBuilderDapBuildProgress.Rawjson = 4 -> ModularPipelines.Docker.Enums.DockerBuilderDapBuildProgress
-ModularPipelines.Docker.Enums.DockerBuilderDapBuildProgress.Tty = 5 -> ModularPipelines.Docker.Enums.DockerBuilderDapBuildProgress
-ModularPipelines.Docker.Enums.DockerBuilderDialStdioProgress
-ModularPipelines.Docker.Enums.DockerBuilderDialStdioProgress.Auto = 0 -> ModularPipelines.Docker.Enums.DockerBuilderDialStdioProgress
-ModularPipelines.Docker.Enums.DockerBuilderDialStdioProgress.Plain = 1 -> ModularPipelines.Docker.Enums.DockerBuilderDialStdioProgress
-ModularPipelines.Docker.Enums.DockerBuilderDialStdioProgress.Rawjson = 2 -> ModularPipelines.Docker.Enums.DockerBuilderDialStdioProgress
-ModularPipelines.Docker.Enums.DockerBuilderDialStdioProgress.Tty = 3 -> ModularPipelines.Docker.Enums.DockerBuilderDialStdioProgress
-ModularPipelines.Docker.Enums.DockerBuilderHistoryLogsProgress
-ModularPipelines.Docker.Enums.DockerBuilderHistoryLogsProgress.Plain = 0 -> ModularPipelines.Docker.Enums.DockerBuilderHistoryLogsProgress
-ModularPipelines.Docker.Enums.DockerBuilderHistoryLogsProgress.Rawjson = 1 -> ModularPipelines.Docker.Enums.DockerBuilderHistoryLogsProgress
-ModularPipelines.Docker.Enums.DockerBuilderHistoryLogsProgress.Tty = 2 -> ModularPipelines.Docker.Enums.DockerBuilderHistoryLogsProgress
-ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress
-ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress.Auto = 0 -> ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress
-ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress.None = 1 -> ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress
-ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress.Plain = 2 -> ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress
-ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress.Rawjson = 3 -> ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress
-ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress.Tty = 4 -> ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress
 ModularPipelines.Docker.Enums.DockerBuildProgress
 ModularPipelines.Docker.Enums.DockerBuildProgress.Auto = 0 -> ModularPipelines.Docker.Enums.DockerBuildProgress
 ModularPipelines.Docker.Enums.DockerBuildProgress.None = 1 -> ModularPipelines.Docker.Enums.DockerBuildProgress
@@ -107,108 +71,6 @@ ModularPipelines.Docker.Options.DockerAttachOptions.NoStdin.get -> bool?
 ModularPipelines.Docker.Options.DockerAttachOptions.NoStdin.set -> void
 ModularPipelines.Docker.Options.DockerAttachOptions.SigProxy.get -> bool?
 ModularPipelines.Docker.Options.DockerAttachOptions.SigProxy.set -> void
-ModularPipelines.Docker.Options.DockerBuilderBakeOptions
-ModularPipelines.Docker.Options.DockerBuilderBakeOptions.DockerBuilderBakeOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderBakeOptions.DockerBuilderBakeOptions(ModularPipelines.Docker.Options.DockerBuilderBakeOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderBakeOptions.Progress.get -> ModularPipelines.Docker.Enums.DockerBuilderBakeProgress?
-ModularPipelines.Docker.Options.DockerBuilderBakeOptions.Progress.set -> void
-ModularPipelines.Docker.Options.DockerBuilderBuildOptions
-ModularPipelines.Docker.Options.DockerBuilderBuildOptions.DockerBuilderBuildOptions(ModularPipelines.Docker.Options.DockerBuilderBuildOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderBuildOptions.DockerBuilderBuildOptions(string! Path) -> void
-ModularPipelines.Docker.Options.DockerBuilderBuildOptions.Progress.get -> ModularPipelines.Docker.Enums.DockerBuilderBuildProgress?
-ModularPipelines.Docker.Options.DockerBuilderBuildOptions.Progress.set -> void
-ModularPipelines.Docker.Options.DockerBuilderCreateOptions
-ModularPipelines.Docker.Options.DockerBuilderCreateOptions.DockerBuilderCreateOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderCreateOptions.DockerBuilderCreateOptions(ModularPipelines.Docker.Options.DockerBuilderCreateOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions
-ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions.DockerBuilderDapBuildOptions(ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions.DockerBuilderDapBuildOptions(string! Path) -> void
-ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions.Progress.get -> ModularPipelines.Docker.Enums.DockerBuilderDapBuildProgress?
-ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions.Progress.set -> void
-ModularPipelines.Docker.Options.DockerBuilderDapOptions
-ModularPipelines.Docker.Options.DockerBuilderDapOptions.DockerBuilderDapOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderDapOptions.DockerBuilderDapOptions(ModularPipelines.Docker.Options.DockerBuilderDapOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions
-ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions.DockerBuilderDialStdioOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions.DockerBuilderDialStdioOptions(ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions.Progress.get -> ModularPipelines.Docker.Enums.DockerBuilderDialStdioProgress?
-ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions.Progress.set -> void
-ModularPipelines.Docker.Options.DockerBuilderDuOptions
-ModularPipelines.Docker.Options.DockerBuilderDuOptions.DockerBuilderDuOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderDuOptions.DockerBuilderDuOptions(ModularPipelines.Docker.Options.DockerBuilderDuOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions
-ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions.DockerBuilderHistoryExportOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions.DockerBuilderHistoryExportOptions(ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions
-ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions.DockerBuilderHistoryImportOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions.DockerBuilderHistoryImportOptions(ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions
-ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions.DockerBuilderHistoryInspectAttachmentOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions.DockerBuilderHistoryInspectAttachmentOptions(ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions
-ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions.DockerBuilderHistoryInspectOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions.DockerBuilderHistoryInspectOptions(ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions
-ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions.DockerBuilderHistoryLogsOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions.DockerBuilderHistoryLogsOptions(ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions.Progress.get -> ModularPipelines.Docker.Enums.DockerBuilderHistoryLogsProgress?
-ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions.Progress.set -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions
-ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions.DockerBuilderHistoryLsOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions.DockerBuilderHistoryLsOptions(ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions
-ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions.DockerBuilderHistoryOpenOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions.DockerBuilderHistoryOpenOptions(ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryOptions
-ModularPipelines.Docker.Options.DockerBuilderHistoryOptions.DockerBuilderHistoryOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryOptions.DockerBuilderHistoryOptions(ModularPipelines.Docker.Options.DockerBuilderHistoryOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions
-ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions.DockerBuilderHistoryRmOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions.DockerBuilderHistoryRmOptions(ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions
-ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions.DockerBuilderHistoryTraceOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions.DockerBuilderHistoryTraceOptions(ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions
-ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions.DockerBuilderImageToolsCreateOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions.DockerBuilderImageToolsCreateOptions(ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions.Progress.get -> ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress?
-ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions.Progress.set -> void
-ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions
-ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions.DockerBuilderImageToolsInspectOptions(ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions.DockerBuilderImageToolsInspectOptions(string! Name) -> void
-ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions
-ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions.DockerBuilderImageToolsOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions.DockerBuilderImageToolsOptions(ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderInspectOptions
-ModularPipelines.Docker.Options.DockerBuilderInspectOptions.DockerBuilderInspectOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderInspectOptions.DockerBuilderInspectOptions(ModularPipelines.Docker.Options.DockerBuilderInspectOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderLsOptions
-ModularPipelines.Docker.Options.DockerBuilderLsOptions.DockerBuilderLsOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderLsOptions.DockerBuilderLsOptions(ModularPipelines.Docker.Options.DockerBuilderLsOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderOptions
-ModularPipelines.Docker.Options.DockerBuilderOptions.DockerBuilderOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderOptions.DockerBuilderOptions(ModularPipelines.Docker.Options.DockerBuilderOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions
-ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions.DockerBuilderPolicyEvalOptions(ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions.DockerBuilderPolicyEvalOptions(string! Source) -> void
-ModularPipelines.Docker.Options.DockerBuilderPolicyOptions
-ModularPipelines.Docker.Options.DockerBuilderPolicyOptions.DockerBuilderPolicyOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderPolicyOptions.DockerBuilderPolicyOptions(ModularPipelines.Docker.Options.DockerBuilderPolicyOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions
-ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions.DockerBuilderPolicyTestOptions(ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions.DockerBuilderPolicyTestOptions(string! Path) -> void
-ModularPipelines.Docker.Options.DockerBuilderPruneOptions
-ModularPipelines.Docker.Options.DockerBuilderPruneOptions.DockerBuilderPruneOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderPruneOptions.DockerBuilderPruneOptions(ModularPipelines.Docker.Options.DockerBuilderPruneOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderRmOptions
-ModularPipelines.Docker.Options.DockerBuilderRmOptions.DockerBuilderRmOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderRmOptions.DockerBuilderRmOptions(ModularPipelines.Docker.Options.DockerBuilderRmOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderStopOptions
-ModularPipelines.Docker.Options.DockerBuilderStopOptions.DockerBuilderStopOptions() -> void
-ModularPipelines.Docker.Options.DockerBuilderStopOptions.DockerBuilderStopOptions(ModularPipelines.Docker.Options.DockerBuilderStopOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderUseOptions
-ModularPipelines.Docker.Options.DockerBuilderUseOptions.DockerBuilderUseOptions(ModularPipelines.Docker.Options.DockerBuilderUseOptions! original) -> void
-ModularPipelines.Docker.Options.DockerBuilderUseOptions.DockerBuilderUseOptions(string! Name) -> void
 ModularPipelines.Docker.Options.DockerBuildOptions
 ModularPipelines.Docker.Options.DockerBuildOptions.AddHost.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Docker.Options.DockerBuildOptions.AddHost.set -> void
@@ -942,16 +804,12 @@ ModularPipelines.Docker.Options.DockerComposeBuildOptions.NoCache.get -> bool?
 ModularPipelines.Docker.Options.DockerComposeBuildOptions.NoCache.set -> void
 ModularPipelines.Docker.Options.DockerComposeBuildOptions.Print.get -> bool?
 ModularPipelines.Docker.Options.DockerComposeBuildOptions.Print.set -> void
-ModularPipelines.Docker.Options.DockerComposeBuildOptions.Provenance.get -> string?
-ModularPipelines.Docker.Options.DockerComposeBuildOptions.Provenance.set -> void
 ModularPipelines.Docker.Options.DockerComposeBuildOptions.Pull.get -> bool?
 ModularPipelines.Docker.Options.DockerComposeBuildOptions.Pull.set -> void
 ModularPipelines.Docker.Options.DockerComposeBuildOptions.Push.get -> bool?
 ModularPipelines.Docker.Options.DockerComposeBuildOptions.Push.set -> void
 ModularPipelines.Docker.Options.DockerComposeBuildOptions.Quiet.get -> bool?
 ModularPipelines.Docker.Options.DockerComposeBuildOptions.Quiet.set -> void
-ModularPipelines.Docker.Options.DockerComposeBuildOptions.Sbom.get -> string?
-ModularPipelines.Docker.Options.DockerComposeBuildOptions.Sbom.set -> void
 ModularPipelines.Docker.Options.DockerComposeBuildOptions.Service.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Docker.Options.DockerComposeBuildOptions.Service.set -> void
 ModularPipelines.Docker.Options.DockerComposeBuildOptions.Ssh.get -> string?
@@ -993,8 +851,6 @@ ModularPipelines.Docker.Options.DockerComposeConfigOptions.Images.get -> bool?
 ModularPipelines.Docker.Options.DockerComposeConfigOptions.Images.set -> void
 ModularPipelines.Docker.Options.DockerComposeConfigOptions.LockImageDigests.get -> bool?
 ModularPipelines.Docker.Options.DockerComposeConfigOptions.LockImageDigests.set -> void
-ModularPipelines.Docker.Options.DockerComposeConfigOptions.Models.get -> bool?
-ModularPipelines.Docker.Options.DockerComposeConfigOptions.Models.set -> void
 ModularPipelines.Docker.Options.DockerComposeConfigOptions.Networks.get -> bool?
 ModularPipelines.Docker.Options.DockerComposeConfigOptions.Networks.set -> void
 ModularPipelines.Docker.Options.DockerComposeConfigOptions.NoConsistency.get -> bool?
@@ -1090,10 +946,6 @@ ModularPipelines.Docker.Options.DockerComposeEventsOptions.Json.get -> bool?
 ModularPipelines.Docker.Options.DockerComposeEventsOptions.Json.set -> void
 ModularPipelines.Docker.Options.DockerComposeEventsOptions.Service.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Docker.Options.DockerComposeEventsOptions.Service.set -> void
-ModularPipelines.Docker.Options.DockerComposeEventsOptions.Since.get -> string?
-ModularPipelines.Docker.Options.DockerComposeEventsOptions.Since.set -> void
-ModularPipelines.Docker.Options.DockerComposeEventsOptions.Until.get -> string?
-ModularPipelines.Docker.Options.DockerComposeEventsOptions.Until.set -> void
 ModularPipelines.Docker.Options.DockerComposeExecOptions
 ModularPipelines.Docker.Options.DockerComposeExecOptions.Args.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Docker.Options.DockerComposeExecOptions.Args.set -> void
@@ -1260,8 +1112,6 @@ ModularPipelines.Docker.Options.DockerComposePsOptions.Services.set -> void
 ModularPipelines.Docker.Options.DockerComposePsOptions.Status.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Docker.Options.DockerComposePsOptions.Status.set -> void
 ModularPipelines.Docker.Options.DockerComposePublishOptions
-ModularPipelines.Docker.Options.DockerComposePublishOptions.App.get -> bool?
-ModularPipelines.Docker.Options.DockerComposePublishOptions.App.set -> void
 ModularPipelines.Docker.Options.DockerComposePublishOptions.Deconstruct(out string! RepositoryTag) -> void
 ModularPipelines.Docker.Options.DockerComposePublishOptions.DockerComposePublishOptions(ModularPipelines.Docker.Options.DockerComposePublishOptions! original) -> void
 ModularPipelines.Docker.Options.DockerComposePublishOptions.DockerComposePublishOptions(string! RepositoryTag) -> void
@@ -1407,10 +1257,6 @@ ModularPipelines.Docker.Options.DockerComposeStartOptions.DryRun.get -> bool?
 ModularPipelines.Docker.Options.DockerComposeStartOptions.DryRun.set -> void
 ModularPipelines.Docker.Options.DockerComposeStartOptions.Service.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Docker.Options.DockerComposeStartOptions.Service.set -> void
-ModularPipelines.Docker.Options.DockerComposeStartOptions.Wait.get -> bool?
-ModularPipelines.Docker.Options.DockerComposeStartOptions.Wait.set -> void
-ModularPipelines.Docker.Options.DockerComposeStartOptions.WaitTimeout.get -> int?
-ModularPipelines.Docker.Options.DockerComposeStartOptions.WaitTimeout.set -> void
 ModularPipelines.Docker.Options.DockerComposeStatsOptions
 ModularPipelines.Docker.Options.DockerComposeStatsOptions.All.get -> bool?
 ModularPipelines.Docker.Options.DockerComposeStatsOptions.All.set -> void
@@ -1490,8 +1336,6 @@ ModularPipelines.Docker.Options.DockerComposeUpOptions.NoStart.get -> bool?
 ModularPipelines.Docker.Options.DockerComposeUpOptions.NoStart.set -> void
 ModularPipelines.Docker.Options.DockerComposeUpOptions.Pull.get -> string?
 ModularPipelines.Docker.Options.DockerComposeUpOptions.Pull.set -> void
-ModularPipelines.Docker.Options.DockerComposeUpOptions.QuietBuild.get -> bool?
-ModularPipelines.Docker.Options.DockerComposeUpOptions.QuietBuild.set -> void
 ModularPipelines.Docker.Options.DockerComposeUpOptions.QuietPull.get -> bool?
 ModularPipelines.Docker.Options.DockerComposeUpOptions.QuietPull.set -> void
 ModularPipelines.Docker.Options.DockerComposeUpOptions.RemoveOrphans.get -> bool?
@@ -1607,10 +1451,10 @@ ModularPipelines.Docker.Options.DockerContainerCreateOptions.CapAdd.get -> Syste
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.CapAdd.set -> void
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.CapDrop.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.CapDrop.set -> void
-ModularPipelines.Docker.Options.DockerContainerCreateOptions.Cgroupns.get -> string?
-ModularPipelines.Docker.Options.DockerContainerCreateOptions.Cgroupns.set -> void
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.CgroupParent.get -> string?
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.CgroupParent.set -> void
+ModularPipelines.Docker.Options.DockerContainerCreateOptions.Cgroupns.get -> string?
+ModularPipelines.Docker.Options.DockerContainerCreateOptions.Cgroupns.set -> void
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.Cidfile.get -> string?
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.Cidfile.set -> void
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.Command.get -> string?
@@ -1623,14 +1467,14 @@ ModularPipelines.Docker.Options.DockerContainerCreateOptions.CpuRtPeriod.get -> 
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.CpuRtPeriod.set -> void
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.CpuRtRuntime.get -> int?
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.CpuRtRuntime.set -> void
-ModularPipelines.Docker.Options.DockerContainerCreateOptions.Cpus.get -> double?
-ModularPipelines.Docker.Options.DockerContainerCreateOptions.Cpus.set -> void
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.CpuSetCpus.get -> string?
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.CpuSetCpus.set -> void
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.CpuSetMems.get -> string?
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.CpuSetMems.set -> void
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.CpuShares.get -> int?
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.CpuShares.set -> void
+ModularPipelines.Docker.Options.DockerContainerCreateOptions.Cpus.get -> double?
+ModularPipelines.Docker.Options.DockerContainerCreateOptions.Cpus.set -> void
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.Deconstruct(out string! Image) -> void
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.Device.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Docker.Options.DockerContainerCreateOptions.Device.set -> void
@@ -1960,10 +1804,10 @@ ModularPipelines.Docker.Options.DockerContainerRunOptions.CapAdd.get -> System.C
 ModularPipelines.Docker.Options.DockerContainerRunOptions.CapAdd.set -> void
 ModularPipelines.Docker.Options.DockerContainerRunOptions.CapDrop.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Docker.Options.DockerContainerRunOptions.CapDrop.set -> void
-ModularPipelines.Docker.Options.DockerContainerRunOptions.Cgroupns.get -> string?
-ModularPipelines.Docker.Options.DockerContainerRunOptions.Cgroupns.set -> void
 ModularPipelines.Docker.Options.DockerContainerRunOptions.CgroupParent.get -> string?
 ModularPipelines.Docker.Options.DockerContainerRunOptions.CgroupParent.set -> void
+ModularPipelines.Docker.Options.DockerContainerRunOptions.Cgroupns.get -> string?
+ModularPipelines.Docker.Options.DockerContainerRunOptions.Cgroupns.set -> void
 ModularPipelines.Docker.Options.DockerContainerRunOptions.Cidfile.get -> string?
 ModularPipelines.Docker.Options.DockerContainerRunOptions.Cidfile.set -> void
 ModularPipelines.Docker.Options.DockerContainerRunOptions.Command.get -> string?
@@ -1976,14 +1820,14 @@ ModularPipelines.Docker.Options.DockerContainerRunOptions.CpuRtPeriod.get -> int
 ModularPipelines.Docker.Options.DockerContainerRunOptions.CpuRtPeriod.set -> void
 ModularPipelines.Docker.Options.DockerContainerRunOptions.CpuRtRuntime.get -> int?
 ModularPipelines.Docker.Options.DockerContainerRunOptions.CpuRtRuntime.set -> void
-ModularPipelines.Docker.Options.DockerContainerRunOptions.Cpus.get -> double?
-ModularPipelines.Docker.Options.DockerContainerRunOptions.Cpus.set -> void
 ModularPipelines.Docker.Options.DockerContainerRunOptions.CpuSetCpus.get -> string?
 ModularPipelines.Docker.Options.DockerContainerRunOptions.CpuSetCpus.set -> void
 ModularPipelines.Docker.Options.DockerContainerRunOptions.CpuSetMems.get -> string?
 ModularPipelines.Docker.Options.DockerContainerRunOptions.CpuSetMems.set -> void
 ModularPipelines.Docker.Options.DockerContainerRunOptions.CpuShares.get -> int?
 ModularPipelines.Docker.Options.DockerContainerRunOptions.CpuShares.set -> void
+ModularPipelines.Docker.Options.DockerContainerRunOptions.Cpus.get -> double?
+ModularPipelines.Docker.Options.DockerContainerRunOptions.Cpus.set -> void
 ModularPipelines.Docker.Options.DockerContainerRunOptions.Deconstruct(out string! Image) -> void
 ModularPipelines.Docker.Options.DockerContainerRunOptions.Detach.get -> bool?
 ModularPipelines.Docker.Options.DockerContainerRunOptions.Detach.set -> void
@@ -2213,14 +2057,14 @@ ModularPipelines.Docker.Options.DockerContainerUpdateOptions.CpuRtPeriod.get -> 
 ModularPipelines.Docker.Options.DockerContainerUpdateOptions.CpuRtPeriod.set -> void
 ModularPipelines.Docker.Options.DockerContainerUpdateOptions.CpuRtRuntime.get -> int?
 ModularPipelines.Docker.Options.DockerContainerUpdateOptions.CpuRtRuntime.set -> void
-ModularPipelines.Docker.Options.DockerContainerUpdateOptions.Cpus.get -> double?
-ModularPipelines.Docker.Options.DockerContainerUpdateOptions.Cpus.set -> void
 ModularPipelines.Docker.Options.DockerContainerUpdateOptions.CpuSetCpus.get -> string?
 ModularPipelines.Docker.Options.DockerContainerUpdateOptions.CpuSetCpus.set -> void
 ModularPipelines.Docker.Options.DockerContainerUpdateOptions.CpuSetMems.get -> string?
 ModularPipelines.Docker.Options.DockerContainerUpdateOptions.CpuSetMems.set -> void
 ModularPipelines.Docker.Options.DockerContainerUpdateOptions.CpuShares.get -> int?
 ModularPipelines.Docker.Options.DockerContainerUpdateOptions.CpuShares.set -> void
+ModularPipelines.Docker.Options.DockerContainerUpdateOptions.Cpus.get -> double?
+ModularPipelines.Docker.Options.DockerContainerUpdateOptions.Cpus.set -> void
 ModularPipelines.Docker.Options.DockerContainerUpdateOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Container) -> void
 ModularPipelines.Docker.Options.DockerContainerUpdateOptions.DockerContainerUpdateOptions(ModularPipelines.Docker.Options.DockerContainerUpdateOptions! original) -> void
 ModularPipelines.Docker.Options.DockerContainerUpdateOptions.DockerContainerUpdateOptions(System.Collections.Generic.IEnumerable<string!>! Container) -> void
@@ -2340,10 +2184,10 @@ ModularPipelines.Docker.Options.DockerCreateOptions.CapAdd.get -> System.Collect
 ModularPipelines.Docker.Options.DockerCreateOptions.CapAdd.set -> void
 ModularPipelines.Docker.Options.DockerCreateOptions.CapDrop.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Docker.Options.DockerCreateOptions.CapDrop.set -> void
-ModularPipelines.Docker.Options.DockerCreateOptions.Cgroupns.get -> string?
-ModularPipelines.Docker.Options.DockerCreateOptions.Cgroupns.set -> void
 ModularPipelines.Docker.Options.DockerCreateOptions.CgroupParent.get -> string?
 ModularPipelines.Docker.Options.DockerCreateOptions.CgroupParent.set -> void
+ModularPipelines.Docker.Options.DockerCreateOptions.Cgroupns.get -> string?
+ModularPipelines.Docker.Options.DockerCreateOptions.Cgroupns.set -> void
 ModularPipelines.Docker.Options.DockerCreateOptions.Cidfile.get -> string?
 ModularPipelines.Docker.Options.DockerCreateOptions.Cidfile.set -> void
 ModularPipelines.Docker.Options.DockerCreateOptions.Command.get -> string?
@@ -2356,14 +2200,14 @@ ModularPipelines.Docker.Options.DockerCreateOptions.CpuRtPeriod.get -> int?
 ModularPipelines.Docker.Options.DockerCreateOptions.CpuRtPeriod.set -> void
 ModularPipelines.Docker.Options.DockerCreateOptions.CpuRtRuntime.get -> int?
 ModularPipelines.Docker.Options.DockerCreateOptions.CpuRtRuntime.set -> void
-ModularPipelines.Docker.Options.DockerCreateOptions.Cpus.get -> double?
-ModularPipelines.Docker.Options.DockerCreateOptions.Cpus.set -> void
 ModularPipelines.Docker.Options.DockerCreateOptions.CpuSetCpus.get -> string?
 ModularPipelines.Docker.Options.DockerCreateOptions.CpuSetCpus.set -> void
 ModularPipelines.Docker.Options.DockerCreateOptions.CpuSetMems.get -> string?
 ModularPipelines.Docker.Options.DockerCreateOptions.CpuSetMems.set -> void
 ModularPipelines.Docker.Options.DockerCreateOptions.CpuShares.get -> int?
 ModularPipelines.Docker.Options.DockerCreateOptions.CpuShares.set -> void
+ModularPipelines.Docker.Options.DockerCreateOptions.Cpus.get -> double?
+ModularPipelines.Docker.Options.DockerCreateOptions.Cpus.set -> void
 ModularPipelines.Docker.Options.DockerCreateOptions.Deconstruct(out string! Image) -> void
 ModularPipelines.Docker.Options.DockerCreateOptions.Device.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Docker.Options.DockerCreateOptions.Device.set -> void
@@ -2800,6 +2644,14 @@ ModularPipelines.Docker.Options.DockerImageSaveOptions.Output.get -> string?
 ModularPipelines.Docker.Options.DockerImageSaveOptions.Output.set -> void
 ModularPipelines.Docker.Options.DockerImageSaveOptions.Platform.get -> string?
 ModularPipelines.Docker.Options.DockerImageSaveOptions.Platform.set -> void
+ModularPipelines.Docker.Options.DockerImageTagOptions
+ModularPipelines.Docker.Options.DockerImageTagOptions.Deconstruct(out string! SourceImageTag, out string! TargetImageTag) -> void
+ModularPipelines.Docker.Options.DockerImageTagOptions.DockerImageTagOptions(ModularPipelines.Docker.Options.DockerImageTagOptions! original) -> void
+ModularPipelines.Docker.Options.DockerImageTagOptions.DockerImageTagOptions(string! SourceImageTag, string! TargetImageTag) -> void
+ModularPipelines.Docker.Options.DockerImageTagOptions.SourceImageTag.get -> string!
+ModularPipelines.Docker.Options.DockerImageTagOptions.SourceImageTag.init -> void
+ModularPipelines.Docker.Options.DockerImageTagOptions.TargetImageTag.get -> string!
+ModularPipelines.Docker.Options.DockerImageTagOptions.TargetImageTag.init -> void
 ModularPipelines.Docker.Options.DockerImagesOptions
 ModularPipelines.Docker.Options.DockerImagesOptions.All.get -> bool?
 ModularPipelines.Docker.Options.DockerImagesOptions.All.set -> void
@@ -2819,14 +2671,6 @@ ModularPipelines.Docker.Options.DockerImagesOptions.RepositoryTag.get -> string?
 ModularPipelines.Docker.Options.DockerImagesOptions.RepositoryTag.set -> void
 ModularPipelines.Docker.Options.DockerImagesOptions.Tree.get -> bool?
 ModularPipelines.Docker.Options.DockerImagesOptions.Tree.set -> void
-ModularPipelines.Docker.Options.DockerImageTagOptions
-ModularPipelines.Docker.Options.DockerImageTagOptions.Deconstruct(out string! SourceImageTag, out string! TargetImageTag) -> void
-ModularPipelines.Docker.Options.DockerImageTagOptions.DockerImageTagOptions(ModularPipelines.Docker.Options.DockerImageTagOptions! original) -> void
-ModularPipelines.Docker.Options.DockerImageTagOptions.DockerImageTagOptions(string! SourceImageTag, string! TargetImageTag) -> void
-ModularPipelines.Docker.Options.DockerImageTagOptions.SourceImageTag.get -> string!
-ModularPipelines.Docker.Options.DockerImageTagOptions.SourceImageTag.init -> void
-ModularPipelines.Docker.Options.DockerImageTagOptions.TargetImageTag.get -> string!
-ModularPipelines.Docker.Options.DockerImageTagOptions.TargetImageTag.init -> void
 ModularPipelines.Docker.Options.DockerImportOptions
 ModularPipelines.Docker.Options.DockerImportOptions.Change.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Docker.Options.DockerImportOptions.Change.set -> void
@@ -3012,12 +2856,12 @@ ModularPipelines.Docker.Options.DockerNetworkCreateOptions.Ingress.get -> bool?
 ModularPipelines.Docker.Options.DockerNetworkCreateOptions.Ingress.set -> void
 ModularPipelines.Docker.Options.DockerNetworkCreateOptions.Internal.get -> bool?
 ModularPipelines.Docker.Options.DockerNetworkCreateOptions.Internal.set -> void
+ModularPipelines.Docker.Options.DockerNetworkCreateOptions.IpRange.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Docker.Options.DockerNetworkCreateOptions.IpRange.set -> void
 ModularPipelines.Docker.Options.DockerNetworkCreateOptions.IpamDriver.get -> string?
 ModularPipelines.Docker.Options.DockerNetworkCreateOptions.IpamDriver.set -> void
 ModularPipelines.Docker.Options.DockerNetworkCreateOptions.IpamOpt.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
 ModularPipelines.Docker.Options.DockerNetworkCreateOptions.IpamOpt.set -> void
-ModularPipelines.Docker.Options.DockerNetworkCreateOptions.IpRange.get -> System.Collections.Generic.IEnumerable<string!>?
-ModularPipelines.Docker.Options.DockerNetworkCreateOptions.IpRange.set -> void
 ModularPipelines.Docker.Options.DockerNetworkCreateOptions.Ipv4.get -> bool?
 ModularPipelines.Docker.Options.DockerNetworkCreateOptions.Ipv4.set -> void
 ModularPipelines.Docker.Options.DockerNetworkCreateOptions.Ipv6.get -> bool?
@@ -3265,16 +3109,6 @@ ModularPipelines.Docker.Options.DockerRestartOptions.Signal.get -> string?
 ModularPipelines.Docker.Options.DockerRestartOptions.Signal.set -> void
 ModularPipelines.Docker.Options.DockerRestartOptions.Timeout.get -> int?
 ModularPipelines.Docker.Options.DockerRestartOptions.Timeout.set -> void
-ModularPipelines.Docker.Options.DockerRmiOptions
-ModularPipelines.Docker.Options.DockerRmiOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Image) -> void
-ModularPipelines.Docker.Options.DockerRmiOptions.DockerRmiOptions(ModularPipelines.Docker.Options.DockerRmiOptions! original) -> void
-ModularPipelines.Docker.Options.DockerRmiOptions.DockerRmiOptions(System.Collections.Generic.IEnumerable<string!>! Image) -> void
-ModularPipelines.Docker.Options.DockerRmiOptions.Force.get -> bool?
-ModularPipelines.Docker.Options.DockerRmiOptions.Force.set -> void
-ModularPipelines.Docker.Options.DockerRmiOptions.Image.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.Docker.Options.DockerRmiOptions.Image.init -> void
-ModularPipelines.Docker.Options.DockerRmiOptions.NoPrune.get -> bool?
-ModularPipelines.Docker.Options.DockerRmiOptions.NoPrune.set -> void
 ModularPipelines.Docker.Options.DockerRmOptions
 ModularPipelines.Docker.Options.DockerRmOptions.Container.get -> System.Collections.Generic.IEnumerable<string!>!
 ModularPipelines.Docker.Options.DockerRmOptions.Container.init -> void
@@ -3287,6 +3121,16 @@ ModularPipelines.Docker.Options.DockerRmOptions.Link.get -> bool?
 ModularPipelines.Docker.Options.DockerRmOptions.Link.set -> void
 ModularPipelines.Docker.Options.DockerRmOptions.Volumes.get -> bool?
 ModularPipelines.Docker.Options.DockerRmOptions.Volumes.set -> void
+ModularPipelines.Docker.Options.DockerRmiOptions
+ModularPipelines.Docker.Options.DockerRmiOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Image) -> void
+ModularPipelines.Docker.Options.DockerRmiOptions.DockerRmiOptions(ModularPipelines.Docker.Options.DockerRmiOptions! original) -> void
+ModularPipelines.Docker.Options.DockerRmiOptions.DockerRmiOptions(System.Collections.Generic.IEnumerable<string!>! Image) -> void
+ModularPipelines.Docker.Options.DockerRmiOptions.Force.get -> bool?
+ModularPipelines.Docker.Options.DockerRmiOptions.Force.set -> void
+ModularPipelines.Docker.Options.DockerRmiOptions.Image.get -> System.Collections.Generic.IEnumerable<string!>!
+ModularPipelines.Docker.Options.DockerRmiOptions.Image.init -> void
+ModularPipelines.Docker.Options.DockerRmiOptions.NoPrune.get -> bool?
+ModularPipelines.Docker.Options.DockerRmiOptions.NoPrune.set -> void
 ModularPipelines.Docker.Options.DockerRunOptions
 ModularPipelines.Docker.Options.DockerRunOptions.AddHost.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Docker.Options.DockerRunOptions.AddHost.set -> void
@@ -3304,10 +3148,10 @@ ModularPipelines.Docker.Options.DockerRunOptions.CapAdd.get -> System.Collection
 ModularPipelines.Docker.Options.DockerRunOptions.CapAdd.set -> void
 ModularPipelines.Docker.Options.DockerRunOptions.CapDrop.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Docker.Options.DockerRunOptions.CapDrop.set -> void
-ModularPipelines.Docker.Options.DockerRunOptions.Cgroupns.get -> string?
-ModularPipelines.Docker.Options.DockerRunOptions.Cgroupns.set -> void
 ModularPipelines.Docker.Options.DockerRunOptions.CgroupParent.get -> string?
 ModularPipelines.Docker.Options.DockerRunOptions.CgroupParent.set -> void
+ModularPipelines.Docker.Options.DockerRunOptions.Cgroupns.get -> string?
+ModularPipelines.Docker.Options.DockerRunOptions.Cgroupns.set -> void
 ModularPipelines.Docker.Options.DockerRunOptions.Cidfile.get -> string?
 ModularPipelines.Docker.Options.DockerRunOptions.Cidfile.set -> void
 ModularPipelines.Docker.Options.DockerRunOptions.Command.get -> string?
@@ -3320,14 +3164,14 @@ ModularPipelines.Docker.Options.DockerRunOptions.CpuRtPeriod.get -> int?
 ModularPipelines.Docker.Options.DockerRunOptions.CpuRtPeriod.set -> void
 ModularPipelines.Docker.Options.DockerRunOptions.CpuRtRuntime.get -> int?
 ModularPipelines.Docker.Options.DockerRunOptions.CpuRtRuntime.set -> void
-ModularPipelines.Docker.Options.DockerRunOptions.Cpus.get -> double?
-ModularPipelines.Docker.Options.DockerRunOptions.Cpus.set -> void
 ModularPipelines.Docker.Options.DockerRunOptions.CpuSetCpus.get -> string?
 ModularPipelines.Docker.Options.DockerRunOptions.CpuSetCpus.set -> void
 ModularPipelines.Docker.Options.DockerRunOptions.CpuSetMems.get -> string?
 ModularPipelines.Docker.Options.DockerRunOptions.CpuSetMems.set -> void
 ModularPipelines.Docker.Options.DockerRunOptions.CpuShares.get -> int?
 ModularPipelines.Docker.Options.DockerRunOptions.CpuShares.set -> void
+ModularPipelines.Docker.Options.DockerRunOptions.Cpus.get -> double?
+ModularPipelines.Docker.Options.DockerRunOptions.Cpus.set -> void
 ModularPipelines.Docker.Options.DockerRunOptions.Deconstruct(out string! Image) -> void
 ModularPipelines.Docker.Options.DockerRunOptions.Detach.get -> bool?
 ModularPipelines.Docker.Options.DockerRunOptions.Detach.set -> void
@@ -3697,6 +3541,14 @@ ModularPipelines.Docker.Options.DockerTrustRevokeOptions.ImageTag.get -> string!
 ModularPipelines.Docker.Options.DockerTrustRevokeOptions.ImageTag.init -> void
 ModularPipelines.Docker.Options.DockerTrustRevokeOptions.Yes.get -> bool?
 ModularPipelines.Docker.Options.DockerTrustRevokeOptions.Yes.set -> void
+ModularPipelines.Docker.Options.DockerTrustSignOptions
+ModularPipelines.Docker.Options.DockerTrustSignOptions.Deconstruct(out string! ImageTag) -> void
+ModularPipelines.Docker.Options.DockerTrustSignOptions.DockerTrustSignOptions(ModularPipelines.Docker.Options.DockerTrustSignOptions! original) -> void
+ModularPipelines.Docker.Options.DockerTrustSignOptions.DockerTrustSignOptions(string! ImageTag) -> void
+ModularPipelines.Docker.Options.DockerTrustSignOptions.ImageTag.get -> string!
+ModularPipelines.Docker.Options.DockerTrustSignOptions.ImageTag.init -> void
+ModularPipelines.Docker.Options.DockerTrustSignOptions.Local.get -> bool?
+ModularPipelines.Docker.Options.DockerTrustSignOptions.Local.set -> void
 ModularPipelines.Docker.Options.DockerTrustSignerAddOptions
 ModularPipelines.Docker.Options.DockerTrustSignerAddOptions.Deconstruct(out string! Name, out System.Collections.Generic.IEnumerable<string!>! Repository) -> void
 ModularPipelines.Docker.Options.DockerTrustSignerAddOptions.DockerTrustSignerAddOptions(ModularPipelines.Docker.Options.DockerTrustSignerAddOptions! original) -> void
@@ -3720,14 +3572,6 @@ ModularPipelines.Docker.Options.DockerTrustSignerRemoveOptions.Name.get -> strin
 ModularPipelines.Docker.Options.DockerTrustSignerRemoveOptions.Name.init -> void
 ModularPipelines.Docker.Options.DockerTrustSignerRemoveOptions.Repository.get -> System.Collections.Generic.IEnumerable<string!>!
 ModularPipelines.Docker.Options.DockerTrustSignerRemoveOptions.Repository.init -> void
-ModularPipelines.Docker.Options.DockerTrustSignOptions
-ModularPipelines.Docker.Options.DockerTrustSignOptions.Deconstruct(out string! ImageTag) -> void
-ModularPipelines.Docker.Options.DockerTrustSignOptions.DockerTrustSignOptions(ModularPipelines.Docker.Options.DockerTrustSignOptions! original) -> void
-ModularPipelines.Docker.Options.DockerTrustSignOptions.DockerTrustSignOptions(string! ImageTag) -> void
-ModularPipelines.Docker.Options.DockerTrustSignOptions.ImageTag.get -> string!
-ModularPipelines.Docker.Options.DockerTrustSignOptions.ImageTag.init -> void
-ModularPipelines.Docker.Options.DockerTrustSignOptions.Local.get -> bool?
-ModularPipelines.Docker.Options.DockerTrustSignOptions.Local.set -> void
 ModularPipelines.Docker.Options.DockerUnpauseOptions
 ModularPipelines.Docker.Options.DockerUnpauseOptions.Container.get -> System.Collections.Generic.IEnumerable<string!>!
 ModularPipelines.Docker.Options.DockerUnpauseOptions.Container.init -> void
@@ -3747,14 +3591,14 @@ ModularPipelines.Docker.Options.DockerUpdateOptions.CpuRtPeriod.get -> int?
 ModularPipelines.Docker.Options.DockerUpdateOptions.CpuRtPeriod.set -> void
 ModularPipelines.Docker.Options.DockerUpdateOptions.CpuRtRuntime.get -> int?
 ModularPipelines.Docker.Options.DockerUpdateOptions.CpuRtRuntime.set -> void
-ModularPipelines.Docker.Options.DockerUpdateOptions.Cpus.get -> double?
-ModularPipelines.Docker.Options.DockerUpdateOptions.Cpus.set -> void
 ModularPipelines.Docker.Options.DockerUpdateOptions.CpuSetCpus.get -> string?
 ModularPipelines.Docker.Options.DockerUpdateOptions.CpuSetCpus.set -> void
 ModularPipelines.Docker.Options.DockerUpdateOptions.CpuSetMems.get -> string?
 ModularPipelines.Docker.Options.DockerUpdateOptions.CpuSetMems.set -> void
 ModularPipelines.Docker.Options.DockerUpdateOptions.CpuShares.get -> int?
 ModularPipelines.Docker.Options.DockerUpdateOptions.CpuShares.set -> void
+ModularPipelines.Docker.Options.DockerUpdateOptions.Cpus.get -> double?
+ModularPipelines.Docker.Options.DockerUpdateOptions.Cpus.set -> void
 ModularPipelines.Docker.Options.DockerUpdateOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Container) -> void
 ModularPipelines.Docker.Options.DockerUpdateOptions.DockerUpdateOptions(ModularPipelines.Docker.Options.DockerUpdateOptions! original) -> void
 ModularPipelines.Docker.Options.DockerUpdateOptions.DockerUpdateOptions(System.Collections.Generic.IEnumerable<string!>! Container) -> void
@@ -3822,17 +3666,6 @@ ModularPipelines.Docker.Options.DockerWaitOptions.Container.init -> void
 ModularPipelines.Docker.Options.DockerWaitOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Container) -> void
 ModularPipelines.Docker.Options.DockerWaitOptions.DockerWaitOptions(ModularPipelines.Docker.Options.DockerWaitOptions! original) -> void
 ModularPipelines.Docker.Options.DockerWaitOptions.DockerWaitOptions(System.Collections.Generic.IEnumerable<string!>! Container) -> void
-ModularPipelines.Docker.Services.DockerBuilder
-ModularPipelines.Docker.Services.DockerBuilder.Dap.get -> ModularPipelines.Docker.Services.DockerBuilderDap!
-ModularPipelines.Docker.Services.DockerBuilder.History.get -> ModularPipelines.Docker.Services.DockerBuilderHistory!
-ModularPipelines.Docker.Services.DockerBuilder.ImageTools.get -> ModularPipelines.Docker.Services.DockerBuilderImageTools!
-ModularPipelines.Docker.Services.DockerBuilder.Policy.get -> ModularPipelines.Docker.Services.DockerBuilderPolicy!
-ModularPipelines.Docker.Services.DockerBuilderDap
-ModularPipelines.Docker.Services.DockerBuilderHistory
-ModularPipelines.Docker.Services.DockerBuilderHistory.Inspect.get -> ModularPipelines.Docker.Services.DockerBuilderHistoryInspect!
-ModularPipelines.Docker.Services.DockerBuilderHistoryInspect
-ModularPipelines.Docker.Services.DockerBuilderImageTools
-ModularPipelines.Docker.Services.DockerBuilderPolicy
 ModularPipelines.Docker.Services.DockerBuildx
 ModularPipelines.Docker.Services.DockerBuildx.Dap.get -> ModularPipelines.Docker.Services.DockerBuildxDap!
 ModularPipelines.Docker.Services.DockerBuildx.History.get -> ModularPipelines.Docker.Services.DockerBuildxHistory!
@@ -3864,7 +3697,6 @@ ModularPipelines.Docker.Services.DockerTrustKey
 ModularPipelines.Docker.Services.DockerTrustSigner
 ModularPipelines.Docker.Services.DockerVolume
 ModularPipelines.Docker.Services.IDocker
-ModularPipelines.Docker.Services.IDocker.Builder.get -> ModularPipelines.Docker.Services.IDockerBuilder!
 ModularPipelines.Docker.Services.IDocker.Buildx.get -> ModularPipelines.Docker.Services.IDockerBuildx!
 ModularPipelines.Docker.Services.IDocker.Compose.get -> ModularPipelines.Docker.Services.IDockerCompose!
 ModularPipelines.Docker.Services.IDocker.Container.get -> ModularPipelines.Docker.Services.IDockerContainer!
@@ -3877,11 +3709,6 @@ ModularPipelines.Docker.Services.IDocker.Swarm.get -> ModularPipelines.Docker.Se
 ModularPipelines.Docker.Services.IDocker.System.get -> ModularPipelines.Docker.Services.IDockerSystem!
 ModularPipelines.Docker.Services.IDocker.Trust.get -> ModularPipelines.Docker.Services.IDockerTrust!
 ModularPipelines.Docker.Services.IDocker.Volume.get -> ModularPipelines.Docker.Services.IDockerVolume!
-ModularPipelines.Docker.Services.IDockerBuilder
-ModularPipelines.Docker.Services.IDockerBuilder.Dap.get -> ModularPipelines.Docker.Services.DockerBuilderDap!
-ModularPipelines.Docker.Services.IDockerBuilder.History.get -> ModularPipelines.Docker.Services.DockerBuilderHistory!
-ModularPipelines.Docker.Services.IDockerBuilder.ImageTools.get -> ModularPipelines.Docker.Services.DockerBuilderImageTools!
-ModularPipelines.Docker.Services.IDockerBuilder.Policy.get -> ModularPipelines.Docker.Services.DockerBuilderPolicy!
 ModularPipelines.Docker.Services.IDockerBuildx
 ModularPipelines.Docker.Services.IDockerBuildx.Dap.get -> ModularPipelines.Docker.Services.DockerBuildxDap!
 ModularPipelines.Docker.Services.IDockerBuildx.History.get -> ModularPipelines.Docker.Services.DockerBuildxHistory!
@@ -3901,193 +3728,12 @@ ModularPipelines.Docker.Services.IDockerTrust
 ModularPipelines.Docker.Services.IDockerTrust.Key.get -> ModularPipelines.Docker.Services.DockerTrustKey!
 ModularPipelines.Docker.Services.IDockerTrust.Signer.get -> ModularPipelines.Docker.Services.DockerTrustSigner!
 ModularPipelines.Docker.Services.IDockerVolume
-override abstract ModularPipelines.Docker.Options.DockerOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerOptions!
 override ModularPipelines.Docker.Options.DockerAttachOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerAttachOptions!
 override ModularPipelines.Docker.Options.DockerAttachOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Docker.Options.DockerAttachOptions.Equals(object? obj) -> bool
 override ModularPipelines.Docker.Options.DockerAttachOptions.GetHashCode() -> int
 override ModularPipelines.Docker.Options.DockerAttachOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Docker.Options.DockerAttachOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderBakeOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderBakeOptions!
-override ModularPipelines.Docker.Options.DockerBuilderBakeOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderBakeOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderBakeOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderBakeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderBakeOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderBuildOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderBuildOptions!
-override ModularPipelines.Docker.Options.DockerBuilderBuildOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderBuildOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderBuildOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderBuildOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderBuildOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderCreateOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderCreateOptions!
-override ModularPipelines.Docker.Options.DockerBuilderCreateOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderCreateOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderCreateOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderCreateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderCreateOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions!
-override ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderDapOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderDapOptions!
-override ModularPipelines.Docker.Options.DockerBuilderDapOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderDapOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderDapOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderDapOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderDapOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions!
-override ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderDuOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderDuOptions!
-override ModularPipelines.Docker.Options.DockerBuilderDuOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderDuOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderDuOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderDuOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderDuOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderHistoryOptions!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderHistoryOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions!
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions!
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions!
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderInspectOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderInspectOptions!
-override ModularPipelines.Docker.Options.DockerBuilderInspectOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderInspectOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderInspectOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderInspectOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderInspectOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderLsOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderLsOptions!
-override ModularPipelines.Docker.Options.DockerBuilderLsOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderLsOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderLsOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderLsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderLsOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderOptions!
-override ModularPipelines.Docker.Options.DockerBuilderOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions!
-override ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderPolicyOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderPolicyOptions!
-override ModularPipelines.Docker.Options.DockerBuilderPolicyOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderPolicyOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderPolicyOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderPolicyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderPolicyOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions!
-override ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderPruneOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderPruneOptions!
-override ModularPipelines.Docker.Options.DockerBuilderPruneOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderPruneOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderPruneOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderPruneOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderPruneOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderRmOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderRmOptions!
-override ModularPipelines.Docker.Options.DockerBuilderRmOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderRmOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderRmOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderRmOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderRmOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderStopOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderStopOptions!
-override ModularPipelines.Docker.Options.DockerBuilderStopOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderStopOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderStopOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderStopOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderStopOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerBuilderUseOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuilderUseOptions!
-override ModularPipelines.Docker.Options.DockerBuilderUseOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerBuilderUseOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderUseOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerBuilderUseOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerBuilderUseOptions.ToString() -> string!
 override ModularPipelines.Docker.Options.DockerBuildOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerBuildOptions!
 override ModularPipelines.Docker.Options.DockerBuildOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Docker.Options.DockerBuildOptions.Equals(object? obj) -> bool
@@ -4838,18 +4484,18 @@ override ModularPipelines.Docker.Options.DockerImageSaveOptions.Equals(object? o
 override ModularPipelines.Docker.Options.DockerImageSaveOptions.GetHashCode() -> int
 override ModularPipelines.Docker.Options.DockerImageSaveOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Docker.Options.DockerImageSaveOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerImagesOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerImagesOptions!
-override ModularPipelines.Docker.Options.DockerImagesOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerImagesOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerImagesOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerImagesOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerImagesOptions.ToString() -> string!
 override ModularPipelines.Docker.Options.DockerImageTagOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerImageTagOptions!
 override ModularPipelines.Docker.Options.DockerImageTagOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Docker.Options.DockerImageTagOptions.Equals(object? obj) -> bool
 override ModularPipelines.Docker.Options.DockerImageTagOptions.GetHashCode() -> int
 override ModularPipelines.Docker.Options.DockerImageTagOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Docker.Options.DockerImageTagOptions.ToString() -> string!
+override ModularPipelines.Docker.Options.DockerImagesOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerImagesOptions!
+override ModularPipelines.Docker.Options.DockerImagesOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Docker.Options.DockerImagesOptions.Equals(object? obj) -> bool
+override ModularPipelines.Docker.Options.DockerImagesOptions.GetHashCode() -> int
+override ModularPipelines.Docker.Options.DockerImagesOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Docker.Options.DockerImagesOptions.ToString() -> string!
 override ModularPipelines.Docker.Options.DockerImportOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerImportOptions!
 override ModularPipelines.Docker.Options.DockerImportOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Docker.Options.DockerImportOptions.Equals(object? obj) -> bool
@@ -5095,18 +4741,18 @@ override ModularPipelines.Docker.Options.DockerRestartOptions.Equals(object? obj
 override ModularPipelines.Docker.Options.DockerRestartOptions.GetHashCode() -> int
 override ModularPipelines.Docker.Options.DockerRestartOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Docker.Options.DockerRestartOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerRmiOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerRmiOptions!
-override ModularPipelines.Docker.Options.DockerRmiOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerRmiOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerRmiOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerRmiOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerRmiOptions.ToString() -> string!
 override ModularPipelines.Docker.Options.DockerRmOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerRmOptions!
 override ModularPipelines.Docker.Options.DockerRmOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Docker.Options.DockerRmOptions.Equals(object? obj) -> bool
 override ModularPipelines.Docker.Options.DockerRmOptions.GetHashCode() -> int
 override ModularPipelines.Docker.Options.DockerRmOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Docker.Options.DockerRmOptions.ToString() -> string!
+override ModularPipelines.Docker.Options.DockerRmiOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerRmiOptions!
+override ModularPipelines.Docker.Options.DockerRmiOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Docker.Options.DockerRmiOptions.Equals(object? obj) -> bool
+override ModularPipelines.Docker.Options.DockerRmiOptions.GetHashCode() -> int
+override ModularPipelines.Docker.Options.DockerRmiOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Docker.Options.DockerRmiOptions.ToString() -> string!
 override ModularPipelines.Docker.Options.DockerRunOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerRunOptions!
 override ModularPipelines.Docker.Options.DockerRunOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Docker.Options.DockerRunOptions.Equals(object? obj) -> bool
@@ -5239,6 +4885,12 @@ override ModularPipelines.Docker.Options.DockerTrustRevokeOptions.Equals(object?
 override ModularPipelines.Docker.Options.DockerTrustRevokeOptions.GetHashCode() -> int
 override ModularPipelines.Docker.Options.DockerTrustRevokeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Docker.Options.DockerTrustRevokeOptions.ToString() -> string!
+override ModularPipelines.Docker.Options.DockerTrustSignOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerTrustSignOptions!
+override ModularPipelines.Docker.Options.DockerTrustSignOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Docker.Options.DockerTrustSignOptions.Equals(object? obj) -> bool
+override ModularPipelines.Docker.Options.DockerTrustSignOptions.GetHashCode() -> int
+override ModularPipelines.Docker.Options.DockerTrustSignOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Docker.Options.DockerTrustSignOptions.ToString() -> string!
 override ModularPipelines.Docker.Options.DockerTrustSignerAddOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerTrustSignerAddOptions!
 override ModularPipelines.Docker.Options.DockerTrustSignerAddOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Docker.Options.DockerTrustSignerAddOptions.Equals(object? obj) -> bool
@@ -5257,12 +4909,6 @@ override ModularPipelines.Docker.Options.DockerTrustSignerRemoveOptions.Equals(o
 override ModularPipelines.Docker.Options.DockerTrustSignerRemoveOptions.GetHashCode() -> int
 override ModularPipelines.Docker.Options.DockerTrustSignerRemoveOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Docker.Options.DockerTrustSignerRemoveOptions.ToString() -> string!
-override ModularPipelines.Docker.Options.DockerTrustSignOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerTrustSignOptions!
-override ModularPipelines.Docker.Options.DockerTrustSignOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Docker.Options.DockerTrustSignOptions.Equals(object? obj) -> bool
-override ModularPipelines.Docker.Options.DockerTrustSignOptions.GetHashCode() -> int
-override ModularPipelines.Docker.Options.DockerTrustSignOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Docker.Options.DockerTrustSignOptions.ToString() -> string!
 override ModularPipelines.Docker.Options.DockerUnpauseOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerUnpauseOptions!
 override ModularPipelines.Docker.Options.DockerUnpauseOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Docker.Options.DockerUnpauseOptions.Equals(object? obj) -> bool
@@ -5317,37 +4963,8 @@ override ModularPipelines.Docker.Options.DockerWaitOptions.Equals(object? obj) -
 override ModularPipelines.Docker.Options.DockerWaitOptions.GetHashCode() -> int
 override ModularPipelines.Docker.Options.DockerWaitOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Docker.Options.DockerWaitOptions.ToString() -> string!
+override abstract ModularPipelines.Docker.Options.DockerOptions.<Clone>$() -> ModularPipelines.Docker.Options.DockerOptions!
 override sealed ModularPipelines.Docker.Options.DockerAttachOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderBakeOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxBakeOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderBuildOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxBuildOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderCreateOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxCreateOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxDapBuildOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderDapOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxDapOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxDialStdioOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderDuOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxDuOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxHistoryExportOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxHistoryImportOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxHistoryInspectAttachmentOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxHistoryInspectOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxHistoryLogsOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxHistoryLsOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxHistoryOpenOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderHistoryOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxHistoryOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxHistoryRmOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxHistoryTraceOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxImageToolsCreateOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxImageToolsInspectOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxImageToolsOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderInspectOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxInspectOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderLsOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxLsOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxPolicyEvalOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderPolicyOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxPolicyOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxPolicyTestOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderPruneOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxPruneOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderRmOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxRmOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderStopOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxStopOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerBuilderUseOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxUseOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerBuildOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerBuildxBakeOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerBuildxBuildOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
@@ -5473,8 +5090,8 @@ override sealed ModularPipelines.Docker.Options.DockerImagePullOptions.Equals(Mo
 override sealed ModularPipelines.Docker.Options.DockerImagePushOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerImageRmOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerImageSaveOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerImagesOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerImageTagOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
+override sealed ModularPipelines.Docker.Options.DockerImagesOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerImportOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerInfoOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerInspectOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
@@ -5516,8 +5133,8 @@ override sealed ModularPipelines.Docker.Options.DockerPullOptions.Equals(Modular
 override sealed ModularPipelines.Docker.Options.DockerPushOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerRenameOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerRestartOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerRmiOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerRmOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
+override sealed ModularPipelines.Docker.Options.DockerRmiOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerRunOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerSaveOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerSearchOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
@@ -5540,10 +5157,10 @@ override sealed ModularPipelines.Docker.Options.DockerTrustKeyLoadOptions.Equals
 override sealed ModularPipelines.Docker.Options.DockerTrustKeyOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerTrustOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerTrustRevokeOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
+override sealed ModularPipelines.Docker.Options.DockerTrustSignOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerTrustSignerAddOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerTrustSignerOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerTrustSignerRemoveOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
-override sealed ModularPipelines.Docker.Options.DockerTrustSignOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerUnpauseOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerUpdateOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
 override sealed ModularPipelines.Docker.Options.DockerVolumeCreateOptions.Equals(ModularPipelines.Docker.Options.DockerOptions? other) -> bool
@@ -5557,66 +5174,6 @@ static ModularPipelines.Context.ModularPipelines_Docker_3a902440f4bc4c72ToolsExt
 static ModularPipelines.Docker.Extensions.DockerExtensions.RegisterDockerContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.Docker.Options.DockerAttachOptions.operator !=(ModularPipelines.Docker.Options.DockerAttachOptions? left, ModularPipelines.Docker.Options.DockerAttachOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerAttachOptions.operator ==(ModularPipelines.Docker.Options.DockerAttachOptions? left, ModularPipelines.Docker.Options.DockerAttachOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderBakeOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderBakeOptions? left, ModularPipelines.Docker.Options.DockerBuilderBakeOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderBakeOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderBakeOptions? left, ModularPipelines.Docker.Options.DockerBuilderBakeOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderBuildOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderBuildOptions? left, ModularPipelines.Docker.Options.DockerBuilderBuildOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderBuildOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderBuildOptions? left, ModularPipelines.Docker.Options.DockerBuilderBuildOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderCreateOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderCreateOptions? left, ModularPipelines.Docker.Options.DockerBuilderCreateOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderCreateOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderCreateOptions? left, ModularPipelines.Docker.Options.DockerBuilderCreateOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions? left, ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions? left, ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderDapOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderDapOptions? left, ModularPipelines.Docker.Options.DockerBuilderDapOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderDapOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderDapOptions? left, ModularPipelines.Docker.Options.DockerBuilderDapOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions? left, ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions? left, ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderDuOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderDuOptions? left, ModularPipelines.Docker.Options.DockerBuilderDuOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderDuOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderDuOptions? left, ModularPipelines.Docker.Options.DockerBuilderDuOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderHistoryOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderHistoryOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions? left, ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions? left, ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions? left, ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions? left, ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions? left, ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions? left, ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions? left, ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderInspectOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderInspectOptions? left, ModularPipelines.Docker.Options.DockerBuilderInspectOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderInspectOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderInspectOptions? left, ModularPipelines.Docker.Options.DockerBuilderInspectOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderLsOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderLsOptions? left, ModularPipelines.Docker.Options.DockerBuilderLsOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderLsOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderLsOptions? left, ModularPipelines.Docker.Options.DockerBuilderLsOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderOptions? left, ModularPipelines.Docker.Options.DockerBuilderOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderOptions? left, ModularPipelines.Docker.Options.DockerBuilderOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions? left, ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions? left, ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderPolicyOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderPolicyOptions? left, ModularPipelines.Docker.Options.DockerBuilderPolicyOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderPolicyOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderPolicyOptions? left, ModularPipelines.Docker.Options.DockerBuilderPolicyOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions? left, ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions? left, ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderPruneOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderPruneOptions? left, ModularPipelines.Docker.Options.DockerBuilderPruneOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderPruneOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderPruneOptions? left, ModularPipelines.Docker.Options.DockerBuilderPruneOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderRmOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderRmOptions? left, ModularPipelines.Docker.Options.DockerBuilderRmOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderRmOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderRmOptions? left, ModularPipelines.Docker.Options.DockerBuilderRmOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderStopOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderStopOptions? left, ModularPipelines.Docker.Options.DockerBuilderStopOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderStopOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderStopOptions? left, ModularPipelines.Docker.Options.DockerBuilderStopOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderUseOptions.operator !=(ModularPipelines.Docker.Options.DockerBuilderUseOptions? left, ModularPipelines.Docker.Options.DockerBuilderUseOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerBuilderUseOptions.operator ==(ModularPipelines.Docker.Options.DockerBuilderUseOptions? left, ModularPipelines.Docker.Options.DockerBuilderUseOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerBuildOptions.operator !=(ModularPipelines.Docker.Options.DockerBuildOptions? left, ModularPipelines.Docker.Options.DockerBuildOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerBuildOptions.operator ==(ModularPipelines.Docker.Options.DockerBuildOptions? left, ModularPipelines.Docker.Options.DockerBuildOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerBuildxBakeOptions.operator !=(ModularPipelines.Docker.Options.DockerBuildxBakeOptions? left, ModularPipelines.Docker.Options.DockerBuildxBakeOptions? right) -> bool
@@ -5867,10 +5424,10 @@ static ModularPipelines.Docker.Options.DockerImageRmOptions.operator !=(ModularP
 static ModularPipelines.Docker.Options.DockerImageRmOptions.operator ==(ModularPipelines.Docker.Options.DockerImageRmOptions? left, ModularPipelines.Docker.Options.DockerImageRmOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerImageSaveOptions.operator !=(ModularPipelines.Docker.Options.DockerImageSaveOptions? left, ModularPipelines.Docker.Options.DockerImageSaveOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerImageSaveOptions.operator ==(ModularPipelines.Docker.Options.DockerImageSaveOptions? left, ModularPipelines.Docker.Options.DockerImageSaveOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerImagesOptions.operator !=(ModularPipelines.Docker.Options.DockerImagesOptions? left, ModularPipelines.Docker.Options.DockerImagesOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerImagesOptions.operator ==(ModularPipelines.Docker.Options.DockerImagesOptions? left, ModularPipelines.Docker.Options.DockerImagesOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerImageTagOptions.operator !=(ModularPipelines.Docker.Options.DockerImageTagOptions? left, ModularPipelines.Docker.Options.DockerImageTagOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerImageTagOptions.operator ==(ModularPipelines.Docker.Options.DockerImageTagOptions? left, ModularPipelines.Docker.Options.DockerImageTagOptions? right) -> bool
+static ModularPipelines.Docker.Options.DockerImagesOptions.operator !=(ModularPipelines.Docker.Options.DockerImagesOptions? left, ModularPipelines.Docker.Options.DockerImagesOptions? right) -> bool
+static ModularPipelines.Docker.Options.DockerImagesOptions.operator ==(ModularPipelines.Docker.Options.DockerImagesOptions? left, ModularPipelines.Docker.Options.DockerImagesOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerImportOptions.operator !=(ModularPipelines.Docker.Options.DockerImportOptions? left, ModularPipelines.Docker.Options.DockerImportOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerImportOptions.operator ==(ModularPipelines.Docker.Options.DockerImportOptions? left, ModularPipelines.Docker.Options.DockerImportOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerInfoOptions.operator !=(ModularPipelines.Docker.Options.DockerInfoOptions? left, ModularPipelines.Docker.Options.DockerInfoOptions? right) -> bool
@@ -5953,10 +5510,10 @@ static ModularPipelines.Docker.Options.DockerRenameOptions.operator !=(ModularPi
 static ModularPipelines.Docker.Options.DockerRenameOptions.operator ==(ModularPipelines.Docker.Options.DockerRenameOptions? left, ModularPipelines.Docker.Options.DockerRenameOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerRestartOptions.operator !=(ModularPipelines.Docker.Options.DockerRestartOptions? left, ModularPipelines.Docker.Options.DockerRestartOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerRestartOptions.operator ==(ModularPipelines.Docker.Options.DockerRestartOptions? left, ModularPipelines.Docker.Options.DockerRestartOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerRmiOptions.operator !=(ModularPipelines.Docker.Options.DockerRmiOptions? left, ModularPipelines.Docker.Options.DockerRmiOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerRmiOptions.operator ==(ModularPipelines.Docker.Options.DockerRmiOptions? left, ModularPipelines.Docker.Options.DockerRmiOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerRmOptions.operator !=(ModularPipelines.Docker.Options.DockerRmOptions? left, ModularPipelines.Docker.Options.DockerRmOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerRmOptions.operator ==(ModularPipelines.Docker.Options.DockerRmOptions? left, ModularPipelines.Docker.Options.DockerRmOptions? right) -> bool
+static ModularPipelines.Docker.Options.DockerRmiOptions.operator !=(ModularPipelines.Docker.Options.DockerRmiOptions? left, ModularPipelines.Docker.Options.DockerRmiOptions? right) -> bool
+static ModularPipelines.Docker.Options.DockerRmiOptions.operator ==(ModularPipelines.Docker.Options.DockerRmiOptions? left, ModularPipelines.Docker.Options.DockerRmiOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerRunOptions.operator !=(ModularPipelines.Docker.Options.DockerRunOptions? left, ModularPipelines.Docker.Options.DockerRunOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerRunOptions.operator ==(ModularPipelines.Docker.Options.DockerRunOptions? left, ModularPipelines.Docker.Options.DockerRunOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerSaveOptions.operator !=(ModularPipelines.Docker.Options.DockerSaveOptions? left, ModularPipelines.Docker.Options.DockerSaveOptions? right) -> bool
@@ -6001,14 +5558,14 @@ static ModularPipelines.Docker.Options.DockerTrustOptions.operator !=(ModularPip
 static ModularPipelines.Docker.Options.DockerTrustOptions.operator ==(ModularPipelines.Docker.Options.DockerTrustOptions? left, ModularPipelines.Docker.Options.DockerTrustOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerTrustRevokeOptions.operator !=(ModularPipelines.Docker.Options.DockerTrustRevokeOptions? left, ModularPipelines.Docker.Options.DockerTrustRevokeOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerTrustRevokeOptions.operator ==(ModularPipelines.Docker.Options.DockerTrustRevokeOptions? left, ModularPipelines.Docker.Options.DockerTrustRevokeOptions? right) -> bool
+static ModularPipelines.Docker.Options.DockerTrustSignOptions.operator !=(ModularPipelines.Docker.Options.DockerTrustSignOptions? left, ModularPipelines.Docker.Options.DockerTrustSignOptions? right) -> bool
+static ModularPipelines.Docker.Options.DockerTrustSignOptions.operator ==(ModularPipelines.Docker.Options.DockerTrustSignOptions? left, ModularPipelines.Docker.Options.DockerTrustSignOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerTrustSignerAddOptions.operator !=(ModularPipelines.Docker.Options.DockerTrustSignerAddOptions? left, ModularPipelines.Docker.Options.DockerTrustSignerAddOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerTrustSignerAddOptions.operator ==(ModularPipelines.Docker.Options.DockerTrustSignerAddOptions? left, ModularPipelines.Docker.Options.DockerTrustSignerAddOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerTrustSignerOptions.operator !=(ModularPipelines.Docker.Options.DockerTrustSignerOptions? left, ModularPipelines.Docker.Options.DockerTrustSignerOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerTrustSignerOptions.operator ==(ModularPipelines.Docker.Options.DockerTrustSignerOptions? left, ModularPipelines.Docker.Options.DockerTrustSignerOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerTrustSignerRemoveOptions.operator !=(ModularPipelines.Docker.Options.DockerTrustSignerRemoveOptions? left, ModularPipelines.Docker.Options.DockerTrustSignerRemoveOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerTrustSignerRemoveOptions.operator ==(ModularPipelines.Docker.Options.DockerTrustSignerRemoveOptions? left, ModularPipelines.Docker.Options.DockerTrustSignerRemoveOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerTrustSignOptions.operator !=(ModularPipelines.Docker.Options.DockerTrustSignOptions? left, ModularPipelines.Docker.Options.DockerTrustSignOptions? right) -> bool
-static ModularPipelines.Docker.Options.DockerTrustSignOptions.operator ==(ModularPipelines.Docker.Options.DockerTrustSignOptions? left, ModularPipelines.Docker.Options.DockerTrustSignOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerUnpauseOptions.operator !=(ModularPipelines.Docker.Options.DockerUnpauseOptions? left, ModularPipelines.Docker.Options.DockerUnpauseOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerUnpauseOptions.operator ==(ModularPipelines.Docker.Options.DockerUnpauseOptions? left, ModularPipelines.Docker.Options.DockerUnpauseOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerUpdateOptions.operator !=(ModularPipelines.Docker.Options.DockerUpdateOptions? left, ModularPipelines.Docker.Options.DockerUpdateOptions? right) -> bool
@@ -6028,36 +5585,6 @@ static ModularPipelines.Docker.Options.DockerVolumeRmOptions.operator ==(Modular
 static ModularPipelines.Docker.Options.DockerWaitOptions.operator !=(ModularPipelines.Docker.Options.DockerWaitOptions? left, ModularPipelines.Docker.Options.DockerWaitOptions? right) -> bool
 static ModularPipelines.Docker.Options.DockerWaitOptions.operator ==(ModularPipelines.Docker.Options.DockerWaitOptions? left, ModularPipelines.Docker.Options.DockerWaitOptions? right) -> bool
 virtual ModularPipelines.Docker.Options.DockerAttachOptions.Equals(ModularPipelines.Docker.Options.DockerAttachOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderBakeOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderBakeOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderBuildOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderBuildOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderCreateOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderCreateOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderDapBuildOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderDapOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderDapOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderDialStdioOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderDuOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderDuOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderHistoryExportOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderHistoryImportOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderHistoryInspectAttachmentOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderHistoryInspectOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderHistoryLogsOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderHistoryLsOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderHistoryOpenOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderHistoryOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderHistoryOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderHistoryRmOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderHistoryTraceOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderImageToolsCreateOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderImageToolsInspectOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderImageToolsOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderInspectOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderInspectOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderLsOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderLsOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderPolicyEvalOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderPolicyOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderPolicyOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderPolicyTestOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderPruneOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderPruneOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderRmOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderRmOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderStopOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderStopOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerBuilderUseOptions.Equals(ModularPipelines.Docker.Options.DockerBuilderUseOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerBuildOptions.Equals(ModularPipelines.Docker.Options.DockerBuildOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerBuildxBakeOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxBakeOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerBuildxBuildOptions.Equals(ModularPipelines.Docker.Options.DockerBuildxBuildOptions? other) -> bool
@@ -6183,8 +5710,8 @@ virtual ModularPipelines.Docker.Options.DockerImagePullOptions.Equals(ModularPip
 virtual ModularPipelines.Docker.Options.DockerImagePushOptions.Equals(ModularPipelines.Docker.Options.DockerImagePushOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerImageRmOptions.Equals(ModularPipelines.Docker.Options.DockerImageRmOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerImageSaveOptions.Equals(ModularPipelines.Docker.Options.DockerImageSaveOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerImagesOptions.Equals(ModularPipelines.Docker.Options.DockerImagesOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerImageTagOptions.Equals(ModularPipelines.Docker.Options.DockerImageTagOptions? other) -> bool
+virtual ModularPipelines.Docker.Options.DockerImagesOptions.Equals(ModularPipelines.Docker.Options.DockerImagesOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerImportOptions.Equals(ModularPipelines.Docker.Options.DockerImportOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerInfoOptions.Equals(ModularPipelines.Docker.Options.DockerInfoOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerInspectOptions.Equals(ModularPipelines.Docker.Options.DockerInspectOptions? other) -> bool
@@ -6226,8 +5753,8 @@ virtual ModularPipelines.Docker.Options.DockerPullOptions.Equals(ModularPipeline
 virtual ModularPipelines.Docker.Options.DockerPushOptions.Equals(ModularPipelines.Docker.Options.DockerPushOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerRenameOptions.Equals(ModularPipelines.Docker.Options.DockerRenameOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerRestartOptions.Equals(ModularPipelines.Docker.Options.DockerRestartOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerRmiOptions.Equals(ModularPipelines.Docker.Options.DockerRmiOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerRmOptions.Equals(ModularPipelines.Docker.Options.DockerRmOptions? other) -> bool
+virtual ModularPipelines.Docker.Options.DockerRmiOptions.Equals(ModularPipelines.Docker.Options.DockerRmiOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerRunOptions.Equals(ModularPipelines.Docker.Options.DockerRunOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerSaveOptions.Equals(ModularPipelines.Docker.Options.DockerSaveOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerSearchOptions.Equals(ModularPipelines.Docker.Options.DockerSearchOptions? other) -> bool
@@ -6250,10 +5777,10 @@ virtual ModularPipelines.Docker.Options.DockerTrustKeyLoadOptions.Equals(Modular
 virtual ModularPipelines.Docker.Options.DockerTrustKeyOptions.Equals(ModularPipelines.Docker.Options.DockerTrustKeyOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerTrustOptions.Equals(ModularPipelines.Docker.Options.DockerTrustOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerTrustRevokeOptions.Equals(ModularPipelines.Docker.Options.DockerTrustRevokeOptions? other) -> bool
+virtual ModularPipelines.Docker.Options.DockerTrustSignOptions.Equals(ModularPipelines.Docker.Options.DockerTrustSignOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerTrustSignerAddOptions.Equals(ModularPipelines.Docker.Options.DockerTrustSignerAddOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerTrustSignerOptions.Equals(ModularPipelines.Docker.Options.DockerTrustSignerOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerTrustSignerRemoveOptions.Equals(ModularPipelines.Docker.Options.DockerTrustSignerRemoveOptions? other) -> bool
-virtual ModularPipelines.Docker.Options.DockerTrustSignOptions.Equals(ModularPipelines.Docker.Options.DockerTrustSignOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerUnpauseOptions.Equals(ModularPipelines.Docker.Options.DockerUnpauseOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerUpdateOptions.Equals(ModularPipelines.Docker.Options.DockerUpdateOptions? other) -> bool
 virtual ModularPipelines.Docker.Options.DockerVolumeCreateOptions.Equals(ModularPipelines.Docker.Options.DockerVolumeCreateOptions? other) -> bool

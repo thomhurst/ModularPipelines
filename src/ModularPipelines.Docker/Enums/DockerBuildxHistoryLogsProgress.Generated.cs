@@ -17,11 +17,11 @@ namespace ModularPipelines.Docker.Enums;
 public enum DockerBuildxHistoryLogsProgress
 {
     [EnumValue("plain")]
-    Plain = 0,
+    Plain,
 
     [EnumValue("rawjson")]
-    Rawjson = 1,
+    Rawjson,
 
     [EnumValue("tty")]
-    Tty = 2
+    Tty
 }
