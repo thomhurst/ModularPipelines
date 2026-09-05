@@ -13,8 +13,6 @@ ModularPipelines.Syft.Options.SyftAttestOptions.Enrich.get -> System.Collections
 ModularPipelines.Syft.Options.SyftAttestOptions.Enrich.set -> void
 ModularPipelines.Syft.Options.SyftAttestOptions.Exclude.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Syft.Options.SyftAttestOptions.Exclude.set -> void
-ModularPipelines.Syft.Options.SyftAttestOptions.Format.get -> string?
-ModularPipelines.Syft.Options.SyftAttestOptions.Format.set -> void
 ModularPipelines.Syft.Options.SyftAttestOptions.From.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Syft.Options.SyftAttestOptions.From.set -> void
 ModularPipelines.Syft.Options.SyftAttestOptions.Help.get -> bool?
@@ -118,8 +116,6 @@ ModularPipelines.Syft.Options.SyftConvertOptions.Config.get -> System.Collection
 ModularPipelines.Syft.Options.SyftConvertOptions.Config.set -> void
 ModularPipelines.Syft.Options.SyftConvertOptions.File.get -> string?
 ModularPipelines.Syft.Options.SyftConvertOptions.File.set -> void
-ModularPipelines.Syft.Options.SyftConvertOptions.Format.get -> string?
-ModularPipelines.Syft.Options.SyftConvertOptions.Format.set -> void
 ModularPipelines.Syft.Options.SyftConvertOptions.Help.get -> bool?
 ModularPipelines.Syft.Options.SyftConvertOptions.Help.set -> void
 ModularPipelines.Syft.Options.SyftConvertOptions.Output.get -> System.Collections.Generic.IEnumerable<string!>?
