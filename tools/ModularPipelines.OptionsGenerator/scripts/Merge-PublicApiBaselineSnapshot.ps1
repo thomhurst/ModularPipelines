@@ -23,29 +23,51 @@ function Read-Baseline([string] $Path) {
 }
 
 function Get-Headers([string[]] $Lines) {
-    return @($Lines | Where-Object { $_.StartsWith('#', [System.StringComparison]::Ordinal) })
+    return @($Lines | Where-Object {
+        -not [string]::IsNullOrEmpty($_) -and
+        $_.StartsWith('#', [System.StringComparison]::Ordinal)
+    })
 }
 
 function Get-ApiEntries([string[]] $Lines) {
-    return @($Lines | Where-Object { -not $_.StartsWith('#', [System.StringComparison]::Ordinal) })
+    return @($Lines | Where-Object {
+        -not [string]::IsNullOrEmpty($_) -and
+        -not $_.StartsWith('#', [System.StringComparison]::Ordinal)
+    })
 }
 
 function Write-Baseline([string] $Path, [string[]] $Headers, [string[]] $Entries) {
-    $uniqueEntries = [System.Collections.Generic.HashSet[string]]::new($Entries, $comparer)
-    $sortedEntries = [string[]] @($uniqueEntries)
-    [Array]::Sort($sortedEntries, $comparer)
-    $lines = @($Headers) + $sortedEntries
-    $existing = @(if (Test-Path -LiteralPath $Path -PathType Leaf) {
-        Get-Content -LiteralPath $Path
-    })
+    $uniqueEntries = [System.Collections.Generic.HashSet[string]]::new($comparer)
+    foreach ($entry in $Entries) {
+        if (-not [string]::IsNullOrEmpty($entry)) {
+            $null = $uniqueEntries.Add($entry)
+        }
+    }
 
-    if ([System.Linq.Enumerable]::SequenceEqual([string[]] $existing, [string[]] $lines, $comparer)) {
+    $sortedEntries = [System.Collections.Generic.List[string]]::new($uniqueEntries)
+    $sortedEntries.Sort($comparer)
+    $lines = [System.Collections.Generic.List[string]]::new()
+    foreach ($header in $Headers) {
+        if (-not [string]::IsNullOrEmpty($header)) {
+            $lines.Add($header)
+        }
+    }
+    $lines.AddRange($sortedEntries)
+
+    $existing = [System.Collections.Generic.List[string]]::new()
+    if (Test-Path -LiteralPath $Path -PathType Leaf) {
+        foreach ($line in Get-Content -LiteralPath $Path) {
+            $existing.Add($line)
+        }
+    }
+
+    if ([System.Linq.Enumerable]::SequenceEqual($existing, $lines, $comparer)) {
         return
     }
 
     [System.IO.File]::WriteAllLines(
         $Path,
-        [string[]] $lines,
+        $lines,
         [System.Text.UTF8Encoding]::new($false))
 }
 
