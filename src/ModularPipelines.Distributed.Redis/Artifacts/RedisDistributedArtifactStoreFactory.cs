@@ -13,23 +13,25 @@ internal sealed class RedisDistributedArtifactStoreFactory : IDistributedArtifac
 {
     private readonly RedisDistributedOptions _redisOptions;
     private readonly ArtifactOptions _artifactOptions;
+    private readonly DistributedOptions _distributedOptions;
     private readonly IConnectionMultiplexer _connection;
 
     public RedisDistributedArtifactStoreFactory(
         IOptions<RedisDistributedOptions> redisOptions,
         IOptions<ArtifactOptions> artifactOptions,
+        IOptions<DistributedOptions> distributedOptions,
         IConnectionMultiplexer connection)
     {
         _redisOptions = redisOptions.Value;
         _artifactOptions = artifactOptions.Value;
+        _distributedOptions = distributedOptions.Value;
         _connection = connection;
     }
 
     public Task<IDistributedArtifactStore> CreateAsync(CancellationToken cancellationToken)
     {
         var database = _connection.GetDatabase();
-        var runId = RunIdentifierResolver.Resolve(_redisOptions.RunIdentifier);
-        var keys = new RedisKeyBuilder(_redisOptions.KeyPrefix, runId);
+        var keys = new RedisKeyBuilder(_redisOptions.KeyPrefix, _distributedOptions.RunId);
         IDistributedArtifactStore store = new RedisDistributedArtifactStore(database, keys, _artifactOptions);
         return Task.FromResult(store);
     }

@@ -131,7 +131,7 @@ public record PulumiEnvGetOptions(
     public int? Verbose { get; set; }
 
     /// <summary>
-    /// The path operand.
+    /// The &lt;path&gt; operand.
     /// </summary>
     [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? Path { get; set; }

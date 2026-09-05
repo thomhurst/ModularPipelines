@@ -24,7 +24,9 @@ public class DistributedOptionsTests
         using (Assert.Multiple())
         {
             await Assert.That(options.CapabilityTimeout).IsEqualTo(TimeSpan.FromMinutes(5));
+            await Assert.That(options.MinimumWorkerCount).IsEqualTo(0);
             await Assert.That(options.ModuleResultTimeout).IsEqualTo(TimeSpan.FromMinutes(45));
+            await Assert.That(options.RequireExplicitRunId).IsFalse();
         }
     }
 
@@ -37,6 +39,7 @@ public class DistributedOptionsTests
                 ["Distributed:Capabilities:0"] = "docker",
                 ["Distributed:Capabilities:1"] = "gpu",
                 ["Distributed:CapabilityTimeout"] = "00:00:30",
+                ["Distributed:MinimumWorkerCount"] = "2",
             })
             .Build();
         var options = new DistributedOptions();
@@ -48,6 +51,7 @@ public class DistributedOptionsTests
             await Assert.That(options.Capabilities)
                 .IsEquivalentTo([Capability.Docker, Capability.Gpu]);
             await Assert.That(options.CapabilityTimeout).IsEqualTo(TimeSpan.FromSeconds(30));
+            await Assert.That(options.MinimumWorkerCount).IsEqualTo(2);
         }
     }
 
@@ -165,7 +169,7 @@ public class DistributedOptionsTests
             {
                 await Assert.That(options.InstanceIndex).IsEqualTo(3);
                 await Assert.That(options.TotalInstances).IsEqualTo(5);
-                await Assert.That(options.RunIdentifier).IsEqualTo("test-run");
+                await Assert.That(options.RunId).IsEqualTo("test-run");
                 await Assert.That(options.Role).IsEqualTo(DistributedRole.Worker);
                 await Assert.That(options.Enabled).IsTrue();
             }

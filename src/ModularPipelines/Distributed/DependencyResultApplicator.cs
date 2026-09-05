@@ -31,37 +31,38 @@ internal static class DependencyResultApplicator
     }
 
     /// <summary>
-    /// Applies dependency results received in an assignment to local module instances
+    /// Fetches referenced dependency results once per run and applies them to local module instances
     /// and the result registry.
     /// This enables <c>GetModule&lt;T&gt;()</c> to resolve cross-process dependencies.
     /// <c>TrySetResult</c> is idempotent — safe if CompletionSource was already set.
     /// </summary>
-    public static void Apply(
-        IReadOnlyList<SerializedModuleResult> dependencyResults,
+    public static async Task FetchAndApplyAsync(
+        IReadOnlyList<DependencyResultReference> dependencyResultReferences,
+        DependencyResultCache resultCache,
         Dictionary<string, IModule> moduleLookup,
         ModuleResultSerializer serializer,
         IModuleResultRegistry resultRegistry,
         ILogger logger)
     {
-        foreach (var serializedDep in dependencyResults)
+        foreach (var reference in dependencyResultReferences)
         {
-            if (!moduleLookup.TryGetValue(serializedDep.ModuleTypeName, out var depModule))
+            if (!reference.IsAvailable)
             {
-                logger.LogDebug("Dependency module instance not found locally: {ModuleTypeName}", serializedDep.ModuleTypeName);
                 continue;
             }
 
+            if (!moduleLookup.TryGetValue(reference.ModuleTypeName, out var depModule))
+            {
+                logger.LogDebug("Dependency module instance not found locally: {ModuleTypeName}", reference.ModuleTypeName);
+                continue;
+            }
+
+            var serializedResult = await resultCache.GetAsync(reference.ModuleTypeName)
+                .ConfigureAwait(false);
+
             try
             {
-                // Decompress GZip-compressed dependency results before deserialization
-                var toDeserialize = serializedDep;
-                if (serializedDep.SerializedJson.StartsWith(DistributedWorkPublisher.GzipPrefix, StringComparison.Ordinal))
-                {
-                    var decompressed = DistributedWorkPublisher.DecompressJson(serializedDep.SerializedJson);
-                    toDeserialize = serializedDep with { SerializedJson = decompressed };
-                }
-
-                var result = serializer.Deserialize(toDeserialize);
+                var result = serializer.Deserialize(serializedResult);
                 if (result is not null)
                 {
                     resultRegistry.RegisterResult(depModule.GetType(), result);
@@ -70,7 +71,7 @@ internal static class DependencyResultApplicator
             }
             catch (Exception ex)
             {
-                logger.LogWarning(ex, "Failed to apply dependency result for {ModuleTypeName}", serializedDep.ModuleTypeName);
+                logger.LogWarning(ex, "Failed to apply dependency result for {ModuleTypeName}", reference.ModuleTypeName);
             }
         }
     }

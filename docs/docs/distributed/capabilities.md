@@ -95,7 +95,7 @@ The matching logic is straightforward:
 1. If a module has **no** required capabilities, it can run on **any** worker.
 2. If a module has required capabilities, **all** of them must be present in the worker's capability set.
 3. Capability matching is **case-insensitive**.
-4. If no worker with the required capabilities is available, the module waits in the queue until one becomes available (up to `CapabilityTimeout`).
+4. If no worker with the required capabilities is available, only that module waits in the queue. After `CapabilityTimeout`, it fails with a routing error that lists the missing route instead of waiting for the module-result timeout.
 
 ## Example: Mixed Pipeline
 

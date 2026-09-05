@@ -533,10 +533,10 @@ public class OutputCoordinatorTests
         await Assert.ThrowsAsync<InvalidOperationException>(async () =>
             await coordinator
                 .EnqueueAndFlushAsync(abandonedBuffer, OutputFlushKind.Complete)
-                .WaitAsync(TimeSpan.FromSeconds(1)));
+                .WaitAsync(TestHostSettings.DefaultTestTimeout));
         await coordinator
             .EnqueueAndFlushAsync(abandonedBuffer, OutputFlushKind.Complete)
-            .WaitAsync(TimeSpan.FromSeconds(1));
+            .WaitAsync(TestHostSettings.DefaultTestTimeout);
 
         await Assert.That(abandonedBuffer.FlushCount).IsEqualTo(1);
     }

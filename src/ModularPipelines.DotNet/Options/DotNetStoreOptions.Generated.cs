@@ -30,7 +30,7 @@ public record DotNetStoreOptions : DotNetOptions
     /// The Microsoft.NETCore.App package version that will be used to run the assemblies.
     /// </summary>
     [CliOption("--framework-version")]
-    public string? FrameworkVersionValue { get; set; }
+    public string? FrameworkVersion { get; set; }
 
     /// <summary>
     /// The output directory to store the given assemblies in.
@@ -85,12 +85,5 @@ public record DotNetStoreOptions : DotNetOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? Argument { get; set; }
-
-    [Obsolete("Use FrameworkVersionValue instead.")]
-    public bool? FrameworkVersion
-    {
-        get => bool.TryParse(FrameworkVersionValue, out var value) ? value : null;
-        set => FrameworkVersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

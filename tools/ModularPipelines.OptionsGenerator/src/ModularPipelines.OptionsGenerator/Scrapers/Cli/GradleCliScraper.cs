@@ -72,6 +72,15 @@ public partial class GradleCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.Java";
 
+    /// <inheritdoc />
+    protected override string? ParseVersionOutput(CliCommandResult result)
+    {
+        var match = GradleVersionPattern().Match(result.CombinedOutput);
+        return match.Success
+            ? match.Groups["version"].Value
+            : base.ParseVersionOutput(result);
+    }
+
     /// <summary>
     /// Gradle doesn't have subcommands - it uses tasks.
     /// </summary>
@@ -346,6 +355,9 @@ public partial class GradleCliScraper : CliScraperBase
 
     [GeneratedRegex(@"'(?<value>[^']+)'")]
     private static partial Regex QuotedValuePattern();
+
+    [GeneratedRegex(@"^\s*Gradle\s+(?<version>\S+)\s*$", RegexOptions.Multiline)]
+    private static partial Regex GradleVersionPattern();
 
     #endregion
 }

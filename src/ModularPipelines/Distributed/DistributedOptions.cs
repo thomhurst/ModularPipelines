@@ -15,10 +15,17 @@ public class DistributedOptions
     public int TotalInstances { get; set; } = 1;
 
     /// <summary>
-    /// Gets or sets an identifier shared by every process in this pipeline execution.
-    /// Coordinators should populate this from their execution-scoping identifier.
+    /// Gets or sets the identifier shared by every process in this pipeline run.
+    /// The options pipeline resolves an empty value from <c>MODULARPIPELINES_RUN_ID</c>, or generates
+    /// an identifier for a single-instance run when <see cref="RequireExplicitRunId"/> is false.
     /// </summary>
-    public string? RunIdentifier { get; set; }
+    public string RunId { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets whether this run must provide <see cref="RunId"/> explicitly or through
+    /// <c>MODULARPIPELINES_RUN_ID</c>. Shared backends enable this automatically.
+    /// </summary>
+    public bool RequireExplicitRunId { get; set; }
 
     public IReadOnlyList<Capability> Capabilities { get; set; } = [];
 
@@ -33,6 +40,14 @@ public class DistributedOptions
     /// Gets or sets how long a worker remains live without a heartbeat.
     /// </summary>
     public TimeSpan WorkerTimeout { get; set; } = TimeSpan.FromSeconds(30);
+
+    /// <summary>
+    /// Gets or sets the minimum number of external workers that must register before
+    /// the master starts dispatching work. The default is zero, which starts dispatching immediately.
+    /// Waiting stops when <see cref="CapabilityTimeout"/> expires, after which dispatch proceeds
+    /// with the workers currently available even when the configured minimum was not reached.
+    /// </summary>
+    public int MinimumWorkerCount { get; set; }
 
     public bool AutoDetectOsCapability { get; set; } = true;
 

@@ -612,7 +612,6 @@ ModularPipelines.Vault.Options.VaultServerOptions.VaultServerOptions() -> void
 ModularPipelines.Vault.Options.VaultServerOptions.VaultServerOptions(ModularPipelines.Vault.Options.VaultServerOptions! original) -> void
 ModularPipelines.Vault.Options.VaultSshOptions
 ModularPipelines.Vault.Options.VaultSshOptions.Deconstruct(out string! UsernameIp) -> void
-ModularPipelines.Vault.Options.VaultSshOptions.SshOptions.get -> string?
 ModularPipelines.Vault.Options.VaultSshOptions.SshOptions.set -> void
 ModularPipelines.Vault.Options.VaultSshOptions.UsernameIp.get -> string!
 ModularPipelines.Vault.Options.VaultSshOptions.UsernameIp.init -> void
@@ -666,13 +665,10 @@ ModularPipelines.Vault.Options.VaultTransformImportOptions.Path.init -> void
 ModularPipelines.Vault.Options.VaultTransformImportOptions.VaultTransformImportOptions(ModularPipelines.Vault.Options.VaultTransformImportOptions! original) -> void
 ModularPipelines.Vault.Options.VaultTransformImportOptions.VaultTransformImportOptions(string! Path, string! Key) -> void
 ModularPipelines.Vault.Options.VaultTransformImportVersionOptions
-ModularPipelines.Vault.Options.VaultTransformImportVersionOptions.Deconstruct(out string! Path, out string! Key) -> void
-ModularPipelines.Vault.Options.VaultTransformImportVersionOptions.Key.get -> string!
 ModularPipelines.Vault.Options.VaultTransformImportVersionOptions.Key.init -> void
 ModularPipelines.Vault.Options.VaultTransformImportVersionOptions.Path.get -> string!
 ModularPipelines.Vault.Options.VaultTransformImportVersionOptions.Path.init -> void
 ModularPipelines.Vault.Options.VaultTransformImportVersionOptions.VaultTransformImportVersionOptions(ModularPipelines.Vault.Options.VaultTransformImportVersionOptions! original) -> void
-ModularPipelines.Vault.Options.VaultTransformImportVersionOptions.VaultTransformImportVersionOptions(string! Path, string! Key) -> void
 ModularPipelines.Vault.Options.VaultTransformOptions
 ModularPipelines.Vault.Options.VaultTransformOptions.Args.get -> string?
 ModularPipelines.Vault.Options.VaultTransformOptions.Args.set -> void
@@ -692,13 +688,10 @@ ModularPipelines.Vault.Options.VaultTransitImportOptions.Path.init -> void
 ModularPipelines.Vault.Options.VaultTransitImportOptions.VaultTransitImportOptions(ModularPipelines.Vault.Options.VaultTransitImportOptions! original) -> void
 ModularPipelines.Vault.Options.VaultTransitImportOptions.VaultTransitImportOptions(string! Path, string! Key) -> void
 ModularPipelines.Vault.Options.VaultTransitImportVersionOptions
-ModularPipelines.Vault.Options.VaultTransitImportVersionOptions.Deconstruct(out string! Path, out string! Key) -> void
-ModularPipelines.Vault.Options.VaultTransitImportVersionOptions.Key.get -> string!
 ModularPipelines.Vault.Options.VaultTransitImportVersionOptions.Key.init -> void
 ModularPipelines.Vault.Options.VaultTransitImportVersionOptions.Path.get -> string!
 ModularPipelines.Vault.Options.VaultTransitImportVersionOptions.Path.init -> void
 ModularPipelines.Vault.Options.VaultTransitImportVersionOptions.VaultTransitImportVersionOptions(ModularPipelines.Vault.Options.VaultTransitImportVersionOptions! original) -> void
-ModularPipelines.Vault.Options.VaultTransitImportVersionOptions.VaultTransitImportVersionOptions(string! Path, string! Key) -> void
 ModularPipelines.Vault.Options.VaultTransitOptions
 ModularPipelines.Vault.Options.VaultTransitOptions.Args.get -> string?
 ModularPipelines.Vault.Options.VaultTransitOptions.Args.set -> void

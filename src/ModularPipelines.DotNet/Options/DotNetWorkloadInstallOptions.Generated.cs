@@ -18,7 +18,9 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workload", "install")]
-public record DotNetWorkloadInstallOptions : DotNetOptions
+public record DotNetWorkloadInstallOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> WorkloadId
+) : DotNetOptions
 {
     /// <summary>
     /// Specify a temporary directory for this command to download and extract NuGet packages (must be secure).
@@ -79,11 +81,5 @@ public record DotNetWorkloadInstallOptions : DotNetOptions
     /// </summary>
     [CliFlag("--skip-manifest-update")]
     public bool? SkipManifestUpdate { get; set; }
-
-    /// <summary>
-    /// The NuGet package ID of the workload to install.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public IEnumerable<string>? WorkloadId { get; set; }
 
 }

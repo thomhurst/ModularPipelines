@@ -18,7 +18,6 @@ ModularPipelines.Packer.Options.PackerBuildOptions.MachineReadable.get -> bool?
 ModularPipelines.Packer.Options.PackerBuildOptions.MachineReadable.set -> void
 ModularPipelines.Packer.Options.PackerBuildOptions.Only.get -> string?
 ModularPipelines.Packer.Options.PackerBuildOptions.Only.set -> void
-ModularPipelines.Packer.Options.PackerBuildOptions.PackerBuildOptions() -> void
 ModularPipelines.Packer.Options.PackerBuildOptions.PackerBuildOptions(ModularPipelines.Packer.Options.PackerBuildOptions! original) -> void
 ModularPipelines.Packer.Options.PackerBuildOptions.ParallelBuilds.get -> string?
 ModularPipelines.Packer.Options.PackerBuildOptions.ParallelBuilds.set -> void
@@ -28,9 +27,7 @@ ModularPipelines.Packer.Options.PackerBuildOptions.TimestampUi.get -> bool?
 ModularPipelines.Packer.Options.PackerBuildOptions.TimestampUi.set -> void
 ModularPipelines.Packer.Options.PackerBuildOptions.UseSequentialEvaluation.get -> bool?
 ModularPipelines.Packer.Options.PackerBuildOptions.UseSequentialEvaluation.set -> void
-ModularPipelines.Packer.Options.PackerBuildOptions.Var.get -> bool?
 ModularPipelines.Packer.Options.PackerBuildOptions.Var.set -> void
-ModularPipelines.Packer.Options.PackerBuildOptions.VarFile.get -> string?
 ModularPipelines.Packer.Options.PackerBuildOptions.VarFile.set -> void
 ModularPipelines.Packer.Options.PackerBuildOptions.WarnOnUndeclaredVar.get -> bool?
 ModularPipelines.Packer.Options.PackerBuildOptions.WarnOnUndeclaredVar.set -> void
@@ -41,12 +38,10 @@ ModularPipelines.Packer.Options.PackerConsoleOptions.PackerConsoleOptions() -> v
 ModularPipelines.Packer.Options.PackerConsoleOptions.PackerConsoleOptions(ModularPipelines.Packer.Options.PackerConsoleOptions! original) -> void
 ModularPipelines.Packer.Options.PackerConsoleOptions.UseSequentialEvaluation.get -> bool?
 ModularPipelines.Packer.Options.PackerConsoleOptions.UseSequentialEvaluation.set -> void
-ModularPipelines.Packer.Options.PackerConsoleOptions.Var.get -> bool?
 ModularPipelines.Packer.Options.PackerConsoleOptions.Var.set -> void
 ModularPipelines.Packer.Options.PackerConsoleOptions.VarFile.get -> string?
 ModularPipelines.Packer.Options.PackerConsoleOptions.VarFile.set -> void
 ModularPipelines.Packer.Options.PackerFixOptions
-ModularPipelines.Packer.Options.PackerFixOptions.PackerFixOptions() -> void
 ModularPipelines.Packer.Options.PackerFixOptions.PackerFixOptions(ModularPipelines.Packer.Options.PackerFixOptions! original) -> void
 ModularPipelines.Packer.Options.PackerFixOptions.Validate.get -> bool?
 ModularPipelines.Packer.Options.PackerFixOptions.Validate.set -> void
@@ -64,21 +59,18 @@ ModularPipelines.Packer.Options.PackerFmtOptions.Write.set -> void
 ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions
 ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.OutputFile.get -> string?
 ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.OutputFile.set -> void
-ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.PackerHcl2UpgradeOptions() -> void
 ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.PackerHcl2UpgradeOptions(ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions! original) -> void
 ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.WithAnnotations.get -> bool?
 ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.WithAnnotations.set -> void
 ModularPipelines.Packer.Options.PackerInitOptions
 ModularPipelines.Packer.Options.PackerInitOptions.Force.get -> bool?
 ModularPipelines.Packer.Options.PackerInitOptions.Force.set -> void
-ModularPipelines.Packer.Options.PackerInitOptions.PackerInitOptions() -> void
 ModularPipelines.Packer.Options.PackerInitOptions.PackerInitOptions(ModularPipelines.Packer.Options.PackerInitOptions! original) -> void
 ModularPipelines.Packer.Options.PackerInitOptions.Upgrade.get -> bool?
 ModularPipelines.Packer.Options.PackerInitOptions.Upgrade.set -> void
 ModularPipelines.Packer.Options.PackerInspectOptions
 ModularPipelines.Packer.Options.PackerInspectOptions.MachineReadable.get -> bool?
 ModularPipelines.Packer.Options.PackerInspectOptions.MachineReadable.set -> void
-ModularPipelines.Packer.Options.PackerInspectOptions.PackerInspectOptions() -> void
 ModularPipelines.Packer.Options.PackerInspectOptions.PackerInspectOptions(ModularPipelines.Packer.Options.PackerInspectOptions! original) -> void
 ModularPipelines.Packer.Options.PackerInspectOptions.UseSequentialEvaluation.get -> bool?
 ModularPipelines.Packer.Options.PackerInspectOptions.UseSequentialEvaluation.set -> void
@@ -86,7 +78,6 @@ ModularPipelines.Packer.Options.PackerOptions
 ModularPipelines.Packer.Options.PackerOptions.PackerOptions() -> void
 ModularPipelines.Packer.Options.PackerOptions.PackerOptions(ModularPipelines.Packer.Options.PackerOptions! original) -> void
 ModularPipelines.Packer.Options.PackerPluginsOptions
-ModularPipelines.Packer.Options.PackerPluginsOptions.PackerPluginsOptions() -> void
 ModularPipelines.Packer.Options.PackerPluginsOptions.PackerPluginsOptions(ModularPipelines.Packer.Options.PackerPluginsOptions! original) -> void
 ModularPipelines.Packer.Options.PackerValidateOptions
 ModularPipelines.Packer.Options.PackerValidateOptions.EvaluateDatasources.get -> bool?
@@ -101,15 +92,12 @@ ModularPipelines.Packer.Options.PackerValidateOptions.NoWarnUndeclaredVar.get ->
 ModularPipelines.Packer.Options.PackerValidateOptions.NoWarnUndeclaredVar.set -> void
 ModularPipelines.Packer.Options.PackerValidateOptions.Only.get -> string?
 ModularPipelines.Packer.Options.PackerValidateOptions.Only.set -> void
-ModularPipelines.Packer.Options.PackerValidateOptions.PackerValidateOptions() -> void
 ModularPipelines.Packer.Options.PackerValidateOptions.PackerValidateOptions(ModularPipelines.Packer.Options.PackerValidateOptions! original) -> void
 ModularPipelines.Packer.Options.PackerValidateOptions.SyntaxOnly.get -> bool?
 ModularPipelines.Packer.Options.PackerValidateOptions.SyntaxOnly.set -> void
 ModularPipelines.Packer.Options.PackerValidateOptions.UseSequentialEvaluation.get -> bool?
 ModularPipelines.Packer.Options.PackerValidateOptions.UseSequentialEvaluation.set -> void
-ModularPipelines.Packer.Options.PackerValidateOptions.Var.get -> bool?
 ModularPipelines.Packer.Options.PackerValidateOptions.Var.set -> void
-ModularPipelines.Packer.Options.PackerValidateOptions.VarFile.get -> string?
 ModularPipelines.Packer.Options.PackerValidateOptions.VarFile.set -> void
 ModularPipelines.Packer.Services.IPacker
 override ModularPipelines.Packer.Options.PackerBuildOptions.<Clone>$() -> ModularPipelines.Packer.Options.PackerBuildOptions!

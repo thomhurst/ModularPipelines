@@ -17,8 +17,8 @@ namespace ModularPipelines.Liquibase.Enums;
 public enum LiquibaseChangelogParseMode
 {
     [EnumValue("strict")]
-    Strict = 0,
+    Strict,
 
     [EnumValue("lax")]
-    Lax = 1
+    Lax
 }

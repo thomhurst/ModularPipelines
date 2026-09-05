@@ -8,7 +8,7 @@ namespace ModularPipelines.Distributed;
 /// </summary>
 /// <remarks>
 /// Used by both the master (collecting results from workers) and workers (applying dependency
-/// results received in <see cref="ModuleAssignment.DependencyResults"/>).
+/// results fetched through <see cref="ModuleAssignment.DependencyResultReferences"/>).
 /// <c>TrySetResult</c> is idempotent — safe to call even if the CompletionSource was already set.
 /// </remarks>
 internal static class ModuleCompletionSourceApplicator

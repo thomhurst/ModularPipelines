@@ -21,31 +21,11 @@ public class DotNetTests : TestBase
         }
     }
 
-    private class DotNetFormatModule : Module<CommandResult>
-    {
-        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            return await context.Tools.DotNet.FormatAsync(new DotNetFormatOptions
-            {
-                ProjectSolution = TestProjectPaths.TestsForTestsProject,
-            }, cancellationToken: cancellationToken);
-        }
-    }
-
     [Test]
     [Skip("Flaky on CI - dotnet list package on full solution times out")]
     public async Task Has_Not_Errored()
     {
         var moduleResult = await await RunModule<DotNetVersionModule>();
-
-        await ModuleResultAssertions.AssertSuccessWithValue(moduleResult);
-    }
-
-    [Test]
-    [Skip("Temporarily disabled")]
-    public async Task Format_Has_Not_Errored()
-    {
-        var moduleResult = await await RunModule<DotNetFormatModule>();
 
         await ModuleResultAssertions.AssertSuccessWithValue(moduleResult);
     }

@@ -219,55 +219,55 @@ internal static class TimeoutHelper
 
     internal sealed class CancellationSignals<T>
     {
-        private Task<T>? _executionTask;
-
         public CancellationSignals(CancellationTokenSource attemptCts)
         {
-            Deadline = new CancellationSignalState<T>(attemptCts, this);
-            ExternalCancellation = new CancellationSignalState<T>(attemptCts, this);
+            Deadline = new CancellationSignalState<T>(
+                attemptCts,
+                completedTaskWinsAfterSignal: false);
+            ExternalCancellation = new CancellationSignalState<T>(
+                attemptCts,
+                completedTaskWinsAfterSignal: true);
         }
 
         public CancellationSignalState<T> Deadline { get; }
 
         public CancellationSignalState<T> ExternalCancellation { get; }
 
-        internal Task<T>? ExecutionTask => Volatile.Read(ref _executionTask);
-
         public void PublishExecutionTask(Task<T> executionTask)
         {
-            // Both signals read one atomic task reference, so neither can observe
-            // a provisional wrapper after the actual factory task is available.
-            Volatile.Write(ref _executionTask, executionTask);
-            Deadline.ExecutionTaskPublished();
-            ExternalCancellation.ExecutionTaskPublished();
+            Deadline.PublishExecutionTask(executionTask);
+            ExternalCancellation.PublishExecutionTask(executionTask);
         }
     }
 
     internal sealed class CancellationSignalState<T>(
         CancellationTokenSource attemptCts,
-        CancellationSignals<T> cancellationSignals)
+        bool completedTaskWinsAfterSignal)
     {
         private readonly Lock _lock = new();
         private bool _cancellationSignaled;
+        private Task<T>? _executionTask;
 
         public TaskCompletionSource<bool> Signal { get; } = new(
             TaskCreationOptions.RunContinuationsAsynchronously);
 
-        internal void ExecutionTaskPublished()
+        internal void PublishExecutionTask(Task<T> executionTask)
         {
-            bool cancellationSignaled;
+            bool? taskOwnsOutcome = null;
             lock (_lock)
             {
-                cancellationSignaled = _cancellationSignaled;
+                _executionTask = executionTask;
+                if (_cancellationSignaled)
+                {
+                    taskOwnsOutcome = TaskOwnsOutcome(
+                        executionTask,
+                        cancellationWasSignaledBeforePublication: true);
+                }
             }
 
-            if (cancellationSignaled)
+            if (taskOwnsOutcome.HasValue)
             {
-                var executionTask = cancellationSignals.ExecutionTask!;
-                // A completed value or fault existed by the time publication caught up
-                // with the signal. A cancelled task still belongs to the signal that
-                // cancelled the attempt token.
-                Signal.TrySetResult(executionTask.IsCompleted && !executionTask.IsCanceled);
+                Signal.TrySetResult(taskOwnsOutcome.Value);
             }
         }
 
@@ -277,16 +277,33 @@ internal static class TimeoutHelper
             lock (_lock)
             {
                 _cancellationSignaled = true;
-                executionTask = cancellationSignals.ExecutionTask;
+                executionTask = _executionTask;
             }
 
             if (executionTask is not null)
             {
                 // Record ordering before propagating cancellation to the attempt.
-                Signal.TrySetResult(executionTask.IsCompleted);
+                Signal.TrySetResult(TaskOwnsOutcome(
+                    executionTask,
+                    cancellationWasSignaledBeforePublication: false));
             }
 
             attemptCts.Cancel();
+        }
+
+        private bool TaskOwnsOutcome(
+            Task executionTask,
+            bool cancellationWasSignaledBeforePublication)
+        {
+            if (!cancellationWasSignaledBeforePublication)
+            {
+                return executionTask.IsCompleted;
+            }
+
+            // A signal that fired before publication may itself have caused the task
+            // to cancel or fault. Only an independently successful synchronous result
+            // can retain ownership, and only for signals that permit that behavior.
+            return completedTaskWinsAfterSignal && executionTask.IsCompletedSuccessfully;
         }
     }
 }

@@ -151,9 +151,7 @@ ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput.Template = 6 -> Modular
 ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput
 ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput
 ModularPipelines.Kubernetes.Enums.KubernetesKubercSetPolicy
-ModularPipelines.Kubernetes.Enums.KubernetesKubercSetPolicy.Allowall = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesKubercSetPolicy
 ModularPipelines.Kubernetes.Enums.KubernetesKubercSetPolicy.Allowlist = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesKubercSetPolicy
-ModularPipelines.Kubernetes.Enums.KubernetesKubercSetPolicy.Denyall = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesKubercSetPolicy
 ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput
 ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput
 ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput
@@ -307,7 +305,6 @@ ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.AllNamespaces.get 
 ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.AllNamespaces.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.AllowMissingTemplateKeys.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.AllowMissingTemplateKeys.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.DryRun.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.DryRun.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.FieldManager.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.FieldManager.set -> void
@@ -315,7 +312,6 @@ ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.FieldSelector.get 
 ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.FieldSelector.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.Filename.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.Filename.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.KubernetesAnnotateOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.KubernetesAnnotateOptions(ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.Kustomize.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.Kustomize.set -> void
@@ -365,9 +361,7 @@ ModularPipelines.Kubernetes.Options.KubernetesApplyOptions.All.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesApplyOptions.All.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesApplyOptions.AllowMissingTemplateKeys.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesApplyOptions.AllowMissingTemplateKeys.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesApplyOptions.Cascade.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesApplyOptions.Cascade.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesApplyOptions.DryRun.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesApplyOptions.DryRun.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesApplyOptions.FieldManager.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesApplyOptions.FieldManager.set -> void
@@ -416,7 +410,6 @@ ModularPipelines.Kubernetes.Options.KubernetesApplySetLastAppliedOptions.AllowMi
 ModularPipelines.Kubernetes.Options.KubernetesApplySetLastAppliedOptions.AllowMissingTemplateKeys.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesApplySetLastAppliedOptions.CreateAnnotation.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesApplySetLastAppliedOptions.CreateAnnotation.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesApplySetLastAppliedOptions.DryRun.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesApplySetLastAppliedOptions.DryRun.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesApplySetLastAppliedOptions.Filename.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Kubernetes.Options.KubernetesApplySetLastAppliedOptions.Filename.set -> void
@@ -448,7 +441,6 @@ ModularPipelines.Kubernetes.Options.KubernetesAttachOptions.Container.get -> str
 ModularPipelines.Kubernetes.Options.KubernetesAttachOptions.Container.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesAttachOptions.DetachKeys.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesAttachOptions.DetachKeys.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesAttachOptions.KubernetesAttachOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesAttachOptions.KubernetesAttachOptions(ModularPipelines.Kubernetes.Options.KubernetesAttachOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesAttachOptions.PodRunningTimeout.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesAttachOptions.PodRunningTimeout.set -> void
@@ -461,7 +453,6 @@ ModularPipelines.Kubernetes.Options.KubernetesAttachOptions.Tty.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesAuthCanIOptions
 ModularPipelines.Kubernetes.Options.KubernetesAuthCanIOptions.AllNamespaces.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesAuthCanIOptions.AllNamespaces.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesAuthCanIOptions.KubernetesAuthCanIOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesAuthCanIOptions.KubernetesAuthCanIOptions(ModularPipelines.Kubernetes.Options.KubernetesAuthCanIOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesAuthCanIOptions.List.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesAuthCanIOptions.List.set -> void
@@ -477,7 +468,6 @@ ModularPipelines.Kubernetes.Options.KubernetesAuthOptions.KubernetesAuthOptions(
 ModularPipelines.Kubernetes.Options.KubernetesAuthReconcileOptions
 ModularPipelines.Kubernetes.Options.KubernetesAuthReconcileOptions.AllowMissingTemplateKeys.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesAuthReconcileOptions.AllowMissingTemplateKeys.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesAuthReconcileOptions.DryRun.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesAuthReconcileOptions.DryRun.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesAuthReconcileOptions.Filename.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Kubernetes.Options.KubernetesAuthReconcileOptions.Filename.set -> void
@@ -513,7 +503,6 @@ ModularPipelines.Kubernetes.Options.KubernetesAutoscaleOptions.AllowMissingTempl
 ModularPipelines.Kubernetes.Options.KubernetesAutoscaleOptions.AllowMissingTemplateKeys.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesAutoscaleOptions.Cpu.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesAutoscaleOptions.Cpu.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesAutoscaleOptions.DryRun.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesAutoscaleOptions.DryRun.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesAutoscaleOptions.FieldManager.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesAutoscaleOptions.FieldManager.set -> void
@@ -621,7 +610,6 @@ ModularPipelines.Kubernetes.Options.KubernetesConfigSetClusterOptions.EmbedCerts
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetClusterOptions.EmbedCerts.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetClusterOptions.InsecureSkipTlsVerify.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetClusterOptions.InsecureSkipTlsVerify.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesConfigSetClusterOptions.KubernetesConfigSetClusterOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetClusterOptions.KubernetesConfigSetClusterOptions(ModularPipelines.Kubernetes.Options.KubernetesConfigSetClusterOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetClusterOptions.ProxyUrl.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetClusterOptions.ProxyUrl.set -> void
@@ -663,7 +651,6 @@ ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions.ExecIn
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions.ExecInteractiveMode.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions.ExecProvideClusterInfo.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions.ExecProvideClusterInfo.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions.KubernetesConfigSetCredentialsOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions.KubernetesConfigSetCredentialsOptions(ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions.Password.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions.Password.set -> void
@@ -672,7 +659,6 @@ ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions.Token.
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions.Username.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetCredentialsOptions.Username.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetOptions
-ModularPipelines.Kubernetes.Options.KubernetesConfigSetOptions.KubernetesConfigSetOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetOptions.KubernetesConfigSetOptions(ModularPipelines.Kubernetes.Options.KubernetesConfigSetOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetOptions.SetRawBytes.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesConfigSetOptions.SetRawBytes.set -> void
@@ -696,16 +682,13 @@ ModularPipelines.Kubernetes.Options.KubernetesConfigViewOptions.ShowManagedField
 ModularPipelines.Kubernetes.Options.KubernetesConfigViewOptions.Template.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesConfigViewOptions.Template.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesCordonOptions
-ModularPipelines.Kubernetes.Options.KubernetesCordonOptions.DryRun.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesCordonOptions.DryRun.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesCordonOptions.KubernetesCordonOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesCordonOptions.KubernetesCordonOptions(ModularPipelines.Kubernetes.Options.KubernetesCordonOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesCordonOptions.Selector.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesCordonOptions.Selector.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesCpOptions
 ModularPipelines.Kubernetes.Options.KubernetesCpOptions.Container.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesCpOptions.Container.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesCpOptions.KubernetesCpOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesCpOptions.KubernetesCpOptions(ModularPipelines.Kubernetes.Options.KubernetesCpOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesCpOptions.NoPreserve.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesCpOptions.NoPreserve.set -> void
@@ -742,7 +725,6 @@ ModularPipelines.Kubernetes.Options.KubernetesDebugOptions.KeepReadiness.get -> 
 ModularPipelines.Kubernetes.Options.KubernetesDebugOptions.KeepReadiness.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesDebugOptions.KeepStartup.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesDebugOptions.KeepStartup.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesDebugOptions.KubernetesDebugOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesDebugOptions.KubernetesDebugOptions(ModularPipelines.Kubernetes.Options.KubernetesDebugOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesDebugOptions.Profile.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesDebugOptions.Profile.set -> void
@@ -813,7 +795,6 @@ ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.DeleteEmptydirData.ge
 ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.DeleteEmptydirData.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.DisableEviction.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.DisableEviction.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.DryRun.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.DryRun.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.Force.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.Force.set -> void
@@ -821,7 +802,6 @@ ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.GracePeriod.get -> in
 ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.GracePeriod.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.IgnoreDaemonsets.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.IgnoreDaemonsets.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.KubernetesDrainOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.KubernetesDrainOptions(ModularPipelines.Kubernetes.Options.KubernetesDrainOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.PodSelector.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesDrainOptions.PodSelector.set -> void
@@ -859,7 +839,6 @@ ModularPipelines.Kubernetes.Options.KubernetesExecOptions.Container.get -> strin
 ModularPipelines.Kubernetes.Options.KubernetesExecOptions.Container.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesExecOptions.Filename.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Kubernetes.Options.KubernetesExecOptions.Filename.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesExecOptions.KubernetesExecOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesExecOptions.KubernetesExecOptions(ModularPipelines.Kubernetes.Options.KubernetesExecOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesExecOptions.PodRunningTimeout.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesExecOptions.PodRunningTimeout.set -> void
@@ -915,7 +894,6 @@ ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.AllNamespaces.get -> 
 ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.AllNamespaces.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.AllowMissingTemplateKeys.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.AllowMissingTemplateKeys.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.DryRun.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.DryRun.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.FieldManager.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.FieldManager.set -> void
@@ -923,7 +901,6 @@ ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.FieldSelector.get -> 
 ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.FieldSelector.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.Filename.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.Filename.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.KubernetesLabelOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.KubernetesLabelOptions(ModularPipelines.Kubernetes.Options.KubernetesLabelOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.Kustomize.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesLabelOptions.Kustomize.set -> void
@@ -958,7 +935,6 @@ ModularPipelines.Kubernetes.Options.KubernetesLogsOptions.IgnoreErrors.get -> bo
 ModularPipelines.Kubernetes.Options.KubernetesLogsOptions.IgnoreErrors.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesLogsOptions.InsecureSkipTlsVerifyBackend.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesLogsOptions.InsecureSkipTlsVerifyBackend.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesLogsOptions.KubernetesLogsOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesLogsOptions.KubernetesLogsOptions(ModularPipelines.Kubernetes.Options.KubernetesLogsOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesLogsOptions.LimitBytes.get -> int?
 ModularPipelines.Kubernetes.Options.KubernetesLogsOptions.LimitBytes.set -> void
@@ -986,7 +962,6 @@ ModularPipelines.Kubernetes.Options.KubernetesOptions.KubernetesOptions(ModularP
 ModularPipelines.Kubernetes.Options.KubernetesPatchOptions
 ModularPipelines.Kubernetes.Options.KubernetesPatchOptions.AllowMissingTemplateKeys.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesPatchOptions.AllowMissingTemplateKeys.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesPatchOptions.DryRun.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesPatchOptions.DryRun.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesPatchOptions.FieldManager.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesPatchOptions.FieldManager.set -> void
@@ -1017,7 +992,6 @@ ModularPipelines.Kubernetes.Options.KubernetesPatchOptions.Type.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesPortForwardOptions
 ModularPipelines.Kubernetes.Options.KubernetesPortForwardOptions.Address.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesPortForwardOptions.Address.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesPortForwardOptions.KubernetesPortForwardOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesPortForwardOptions.KubernetesPortForwardOptions(ModularPipelines.Kubernetes.Options.KubernetesPortForwardOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesPortForwardOptions.PodRunningTimeout.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesPortForwardOptions.PodRunningTimeout.set -> void
@@ -1053,9 +1027,7 @@ ModularPipelines.Kubernetes.Options.KubernetesProxyOptions.WwwPrefix.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesReplaceOptions
 ModularPipelines.Kubernetes.Options.KubernetesReplaceOptions.AllowMissingTemplateKeys.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesReplaceOptions.AllowMissingTemplateKeys.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesReplaceOptions.Cascade.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesReplaceOptions.Cascade.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesReplaceOptions.DryRun.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesReplaceOptions.DryRun.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesReplaceOptions.FieldManager.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesReplaceOptions.FieldManager.set -> void
@@ -1094,7 +1066,6 @@ ModularPipelines.Kubernetes.Options.KubernetesRolloutHistoryOptions.AllowMissing
 ModularPipelines.Kubernetes.Options.KubernetesRolloutHistoryOptions.AllowMissingTemplateKeys.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesRolloutHistoryOptions.Filename.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Kubernetes.Options.KubernetesRolloutHistoryOptions.Filename.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesRolloutHistoryOptions.KubernetesRolloutHistoryOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesRolloutHistoryOptions.KubernetesRolloutHistoryOptions(ModularPipelines.Kubernetes.Options.KubernetesRolloutHistoryOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesRolloutHistoryOptions.Kustomize.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesRolloutHistoryOptions.Kustomize.set -> void
@@ -1120,7 +1091,6 @@ ModularPipelines.Kubernetes.Options.KubernetesRolloutPauseOptions.FieldManager.g
 ModularPipelines.Kubernetes.Options.KubernetesRolloutPauseOptions.FieldManager.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesRolloutPauseOptions.Filename.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Kubernetes.Options.KubernetesRolloutPauseOptions.Filename.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesRolloutPauseOptions.KubernetesRolloutPauseOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesRolloutPauseOptions.KubernetesRolloutPauseOptions(ModularPipelines.Kubernetes.Options.KubernetesRolloutPauseOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesRolloutPauseOptions.Kustomize.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesRolloutPauseOptions.Kustomize.set -> void
@@ -1141,7 +1111,6 @@ ModularPipelines.Kubernetes.Options.KubernetesRolloutRestartOptions.FieldManager
 ModularPipelines.Kubernetes.Options.KubernetesRolloutRestartOptions.FieldManager.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesRolloutRestartOptions.Filename.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Kubernetes.Options.KubernetesRolloutRestartOptions.Filename.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesRolloutRestartOptions.KubernetesRolloutRestartOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesRolloutRestartOptions.KubernetesRolloutRestartOptions(ModularPipelines.Kubernetes.Options.KubernetesRolloutRestartOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesRolloutRestartOptions.Kustomize.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesRolloutRestartOptions.Kustomize.set -> void
@@ -1162,7 +1131,6 @@ ModularPipelines.Kubernetes.Options.KubernetesRolloutResumeOptions.FieldManager.
 ModularPipelines.Kubernetes.Options.KubernetesRolloutResumeOptions.FieldManager.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesRolloutResumeOptions.Filename.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Kubernetes.Options.KubernetesRolloutResumeOptions.Filename.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesRolloutResumeOptions.KubernetesRolloutResumeOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesRolloutResumeOptions.KubernetesRolloutResumeOptions(ModularPipelines.Kubernetes.Options.KubernetesRolloutResumeOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesRolloutResumeOptions.Kustomize.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesRolloutResumeOptions.Kustomize.set -> void
@@ -1179,7 +1147,6 @@ ModularPipelines.Kubernetes.Options.KubernetesRolloutResumeOptions.Template.set 
 ModularPipelines.Kubernetes.Options.KubernetesRolloutStatusOptions
 ModularPipelines.Kubernetes.Options.KubernetesRolloutStatusOptions.Filename.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Kubernetes.Options.KubernetesRolloutStatusOptions.Filename.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesRolloutStatusOptions.KubernetesRolloutStatusOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesRolloutStatusOptions.KubernetesRolloutStatusOptions(ModularPipelines.Kubernetes.Options.KubernetesRolloutStatusOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesRolloutStatusOptions.Kustomize.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesRolloutStatusOptions.Kustomize.set -> void
@@ -1196,11 +1163,9 @@ ModularPipelines.Kubernetes.Options.KubernetesRolloutStatusOptions.Watch.set -> 
 ModularPipelines.Kubernetes.Options.KubernetesRolloutUndoOptions
 ModularPipelines.Kubernetes.Options.KubernetesRolloutUndoOptions.AllowMissingTemplateKeys.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesRolloutUndoOptions.AllowMissingTemplateKeys.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesRolloutUndoOptions.DryRun.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesRolloutUndoOptions.DryRun.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesRolloutUndoOptions.Filename.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Kubernetes.Options.KubernetesRolloutUndoOptions.Filename.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesRolloutUndoOptions.KubernetesRolloutUndoOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesRolloutUndoOptions.KubernetesRolloutUndoOptions(ModularPipelines.Kubernetes.Options.KubernetesRolloutUndoOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesRolloutUndoOptions.Kustomize.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesRolloutUndoOptions.Kustomize.set -> void
@@ -1223,7 +1188,6 @@ ModularPipelines.Kubernetes.Options.KubernetesScaleOptions.AllowMissingTemplateK
 ModularPipelines.Kubernetes.Options.KubernetesScaleOptions.AllowMissingTemplateKeys.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesScaleOptions.CurrentReplicas.get -> int?
 ModularPipelines.Kubernetes.Options.KubernetesScaleOptions.CurrentReplicas.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesScaleOptions.DryRun.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesScaleOptions.DryRun.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesScaleOptions.Filename.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Kubernetes.Options.KubernetesScaleOptions.Filename.set -> void
@@ -1252,11 +1216,9 @@ ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.All.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.All.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.AllowMissingTemplateKeys.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.AllowMissingTemplateKeys.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.DryRun.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.DryRun.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.FieldManager.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.FieldManager.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.KubernetesTaintOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.KubernetesTaintOptions(ModularPipelines.Kubernetes.Options.KubernetesTaintOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.Output.get -> ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput?
 ModularPipelines.Kubernetes.Options.KubernetesTaintOptions.Output.set -> void
@@ -1310,9 +1272,7 @@ ModularPipelines.Kubernetes.Options.KubernetesTopPodOptions.Sum.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesTopPodOptions.UseProtocolBuffers.get -> bool?
 ModularPipelines.Kubernetes.Options.KubernetesTopPodOptions.UseProtocolBuffers.set -> void
 ModularPipelines.Kubernetes.Options.KubernetesUncordonOptions
-ModularPipelines.Kubernetes.Options.KubernetesUncordonOptions.DryRun.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesUncordonOptions.DryRun.set -> void
-ModularPipelines.Kubernetes.Options.KubernetesUncordonOptions.KubernetesUncordonOptions() -> void
 ModularPipelines.Kubernetes.Options.KubernetesUncordonOptions.KubernetesUncordonOptions(ModularPipelines.Kubernetes.Options.KubernetesUncordonOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KubernetesUncordonOptions.Selector.get -> string?
 ModularPipelines.Kubernetes.Options.KubernetesUncordonOptions.Selector.set -> void
@@ -1400,7 +1360,6 @@ ModularPipelines.Kubernetes.Options.KustomizeCfgCatOptions.Help.get -> bool?
 ModularPipelines.Kubernetes.Options.KustomizeCfgCatOptions.Help.set -> void
 ModularPipelines.Kubernetes.Options.KustomizeCfgCatOptions.IncludeLocal.get -> bool?
 ModularPipelines.Kubernetes.Options.KustomizeCfgCatOptions.IncludeLocal.set -> void
-ModularPipelines.Kubernetes.Options.KustomizeCfgCatOptions.KustomizeCfgCatOptions() -> void
 ModularPipelines.Kubernetes.Options.KustomizeCfgCatOptions.KustomizeCfgCatOptions(ModularPipelines.Kubernetes.Options.KustomizeCfgCatOptions! original) -> void
 ModularPipelines.Kubernetes.Options.KustomizeCfgCatOptions.KustomizeCfgCatOptions(string! Dir) -> void
 ModularPipelines.Kubernetes.Options.KustomizeCfgCatOptions.RecurseSubpackages.get -> bool?
@@ -1939,7 +1898,6 @@ ModularPipelines.Kubernetes.Services.IKubernetes
 ModularPipelines.Kubernetes.Services.IKubernetes.Apply.get -> ModularPipelines.Kubernetes.Services.IKubernetesApply!
 ModularPipelines.Kubernetes.Services.IKubernetes.Auth.get -> ModularPipelines.Kubernetes.Services.IKubernetesAuth!
 ModularPipelines.Kubernetes.Services.IKubernetes.Certificate.get -> ModularPipelines.Kubernetes.Services.IKubernetesCertificate!
-ModularPipelines.Kubernetes.Services.IKubernetes.Clusterinfo.get -> ModularPipelines.Kubernetes.Services.IKubernetesClusterinfo!
 ModularPipelines.Kubernetes.Services.IKubernetes.Config.get -> ModularPipelines.Kubernetes.Services.IKubernetesConfig!
 ModularPipelines.Kubernetes.Services.IKubernetes.Kuberc.get -> ModularPipelines.Kubernetes.Services.IKubernetesKuberc!
 ModularPipelines.Kubernetes.Services.IKubernetes.Rollout.get -> ModularPipelines.Kubernetes.Services.IKubernetesRollout!
@@ -1947,7 +1905,6 @@ ModularPipelines.Kubernetes.Services.IKubernetes.Top.get -> ModularPipelines.Kub
 ModularPipelines.Kubernetes.Services.IKubernetesApply
 ModularPipelines.Kubernetes.Services.IKubernetesAuth
 ModularPipelines.Kubernetes.Services.IKubernetesCertificate
-ModularPipelines.Kubernetes.Services.IKubernetesClusterinfo
 ModularPipelines.Kubernetes.Services.IKubernetesConfig
 ModularPipelines.Kubernetes.Services.IKubernetesKuberc
 ModularPipelines.Kubernetes.Services.IKubernetesRollout
@@ -1965,7 +1922,6 @@ ModularPipelines.Kubernetes.Services.IKustomizeFn
 ModularPipelines.Kubernetes.Services.KubernetesApply
 ModularPipelines.Kubernetes.Services.KubernetesAuth
 ModularPipelines.Kubernetes.Services.KubernetesCertificate
-ModularPipelines.Kubernetes.Services.KubernetesClusterinfo
 ModularPipelines.Kubernetes.Services.KubernetesConfig
 ModularPipelines.Kubernetes.Services.KubernetesKuberc
 ModularPipelines.Kubernetes.Services.KubernetesRollout
@@ -1979,8 +1935,6 @@ ModularPipelines.Kubernetes.Services.KustomizeEditAdd
 ModularPipelines.Kubernetes.Services.KustomizeEditRemove
 ModularPipelines.Kubernetes.Services.KustomizeEditSet
 ModularPipelines.Kubernetes.Services.KustomizeFn
-override abstract ModularPipelines.Kubernetes.Options.KubernetesOptions.<Clone>$() -> ModularPipelines.Kubernetes.Options.KubernetesOptions!
-override abstract ModularPipelines.Kubernetes.Options.KustomizeOptions.<Clone>$() -> ModularPipelines.Kubernetes.Options.KustomizeOptions!
 override ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.<Clone>$() -> ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions!
 override ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.Equals(object? obj) -> bool
@@ -2585,6 +2539,8 @@ override ModularPipelines.Kubernetes.Options.KustomizeOptions.Equals(object? obj
 override ModularPipelines.Kubernetes.Options.KustomizeOptions.GetHashCode() -> int
 override ModularPipelines.Kubernetes.Options.KustomizeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Kubernetes.Options.KustomizeOptions.ToString() -> string!
+override abstract ModularPipelines.Kubernetes.Options.KubernetesOptions.<Clone>$() -> ModularPipelines.Kubernetes.Options.KubernetesOptions!
+override abstract ModularPipelines.Kubernetes.Options.KustomizeOptions.<Clone>$() -> ModularPipelines.Kubernetes.Options.KustomizeOptions!
 override sealed ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions.Equals(ModularPipelines.Kubernetes.Options.KubernetesOptions? other) -> bool
 override sealed ModularPipelines.Kubernetes.Options.KubernetesApplyEditLastAppliedOptions.Equals(ModularPipelines.Kubernetes.Options.KubernetesOptions? other) -> bool
 override sealed ModularPipelines.Kubernetes.Options.KubernetesApplyOptions.Equals(ModularPipelines.Kubernetes.Options.KubernetesOptions? other) -> bool
