@@ -24,7 +24,7 @@ public record DotNetNuGetListSourceOptions : DotNetOptions
     /// The format of the list command output: `Detailed` (the default) and `Short`.
     /// </summary>
     [CliOption("--format")]
-    public string? FormatValue { get; set; }
+    public string? Format { get; set; }
 
     /// <summary>
     /// The NuGet configuration file. If specified, only the settings from this file will be used. If not specified, the hierarchy of configuration files from the current directory will be used. For more information, see https://docs.microsoft.com/nuget/consume-packages/configuring-nuget-behavior.
@@ -37,12 +37,5 @@ public record DotNetNuGetListSourceOptions : DotNetOptions
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
-
-    [Obsolete("Use FormatValue instead.")]
-    public bool? Format
-    {
-        get => bool.TryParse(FormatValue, out var value) ? value : null;
-        set => FormatValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

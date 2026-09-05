@@ -68,7 +68,6 @@ ModularPipelines.Hadolint.Options.HadolintOptions
 ModularPipelines.Hadolint.Options.HadolintOptions.HadolintOptions() -> void
 ModularPipelines.Hadolint.Options.HadolintOptions.HadolintOptions(ModularPipelines.Hadolint.Options.HadolintOptions! original) -> void
 ModularPipelines.Hadolint.Services.IHadolint
-override abstract ModularPipelines.Hadolint.Options.HadolintOptions.<Clone>$() -> ModularPipelines.Hadolint.Options.HadolintOptions!
 override ModularPipelines.Hadolint.Options.HadolintExecuteOptions.<Clone>$() -> ModularPipelines.Hadolint.Options.HadolintExecuteOptions!
 override ModularPipelines.Hadolint.Options.HadolintExecuteOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Equals(object? obj) -> bool
@@ -80,6 +79,7 @@ override ModularPipelines.Hadolint.Options.HadolintOptions.Equals(object? obj) -
 override ModularPipelines.Hadolint.Options.HadolintOptions.GetHashCode() -> int
 override ModularPipelines.Hadolint.Options.HadolintOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Hadolint.Options.HadolintOptions.ToString() -> string!
+override abstract ModularPipelines.Hadolint.Options.HadolintOptions.<Clone>$() -> ModularPipelines.Hadolint.Options.HadolintOptions!
 override sealed ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Equals(ModularPipelines.Hadolint.Options.HadolintOptions? other) -> bool
 override sealed ModularPipelines.Hadolint.Options.HadolintOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 static ModularPipelines.Context.ModularPipelines_Hadolint_a7b9813b1c6440cdToolsExtensions.get_Hadolint(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Hadolint.Services.IHadolint!

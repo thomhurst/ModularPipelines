@@ -13,13 +13,16 @@ internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactSt
 {
     private readonly S3ArtifactOptions _s3Options;
     private readonly ArtifactOptions _artifactOptions;
+    private readonly DistributedOptions _distributedOptions;
 
     public S3DistributedArtifactStoreFactory(
         IOptions<S3ArtifactOptions> s3Options,
-        IOptions<ArtifactOptions> artifactOptions)
+        IOptions<ArtifactOptions> artifactOptions,
+        IOptions<DistributedOptions> distributedOptions)
     {
         _s3Options = s3Options.Value;
         _artifactOptions = artifactOptions.Value;
+        _distributedOptions = distributedOptions.Value;
     }
 
     public async Task<IDistributedArtifactStore> CreateAsync(CancellationToken cancellationToken)
@@ -27,8 +30,6 @@ internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactSt
         var s3 = S3ClientFactory.Create(_s3Options);
         try
         {
-            var runId = RunIdentifierResolver.Resolve(_s3Options.RunIdentifier);
-
             if (_s3Options.SetLifecycleRule)
             {
                 await TrySetLifecycleRuleAsync(s3, cancellationToken);
@@ -38,7 +39,7 @@ internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactSt
                 s3,
                 _s3Options.BucketName,
                 _s3Options.KeyPrefix,
-                runId);
+                _distributedOptions.RunId);
         }
         catch
         {

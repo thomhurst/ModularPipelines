@@ -2494,7 +2494,7 @@ public class RunReportTests
             Enabled = true,
             InstanceIndex = 1,
             TotalInstances = 2,
-            RunIdentifier = "current-run",
+            RunId = "current-run",
         });
         var previousInstance = Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
         Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", "1");
@@ -2537,7 +2537,7 @@ public class RunReportTests
                 coordinator.Verify(x => x.RegisterWorkerAsync(
                     It.Is<WorkerRegistration>(registration =>
                         registration.WorkerIndex == 1
-                        && registration.RunIdentifier == "current-run"
+                        && registration.RunId == "current-run"
                         && registration.UnattributedCommandCount == 3
                         && registration.ModuleCommandCounts![ModuleTypeIdentifier.Get(typeof(SuccessfulModule))] == 2),
                     It.IsAny<CancellationToken>()), Times.Once);
@@ -3026,6 +3026,7 @@ public class RunReportTests
             .ReturnsAsync([
                 new WorkerRegistration(1, new HashSet<Capability>(), runStartedAt)
                 {
+                    RunId = distributedOptions.Value.RunId,
                     UnattributedCommandCount = 3,
                     ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal)
                     {
@@ -3034,6 +3035,7 @@ public class RunReportTests
                 },
                 new WorkerRegistration(2, new HashSet<Capability>(), runStartedAt)
                 {
+                    RunId = distributedOptions.Value.RunId,
                     UnattributedCommandCount = 0,
                     ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal),
                 },
@@ -3232,6 +3234,7 @@ public class RunReportTests
             [
                 new WorkerRegistration(1, new HashSet<Capability>(), runStartedAt)
                 {
+                    RunId = distributedOptions.Value.RunId,
                     UnattributedCommandCount = 0,
                     ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal)
                     {
@@ -3240,7 +3243,13 @@ public class RunReportTests
                 },
                 .. collectedRemoteWorkerIndex == 1
                     ? Array.Empty<WorkerRegistration>()
-                    : [new WorkerRegistration(2, new HashSet<Capability>(), runStartedAt)],
+                    :
+                    [
+                        new WorkerRegistration(2, new HashSet<Capability>(), runStartedAt)
+                        {
+                            RunId = distributedOptions.Value.RunId,
+                        },
+                    ],
             ]);
         var commandExecutionCounter = new CommandExecutionCounter();
         commandExecutionCounter.AddRemote(
@@ -3317,13 +3326,17 @@ public class RunReportTests
                 .ReturnsAsync([
                     new WorkerRegistration(1, new HashSet<Capability>(), runStartedAt)
                     {
+                        RunId = distributedOptions.Value.RunId,
                         UnattributedCommandCount = 0,
                         ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal)
                         {
                             [moduleTypeIdentifier] = 3,
                         },
                     },
-                    new WorkerRegistration(2, new HashSet<Capability>(), runStartedAt),
+                    new WorkerRegistration(2, new HashSet<Capability>(), runStartedAt)
+                    {
+                        RunId = distributedOptions.Value.RunId,
+                    },
                 ]);
             var commandExecutionCounter = new CommandExecutionCounter();
             commandExecutionCounter.Add(firstType, count: 5);
@@ -3390,7 +3403,10 @@ public class RunReportTests
         var incompleteRegistration = new WorkerRegistration(
             1,
             new HashSet<Capability>(),
-            runStartedAt);
+            runStartedAt)
+        {
+            RunId = distributedOptions.Value.RunId,
+        };
         var pollingCount = 0;
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
@@ -3505,6 +3521,7 @@ public class RunReportTests
             .ReturnsAsync([
                 new WorkerRegistration(1, new HashSet<Capability>(), runStartedAt)
                 {
+                    RunId = distributedOptions.Value.RunId,
                     UnattributedCommandCount = 3,
                 },
             ]);
@@ -3544,7 +3561,7 @@ public class RunReportTests
 
     [Test]
     [TUnit.Core.NotInParallel("ProcessEnvironment")]
-    public async Task DistributedMasterUsesRunIdentifierInsteadOfWorkerClock()
+    public async Task DistributedMasterUsesRunIdInsteadOfWorkerClock()
     {
         var runStartedAt = DateTimeOffset.UtcNow;
         const string runIdentifier = "current-run";
@@ -3553,19 +3570,19 @@ public class RunReportTests
             Enabled = true,
             InstanceIndex = 0,
             TotalInstances = 3,
-            RunIdentifier = runIdentifier,
+            RunId = runIdentifier,
         });
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([
                 new WorkerRegistration(1, new HashSet<Capability>(), runStartedAt.AddMinutes(-5))
                 {
-                    RunIdentifier = runIdentifier,
+                    RunId = runIdentifier,
                     UnattributedCommandCount = 3,
                 },
                 new WorkerRegistration(2, new HashSet<Capability>(), runStartedAt.AddMinutes(5))
                 {
-                    RunIdentifier = "previous-run",
+                    RunId = "previous-run",
                     UnattributedCommandCount = 99,
                 },
             ]);

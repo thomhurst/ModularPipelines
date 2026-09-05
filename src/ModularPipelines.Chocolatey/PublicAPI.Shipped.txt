@@ -267,10 +267,10 @@ ModularPipelines.Chocolatey.Options.ChocoFindOptions.Source.get -> string?
 ModularPipelines.Chocolatey.Options.ChocoFindOptions.Source.set -> void
 ModularPipelines.Chocolatey.Options.ChocoFindOptions.Trace.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoFindOptions.Trace.set -> void
-ModularPipelines.Chocolatey.Options.ChocoFindOptions.User.get -> string?
-ModularPipelines.Chocolatey.Options.ChocoFindOptions.User.set -> void
 ModularPipelines.Chocolatey.Options.ChocoFindOptions.UseSystemPowershell.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoFindOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.User.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoFindOptions.User.set -> void
 ModularPipelines.Chocolatey.Options.ChocoFindOptions.Verbose.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoFindOptions.Verbose.set -> void
 ModularPipelines.Chocolatey.Options.ChocoFindOptions.Version.get -> string?
@@ -312,10 +312,10 @@ ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Source.get -> string?
 ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Source.set -> void
 ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Trace.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Trace.set -> void
-ModularPipelines.Chocolatey.Options.ChocoInfoOptions.User.get -> string?
-ModularPipelines.Chocolatey.Options.ChocoInfoOptions.User.set -> void
 ModularPipelines.Chocolatey.Options.ChocoInfoOptions.UseSystemPowershell.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoInfoOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.User.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInfoOptions.User.set -> void
 ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Verbose.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Verbose.set -> void
 ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Version.get -> string?
@@ -323,7 +323,6 @@ ModularPipelines.Chocolatey.Options.ChocoInfoOptions.Version.set -> void
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Cert.get -> string?
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Cert.set -> void
-ModularPipelines.Chocolatey.Options.ChocoInstallOptions.ChocoInstallOptions() -> void
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.ChocoInstallOptions(ModularPipelines.Chocolatey.Options.ChocoInstallOptions! original) -> void
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Debug.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Debug.set -> void
@@ -357,10 +356,10 @@ ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Source.get -> string?
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Source.set -> void
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Trace.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Trace.set -> void
-ModularPipelines.Chocolatey.Options.ChocoInstallOptions.User.get -> string?
-ModularPipelines.Chocolatey.Options.ChocoInstallOptions.User.set -> void
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.UseSystemPowershell.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.User.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoInstallOptions.User.set -> void
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Verbose.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Verbose.set -> void
 ModularPipelines.Chocolatey.Options.ChocoInstallOptions.Version.get -> string?
@@ -448,7 +447,6 @@ ModularPipelines.Chocolatey.Options.ChocoListOptions.Verbose.set -> void
 ModularPipelines.Chocolatey.Options.ChocoListOptions.Version.get -> string?
 ModularPipelines.Chocolatey.Options.ChocoListOptions.Version.set -> void
 ModularPipelines.Chocolatey.Options.ChocoNewOptions
-ModularPipelines.Chocolatey.Options.ChocoNewOptions.ChocoNewOptions() -> void
 ModularPipelines.Chocolatey.Options.ChocoNewOptions.ChocoNewOptions(ModularPipelines.Chocolatey.Options.ChocoNewOptions! original) -> void
 ModularPipelines.Chocolatey.Options.ChocoNewOptions.Debug.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoNewOptions.Debug.set -> void
@@ -530,10 +528,10 @@ ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Source.get -> string?
 ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Source.set -> void
 ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Trace.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Trace.set -> void
-ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.User.get -> string?
-ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.User.set -> void
 ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.UseSystemPowershell.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.User.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.User.set -> void
 ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Verbose.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoOutdatedOptions.Verbose.set -> void
 ModularPipelines.Chocolatey.Options.ChocoPackOptions
@@ -733,10 +731,10 @@ ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Source.get -> string?
 ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Source.set -> void
 ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Trace.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Trace.set -> void
-ModularPipelines.Chocolatey.Options.ChocoSearchOptions.User.get -> string?
-ModularPipelines.Chocolatey.Options.ChocoSearchOptions.User.set -> void
 ModularPipelines.Chocolatey.Options.ChocoSearchOptions.UseSystemPowershell.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoSearchOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.User.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSearchOptions.User.set -> void
 ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Verbose.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Verbose.set -> void
 ModularPipelines.Chocolatey.Options.ChocoSearchOptions.Version.get -> string?
@@ -815,10 +813,10 @@ ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Source.get -> string?
 ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Source.set -> void
 ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Trace.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Trace.set -> void
-ModularPipelines.Chocolatey.Options.ChocoSourceOptions.User.get -> string?
-ModularPipelines.Chocolatey.Options.ChocoSourceOptions.User.set -> void
 ModularPipelines.Chocolatey.Options.ChocoSourceOptions.UseSystemPowershell.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoSourceOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.User.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourceOptions.User.set -> void
 ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Verbose.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoSourceOptions.Verbose.set -> void
 ModularPipelines.Chocolatey.Options.ChocoSourcesOptions
@@ -860,10 +858,10 @@ ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Source.get -> string?
 ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Source.set -> void
 ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Trace.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Trace.set -> void
-ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.User.get -> string?
-ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.User.set -> void
 ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.UseSystemPowershell.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.User.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.User.set -> void
 ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Verbose.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoSourcesOptions.Verbose.set -> void
 ModularPipelines.Chocolatey.Options.ChocoSupportOptions
@@ -940,7 +938,6 @@ ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.UseSystemPowershell.se
 ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Verbose.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoTemplatesOptions.Verbose.set -> void
 ModularPipelines.Chocolatey.Options.ChocoUninstallOptions
-ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.ChocoUninstallOptions() -> void
 ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.ChocoUninstallOptions(ModularPipelines.Chocolatey.Options.ChocoUninstallOptions! original) -> void
 ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Debug.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoUninstallOptions.Debug.set -> void
@@ -1012,7 +1009,6 @@ ModularPipelines.Chocolatey.Options.ChocoUnpackselfOptions.Verbose.set -> void
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Cert.get -> string?
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Cert.set -> void
-ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.ChocoUpgradeOptions() -> void
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.ChocoUpgradeOptions(ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions! original) -> void
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Debug.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Debug.set -> void
@@ -1054,10 +1050,10 @@ ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Source.get -> string?
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Source.set -> void
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Trace.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Trace.set -> void
-ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.User.get -> string?
-ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.User.set -> void
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.UseSystemPowershell.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.UseSystemPowershell.set -> void
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.User.get -> string?
+ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.User.set -> void
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Verbose.get -> bool?
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Verbose.set -> void
 ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Version.get -> string?
@@ -1066,7 +1062,6 @@ ModularPipelines.Chocolatey.Services.IChoco
 ModularPipelines.Context.ModularPipelines_Chocolatey_1531820f0ac63147ToolsExtensions
 ModularPipelines.Context.ModularPipelines_Chocolatey_1531820f0ac63147ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
 ModularPipelines.Context.ModularPipelines_Chocolatey_1531820f0ac63147ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Choco.get -> ModularPipelines.Chocolatey.Services.IChoco!
-override abstract ModularPipelines.Chocolatey.Options.ChocoOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoOptions!
 override ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoApikeyOptions!
 override ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Equals(object? obj) -> bool
@@ -1234,6 +1229,7 @@ override ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.Equals(object? 
 override ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.GetHashCode() -> int
 override ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Chocolatey.Options.ChocoUpgradeOptions.ToString() -> string!
+override abstract ModularPipelines.Chocolatey.Options.ChocoOptions.<Clone>$() -> ModularPipelines.Chocolatey.Options.ChocoOptions!
 override sealed ModularPipelines.Chocolatey.Options.ChocoApikeyOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
 override sealed ModularPipelines.Chocolatey.Options.ChocoCacheOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool
 override sealed ModularPipelines.Chocolatey.Options.ChocoConfigOptions.Equals(ModularPipelines.Chocolatey.Options.ChocoOptions? other) -> bool

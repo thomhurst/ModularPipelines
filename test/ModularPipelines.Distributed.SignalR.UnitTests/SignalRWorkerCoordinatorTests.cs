@@ -20,22 +20,4 @@ public class SignalRWorkerCoordinatorTests
         await Assert.That(coordinator is IDistributedWorkerCoordinator).IsTrue();
         await Assert.That(coordinator is IDistributedMasterCoordinator).IsFalse();
     }
-
-    [Test]
-    public async Task DependencyResultReceived_Event_Fires()
-    {
-        // Test that the event mechanism works in isolation
-        SerializedModuleResult? receivedResult = null;
-
-        // Simulate the callback mechanism
-        Action<SerializedModuleResult> handler = result => receivedResult = result;
-
-        var testResult = new SerializedModuleResult(
-            "TestModule", "System.String", 1, "{}", DateTimeOffset.UtcNow);
-
-        handler(testResult);
-
-        await Assert.That(receivedResult).IsNotNull();
-        await Assert.That(receivedResult!.ModuleTypeName).IsEqualTo("TestModule");
-    }
 }

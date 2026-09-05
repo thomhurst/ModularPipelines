@@ -117,11 +117,8 @@ ModularPipelines.GitHub.Options.GhAgentTaskViewOptions.Web.set -> void
 ModularPipelines.GitHub.Options.GhApiOptions
 ModularPipelines.GitHub.Options.GhApiOptions.Cache.get -> string?
 ModularPipelines.GitHub.Options.GhApiOptions.Cache.set -> void
-ModularPipelines.GitHub.Options.GhApiOptions.Field.get -> string?
 ModularPipelines.GitHub.Options.GhApiOptions.Field.set -> void
-ModularPipelines.GitHub.Options.GhApiOptions.GhApiOptions() -> void
 ModularPipelines.GitHub.Options.GhApiOptions.GhApiOptions(ModularPipelines.GitHub.Options.GhApiOptions! original) -> void
-ModularPipelines.GitHub.Options.GhApiOptions.Header.get -> string?
 ModularPipelines.GitHub.Options.GhApiOptions.Header.set -> void
 ModularPipelines.GitHub.Options.GhApiOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhApiOptions.Help.set -> void
@@ -139,7 +136,6 @@ ModularPipelines.GitHub.Options.GhApiOptions.Paginate.get -> bool?
 ModularPipelines.GitHub.Options.GhApiOptions.Paginate.set -> void
 ModularPipelines.GitHub.Options.GhApiOptions.Preview.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.GitHub.Options.GhApiOptions.Preview.set -> void
-ModularPipelines.GitHub.Options.GhApiOptions.RawField.get -> string?
 ModularPipelines.GitHub.Options.GhApiOptions.RawField.set -> void
 ModularPipelines.GitHub.Options.GhApiOptions.Silent.get -> bool?
 ModularPipelines.GitHub.Options.GhApiOptions.Silent.set -> void
@@ -332,7 +328,6 @@ ModularPipelines.GitHub.Options.GhBrowseOptions.Blame.get -> bool?
 ModularPipelines.GitHub.Options.GhBrowseOptions.Blame.set -> void
 ModularPipelines.GitHub.Options.GhBrowseOptions.Branch.get -> string?
 ModularPipelines.GitHub.Options.GhBrowseOptions.Branch.set -> void
-ModularPipelines.GitHub.Options.GhBrowseOptions.Commit.get -> string?
 ModularPipelines.GitHub.Options.GhBrowseOptions.Commit.set -> void
 ModularPipelines.GitHub.Options.GhBrowseOptions.GhBrowseOptions() -> void
 ModularPipelines.GitHub.Options.GhBrowseOptions.GhBrowseOptions(ModularPipelines.GitHub.Options.GhBrowseOptions! original) -> void
@@ -413,7 +408,6 @@ ModularPipelines.GitHub.Options.GhCodespaceCpOptions.Codespace.get -> string?
 ModularPipelines.GitHub.Options.GhCodespaceCpOptions.Codespace.set -> void
 ModularPipelines.GitHub.Options.GhCodespaceCpOptions.Expand.get -> bool?
 ModularPipelines.GitHub.Options.GhCodespaceCpOptions.Expand.set -> void
-ModularPipelines.GitHub.Options.GhCodespaceCpOptions.GhCodespaceCpOptions() -> void
 ModularPipelines.GitHub.Options.GhCodespaceCpOptions.GhCodespaceCpOptions(ModularPipelines.GitHub.Options.GhCodespaceCpOptions! original) -> void
 ModularPipelines.GitHub.Options.GhCodespaceCpOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhCodespaceCpOptions.Help.set -> void
@@ -537,7 +531,6 @@ ModularPipelines.GitHub.Options.GhCodespaceOptions
 ModularPipelines.GitHub.Options.GhCodespaceOptions.GhCodespaceOptions() -> void
 ModularPipelines.GitHub.Options.GhCodespaceOptions.GhCodespaceOptions(ModularPipelines.GitHub.Options.GhCodespaceOptions! original) -> void
 ModularPipelines.GitHub.Options.GhCodespacePortsForwardOptions
-ModularPipelines.GitHub.Options.GhCodespacePortsForwardOptions.GhCodespacePortsForwardOptions() -> void
 ModularPipelines.GitHub.Options.GhCodespacePortsForwardOptions.GhCodespacePortsForwardOptions(ModularPipelines.GitHub.Options.GhCodespacePortsForwardOptions! original) -> void
 ModularPipelines.GitHub.Options.GhCodespacePortsOptions
 ModularPipelines.GitHub.Options.GhCodespacePortsOptions.Codespace.get -> string?
@@ -557,7 +550,6 @@ ModularPipelines.GitHub.Options.GhCodespacePortsOptions.RepoOwner.set -> void
 ModularPipelines.GitHub.Options.GhCodespacePortsOptions.Template.get -> string?
 ModularPipelines.GitHub.Options.GhCodespacePortsOptions.Template.set -> void
 ModularPipelines.GitHub.Options.GhCodespacePortsVisibilityOptions
-ModularPipelines.GitHub.Options.GhCodespacePortsVisibilityOptions.GhCodespacePortsVisibilityOptions() -> void
 ModularPipelines.GitHub.Options.GhCodespacePortsVisibilityOptions.GhCodespacePortsVisibilityOptions(ModularPipelines.GitHub.Options.GhCodespacePortsVisibilityOptions! original) -> void
 ModularPipelines.GitHub.Options.GhCodespaceRebuildOptions
 ModularPipelines.GitHub.Options.GhCodespaceRebuildOptions.Codespace.get -> string?
@@ -629,7 +621,6 @@ ModularPipelines.GitHub.Options.GhConfigClearCacheOptions
 ModularPipelines.GitHub.Options.GhConfigClearCacheOptions.GhConfigClearCacheOptions() -> void
 ModularPipelines.GitHub.Options.GhConfigClearCacheOptions.GhConfigClearCacheOptions(ModularPipelines.GitHub.Options.GhConfigClearCacheOptions! original) -> void
 ModularPipelines.GitHub.Options.GhConfigGetOptions
-ModularPipelines.GitHub.Options.GhConfigGetOptions.GhConfigGetOptions() -> void
 ModularPipelines.GitHub.Options.GhConfigGetOptions.GhConfigGetOptions(ModularPipelines.GitHub.Options.GhConfigGetOptions! original) -> void
 ModularPipelines.GitHub.Options.GhConfigGetOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhConfigGetOptions.Help.set -> void
@@ -646,7 +637,6 @@ ModularPipelines.GitHub.Options.GhConfigOptions
 ModularPipelines.GitHub.Options.GhConfigOptions.GhConfigOptions() -> void
 ModularPipelines.GitHub.Options.GhConfigOptions.GhConfigOptions(ModularPipelines.GitHub.Options.GhConfigOptions! original) -> void
 ModularPipelines.GitHub.Options.GhConfigSetOptions
-ModularPipelines.GitHub.Options.GhConfigSetOptions.GhConfigSetOptions() -> void
 ModularPipelines.GitHub.Options.GhConfigSetOptions.GhConfigSetOptions(ModularPipelines.GitHub.Options.GhConfigSetOptions! original) -> void
 ModularPipelines.GitHub.Options.GhConfigSetOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhConfigSetOptions.Help.set -> void
@@ -685,7 +675,6 @@ ModularPipelines.GitHub.Options.GhExtensionCreateOptions.Precompiled.set -> void
 ModularPipelines.GitHub.Options.GhExtensionInstallOptions
 ModularPipelines.GitHub.Options.GhExtensionInstallOptions.Force.get -> bool?
 ModularPipelines.GitHub.Options.GhExtensionInstallOptions.Force.set -> void
-ModularPipelines.GitHub.Options.GhExtensionInstallOptions.GhExtensionInstallOptions() -> void
 ModularPipelines.GitHub.Options.GhExtensionInstallOptions.GhExtensionInstallOptions(ModularPipelines.GitHub.Options.GhExtensionInstallOptions! original) -> void
 ModularPipelines.GitHub.Options.GhExtensionInstallOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhExtensionInstallOptions.Help.set -> void
@@ -698,7 +687,6 @@ ModularPipelines.GitHub.Options.GhExtensionOptions
 ModularPipelines.GitHub.Options.GhExtensionOptions.GhExtensionOptions() -> void
 ModularPipelines.GitHub.Options.GhExtensionOptions.GhExtensionOptions(ModularPipelines.GitHub.Options.GhExtensionOptions! original) -> void
 ModularPipelines.GitHub.Options.GhExtensionRemoveOptions
-ModularPipelines.GitHub.Options.GhExtensionRemoveOptions.GhExtensionRemoveOptions() -> void
 ModularPipelines.GitHub.Options.GhExtensionRemoveOptions.GhExtensionRemoveOptions(ModularPipelines.GitHub.Options.GhExtensionRemoveOptions! original) -> void
 ModularPipelines.GitHub.Options.GhExtensionSearchOptions
 ModularPipelines.GitHub.Options.GhExtensionSearchOptions.GhExtensionSearchOptions() -> void
@@ -735,7 +723,6 @@ ModularPipelines.GitHub.Options.GhExtensionUpgradeOptions.GhExtensionUpgradeOpti
 ModularPipelines.GitHub.Options.GhExtensionUpgradeOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhExtensionUpgradeOptions.Help.set -> void
 ModularPipelines.GitHub.Options.GhGistCloneOptions
-ModularPipelines.GitHub.Options.GhGistCloneOptions.GhGistCloneOptions() -> void
 ModularPipelines.GitHub.Options.GhGistCloneOptions.GhGistCloneOptions(ModularPipelines.GitHub.Options.GhGistCloneOptions! original) -> void
 ModularPipelines.GitHub.Options.GhGistCreateOptions
 ModularPipelines.GitHub.Options.GhGistCreateOptions.Desc.get -> string?
@@ -751,7 +738,6 @@ ModularPipelines.GitHub.Options.GhGistCreateOptions.Public.set -> void
 ModularPipelines.GitHub.Options.GhGistCreateOptions.Web.get -> bool?
 ModularPipelines.GitHub.Options.GhGistCreateOptions.Web.set -> void
 ModularPipelines.GitHub.Options.GhGistDeleteOptions
-ModularPipelines.GitHub.Options.GhGistDeleteOptions.GhGistDeleteOptions() -> void
 ModularPipelines.GitHub.Options.GhGistDeleteOptions.GhGistDeleteOptions(ModularPipelines.GitHub.Options.GhGistDeleteOptions! original) -> void
 ModularPipelines.GitHub.Options.GhGistDeleteOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhGistDeleteOptions.Help.set -> void
@@ -764,7 +750,6 @@ ModularPipelines.GitHub.Options.GhGistEditOptions.Desc.get -> string?
 ModularPipelines.GitHub.Options.GhGistEditOptions.Desc.set -> void
 ModularPipelines.GitHub.Options.GhGistEditOptions.Filename.get -> string?
 ModularPipelines.GitHub.Options.GhGistEditOptions.Filename.set -> void
-ModularPipelines.GitHub.Options.GhGistEditOptions.GhGistEditOptions() -> void
 ModularPipelines.GitHub.Options.GhGistEditOptions.GhGistEditOptions(ModularPipelines.GitHub.Options.GhGistEditOptions! original) -> void
 ModularPipelines.GitHub.Options.GhGistEditOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhGistEditOptions.Help.set -> void
@@ -789,7 +774,6 @@ ModularPipelines.GitHub.Options.GhGistOptions
 ModularPipelines.GitHub.Options.GhGistOptions.GhGistOptions() -> void
 ModularPipelines.GitHub.Options.GhGistOptions.GhGistOptions(ModularPipelines.GitHub.Options.GhGistOptions! original) -> void
 ModularPipelines.GitHub.Options.GhGistRenameOptions
-ModularPipelines.GitHub.Options.GhGistRenameOptions.GhGistRenameOptions() -> void
 ModularPipelines.GitHub.Options.GhGistRenameOptions.GhGistRenameOptions(ModularPipelines.GitHub.Options.GhGistRenameOptions! original) -> void
 ModularPipelines.GitHub.Options.GhGistViewOptions
 ModularPipelines.GitHub.Options.GhGistViewOptions.Filename.get -> string?
@@ -812,7 +796,6 @@ ModularPipelines.GitHub.Options.GhGpgKeyAddOptions.Help.set -> void
 ModularPipelines.GitHub.Options.GhGpgKeyAddOptions.Title.get -> string?
 ModularPipelines.GitHub.Options.GhGpgKeyAddOptions.Title.set -> void
 ModularPipelines.GitHub.Options.GhGpgKeyDeleteOptions
-ModularPipelines.GitHub.Options.GhGpgKeyDeleteOptions.GhGpgKeyDeleteOptions() -> void
 ModularPipelines.GitHub.Options.GhGpgKeyDeleteOptions.GhGpgKeyDeleteOptions(ModularPipelines.GitHub.Options.GhGpgKeyDeleteOptions! original) -> void
 ModularPipelines.GitHub.Options.GhGpgKeyDeleteOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhGpgKeyDeleteOptions.Help.set -> void
@@ -834,7 +817,6 @@ ModularPipelines.GitHub.Options.GhIssueOptions.Repo.set -> void
 ModularPipelines.GitHub.Options.GhLabelCloneOptions
 ModularPipelines.GitHub.Options.GhLabelCloneOptions.Force.get -> bool?
 ModularPipelines.GitHub.Options.GhLabelCloneOptions.Force.set -> void
-ModularPipelines.GitHub.Options.GhLabelCloneOptions.GhLabelCloneOptions() -> void
 ModularPipelines.GitHub.Options.GhLabelCloneOptions.GhLabelCloneOptions(ModularPipelines.GitHub.Options.GhLabelCloneOptions! original) -> void
 ModularPipelines.GitHub.Options.GhLabelCloneOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhLabelCloneOptions.Help.set -> void
@@ -847,14 +829,12 @@ ModularPipelines.GitHub.Options.GhLabelCreateOptions.Description.get -> string?
 ModularPipelines.GitHub.Options.GhLabelCreateOptions.Description.set -> void
 ModularPipelines.GitHub.Options.GhLabelCreateOptions.Force.get -> bool?
 ModularPipelines.GitHub.Options.GhLabelCreateOptions.Force.set -> void
-ModularPipelines.GitHub.Options.GhLabelCreateOptions.GhLabelCreateOptions() -> void
 ModularPipelines.GitHub.Options.GhLabelCreateOptions.GhLabelCreateOptions(ModularPipelines.GitHub.Options.GhLabelCreateOptions! original) -> void
 ModularPipelines.GitHub.Options.GhLabelCreateOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhLabelCreateOptions.Help.set -> void
 ModularPipelines.GitHub.Options.GhLabelCreateOptions.Repo.get -> string?
 ModularPipelines.GitHub.Options.GhLabelCreateOptions.Repo.set -> void
 ModularPipelines.GitHub.Options.GhLabelDeleteOptions
-ModularPipelines.GitHub.Options.GhLabelDeleteOptions.GhLabelDeleteOptions() -> void
 ModularPipelines.GitHub.Options.GhLabelDeleteOptions.GhLabelDeleteOptions(ModularPipelines.GitHub.Options.GhLabelDeleteOptions! original) -> void
 ModularPipelines.GitHub.Options.GhLabelDeleteOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhLabelDeleteOptions.Help.set -> void
@@ -867,7 +847,6 @@ ModularPipelines.GitHub.Options.GhLabelEditOptions.Color.get -> string?
 ModularPipelines.GitHub.Options.GhLabelEditOptions.Color.set -> void
 ModularPipelines.GitHub.Options.GhLabelEditOptions.Description.get -> string?
 ModularPipelines.GitHub.Options.GhLabelEditOptions.Description.set -> void
-ModularPipelines.GitHub.Options.GhLabelEditOptions.GhLabelEditOptions() -> void
 ModularPipelines.GitHub.Options.GhLabelEditOptions.GhLabelEditOptions(ModularPipelines.GitHub.Options.GhLabelEditOptions! original) -> void
 ModularPipelines.GitHub.Options.GhLabelEditOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhLabelEditOptions.Help.set -> void
@@ -914,6 +893,13 @@ ModularPipelines.GitHub.Options.GhOptions.GhOptions(ModularPipelines.GitHub.Opti
 ModularPipelines.GitHub.Options.GhOrgOptions
 ModularPipelines.GitHub.Options.GhOrgOptions.GhOrgOptions() -> void
 ModularPipelines.GitHub.Options.GhOrgOptions.GhOrgOptions(ModularPipelines.GitHub.Options.GhOrgOptions! original) -> void
+ModularPipelines.GitHub.Options.GhPrOptions
+ModularPipelines.GitHub.Options.GhPrOptions.GhPrOptions() -> void
+ModularPipelines.GitHub.Options.GhPrOptions.GhPrOptions(ModularPipelines.GitHub.Options.GhPrOptions! original) -> void
+ModularPipelines.GitHub.Options.GhPrOptions.Help.get -> bool?
+ModularPipelines.GitHub.Options.GhPrOptions.Help.set -> void
+ModularPipelines.GitHub.Options.GhPrOptions.Repo.get -> string?
+ModularPipelines.GitHub.Options.GhPrOptions.Repo.set -> void
 ModularPipelines.GitHub.Options.GhPreviewOptions
 ModularPipelines.GitHub.Options.GhPreviewOptions.GhPreviewOptions() -> void
 ModularPipelines.GitHub.Options.GhPreviewOptions.GhPreviewOptions(ModularPipelines.GitHub.Options.GhPreviewOptions! original) -> void
@@ -1238,13 +1224,6 @@ ModularPipelines.GitHub.Options.GhProjectViewOptions.Template.get -> string?
 ModularPipelines.GitHub.Options.GhProjectViewOptions.Template.set -> void
 ModularPipelines.GitHub.Options.GhProjectViewOptions.Web.get -> bool?
 ModularPipelines.GitHub.Options.GhProjectViewOptions.Web.set -> void
-ModularPipelines.GitHub.Options.GhPrOptions
-ModularPipelines.GitHub.Options.GhPrOptions.GhPrOptions() -> void
-ModularPipelines.GitHub.Options.GhPrOptions.GhPrOptions(ModularPipelines.GitHub.Options.GhPrOptions! original) -> void
-ModularPipelines.GitHub.Options.GhPrOptions.Help.get -> bool?
-ModularPipelines.GitHub.Options.GhPrOptions.Help.set -> void
-ModularPipelines.GitHub.Options.GhPrOptions.Repo.get -> string?
-ModularPipelines.GitHub.Options.GhPrOptions.Repo.set -> void
 ModularPipelines.GitHub.Options.GhReleaseOptions
 ModularPipelines.GitHub.Options.GhReleaseOptions.GhReleaseOptions() -> void
 ModularPipelines.GitHub.Options.GhReleaseOptions.GhReleaseOptions(ModularPipelines.GitHub.Options.GhReleaseOptions! original) -> void
@@ -1409,7 +1388,6 @@ ModularPipelines.GitHub.Options.GhRunWatchOptions.Compact.get -> bool?
 ModularPipelines.GitHub.Options.GhRunWatchOptions.Compact.set -> void
 ModularPipelines.GitHub.Options.GhRunWatchOptions.ExitStatus.get -> bool?
 ModularPipelines.GitHub.Options.GhRunWatchOptions.ExitStatus.set -> void
-ModularPipelines.GitHub.Options.GhRunWatchOptions.GhRunWatchOptions() -> void
 ModularPipelines.GitHub.Options.GhRunWatchOptions.GhRunWatchOptions(ModularPipelines.GitHub.Options.GhRunWatchOptions! original) -> void
 ModularPipelines.GitHub.Options.GhRunWatchOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhRunWatchOptions.Help.set -> void
@@ -1422,7 +1400,6 @@ ModularPipelines.GitHub.Options.GhSearchCodeOptions.Extension.get -> string?
 ModularPipelines.GitHub.Options.GhSearchCodeOptions.Extension.set -> void
 ModularPipelines.GitHub.Options.GhSearchCodeOptions.Filename.get -> string?
 ModularPipelines.GitHub.Options.GhSearchCodeOptions.Filename.set -> void
-ModularPipelines.GitHub.Options.GhSearchCodeOptions.GhSearchCodeOptions() -> void
 ModularPipelines.GitHub.Options.GhSearchCodeOptions.GhSearchCodeOptions(ModularPipelines.GitHub.Options.GhSearchCodeOptions! original) -> void
 ModularPipelines.GitHub.Options.GhSearchCodeOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhSearchCodeOptions.Help.set -> void
@@ -1438,7 +1415,6 @@ ModularPipelines.GitHub.Options.GhSearchCodeOptions.Match.get -> System.Collecti
 ModularPipelines.GitHub.Options.GhSearchCodeOptions.Match.set -> void
 ModularPipelines.GitHub.Options.GhSearchCodeOptions.Owner.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.GitHub.Options.GhSearchCodeOptions.Owner.set -> void
-ModularPipelines.GitHub.Options.GhSearchCodeOptions.Repo.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.GitHub.Options.GhSearchCodeOptions.Repo.set -> void
 ModularPipelines.GitHub.Options.GhSearchCodeOptions.Size.get -> string?
 ModularPipelines.GitHub.Options.GhSearchCodeOptions.Size.set -> void
@@ -1483,7 +1459,6 @@ ModularPipelines.GitHub.Options.GhSearchCommitsOptions.Owner.get -> System.Colle
 ModularPipelines.GitHub.Options.GhSearchCommitsOptions.Owner.set -> void
 ModularPipelines.GitHub.Options.GhSearchCommitsOptions.Parent.get -> string?
 ModularPipelines.GitHub.Options.GhSearchCommitsOptions.Parent.set -> void
-ModularPipelines.GitHub.Options.GhSearchCommitsOptions.Repo.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.GitHub.Options.GhSearchCommitsOptions.Repo.set -> void
 ModularPipelines.GitHub.Options.GhSearchCommitsOptions.Sort.get -> string?
 ModularPipelines.GitHub.Options.GhSearchCommitsOptions.Sort.set -> void
@@ -1556,7 +1531,6 @@ ModularPipelines.GitHub.Options.GhSearchIssuesOptions.Project.get -> string?
 ModularPipelines.GitHub.Options.GhSearchIssuesOptions.Project.set -> void
 ModularPipelines.GitHub.Options.GhSearchIssuesOptions.Reactions.get -> int?
 ModularPipelines.GitHub.Options.GhSearchIssuesOptions.Reactions.set -> void
-ModularPipelines.GitHub.Options.GhSearchIssuesOptions.Repo.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.GitHub.Options.GhSearchIssuesOptions.Repo.set -> void
 ModularPipelines.GitHub.Options.GhSearchIssuesOptions.Sort.get -> string?
 ModularPipelines.GitHub.Options.GhSearchIssuesOptions.Sort.set -> void
@@ -1646,14 +1620,13 @@ ModularPipelines.GitHub.Options.GhSearchPrsOptions.Project.get -> string?
 ModularPipelines.GitHub.Options.GhSearchPrsOptions.Project.set -> void
 ModularPipelines.GitHub.Options.GhSearchPrsOptions.Reactions.get -> int?
 ModularPipelines.GitHub.Options.GhSearchPrsOptions.Reactions.set -> void
-ModularPipelines.GitHub.Options.GhSearchPrsOptions.Repo.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.GitHub.Options.GhSearchPrsOptions.Repo.set -> void
 ModularPipelines.GitHub.Options.GhSearchPrsOptions.Review.get -> string?
 ModularPipelines.GitHub.Options.GhSearchPrsOptions.Review.set -> void
-ModularPipelines.GitHub.Options.GhSearchPrsOptions.ReviewedBy.get -> string?
-ModularPipelines.GitHub.Options.GhSearchPrsOptions.ReviewedBy.set -> void
 ModularPipelines.GitHub.Options.GhSearchPrsOptions.ReviewRequested.get -> string?
 ModularPipelines.GitHub.Options.GhSearchPrsOptions.ReviewRequested.set -> void
+ModularPipelines.GitHub.Options.GhSearchPrsOptions.ReviewedBy.get -> string?
+ModularPipelines.GitHub.Options.GhSearchPrsOptions.ReviewedBy.set -> void
 ModularPipelines.GitHub.Options.GhSearchPrsOptions.Sort.get -> string?
 ModularPipelines.GitHub.Options.GhSearchPrsOptions.Sort.set -> void
 ModularPipelines.GitHub.Options.GhSearchPrsOptions.State.get -> string?
@@ -1726,7 +1699,6 @@ ModularPipelines.GitHub.Options.GhSecretDeleteOptions.App.get -> string?
 ModularPipelines.GitHub.Options.GhSecretDeleteOptions.App.set -> void
 ModularPipelines.GitHub.Options.GhSecretDeleteOptions.Env.get -> string?
 ModularPipelines.GitHub.Options.GhSecretDeleteOptions.Env.set -> void
-ModularPipelines.GitHub.Options.GhSecretDeleteOptions.GhSecretDeleteOptions() -> void
 ModularPipelines.GitHub.Options.GhSecretDeleteOptions.GhSecretDeleteOptions(ModularPipelines.GitHub.Options.GhSecretDeleteOptions! original) -> void
 ModularPipelines.GitHub.Options.GhSecretDeleteOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhSecretDeleteOptions.Help.set -> void
@@ -1773,7 +1745,6 @@ ModularPipelines.GitHub.Options.GhSecretSetOptions.Env.get -> string?
 ModularPipelines.GitHub.Options.GhSecretSetOptions.Env.set -> void
 ModularPipelines.GitHub.Options.GhSecretSetOptions.EnvFile.get -> string?
 ModularPipelines.GitHub.Options.GhSecretSetOptions.EnvFile.set -> void
-ModularPipelines.GitHub.Options.GhSecretSetOptions.GhSecretSetOptions() -> void
 ModularPipelines.GitHub.Options.GhSecretSetOptions.GhSecretSetOptions(ModularPipelines.GitHub.Options.GhSecretSetOptions! original) -> void
 ModularPipelines.GitHub.Options.GhSecretSetOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhSecretSetOptions.Help.set -> void
@@ -1804,7 +1775,6 @@ ModularPipelines.GitHub.Options.GhSkillInstallOptions.Force.get -> bool?
 ModularPipelines.GitHub.Options.GhSkillInstallOptions.Force.set -> void
 ModularPipelines.GitHub.Options.GhSkillInstallOptions.FromLocal.get -> bool?
 ModularPipelines.GitHub.Options.GhSkillInstallOptions.FromLocal.set -> void
-ModularPipelines.GitHub.Options.GhSkillInstallOptions.GhSkillInstallOptions() -> void
 ModularPipelines.GitHub.Options.GhSkillInstallOptions.GhSkillInstallOptions(ModularPipelines.GitHub.Options.GhSkillInstallOptions! original) -> void
 ModularPipelines.GitHub.Options.GhSkillInstallOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhSkillInstallOptions.Help.set -> void
@@ -1837,7 +1807,6 @@ ModularPipelines.GitHub.Options.GhSkillOptions.GhSkillOptions(ModularPipelines.G
 ModularPipelines.GitHub.Options.GhSkillPreviewOptions
 ModularPipelines.GitHub.Options.GhSkillPreviewOptions.AllowHiddenDirs.get -> bool?
 ModularPipelines.GitHub.Options.GhSkillPreviewOptions.AllowHiddenDirs.set -> void
-ModularPipelines.GitHub.Options.GhSkillPreviewOptions.GhSkillPreviewOptions() -> void
 ModularPipelines.GitHub.Options.GhSkillPreviewOptions.GhSkillPreviewOptions(ModularPipelines.GitHub.Options.GhSkillPreviewOptions! original) -> void
 ModularPipelines.GitHub.Options.GhSkillPreviewOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhSkillPreviewOptions.Help.set -> void
@@ -1853,7 +1822,6 @@ ModularPipelines.GitHub.Options.GhSkillPublishOptions.Help.set -> void
 ModularPipelines.GitHub.Options.GhSkillPublishOptions.Tag.get -> string?
 ModularPipelines.GitHub.Options.GhSkillPublishOptions.Tag.set -> void
 ModularPipelines.GitHub.Options.GhSkillSearchOptions
-ModularPipelines.GitHub.Options.GhSkillSearchOptions.GhSkillSearchOptions() -> void
 ModularPipelines.GitHub.Options.GhSkillSearchOptions.GhSkillSearchOptions(ModularPipelines.GitHub.Options.GhSkillSearchOptions! original) -> void
 ModularPipelines.GitHub.Options.GhSkillSearchOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhSkillSearchOptions.Help.set -> void
@@ -1894,7 +1862,6 @@ ModularPipelines.GitHub.Options.GhSshKeyAddOptions.Title.set -> void
 ModularPipelines.GitHub.Options.GhSshKeyAddOptions.Type.get -> string?
 ModularPipelines.GitHub.Options.GhSshKeyAddOptions.Type.set -> void
 ModularPipelines.GitHub.Options.GhSshKeyDeleteOptions
-ModularPipelines.GitHub.Options.GhSshKeyDeleteOptions.GhSshKeyDeleteOptions() -> void
 ModularPipelines.GitHub.Options.GhSshKeyDeleteOptions.GhSshKeyDeleteOptions(ModularPipelines.GitHub.Options.GhSshKeyDeleteOptions! original) -> void
 ModularPipelines.GitHub.Options.GhSshKeyDeleteOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhSshKeyDeleteOptions.Help.set -> void
@@ -1918,7 +1885,6 @@ ModularPipelines.GitHub.Options.GhStatusOptions.Org.set -> void
 ModularPipelines.GitHub.Options.GhVariableDeleteOptions
 ModularPipelines.GitHub.Options.GhVariableDeleteOptions.Env.get -> string?
 ModularPipelines.GitHub.Options.GhVariableDeleteOptions.Env.set -> void
-ModularPipelines.GitHub.Options.GhVariableDeleteOptions.GhVariableDeleteOptions() -> void
 ModularPipelines.GitHub.Options.GhVariableDeleteOptions.GhVariableDeleteOptions(ModularPipelines.GitHub.Options.GhVariableDeleteOptions! original) -> void
 ModularPipelines.GitHub.Options.GhVariableDeleteOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhVariableDeleteOptions.Help.set -> void
@@ -1929,7 +1895,6 @@ ModularPipelines.GitHub.Options.GhVariableDeleteOptions.Repo.set -> void
 ModularPipelines.GitHub.Options.GhVariableGetOptions
 ModularPipelines.GitHub.Options.GhVariableGetOptions.Env.get -> string?
 ModularPipelines.GitHub.Options.GhVariableGetOptions.Env.set -> void
-ModularPipelines.GitHub.Options.GhVariableGetOptions.GhVariableGetOptions() -> void
 ModularPipelines.GitHub.Options.GhVariableGetOptions.GhVariableGetOptions(ModularPipelines.GitHub.Options.GhVariableGetOptions! original) -> void
 ModularPipelines.GitHub.Options.GhVariableGetOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhVariableGetOptions.Help.set -> void
@@ -1974,7 +1939,6 @@ ModularPipelines.GitHub.Options.GhVariableSetOptions.Env.get -> string?
 ModularPipelines.GitHub.Options.GhVariableSetOptions.Env.set -> void
 ModularPipelines.GitHub.Options.GhVariableSetOptions.EnvFile.get -> string?
 ModularPipelines.GitHub.Options.GhVariableSetOptions.EnvFile.set -> void
-ModularPipelines.GitHub.Options.GhVariableSetOptions.GhVariableSetOptions() -> void
 ModularPipelines.GitHub.Options.GhVariableSetOptions.GhVariableSetOptions(ModularPipelines.GitHub.Options.GhVariableSetOptions! original) -> void
 ModularPipelines.GitHub.Options.GhVariableSetOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhVariableSetOptions.Help.set -> void
@@ -2017,7 +1981,6 @@ ModularPipelines.GitHub.Options.GhWorkflowOptions.Help.set -> void
 ModularPipelines.GitHub.Options.GhWorkflowOptions.Repo.get -> string?
 ModularPipelines.GitHub.Options.GhWorkflowOptions.Repo.set -> void
 ModularPipelines.GitHub.Options.GhWorkflowRunOptions
-ModularPipelines.GitHub.Options.GhWorkflowRunOptions.Field.get -> string?
 ModularPipelines.GitHub.Options.GhWorkflowRunOptions.Field.set -> void
 ModularPipelines.GitHub.Options.GhWorkflowRunOptions.GhWorkflowRunOptions() -> void
 ModularPipelines.GitHub.Options.GhWorkflowRunOptions.GhWorkflowRunOptions(ModularPipelines.GitHub.Options.GhWorkflowRunOptions! original) -> void
@@ -2025,7 +1988,6 @@ ModularPipelines.GitHub.Options.GhWorkflowRunOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhWorkflowRunOptions.Help.set -> void
 ModularPipelines.GitHub.Options.GhWorkflowRunOptions.Json.get -> bool?
 ModularPipelines.GitHub.Options.GhWorkflowRunOptions.Json.set -> void
-ModularPipelines.GitHub.Options.GhWorkflowRunOptions.RawField.get -> string?
 ModularPipelines.GitHub.Options.GhWorkflowRunOptions.RawField.set -> void
 ModularPipelines.GitHub.Options.GhWorkflowRunOptions.Ref.get -> string?
 ModularPipelines.GitHub.Options.GhWorkflowRunOptions.Ref.set -> void
@@ -2132,7 +2094,6 @@ ModularPipelines.GitHub.PipelineWriters.WorkflowDispatchInputObject.Type.get -> 
 ModularPipelines.GitHub.PipelineWriters.WorkflowDispatchInputObject.Type.init -> void
 ModularPipelines.GitHub.PipelineWriters.WorkflowDispatchInputObject.WorkflowDispatchInputObject() -> void
 ModularPipelines.GitHub.PipelineWriters.WorkflowDispatchInputObject.WorkflowDispatchInputObject(ModularPipelines.GitHub.PipelineWriters.WorkflowDispatchInputObject! original) -> void
-ModularPipelines.GitHub.Services.GhAgenttask
 ModularPipelines.GitHub.Services.GhAttestation
 ModularPipelines.GitHub.Services.GhAuth
 ModularPipelines.GitHub.Services.GhCache
@@ -2142,7 +2103,6 @@ ModularPipelines.GitHub.Services.GhCodespacePorts
 ModularPipelines.GitHub.Services.GhConfig
 ModularPipelines.GitHub.Services.GhExtension
 ModularPipelines.GitHub.Services.GhGist
-ModularPipelines.GitHub.Services.GhGpgkey
 ModularPipelines.GitHub.Services.GhLabel
 ModularPipelines.GitHub.Services.GhPreview
 ModularPipelines.GitHub.Services.GhProject
@@ -2151,11 +2111,9 @@ ModularPipelines.GitHub.Services.GhRun
 ModularPipelines.GitHub.Services.GhSearch
 ModularPipelines.GitHub.Services.GhSecret
 ModularPipelines.GitHub.Services.GhSkill
-ModularPipelines.GitHub.Services.GhSshkey
 ModularPipelines.GitHub.Services.GhVariable
 ModularPipelines.GitHub.Services.GhWorkflow
 ModularPipelines.GitHub.Services.IGh
-ModularPipelines.GitHub.Services.IGh.Agenttask.get -> ModularPipelines.GitHub.Services.IGhAgenttask!
 ModularPipelines.GitHub.Services.IGh.Attestation.get -> ModularPipelines.GitHub.Services.IGhAttestation!
 ModularPipelines.GitHub.Services.IGh.Auth.get -> ModularPipelines.GitHub.Services.IGhAuth!
 ModularPipelines.GitHub.Services.IGh.Cache.get -> ModularPipelines.GitHub.Services.IGhCache!
@@ -2163,7 +2121,6 @@ ModularPipelines.GitHub.Services.IGh.Codespace.get -> ModularPipelines.GitHub.Se
 ModularPipelines.GitHub.Services.IGh.Config.get -> ModularPipelines.GitHub.Services.IGhConfig!
 ModularPipelines.GitHub.Services.IGh.Extension.get -> ModularPipelines.GitHub.Services.IGhExtension!
 ModularPipelines.GitHub.Services.IGh.Gist.get -> ModularPipelines.GitHub.Services.IGhGist!
-ModularPipelines.GitHub.Services.IGh.Gpgkey.get -> ModularPipelines.GitHub.Services.IGhGpgkey!
 ModularPipelines.GitHub.Services.IGh.Label.get -> ModularPipelines.GitHub.Services.IGhLabel!
 ModularPipelines.GitHub.Services.IGh.Preview.get -> ModularPipelines.GitHub.Services.IGhPreview!
 ModularPipelines.GitHub.Services.IGh.Project.get -> ModularPipelines.GitHub.Services.IGhProject!
@@ -2172,10 +2129,8 @@ ModularPipelines.GitHub.Services.IGh.Run.get -> ModularPipelines.GitHub.Services
 ModularPipelines.GitHub.Services.IGh.Search.get -> ModularPipelines.GitHub.Services.IGhSearch!
 ModularPipelines.GitHub.Services.IGh.Secret.get -> ModularPipelines.GitHub.Services.IGhSecret!
 ModularPipelines.GitHub.Services.IGh.Skill.get -> ModularPipelines.GitHub.Services.IGhSkill!
-ModularPipelines.GitHub.Services.IGh.Sshkey.get -> ModularPipelines.GitHub.Services.IGhSshkey!
 ModularPipelines.GitHub.Services.IGh.Variable.get -> ModularPipelines.GitHub.Services.IGhVariable!
 ModularPipelines.GitHub.Services.IGh.Workflow.get -> ModularPipelines.GitHub.Services.IGhWorkflow!
-ModularPipelines.GitHub.Services.IGhAgenttask
 ModularPipelines.GitHub.Services.IGhAttestation
 ModularPipelines.GitHub.Services.IGhAuth
 ModularPipelines.GitHub.Services.IGhCache
@@ -2184,7 +2139,6 @@ ModularPipelines.GitHub.Services.IGhCodespace.Ports.get -> ModularPipelines.GitH
 ModularPipelines.GitHub.Services.IGhConfig
 ModularPipelines.GitHub.Services.IGhExtension
 ModularPipelines.GitHub.Services.IGhGist
-ModularPipelines.GitHub.Services.IGhGpgkey
 ModularPipelines.GitHub.Services.IGhLabel
 ModularPipelines.GitHub.Services.IGhPreview
 ModularPipelines.GitHub.Services.IGhProject
@@ -2193,10 +2147,8 @@ ModularPipelines.GitHub.Services.IGhRun
 ModularPipelines.GitHub.Services.IGhSearch
 ModularPipelines.GitHub.Services.IGhSecret
 ModularPipelines.GitHub.Services.IGhSkill
-ModularPipelines.GitHub.Services.IGhSshkey
 ModularPipelines.GitHub.Services.IGhVariable
 ModularPipelines.GitHub.Services.IGhWorkflow
-override abstract ModularPipelines.GitHub.Options.GhOptions.<Clone>$() -> ModularPipelines.GitHub.Options.GhOptions!
 override ModularPipelines.GitHub.Options.GhAgentTaskCreateOptions.<Clone>$() -> ModularPipelines.GitHub.Options.GhAgentTaskCreateOptions!
 override ModularPipelines.GitHub.Options.GhAgentTaskCreateOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.GitHub.Options.GhAgentTaskCreateOptions.Equals(object? obj) -> bool
@@ -2640,6 +2592,12 @@ override ModularPipelines.GitHub.Options.GhOrgOptions.Equals(object? obj) -> boo
 override ModularPipelines.GitHub.Options.GhOrgOptions.GetHashCode() -> int
 override ModularPipelines.GitHub.Options.GhOrgOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.GitHub.Options.GhOrgOptions.ToString() -> string!
+override ModularPipelines.GitHub.Options.GhPrOptions.<Clone>$() -> ModularPipelines.GitHub.Options.GhPrOptions!
+override ModularPipelines.GitHub.Options.GhPrOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.GitHub.Options.GhPrOptions.Equals(object? obj) -> bool
+override ModularPipelines.GitHub.Options.GhPrOptions.GetHashCode() -> int
+override ModularPipelines.GitHub.Options.GhPrOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.GitHub.Options.GhPrOptions.ToString() -> string!
 override ModularPipelines.GitHub.Options.GhPreviewOptions.<Clone>$() -> ModularPipelines.GitHub.Options.GhPreviewOptions!
 override ModularPipelines.GitHub.Options.GhPreviewOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.GitHub.Options.GhPreviewOptions.Equals(object? obj) -> bool
@@ -2772,12 +2730,6 @@ override ModularPipelines.GitHub.Options.GhProjectViewOptions.Equals(object? obj
 override ModularPipelines.GitHub.Options.GhProjectViewOptions.GetHashCode() -> int
 override ModularPipelines.GitHub.Options.GhProjectViewOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.GitHub.Options.GhProjectViewOptions.ToString() -> string!
-override ModularPipelines.GitHub.Options.GhPrOptions.<Clone>$() -> ModularPipelines.GitHub.Options.GhPrOptions!
-override ModularPipelines.GitHub.Options.GhPrOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.GitHub.Options.GhPrOptions.Equals(object? obj) -> bool
-override ModularPipelines.GitHub.Options.GhPrOptions.GetHashCode() -> int
-override ModularPipelines.GitHub.Options.GhPrOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.GitHub.Options.GhPrOptions.ToString() -> string!
 override ModularPipelines.GitHub.Options.GhReleaseOptions.<Clone>$() -> ModularPipelines.GitHub.Options.GhReleaseOptions!
 override ModularPipelines.GitHub.Options.GhReleaseOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.GitHub.Options.GhReleaseOptions.Equals(object? obj) -> bool
@@ -3081,6 +3033,7 @@ override ModularPipelines.GitHub.PipelineWriters.WorkflowDispatch.ToString() -> 
 override ModularPipelines.GitHub.PipelineWriters.WorkflowDispatchInputObject.Equals(object? obj) -> bool
 override ModularPipelines.GitHub.PipelineWriters.WorkflowDispatchInputObject.GetHashCode() -> int
 override ModularPipelines.GitHub.PipelineWriters.WorkflowDispatchInputObject.ToString() -> string!
+override abstract ModularPipelines.GitHub.Options.GhOptions.<Clone>$() -> ModularPipelines.GitHub.Options.GhOptions!
 override sealed ModularPipelines.GitHub.Options.GhAgentTaskCreateOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
 override sealed ModularPipelines.GitHub.Options.GhAgentTaskListOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
 override sealed ModularPipelines.GitHub.Options.GhAgentTaskOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
@@ -3155,6 +3108,7 @@ override sealed ModularPipelines.GitHub.Options.GhLabelOptions.Equals(ModularPip
 override sealed ModularPipelines.GitHub.Options.GhLicensesOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
 override sealed ModularPipelines.GitHub.Options.GhOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 override sealed ModularPipelines.GitHub.Options.GhOrgOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
+override sealed ModularPipelines.GitHub.Options.GhPrOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
 override sealed ModularPipelines.GitHub.Options.GhPreviewOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
 override sealed ModularPipelines.GitHub.Options.GhPreviewPrompterOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
 override sealed ModularPipelines.GitHub.Options.GhProjectCloseOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
@@ -3177,7 +3131,6 @@ override sealed ModularPipelines.GitHub.Options.GhProjectMarkTemplateOptions.Equ
 override sealed ModularPipelines.GitHub.Options.GhProjectOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
 override sealed ModularPipelines.GitHub.Options.GhProjectUnlinkOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
 override sealed ModularPipelines.GitHub.Options.GhProjectViewOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
-override sealed ModularPipelines.GitHub.Options.GhPrOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
 override sealed ModularPipelines.GitHub.Options.GhReleaseOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
 override sealed ModularPipelines.GitHub.Options.GhRepoOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
 override sealed ModularPipelines.GitHub.Options.GhRulesetCheckOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
@@ -3378,6 +3331,8 @@ static ModularPipelines.GitHub.Options.GhOptions.operator !=(ModularPipelines.Gi
 static ModularPipelines.GitHub.Options.GhOptions.operator ==(ModularPipelines.GitHub.Options.GhOptions? left, ModularPipelines.GitHub.Options.GhOptions? right) -> bool
 static ModularPipelines.GitHub.Options.GhOrgOptions.operator !=(ModularPipelines.GitHub.Options.GhOrgOptions? left, ModularPipelines.GitHub.Options.GhOrgOptions? right) -> bool
 static ModularPipelines.GitHub.Options.GhOrgOptions.operator ==(ModularPipelines.GitHub.Options.GhOrgOptions? left, ModularPipelines.GitHub.Options.GhOrgOptions? right) -> bool
+static ModularPipelines.GitHub.Options.GhPrOptions.operator !=(ModularPipelines.GitHub.Options.GhPrOptions? left, ModularPipelines.GitHub.Options.GhPrOptions? right) -> bool
+static ModularPipelines.GitHub.Options.GhPrOptions.operator ==(ModularPipelines.GitHub.Options.GhPrOptions? left, ModularPipelines.GitHub.Options.GhPrOptions? right) -> bool
 static ModularPipelines.GitHub.Options.GhPreviewOptions.operator !=(ModularPipelines.GitHub.Options.GhPreviewOptions? left, ModularPipelines.GitHub.Options.GhPreviewOptions? right) -> bool
 static ModularPipelines.GitHub.Options.GhPreviewOptions.operator ==(ModularPipelines.GitHub.Options.GhPreviewOptions? left, ModularPipelines.GitHub.Options.GhPreviewOptions? right) -> bool
 static ModularPipelines.GitHub.Options.GhPreviewPrompterOptions.operator !=(ModularPipelines.GitHub.Options.GhPreviewPrompterOptions? left, ModularPipelines.GitHub.Options.GhPreviewPrompterOptions? right) -> bool
@@ -3422,8 +3377,6 @@ static ModularPipelines.GitHub.Options.GhProjectUnlinkOptions.operator !=(Modula
 static ModularPipelines.GitHub.Options.GhProjectUnlinkOptions.operator ==(ModularPipelines.GitHub.Options.GhProjectUnlinkOptions? left, ModularPipelines.GitHub.Options.GhProjectUnlinkOptions? right) -> bool
 static ModularPipelines.GitHub.Options.GhProjectViewOptions.operator !=(ModularPipelines.GitHub.Options.GhProjectViewOptions? left, ModularPipelines.GitHub.Options.GhProjectViewOptions? right) -> bool
 static ModularPipelines.GitHub.Options.GhProjectViewOptions.operator ==(ModularPipelines.GitHub.Options.GhProjectViewOptions? left, ModularPipelines.GitHub.Options.GhProjectViewOptions? right) -> bool
-static ModularPipelines.GitHub.Options.GhPrOptions.operator !=(ModularPipelines.GitHub.Options.GhPrOptions? left, ModularPipelines.GitHub.Options.GhPrOptions? right) -> bool
-static ModularPipelines.GitHub.Options.GhPrOptions.operator ==(ModularPipelines.GitHub.Options.GhPrOptions? left, ModularPipelines.GitHub.Options.GhPrOptions? right) -> bool
 static ModularPipelines.GitHub.Options.GhReleaseOptions.operator !=(ModularPipelines.GitHub.Options.GhReleaseOptions? left, ModularPipelines.GitHub.Options.GhReleaseOptions? right) -> bool
 static ModularPipelines.GitHub.Options.GhReleaseOptions.operator ==(ModularPipelines.GitHub.Options.GhReleaseOptions? left, ModularPipelines.GitHub.Options.GhReleaseOptions? right) -> bool
 static ModularPipelines.GitHub.Options.GhRepoOptions.operator !=(ModularPipelines.GitHub.Options.GhRepoOptions? left, ModularPipelines.GitHub.Options.GhRepoOptions? right) -> bool
@@ -3606,6 +3559,7 @@ virtual ModularPipelines.GitHub.Options.GhLabelOptions.Equals(ModularPipelines.G
 virtual ModularPipelines.GitHub.Options.GhLicensesOptions.Equals(ModularPipelines.GitHub.Options.GhLicensesOptions? other) -> bool
 virtual ModularPipelines.GitHub.Options.GhOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
 virtual ModularPipelines.GitHub.Options.GhOrgOptions.Equals(ModularPipelines.GitHub.Options.GhOrgOptions? other) -> bool
+virtual ModularPipelines.GitHub.Options.GhPrOptions.Equals(ModularPipelines.GitHub.Options.GhPrOptions? other) -> bool
 virtual ModularPipelines.GitHub.Options.GhPreviewOptions.Equals(ModularPipelines.GitHub.Options.GhPreviewOptions? other) -> bool
 virtual ModularPipelines.GitHub.Options.GhPreviewPrompterOptions.Equals(ModularPipelines.GitHub.Options.GhPreviewPrompterOptions? other) -> bool
 virtual ModularPipelines.GitHub.Options.GhProjectCloseOptions.Equals(ModularPipelines.GitHub.Options.GhProjectCloseOptions? other) -> bool
@@ -3628,7 +3582,6 @@ virtual ModularPipelines.GitHub.Options.GhProjectMarkTemplateOptions.Equals(Modu
 virtual ModularPipelines.GitHub.Options.GhProjectOptions.Equals(ModularPipelines.GitHub.Options.GhProjectOptions? other) -> bool
 virtual ModularPipelines.GitHub.Options.GhProjectUnlinkOptions.Equals(ModularPipelines.GitHub.Options.GhProjectUnlinkOptions? other) -> bool
 virtual ModularPipelines.GitHub.Options.GhProjectViewOptions.Equals(ModularPipelines.GitHub.Options.GhProjectViewOptions? other) -> bool
-virtual ModularPipelines.GitHub.Options.GhPrOptions.Equals(ModularPipelines.GitHub.Options.GhPrOptions? other) -> bool
 virtual ModularPipelines.GitHub.Options.GhReleaseOptions.Equals(ModularPipelines.GitHub.Options.GhReleaseOptions? other) -> bool
 virtual ModularPipelines.GitHub.Options.GhRepoOptions.Equals(ModularPipelines.GitHub.Options.GhRepoOptions? other) -> bool
 virtual ModularPipelines.GitHub.Options.GhRulesetCheckOptions.Equals(ModularPipelines.GitHub.Options.GhRulesetCheckOptions? other) -> bool

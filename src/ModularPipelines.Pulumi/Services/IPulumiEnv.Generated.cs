@@ -42,6 +42,11 @@ public interface IPulumiEnv
     PulumiEnvSettings Settings => throw new System.NotSupportedException();
 
     /// <summary>
+    /// pulumi setup sub-commands.
+    /// </summary>
+    PulumiEnvSetup Setup => throw new System.NotSupportedException();
+
+    /// <summary>
     /// pulumi tag sub-commands.
     /// </summary>
     PulumiEnvTag Tag => throw new System.NotSupportedException();
