@@ -47,7 +47,13 @@ public record GcloudComputeConnectToSerialPortOptions : GcloudOptions
     public string? Location { get; set; }
 
     /// <summary>
-    /// The path to the SSH key file. By default, this is ~\.ssh\google_compute_engine.
+    /// The number of the requested serial port. Can be 1-4, default is 1. Instances can support up to four serial ports. By default, this command will connect to the first serial port. Setting this flag will connect to the requested serial port.
+    /// </summary>
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
+    public string? Port { get; set; }
+
+    /// <summary>
+    /// The path to the SSH key file. By default, this is ~/.ssh/google_compute_engine.
     /// </summary>
     [CliOption("--ssh-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyFile { get; set; }
@@ -59,21 +65,15 @@ public record GcloudComputeConnectToSerialPortOptions : GcloudOptions
     public string? Zone { get; set; }
 
     /// <summary>
-    /// The time when the ssh key will be valid until, such as "2017-08-29T18:52:51.142Z." This is only valid if the instance is not using OS Login. See $ gcloud topic datetimes for information on time formats.
+    /// At most one of these can be specified: The time when the ssh key will be valid until, such as "2017-08-29T18:52:51.142Z." This is only valid if the instance is not using OS Login. See $ gcloud topic datetimes for information on time formats.
     /// </summary>
     [CliOption("--ssh-key-expiration", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyExpiration { get; set; }
 
     /// <summary>
-    /// The maximum length of time an SSH key is valid for once created and installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for information on duration formats.
+    /// At most one of these can be specified: The maximum length of time an SSH key is valid for once created and installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--ssh-key-expire-after", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyExpireAfter { get; set; }
-
-    /// <summary>
-    /// The number of the requested serial port. Can be 1-4, default is 1. Instances can support up to four serial ports. By default, this command will connect to the first serial port. Setting this flag will connect to the requested serial port.
-    /// </summary>
-    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
-    public string? Port { get; set; }
 
 }

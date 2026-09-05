@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud node-pools commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecloudContainerClustersNodePools
+public class GcloudEdgeCloudContainerClustersNodePools
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudEdgecloudContainerClustersNodePools"/> class.
+    /// Initializes a new instance of the <see cref="GcloudEdgeCloudContainerClustersNodePools"/> class.
     /// </summary>
-    public GcloudEdgecloudContainerClustersNodePools(ICommandContext command)
+    public GcloudEdgeCloudContainerClustersNodePools(ICommandContext command)
     {
         _command = command;
     }

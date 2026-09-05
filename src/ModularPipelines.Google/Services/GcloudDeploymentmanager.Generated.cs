@@ -18,19 +18,19 @@ namespace ModularPipelines.Google.Services;
 /// gcloud deploymentmanager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDeploymentmanager : IGcloudDeploymentmanager
+public class GcloudDeploymentManager : IGcloudDeploymentManager
 {
     private readonly ICommandContext _command;
-    private GcloudDeploymentmanagerDeployments? _deployments;
-    private GcloudDeploymentmanagerManifests? _manifests;
-    private GcloudDeploymentmanagerOperations? _operations;
-    private GcloudDeploymentmanagerResources? _resources;
-    private GcloudDeploymentmanagerTypes? _types;
+    private GcloudDeploymentManagerDeployments? _deployments;
+    private GcloudDeploymentManagerManifests? _manifests;
+    private GcloudDeploymentManagerOperations? _operations;
+    private GcloudDeploymentManagerResources? _resources;
+    private GcloudDeploymentManagerTypes? _types;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDeploymentmanager"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDeploymentManager"/> class.
     /// </summary>
-    public GcloudDeploymentmanager(ICommandContext command)
+    public GcloudDeploymentManager(ICommandContext command)
     {
         _command = command;
     }
@@ -40,27 +40,27 @@ public class GcloudDeploymentmanager : IGcloudDeploymentmanager
     /// <summary>
     /// gcloud deployments sub-commands.
     /// </summary>
-    public GcloudDeploymentmanagerDeployments Deployments => _deployments ??= new GcloudDeploymentmanagerDeployments(_command);
+    public GcloudDeploymentManagerDeployments Deployments => _deployments ??= new GcloudDeploymentManagerDeployments(_command);
 
     /// <summary>
     /// gcloud manifests sub-commands.
     /// </summary>
-    public GcloudDeploymentmanagerManifests Manifests => _manifests ??= new GcloudDeploymentmanagerManifests(_command);
+    public GcloudDeploymentManagerManifests Manifests => _manifests ??= new GcloudDeploymentManagerManifests(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudDeploymentmanagerOperations Operations => _operations ??= new GcloudDeploymentmanagerOperations(_command);
+    public GcloudDeploymentManagerOperations Operations => _operations ??= new GcloudDeploymentManagerOperations(_command);
 
     /// <summary>
     /// gcloud resources sub-commands.
     /// </summary>
-    public GcloudDeploymentmanagerResources Resources => _resources ??= new GcloudDeploymentmanagerResources(_command);
+    public GcloudDeploymentManagerResources Resources => _resources ??= new GcloudDeploymentManagerResources(_command);
 
     /// <summary>
     /// gcloud types sub-commands.
     /// </summary>
-    public GcloudDeploymentmanagerTypes Types => _types ??= new GcloudDeploymentmanagerTypes(_command);
+    public GcloudDeploymentManagerTypes Types => _types ??= new GcloudDeploymentManagerTypes(_command);
 
     #endregion
 

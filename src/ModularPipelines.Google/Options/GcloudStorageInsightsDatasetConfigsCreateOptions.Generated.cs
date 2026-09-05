@@ -19,15 +19,8 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "insights", "dataset-configs", "create")]
-public record GcloudStorageInsightsDatasetConfigsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DatasetConfigName
+public record GcloudStorageInsightsDataSetConfigsCreateOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DataSetConfigName
 ) : GcloudOptions
 {
-    [Obsolete("Use DatasetConfigName instead.")]
-    public string DataSetConfigName
-    {
-        get => DatasetConfigName;
-        init => DatasetConfigName = value;
-    }
-
 }

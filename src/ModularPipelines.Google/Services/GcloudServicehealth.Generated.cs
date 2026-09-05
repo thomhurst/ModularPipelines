@@ -18,17 +18,17 @@ namespace ModularPipelines.Google.Services;
 /// gcloud servicehealth commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudServicehealth : IGcloudServicehealth
+public class GcloudServiceHealth : IGcloudServiceHealth
 {
     private readonly ICommandContext _command;
-    private GcloudServicehealthEvents? _events;
-    private GcloudServicehealthOrganizationEvents? _organizationEvents;
-    private GcloudServicehealthOrganizationImpacts? _organizationImpacts;
+    private GcloudServiceHealthEvents? _events;
+    private GcloudServiceHealthOrganizationEvents? _organizationEvents;
+    private GcloudServiceHealthOrganizationImpacts? _organizationImpacts;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudServicehealth"/> class.
+    /// Initializes a new instance of the <see cref="GcloudServiceHealth"/> class.
     /// </summary>
-    public GcloudServicehealth(ICommandContext command)
+    public GcloudServiceHealth(ICommandContext command)
     {
         _command = command;
     }
@@ -38,17 +38,17 @@ public class GcloudServicehealth : IGcloudServicehealth
     /// <summary>
     /// gcloud events sub-commands.
     /// </summary>
-    public GcloudServicehealthEvents Events => _events ??= new GcloudServicehealthEvents(_command);
+    public GcloudServiceHealthEvents Events => _events ??= new GcloudServiceHealthEvents(_command);
 
     /// <summary>
     /// gcloud organization-events sub-commands.
     /// </summary>
-    public GcloudServicehealthOrganizationEvents OrganizationEvents => _organizationEvents ??= new GcloudServicehealthOrganizationEvents(_command);
+    public GcloudServiceHealthOrganizationEvents OrganizationEvents => _organizationEvents ??= new GcloudServiceHealthOrganizationEvents(_command);
 
     /// <summary>
     /// gcloud organization-impacts sub-commands.
     /// </summary>
-    public GcloudServicehealthOrganizationImpacts OrganizationImpacts => _organizationImpacts ??= new GcloudServicehealthOrganizationImpacts(_command);
+    public GcloudServiceHealthOrganizationImpacts OrganizationImpacts => _organizationImpacts ??= new GcloudServiceHealthOrganizationImpacts(_command);
 
     #endregion
 

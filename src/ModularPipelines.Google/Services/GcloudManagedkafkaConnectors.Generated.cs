@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud connectors commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudManagedkafkaConnectors
+public class GcloudManagedKafkaConnectors
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudManagedkafkaConnectors"/> class.
+    /// Initializes a new instance of the <see cref="GcloudManagedKafkaConnectors"/> class.
     /// </summary>
-    public GcloudManagedkafkaConnectors(ICommandContext command)
+    public GcloudManagedKafkaConnectors(ICommandContext command)
     {
         _command = command;
     }

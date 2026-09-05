@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud cloudshell commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudCloudshell : IGcloudCloudshell
+public class GcloudCloudShell : IGcloudCloudShell
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudCloudshell"/> class.
+    /// Initializes a new instance of the <see cref="GcloudCloudShell"/> class.
     /// </summary>
-    public GcloudCloudshell(ICommandContext command)
+    public GcloudCloudShell(ICommandContext command)
     {
         _command = command;
     }

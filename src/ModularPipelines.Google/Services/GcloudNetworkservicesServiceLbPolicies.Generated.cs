@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud service-lb-policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkservicesServiceLbPolicies
+public class GcloudNetworkServicesServiceLbPolicies
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkservicesServiceLbPolicies"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkServicesServiceLbPolicies"/> class.
     /// </summary>
-    public GcloudNetworkservicesServiceLbPolicies(ICommandContext command)
+    public GcloudNetworkServicesServiceLbPolicies(ICommandContext command)
     {
         _command = command;
     }

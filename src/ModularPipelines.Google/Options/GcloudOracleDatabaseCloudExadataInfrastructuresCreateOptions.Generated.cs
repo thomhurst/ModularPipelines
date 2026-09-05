@@ -67,7 +67,7 @@ public record GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions : Gcl
     /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow The list of customer contacts. email The email address used by Oracle to send notifications regarding databases and infrastructure. Shorthand Example: --properties-customer-contacts=email=string --properties-customer-contacts=email=string JSON Example: --properties-customer-contacts='[{"email": "string"}]' File Example: --properties-customer-contacts=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--properties-customer-contacts", Format = OptionFormat.EqualsSeparated)]
-    public string? PropertiesCustomerContacts { get; set; }
+    public IEnumerable<string>? PropertiesCustomerContacts { get; set; }
 
     /// <summary>
     /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow The database server type of the Exadata Infrastructure.

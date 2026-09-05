@@ -24,103 +24,103 @@ namespace ModularPipelines.Google.Options;
 public record GcloudMonitoringPoliciesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// The list of fields to update. Must specify --policy or --policy-from-file if using this flag. field must be one of: disabled, notificationChannels.
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: The list of fields to update. Must specify --policy or --policy-from-file if using this flag. field must be one of: disabled, notificationChannels.
     /// </summary>
     [CliOption("--fields", Format = OptionFormat.EqualsSeparated)]
     public GcloudFields? Fields { get; set; }
 
     /// <summary>
-    /// The combiner for the Alert Policy. COMBINER must be one of: AND An incident is created only if all conditions are met simultaneously. This combiner is satisfied if all conditions are met, even if they are met on completely different resources. AND_WITH_MATCHING_RESOURCE Combine conditions using logical AND operator, but unlike the regular AND option, an incident is created only if all conditions are met simultaneously on at least one resource. COMBINE_UNSPECIFIED An unspecified combiner OR An incident is created if any of the listed conditions is met.
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels The combiner for the Alert Policy. COMBINER must be one of: AND An incident is created only if all conditions are met simultaneously. This combiner is satisfied if all conditions are met, even if they are met on completely different resources. AND_WITH_MATCHING_RESOURCE Combine conditions using logical AND operator, but unlike the regular AND option, an incident is created only if all conditions are met simultaneously on at least one resource. COMBINE_UNSPECIFIED An unspecified combiner OR An incident is created if any of the listed conditions is met.
     /// </summary>
     [CliOption("--combiner", Format = OptionFormat.EqualsSeparated)]
     public string? Combiner { get; set; }
 
     /// <summary>
-    /// The display name for the Alert Policy.
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels The display name for the Alert Policy.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// If the policy is enabled. Use --enabled to enable and --no-enabled to disable.
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels If the policy is enabled. Use --enabled to enable and --no-enabled to disable.
     /// </summary>
     [CliFlag("--enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
-    /// If the policy is enabled. Use --enabled to enable and --no-enabled to disable.
+    /// Negates --enabled. At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels If the policy is enabled. Use --enabled to enable and --no-enabled to disable.
     /// </summary>
     [CliFlag("--no-enabled")]
     public bool? NoEnabled { get; set; }
 
     /// <summary>
-    /// Append the given values to the current Notification Channels.
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels These flags modify the member Notification Channels of this Alert Policy. At most one of these can be specified: Append the given values to the current Notification Channels.
     /// </summary>
     [CliOption("--add-notification-channels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddNotificationChannels { get; set; }
 
     /// <summary>
-    /// Empty the current Notification Channels.
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels These flags modify the member Notification Channels of this Alert Policy. At most one of these can be specified: Empty the current Notification Channels.
     /// </summary>
     [CliFlag("--clear-notification-channels")]
     public bool? ClearNotificationChannels { get; set; }
 
     /// <summary>
-    /// Remove the given values from the current Notification Channels.
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels These flags modify the member Notification Channels of this Alert Policy. At most one of these can be specified: Remove the given values from the current Notification Channels.
     /// </summary>
     [CliOption("--remove-notification-channels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveNotificationChannels { get; set; }
 
     /// <summary>
-    /// Completely replace the current Notification Channels with the given values.
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels These flags modify the member Notification Channels of this Alert Policy. At most one of these can be specified: Completely replace the current Notification Channels with the given values.
     /// </summary>
     [CliOption("--set-notification-channels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SetNotificationChannels { get; set; }
 
     /// <summary>
-    /// The MIME type that should be used with --documentation or --documentation-from-file. Currently, only "text/markdown" is supported.
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels The MIME type that should be used with --documentation or --documentation-from-file. Currently, only "text/markdown" is supported.
     /// </summary>
     [CliOption("--documentation-format", Format = OptionFormat.EqualsSeparated)]
     public string? DocumentationFormat { get; set; }
 
     /// <summary>
-    /// The documentation to be included with the policy.
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels At most one of these can be specified: The documentation to be included with the policy.
     /// </summary>
     [CliOption("--documentation", Format = OptionFormat.EqualsSeparated)]
     public string? Documentation { get; set; }
 
     /// <summary>
-    /// The path to a file containing the documentation to be included with the policy. Use a full or relative path to a local file containing the value of documentation.
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels At most one of these can be specified: The path to a file containing the documentation to be included with the policy. Use a full or relative path to a local file containing the value of documentation.
     /// </summary>
     [CliOption("--documentation-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? DocumentationFromFile { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-user-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateUserLabels { get; set; }
 
     /// <summary>
-    /// Remove all labels. If --update-user-labels is also specified then --clear-user-labels is applied first. For example, to remove all labels: $ gcloud monitoring policies update --clear-user-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud monitoring policies update --clear-user-labels \ --update-user-labels foo=bar,baz=qux
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels At most one of these can be specified: Remove all labels. If --update-user-labels is also specified then --clear-user-labels is applied first. For example, to remove all labels: $ gcloud monitoring policies update --clear-user-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud monitoring policies update --clear-user-labels \ --update-user-labels foo=bar,baz=qux
     /// </summary>
     [CliFlag("--clear-user-labels")]
     public bool? ClearUserLabels { get; set; }
 
     /// <summary>
-    /// List of label keys to remove. If a label does not exist it is silently ignored. If --update-user-labels is also specified then --update-user-labels is applied first.
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-user-labels is also specified then --update-user-labels is applied first.
     /// </summary>
     [CliOption("--remove-user-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveUserLabels { get; set; }
 
     /// <summary>
-    /// The policy as a string. In either JSON or YAML format.
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: The policy as a string. In either JSON or YAML format.
     /// </summary>
     [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
     public string? Policy { get; set; }
 
     /// <summary>
-    /// The path to a JSON or YAML file containing the policy. Use a full or relative path to a local file containing the value of policy.
+    /// At most one of these can be specified: At most one of these can be specified: At most one of these can be specified: The path to a JSON or YAML file containing the policy. Use a full or relative path to a local file containing the value of policy.
     /// </summary>
     [CliOption("--policy-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? PolicyFromFile { get; set; }

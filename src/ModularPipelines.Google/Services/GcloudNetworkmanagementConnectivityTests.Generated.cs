@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud connectivity-tests commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkmanagementConnectivityTests
+public class GcloudNetworkManagementConnectivityTests
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkmanagementConnectivityTests"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkManagementConnectivityTests"/> class.
     /// </summary>
-    public GcloudNetworkmanagementConnectivityTests(ICommandContext command)
+    public GcloudNetworkManagementConnectivityTests(ICommandContext command)
     {
         _command = command;
     }

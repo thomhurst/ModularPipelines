@@ -21,7 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "tables", "describe")]
 public record GcloudBigtableTablesDescribeOptions : GcloudOptions
 {
-    [Obsolete("View is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The view to be applied to the returned table's fields. VIEW must be one of: encryption Only populates name and fields related to the table's encryption status. full Populates all fields. name Only populates name. replication Only populates name and fields related to the table's replication. schema Only populates name and fields related to the table's schema. stats Only populates name and fields related to the table's statistics (e.g. TableStats and ColumnFamilyStats).
+    /// </summary>
+    [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public string? View { get; set; }
 
 }

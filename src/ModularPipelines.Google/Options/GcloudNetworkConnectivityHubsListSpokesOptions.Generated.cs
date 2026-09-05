@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -27,7 +28,10 @@ public record GcloudNetworkConnectivityHubsListSpokesOptions : GcloudOptions
     [CliOption("--spoke-locations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SpokeLocations { get; set; }
 
-    [Obsolete("View is no longer supported by the installed CLI and has no effect.")]
-    public string? View { get; set; }
+    /// <summary>
+    /// Enumeration to control which spoke fields are included in the response. VIEW must be one of: basic, detailed.
+    /// </summary>
+    [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
+    public GcloudView? View { get; set; }
 
 }

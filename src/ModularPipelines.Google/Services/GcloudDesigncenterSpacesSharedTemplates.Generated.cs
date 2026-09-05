@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud shared-templates commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDesigncenterSpacesSharedTemplates
+public class GcloudDesignCenterSpacesSharedTemplates
 {
     private readonly ICommandContext _command;
-    private GcloudDesigncenterSpacesSharedTemplatesRevisions? _revisions;
+    private GcloudDesignCenterSpacesSharedTemplatesRevisions? _revisions;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDesigncenterSpacesSharedTemplates"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDesignCenterSpacesSharedTemplates"/> class.
     /// </summary>
-    public GcloudDesigncenterSpacesSharedTemplates(ICommandContext command)
+    public GcloudDesignCenterSpacesSharedTemplates(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudDesigncenterSpacesSharedTemplates
     /// <summary>
     /// gcloud revisions sub-commands.
     /// </summary>
-    public GcloudDesigncenterSpacesSharedTemplatesRevisions Revisions => _revisions ??= new GcloudDesigncenterSpacesSharedTemplatesRevisions(_command);
+    public GcloudDesignCenterSpacesSharedTemplatesRevisions Revisions => _revisions ??= new GcloudDesignCenterSpacesSharedTemplatesRevisions(_command);
 
     #endregion
 

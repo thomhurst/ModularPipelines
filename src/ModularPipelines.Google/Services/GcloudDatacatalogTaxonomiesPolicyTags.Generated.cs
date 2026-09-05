@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud policy-tags commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatacatalogTaxonomiesPolicyTags
+public class GcloudDataCatalogTaxonomiesPolicyTags
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDatacatalogTaxonomiesPolicyTags"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDataCatalogTaxonomiesPolicyTags"/> class.
     /// </summary>
-    public GcloudDatacatalogTaxonomiesPolicyTags(ICommandContext command)
+    public GcloudDataCatalogTaxonomiesPolicyTags(ICommandContext command)
     {
         _command = command;
     }

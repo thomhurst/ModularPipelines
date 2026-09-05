@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud lb-edge-extensions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudServiceextensionsLbEdgeExtensions
+public class GcloudServiceExtensionsLbEdgeExtensions
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudServiceextensionsLbEdgeExtensions"/> class.
+    /// Initializes a new instance of the <see cref="GcloudServiceExtensionsLbEdgeExtensions"/> class.
     /// </summary>
-    public GcloudServiceextensionsLbEdgeExtensions(ICommandContext command)
+    public GcloudServiceExtensionsLbEdgeExtensions(ICommandContext command)
     {
         _command = command;
     }

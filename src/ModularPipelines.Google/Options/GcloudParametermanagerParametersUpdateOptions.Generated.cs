@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("parametermanager", "parameters", "update")]
-public record GcloudParametermanagerParametersUpdateOptions : GcloudOptions
+public record GcloudParameterManagerParametersUpdateOptions : GcloudOptions
 {
     /// <summary>
     /// Arguments for the kms key. All arguments needed to update kms_key. For resources [parameter, kms-key], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.

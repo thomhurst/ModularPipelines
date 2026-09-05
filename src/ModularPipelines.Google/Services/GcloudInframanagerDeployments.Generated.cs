@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud deployments commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudInframanagerDeployments
+public class GcloudInfraManagerDeployments
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudInframanagerDeployments"/> class.
+    /// Initializes a new instance of the <see cref="GcloudInfraManagerDeployments"/> class.
     /// </summary>
-    public GcloudInframanagerDeployments(ICommandContext command)
+    public GcloudInfraManagerDeployments(ICommandContext command)
     {
         _command = command;
     }

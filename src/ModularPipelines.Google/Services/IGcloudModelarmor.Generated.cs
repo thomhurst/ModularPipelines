@@ -19,17 +19,17 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudModelarmor
+public interface IGcloudModelArmor
 {
     /// <summary>
     /// gcloud floorsettings sub-commands.
     /// </summary>
-    GcloudModelarmorFloorsettings Floorsettings => throw new System.NotSupportedException();
+    GcloudModelArmorFloorsettings Floorsettings => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud templates sub-commands.
     /// </summary>
-    GcloudModelarmorTemplates Templates => throw new System.NotSupportedException();
+    GcloudModelArmorTemplates Templates => throw new System.NotSupportedException();
 
     /// <summary>
     /// agnostic     security and AI safety measures to mitigate risks associated with large     language models (LLMs)

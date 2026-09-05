@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud regions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecloudContainerRegions
+public class GcloudEdgeCloudContainerRegions
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudEdgecloudContainerRegions"/> class.
+    /// Initializes a new instance of the <see cref="GcloudEdgeCloudContainerRegions"/> class.
     /// </summary>
-    public GcloudEdgecloudContainerRegions(ICommandContext command)
+    public GcloudEdgeCloudContainerRegions(ICommandContext command)
     {
         _command = command;
     }

@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud gateway-security-policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurityGatewaySecurityPolicies
+public class GcloudNetworkSecurityGatewaySecurityPolicies
 {
     private readonly ICommandContext _command;
-    private GcloudNetworksecurityGatewaySecurityPoliciesRules? _rules;
+    private GcloudNetworkSecurityGatewaySecurityPoliciesRules? _rules;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecurityGatewaySecurityPolicies"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecurityGatewaySecurityPolicies"/> class.
     /// </summary>
-    public GcloudNetworksecurityGatewaySecurityPolicies(ICommandContext command)
+    public GcloudNetworkSecurityGatewaySecurityPolicies(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudNetworksecurityGatewaySecurityPolicies
     /// <summary>
     /// gcloud rules sub-commands.
     /// </summary>
-    public GcloudNetworksecurityGatewaySecurityPoliciesRules Rules => _rules ??= new GcloudNetworksecurityGatewaySecurityPoliciesRules(_command);
+    public GcloudNetworkSecurityGatewaySecurityPoliciesRules Rules => _rules ??= new GcloudNetworkSecurityGatewaySecurityPoliciesRules(_command);
 
     #endregion
 

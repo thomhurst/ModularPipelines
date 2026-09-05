@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud instances commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudSourcemanagerInstances
+public class GcloudSourceManagerInstances
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudSourcemanagerInstances"/> class.
+    /// Initializes a new instance of the <see cref="GcloudSourceManagerInstances"/> class.
     /// </summary>
-    public GcloudSourcemanagerInstances(ICommandContext command)
+    public GcloudSourceManagerInstances(ICommandContext command)
     {
         _command = command;
     }

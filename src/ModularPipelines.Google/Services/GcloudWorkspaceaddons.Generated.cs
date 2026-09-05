@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud workspaceaddons commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudWorkspaceaddons : IGcloudWorkspaceaddons
+public class GcloudWorkspaceAddOns : IGcloudWorkspaceAddOns
 {
     private readonly ICommandContext _command;
-    private GcloudWorkspaceaddonsDeployments? _deployments;
+    private GcloudWorkspaceAddOnsDeployments? _deployments;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudWorkspaceaddons"/> class.
+    /// Initializes a new instance of the <see cref="GcloudWorkspaceAddOns"/> class.
     /// </summary>
-    public GcloudWorkspaceaddons(ICommandContext command)
+    public GcloudWorkspaceAddOns(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudWorkspaceaddons : IGcloudWorkspaceaddons
     /// <summary>
     /// gcloud deployments sub-commands.
     /// </summary>
-    public GcloudWorkspaceaddonsDeployments Deployments => _deployments ??= new GcloudWorkspaceaddonsDeployments(_command);
+    public GcloudWorkspaceAddOnsDeployments Deployments => _deployments ??= new GcloudWorkspaceAddOnsDeployments(_command);
 
     #endregion
 

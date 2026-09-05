@@ -19,37 +19,37 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudDatabasemigration
+public interface IGcloudDatabaseMigration
 {
     /// <summary>
     /// gcloud connection-profiles sub-commands.
     /// </summary>
-    GcloudDatabasemigrationConnectionProfiles ConnectionProfiles => throw new System.NotSupportedException();
+    GcloudDatabaseMigrationConnectionProfiles ConnectionProfiles => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud conversion-workspaces sub-commands.
     /// </summary>
-    GcloudDatabasemigrationConversionWorkspaces ConversionWorkspaces => throw new System.NotSupportedException();
+    GcloudDatabaseMigrationConversionWorkspaces ConversionWorkspaces => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud migration-jobs sub-commands.
     /// </summary>
-    GcloudDatabasemigrationMigrationJobs MigrationJobs => throw new System.NotSupportedException();
+    GcloudDatabaseMigrationMigrationJobs MigrationJobs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud objects sub-commands.
     /// </summary>
-    GcloudDatabasemigrationObjects Objects => throw new System.NotSupportedException();
+    GcloudDatabaseMigrationObjects Objects => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudDatabasemigrationOperations Operations => throw new System.NotSupportedException();
+    GcloudDatabaseMigrationOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud private-connections sub-commands.
     /// </summary>
-    GcloudDatabasemigrationPrivateConnections PrivateConnections => throw new System.NotSupportedException();
+    GcloudDatabaseMigrationPrivateConnections PrivateConnections => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Database Migration Service resources

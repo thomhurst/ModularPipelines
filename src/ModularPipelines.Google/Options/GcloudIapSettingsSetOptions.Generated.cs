@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -51,7 +52,7 @@ public record GcloudIapSettingsSetOptions(
     /// Resource type of the IAP resource. For Backend Services, you can use both compute and backend-services as resource type. RESOURCE_TYPE must be one of: app-engine, iap_web, compute, organization, folder, backend-services, forwarding-rule, cloud-run.
     /// </summary>
     [CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)]
-    public string? ResourceType { get; set; }
+    public GcloudResourceType? ResourceType { get; set; }
 
     /// <summary>
     /// Service name. Optional when resource-type is compute or app-engine.

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud dry-run commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAccesscontextmanagerPerimetersDryRun
+public class GcloudAccessContextManagerPerimetersDryRun
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAccesscontextmanagerPerimetersDryRun"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAccessContextManagerPerimetersDryRun"/> class.
     /// </summary>
-    public GcloudAccesscontextmanagerPerimetersDryRun(ICommandContext command)
+    public GcloudAccessContextManagerPerimetersDryRun(ICommandContext command)
     {
         _command = command;
     }

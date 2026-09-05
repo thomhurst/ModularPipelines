@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud attachments commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecuritySecureAccessConnectAttachments
+public class GcloudNetworkSecuritySecureAccessConnectAttachments
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecuritySecureAccessConnectAttachments"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecuritySecureAccessConnectAttachments"/> class.
     /// </summary>
-    public GcloudNetworksecuritySecureAccessConnectAttachments(ICommandContext command)
+    public GcloudNetworkSecuritySecureAccessConnectAttachments(ICommandContext command)
     {
         _command = command;
     }

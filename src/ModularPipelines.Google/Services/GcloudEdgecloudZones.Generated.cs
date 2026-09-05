@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -18,17 +18,27 @@ namespace ModularPipelines.Google.Services;
 /// gcloud zones commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecloudZones
+public class GcloudEdgeCloudZones
 {
     private readonly ICommandContext _command;
+    private GcloudEdgeCloudZonesRoles? _roles;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudEdgecloudZones"/> class.
+    /// Initializes a new instance of the <see cref="GcloudEdgeCloudZones"/> class.
     /// </summary>
-    public GcloudEdgecloudZones(ICommandContext command)
+    public GcloudEdgeCloudZones(ICommandContext command)
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// gcloud roles sub-commands.
+    /// </summary>
+    public GcloudEdgeCloudZonesRoles Roles => _roles ??= new GcloudEdgeCloudZonesRoles(_command);
+
+    #endregion
 
     #region Commands
 
@@ -48,6 +58,36 @@ public class GcloudEdgecloudZones
     }
 
     /// <summary>
+    /// describe a Google Distributed Cloud zone
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeAsync(
+        GcloudEdgeCloudZonesDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// get IAM policy for a project on     the Google Distributed Cloud zone
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetIamPolicyAsync(
+        GcloudEdgeCloudZonesGetIamPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCloudZonesGetIamPolicyOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list Google Distributed Cloud zones
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -60,6 +100,21 @@ public class GcloudEdgecloudZones
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCloudZonesListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// set IAM policy for a project on     the Google Distributed Cloud zone
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SetIamPolicyAsync(
+        GcloudEdgeCloudZonesSetIamPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

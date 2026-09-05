@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud multicast-domain-activations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkservicesMulticastDomainActivations
+public class GcloudNetworkServicesMulticastDomainActivations
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkservicesMulticastDomainActivations"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkServicesMulticastDomainActivations"/> class.
     /// </summary>
-    public GcloudNetworkservicesMulticastDomainActivations(ICommandContext command)
+    public GcloudNetworkServicesMulticastDomainActivations(ICommandContext command)
     {
         _command = command;
     }

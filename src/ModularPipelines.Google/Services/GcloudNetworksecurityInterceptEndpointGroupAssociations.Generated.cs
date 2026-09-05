@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud intercept-endpoint-group-associations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurityInterceptEndpointGroupAssociations
+public class GcloudNetworkSecurityInterceptEndpointGroupAssociations
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecurityInterceptEndpointGroupAssociations"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecurityInterceptEndpointGroupAssociations"/> class.
     /// </summary>
-    public GcloudNetworksecurityInterceptEndpointGroupAssociations(ICommandContext command)
+    public GcloudNetworkSecurityInterceptEndpointGroupAssociations(ICommandContext command)
     {
         _command = command;
     }

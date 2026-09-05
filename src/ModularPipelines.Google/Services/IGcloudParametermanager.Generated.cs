@@ -19,17 +19,17 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudParametermanager
+public interface IGcloudParameterManager
 {
     /// <summary>
     /// gcloud parameters sub-commands.
     /// </summary>
-    GcloudParametermanagerParameters Parameters => throw new System.NotSupportedException();
+    GcloudParameterManagerParameters Parameters => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud templates sub-commands.
     /// </summary>
-    GcloudParametermanagerTemplates Templates => throw new System.NotSupportedException();
+    GcloudParameterManagerTemplates Templates => throw new System.NotSupportedException();
 
     /// <summary>
     /// parameter Manager is a single source of truth for     your parameters
@@ -38,7 +38,7 @@ public interface IGcloudParametermanager
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(GcloudParametermanagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ExecuteAsync(GcloudParameterManagerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

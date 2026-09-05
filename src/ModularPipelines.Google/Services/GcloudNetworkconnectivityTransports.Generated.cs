@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud transports commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkconnectivityTransports
+public class GcloudNetworkConnectivityTransports
 {
     private readonly ICommandContext _command;
-    private GcloudNetworkconnectivityTransportsRemoteProfiles? _remoteProfiles;
+    private GcloudNetworkConnectivityTransportsRemoteProfiles? _remoteProfiles;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkconnectivityTransports"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkConnectivityTransports"/> class.
     /// </summary>
-    public GcloudNetworkconnectivityTransports(ICommandContext command)
+    public GcloudNetworkConnectivityTransports(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudNetworkconnectivityTransports
     /// <summary>
     /// gcloud remote-profiles sub-commands.
     /// </summary>
-    public GcloudNetworkconnectivityTransportsRemoteProfiles RemoteProfiles => _remoteProfiles ??= new GcloudNetworkconnectivityTransportsRemoteProfiles(_command);
+    public GcloudNetworkConnectivityTransportsRemoteProfiles RemoteProfiles => _remoteProfiles ??= new GcloudNetworkConnectivityTransportsRemoteProfiles(_command);
 
     #endregion
 

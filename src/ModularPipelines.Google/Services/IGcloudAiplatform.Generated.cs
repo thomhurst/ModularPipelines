@@ -19,32 +19,32 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudAiplatform
+public interface IGcloudAiPlatform
 {
     /// <summary>
     /// gcloud jobs sub-commands.
     /// </summary>
-    GcloudAiplatformJobs Jobs => throw new System.NotSupportedException();
+    GcloudAiPlatformJobs Jobs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud local sub-commands.
     /// </summary>
-    GcloudAiplatformLocal Local => throw new System.NotSupportedException();
+    GcloudAiPlatformLocal Local => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud models sub-commands.
     /// </summary>
-    GcloudAiplatformModels Models => throw new System.NotSupportedException();
+    GcloudAiPlatformModels Models => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudAiplatformOperations Operations => throw new System.NotSupportedException();
+    GcloudAiPlatformOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud versions sub-commands.
     /// </summary>
-    GcloudAiplatformVersions Versions => throw new System.NotSupportedException();
+    GcloudAiPlatformVersions Versions => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage AI Platform jobs and models

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud goldengate-deployment-types commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseGoldengateDeploymentTypes
+public class GcloudOracleDatabaseGoldengateDeploymentTypes
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseGoldengateDeploymentTypes"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseGoldengateDeploymentTypes"/> class.
     /// </summary>
-    public GcloudOracledatabaseGoldengateDeploymentTypes(ICommandContext command)
+    public GcloudOracleDatabaseGoldengateDeploymentTypes(ICommandContext command)
     {
         _command = command;
     }

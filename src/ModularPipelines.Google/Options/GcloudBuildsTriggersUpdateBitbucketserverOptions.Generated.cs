@@ -19,6 +19,6 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "triggers", "update", "bitbucketserver")]
-public record GcloudBuildsTriggersUpdateBitbucketserverOptions : GcloudOptions
+public record GcloudBuildsTriggersUpdateBitbucketServerOptions : GcloudOptions
 {
 }

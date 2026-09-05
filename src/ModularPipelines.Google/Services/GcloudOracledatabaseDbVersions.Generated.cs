@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud db-versions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseDbVersions
+public class GcloudOracleDatabaseDbVersions
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseDbVersions"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseDbVersions"/> class.
     /// </summary>
-    public GcloudOracledatabaseDbVersions(ICommandContext command)
+    public GcloudOracleDatabaseDbVersions(ICommandContext command)
     {
         _command = command;
     }

@@ -21,7 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("alloydb", "clusters", "list")]
 public record GcloudAlloydbClustersListOptions : GcloudOptions
 {
-    [Obsolete("Region is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations. Default: list clusters in all regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
 }

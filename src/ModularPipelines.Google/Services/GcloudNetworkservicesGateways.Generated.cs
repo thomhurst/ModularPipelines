@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud gateways commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkservicesGateways
+public class GcloudNetworkServicesGateways
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkservicesGateways"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkServicesGateways"/> class.
     /// </summary>
-    public GcloudNetworkservicesGateways(ICommandContext command)
+    public GcloudNetworkServicesGateways(ICommandContext command)
     {
         _command = command;
     }

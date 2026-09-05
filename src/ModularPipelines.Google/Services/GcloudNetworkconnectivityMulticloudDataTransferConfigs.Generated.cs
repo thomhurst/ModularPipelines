@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud multicloud-data-transfer-configs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkconnectivityMulticloudDataTransferConfigs
+public class GcloudNetworkConnectivityMulticloudDataTransferConfigs
 {
     private readonly ICommandContext _command;
-    private GcloudNetworkconnectivityMulticloudDataTransferConfigsDestinations? _destinations;
+    private GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinations? _destinations;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkconnectivityMulticloudDataTransferConfigs"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkConnectivityMulticloudDataTransferConfigs"/> class.
     /// </summary>
-    public GcloudNetworkconnectivityMulticloudDataTransferConfigs(ICommandContext command)
+    public GcloudNetworkConnectivityMulticloudDataTransferConfigs(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudNetworkconnectivityMulticloudDataTransferConfigs
     /// <summary>
     /// gcloud destinations sub-commands.
     /// </summary>
-    public GcloudNetworkconnectivityMulticloudDataTransferConfigsDestinations Destinations => _destinations ??= new GcloudNetworkconnectivityMulticloudDataTransferConfigsDestinations(_command);
+    public GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinations Destinations => _destinations ??= new GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinations(_command);
 
     #endregion
 

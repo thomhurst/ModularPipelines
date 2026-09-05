@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud goldengate-deployment-environments commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseGoldengateDeploymentEnvironments
+public class GcloudOracleDatabaseGoldengateDeploymentEnvironments
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseGoldengateDeploymentEnvironments"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseGoldengateDeploymentEnvironments"/> class.
     /// </summary>
-    public GcloudOracledatabaseGoldengateDeploymentEnvironments(ICommandContext command)
+    public GcloudOracleDatabaseGoldengateDeploymentEnvironments(ICommandContext command)
     {
         _command = command;
     }

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud authz-policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurityAuthzPolicies
+public class GcloudNetworkSecurityAuthzPolicies
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecurityAuthzPolicies"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecurityAuthzPolicies"/> class.
     /// </summary>
-    public GcloudNetworksecurityAuthzPolicies(ICommandContext command)
+    public GcloudNetworkSecurityAuthzPolicies(ICommandContext command)
     {
         _command = command;
     }

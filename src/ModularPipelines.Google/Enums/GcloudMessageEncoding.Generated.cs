@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudMessageEncoding
 {
     [EnumValue("json")]
-    Json = 0,
+    Json,
 
     [EnumValue("binary")]
-    Binary = 1
+    Binary
 }

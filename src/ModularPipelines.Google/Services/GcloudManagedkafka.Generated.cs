@@ -18,21 +18,21 @@ namespace ModularPipelines.Google.Services;
 /// gcloud managedkafka commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudManagedkafka : IGcloudManagedkafka
+public class GcloudManagedKafka : IGcloudManagedKafka
 {
     private readonly ICommandContext _command;
-    private GcloudManagedkafkaAcls? _acls;
-    private GcloudManagedkafkaClusters? _clusters;
-    private GcloudManagedkafkaConnectClusters? _connectClusters;
-    private GcloudManagedkafkaConnectors? _connectors;
-    private GcloudManagedkafkaConsumerGroups? _consumerGroups;
-    private GcloudManagedkafkaOperations? _operations;
-    private GcloudManagedkafkaTopics? _topics;
+    private GcloudManagedKafkaAcls? _acls;
+    private GcloudManagedKafkaClusters? _clusters;
+    private GcloudManagedKafkaConnectClusters? _connectClusters;
+    private GcloudManagedKafkaConnectors? _connectors;
+    private GcloudManagedKafkaConsumerGroups? _consumerGroups;
+    private GcloudManagedKafkaOperations? _operations;
+    private GcloudManagedKafkaTopics? _topics;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudManagedkafka"/> class.
+    /// Initializes a new instance of the <see cref="GcloudManagedKafka"/> class.
     /// </summary>
-    public GcloudManagedkafka(ICommandContext command)
+    public GcloudManagedKafka(ICommandContext command)
     {
         _command = command;
     }
@@ -42,37 +42,37 @@ public class GcloudManagedkafka : IGcloudManagedkafka
     /// <summary>
     /// gcloud acls sub-commands.
     /// </summary>
-    public GcloudManagedkafkaAcls Acls => _acls ??= new GcloudManagedkafkaAcls(_command);
+    public GcloudManagedKafkaAcls Acls => _acls ??= new GcloudManagedKafkaAcls(_command);
 
     /// <summary>
     /// gcloud clusters sub-commands.
     /// </summary>
-    public GcloudManagedkafkaClusters Clusters => _clusters ??= new GcloudManagedkafkaClusters(_command);
+    public GcloudManagedKafkaClusters Clusters => _clusters ??= new GcloudManagedKafkaClusters(_command);
 
     /// <summary>
     /// gcloud connect-clusters sub-commands.
     /// </summary>
-    public GcloudManagedkafkaConnectClusters ConnectClusters => _connectClusters ??= new GcloudManagedkafkaConnectClusters(_command);
+    public GcloudManagedKafkaConnectClusters ConnectClusters => _connectClusters ??= new GcloudManagedKafkaConnectClusters(_command);
 
     /// <summary>
     /// gcloud connectors sub-commands.
     /// </summary>
-    public GcloudManagedkafkaConnectors Connectors => _connectors ??= new GcloudManagedkafkaConnectors(_command);
+    public GcloudManagedKafkaConnectors Connectors => _connectors ??= new GcloudManagedKafkaConnectors(_command);
 
     /// <summary>
     /// gcloud consumer-groups sub-commands.
     /// </summary>
-    public GcloudManagedkafkaConsumerGroups ConsumerGroups => _consumerGroups ??= new GcloudManagedkafkaConsumerGroups(_command);
+    public GcloudManagedKafkaConsumerGroups ConsumerGroups => _consumerGroups ??= new GcloudManagedKafkaConsumerGroups(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudManagedkafkaOperations Operations => _operations ??= new GcloudManagedkafkaOperations(_command);
+    public GcloudManagedKafkaOperations Operations => _operations ??= new GcloudManagedKafkaOperations(_command);
 
     /// <summary>
     /// gcloud topics sub-commands.
     /// </summary>
-    public GcloudManagedkafkaTopics Topics => _topics ??= new GcloudManagedkafkaTopics(_command);
+    public GcloudManagedKafkaTopics Topics => _topics ??= new GcloudManagedKafkaTopics(_command);
 
     #endregion
 

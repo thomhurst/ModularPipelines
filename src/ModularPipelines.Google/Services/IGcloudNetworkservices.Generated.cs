@@ -19,117 +19,117 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudNetworkservices
+public interface IGcloudNetworkServices
 {
     /// <summary>
     /// gcloud agent-connectivity-templates sub-commands.
     /// </summary>
-    GcloudNetworkservicesAgentConnectivityTemplates AgentConnectivityTemplates => throw new System.NotSupportedException();
+    GcloudNetworkServicesAgentConnectivityTemplates AgentConnectivityTemplates => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud agent-gateways sub-commands.
     /// </summary>
-    GcloudNetworkservicesAgentGateways AgentGateways => throw new System.NotSupportedException();
+    GcloudNetworkServicesAgentGateways AgentGateways => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud endpoint-policies sub-commands.
     /// </summary>
-    GcloudNetworkservicesEndpointPolicies EndpointPolicies => throw new System.NotSupportedException();
+    GcloudNetworkServicesEndpointPolicies EndpointPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud gateways sub-commands.
     /// </summary>
-    GcloudNetworkservicesGateways Gateways => throw new System.NotSupportedException();
+    GcloudNetworkServicesGateways Gateways => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud grpc-routes sub-commands.
     /// </summary>
-    GcloudNetworkservicesGrpcRoutes GrpcRoutes => throw new System.NotSupportedException();
+    GcloudNetworkServicesGrpcRoutes GrpcRoutes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud http-routes sub-commands.
     /// </summary>
-    GcloudNetworkservicesHttpRoutes HttpRoutes => throw new System.NotSupportedException();
+    GcloudNetworkServicesHttpRoutes HttpRoutes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud meshes sub-commands.
     /// </summary>
-    GcloudNetworkservicesMeshes Meshes => throw new System.NotSupportedException();
+    GcloudNetworkServicesMeshes Meshes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud multicast-consumer-associations sub-commands.
     /// </summary>
-    GcloudNetworkservicesMulticastConsumerAssociations MulticastConsumerAssociations => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastConsumerAssociations MulticastConsumerAssociations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud multicast-domain-activations sub-commands.
     /// </summary>
-    GcloudNetworkservicesMulticastDomainActivations MulticastDomainActivations => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastDomainActivations MulticastDomainActivations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud multicast-domain-groups sub-commands.
     /// </summary>
-    GcloudNetworkservicesMulticastDomainGroups MulticastDomainGroups => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastDomainGroups MulticastDomainGroups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud multicast-domains sub-commands.
     /// </summary>
-    GcloudNetworkservicesMulticastDomains MulticastDomains => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastDomains MulticastDomains => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud multicast-group-consumer-activations sub-commands.
     /// </summary>
-    GcloudNetworkservicesMulticastGroupConsumerActivations MulticastGroupConsumerActivations => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastGroupConsumerActivations MulticastGroupConsumerActivations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud multicast-group-producer-activations sub-commands.
     /// </summary>
-    GcloudNetworkservicesMulticastGroupProducerActivations MulticastGroupProducerActivations => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastGroupProducerActivations MulticastGroupProducerActivations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud multicast-group-range-activations sub-commands.
     /// </summary>
-    GcloudNetworkservicesMulticastGroupRangeActivations MulticastGroupRangeActivations => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastGroupRangeActivations MulticastGroupRangeActivations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud multicast-group-ranges sub-commands.
     /// </summary>
-    GcloudNetworkservicesMulticastGroupRanges MulticastGroupRanges => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastGroupRanges MulticastGroupRanges => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud multicast-producer-associations sub-commands.
     /// </summary>
-    GcloudNetworkservicesMulticastProducerAssociations MulticastProducerAssociations => throw new System.NotSupportedException();
+    GcloudNetworkServicesMulticastProducerAssociations MulticastProducerAssociations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudNetworkservicesOperations Operations => throw new System.NotSupportedException();
+    GcloudNetworkServicesOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud route-views sub-commands.
     /// </summary>
-    GcloudNetworkservicesRouteViews RouteViews => throw new System.NotSupportedException();
+    GcloudNetworkServicesRouteViews RouteViews => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud service-bindings sub-commands.
     /// </summary>
-    GcloudNetworkservicesServiceBindings ServiceBindings => throw new System.NotSupportedException();
+    GcloudNetworkServicesServiceBindings ServiceBindings => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud service-lb-policies sub-commands.
     /// </summary>
-    GcloudNetworkservicesServiceLbPolicies ServiceLbPolicies => throw new System.NotSupportedException();
+    GcloudNetworkServicesServiceLbPolicies ServiceLbPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud tcp-routes sub-commands.
     /// </summary>
-    GcloudNetworkservicesTcpRoutes TcpRoutes => throw new System.NotSupportedException();
+    GcloudNetworkServicesTcpRoutes TcpRoutes => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud tls-routes sub-commands.
     /// </summary>
-    GcloudNetworkservicesTlsRoutes TlsRoutes => throw new System.NotSupportedException();
+    GcloudNetworkServicesTlsRoutes TlsRoutes => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Network Services resources

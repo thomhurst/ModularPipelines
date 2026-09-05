@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud backups commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudBackupdrBackups
+public class GcloudBackupDrBackups
 {
     private readonly ICommandContext _command;
-    private GcloudBackupdrBackupsRestore? _restore;
+    private GcloudBackupDrBackupsRestore? _restore;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudBackupdrBackups"/> class.
+    /// Initializes a new instance of the <see cref="GcloudBackupDrBackups"/> class.
     /// </summary>
-    public GcloudBackupdrBackups(ICommandContext command)
+    public GcloudBackupDrBackups(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudBackupdrBackups
     /// <summary>
     /// gcloud restore sub-commands.
     /// </summary>
-    public GcloudBackupdrBackupsRestore Restore => _restore ??= new GcloudBackupdrBackupsRestore(_command);
+    public GcloudBackupDrBackupsRestore Restore => _restore ??= new GcloudBackupDrBackupsRestore(_command);
 
     #endregion
 

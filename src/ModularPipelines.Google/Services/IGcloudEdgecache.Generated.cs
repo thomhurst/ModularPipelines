@@ -19,27 +19,27 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudEdgecache
+public interface IGcloudEdgeCache
 {
     /// <summary>
     /// gcloud keysets sub-commands.
     /// </summary>
-    GcloudEdgecacheKeysets Keysets => throw new System.NotSupportedException();
+    GcloudEdgeCacheKeysets Keysets => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudEdgecacheOperations Operations => throw new System.NotSupportedException();
+    GcloudEdgeCacheOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud origins sub-commands.
     /// </summary>
-    GcloudEdgecacheOrigins Origins => throw new System.NotSupportedException();
+    GcloudEdgeCacheOrigins Origins => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud services sub-commands.
     /// </summary>
-    GcloudEdgecacheServices Services => throw new System.NotSupportedException();
+    GcloudEdgeCacheServices Services => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Media CDN resources

@@ -18,19 +18,19 @@ namespace ModularPipelines.Google.Services;
 /// gcloud aiplatform commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAiplatform : IGcloudAiplatform
+public class GcloudAiPlatform : IGcloudAiPlatform
 {
     private readonly ICommandContext _command;
-    private GcloudAiplatformJobs? _jobs;
-    private GcloudAiplatformLocal? _local;
-    private GcloudAiplatformModels? _models;
-    private GcloudAiplatformOperations? _operations;
-    private GcloudAiplatformVersions? _versions;
+    private GcloudAiPlatformJobs? _jobs;
+    private GcloudAiPlatformLocal? _local;
+    private GcloudAiPlatformModels? _models;
+    private GcloudAiPlatformOperations? _operations;
+    private GcloudAiPlatformVersions? _versions;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAiplatform"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAiPlatform"/> class.
     /// </summary>
-    public GcloudAiplatform(ICommandContext command)
+    public GcloudAiPlatform(ICommandContext command)
     {
         _command = command;
     }
@@ -40,27 +40,27 @@ public class GcloudAiplatform : IGcloudAiplatform
     /// <summary>
     /// gcloud jobs sub-commands.
     /// </summary>
-    public GcloudAiplatformJobs Jobs => _jobs ??= new GcloudAiplatformJobs(_command);
+    public GcloudAiPlatformJobs Jobs => _jobs ??= new GcloudAiPlatformJobs(_command);
 
     /// <summary>
     /// gcloud local sub-commands.
     /// </summary>
-    public GcloudAiplatformLocal Local => _local ??= new GcloudAiplatformLocal(_command);
+    public GcloudAiPlatformLocal Local => _local ??= new GcloudAiPlatformLocal(_command);
 
     /// <summary>
     /// gcloud models sub-commands.
     /// </summary>
-    public GcloudAiplatformModels Models => _models ??= new GcloudAiplatformModels(_command);
+    public GcloudAiPlatformModels Models => _models ??= new GcloudAiPlatformModels(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudAiplatformOperations Operations => _operations ??= new GcloudAiplatformOperations(_command);
+    public GcloudAiPlatformOperations Operations => _operations ??= new GcloudAiPlatformOperations(_command);
 
     /// <summary>
     /// gcloud versions sub-commands.
     /// </summary>
-    public GcloudAiplatformVersions Versions => _versions ??= new GcloudAiplatformVersions(_command);
+    public GcloudAiPlatformVersions Versions => _versions ??= new GcloudAiPlatformVersions(_command);
 
     #endregion
 

@@ -19,47 +19,47 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudInframanager
+public interface IGcloudInfraManager
 {
     /// <summary>
     /// gcloud automigrationconfig sub-commands.
     /// </summary>
-    GcloudInframanagerAutomigrationconfig Automigrationconfig => throw new System.NotSupportedException();
+    GcloudInfraManagerAutomigrationconfig Automigrationconfig => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud deployments sub-commands.
     /// </summary>
-    GcloudInframanagerDeployments Deployments => throw new System.NotSupportedException();
+    GcloudInfraManagerDeployments Deployments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud previews sub-commands.
     /// </summary>
-    GcloudInframanagerPreviews Previews => throw new System.NotSupportedException();
+    GcloudInfraManagerPreviews Previews => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud resource-changes sub-commands.
     /// </summary>
-    GcloudInframanagerResourceChanges ResourceChanges => throw new System.NotSupportedException();
+    GcloudInfraManagerResourceChanges ResourceChanges => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud resource-drifts sub-commands.
     /// </summary>
-    GcloudInframanagerResourceDrifts ResourceDrifts => throw new System.NotSupportedException();
+    GcloudInfraManagerResourceDrifts ResourceDrifts => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud resources sub-commands.
     /// </summary>
-    GcloudInframanagerResources Resources => throw new System.NotSupportedException();
+    GcloudInfraManagerResources Resources => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud revisions sub-commands.
     /// </summary>
-    GcloudInframanagerRevisions Revisions => throw new System.NotSupportedException();
+    GcloudInfraManagerRevisions Revisions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud terraform-versions sub-commands.
     /// </summary>
-    GcloudInframanagerTerraformVersions TerraformVersions => throw new System.NotSupportedException();
+    GcloudInfraManagerTerraformVersions TerraformVersions => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Infra Manager resources

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud cloud-bindings commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAccesscontextmanagerCloudBindings
+public class GcloudAccessContextManagerCloudBindings
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAccesscontextmanagerCloudBindings"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAccessContextManagerCloudBindings"/> class.
     /// </summary>
-    public GcloudAccesscontextmanagerCloudBindings(ICommandContext command)
+    public GcloudAccessContextManagerCloudBindings(ICommandContext command)
     {
         _command = command;
     }

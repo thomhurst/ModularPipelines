@@ -19,7 +19,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("parametermanager", "parameters", "versions", "update")]
-public record GcloudParametermanagerParametersVersionsUpdateOptions : GcloudOptions
+public record GcloudParameterManagerParametersVersionsUpdateOptions : GcloudOptions
 {
     /// <summary>
     /// Disabled boolean to determine if a ParameterVersion acts as a metadata only resource (payload is never returned if disabled is true). If true any calls will always default to BASIC view even if the user explicitly passes FULL view as part of the request. A render call on a disabled resource fails with an error. Default value is False. Use --disabled to enable and --no-disabled to disable.
@@ -28,7 +28,7 @@ public record GcloudParametermanagerParametersVersionsUpdateOptions : GcloudOpti
     public bool? Disabled { get; set; }
 
     /// <summary>
-    /// Disabled boolean to determine if a ParameterVersion acts as a metadata only resource (payload is never returned if disabled is true). If true any calls will always default to BASIC view even if the user explicitly passes FULL view as part of the request. A render call on a disabled resource fails with an error. Default value is False. Use --disabled to enable and --no-disabled to disable.
+    /// Negates --disabled. Disabled boolean to determine if a ParameterVersion acts as a metadata only resource (payload is never returned if disabled is true). If true any calls will always default to BASIC view even if the user explicitly passes FULL view as part of the request. A render call on a disabled resource fails with an error. Default value is False. Use --disabled to enable and --no-disabled to disable.
     /// </summary>
     [CliFlag("--no-disabled")]
     public bool? NoDisabled { get; set; }

@@ -18,17 +18,17 @@ namespace ModularPipelines.Google.Services;
 /// gcloud designcenter commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDesigncenter : IGcloudDesigncenter
+public class GcloudDesignCenter : IGcloudDesignCenter
 {
     private readonly ICommandContext _command;
-    private GcloudDesigncenterLocations? _locations;
-    private GcloudDesigncenterOperations? _operations;
-    private GcloudDesigncenterSpaces? _spaces;
+    private GcloudDesignCenterLocations? _locations;
+    private GcloudDesignCenterOperations? _operations;
+    private GcloudDesignCenterSpaces? _spaces;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDesigncenter"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDesignCenter"/> class.
     /// </summary>
-    public GcloudDesigncenter(ICommandContext command)
+    public GcloudDesignCenter(ICommandContext command)
     {
         _command = command;
     }
@@ -38,17 +38,17 @@ public class GcloudDesigncenter : IGcloudDesigncenter
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    public GcloudDesigncenterLocations Locations => _locations ??= new GcloudDesigncenterLocations(_command);
+    public GcloudDesignCenterLocations Locations => _locations ??= new GcloudDesignCenterLocations(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudDesigncenterOperations Operations => _operations ??= new GcloudDesigncenterOperations(_command);
+    public GcloudDesignCenterOperations Operations => _operations ??= new GcloudDesignCenterOperations(_command);
 
     /// <summary>
     /// gcloud spaces sub-commands.
     /// </summary>
-    public GcloudDesigncenterSpaces Spaces => _spaces ??= new GcloudDesigncenterSpaces(_command);
+    public GcloudDesignCenterSpaces Spaces => _spaces ??= new GcloudDesignCenterSpaces(_command);
 
     #endregion
 

@@ -18,17 +18,17 @@ namespace ModularPipelines.Google.Services;
 /// gcloud accessapproval commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAccessapproval : IGcloudAccessapproval
+public class GcloudAccessApproval : IGcloudAccessApproval
 {
     private readonly ICommandContext _command;
-    private GcloudAccessapprovalRequests? _requests;
-    private GcloudAccessapprovalServiceAccount? _serviceAccount;
-    private GcloudAccessapprovalSettings? _settings;
+    private GcloudAccessApprovalRequests? _requests;
+    private GcloudAccessApprovalServiceAccount? _serviceAccount;
+    private GcloudAccessApprovalSettings? _settings;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAccessapproval"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAccessApproval"/> class.
     /// </summary>
-    public GcloudAccessapproval(ICommandContext command)
+    public GcloudAccessApproval(ICommandContext command)
     {
         _command = command;
     }
@@ -38,17 +38,17 @@ public class GcloudAccessapproval : IGcloudAccessapproval
     /// <summary>
     /// gcloud requests sub-commands.
     /// </summary>
-    public GcloudAccessapprovalRequests Requests => _requests ??= new GcloudAccessapprovalRequests(_command);
+    public GcloudAccessApprovalRequests Requests => _requests ??= new GcloudAccessApprovalRequests(_command);
 
     /// <summary>
     /// gcloud service-account sub-commands.
     /// </summary>
-    public GcloudAccessapprovalServiceAccount ServiceAccount => _serviceAccount ??= new GcloudAccessapprovalServiceAccount(_command);
+    public GcloudAccessApprovalServiceAccount ServiceAccount => _serviceAccount ??= new GcloudAccessApprovalServiceAccount(_command);
 
     /// <summary>
     /// gcloud settings sub-commands.
     /// </summary>
-    public GcloudAccessapprovalSettings Settings => _settings ??= new GcloudAccessapprovalSettings(_command);
+    public GcloudAccessApprovalSettings Settings => _settings ??= new GcloudAccessApprovalSettings(_command);
 
     #endregion
 

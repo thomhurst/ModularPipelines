@@ -29,6 +29,13 @@ public record GcloudBiglakeIcebergCatalogsUpdateOptions : GcloudOptions
     public string? CatalogType { get; set; }
 
     /// <summary>
+    /// Credential mode to create the catalog with. CREDENTIAL_MODE must be one of: end-user Use end user credentials to access the catalog. vended-credentials Use vended credentials to access the catalog.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--credential-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? CredentialMode { get; set; }
+
+    /// <summary>
     /// Description of the resource.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
@@ -39,11 +46,5 @@ public record GcloudBiglakeIcebergCatalogsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--restricted-locations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RestrictedLocations { get; set; }
-
-    /// <summary>
-    /// Credential mode to create the catalog with. CREDENTIAL_MODE must be one of: end-user Use end user credentials to access the catalog. vended-credentials Use vended credentials to access the catalog.
-    /// </summary>
-    [CliOption("--credential-mode", Format = OptionFormat.EqualsSeparated)]
-    public string? CredentialMode { get; set; }
 
 }

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud automigrationconfig commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudInframanagerAutomigrationconfig
+public class GcloudInfraManagerAutomigrationconfig
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudInframanagerAutomigrationconfig"/> class.
+    /// Initializes a new instance of the <see cref="GcloudInfraManagerAutomigrationconfig"/> class.
     /// </summary>
-    public GcloudInframanagerAutomigrationconfig(ICommandContext command)
+    public GcloudInfraManagerAutomigrationconfig(ICommandContext command)
     {
         _command = command;
     }

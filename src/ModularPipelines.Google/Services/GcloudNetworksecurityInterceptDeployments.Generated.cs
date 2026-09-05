@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud intercept-deployments commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurityInterceptDeployments
+public class GcloudNetworkSecurityInterceptDeployments
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecurityInterceptDeployments"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecurityInterceptDeployments"/> class.
     /// </summary>
-    public GcloudNetworksecurityInterceptDeployments(ICommandContext command)
+    public GcloudNetworkSecurityInterceptDeployments(ICommandContext command)
     {
         _command = command;
     }

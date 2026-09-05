@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud topics commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudManagedkafkaTopics
+public class GcloudManagedKafkaTopics
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudManagedkafkaTopics"/> class.
+    /// Initializes a new instance of the <see cref="GcloudManagedKafkaTopics"/> class.
     /// </summary>
-    public GcloudManagedkafkaTopics(ICommandContext command)
+    public GcloudManagedKafkaTopics(ICommandContext command)
     {
         _command = command;
     }

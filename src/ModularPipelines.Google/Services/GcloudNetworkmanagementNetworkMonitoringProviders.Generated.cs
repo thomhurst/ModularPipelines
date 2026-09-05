@@ -18,17 +18,17 @@ namespace ModularPipelines.Google.Services;
 /// gcloud network-monitoring-providers commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkmanagementNetworkMonitoringProviders
+public class GcloudNetworkManagementNetworkMonitoringProviders
 {
     private readonly ICommandContext _command;
-    private GcloudNetworkmanagementNetworkMonitoringProvidersMonitoringPoints? _monitoringPoints;
-    private GcloudNetworkmanagementNetworkMonitoringProvidersNetworkPaths? _networkPaths;
-    private GcloudNetworkmanagementNetworkMonitoringProvidersWebPaths? _webPaths;
+    private GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPoints? _monitoringPoints;
+    private GcloudNetworkManagementNetworkMonitoringProvidersNetworkPaths? _networkPaths;
+    private GcloudNetworkManagementNetworkMonitoringProvidersWebPaths? _webPaths;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkmanagementNetworkMonitoringProviders"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkManagementNetworkMonitoringProviders"/> class.
     /// </summary>
-    public GcloudNetworkmanagementNetworkMonitoringProviders(ICommandContext command)
+    public GcloudNetworkManagementNetworkMonitoringProviders(ICommandContext command)
     {
         _command = command;
     }
@@ -38,17 +38,17 @@ public class GcloudNetworkmanagementNetworkMonitoringProviders
     /// <summary>
     /// gcloud monitoring-points sub-commands.
     /// </summary>
-    public GcloudNetworkmanagementNetworkMonitoringProvidersMonitoringPoints MonitoringPoints => _monitoringPoints ??= new GcloudNetworkmanagementNetworkMonitoringProvidersMonitoringPoints(_command);
+    public GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPoints MonitoringPoints => _monitoringPoints ??= new GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPoints(_command);
 
     /// <summary>
     /// gcloud network-paths sub-commands.
     /// </summary>
-    public GcloudNetworkmanagementNetworkMonitoringProvidersNetworkPaths NetworkPaths => _networkPaths ??= new GcloudNetworkmanagementNetworkMonitoringProvidersNetworkPaths(_command);
+    public GcloudNetworkManagementNetworkMonitoringProvidersNetworkPaths NetworkPaths => _networkPaths ??= new GcloudNetworkManagementNetworkMonitoringProvidersNetworkPaths(_command);
 
     /// <summary>
     /// gcloud web-paths sub-commands.
     /// </summary>
-    public GcloudNetworkmanagementNetworkMonitoringProvidersWebPaths WebPaths => _webPaths ??= new GcloudNetworkmanagementNetworkMonitoringProvidersWebPaths(_command);
+    public GcloudNetworkManagementNetworkMonitoringProvidersWebPaths WebPaths => _webPaths ??= new GcloudNetworkManagementNetworkMonitoringProvidersWebPaths(_command);
 
     #endregion
 

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud threat-prevention commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecuritySecurityProfilesThreatPrevention
+public class GcloudNetworkSecuritySecurityProfilesThreatPrevention
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecuritySecurityProfilesThreatPrevention"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecuritySecurityProfilesThreatPrevention"/> class.
     /// </summary>
-    public GcloudNetworksecuritySecurityProfilesThreatPrevention(ICommandContext command)
+    public GcloudNetworkSecuritySecurityProfilesThreatPrevention(ICommandContext command)
     {
         _command = command;
     }

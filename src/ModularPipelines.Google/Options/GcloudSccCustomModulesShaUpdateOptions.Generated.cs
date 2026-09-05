@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -33,7 +34,7 @@ public record GcloudSccCustomModulesShaUpdateOptions(
     /// Sets the enablement state of the Security Health Analytics custom module. From the following list of possible enablement states, specify either enabled, disabled or inherited only. ENABLEMENT_STATE must be one of: disabled, enabled, enablement-state-unspecified, inherited.
     /// </summary>
     [CliOption("--enablement-state", Format = OptionFormat.EqualsSeparated)]
-    public string? EnablementState { get; set; }
+    public GcloudEnablementState? EnablementState { get; set; }
 
     /// <summary>
     /// Optional: If left unspecified (default), an update-mask is automatically created using the flags specified in the command and only those values are updated.

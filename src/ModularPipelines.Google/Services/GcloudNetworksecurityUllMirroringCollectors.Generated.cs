@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud ull-mirroring-collectors commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurityUllMirroringCollectors
+public class GcloudNetworkSecurityUllMirroringCollectors
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecurityUllMirroringCollectors"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecurityUllMirroringCollectors"/> class.
     /// </summary>
-    public GcloudNetworksecurityUllMirroringCollectors(ICommandContext command)
+    public GcloudNetworkSecurityUllMirroringCollectors(ICommandContext command)
     {
         _command = command;
     }

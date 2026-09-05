@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud firewall-endpoint-associations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurityFirewallEndpointAssociations
+public class GcloudNetworkSecurityFirewallEndpointAssociations
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecurityFirewallEndpointAssociations"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecurityFirewallEndpointAssociations"/> class.
     /// </summary>
-    public GcloudNetworksecurityFirewallEndpointAssociations(ICommandContext command)
+    public GcloudNetworkSecurityFirewallEndpointAssociations(ICommandContext command)
     {
         _command = command;
     }

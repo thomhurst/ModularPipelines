@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud authorized-orgs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAccesscontextmanagerAuthorizedOrgs
+public class GcloudAccessContextManagerAuthorizedOrgs
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAccesscontextmanagerAuthorizedOrgs"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAccessContextManagerAuthorizedOrgs"/> class.
     /// </summary>
-    public GcloudAccesscontextmanagerAuthorizedOrgs(ICommandContext command)
+    public GcloudAccessContextManagerAuthorizedOrgs(ICommandContext command)
     {
         _command = command;
     }

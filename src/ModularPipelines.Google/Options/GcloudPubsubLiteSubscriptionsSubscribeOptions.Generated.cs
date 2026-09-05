@@ -28,15 +28,15 @@ public record GcloudPubsubLiteSubscriptionsSubscribeOptions : GcloudOptions
     public bool? AutoAck { get; set; }
 
     /// <summary>
-    /// The partitions this subscriber should connect to to receive messages. If empty, partitions will be automatically assigned.
-    /// </summary>
-    [CliOption("--partitions", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Partitions { get; set; }
-
-    /// <summary>
     /// The number of messages to stream before exiting. This value must be less than or equal to 1000.
     /// </summary>
     [CliOption("--num-messages", Format = OptionFormat.EqualsSeparated)]
     public string? NumMessages { get; set; }
+
+    /// <summary>
+    /// The partitions this subscriber should connect to to receive messages. If empty, partitions will be automatically assigned.
+    /// </summary>
+    [CliOption("--partitions", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Partitions { get; set; }
 
 }

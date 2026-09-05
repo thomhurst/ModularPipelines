@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud odb-subnets commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseOdbNetworksOdbSubnets
+public class GcloudOracleDatabaseOdbNetworksOdbSubnets
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseOdbNetworksOdbSubnets"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseOdbNetworksOdbSubnets"/> class.
     /// </summary>
-    public GcloudOracledatabaseOdbNetworksOdbSubnets(ICommandContext command)
+    public GcloudOracleDatabaseOdbNetworksOdbSubnets(ICommandContext command)
     {
         _command = command;
     }

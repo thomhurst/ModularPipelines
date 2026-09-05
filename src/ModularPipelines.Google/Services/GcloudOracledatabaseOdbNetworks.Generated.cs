@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud odb-networks commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseOdbNetworks
+public class GcloudOracleDatabaseOdbNetworks
 {
     private readonly ICommandContext _command;
-    private GcloudOracledatabaseOdbNetworksOdbSubnets? _odbSubnets;
+    private GcloudOracleDatabaseOdbNetworksOdbSubnets? _odbSubnets;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseOdbNetworks"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseOdbNetworks"/> class.
     /// </summary>
-    public GcloudOracledatabaseOdbNetworks(ICommandContext command)
+    public GcloudOracleDatabaseOdbNetworks(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudOracledatabaseOdbNetworks
     /// <summary>
     /// gcloud odb-subnets sub-commands.
     /// </summary>
-    public GcloudOracledatabaseOdbNetworksOdbSubnets OdbSubnets => _odbSubnets ??= new GcloudOracledatabaseOdbNetworksOdbSubnets(_command);
+    public GcloudOracleDatabaseOdbNetworksOdbSubnets OdbSubnets => _odbSubnets ??= new GcloudOracleDatabaseOdbNetworksOdbSubnets(_command);
 
     #endregion
 

@@ -37,16 +37,22 @@ public record GcloudTasksQueuesUpdateOptions(
     public bool? ClearHttpHeaderOverride { get; set; }
 
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. At most one of these can be specified: Clear the field corresponding to --http-method-override.
+    /// At most one of these can be specified: If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden.
+    /// </summary>
+    [CliOption("--http-header-override", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? HttpHeaderOverride { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear the field corresponding to --http-method-override.
     /// </summary>
     [CliFlag("--clear-http-method-override")]
     public bool? ClearHttpMethodOverride { get; set; }
 
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. At most one of these can be specified: If provided, the specified HTTP method type override is used for all tasks in the queue, no matter what is set at the task-level.
+    /// At most one of these can be specified: If provided, the specified HTTP method type override is used for all tasks in the queue, no matter what is set at the task-level.
     /// </summary>
     [CliOption("--http-method-override", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? HttpMethodOverride { get; set; }
+    public string? HttpMethodOverride { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Clear the field corresponding to --http-oauth-service-account-email-override.
@@ -58,7 +64,7 @@ public record GcloudTasksQueuesUpdateOptions(
     /// At most one of these can be specified: The service account email to be used for generating an OAuth2 access token to be included in the request sent to the target when executing the task. The service account must be within the same project as the queue. The caller must have 'iam.serviceAccounts.actAs' permission for the service account.
     /// </summary>
     [CliOption("--http-oauth-service-account-email-override", Format = OptionFormat.EqualsSeparated)]
-    public string? HttpOauthServiceAccountEmailOverrideValue { get; set; }
+    public string? HttpOauthServiceAccountEmailOverride { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Clear the field corresponding to --http-oauth-token-scope-override.
@@ -83,7 +89,7 @@ public record GcloudTasksQueuesUpdateOptions(
     /// At most one of these can be specified: The service account email to be used for generating an OpenID Connect token to be included in the request sent to the target when executing the task. The service account must be within the same project as the queue. The caller must have 'iam.serviceAccounts.actAs' permission for the service account.
     /// </summary>
     [CliOption("--http-oidc-service-account-email-override", Format = OptionFormat.EqualsSeparated)]
-    public string? HttpOidcServiceAccountEmailOverrideValue { get; set; }
+    public string? HttpOidcServiceAccountEmailOverride { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Clear the field corresponding to --http-oidc-token-audience-override.
@@ -217,19 +223,5 @@ public record GcloudTasksQueuesUpdateOptions(
     /// </summary>
     [CliOption("--routing-override", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RoutingOverride { get; set; }
-
-    [Obsolete("Use HttpOauthServiceAccountEmailOverrideValue instead.")]
-    public int? HttpOauthServiceAccountEmailOverride
-    {
-        get => int.TryParse(HttpOauthServiceAccountEmailOverrideValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => HttpOauthServiceAccountEmailOverrideValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use HttpOidcServiceAccountEmailOverrideValue instead.")]
-    public int? HttpOidcServiceAccountEmailOverride
-    {
-        get => int.TryParse(HttpOidcServiceAccountEmailOverrideValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => HttpOidcServiceAccountEmailOverrideValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

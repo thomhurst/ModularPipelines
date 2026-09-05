@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud exascale-db-storage-vaults commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseExascaleDbStorageVaults
+public class GcloudOracleDatabaseExascaleDbStorageVaults
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseExascaleDbStorageVaults"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseExascaleDbStorageVaults"/> class.
     /// </summary>
-    public GcloudOracledatabaseExascaleDbStorageVaults(ICommandContext command)
+    public GcloudOracleDatabaseExascaleDbStorageVaults(ICommandContext command)
     {
         _command = command;
     }

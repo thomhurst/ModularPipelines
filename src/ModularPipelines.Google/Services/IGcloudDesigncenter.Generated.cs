@@ -19,22 +19,22 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudDesigncenter
+public interface IGcloudDesignCenter
 {
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudDesigncenterLocations Locations => throw new System.NotSupportedException();
+    GcloudDesignCenterLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudDesigncenterOperations Operations => throw new System.NotSupportedException();
+    GcloudDesignCenterOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud spaces sub-commands.
     /// </summary>
-    GcloudDesigncenterSpaces Spaces => throw new System.NotSupportedException();
+    GcloudDesignCenterSpaces Spaces => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Application Design Center resources

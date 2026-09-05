@@ -18,19 +18,19 @@ namespace ModularPipelines.Google.Services;
 /// gcloud compliancemanager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudCompliancemanager : IGcloudCompliancemanager
+public class GcloudComplianceManager : IGcloudComplianceManager
 {
     private readonly ICommandContext _command;
-    private GcloudCompliancemanagerCloudControlDeployments? _cloudControlDeployments;
-    private GcloudCompliancemanagerCloudControls? _cloudControls;
-    private GcloudCompliancemanagerFrameworkDeployments? _frameworkDeployments;
-    private GcloudCompliancemanagerFrameworks? _frameworks;
-    private GcloudCompliancemanagerOperations? _operations;
+    private GcloudComplianceManagerCloudControlDeployments? _cloudControlDeployments;
+    private GcloudComplianceManagerCloudControls? _cloudControls;
+    private GcloudComplianceManagerFrameworkDeployments? _frameworkDeployments;
+    private GcloudComplianceManagerFrameworks? _frameworks;
+    private GcloudComplianceManagerOperations? _operations;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudCompliancemanager"/> class.
+    /// Initializes a new instance of the <see cref="GcloudComplianceManager"/> class.
     /// </summary>
-    public GcloudCompliancemanager(ICommandContext command)
+    public GcloudComplianceManager(ICommandContext command)
     {
         _command = command;
     }
@@ -40,27 +40,27 @@ public class GcloudCompliancemanager : IGcloudCompliancemanager
     /// <summary>
     /// gcloud cloud-control-deployments sub-commands.
     /// </summary>
-    public GcloudCompliancemanagerCloudControlDeployments CloudControlDeployments => _cloudControlDeployments ??= new GcloudCompliancemanagerCloudControlDeployments(_command);
+    public GcloudComplianceManagerCloudControlDeployments CloudControlDeployments => _cloudControlDeployments ??= new GcloudComplianceManagerCloudControlDeployments(_command);
 
     /// <summary>
     /// gcloud cloud-controls sub-commands.
     /// </summary>
-    public GcloudCompliancemanagerCloudControls CloudControls => _cloudControls ??= new GcloudCompliancemanagerCloudControls(_command);
+    public GcloudComplianceManagerCloudControls CloudControls => _cloudControls ??= new GcloudComplianceManagerCloudControls(_command);
 
     /// <summary>
     /// gcloud framework-deployments sub-commands.
     /// </summary>
-    public GcloudCompliancemanagerFrameworkDeployments FrameworkDeployments => _frameworkDeployments ??= new GcloudCompliancemanagerFrameworkDeployments(_command);
+    public GcloudComplianceManagerFrameworkDeployments FrameworkDeployments => _frameworkDeployments ??= new GcloudComplianceManagerFrameworkDeployments(_command);
 
     /// <summary>
     /// gcloud frameworks sub-commands.
     /// </summary>
-    public GcloudCompliancemanagerFrameworks Frameworks => _frameworks ??= new GcloudCompliancemanagerFrameworks(_command);
+    public GcloudComplianceManagerFrameworks Frameworks => _frameworks ??= new GcloudComplianceManagerFrameworks(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudCompliancemanagerOperations Operations => _operations ??= new GcloudCompliancemanagerOperations(_command);
+    public GcloudComplianceManagerOperations Operations => _operations ??= new GcloudComplianceManagerOperations(_command);
 
     #endregion
 

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud policytroubleshoot commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudPolicytroubleshoot : IGcloudPolicytroubleshoot
+public class GcloudPolicyTroubleshoot : IGcloudPolicyTroubleshoot
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudPolicytroubleshoot"/> class.
+    /// Initializes a new instance of the <see cref="GcloudPolicyTroubleshoot"/> class.
     /// </summary>
-    public GcloudPolicytroubleshoot(ICommandContext command)
+    public GcloudPolicyTroubleshoot(ICommandContext command)
     {
         _command = command;
     }

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud http-routes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkservicesHttpRoutes
+public class GcloudNetworkServicesHttpRoutes
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkservicesHttpRoutes"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkServicesHttpRoutes"/> class.
     /// </summary>
-    public GcloudNetworkservicesHttpRoutes(ICommandContext command)
+    public GcloudNetworkServicesHttpRoutes(ICommandContext command)
     {
         _command = command;
     }

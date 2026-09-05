@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud versions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudParametermanagerParametersVersions
+public class GcloudParameterManagerParametersVersions
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudParametermanagerParametersVersions"/> class.
+    /// Initializes a new instance of the <see cref="GcloudParameterManagerParametersVersions"/> class.
     /// </summary>
-    public GcloudParametermanagerParametersVersions(ICommandContext command)
+    public GcloudParameterManagerParametersVersions(ICommandContext command)
     {
         _command = command;
     }
@@ -40,11 +40,11 @@ public class GcloudParametermanagerParametersVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExecuteAsync(
-        GcloudParametermanagerParametersVersionsOptions? options = null,
+        GcloudParameterManagerParametersVersionsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParametermanagerParametersVersionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParameterManagerParametersVersionsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class GcloudParametermanagerParametersVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        GcloudParametermanagerParametersVersionsCreateOptions? options = null,
+        GcloudParameterManagerParametersVersionsCreateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParametermanagerParametersVersionsCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParameterManagerParametersVersionsCreateOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class GcloudParametermanagerParametersVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAsync(
-        GcloudParametermanagerParametersVersionsDeleteOptions? options = null,
+        GcloudParameterManagerParametersVersionsDeleteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParametermanagerParametersVersionsDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParameterManagerParametersVersionsDeleteOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class GcloudParametermanagerParametersVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAsync(
-        GcloudParametermanagerParametersVersionsDescribeOptions? options = null,
+        GcloudParameterManagerParametersVersionsDescribeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParametermanagerParametersVersionsDescribeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParameterManagerParametersVersionsDescribeOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class GcloudParametermanagerParametersVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
-        GcloudParametermanagerParametersVersionsListOptions? options = null,
+        GcloudParameterManagerParametersVersionsListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParametermanagerParametersVersionsListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParameterManagerParametersVersionsListOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -115,11 +115,11 @@ public class GcloudParametermanagerParametersVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RenderAsync(
-        GcloudParametermanagerParametersVersionsRenderOptions? options = null,
+        GcloudParameterManagerParametersVersionsRenderOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParametermanagerParametersVersionsRenderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParameterManagerParametersVersionsRenderOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -130,11 +130,11 @@ public class GcloudParametermanagerParametersVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAsync(
-        GcloudParametermanagerParametersVersionsUpdateOptions? options = null,
+        GcloudParameterManagerParametersVersionsUpdateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParametermanagerParametersVersionsUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParameterManagerParametersVersionsUpdateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud floorsettings commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudModelarmorFloorsettings
+public class GcloudModelArmorFloorsettings
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudModelarmorFloorsettings"/> class.
+    /// Initializes a new instance of the <see cref="GcloudModelArmorFloorsettings"/> class.
     /// </summary>
-    public GcloudModelarmorFloorsettings(ICommandContext command)
+    public GcloudModelArmorFloorsettings(ICommandContext command)
     {
         _command = command;
     }

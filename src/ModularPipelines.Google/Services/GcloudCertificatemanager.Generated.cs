@@ -18,20 +18,20 @@ namespace ModularPipelines.Google.Services;
 /// gcloud certificatemanager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudCertificatemanager : IGcloudCertificatemanager
+public class GcloudCertificateManager : IGcloudCertificateManager
 {
     private readonly ICommandContext _command;
-    private GcloudCertificatemanagerCertificates? _certificates;
-    private GcloudCertificatemanagerDnsAuthorizations? _dnsAuthorizations;
-    private GcloudCertificatemanagerIssuanceConfigs? _issuanceConfigs;
-    private GcloudCertificatemanagerMaps? _maps;
-    private GcloudCertificatemanagerOperations? _operations;
-    private GcloudCertificatemanagerTrustConfigs? _trustConfigs;
+    private GcloudCertificateManagerCertificates? _certificates;
+    private GcloudCertificateManagerDnsAuthorizations? _dnsAuthorizations;
+    private GcloudCertificateManagerIssuanceConfigs? _issuanceConfigs;
+    private GcloudCertificateManagerMaps? _maps;
+    private GcloudCertificateManagerOperations? _operations;
+    private GcloudCertificateManagerTrustConfigs? _trustConfigs;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudCertificatemanager"/> class.
+    /// Initializes a new instance of the <see cref="GcloudCertificateManager"/> class.
     /// </summary>
-    public GcloudCertificatemanager(ICommandContext command)
+    public GcloudCertificateManager(ICommandContext command)
     {
         _command = command;
     }
@@ -41,32 +41,32 @@ public class GcloudCertificatemanager : IGcloudCertificatemanager
     /// <summary>
     /// gcloud certificates sub-commands.
     /// </summary>
-    public GcloudCertificatemanagerCertificates Certificates => _certificates ??= new GcloudCertificatemanagerCertificates(_command);
+    public GcloudCertificateManagerCertificates Certificates => _certificates ??= new GcloudCertificateManagerCertificates(_command);
 
     /// <summary>
     /// gcloud dns-authorizations sub-commands.
     /// </summary>
-    public GcloudCertificatemanagerDnsAuthorizations DnsAuthorizations => _dnsAuthorizations ??= new GcloudCertificatemanagerDnsAuthorizations(_command);
+    public GcloudCertificateManagerDnsAuthorizations DnsAuthorizations => _dnsAuthorizations ??= new GcloudCertificateManagerDnsAuthorizations(_command);
 
     /// <summary>
     /// gcloud issuance-configs sub-commands.
     /// </summary>
-    public GcloudCertificatemanagerIssuanceConfigs IssuanceConfigs => _issuanceConfigs ??= new GcloudCertificatemanagerIssuanceConfigs(_command);
+    public GcloudCertificateManagerIssuanceConfigs IssuanceConfigs => _issuanceConfigs ??= new GcloudCertificateManagerIssuanceConfigs(_command);
 
     /// <summary>
     /// gcloud maps sub-commands.
     /// </summary>
-    public GcloudCertificatemanagerMaps Maps => _maps ??= new GcloudCertificatemanagerMaps(_command);
+    public GcloudCertificateManagerMaps Maps => _maps ??= new GcloudCertificateManagerMaps(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudCertificatemanagerOperations Operations => _operations ??= new GcloudCertificatemanagerOperations(_command);
+    public GcloudCertificateManagerOperations Operations => _operations ??= new GcloudCertificateManagerOperations(_command);
 
     /// <summary>
     /// gcloud trust-configs sub-commands.
     /// </summary>
-    public GcloudCertificatemanagerTrustConfigs TrustConfigs => _trustConfigs ??= new GcloudCertificatemanagerTrustConfigs(_command);
+    public GcloudCertificateManagerTrustConfigs TrustConfigs => _trustConfigs ??= new GcloudCertificateManagerTrustConfigs(_command);
 
     #endregion
 

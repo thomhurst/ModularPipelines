@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud jobs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAiplatformJobs
+public class GcloudAiPlatformJobs
 {
     private readonly ICommandContext _command;
-    private GcloudAiplatformJobsSubmit? _submit;
+    private GcloudAiPlatformJobsSubmit? _submit;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAiplatformJobs"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAiPlatformJobs"/> class.
     /// </summary>
-    public GcloudAiplatformJobs(ICommandContext command)
+    public GcloudAiPlatformJobs(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudAiplatformJobs
     /// <summary>
     /// gcloud submit sub-commands.
     /// </summary>
-    public GcloudAiplatformJobsSubmit Submit => _submit ??= new GcloudAiplatformJobsSubmit(_command);
+    public GcloudAiPlatformJobsSubmit Submit => _submit ??= new GcloudAiPlatformJobsSubmit(_command);
 
     #endregion
 

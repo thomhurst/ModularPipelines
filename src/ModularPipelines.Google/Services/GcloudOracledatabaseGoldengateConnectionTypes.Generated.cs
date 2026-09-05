@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud goldengate-connection-types commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseGoldengateConnectionTypes
+public class GcloudOracleDatabaseGoldengateConnectionTypes
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseGoldengateConnectionTypes"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseGoldengateConnectionTypes"/> class.
     /// </summary>
-    public GcloudOracledatabaseGoldengateConnectionTypes(ICommandContext command)
+    public GcloudOracleDatabaseGoldengateConnectionTypes(ICommandContext command)
     {
         _command = command;
     }

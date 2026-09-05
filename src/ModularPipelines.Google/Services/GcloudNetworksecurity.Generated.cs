@@ -18,41 +18,41 @@ namespace ModularPipelines.Google.Services;
 /// gcloud networksecurity commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurity : IGcloudNetworksecurity
+public class GcloudNetworkSecurity : IGcloudNetworkSecurity
 {
     private readonly ICommandContext _command;
-    private GcloudNetworksecurityAddressGroups? _addressGroups;
-    private GcloudNetworksecurityAuthorizationPolicies? _authorizationPolicies;
-    private GcloudNetworksecurityAuthzPolicies? _authzPolicies;
-    private GcloudNetworksecurityBackendAuthenticationConfigs? _backendAuthenticationConfigs;
-    private GcloudNetworksecurityClientTlsPolicies? _clientTlsPolicies;
-    private GcloudNetworksecurityDnsThreatDetectors? _dnsThreatDetectors;
-    private GcloudNetworksecurityFirewallEndpointAssociations? _firewallEndpointAssociations;
-    private GcloudNetworksecurityFirewallEndpoints? _firewallEndpoints;
-    private GcloudNetworksecurityGatewaySecurityPolicies? _gatewaySecurityPolicies;
-    private GcloudNetworksecurityInterceptDeploymentGroups? _interceptDeploymentGroups;
-    private GcloudNetworksecurityInterceptDeployments? _interceptDeployments;
-    private GcloudNetworksecurityInterceptEndpointGroupAssociations? _interceptEndpointGroupAssociations;
-    private GcloudNetworksecurityInterceptEndpointGroups? _interceptEndpointGroups;
-    private GcloudNetworksecurityMirroringDeploymentGroups? _mirroringDeploymentGroups;
-    private GcloudNetworksecurityMirroringDeployments? _mirroringDeployments;
-    private GcloudNetworksecurityMirroringEndpointGroupAssociations? _mirroringEndpointGroupAssociations;
-    private GcloudNetworksecurityMirroringEndpointGroups? _mirroringEndpointGroups;
-    private GcloudNetworksecurityOperations? _operations;
-    private GcloudNetworksecurityOrgAddressGroups? _orgAddressGroups;
-    private GcloudNetworksecuritySecureAccessConnect? _secureAccessConnect;
-    private GcloudNetworksecuritySecurityProfileGroups? _securityProfileGroups;
-    private GcloudNetworksecuritySecurityProfiles? _securityProfiles;
-    private GcloudNetworksecurityServerTlsPolicies? _serverTlsPolicies;
-    private GcloudNetworksecurityTlsInspectionPolicies? _tlsInspectionPolicies;
-    private GcloudNetworksecurityUllMirroringCollectors? _ullMirroringCollectors;
-    private GcloudNetworksecurityUllMirroringEngines? _ullMirroringEngines;
-    private GcloudNetworksecurityUrlLists? _urlLists;
+    private GcloudNetworkSecurityAddressGroups? _addressGroups;
+    private GcloudNetworkSecurityAuthorizationPolicies? _authorizationPolicies;
+    private GcloudNetworkSecurityAuthzPolicies? _authzPolicies;
+    private GcloudNetworkSecurityBackendAuthenticationConfigs? _backendAuthenticationConfigs;
+    private GcloudNetworkSecurityClientTlsPolicies? _clientTlsPolicies;
+    private GcloudNetworkSecurityDnsThreatDetectors? _dnsThreatDetectors;
+    private GcloudNetworkSecurityFirewallEndpointAssociations? _firewallEndpointAssociations;
+    private GcloudNetworkSecurityFirewallEndpoints? _firewallEndpoints;
+    private GcloudNetworkSecurityGatewaySecurityPolicies? _gatewaySecurityPolicies;
+    private GcloudNetworkSecurityInterceptDeploymentGroups? _interceptDeploymentGroups;
+    private GcloudNetworkSecurityInterceptDeployments? _interceptDeployments;
+    private GcloudNetworkSecurityInterceptEndpointGroupAssociations? _interceptEndpointGroupAssociations;
+    private GcloudNetworkSecurityInterceptEndpointGroups? _interceptEndpointGroups;
+    private GcloudNetworkSecurityMirroringDeploymentGroups? _mirroringDeploymentGroups;
+    private GcloudNetworkSecurityMirroringDeployments? _mirroringDeployments;
+    private GcloudNetworkSecurityMirroringEndpointGroupAssociations? _mirroringEndpointGroupAssociations;
+    private GcloudNetworkSecurityMirroringEndpointGroups? _mirroringEndpointGroups;
+    private GcloudNetworkSecurityOperations? _operations;
+    private GcloudNetworkSecurityOrgAddressGroups? _orgAddressGroups;
+    private GcloudNetworkSecuritySecureAccessConnect? _secureAccessConnect;
+    private GcloudNetworkSecuritySecurityProfileGroups? _securityProfileGroups;
+    private GcloudNetworkSecuritySecurityProfiles? _securityProfiles;
+    private GcloudNetworkSecurityServerTlsPolicies? _serverTlsPolicies;
+    private GcloudNetworkSecurityTlsInspectionPolicies? _tlsInspectionPolicies;
+    private GcloudNetworkSecurityUllMirroringCollectors? _ullMirroringCollectors;
+    private GcloudNetworkSecurityUllMirroringEngines? _ullMirroringEngines;
+    private GcloudNetworkSecurityUrlLists? _urlLists;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecurity"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecurity"/> class.
     /// </summary>
-    public GcloudNetworksecurity(ICommandContext command)
+    public GcloudNetworkSecurity(ICommandContext command)
     {
         _command = command;
     }
@@ -62,137 +62,137 @@ public class GcloudNetworksecurity : IGcloudNetworksecurity
     /// <summary>
     /// gcloud address-groups sub-commands.
     /// </summary>
-    public GcloudNetworksecurityAddressGroups AddressGroups => _addressGroups ??= new GcloudNetworksecurityAddressGroups(_command);
+    public GcloudNetworkSecurityAddressGroups AddressGroups => _addressGroups ??= new GcloudNetworkSecurityAddressGroups(_command);
 
     /// <summary>
     /// gcloud authorization-policies sub-commands.
     /// </summary>
-    public GcloudNetworksecurityAuthorizationPolicies AuthorizationPolicies => _authorizationPolicies ??= new GcloudNetworksecurityAuthorizationPolicies(_command);
+    public GcloudNetworkSecurityAuthorizationPolicies AuthorizationPolicies => _authorizationPolicies ??= new GcloudNetworkSecurityAuthorizationPolicies(_command);
 
     /// <summary>
     /// gcloud authz-policies sub-commands.
     /// </summary>
-    public GcloudNetworksecurityAuthzPolicies AuthzPolicies => _authzPolicies ??= new GcloudNetworksecurityAuthzPolicies(_command);
+    public GcloudNetworkSecurityAuthzPolicies AuthzPolicies => _authzPolicies ??= new GcloudNetworkSecurityAuthzPolicies(_command);
 
     /// <summary>
     /// gcloud backend-authentication-configs sub-commands.
     /// </summary>
-    public GcloudNetworksecurityBackendAuthenticationConfigs BackendAuthenticationConfigs => _backendAuthenticationConfigs ??= new GcloudNetworksecurityBackendAuthenticationConfigs(_command);
+    public GcloudNetworkSecurityBackendAuthenticationConfigs BackendAuthenticationConfigs => _backendAuthenticationConfigs ??= new GcloudNetworkSecurityBackendAuthenticationConfigs(_command);
 
     /// <summary>
     /// gcloud client-tls-policies sub-commands.
     /// </summary>
-    public GcloudNetworksecurityClientTlsPolicies ClientTlsPolicies => _clientTlsPolicies ??= new GcloudNetworksecurityClientTlsPolicies(_command);
+    public GcloudNetworkSecurityClientTlsPolicies ClientTlsPolicies => _clientTlsPolicies ??= new GcloudNetworkSecurityClientTlsPolicies(_command);
 
     /// <summary>
     /// gcloud dns-threat-detectors sub-commands.
     /// </summary>
-    public GcloudNetworksecurityDnsThreatDetectors DnsThreatDetectors => _dnsThreatDetectors ??= new GcloudNetworksecurityDnsThreatDetectors(_command);
+    public GcloudNetworkSecurityDnsThreatDetectors DnsThreatDetectors => _dnsThreatDetectors ??= new GcloudNetworkSecurityDnsThreatDetectors(_command);
 
     /// <summary>
     /// gcloud firewall-endpoint-associations sub-commands.
     /// </summary>
-    public GcloudNetworksecurityFirewallEndpointAssociations FirewallEndpointAssociations => _firewallEndpointAssociations ??= new GcloudNetworksecurityFirewallEndpointAssociations(_command);
+    public GcloudNetworkSecurityFirewallEndpointAssociations FirewallEndpointAssociations => _firewallEndpointAssociations ??= new GcloudNetworkSecurityFirewallEndpointAssociations(_command);
 
     /// <summary>
     /// gcloud firewall-endpoints sub-commands.
     /// </summary>
-    public GcloudNetworksecurityFirewallEndpoints FirewallEndpoints => _firewallEndpoints ??= new GcloudNetworksecurityFirewallEndpoints(_command);
+    public GcloudNetworkSecurityFirewallEndpoints FirewallEndpoints => _firewallEndpoints ??= new GcloudNetworkSecurityFirewallEndpoints(_command);
 
     /// <summary>
     /// gcloud gateway-security-policies sub-commands.
     /// </summary>
-    public GcloudNetworksecurityGatewaySecurityPolicies GatewaySecurityPolicies => _gatewaySecurityPolicies ??= new GcloudNetworksecurityGatewaySecurityPolicies(_command);
+    public GcloudNetworkSecurityGatewaySecurityPolicies GatewaySecurityPolicies => _gatewaySecurityPolicies ??= new GcloudNetworkSecurityGatewaySecurityPolicies(_command);
 
     /// <summary>
     /// gcloud intercept-deployment-groups sub-commands.
     /// </summary>
-    public GcloudNetworksecurityInterceptDeploymentGroups InterceptDeploymentGroups => _interceptDeploymentGroups ??= new GcloudNetworksecurityInterceptDeploymentGroups(_command);
+    public GcloudNetworkSecurityInterceptDeploymentGroups InterceptDeploymentGroups => _interceptDeploymentGroups ??= new GcloudNetworkSecurityInterceptDeploymentGroups(_command);
 
     /// <summary>
     /// gcloud intercept-deployments sub-commands.
     /// </summary>
-    public GcloudNetworksecurityInterceptDeployments InterceptDeployments => _interceptDeployments ??= new GcloudNetworksecurityInterceptDeployments(_command);
+    public GcloudNetworkSecurityInterceptDeployments InterceptDeployments => _interceptDeployments ??= new GcloudNetworkSecurityInterceptDeployments(_command);
 
     /// <summary>
     /// gcloud intercept-endpoint-group-associations sub-commands.
     /// </summary>
-    public GcloudNetworksecurityInterceptEndpointGroupAssociations InterceptEndpointGroupAssociations => _interceptEndpointGroupAssociations ??= new GcloudNetworksecurityInterceptEndpointGroupAssociations(_command);
+    public GcloudNetworkSecurityInterceptEndpointGroupAssociations InterceptEndpointGroupAssociations => _interceptEndpointGroupAssociations ??= new GcloudNetworkSecurityInterceptEndpointGroupAssociations(_command);
 
     /// <summary>
     /// gcloud intercept-endpoint-groups sub-commands.
     /// </summary>
-    public GcloudNetworksecurityInterceptEndpointGroups InterceptEndpointGroups => _interceptEndpointGroups ??= new GcloudNetworksecurityInterceptEndpointGroups(_command);
+    public GcloudNetworkSecurityInterceptEndpointGroups InterceptEndpointGroups => _interceptEndpointGroups ??= new GcloudNetworkSecurityInterceptEndpointGroups(_command);
 
     /// <summary>
     /// gcloud mirroring-deployment-groups sub-commands.
     /// </summary>
-    public GcloudNetworksecurityMirroringDeploymentGroups MirroringDeploymentGroups => _mirroringDeploymentGroups ??= new GcloudNetworksecurityMirroringDeploymentGroups(_command);
+    public GcloudNetworkSecurityMirroringDeploymentGroups MirroringDeploymentGroups => _mirroringDeploymentGroups ??= new GcloudNetworkSecurityMirroringDeploymentGroups(_command);
 
     /// <summary>
     /// gcloud mirroring-deployments sub-commands.
     /// </summary>
-    public GcloudNetworksecurityMirroringDeployments MirroringDeployments => _mirroringDeployments ??= new GcloudNetworksecurityMirroringDeployments(_command);
+    public GcloudNetworkSecurityMirroringDeployments MirroringDeployments => _mirroringDeployments ??= new GcloudNetworkSecurityMirroringDeployments(_command);
 
     /// <summary>
     /// gcloud mirroring-endpoint-group-associations sub-commands.
     /// </summary>
-    public GcloudNetworksecurityMirroringEndpointGroupAssociations MirroringEndpointGroupAssociations => _mirroringEndpointGroupAssociations ??= new GcloudNetworksecurityMirroringEndpointGroupAssociations(_command);
+    public GcloudNetworkSecurityMirroringEndpointGroupAssociations MirroringEndpointGroupAssociations => _mirroringEndpointGroupAssociations ??= new GcloudNetworkSecurityMirroringEndpointGroupAssociations(_command);
 
     /// <summary>
     /// gcloud mirroring-endpoint-groups sub-commands.
     /// </summary>
-    public GcloudNetworksecurityMirroringEndpointGroups MirroringEndpointGroups => _mirroringEndpointGroups ??= new GcloudNetworksecurityMirroringEndpointGroups(_command);
+    public GcloudNetworkSecurityMirroringEndpointGroups MirroringEndpointGroups => _mirroringEndpointGroups ??= new GcloudNetworkSecurityMirroringEndpointGroups(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudNetworksecurityOperations Operations => _operations ??= new GcloudNetworksecurityOperations(_command);
+    public GcloudNetworkSecurityOperations Operations => _operations ??= new GcloudNetworkSecurityOperations(_command);
 
     /// <summary>
     /// gcloud org-address-groups sub-commands.
     /// </summary>
-    public GcloudNetworksecurityOrgAddressGroups OrgAddressGroups => _orgAddressGroups ??= new GcloudNetworksecurityOrgAddressGroups(_command);
+    public GcloudNetworkSecurityOrgAddressGroups OrgAddressGroups => _orgAddressGroups ??= new GcloudNetworkSecurityOrgAddressGroups(_command);
 
     /// <summary>
     /// gcloud secure-access-connect sub-commands.
     /// </summary>
-    public GcloudNetworksecuritySecureAccessConnect SecureAccessConnect => _secureAccessConnect ??= new GcloudNetworksecuritySecureAccessConnect(_command);
+    public GcloudNetworkSecuritySecureAccessConnect SecureAccessConnect => _secureAccessConnect ??= new GcloudNetworkSecuritySecureAccessConnect(_command);
 
     /// <summary>
     /// gcloud security-profile-groups sub-commands.
     /// </summary>
-    public GcloudNetworksecuritySecurityProfileGroups SecurityProfileGroups => _securityProfileGroups ??= new GcloudNetworksecuritySecurityProfileGroups(_command);
+    public GcloudNetworkSecuritySecurityProfileGroups SecurityProfileGroups => _securityProfileGroups ??= new GcloudNetworkSecuritySecurityProfileGroups(_command);
 
     /// <summary>
     /// gcloud security-profiles sub-commands.
     /// </summary>
-    public GcloudNetworksecuritySecurityProfiles SecurityProfiles => _securityProfiles ??= new GcloudNetworksecuritySecurityProfiles(_command);
+    public GcloudNetworkSecuritySecurityProfiles SecurityProfiles => _securityProfiles ??= new GcloudNetworkSecuritySecurityProfiles(_command);
 
     /// <summary>
     /// gcloud server-tls-policies sub-commands.
     /// </summary>
-    public GcloudNetworksecurityServerTlsPolicies ServerTlsPolicies => _serverTlsPolicies ??= new GcloudNetworksecurityServerTlsPolicies(_command);
+    public GcloudNetworkSecurityServerTlsPolicies ServerTlsPolicies => _serverTlsPolicies ??= new GcloudNetworkSecurityServerTlsPolicies(_command);
 
     /// <summary>
     /// gcloud tls-inspection-policies sub-commands.
     /// </summary>
-    public GcloudNetworksecurityTlsInspectionPolicies TlsInspectionPolicies => _tlsInspectionPolicies ??= new GcloudNetworksecurityTlsInspectionPolicies(_command);
+    public GcloudNetworkSecurityTlsInspectionPolicies TlsInspectionPolicies => _tlsInspectionPolicies ??= new GcloudNetworkSecurityTlsInspectionPolicies(_command);
 
     /// <summary>
     /// gcloud ull-mirroring-collectors sub-commands.
     /// </summary>
-    public GcloudNetworksecurityUllMirroringCollectors UllMirroringCollectors => _ullMirroringCollectors ??= new GcloudNetworksecurityUllMirroringCollectors(_command);
+    public GcloudNetworkSecurityUllMirroringCollectors UllMirroringCollectors => _ullMirroringCollectors ??= new GcloudNetworkSecurityUllMirroringCollectors(_command);
 
     /// <summary>
     /// gcloud ull-mirroring-engines sub-commands.
     /// </summary>
-    public GcloudNetworksecurityUllMirroringEngines UllMirroringEngines => _ullMirroringEngines ??= new GcloudNetworksecurityUllMirroringEngines(_command);
+    public GcloudNetworkSecurityUllMirroringEngines UllMirroringEngines => _ullMirroringEngines ??= new GcloudNetworkSecurityUllMirroringEngines(_command);
 
     /// <summary>
     /// gcloud url-lists sub-commands.
     /// </summary>
-    public GcloudNetworksecurityUrlLists UrlLists => _urlLists ??= new GcloudNetworksecurityUrlLists(_command);
+    public GcloudNetworkSecurityUrlLists UrlLists => _urlLists ??= new GcloudNetworkSecurityUrlLists(_command);
 
     #endregion
 

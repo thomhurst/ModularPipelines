@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud regional-endpoints commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkconnectivityRegionalEndpoints
+public class GcloudNetworkConnectivityRegionalEndpoints
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkconnectivityRegionalEndpoints"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkConnectivityRegionalEndpoints"/> class.
     /// </summary>
-    public GcloudNetworkconnectivityRegionalEndpoints(ICommandContext command)
+    public GcloudNetworkConnectivityRegionalEndpoints(ICommandContext command)
     {
         _command = command;
     }

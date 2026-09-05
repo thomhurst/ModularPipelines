@@ -19,6 +19,6 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "insights", "dataset-configs", "delete-link")]
-public record GcloudStorageInsightsDatasetConfigsDeleteLinkOptions : GcloudOptions
+public record GcloudStorageInsightsDataSetConfigsDeleteLinkOptions : GcloudOptions
 {
 }

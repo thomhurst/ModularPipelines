@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud certificates commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudCertificatemanagerCertificates
+public class GcloudCertificateManagerCertificates
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudCertificatemanagerCertificates"/> class.
+    /// Initializes a new instance of the <see cref="GcloudCertificateManagerCertificates"/> class.
     /// </summary>
-    public GcloudCertificatemanagerCertificates(ICommandContext command)
+    public GcloudCertificateManagerCertificates(ICommandContext command)
     {
         _command = command;
     }

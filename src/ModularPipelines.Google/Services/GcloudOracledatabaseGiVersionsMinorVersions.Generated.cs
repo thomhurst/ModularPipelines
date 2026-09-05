@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud minor-versions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseGiVersionsMinorVersions
+public class GcloudOracleDatabaseGiVersionsMinorVersions
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseGiVersionsMinorVersions"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseGiVersionsMinorVersions"/> class.
     /// </summary>
-    public GcloudOracledatabaseGiVersionsMinorVersions(ICommandContext command)
+    public GcloudOracleDatabaseGiVersionsMinorVersions(ICommandContext command)
     {
         _command = command;
     }

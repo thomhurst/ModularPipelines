@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud operations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudCompliancemanagerOperations
+public class GcloudComplianceManagerOperations
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudCompliancemanagerOperations"/> class.
+    /// Initializes a new instance of the <see cref="GcloudComplianceManagerOperations"/> class.
     /// </summary>
-    public GcloudCompliancemanagerOperations(ICommandContext command)
+    public GcloudComplianceManagerOperations(ICommandContext command)
     {
         _command = command;
     }

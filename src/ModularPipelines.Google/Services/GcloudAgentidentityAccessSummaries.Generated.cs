@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud access-summaries commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAgentidentityAccessSummaries
+public class GcloudAgentIdentityAccessSummaries
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAgentidentityAccessSummaries"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAgentIdentityAccessSummaries"/> class.
     /// </summary>
-    public GcloudAgentidentityAccessSummaries(ICommandContext command)
+    public GcloudAgentIdentityAccessSummaries(ICommandContext command)
     {
         _command = command;
     }

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud tls-inspection-policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurityTlsInspectionPolicies
+public class GcloudNetworkSecurityTlsInspectionPolicies
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecurityTlsInspectionPolicies"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecurityTlsInspectionPolicies"/> class.
     /// </summary>
-    public GcloudNetworksecurityTlsInspectionPolicies(ICommandContext command)
+    public GcloudNetworkSecurityTlsInspectionPolicies(ICommandContext command)
     {
         _command = command;
     }

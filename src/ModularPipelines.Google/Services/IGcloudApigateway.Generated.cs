@@ -19,27 +19,27 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudApigateway
+public interface IGcloudApiGateway
 {
     /// <summary>
     /// gcloud api-configs sub-commands.
     /// </summary>
-    GcloudApigatewayApiConfigs ApiConfigs => throw new System.NotSupportedException();
+    GcloudApiGatewayApiConfigs ApiConfigs => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud apis sub-commands.
     /// </summary>
-    GcloudApigatewayApis Apis => throw new System.NotSupportedException();
+    GcloudApiGatewayApis Apis => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud gateways sub-commands.
     /// </summary>
-    GcloudApigatewayGateways Gateways => throw new System.NotSupportedException();
+    GcloudApiGatewayGateways Gateways => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudApigatewayOperations Operations => throw new System.NotSupportedException();
+    GcloudApiGatewayOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Cloud API Gateway resources

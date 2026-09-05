@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud monitoring-points commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkmanagementNetworkMonitoringProvidersMonitoringPoints
+public class GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPoints
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkmanagementNetworkMonitoringProvidersMonitoringPoints"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPoints"/> class.
     /// </summary>
-    public GcloudNetworkmanagementNetworkMonitoringProvidersMonitoringPoints(ICommandContext command)
+    public GcloudNetworkManagementNetworkMonitoringProvidersMonitoringPoints(ICommandContext command)
     {
         _command = command;
     }

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud security-profile-groups commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecuritySecurityProfileGroups
+public class GcloudNetworkSecuritySecurityProfileGroups
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecuritySecurityProfileGroups"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecuritySecurityProfileGroups"/> class.
     /// </summary>
-    public GcloudNetworksecuritySecurityProfileGroups(ICommandContext command)
+    public GcloudNetworkSecuritySecurityProfileGroups(ICommandContext command)
     {
         _command = command;
     }

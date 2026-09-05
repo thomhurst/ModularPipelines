@@ -18,20 +18,20 @@ namespace ModularPipelines.Google.Services;
 /// gcloud agentregistry commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAgentregistry : IGcloudAgentregistry
+public class GcloudAgentRegistry : IGcloudAgentRegistry
 {
     private readonly ICommandContext _command;
-    private GcloudAgentregistryAgents? _agents;
-    private GcloudAgentregistryBindings? _bindings;
-    private GcloudAgentregistryEndpoints? _endpoints;
-    private GcloudAgentregistryMcpServers? _mcpServers;
-    private GcloudAgentregistryOperations? _operations;
-    private GcloudAgentregistryServices? _services;
+    private GcloudAgentRegistryAgents? _agents;
+    private GcloudAgentRegistryBindings? _bindings;
+    private GcloudAgentRegistryEndpoints? _endpoints;
+    private GcloudAgentRegistryMcpServers? _mcpServers;
+    private GcloudAgentRegistryOperations? _operations;
+    private GcloudAgentRegistryServices? _services;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAgentregistry"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAgentRegistry"/> class.
     /// </summary>
-    public GcloudAgentregistry(ICommandContext command)
+    public GcloudAgentRegistry(ICommandContext command)
     {
         _command = command;
     }
@@ -41,32 +41,32 @@ public class GcloudAgentregistry : IGcloudAgentregistry
     /// <summary>
     /// gcloud agents sub-commands.
     /// </summary>
-    public GcloudAgentregistryAgents Agents => _agents ??= new GcloudAgentregistryAgents(_command);
+    public GcloudAgentRegistryAgents Agents => _agents ??= new GcloudAgentRegistryAgents(_command);
 
     /// <summary>
     /// gcloud bindings sub-commands.
     /// </summary>
-    public GcloudAgentregistryBindings Bindings => _bindings ??= new GcloudAgentregistryBindings(_command);
+    public GcloudAgentRegistryBindings Bindings => _bindings ??= new GcloudAgentRegistryBindings(_command);
 
     /// <summary>
     /// gcloud endpoints sub-commands.
     /// </summary>
-    public GcloudAgentregistryEndpoints Endpoints => _endpoints ??= new GcloudAgentregistryEndpoints(_command);
+    public GcloudAgentRegistryEndpoints Endpoints => _endpoints ??= new GcloudAgentRegistryEndpoints(_command);
 
     /// <summary>
     /// gcloud mcp-servers sub-commands.
     /// </summary>
-    public GcloudAgentregistryMcpServers McpServers => _mcpServers ??= new GcloudAgentregistryMcpServers(_command);
+    public GcloudAgentRegistryMcpServers McpServers => _mcpServers ??= new GcloudAgentRegistryMcpServers(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudAgentregistryOperations Operations => _operations ??= new GcloudAgentregistryOperations(_command);
+    public GcloudAgentRegistryOperations Operations => _operations ??= new GcloudAgentRegistryOperations(_command);
 
     /// <summary>
     /// gcloud services sub-commands.
     /// </summary>
-    public GcloudAgentregistryServices Services => _services ??= new GcloudAgentregistryServices(_command);
+    public GcloudAgentRegistryServices Services => _services ??= new GcloudAgentRegistryServices(_command);
 
     #endregion
 

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud autonomous-database-backups commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseAutonomousDatabaseBackups
+public class GcloudOracleDatabaseAutonomousDatabaseBackups
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseAutonomousDatabaseBackups"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseAutonomousDatabaseBackups"/> class.
     /// </summary>
-    public GcloudOracledatabaseAutonomousDatabaseBackups(ICommandContext command)
+    public GcloudOracleDatabaseAutonomousDatabaseBackups(ICommandContext command)
     {
         _command = command;
     }

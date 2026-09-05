@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud locations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDesigncenterLocations
+public class GcloudDesignCenterLocations
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDesigncenterLocations"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDesignCenterLocations"/> class.
     /// </summary>
-    public GcloudDesigncenterLocations(ICommandContext command)
+    public GcloudDesignCenterLocations(ICommandContext command)
     {
         _command = command;
     }

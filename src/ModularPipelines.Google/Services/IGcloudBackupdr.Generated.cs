@@ -19,67 +19,67 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudBackupdr
+public interface IGcloudBackupDr
 {
     /// <summary>
     /// gcloud backup-plan-associations sub-commands.
     /// </summary>
-    GcloudBackupdrBackupPlanAssociations BackupPlanAssociations => throw new System.NotSupportedException();
+    GcloudBackupDrBackupPlanAssociations BackupPlanAssociations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud backup-plan-revisions sub-commands.
     /// </summary>
-    GcloudBackupdrBackupPlanRevisions BackupPlanRevisions => throw new System.NotSupportedException();
+    GcloudBackupDrBackupPlanRevisions BackupPlanRevisions => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud backup-plans sub-commands.
     /// </summary>
-    GcloudBackupdrBackupPlans BackupPlans => throw new System.NotSupportedException();
+    GcloudBackupDrBackupPlans BackupPlans => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud backups sub-commands.
     /// </summary>
-    GcloudBackupdrBackups Backups => throw new System.NotSupportedException();
+    GcloudBackupDrBackups Backups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud backup-vaults sub-commands.
     /// </summary>
-    GcloudBackupdrBackupVaults BackupVaults => throw new System.NotSupportedException();
+    GcloudBackupDrBackupVaults BackupVaults => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud data-source-references sub-commands.
     /// </summary>
-    GcloudBackupdrDataSourceReferences DataSourceReferences => throw new System.NotSupportedException();
+    GcloudBackupDrDataSourceReferences DataSourceReferences => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud data-sources sub-commands.
     /// </summary>
-    GcloudBackupdrDataSources DataSources => throw new System.NotSupportedException();
+    GcloudBackupDrDataSources DataSources => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud locations sub-commands.
     /// </summary>
-    GcloudBackupdrLocations Locations => throw new System.NotSupportedException();
+    GcloudBackupDrLocations Locations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud management-servers sub-commands.
     /// </summary>
-    GcloudBackupdrManagementServers ManagementServers => throw new System.NotSupportedException();
+    GcloudBackupDrManagementServers ManagementServers => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudBackupdrOperations Operations => throw new System.NotSupportedException();
+    GcloudBackupDrOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud resource-backup-config sub-commands.
     /// </summary>
-    GcloudBackupdrResourceBackupConfig ResourceBackupConfig => throw new System.NotSupportedException();
+    GcloudBackupDrResourceBackupConfig ResourceBackupConfig => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud service-config sub-commands.
     /// </summary>
-    GcloudBackupdrServiceConfig ServiceConfig => throw new System.NotSupportedException();
+    GcloudBackupDrServiceConfig ServiceConfig => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Backup and DR resources

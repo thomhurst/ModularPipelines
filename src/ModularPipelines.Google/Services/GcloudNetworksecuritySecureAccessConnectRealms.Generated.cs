@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud realms commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecuritySecureAccessConnectRealms
+public class GcloudNetworkSecuritySecureAccessConnectRealms
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecuritySecureAccessConnectRealms"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecuritySecureAccessConnectRealms"/> class.
     /// </summary>
-    public GcloudNetworksecuritySecureAccessConnectRealms(ICommandContext command)
+    public GcloudNetworkSecuritySecureAccessConnectRealms(ICommandContext command)
     {
         _command = command;
     }

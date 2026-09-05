@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud autonomous-db-versions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseAutonomousDbVersions
+public class GcloudOracleDatabaseAutonomousDbVersions
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseAutonomousDbVersions"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseAutonomousDbVersions"/> class.
     /// </summary>
-    public GcloudOracledatabaseAutonomousDbVersions(ICommandContext command)
+    public GcloudOracleDatabaseAutonomousDbVersions(ICommandContext command)
     {
         _command = command;
     }

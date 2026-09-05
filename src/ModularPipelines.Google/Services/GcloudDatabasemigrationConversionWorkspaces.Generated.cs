@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud conversion-workspaces commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatabasemigrationConversionWorkspaces
+public class GcloudDatabaseMigrationConversionWorkspaces
 {
     private readonly ICommandContext _command;
-    private GcloudDatabasemigrationConversionWorkspacesMappingRules? _mappingRules;
+    private GcloudDatabaseMigrationConversionWorkspacesMappingRules? _mappingRules;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDatabasemigrationConversionWorkspaces"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDatabaseMigrationConversionWorkspaces"/> class.
     /// </summary>
-    public GcloudDatabasemigrationConversionWorkspaces(ICommandContext command)
+    public GcloudDatabaseMigrationConversionWorkspaces(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudDatabasemigrationConversionWorkspaces
     /// <summary>
     /// gcloud mapping-rules sub-commands.
     /// </summary>
-    public GcloudDatabasemigrationConversionWorkspacesMappingRules MappingRules => _mappingRules ??= new GcloudDatabasemigrationConversionWorkspacesMappingRules(_command);
+    public GcloudDatabaseMigrationConversionWorkspacesMappingRules MappingRules => _mappingRules ??= new GcloudDatabaseMigrationConversionWorkspacesMappingRules(_command);
 
     #endregion
 

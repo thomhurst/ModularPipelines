@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud server-tls-policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurityServerTlsPolicies
+public class GcloudNetworkSecurityServerTlsPolicies
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecurityServerTlsPolicies"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecurityServerTlsPolicies"/> class.
     /// </summary>
-    public GcloudNetworksecurityServerTlsPolicies(ICommandContext command)
+    public GcloudNetworkSecurityServerTlsPolicies(ICommandContext command)
     {
         _command = command;
     }

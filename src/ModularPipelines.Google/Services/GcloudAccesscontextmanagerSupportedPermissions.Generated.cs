@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud supported-permissions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAccesscontextmanagerSupportedPermissions
+public class GcloudAccessContextManagerSupportedPermissions
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAccesscontextmanagerSupportedPermissions"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAccessContextManagerSupportedPermissions"/> class.
     /// </summary>
-    public GcloudAccesscontextmanagerSupportedPermissions(ICommandContext command)
+    public GcloudAccessContextManagerSupportedPermissions(ICommandContext command)
     {
         _command = command;
     }

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud internal-ranges commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkconnectivityInternalRanges
+public class GcloudNetworkConnectivityInternalRanges
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkconnectivityInternalRanges"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkConnectivityInternalRanges"/> class.
     /// </summary>
-    public GcloudNetworkconnectivityInternalRanges(ICommandContext command)
+    public GcloudNetworkConnectivityInternalRanges(ICommandContext command)
     {
         _command = command;
     }

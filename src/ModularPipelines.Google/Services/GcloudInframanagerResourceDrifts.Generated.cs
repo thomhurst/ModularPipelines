@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud resource-drifts commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudInframanagerResourceDrifts
+public class GcloudInfraManagerResourceDrifts
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudInframanagerResourceDrifts"/> class.
+    /// Initializes a new instance of the <see cref="GcloudInfraManagerResourceDrifts"/> class.
     /// </summary>
-    public GcloudInframanagerResourceDrifts(ICommandContext command)
+    public GcloudInfraManagerResourceDrifts(ICommandContext command)
     {
         _command = command;
     }

@@ -19,6 +19,6 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "insights", "dataset-configs", "describe")]
-public record GcloudStorageInsightsDatasetConfigsDescribeOptions : GcloudOptions
+public record GcloudStorageInsightsDataSetConfigsDescribeOptions : GcloudOptions
 {
 }

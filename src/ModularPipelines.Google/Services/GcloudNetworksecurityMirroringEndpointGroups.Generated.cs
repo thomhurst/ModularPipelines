@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud mirroring-endpoint-groups commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworksecurityMirroringEndpointGroups
+public class GcloudNetworkSecurityMirroringEndpointGroups
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworksecurityMirroringEndpointGroups"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkSecurityMirroringEndpointGroups"/> class.
     /// </summary>
-    public GcloudNetworksecurityMirroringEndpointGroups(ICommandContext command)
+    public GcloudNetworkSecurityMirroringEndpointGroups(ICommandContext command)
     {
         _command = command;
     }

@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudImageFamilyScope
 {
     [EnumValue("zonal")]
-    Zonal = 0,
+    Zonal,
 
     [EnumValue("global")]
-    Global = 1
+    Global
 }

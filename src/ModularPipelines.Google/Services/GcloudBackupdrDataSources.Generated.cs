@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud data-sources commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudBackupdrDataSources
+public class GcloudBackupDrDataSources
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudBackupdrDataSources"/> class.
+    /// Initializes a new instance of the <see cref="GcloudBackupDrDataSources"/> class.
     /// </summary>
-    public GcloudBackupdrDataSources(ICommandContext command)
+    public GcloudBackupDrDataSources(ICommandContext command)
     {
         _command = command;
     }

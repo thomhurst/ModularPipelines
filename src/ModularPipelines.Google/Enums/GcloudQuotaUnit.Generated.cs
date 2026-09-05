@@ -17,14 +17,14 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudQuotaUnit
 {
     [EnumValue("minute")]
-    Minute = 0,
+    Minute,
 
     [EnumValue("hour")]
-    Hour = 1,
+    Hour,
 
     [EnumValue("day")]
-    Day = 2,
+    Day,
 
     [EnumValue("month")]
-    Month = 3
+    Month
 }

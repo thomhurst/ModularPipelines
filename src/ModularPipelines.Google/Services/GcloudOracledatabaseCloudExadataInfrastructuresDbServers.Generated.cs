@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud db-servers commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseCloudExadataInfrastructuresDbServers
+public class GcloudOracleDatabaseCloudExadataInfrastructuresDbServers
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseCloudExadataInfrastructuresDbServers"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseCloudExadataInfrastructuresDbServers"/> class.
     /// </summary>
-    public GcloudOracledatabaseCloudExadataInfrastructuresDbServers(ICommandContext command)
+    public GcloudOracleDatabaseCloudExadataInfrastructuresDbServers(ICommandContext command)
     {
         _command = command;
     }

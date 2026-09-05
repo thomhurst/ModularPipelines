@@ -18,21 +18,21 @@ namespace ModularPipelines.Google.Services;
 /// gcloud accesscontextmanager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAccesscontextmanager : IGcloudAccesscontextmanager
+public class GcloudAccessContextManager : IGcloudAccessContextManager
 {
     private readonly ICommandContext _command;
-    private GcloudAccesscontextmanagerAuthorizedOrgs? _authorizedOrgs;
-    private GcloudAccesscontextmanagerCloudBindings? _cloudBindings;
-    private GcloudAccesscontextmanagerLevels? _levels;
-    private GcloudAccesscontextmanagerPerimeters? _perimeters;
-    private GcloudAccesscontextmanagerPolicies? _policies;
-    private GcloudAccesscontextmanagerSupportedPermissions? _supportedPermissions;
-    private GcloudAccesscontextmanagerSupportedServices? _supportedServices;
+    private GcloudAccessContextManagerAuthorizedOrgs? _authorizedOrgs;
+    private GcloudAccessContextManagerCloudBindings? _cloudBindings;
+    private GcloudAccessContextManagerLevels? _levels;
+    private GcloudAccessContextManagerPerimeters? _perimeters;
+    private GcloudAccessContextManagerPolicies? _policies;
+    private GcloudAccessContextManagerSupportedPermissions? _supportedPermissions;
+    private GcloudAccessContextManagerSupportedServices? _supportedServices;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAccesscontextmanager"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAccessContextManager"/> class.
     /// </summary>
-    public GcloudAccesscontextmanager(ICommandContext command)
+    public GcloudAccessContextManager(ICommandContext command)
     {
         _command = command;
     }
@@ -42,37 +42,37 @@ public class GcloudAccesscontextmanager : IGcloudAccesscontextmanager
     /// <summary>
     /// gcloud authorized-orgs sub-commands.
     /// </summary>
-    public GcloudAccesscontextmanagerAuthorizedOrgs AuthorizedOrgs => _authorizedOrgs ??= new GcloudAccesscontextmanagerAuthorizedOrgs(_command);
+    public GcloudAccessContextManagerAuthorizedOrgs AuthorizedOrgs => _authorizedOrgs ??= new GcloudAccessContextManagerAuthorizedOrgs(_command);
 
     /// <summary>
     /// gcloud cloud-bindings sub-commands.
     /// </summary>
-    public GcloudAccesscontextmanagerCloudBindings CloudBindings => _cloudBindings ??= new GcloudAccesscontextmanagerCloudBindings(_command);
+    public GcloudAccessContextManagerCloudBindings CloudBindings => _cloudBindings ??= new GcloudAccessContextManagerCloudBindings(_command);
 
     /// <summary>
     /// gcloud levels sub-commands.
     /// </summary>
-    public GcloudAccesscontextmanagerLevels Levels => _levels ??= new GcloudAccesscontextmanagerLevels(_command);
+    public GcloudAccessContextManagerLevels Levels => _levels ??= new GcloudAccessContextManagerLevels(_command);
 
     /// <summary>
     /// gcloud perimeters sub-commands.
     /// </summary>
-    public GcloudAccesscontextmanagerPerimeters Perimeters => _perimeters ??= new GcloudAccesscontextmanagerPerimeters(_command);
+    public GcloudAccessContextManagerPerimeters Perimeters => _perimeters ??= new GcloudAccessContextManagerPerimeters(_command);
 
     /// <summary>
     /// gcloud policies sub-commands.
     /// </summary>
-    public GcloudAccesscontextmanagerPolicies Policies => _policies ??= new GcloudAccesscontextmanagerPolicies(_command);
+    public GcloudAccessContextManagerPolicies Policies => _policies ??= new GcloudAccessContextManagerPolicies(_command);
 
     /// <summary>
     /// gcloud supported-permissions sub-commands.
     /// </summary>
-    public GcloudAccesscontextmanagerSupportedPermissions SupportedPermissions => _supportedPermissions ??= new GcloudAccesscontextmanagerSupportedPermissions(_command);
+    public GcloudAccessContextManagerSupportedPermissions SupportedPermissions => _supportedPermissions ??= new GcloudAccessContextManagerSupportedPermissions(_command);
 
     /// <summary>
     /// gcloud supported-services sub-commands.
     /// </summary>
-    public GcloudAccesscontextmanagerSupportedServices SupportedServices => _supportedServices ??= new GcloudAccesscontextmanagerSupportedServices(_command);
+    public GcloudAccessContextManagerSupportedServices SupportedServices => _supportedServices ??= new GcloudAccessContextManagerSupportedServices(_command);
 
     #endregion
 
@@ -91,6 +91,21 @@ public class GcloudAccesscontextmanager : IGcloudAccesscontextmanager
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAccessContextManagerOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// look up the     configured VPC Service Controls service perimeter for a resource
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> LookupConfiguredPerimeterAsync(
+        GcloudAccessContextManagerLookupConfiguredPerimeterOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAccessContextManagerLookupConfiguredPerimeterOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

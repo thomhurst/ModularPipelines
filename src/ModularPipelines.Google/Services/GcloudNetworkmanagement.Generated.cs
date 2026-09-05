@@ -18,18 +18,18 @@ namespace ModularPipelines.Google.Services;
 /// gcloud networkmanagement commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkmanagement : IGcloudNetworkmanagement
+public class GcloudNetworkManagement : IGcloudNetworkManagement
 {
     private readonly ICommandContext _command;
-    private GcloudNetworkmanagementConnectivityTests? _connectivityTests;
-    private GcloudNetworkmanagementNetworkMonitoringProviders? _networkMonitoringProviders;
-    private GcloudNetworkmanagementOperations? _operations;
-    private GcloudNetworkmanagementVpcFlowLogsConfigs? _vpcFlowLogsConfigs;
+    private GcloudNetworkManagementConnectivityTests? _connectivityTests;
+    private GcloudNetworkManagementNetworkMonitoringProviders? _networkMonitoringProviders;
+    private GcloudNetworkManagementOperations? _operations;
+    private GcloudNetworkManagementVpcFlowLogsConfigs? _vpcFlowLogsConfigs;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkmanagement"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkManagement"/> class.
     /// </summary>
-    public GcloudNetworkmanagement(ICommandContext command)
+    public GcloudNetworkManagement(ICommandContext command)
     {
         _command = command;
     }
@@ -39,22 +39,22 @@ public class GcloudNetworkmanagement : IGcloudNetworkmanagement
     /// <summary>
     /// gcloud connectivity-tests sub-commands.
     /// </summary>
-    public GcloudNetworkmanagementConnectivityTests ConnectivityTests => _connectivityTests ??= new GcloudNetworkmanagementConnectivityTests(_command);
+    public GcloudNetworkManagementConnectivityTests ConnectivityTests => _connectivityTests ??= new GcloudNetworkManagementConnectivityTests(_command);
 
     /// <summary>
     /// gcloud network-monitoring-providers sub-commands.
     /// </summary>
-    public GcloudNetworkmanagementNetworkMonitoringProviders NetworkMonitoringProviders => _networkMonitoringProviders ??= new GcloudNetworkmanagementNetworkMonitoringProviders(_command);
+    public GcloudNetworkManagementNetworkMonitoringProviders NetworkMonitoringProviders => _networkMonitoringProviders ??= new GcloudNetworkManagementNetworkMonitoringProviders(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudNetworkmanagementOperations Operations => _operations ??= new GcloudNetworkmanagementOperations(_command);
+    public GcloudNetworkManagementOperations Operations => _operations ??= new GcloudNetworkManagementOperations(_command);
 
     /// <summary>
     /// gcloud vpc-flow-logs-configs sub-commands.
     /// </summary>
-    public GcloudNetworkmanagementVpcFlowLogsConfigs VpcFlowLogsConfigs => _vpcFlowLogsConfigs ??= new GcloudNetworkmanagementVpcFlowLogsConfigs(_command);
+    public GcloudNetworkManagementVpcFlowLogsConfigs VpcFlowLogsConfigs => _vpcFlowLogsConfigs ??= new GcloudNetworkManagementVpcFlowLogsConfigs(_command);
 
     #endregion
 

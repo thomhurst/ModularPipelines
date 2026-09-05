@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud connect-clusters commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudManagedkafkaConnectClusters
+public class GcloudManagedKafkaConnectClusters
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudManagedkafkaConnectClusters"/> class.
+    /// Initializes a new instance of the <see cref="GcloudManagedKafkaConnectClusters"/> class.
     /// </summary>
-    public GcloudManagedkafkaConnectClusters(ICommandContext command)
+    public GcloudManagedKafkaConnectClusters(ICommandContext command)
     {
         _command = command;
     }

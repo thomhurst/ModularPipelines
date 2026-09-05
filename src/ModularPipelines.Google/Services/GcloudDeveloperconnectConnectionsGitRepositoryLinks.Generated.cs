@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud git-repository-links commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDeveloperconnectConnectionsGitRepositoryLinks
+public class GcloudDeveloperConnectConnectionsGitRepositoryLinks
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDeveloperconnectConnectionsGitRepositoryLinks"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDeveloperConnectConnectionsGitRepositoryLinks"/> class.
     /// </summary>
-    public GcloudDeveloperconnectConnectionsGitRepositoryLinks(ICommandContext command)
+    public GcloudDeveloperConnectConnectionsGitRepositoryLinks(ICommandContext command)
     {
         _command = command;
     }

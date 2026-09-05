@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud linked-router-appliances commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkconnectivitySpokesLinkedRouterAppliances
+public class GcloudNetworkConnectivitySpokesLinkedRouterAppliances
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkconnectivitySpokesLinkedRouterAppliances"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkConnectivitySpokesLinkedRouterAppliances"/> class.
     /// </summary>
-    public GcloudNetworkconnectivitySpokesLinkedRouterAppliances(ICommandContext command)
+    public GcloudNetworkConnectivitySpokesLinkedRouterAppliances(ICommandContext command)
     {
         _command = command;
     }

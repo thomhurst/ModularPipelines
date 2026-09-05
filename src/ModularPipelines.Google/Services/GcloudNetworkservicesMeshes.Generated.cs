@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud meshes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkservicesMeshes
+public class GcloudNetworkServicesMeshes
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkservicesMeshes"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkServicesMeshes"/> class.
     /// </summary>
-    public GcloudNetworkservicesMeshes(ICommandContext command)
+    public GcloudNetworkServicesMeshes(ICommandContext command)
     {
         _command = command;
     }

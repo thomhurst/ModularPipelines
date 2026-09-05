@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud destinations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkconnectivityMulticloudDataTransferConfigsDestinations
+public class GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinations
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkconnectivityMulticloudDataTransferConfigsDestinations"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinations"/> class.
     /// </summary>
-    public GcloudNetworkconnectivityMulticloudDataTransferConfigsDestinations(ICommandContext command)
+    public GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinations(ICommandContext command)
     {
         _command = command;
     }

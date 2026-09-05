@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud entitlements commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseEntitlements
+public class GcloudOracleDatabaseEntitlements
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseEntitlements"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseEntitlements"/> class.
     /// </summary>
-    public GcloudOracledatabaseEntitlements(ICommandContext command)
+    public GcloudOracleDatabaseEntitlements(ICommandContext command)
     {
         _command = command;
     }

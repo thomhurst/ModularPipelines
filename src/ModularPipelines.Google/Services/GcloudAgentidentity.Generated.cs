@@ -18,16 +18,16 @@ namespace ModularPipelines.Google.Services;
 /// gcloud agentidentity commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAgentidentity : IGcloudAgentidentity
+public class GcloudAgentIdentity : IGcloudAgentIdentity
 {
     private readonly ICommandContext _command;
-    private GcloudAgentidentityAccessSummaries? _accessSummaries;
-    private GcloudAgentidentityAuthProviders? _authProviders;
+    private GcloudAgentIdentityAccessSummaries? _accessSummaries;
+    private GcloudAgentIdentityAuthProviders? _authProviders;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAgentidentity"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAgentIdentity"/> class.
     /// </summary>
-    public GcloudAgentidentity(ICommandContext command)
+    public GcloudAgentIdentity(ICommandContext command)
     {
         _command = command;
     }
@@ -37,12 +37,12 @@ public class GcloudAgentidentity : IGcloudAgentidentity
     /// <summary>
     /// gcloud access-summaries sub-commands.
     /// </summary>
-    public GcloudAgentidentityAccessSummaries AccessSummaries => _accessSummaries ??= new GcloudAgentidentityAccessSummaries(_command);
+    public GcloudAgentIdentityAccessSummaries AccessSummaries => _accessSummaries ??= new GcloudAgentIdentityAccessSummaries(_command);
 
     /// <summary>
     /// gcloud auth-providers sub-commands.
     /// </summary>
-    public GcloudAgentidentityAuthProviders AuthProviders => _authProviders ??= new GcloudAgentidentityAuthProviders(_command);
+    public GcloudAgentIdentityAuthProviders AuthProviders => _authProviders ??= new GcloudAgentIdentityAuthProviders(_command);
 
     #endregion
 

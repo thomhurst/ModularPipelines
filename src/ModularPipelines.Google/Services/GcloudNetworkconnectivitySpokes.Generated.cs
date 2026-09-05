@@ -18,20 +18,20 @@ namespace ModularPipelines.Google.Services;
 /// gcloud spokes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkconnectivitySpokes
+public class GcloudNetworkConnectivitySpokes
 {
     private readonly ICommandContext _command;
-    private GcloudNetworkconnectivitySpokesGateways? _gateways;
-    private GcloudNetworkconnectivitySpokesLinkedInterconnectAttachments? _linkedInterconnectAttachments;
-    private GcloudNetworkconnectivitySpokesLinkedProducerVpcNetwork? _linkedProducerVpcNetwork;
-    private GcloudNetworkconnectivitySpokesLinkedRouterAppliances? _linkedRouterAppliances;
-    private GcloudNetworkconnectivitySpokesLinkedVpcNetwork? _linkedVpcNetwork;
-    private GcloudNetworkconnectivitySpokesLinkedVpnTunnels? _linkedVpnTunnels;
+    private GcloudNetworkConnectivitySpokesGateways? _gateways;
+    private GcloudNetworkConnectivitySpokesLinkedInterconnectAttachments? _linkedInterconnectAttachments;
+    private GcloudNetworkConnectivitySpokesLinkedProducerVpcNetwork? _linkedProducerVpcNetwork;
+    private GcloudNetworkConnectivitySpokesLinkedRouterAppliances? _linkedRouterAppliances;
+    private GcloudNetworkConnectivitySpokesLinkedVpcNetwork? _linkedVpcNetwork;
+    private GcloudNetworkConnectivitySpokesLinkedVpnTunnels? _linkedVpnTunnels;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkconnectivitySpokes"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkConnectivitySpokes"/> class.
     /// </summary>
-    public GcloudNetworkconnectivitySpokes(ICommandContext command)
+    public GcloudNetworkConnectivitySpokes(ICommandContext command)
     {
         _command = command;
     }
@@ -41,32 +41,32 @@ public class GcloudNetworkconnectivitySpokes
     /// <summary>
     /// gcloud gateways sub-commands.
     /// </summary>
-    public GcloudNetworkconnectivitySpokesGateways Gateways => _gateways ??= new GcloudNetworkconnectivitySpokesGateways(_command);
+    public GcloudNetworkConnectivitySpokesGateways Gateways => _gateways ??= new GcloudNetworkConnectivitySpokesGateways(_command);
 
     /// <summary>
     /// gcloud linked-interconnect-attachments sub-commands.
     /// </summary>
-    public GcloudNetworkconnectivitySpokesLinkedInterconnectAttachments LinkedInterconnectAttachments => _linkedInterconnectAttachments ??= new GcloudNetworkconnectivitySpokesLinkedInterconnectAttachments(_command);
+    public GcloudNetworkConnectivitySpokesLinkedInterconnectAttachments LinkedInterconnectAttachments => _linkedInterconnectAttachments ??= new GcloudNetworkConnectivitySpokesLinkedInterconnectAttachments(_command);
 
     /// <summary>
     /// gcloud linked-producer-vpc-network sub-commands.
     /// </summary>
-    public GcloudNetworkconnectivitySpokesLinkedProducerVpcNetwork LinkedProducerVpcNetwork => _linkedProducerVpcNetwork ??= new GcloudNetworkconnectivitySpokesLinkedProducerVpcNetwork(_command);
+    public GcloudNetworkConnectivitySpokesLinkedProducerVpcNetwork LinkedProducerVpcNetwork => _linkedProducerVpcNetwork ??= new GcloudNetworkConnectivitySpokesLinkedProducerVpcNetwork(_command);
 
     /// <summary>
     /// gcloud linked-router-appliances sub-commands.
     /// </summary>
-    public GcloudNetworkconnectivitySpokesLinkedRouterAppliances LinkedRouterAppliances => _linkedRouterAppliances ??= new GcloudNetworkconnectivitySpokesLinkedRouterAppliances(_command);
+    public GcloudNetworkConnectivitySpokesLinkedRouterAppliances LinkedRouterAppliances => _linkedRouterAppliances ??= new GcloudNetworkConnectivitySpokesLinkedRouterAppliances(_command);
 
     /// <summary>
     /// gcloud linked-vpc-network sub-commands.
     /// </summary>
-    public GcloudNetworkconnectivitySpokesLinkedVpcNetwork LinkedVpcNetwork => _linkedVpcNetwork ??= new GcloudNetworkconnectivitySpokesLinkedVpcNetwork(_command);
+    public GcloudNetworkConnectivitySpokesLinkedVpcNetwork LinkedVpcNetwork => _linkedVpcNetwork ??= new GcloudNetworkConnectivitySpokesLinkedVpcNetwork(_command);
 
     /// <summary>
     /// gcloud linked-vpn-tunnels sub-commands.
     /// </summary>
-    public GcloudNetworkconnectivitySpokesLinkedVpnTunnels LinkedVpnTunnels => _linkedVpnTunnels ??= new GcloudNetworkconnectivitySpokesLinkedVpnTunnels(_command);
+    public GcloudNetworkConnectivitySpokesLinkedVpnTunnels LinkedVpnTunnels => _linkedVpnTunnels ??= new GcloudNetworkConnectivitySpokesLinkedVpnTunnels(_command);
 
     #endregion
 

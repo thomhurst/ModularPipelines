@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud applications commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDesigncenterSpacesApplications
+public class GcloudDesignCenterSpacesApplications
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDesigncenterSpacesApplications"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDesignCenterSpacesApplications"/> class.
     /// </summary>
-    public GcloudDesigncenterSpacesApplications(ICommandContext command)
+    public GcloudDesignCenterSpacesApplications(ICommandContext command)
     {
         _command = command;
     }

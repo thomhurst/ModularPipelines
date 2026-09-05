@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud zones commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecloudNetworkingZones
+public class GcloudEdgeCloudNetworkingZones
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudEdgecloudNetworkingZones"/> class.
+    /// Initializes a new instance of the <see cref="GcloudEdgeCloudNetworkingZones"/> class.
     /// </summary>
-    public GcloudEdgecloudNetworkingZones(ICommandContext command)
+    public GcloudEdgeCloudNetworkingZones(ICommandContext command)
     {
         _command = command;
     }

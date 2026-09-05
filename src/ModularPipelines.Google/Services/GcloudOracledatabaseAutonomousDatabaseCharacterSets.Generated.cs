@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud autonomous-database-character-sets commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseAutonomousDatabaseCharacterSets
+public class GcloudOracleDatabaseAutonomousDatabaseCharacterSets
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseAutonomousDatabaseCharacterSets"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseAutonomousDatabaseCharacterSets"/> class.
     /// </summary>
-    public GcloudOracledatabaseAutonomousDatabaseCharacterSets(ICommandContext command)
+    public GcloudOracleDatabaseAutonomousDatabaseCharacterSets(ICommandContext command)
     {
         _command = command;
     }

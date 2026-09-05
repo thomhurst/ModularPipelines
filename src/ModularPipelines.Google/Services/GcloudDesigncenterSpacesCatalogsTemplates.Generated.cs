@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud templates commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDesigncenterSpacesCatalogsTemplates
+public class GcloudDesignCenterSpacesCatalogsTemplates
 {
     private readonly ICommandContext _command;
-    private GcloudDesigncenterSpacesCatalogsTemplatesRevisions? _revisions;
+    private GcloudDesignCenterSpacesCatalogsTemplatesRevisions? _revisions;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDesigncenterSpacesCatalogsTemplates"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDesignCenterSpacesCatalogsTemplates"/> class.
     /// </summary>
-    public GcloudDesigncenterSpacesCatalogsTemplates(ICommandContext command)
+    public GcloudDesignCenterSpacesCatalogsTemplates(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudDesigncenterSpacesCatalogsTemplates
     /// <summary>
     /// gcloud revisions sub-commands.
     /// </summary>
-    public GcloudDesigncenterSpacesCatalogsTemplatesRevisions Revisions => _revisions ??= new GcloudDesigncenterSpacesCatalogsTemplatesRevisions(_command);
+    public GcloudDesignCenterSpacesCatalogsTemplatesRevisions Revisions => _revisions ??= new GcloudDesignCenterSpacesCatalogsTemplatesRevisions(_command);
 
     #endregion
 

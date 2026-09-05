@@ -82,7 +82,7 @@ public record GcloudContainerHubPolicycontrollerUpdateOptions : GcloudOptions
     public bool? LogDenies { get; set; }
 
     /// <summary>
-    /// Membership flags. At most one of these can be specified: Membership flags. At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Log Denies flags. At most one of these can be specified: If set, disable all log denies.
+    /// Negates --log-denies. Membership flags. At most one of these can be specified: Membership flags. At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Log Denies flags. At most one of these can be specified: If set, log all denies and dry run failures. (To disable, use --no-log-denies)
     /// </summary>
     [CliFlag("--no-log-denies")]
     public bool? NoLogDenies { get; set; }
@@ -106,7 +106,7 @@ public record GcloudContainerHubPolicycontrollerUpdateOptions : GcloudOptions
     public bool? Mutation { get; set; }
 
     /// <summary>
-    /// Membership flags. At most one of these can be specified: Membership flags. At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Mutation flags. At most one of these can be specified: Disables mutation support.
+    /// Negates --mutation. Membership flags. At most one of these can be specified: Membership flags. At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Mutation flags. At most one of these can be specified: If set, enable support for mutation. (To disable, use --no-mutation)
     /// </summary>
     [CliFlag("--no-mutation")]
     public bool? NoMutation { get; set; }
@@ -118,7 +118,7 @@ public record GcloudContainerHubPolicycontrollerUpdateOptions : GcloudOptions
     public bool? ReferentialRules { get; set; }
 
     /// <summary>
-    /// Membership flags. At most one of these can be specified: Membership flags. At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Referential Rules flags. At most one of these can be specified: Disables referential rules support.
+    /// Negates --referential-rules. Membership flags. At most one of these can be specified: Membership flags. At most one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Referential Rules flags. At most one of these can be specified: If set, enable support for referential constraints. (To disable, use --no-referential-rules)
     /// </summary>
     [CliFlag("--no-referential-rules")]
     public bool? NoReferentialRules { get; set; }

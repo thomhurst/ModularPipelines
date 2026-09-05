@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud route-tables commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkconnectivityHubsRouteTables
+public class GcloudNetworkConnectivityHubsRouteTables
 {
     private readonly ICommandContext _command;
-    private GcloudNetworkconnectivityHubsRouteTablesRoutes? _routes;
+    private GcloudNetworkConnectivityHubsRouteTablesRoutes? _routes;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkconnectivityHubsRouteTables"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkConnectivityHubsRouteTables"/> class.
     /// </summary>
-    public GcloudNetworkconnectivityHubsRouteTables(ICommandContext command)
+    public GcloudNetworkConnectivityHubsRouteTables(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudNetworkconnectivityHubsRouteTables
     /// <summary>
     /// gcloud routes sub-commands.
     /// </summary>
-    public GcloudNetworkconnectivityHubsRouteTablesRoutes Routes => _routes ??= new GcloudNetworkconnectivityHubsRouteTablesRoutes(_command);
+    public GcloudNetworkConnectivityHubsRouteTablesRoutes Routes => _routes ??= new GcloudNetworkConnectivityHubsRouteTablesRoutes(_command);
 
     #endregion
 

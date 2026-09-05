@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud private-connections commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatabasemigrationPrivateConnections
+public class GcloudDatabaseMigrationPrivateConnections
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDatabasemigrationPrivateConnections"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDatabaseMigrationPrivateConnections"/> class.
     /// </summary>
-    public GcloudDatabasemigrationPrivateConnections(ICommandContext command)
+    public GcloudDatabaseMigrationPrivateConnections(ICommandContext command)
     {
         _command = command;
     }

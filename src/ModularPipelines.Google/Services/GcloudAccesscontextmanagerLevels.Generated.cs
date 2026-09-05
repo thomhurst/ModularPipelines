@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud levels commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAccesscontextmanagerLevels
+public class GcloudAccessContextManagerLevels
 {
     private readonly ICommandContext _command;
-    private GcloudAccesscontextmanagerLevelsConditions? _conditions;
+    private GcloudAccessContextManagerLevelsConditions? _conditions;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAccesscontextmanagerLevels"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAccessContextManagerLevels"/> class.
     /// </summary>
-    public GcloudAccesscontextmanagerLevels(ICommandContext command)
+    public GcloudAccessContextManagerLevels(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudAccesscontextmanagerLevels
     /// <summary>
     /// gcloud conditions sub-commands.
     /// </summary>
-    public GcloudAccesscontextmanagerLevelsConditions Conditions => _conditions ??= new GcloudAccesscontextmanagerLevelsConditions(_command);
+    public GcloudAccessContextManagerLevelsConditions Conditions => _conditions ??= new GcloudAccessContextManagerLevelsConditions(_command);
 
     #endregion
 

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud indexes commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudVectorsearchCollectionsIndexes
+public class GcloudVectorSearchCollectionsIndexes
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudVectorsearchCollectionsIndexes"/> class.
+    /// Initializes a new instance of the <see cref="GcloudVectorSearchCollectionsIndexes"/> class.
     /// </summary>
-    public GcloudVectorsearchCollectionsIndexes(ICommandContext command)
+    public GcloudVectorSearchCollectionsIndexes(ICommandContext command)
     {
         _command = command;
     }

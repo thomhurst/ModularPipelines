@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudOverwriteWhen
 {
     [EnumValue("always")]
-    Always = 0,
+    Always,
 
     [EnumValue("different")]
-    Different = 1,
+    Different,
 
     [EnumValue("never")]
-    Never = 2
+    Never
 }

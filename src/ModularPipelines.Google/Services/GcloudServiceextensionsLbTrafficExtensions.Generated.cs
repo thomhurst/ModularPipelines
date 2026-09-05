@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud lb-traffic-extensions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudServiceextensionsLbTrafficExtensions
+public class GcloudServiceExtensionsLbTrafficExtensions
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudServiceextensionsLbTrafficExtensions"/> class.
+    /// Initializes a new instance of the <see cref="GcloudServiceExtensionsLbTrafficExtensions"/> class.
     /// </summary>
-    public GcloudServiceextensionsLbTrafficExtensions(ICommandContext command)
+    public GcloudServiceExtensionsLbTrafficExtensions(ICommandContext command)
     {
         _command = command;
     }

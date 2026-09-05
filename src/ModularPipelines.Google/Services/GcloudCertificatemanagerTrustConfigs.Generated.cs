@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud trust-configs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudCertificatemanagerTrustConfigs
+public class GcloudCertificateManagerTrustConfigs
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudCertificatemanagerTrustConfigs"/> class.
+    /// Initializes a new instance of the <see cref="GcloudCertificateManagerTrustConfigs"/> class.
     /// </summary>
-    public GcloudCertificatemanagerTrustConfigs(ICommandContext command)
+    public GcloudCertificateManagerTrustConfigs(ICommandContext command)
     {
         _command = command;
     }

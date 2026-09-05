@@ -105,7 +105,7 @@ public record GcloudRedisInstancesUpdateOptions : GcloudOptions
     /// A list of Redis config KEY=VALUE pairs to update according to http://cloud.google.com/memorystore/docs/reference/redis-configs. If a config parameter is already set, its value is modified; otherwise a new Redis config parameter is added. Currently, the only supported parameters are: Redis version 3.2 and newer: maxmemory-policy, notify-keyspace-events, timeout. Redis version 4.0 and newer: activedefrag, lfu-decay-time, lfu-log-factor, maxmemory-gb. Redis version 5.0 and newer: stream-node-max-bytes, stream-node-max-entries. Redis version 7.0 and newer: maxmemory-clients, lazyfree-lazy-eviction, lazyfree-lazy-expire, lazyfree-lazy-user-del, lazyfree-lazy-user-flush.
     /// </summary>
     [CliOption("--update-redis-config", Format = OptionFormat.EqualsSeparated)]
-    public GcloudUpdateRedisConfig? UpdateRedisConfig { get; set; }
+    public IReadOnlyList<KeyValue>? UpdateRedisConfig { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud redis instances update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud redis instances update --clear-labels \ --update-labels foo=bar,baz=qux

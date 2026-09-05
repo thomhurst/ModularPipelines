@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud gi-versions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseGiVersions
+public class GcloudOracleDatabaseGiVersions
 {
     private readonly ICommandContext _command;
-    private GcloudOracledatabaseGiVersionsMinorVersions? _minorVersions;
+    private GcloudOracleDatabaseGiVersionsMinorVersions? _minorVersions;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseGiVersions"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseGiVersions"/> class.
     /// </summary>
-    public GcloudOracledatabaseGiVersions(ICommandContext command)
+    public GcloudOracleDatabaseGiVersions(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudOracledatabaseGiVersions
     /// <summary>
     /// gcloud minor-versions sub-commands.
     /// </summary>
-    public GcloudOracledatabaseGiVersionsMinorVersions MinorVersions => _minorVersions ??= new GcloudOracledatabaseGiVersionsMinorVersions(_command);
+    public GcloudOracleDatabaseGiVersionsMinorVersions MinorVersions => _minorVersions ??= new GcloudOracleDatabaseGiVersionsMinorVersions(_command);
 
     #endregion
 

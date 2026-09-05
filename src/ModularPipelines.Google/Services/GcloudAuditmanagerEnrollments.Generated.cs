@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud enrollments commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAuditmanagerEnrollments
+public class GcloudAuditManagerEnrollments
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAuditmanagerEnrollments"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAuditManagerEnrollments"/> class.
     /// </summary>
-    public GcloudAuditmanagerEnrollments(ICommandContext command)
+    public GcloudAuditManagerEnrollments(ICommandContext command)
     {
         _command = command;
     }

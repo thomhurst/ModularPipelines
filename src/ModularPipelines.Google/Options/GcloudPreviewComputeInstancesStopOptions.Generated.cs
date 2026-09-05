@@ -41,7 +41,4 @@ public record GcloudPreviewComputeInstancesStopOptions(
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
 
-    [Obsolete("DiscardLocalSsd is no longer supported by the installed CLI and has no effect.")]
-    public bool? DiscardLocalSsd { get; set; }
-
 }

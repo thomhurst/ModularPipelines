@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud resource-backup-config commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudBackupdrResourceBackupConfig
+public class GcloudBackupDrResourceBackupConfig
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudBackupdrResourceBackupConfig"/> class.
+    /// Initializes a new instance of the <see cref="GcloudBackupDrResourceBackupConfig"/> class.
     /// </summary>
-    public GcloudBackupdrResourceBackupConfig(ICommandContext command)
+    public GcloudBackupDrResourceBackupConfig(ICommandContext command)
     {
         _command = command;
     }

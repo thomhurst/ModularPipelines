@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud origins commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecacheOrigins
+public class GcloudEdgeCacheOrigins
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudEdgecacheOrigins"/> class.
+    /// Initializes a new instance of the <see cref="GcloudEdgeCacheOrigins"/> class.
     /// </summary>
-    public GcloudEdgecacheOrigins(ICommandContext command)
+    public GcloudEdgeCacheOrigins(ICommandContext command)
     {
         _command = command;
     }

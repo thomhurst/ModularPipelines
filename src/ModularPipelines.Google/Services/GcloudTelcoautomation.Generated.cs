@@ -18,16 +18,16 @@ namespace ModularPipelines.Google.Services;
 /// gcloud telcoautomation commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudTelcoautomation : IGcloudTelcoautomation
+public class GcloudTelcoAutomation : IGcloudTelcoAutomation
 {
     private readonly ICommandContext _command;
-    private GcloudTelcoautomationOperations? _operations;
-    private GcloudTelcoautomationOrchestrationCluster? _orchestrationCluster;
+    private GcloudTelcoAutomationOperations? _operations;
+    private GcloudTelcoAutomationOrchestrationCluster? _orchestrationCluster;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudTelcoautomation"/> class.
+    /// Initializes a new instance of the <see cref="GcloudTelcoAutomation"/> class.
     /// </summary>
-    public GcloudTelcoautomation(ICommandContext command)
+    public GcloudTelcoAutomation(ICommandContext command)
     {
         _command = command;
     }
@@ -37,12 +37,12 @@ public class GcloudTelcoautomation : IGcloudTelcoautomation
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudTelcoautomationOperations Operations => _operations ??= new GcloudTelcoautomationOperations(_command);
+    public GcloudTelcoAutomationOperations Operations => _operations ??= new GcloudTelcoAutomationOperations(_command);
 
     /// <summary>
     /// gcloud orchestration-cluster sub-commands.
     /// </summary>
-    public GcloudTelcoautomationOrchestrationCluster OrchestrationCluster => _orchestrationCluster ??= new GcloudTelcoautomationOrchestrationCluster(_command);
+    public GcloudTelcoAutomationOrchestrationCluster OrchestrationCluster => _orchestrationCluster ??= new GcloudTelcoAutomationOrchestrationCluster(_command);
 
     #endregion
 

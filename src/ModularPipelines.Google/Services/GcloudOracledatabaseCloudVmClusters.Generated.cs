@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud cloud-vm-clusters commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudOracledatabaseCloudVmClusters
+public class GcloudOracleDatabaseCloudVmClusters
 {
     private readonly ICommandContext _command;
-    private GcloudOracledatabaseCloudVmClustersDbNodes? _dbNodes;
+    private GcloudOracleDatabaseCloudVmClustersDbNodes? _dbNodes;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudOracledatabaseCloudVmClusters"/> class.
+    /// Initializes a new instance of the <see cref="GcloudOracleDatabaseCloudVmClusters"/> class.
     /// </summary>
-    public GcloudOracledatabaseCloudVmClusters(ICommandContext command)
+    public GcloudOracleDatabaseCloudVmClusters(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudOracledatabaseCloudVmClusters
     /// <summary>
     /// gcloud db-nodes sub-commands.
     /// </summary>
-    public GcloudOracledatabaseCloudVmClustersDbNodes DbNodes => _dbNodes ??= new GcloudOracledatabaseCloudVmClustersDbNodes(_command);
+    public GcloudOracleDatabaseCloudVmClustersDbNodes DbNodes => _dbNodes ??= new GcloudOracleDatabaseCloudVmClustersDbNodes(_command);
 
     #endregion
 

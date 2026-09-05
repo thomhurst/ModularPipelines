@@ -19,17 +19,17 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudPolicyintelligence
+public interface IGcloudPolicyIntelligence
 {
     /// <summary>
     /// gcloud simulate sub-commands.
     /// </summary>
-    GcloudPolicyintelligenceSimulate Simulate => throw new System.NotSupportedException();
+    GcloudPolicyIntelligenceSimulate Simulate => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud troubleshoot-policy sub-commands.
     /// </summary>
-    GcloudPolicyintelligenceTroubleshootPolicy TroubleshootPolicy => throw new System.NotSupportedException();
+    GcloudPolicyIntelligenceTroubleshootPolicy TroubleshootPolicy => throw new System.NotSupportedException();
 
     /// <summary>
     /// a platform to help better understand, use, and     manage policies at scale

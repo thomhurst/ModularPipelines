@@ -18,20 +18,20 @@ namespace ModularPipelines.Google.Services;
 /// gcloud databasemigration commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatabasemigration : IGcloudDatabasemigration
+public class GcloudDatabaseMigration : IGcloudDatabaseMigration
 {
     private readonly ICommandContext _command;
-    private GcloudDatabasemigrationConnectionProfiles? _connectionProfiles;
-    private GcloudDatabasemigrationConversionWorkspaces? _conversionWorkspaces;
-    private GcloudDatabasemigrationMigrationJobs? _migrationJobs;
-    private GcloudDatabasemigrationObjects? _objects;
-    private GcloudDatabasemigrationOperations? _operations;
-    private GcloudDatabasemigrationPrivateConnections? _privateConnections;
+    private GcloudDatabaseMigrationConnectionProfiles? _connectionProfiles;
+    private GcloudDatabaseMigrationConversionWorkspaces? _conversionWorkspaces;
+    private GcloudDatabaseMigrationMigrationJobs? _migrationJobs;
+    private GcloudDatabaseMigrationObjects? _objects;
+    private GcloudDatabaseMigrationOperations? _operations;
+    private GcloudDatabaseMigrationPrivateConnections? _privateConnections;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDatabasemigration"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDatabaseMigration"/> class.
     /// </summary>
-    public GcloudDatabasemigration(ICommandContext command)
+    public GcloudDatabaseMigration(ICommandContext command)
     {
         _command = command;
     }
@@ -41,32 +41,32 @@ public class GcloudDatabasemigration : IGcloudDatabasemigration
     /// <summary>
     /// gcloud connection-profiles sub-commands.
     /// </summary>
-    public GcloudDatabasemigrationConnectionProfiles ConnectionProfiles => _connectionProfiles ??= new GcloudDatabasemigrationConnectionProfiles(_command);
+    public GcloudDatabaseMigrationConnectionProfiles ConnectionProfiles => _connectionProfiles ??= new GcloudDatabaseMigrationConnectionProfiles(_command);
 
     /// <summary>
     /// gcloud conversion-workspaces sub-commands.
     /// </summary>
-    public GcloudDatabasemigrationConversionWorkspaces ConversionWorkspaces => _conversionWorkspaces ??= new GcloudDatabasemigrationConversionWorkspaces(_command);
+    public GcloudDatabaseMigrationConversionWorkspaces ConversionWorkspaces => _conversionWorkspaces ??= new GcloudDatabaseMigrationConversionWorkspaces(_command);
 
     /// <summary>
     /// gcloud migration-jobs sub-commands.
     /// </summary>
-    public GcloudDatabasemigrationMigrationJobs MigrationJobs => _migrationJobs ??= new GcloudDatabasemigrationMigrationJobs(_command);
+    public GcloudDatabaseMigrationMigrationJobs MigrationJobs => _migrationJobs ??= new GcloudDatabaseMigrationMigrationJobs(_command);
 
     /// <summary>
     /// gcloud objects sub-commands.
     /// </summary>
-    public GcloudDatabasemigrationObjects Objects => _objects ??= new GcloudDatabasemigrationObjects(_command);
+    public GcloudDatabaseMigrationObjects Objects => _objects ??= new GcloudDatabaseMigrationObjects(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudDatabasemigrationOperations Operations => _operations ??= new GcloudDatabasemigrationOperations(_command);
+    public GcloudDatabaseMigrationOperations Operations => _operations ??= new GcloudDatabaseMigrationOperations(_command);
 
     /// <summary>
     /// gcloud private-connections sub-commands.
     /// </summary>
-    public GcloudDatabasemigrationPrivateConnections PrivateConnections => _privateConnections ??= new GcloudDatabasemigrationPrivateConnections(_command);
+    public GcloudDatabaseMigrationPrivateConnections PrivateConnections => _privateConnections ??= new GcloudDatabaseMigrationPrivateConnections(_command);
 
     #endregion
 

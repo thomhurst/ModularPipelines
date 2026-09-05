@@ -19,42 +19,42 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudManagedkafka
+public interface IGcloudManagedKafka
 {
     /// <summary>
     /// gcloud acls sub-commands.
     /// </summary>
-    GcloudManagedkafkaAcls Acls => throw new System.NotSupportedException();
+    GcloudManagedKafkaAcls Acls => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud clusters sub-commands.
     /// </summary>
-    GcloudManagedkafkaClusters Clusters => throw new System.NotSupportedException();
+    GcloudManagedKafkaClusters Clusters => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud connect-clusters sub-commands.
     /// </summary>
-    GcloudManagedkafkaConnectClusters ConnectClusters => throw new System.NotSupportedException();
+    GcloudManagedKafkaConnectClusters ConnectClusters => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud connectors sub-commands.
     /// </summary>
-    GcloudManagedkafkaConnectors Connectors => throw new System.NotSupportedException();
+    GcloudManagedKafkaConnectors Connectors => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud consumer-groups sub-commands.
     /// </summary>
-    GcloudManagedkafkaConsumerGroups ConsumerGroups => throw new System.NotSupportedException();
+    GcloudManagedKafkaConsumerGroups ConsumerGroups => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudManagedkafkaOperations Operations => throw new System.NotSupportedException();
+    GcloudManagedKafkaOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud topics sub-commands.
     /// </summary>
-    GcloudManagedkafkaTopics Topics => throw new System.NotSupportedException();
+    GcloudManagedKafkaTopics Topics => throw new System.NotSupportedException();
 
     /// <summary>
     /// administer Managed Service for Apache Kafka     clusters, topics, and consumer groups

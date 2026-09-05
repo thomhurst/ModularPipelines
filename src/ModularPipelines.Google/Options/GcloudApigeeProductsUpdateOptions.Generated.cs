@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
-using ModularPipelines.Models;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -29,7 +28,7 @@ public record GcloudApigeeProductsUpdateOptions(
     /// Name to be displayed in the UI or developer portal to developers registering for API access.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
-    public GcloudDisplayName? DisplayName { get; set; }
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Include all deployed API proxies in the product, so long as they match the other parameters.
@@ -107,7 +106,7 @@ public record GcloudApigeeProductsUpdateOptions(
     /// At most one of these can be specified: Or at least one of these can be specified: Key-value attribute pairs that may be used to extend the default API product profile with customer-specific metadata. Up to 17 attributes can be specified. Adds a new attribute to the set of attributes.
     /// </summary>
     [CliOption("--add-attribute", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? AddAttribute { get; set; }
+    public string? AddAttribute { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Or at least one of these can be specified: Key-value attribute pairs that may be used to extend the default API product profile with customer-specific metadata. Up to 17 attributes can be specified. Removes an existing attribute from the set of attributes.

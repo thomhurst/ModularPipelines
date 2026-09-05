@@ -117,15 +117,6 @@ public class GcloudWorkflows : IGcloudWorkflows
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudWorkflowsExecuteOptions(), executionOptions, cancellationToken);
     }
 
-    [Obsolete("Use ExecuteCommandAsync instead.")]
-    public virtual async Task<CommandResult> ExecuteAsync(
-        GcloudWorkflowsExecuteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await ExecuteCommandAsync(options, executionOptions, cancellationToken);
-    }
-
     /// <summary>
     /// list workflows
     /// </summary>

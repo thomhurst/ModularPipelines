@@ -19,22 +19,42 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudEdgecloud
+public interface IGcloudEdgeCloud
 {
+    /// <summary>
+    /// gcloud api-keys sub-commands.
+    /// </summary>
+    GcloudEdgeCloudApiKeys ApiKeys => throw new System.NotSupportedException();
+
     /// <summary>
     /// gcloud container sub-commands.
     /// </summary>
-    GcloudEdgecloudContainer Container => throw new System.NotSupportedException();
+    GcloudEdgeCloudContainer Container => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud networking sub-commands.
     /// </summary>
-    GcloudEdgecloudNetworking Networking => throw new System.NotSupportedException();
+    GcloudEdgeCloudNetworking Networking => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// gcloud projects sub-commands.
+    /// </summary>
+    GcloudEdgeCloudProjects Projects => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// gcloud service-accounts sub-commands.
+    /// </summary>
+    GcloudEdgeCloudServiceAccounts ServiceAccounts => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// gcloud services sub-commands.
+    /// </summary>
+    GcloudEdgeCloudServices Services => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud zones sub-commands.
     /// </summary>
-    GcloudEdgecloudZones Zones => throw new System.NotSupportedException();
+    GcloudEdgeCloudZones Zones => throw new System.NotSupportedException();
 
     /// <summary>
     /// cloud resources

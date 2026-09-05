@@ -43,6 +43,6 @@ public record GcloudRunWorkerPoolsUpdateInstanceSplitOptions : GcloudOptions
     /// At most one of these can be specified: Comma separated list of instance assignments in the form REVISION-NAME=PERCENTAGE. REVISION-NAME must be the name for a revision for the worker as returned by 'gcloud run workers revisions list --worker=WORKER' . PERCENTAGE must be an integer percentage between 0 and 100 inclusive. Ex worker-nw9hs=10,worker-nw9hs=20 Up to 100 percent of instances may be assigned. If the total of 100 percent of instances is assigned, the Worker instance split is updated as specified. If under 100 percent of instance split is assigned, the Worker instance split is updated as specified for revisions with assignments and instance split is scaled up or down proportionally as needed for revision that are currently serving workload but that do not have new assignments. For example assume revision-1 is serving 40 percent of workload and revision-2 is serving 60 percent. If revision-1 is assigned 45 percent of instances and no assignment is made for revision-2, the worker is updated with revsion-1 assigned 45 percent of instances and revision-2 scaled down to 55 percent. You can use "LATEST" as a special revision name to always put the given percentage of instance split on the latest ready revision.
     /// </summary>
     [CliOption("--to-revisions", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ToRevisions { get; set; }
+    public string? ToRevisions { get; set; }
 
 }

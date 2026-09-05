@@ -18,18 +18,18 @@ namespace ModularPipelines.Google.Services;
 /// gcloud spaces commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDesigncenterSpaces
+public class GcloudDesignCenterSpaces
 {
     private readonly ICommandContext _command;
-    private GcloudDesigncenterSpacesApplications? _applications;
-    private GcloudDesigncenterSpacesApplicationTemplates? _applicationTemplates;
-    private GcloudDesigncenterSpacesCatalogs? _catalogs;
-    private GcloudDesigncenterSpacesSharedTemplates? _sharedTemplates;
+    private GcloudDesignCenterSpacesApplications? _applications;
+    private GcloudDesignCenterSpacesApplicationTemplates? _applicationTemplates;
+    private GcloudDesignCenterSpacesCatalogs? _catalogs;
+    private GcloudDesignCenterSpacesSharedTemplates? _sharedTemplates;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDesigncenterSpaces"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDesignCenterSpaces"/> class.
     /// </summary>
-    public GcloudDesigncenterSpaces(ICommandContext command)
+    public GcloudDesignCenterSpaces(ICommandContext command)
     {
         _command = command;
     }
@@ -39,22 +39,22 @@ public class GcloudDesigncenterSpaces
     /// <summary>
     /// gcloud applications sub-commands.
     /// </summary>
-    public GcloudDesigncenterSpacesApplications Applications => _applications ??= new GcloudDesigncenterSpacesApplications(_command);
+    public GcloudDesignCenterSpacesApplications Applications => _applications ??= new GcloudDesignCenterSpacesApplications(_command);
 
     /// <summary>
     /// gcloud application-templates sub-commands.
     /// </summary>
-    public GcloudDesigncenterSpacesApplicationTemplates ApplicationTemplates => _applicationTemplates ??= new GcloudDesigncenterSpacesApplicationTemplates(_command);
+    public GcloudDesignCenterSpacesApplicationTemplates ApplicationTemplates => _applicationTemplates ??= new GcloudDesignCenterSpacesApplicationTemplates(_command);
 
     /// <summary>
     /// gcloud catalogs sub-commands.
     /// </summary>
-    public GcloudDesigncenterSpacesCatalogs Catalogs => _catalogs ??= new GcloudDesigncenterSpacesCatalogs(_command);
+    public GcloudDesignCenterSpacesCatalogs Catalogs => _catalogs ??= new GcloudDesignCenterSpacesCatalogs(_command);
 
     /// <summary>
     /// gcloud shared-templates sub-commands.
     /// </summary>
-    public GcloudDesigncenterSpacesSharedTemplates SharedTemplates => _sharedTemplates ??= new GcloudDesigncenterSpacesSharedTemplates(_command);
+    public GcloudDesignCenterSpacesSharedTemplates SharedTemplates => _sharedTemplates ??= new GcloudDesignCenterSpacesSharedTemplates(_command);
 
     #endregion
 

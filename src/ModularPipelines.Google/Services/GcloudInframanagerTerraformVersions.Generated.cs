@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud terraform-versions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudInframanagerTerraformVersions
+public class GcloudInfraManagerTerraformVersions
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudInframanagerTerraformVersions"/> class.
+    /// Initializes a new instance of the <see cref="GcloudInfraManagerTerraformVersions"/> class.
     /// </summary>
-    public GcloudInframanagerTerraformVersions(ICommandContext command)
+    public GcloudInfraManagerTerraformVersions(ICommandContext command)
     {
         _command = command;
     }

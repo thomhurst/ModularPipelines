@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud multicast-producer-associations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudNetworkservicesMulticastProducerAssociations
+public class GcloudNetworkServicesMulticastProducerAssociations
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudNetworkservicesMulticastProducerAssociations"/> class.
+    /// Initializes a new instance of the <see cref="GcloudNetworkServicesMulticastProducerAssociations"/> class.
     /// </summary>
-    public GcloudNetworkservicesMulticastProducerAssociations(ICommandContext command)
+    public GcloudNetworkServicesMulticastProducerAssociations(ICommandContext command)
     {
         _command = command;
     }

@@ -19,32 +19,32 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudCompliancemanager
+public interface IGcloudComplianceManager
 {
     /// <summary>
     /// gcloud cloud-control-deployments sub-commands.
     /// </summary>
-    GcloudCompliancemanagerCloudControlDeployments CloudControlDeployments => throw new System.NotSupportedException();
+    GcloudComplianceManagerCloudControlDeployments CloudControlDeployments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud cloud-controls sub-commands.
     /// </summary>
-    GcloudCompliancemanagerCloudControls CloudControls => throw new System.NotSupportedException();
+    GcloudComplianceManagerCloudControls CloudControls => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud framework-deployments sub-commands.
     /// </summary>
-    GcloudCompliancemanagerFrameworkDeployments FrameworkDeployments => throw new System.NotSupportedException();
+    GcloudComplianceManagerFrameworkDeployments FrameworkDeployments => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud frameworks sub-commands.
     /// </summary>
-    GcloudCompliancemanagerFrameworks Frameworks => throw new System.NotSupportedException();
+    GcloudComplianceManagerFrameworks Frameworks => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudCompliancemanagerOperations Operations => throw new System.NotSupportedException();
+    GcloudComplianceManagerOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Compliance Manager resources

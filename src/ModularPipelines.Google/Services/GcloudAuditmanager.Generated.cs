@@ -18,18 +18,18 @@ namespace ModularPipelines.Google.Services;
 /// gcloud auditmanager commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAuditmanager : IGcloudAuditmanager
+public class GcloudAuditManager : IGcloudAuditManager
 {
     private readonly ICommandContext _command;
-    private GcloudAuditmanagerAuditReports? _auditReports;
-    private GcloudAuditmanagerAuditScopes? _auditScopes;
-    private GcloudAuditmanagerEnrollments? _enrollments;
-    private GcloudAuditmanagerOperations? _operations;
+    private GcloudAuditManagerAuditReports? _auditReports;
+    private GcloudAuditManagerAuditScopes? _auditScopes;
+    private GcloudAuditManagerEnrollments? _enrollments;
+    private GcloudAuditManagerOperations? _operations;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAuditmanager"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAuditManager"/> class.
     /// </summary>
-    public GcloudAuditmanager(ICommandContext command)
+    public GcloudAuditManager(ICommandContext command)
     {
         _command = command;
     }
@@ -39,22 +39,22 @@ public class GcloudAuditmanager : IGcloudAuditmanager
     /// <summary>
     /// gcloud audit-reports sub-commands.
     /// </summary>
-    public GcloudAuditmanagerAuditReports AuditReports => _auditReports ??= new GcloudAuditmanagerAuditReports(_command);
+    public GcloudAuditManagerAuditReports AuditReports => _auditReports ??= new GcloudAuditManagerAuditReports(_command);
 
     /// <summary>
     /// gcloud audit-scopes sub-commands.
     /// </summary>
-    public GcloudAuditmanagerAuditScopes AuditScopes => _auditScopes ??= new GcloudAuditmanagerAuditScopes(_command);
+    public GcloudAuditManagerAuditScopes AuditScopes => _auditScopes ??= new GcloudAuditManagerAuditScopes(_command);
 
     /// <summary>
     /// gcloud enrollments sub-commands.
     /// </summary>
-    public GcloudAuditmanagerEnrollments Enrollments => _enrollments ??= new GcloudAuditmanagerEnrollments(_command);
+    public GcloudAuditManagerEnrollments Enrollments => _enrollments ??= new GcloudAuditManagerEnrollments(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudAuditmanagerOperations Operations => _operations ??= new GcloudAuditmanagerOperations(_command);
+    public GcloudAuditManagerOperations Operations => _operations ??= new GcloudAuditManagerOperations(_command);
 
     #endregion
 

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud mcp-servers commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAgentregistryMcpServers
+public class GcloudAgentRegistryMcpServers
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAgentregistryMcpServers"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAgentRegistryMcpServers"/> class.
     /// </summary>
-    public GcloudAgentregistryMcpServers(ICommandContext command)
+    public GcloudAgentRegistryMcpServers(ICommandContext command)
     {
         _command = command;
     }

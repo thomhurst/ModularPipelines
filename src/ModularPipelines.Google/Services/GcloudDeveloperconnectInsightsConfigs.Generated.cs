@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud insights-configs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDeveloperconnectInsightsConfigs
+public class GcloudDeveloperConnectInsightsConfigs
 {
     private readonly ICommandContext _command;
-    private GcloudDeveloperconnectInsightsConfigsDeploymentEvents? _deploymentEvents;
+    private GcloudDeveloperConnectInsightsConfigsDeploymentEvents? _deploymentEvents;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDeveloperconnectInsightsConfigs"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDeveloperConnectInsightsConfigs"/> class.
     /// </summary>
-    public GcloudDeveloperconnectInsightsConfigs(ICommandContext command)
+    public GcloudDeveloperConnectInsightsConfigs(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudDeveloperconnectInsightsConfigs
     /// <summary>
     /// gcloud deployment-events sub-commands.
     /// </summary>
-    public GcloudDeveloperconnectInsightsConfigsDeploymentEvents DeploymentEvents => _deploymentEvents ??= new GcloudDeveloperconnectInsightsConfigsDeploymentEvents(_command);
+    public GcloudDeveloperConnectInsightsConfigsDeploymentEvents DeploymentEvents => _deploymentEvents ??= new GcloudDeveloperConnectInsightsConfigsDeploymentEvents(_command);
 
     #endregion
 

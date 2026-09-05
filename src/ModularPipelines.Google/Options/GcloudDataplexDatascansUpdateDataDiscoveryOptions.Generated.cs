@@ -142,18 +142,4 @@ public record GcloudDataplexDatascansUpdateDataDiscoveryOptions : GcloudOptions
     [CliOption("--schedule", Format = OptionFormat.EqualsSeparated)]
     public string? Schedule { get; set; }
 
-    [Obsolete("Use BigqueryPublishingDataSetLocation instead.")]
-    public string? BigqueryPublishingDatasetLocation
-    {
-        get => BigqueryPublishingDataSetLocation;
-        set => BigqueryPublishingDataSetLocation = value;
-    }
-
-    [Obsolete("Use BigqueryPublishingDataSetProject instead.")]
-    public string? BigqueryPublishingDatasetProject
-    {
-        get => BigqueryPublishingDataSetProject;
-        set => BigqueryPublishingDataSetProject = value;
-    }
-
 }

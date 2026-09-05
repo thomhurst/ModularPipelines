@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud cloud-control-deployments commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudCompliancemanagerCloudControlDeployments
+public class GcloudComplianceManagerCloudControlDeployments
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudCompliancemanagerCloudControlDeployments"/> class.
+    /// Initializes a new instance of the <see cref="GcloudComplianceManagerCloudControlDeployments"/> class.
     /// </summary>
-    public GcloudCompliancemanagerCloudControlDeployments(ICommandContext command)
+    public GcloudComplianceManagerCloudControlDeployments(ICommandContext command)
     {
         _command = command;
     }

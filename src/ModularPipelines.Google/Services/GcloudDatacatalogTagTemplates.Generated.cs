@@ -18,15 +18,15 @@ namespace ModularPipelines.Google.Services;
 /// gcloud tag-templates commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDatacatalogTagTemplates
+public class GcloudDataCatalogTagTemplates
 {
     private readonly ICommandContext _command;
-    private GcloudDatacatalogTagTemplatesFields? _fields;
+    private GcloudDataCatalogTagTemplatesFields? _fields;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDatacatalogTagTemplates"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDataCatalogTagTemplates"/> class.
     /// </summary>
-    public GcloudDatacatalogTagTemplates(ICommandContext command)
+    public GcloudDataCatalogTagTemplates(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class GcloudDatacatalogTagTemplates
     /// <summary>
     /// gcloud fields sub-commands.
     /// </summary>
-    public GcloudDatacatalogTagTemplatesFields Fields => _fields ??= new GcloudDatacatalogTagTemplatesFields(_command);
+    public GcloudDataCatalogTagTemplatesFields Fields => _fields ??= new GcloudDataCatalogTagTemplatesFields(_command);
 
     #endregion
 

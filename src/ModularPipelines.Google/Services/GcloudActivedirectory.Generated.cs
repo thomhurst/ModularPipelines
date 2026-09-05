@@ -18,17 +18,17 @@ namespace ModularPipelines.Google.Services;
 /// gcloud activedirectory commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudActivedirectory : IGcloudActivedirectory
+public class GcloudActiveDirectory : IGcloudActiveDirectory
 {
     private readonly ICommandContext _command;
-    private GcloudActivedirectoryDomains? _domains;
-    private GcloudActivedirectoryOperations? _operations;
-    private GcloudActivedirectoryPeerings? _peerings;
+    private GcloudActiveDirectoryDomains? _domains;
+    private GcloudActiveDirectoryOperations? _operations;
+    private GcloudActiveDirectoryPeerings? _peerings;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudActivedirectory"/> class.
+    /// Initializes a new instance of the <see cref="GcloudActiveDirectory"/> class.
     /// </summary>
-    public GcloudActivedirectory(ICommandContext command)
+    public GcloudActiveDirectory(ICommandContext command)
     {
         _command = command;
     }
@@ -38,17 +38,17 @@ public class GcloudActivedirectory : IGcloudActivedirectory
     /// <summary>
     /// gcloud domains sub-commands.
     /// </summary>
-    public GcloudActivedirectoryDomains Domains => _domains ??= new GcloudActivedirectoryDomains(_command);
+    public GcloudActiveDirectoryDomains Domains => _domains ??= new GcloudActiveDirectoryDomains(_command);
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    public GcloudActivedirectoryOperations Operations => _operations ??= new GcloudActivedirectoryOperations(_command);
+    public GcloudActiveDirectoryOperations Operations => _operations ??= new GcloudActiveDirectoryOperations(_command);
 
     /// <summary>
     /// gcloud peerings sub-commands.
     /// </summary>
-    public GcloudActivedirectoryPeerings Peerings => _peerings ??= new GcloudActivedirectoryPeerings(_command);
+    public GcloudActiveDirectoryPeerings Peerings => _peerings ??= new GcloudActiveDirectoryPeerings(_command);
 
     #endregion
 

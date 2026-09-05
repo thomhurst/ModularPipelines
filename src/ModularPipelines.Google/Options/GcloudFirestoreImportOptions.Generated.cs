@@ -36,15 +36,15 @@ public record GcloudFirestoreImportOptions(
     public IEnumerable<string>? CollectionIds { get; set; }
 
     /// <summary>
-    /// List specifying which namespaces will be included in the operation. When omitted, all namespaces are included. This is only supported for Datastore Mode databases. For example, to operate on only the customers and orders namespaces: $ gcloud firestore import --namespaces-ids='customers','orders'
-    /// </summary>
-    [CliOption("--namespace-ids", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? NamespaceIds { get; set; }
-
-    /// <summary>
     /// The database to operate on. The default value is (default). For example, to operate on database foo: $ gcloud firestore import --database='foo'
     /// </summary>
     [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
     public string? Database { get; set; }
+
+    /// <summary>
+    /// List specifying which namespaces will be included in the operation. When omitted, all namespaces are included. This is only supported for Datastore Mode databases. For example, to operate on only the customers and orders namespaces: $ gcloud firestore import --namespaces-ids='customers','orders'
+    /// </summary>
+    [CliOption("--namespace-ids", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NamespaceIds { get; set; }
 
 }

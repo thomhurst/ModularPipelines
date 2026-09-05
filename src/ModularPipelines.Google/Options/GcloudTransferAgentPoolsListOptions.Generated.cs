@@ -33,7 +33,10 @@ public record GcloudTransferAgentPoolsListOptions : GcloudOptions
     [CliOption("--names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Names { get; set; }
 
-    [Obsolete("PageSize is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Retrieve batches of this many items from the API.
+    /// </summary>
+    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
     public int? PageSize { get; set; }
 
 }

@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud issuance-configs commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudCertificatemanagerIssuanceConfigs
+public class GcloudCertificateManagerIssuanceConfigs
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudCertificatemanagerIssuanceConfigs"/> class.
+    /// Initializes a new instance of the <see cref="GcloudCertificateManagerIssuanceConfigs"/> class.
     /// </summary>
-    public GcloudCertificatemanagerIssuanceConfigs(ICommandContext command)
+    public GcloudCertificateManagerIssuanceConfigs(ICommandContext command)
     {
         _command = command;
     }

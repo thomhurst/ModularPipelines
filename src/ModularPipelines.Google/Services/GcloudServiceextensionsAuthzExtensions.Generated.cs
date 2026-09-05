@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud authz-extensions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudServiceextensionsAuthzExtensions
+public class GcloudServiceExtensionsAuthzExtensions
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudServiceextensionsAuthzExtensions"/> class.
+    /// Initializes a new instance of the <see cref="GcloudServiceExtensionsAuthzExtensions"/> class.
     /// </summary>
-    public GcloudServiceextensionsAuthzExtensions(ICommandContext command)
+    public GcloudServiceExtensionsAuthzExtensions(ICommandContext command)
     {
         _command = command;
     }

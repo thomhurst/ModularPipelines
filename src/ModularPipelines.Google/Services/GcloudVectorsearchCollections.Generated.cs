@@ -18,16 +18,16 @@ namespace ModularPipelines.Google.Services;
 /// gcloud collections commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudVectorsearchCollections
+public class GcloudVectorSearchCollections
 {
     private readonly ICommandContext _command;
-    private GcloudVectorsearchCollectionsDataObjects? _dataObjects;
-    private GcloudVectorsearchCollectionsIndexes? _indexes;
+    private GcloudVectorSearchCollectionsDataObjects? _dataObjects;
+    private GcloudVectorSearchCollectionsIndexes? _indexes;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudVectorsearchCollections"/> class.
+    /// Initializes a new instance of the <see cref="GcloudVectorSearchCollections"/> class.
     /// </summary>
-    public GcloudVectorsearchCollections(ICommandContext command)
+    public GcloudVectorSearchCollections(ICommandContext command)
     {
         _command = command;
     }
@@ -37,12 +37,12 @@ public class GcloudVectorsearchCollections
     /// <summary>
     /// gcloud data-objects sub-commands.
     /// </summary>
-    public GcloudVectorsearchCollectionsDataObjects DataObjects => _dataObjects ??= new GcloudVectorsearchCollectionsDataObjects(_command);
+    public GcloudVectorSearchCollectionsDataObjects DataObjects => _dataObjects ??= new GcloudVectorSearchCollectionsDataObjects(_command);
 
     /// <summary>
     /// gcloud indexes sub-commands.
     /// </summary>
-    public GcloudVectorsearchCollectionsIndexes Indexes => _indexes ??= new GcloudVectorsearchCollectionsIndexes(_command);
+    public GcloudVectorSearchCollectionsIndexes Indexes => _indexes ??= new GcloudVectorSearchCollectionsIndexes(_command);
 
     #endregion
 

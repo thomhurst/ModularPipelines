@@ -28,6 +28,12 @@ public record GcloudTransferOperationsListOptions : GcloudOptions
     public string? Limit { get; set; }
 
     /// <summary>
+    /// Retrieve batches of this many items from the API.
+    /// </summary>
+    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PageSize { get; set; }
+
+    /// <summary>
     /// The names of the jobs whose operations you want to list. Separate multiple job names with commas (e.g., --job-names=foo,bar). If not specified, operations for all jobs are listed.
     /// </summary>
     [CliOption("--job-names", Format = OptionFormat.EqualsSeparated)]
@@ -50,11 +56,5 @@ public record GcloudTransferOperationsListOptions : GcloudOptions
     /// </summary>
     [CliFlag("--expand-table")]
     public bool? ExpandTable { get; set; }
-
-    /// <summary>
-    /// Retrieve batches of this many items from the API.
-    /// </summary>
-    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
-    public int? PageSize { get; set; }
 
 }

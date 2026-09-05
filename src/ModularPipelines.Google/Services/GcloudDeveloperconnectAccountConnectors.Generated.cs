@@ -5,8 +5,8 @@
 
 #nullable enable
 
-using ModularPipelines.Context;
 using System.CodeDom.Compiler;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud account-connectors commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudDeveloperconnectAccountConnectors
+public class GcloudDeveloperConnectAccountConnectors
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudDeveloperconnectAccountConnectors"/> class.
+    /// Initializes a new instance of the <see cref="GcloudDeveloperConnectAccountConnectors"/> class.
     /// </summary>
-    public GcloudDeveloperconnectAccountConnectors(ICommandContext command)
+    public GcloudDeveloperConnectAccountConnectors(ICommandContext command)
     {
         _command = command;
     }

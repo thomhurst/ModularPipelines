@@ -19,27 +19,27 @@ namespace ModularPipelines.Google.Services;
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
 /// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public interface IGcloudNetworkmanagement
+public interface IGcloudNetworkManagement
 {
     /// <summary>
     /// gcloud connectivity-tests sub-commands.
     /// </summary>
-    GcloudNetworkmanagementConnectivityTests ConnectivityTests => throw new System.NotSupportedException();
+    GcloudNetworkManagementConnectivityTests ConnectivityTests => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud network-monitoring-providers sub-commands.
     /// </summary>
-    GcloudNetworkmanagementNetworkMonitoringProviders NetworkMonitoringProviders => throw new System.NotSupportedException();
+    GcloudNetworkManagementNetworkMonitoringProviders NetworkMonitoringProviders => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud operations sub-commands.
     /// </summary>
-    GcloudNetworkmanagementOperations Operations => throw new System.NotSupportedException();
+    GcloudNetworkManagementOperations Operations => throw new System.NotSupportedException();
 
     /// <summary>
     /// gcloud vpc-flow-logs-configs sub-commands.
     /// </summary>
-    GcloudNetworkmanagementVpcFlowLogsConfigs VpcFlowLogsConfigs => throw new System.NotSupportedException();
+    GcloudNetworkManagementVpcFlowLogsConfigs VpcFlowLogsConfigs => throw new System.NotSupportedException();
 
     /// <summary>
     /// manage Network Management resources

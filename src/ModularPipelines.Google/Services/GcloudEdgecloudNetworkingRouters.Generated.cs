@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud routers commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgecloudNetworkingRouters
+public class GcloudEdgeCloudNetworkingRouters
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudEdgecloudNetworkingRouters"/> class.
+    /// Initializes a new instance of the <see cref="GcloudEdgeCloudNetworkingRouters"/> class.
     /// </summary>
-    public GcloudEdgecloudNetworkingRouters(ICommandContext command)
+    public GcloudEdgeCloudNetworkingRouters(ICommandContext command)
     {
         _command = command;
     }

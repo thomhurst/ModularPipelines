@@ -18,14 +18,14 @@ namespace ModularPipelines.Google.Services;
 /// gcloud audit-reports commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudAuditmanagerAuditReports
+public class GcloudAuditManagerAuditReports
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudAuditmanagerAuditReports"/> class.
+    /// Initializes a new instance of the <see cref="GcloudAuditManagerAuditReports"/> class.
     /// </summary>
-    public GcloudAuditmanagerAuditReports(ICommandContext command)
+    public GcloudAuditManagerAuditReports(ICommandContext command)
     {
         _command = command;
     }
