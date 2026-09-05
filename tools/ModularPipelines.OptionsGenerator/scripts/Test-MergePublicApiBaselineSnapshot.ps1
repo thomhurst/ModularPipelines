@@ -75,15 +75,18 @@ try {
         -ShippedOutputPath $shippedOutput `
         -UnshippedOutputPath $unshippedOutput
 
+    # Confirmed removals and signature changes keep their shipped entry and gain a
+    # *REMOVED* marker; a marker without a shipped entry (Api.Historical) is dropped.
     Assert-Lines $shippedOutput @(
         '#nullable enable'
+        'Api.Changed(string)'
         'Api.Existing'
+        'Api.Removed()'
         'Api.SnapshotMissing'
     )
     Assert-Lines $unshippedOutput @(
         '#nullable enable'
         '*REMOVED*Api.Changed(string)'
-        '*REMOVED*Api.Historical'
         '*REMOVED*Api.Removed()'
         'Api.Added'
         'Api.Added.ApiAdded() -> void'
@@ -108,7 +111,31 @@ try {
         throw 'Repeated baseline synchronization was not idempotent.'
     }
 
-    Write-Output 'OK public API additions, removals, signature changes, and idempotency passed.'
+    # Without confirmed removals the shipped baseline is untouched and no marker appears.
+    $emptyRemovals = Join-Path $testRoot 'PublicAPI.NoRemovals.txt'
+    $noRemovalShipped = Join-Path $testRoot 'PublicAPI.Shipped.no-removals.txt'
+    $noRemovalUnshipped = Join-Path $testRoot 'PublicAPI.Unshipped.no-removals.txt'
+    @('#nullable enable') | Set-Content -LiteralPath $emptyRemovals
+    & $mergeScript `
+        -OriginalShippedPath $originalShipped `
+        -OriginalUnshippedPath $originalUnshipped `
+        -CurrentApiSnapshotPath $currentSnapshot `
+        -ConfirmedRemovedApiPath $emptyRemovals `
+        -ShippedOutputPath $noRemovalShipped `
+        -UnshippedOutputPath $noRemovalUnshipped
+
+    Assert-Lines $noRemovalShipped @(Get-Content -LiteralPath $originalShipped)
+    Assert-Lines $noRemovalUnshipped @(
+        '#nullable enable'
+        'Api.Added'
+        'Api.Added.ApiAdded() -> void'
+        'Api.Added.Name.get -> string!'
+        'Api.Changed(int)'
+        'Api.Pending'
+        'Api.Reintroduced'
+    )
+
+    Write-Output 'OK public API additions, removals, signature changes, empty removals, and idempotency passed.'
 }
 finally {
     if (Test-Path -LiteralPath $resolvedTestRoot) {

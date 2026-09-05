@@ -1,4 +1,2 @@
 #nullable enable
-*REMOVED*ModularPipelines.Jq.Services.IJq.ExecuteAsync(ModularPipelines.Jq.Options.JqExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-*REMOVED*static ModularPipelines.Jq.Extensions.JqExtensions.Jq(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Jq.Services.IJq!
 ModularPipelines.Jq.Services.IJq.ExecuteAsync(ModularPipelines.Jq.Options.JqExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!

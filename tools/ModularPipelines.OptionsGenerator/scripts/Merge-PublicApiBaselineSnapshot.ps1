@@ -64,12 +64,11 @@ foreach ($entry in Get-ApiEntries $currentSnapshot) {
     }
 }
 
-$shippedApis = [System.Collections.Generic.HashSet[string]]::new($comparer)
-foreach ($entry in Get-ApiEntries $originalShipped) {
-    if ($currentApis.Contains($entry) -or -not $confirmedRemovedApis.Contains($entry)) {
-        $null = $shippedApis.Add($entry)
-    }
-}
+# Shipped entries are never dropped here: a *REMOVED* marker retires the entry
+# until a release ships the unshipped baseline and collapses the pair.
+$shippedApis = [System.Collections.Generic.HashSet[string]]::new(
+    [string[]] @(Get-ApiEntries $originalShipped),
+    $comparer)
 
 $unshippedApis = [System.Collections.Generic.HashSet[string]]::new($comparer)
 foreach ($entry in $currentApis) {
@@ -78,19 +77,20 @@ foreach ($entry in $currentApis) {
     }
 }
 
-foreach ($entry in Get-ApiEntries $originalShipped) {
+foreach ($entry in $shippedApis) {
     if (-not $currentApis.Contains($entry) -and $confirmedRemovedApis.Contains($entry)) {
         $null = $unshippedApis.Add("$removedPrefix$entry")
     }
 }
 
+# A marker only means something while its entry is still shipped and still absent.
 foreach ($entry in Get-ApiEntries $originalUnshipped) {
     if (-not $entry.StartsWith($removedPrefix, [System.StringComparison]::Ordinal)) {
         continue
     }
 
     $removedApi = $entry.Substring($removedPrefix.Length)
-    if (-not $currentApis.Contains($removedApi)) {
+    if ($shippedApis.Contains($removedApi) -and -not $currentApis.Contains($removedApi)) {
         $null = $unshippedApis.Add($entry)
     }
 }
