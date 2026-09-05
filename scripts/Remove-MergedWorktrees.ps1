@@ -114,7 +114,7 @@ try {
     $rawMerged = gh pr list @repoArgs --state merged --limit 1000 --json number,mergedAt,headRefName,headRefOid 2>$null
     if ($LASTEXITCODE -ne 0) { Warn "could not list merged PRs (exit $LASTEXITCODE) -- skipping sweep this round"; exit 0 }
     foreach ($p in (($rawMerged -join "`n") | ConvertFrom-Json)) {
-        if ($p.headRefName) { $mergedNames[$p.headRefName.Trim()] = $true }
+        if ($p.headRefName -and $p.headRefOid) { $mergedNames[$p.headRefName.Trim()] = $p.headRefOid.Trim() }
         if ($p.headRefOid) { $mergedOids[$p.headRefOid.Trim()] = $true }
         if ($p.number) { $mergedPrByNumber[[int]$p.number] = $p }
     }
@@ -165,14 +165,19 @@ try {
         if ($w.Locked) { Write-Host "sweep: skipping locked worktree (session may own it): $($w.Path)"; continue }
         if ($w.Branch -and $openNames.ContainsKey($w.Branch)) { continue }   # active open PR — keep
 
-        # Tier 1: worktree still sits on the merged PR's head branch.
-        $why = $null
-        if ($w.Branch -and $mergedNames.ContainsKey($w.Branch)) { $why = "merged PR head branch '$($w.Branch)'" }
+        $sha = git -C $w.Path rev-parse HEAD 2>$null
+        if ($LASTEXITCODE -ne 0) { $sha = $null }
 
-        $sha = $null
+        # Tier 1: worktree still sits on the merged PR's head branch. The branch must
+        # also contain that PR's head commit: a fresh branch that reuses the name after
+        # a squash merge is cut from main, which never contains the old head.
+        $why = $null
+        if ($w.Branch -and $mergedNames.ContainsKey($w.Branch) -and $sha) {
+            git -C $w.Path merge-base --is-ancestor $mergedNames[$w.Branch] $sha 2>$null
+            if ($LASTEXITCODE -eq 0) { $why = "merged PR head branch '$($w.Branch)'" }
+        }
+
         if (-not $why) {
-            $sha = git -C $w.Path rev-parse HEAD 2>$null
-            if ($LASTEXITCODE -ne 0) { $sha = $null }
             if ($sha -and $openOids.ContainsKey($sha)) { continue }          # tip of an open PR — keep
 
             # Tier 2: detached or renamed checkout sitting exactly on a merged PR's tip.
@@ -205,7 +210,7 @@ try {
                 $associationChecked = $true
                 $assoc = if ($assocRaw) { @(($assocRaw -join "`n") | ConvertFrom-Json) } else { @() }
                 if (@($assoc | Where-Object { $_.state -eq 'open' }).Count -gt 0) { continue }   # commit belongs to an open PR — keep
-                if (@($assoc | Where-Object { $_.merged_at }).Count -gt 0) { $why = 'merged PR via commit association' }
+                $why = Get-MergedAssociationReason -Associations $assoc -Branch $w.Branch
             }
         }
 

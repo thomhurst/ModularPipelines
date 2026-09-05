@@ -78,6 +78,25 @@ try {
         throw 'Harness-managed descendant worktree was not recognized.'
     }
 
+    # origin/main's tip is the squash commit of #4512; a fresh issue branch sitting on it
+    # is not #4512's worktree.
+    $squashAssociation = @([pscustomobject]@{
+        number = 4512; merged_at = '2026-09-05T23:00:00Z'; head = @{ ref = 'issue-4377-run-id' }
+    })
+    if ($null -ne (Get-MergedAssociationReason -Associations $squashAssociation -Branch 'issue-4638-publicapi-removed-markers')) {
+        throw 'Fresh issue branch on the merged squash commit was treated as merged.'
+    }
+    if (-not (Get-MergedAssociationReason -Associations $squashAssociation -Branch 'issue-4377-run-id')) {
+        throw 'Merged PR head branch was not recognized through commit association.'
+    }
+    if (-not (Get-MergedAssociationReason -Associations $squashAssociation)) {
+        throw 'Detached checkout of a merged commit was not recognized.'
+    }
+    $unmergedAssociation = @([pscustomobject]@{ number = 4600; merged_at = $null; head = @{ ref = 'issue-4377-run-id' } })
+    if ($null -ne (Get-MergedAssociationReason -Associations $unmergedAssociation -Branch 'issue-4377-run-id')) {
+        throw 'Closed-unmerged PR association was treated as merge evidence.'
+    }
+
     $explicitSelection = Select-MergeCleanupWorktree `
         -ValidatedWorktree $isolatedRoot `
         -CurrentBranchWorktree $null `

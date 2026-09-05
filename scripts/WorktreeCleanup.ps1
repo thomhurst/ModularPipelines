@@ -62,6 +62,28 @@ function Test-BranchIdentifiesPrNumber {
     return $Branch -match "(?:^|[-/])pr-$PrNumber(?:$|[-/])"
 }
 
+function Get-MergedAssociationReason {
+    param(
+        [AllowEmptyCollection()][object[]]$Associations = @(),
+        [string]$Branch
+    )
+
+    # GitHub's commits/{sha}/pulls association is merge evidence for a detached
+    # snapshot, but a named branch that merely points at an already-merged commit is
+    # active work: every branch cut from origin/main sits on the latest squash commit
+    # until its first commit. A named branch therefore needs a merged PR whose head
+    # branch is this branch.
+    $merged = @($Associations | Where-Object { $_.merged_at })
+    if (-not $Branch) {
+        if ($merged.Count -gt 0) { return 'merged PR via commit association' }
+        return $null
+    }
+
+    $own = $merged | Where-Object { $_.head.ref -eq $Branch } | Select-Object -First 1
+    if ($own) { return "merged PR #$($own.number) via commit association for branch '$Branch'" }
+    return $null
+}
+
 function Test-IsCanonicalPrWorktree {
     param(
         [Parameter(Mandatory)][string]$Path,
