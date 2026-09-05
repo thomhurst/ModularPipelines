@@ -10,7 +10,7 @@ public record ModuleAssignment(
     IReadOnlySet<Capability> RequiredCapabilities,
     DateTimeOffset AssignedAt,
     ModuleAssignmentConfiguration Configuration,
-    IReadOnlyList<SerializedModuleResult>? DependencyResults = null)
+    IReadOnlyList<DependencyResultReference>? DependencyResultReferences = null)
 {
     public IReadOnlyList<string> SatisfiedConditionGroups { get; init; } = [];
 }

@@ -117,6 +117,8 @@ internal class DistributedModuleExecutor(
                 modules,
                 scheduler,
                 _resultRegistry);
+            await PublishPrecompletedResultsAsync(modules, _lifetime.ApplicationStopping)
+                .ConfigureAwait(false);
 
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.ApplicationStopping);
             using var masterWorkerCts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.ApplicationStopping);
@@ -168,6 +170,29 @@ internal class DistributedModuleExecutor(
         }
 
         return modules;
+    }
+
+    private async Task PublishPrecompletedResultsAsync(
+        IReadOnlyList<IModule> modules,
+        CancellationToken cancellationToken)
+    {
+        foreach (var module in modules)
+        {
+            var moduleType = module.GetType();
+            var result = _resultRegistry.GetResult(moduleType);
+            if (result?.Status != ModuleStatus.RestoredFromHistory)
+            {
+                continue;
+            }
+
+            var serialized = _serializer.Serialize(
+                result,
+                moduleType.FullName!,
+                ModuleTypeRegistry.GetResultTypeName(moduleType) ?? "System.Object",
+                _options.Value.InstanceIndex);
+            await _masterCoordinator.PublishResultAsync(serialized, cancellationToken)
+                .ConfigureAwait(false);
+        }
     }
 
     private async Task<IReadOnlyList<Task>> PublishReadyModulesAsync(
@@ -615,6 +640,7 @@ internal class DistributedModuleExecutor(
             string.Join(", ", capabilities));
 
         using var workerScheduler = new WorkerModuleScheduler();
+        var dependencyResultCache = new DependencyResultCache(_workerCoordinator, workerCancellationToken);
 
         while (!workerCancellationToken.IsCancellationRequested)
         {
@@ -646,6 +672,7 @@ internal class DistributedModuleExecutor(
                     assignment,
                     modules,
                     moduleLookup,
+                    dependencyResultCache,
                     workerScheduler,
                     executionCancellationToken).ConfigureAwait(false);
             }
@@ -664,6 +691,7 @@ internal class DistributedModuleExecutor(
         ModuleAssignment assignment,
         IReadOnlyList<IModule> modules,
         Dictionary<string, IModule> moduleLookup,
+        DependencyResultCache dependencyResultCache,
         WorkerModuleScheduler workerScheduler,
         CancellationToken cancellationToken)
     {
@@ -682,19 +710,19 @@ internal class DistributedModuleExecutor(
             return;
         }
 
-        // Apply dependency results so that GetModule<T>() works
-        if (assignment.DependencyResults is { Count: > 0 })
-        {
-            DependencyResultApplicator.Apply(
-                assignment.DependencyResults,
-                moduleLookup,
-                _serializer,
-                _resultRegistry,
-                _logger);
-        }
-
         try
         {
+            if (assignment.DependencyResultReferences is { Count: > 0 })
+            {
+                await DependencyResultApplicator.FetchAndApplyAsync(
+                    assignment.DependencyResultReferences,
+                    dependencyResultCache,
+                    moduleLookup,
+                    _serializer,
+                    _resultRegistry,
+                    _logger).ConfigureAwait(false);
+            }
+
             await ExecuteAndPublishAsync(assignment, module, workerScheduler, cancellationToken);
         }
         catch (Exception ex)
@@ -856,7 +884,7 @@ internal class DistributedModuleExecutor(
         {
             // Timeout expired (not pipeline cancellation)
             _logger.LogError("Distributed module {Module} timed out waiting for result — worker may have died", moduleType.Name);
-            RegisterFailureResult(
+            var failureResult = RegisterFailureResult(
                 module,
                 moduleType,
                 new TimeoutException(
@@ -865,6 +893,7 @@ internal class DistributedModuleExecutor(
             scheduler.MarkModuleCompleted(moduleType, false);
             requestFailureCancellation();
             await cts.CancelAsync().ConfigureAwait(false);
+            await PublishFailureResultAsync(failureResult, moduleType).ConfigureAwait(false);
         }
         catch (OperationCanceledException exception)
         {
@@ -874,10 +903,11 @@ internal class DistributedModuleExecutor(
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to publish or collect distributed module {Module}", moduleType.Name);
-            RegisterFailureResult(module, moduleType, ex, ModuleStatus.Failed);
+            var failureResult = RegisterFailureResult(module, moduleType, ex, ModuleStatus.Failed);
             scheduler.MarkModuleCompleted(moduleType, false, ex);
             requestFailureCancellation();
             await cts.CancelAsync().ConfigureAwait(false);
+            await PublishFailureResultAsync(failureResult, moduleType).ConfigureAwait(false);
         }
         finally
         {
@@ -996,7 +1026,7 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    private void RegisterFailureResult(
+    private IModuleResult? RegisterFailureResult(
         IModule module,
         Type moduleType,
         Exception exception,
@@ -1011,10 +1041,38 @@ internal class DistributedModuleExecutor(
                 status);
             ModuleCompletionSourceApplicator.TryApply(module, failureResult);
             _resultRegistry.RegisterResult(moduleType, failureResult);
+            return failureResult;
         }
         catch (Exception ex)
         {
             _logger.LogWarning(ex, "Failed to register failure result for module {Module}", moduleType.Name);
+            return null;
+        }
+    }
+
+    private async Task PublishFailureResultAsync(IModuleResult? failureResult, Type moduleType)
+    {
+        if (failureResult is null)
+        {
+            return;
+        }
+
+        try
+        {
+            var serialized = _serializer.Serialize(
+                failureResult,
+                moduleType.FullName!,
+                ModuleTypeRegistry.GetResultTypeName(moduleType) ?? "System.Object",
+                _options.Value.InstanceIndex);
+            await _masterCoordinator.PublishResultAsync(serialized, CancellationToken.None)
+                .ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical(
+                ex,
+                "Failed to publish failure result for module {Module}; pipeline cancellation has already been requested",
+                moduleType.Name);
         }
     }
 }

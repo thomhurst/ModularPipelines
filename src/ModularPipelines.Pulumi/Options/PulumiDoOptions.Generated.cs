@@ -18,9 +18,7 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("do")]
-public record PulumiDoOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PkgModTyp
-) : PulumiOptions
+public record PulumiDoOptions : PulumiOptions
 {
     /// <summary>
     /// Run the operation in preview mode
@@ -136,7 +134,10 @@ public record PulumiDoOptions(
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
 
-    [Obsolete("Command is no longer supported by the installed CLI and has no effect.")]
-    public string? Command { get; set; }
+    /// <summary>
+    /// The &lt;pkg:mod:typ&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? PkgModTyp { get; set; }
 
 }

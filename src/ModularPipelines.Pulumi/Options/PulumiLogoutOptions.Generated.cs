@@ -42,7 +42,7 @@ public record PulumiLogoutOptions : PulumiOptions
     /// Log out of local-only mode (an alias for file://~)
     /// </summary>
     [CliOption("--local", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
-    public string? LocalValue { get; set; }
+    public string? Local { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -127,12 +127,5 @@ public record PulumiLogoutOptions : PulumiOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Url { get; set; }
-
-    [Obsolete("Use LocalValue instead.")]
-    public bool? Local
-    {
-        get => LocalValue is null ? null : global::System.String.Equals(LocalValue, "file://~", global::System.StringComparison.Ordinal);
-        set => LocalValue = value == true ? "file://~" : null;
-    }
 
 }

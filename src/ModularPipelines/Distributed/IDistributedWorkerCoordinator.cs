@@ -18,6 +18,13 @@ public interface IDistributedWorkerCoordinator
     Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken);
 
     /// <summary>
+    /// Waits for a stored module result to become available.
+    /// </summary>
+    Task<SerializedModuleResult> WaitForResultAsync(
+        string moduleTypeName,
+        CancellationToken cancellationToken);
+
+    /// <summary>
     /// Registers a worker and its capabilities with the master.
     /// </summary>
     Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken);

@@ -25,7 +25,7 @@ public record DotNetNuGetAddClientCertOptions : DotNetOptions
     /// Package source name.
     /// </summary>
     [CliOption("--package-source", ShortForm = "-s")]
-    public string? PackageSourceValue { get; set; }
+    public string? PackageSource { get; set; }
 
     /// <summary>
     /// Path to certificate file.
@@ -51,25 +51,25 @@ public record DotNetNuGetAddClientCertOptions : DotNetOptions
     /// Certificate store location (see docs).
     /// </summary>
     [CliOption("--store-location")]
-    public string? StoreLocationValue { get; set; }
+    public string? StoreLocation { get; set; }
 
     /// <summary>
     /// Certificate store name (see docs).
     /// </summary>
     [CliOption("--store-name")]
-    public string? StoreNameValue { get; set; }
+    public string? StoreName { get; set; }
 
     /// <summary>
     /// Search method to find certificate in certificate store (see docs).
     /// </summary>
     [CliOption("--find-by")]
-    public string? FindByValue { get; set; }
+    public string? FindBy { get; set; }
 
     /// <summary>
     /// Search the certificate store for the supplied value. Used with FindValue (see docs).
     /// </summary>
     [CliOption("--find-value")]
-    public string? FindValueValue { get; set; }
+    public string? FindValue { get; set; }
 
     /// <summary>
     /// Skip certificate validation.
@@ -88,40 +88,5 @@ public record DotNetNuGetAddClientCertOptions : DotNetOptions
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
-
-    [Obsolete("Use PackageSourceValue instead.")]
-    public bool? PackageSource
-    {
-        get => bool.TryParse(PackageSourceValue, out var value) ? value : null;
-        set => PackageSourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use StoreLocationValue instead.")]
-    public bool? StoreLocation
-    {
-        get => bool.TryParse(StoreLocationValue, out var value) ? value : null;
-        set => StoreLocationValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use StoreNameValue instead.")]
-    public bool? StoreName
-    {
-        get => bool.TryParse(StoreNameValue, out var value) ? value : null;
-        set => StoreNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use FindByValue instead.")]
-    public bool? FindBy
-    {
-        get => bool.TryParse(FindByValue, out var value) ? value : null;
-        set => FindByValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use FindValueValue instead.")]
-    public bool? FindValue
-    {
-        get => bool.TryParse(FindValueValue, out var value) ? value : null;
-        set => FindValueValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

@@ -11,4 +11,6 @@ ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.PollInterval.
 ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.PollInterval.set -> void
 ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.Ttl.get -> System.TimeSpan
 ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.Ttl.set -> void
+*REMOVED*ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.RunIdentifier.get -> string?
+*REMOVED*ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.RunIdentifier.set -> void
 static ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryExtensions.AddRedisSignalRDiscovery(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!

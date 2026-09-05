@@ -25,6 +25,7 @@ public class PulumiEnv : IPulumiEnv
     private PulumiEnvReferrer? _referrer;
     private PulumiEnvSchedule? _schedule;
     private PulumiEnvSettings? _settings;
+    private PulumiEnvSetup? _setup;
     private PulumiEnvTag? _tag;
     private PulumiEnvWebhook? _webhook;
 
@@ -57,6 +58,11 @@ public class PulumiEnv : IPulumiEnv
     /// pulumi settings sub-commands.
     /// </summary>
     public PulumiEnvSettings Settings => _settings ??= new PulumiEnvSettings(_command);
+
+    /// <summary>
+    /// pulumi setup sub-commands.
+    /// </summary>
+    public PulumiEnvSetup Setup => _setup ??= new PulumiEnvSetup(_command);
 
     /// <summary>
     /// pulumi tag sub-commands.

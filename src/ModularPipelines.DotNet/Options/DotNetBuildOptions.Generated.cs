@@ -123,14 +123,4 @@ public record DotNetBuildOptions : DotNetOptions
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ProjectSolution { get; set; }
 
-    [Obsolete("Use NoLogo instead.")]
-    public bool? Nologo
-    {
-        get => NoLogo;
-        set => NoLogo = value;
-    }
-
-    [Obsolete("The dotnet --debug switch is no longer supported and this property has no effect.")]
-    public bool? Debug { get; set; }
-
 }

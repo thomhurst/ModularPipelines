@@ -71,14 +71,14 @@ public class RedisDistributedCoordinatorContractTests
         }
 
         using var connection = await ConnectionMultiplexer.ConnectAsync(connectionString);
+        var runId = Guid.NewGuid().ToString("N");
         var options = new RedisDistributedOptions
         {
             ConnectionString = connectionString,
             KeyExpiration = TimeSpan.FromMinutes(1),
             KeyPrefix = "modpipe-contract",
-            RunIdentifier = Guid.NewGuid().ToString("N"),
         };
-        var keys = new RedisKeyBuilder(options.KeyPrefix, options.RunIdentifier!);
+        var keys = new RedisKeyBuilder(options.KeyPrefix, runId);
         var ready = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var readySignals = 0;
         var coordinator = new RedisDistributedCoordinator(

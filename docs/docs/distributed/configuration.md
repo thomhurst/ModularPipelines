@@ -18,7 +18,7 @@ builder.AddDistributedMode(o =>
     o.TotalInstances = 4;
     o.Role = DistributedRole.Master;
     o.Capabilities = [Capability.Docker, Capability.Gpu];
-    o.RunIdentifier = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
+    o.RunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID")!;
     o.CapabilityTimeout = TimeSpan.FromMinutes(5);
     o.MinimumWorkerCount = 0;
     o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
@@ -32,7 +32,8 @@ builder.AddDistributedMode(o =>
 | `InstanceIndex` | `int` | `0` | This instance's unique index. With `Role == Auto`, `0` selects master and values above `0` select worker. |
 | `TotalInstances` | `int` | `1` | Total number of instances (master + workers). |
 | `Capabilities` | `IReadOnlyList<Capability>` | `[]` | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values. |
-| `RunIdentifier` | `string?` | `null` | Identifier shared by every process in this pipeline run. |
+| `RunId` | `string` | `MODULARPIPELINES_RUN_ID` or generated for one instance | Identifier shared by every process in this pipeline run. Multi-instance runs fail fast when neither source is configured. |
+| `RequireExplicitRunId` | `bool` | `false` | Reject generated single-instance IDs. Shared Redis backends enable this automatically. S3 artifact-store registrations also require an explicit shared `RunId`, including for single-instance configurations. |
 | `CapabilityTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(5)` | Registration grace period before an assignment with no capable worker fails with an explicit routing error. |
 | `MinimumWorkerCount` | `int` | `0` | Number of external workers required before dispatch starts. Keep zero for immediate dispatch; set `TotalInstances - 1` for the former full-worker barrier. |
 | `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely. |
@@ -47,6 +48,7 @@ You can also bind from configuration:
   "Distributed": {
     "InstanceIndex": 0,
     "TotalInstances": 4,
+    "RunId": "unique-invocation-id",
     "Capabilities": ["docker"],
     "CapabilityTimeout": "00:05:00",
     "MinimumWorkerCount": 0
@@ -64,7 +66,7 @@ Or call `builder.AddDistributedMode()` to bind the standard environment variable
 |----------------------|--------|
 | `MODULARPIPELINES_INSTANCE_INDEX` | `InstanceIndex` |
 | `MODULARPIPELINES_TOTAL_INSTANCES` | `TotalInstances` |
-| `MODULARPIPELINES_RUN_ID` | `RunIdentifier` |
+| `MODULARPIPELINES_RUN_ID` | `RunId` |
 | `MODULARPIPELINES_ROLE` | `Role` (`Auto`, `Master`, or `Worker`) |
 
 Configuration binding converts the string array to `Capability` values. Distributed wire payloads also remain plain JSON strings.
@@ -86,7 +88,6 @@ Passed to `AddRedisDistributedCoordinator()`. Controls how the Redis coordinator
 builder.AddRedisDistributedCoordinator(o =>
 {
     o.ConnectionString = "redis-host:6379,password=secret";
-    o.RunIdentifier = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
     o.KeyPrefix = "modpipe";
     o.KeyExpiration = TimeSpan.FromHours(1);
 });
@@ -95,7 +96,6 @@ builder.AddRedisDistributedCoordinator(o =>
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `ConnectionString` | `string` | `""` | StackExchange.Redis connection string. Supports all standard options (`password`, `ssl`, `abortConnect`, etc.). **Required.** |
-| `RunIdentifier` | `string?` | `null` | Unique identifier for this pipeline execution. Used to isolate Redis keys so concurrent or repeated runs don't collide. If `null`, `MODULARPIPELINES_RUN_ID` is read; configuration fails only when both values are absent. |
 | `KeyPrefix` | `string` | `"modpipe"` | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance. |
 | `KeyExpiration` | `TimeSpan` | `TimeSpan.FromHours(1)` | TTL for all Redis keys. Keys are automatically cleaned up after this duration. |
 
@@ -131,17 +131,18 @@ Distributed coordination requires an invocation-scoped identifier. It is resolve
 
 | Priority | Source | Environment |
 |----------|--------|-------------|
-| 1 | `RedisDistributedOptions.RunIdentifier` | Explicit configuration |
+| 1 | `DistributedOptions.RunId` | Explicit configuration |
 | 2 | `MODULARPIPELINES_RUN_ID` env var | Any CI or local orchestration |
+| 3 | Generated GUID | Single-process/default fallback |
 
-Commit identifiers are deliberately not accepted: rerunning the same commit must receive a fresh
-Redis namespace. Local multi-process runs should export one unique `MODULARPIPELINES_RUN_ID` value before
-starting the master and workers. CI workflows must likewise generate or derive one invocation-specific
-value and export it as `MODULARPIPELINES_RUN_ID` for every master and worker.
+Use an invocation-specific value rather than a stable commit identifier so rerunning the same commit
+receives a fresh Redis namespace. Local multi-process runs should export one unique `MODULARPIPELINES_RUN_ID`
+value before starting the master and workers. CI workflows must likewise generate or derive one
+invocation-specific value and export it as `MODULARPIPELINES_RUN_ID` for every master and worker.
 
 ## Redis Key Schema
 
-All keys follow the pattern `{KeyPrefix}:{RunIdentifier}:{purpose}`. With the defaults, keys look like:
+All keys follow the pattern `{KeyPrefix}:{RunId}:{purpose}`. With the defaults, keys look like:
 
 | Key | Redis Type | Purpose |
 |-----|-----------|---------|

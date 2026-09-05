@@ -19,7 +19,9 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "update", "source")]
-public record DotNetNuGetUpdateSourceOptions : DotNetOptions
+public record DotNetNuGetUpdateSourceOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
+) : DotNetOptions
 {
     /// <summary>
     /// Path to the package source.
@@ -76,11 +78,5 @@ public record DotNetNuGetUpdateSourceOptions : DotNetOptions
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
-
-    /// <summary>
-    /// Name of the source.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Name { get; set; }
 
 }

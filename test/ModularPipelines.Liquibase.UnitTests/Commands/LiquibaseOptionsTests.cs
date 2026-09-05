@@ -126,11 +126,11 @@ public class LiquibaseOptionsTests : TestBase
     }
 
     [Test]
-    public async Task Legacy_Virtual_Override_Still_Renders_Global_Option()
+    public async Task Virtual_Override_Renders_Global_Option()
     {
-        var result = await GetResult(new LegacyLiquibaseUpdateOptions
+        var result = await GetResult(new CustomLiquibaseUpdateOptions
         {
-            AllowDuplicatedChangesetIdentifiers = true,
+            AllowDuplicatedChangeSetIdentifiers = true,
         });
 
         await Assert.That(result.CommandInput).IsEqualTo(
@@ -143,10 +143,8 @@ public class LiquibaseOptionsTests : TestBase
         return await command.ExecuteCommandLineToolAsync(options, new CommandExecutionOptions { InternalDryRun = true });
     }
 
-#pragma warning disable CS0618
-    private sealed record LegacyLiquibaseUpdateOptions : LiquibaseUpdateOptions
+    private sealed record CustomLiquibaseUpdateOptions : LiquibaseUpdateOptions
     {
-        public override bool? AllowDuplicatedChangesetIdentifiers { get; set; }
+        public override bool? AllowDuplicatedChangeSetIdentifiers { get; set; }
     }
-#pragma warning restore CS0618
 }

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Discovery.Redis;
 using StackExchange.Redis;
 
@@ -27,12 +28,11 @@ public class RedisSignalRMasterDiscoveryTests
         var options = new RedisDiscoveryOptions
         {
             KeyPrefix = "test-prefix",
-            RunIdentifier = "test-run",
             Ttl = TimeSpan.FromMinutes(10),
         };
 
         var discovery = new RedisSignalRMasterDiscovery(
-            connection.Object, options, NullLogger<RedisSignalRMasterDiscovery>.Instance);
+            connection.Object, options, RunOptions(), NullLogger<RedisSignalRMasterDiscovery>.Instance);
 
         // Act — should not throw
         await discovery.AdvertiseMasterUrlAsync("http://master:5099", CancellationToken.None);
@@ -61,11 +61,10 @@ public class RedisSignalRMasterDiscoveryTests
         var options = new RedisDiscoveryOptions
         {
             KeyPrefix = "test-prefix",
-            RunIdentifier = "test-run",
         };
 
         var discovery = new RedisSignalRMasterDiscovery(
-            connection.Object, options, NullLogger<RedisSignalRMasterDiscovery>.Instance);
+            connection.Object, options, RunOptions(), NullLogger<RedisSignalRMasterDiscovery>.Instance);
 
         // Act
         var result = await discovery.DiscoverMasterUrlAsync(CancellationToken.None);
@@ -93,12 +92,11 @@ public class RedisSignalRMasterDiscoveryTests
         var options = new RedisDiscoveryOptions
         {
             KeyPrefix = "test-prefix",
-            RunIdentifier = "test-run",
             PollInterval = TimeSpan.FromMilliseconds(50),
         };
 
         var discovery = new RedisSignalRMasterDiscovery(
-            connection.Object, options, NullLogger<RedisSignalRMasterDiscovery>.Instance);
+            connection.Object, options, RunOptions(), NullLogger<RedisSignalRMasterDiscovery>.Instance);
 
         // Act
         var result = await discovery.DiscoverMasterUrlAsync(CancellationToken.None);
@@ -122,13 +120,12 @@ public class RedisSignalRMasterDiscoveryTests
         var options = new RedisDiscoveryOptions
         {
             KeyPrefix = "test-prefix",
-            RunIdentifier = "test-run",
             DiscoveryTimeout = TimeSpan.FromSeconds(1),
             PollInterval = TimeSpan.FromMilliseconds(100),
         };
 
         var discovery = new RedisSignalRMasterDiscovery(
-            connection.Object, options, NullLogger<RedisSignalRMasterDiscovery>.Instance);
+            connection.Object, options, RunOptions(), NullLogger<RedisSignalRMasterDiscovery>.Instance);
 
         // Act & Assert
         var threw = false;
@@ -143,4 +140,6 @@ public class RedisSignalRMasterDiscoveryTests
 
         await Assert.That(threw).IsTrue();
     }
+
+    private static DistributedOptions RunOptions() => new() { RunId = "test-run" };
 }

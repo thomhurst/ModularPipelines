@@ -65,6 +65,7 @@ jobs:
           tools/ModularPipelines.OptionsGenerator/scripts/Test-WriteRemovedPublicApiSnapshotFromSarif.ps1
           tools/ModularPipelines.OptionsGenerator/scripts/Test-MergePublicApiBaselineSnapshot.ps1
           tools/ModularPipelines.OptionsGenerator/scripts/Test-SyncPublicApiBaselines.ps1
+          tools/ModularPipelines.OptionsGenerator/scripts/Test-WritePublicApiChangeSummary.ps1
       - name: Reject stale generated enum attributes
         shell: pwsh
         run: tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedEnumAttributes.ps1
@@ -674,6 +675,26 @@ jobs:
             -TemporaryDirectory $env:RUNNER_TEMP `
             -ExtraBuildArguments $buildArguments
 
+      - name: Summarize assembly public API changes
+        id: api-summary
+        if: steps.should-run.outputs.run == 'true'
+        shell: pwsh
+        run: |
+          $packageDirectory = "src/${{ steps.package.outputs.package }}"
+          $summaryPath = Join-Path $env:RUNNER_TEMP 'public-api-summary.md'
+          tools/ModularPipelines.OptionsGenerator/scripts/Write-PublicApiChangeSummary.ps1 `
+            -OriginalShippedPath (Join-Path $env:RUNNER_TEMP 'PublicAPI.Shipped.original.txt') `
+            -OriginalUnshippedPath (Join-Path $env:RUNNER_TEMP 'PublicAPI.Unshipped.original.txt') `
+            -CurrentShippedPath (Join-Path $packageDirectory 'PublicAPI.Shipped.txt') `
+            -CurrentUnshippedPath (Join-Path $packageDirectory 'PublicAPI.Unshipped.txt') `
+            -PackageDirectory $packageDirectory `
+            -OutputPath $summaryPath
+
+          $delimiter = "api_summary_$([guid]::NewGuid().ToString('N'))"
+          "markdown<<$delimiter" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          Get-Content -LiteralPath $summaryPath | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          $delimiter | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
       - name: Check for changes
         if: steps.should-run.outputs.run == 'true'
         id: changes
@@ -759,6 +780,8 @@ jobs:
             - Updated options classes to reflect latest CLI documentation
             - Added new commands if any were detected
             - Updated option types and descriptions
+
+            ${{ steps.api-summary.outputs.markdown }}
 
             ## Command coverage
             ${{ steps.generator.outputs.coverage-report }}
@@ -1018,6 +1041,26 @@ jobs:
             -ProjectPath "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
             -TemporaryDirectory $env:RUNNER_TEMP
 
+      - name: Summarize assembly public API changes
+        id: api-summary
+        if: steps.should-run.outputs.run == 'true'
+        shell: pwsh
+        run: |
+          $packageDirectory = "src/${{ steps.package.outputs.package }}"
+          $summaryPath = Join-Path $env:RUNNER_TEMP 'public-api-summary.md'
+          tools/ModularPipelines.OptionsGenerator/scripts/Write-PublicApiChangeSummary.ps1 `
+            -OriginalShippedPath (Join-Path $env:RUNNER_TEMP 'PublicAPI.Shipped.original.txt') `
+            -OriginalUnshippedPath (Join-Path $env:RUNNER_TEMP 'PublicAPI.Unshipped.original.txt') `
+            -CurrentShippedPath (Join-Path $packageDirectory 'PublicAPI.Shipped.txt') `
+            -CurrentUnshippedPath (Join-Path $packageDirectory 'PublicAPI.Unshipped.txt') `
+            -PackageDirectory $packageDirectory `
+            -OutputPath $summaryPath
+
+          $delimiter = "api_summary_$([guid]::NewGuid().ToString('N'))"
+          "markdown<<$delimiter" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          Get-Content -LiteralPath $summaryPath | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          $delimiter | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
       - name: Check for changes
         if: steps.should-run.outputs.run == 'true'
         id: changes
@@ -1089,6 +1132,8 @@ jobs:
             - Updated options classes to reflect latest CLI documentation
             - Added new commands if any were detected
             - Updated option types and descriptions
+
+            ${{ steps.api-summary.outputs.markdown }}
 
             ## Command coverage
             ${{ steps.generator.outputs.coverage-report }}

@@ -89,6 +89,22 @@ public class SignalRMasterStateTests
     }
 
     [Test]
+    public async Task Result_Published_Before_Waiter_Is_Preserved()
+    {
+        var state = new SignalRMasterState();
+        var result = CreateResult();
+
+        await state.CompleteResultAsync(result);
+
+        var waiter = state.ResultWaiters.GetOrAdd(
+            result.ModuleTypeName,
+            static _ => new TaskCompletionSource<SerializedModuleResult>(
+                TaskCreationOptions.RunContinuationsAsynchronously));
+        await Assert.That(waiter.Task.IsCompletedSuccessfully).IsTrue();
+        await Assert.That(await waiter.Task).IsSameReferenceAs(result);
+    }
+
+    [Test]
     public async Task PendingReconnect_Allows_Exactly_One_Resume_Or_Redispatch()
     {
         using var pending = new PendingReconnect(
