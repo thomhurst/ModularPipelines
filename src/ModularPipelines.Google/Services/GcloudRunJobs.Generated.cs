@@ -153,15 +153,6 @@ public class GcloudRunJobs
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudRunJobsExecuteOptions(), executionOptions, cancellationToken);
     }
 
-    [Obsolete("Use ExecuteCommandAsync instead.")]
-    public virtual async Task<CommandResult> ExecuteAsync(
-        GcloudRunJobsExecuteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await ExecuteCommandAsync(options, executionOptions, cancellationToken);
-    }
-
     /// <summary>
     /// get the IAM policy for a Cloud Run job
     /// </summary>

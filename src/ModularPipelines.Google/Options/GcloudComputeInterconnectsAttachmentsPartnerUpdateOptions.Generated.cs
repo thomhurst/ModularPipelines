@@ -48,7 +48,7 @@ public record GcloudComputeInterconnectsAttachmentsPartnerUpdateOptions(
     public bool? EnableAdmin { get; set; }
 
     /// <summary>
-    /// Administrative status of the interconnect attachment. When this is enabled, the attachment is operational and will carry traffic. Use --no-enable-admin to disable it.
+    /// Negates --enable-admin. Administrative status of the interconnect attachment. When this is enabled, the attachment is operational and will carry traffic. Use --no-enable-admin to disable it.
     /// </summary>
     [CliFlag("--no-enable-admin")]
     public bool? NoEnableAdmin { get; set; }

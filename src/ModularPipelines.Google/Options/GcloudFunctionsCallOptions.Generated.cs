@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudFunctionsCallOptions : GcloudOptions
 {
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: JSON encoded string with a CloudEvent in structured content mode. Mutually exclusive with --data flag. Use for Cloud Functions 2nd Gen CloudEvent functions. The CloudEvent object will be sent to your function as a binary content mode message with the top-level 'data' field set as the HTTP body and all other JSON fields sent as HTTP headers.
+    /// At most one of these can be specified: JSON encoded string with a CloudEvent in structured content mode. Mutually exclusive with --data flag. Use for Cloud Functions 2nd Gen CloudEvent functions. The CloudEvent object will be sent to your function as a binary content mode message with the top-level 'data' field set as the HTTP body and all other JSON fields sent as HTTP headers.
     /// </summary>
     [CliOption("--cloud-event", Format = OptionFormat.EqualsSeparated)]
     public string? CloudEvent { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: JSON string with data that will be passed to the function.
+    /// At most one of these can be specified: JSON string with data that will be passed to the function.
     /// </summary>
     [CliOption("--data", Format = OptionFormat.EqualsSeparated)]
     public string? Data { get; set; }

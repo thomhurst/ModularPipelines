@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -39,7 +40,10 @@ public record GcloudDatalineageProcessesCreateOptions : GcloudOptions
     [CliOption("--origin-name", Format = OptionFormat.EqualsSeparated)]
     public string? OriginName { get; set; }
 
-    [Obsolete("OriginSourceType is no longer supported by the installed CLI and has no effect.")]
-    public string? OriginSourceType { get; set; }
+    /// <summary>
+    /// Type of the source. Use of a source type other than custom for process creation or updating is highly discouraged. It might be restricted in the future without notice. There will be increase in cost if you use any of the source types other than custom. ORIGIN_SOURCE_TYPE must be one of: bigquery, composer, custom, dataflow, dataproc, data-fusion, looker-core, looker-studio, source-type-unspecified, vertex-ai.
+    /// </summary>
+    [CliOption("--origin-source-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudOriginSourceType? OriginSourceType { get; set; }
 
 }

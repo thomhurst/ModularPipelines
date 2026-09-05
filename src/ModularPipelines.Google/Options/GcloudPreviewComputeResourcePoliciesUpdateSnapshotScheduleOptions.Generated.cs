@@ -53,7 +53,7 @@ public record GcloudPreviewComputeResourcePoliciesUpdateSnapshotScheduleOptions(
     /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. The label is added to each snapshot created by the schedule.
     /// </summary>
     [CliOption("--snapshot-labels", Format = OptionFormat.EqualsSeparated)]
-    public GcloudSnapshotLabels? SnapshotLabels { get; set; }
+    public IReadOnlyList<KeyValue>? SnapshotLabels { get; set; }
 
     /// <summary>
     /// Cycle Frequency Group. At most one of these can be specified: Using a file: Using command flags: A JSON/YAML file which specifies a weekly schedule. The file should contain the following fields: day: Day of the week with the same choices as --weekly-schedule. startTime: Start time of the snapshot schedule with the same format as --start-time. For more information about using a file, see https://cloud.google.com/compute/docs/disks/scheduled-snapshots#create_snapshot_schedule. Use a full or relative path to a local file containing the value of weekly_schedule.

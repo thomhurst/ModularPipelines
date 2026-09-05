@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDatalineageConfigDescribeOptions : GcloudOptions
 {
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Folder ID.
+    /// At most one of these can be specified: Folder ID.
     /// </summary>
     [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
     public string? Folder { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Organization ID.
+    /// At most one of these can be specified: Organization ID.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Project ID or number. If none of --project, --folder, or --organization are provided, the current project will be used.
+    /// At most one of these can be specified: Project ID or number. If none of --project, --folder, or --organization are provided, the current project will be used.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }

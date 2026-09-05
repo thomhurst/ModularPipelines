@@ -37,13 +37,6 @@ public record GcloudStorageHmacListOptions : GcloudOptions
     /// Filter keys for the provided service account email.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public string? ServiceAccountValue { get; set; }
-
-    [Obsolete("Use ServiceAccountValue instead.")]
-    public int? ServiceAccount
-    {
-        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ServiceAccount { get; set; }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -25,7 +26,7 @@ public record GcloudStorageIntelligenceFindingsSummarizeOptions : GcloudOptions
     /// The resource scope for the summary. If not specified, summaries are aggregated at the level of the parent resource. RESOURCE_SCOPE must be one of: PROJECT, PARENT.
     /// </summary>
     [CliOption("--resource-scope", Format = OptionFormat.EqualsSeparated)]
-    public string? ResourceScope { get; set; }
+    public GcloudResourceScope? ResourceScope { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: The organization to scope the summary to.

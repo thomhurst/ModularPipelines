@@ -65,7 +65,7 @@ public record GcloudComputeTpusTpuVmScpOptions : GcloudOptions
     public IEnumerable<string>? ScpFlag { get; set; }
 
     /// <summary>
-    /// The path to the SSH key file. By default, this is ~\.ssh\google_compute_engine.
+    /// The path to the SSH key file. By default, this is ~/.ssh/google_compute_engine.
     /// </summary>
     [CliOption("--ssh-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyFile { get; set; }
@@ -77,27 +77,27 @@ public record GcloudComputeTpusTpuVmScpOptions : GcloudOptions
     public GcloudStrictHostKeyChecking? StrictHostKeyChecking { get; set; }
 
     /// <summary>
+    /// TPU worker to connect to. The supported value is a single 0-based index of the worker in the case of a TPU Pod. When also using the --command flag, it additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified workers. Note that when targeting multiple workers, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'.
+    /// </summary>
+    [CliOption("--worker", Format = OptionFormat.EqualsSeparated)]
+    public string? Worker { get; set; }
+
+    /// <summary>
     /// Zone of the tpu to scp. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
 
     /// <summary>
-    /// The time when the ssh key will be valid until, such as "2017-08-29T18:52:51.142Z." This is only valid if the instance is not using OS Login. See $ gcloud topic datetimes for information on time formats.
+    /// At most one of these can be specified: The time when the ssh key will be valid until, such as "2017-08-29T18:52:51.142Z." This is only valid if the instance is not using OS Login. See $ gcloud topic datetimes for information on time formats.
     /// </summary>
     [CliOption("--ssh-key-expiration", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyExpiration { get; set; }
 
     /// <summary>
-    /// The maximum length of time an SSH key is valid for once created and installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for information on duration formats.
+    /// At most one of these can be specified: The maximum length of time an SSH key is valid for once created and installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--ssh-key-expire-after", Format = OptionFormat.EqualsSeparated)]
     public string? SshKeyExpireAfter { get; set; }
-
-    /// <summary>
-    /// TPU worker to connect to. The supported value is a single 0-based index of the worker in the case of a TPU Pod. When also using the --command flag, it additionally supports a comma-separated list (e.g. '1,4,6'), range (e.g. '1-3'), or special keyword ``all" to run the command concurrently on each of the specified workers. Note that when targeting multiple workers, you should run 'ssh-add' with your private key prior to executing the gcloud command. Default: 'ssh-add ~/.ssh/google_compute_engine'.
-    /// </summary>
-    [CliOption("--worker", Format = OptionFormat.EqualsSeparated)]
-    public string? Worker { get; set; }
 
 }

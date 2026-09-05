@@ -23,67 +23,67 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Description of the resource. Must be less than 256 characters.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Description of the resource. Must be less than 256 characters.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// Set allowed_scopes to new value.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update allowed_scopes. At most one of these can be specified: Set allowed_scopes to new value.
     /// </summary>
     [CliOption("--allowed-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowedScopes { get; set; }
 
     /// <summary>
-    /// Add new value to allowed_scopes list.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to allowed_scopes list.
     /// </summary>
     [CliOption("--add-allowed-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddAllowedScopes { get; set; }
 
     /// <summary>
-    /// Clear allowed_scopes value and set to empty list.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear allowed_scopes value and set to empty list.
     /// </summary>
     [CliFlag("--clear-allowed-scopes")]
     public bool? ClearAllowedScopes { get; set; }
 
     /// <summary>
-    /// Remove existing value from allowed_scopes list.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from allowed_scopes list.
     /// </summary>
     [CliOption("--remove-allowed-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveAllowedScopes { get; set; }
 
     /// <summary>
-    /// Set blocked_scopes to new value.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update blocked_scopes. At most one of these can be specified: Set blocked_scopes to new value.
     /// </summary>
     [CliOption("--blocked-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? BlockedScopes { get; set; }
 
     /// <summary>
-    /// Add new value to blocked_scopes list.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to blocked_scopes list.
     /// </summary>
     [CliOption("--add-blocked-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddBlockedScopes { get; set; }
 
     /// <summary>
-    /// Clear blocked_scopes value and set to empty list.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear blocked_scopes value and set to empty list.
     /// </summary>
     [CliFlag("--clear-blocked-scopes")]
     public bool? ClearBlockedScopes { get; set; }
 
     /// <summary>
-    /// Remove existing value from blocked_scopes list.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from blocked_scopes list.
     /// </summary>
     [CliOption("--remove-blocked-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveBlockedScopes { get; set; }
 
     /// <summary>
-    /// Set authProvider.authProviderTypeParams back to default value.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Set authProvider.authProviderTypeParams back to default value.
     /// </summary>
     [CliFlag("--clear-auth-provider-type-params")]
     public bool? ClearAuthProviderTypeParams { get; set; }
@@ -96,13 +96,13 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     public string? ApiKey { get; set; }
 
     /// <summary>
-    /// The authorization endpoint to send users to for consenting to delegate to the agent. eg. "https://auth.atlassian.com/authorize"
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The authorization endpoint to send users to for consenting to delegate to the agent. eg. "https://auth.atlassian.com/authorize"
     /// </summary>
     [CliOption("--three-legged-oauth-authorization-url", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthAuthorizationUrl { get; set; }
 
     /// <summary>
-    /// The client ID of the OAuth client.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The client ID of the OAuth client.
     /// </summary>
     [CliOption("--three-legged-oauth-client-id", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthClientId { get; set; }
@@ -115,19 +115,19 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     public string? ThreeLeggedOauthClientSecret { get; set; }
 
     /// <summary>
-    /// The default continue URI for 3LO flow to redirect end users after consent.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The default continue URI for 3LO flow to redirect end users after consent.
     /// </summary>
     [CliOption("--three-legged-oauth-default-continue-uri", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthDefaultContinueUri { get; set; }
 
     /// <summary>
-    /// Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. Use --three-legged-oauth-enable-pkce to enable and --no-three-legged-oauth-enable-pkce to disable.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. Use --three-legged-oauth-enable-pkce to enable and --no-three-legged-oauth-enable-pkce to disable.
     /// </summary>
     [CliFlag("--three-legged-oauth-enable-pkce")]
     public bool? ThreeLeggedOauthEnablePkce { get; set; }
 
     /// <summary>
-    /// Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. Use --three-legged-oauth-enable-pkce to enable and --no-three-legged-oauth-enable-pkce to disable.
+    /// Negates --three-legged-oauth-enable-pkce. AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. Use --three-legged-oauth-enable-pkce to enable and --no-three-legged-oauth-enable-pkce to disable.
     /// </summary>
     [CliFlag("--no-three-legged-oauth-enable-pkce")]
     public bool? NoThreeLeggedOauthEnablePkce { get; set; }
@@ -140,7 +140,7 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     public string? ThreeLeggedOauthTokenUrl { get; set; }
 
     /// <summary>
-    /// The client ID of the OAuth client.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The client ID of the OAuth client.
     /// </summary>
     [CliOption("--two-legged-oauth-client-id", Format = OptionFormat.EqualsSeparated)]
     public string? TwoLeggedOauthClientId { get; set; }
@@ -160,49 +160,49 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     public string? TwoLeggedOauthTokenUrl { get; set; }
 
     /// <summary>
-    /// Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update labels. At most one of these can be specified: Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Clear labels value and set to empty map.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveLabels { get; set; }
 
     /// <summary>
-    /// Set workload_ids to new value.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update workload_ids. At most one of these can be specified: Set workload_ids to new value.
     /// </summary>
     [CliOption("--workload-ids", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? WorkloadIds { get; set; }
 
     /// <summary>
-    /// Add new value to workload_ids list.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update workload_ids. At most one of these can be specified: Or at least one of these can be specified: Add new value to workload_ids list.
     /// </summary>
     [CliOption("--add-workload-ids", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddWorkloadIds { get; set; }
 
     /// <summary>
-    /// Clear workload_ids value and set to empty list.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update workload_ids. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear workload_ids value and set to empty list.
     /// </summary>
     [CliFlag("--clear-workload-ids")]
     public bool? ClearWorkloadIds { get; set; }
 
     /// <summary>
-    /// Remove existing value from workload_ids list.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update workload_ids. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from workload_ids list.
     /// </summary>
     [CliOption("--remove-workload-ids", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveWorkloadIds { get; set; }

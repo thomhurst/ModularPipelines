@@ -17,23 +17,23 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudNodeType
 {
     [EnumValue("redis-highcpu-medium")]
-    RedisHighcpuMedium = 0,
+    RedisHighcpuMedium,
 
     [EnumValue("redis-highmem-2xlarge")]
-    RedisHighmem_2xlarge = 1,
+    RedisHighmem_2xlarge,
 
     [EnumValue("redis-highmem-medium")]
-    RedisHighmemMedium = 2,
+    RedisHighmemMedium,
 
     [EnumValue("redis-highmem-xlarge")]
-    RedisHighmemXlarge = 3,
+    RedisHighmemXlarge,
 
     [EnumValue("redis-shared-core-nano")]
-    RedisSharedCoreNano = 4,
+    RedisSharedCoreNano,
 
     [EnumValue("redis-standard-large")]
-    RedisStandardLarge = 5,
+    RedisStandardLarge,
 
     [EnumValue("redis-standard-small")]
-    RedisStandardSmall = 6
+    RedisStandardSmall
 }

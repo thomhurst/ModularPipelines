@@ -27,7 +27,10 @@ public record GcloudAlloydbOperationsListOptions : GcloudOptions
     [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
     public string? Cluster { get; set; }
 
-    [Obsolete("Region is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations. Default: list operations in all regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
 }

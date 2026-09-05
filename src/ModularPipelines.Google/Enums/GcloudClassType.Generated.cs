@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudClassType
 {
     [EnumValue("p1")]
-    P1 = 0,
+    P1,
 
     [EnumValue("r1")]
-    R1 = 1
+    R1
 }

@@ -107,15 +107,6 @@ public class GcloudDnsRecordSetsTransaction
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDnsRecordSetsTransactionExecuteOptions(), executionOptions, cancellationToken);
     }
 
-    [Obsolete("Use ExecuteCommandAsync instead.")]
-    public virtual async Task<CommandResult> ExecuteAsync(
-        GcloudDnsRecordSetsTransactionExecuteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await ExecuteCommandAsync(options, executionOptions, cancellationToken);
-    }
-
     /// <summary>
     /// set deletion to     the transaction
     /// </summary>

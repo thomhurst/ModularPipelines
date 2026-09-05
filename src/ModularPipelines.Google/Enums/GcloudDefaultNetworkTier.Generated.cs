@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudDefaultNetworkTier
 {
     [EnumValue("PREMIUM")]
-    Premium = 0,
+    Premium,
 
     [EnumValue("STANDARD")]
-    Standard = 1
+    Standard
 }

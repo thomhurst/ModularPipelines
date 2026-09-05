@@ -36,7 +36,7 @@ public record GcloudComputeRoutersListBgpRoutesOptions(
     public bool? PolicyApplied { get; set; }
 
     /// <summary>
-    /// Routes returned are post-policy evaluation. Enabled by default, use --no-policy-applied to disable.
+    /// Negates --policy-applied. Routes returned are post-policy evaluation. Enabled by default, use --no-policy-applied to disable.
     /// </summary>
     [CliFlag("--no-policy-applied")]
     public bool? NoPolicyApplied { get; set; }

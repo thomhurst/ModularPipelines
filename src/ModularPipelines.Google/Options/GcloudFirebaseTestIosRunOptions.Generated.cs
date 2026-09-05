@@ -53,7 +53,7 @@ public record GcloudFirebaseTestIosRunOptions : GcloudOptions
     public bool? RecordVideo { get; set; }
 
     /// <summary>
-    /// Enable video recording during the test. Enabled by default, use --no-record-video to disable.
+    /// Negates --record-video. Enable video recording during the test. Enabled by default, use --no-record-video to disable.
     /// </summary>
     [CliFlag("--no-record-video")]
     public bool? NoRecordVideo { get; set; }

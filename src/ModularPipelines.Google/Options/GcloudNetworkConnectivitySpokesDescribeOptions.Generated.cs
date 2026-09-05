@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivitySpokesDescribeOptions : GcloudOptions
 {
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Indicates that the spoke is global.
+    /// At most one of these can be specified: Indicates that the spoke is global.
     /// </summary>
     [CliFlag("--global")]
     public bool? Global { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: A Google Cloud region. To see the names of regions, see Viewing a list of available regions (https://cloud.google.com/compute/docs/regions-zones/viewing-regions-zones#viewing_a_list_of_available_regions).
+    /// At most one of these can be specified: A Google Cloud region. To see the names of regions, see Viewing a list of available regions (https://cloud.google.com/compute/docs/regions-zones/viewing-regions-zones#viewing_a_list_of_available_regions).
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

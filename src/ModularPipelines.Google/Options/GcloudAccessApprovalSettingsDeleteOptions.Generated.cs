@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAccessApprovalSettingsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Folder number. Only one of --project, --folder, or --organization can be provided. If none are provided then it uses config property [core/project].
+    /// At most one of these can be specified: Folder number. Only one of --project, --folder, or --organization can be provided. If none are provided then it uses config property [core/project].
     /// </summary>
     [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
     public string? Folder { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Organization number. Either --project, --folder, or --organization must be provided. If none are provided then it uses config property [core/project].
+    /// At most one of these can be specified: Organization number. Either --project, --folder, or --organization must be provided. If none are provided then it uses config property [core/project].
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Project number or id. Only one of --project, --folder, or --organization can be provided. If none are provided then it uses config property [core/project].
+    /// At most one of these can be specified: Project number or id. Only one of --project, --folder, or --organization can be provided. If none are provided then it uses config property [core/project].
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }

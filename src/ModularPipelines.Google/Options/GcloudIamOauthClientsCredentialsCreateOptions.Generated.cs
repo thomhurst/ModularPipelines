@@ -28,7 +28,7 @@ public record GcloudIamOauthClientsCredentialsCreateOptions : GcloudOptions
     public bool? Disabled { get; set; }
 
     /// <summary>
-    /// Disables the OAuth client credential. You cannot use a disabled OAuth client credential for OAuth. Include --no-disabled to enable a disabled OAuth client credential.
+    /// Negates --disabled. Disables the OAuth client credential. You cannot use a disabled OAuth client credential for OAuth. Include --no-disabled to enable a disabled OAuth client credential.
     /// </summary>
     [CliFlag("--no-disabled")]
     public bool? NoDisabled { get; set; }

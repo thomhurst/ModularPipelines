@@ -56,7 +56,7 @@ public record GcloudComputeTpusTpuVmUpdateOptions : GcloudOptions
     /// At most one of these can be specified: Attach a data disk to the TPU VM. For example, $ gcloud compute tpus tpu-vm update example-tpu \ --attach-disk \ source=projects/my-project/zones/us-central1-c/disks/my-disk,\ mode=read-only --zone=us-central1-c attaches the disk named 'projects/my-project/zones/us-central1-c/disks/my-disk' to a TPU VM named 'example-tpu' in read-only mode in zone us-central1-c. The following keys are allowed: source Specify the full path to an existing disk. Required. The disk must be in the same zone. mode Specify the mode in which to attach this disk. Valid options are 'read-write', 'read-only'. If not specified, the default is 'read-write'.
     /// </summary>
     [CliOption("--attach-disk", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AttachDisk { get; set; }
+    public string? AttachDisk { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Detach a data disk from the TPU VM. For example, This flag must be repeated to provide multiple data disks. For example: $ gcloud compute tpus tpu-vm update example-tpu \ --detach-disk=projects/my-project/zones/us-central1-c/disks/\ my-disk --zone=us-central1-c detaches the disk named 'projects/my-project/zones/us-central1-c/disks/my-disk' from a TPU VM named 'example-tpu' in zone us-central1-c.

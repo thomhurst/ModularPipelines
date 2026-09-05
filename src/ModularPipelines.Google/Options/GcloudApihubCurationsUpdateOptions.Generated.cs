@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Options;
 public record GcloudApihubCurationsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// The endpoint to be triggered for curation. The endpoint will be invoked with a request payload containing [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should contain curated data in the form of [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Arguments for the endpoint details. The details of the Application Integration endpoint to be triggered for curation. The description of the curation.
+    /// The endpoint to be triggered for curation. The endpoint will be invoked with a request payload containing [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should contain curated data in the form of [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. The description of the curation.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The endpoint to be triggered for curation. The endpoint will be invoked with a request payload containing [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should contain curated data in the form of [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Arguments for the endpoint details. The details of the Application Integration endpoint to be triggered for curation. The display name of the curation.
+    /// The endpoint to be triggered for curation. The endpoint will be invoked with a request payload containing [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should contain curated data in the form of [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. The display name of the curation.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The endpoint to be triggered for curation. The endpoint will be invoked with a request payload containing [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should contain curated data in the form of [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Arguments for the endpoint details. The details of the Application Integration endpoint to be triggered for curation. Set googleCloudApihubV1Curation.endpoint back to default value.
+    /// The endpoint to be triggered for curation. The endpoint will be invoked with a request payload containing [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should contain curated data in the form of [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Set googleCloudApihubV1Curation.endpoint back to default value.
     /// </summary>
     [CliFlag("--clear-endpoint")]
     public bool? ClearEndpoint { get; set; }

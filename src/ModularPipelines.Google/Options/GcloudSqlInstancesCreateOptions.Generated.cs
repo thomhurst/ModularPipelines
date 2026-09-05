@@ -70,7 +70,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? AssignIp { get; set; }
 
     /// <summary>
-    /// Assign a public IP address to the instance. This is a public, externally available IPv4 address that you can use to connect to your instance when properly authorized. Use --assign-ip to enable and --no-assign-ip to disable.
+    /// Negates --assign-ip. Assign a public IP address to the instance. This is a public, externally available IPv4 address that you can use to connect to your instance when properly authorized. Use --assign-ip to enable and --no-assign-ip to disable.
     /// </summary>
     [CliFlag("--no-assign-ip")]
     public bool? NoAssignIp { get; set; }
@@ -118,7 +118,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? Backup { get; set; }
 
     /// <summary>
-    /// Enables daily backup. Enabled by default, use --no-backup to disable.
+    /// Negates --backup. Enables daily backup. Enabled by default, use --no-backup to disable.
     /// </summary>
     [CliFlag("--no-backup")]
     public bool? NoBackup { get; set; }
@@ -157,7 +157,7 @@ public record GcloudSqlInstancesCreateOptions(
     /// Comma-separated list of connection pool flags to set on the instance connection pool. Use an equals sign to separate flag name and value. More information on available flags can be found here: https://cloud.google.com/sql/docs/mysql/managed-connection-pooling#configuration-options for MySQL and https://cloud.google.com/sql/docs/postgres/managed-connection-pooling#configuration-options for PostgreSQL. (e.g., --connection-pool-flags max_pool_size=1000,max_client_connections=20)
     /// </summary>
     [CliOption("--connection-pool-flags", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? ConnectionPoolFlags { get; set; }
+    public string? ConnectionPoolFlags { get; set; }
 
     /// <summary>
     /// Cloud SQL Connector enforcement mode. It determines how Cloud SQL Connectors are used in the connection. See the list of modes here (https://cloud.google.com/sql/docs/mysql/admin-api/rest/v1beta4/instances#connectorenforcement). CONNECTOR_ENFORCEMENT must be one of: CONNECTOR_ENFORCEMENT_UNSPECIFIED The requirement for Cloud SQL connectors is unknown. NOT_REQUIRED Does not require Cloud SQL connectors. REQUIRED Requires all connections to use Cloud SQL connectors, including the Cloud SQL Auth Proxy and Cloud SQL Java, Python, and Go connectors. Note: This disables all existing authorized networks.
@@ -187,7 +187,13 @@ public record GcloudSqlInstancesCreateOptions(
     /// Comma-separated list of database flags to set on the instance. Use an equals sign to separate flag name and value. Flags without values, like skip_grant_tables, can be written out without a value after, e.g., skip_grant_tables=. Use on/off for booleans. View the Instance Resource API for allowed flags. (e.g., --database-flags max_allowed_packet=55555,skip_grant_tables=,log_output=1)
     /// </summary>
     [CliOption("--database-flags", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? DatabaseFlags { get; set; }
+    public string? DatabaseFlags { get; set; }
+
+    /// <summary>
+    /// The database engine type and versions. If left unspecified, MYSQL_8_0 is used. See the list of database versions at https://cloud.google.com/sql/docs/mysql/admin-api/rest/v1beta4/SqlDatabaseVersion. Apart from listed major versions, DATABASE_VERSION also accepts supported minor versions. DATABASE_VERSION must be one of: MYSQL_5_6, MYSQL_5_7, MYSQL_8_0, MYSQL_8_4, MYSQL_9_7, POSTGRES_9_6, POSTGRES_10, POSTGRES_11, POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17, POSTGRES_18, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB, SQLSERVER_2017_STANDARD, SQLSERVER_2017_ENTERPRISE, SQLSERVER_2019_EXPRESS, SQLSERVER_2019_WEB, SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2022_EXPRESS, SQLSERVER_2022_WEB, SQLSERVER_2022_STANDARD, SQLSERVER_2022_ENTERPRISE, SQLSERVER_2025_EXPRESS, SQLSERVER_2025_STANDARD, SQLSERVER_2025_ENTERPRISE.
+    /// </summary>
+    [CliOption("--database-version", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseVersion { get; set; }
 
     /// <summary>
     /// Enable deletion protection on a Cloud SQL instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
@@ -196,7 +202,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// Enable deletion protection on a Cloud SQL instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
+    /// Negates --deletion-protection. Enable deletion protection on a Cloud SQL instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
     /// </summary>
     [CliFlag("--no-deletion-protection")]
     public bool? NoDeletionProtection { get; set; }
@@ -244,7 +250,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? EnableConnectionPooling { get; set; }
 
     /// <summary>
-    /// Enable connection pooling for the instance. Use --enable-connection-pooling to enable and --no-enable-connection-pooling to disable.
+    /// Negates --enable-connection-pooling. Enable connection pooling for the instance. Use --enable-connection-pooling to enable and --no-enable-connection-pooling to disable.
     /// </summary>
     [CliFlag("--no-enable-connection-pooling")]
     public bool? NoEnableConnectionPooling { get; set; }
@@ -256,7 +262,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? EnableDataCache { get; set; }
 
     /// <summary>
-    /// Enable use of data cache for accelerated read performance. This flag is only available for Enterprise_Plus edition instances. Use --enable-data-cache to enable and --no-enable-data-cache to disable.
+    /// Negates --enable-data-cache. Enable use of data cache for accelerated read performance. This flag is only available for Enterprise_Plus edition instances. Use --enable-data-cache to enable and --no-enable-data-cache to disable.
     /// </summary>
     [CliFlag("--no-enable-data-cache")]
     public bool? NoEnableDataCache { get; set; }
@@ -268,7 +274,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? EnableDataplexIntegration { get; set; }
 
     /// <summary>
-    /// Enable Dataplex integration for Google Cloud SQL. Use --enable-dataplex-integration to enable and --no-enable-dataplex-integration to disable.
+    /// Negates --enable-dataplex-integration. Enable Dataplex integration for Google Cloud SQL. Use --enable-dataplex-integration to enable and --no-enable-dataplex-integration to disable.
     /// </summary>
     [CliFlag("--no-enable-dataplex-integration")]
     public bool? NoEnableDataplexIntegration { get; set; }
@@ -280,7 +286,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? EnableGoogleMlIntegration { get; set; }
 
     /// <summary>
-    /// Enable Vertex AI integration for Google Cloud SQL. You can integrate Vertex AI with Cloud SQL for MySQL and Cloud SQL for PostgreSQL instances only. Use --enable-google-ml-integration to enable and --no-enable-google-ml-integration to disable.
+    /// Negates --enable-google-ml-integration. Enable Vertex AI integration for Google Cloud SQL. You can integrate Vertex AI with Cloud SQL for MySQL and Cloud SQL for PostgreSQL instances only. Use --enable-google-ml-integration to enable and --no-enable-google-ml-integration to disable.
     /// </summary>
     [CliFlag("--no-enable-google-ml-integration")]
     public bool? NoEnableGoogleMlIntegration { get; set; }
@@ -310,7 +316,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? EnablePscAutoConnectionPolicy { get; set; }
 
     /// <summary>
-    /// If set, service connection policy will be created by Cloud SQL when missing for PSC enabled instance. Use --enable-psc-auto-connection-policy to enable and --no-enable-psc-auto-connection-policy to disable.
+    /// Negates --enable-psc-auto-connection-policy. If set, service connection policy will be created by Cloud SQL when missing for PSC enabled instance. Use --enable-psc-auto-connection-policy to enable and --no-enable-psc-auto-connection-policy to disable.
     /// </summary>
     [CliFlag("--no-enable-psc-auto-connection-policy")]
     public bool? NoEnablePscAutoConnectionPolicy { get; set; }
@@ -322,7 +328,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? EnablePscAutoDns { get; set; }
 
     /// <summary>
-    /// Enable per instance DNS records for PSC auto-connections. Use --enable-psc-auto-dns to enable and --no-enable-psc-auto-dns to disable.
+    /// Negates --enable-psc-auto-dns. Enable per instance DNS records for PSC auto-connections. Use --enable-psc-auto-dns to enable and --no-enable-psc-auto-dns to disable.
     /// </summary>
     [CliFlag("--no-enable-psc-auto-dns")]
     public bool? NoEnablePscAutoDns { get; set; }
@@ -334,7 +340,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? EnablePscWriteEndpointDns { get; set; }
 
     /// <summary>
-    /// Enable the global DNS record pointing to the primary, for Enterprise Plus edition only. Use --enable-psc-write-endpoint-dns to enable and --no-enable-psc-write-endpoint-dns to disable.
+    /// Negates --enable-psc-write-endpoint-dns. Enable the global DNS record pointing to the primary, for Enterprise Plus edition only. Use --enable-psc-write-endpoint-dns to enable and --no-enable-psc-write-endpoint-dns to disable.
     /// </summary>
     [CliFlag("--no-enable-psc-write-endpoint-dns")]
     public bool? NoEnablePscWriteEndpointDns { get; set; }
@@ -358,7 +364,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? FinalBackup { get; set; }
 
     /// <summary>
-    /// Enables the final backup to be taken at the time of instance deletion. Use --final-backup to enable and --no-final-backup to disable.
+    /// Negates --final-backup. Enables the final backup to be taken at the time of instance deletion. Use --final-backup to enable and --no-final-backup to disable.
     /// </summary>
     [CliFlag("--no-final-backup")]
     public bool? NoFinalBackup { get; set; }
@@ -376,7 +382,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? InsightsConfigEnhancedQueryInsightsEnabled { get; set; }
 
     /// <summary>
-    /// Enable enhanced query insights for Enterprise Plus edition to provide more detailed query analytics. Use --insights-config-enhanced-query-insights-enabled to enable and --no-insights-config-enhanced-query-insights-enabled to disable.
+    /// Negates --insights-config-enhanced-query-insights-enabled. Enable enhanced query insights for Enterprise Plus edition to provide more detailed query analytics. Use --insights-config-enhanced-query-insights-enabled to enable and --no-insights-config-enhanced-query-insights-enabled to disable.
     /// </summary>
     [CliFlag("--no-insights-config-enhanced-query-insights-enabled")]
     public bool? NoInsightsConfigEnhancedQueryInsightsEnabled { get; set; }
@@ -388,7 +394,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? InsightsConfigQueryInsightsEnabled { get; set; }
 
     /// <summary>
-    /// Enable query insights feature to provide query and query plan analytics. Use --insights-config-query-insights-enabled to enable and --no-insights-config-query-insights-enabled to disable.
+    /// Negates --insights-config-query-insights-enabled. Enable query insights feature to provide query and query plan analytics. Use --insights-config-query-insights-enabled to enable and --no-insights-config-query-insights-enabled to disable.
     /// </summary>
     [CliFlag("--no-insights-config-query-insights-enabled")]
     public bool? NoInsightsConfigQueryInsightsEnabled { get; set; }
@@ -412,7 +418,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? InsightsConfigRecordApplicationTags { get; set; }
 
     /// <summary>
-    /// Allow application tags to be recorded by the query insights feature. Use --insights-config-record-application-tags to enable and --no-insights-config-record-application-tags to disable.
+    /// Negates --insights-config-record-application-tags. Allow application tags to be recorded by the query insights feature. Use --insights-config-record-application-tags to enable and --no-insights-config-record-application-tags to disable.
     /// </summary>
     [CliFlag("--no-insights-config-record-application-tags")]
     public bool? NoInsightsConfigRecordApplicationTags { get; set; }
@@ -424,7 +430,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? InsightsConfigRecordClientAddress { get; set; }
 
     /// <summary>
-    /// Allow the client address to be recorded by the query insights feature. Use --insights-config-record-client-address to enable and --no-insights-config-record-client-address to disable.
+    /// Negates --insights-config-record-client-address. Allow the client address to be recorded by the query insights feature. Use --insights-config-record-client-address to enable and --no-insights-config-record-client-address to disable.
     /// </summary>
     [CliFlag("--no-insights-config-record-client-address")]
     public bool? NoInsightsConfigRecordClientAddress { get; set; }
@@ -491,7 +497,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? PasswordPolicyDisallowUsernameSubstring { get; set; }
 
     /// <summary>
-    /// Disallow username as a part of the password. Use --password-policy-disallow-username-substring to enable and --no-password-policy-disallow-username-substring to disable.
+    /// Negates --password-policy-disallow-username-substring. Disallow username as a part of the password. Use --password-policy-disallow-username-substring to enable and --no-password-policy-disallow-username-substring to disable.
     /// </summary>
     [CliFlag("--no-password-policy-disallow-username-substring")]
     public bool? NoPasswordPolicyDisallowUsernameSubstring { get; set; }
@@ -536,7 +542,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? RecreateReplicasOnPrimaryCrash { get; set; }
 
     /// <summary>
-    /// Allow/Disallow replica recreation when a primary MySQL instance operating in reduced durability mode crashes. Not recreating the replicas might lead to data inconsistencies between the primary and its replicas. This setting is only applicable for MySQL instances and is enabled by default. Use --recreate-replicas-on-primary-crash to enable and --no-recreate-replicas-on-primary-crash to disable.
+    /// Negates --recreate-replicas-on-primary-crash. Allow/Disallow replica recreation when a primary MySQL instance operating in reduced durability mode crashes. Not recreating the replicas might lead to data inconsistencies between the primary and its replicas. This setting is only applicable for MySQL instances and is enabled by default. Use --recreate-replicas-on-primary-crash to enable and --no-recreate-replicas-on-primary-crash to disable.
     /// </summary>
     [CliFlag("--no-recreate-replicas-on-primary-crash")]
     public bool? NoRecreateReplicasOnPrimaryCrash { get; set; }
@@ -566,7 +572,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? RetainBackupsOnDelete { get; set; }
 
     /// <summary>
-    /// Retain automated/ondemand backups of the instance after the instance is deleted. Use --retain-backups-on-delete to enable and --no-retain-backups-on-delete to disable.
+    /// Negates --retain-backups-on-delete. Retain automated/ondemand backups of the instance after the instance is deleted. Use --retain-backups-on-delete to enable and --no-retain-backups-on-delete to disable.
     /// </summary>
     [CliFlag("--no-retain-backups-on-delete")]
     public bool? NoRetainBackupsOnDelete { get; set; }
@@ -621,7 +627,7 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? StorageAutoIncrease { get; set; }
 
     /// <summary>
-    /// Storage size can be increased, but it cannot be decreased; storage increases are permanent for the life of the instance. With this setting enabled, a spike in storage requirements can result in permanently increased storage costs for your instance. However, if an instance runs out of available space, it can result in the instance going offline, dropping existing connections. This setting is enabled by default. Use --storage-auto-increase to enable and --no-storage-auto-increase to disable.
+    /// Negates --storage-auto-increase. Storage size can be increased, but it cannot be decreased; storage increases are permanent for the life of the instance. With this setting enabled, a spike in storage requirements can result in permanently increased storage costs for your instance. However, if an instance runs out of available space, it can result in the instance going offline, dropping existing connections. This setting is enabled by default. Use --storage-auto-increase to enable and --no-storage-auto-increase to disable.
     /// </summary>
     [CliFlag("--no-storage-auto-increase")]
     public bool? NoStorageAutoIncrease { get; set; }
@@ -660,7 +666,7 @@ public record GcloudSqlInstancesCreateOptions(
     /// Comma-separated list of tags to set on the instance. Use an equals signto separate tag name and value.(e.g., --tags tag1:value1,tag2=value2)
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? Tags { get; set; }
+    public string? Tags { get; set; }
 
     /// <summary>
     /// The number of threads per core. The value of this flag can be 1 or 2. To disable SMT, set this flag to 1. Only available in Cloud SQL for SQL Server instances.
@@ -669,7 +675,7 @@ public record GcloudSqlInstancesCreateOptions(
     public string? ThreadsPerCore { get; set; }
 
     /// <summary>
-    /// Specifies the machine type for the instance. The usage of this flag depends on the selected --edition. Enterprise Edition: Use --tier for shared-core instances (e.g., db-f1-micro, db-g1-small). For dedicated-core instances, do not use --tier; instead, customize your instance by specifying its CPU and memory with the --cpu and --memory flags. Enterprise Plus Edition: --tier is required to specify the predefined machine type. The --cpu and --memory flags are not supported for Enterprise Plus. Examples include db-perf-optimized-N-2 (N2 series) or db-c4a-highmem-2 (C4A series). For a detailed list of available machine types and series, refer to the documentation for your database engine: * MySQL: https://cloud.google.com/sql/docs/mysql/machine-series-overview * PostgreSQL: https://cloud.google.com/sql/docs/postgres/machine-series-overview * SQL Server: https://cloud.google.com/sql/docs/sqlserver/machine-series-overview Learn more about how machine types, CPU, and memory affect pricing: https://cloud.google.com/sql/pricing
+    /// Specifies the machine type for the instance. The usage of this flag depends on the selected --edition. Enterprise Edition: Use --tier for shared-core instances (e.g., db-f1-micro, db-g1-small). For dedicated-core instances, do not use --tier; instead, customize your instance by specifying its CPU and memory with the --cpu and --memory flags. Enterprise Plus Edition: --tier is required to specify the predefined machine type. The --cpu and --memory flags are not supported for Enterprise Plus. Examples include db-perf-optimized-N-2 (N2 series) or db-c4a-highmem-2 (C4A series). For a detailed list of available machine types and series, refer to the documentation for your database engine: ◆ MySQL: https://cloud.google.com/sql/docs/mysql/machine-series-overview ◆ PostgreSQL: https://cloud.google.com/sql/docs/postgres/machine-series-overview ◆ SQL Server: https://cloud.google.com/sql/docs/sqlserver/machine-series-overview Learn more about how machine types, CPU, and memory affect pricing: https://cloud.google.com/sql/pricing
     /// </summary>
     [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
     public string? Tier { get; set; }
@@ -679,6 +685,12 @@ public record GcloudSqlInstancesCreateOptions(
     /// </summary>
     [CliOption("--time-zone", Format = OptionFormat.EqualsSeparated)]
     public string? TimeZone { get; set; }
+
+    /// <summary>
+    /// Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --async flag is specified. By default, set to 3600s. To wait indefinitely, set to unlimited.
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? Timeout { get; set; }
 
     /// <summary>
     /// A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects.
@@ -693,129 +705,117 @@ public record GcloudSqlInstancesCreateOptions(
     public bool? EnablePrivateServiceConnect { get; set; }
 
     /// <summary>
-    /// ID of the key or fully qualified identifier for the key. To set the kms-key attribute: * provide the argument --disk-encryption-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --disk-encryption-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--disk-encryption-key", Format = OptionFormat.EqualsSeparated)]
     public string? DiskEncryptionKey { get; set; }
 
     /// <summary>
-    /// The KMS keyring of the key. To set the kms-keyring attribute: * provide the argument --disk-encryption-key on the command line with a fully specified name; * provide the argument --disk-encryption-key-keyring on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-keyring on the command line.
     /// </summary>
     [CliOption("--disk-encryption-key-keyring", Format = OptionFormat.EqualsSeparated)]
     public string? DiskEncryptionKeyKeyring { get; set; }
 
     /// <summary>
-    /// The Google Cloud location for the key. To set the kms-location attribute: * provide the argument --disk-encryption-key on the command line with a fully specified name; * provide the argument --disk-encryption-key-location on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-location on the command line.
     /// </summary>
     [CliOption("--disk-encryption-key-location", Format = OptionFormat.EqualsSeparated)]
     public string? DiskEncryptionKeyLocation { get; set; }
 
     /// <summary>
-    /// The Google Cloud project for the key. To set the kms-project attribute: * provide the argument --disk-encryption-key on the command line with a fully specified name; * provide the argument --disk-encryption-key-project on the command line; * set the property core/project.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-project on the command line; ◆ set the property core/project.
     /// </summary>
     [CliOption("--disk-encryption-key-project", Format = OptionFormat.EqualsSeparated)]
     public string? DiskEncryptionKeyProject { get; set; }
 
     /// <summary>
-    /// Set the Entraid application ID. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Set the Entraid application ID. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--entra-id-application-id", Format = OptionFormat.EqualsSeparated)]
     public string? EntraIdApplicationId { get; set; }
 
     /// <summary>
-    /// Set the Entraid tenant ID. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Set the Entraid tenant ID. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--entra-id-tenant-id", Format = OptionFormat.EqualsSeparated)]
     public string? EntraIdTenantId { get; set; }
 
     /// <summary>
-    /// Disables automatic read pool scale-in. When disabled, read pool auto scaling only supports increasing the read pool node count. By default, both automatic read pool scale-in and scale-out are enabled. Use --auto-scale-disable-scale-in to enable and --no-auto-scale-disable-scale-in to disable.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Disables automatic read pool scale-in. When disabled, read pool auto scaling only supports increasing the read pool node count. By default, both automatic read pool scale-in and scale-out are enabled. Use --auto-scale-disable-scale-in to enable and --no-auto-scale-disable-scale-in to disable.
     /// </summary>
     [CliFlag("--auto-scale-disable-scale-in")]
     public bool? AutoScaleDisableScaleIn { get; set; }
 
     /// <summary>
-    /// Disables automatic read pool scale-in. When disabled, read pool auto scaling only supports increasing the read pool node count. By default, both automatic read pool scale-in and scale-out are enabled. Use --auto-scale-disable-scale-in to enable and --no-auto-scale-disable-scale-in to disable.
+    /// Negates --auto-scale-disable-scale-in. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Disables automatic read pool scale-in. When disabled, read pool auto scaling only supports increasing the read pool node count. By default, both automatic read pool scale-in and scale-out are enabled. Use --auto-scale-disable-scale-in to enable and --no-auto-scale-disable-scale-in to disable.
     /// </summary>
     [CliFlag("--no-auto-scale-disable-scale-in")]
     public bool? NoAutoScaleDisableScaleIn { get; set; }
 
     /// <summary>
-    /// Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
     /// </summary>
     [CliFlag("--auto-scale-enabled")]
     public bool? AutoScaleEnabled { get; set; }
 
     /// <summary>
-    /// Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
+    /// Negates --auto-scale-enabled. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
     /// </summary>
     [CliFlag("--no-auto-scale-enabled")]
     public bool? NoAutoScaleEnabled { get; set; }
 
     /// <summary>
-    /// The cooldown period for automatic read pool scale-in. Minimum time between scale-in events. Must be an integer value. For example, if the value is 60, then a scale-in event will not be triggered within 60 seconds of the last scale-in event.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. The cooldown period for automatic read pool scale-in. Minimum time between scale-in events. Must be an integer value. For example, if the value is 60, then a scale-in event will not be triggered within 60 seconds of the last scale-in event.
     /// </summary>
     [CliOption("--auto-scale-in-cooldown-seconds", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleInCooldownSeconds { get; set; }
 
     /// <summary>
-    /// Maximum number of read pool nodes to be maintained.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Maximum number of read pool nodes to be maintained.
     /// </summary>
     [CliOption("--auto-scale-max-node-count", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleMaxNodeCount { get; set; }
 
     /// <summary>
-    /// Minimum number of read pool nodes to be maintained.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Minimum number of read pool nodes to be maintained.
     /// </summary>
     [CliOption("--auto-scale-min-node-count", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleMinNodeCount { get; set; }
 
     /// <summary>
-    /// The cooldown period for automatic read pool scale-out. Minimum time between scale-out events. Must be an integer value. For example, if the value is 60, then a scale-out event will not be triggered within 60 seconds of the last scale-out event.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. The cooldown period for automatic read pool scale-out. Minimum time between scale-out events. Must be an integer value. For example, if the value is 60, then a scale-out event will not be triggered within 60 seconds of the last scale-out event.
     /// </summary>
     [CliOption("--auto-scale-out-cooldown-seconds", Format = OptionFormat.EqualsSeparated)]
     public int? AutoScaleOutCooldownSeconds { get; set; }
 
     /// <summary>
-    /// Target metrics for read pool auto scaling. Options are: AVERAGE_CPU_UTILIZATION and AVERAGE_DB_CONNECTIONS. Example: --auto-scale-target-metrics=AVERAGE_CPU_UTILIZATION=0.8
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. Target metrics for read pool auto scaling. Options are: AVERAGE_CPU_UTILIZATION and AVERAGE_DB_CONNECTIONS. Example: --auto-scale-target-metrics=AVERAGE_CPU_UTILIZATION=0.8
     /// </summary>
     [CliOption("--auto-scale-target-metrics", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? AutoScaleTargetMetrics { get; set; }
+    public string? AutoScaleTargetMetrics { get; set; }
 
     /// <summary>
-    /// (DEPRECATED) Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.). Flag --gce-zone is deprecated and will be removed by release 255.0.0. Use --zone instead.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: Or at most one of these can be specified: (DEPRECATED) Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.). Flag --gce-zone is deprecated and will be removed by release 255.0.0. Use --zone instead.
     /// </summary>
     [CliOption("--gce-zone", Format = OptionFormat.EqualsSeparated)]
     public string? GceZone { get; set; }
 
     /// <summary>
-    /// Preferred secondary Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred secondary Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
     /// </summary>
     [CliOption("--secondary-zone", Format = OptionFormat.EqualsSeparated)]
     public string? SecondaryZone { get; set; }
 
     /// <summary>
-    /// Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Entraid configuration for the SQL Server instance. Options for configuring read pool auto scale. At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
-
-    /// <summary>
-    /// The database engine type and versions. If left unspecified, MYSQL_8_0 is used. See the list of database versions at https://cloud.google.com/sql/docs/mysql/admin-api/rest/v1beta4/SqlDatabaseVersion. Apart from listed major versions, DATABASE_VERSION also accepts supported minor versions. DATABASE_VERSION must be one of: MYSQL_5_6, MYSQL_5_7, MYSQL_8_0, MYSQL_8_4, MYSQL_9_7, POSTGRES_9_6, POSTGRES_10, POSTGRES_11, POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17, POSTGRES_18, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB, SQLSERVER_2017_STANDARD, SQLSERVER_2017_ENTERPRISE, SQLSERVER_2019_EXPRESS, SQLSERVER_2019_WEB, SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2022_EXPRESS, SQLSERVER_2022_WEB, SQLSERVER_2022_STANDARD, SQLSERVER_2022_ENTERPRISE, SQLSERVER_2025_EXPRESS, SQLSERVER_2025_STANDARD, SQLSERVER_2025_ENTERPRISE.
-    /// </summary>
-    [CliOption("--database-version", Format = OptionFormat.EqualsSeparated)]
-    public string? DatabaseVersion { get; set; }
-
-    /// <summary>
-    /// Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --async flag is specified. By default, set to 3600s. To wait indefinitely, set to unlimited.
-    /// </summary>
-    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? Timeout { get; set; }
-
-    /// <summary>
-    /// Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
-    /// </summary>
-    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
-    public string? Region { get; set; }
 
 }

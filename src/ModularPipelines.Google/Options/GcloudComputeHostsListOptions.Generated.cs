@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeHostsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Zone resource - The zone to list hosts for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --zone on the command line with a fully specified name; ◆ set the property compute/zone with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Name of the reservation the hosts are associated with.
+    /// Name of the reservation the hosts are associated with.
     /// </summary>
     [CliOption("--reservation", Format = OptionFormat.EqualsSeparated)]
     public string? Reservation { get; set; }
 
     /// <summary>
-    /// Zone resource - The zone to list hosts for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --zone on the command line with a fully specified name; ◆ set the property compute/zone with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Name of the reservation block the hosts are associated with. This argument requires --reservation to be specified.
+    /// Name of the reservation block the hosts are associated with. This argument requires --reservation to be specified.
     /// </summary>
     [CliOption("--reservation-block", Format = OptionFormat.EqualsSeparated)]
     public string? ReservationBlock { get; set; }

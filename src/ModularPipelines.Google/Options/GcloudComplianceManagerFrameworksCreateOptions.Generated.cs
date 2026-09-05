@@ -31,7 +31,7 @@ public record GcloudComplianceManagerFrameworksCreateOptions : GcloudOptions
     /// The cloud control details that are directly added without any grouping in the framework. majorRevisionId The major version of the cloud control. name The name of the cloud control, in one of the following formats: organizations/{organization}/locations/{location}/cloudControls/{cloud_control} or projects/{project}/locations/{location}/cloudControls/{cloud_control}. The only supported location is global. parameters Parameters are key-value pairs that let you provide your custom location requirements, environment requirements, or other settings that are relevant to the cloud control. An example parameter is {"name": "location","value": "us-west-1"}. name The name or key of the parameter. Shorthand Example: --cloud-control-details=majorRevisionId=int,name=string,parameters=[{name=string}] --cloud-control-details=majorRevisionId=int,name=string,parameters=[{name=string}] JSON Example: --cloud-control-details='[{"majorRevisionId": int, "name": "string", "parameters": [{"name": "string"}]}]' File Example: --cloud-control-details=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--cloud-control-details", Format = OptionFormat.EqualsSeparated)]
-    public string? CloudControlDetails { get; set; }
+    public IEnumerable<string>? CloudControlDetails { get; set; }
 
     /// <summary>
     /// The description of the framework. The maximum length is 2000 characters.

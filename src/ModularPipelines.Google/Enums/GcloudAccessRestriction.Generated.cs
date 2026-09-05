@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudAccessRestriction
 {
     [EnumValue("within-project")]
-    WithinProject = 0,
+    WithinProject,
 
     [EnumValue("within-org")]
-    WithinOrg = 1,
+    WithinOrg,
 
     [EnumValue("unrestricted")]
-    Unrestricted = 2
+    Unrestricted
 }

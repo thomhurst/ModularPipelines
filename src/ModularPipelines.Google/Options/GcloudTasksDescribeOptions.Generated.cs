@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -35,7 +36,10 @@ public record GcloudTasksDescribeOptions(
     [CliOption("--queue", Format = OptionFormat.EqualsSeparated)]
     public string? Queue { get; set; }
 
-    [Obsolete("ResponseView is no longer supported by the installed CLI and has no effect.")]
-    public string? ResponseView { get; set; }
+    /// <summary>
+    /// Task response view. RESPONSE_VIEW must be one of: basic, full, view-unspecified.
+    /// </summary>
+    [CliOption("--response-view", Format = OptionFormat.EqualsSeparated)]
+    public GcloudResponseView? ResponseView { get; set; }
 
 }

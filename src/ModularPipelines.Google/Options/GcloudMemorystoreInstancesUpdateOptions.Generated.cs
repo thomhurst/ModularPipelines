@@ -28,361 +28,361 @@ public record GcloudMemorystoreInstancesUpdateOptions : GcloudOptions
     public bool? Async { get; set; }
 
     /// <summary>
-    /// If true, instance endpoints that are created and registered by customers can be deleted asynchronously. That is, such an instance endpoint can be de-registered before the forwarding rules in the instance endpoint are deleted. Use --async-instance-endpoints-deletion-enabled to enable and --no-async-instance-endpoints-deletion-enabled to disable.
+    /// Arguments for the async instance endpoints deletion enabled. If true, instance endpoints that are created and registered by customers can be deleted asynchronously. That is, such an instance endpoint can be de-registered before the forwarding rules in the instance endpoint are deleted. Use --async-instance-endpoints-deletion-enabled to enable and --no-async-instance-endpoints-deletion-enabled to disable.
     /// </summary>
     [CliFlag("--async-instance-endpoints-deletion-enabled")]
     public bool? AsyncInstanceEndpointsDeletionEnabled { get; set; }
 
     /// <summary>
-    /// If true, instance endpoints that are created and registered by customers can be deleted asynchronously. That is, such an instance endpoint can be de-registered before the forwarding rules in the instance endpoint are deleted. Use --async-instance-endpoints-deletion-enabled to enable and --no-async-instance-endpoints-deletion-enabled to disable.
+    /// Negates --async-instance-endpoints-deletion-enabled. Arguments for the async instance endpoints deletion enabled. If true, instance endpoints that are created and registered by customers can be deleted asynchronously. That is, such an instance endpoint can be de-registered before the forwarding rules in the instance endpoint are deleted. Use --async-instance-endpoints-deletion-enabled to enable and --no-async-instance-endpoints-deletion-enabled to disable.
     /// </summary>
     [CliFlag("--no-async-instance-endpoints-deletion-enabled")]
     public bool? NoAsyncInstanceEndpointsDeletionEnabled { get; set; }
 
     /// <summary>
-    /// If set to true deletion of the instance will fail. Use --deletion-protection-enabled to enable and --no-deletion-protection-enabled to disable.
+    /// Arguments for the deletion protection enabled. If set to true deletion of the instance will fail. Use --deletion-protection-enabled to enable and --no-deletion-protection-enabled to disable.
     /// </summary>
     [CliFlag("--deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>
-    /// If set to true deletion of the instance will fail. Use --deletion-protection-enabled to enable and --no-deletion-protection-enabled to disable.
+    /// Negates --deletion-protection-enabled. Arguments for the deletion protection enabled. If set to true deletion of the instance will fail. Use --deletion-protection-enabled to enable and --no-deletion-protection-enabled to disable.
     /// </summary>
     [CliFlag("--no-deletion-protection-enabled")]
     public bool? NoDeletionProtectionEnabled { get; set; }
 
     /// <summary>
-    /// Engine version of the instance.
+    /// Arguments for the deletion protection enabled. Engine version of the instance.
     /// </summary>
     [CliOption("--engine-version", Format = OptionFormat.EqualsSeparated)]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// For resources [instance, acl-policy, kms-key, primary-instance], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// Arguments for the deletion protection enabled. For resources [instance, acl-policy, kms-key, primary-instance], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+    /// Arguments for the maintenance version. This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
     /// </summary>
     [CliOption("--maintenance-version", Format = OptionFormat.EqualsSeparated)]
     public string? MaintenanceVersion { get; set; }
 
     /// <summary>
-    /// The mode config for the instance. MODE must be one of: cluster Instance is in cluster mode. cluster-disabled Cluster mode is disabled for the instance. standalone Deprecated: Use CLUSTER_DISABLED instead.
+    /// Arguments for the maintenance version. The mode config for the instance. MODE must be one of: cluster Instance is in cluster mode. cluster-disabled Cluster mode is disabled for the instance. standalone Deprecated: Use CLUSTER_DISABLED instead.
     /// </summary>
     [CliOption("--mode", Format = OptionFormat.EqualsSeparated)]
     public string? Mode { get; set; }
 
     /// <summary>
-    /// Machine type for individual nodes of the instance. NODE_TYPE must be one of: custom-micro Custom micro. custom-mini Custom mini. custom-pico Custom pico. highcpu-medium High cpu medium. highmem-2xlarge High memory 2xlarge. highmem-medium High memory medium. highmem-xlarge High memory extra large. shared-core-nano Shared core nano. standard-large Standard large. standard-small Standard small.
+    /// Arguments for the maintenance version. Machine type for individual nodes of the instance. NODE_TYPE must be one of: custom-micro Custom micro. custom-mini Custom mini. custom-pico Custom pico. highcpu-medium High cpu medium. highmem-2xlarge High memory 2xlarge. highmem-medium High memory medium. highmem-xlarge High memory extra large. shared-core-nano Shared core nano. standard-large Standard large. standard-small Standard small.
     /// </summary>
     [CliOption("--node-type", Format = OptionFormat.EqualsSeparated)]
     public string? NodeType { get; set; }
 
     /// <summary>
-    /// Ondemand maintenance for the instance. Use --ondemand-maintenance to enable and --no-ondemand-maintenance to disable.
+    /// Arguments for the ondemand maintenance. Ondemand maintenance for the instance. Use --ondemand-maintenance to enable and --no-ondemand-maintenance to disable.
     /// </summary>
     [CliFlag("--ondemand-maintenance")]
     public bool? OndemandMaintenance { get; set; }
 
     /// <summary>
-    /// Ondemand maintenance for the instance. Use --ondemand-maintenance to enable and --no-ondemand-maintenance to disable.
+    /// Negates --ondemand-maintenance. Arguments for the ondemand maintenance. Ondemand maintenance for the instance. Use --ondemand-maintenance to enable and --no-ondemand-maintenance to disable.
     /// </summary>
     [CliFlag("--no-ondemand-maintenance")]
     public bool? NoOndemandMaintenance { get; set; }
 
     /// <summary>
-    /// Number of replica nodes per shard. If omitted the default is 0 replicas.
+    /// Arguments for the replica count. Number of replica nodes per shard. If omitted the default is 0 replicas.
     /// </summary>
     [CliOption("--replica-count", Format = OptionFormat.EqualsSeparated)]
     public int? ReplicaCount { get; set; }
 
     /// <summary>
-    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// Arguments for the replica count. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// Rotate the server certificates. Use --rotate-server-certificate to enable and --no-rotate-server-certificate to disable.
+    /// Arguments for the rotate server certificate. Rotate the server certificates. Use --rotate-server-certificate to enable and --no-rotate-server-certificate to disable.
     /// </summary>
     [CliFlag("--rotate-server-certificate")]
     public bool? RotateServerCertificate { get; set; }
 
     /// <summary>
-    /// Rotate the server certificates. Use --rotate-server-certificate to enable and --no-rotate-server-certificate to disable.
+    /// Negates --rotate-server-certificate. Arguments for the rotate server certificate. Rotate the server certificates. Use --rotate-server-certificate to enable and --no-rotate-server-certificate to disable.
     /// </summary>
     [CliFlag("--no-rotate-server-certificate")]
     public bool? NoRotateServerCertificate { get; set; }
 
     /// <summary>
-    /// Number of shards for the instance.
+    /// Arguments for the rotate server certificate. Number of shards for the instance.
     /// </summary>
     [CliOption("--shard-count", Format = OptionFormat.EqualsSeparated)]
     public int? ShardCount { get; set; }
 
     /// <summary>
-    /// Simulate a maintenance event. Use --simulate-maintenance-event to enable and --no-simulate-maintenance-event to disable.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Simulate a maintenance event. Use --simulate-maintenance-event to enable and --no-simulate-maintenance-event to disable.
     /// </summary>
     [CliFlag("--simulate-maintenance-event")]
     public bool? SimulateMaintenanceEvent { get; set; }
 
     /// <summary>
-    /// Simulate a maintenance event. Use --simulate-maintenance-event to enable and --no-simulate-maintenance-event to disable.
+    /// Negates --simulate-maintenance-event. Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Simulate a maintenance event. Use --simulate-maintenance-event to enable and --no-simulate-maintenance-event to disable.
     /// </summary>
     [CliFlag("--no-simulate-maintenance-event")]
     public bool? NoSimulateMaintenanceEvent { get; set; }
 
     /// <summary>
-    /// ID of the aclPolicy or fully qualified identifier for the aclPolicy. To set the acl-policy attribute: + provide the argument --acl-policy on the command line.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Arguments for the acl policy. Update acl_policy. At most one of these can be specified: AclPolicy resource - Set acl_policy to new value. The ACL policy for the instance. Format: projects/{project}/locations/{location}/aclPolicies/{acl_policy} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --acl-policy on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --acl-policy on the command line with a fully specified name; ▸ provide the argument --location on the command line. ID of the aclPolicy or fully qualified identifier for the aclPolicy. To set the acl-policy attribute: ▸ provide the argument --acl-policy on the command line.
     /// </summary>
     [CliOption("--acl-policy", Format = OptionFormat.EqualsSeparated)]
     public string? AclPolicy { get; set; }
 
     /// <summary>
-    /// Clear acl_policy value and set to null.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Arguments for the acl policy. Update acl_policy. At most one of these can be specified: AclPolicy resource - Set acl_policy to new value. The ACL policy for the instance. Format: projects/{project}/locations/{location}/aclPolicies/{acl_policy} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --acl-policy on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --acl-policy on the command line with a fully specified name; ▸ provide the argument --location on the command line. Clear acl_policy value and set to null.
     /// </summary>
     [CliFlag("--clear-acl-policy")]
     public bool? ClearAclPolicy { get; set; }
 
     /// <summary>
-    /// The fsync mode. AOF_CONFIG_APPEND_FSYNC must be one of: always Fsync every time new write commands are appended to the AOF. The best data loss protection at the cost of performance. every-sec Fsync every second. You may lose 1 second of data if there is a disaster. never Never fsync. Normally Linux will flush data every 30 seconds with this configuration, but it's up to the kernel's exact tuning.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. The fsync mode. AOF_CONFIG_APPEND_FSYNC must be one of: always Fsync every time new write commands are appended to the AOF. The best data loss protection at the cost of performance. every-sec Fsync every second. You may lose 1 second of data if there is a disaster. never Never fsync. Normally Linux will flush data every 30 seconds with this configuration, but it's up to the kernel's exact tuning.
     /// </summary>
     [CliOption("--aof-config-append-fsync", Format = OptionFormat.EqualsSeparated)]
     public string? AofConfigAppendFsync { get; set; }
 
     /// <summary>
-    /// Set instance.persistenceConfig back to default value.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Set instance.persistenceConfig back to default value.
     /// </summary>
     [CliFlag("--clear-persistence-config")]
     public bool? ClearPersistenceConfig { get; set; }
 
     /// <summary>
-    /// Current persistence mode. PERSISTENCE_CONFIG_MODE must be one of: aof AOF based persistence is enabled. disabled Persistence is disabled, and any snapshot data is deleted. rdb RDB based persistence is enabled.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Current persistence mode. PERSISTENCE_CONFIG_MODE must be one of: aof AOF based persistence is enabled. disabled Persistence is disabled, and any snapshot data is deleted. rdb RDB based persistence is enabled.
     /// </summary>
     [CliOption("--persistence-config-mode", Format = OptionFormat.EqualsSeparated)]
     public string? PersistenceConfigMode { get; set; }
 
     /// <summary>
-    /// Period between RDB snapshots. RDB_CONFIG_SNAPSHOT_PERIOD must be one of: one-hour One hour. six-hours Six hours. twelve-hours Twelve hours. twenty-four-hours Twenty four hours.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Period between RDB snapshots. RDB_CONFIG_SNAPSHOT_PERIOD must be one of: one-hour One hour. six-hours Six hours. twelve-hours Twelve hours. twenty-four-hours Twenty four hours.
     /// </summary>
     [CliOption("--rdb-config-snapshot-period", Format = OptionFormat.EqualsSeparated)]
     public string? RdbConfigSnapshotPeriod { get; set; }
 
     /// <summary>
-    /// Time that the first snapshot was/will be attempted, and to which future snapshots will be aligned. If not provided, the current time will be used.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Time that the first snapshot was/will be attempted, and to which future snapshots will be aligned. If not provided, the current time will be used.
     /// </summary>
     [CliOption("--rdb-config-snapshot-start-time", Format = OptionFormat.EqualsSeparated)]
     public string? RdbConfigSnapshotStartTime { get; set; }
 
     /// <summary>
-    /// The automated backup mode. If the mode is disabled, the other fields will be ignored. AUTOMATED_BACKUP_CONFIG_MODE must be one of: disabled Automated backup config disabled. enabled Automated backup config enabled.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. The automated backup mode. If the mode is disabled, the other fields will be ignored. AUTOMATED_BACKUP_CONFIG_MODE must be one of: disabled Automated backup config disabled. enabled Automated backup config enabled.
     /// </summary>
     [CliOption("--automated-backup-config-mode", Format = OptionFormat.EqualsSeparated)]
     public string? AutomatedBackupConfigMode { get; set; }
 
     /// <summary>
-    /// How long to keep automated backups before the backups are deleted. The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. How long to keep automated backups before the backups are deleted. The value should be between 1 day and 365 days. If not specified, the default value is 35 days.
     /// </summary>
     [CliOption("--automated-backup-config-retention", Format = OptionFormat.EqualsSeparated)]
     public string? AutomatedBackupConfigRetention { get; set; }
 
     /// <summary>
-    /// Set instance.automatedBackupConfig back to default value.
+    /// Arguments for the simulate maintenance event. Represents persistence configuration for a instance. Configuration for AOF based persistence. Configuration for RDB based persistence. The automated backup config for an instance. Set instance.automatedBackupConfig back to default value.
     /// </summary>
     [CliFlag("--clear-automated-backup-config")]
     public bool? ClearAutomatedBackupConfig { get; set; }
 
     /// <summary>
-    /// Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time.
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time.
     /// </summary>
     [CliOption("--fixed-frequency-schedule-start-time-hours", Format = OptionFormat.EqualsSeparated)]
     public string? FixedFrequencyScheduleStartTimeHours { get; set; }
 
     /// <summary>
-    /// Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59.
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59.
     /// </summary>
     [CliOption("--fixed-frequency-schedule-start-time-minutes", Format = OptionFormat.EqualsSeparated)]
     public string? FixedFrequencyScheduleStartTimeMinutes { get; set; }
 
     /// <summary>
-    /// Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999.
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999.
     /// </summary>
     [CliOption("--fixed-frequency-schedule-start-time-nanos", Format = OptionFormat.EqualsSeparated)]
     public string? FixedFrequencyScheduleStartTimeNanos { get; set; }
 
     /// <summary>
-    /// Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds.
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds.
     /// </summary>
     [CliOption("--fixed-frequency-schedule-start-time-seconds", Format = OptionFormat.EqualsSeparated)]
     public int? FixedFrequencyScheduleStartTimeSeconds { get; set; }
 
     /// <summary>
-    /// Set instance.crossInstanceReplicationConfig back to default value.
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Set instance.crossInstanceReplicationConfig back to default value.
     /// </summary>
     [CliFlag("--clear-cross-instance-replication-config")]
     public bool? ClearCrossInstanceReplicationConfig { get; set; }
 
     /// <summary>
-    /// The role of the instance in cross instance replication. CROSS_INSTANCE_REPLICATION_CONFIG_ROLE must be one of: none This instance does not participate in cross instance replication. It is an independent instance and does not replicate to or from any other instances. primary A instance that allows both reads and writes. Any data written to this instance is also replicated to the attached secondary instances. secondary A instance that allows only reads and replicates data from a primary instance.
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. The role of the instance in cross instance replication. CROSS_INSTANCE_REPLICATION_CONFIG_ROLE must be one of: none This instance does not participate in cross instance replication. It is an independent instance and does not replicate to or from any other instances. primary A instance that allows both reads and writes. Any data written to this instance is also replicated to the attached secondary instances. secondary A instance that allows only reads and replicates data from a primary instance.
     /// </summary>
     [CliOption("--cross-instance-replication-config-role", Format = OptionFormat.EqualsSeparated)]
     public string? CrossInstanceReplicationConfigRole { get; set; }
 
     /// <summary>
-    /// Clear primary_instance value and set to null.
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Details of the remote instance associated with this instance in a cross instance replication setup. Update primary_instance. At most one of these can be specified: Clear primary_instance value and set to null.
     /// </summary>
     [CliFlag("--clear-primary-instance")]
     public bool? ClearPrimaryInstance { get; set; }
 
     /// <summary>
-    /// ID of the instance or fully qualified identifier for the instance. To set the instance attribute: + provide the argument --primary-instance on the command line.
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Instance resource - Set primary_instance to new value. The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt; This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --primary-instance on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --primary-instance on the command line with a fully specified name; ▸ provide the argument --location on the command line. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument --primary-instance on the command line.
     /// </summary>
     [CliOption("--primary-instance", Format = OptionFormat.EqualsSeparated)]
     public string? PrimaryInstance { get; set; }
 
     /// <summary>
-    /// Set cross_instance_replication_config_secondary_instances to new value. List of secondary instances that are replicating from this primary instance. This field is only set for a primary instance. instance The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt;. Shorthand Example: --cross-instance-replication-config-secondary-instances=instance=string --cross-instance-replication-config-secondary-instances=instance=string JSON Example: --cross-instance-replication-config-secondary-instances='[{"instance": "string"}]' File Example: --cross-instance-replication-config-secondary-instances=path_to_file.(yaml|json)
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Update cross_instance_replication_config_secondary_instances. At most one of these can be specified: Set cross_instance_replication_config_secondary_instances to new value. List of secondary instances that are replicating from this primary instance. This field is only set for a primary instance. instance The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt;. Shorthand Example: --cross-instance-replication-config-secondary-instances=instance=string --cross-instance-replication-config-secondary-instances=instance=string JSON Example: --cross-instance-replication-config-secondary-instances='[{"instance": "string"}]' File Example: --cross-instance-replication-config-secondary-instances=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--cross-instance-replication-config-secondary-instances", Format = OptionFormat.EqualsSeparated)]
-    public string? CrossInstanceReplicationConfigSecondaryInstances { get; set; }
+    public IEnumerable<string>? CrossInstanceReplicationConfigSecondaryInstances { get; set; }
 
     /// <summary>
-    /// Add new value to cross_instance_replication_config_secondary_instances list. List of secondary instances that are replicating from this primary instance. This field is only set for a primary instance. instance The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt;. Shorthand Example: --add-cross-instance-replication-config-secondary-instances=instance=string --add-cross-instance-replication-config-secondary-instances=instance=string JSON Example: --add-cross-instance-replication-config-secondary-instances='[{"instance": "string"}]' File Example: --add-cross-instance-replication-config-secondary-instances=path_to_file.(yaml|json)
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Update cross_instance_replication_config_secondary_instances. At most one of these can be specified: Or at least one of these can be specified: Add new value to cross_instance_replication_config_secondary_instances list. List of secondary instances that are replicating from this primary instance. This field is only set for a primary instance. instance The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt;. Shorthand Example: --add-cross-instance-replication-config-secondary-instances=instance=string --add-cross-instance-replication-config-secondary-instances=instance=string JSON Example: --add-cross-instance-replication-config-secondary-instances='[{"instance": "string"}]' File Example: --add-cross-instance-replication-config-secondary-instances=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-cross-instance-replication-config-secondary-instances", Format = OptionFormat.EqualsSeparated)]
-    public string? AddCrossInstanceReplicationConfigSecondaryInstances { get; set; }
+    public IEnumerable<string>? AddCrossInstanceReplicationConfigSecondaryInstances { get; set; }
 
     /// <summary>
-    /// Clear cross_instance_replication_config_secondary_instances value and set to empty list.
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Update cross_instance_replication_config_secondary_instances. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear cross_instance_replication_config_secondary_instances value and set to empty list.
     /// </summary>
     [CliFlag("--clear-cross-instance-replication-config-secondary-instances")]
     public bool? ClearCrossInstanceReplicationConfigSecondaryInstances { get; set; }
 
     /// <summary>
-    /// Remove existing value from cross_instance_replication_config_secondary_instances list. List of secondary instances that are replicating from this primary instance. This field is only set for a primary instance. instance The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt;. Shorthand Example: --remove-cross-instance-replication-config-secondary-instances=instance=string --remove-cross-instance-replication-config-secondary-instances=instance=string JSON Example: --remove-cross-instance-replication-config-secondary-instances='[{"instance": "string"}]' File Example: --remove-cross-instance-replication-config-secondary-instances=path_to_file.(yaml|json)
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Update cross_instance_replication_config_secondary_instances. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from cross_instance_replication_config_secondary_instances list. List of secondary instances that are replicating from this primary instance. This field is only set for a primary instance. instance The full resource path of the remote instance in the format: projects/&lt;project&gt;/locations/&lt;region&gt;/instances/&lt;instance-id&gt;. Shorthand Example: --remove-cross-instance-replication-config-secondary-instances=instance=string --remove-cross-instance-replication-config-secondary-instances=instance=string JSON Example: --remove-cross-instance-replication-config-secondary-instances='[{"instance": "string"}]' File Example: --remove-cross-instance-replication-config-secondary-instances=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-cross-instance-replication-config-secondary-instances", Format = OptionFormat.EqualsSeparated)]
-    public string? RemoveCrossInstanceReplicationConfigSecondaryInstances { get; set; }
+    public IEnumerable<string>? RemoveCrossInstanceReplicationConfigSecondaryInstances { get; set; }
 
     /// <summary>
-    /// Set instance.maintenancePolicy back to default value.
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Set instance.maintenancePolicy back to default value.
     /// </summary>
     [CliFlag("--clear-maintenance-policy")]
     public bool? ClearMaintenancePolicy { get; set; }
 
     /// <summary>
-    /// Set maintenance_policy_weekly_window to new value. Maintenance window that is applied to resources covered by this policy. Minimum 1. For the current version, the maximum number of weekly_window is expected to be one. day Allows to define schedule that runs specified day of the week. startTime Start time of the window in UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --maintenance-policy-weekly-window='[{"day": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --maintenance-policy-weekly-window=path_to_file.(yaml|json)
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Update maintenance_policy_weekly_window. At most one of these can be specified: Set maintenance_policy_weekly_window to new value. Maintenance window that is applied to resources covered by this policy. Minimum 1. For the current version, the maximum number of weekly_window is expected to be one. day Allows to define schedule that runs specified day of the week. startTime Start time of the window in UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --maintenance-policy-weekly-window='[{"day": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --maintenance-policy-weekly-window=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--maintenance-policy-weekly-window", Format = OptionFormat.EqualsSeparated)]
-    public string? MaintenancePolicyWeeklyWindow { get; set; }
+    public IEnumerable<string>? MaintenancePolicyWeeklyWindow { get; set; }
 
     /// <summary>
-    /// Add new value to maintenance_policy_weekly_window list. Maintenance window that is applied to resources covered by this policy. Minimum 1. For the current version, the maximum number of weekly_window is expected to be one. day Allows to define schedule that runs specified day of the week. startTime Start time of the window in UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --add-maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --add-maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --add-maintenance-policy-weekly-window='[{"day": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --add-maintenance-policy-weekly-window=path_to_file.(yaml|json)
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Update maintenance_policy_weekly_window. At most one of these can be specified: Or at least one of these can be specified: Add new value to maintenance_policy_weekly_window list. Maintenance window that is applied to resources covered by this policy. Minimum 1. For the current version, the maximum number of weekly_window is expected to be one. day Allows to define schedule that runs specified day of the week. startTime Start time of the window in UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --add-maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --add-maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --add-maintenance-policy-weekly-window='[{"day": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --add-maintenance-policy-weekly-window=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-maintenance-policy-weekly-window", Format = OptionFormat.EqualsSeparated)]
-    public string? AddMaintenancePolicyWeeklyWindow { get; set; }
+    public IEnumerable<string>? AddMaintenancePolicyWeeklyWindow { get; set; }
 
     /// <summary>
-    /// Clear maintenance_policy_weekly_window value and set to empty list.
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Update maintenance_policy_weekly_window. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear maintenance_policy_weekly_window value and set to empty list.
     /// </summary>
     [CliFlag("--clear-maintenance-policy-weekly-window")]
     public bool? ClearMaintenancePolicyWeeklyWindow { get; set; }
 
     /// <summary>
-    /// Remove existing value from maintenance_policy_weekly_window list. Maintenance window that is applied to resources covered by this policy. Minimum 1. For the current version, the maximum number of weekly_window is expected to be one. day Allows to define schedule that runs specified day of the week. startTime Start time of the window in UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --remove-maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --remove-maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --remove-maintenance-policy-weekly-window='[{"day": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --remove-maintenance-policy-weekly-window=path_to_file.(yaml|json)
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Update maintenance_policy_weekly_window. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from maintenance_policy_weekly_window list. Maintenance window that is applied to resources covered by this policy. Minimum 1. For the current version, the maximum number of weekly_window is expected to be one. day Allows to define schedule that runs specified day of the week. startTime Start time of the window in UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --remove-maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --remove-maintenance-policy-weekly-window=day=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --remove-maintenance-policy-weekly-window='[{"day": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --remove-maintenance-policy-weekly-window=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-maintenance-policy-weekly-window", Format = OptionFormat.EqualsSeparated)]
-    public string? RemoveMaintenancePolicyWeeklyWindow { get; set; }
+    public IEnumerable<string>? RemoveMaintenancePolicyWeeklyWindow { get; set; }
 
     /// <summary>
-    /// Set endpoints to new value. Endpoints for the instance. connections A group of PSC connections. They are created in the same VPC network, one for each service attachment in the cluster. pscConnection Detailed information of a PSC connection that is created by the user. forwardingRule The URI of the consumer side forwarding rule. Format: projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}. ipAddress The IP allocated on the consumer network for the PSC forwarding rule. network The consumer network where the IP address resides, in the form of projects/{project_id}/global/networks/{network_id}. port port will only be set for Primary/Reader or Discovery endpoint. pscConnectionId The PSC connection id of the forwarding rule connected to the service attachment. serviceAttachment The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}. Shorthand Example: --endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] --endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] JSON Example: --endpoints='[{"connections": [{"pscConnection": {"forwardingRule": "string", "ipAddress": "string", "network": "string", "port": int, "pscConnectionId": "string", "serviceAttachment": "string"}}]}]' File Example: --endpoints=path_to_file.(yaml|json)
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Update endpoints. At most one of these can be specified: Set endpoints to new value. Endpoints for the instance. connections A group of PSC connections. They are created in the same VPC network, one for each service attachment in the cluster. pscConnection Detailed information of a PSC connection that is created by the user. forwardingRule The URI of the consumer side forwarding rule. Format: projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}. ipAddress The IP allocated on the consumer network for the PSC forwarding rule. network The consumer network where the IP address resides, in the form of projects/{project_id}/global/networks/{network_id}. port port will only be set for Primary/Reader or Discovery endpoint. pscConnectionId The PSC connection id of the forwarding rule connected to the service attachment. serviceAttachment The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}. Shorthand Example: --endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] --endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] JSON Example: --endpoints='[{"connections": [{"pscConnection": {"forwardingRule": "string", "ipAddress": "string", "network": "string", "port": int, "pscConnectionId": "string", "serviceAttachment": "string"}}]}]' File Example: --endpoints=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--endpoints", Format = OptionFormat.EqualsSeparated)]
-    public string? Endpoints { get; set; }
+    public IEnumerable<string>? Endpoints { get; set; }
 
     /// <summary>
-    /// Add new value to endpoints list. Endpoints for the instance. connections A group of PSC connections. They are created in the same VPC network, one for each service attachment in the cluster. pscConnection Detailed information of a PSC connection that is created by the user. forwardingRule The URI of the consumer side forwarding rule. Format: projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}. ipAddress The IP allocated on the consumer network for the PSC forwarding rule. network The consumer network where the IP address resides, in the form of projects/{project_id}/global/networks/{network_id}. port port will only be set for Primary/Reader or Discovery endpoint. pscConnectionId The PSC connection id of the forwarding rule connected to the service attachment. serviceAttachment The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}. Shorthand Example: --add-endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] --add-endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] JSON Example: --add-endpoints='[{"connections": [{"pscConnection": {"forwardingRule": "string", "ipAddress": "string", "network": "string", "port": int, "pscConnectionId": "string", "serviceAttachment": "string"}}]}]' File Example: --add-endpoints=path_to_file.(yaml|json)
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Update endpoints. At most one of these can be specified: Or at least one of these can be specified: Add new value to endpoints list. Endpoints for the instance. connections A group of PSC connections. They are created in the same VPC network, one for each service attachment in the cluster. pscConnection Detailed information of a PSC connection that is created by the user. forwardingRule The URI of the consumer side forwarding rule. Format: projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}. ipAddress The IP allocated on the consumer network for the PSC forwarding rule. network The consumer network where the IP address resides, in the form of projects/{project_id}/global/networks/{network_id}. port port will only be set for Primary/Reader or Discovery endpoint. pscConnectionId The PSC connection id of the forwarding rule connected to the service attachment. serviceAttachment The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}. Shorthand Example: --add-endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] --add-endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] JSON Example: --add-endpoints='[{"connections": [{"pscConnection": {"forwardingRule": "string", "ipAddress": "string", "network": "string", "port": int, "pscConnectionId": "string", "serviceAttachment": "string"}}]}]' File Example: --add-endpoints=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-endpoints", Format = OptionFormat.EqualsSeparated)]
-    public string? AddEndpoints { get; set; }
+    public IEnumerable<string>? AddEndpoints { get; set; }
 
     /// <summary>
-    /// Clear endpoints value and set to empty list.
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Update endpoints. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear endpoints value and set to empty list.
     /// </summary>
     [CliFlag("--clear-endpoints")]
     public bool? ClearEndpoints { get; set; }
 
     /// <summary>
-    /// Remove existing value from endpoints list. Endpoints for the instance. connections A group of PSC connections. They are created in the same VPC network, one for each service attachment in the cluster. pscConnection Detailed information of a PSC connection that is created by the user. forwardingRule The URI of the consumer side forwarding rule. Format: projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}. ipAddress The IP allocated on the consumer network for the PSC forwarding rule. network The consumer network where the IP address resides, in the form of projects/{project_id}/global/networks/{network_id}. port port will only be set for Primary/Reader or Discovery endpoint. pscConnectionId The PSC connection id of the forwarding rule connected to the service attachment. serviceAttachment The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}. Shorthand Example: --remove-endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] --remove-endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] JSON Example: --remove-endpoints='[{"connections": [{"pscConnection": {"forwardingRule": "string", "ipAddress": "string", "network": "string", "port": int, "pscConnectionId": "string", "serviceAttachment": "string"}}]}]' File Example: --remove-endpoints=path_to_file.(yaml|json)
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Update endpoints. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from endpoints list. Endpoints for the instance. connections A group of PSC connections. They are created in the same VPC network, one for each service attachment in the cluster. pscConnection Detailed information of a PSC connection that is created by the user. forwardingRule The URI of the consumer side forwarding rule. Format: projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}. ipAddress The IP allocated on the consumer network for the PSC forwarding rule. network The consumer network where the IP address resides, in the form of projects/{project_id}/global/networks/{network_id}. port port will only be set for Primary/Reader or Discovery endpoint. pscConnectionId The PSC connection id of the forwarding rule connected to the service attachment. serviceAttachment The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}. Shorthand Example: --remove-endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] --remove-endpoints=connections=[{pscConnection={forwardingRule=string,ipAddress=string,network=string,port=int,pscConnectionId=string,serviceAttachment=string}}] JSON Example: --remove-endpoints='[{"connections": [{"pscConnection": {"forwardingRule": "string", "ipAddress": "string", "network": "string", "port": int, "pscConnectionId": "string", "serviceAttachment": "string"}}]}]' File Example: --remove-endpoints=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-endpoints", Format = OptionFormat.EqualsSeparated)]
-    public string? RemoveEndpoints { get; set; }
+    public IEnumerable<string>? RemoveEndpoints { get; set; }
 
     /// <summary>
-    /// Set engine_configs to new value. User-provided engine configurations for the instance. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --engine-configs=string=string JSON Example: --engine-configs='{"string": "string"}' File Example: --engine-configs=path_to_file.(yaml|json)
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Update engine_configs. At most one of these can be specified: Set engine_configs to new value. User-provided engine configurations for the instance. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --engine-configs=string=string JSON Example: --engine-configs='{"string": "string"}' File Example: --engine-configs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--engine-configs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EngineConfigs { get; set; }
 
     /// <summary>
-    /// Update engine_configs value or add key value pair. User-provided engine configurations for the instance. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-engine-configs=string=string JSON Example: --update-engine-configs='{"string": "string"}' File Example: --update-engine-configs=path_to_file.(yaml|json)
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Update engine_configs. At most one of these can be specified: Or at least one of these can be specified: Update engine_configs value or add key value pair. User-provided engine configurations for the instance. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-engine-configs=string=string JSON Example: --update-engine-configs='{"string": "string"}' File Example: --update-engine-configs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-engine-configs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UpdateEngineConfigs { get; set; }
 
     /// <summary>
-    /// Clear engine_configs value and set to empty map.
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Update engine_configs. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear engine_configs value and set to empty map.
     /// </summary>
     [CliFlag("--clear-engine-configs")]
     public bool? ClearEngineConfigs { get; set; }
 
     /// <summary>
-    /// Remove existing value from map engine_configs. Sets remove_engine_configs value. Shorthand Example: --remove-engine-configs=string,string JSON Example: --remove-engine-configs=["string"] File Example: --remove-engine-configs=path_to_file.(yaml|json)
+    /// Arguments for the schedule. This schedule allows the backup to be triggered at a fixed frequency (currently only daily is supported). Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are [google.type.Date][google.type.Date] and google.protobuf.Timestamp. Cross instance replication config. Maintenance policy per instance. Update engine_configs. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map engine_configs. Sets remove_engine_configs value. Shorthand Example: --remove-engine-configs=string,string JSON Example: --remove-engine-configs=["string"] File Example: --remove-engine-configs=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-engine-configs", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveEngineConfigs { get; set; }
 
     /// <summary>
-    /// The keyRing id of the cryptoKey resource. To set the key-ring attribute: * provide the argument --current on the command line with a fully specified name; * provide the argument --key-ring on the command line.
+    /// Arguments for the kms key. All arguments needed to update kms_key. The keyRing id of the cryptoKey resource. To set the key-ring attribute: ◆ provide the argument --current on the command line with a fully specified name; ◆ provide the argument --key-ring on the command line.
     /// </summary>
     [CliOption("--key-ring", Format = OptionFormat.EqualsSeparated)]
     public string? KeyRing { get; set; }
 
     /// <summary>
-    /// Clear kms_key value and set to null.
+    /// Arguments for the kms key. All arguments needed to update kms_key. Update kms_key. At most one of these can be specified: Clear kms_key value and set to null.
     /// </summary>
     [CliFlag("--clear-kms-key")]
     public bool? ClearKmsKey { get; set; }
 
     /// <summary>
-    /// ID of the cryptoKey or fully qualified identifier for the cryptoKey. To set the crypto-key attribute: + provide the argument --kms-key on the command line.
+    /// Arguments for the kms key. All arguments needed to update kms_key. CryptoKey resource - Set kms_key to new value. The KMS key used to encrypt the at-rest data of the cluster. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --location on the command line. To set the key-ring attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --key-ring on the command line. ID of the cryptoKey or fully qualified identifier for the cryptoKey. To set the crypto-key attribute: ▸ provide the argument --kms-key on the command line.
     /// </summary>
     [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// Set labels to new value. Labels to represent user-provided metadata. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// Arguments for the kms key. All arguments needed to update kms_key. Update labels. At most one of these can be specified: Set labels to new value. Labels to represent user-provided metadata. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// Update labels value or add key value pair. Labels to represent user-provided metadata. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
+    /// Arguments for the kms key. All arguments needed to update kms_key. Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. Labels to represent user-provided metadata. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Clear labels value and set to empty map.
+    /// Arguments for the kms key. All arguments needed to update kms_key. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
+    /// Arguments for the kms key. All arguments needed to update kms_key. Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveLabels { get; set; }

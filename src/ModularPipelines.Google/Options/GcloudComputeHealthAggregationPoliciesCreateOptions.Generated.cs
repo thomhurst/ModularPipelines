@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -33,13 +34,22 @@ public record GcloudComputeHealthAggregationPoliciesCreateOptions : GcloudOption
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
-    [Obsolete("HealthyPercentThreshold is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Can only be set if the policyType field is BACKEND_SERVICE_POLICY. Specifies the threshold (as a percentage) of healthy endpoints required in order to consider the aggregated health result HEALTHY. Defaults to 60. Must be in range [0, 100]. Not applicable if the policyType field is DNS_PUBLIC_IP_POLICY. Can be mutated. This field is optional, and will be set to the default if unspecified. Note that both this threshold and minHealthyThreshold must be satisfied in order for HEALTHY to be the aggregated result. "Endpoints" refers to network endpoints within a Network Endpoint Group or instances within an Instance Group.
+    /// </summary>
+    [CliOption("--healthy-percent-threshold", Format = OptionFormat.EqualsSeparated)]
     public string? HealthyPercentThreshold { get; set; }
 
-    [Obsolete("MinHealthyThreshold is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Can only be set if the policyType field is BACKEND_SERVICE_POLICY. Specifies the minimum number of healthy endpoints required in order to consider the aggregated health result HEALTHY. Defaults to 1. Must be positive. Not applicable if the policyType field is DNS_PUBLIC_IP_POLICY. Can be mutated. This field is optional, and will be set to the default if unspecified. Note that both this threshold and healthyPercentThreshold must be satisfied in order for HEALTHY to be the aggregated result. "Endpoints" refers to network endpoints within a Network Endpoint Group or instances within an Instance Group.
+    /// </summary>
+    [CliOption("--min-healthy-threshold", Format = OptionFormat.EqualsSeparated)]
     public string? MinHealthyThreshold { get; set; }
 
-    [Obsolete("PolicyType is no longer supported by the installed CLI and has no effect.")]
-    public string? PolicyType { get; set; }
+    /// <summary>
+    /// Specifies the type of the healthAggregationPolicy. The only allowed value for regional resources is BACKEND_SERVICE_POLICY. Must be specified when the healthAggregationPolicy is created, and cannot be mutated. POLICY_TYPE must be one of: backend-service-policy, dns-public-ip-policy.
+    /// </summary>
+    [CliOption("--policy-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudPolicyType? PolicyType { get; set; }
 
 }

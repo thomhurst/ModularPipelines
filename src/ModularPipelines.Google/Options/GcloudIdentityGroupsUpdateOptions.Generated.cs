@@ -33,7 +33,7 @@ public record GcloudIdentityGroupsUpdateOptions(
     /// One or more label entries that apply to the group. Currently supported labels contain a key with an empty value. Google Groups are the default type of group and have a label with a key of 'cloudidentity.googleapis.com/groups.discussion_forum' and an empty value. Existing Google Groups can have an additional label with a key of 'cloudidentity.googleapis.com/groups.security' and an empty value added to them. This is an immutable change and the security label cannot be removed once added. Dynamic groups have a label with a key of 'cloudidentity.googleapis.com/groups.dynamic'. Identity-mapped groups for Cloud Search have a label with a key of 'system/groups/external' and an empty value. Examples: {"cloudidentity.googleapis.com/groups.discussion_forum": ""} or {"system/groups/external": ""}.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? LabelsValues { get; set; }
+    public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Clear existing description on group being updated.
@@ -58,12 +58,5 @@ public record GcloudIdentityGroupsUpdateOptions(
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
-
-    [Obsolete("Use LabelsValues instead.")]
-    public string? Labels
-    {
-        get => LabelsValues?.FirstOrDefault();
-        set => LabelsValues = value is null ? null : [value];
-    }
 
 }

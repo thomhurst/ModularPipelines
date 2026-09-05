@@ -24,7 +24,7 @@ public record GcloudComputeSnapshotsUpdateKmsKeyOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the snapshot. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The region of the snapshot to update.
+    /// The region of the snapshot to update.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

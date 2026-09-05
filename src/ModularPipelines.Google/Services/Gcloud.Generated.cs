@@ -26,16 +26,16 @@ internal partial class Gcloud : IGcloud
     /// Initializes a new instance of the <see cref="Gcloud"/> class.
     /// </summary>
     public Gcloud(
-        IGcloudAccessapproval accessapproval,
-        IGcloudAccesscontextmanager accesscontextmanager,
-        IGcloudActivedirectory activedirectory,
-        IGcloudAgentidentity agentidentity,
-        IGcloudAgentregistry agentregistry,
+        IGcloudAccessApproval accessApproval,
+        IGcloudAccessContextManager accessContextManager,
+        IGcloudActiveDirectory activeDirectory,
+        IGcloudAgentIdentity agentIdentity,
+        IGcloudAgentRegistry agentRegistry,
         IGcloudAi ai,
-        IGcloudAiplatform aiplatform,
+        IGcloudAiPlatform aiPlatform,
         IGcloudAlloydb alloydb,
         IGcloudAnthos anthos,
-        IGcloudApigateway apigateway,
+        IGcloudApiGateway apiGateway,
         IGcloudApigee apigee,
         IGcloudApihub apihub,
         IGcloudApp app,
@@ -43,9 +43,9 @@ internal partial class Gcloud : IGcloud
         IGcloudArtifacts artifacts,
         IGcloudAsset asset,
         IGcloudAssured assured,
-        IGcloudAuditmanager auditmanager,
+        IGcloudAuditManager auditManager,
         IGcloudAuth auth,
-        IGcloudBackupdr backupdr,
+        IGcloudBackupDr backupDr,
         IGcloudBatch batch,
         IGcloudBeyondcorp beyondcorp,
         IGcloudBiglake biglake,
@@ -54,18 +54,19 @@ internal partial class Gcloud : IGcloud
         IGcloudBms bms,
         IGcloudBq bq,
         IGcloudBuilds builds,
-        IGcloudCertificatemanager certificatemanager,
+        IGcloudCertificateManager certificateManager,
         IGcloudCloudlocationfinder cloudlocationfinder,
-        IGcloudCloudshell cloudshell,
+        IGcloudCloudShell cloudShell,
+        IGcloudClusterDirector clusterDirector,
         IGcloudColab colab,
-        IGcloudCompliancemanager compliancemanager,
+        IGcloudComplianceManager complianceManager,
         IGcloudComponents components,
         IGcloudComposer composer,
         IGcloudCompute compute,
         IGcloudConfig config,
         IGcloudContainer container,
-        IGcloudDatabasemigration databasemigration,
-        IGcloudDatacatalog datacatalog,
+        IGcloudDatabaseMigration databaseMigration,
+        IGcloudDataCatalog dataCatalog,
         IGcloudDataflow dataflow,
         IGcloudDatalineage datalineage,
         IGcloudDataplex dataplex,
@@ -73,16 +74,16 @@ internal partial class Gcloud : IGcloud
         IGcloudDatastore datastore,
         IGcloudDatastream datastream,
         IGcloudDeploy deploy,
-        IGcloudDeploymentmanager deploymentmanager,
-        IGcloudDesigncenter designcenter,
-        IGcloudDeveloperconnect developerconnect,
+        IGcloudDeploymentManager deploymentManager,
+        IGcloudDesignCenter designCenter,
+        IGcloudDeveloperConnect developerConnect,
         IGcloudDns dns,
         IGcloudDomains domains,
-        IGcloudEdgecache edgecache,
-        IGcloudEdgecloud edgecloud,
+        IGcloudEdgeCache edgeCache,
+        IGcloudEdgeCloud edgeCloud,
         IGcloudEmulators emulators,
         IGcloudEndpoints endpoints,
-        IGcloudEssentialcontacts essentialcontacts,
+        IGcloudEssentialContacts essentialContacts,
         IGcloudEventarc eventarc,
         IGcloudFilestore filestore,
         IGcloudFirebase firebase,
@@ -94,33 +95,33 @@ internal partial class Gcloud : IGcloud
         IGcloudIap iap,
         IGcloudIdentity identity,
         IGcloudIds ids,
-        IGcloudInframanager inframanager,
+        IGcloudInfraManager infraManager,
         IGcloudKms kms,
         IGcloudLogging logging,
         IGcloudLooker looker,
         IGcloudLustre lustre,
-        IGcloudManagedkafka managedkafka,
+        IGcloudManagedKafka managedKafka,
         IGcloudMemcache memcache,
         IGcloudMemorystore memorystore,
         IGcloudMetastore metastore,
         IGcloudMigration migration,
         IGcloudMl ml,
-        IGcloudModelarmor modelarmor,
+        IGcloudModelArmor modelArmor,
         IGcloudMonitoring monitoring,
         IGcloudNetapp netapp,
-        IGcloudNetworkconnectivity networkconnectivity,
-        IGcloudNetworkmanagement networkmanagement,
-        IGcloudNetworksecurity networksecurity,
-        IGcloudNetworkservices networkservices,
+        IGcloudNetworkConnectivity networkConnectivity,
+        IGcloudNetworkManagement networkManagement,
+        IGcloudNetworkSecurity networkSecurity,
+        IGcloudNetworkServices networkServices,
         IGcloudNotebooks notebooks,
         IGcloudObservability observability,
-        IGcloudOracledatabase oracledatabase,
+        IGcloudOracleDatabase oracleDatabase,
         IGcloudOrganizations organizations,
-        IGcloudOrgpolicies orgpolicies,
+        IGcloudOrgPolicies orgPolicies,
         IGcloudPam pam,
-        IGcloudParametermanager parametermanager,
-        IGcloudPolicyintelligence policyintelligence,
-        IGcloudPolicytroubleshoot policytroubleshoot,
+        IGcloudParameterManager parameterManager,
+        IGcloudPolicyIntelligence policyIntelligence,
+        IGcloudPolicyTroubleshoot policyTroubleshoot,
         IGcloudPreview preview,
         IGcloudPrivateca privateca,
         IGcloudProjects projects,
@@ -135,40 +136,40 @@ internal partial class Gcloud : IGcloud
         IGcloudScc scc,
         IGcloudScheduler scheduler,
         IGcloudSecrets secrets,
-        IGcloudServicedirectory servicedirectory,
-        IGcloudServiceextensions serviceextensions,
-        IGcloudServicehealth servicehealth,
+        IGcloudServiceDirectory serviceDirectory,
+        IGcloudServiceExtensions serviceExtensions,
+        IGcloudServiceHealth serviceHealth,
         IGcloudServices services,
         IGcloudSource source,
-        IGcloudSourcemanager sourcemanager,
+        IGcloudSourceManager sourceManager,
         IGcloudSpanner spanner,
         IGcloudSql sql,
         IGcloudStorage storage,
         IGcloudSupport support,
         IGcloudTasks tasks,
-        IGcloudTelcoautomation telcoautomation,
+        IGcloudTelcoAutomation telcoAutomation,
         IGcloudTranscoder transcoder,
         IGcloudTransfer transfer,
-        IGcloudVectorsearch vectorsearch,
+        IGcloudVectorSearch vectorSearch,
         IGcloudVmware vmware,
         IGcloudWorkbench workbench,
         IGcloudWorkflows workflows,
-        IGcloudWorkloadidentity workloadidentity,
-        IGcloudWorkspaceaddons workspaceaddons,
+        IGcloudWorkloadIdentity workloadIdentity,
+        IGcloudWorkspaceAddOns workspaceAddOns,
         IGcloudWorkstations workstations,
         ICommandContext command
     )
     {
-        Accessapproval = accessapproval;
-        Accesscontextmanager = accesscontextmanager;
-        Activedirectory = activedirectory;
-        Agentidentity = agentidentity;
-        Agentregistry = agentregistry;
+        AccessApproval = accessApproval;
+        AccessContextManager = accessContextManager;
+        ActiveDirectory = activeDirectory;
+        AgentIdentity = agentIdentity;
+        AgentRegistry = agentRegistry;
         Ai = ai;
-        Aiplatform = aiplatform;
+        AiPlatform = aiPlatform;
         Alloydb = alloydb;
         Anthos = anthos;
-        Apigateway = apigateway;
+        ApiGateway = apiGateway;
         Apigee = apigee;
         Apihub = apihub;
         App = app;
@@ -176,9 +177,9 @@ internal partial class Gcloud : IGcloud
         Artifacts = artifacts;
         Asset = asset;
         Assured = assured;
-        Auditmanager = auditmanager;
+        AuditManager = auditManager;
         Auth = auth;
-        Backupdr = backupdr;
+        BackupDr = backupDr;
         Batch = batch;
         Beyondcorp = beyondcorp;
         Biglake = biglake;
@@ -187,18 +188,19 @@ internal partial class Gcloud : IGcloud
         Bms = bms;
         Bq = bq;
         Builds = builds;
-        Certificatemanager = certificatemanager;
+        CertificateManager = certificateManager;
         Cloudlocationfinder = cloudlocationfinder;
-        Cloudshell = cloudshell;
+        CloudShell = cloudShell;
+        ClusterDirector = clusterDirector;
         Colab = colab;
-        Compliancemanager = compliancemanager;
+        ComplianceManager = complianceManager;
         Components = components;
         Composer = composer;
         Compute = compute;
         Config = config;
         Container = container;
-        Databasemigration = databasemigration;
-        Datacatalog = datacatalog;
+        DatabaseMigration = databaseMigration;
+        DataCatalog = dataCatalog;
         Dataflow = dataflow;
         Datalineage = datalineage;
         Dataplex = dataplex;
@@ -206,16 +208,16 @@ internal partial class Gcloud : IGcloud
         Datastore = datastore;
         Datastream = datastream;
         Deploy = deploy;
-        Deploymentmanager = deploymentmanager;
-        Designcenter = designcenter;
-        Developerconnect = developerconnect;
+        DeploymentManager = deploymentManager;
+        DesignCenter = designCenter;
+        DeveloperConnect = developerConnect;
         Dns = dns;
         Domains = domains;
-        Edgecache = edgecache;
-        Edgecloud = edgecloud;
+        EdgeCache = edgeCache;
+        EdgeCloud = edgeCloud;
         Emulators = emulators;
         Endpoints = endpoints;
-        Essentialcontacts = essentialcontacts;
+        EssentialContacts = essentialContacts;
         Eventarc = eventarc;
         Filestore = filestore;
         Firebase = firebase;
@@ -227,33 +229,33 @@ internal partial class Gcloud : IGcloud
         Iap = iap;
         Identity = identity;
         Ids = ids;
-        Inframanager = inframanager;
+        InfraManager = infraManager;
         Kms = kms;
         Logging = logging;
         Looker = looker;
         Lustre = lustre;
-        Managedkafka = managedkafka;
+        ManagedKafka = managedKafka;
         Memcache = memcache;
         Memorystore = memorystore;
         Metastore = metastore;
         Migration = migration;
         Ml = ml;
-        Modelarmor = modelarmor;
+        ModelArmor = modelArmor;
         Monitoring = monitoring;
         Netapp = netapp;
-        Networkconnectivity = networkconnectivity;
-        Networkmanagement = networkmanagement;
-        Networksecurity = networksecurity;
-        Networkservices = networkservices;
+        NetworkConnectivity = networkConnectivity;
+        NetworkManagement = networkManagement;
+        NetworkSecurity = networkSecurity;
+        NetworkServices = networkServices;
         Notebooks = notebooks;
         Observability = observability;
-        Oracledatabase = oracledatabase;
+        OracleDatabase = oracleDatabase;
         Organizations = organizations;
-        Orgpolicies = orgpolicies;
+        OrgPolicies = orgPolicies;
         Pam = pam;
-        Parametermanager = parametermanager;
-        Policyintelligence = policyintelligence;
-        Policytroubleshoot = policytroubleshoot;
+        ParameterManager = parameterManager;
+        PolicyIntelligence = policyIntelligence;
+        PolicyTroubleshoot = policyTroubleshoot;
         Preview = preview;
         Privateca = privateca;
         Projects = projects;
@@ -268,26 +270,26 @@ internal partial class Gcloud : IGcloud
         Scc = scc;
         Scheduler = scheduler;
         Secrets = secrets;
-        Servicedirectory = servicedirectory;
-        Serviceextensions = serviceextensions;
-        Servicehealth = servicehealth;
+        ServiceDirectory = serviceDirectory;
+        ServiceExtensions = serviceExtensions;
+        ServiceHealth = serviceHealth;
         Services = services;
         Source = source;
-        Sourcemanager = sourcemanager;
+        SourceManager = sourceManager;
         Spanner = spanner;
         Sql = sql;
         Storage = storage;
         Support = support;
         Tasks = tasks;
-        Telcoautomation = telcoautomation;
+        TelcoAutomation = telcoAutomation;
         Transcoder = transcoder;
         Transfer = transfer;
-        Vectorsearch = vectorsearch;
+        VectorSearch = vectorSearch;
         Vmware = vmware;
         Workbench = workbench;
         Workflows = workflows;
-        Workloadidentity = workloadidentity;
-        Workspaceaddons = workspaceaddons;
+        WorkloadIdentity = workloadIdentity;
+        WorkspaceAddOns = workspaceAddOns;
         Workstations = workstations;
         _command = command;
     }
@@ -295,25 +297,25 @@ internal partial class Gcloud : IGcloud
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public IGcloudAccessapproval Accessapproval { get; }
+    public IGcloudAccessApproval AccessApproval { get; }
 
     /// <inheritdoc />
-    public IGcloudAccesscontextmanager Accesscontextmanager { get; }
+    public IGcloudAccessContextManager AccessContextManager { get; }
 
     /// <inheritdoc />
-    public IGcloudActivedirectory Activedirectory { get; }
+    public IGcloudActiveDirectory ActiveDirectory { get; }
 
     /// <inheritdoc />
-    public IGcloudAgentidentity Agentidentity { get; }
+    public IGcloudAgentIdentity AgentIdentity { get; }
 
     /// <inheritdoc />
-    public IGcloudAgentregistry Agentregistry { get; }
+    public IGcloudAgentRegistry AgentRegistry { get; }
 
     /// <inheritdoc />
     public IGcloudAi Ai { get; }
 
     /// <inheritdoc />
-    public IGcloudAiplatform Aiplatform { get; }
+    public IGcloudAiPlatform AiPlatform { get; }
 
     /// <inheritdoc />
     public IGcloudAlloydb Alloydb { get; }
@@ -322,7 +324,7 @@ internal partial class Gcloud : IGcloud
     public IGcloudAnthos Anthos { get; }
 
     /// <inheritdoc />
-    public IGcloudApigateway Apigateway { get; }
+    public IGcloudApiGateway ApiGateway { get; }
 
     /// <inheritdoc />
     public IGcloudApigee Apigee { get; }
@@ -346,13 +348,13 @@ internal partial class Gcloud : IGcloud
     public IGcloudAssured Assured { get; }
 
     /// <inheritdoc />
-    public IGcloudAuditmanager Auditmanager { get; }
+    public IGcloudAuditManager AuditManager { get; }
 
     /// <inheritdoc />
     public IGcloudAuth Auth { get; }
 
     /// <inheritdoc />
-    public IGcloudBackupdr Backupdr { get; }
+    public IGcloudBackupDr BackupDr { get; }
 
     /// <inheritdoc />
     public IGcloudBatch Batch { get; }
@@ -379,19 +381,22 @@ internal partial class Gcloud : IGcloud
     public IGcloudBuilds Builds { get; }
 
     /// <inheritdoc />
-    public IGcloudCertificatemanager Certificatemanager { get; }
+    public IGcloudCertificateManager CertificateManager { get; }
 
     /// <inheritdoc />
     public IGcloudCloudlocationfinder Cloudlocationfinder { get; }
 
     /// <inheritdoc />
-    public IGcloudCloudshell Cloudshell { get; }
+    public IGcloudCloudShell CloudShell { get; }
+
+    /// <inheritdoc />
+    public IGcloudClusterDirector ClusterDirector { get; }
 
     /// <inheritdoc />
     public IGcloudColab Colab { get; }
 
     /// <inheritdoc />
-    public IGcloudCompliancemanager Compliancemanager { get; }
+    public IGcloudComplianceManager ComplianceManager { get; }
 
     /// <inheritdoc />
     public IGcloudComponents Components { get; }
@@ -409,10 +414,10 @@ internal partial class Gcloud : IGcloud
     public IGcloudContainer Container { get; }
 
     /// <inheritdoc />
-    public IGcloudDatabasemigration Databasemigration { get; }
+    public IGcloudDatabaseMigration DatabaseMigration { get; }
 
     /// <inheritdoc />
-    public IGcloudDatacatalog Datacatalog { get; }
+    public IGcloudDataCatalog DataCatalog { get; }
 
     /// <inheritdoc />
     public IGcloudDataflow Dataflow { get; }
@@ -436,13 +441,13 @@ internal partial class Gcloud : IGcloud
     public IGcloudDeploy Deploy { get; }
 
     /// <inheritdoc />
-    public IGcloudDeploymentmanager Deploymentmanager { get; }
+    public IGcloudDeploymentManager DeploymentManager { get; }
 
     /// <inheritdoc />
-    public IGcloudDesigncenter Designcenter { get; }
+    public IGcloudDesignCenter DesignCenter { get; }
 
     /// <inheritdoc />
-    public IGcloudDeveloperconnect Developerconnect { get; }
+    public IGcloudDeveloperConnect DeveloperConnect { get; }
 
     /// <inheritdoc />
     public IGcloudDns Dns { get; }
@@ -451,10 +456,10 @@ internal partial class Gcloud : IGcloud
     public IGcloudDomains Domains { get; }
 
     /// <inheritdoc />
-    public IGcloudEdgecache Edgecache { get; }
+    public IGcloudEdgeCache EdgeCache { get; }
 
     /// <inheritdoc />
-    public IGcloudEdgecloud Edgecloud { get; }
+    public IGcloudEdgeCloud EdgeCloud { get; }
 
     /// <inheritdoc />
     public IGcloudEmulators Emulators { get; }
@@ -463,7 +468,7 @@ internal partial class Gcloud : IGcloud
     public IGcloudEndpoints Endpoints { get; }
 
     /// <inheritdoc />
-    public IGcloudEssentialcontacts Essentialcontacts { get; }
+    public IGcloudEssentialContacts EssentialContacts { get; }
 
     /// <inheritdoc />
     public IGcloudEventarc Eventarc { get; }
@@ -499,7 +504,7 @@ internal partial class Gcloud : IGcloud
     public IGcloudIds Ids { get; }
 
     /// <inheritdoc />
-    public IGcloudInframanager Inframanager { get; }
+    public IGcloudInfraManager InfraManager { get; }
 
     /// <inheritdoc />
     public IGcloudKms Kms { get; }
@@ -514,7 +519,7 @@ internal partial class Gcloud : IGcloud
     public IGcloudLustre Lustre { get; }
 
     /// <inheritdoc />
-    public IGcloudManagedkafka Managedkafka { get; }
+    public IGcloudManagedKafka ManagedKafka { get; }
 
     /// <inheritdoc />
     public IGcloudMemcache Memcache { get; }
@@ -532,7 +537,7 @@ internal partial class Gcloud : IGcloud
     public IGcloudMl Ml { get; }
 
     /// <inheritdoc />
-    public IGcloudModelarmor Modelarmor { get; }
+    public IGcloudModelArmor ModelArmor { get; }
 
     /// <inheritdoc />
     public IGcloudMonitoring Monitoring { get; }
@@ -541,16 +546,16 @@ internal partial class Gcloud : IGcloud
     public IGcloudNetapp Netapp { get; }
 
     /// <inheritdoc />
-    public IGcloudNetworkconnectivity Networkconnectivity { get; }
+    public IGcloudNetworkConnectivity NetworkConnectivity { get; }
 
     /// <inheritdoc />
-    public IGcloudNetworkmanagement Networkmanagement { get; }
+    public IGcloudNetworkManagement NetworkManagement { get; }
 
     /// <inheritdoc />
-    public IGcloudNetworksecurity Networksecurity { get; }
+    public IGcloudNetworkSecurity NetworkSecurity { get; }
 
     /// <inheritdoc />
-    public IGcloudNetworkservices Networkservices { get; }
+    public IGcloudNetworkServices NetworkServices { get; }
 
     /// <inheritdoc />
     public IGcloudNotebooks Notebooks { get; }
@@ -559,25 +564,25 @@ internal partial class Gcloud : IGcloud
     public IGcloudObservability Observability { get; }
 
     /// <inheritdoc />
-    public IGcloudOracledatabase Oracledatabase { get; }
+    public IGcloudOracleDatabase OracleDatabase { get; }
 
     /// <inheritdoc />
     public IGcloudOrganizations Organizations { get; }
 
     /// <inheritdoc />
-    public IGcloudOrgpolicies Orgpolicies { get; }
+    public IGcloudOrgPolicies OrgPolicies { get; }
 
     /// <inheritdoc />
     public IGcloudPam Pam { get; }
 
     /// <inheritdoc />
-    public IGcloudParametermanager Parametermanager { get; }
+    public IGcloudParameterManager ParameterManager { get; }
 
     /// <inheritdoc />
-    public IGcloudPolicyintelligence Policyintelligence { get; }
+    public IGcloudPolicyIntelligence PolicyIntelligence { get; }
 
     /// <inheritdoc />
-    public IGcloudPolicytroubleshoot Policytroubleshoot { get; }
+    public IGcloudPolicyTroubleshoot PolicyTroubleshoot { get; }
 
     /// <inheritdoc />
     public IGcloudPreview Preview { get; }
@@ -622,13 +627,13 @@ internal partial class Gcloud : IGcloud
     public IGcloudSecrets Secrets { get; }
 
     /// <inheritdoc />
-    public IGcloudServicedirectory Servicedirectory { get; }
+    public IGcloudServiceDirectory ServiceDirectory { get; }
 
     /// <inheritdoc />
-    public IGcloudServiceextensions Serviceextensions { get; }
+    public IGcloudServiceExtensions ServiceExtensions { get; }
 
     /// <inheritdoc />
-    public IGcloudServicehealth Servicehealth { get; }
+    public IGcloudServiceHealth ServiceHealth { get; }
 
     /// <inheritdoc />
     public IGcloudServices Services { get; }
@@ -637,7 +642,7 @@ internal partial class Gcloud : IGcloud
     public IGcloudSource Source { get; }
 
     /// <inheritdoc />
-    public IGcloudSourcemanager Sourcemanager { get; }
+    public IGcloudSourceManager SourceManager { get; }
 
     /// <inheritdoc />
     public IGcloudSpanner Spanner { get; }
@@ -655,7 +660,7 @@ internal partial class Gcloud : IGcloud
     public IGcloudTasks Tasks { get; }
 
     /// <inheritdoc />
-    public IGcloudTelcoautomation Telcoautomation { get; }
+    public IGcloudTelcoAutomation TelcoAutomation { get; }
 
     /// <inheritdoc />
     public IGcloudTranscoder Transcoder { get; }
@@ -664,7 +669,7 @@ internal partial class Gcloud : IGcloud
     public IGcloudTransfer Transfer { get; }
 
     /// <inheritdoc />
-    public IGcloudVectorsearch Vectorsearch { get; }
+    public IGcloudVectorSearch VectorSearch { get; }
 
     /// <inheritdoc />
     public IGcloudVmware Vmware { get; }
@@ -676,10 +681,10 @@ internal partial class Gcloud : IGcloud
     public IGcloudWorkflows Workflows { get; }
 
     /// <inheritdoc />
-    public IGcloudWorkloadidentity Workloadidentity { get; }
+    public IGcloudWorkloadIdentity WorkloadIdentity { get; }
 
     /// <inheritdoc />
-    public IGcloudWorkspaceaddons Workspaceaddons { get; }
+    public IGcloudWorkspaceAddOns WorkspaceAddOns { get; }
 
     /// <inheritdoc />
     public IGcloudWorkstations Workstations { get; }

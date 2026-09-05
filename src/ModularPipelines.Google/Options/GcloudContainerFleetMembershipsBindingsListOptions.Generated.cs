@@ -21,7 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "fleet", "memberships", "bindings", "list")]
 public record GcloudContainerFleetMembershipsBindingsListOptions : GcloudOptions
 {
-    [Obsolete("Location is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Name of the Membership location to list Bindings from.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
 }

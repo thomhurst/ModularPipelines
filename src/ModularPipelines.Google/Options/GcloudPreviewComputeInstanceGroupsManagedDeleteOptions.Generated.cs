@@ -30,6 +30,12 @@ public record GcloudPreviewComputeInstanceGroupsManagedDeleteOptions(
     public bool? Async { get; set; }
 
     /// <summary>
+    /// Delete the managed instance group without graceful shutdown.
+    /// </summary>
+    [CliFlag("--no-graceful-shutdown")]
+    public bool? NoGracefulShutdown { get; set; }
+
+    /// <summary>
     /// At most one of these can be specified: Region of the managed instance groups to delete. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]

@@ -17,17 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudPrivateIpv6GoogleAccessType
 {
     [EnumValue("bidirectional")]
-    Bidirectional = 0,
+    Bidirectional,
 
     [EnumValue("disabled")]
-    Disabled = 1,
+    Disabled,
 
     [EnumValue("outbound-only")]
-    OutboundOnly = 2,
-
-    [EnumValue("inherit-subnetwork")]
-    InheritSubnetwork = 3,
-
-    [EnumValue("outbound")]
-    Outbound = 4
+    OutboundOnly
 }

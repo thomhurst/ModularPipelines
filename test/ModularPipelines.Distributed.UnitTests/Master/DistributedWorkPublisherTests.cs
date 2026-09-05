@@ -54,6 +54,29 @@ public class DistributedWorkPublisherTests
             => Task.FromResult(42);
     }
 
+    [Test]
+    public async Task CreateAssignment_Includes_Scheduling_Metadata()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(IndependentModule));
+        var publisher = new DistributedWorkPublisher(
+            coordinator,
+            typeRegistry,
+            new ModuleResultRegistry());
+
+        var assignment = publisher.CreateAssignment(
+            new IndependentModule(),
+            ModulePriority.Critical,
+            TimeSpan.FromMinutes(7));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(assignment.Priority).IsEqualTo(ModulePriority.Critical);
+            await Assert.That(assignment.CriticalPathWeight).IsEqualTo(TimeSpan.FromMinutes(7));
+        }
+    }
+
     private class FluentConsumerModule : Module<string>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module
