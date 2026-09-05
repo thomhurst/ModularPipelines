@@ -29,14 +29,14 @@ public record AzWebappConnectionCreateNeonPostgresOptions : AzOptions
     /// <summary>
     /// The client type used on the webapp.  Allowed values: django, dotnet, dotnet-internal, go, java, nodejs, none, php, python, ruby, springBoot.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the webapp connection.
     /// </summary>
     [CliOption("--connection")]
-    public string? ConnectionValue { get; set; }
+    public string? Connection { get; set; }
 
     /// <summary>
     /// The additional connection string properties used to build connection string.
@@ -54,13 +54,13 @@ public record AzWebappConnectionCreateNeonPostgresOptions : AzOptions
     /// Name of the sql database. Required if '--target-id' is not specified.
     /// </summary>
     [CliOption("--database")]
-    public string? DatabaseValue { get; set; }
+    public string? Database { get; set; }
 
     /// <summary>
     /// Name of the webapp. Required if '--source-id' is not specified.None.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Skip executing creation operation when no updates to an existing connection.  Allowed values: false, true.
@@ -77,93 +77,43 @@ public record AzWebappConnectionCreateNeonPostgresOptions : AzOptions
     /// <summary>
     /// Whether to disable some configuration steps. Use configinfo to disbale configuration information changes on source. Use publicnetwork to disable public network access configuration.Use auth to skip auth configuration such as enabling managed identity and granting RBAC roles.  Allowed values: auth, configinfo, publicnetwork.
     /// </summary>
-    [CliFlag("--opt-out")]
-    public bool? OptOut { get; set; }
+    [CliOption("--opt-out")]
+    public string? OptOut { get; set; }
 
     /// <summary>
     /// The resource group which contains the webapp. Required if '--source-id' is not specified.None.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Name of the sql server. Required if '--target-id' is not specified.
     /// </summary>
     [CliOption("--server")]
-    public string? ServerValue { get; set; }
+    public string? Server { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the production slot if not specified.
     /// </summary>
     [CliOption("--slot")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// The resource id of a webapp. Required if ['--resource-group', '--name'] are not specified.
     /// </summary>
     [CliOption("--source-id")]
-    public string? SourceIdValue { get; set; }
+    public string? SourceId { get; set; }
 
     /// <summary>
     /// The id of key vault to store secret value.
     /// </summary>
     [CliOption("--vault-id")]
-    public string? VaultIdValue { get; set; }
+    public string? VaultId { get; set; }
 
-    [Obsolete("Use ConnectionValue instead.")]
-    public bool? Connection
-    {
-        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
-        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use DatabaseValue instead.")]
-    public bool? Database
-    {
-        get => bool.TryParse(DatabaseValue, out var value) ? value : null;
-        set => DatabaseValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ServerValue instead.")]
-    public bool? Server
-    {
-        get => bool.TryParse(ServerValue, out var value) ? value : null;
-        set => ServerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
-    {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SourceIdValue instead.")]
-    public bool? SourceId
-    {
-        get => bool.TryParse(SourceIdValue, out var value) ? value : null;
-        set => SourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VaultIdValue instead.")]
-    public bool? VaultId
-    {
-        get => bool.TryParse(VaultIdValue, out var value) ? value : null;
-        set => VaultIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The secret auth info.
+    /// </summary>
+    [CliFlag("--secret")]
+    public bool? Secret { get; set; }
 
 }

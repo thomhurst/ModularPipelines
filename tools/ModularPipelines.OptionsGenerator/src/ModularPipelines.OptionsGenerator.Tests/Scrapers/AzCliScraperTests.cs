@@ -320,6 +320,70 @@ public class AzCliScraperTests
     }
 
     [Test]
+    public async Task Nonstandard_Description_Only_Values_Are_Not_Flags()
+    {
+        const string helpText = """
+            Command
+                az acr build : Queue a registry build.
+
+            Optional Arguments
+                --build-arg       : Build argument in '--build-arg name[=value]' format. Multiples are supported by passing --build-arg multiple times.
+                --file            : The relative path of the docker file.
+                --platform        : The platform where the build is run.
+                --secret-build-arg: Secret build argument in '--secret-build-arg name[=value]' format. Multiples are supported by passing --secret-build-arg multiple times.
+                --timeout         : The timeout in seconds.
+                --no-wait         : Do not wait for the build to complete.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(["az", "acr", "build"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Single(option => option.PropertyName == "BuildArg").CSharpType)
+                .IsEqualTo("IEnumerable<string>?");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "File").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "Platform").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "SecretBuildArg").CSharpType)
+                .IsEqualTo("IEnumerable<string>?");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "Timeout").CSharpType)
+                .IsEqualTo("int?");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "NoWait").IsFlag)
+                .IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Synapse_Description_Only_Values_Are_Not_Flags()
+    {
+        const string helpText = """
+            Command
+                az synapse spark job submit : Submit a Spark job.
+
+            Optional Arguments
+                --configuration  : The configuration of Spark job.
+                --main-class-name: The fully-qualified identifier or the main class that is in the main definition file.
+                --reference-files: Additional files used for reference in the main definition file.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "synapse", "spark", "job", "submit"],
+            helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Single(option => option.PropertyName == "Configuration").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "MainClassName").CSharpType)
+                .IsEqualTo("string?");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "ReferenceFiles").CSharpType)
+                .IsEqualTo("IEnumerable<string>?");
+            await Assert.That(command.Options.All(option => !option.IsFlag)).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Monitor_And_Stack_Descriptions_Require_Values()
     {
         const string helpText = """

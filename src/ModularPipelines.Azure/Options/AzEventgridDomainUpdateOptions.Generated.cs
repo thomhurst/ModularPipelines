@@ -23,8 +23,8 @@ public record AzEventgridDomainUpdateOptions : AzOptions
     /// <summary>
     /// List of inbound IP rules.
     /// </summary>
-    [CliFlag("--inbound-ip-rules")]
-    public bool? InboundIpRules { get; set; }
+    [CliOption("--inbound-ip-rules", GroupValues = true)]
+    public IEnumerable<string>? InboundIpRules { get; set; }
 
     /// <summary>
     /// Presence of this param indicates that SystemAssigned managed identity will be used.
@@ -35,13 +35,31 @@ public record AzEventgridDomainUpdateOptions : AzOptions
     /// <summary>
     /// This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring.  Allowed values: disabled, enabled.
     /// </summary>
-    [CliFlag("--public-network-access")]
-    public bool? PublicNetworkAccess { get; set; }
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the domain.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

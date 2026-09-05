@@ -33,6 +33,21 @@ public class AzNetworkTrafficManagerProfile
     #region Commands
 
     /// <summary>
+    /// Check the availability of a relative DNS name.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CheckDnsAsync(
+        AzNetworkTrafficManagerProfileCheckDnsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkTrafficManagerProfileCheckDnsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Create a traffic manager profile.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -40,11 +55,26 @@ public class AzNetworkTrafficManagerProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzNetworkTrafficManagerProfileCreateOptions? options = null,
+        AzNetworkTrafficManagerProfileCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkTrafficManagerProfileCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Delete a Traffic Manager profile.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteAsync(
+        AzNetworkTrafficManagerProfileDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkTrafficManagerProfileDeleteOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -60,6 +90,21 @@ public class AzNetworkTrafficManagerProfile
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkTrafficManagerProfileListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get a Traffic Manager profile.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzNetworkTrafficManagerProfileShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkTrafficManagerProfileShowOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

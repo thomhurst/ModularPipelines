@@ -18,13 +18,19 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instance-failover-group", "create")]
-public record AzSqlInstanceFailoverGroupCreateOptions : AzOptions
+public record AzSqlInstanceFailoverGroupCreateOptions(
+    [property: CliOption("--mi", ShortForm = "--source-mi")] string Mi,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--partner-mi")] string PartnerMi,
+    [property: CliOption("--partner-resource-group")] string PartnerResourceGroup,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The failover policy of the Instance Failover Group. Allowed values: Automatic, Manual.  Default: Automatic.
     /// </summary>
-    [CliFlag("--failover-policy")]
-    public bool? FailoverPolicy { get; set; }
+    [CliOption("--failover-policy")]
+    public string? FailoverPolicy { get; set; }
 
     /// <summary>
     /// Interval in hours before automatic failover is initiated if an outage occurs on the primary server. This indicates that Azure SQL Database will not initiate automatic failover before the grace period expires. Please note that failover operation with --allow-data-loss option might cause data loss due to the nature of asynchronous synchronization.  Default: 1.

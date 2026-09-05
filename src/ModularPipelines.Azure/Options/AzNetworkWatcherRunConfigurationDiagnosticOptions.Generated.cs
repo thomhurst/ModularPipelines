@@ -18,12 +18,68 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "run-configuration-diagnostic")]
-public record AzNetworkWatcherRunConfigurationDiagnosticOptions : AzOptions
+public record AzNetworkWatcherRunConfigurationDiagnosticOptions(
+    [property: CliOption("--resource")] string Resource
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Traffic destination. Accepted values are '*', IP address/CIDR, or
+    /// </summary>
+    [CliOption("--destination")]
+    public string? Destination { get; set; }
+
+    /// <summary>
+    /// Direction of the traffic.  Allowed values: Inbound, Outbound.
+    /// </summary>
+    [CliOption("--direction")]
+    public string? Direction { get; set; }
+
+    /// <summary>
+    /// Traffic destination port. Accepted values are '*', port number (3389) or port range (80-100).
+    /// </summary>
+    [CliOption("--port")]
+    public string? Port { get; set; }
+
+    /// <summary>
+    /// Protocol to be verified on.  Allowed values: TCP, UDP.
+    /// </summary>
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
+
+    /// <summary>
+    /// JSON list of queries to use. Use `@{path}` to load from a file. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--queries")]
+    public bool? Queries { get; set; }
+
+    /// <summary>
+    /// Traffic source. Accepted values are '*', IP address/CIDR, or Service
+    /// </summary>
+    [CliOption("--source")]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// Parent path, e.g., virtualMachineScaleSets/vmss1.
+    /// </summary>
+    [CliFlag("--parent")]
+    public bool? Parent { get; set; }
+
+    /// <summary>
+    /// Name of the resource group the target resource is in.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Resource type.  Allowed values: applicationGateways, networkInterfaces, virtualMachines.
+    /// </summary>
+    [CliOption("--resource-type", ShortForm = "-t")]
+    public string? ResourceType { get; set; }
 
 }

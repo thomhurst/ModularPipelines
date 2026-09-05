@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nsg", "rule", "list")]
-public record AzNetworkNsgRuleListOptions : AzOptions
+public record AzNetworkNsgRuleListOptions(
+    [property: CliOption("--nsg-name")] string NsgName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Include default security rules in the output.

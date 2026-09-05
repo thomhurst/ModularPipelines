@@ -23,8 +23,8 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable accelerated logs. Only support for Business Critical tier. Default value is Enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--accelerated-logs")]
-    public bool? AcceleratedLogs { get; set; }
+    [CliOption("--accelerated-logs")]
+    public string? AcceleratedLogs { get; set; }
 
     /// <summary>
     /// The IP address prefix to use when creating a new virtual network in CIDR format. Default value is 10.0.0.0/16.
@@ -35,26 +35,26 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable the auto scale iops. Default value is Enabled.  Allowed values: Disabled, Enabled.  Default:
     /// </summary>
-    [CliFlag("--auto-scale-iops")]
-    public bool? AutoScaleIops { get; set; }
+    [CliOption("--auto-scale-iops")]
+    public string? AutoScaleIops { get; set; }
 
     /// <summary>
     /// The name or resource ID of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
     /// </summary>
     [CliOption("--backup-identity")]
-    public string? BackupIdentityValue { get; set; }
+    public string? BackupIdentity { get; set; }
 
     /// <summary>
     /// The interval between backups in hours. Accepted values are 24, 12 and 6. The default value is 24.
     /// </summary>
     [CliOption("--backup-interval")]
-    public string? BackupIntervalValue { get; set; }
+    public string? BackupInterval { get; set; }
 
     /// <summary>
     /// The resource ID of the geo backup keyvault key for data encryption. The key needs to be in the same region as the backup region.
     /// </summary>
     [CliOption("--backup-key")]
-    public string? BackupKeyValue { get; set; }
+    public string? BackupKey { get; set; }
 
     /// <summary>
     /// The number of days a backup is retained. Range of 1 to 35 days. Default is 7 days.
@@ -66,7 +66,7 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// The name of the database to be created when provisioning the database server.
     /// </summary>
     [CliOption("--database-name", ShortForm = "-d")]
-    public string? DatabaseNameValue { get; set; }
+    public string? DatabaseName { get; set; }
 
     /// <summary>
     /// The port of the database. Default value is 3306.
@@ -77,20 +77,20 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.  Default: Disabled.
     /// </summary>
-    [CliFlag("--geo-redundant-backup")]
-    public bool? GeoRedundantBackup { get; set; }
+    [CliOption("--geo-redundant-backup")]
+    public string? GeoRedundantBackup { get; set; }
 
     /// <summary>
     /// Enable (ZoneRedundant or SameZone) or disable high availability feature. Allowed values: Disabled, SameZone, ZoneRedundant.  Default: Disabled.
     /// </summary>
-    [CliFlag("--high-availability")]
-    public bool? HighAvailability { get; set; }
+    [CliOption("--high-availability")]
+    public string? HighAvailability { get; set; }
 
     /// <summary>
     /// The name or resource ID of the user assigned identity for data encryption.
     /// </summary>
     [CliOption("--identity")]
-    public string? IdentityValue { get; set; }
+    public string? Identity { get; set; }
 
     /// <summary>
     /// Number of IOPS to be allocated for this server. You will get certain amount of free IOPS based on compute and storage provisioned. The default value for IOPS is free IOPS. To learn more about IOPS based on compute and storage, refer to IOPS in Azure Database for MySQL Flexible
@@ -102,7 +102,7 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// The resource ID of the primary keyvault key for data encryption.
     /// </summary>
     [CliOption("--key")]
-    public string? KeyValue { get; set; }
+    public string? Key { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -111,16 +111,22 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     public bool? Location { get; set; }
 
     /// <summary>
+    /// The patch strategy of maintenance policy. Accepted values: Regular, VirtualCanary. Default value is Regular.  Allowed values: Regular, VirtualCanary.
+    /// </summary>
+    [CliOption("--maintenance-policy-patch-strategy", ShortForm = "--patch-strategy")]
+    public string? MaintenancePolicyPatchStrategy { get; set; }
+
+    /// <summary>
     /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. The name or id of new or existing private dns zone. You can use the private dns zone from same resource group, different resource group, or different subscription. If you want to use a zone from different resource group or subscription, please provide resource Id. CLI creates a new private dns zone within the same resource group as virtual network if not provided by users.
     /// </summary>
     [CliOption("--private-dns-zone")]
-    public string? PrivateDnsZoneValue { get; set; }
+    public string? PrivateDnsZone { get; set; }
 
     /// <summary>
     /// Determines the public access. Enter single or range of IP addresses to be included in the allowed list of IPs. IP address ranges must be dash-separated and not contain any spaces. Specifying 0.0.0.0 allows public access from any resources deployed within Azure to access your server. Setting it to "None" sets the server in public access mode but does not create a firewall rule.
@@ -132,13 +138,13 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.  Default: Standard_B1ms.
     /// </summary>
     [CliOption("--sku-name")]
-    public string? SkuNameValue { get; set; }
+    public string? SkuName { get; set; }
 
     /// <summary>
     /// The availability zone information of the standby server when high availability is enabled.
@@ -149,8 +155,8 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable autogrow of the storage. Default value is Enabled. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--storage-auto-grow")]
-    public bool? StorageAutoGrow { get; set; }
+    [CliOption("--storage-auto-grow")]
+    public string? StorageAutoGrow { get; set; }
 
     /// <summary>
     /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
@@ -162,25 +168,25 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// Name or resource ID of a new or existing subnet. This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. If you want to use a subnet from different resource group or subscription, please provide resource ID instead of name. Please note that the subnet will be delegated to flexibleServers. After delegation, this subnet cannot be used for any other type of Azure resources.
     /// </summary>
     [CliOption("--subnet")]
-    public string? SubnetValue { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// The subnet IP address prefix to use when creating a new subnet in CIDR format.
     /// </summary>
     [CliOption("--subnet-prefixes")]
-    public string? SubnetPrefixesValue { get; set; }
+    public string? SubnetPrefixes { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose, MemoryOptimized.  Default: Burstable.
     /// </summary>
     [CliOption("--tier")]
-    public string? TierValue { get; set; }
+    public string? Tier { get; set; }
 
     /// <summary>
     /// Server major version.
@@ -192,7 +198,7 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// Name or ID of a new or existing virtual network. This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. If you want to use a vnet from different resource group or subscription, please provide a resource ID. The name must be between 2 to 64 characters. The name must begin with a letter or number, end with a letter, number or underscore, and may contain only letters, numbers, underscores, periods, or hyphens.
     /// </summary>
     [CliOption("--vnet")]
-    public string? VnetValue { get; set; }
+    public string? Vnet { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -206,102 +212,16 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     [CliFlag("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
 
-    [Obsolete("Use BackupIdentityValue instead.")]
-    public bool? BackupIdentity
-    {
-        get => bool.TryParse(BackupIdentityValue, out var value) ? value : null;
-        set => BackupIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.
+    /// </summary>
+    [CliFlag("--admin-password", ShortForm = "-p")]
+    public bool? AdminPassword { get; set; }
 
-    [Obsolete("Use BackupIntervalValue instead.")]
-    public bool? BackupInterval
-    {
-        get => bool.TryParse(BackupIntervalValue, out var value) ? value : null;
-        set => BackupIntervalValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use BackupKeyValue instead.")]
-    public bool? BackupKey
-    {
-        get => bool.TryParse(BackupKeyValue, out var value) ? value : null;
-        set => BackupKeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use DatabaseNameValue instead.")]
-    public bool? DatabaseName
-    {
-        get => bool.TryParse(DatabaseNameValue, out var value) ? value : null;
-        set => DatabaseNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use IdentityValue instead.")]
-    public bool? Identity
-    {
-        get => bool.TryParse(IdentityValue, out var value) ? value : null;
-        set => IdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use KeyValue instead.")]
-    public bool? Key
-    {
-        get => bool.TryParse(KeyValue, out var value) ? value : null;
-        set => KeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use PrivateDnsZoneValue instead.")]
-    public bool? PrivateDnsZone
-    {
-        get => bool.TryParse(PrivateDnsZoneValue, out var value) ? value : null;
-        set => PrivateDnsZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SkuNameValue instead.")]
-    public bool? SkuName
-    {
-        get => bool.TryParse(SkuNameValue, out var value) ? value : null;
-        set => SkuNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SubnetValue instead.")]
-    public bool? Subnet
-    {
-        get => bool.TryParse(SubnetValue, out var value) ? value : null;
-        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SubnetPrefixesValue instead.")]
-    public bool? SubnetPrefixes
-    {
-        get => bool.TryParse(SubnetPrefixesValue, out var value) ? value : null;
-        set => SubnetPrefixesValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TierValue instead.")]
-    public bool? Tier
-    {
-        get => bool.TryParse(TierValue, out var value) ? value : null;
-        set => TierValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VnetValue instead.")]
-    public bool? Vnet
-    {
-        get => bool.TryParse(VnetValue, out var value) ? value : null;
-        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Administrator username for the server. Once set, it cannot be changed.  Default: eatablekapi4.
+    /// </summary>
+    [CliFlag("--admin-user", ShortForm = "-u")]
+    public bool? AdminUser { get; set; }
 
 }

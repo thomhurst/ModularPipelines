@@ -27,22 +27,21 @@ public record AzPolicyAttestationListOptions : AzOptions
     public bool? Filter { get; set; }
 
     /// <summary>
+    /// Resource ID.
+    /// </summary>
+    [CliOption("--resource", ShortForm = "--resource-id")]
+    public string? Resource { get; set; }
+
+    /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Maximum number of records to return.
     /// </summary>
     [CliFlag("--top")]
     public bool? Top { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

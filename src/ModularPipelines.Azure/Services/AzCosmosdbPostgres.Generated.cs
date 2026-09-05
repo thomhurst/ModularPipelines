@@ -57,4 +57,23 @@ public class AzCosmosdbPostgres
     public AzCosmosdbPostgresRole Role => _role ??= new AzCosmosdbPostgresRole(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// Checks availability of a cluster name. Cluster
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CheckNameAvailabilityAsync(
+        AzCosmosdbPostgresCheckNameAvailabilityOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

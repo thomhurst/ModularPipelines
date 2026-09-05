@@ -23,6 +23,7 @@ public class AzContainerappIngress
     private readonly ICommandContext _command;
     private AzContainerappIngressAccessRestriction? _accessRestriction;
     private AzContainerappIngressCors? _cors;
+    private AzContainerappIngressStickySessions? _stickySessions;
     private AzContainerappIngressTraffic? _traffic;
 
     /// <summary>
@@ -46,6 +47,11 @@ public class AzContainerappIngress
     public AzContainerappIngressCors Cors => _cors ??= new AzContainerappIngressCors(_command);
 
     /// <summary>
+    /// az sticky-sessions sub-commands.
+    /// </summary>
+    public AzContainerappIngressStickySessions StickySessions => _stickySessions ??= new AzContainerappIngressStickySessions(_command);
+
+    /// <summary>
     /// az traffic sub-commands.
     /// </summary>
     public AzContainerappIngressTraffic Traffic => _traffic ??= new AzContainerappIngressTraffic(_command);
@@ -55,6 +61,21 @@ public class AzContainerappIngress
     #region Commands
 
     /// <summary>
+    /// Disable ingress for a container app.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DisableAsync(
+        AzContainerappIngressDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappIngressDisableOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Enable or update ingress for a container app.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -62,11 +83,26 @@ public class AzContainerappIngress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableAsync(
-        AzContainerappIngressEnableOptions? options = null,
+        AzContainerappIngressEnableOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappIngressEnableOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Show details of a container app's ingress.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzContainerappIngressShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappIngressShowOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

@@ -18,25 +18,28 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "create")]
-public record AzNetworkLbCreateOptions : AzOptions
+public record AzNetworkLbCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The name of the backend address pool.
     /// </summary>
     [CliOption("--backend-pool-name")]
-    public string? BackendPoolNameValue { get; set; }
+    public string? BackendPoolName { get; set; }
 
     /// <summary>
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
 
     /// <summary>
     /// The name of the frontend IP configuration.  Default:
     /// </summary>
     [CliOption("--frontend-ip-name")]
-    public string? FrontendIpNameValue { get; set; }
+    public string? FrontendIpName { get; set; }
 
     /// <summary>
     /// Used to create internal facing Load balancer.
@@ -65,20 +68,20 @@ public record AzNetworkLbCreateOptions : AzOptions
     /// <summary>
     /// The private IP address version to use.  Allowed values: IPv4, IPv6.  Default: IPv4.
     /// </summary>
-    [CliFlag("--private-ip-address-version")]
-    public bool? PrivateIpAddressVersion { get; set; }
+    [CliOption("--private-ip-address-version")]
+    public string? PrivateIpAddressVersion { get; set; }
 
     /// <summary>
     /// Load balancer SKU.  Allowed values: Basic, Gateway, Standard.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Generate and validate the ARM template without creating any resources.
@@ -86,25 +89,52 @@ public record AzNetworkLbCreateOptions : AzOptions
     [CliFlag("--validate")]
     public bool? Validate { get; set; }
 
-    [Obsolete("Use BackendPoolNameValue instead.")]
-    public bool? BackendPoolName
-    {
-        get => bool.TryParse(BackendPoolNameValue, out var value) ? value : null;
-        set => BackendPoolNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name or ID of the public IP address, or '' for none. Uses existing resource if available or will create a new resource with defaults if omitted.
+    /// </summary>
+    [CliOption("--public-ip-address")]
+    public string? PublicIpAddress { get; set; }
 
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
-    {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// IP allocation method.  Allowed values: Dynamic, Static.
+    /// </summary>
+    [CliOption("--public-ip-address-allocation")]
+    public string? PublicIpAddressAllocation { get; set; }
 
-    [Obsolete("Use FrontendIpNameValue instead.")]
-    public bool? FrontendIpName
-    {
-        get => bool.TryParse(FrontendIpNameValue, out var value) ? value : null;
-        set => FrontendIpNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Globally unique DNS name for a new public IP.
+    /// </summary>
+    [CliFlag("--public-ip-dns-name")]
+    public bool? PublicIpDnsName { get; set; }
+
+    /// <summary>
+    /// Used to created a new public ip for the load balancer, a.k.a public facing Load balancer.
+    /// </summary>
+    [CliFlag("--public-ip-zone")]
+    public bool? PublicIpZone { get; set; }
+
+    /// <summary>
+    /// Name or ID of a subnet. Uses existing resource or creates new if specified, or none if omitted. If name specified, also specify --vnet-name. If you want to use an existing subnet in other resource group or subscription, please provide the ID instead of the name of the subnet.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// The CIDR address prefix to use when creating a new subnet.
+    /// </summary>
+    [CliFlag("--subnet-address-prefix")]
+    public bool? SubnetAddressPrefix { get; set; }
+
+    /// <summary>
+    /// The CIDR address prefix to use when creating a new VNet.
+    /// </summary>
+    [CliFlag("--vnet-address-prefix")]
+    public bool? VnetAddressPrefix { get; set; }
+
+    /// <summary>
+    /// The virtual network (VNet) name.
+    /// </summary>
+    [CliOption("--vnet-name")]
+    public string? VnetName { get; set; }
 
 }

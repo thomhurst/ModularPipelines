@@ -24,13 +24,13 @@ public record AzAdvisorRecommendationListOptions : AzOptions
     /// Name of recommendation category.  Allowed values: Cost, HighAvailability,
     /// </summary>
     [CliOption("--category", ShortForm = "-c")]
-    public string? CategoryValue { get; set; }
+    public string? Category { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). If provided, no other "Resource Id" arguments should be specified.
     /// </summary>
-    [CliFlag("--ids")]
-    public bool? Ids { get; set; }
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
     /// Generate new recommendations.
@@ -42,20 +42,6 @@ public record AzAdvisorRecommendationListOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use CategoryValue instead.")]
-    public bool? Category
-    {
-        get => bool.TryParse(CategoryValue, out var value) ? value : null;
-        set => CategoryValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

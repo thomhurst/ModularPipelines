@@ -23,13 +23,43 @@ public record AzSignalrNetworkRuleUpdateOptions : AzOptions
     /// <summary>
     /// The allowed virtual network rule. Space-separeted list of scope to assign. Allowed values: ClientConnection, ServerConnection, RESTAPI.
     /// </summary>
-    [CliFlag("--allow")]
-    public bool? Allow { get; set; }
+    [CliOption("--allow", GroupValues = true)]
+    public IEnumerable<string>? Allow { get; set; }
 
     /// <summary>
     /// The denied virtual network rule. Space-separeted list of scope to assign. Allowed values: ClientConnection, ServerConnection, RESTAPI.
     /// </summary>
-    [CliFlag("--deny")]
-    public bool? Deny { get; set; }
+    [CliOption("--deny", GroupValues = true)]
+    public IEnumerable<string>? Deny { get; set; }
+
+    /// <summary>
+    /// Space-separeted list of private endpoint connection name.
+    /// </summary>
+    [CliFlag("--connection-name")]
+    public bool? ConnectionName { get; set; }
+
+    /// <summary>
+    /// Set rules for public network.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--public-network")]
+    public bool? PublicNetwork { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of signalr service.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

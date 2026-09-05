@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "operation", "delete")]
-public record AzApimApiOperationDeleteOptions : AzOptions
+public record AzApimApiOperationDeleteOptions(
+    [property: CliOption("--operation-id")] string OperationId,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--api-id")] string ApiId
+) : AzOptions
 {
     /// <summary>
     /// ETag of the Entity.

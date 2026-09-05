@@ -18,13 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-endpoint", "ip-config", "add")]
-public record AzNetworkPrivateEndpointIpConfigAddOptions : AzOptions
+public record AzNetworkPrivateEndpointIpConfigAddOptions(
+    [property: CliOption("--endpoint-name")] string EndpointName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The ID of a group obtained from the remote resource that this private endpoint should connect to.
     /// </summary>
     [CliOption("--group-id")]
-    public string? GroupIdValue { get; set; }
+    public string? GroupId { get; set; }
 
     /// <summary>
     /// The member name of a group obtained from the remote resource that this private endpoint should connect to.
@@ -35,7 +39,7 @@ public record AzNetworkPrivateEndpointIpConfigAddOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -43,12 +47,5 @@ public record AzNetworkPrivateEndpointIpConfigAddOptions : AzOptions
     /// </summary>
     [CliFlag("--private-ip-address")]
     public bool? PrivateIpAddress { get; set; }
-
-    [Obsolete("Use GroupIdValue instead.")]
-    public bool? GroupId
-    {
-        get => bool.TryParse(GroupIdValue, out var value) ? value : null;
-        set => GroupIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "encryption", "rotate-key")]
-public record AzAcrEncryptionRotateKeyOptions : AzOptions
+public record AzAcrEncryptionRotateKeyOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Client id of managed identity, resource name or id of user assigned identity. Use '[system]' to refer to the system assigned identity.
@@ -30,26 +32,12 @@ public record AzAcrEncryptionRotateKeyOptions : AzOptions
     /// Key vault key uri. To enable automated rotation, provide a version-less key uri. For manual rotation, provide a versioned key uri.
     /// </summary>
     [CliOption("--key-encryption-key")]
-    public string? KeyEncryptionKeyValue { get; set; }
+    public string? KeyEncryptionKey { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use KeyEncryptionKeyValue instead.")]
-    public bool? KeyEncryptionKey
-    {
-        get => bool.TryParse(KeyEncryptionKeyValue, out var value) ? value : null;
-        set => KeyEncryptionKeyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

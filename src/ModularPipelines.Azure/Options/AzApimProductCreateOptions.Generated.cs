@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "product", "create")]
-public record AzApimProductCreateOptions : AzOptions
+public record AzApimProductCreateOptions(
+    [property: CliOption("--product-name")] string ProductName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName
+) : AzOptions
 {
     /// <summary>
     /// Whether subscription approval is required. If false, new subscriptions will be approved automatically enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually approve the subscription before the developer can use any of the product’s APIs. Can be present only if subscriptionRequired property is present and has a value of false.  Allowed values: false, true.
@@ -53,8 +57,8 @@ public record AzApimProductCreateOptions : AzOptions
     /// <summary>
     /// Whether product is published or not. Published products are discoverable by users of developer portal. Non published products are visible only to administrators. Default state of Product is notPublished.  Allowed values: notPublished, published.
     /// </summary>
-    [CliFlag("--state")]
-    public bool? State { get; set; }
+    [CliOption("--state")]
+    public string? State { get; set; }
 
     /// <summary>
     /// Whether a product subscription is required for accessing APIs included in this product.  Allowed values: false, true.

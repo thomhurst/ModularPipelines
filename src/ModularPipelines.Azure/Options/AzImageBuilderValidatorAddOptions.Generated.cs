@@ -21,6 +21,12 @@ namespace ModularPipelines.Azure.Options;
 public record AzImageBuilderValidatorAddOptions : AzOptions
 {
     /// <summary>
+    /// If validation fails and this parameter is set to false, output image(s) will not be distributed.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--continue-distribute-on-failure", ShortForm = "--dis-on-failure")]
+    public bool? ContinueDistributeOnFailure { get; set; }
+
+    /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
     /// </summary>
     [CliFlag("--defer")]
@@ -31,5 +37,23 @@ public record AzImageBuilderValidatorAddOptions : AzOptions
     /// </summary>
     [CliOption("--source-validation-only")]
     public bool? SourceValidationOnly { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the image template.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

@@ -24,13 +24,13 @@ public record AzMonitorDiagnosticSettingsSubscriptionUpdateOptions : AzOptions
     /// The resource Id for the event hub authorization rule.
     /// </summary>
     [CliOption("--event-hub-auth-rule")]
-    public string? EventHubAuthRuleValue { get; set; }
+    public string? EventHubAuthRule { get; set; }
 
     /// <summary>
     /// The name of the event hub. If none is specified, the default event hub will be selected.
     /// </summary>
     [CliOption("--event-hub-name")]
-    public string? EventHubNameValue { get; set; }
+    public string? EventHubName { get; set; }
 
     /// <summary>
     /// Location of the resource.
@@ -54,40 +54,48 @@ public record AzMonitorDiagnosticSettingsSubscriptionUpdateOptions : AzOptions
     /// The resource id of the storage account to which you would like to send the Activity Log.
     /// </summary>
     [CliOption("--storage-account")]
-    public string? StorageAccountValue { get; set; }
+    public string? StorageAccount { get; set; }
 
     /// <summary>
     /// The resource id of the log analytics workspace.
     /// </summary>
     [CliOption("--workspace")]
-    public string? WorkspaceValue { get; set; }
+    public string? Workspace { get; set; }
 
-    [Obsolete("Use EventHubAuthRuleValue instead.")]
-    public bool? EventHubAuthRule
-    {
-        get => bool.TryParse(EventHubAuthRuleValue, out var value) ? value : null;
-        set => EventHubAuthRuleValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
 
-    [Obsolete("Use EventHubNameValue instead.")]
-    public bool? EventHubName
-    {
-        get => bool.TryParse(EventHubNameValue, out var value) ? value : null;
-        set => EventHubNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
 
-    [Obsolete("Use StorageAccountValue instead.")]
-    public bool? StorageAccount
-    {
-        get => bool.TryParse(StorageAccountValue, out var value) ? value : null;
-        set => StorageAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
 
-    [Obsolete("Use WorkspaceValue instead.")]
-    public bool? Workspace
-    {
-        get => bool.TryParse(WorkspaceValue, out var value) ? value : null;
-        set => WorkspaceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the diagnostic setting.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
 }

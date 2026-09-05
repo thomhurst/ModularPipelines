@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "azure-monitor-agent", "enable")]
-public record AzHdinsightAzureMonitorAgentEnableOptions : AzOptions
+public record AzHdinsightAzureMonitorAgentEnableOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--workspace")] string Workspace
+) : AzOptions
 {
     /// <summary>
     /// Permit timeout error during argument validation phase. If omitted, validation timeout error will be permitted.

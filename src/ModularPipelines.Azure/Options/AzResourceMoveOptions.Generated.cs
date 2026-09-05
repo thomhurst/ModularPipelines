@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource", "move")]
-public record AzResourceMoveOptions : AzOptions
+public record AzResourceMoveOptions(
+    [property: CliOption("--destination-group")] string DestinationGroup,
+    [property: CliOption("--ids", GroupValues = true)] IEnumerable<string> Ids
+) : AzOptions
 {
     /// <summary>
     /// The destination subscription identifier.

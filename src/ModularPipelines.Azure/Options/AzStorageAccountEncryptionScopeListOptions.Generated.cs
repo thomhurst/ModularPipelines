@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "encryption-scope", "list")]
-public record AzStorageAccountEncryptionScopeListOptions : AzOptions
+public record AzStorageAccountEncryptionScopeListOptions(
+    [property: CliOption("--account-name")] string AccountName
+) : AzOptions
 {
     /// <summary>
     /// When specified, only encryption scope names starting with the filter will be listed.
@@ -29,14 +31,14 @@ public record AzStorageAccountEncryptionScopeListOptions : AzOptions
     /// <summary>
     /// When specified, will list encryption scopes with the specific state. Allowed values: All, Disabled, Enabled.
     /// </summary>
-    [CliFlag("--include")]
-    public bool? Include { get; set; }
+    [CliOption("--include")]
+    public string? Include { get; set; }
 
     /// <summary>
     /// A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the NextMarker value within the response body if the listing operation did not return all containers remaining to be listed with the current page. If specified, this generator will begin returning results from the point where the previous generator stopped.
     /// </summary>
-    [CliFlag("--marker")]
-    public bool? Marker { get; set; }
+    [CliOption("--marker", GroupValues = true)]
+    public IEnumerable<string>? Marker { get; set; }
 
     /// <summary>
     /// The maximum number of encryption scopes that will be included in the list response.
@@ -48,13 +50,6 @@ public record AzStorageAccountEncryptionScopeListOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

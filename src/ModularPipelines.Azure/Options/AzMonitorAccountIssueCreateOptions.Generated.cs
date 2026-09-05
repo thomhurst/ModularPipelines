@@ -24,11 +24,6 @@ public record AzMonitorAccountIssueCreateOptions(
     [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
 ) : AzOptions
 {
-    public AzMonitorAccountIssueCreateOptions()
-        : this(default(string)!, default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Related resource or alert that is to be added to the issue (default: empty - the issue will be created without any related resources or alerts).
     /// </summary>
@@ -39,78 +34,36 @@ public record AzMonitorAccountIssueCreateOptions(
     /// The issue background information  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--background")]
-    public string? BackgroundValue { get; set; }
+    public string? Background { get; set; }
 
     /// <summary>
     /// The issue impact time (in UTC).
     /// </summary>
     [CliOption("--impact-time")]
-    public string? ImpactTimeValue { get; set; }
+    public string? ImpactTime { get; set; }
 
     /// <summary>
     /// The issue notification settings  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--notifications")]
-    public string? NotificationsValue { get; set; }
+    public string? Notifications { get; set; }
 
     /// <summary>
     /// The issue severity.
     /// </summary>
     [CliOption("--severity")]
-    public string? SeverityValue { get; set; }
+    public string? Severity { get; set; }
 
     /// <summary>
     /// The issue status.  Allowed values: Canceled, Closed, InProgress, Mitigated, New.
     /// </summary>
     [CliOption("--status")]
-    public string? StatusValue { get; set; }
+    public string? Status { get; set; }
 
     /// <summary>
     /// The issue title.
     /// </summary>
     [CliOption("--title")]
-    public string? TitleValue { get; set; }
-
-    [Obsolete("Use BackgroundValue instead.")]
-    public bool? Background
-    {
-        get => bool.TryParse(BackgroundValue, out var value) ? value : null;
-        set => BackgroundValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ImpactTimeValue instead.")]
-    public bool? ImpactTime
-    {
-        get => bool.TryParse(ImpactTimeValue, out var value) ? value : null;
-        set => ImpactTimeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use NotificationsValue instead.")]
-    public bool? Notifications
-    {
-        get => bool.TryParse(NotificationsValue, out var value) ? value : null;
-        set => NotificationsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SeverityValue instead.")]
-    public bool? Severity
-    {
-        get => bool.TryParse(SeverityValue, out var value) ? value : null;
-        set => SeverityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use StatusValue instead.")]
-    public bool? Status
-    {
-        get => bool.TryParse(StatusValue, out var value) ? value : null;
-        set => StatusValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TitleValue instead.")]
-    public bool? Title
-    {
-        get => bool.TryParse(TitleValue, out var value) ? value : null;
-        set => TitleValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? Title { get; set; }
 
 }

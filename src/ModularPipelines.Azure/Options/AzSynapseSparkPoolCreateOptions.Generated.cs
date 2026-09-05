@@ -18,7 +18,14 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "pool", "create")]
-public record AzSynapseSparkPoolCreateOptions : AzOptions
+public record AzSynapseSparkPoolCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--workspace-name")] string WorkspaceName,
+    [property: CliOption("--spark-version")] string SparkVersion,
+    [property: CliOption("--node-count")] string NodeCount,
+    [property: CliOption("--node-size")] string NodeSize
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -29,7 +36,79 @@ public record AzSynapseSparkPoolCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// The delay time whose unit is minute.
+    /// </summary>
+    [CliFlag("--delay")]
+    public bool? Delay { get; set; }
+
+    /// <summary>
+    /// The flag of enabling auto pause.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-auto-pause")]
+    public bool? EnableAutoPause { get; set; }
+
+    /// <summary>
+    /// The flag of enabling auto scale.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-auto-scale")]
+    public bool? EnableAutoScale { get; set; }
+
+    /// <summary>
+    /// The max node count.
+    /// </summary>
+    [CliFlag("--max-node-count")]
+    public bool? MaxNodeCount { get; set; }
+
+    /// <summary>
+    /// The min node count.
+    /// </summary>
+    [CliFlag("--min-node-count")]
+    public bool? MinNodeCount { get; set; }
+
+    /// <summary>
+    /// The Spark events folder.  Default: /events.
+    /// </summary>
+    [CliFlag("--spark-events-folder")]
+    public bool? SparkEventsFolder { get; set; }
+
+    /// <summary>
+    /// The default Spark log folder.  Default: /logs.
+    /// </summary>
+    [CliFlag("--spark-log-folder")]
+    public bool? SparkLogFolder { get; set; }
+
+    /// <summary>
+    /// Indicates whether Dynamic Executor Allocation is enabled or not.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-dynamic-exec")]
+    public bool? EnableDynamicExec { get; set; }
+
+    /// <summary>
+    /// The maximum number of executors alloted.
+    /// </summary>
+    [CliFlag("--max-executors")]
+    public bool? MaxExecutors { get; set; }
+
+    /// <summary>
+    /// The minimum number of executors alloted.
+    /// </summary>
+    [CliFlag("--min-executors")]
+    public bool? MinExecutors { get; set; }
+
+    /// <summary>
+    /// Absolute path of Spark pool properties configuration file.
+    /// </summary>
+    [CliFlag("--spark-config-file-path")]
+    public bool? SparkConfigFilePath { get; set; }
+
+    /// <summary>
+    /// The kind of nodes that the Big Data pool provides.  Allowed values: HardwareAcceleratedFPGA, HardwareAcceleratedGPU, MemoryOptimized, None.  Default: MemoryOptimized.
+    /// </summary>
+    [CliOption("--node-size-family")]
+    public string? NodeSizeFamily { get; set; }
 
 }

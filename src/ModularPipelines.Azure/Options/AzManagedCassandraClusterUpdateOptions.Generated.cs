@@ -18,13 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-cassandra", "cluster", "update")]
-public record AzManagedCassandraClusterUpdateOptions : AzOptions
+public record AzManagedCassandraClusterUpdateOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Authentication mode can be None or Cassandra. If None, no authentication will be required to connect to the Cassandra API. If Cassandra, then passwords will be used.  Allowed values: Cassandra, None.
     /// </summary>
-    [CliFlag("--authentication-method")]
-    public bool? AuthenticationMethod { get; set; }
+    [CliOption("--authentication-method")]
+    public string? AuthenticationMethod { get; set; }
 
     /// <summary>
     /// The version of Cassandra chosen.
@@ -41,14 +44,14 @@ public record AzManagedCassandraClusterUpdateOptions : AzOptions
     /// <summary>
     /// A list of certificates that the managed cassandra data center's should accept.
     /// </summary>
-    [CliFlag("--external-gossip-certificates", ShortForm = "-e")]
-    public bool? ExternalGossipCertificates { get; set; }
+    [CliOption("--external-gossip-certificates", ShortForm = "-e", GroupValues = true)]
+    public IEnumerable<string>? ExternalGossipCertificates { get; set; }
 
     /// <summary>
     /// A list of ip addresses of the seed nodes of on-premise data centers.
     /// </summary>
-    [CliFlag("--external-seed-nodes")]
-    public bool? ExternalSeedNodes { get; set; }
+    [CliOption("--external-seed-nodes", GroupValues = true)]
+    public IEnumerable<string>? ExternalSeedNodes { get; set; }
 
     /// <summary>
     /// The number of hours between backup attempts.
@@ -59,8 +62,8 @@ public record AzManagedCassandraClusterUpdateOptions : AzOptions
     /// <summary>
     /// Type of identity used for Customer Managed Disk Key. Allowed values: None, SystemAssigned.
     /// </summary>
-    [CliFlag("--identity-type")]
-    public bool? IdentityType { get; set; }
+    [CliOption("--identity-type")]
+    public string? IdentityType { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -77,7 +80,7 @@ public record AzManagedCassandraClusterUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

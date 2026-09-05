@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,7 +19,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "secret", "format")]
-public record AzVmSecretFormatOptions : AzOptions
+public record AzVmSecretFormatOptions(
+    [property: SecretValue, CliOption("--secrets", ShortForm = "-s", GroupValues = true)] IEnumerable<string> Secrets
+) : AzOptions
 {
     /// <summary>
     /// Windows certificate store names. Default: My.
@@ -30,26 +33,12 @@ public record AzVmSecretFormatOptions : AzOptions
     /// Name or ID of the key vault.
     /// </summary>
     [CliOption("--keyvault")]
-    public string? KeyvaultValue { get; set; }
+    public string? Keyvault { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use KeyvaultValue instead.")]
-    public bool? Keyvault
-    {
-        get => bool.TryParse(KeyvaultValue, out var value) ? value : null;
-        set => KeyvaultValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

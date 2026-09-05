@@ -22,6 +22,16 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzProvider
 {
     /// <summary>
+    /// az operation sub-commands.
+    /// </summary>
+    AzProviderOperation Operation => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az permission sub-commands.
+    /// </summary>
+    AzProviderPermission Permission => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Gets all resource providers for a subscription.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -38,7 +48,7 @@ public interface IAzProvider
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterAsync(AzProviderRegisterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> RegisterAsync(AzProviderRegisterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -48,7 +58,7 @@ public interface IAzProvider
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShowAsync(AzProviderShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ShowAsync(AzProviderShowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -58,7 +68,7 @@ public interface IAzProvider
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UnregisterAsync(AzProviderUnregisterOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UnregisterAsync(AzProviderUnregisterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

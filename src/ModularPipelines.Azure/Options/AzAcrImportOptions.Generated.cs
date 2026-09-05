@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "import")]
-public record AzAcrImportOptions : AzOptions
+public record AzAcrImportOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--source")] string Source
+) : AzOptions
 {
     /// <summary>
     /// Overwrite the existing tag of the image to be imported.
@@ -29,8 +32,8 @@ public record AzAcrImportOptions : AzOptions
     /// <summary>
     /// The name and tag of the image using the format: '-t repo/image:tag'. Multiple tags are supported by passing -t multiple times.
     /// </summary>
-    [CliFlag("--image", ShortForm = "-t")]
-    public bool? Image { get; set; }
+    [CliOption("--image", ShortForm = "-t")]
+    public string? Image { get; set; }
 
     /// <summary>
     /// Do not wait for the import to complete and return immediately after queuing the import.
@@ -48,7 +51,7 @@ public record AzAcrImportOptions : AzOptions
     /// The source Azure container registry. This can be name, login server or resource ID of the source registry.
     /// </summary>
     [CliOption("--registry", ShortForm = "-r")]
-    public string? RegistryValue { get; set; }
+    public string? Registry { get; set; }
 
     /// <summary>
     /// The repository name for a manifest-only copy of images. Multiple copies supported by passing --repository multiple times.
@@ -60,26 +63,12 @@ public record AzAcrImportOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The username of source container registry.
     /// </summary>
     [CliFlag("--username", ShortForm = "-u")]
     public bool? Username { get; set; }
-
-    [Obsolete("Use RegistryValue instead.")]
-    public bool? Registry
-    {
-        get => bool.TryParse(RegistryValue, out var value) ? value : null;
-        set => RegistryValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

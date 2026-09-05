@@ -18,8 +18,24 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "application", "update")]
-public record AzSfApplicationUpdateOptions : AzOptions
+public record AzSfApplicationUpdateOptions(
+    [property: CliOption("--application-name", ShortForm = "--name")] string ApplicationName,
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    /// <summary>
+    /// Specify the application parameters as key/value pairs. These parameters must exist in the application manifest. for example: --application-parameters param1=value1 param2=value2.
+    /// </summary>
+    [CliFlag("--application-parameters", ShortForm = "--parameters")]
+    public bool? ApplicationParameters { get; set; }
+
+    /// <summary>
+    /// Specify the application type version.
+    /// </summary>
+    [CliFlag("--application-type-version", ShortForm = "--version")]
+    public bool? ApplicationTypeVersion { get; set; }
+
     /// <summary>
     /// Indicates that the service host restarts even if the upgrade is a configuration- only change.  Allowed values: false, true.
     /// </summary>
@@ -27,9 +43,93 @@ public record AzSfApplicationUpdateOptions : AzOptions
     public bool? ForceRestart { get; set; }
 
     /// <summary>
+    /// Specify the maximum number of nodes on which to place an application. The value of this parameter must be a non-negative integer. The default value is 0, which indicates the application can be placed on any number of nodes in the cluster.
+    /// </summary>
+    [CliFlag("--max-nodes", ShortForm = "--maximum-nodes")]
+    public bool? MaxNodes { get; set; }
+
+    /// <summary>
+    /// Specify the minimum number of nodes where Service Fabric will reserve capacity for this application, this does not mean that the application is guaranteed to have replicas on all those nodes. The value of this parameter must be a non-negative integer. Default value for this is zero, which means no capacity is reserved for the application.
+    /// </summary>
+    [CliFlag("--min-nodes", ShortForm = "--minimum-nodes")]
+    public bool? MinNodes { get; set; }
+
+    /// <summary>
     /// Specify the map of the health policy to use for different service types as a hash table in the following format: {"ServiceTypeName" : "MaxPercentUnhealthyP artitionsPerService,MaxPercentUnhealthyRep licasPerPartition,MaxPercentUnhealthyServi ces"}. For example: @{ "ServiceTypeName01" = "5,10,5"; "ServiceTypeName02" = "5,5,5" }.
     /// </summary>
     [CliFlag("--service-type-health-policy-map")]
     public bool? ServiceTypeHealthPolicyMap { get; set; }
+
+    /// <summary>
+    /// Indicates whether to treat a warning health event as an error event during health evaluation.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--consider-warning-as-error", ShortForm = "--warning-as-error")]
+    public bool? ConsiderWarningAsError { get; set; }
+
+    /// <summary>
+    /// Specify the action to take if the monitored upgrade fails. The acceptable values for this parameter are Rollback or Manual.  Allowed values: Manual, Rollback.
+    /// </summary>
+    [CliOption("--failure-action")]
+    public string? FailureAction { get; set; }
+
+    /// <summary>
+    /// Specify the duration, in seconds, after which Service Fabric retries the health check if the previous health check fails.
+    /// </summary>
+    [CliFlag("--hc-retry-timeout", ShortForm = "--health-check-retry-timeout")]
+    public bool? HcRetryTimeout { get; set; }
+
+    /// <summary>
+    /// Specify the duration, in seconds, that Service Fabric waits in order to verify that the application is stable before moving to the next upgrade domain or completing the upgrade. This wait duration prevents undetected changes of health right after the health check is performed.
+    /// </summary>
+    [CliFlag("--hc-stable-duration", ShortForm = "--health-check-stable-duration")]
+    public bool? HcStableDuration { get; set; }
+
+    /// <summary>
+    /// Specify the duration, in seconds, that Service Fabric waits before it performs the initial health check after it finishes the upgrade on the upgrade domain.
+    /// </summary>
+    [CliFlag("--hc-wait-duration", ShortForm = "--health-check-wait-duration")]
+    public bool? HcWaitDuration { get; set; }
+
+    /// <summary>
+    /// Specify the maximum percentage of the application instances deployed on the nodes in the cluster that have a health state of error before the application health state for the cluster is error. Allowed values are from 0 to 100.
+    /// </summary>
+    [CliOption("--max-unhealthy-apps")]
+    public string? MaxUnhealthyApps { get; set; }
+
+    /// <summary>
+    /// Specify the maximum percent of unhealthy partitions per service allowed by the health policy for the default service type to use for the monitored upgrade. Allowed values are from 0 to 100.
+    /// </summary>
+    [CliOption("--max-unhealthy-parts")]
+    public string? MaxUnhealthyParts { get; set; }
+
+    /// <summary>
+    /// Specify the maximum percent of unhealthy replicas per service allowed by the health policy for the default service type to use for the monitored upgrade. Allowed values are from 0 to 100.
+    /// </summary>
+    [CliOption("--max-unhealthy-reps")]
+    public string? MaxUnhealthyReps { get; set; }
+
+    /// <summary>
+    /// Specify the maximum percent of unhealthy services allowed by the health policy for the default service type to use for the monitored upgrade. Allowed values are form 0 to 100.
+    /// </summary>
+    [CliOption("--max-unhealthy-servs")]
+    public string? MaxUnhealthyServs { get; set; }
+
+    /// <summary>
+    /// Specify the maximum time, in seconds, that Service Fabric waits for a service to reconfigure into a safe state, if not already in a safe state, before Service Fabric proceeds with the upgrade.
+    /// </summary>
+    [CliFlag("--rep-check-timeout", ShortForm = "--replica-check-timeout")]
+    public bool? RepCheckTimeout { get; set; }
+
+    /// <summary>
+    /// Specify the maximum time, in seconds, that Service Fabric takes to upgrade a single upgrade domain. After this period, the upgrade fails.
+    /// </summary>
+    [CliFlag("--ud-timeout", ShortForm = "--upgrade-domain-timeout")]
+    public bool? UdTimeout { get; set; }
+
+    /// <summary>
+    /// Specify the maximum time, in seconds, that Service Fabric takes for the entire upgrade. After this period, the upgrade fails.
+    /// </summary>
+    [CliFlag("--upgrade-timeout")]
+    public bool? UpgradeTimeout { get; set; }
 
 }

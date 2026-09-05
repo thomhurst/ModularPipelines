@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "managed-rule", "exception", "add")]
-public record AzNetworkApplicationGatewayWafPolicyManagedRuleExceptionAddOptions : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyManagedRuleExceptionAddOptions(
+    [property: CliOption("--match-variable")] string MatchVariable,
+    [property: CliOption("--policy-name")] string PolicyName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--value-match-operator", ShortForm = "--value-operator")] string ValueMatchOperator
+) : AzOptions
 {
     /// <summary>
     /// Index of exception. If no index is provided, the default behaviour is `append`.
@@ -33,9 +38,21 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleExceptionAddOptions
     public bool? Selector { get; set; }
 
     /// <summary>
+    /// When the matchVariable points to a key- value pair (e.g, RequestHeader), this operates on the selector.  Allowed values: Contains, EndsWith, Equals, StartsWith.
+    /// </summary>
+    [CliOption("--selector-match-operator", ShortForm = "--selector-operator")]
+    public string? SelectorMatchOperator { get; set; }
+
+    /// <summary>
     /// Allowed values for the matchVariable Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--values")]
-    public bool? Values { get; set; }
+    [CliOption("--values")]
+    public string? Values { get; set; }
+
+    /// <summary>
+    /// The managed rule sets that are associated with the exception.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--rule-sets")]
+    public bool? RuleSets { get; set; }
 
 }

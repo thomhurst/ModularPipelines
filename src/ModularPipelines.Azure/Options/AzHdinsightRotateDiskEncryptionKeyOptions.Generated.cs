@@ -18,7 +18,13 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "rotate-disk-encryption-key")]
-public record AzHdinsightRotateDiskEncryptionKeyOptions : AzOptions
+public record AzHdinsightRotateDiskEncryptionKeyOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--encryption-key-name")] string EncryptionKeyName,
+    [property: CliOption("--encryption-key-version")] string EncryptionKeyVersion,
+    [property: CliOption("--encryption-vault-uri")] string EncryptionVaultUri
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

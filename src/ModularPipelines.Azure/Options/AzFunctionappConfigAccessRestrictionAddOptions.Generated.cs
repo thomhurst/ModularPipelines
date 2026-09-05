@@ -18,25 +18,27 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "config", "access-restriction", "add")]
-public record AzFunctionappConfigAccessRestrictionAddOptions : AzOptions
+public record AzFunctionappConfigAccessRestrictionAddOptions(
+    [property: CliOption("--priority", ShortForm = "-p")] string Priority
+) : AzOptions
 {
     /// <summary>
     /// Allow or deny access.  Allowed values: Allow, Deny.  Default:
     /// </summary>
-    [CliFlag("--action")]
-    public bool? Action { get; set; }
+    [CliOption("--action")]
+    public string? Action { get; set; }
 
     /// <summary>
     /// Description of the access restriction rule.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Space-separated http headers in a format of `&lt;name&gt;=&lt;value&gt;`.
     /// </summary>
-    [CliFlag("--http-headers")]
-    public bool? HttpHeaders { get; set; }
+    [CliOption("--http-headers", GroupValues = true)]
+    public IEnumerable<string>? HttpHeaders { get; set; }
 
     /// <summary>
     /// Create access restriction rule with checking if the subnet has Microsoft.Web service endpoint enabled.  Allowed values: false, true.
@@ -54,7 +56,7 @@ public record AzFunctionappConfigAccessRestrictionAddOptions : AzOptions
     /// Name of the access restriction rule to add.
     /// </summary>
     [CliOption("--rule-name", ShortForm = "-r")]
-    public string? RuleNameValue { get; set; }
+    public string? RuleName { get; set; }
 
     /// <summary>
     /// True if access restrictions is added for scm site.  Allowed values: false, true.
@@ -78,13 +80,13 @@ public record AzFunctionappConfigAccessRestrictionAddOptions : AzOptions
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// Subnet name (requires vNet name) or subnet resource id.
     /// </summary>
     [CliOption("--subnet")]
-    public string? SubnetValue { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// VNet name.
@@ -96,41 +98,24 @@ public record AzFunctionappConfigAccessRestrictionAddOptions : AzOptions
     /// Resource group of virtual network (default is web app resource group).
     /// </summary>
     [CliOption("--vnet-resource-group")]
-    public string? VnetResourceGroupValue { get; set; }
+    public string? VnetResourceGroup { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
-    [Obsolete("Use RuleNameValue instead.")]
-    public bool? RuleName
-    {
-        get => bool.TryParse(RuleNameValue, out var value) ? value : null;
-        set => RuleNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the function app.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
-    {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SubnetValue instead.")]
-    public bool? Subnet
-    {
-        get => bool.TryParse(SubnetValue, out var value) ? value : null;
-        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VnetResourceGroupValue instead.")]
-    public bool? VnetResourceGroup
-    {
-        get => bool.TryParse(VnetResourceGroupValue, out var value) ? value : null;
-        set => VnetResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

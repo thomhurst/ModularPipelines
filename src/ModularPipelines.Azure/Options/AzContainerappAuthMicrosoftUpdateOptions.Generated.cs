@@ -21,6 +21,18 @@ namespace ModularPipelines.Azure.Options;
 public record AzContainerappAuthMicrosoftUpdateOptions : AzOptions
 {
     /// <summary>
+    /// The configuration settings of the allowed list of audiences from which to validate the JWT token.
+    /// </summary>
+    [CliFlag("--allowed-audiences", ShortForm = "--allowed-token-audiences")]
+    public bool? AllowedAudiences { get; set; }
+
+    /// <summary>
+    /// Alternative to AAD Client Secret and thumbprint, issuer of a certificate used for signing purposes.
+    /// </summary>
+    [CliFlag("--certificate-issuer", ShortForm = "--client-secret-certificate-issuer")]
+    public bool? CertificateIssuer { get; set; }
+
+    /// <summary>
     /// The Client ID of the app used for login.
     /// </summary>
     [CliFlag("--client-id")]
@@ -31,6 +43,18 @@ public record AzContainerappAuthMicrosoftUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--client-secret")]
     public bool? ClientSecret { get; set; }
+
+    /// <summary>
+    /// Alternative to AAD Client Secret and thumbprint, subject alternative name of a certificate used for signing purposes.
+    /// </summary>
+    [CliFlag("--client-secret-certificate-san", ShortForm = "--san")]
+    public bool? ClientSecretCertificateSan { get; set; }
+
+    /// <summary>
+    /// Alternative to AAD Client Secret, thumbprint of a certificate used for signing purposes.
+    /// </summary>
+    [CliFlag("--client-secret-certificate-thumbprint", ShortForm = "--thumbprint")]
+    public bool? ClientSecretCertificateThumbprint { get; set; }
 
     /// <summary>
     /// The app secret name that contains the client secret of the relying party application.
@@ -55,5 +79,23 @@ public record AzContainerappAuthMicrosoftUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids")]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

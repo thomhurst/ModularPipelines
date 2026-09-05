@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzEventhubsEventhub
 {
     private readonly ICommandContext _command;
+    private AzEventhubsEventhubAuthorizationRule? _authorizationRule;
     private AzEventhubsEventhubConsumerGroup? _consumerGroup;
 
     /// <summary>
@@ -32,6 +33,11 @@ public class AzEventhubsEventhub
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// az authorization-rule sub-commands.
+    /// </summary>
+    public AzEventhubsEventhubAuthorizationRule AuthorizationRule => _authorizationRule ??= new AzEventhubsEventhubAuthorizationRule(_command);
 
     /// <summary>
     /// az consumer-group sub-commands.
@@ -50,11 +56,26 @@ public class AzEventhubsEventhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzEventhubsEventhubCreateOptions? options = null,
+        AzEventhubsEventhubCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsEventhubCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Delete an Event Hub from the specified Namespace and resource
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteAsync(
+        AzEventhubsEventhubDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsEventhubDeleteOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -65,11 +86,41 @@ public class AzEventhubsEventhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
-        AzEventhubsEventhubListOptions? options = null,
+        AzEventhubsEventhubListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsEventhubListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get an Event Hubs description for the specified Event Hub.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzEventhubsEventhubShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsEventhubShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Update a new Event Hub as a nested resource within a Namespace.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAsync(
+        AzEventhubsEventhubUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzEventhubsEventhubUpdateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "elastic-pool", "list-editions")]
-public record AzSqlElasticPoolListEditionsOptions : AzOptions
+public record AzSqlElasticPoolListEditionsOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location
+) : AzOptions
 {
     /// <summary>
     /// If specified, show only results that are available in the specified region.
@@ -29,7 +31,25 @@ public record AzSqlElasticPoolListEditionsOptions : AzOptions
     /// <summary>
     /// List of additional details to include in output.  Allowed values: db- max-dtu, db-max-size, db-min-dtu, max-size.
     /// </summary>
-    [CliFlag("--show-details", ShortForm = "-d")]
-    public bool? ShowDetails { get; set; }
+    [CliOption("--show-details", ShortForm = "-d", GroupValues = true)]
+    public IEnumerable<string>? ShowDetails { get; set; }
+
+    /// <summary>
+    /// Number of DTUs to search for. If unspecified, all DTU sizes are shown.
+    /// </summary>
+    [CliFlag("--dtu")]
+    public bool? Dtu { get; set; }
+
+    /// <summary>
+    /// Edition to search for. If unspecified, all editions are shown.
+    /// </summary>
+    [CliFlag("--edition", ShortForm = "-e")]
+    public bool? Edition { get; set; }
+
+    /// <summary>
+    /// Number of vcores to search for. If unspecified, all vcore sizes are shown.
+    /// </summary>
+    [CliFlag("--vcores")]
+    public bool? Vcores { get; set; }
 
 }

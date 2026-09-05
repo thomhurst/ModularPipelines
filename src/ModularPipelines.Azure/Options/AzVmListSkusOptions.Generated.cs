@@ -36,7 +36,7 @@ public record AzVmListSkusOptions : AzOptions
     /// Resource types e.g. "availabilitySets", "snapshots", "disks", etc.
     /// </summary>
     [CliOption("--resource-type", ShortForm = "-r")]
-    public string? ResourceTypeValue { get; set; }
+    public string? ResourceType { get; set; }
 
     /// <summary>
     /// Size name, partial name is accepted.
@@ -49,12 +49,5 @@ public record AzVmListSkusOptions : AzOptions
     /// </summary>
     [CliOption("--zone", ShortForm = "-z")]
     public bool? Zone { get; set; }
-
-    [Obsolete("Use ResourceTypeValue instead.")]
-    public bool? ResourceType
-    {
-        get => bool.TryParse(ResourceTypeValue, out var value) ? value : null;
-        set => ResourceTypeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

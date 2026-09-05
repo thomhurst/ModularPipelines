@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "delete-policy")]
-public record AzKeyvaultDeletePolicyOptions : AzOptions
+public record AzKeyvaultDeletePolicyOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Application ID of the client making request on behalf of a principal. Exposed for compound identity using on-behalf-of authentication flow.
@@ -42,39 +44,18 @@ public record AzKeyvaultDeletePolicyOptions : AzOptions
     /// Name of resource group.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Name of a service principal that will receive permissions.
     /// </summary>
     [CliOption("--spn")]
-    public string? SpnValue { get; set; }
+    public string? Spn { get; set; }
 
     /// <summary>
     /// Name of a user principal that will receive permissions.
     /// </summary>
     [CliOption("--upn")]
-    public string? UpnValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SpnValue instead.")]
-    public bool? Spn
-    {
-        get => bool.TryParse(SpnValue, out var value) ? value : null;
-        set => SpnValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use UpnValue instead.")]
-    public bool? Upn
-    {
-        get => bool.TryParse(UpnValue, out var value) ? value : null;
-        set => UpnValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? Upn { get; set; }
 
 }

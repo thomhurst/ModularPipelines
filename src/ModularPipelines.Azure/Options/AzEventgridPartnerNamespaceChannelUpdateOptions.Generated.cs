@@ -21,6 +21,24 @@ namespace ModularPipelines.Azure.Options;
 public record AzEventgridPartnerNamespaceChannelUpdateOptions : AzOptions
 {
     /// <summary>
+    /// The Azure Active Directory Application ID or URI to get the access token that will be included as the bearer token in delivery requests.
+    /// </summary>
+    [CliFlag("--aad-app-id", ShortForm = "--azure-active-directory-application-id-or-uri")]
+    public bool? AadAppId { get; set; }
+
+    /// <summary>
+    /// The Azure Active Directory Tenant ID to get the access token that will be included as the bearer token in delivery requests.
+    /// </summary>
+    [CliFlag("--aad-tenant-id", ShortForm = "--azure-active-directory-tenant-id")]
+    public bool? AadTenantId { get; set; }
+
+    /// <summary>
+    /// Date or datetime in UTC ISO 8601 format (e.g., '2022-02-17T01:59:59+00:00' or '2022-02-17') after which the channel and corresponding partner topic would expire and get auto deleted. If this time is not specified, the expiration date is set to seven days by default.
+    /// </summary>
+    [CliFlag("--act-exp-date", ShortForm = "--activation-expiration-date")]
+    public bool? ActExpDate { get; set; }
+
+    /// <summary>
     /// Endpoint Base URL of the partner destination.
     /// </summary>
     [CliFlag("--endpoint-base-url")]
@@ -30,7 +48,7 @@ public record AzEventgridPartnerNamespaceChannelUpdateOptions : AzOptions
     /// The URL that represents the endpoint of the partner destination.
     /// </summary>
     [CliOption("--endpoint-url")]
-    public string? EndpointUrlValue { get; set; }
+    public string? EndpointUrl { get; set; }
 
     /// <summary>
     /// The kind of event type used.
@@ -44,11 +62,28 @@ public record AzEventgridPartnerNamespaceChannelUpdateOptions : AzOptions
     [CliFlag("--inline-event-type")]
     public bool? InlineEventType { get; set; }
 
-    [Obsolete("Use EndpointUrlValue instead.")]
-    public bool? EndpointUrl
-    {
-        get => bool.TryParse(EndpointUrlValue, out var value) ? value : null;
-        set => EndpointUrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids")]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the channel.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of the partner namespace.
+    /// </summary>
+    [CliOption("--partner-namespace-name")]
+    public string? PartnerNamespaceName { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

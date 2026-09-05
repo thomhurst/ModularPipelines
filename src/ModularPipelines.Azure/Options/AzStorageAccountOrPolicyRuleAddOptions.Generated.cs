@@ -18,19 +18,29 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "or-policy", "rule", "add")]
-public record AzStorageAccountOrPolicyRuleAddOptions : AzOptions
+public record AzStorageAccountOrPolicyRuleAddOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
+    [property: CliOption("--destination-container", ShortForm = "-d")] string DestinationContainer,
+    [property: CliOption("--policy-id")] string PolicyId,
+    [property: CliOption("--source-container", ShortForm = "-s")] string SourceContainer
+) : AzOptions
 {
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Blobs created after the time will be replicated to the destination. It must be in datetime format 'yyyy-MM- ddTHH:mm:ssZ'. Example: 2020-02-19T16:05:00Z.
+    /// </summary>
+    [CliFlag("--min-creation-time", ShortForm = "-t")]
+    public bool? MinCreationTime { get; set; }
+
+    /// <summary>
+    /// Optional. Filter the results to replicate only blobs whose names begin with the specified prefix.
+    /// </summary>
+    [CliFlag("--prefix", ShortForm = "--prefix-match")]
+    public bool? Prefix { get; set; }
 
 }

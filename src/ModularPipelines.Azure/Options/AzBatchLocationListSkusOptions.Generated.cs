@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "location", "list-skus")]
-public record AzBatchLocationListSkusOptions : AzOptions
+public record AzBatchLocationListSkusOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location
+) : AzOptions
 {
     /// <summary>
     /// OData filter expression. Valid properties for filtering are "familyName". Default value is None.

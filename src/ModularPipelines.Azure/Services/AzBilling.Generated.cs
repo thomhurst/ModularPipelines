@@ -21,8 +21,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzBilling : IAzBilling
 {
     private readonly ICommandContext _command;
+    private AzBillingEnrollmentAccount? _enrollmentAccount;
     private AzBillingInvoice? _invoice;
     private AzBillingPeriod? _period;
+    private AzBillingTransfer? _transfer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBilling"/> class.
@@ -35,6 +37,11 @@ public class AzBilling : IAzBilling
     #region Sub-command Groups
 
     /// <summary>
+    /// az enrollment-account sub-commands.
+    /// </summary>
+    public AzBillingEnrollmentAccount EnrollmentAccount => _enrollmentAccount ??= new AzBillingEnrollmentAccount(_command);
+
+    /// <summary>
     /// az invoice sub-commands.
     /// </summary>
     public AzBillingInvoice Invoice => _invoice ??= new AzBillingInvoice(_command);
@@ -43,6 +50,11 @@ public class AzBilling : IAzBilling
     /// az period sub-commands.
     /// </summary>
     public AzBillingPeriod Period => _period ??= new AzBillingPeriod(_command);
+
+    /// <summary>
+    /// az transfer sub-commands.
+    /// </summary>
+    public AzBillingTransfer Transfer => _transfer ??= new AzBillingTransfer(_command);
 
     #endregion
 }

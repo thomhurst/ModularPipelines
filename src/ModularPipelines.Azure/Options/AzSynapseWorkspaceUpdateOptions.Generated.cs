@@ -47,26 +47,26 @@ public record AzSynapseWorkspaceUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Action must be specified when you add/remove/set user assigned managed identities for workspace.The supported actions are:Add,Remove,Set.Add means to add user assigned managed identities for workspace, Remove means to remove user assigned managed identities from workspace, Set can be used when you want to add and remove user assigned managed identities at the same time, current identities will be coverd by specified ones. Allowed values: Add, Remove, Set.
     /// </summary>
-    [CliFlag("--uami-action")]
-    public bool? UamiAction { get; set; }
+    [CliOption("--uami-action")]
+    public string? UamiAction { get; set; }
 
     /// <summary>
     /// The list of User-assigned Managed Identity Id for workspace.
     /// </summary>
-    [CliFlag("--uami-id")]
-    public bool? UamiId { get; set; }
+    [CliOption("--uami-id", GroupValues = true)]
+    public IEnumerable<string>? UamiId { get; set; }
 
     /// <summary>
     /// User assigned identity resource Id used in Workspace Encryption.
     /// </summary>
     [CliOption("--uami-id-in-encrypt")]
-    public string? UamiIdInEncryptValue { get; set; }
+    public string? UamiIdInEncrypt { get; set; }
 
     /// <summary>
     /// Whether use System assigned identity in Workspace Encryption. If use uami, please set True.If not, set False.
@@ -74,11 +74,76 @@ public record AzSynapseWorkspaceUpdateOptions : AzOptions
     [CliFlag("--use-sami-in-encrypt")]
     public bool? UseSamiInEncrypt { get; set; }
 
-    [Obsolete("Use UamiIdInEncryptValue instead.")]
-    public bool? UamiIdInEncrypt
-    {
-        get => bool.TryParse(UamiIdInEncryptValue, out var value) ? value : null;
-        set => UamiIdInEncryptValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// GitHub account name used for the repository or Azure devops organization name.
+    /// </summary>
+    [CliFlag("--account-name")]
+    public bool? AccountName { get; set; }
+
+    /// <summary>
+    /// The branch name where you will collaborate with others and from which you will publish.
+    /// </summary>
+    [CliFlag("--collaboration-branch")]
+    public bool? CollaborationBranch { get; set; }
+
+    /// <summary>
+    /// If using github Enterprise Server, provide sever URL. Do not use this option with GitHub Enterprise Cloud.
+    /// </summary>
+    [CliFlag("--host-name")]
+    public bool? HostName { get; set; }
+
+    /// <summary>
+    /// The last commit ID.
+    /// </summary>
+    [CliFlag("--last-commit-id")]
+    public bool? LastCommitId { get; set; }
+
+    /// <summary>
+    /// The project name to which you are connecting.
+    /// </summary>
+    [CliFlag("--project-name")]
+    public bool? ProjectName { get; set; }
+
+    /// <summary>
+    /// The name of the repository to which you are connecting.
+    /// </summary>
+    [CliOption("--repository-name")]
+    public string? RepositoryName { get; set; }
+
+    /// <summary>
+    /// The repository configuration type.  Allowed values:
+    /// </summary>
+    [CliOption("--repository-type")]
+    public string? RepositoryType { get; set; }
+
+    /// <summary>
+    /// The name of the folder to the location of your Azure synapse JSON resources are imported. Default is /.
+    /// </summary>
+    [CliOption("--root-folder")]
+    public string? RootFolder { get; set; }
+
+    /// <summary>
+    /// The tenant id used to connect Azure devops.
+    /// </summary>
+    [CliFlag("--tenant-id")]
+    public bool? TenantId { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

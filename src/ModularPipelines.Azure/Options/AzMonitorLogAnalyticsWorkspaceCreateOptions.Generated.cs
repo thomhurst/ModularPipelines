@@ -18,12 +18,87 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "create")]
-public record AzMonitorLogAnalyticsWorkspaceCreateOptions : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Type of managed service identity.  Allowed values: None,
+    /// </summary>
+    [CliOption("--identity-type", ShortForm = "--type")]
+    public string? IdentityType { get; set; }
+
+    /// <summary>
+    /// The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{s ubscriptionId}/resourceGroups/{resourceGroupName}/provid ers/Microsoft.ManagedIdentity/userAssignedIdentities/{id entityName}'.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--user-assigned", GroupValues = true)]
+    public IEnumerable<string>? UserAssigned { get; set; }
+
+    /// <summary>
+    /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
+    /// </summary>
+    [CliFlag("--location", ShortForm = "-l")]
+    public bool? Location { get; set; }
+
+    /// <summary>
+    /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
+
+    /// <summary>
+    /// The public network access type to access workspace ingestion.  Allowed values: Disabled, Enabled.  Default:
+    /// </summary>
+    [CliOption("--ingestion-access")]
+    public string? IngestionAccess { get; set; }
+
+    /// <summary>
+    /// The public network access type to access workspace query.  Allowed values: Disabled, Enabled.  Default:
+    /// </summary>
+    [CliOption("--query-access")]
+    public string? QueryAccess { get; set; }
+
+    /// <summary>
+    /// The workspace daily quota for ingestion in gigabytes. The minimum value is 0.023 and default is -1 which means unlimited.
+    /// </summary>
+    [CliFlag("--quota")]
+    public bool? Quota { get; set; }
+
+    /// <summary>
+    /// The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details.  Default: 30.
+    /// </summary>
+    [CliOption("--retention-time")]
+    public string? RetentionTime { get; set; }
+
+    /// <summary>
+    /// Specifies whether the replication is enabled or not. When true, workspace configuration and data is replicated to the specified location. If replication is been enabled, location must be provided.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--replication-enabled")]
+    public bool? ReplicationEnabled { get; set; }
+
+    /// <summary>
+    /// The location of the replication.
+    /// </summary>
+    [CliFlag("--replication-location")]
+    public bool? ReplicationLocation { get; set; }
+
+    /// <summary>
+    /// The capacity reservation level for this workspace, when CapacityReservation sku is selected. The maximum value is 1000 and must be in multiples of 100. If you want to increase the limit, please contact LAIngestionRate@microsoft.com.  Allowed values: 100, 1000, 10000, 200, 2000, 25000, 300, 400, 500, 5000, 50000.
+    /// </summary>
+    [CliOption("--capacity-reservation-level", ShortForm = "--level")]
+    public string? CapacityReservationLevel { get; set; }
+
+    /// <summary>
+    /// The name of the SKU.  Allowed values: CapacityReservation, Free, LACluster, PerGB2018, PerNode, Premium, Standalone, Standard.  Default:
+    /// </summary>
+    [CliOption("--sku", ShortForm = "--sku-name")]
+    public string? Sku { get; set; }
 
 }

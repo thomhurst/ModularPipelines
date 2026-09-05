@@ -23,32 +23,25 @@ public record AzAccountLockUpdateOptions : AzOptions
     /// <summary>
     /// One or more resource IDs (space-delimited). If provided, no other "Resource Id" arguments should be specified.
     /// </summary>
-    [CliFlag("--ids")]
-    public bool? Ids { get; set; }
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
     /// The type of lock restriction.  Allowed values: CanNotDelete, ReadOnly.
     /// </summary>
-    [CliFlag("--lock-type", ShortForm = "-t")]
-    public bool? LockType { get; set; }
+    [CliOption("--lock-type", ShortForm = "-t")]
+    public string? LockType { get; set; }
 
     /// <summary>
     /// Name of the lock.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Notes about this lock.
     /// </summary>
     [CliFlag("--notes")]
     public bool? Notes { get; set; }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

@@ -23,7 +23,103 @@ public record AzSqlVmGroupUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the SQL virtual machine group.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Account name used for creating cluster (at minimum needs permissions to 'Create Computer Objects' in domain).
+    /// </summary>
+    [CliFlag("--bootstrap-acc")]
+    public bool? BootstrapAcc { get; set; }
+
+    /// <summary>
+    /// Cluster subnet type.  Allowed values: MultiSubnet, SingleSubnet.
+    /// </summary>
+    [CliOption("--cluster-subnet-type")]
+    public string? ClusterSubnetType { get; set; }
+
+    /// <summary>
+    /// Fully qualified name of the domain.
+    /// </summary>
+    [CliFlag("--domain-fqdn", ShortForm = "-f")]
+    public bool? DomainFqdn { get; set; }
+
+    /// <summary>
+    /// Optional path for fileshare witness.
+    /// </summary>
+    [CliFlag("--fsw-path")]
+    public bool? FswPath { get; set; }
+
+    /// <summary>
+    /// Account name used for operating cluster i.e. will be part of administrators group on all the participating virtual machines in the cluster.
+    /// </summary>
+    [CliFlag("--operator-acc", ShortForm = "-p")]
+    public bool? OperatorAcc { get; set; }
+
+    /// <summary>
+    /// Organizational Unit path in which the nodes and cluster will be present. Example: OU=WSCluster,DC=testdomain,DC=com.
+    /// </summary>
+    [CliFlag("--ou-path")]
+    public bool? OuPath { get; set; }
+
+    /// <summary>
+    /// Primary key of the witness storage account.
+    /// </summary>
+    [CliFlag("--sa-key", ShortForm = "-k")]
+    public bool? SaKey { get; set; }
+
+    /// <summary>
+    /// Account name under which SQL service will run on all participating SQL virtual machines in the cluster.
+    /// </summary>
+    [CliFlag("--service-acc", ShortForm = "-e")]
+    public bool? ServiceAcc { get; set; }
+
+    /// <summary>
+    /// Storage account url of the witness storage account.
+    /// </summary>
+    [CliFlag("--storage-account", ShortForm = "-u")]
+    public bool? StorageAccount { get; set; }
 
 }

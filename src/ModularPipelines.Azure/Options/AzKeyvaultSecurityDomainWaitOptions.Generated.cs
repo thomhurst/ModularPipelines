@@ -23,7 +23,19 @@ public record AzKeyvaultSecurityDomainWaitOptions : AzOptions
     /// <summary>
     /// Target operation that needs waiting.  Allowed values: download, restore_blob, upload.  Default: upload.
     /// </summary>
-    [CliFlag("--target-operation")]
-    public bool? TargetOperation { get; set; }
+    [CliOption("--target-operation")]
+    public string? TargetOperation { get; set; }
+
+    /// <summary>
+    /// Name of the HSM. Can be omitted if --id is specified.
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string? HsmName { get; set; }
+
+    /// <summary>
+    /// Full URI of the HSM.
+    /// </summary>
+    [CliFlag("--id")]
+    public bool? Id { get; set; }
 
 }

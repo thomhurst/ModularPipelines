@@ -18,19 +18,92 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "file-service-properties", "update")]
-public record AzStorageAccountFileServicePropertiesUpdateOptions : AzOptions
+public record AzStorageAccountFileServicePropertiesUpdateOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName
+) : AzOptions
 {
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Indicate the number of days that the deleted item should be retained. The minimum specified value can be 1 and the maximum value can be 365.
+    /// </summary>
+    [CliFlag("--delete-retention-days")]
+    public bool? DeleteRetentionDays { get; set; }
+
+    /// <summary>
+    /// Enable file service properties for share soft delete.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-delete-retention")]
+    public bool? EnableDeleteRetention { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Whether NFS Encryption in transit is required. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--nfs-eit", ShortForm = "--require-nfs-encryption-in-transit")]
+    public bool? NfsEit { get; set; }
+
+    /// <summary>
+    /// SMB authentication methods supported by server. Valid values are NTLMv2, Kerberos. Should be passed as a string with delimiter ';'.
+    /// </summary>
+    [CliFlag("--auth-methods")]
+    public bool? AuthMethods { get; set; }
+
+    /// <summary>
+    /// SMB channel encryption supported by server. Valid values are AES-128-CCM, AES-128-GCM, AES-256-GCM. Should be passed as a string with delimiter ';'.
+    /// </summary>
+    [CliFlag("--channel-encryption")]
+    public bool? ChannelEncryption { get; set; }
+
+    /// <summary>
+    /// Set SMB Multichannel setting for file service. Applies to Premium FileStorage only.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-smb-multichannel", ShortForm = "--mc")]
+    public bool? EnableSmbMultichannel { get; set; }
+
+    /// <summary>
+    /// Kerberos ticket encryption supported by server. Valid values are RC4-HMAC, AES-256. Should be passed as a string with delimiter ';'.
+    /// </summary>
+    [CliFlag("--kerb-ticket-encryption", ShortForm = "-k")]
+    public bool? KerbTicketEncryption { get; set; }
+
+    /// <summary>
+    /// Whether SMB Encryption in transit is required. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--require-smb-encryption-in-transit", ShortForm = "--smb-eit")]
+    public bool? RequireSmbEncryptionInTransit { get; set; }
+
+    /// <summary>
+    /// SMB protocol versions supported by server. Valid values are SMB2.1, SMB3.0, SMB3.1.1. Should be passed as a string with delimiter ';'.
+    /// </summary>
+    [CliFlag("--versions")]
+    public bool? Versions { get; set; }
 
 }

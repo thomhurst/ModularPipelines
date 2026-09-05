@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "midb", "restore")]
-public record AzSqlMidbRestoreOptions : AzOptions
+public record AzSqlMidbRestoreOptions(
+    [property: CliOption("--dest-name")] string DestName,
+    [property: CliOption("--time", ShortForm = "-t")] string Time
+) : AzOptions
 {
     /// <summary>
     /// If specified, restore from a deleted database instead of from an existing database. Must match the deleted time of a deleted database on the source Managed Instance.
@@ -30,13 +33,13 @@ public record AzSqlMidbRestoreOptions : AzOptions
     /// Name of the managed instance to restore managed database to. This can be same managed instance, or another managed instance on same subscription. When not specified it defaults to source managed instance.
     /// </summary>
     [CliOption("--dest-mi")]
-    public string? DestMiValue { get; set; }
+    public string? DestMi { get; set; }
 
     /// <summary>
     /// Name of the resource group of the managed instance to restore managed database to. When not specified it defaults to source resource group.
     /// </summary>
     [CliOption("--dest-resource-group")]
-    public string? DestResourceGroupValue { get; set; }
+    public string? DestResourceGroup { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -53,21 +56,31 @@ public record AzSqlMidbRestoreOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
-    [Obsolete("Use DestMiValue instead.")]
-    public bool? DestMi
-    {
-        get => bool.TryParse(DestMiValue, out var value) ? value : null;
-        set => DestMiValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
-    [Obsolete("Use DestResourceGroupValue instead.")]
-    public bool? DestResourceGroup
-    {
-        get => bool.TryParse(DestResourceGroupValue, out var value) ? value : null;
-        set => DestResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the Azure SQL Managed Instance.
+    /// </summary>
+    [CliOption("--managed-instance", ShortForm = "--mi")]
+    public string? ManagedInstance { get; set; }
+
+    /// <summary>
+    /// The name of the Azure SQL Managed Database.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

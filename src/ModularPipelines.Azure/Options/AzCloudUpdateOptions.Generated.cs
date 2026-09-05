@@ -36,25 +36,25 @@ public record AzCloudUpdateOptions : AzOptions
     /// The Active Directory resource ID for data lake services.
     /// </summary>
     [CliOption("--endpoint-active-directory-data-lake-resource-id")]
-    public string? EndpointActiveDirectoryDataLakeResourceIdValue { get; set; }
+    public string? EndpointActiveDirectoryDataLakeResourceId { get; set; }
 
     /// <summary>
     /// The Active Directory resource ID.
     /// </summary>
     [CliOption("--endpoint-active-directory-graph-resource-id")]
-    public string? EndpointActiveDirectoryGraphResourceIdValue { get; set; }
+    public string? EndpointActiveDirectoryGraphResourceId { get; set; }
 
     /// <summary>
     /// The resource ID to obtain AD tokens for.
     /// </summary>
     [CliOption("--endpoint-active-directory-resource-id")]
-    public string? EndpointActiveDirectoryResourceIdValue { get; set; }
+    public string? EndpointActiveDirectoryResourceId { get; set; }
 
     /// <summary>
     /// The template gallery endpoint.
     /// </summary>
     [CliOption("--endpoint-gallery")]
-    public string? EndpointGalleryValue { get; set; }
+    public string? EndpointGallery { get; set; }
 
     /// <summary>
     /// The management service endpoint.
@@ -66,13 +66,13 @@ public record AzCloudUpdateOptions : AzOptions
     /// The Microsoft Graph resource ID.
     /// </summary>
     [CliOption("--endpoint-microsoft-graph-resource-id")]
-    public string? EndpointMicrosoftGraphResourceIdValue { get; set; }
+    public string? EndpointMicrosoftGraphResourceId { get; set; }
 
     /// <summary>
     /// The resource management endpoint.
     /// </summary>
     [CliOption("--endpoint-resource-manager")]
-    public string? EndpointResourceManagerValue { get; set; }
+    public string? EndpointResourceManager { get; set; }
 
     /// <summary>
     /// The sql server management endpoint.
@@ -84,19 +84,19 @@ public record AzCloudUpdateOptions : AzOptions
     /// The uri of the document which caches commonly used virtual machine images.
     /// </summary>
     [CliOption("--endpoint-vm-image-alias-doc")]
-    public string? EndpointVmImageAliasDocValue { get; set; }
+    public string? EndpointVmImageAliasDoc { get; set; }
 
     /// <summary>
     /// Name of a registered cloud.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Profile to use for this cloud. The azure stack profiles `2017-03-09-profile` `2018-03-01-hybrid` `2019-03-01-hybrid` and `2020-09-01-hybrid` have been deprecated and removed. To continue using Azure Stack, please install the Azure CLI `2.66.*` (LTS) version. For more details, refer to: https://learn.microsoft.com/en- us/cli/azure/whats-new- overview#important-notice-for- azure-stack-hub-customers.  Allowed values: latest.
     /// </summary>
-    [CliFlag("--profile")]
-    public bool? Profile { get; set; }
+    [CliOption("--profile")]
+    public string? Profile { get; set; }
 
     /// <summary>
     /// If specified, the cloud endpoints' auto discovery will be skipped.
@@ -126,7 +126,7 @@ public record AzCloudUpdateOptions : AzOptions
     /// The Key Vault service dns suffix.
     /// </summary>
     [CliOption("--suffix-keyvault-dns")]
-    public string? SuffixKeyvaultDnsValue { get; set; }
+    public string? SuffixKeyvaultDns { get; set; }
 
     /// <summary>
     /// The dns suffix for sql servers.
@@ -139,68 +139,5 @@ public record AzCloudUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--suffix-storage-endpoint")]
     public bool? SuffixStorageEndpoint { get; set; }
-
-    [Obsolete("Use EndpointActiveDirectoryDataLakeResourceIdValue instead.")]
-    public bool? EndpointActiveDirectoryDataLakeResourceId
-    {
-        get => bool.TryParse(EndpointActiveDirectoryDataLakeResourceIdValue, out var value) ? value : null;
-        set => EndpointActiveDirectoryDataLakeResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use EndpointActiveDirectoryGraphResourceIdValue instead.")]
-    public bool? EndpointActiveDirectoryGraphResourceId
-    {
-        get => bool.TryParse(EndpointActiveDirectoryGraphResourceIdValue, out var value) ? value : null;
-        set => EndpointActiveDirectoryGraphResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use EndpointActiveDirectoryResourceIdValue instead.")]
-    public bool? EndpointActiveDirectoryResourceId
-    {
-        get => bool.TryParse(EndpointActiveDirectoryResourceIdValue, out var value) ? value : null;
-        set => EndpointActiveDirectoryResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use EndpointGalleryValue instead.")]
-    public bool? EndpointGallery
-    {
-        get => bool.TryParse(EndpointGalleryValue, out var value) ? value : null;
-        set => EndpointGalleryValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use EndpointMicrosoftGraphResourceIdValue instead.")]
-    public bool? EndpointMicrosoftGraphResourceId
-    {
-        get => bool.TryParse(EndpointMicrosoftGraphResourceIdValue, out var value) ? value : null;
-        set => EndpointMicrosoftGraphResourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use EndpointResourceManagerValue instead.")]
-    public bool? EndpointResourceManager
-    {
-        get => bool.TryParse(EndpointResourceManagerValue, out var value) ? value : null;
-        set => EndpointResourceManagerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use EndpointVmImageAliasDocValue instead.")]
-    public bool? EndpointVmImageAliasDoc
-    {
-        get => bool.TryParse(EndpointVmImageAliasDocValue, out var value) ? value : null;
-        set => EndpointVmImageAliasDocValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SuffixKeyvaultDnsValue instead.")]
-    public bool? SuffixKeyvaultDns
-    {
-        get => bool.TryParse(SuffixKeyvaultDnsValue, out var value) ? value : null;
-        set => SuffixKeyvaultDnsValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

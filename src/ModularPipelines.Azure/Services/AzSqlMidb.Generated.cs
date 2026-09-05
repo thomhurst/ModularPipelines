@@ -23,7 +23,9 @@ public class AzSqlMidb
     private readonly ICommandContext _command;
     private AzSqlMidbAdvancedThreatProtectionSetting? _advancedThreatProtectionSetting;
     private AzSqlMidbCopy? _copy;
+    private AzSqlMidbLedgerDigestUploads? _ledgerDigestUploads;
     private AzSqlMidbLogReplay? _logReplay;
+    private AzSqlMidbLtrBackup? _ltrBackup;
     private AzSqlMidbMove? _move;
 
     /// <summary>
@@ -47,9 +49,19 @@ public class AzSqlMidb
     public AzSqlMidbCopy Copy => _copy ??= new AzSqlMidbCopy(_command);
 
     /// <summary>
+    /// az ledger-digest-uploads sub-commands.
+    /// </summary>
+    public AzSqlMidbLedgerDigestUploads LedgerDigestUploads => _ledgerDigestUploads ??= new AzSqlMidbLedgerDigestUploads(_command);
+
+    /// <summary>
     /// az log-replay sub-commands.
     /// </summary>
     public AzSqlMidbLogReplay LogReplay => _logReplay ??= new AzSqlMidbLogReplay(_command);
+
+    /// <summary>
+    /// az ltr-backup sub-commands.
+    /// </summary>
+    public AzSqlMidbLtrBackup LtrBackup => _ltrBackup ??= new AzSqlMidbLtrBackup(_command);
 
     /// <summary>
     /// az move sub-commands.
@@ -68,11 +80,11 @@ public class AzSqlMidb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzSqlMidbCreateOptions? options = null,
+        AzSqlMidbCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlMidbCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -91,6 +103,36 @@ public class AzSqlMidb
     }
 
     /// <summary>
+    /// List restorable deleted managed databases.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDeletedAsync(
+        AzSqlMidbListDeletedOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlMidbListDeletedOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List managed databases on a managed instance.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzSqlMidbListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlMidbListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Recover a managed database using geo-pair instance backup.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -98,11 +140,11 @@ public class AzSqlMidb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RecoverAsync(
-        AzSqlMidbRecoverOptions? options = null,
+        AzSqlMidbRecoverOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlMidbRecoverOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,11 +155,26 @@ public class AzSqlMidb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreAsync(
-        AzSqlMidbRestoreOptions? options = null,
+        AzSqlMidbRestoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlMidbRestoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the details for a managed database.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzSqlMidbShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlMidbShowOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

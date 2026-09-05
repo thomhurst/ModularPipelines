@@ -24,39 +24,18 @@ public record AzKeyvaultPrivateLinkResourceListOptions : AzOptions
     /// Name of the HSM. (--hsm-name and --name/-n are mutually exclusive, please specify just one of them).
     /// </summary>
     [CliOption("--hsm-name")]
-    public string? HsmNameValue { get; set; }
+    public string? HsmName { get; set; }
 
     /// <summary>
     /// Name of resource group.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Name of the Vault.
     /// </summary>
     [CliOption("--vault-name")]
-    public string? VaultNameValue { get; set; }
-
-    [Obsolete("Use HsmNameValue instead.")]
-    public bool? HsmName
-    {
-        get => bool.TryParse(HsmNameValue, out var value) ? value : null;
-        set => HsmNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VaultNameValue instead.")]
-    public bool? VaultName
-    {
-        get => bool.TryParse(VaultNameValue, out var value) ? value : null;
-        set => VaultNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? VaultName { get; set; }
 
 }

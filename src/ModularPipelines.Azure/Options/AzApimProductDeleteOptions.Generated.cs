@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "product", "delete")]
-public record AzApimProductDeleteOptions : AzOptions
+public record AzApimProductDeleteOptions(
+    [property: CliOption("--product-id")] string ProductId,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName
+) : AzOptions
 {
     /// <summary>
     /// Delete existing subscriptions associated with the product or not.

@@ -18,14 +18,14 @@ namespace ModularPipelines.Azure.Services;
 /// az sshkey commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzSshkey : IAzSshkey
+public class AzSshKey : IAzSshKey
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AzSshkey"/> class.
+    /// Initializes a new instance of the <see cref="AzSshKey"/> class.
     /// </summary>
-    public AzSshkey(ICommandContext command)
+    public AzSshKey(ICommandContext command)
     {
         _command = command;
     }
@@ -40,11 +40,11 @@ public class AzSshkey : IAzSshkey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzSshkeyCreateOptions? options = null,
+        AzSshKeyCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSshkeyCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AzSshkey : IAzSshkey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAsync(
-        AzSshkeyDeleteOptions? options = null,
+        AzSshKeyDeleteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSshkeyDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSshKeyDeleteOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -70,11 +70,26 @@ public class AzSshkey : IAzSshkey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
-        AzSshkeyListOptions? options = null,
+        AzSshKeyListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSshkeyListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSshKeyListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Retrieve information about an SSH public key.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzSshKeyShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSshKeyShowOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -85,11 +100,11 @@ public class AzSshkey : IAzSshkey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAsync(
-        AzSshkeyUpdateOptions? options = null,
+        AzSshKeyUpdateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSshkeyUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSshKeyUpdateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

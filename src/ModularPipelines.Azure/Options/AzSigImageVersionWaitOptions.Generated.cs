@@ -23,7 +23,79 @@ public record AzSigImageVersionWaitOptions : AzOptions
     /// <summary>
     /// The expand expression to apply on the operation.  Allowed values:
     /// </summary>
-    [CliFlag("--expand")]
-    public bool? Expand { get; set; }
+    [CliOption("--expand")]
+    public string? Expand { get; set; }
+
+    /// <summary>
+    /// The name of the gallery image definition in which the Image Version resides.
+    /// </summary>
+    [CliOption("--gallery-image-definition", ShortForm = "-i")]
+    public string? GalleryImageDefinition { get; set; }
+
+    /// <summary>
+    /// The name of the gallery image version to be deleted.
+    /// </summary>
+    [CliOption("--gallery-image-version", ShortForm = "-e")]
+    public string? GalleryImageVersion { get; set; }
+
+    /// <summary>
+    /// The name of the Shared Image Gallery in which the Image Definition resides.
+    /// </summary>
+    [CliOption("--gallery-name", ShortForm = "-r")]
+    public string? GalleryName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids")]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Wait until created with 'provisioningState' at 'Succeeded'.
+    /// </summary>
+    [CliFlag("--created")]
+    public bool? Created { get; set; }
+
+    /// <summary>
+    /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', insta nceView.statuses[?code=='PowerState/ru nning'].
+    /// </summary>
+    [CliFlag("--custom")]
+    public bool? Custom { get; set; }
+
+    /// <summary>
+    /// Wait until deleted.
+    /// </summary>
+    [CliFlag("--deleted")]
+    public bool? Deleted { get; set; }
+
+    /// <summary>
+    /// Wait until the resource exists.
+    /// </summary>
+    [CliFlag("--exists")]
+    public bool? Exists { get; set; }
+
+    /// <summary>
+    /// Polling interval in seconds.  Default: 30.
+    /// </summary>
+    [CliFlag("--interval")]
+    public bool? Interval { get; set; }
+
+    /// <summary>
+    /// Maximum wait in seconds.  Default: 3600.
+    /// </summary>
+    [CliFlag("--timeout")]
+    public bool? Timeout { get; set; }
+
+    /// <summary>
+    /// Wait until updated with provisioningState at 'Succeeded'.
+    /// </summary>
+    [CliFlag("--updated")]
+    public bool? Updated { get; set; }
 
 }

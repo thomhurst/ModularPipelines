@@ -18,19 +18,24 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "routeserver", "create")]
-public record AzNetworkRouteserverCreateOptions : AzOptions
+public record AzNetworkRouteServerCreateOptions(
+    [property: CliOption("--hosted-subnet")] string HostedSubnet,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--public-ip-address")] string PublicIpAddress,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// VirtualHub Router autoscale configuration. Use space-separated property=value [property=value ...].
     /// </summary>
-    [CliFlag("--auto-scale-config")]
-    public bool? AutoScaleConfig { get; set; }
+    [CliOption("--auto-scale-config", GroupValues = true)]
+    public IEnumerable<string>? AutoScaleConfig { get; set; }
 
     /// <summary>
     /// Routing preference of the route server.  Allowed values:
     /// </summary>
-    [CliFlag("--hub-routing-preference")]
-    public bool? HubRoutingPreference { get; set; }
+    [CliOption("--hub-routing-preference")]
+    public string? HubRoutingPreference { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -41,7 +46,7 @@ public record AzNetworkRouteserverCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

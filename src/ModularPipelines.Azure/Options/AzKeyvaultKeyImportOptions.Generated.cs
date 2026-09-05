@@ -23,14 +23,20 @@ public record AzKeyvaultKeyImportOptions : AzOptions
     /// <summary>
     /// The curve name of the key to import (only for BYOK).  Allowed values: P-256, P-256K, P-384,
     /// </summary>
-    [CliFlag("--curve")]
-    public bool? Curve { get; set; }
+    [CliOption("--curve")]
+    public string? Curve { get; set; }
 
     /// <summary>
     /// Use default policy under which the key can be exported for CVM disk encryption.
     /// </summary>
     [CliFlag("--default-cvm-policy")]
     public bool? DefaultCvmPolicy { get; set; }
+
+    /// <summary>
+    /// Use default policy under which the key can be exported for data disk encryption.
+    /// </summary>
+    [CliFlag("--default-data-disk-policy", ShortForm = "--default-dd-policy")]
+    public bool? DefaultDataDiskPolicy { get; set; }
 
     /// <summary>
     /// Create key in disabled state.  Allowed values: false, true.
@@ -59,8 +65,8 @@ public record AzKeyvaultKeyImportOptions : AzOptions
     /// <summary>
     /// The type of key to import (only for BYOK). Allowed values: EC, RSA, oct.  Default: RSA.
     /// </summary>
-    [CliFlag("--kty")]
-    public bool? Kty { get; set; }
+    [CliOption("--kty")]
+    public string? Kty { get; set; }
 
     /// <summary>
     /// Key not usable before the provided UTC datetime (Y-m-d'T'H:M:S'Z').
@@ -71,8 +77,8 @@ public record AzKeyvaultKeyImportOptions : AzOptions
     /// <summary>
     /// Space-separated list of permitted JSON web key operations.  Allowed values: decrypt, encrypt, export, import, sign, unwrapKey, verify, wrapKey.
     /// </summary>
-    [CliFlag("--ops")]
-    public bool? Ops { get; set; }
+    [CliOption("--ops", GroupValues = true)]
+    public IEnumerable<string>? Ops { get; set; }
 
     /// <summary>
     /// The policy rules under which the key can be exported. Policy definition as JSON, or a path to a file containing JSON policy definition.
@@ -83,13 +89,67 @@ public record AzKeyvaultKeyImportOptions : AzOptions
     /// <summary>
     /// Specifies the type of key protection.  Allowed values: hsm, software.
     /// </summary>
-    [CliFlag("--protection", ShortForm = "-p")]
-    public bool? Protection { get; set; }
+    [CliOption("--protection", ShortForm = "-p")]
+    public string? Protection { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Name of the HSM. (--hsm-name and --vault-name are mutually exclusive, please specify just one of them).
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string? HsmName { get; set; }
+
+    /// <summary>
+    /// Id of the key. If specified all other 'Id' arguments should be omitted.
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Name of the key. Required if --id is not specified.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string? VaultName { get; set; }
+
+    /// <summary>
+    /// BYOK file containing the key to be imported. Must not be password protected.
+    /// </summary>
+    [CliFlag("--byok-file")]
+    public bool? ByokFile { get; set; }
+
+    /// <summary>
+    /// BYOK string containing the key to be imported. Must not be password protected.
+    /// </summary>
+    [CliFlag("--byok-string")]
+    public bool? ByokString { get; set; }
+
+    /// <summary>
+    /// PEM file containing the key to be imported.
+    /// </summary>
+    [CliFlag("--pem-file")]
+    public bool? PemFile { get; set; }
+
+    /// <summary>
+    /// Password of PEM file.
+    /// </summary>
+    [CliFlag("--pem-password")]
+    public bool? PemPassword { get; set; }
+
+    /// <summary>
+    /// PEM string containing the key to be imported.
+    /// </summary>
+    [CliFlag("--pem-string")]
+    public bool? PemString { get; set; }
 
 }

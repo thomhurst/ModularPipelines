@@ -24,13 +24,42 @@ public record AzSqlMidbMoveListOptions : AzOptions
     /// Name of the target managed instance to show move operations for.
     /// </summary>
     [CliOption("--dest-mi")]
-    public string? DestMiValue { get; set; }
+    public string? DestMi { get; set; }
 
-    [Obsolete("Use DestMiValue instead.")]
-    public bool? DestMi
-    {
-        get => bool.TryParse(DestMiValue, out var value) ? value : null;
-        set => DestMiValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the target resource group to show move operations for.
+    /// </summary>
+    [CliOption("--dest-resource-group", ShortForm = "--dest-rg")]
+    public string? DestResourceGroup { get; set; }
+
+    /// <summary>
+    /// Flag that only shows latest move operation per managed database.
+    /// </summary>
+    [CliFlag("--latest", ShortForm = "--only-latest-per-database")]
+    public bool? Latest { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the source managed instance.
+    /// </summary>
+    [CliOption("--managed-instance", ShortForm = "--mi")]
+    public string? ManagedInstance { get; set; }
+
+    /// <summary>
+    /// The name of the Azure SQL Managed Database.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of the source resource group.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

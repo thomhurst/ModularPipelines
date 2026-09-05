@@ -18,7 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "managed-rule", "exclusion", "rule-set", "remove")]
-public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetRemoveOptions : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetRemoveOptions(
+    [property: CliOption("--match-operator", ShortForm = "--selector-match-operator")] string MatchOperator,
+    [property: CliOption("--match-variable")] string MatchVariable,
+    [property: CliOption("--policy-name")] string PolicyName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--selector")] string Selector,
+    [property: CliOption("--type")] string Type,
+    [property: CliOption("--version")] string Version
+) : AzOptions
 {
     /// <summary>
     /// The managed rule group for exclusion.

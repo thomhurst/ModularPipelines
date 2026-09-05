@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "lock", "create")]
-public record AzAccountLockCreateOptions : AzOptions
+public record AzAccountLockCreateOptions(
+    [property: CliOption("--lock-type", ShortForm = "-t")] string LockType,
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Notes about this lock.

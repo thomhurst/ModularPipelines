@@ -23,7 +23,7 @@ public record AzNetworkDnsListReferencesOptions : AzOptions
     /// <summary>
     /// A space-separated list of resource IDs for which referencing dns records need to be queried.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--parameters")]
-    public bool? Parameters { get; set; }
+    [CliOption("--parameters", GroupValues = true)]
+    public IEnumerable<string>? Parameters { get; set; }
 
 }

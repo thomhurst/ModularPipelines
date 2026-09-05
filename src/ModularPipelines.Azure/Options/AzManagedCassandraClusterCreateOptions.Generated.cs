@@ -18,13 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-cassandra", "cluster", "create")]
-public record AzManagedCassandraClusterCreateOptions : AzOptions
+public record AzManagedCassandraClusterCreateOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--delegated-management-subnet-id", ShortForm = "-s")] string DelegatedManagementSubnetId,
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Authentication mode can be None or Cassandra. If None, no authentication will be required to connect to the Cassandra API. If Cassandra, then passwords will be used.  Allowed values:
     /// </summary>
-    [CliFlag("--authentication-method")]
-    public bool? AuthenticationMethod { get; set; }
+    [CliOption("--authentication-method")]
+    public string? AuthenticationMethod { get; set; }
 
     /// <summary>
     /// The version of Cassandra chosen.
@@ -47,14 +52,14 @@ public record AzManagedCassandraClusterCreateOptions : AzOptions
     /// <summary>
     /// A list of certificates that the managed cassandra data center's should accept.
     /// </summary>
-    [CliFlag("--external-gossip-certificates", ShortForm = "-e")]
-    public bool? ExternalGossipCertificates { get; set; }
+    [CliOption("--external-gossip-certificates", ShortForm = "-e", GroupValues = true)]
+    public IEnumerable<string>? ExternalGossipCertificates { get; set; }
 
     /// <summary>
     /// A list of ip addresses of the seed nodes of on- premise data centers.
     /// </summary>
-    [CliFlag("--external-seed-nodes")]
-    public bool? ExternalSeedNodes { get; set; }
+    [CliOption("--external-seed-nodes", GroupValues = true)]
+    public IEnumerable<string>? ExternalSeedNodes { get; set; }
 
     /// <summary>
     /// The number of hours between backup attempts.
@@ -65,8 +70,8 @@ public record AzManagedCassandraClusterCreateOptions : AzOptions
     /// <summary>
     /// Type of identity used for Customer Managed Disk Key.  Allowed values: None, SystemAssigned.
     /// </summary>
-    [CliFlag("--identity-type")]
-    public bool? IdentityType { get; set; }
+    [CliOption("--identity-type")]
+    public string? IdentityType { get; set; }
 
     /// <summary>
     /// The intial password to be configured when a cluster is created for authentication_method
@@ -90,19 +95,12 @@ public record AzManagedCassandraClusterCreateOptions : AzOptions
     /// The resource id of a backup. If provided on create, the backup will be used to prepopulate the cluster. The cluster data center count and node counts must match the backup.
     /// </summary>
     [CliOption("--restore-from-backup-id")]
-    public string? RestoreFromBackupIdValue { get; set; }
+    public string? RestoreFromBackupId { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
-
-    [Obsolete("Use RestoreFromBackupIdValue instead.")]
-    public bool? RestoreFromBackupId
-    {
-        get => bool.TryParse(RestoreFromBackupIdValue, out var value) ? value : null;
-        set => RestoreFromBackupIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

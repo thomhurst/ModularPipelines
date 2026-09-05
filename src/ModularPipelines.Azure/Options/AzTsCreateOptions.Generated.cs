@@ -18,13 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ts", "create")]
-public record AzTsCreateOptions : AzOptions
+public record AzTsCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The description of the parent template spec.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// The display name of the template spec.
@@ -41,14 +44,14 @@ public record AzTsCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// A path to a template file or Bicep file in the file system.
     /// </summary>
     [CliOption("--template-file", ShortForm = "-f")]
-    public string? TemplateFileValue { get; set; }
+    public string? TemplateFile { get; set; }
 
     /// <summary>
     /// The uiFormDefinition file path in the file system for the template spec version.
@@ -60,46 +63,18 @@ public record AzTsCreateOptions : AzOptions
     /// The template spec version.
     /// </summary>
     [CliOption("--version", ShortForm = "-v")]
-    public string? VersionValue { get; set; }
+    public string? Version { get; set; }
 
     /// <summary>
     /// The description of the template spec version.
     /// </summary>
     [CliOption("--version-description")]
-    public string? VersionDescriptionValue { get; set; }
+    public string? VersionDescription { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
-
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TemplateFileValue instead.")]
-    public bool? TemplateFile
-    {
-        get => bool.TryParse(TemplateFileValue, out var value) ? value : null;
-        set => TemplateFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VersionValue instead.")]
-    public bool? Version
-    {
-        get => bool.TryParse(VersionValue, out var value) ? value : null;
-        set => VersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VersionDescriptionValue instead.")]
-    public bool? VersionDescription
-    {
-        get => bool.TryParse(VersionDescriptionValue, out var value) ? value : null;
-        set => VersionDescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

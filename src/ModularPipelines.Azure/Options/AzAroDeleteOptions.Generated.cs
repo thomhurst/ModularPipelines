@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aro", "delete")]
-public record AzAroDeleteOptions : AzOptions
+public record AzAroDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -31,5 +34,11 @@ public record AzAroDeleteOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// Delete the cluster's associated managed identities together with the cluster.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--delete-identities")]
+    public bool? DeleteIdentities { get; set; }
 
 }

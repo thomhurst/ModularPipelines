@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "peering", "connection", "create")]
-public record AzNetworkExpressRoutePeeringConnectionCreateOptions : AzOptions
+public record AzNetworkExpressRoutePeeringConnectionCreateOptions(
+    [property: CliOption("--circuit-name")] string CircuitName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--peering-name")] string PeeringName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// /29 IP address space to carve out customer addresses for tunnels.
@@ -35,20 +40,19 @@ public record AzNetworkExpressRoutePeeringConnectionCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Name or ID of the peer ExpressRoute circuit.
     /// </summary>
     [CliOption("--peer-circuit")]
-    public string? PeerCircuitValue { get; set; }
+    public string? PeerCircuit { get; set; }
 
-    [Obsolete("Use PeerCircuitValue instead.")]
-    public bool? PeerCircuit
-    {
-        get => bool.TryParse(PeerCircuitValue, out var value) ? value : null;
-        set => PeerCircuitValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Reference to Express Route Circuit Private Peering Resource of the circuit initiating connection.
+    /// </summary>
+    [CliFlag("--source-circuit")]
+    public bool? SourceCircuit { get; set; }
 
 }

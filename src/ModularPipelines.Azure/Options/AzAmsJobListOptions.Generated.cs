@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "job", "list")]
-public record AzAmsJobListOptions : AzOptions
+public record AzAmsJobListOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--transform-name", ShortForm = "-t")] string TransformName
+) : AzOptions
 {
     /// <summary>
     /// Restricts the set of items returned.

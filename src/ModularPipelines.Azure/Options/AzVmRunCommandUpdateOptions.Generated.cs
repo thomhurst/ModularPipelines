@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "run-command", "update")]
-public record AzVmRunCommandUpdateOptions : AzOptions
+public record AzVmRunCommandUpdateOptions(
+    [property: CliOption("--name", ShortForm = "--run-command-name")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Optional. If set to true, provisioning will complete as soon as the script starts and will not wait for script to complete.  Allowed values: false, true.
@@ -60,13 +62,13 @@ public record AzVmRunCommandUpdateOptions : AzOptions
     /// The parameters used by the script.
     /// </summary>
     [CliOption("--parameters")]
-    public string? ParametersValue { get; set; }
+    public string? Parameters { get; set; }
 
     /// <summary>
     /// The parameters used by the script.
     /// </summary>
     [CliOption("--protected-parameters")]
-    public string? ProtectedParametersValue { get; set; }
+    public string? ProtectedParameters { get; set; }
 
     /// <summary>
     /// Password if needed for using run-as-user parameter. It will be encrypted and not logged.
@@ -95,8 +97,8 @@ public record AzVmRunCommandUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The timeout in seconds to execute the run command.
@@ -104,18 +106,22 @@ public record AzVmRunCommandUpdateOptions : AzOptions
     [CliFlag("--timeout-in-seconds")]
     public bool? TimeoutInSeconds { get; set; }
 
-    [Obsolete("Use ParametersValue instead.")]
-    public bool? Parameters
-    {
-        get => bool.TryParse(ParametersValue, out var value) ? value : null;
-        set => ParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
-    [Obsolete("Use ProtectedParametersValue instead.")]
-    public bool? ProtectedParameters
-    {
-        get => bool.TryParse(ProtectedParametersValue, out var value) ? value : null;
-        set => ProtectedParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The name of the virtual machine.
+    /// </summary>
+    [CliOption("--vm-name")]
+    public string? VmName { get; set; }
 
 }

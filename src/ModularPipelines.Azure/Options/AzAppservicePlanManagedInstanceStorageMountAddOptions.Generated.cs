@@ -25,11 +25,6 @@ public record AzAppservicePlanManagedInstanceStorageMountAddOptions(
     [property: CliOption("--type")] string Type
 ) : AzOptions
 {
-    public AzAppservicePlanManagedInstanceStorageMountAddOptions()
-        : this(default(string)!, default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Key Vault secret URI for credentials.
     /// </summary>

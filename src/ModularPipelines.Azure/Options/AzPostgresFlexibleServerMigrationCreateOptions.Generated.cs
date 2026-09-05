@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "migration", "create")]
-public record AzPostgresFlexibleServerMigrationCreateOptions : AzOptions
+public record AzPostgresFlexibleServerMigrationCreateOptions(
+    [property: CliOption("--properties", ShortForm = "-b")] string Properties,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
+) : AzOptions
 {
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -29,32 +33,25 @@ public record AzPostgresFlexibleServerMigrationCreateOptions : AzOptions
     /// <summary>
     /// Either offline or online(with CDC) migration.  Allowed values: offline, online.  Default: offline.
     /// </summary>
-    [CliFlag("--migration-mode")]
-    public bool? MigrationMode { get; set; }
+    [CliOption("--migration-mode")]
+    public string? MigrationMode { get; set; }
 
     /// <summary>
     /// Supported Migration Option. Default is ValidateAndMigrate. Allowed values: Migrate, Validate, ValidateAndMigrate.
     /// </summary>
-    [CliFlag("--migration-option")]
-    public bool? MigrationOption { get; set; }
+    [CliOption("--migration-option")]
+    public string? MigrationOption { get; set; }
 
     /// <summary>
     /// Name of the migration.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

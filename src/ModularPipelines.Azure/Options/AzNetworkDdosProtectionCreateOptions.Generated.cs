@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "ddos-protection", "create")]
-public record AzNetworkDdosProtectionCreateOptions : AzOptions
+public record AzNetworkDdosProtectionCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -29,13 +32,13 @@ public record AzNetworkDdosProtectionCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Space-separated list of VNets (name or IDs) to associate with the plan.
     /// </summary>
-    [CliFlag("--vnets")]
-    public bool? Vnets { get; set; }
+    [CliOption("--vnets", GroupValues = true)]
+    public IEnumerable<string>? Vnets { get; set; }
 
 }

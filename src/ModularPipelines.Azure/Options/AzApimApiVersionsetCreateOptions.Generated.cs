@@ -18,13 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "versionset", "create")]
-public record AzApimApiVersionsetCreateOptions : AzOptions
+public record AzApimApiVersionSetCreateOptions(
+    [property: CliOption("--display-name")] string DisplayName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--versioning-scheme")] string VersioningScheme
+) : AzOptions
 {
     /// <summary>
     /// Description of API Version Set.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// ETag of the Entity.
@@ -36,46 +41,18 @@ public record AzApimApiVersionsetCreateOptions : AzOptions
     /// Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`.
     /// </summary>
     [CliOption("--version-header-name")]
-    public string? VersionHeaderNameValue { get; set; }
+    public string? VersionHeaderName { get; set; }
 
     /// <summary>
     /// Name of query parameter that indicates the API Version if versioningScheme is set to `query`.
     /// </summary>
     [CliOption("--version-query-name")]
-    public string? VersionQueryNameValue { get; set; }
+    public string? VersionQueryName { get; set; }
 
     /// <summary>
     /// A resource identifier for the related ApiVersionSet.
     /// </summary>
     [CliOption("--version-set-id")]
-    public string? VersionSetIdValue { get; set; }
-
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VersionHeaderNameValue instead.")]
-    public bool? VersionHeaderName
-    {
-        get => bool.TryParse(VersionHeaderNameValue, out var value) ? value : null;
-        set => VersionHeaderNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VersionQueryNameValue instead.")]
-    public bool? VersionQueryName
-    {
-        get => bool.TryParse(VersionQueryNameValue, out var value) ? value : null;
-        set => VersionQueryNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VersionSetIdValue instead.")]
-    public bool? VersionSetId
-    {
-        get => bool.TryParse(VersionSetIdValue, out var value) ? value : null;
-        set => VersionSetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? VersionSetId { get; set; }
 
 }

@@ -28,6 +28,7 @@ public class AzSql : IAzSql
     private AzSqlInstanceFailoverGroup? _instanceFailoverGroup;
     private AzSqlMi? _mi;
     private AzSqlMidb? _midb;
+    private AzSqlRecoverableMidb? _recoverableMidb;
     private AzSqlServer? _server;
     private AzSqlVirtualCluster? _virtualCluster;
     private AzSqlVm? _vm;
@@ -78,6 +79,11 @@ public class AzSql : IAzSql
     public AzSqlMidb Midb => _midb ??= new AzSqlMidb(_command);
 
     /// <summary>
+    /// az recoverable-midb sub-commands.
+    /// </summary>
+    public AzSqlRecoverableMidb RecoverableMidb => _recoverableMidb ??= new AzSqlRecoverableMidb(_command);
+
+    /// <summary>
     /// az server sub-commands.
     /// </summary>
     public AzSqlServer Server => _server ??= new AzSqlServer(_command);
@@ -91,6 +97,40 @@ public class AzSql : IAzSql
     /// az vm sub-commands.
     /// </summary>
     public AzSqlVm Vm => _vm ??= new AzSqlVm(_command);
+
+    #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// Gets all subscription usage metrics in a given location.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListUsagesAsync(
+        AzSqlListUsagesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Gets a subscription usage metric.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowUsageAsync(
+        AzSqlShowUsageOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
 
     #endregion
 }

@@ -18,13 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "project", "create")]
-public record AzCognitiveservicesAccountProjectCreateOptions : AzOptions
+public record AzCognitiveservicesAccountProjectCreateOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--project-name")] string ProjectName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Description of the project.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Display name of the project.
@@ -32,11 +37,16 @@ public record AzCognitiveservicesAccountProjectCreateOptions : AzOptions
     [CliFlag("--display-name")]
     public bool? DisplayName { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Use with --user-assigned-identity to generate and assign a system managed Azure Active Directory Identity for this project.
+    /// </summary>
+    [CliFlag("--assign-identity", ShortForm = "--include-system-identity")]
+    public bool? AssignIdentity { get; set; }
+
+    /// <summary>
+    /// User assigned identity resource ID to use for the project. If not specified, a system assigned identity will be used.
+    /// </summary>
+    [CliOption("--user-assigned-identity")]
+    public string? UserAssignedIdentity { get; set; }
 
 }

@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "extension", "delete")]
-public record AzVmssExtensionDeleteOptions : AzOptions
+public record AzVmssExtensionDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vmss-name")] string VmssName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

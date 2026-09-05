@@ -18,25 +18,29 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "add")]
-public record AzAksNodepoolAddOptions : AzOptions
+public record AzAksNodepoolAddOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Comma-separated key-value pairs to specify custom headers.
     /// </summary>
     [CliOption("--aks-custom-headers")]
-    public string? AksCustomHeadersValue { get; set; }
+    public string? AksCustomHeaders { get; set; }
 
     /// <summary>
     /// Expose host ports on the node pool. When specified, format should be a space-separated list of ranges with protocol, eg. `80/TCP 443/TCP 4000-5000/TCP`.
     /// </summary>
-    [CliFlag("--allowed-host-ports")]
-    public bool? AllowedHostPorts { get; set; }
+    [CliOption("--allowed-host-ports", GroupValues = true)]
+    public IEnumerable<string>? AllowedHostPorts { get; set; }
 
     /// <summary>
     /// The IDs of the application security groups to which the node pool's network interface should belong. When specified, format should be a space-separated list of
     /// </summary>
-    [CliFlag("--asg-ids")]
-    public bool? AsgIds { get; set; }
+    [CliOption("--asg-ids", GroupValues = true)]
+    public IEnumerable<string>? AsgIds { get; set; }
 
     /// <summary>
     /// The crg id used to associate the new nodepool with the existed Capacity Reservation Group resource.
@@ -107,8 +111,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// The eviction policy of the Spot node pool. It can only be set when --priority is Spot.  Allowed values: Deallocate, Delete.  Default: Delete.
     /// </summary>
-    [CliFlag("--eviction-policy")]
-    public bool? EvictionPolicy { get; set; }
+    [CliOption("--eviction-policy")]
+    public string? EvictionPolicy { get; set; }
 
     /// <summary>
     /// The size of Public IPPrefix attached to the Gateway-mode node pool. The node pool must be in Gateway mode.
@@ -119,14 +123,14 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// Whether to install driver for GPU node pool. Possible values are "Install" or "None". Default is "Install". Allowed values: Install, None.
     /// </summary>
-    [CliFlag("--gpu-driver")]
-    public bool? GpuDriver { get; set; }
+    [CliOption("--gpu-driver")]
+    public string? GpuDriver { get; set; }
 
     /// <summary>
     /// GPU instance profile to partition multi-gpu Nvidia GPUs. Allowed values: MIG1g, MIG2g, MIG3g, MIG4g, MIG7g.
     /// </summary>
-    [CliFlag("--gpu-instance-profile")]
-    public bool? GpuInstanceProfile { get; set; }
+    [CliOption("--gpu-instance-profile")]
+    public string? GpuInstanceProfile { get; set; }
 
     /// <summary>
     /// The fully qualified dedicated host group id used to provision agent node pool.
@@ -138,7 +142,7 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// The value provided will be compared to the ETag of the agentpool, if it matches the operation will proceed. If it does not match, the request will be rejected to prevent accidental overwrites. This must not be specified when creating a new agentpool.
     /// </summary>
     [CliOption("--if-match")]
-    public string? IfMatchValue { get; set; }
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Set to '*' to allow a new agentpool to be created, but to prevent updating an existing agentpool. Other values will be ignored.
@@ -150,7 +154,7 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// Path to JSON file containing Kubelet configurations for agent nodes. https://aka.ms/aks/custom-node-config.
     /// </summary>
     [CliOption("--kubelet-config")]
-    public string? KubeletConfigValue { get; set; }
+    public string? KubeletConfig { get; set; }
 
     /// <summary>
     /// Version of Kubernetes to use for creating the cluster, such as "1.16.9".  Values from: `az aks get-versions`.
@@ -168,7 +172,7 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// Path to JSON file containing OS configurations for Linux agent nodes. https://aka.ms/aks/custom-node-config.
     /// </summary>
     [CliOption("--linux-os-config")]
-    public string? LinuxOsConfigValue { get; set; }
+    public string? LinuxOsConfig { get; set; }
 
     /// <summary>
     /// Set the localDNS Profile for a nodepool with a JSON config file.
@@ -204,7 +208,7 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// Path to a file containing the desired message of the day. Only valid for linux nodes. Will be written to /etc/motd.
     /// </summary>
     [CliOption("--message-of-the-day")]
-    public string? MessageOfTheDayValue { get; set; }
+    public string? MessageOfTheDay { get; set; }
 
     /// <summary>
     /// Minimum nodes count used for autoscaler, when "--enable- cluster-autoscaler" specified. Please specify the value in the range of [0, 1000] for user nodepool, and [1,1000] for system nodepool.
@@ -215,8 +219,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// The mode for a node pool which defines a node pool's primary function. If set as "System", AKS prefers system pods scheduling to node pools with mode `System`. Learn more at https://aka.ms/aks/nodepool/mode.  Allowed values: Gateway, System, User.  Default: User.
     /// </summary>
-    [CliFlag("--mode")]
-    public bool? Mode { get; set; }
+    [CliOption("--mode")]
+    public string? Mode { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -239,8 +243,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// OS disk type to be used for machines in a given agent pool. Defaults to 'Ephemeral' when possible in conjunction with VM size and OS disk size. May not be changed for this pool after creation. ('Ephemeral' or 'Managed').  Allowed values: Ephemeral, Managed.
     /// </summary>
-    [CliFlag("--node-osdisk-type")]
-    public bool? NodeOsdiskType { get; set; }
+    [CliOption("--node-osdisk-type")]
+    public string? NodeOsdiskType { get; set; }
 
     /// <summary>
     /// Public IP prefix ID used to assign public IPs to VMSS or
@@ -275,8 +279,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// The OS SKU of the agent node pool. Ubuntu, Ubuntu2204, Ubuntu2404, AzureLinux, AzureLinux3, or AzureContainerLinux for Linux. Windows2019, Windows2022, or Windows2025 for Windows.  Allowed values: AzureContainerLinux, AzureLinux, AzureLinux3, CBLMariner, Mariner, Ubuntu, Ubuntu2204, Ubuntu2404, Windows2019,
     /// </summary>
-    [CliFlag("--os-sku")]
-    public bool? OsSku { get; set; }
+    [CliOption("--os-sku")]
+    public string? OsSku { get; set; }
 
     /// <summary>
     /// The OS Type. Linux or Windows.
@@ -288,37 +292,37 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// Set the ip allocation mode for how Pod IPs from the Azure Pod Subnet are allocated to the nodes in the AKS cluster. The choice is between dynamic batches of individual IPs or static allocation of a set of CIDR blocks. Accepted Values are "DynamicIndividual" or "StaticBlock".  Allowed values: DynamicIndividual, StaticBlock.
     /// </summary>
     [CliOption("--pod-ip-allocation-mode")]
-    public string? PodIpAllocationModeValue { get; set; }
+    public string? PodIpAllocationMode { get; set; }
 
     /// <summary>
     /// The Resource Id of a subnet in an existing VNet into which to assign pods in the cluster (requires azure network-plugin).
     /// </summary>
     [CliOption("--pod-subnet-id")]
-    public string? PodSubnetIdValue { get; set; }
+    public string? PodSubnetId { get; set; }
 
     /// <summary>
     /// The ID of a PPG.
     /// </summary>
     [CliOption("--ppg")]
-    public string? PpgValue { get; set; }
+    public string? Ppg { get; set; }
 
     /// <summary>
     /// The priority of the node pool.  Allowed values: Regular, Spot.  Default: Regular.
     /// </summary>
-    [CliFlag("--priority")]
-    public bool? Priority { get; set; }
+    [CliOption("--priority")]
+    public string? Priority { get; set; }
 
     /// <summary>
     /// Describe how VMs are added to or removed from nodepools. Allowed values: Deallocate, Delete.  Default: Delete.
     /// </summary>
-    [CliFlag("--scale-down-mode")]
-    public bool? ScaleDownMode { get; set; }
+    [CliOption("--scale-down-mode")]
+    public string? ScaleDownMode { get; set; }
 
     /// <summary>
     /// The source snapshot id used to create this nodepool.
     /// </summary>
     [CliOption("--snapshot-id")]
-    public string? SnapshotIdValue { get; set; }
+    public string? SnapshotId { get; set; }
 
     /// <summary>
     /// It can only be set when --priority is Spot. Specify the maximum price you are willing to pay in US Dollars. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on- demand. It can only include up to 5 decimal places.
@@ -329,14 +333,14 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Define the behavior for undrainable nodes during upgrade. The value should be "Cordon" or "Schedule". The default value is "Schedule".  Default: Schedule.
     /// </summary>
-    [CliFlag("--undrainable-node-behavior")]
-    public bool? UndrainableNodeBehavior { get; set; }
+    [CliOption("--undrainable-node-behavior")]
+    public string? UndrainableNodeBehavior { get; set; }
 
     /// <summary>
     /// Agent pool vm set type. VirtualMachineScaleSets or AvailabilitySet or VirtualMachines. Defaults to 'VirtualMachineScaleSets'.
@@ -354,88 +358,18 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// The Resource Id of a subnet in an existing VNet into which to deploy the cluster.
     /// </summary>
     [CliOption("--vnet-subnet-id")]
-    public string? VnetSubnetIdValue { get; set; }
+    public string? VnetSubnetId { get; set; }
 
     /// <summary>
     /// Set the workload runtime.  Allowed values:
     /// </summary>
-    [CliFlag("--workload-runtime")]
-    public bool? WorkloadRuntime { get; set; }
+    [CliOption("--workload-runtime")]
+    public string? WorkloadRuntime { get; set; }
 
     /// <summary>
     /// Availability zones where agent nodes will be placed. Also, to install agent nodes to more than one zone you need to pass zone numbers separated by blanks.  For example -  To have all 3 zones, you are expected to enter `--zones 1 2 3`.
     /// </summary>
     [CliFlag("--zones", ShortForm = "-z")]
     public bool? Zones { get; set; }
-
-    [Obsolete("Use AksCustomHeadersValue instead.")]
-    public bool? AksCustomHeaders
-    {
-        get => bool.TryParse(AksCustomHeadersValue, out var value) ? value : null;
-        set => AksCustomHeadersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use IfMatchValue instead.")]
-    public bool? IfMatch
-    {
-        get => bool.TryParse(IfMatchValue, out var value) ? value : null;
-        set => IfMatchValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use KubeletConfigValue instead.")]
-    public bool? KubeletConfig
-    {
-        get => bool.TryParse(KubeletConfigValue, out var value) ? value : null;
-        set => KubeletConfigValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use LinuxOsConfigValue instead.")]
-    public bool? LinuxOsConfig
-    {
-        get => bool.TryParse(LinuxOsConfigValue, out var value) ? value : null;
-        set => LinuxOsConfigValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use MessageOfTheDayValue instead.")]
-    public bool? MessageOfTheDay
-    {
-        get => bool.TryParse(MessageOfTheDayValue, out var value) ? value : null;
-        set => MessageOfTheDayValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use PodIpAllocationModeValue instead.")]
-    public bool? PodIpAllocationMode
-    {
-        get => bool.TryParse(PodIpAllocationModeValue, out var value) ? value : null;
-        set => PodIpAllocationModeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use PodSubnetIdValue instead.")]
-    public bool? PodSubnetId
-    {
-        get => bool.TryParse(PodSubnetIdValue, out var value) ? value : null;
-        set => PodSubnetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use PpgValue instead.")]
-    public bool? Ppg
-    {
-        get => bool.TryParse(PpgValue, out var value) ? value : null;
-        set => PpgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SnapshotIdValue instead.")]
-    public bool? SnapshotId
-    {
-        get => bool.TryParse(SnapshotIdValue, out var value) ? value : null;
-        set => SnapshotIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VnetSubnetIdValue instead.")]
-    public bool? VnetSubnetId
-    {
-        get => bool.TryParse(VnetSubnetIdValue, out var value) ? value : null;
-        set => VnetSubnetIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

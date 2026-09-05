@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "storage", "remove")]
-public record AzContainerappEnvStorageRemoveOptions : AzOptions
+public record AzContainerappEnvStorageRemoveOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--storage-name")] string StorageName
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.

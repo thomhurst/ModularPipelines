@@ -18,25 +18,23 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "managed-rule", "rule-set", "update")]
-public record AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetUpdateOptions : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetUpdateOptions(
+    [property: CliOption("--policy-name")] string PolicyName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--type")] string Type,
+    [property: CliOption("--version")] string Version
+) : AzOptions
 {
     /// <summary>
     /// The name of the web application firewall rule set group.
     /// </summary>
     [CliOption("--group-name")]
-    public string? GroupNameValue { get; set; }
+    public string? GroupName { get; set; }
 
     /// <summary>
     /// The rule that will be disabled. If none specified, all rules in the group will be disabled. If provided, --group-name must be provided too.
     /// </summary>
     [CliFlag("--rule")]
     public bool? Rule { get; set; }
-
-    [Obsolete("Use GroupNameValue instead.")]
-    public bool? GroupName
-    {
-        get => bool.TryParse(GroupNameValue, out var value) ? value : null;
-        set => GroupNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

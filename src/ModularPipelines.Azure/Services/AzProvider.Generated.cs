@@ -21,6 +21,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzProvider : IAzProvider
 {
     private readonly ICommandContext _command;
+    private AzProviderOperation? _operation;
+    private AzProviderPermission? _permission;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzProvider"/> class.
@@ -29,6 +31,20 @@ public class AzProvider : IAzProvider
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az operation sub-commands.
+    /// </summary>
+    public AzProviderOperation Operation => _operation ??= new AzProviderOperation(_command);
+
+    /// <summary>
+    /// az permission sub-commands.
+    /// </summary>
+    public AzProviderPermission Permission => _permission ??= new AzProviderPermission(_command);
+
+    #endregion
 
     #region Commands
 
@@ -55,11 +71,11 @@ public class AzProvider : IAzProvider
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RegisterAsync(
-        AzProviderRegisterOptions? options = null,
+        AzProviderRegisterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzProviderRegisterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -70,11 +86,11 @@ public class AzProvider : IAzProvider
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowAsync(
-        AzProviderShowOptions? options = null,
+        AzProviderShowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzProviderShowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -85,11 +101,11 @@ public class AzProvider : IAzProvider
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UnregisterAsync(
-        AzProviderUnregisterOptions? options = null,
+        AzProviderUnregisterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzProviderUnregisterOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

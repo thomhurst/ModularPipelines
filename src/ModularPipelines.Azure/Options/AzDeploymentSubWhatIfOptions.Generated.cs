@@ -18,13 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "sub", "what-if")]
-public record AzDeploymentSubWhatIfOptions : AzOptions
+public record AzDeploymentSubWhatIfOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location
+) : AzOptions
 {
     /// <summary>
     /// Space-separated list of resource change types to be excluded from What-If results.  Allowed values: Create, Delete, Deploy, Ignore,
     /// </summary>
-    [CliFlag("--exclude-change-types", ShortForm = "-x")]
-    public bool? ExcludeChangeTypes { get; set; }
+    [CliOption("--exclude-change-types", ShortForm = "-x", GroupValues = true)]
+    public IEnumerable<string>? ExcludeChangeTypes { get; set; }
 
     /// <summary>
     /// The deployment name.
@@ -54,64 +56,36 @@ public record AzDeploymentSubWhatIfOptions : AzOptions
     /// The query string (a SAS token) to be used with the template-uri in the case of linked templates.
     /// </summary>
     [CliOption("--query-string", ShortForm = "-q")]
-    public string? QueryStringValue { get; set; }
+    public string? QueryString { get; set; }
 
     /// <summary>
     /// The format of What-If results.  Allowed values: FullResourcePayloads, ResourceIdOnly.  Default:
     /// </summary>
-    [CliFlag("--result-format", ShortForm = "-r")]
-    public bool? ResultFormat { get; set; }
+    [CliOption("--result-format", ShortForm = "-r")]
+    public string? ResultFormat { get; set; }
 
     /// <summary>
     /// The path to the template file or Bicep file.
     /// </summary>
     [CliOption("--template-file", ShortForm = "-f")]
-    public string? TemplateFileValue { get; set; }
+    public string? TemplateFile { get; set; }
 
     /// <summary>
     /// The template spec resource id.
     /// </summary>
     [CliOption("--template-spec", ShortForm = "-s")]
-    public string? TemplateSpecValue { get; set; }
+    public string? TemplateSpec { get; set; }
 
     /// <summary>
     /// The URI to the template file.
     /// </summary>
     [CliOption("--template-uri", ShortForm = "-u")]
-    public string? TemplateUriValue { get; set; }
+    public string? TemplateUri { get; set; }
 
     /// <summary>
     /// The deployment validation level. May be set to "Provider" (the default), "Template", or "ProviderNoRbac". With a validation level of "provider", ARM will perform full validation and check that you have sufficient permission to deploy all resources in the template. With a validation level of "providerNoRbac", ARM will perform full validation but only check for read permissions on each resource. With a validation level of "template", only static validation will be performed: preflight and permissions checks will be skipped. Allowed values: Provider, ProviderNoRbac, Template.
     /// </summary>
-    [CliFlag("--validation-level")]
-    public bool? ValidationLevel { get; set; }
-
-    [Obsolete("Use QueryStringValue instead.")]
-    public bool? QueryString
-    {
-        get => bool.TryParse(QueryStringValue, out var value) ? value : null;
-        set => QueryStringValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TemplateFileValue instead.")]
-    public bool? TemplateFile
-    {
-        get => bool.TryParse(TemplateFileValue, out var value) ? value : null;
-        set => TemplateFileValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TemplateSpecValue instead.")]
-    public bool? TemplateSpec
-    {
-        get => bool.TryParse(TemplateSpecValue, out var value) ? value : null;
-        set => TemplateSpecValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TemplateUriValue instead.")]
-    public bool? TemplateUri
-    {
-        get => bool.TryParse(TemplateUriValue, out var value) ? value : null;
-        set => TemplateUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--validation-level")]
+    public string? ValidationLevel { get; set; }
 
 }

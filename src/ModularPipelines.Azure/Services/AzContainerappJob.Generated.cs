@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzContainerappJob
 {
     private readonly ICommandContext _command;
+    private AzContainerappJobExecution? _execution;
     private AzContainerappJobIdentity? _identity;
     private AzContainerappJobSecret? _secret;
 
@@ -33,6 +34,11 @@ public class AzContainerappJob
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// az execution sub-commands.
+    /// </summary>
+    public AzContainerappJobExecution Execution => _execution ??= new AzContainerappJobExecution(_command);
 
     /// <summary>
     /// az identity sub-commands.
@@ -56,11 +62,11 @@ public class AzContainerappJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzContainerappJobCreateOptions? options = null,
+        AzContainerappJobCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappJobCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -91,6 +97,21 @@ public class AzContainerappJob
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappJobListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Show details of a Container Apps Job.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzContainerappJobShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappJobShowOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

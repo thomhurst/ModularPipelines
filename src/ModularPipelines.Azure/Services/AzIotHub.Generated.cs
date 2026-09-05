@@ -74,11 +74,11 @@ public class AzIotHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzIotHubCreateOptions? options = null,
+        AzIotHubCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzIotHubCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -112,6 +112,21 @@ public class AzIotHub
     }
 
     /// <summary>
+    /// List available pricing tiers.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListSkusAsync(
+        AzIotHubListSkusOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzIotHubListSkusOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Initiate a manual failover for the IoT Hub to the geo-paired
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -127,6 +142,51 @@ public class AzIotHub
     }
 
     /// <summary>
+    /// Get the details of an IoT hub.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzIotHubShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzIotHubShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the quota metrics for an IoT hub.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowQuotaMetricsAsync(
+        AzIotHubShowQuotaMetricsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzIotHubShowQuotaMetricsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the statistics for an IoT hub.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowStatsAsync(
+        AzIotHubShowStatsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzIotHubShowStatsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update metadata for an IoT hub.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -139,6 +199,21 @@ public class AzIotHub
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzIotHubUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Wait until an operation on an IoT Hub instance is complete.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzIotHubWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzIotHubWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

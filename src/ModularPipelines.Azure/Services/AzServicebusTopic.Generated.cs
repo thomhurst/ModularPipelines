@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzServicebusTopic
 {
     private readonly ICommandContext _command;
+    private AzServicebusTopicAuthorizationRule? _authorizationRule;
     private AzServicebusTopicSubscription? _subscription;
 
     /// <summary>
@@ -34,6 +35,11 @@ public class AzServicebusTopic
     #region Sub-command Groups
 
     /// <summary>
+    /// az authorization-rule sub-commands.
+    /// </summary>
+    public AzServicebusTopicAuthorizationRule AuthorizationRule => _authorizationRule ??= new AzServicebusTopicAuthorizationRule(_command);
+
+    /// <summary>
     /// az subscription sub-commands.
     /// </summary>
     public AzServicebusTopicSubscription Subscription => _subscription ??= new AzServicebusTopicSubscription(_command);
@@ -43,6 +49,36 @@ public class AzServicebusTopic
     #region Commands
 
     /// <summary>
+    /// Create a topic in the specified namespace.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateAsync(
+        AzServicebusTopicCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Delete a topic from the specified namespace and resource group.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteAsync(
+        AzServicebusTopicDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusTopicDeleteOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// List all the topics in a namespace.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -50,11 +86,41 @@ public class AzServicebusTopic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
-        AzServicebusTopicListOptions? options = null,
+        AzServicebusTopicListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusTopicListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get a description for the specified topic.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzServicebusTopicShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusTopicShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Update a topic in the specified namespace.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAsync(
+        AzServicebusTopicUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusTopicUpdateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

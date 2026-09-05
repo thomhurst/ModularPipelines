@@ -18,14 +18,14 @@ namespace ModularPipelines.Azure.Services;
 /// az recoveryconfig commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzBackupRecoveryconfig
+public class AzBackupRecoveryConfig
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AzBackupRecoveryconfig"/> class.
+    /// Initializes a new instance of the <see cref="AzBackupRecoveryConfig"/> class.
     /// </summary>
-    public AzBackupRecoveryconfig(ICommandContext command)
+    public AzBackupRecoveryConfig(ICommandContext command)
     {
         _command = command;
     }
@@ -40,11 +40,11 @@ public class AzBackupRecoveryconfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowAsync(
-        AzBackupRecoveryconfigShowOptions? options = null,
+        AzBackupRecoveryConfigShowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBackupRecoveryconfigShowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

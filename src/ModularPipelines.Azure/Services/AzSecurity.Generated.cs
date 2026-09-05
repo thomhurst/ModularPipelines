@@ -22,19 +22,41 @@ public class AzSecurity : IAzSecurity
 {
     private readonly ICommandContext _command;
     private AzSecurityAdaptiveApplicationControls? _adaptiveApplicationControls;
+    private AzSecurityAdaptiveNetworkHardenings? _adaptiveNetworkHardenings;
     private AzSecurityAlert? _alert;
     private AzSecurityAlertsSuppressionRule? _alertsSuppressionRule;
+    private AzSecurityAllowedConnections? _allowedConnections;
     private AzSecurityAssessment? _assessment;
     private AzSecurityAssessmentMetadata? _assessmentMetadata;
+    private AzSecurityAtp? _atp;
     private AzSecurityAutomation? _automation;
     private AzSecurityAutomationActionEventHub? _automationActionEventHub;
+    private AzSecurityAutomationActionLogicApp? _automationActionLogicApp;
+    private AzSecurityAutomationActionWorkspace? _automationActionWorkspace;
+    private AzSecurityAutomationRule? _automationRule;
     private AzSecurityAutomationRuleSet? _automationRuleSet;
+    private AzSecurityAutomationScope? _automationScope;
     private AzSecurityAutomationSource? _automationSource;
+    private AzSecurityAutoProvisioningSetting? _autoProvisioningSetting;
+    private AzSecurityDiscoveredSecuritySolution? _discoveredSecuritySolution;
+    private AzSecurityExternalSecuritySolution? _externalSecuritySolution;
+    private AzSecurityIotAlerts? _iotAlerts;
+    private AzSecurityIotAnalytics? _iotAnalytics;
+    private AzSecurityIotRecommendations? _iotRecommendations;
     private AzSecurityIotSolution? _iotSolution;
     private AzSecurityJitPolicy? _jitPolicy;
+    private AzSecurityLocation? _location;
     private AzSecurityPricing? _pricing;
+    private AzSecurityRegulatoryComplianceAssessments? _regulatoryComplianceAssessments;
+    private AzSecurityRegulatoryComplianceControls? _regulatoryComplianceControls;
+    private AzSecurityRegulatoryComplianceStandards? _regulatoryComplianceStandards;
+    private AzSecuritySecureScoreControls? _secureScoreControls;
+    private AzSecuritySecureScores? _secureScores;
+    private AzSecuritySetting? _setting;
     private AzSecuritySubAssessment? _subAssessment;
     private AzSecurityTask? _task;
+    private AzSecurityTopology? _topology;
+    private AzSecurityWorkspaceSetting? _workspaceSetting;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSecurity"/> class.
@@ -52,6 +74,11 @@ public class AzSecurity : IAzSecurity
     public AzSecurityAdaptiveApplicationControls AdaptiveApplicationControls => _adaptiveApplicationControls ??= new AzSecurityAdaptiveApplicationControls(_command);
 
     /// <summary>
+    /// az adaptive_network_hardenings sub-commands.
+    /// </summary>
+    public AzSecurityAdaptiveNetworkHardenings AdaptiveNetworkHardenings => _adaptiveNetworkHardenings ??= new AzSecurityAdaptiveNetworkHardenings(_command);
+
+    /// <summary>
     /// az alert sub-commands.
     /// </summary>
     public AzSecurityAlert Alert => _alert ??= new AzSecurityAlert(_command);
@@ -60,6 +87,11 @@ public class AzSecurity : IAzSecurity
     /// az alerts-suppression-rule sub-commands.
     /// </summary>
     public AzSecurityAlertsSuppressionRule AlertsSuppressionRule => _alertsSuppressionRule ??= new AzSecurityAlertsSuppressionRule(_command);
+
+    /// <summary>
+    /// az allowed_connections sub-commands.
+    /// </summary>
+    public AzSecurityAllowedConnections AllowedConnections => _allowedConnections ??= new AzSecurityAllowedConnections(_command);
 
     /// <summary>
     /// az assessment sub-commands.
@@ -72,6 +104,11 @@ public class AzSecurity : IAzSecurity
     public AzSecurityAssessmentMetadata AssessmentMetadata => _assessmentMetadata ??= new AzSecurityAssessmentMetadata(_command);
 
     /// <summary>
+    /// az atp sub-commands.
+    /// </summary>
+    public AzSecurityAtp Atp => _atp ??= new AzSecurityAtp(_command);
+
+    /// <summary>
     /// az automation sub-commands.
     /// </summary>
     public AzSecurityAutomation Automation => _automation ??= new AzSecurityAutomation(_command);
@@ -82,14 +119,64 @@ public class AzSecurity : IAzSecurity
     public AzSecurityAutomationActionEventHub AutomationActionEventHub => _automationActionEventHub ??= new AzSecurityAutomationActionEventHub(_command);
 
     /// <summary>
+    /// az automation-action-logic-app sub-commands.
+    /// </summary>
+    public AzSecurityAutomationActionLogicApp AutomationActionLogicApp => _automationActionLogicApp ??= new AzSecurityAutomationActionLogicApp(_command);
+
+    /// <summary>
+    /// az automation-action-workspace sub-commands.
+    /// </summary>
+    public AzSecurityAutomationActionWorkspace AutomationActionWorkspace => _automationActionWorkspace ??= new AzSecurityAutomationActionWorkspace(_command);
+
+    /// <summary>
+    /// az automation-rule sub-commands.
+    /// </summary>
+    public AzSecurityAutomationRule AutomationRule => _automationRule ??= new AzSecurityAutomationRule(_command);
+
+    /// <summary>
     /// az automation-rule-set sub-commands.
     /// </summary>
     public AzSecurityAutomationRuleSet AutomationRuleSet => _automationRuleSet ??= new AzSecurityAutomationRuleSet(_command);
 
     /// <summary>
+    /// az automation-scope sub-commands.
+    /// </summary>
+    public AzSecurityAutomationScope AutomationScope => _automationScope ??= new AzSecurityAutomationScope(_command);
+
+    /// <summary>
     /// az automation-source sub-commands.
     /// </summary>
     public AzSecurityAutomationSource AutomationSource => _automationSource ??= new AzSecurityAutomationSource(_command);
+
+    /// <summary>
+    /// az auto-provisioning-setting sub-commands.
+    /// </summary>
+    public AzSecurityAutoProvisioningSetting AutoProvisioningSetting => _autoProvisioningSetting ??= new AzSecurityAutoProvisioningSetting(_command);
+
+    /// <summary>
+    /// az discovered-security-solution sub-commands.
+    /// </summary>
+    public AzSecurityDiscoveredSecuritySolution DiscoveredSecuritySolution => _discoveredSecuritySolution ??= new AzSecurityDiscoveredSecuritySolution(_command);
+
+    /// <summary>
+    /// az external-security-solution sub-commands.
+    /// </summary>
+    public AzSecurityExternalSecuritySolution ExternalSecuritySolution => _externalSecuritySolution ??= new AzSecurityExternalSecuritySolution(_command);
+
+    /// <summary>
+    /// az iot-alerts sub-commands.
+    /// </summary>
+    public AzSecurityIotAlerts IotAlerts => _iotAlerts ??= new AzSecurityIotAlerts(_command);
+
+    /// <summary>
+    /// az iot-analytics sub-commands.
+    /// </summary>
+    public AzSecurityIotAnalytics IotAnalytics => _iotAnalytics ??= new AzSecurityIotAnalytics(_command);
+
+    /// <summary>
+    /// az iot-recommendations sub-commands.
+    /// </summary>
+    public AzSecurityIotRecommendations IotRecommendations => _iotRecommendations ??= new AzSecurityIotRecommendations(_command);
 
     /// <summary>
     /// az iot-solution sub-commands.
@@ -102,9 +189,44 @@ public class AzSecurity : IAzSecurity
     public AzSecurityJitPolicy JitPolicy => _jitPolicy ??= new AzSecurityJitPolicy(_command);
 
     /// <summary>
+    /// az location sub-commands.
+    /// </summary>
+    public AzSecurityLocation Location => _location ??= new AzSecurityLocation(_command);
+
+    /// <summary>
     /// az pricing sub-commands.
     /// </summary>
     public AzSecurityPricing Pricing => _pricing ??= new AzSecurityPricing(_command);
+
+    /// <summary>
+    /// az regulatory-compliance-assessments sub-commands.
+    /// </summary>
+    public AzSecurityRegulatoryComplianceAssessments RegulatoryComplianceAssessments => _regulatoryComplianceAssessments ??= new AzSecurityRegulatoryComplianceAssessments(_command);
+
+    /// <summary>
+    /// az regulatory-compliance-controls sub-commands.
+    /// </summary>
+    public AzSecurityRegulatoryComplianceControls RegulatoryComplianceControls => _regulatoryComplianceControls ??= new AzSecurityRegulatoryComplianceControls(_command);
+
+    /// <summary>
+    /// az regulatory-compliance-standards sub-commands.
+    /// </summary>
+    public AzSecurityRegulatoryComplianceStandards RegulatoryComplianceStandards => _regulatoryComplianceStandards ??= new AzSecurityRegulatoryComplianceStandards(_command);
+
+    /// <summary>
+    /// az secure-score-controls sub-commands.
+    /// </summary>
+    public AzSecuritySecureScoreControls SecureScoreControls => _secureScoreControls ??= new AzSecuritySecureScoreControls(_command);
+
+    /// <summary>
+    /// az secure-scores sub-commands.
+    /// </summary>
+    public AzSecuritySecureScores SecureScores => _secureScores ??= new AzSecuritySecureScores(_command);
+
+    /// <summary>
+    /// az setting sub-commands.
+    /// </summary>
+    public AzSecuritySetting Setting => _setting ??= new AzSecuritySetting(_command);
 
     /// <summary>
     /// az sub-assessment sub-commands.
@@ -115,6 +237,16 @@ public class AzSecurity : IAzSecurity
     /// az task sub-commands.
     /// </summary>
     public AzSecurityTask Task => _task ??= new AzSecurityTask(_command);
+
+    /// <summary>
+    /// az topology sub-commands.
+    /// </summary>
+    public AzSecurityTopology Topology => _topology ??= new AzSecurityTopology(_command);
+
+    /// <summary>
+    /// az workspace-setting sub-commands.
+    /// </summary>
+    public AzSecurityWorkspaceSetting WorkspaceSetting => _workspaceSetting ??= new AzSecurityWorkspaceSetting(_command);
 
     #endregion
 }

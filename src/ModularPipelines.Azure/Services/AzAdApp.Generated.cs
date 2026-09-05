@@ -22,6 +22,8 @@ public class AzAdApp
 {
     private readonly ICommandContext _command;
     private AzAdAppCredential? _credential;
+    private AzAdAppFederatedCredential? _federatedCredential;
+    private AzAdAppOwner? _owner;
     private AzAdAppPermission? _permission;
 
     /// <summary>
@@ -40,6 +42,16 @@ public class AzAdApp
     public AzAdAppCredential Credential => _credential ??= new AzAdAppCredential(_command);
 
     /// <summary>
+    /// az federated-credential sub-commands.
+    /// </summary>
+    public AzAdAppFederatedCredential FederatedCredential => _federatedCredential ??= new AzAdAppFederatedCredential(_command);
+
+    /// <summary>
+    /// az owner sub-commands.
+    /// </summary>
+    public AzAdAppOwner Owner => _owner ??= new AzAdAppOwner(_command);
+
+    /// <summary>
     /// az permission sub-commands.
     /// </summary>
     public AzAdAppPermission Permission => _permission ??= new AzAdAppPermission(_command);
@@ -56,11 +68,26 @@ public class AzAdApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzAdAppCreateOptions? options = null,
+        AzAdAppCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzAdAppCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Delete an application.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteAsync(
+        AzAdAppDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -79,6 +106,21 @@ public class AzAdApp
     }
 
     /// <summary>
+    /// Get the details of an application.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzAdAppShowOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update an application.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -86,11 +128,11 @@ public class AzAdApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAsync(
-        AzAdAppUpdateOptions? options = null,
+        AzAdAppUpdateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzAdAppUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

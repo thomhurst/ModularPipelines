@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "users", "update")]
-public record AzStaticwebappUsersUpdateOptions : AzOptions
+public record AzStaticwebappUsersUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--roles")] string Roles
+) : AzOptions
 {
     /// <summary>
     /// Authentication provider of the user identity such as AAD, Facebook,
@@ -30,7 +33,7 @@ public record AzStaticwebappUsersUpdateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Email for AAD, Facebook, and Google. Account name (handle) for
@@ -43,12 +46,5 @@ public record AzStaticwebappUsersUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--user-id")]
     public bool? UserId { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

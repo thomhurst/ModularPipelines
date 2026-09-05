@@ -26,4 +26,16 @@ public record AzKeyvaultSecretListDeletedOptions : AzOptions
     [CliFlag("--maxresults")]
     public bool? Maxresults { get; set; }
 
+    /// <summary>
+    /// Full URI of the Vault. If specified all other 'Id' arguments should be omitted.
+    /// </summary>
+    [CliFlag("--id")]
+    public bool? Id { get; set; }
+
+    /// <summary>
+    /// Name of the Key Vault. Required if --id is not specified.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string? VaultName { get; set; }
+
 }

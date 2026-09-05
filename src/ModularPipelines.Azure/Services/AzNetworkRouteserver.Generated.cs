@@ -18,15 +18,15 @@ namespace ModularPipelines.Azure.Services;
 /// az routeserver commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzNetworkRouteserver
+public class AzNetworkRouteServer
 {
     private readonly ICommandContext _command;
-    private AzNetworkRouteserverPeering? _peering;
+    private AzNetworkRouteServerPeering? _peering;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AzNetworkRouteserver"/> class.
+    /// Initializes a new instance of the <see cref="AzNetworkRouteServer"/> class.
     /// </summary>
-    public AzNetworkRouteserver(ICommandContext command)
+    public AzNetworkRouteServer(ICommandContext command)
     {
         _command = command;
     }
@@ -36,7 +36,7 @@ public class AzNetworkRouteserver
     /// <summary>
     /// az peering sub-commands.
     /// </summary>
-    public AzNetworkRouteserverPeering Peering => _peering ??= new AzNetworkRouteserverPeering(_command);
+    public AzNetworkRouteServerPeering Peering => _peering ??= new AzNetworkRouteServerPeering(_command);
 
     #endregion
 
@@ -50,11 +50,11 @@ public class AzNetworkRouteserver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzNetworkRouteserverCreateOptions? options = null,
+        AzNetworkRouteServerCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkRouteserverCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -65,11 +65,11 @@ public class AzNetworkRouteserver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAsync(
-        AzNetworkRouteserverDeleteOptions? options = null,
+        AzNetworkRouteServerDeleteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkRouteserverDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkRouteServerDeleteOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -80,11 +80,26 @@ public class AzNetworkRouteserver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
-        AzNetworkRouteserverListOptions? options = null,
+        AzNetworkRouteServerListOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkRouteserverListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkRouteServerListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Show a route server.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzNetworkRouteServerShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkRouteServerShowOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -95,11 +110,26 @@ public class AzNetworkRouteserver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAsync(
-        AzNetworkRouteserverUpdateOptions? options = null,
+        AzNetworkRouteServerUpdateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkRouteserverUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkRouteServerUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition is met.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzNetworkRouteServerWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkRouteServerWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

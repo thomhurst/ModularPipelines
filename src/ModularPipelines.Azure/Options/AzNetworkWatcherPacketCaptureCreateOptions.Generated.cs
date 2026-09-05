@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "packet-capture", "create")]
-public record AzNetworkWatcherPacketCaptureCreateOptions : AzOptions
+public record AzNetworkWatcherPacketCaptureCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Maximum size in bytes of the capture output.  Default: 1073741824.
@@ -41,20 +44,20 @@ public record AzNetworkWatcherPacketCaptureCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Name or ID of the target resource. If `--target-type` is AzureVMSS, then `--target` is mandatory.
     /// </summary>
     [CliOption("--target")]
-    public string? TargetValue { get; set; }
+    public string? Target { get; set; }
 
     /// <summary>
     /// Resource type of target.  Allowed values: AzureVM, AzureVMSS.
     /// </summary>
     [CliOption("--target-type")]
-    public string? TargetTypeValue { get; set; }
+    public string? TargetType { get; set; }
 
     /// <summary>
     /// Maximum duration of the capture session in seconds.  Default: 18000.
@@ -66,27 +69,36 @@ public record AzNetworkWatcherPacketCaptureCreateOptions : AzOptions
     /// Name or ID of the VM to target.
     /// </summary>
     [CliOption("--vm")]
-    public string? VmValue { get; set; }
+    public string? Vm { get; set; }
 
-    [Obsolete("Use TargetValue instead.")]
-    public bool? Target
-    {
-        get => bool.TryParse(TargetValue, out var value) ? value : null;
-        set => TargetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Space-separated list of VMSS instances to exclude in packet capture.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--exclude", GroupValues = true)]
+    public IEnumerable<string>? Exclude { get; set; }
 
-    [Obsolete("Use TargetTypeValue instead.")]
-    public bool? TargetType
-    {
-        get => bool.TryParse(TargetTypeValue, out var value) ? value : null;
-        set => TargetTypeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Space-separated list of VMSS instances to include in packet capture like 0 1 2.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--include", GroupValues = true)]
+    public IEnumerable<string>? Include { get; set; }
 
-    [Obsolete("Use VmValue instead.")]
-    public bool? Vm
-    {
-        get => bool.TryParse(VmValue, out var value) ? value : null;
-        set => VmValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Local path on the targeted VM at which to save the packet capture. For Linux VMs, the path must start with `/var/captures`.
+    /// </summary>
+    [CliFlag("--file-path")]
+    public bool? FilePath { get; set; }
+
+    /// <summary>
+    /// Name or ID of a storage account to save the packet capture to.
+    /// </summary>
+    [CliOption("--storage-account")]
+    public string? StorageAccount { get; set; }
+
+    /// <summary>
+    /// Fully qualified URI of an existing storage container in which to store the capture file. If not specified, the container `network-watcher-logs` will be created if it does not exist and the capture file will be stored there.
+    /// </summary>
+    [CliFlag("--storage-path")]
+    public bool? StoragePath { get; set; }
 
 }

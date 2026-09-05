@@ -18,19 +18,34 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "public-ip", "create")]
-public record AzNetworkPublicIpCreateOptions : AzOptions
+public record AzNetworkPublicIpCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// IP address allocation method.  Allowed values:
     /// </summary>
-    [CliFlag("--allocation-method")]
-    public bool? AllocationMethod { get; set; }
+    [CliOption("--allocation-method")]
+    public string? AllocationMethod { get; set; }
+
+    /// <summary>
+    /// Name or ID of a DDoS custom policy associated with the public IP. Note: A DDoS custom policy can only be attached to an instance-level public IP (a public IP associated with a NIC/VM) or a Load Balancer frontend IP configuration; attaching one to a standalone public IP is rejected by the service.
+    /// </summary>
+    [CliOption("--ddos-custom-policy")]
+    public string? DdosCustomPolicy { get; set; }
+
+    /// <summary>
+    /// The DDoS protection mode of the public IP.  Allowed values: Disabled, Enabled, VirtualNetworkInherited.
+    /// </summary>
+    [CliOption("--ddos-protection-mode", ShortForm = "--protection-mode")]
+    public string? DdosProtectionMode { get; set; }
 
     /// <summary>
     /// Name or ID of a DDoS protection plan associated with the public IP. Can only be set if `--protection-mode` is Enabled.
     /// </summary>
     [CliOption("--ddos-protection-plan")]
-    public string? DdosProtectionPlanValue { get; set; }
+    public string? DdosProtectionPlan { get; set; }
 
     /// <summary>
     /// Globally unique DNS entry.
@@ -41,14 +56,14 @@ public record AzNetworkPublicIpCreateOptions : AzOptions
     /// <summary>
     /// The domain name label scope. If a domain name label and a domain name label scope are specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system with a hashed value includes in FQDN.  Allowed values: NoReuse, ResourceGroupReuse,
     /// </summary>
-    [CliFlag("--dns-name-scope")]
-    public bool? DnsNameScope { get; set; }
+    [CliOption("--dns-name-scope")]
+    public string? DnsNameScope { get; set; }
 
     /// <summary>
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
+    public string? EdgeZone { get; set; }
 
     /// <summary>
     /// Idle timeout in minutes.  Default: 4.
@@ -65,8 +80,8 @@ public record AzNetworkPublicIpCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of IP tags in 'TYPE=VAL' format.
     /// </summary>
-    [CliFlag("--ip-tags")]
-    public bool? IpTags { get; set; }
+    [CliOption("--ip-tags", GroupValues = true)]
+    public IEnumerable<string>? IpTags { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -78,7 +93,7 @@ public record AzNetworkPublicIpCreateOptions : AzOptions
     /// Name or ID of a public IP prefix.
     /// </summary>
     [CliOption("--public-ip-prefix")]
-    public string? PublicIpPrefixValue { get; set; }
+    public string? PublicIpPrefix { get; set; }
 
     /// <summary>
     /// Reverse FQDN (fully qualified domain name).
@@ -90,58 +105,30 @@ public record AzNetworkPublicIpCreateOptions : AzOptions
     /// Name of a public IP address SKU.  Allowed values: Basic, Standard, StandardV2.  Default: Standard.
     /// </summary>
     [CliOption("--sku")]
-    public string? SkuValue { get; set; }
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Tier of a public IP address SKU and Global tier is only supported for standard SKU public IP addresses. Allowed values: Global, Regional.
     /// </summary>
-    [CliFlag("--tier")]
-    public bool? Tier { get; set; }
+    [CliOption("--tier")]
+    public string? Tier { get; set; }
 
     /// <summary>
     /// IP address type.  Allowed values: IPv4, IPv6.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// Space-separated list of availability zones into which to provision the resource.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
-
-    [Obsolete("Use DdosProtectionPlanValue instead.")]
-    public bool? DdosProtectionPlan
-    {
-        get => bool.TryParse(DdosProtectionPlanValue, out var value) ? value : null;
-        set => DdosProtectionPlanValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
-    {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use PublicIpPrefixValue instead.")]
-    public bool? PublicIpPrefix
-    {
-        get => bool.TryParse(PublicIpPrefixValue, out var value) ? value : null;
-        set => PublicIpPrefixValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SkuValue instead.")]
-    public bool? Sku
-    {
-        get => bool.TryParse(SkuValue, out var value) ? value : null;
-        set => SkuValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--zone", ShortForm = "-z", GroupValues = true)]
+    public IEnumerable<string>? Zone { get; set; }
 
 }

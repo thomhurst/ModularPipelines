@@ -18,12 +18,66 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "network-watcher", "packet-capture", "create")]
-public record AzNetworkNetworkWatcherPacketCaptureCreateOptions : AzOptions
+public record AzNetworkNetworkWatcherPacketCaptureCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--network-watcher-name")] string NetworkWatcherName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--storage-location")] string StorageLocation,
+    [property: CliOption("--target")] string Target
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Number of bytes captured per packet, the remaining bytes are truncated.
+    /// </summary>
+    [CliFlag("--bytes-to-capture", ShortForm = "--bytes-to-capture-per-packet")]
+    public bool? BytesToCapture { get; set; }
+
+    /// <summary>
+    /// The capture setting holds the 'FileCount', 'FileSizeInBytes', 'SessionTimeLimitInSeconds' values.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--capture-settings")]
+    public bool? CaptureSettings { get; set; }
+
+    /// <summary>
+    /// This continuous capture is a nullable boolean, which can hold 'null', 'true' or 'false' value. If we do not pass this parameter, it would be consider as 'null', default value is 'null'.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--continuous-capture")]
+    public bool? ContinuousCapture { get; set; }
+
+    /// <summary>
+    /// A list of packet capture filters.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--filters", GroupValues = true)]
+    public IEnumerable<string>? Filters { get; set; }
+
+    /// <summary>
+    /// A list of AzureVMSS instances which can be included or excluded to run packet capture. If both included and excluded are empty, then the packet capture will run on all instances of AzureVMSS.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--scope", GroupValues = true)]
+    public IEnumerable<string>? Scope { get; set; }
+
+    /// <summary>
+    /// Target type of the resource provided. Allowed values: AzureVM, AzureVMSS.
+    /// </summary>
+    [CliOption("--target-type")]
+    public string? TargetType { get; set; }
+
+    /// <summary>
+    /// Maximum duration of the capture session in seconds.
+    /// </summary>
+    [CliFlag("--time-limit-in-seconds")]
+    public bool? TimeLimitInSeconds { get; set; }
+
+    /// <summary>
+    /// Maximum size of the capture output.
+    /// </summary>
+    [CliFlag("--total-bytes", ShortForm = "--total-bytes-per-session")]
+    public bool? TotalBytes { get; set; }
 
 }
