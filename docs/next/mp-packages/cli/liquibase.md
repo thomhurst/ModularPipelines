@@ -126,8 +126,8 @@ Global options are rendered before the selected subcommand.
 | `liquibase init project`                 | `LiquibaseInitProjectOptions`              |
 | `liquibase init start-h2`                | `LiquibaseInitStartH2Options`              |
 | `liquibase list-locks`                   | `LiquibaseListLocksOptions`                |
-| `liquibase mark-next-changeset-ran`      | `LiquibaseMarkNextChangesetRanOptions`     |
-| `liquibase mark-next-changeset-ran-sql`  | `LiquibaseMarkNextChangesetRanSqlOptions`  |
+| `liquibase mark-next-changeset-ran`      | `LiquibaseMarkNextChangeSetRanOptions`     |
+| `liquibase mark-next-changeset-ran-sql`  | `LiquibaseMarkNextChangeSetRanSqlOptions`  |
 | `liquibase release-locks`                | `LiquibaseReleaseLocksOptions`             |
 | `liquibase rollback`                     | `LiquibaseRollbackOptions`                 |
 | `liquibase rollback-count`               | `LiquibaseRollbackCountOptions`            |
