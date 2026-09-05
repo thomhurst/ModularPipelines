@@ -74,9 +74,15 @@ internal class ModuleExecutor : IModuleExecutor
     /// <summary>
     /// Executes a collection of modules using eager parallel scheduling.
     /// </summary>
-    public async Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules)
+    public Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules) =>
+        ExecuteAsync(modules, new Dictionary<Type, TimeSpan>());
+
+    public async Task<IEnumerable<IModule>> ExecuteAsync(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations)
     {
         ArgumentNullException.ThrowIfNull(modules);
+        ArgumentNullException.ThrowIfNull(estimatedDurations);
 
         if (modules.Count == 0)
         {
@@ -88,7 +94,7 @@ internal class ModuleExecutor : IModuleExecutor
 
         try
         {
-            scheduler = await InitializeSchedulerAsync(modules).ConfigureAwait(false);
+            scheduler = await InitializeSchedulerAsync(modules, estimatedDurations).ConfigureAwait(false);
             return await ExecuteWithSchedulerAsync(modules, scheduler).ConfigureAwait(false);
         }
         catch (Exception outerEx)
@@ -139,7 +145,9 @@ internal class ModuleExecutor : IModuleExecutor
             ? aggregateException.InnerExceptions.SelectMany(FlattenException)
             : [exception];
 
-    private async Task<IModuleScheduler> InitializeSchedulerAsync(IReadOnlyList<IModule> modules)
+    private async Task<IModuleScheduler> InitializeSchedulerAsync(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations)
     {
         _logger.LogDebug("Initializing unified scheduler for {Count} modules", modules.Count);
 
@@ -163,7 +171,7 @@ internal class ModuleExecutor : IModuleExecutor
             UsedHistoryModuleSchedulerInitializer.GetPrecompletedModuleTypes(modules, _resultRegistry));
 
         var scheduler = _schedulerFactory.Create();
-        scheduler.InitializeModules(modules);
+        scheduler.InitializeModules(modules, estimatedDurations);
         UsedHistoryModuleSchedulerInitializer.Precomplete(
             modules,
             scheduler,

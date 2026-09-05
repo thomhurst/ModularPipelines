@@ -59,6 +59,13 @@ public class InMemoryDistributedCoordinatorTests
     }
 
     [Test]
+    public async Task Claim_Prefers_Scarce_Capability_Work()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        await DistributedCoordinatorContract.ClaimPrefersScarceCapabilityWorkAsync(coordinator);
+    }
+
+    [Test]
     public async Task Stale_Worker_Is_Excluded_From_Live_Registrations()
     {
         var coordinator = new InMemoryDistributedCoordinator(
@@ -110,5 +117,83 @@ public class InMemoryDistributedCoordinatorTests
             new HashSet<Capability> { "linux" }, cts.Token);
 
         await Assert.That(result).IsNull();
+    }
+
+    [Test]
+    public async Task Dequeue_Prefers_Higher_User_Priority()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        await coordinator.EnqueueModuleAsync(
+            CreateAssignment("Low", ModulePriority.Low),
+            CancellationToken.None);
+        await coordinator.EnqueueModuleAsync(
+            CreateAssignment("Critical", ModulePriority.Critical),
+            CancellationToken.None);
+
+        var result = await coordinator.DequeueModuleAsync(
+            new HashSet<Capability>(),
+            CancellationToken.None);
+
+        await Assert.That(result!.ModuleTypeName).IsEqualTo("Critical");
+    }
+
+    [Test]
+    public async Task Dequeue_Prefers_Longer_Critical_Path_At_Equal_Priority()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        await coordinator.EnqueueModuleAsync(
+            CreateAssignment("Short", criticalPathWeight: TimeSpan.FromMinutes(1)),
+            CancellationToken.None);
+        await coordinator.EnqueueModuleAsync(
+            CreateAssignment("Long", criticalPathWeight: TimeSpan.FromMinutes(10)),
+            CancellationToken.None);
+
+        var result = await coordinator.DequeueModuleAsync(
+            new HashSet<Capability>(),
+            CancellationToken.None);
+
+        await Assert.That(result!.ModuleTypeName).IsEqualTo("Long");
+    }
+
+    [Test]
+    public async Task Dequeue_Prefers_Work_Eligible_On_Fewer_Workers()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        await coordinator.RegisterWorkerAsync(
+            new WorkerRegistration(1, new HashSet<Capability> { Capability.Linux }, DateTimeOffset.UtcNow),
+            CancellationToken.None);
+        await coordinator.RegisterWorkerAsync(
+            new WorkerRegistration(2, new HashSet<Capability> { Capability.Windows }, DateTimeOffset.UtcNow),
+            CancellationToken.None);
+        await coordinator.EnqueueModuleAsync(CreateAssignment("Generic"), CancellationToken.None);
+        await coordinator.EnqueueModuleAsync(
+            CreateAssignment(
+                "LinuxOnly",
+                requiredCapabilities: new HashSet<Capability> { Capability.Linux }),
+            CancellationToken.None);
+
+        var result = await coordinator.DequeueModuleAsync(
+            new HashSet<Capability> { Capability.Linux },
+            CancellationToken.None);
+
+        await Assert.That(result!.ModuleTypeName).IsEqualTo("LinuxOnly");
+    }
+
+    private static ModuleAssignment CreateAssignment(
+        string moduleTypeName,
+        ModulePriority priority = ModulePriority.Normal,
+        TimeSpan criticalPathWeight = default,
+        IReadOnlySet<Capability>? requiredCapabilities = null)
+    {
+        return new ModuleAssignment(
+            ModuleTypeName: moduleTypeName,
+            ResultTypeName: "System.String",
+            RequiredCapabilities: requiredCapabilities ?? new HashSet<Capability>(),
+            AssignedAt: DateTimeOffset.UtcNow,
+            Configuration: new ModuleAssignmentConfiguration(null, false))
+        {
+            Priority = priority,
+            CriticalPathWeight = criticalPathWeight,
+        };
     }
 }
