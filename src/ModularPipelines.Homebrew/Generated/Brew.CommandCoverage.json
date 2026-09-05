@@ -1,14 +1,15 @@
 {
   "formatVersion": 1,
   "toolName": "brew",
-  "toolVersion": "Homebrew 6.0.18",
-  "commandCount": 121,
-  "commandTreeSha256": "7530c4cc1b396a84294528123676a40aa6d25f4164ae56b4e949a2eaf3c56888",
+  "toolVersion": "Homebrew 6.0.20",
+  "commandCount": 122,
+  "commandTreeSha256": "0c701de73d7e728cba2bd96e3b9aa36c0025ba16c8f47f26b230e86d9ffc2e54",
   "commands": [
     "brew alias",
     "brew as-console-user",
     "brew audit",
     "brew autoremove",
+    "brew benchmark",
     "brew bottle",
     "brew bump",
     "brew bump-cask-pr",
