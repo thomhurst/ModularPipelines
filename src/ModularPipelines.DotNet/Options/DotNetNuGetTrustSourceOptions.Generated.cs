@@ -18,7 +18,9 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "trust", "source")]
-public record DotNetNuGetTrustSourceOptions : DotNetOptions
+public record DotNetNuGetTrustSourceOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
+) : DotNetOptions
 {
     /// <summary>
     /// If a source-url is provided, it must be a v3 package source URL (like https://api.nuget.org/v3/index.json). Other package source types are not supported.
@@ -49,11 +51,5 @@ public record DotNetNuGetTrustSourceOptions : DotNetOptions
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
-
-    /// <summary>
-    /// "The name of the trusted signer to add. If only &lt;NAME&gt; is provided without --&lt;source-url&gt;, the package source from your NuGet configuration files with the same name is added to the trusted list. If &lt;NAME&gt; already exists in the configuration, the package source is appended to it."
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Name { get; set; }
 
 }

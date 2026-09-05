@@ -18,7 +18,9 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("new", "install")]
-public record DotNetNewInstallOptions : DotNetOptions
+public record DotNetNewInstallOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Package
+) : DotNetOptions
 {
     /// <summary>
     /// Allows the command to stop and wait for user input or action (for example to complete authentication). [default: False]
@@ -37,11 +39,5 @@ public record DotNetNewInstallOptions : DotNetOptions
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
-
-    /// <summary>
-    /// NuGet package ID or path to folder or NuGet package to install.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public IEnumerable<string>? Package { get; set; }
 
 }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 using ModularPipelines.Distributed.Artifacts.S3.Caching;
 using ModularPipelines.Distributed.Artifacts.S3.Configuration;
@@ -58,7 +59,7 @@ public static class S3DistributedExtensions
         Action<S3ArtifactOptions> configure)
     {
         builder.Services.Configure(configure);
-        return builder.AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
+        return AddS3DistributedArtifactStoreFactory(builder);
     }
 
     /// <summary>
@@ -71,7 +72,7 @@ public static class S3DistributedExtensions
         IConfigurationSection section)
     {
         builder.Services.Configure<S3ArtifactOptions>(section);
-        return builder.AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
+        return AddS3DistributedArtifactStoreFactory(builder);
     }
 
     /// <summary>
@@ -84,7 +85,7 @@ public static class S3DistributedExtensions
     {
         builder.Services.Configure(configureS3);
         builder.Services.Configure(configureArtifacts);
-        return builder.AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
+        return AddS3DistributedArtifactStoreFactory(builder);
     }
 
     /// <summary>
@@ -99,6 +100,13 @@ public static class S3DistributedExtensions
     {
         builder.Services.Configure<S3ArtifactOptions>(s3Section);
         builder.Services.Configure<ArtifactOptions>(artifactSection);
+        return AddS3DistributedArtifactStoreFactory(builder);
+    }
+
+    private static PipelineBuilder AddS3DistributedArtifactStoreFactory(PipelineBuilder builder)
+    {
+        builder.Services.Configure<DistributedOptions>(options => options.RequireExplicitRunId = true);
+        builder.Services.AddOptions<DistributedOptions>().ValidateOnStart();
         return builder.AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
     }
 

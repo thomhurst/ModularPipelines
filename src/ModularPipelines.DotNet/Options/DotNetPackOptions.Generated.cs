@@ -54,8 +54,8 @@ public record DotNetPackOptions : DotNetOptions
     /// <summary>
     /// Set the serviceable flag in the package. See https://aka.ms/nupkgservicing for more information. [default: False]
     /// </summary>
-    [CliOption("--serviceable", ShortForm = "-s")]
-    public string? Serviceable { get; set; }
+    [CliFlag("--serviceable", ShortForm = "-s")]
+    public bool? Serviceable { get; set; }
 
     /// <summary>
     /// Do not display the startup banner or the copyright message. [default: True]
@@ -110,12 +110,5 @@ public record DotNetPackOptions : DotNetOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ProjectSolution { get; set; }
-
-    [Obsolete("Use NoLogo instead.")]
-    public bool? Nologo
-    {
-        get => NoLogo;
-        set => NoLogo = value;
-    }
 
 }

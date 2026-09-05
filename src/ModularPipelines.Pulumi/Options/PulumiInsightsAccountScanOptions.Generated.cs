@@ -147,7 +147,7 @@ public record PulumiInsightsAccountScanOptions : PulumiOptions
     public int? Verbose { get; set; }
 
     /// <summary>
-    /// The account operand.
+    /// The &lt;account&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Account { get; set; }

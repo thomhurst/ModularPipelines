@@ -16,12 +16,12 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Liquibase.Options;
 
 /// <summary>
-/// Marks the next change you apply as executed in your database
+/// Writes the SQL used to mark the next change you apply as executed in your database
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("mark-next-changeset-ran")]
-public record LiquibaseMarkNextChangesetRanOptions : LiquibaseOptions
+[CliSubCommand("mark-next-changeset-ran-sql")]
+public record LiquibaseMarkNextChangeSetRanSqlOptions : LiquibaseOptions
 {
     /// <summary>
     /// The root changelog file

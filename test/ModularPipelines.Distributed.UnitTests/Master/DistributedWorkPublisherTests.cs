@@ -1,3 +1,4 @@
+using System.Text.Json;
 using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
@@ -206,40 +207,40 @@ public class DistributedWorkPublisherTests
     }
 
     [Test]
-    public async Task CreateAssignment_Includes_DependencyResults_When_Deps_Are_Registered()
+    public async Task CreateAssignment_Includes_Available_Dependency_Result_Reference()
     {
         // Arrange
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(DependencyModule));
         typeRegistry.Register(typeof(ConsumerModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
 
         // Register the dependency result (simulating master collected it)
         var depResult = CreateSuccessResult(new DepResult { Value = "from-dep" }, "DependencyModule");
         resultRegistry.RegisterResult(typeof(DependencyModule), depResult);
 
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         // Act
         var consumerModule = new ConsumerModule();
         var assignment = publisher.CreateAssignment(consumerModule);
 
         // Assert
-        await Assert.That(assignment.DependencyResults).IsNotNull();
-        await Assert.That(assignment.DependencyResults!.Count).IsEqualTo(1);
-        await Assert.That(assignment.DependencyResults[0].ModuleTypeName).IsEqualTo(typeof(DependencyModule).FullName!);
+        await Assert.That(assignment.DependencyResultReferences).IsNotNull();
+        await Assert.That(assignment.DependencyResultReferences!).HasSingleItem();
+        await Assert.That(assignment.DependencyResultReferences[0].ModuleTypeName)
+            .IsEqualTo(typeof(DependencyModule).FullName!);
+        await Assert.That(assignment.DependencyResultReferences[0].IsAvailable).IsTrue();
     }
 
     [Test]
-    public async Task CreateAssignment_Preserves_Dependency_Failure_Worker_Index()
+    public async Task CreateAssignment_Marks_Failed_Dependency_Result_Available()
     {
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(DependencyModule));
         typeRegistry.Register(typeof(ConsumerModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
         var now = DateTimeOffset.UtcNow;
         ModuleResult<DepResult> depResult = new ModuleResult<DepResult>.Failure(
@@ -257,107 +258,61 @@ public class DistributedWorkPublisherTests
         var publisher = new DistributedWorkPublisher(
             coordinator,
             typeRegistry,
-            serializer,
             resultRegistry);
 
         var assignment = publisher.CreateAssignment(new ConsumerModule());
 
-        await Assert.That(assignment.DependencyResults).IsNotNull();
-        var serializedDependency = assignment.DependencyResults!.Single();
-        await Assert.That(serializedDependency.WorkerIndex).IsEqualTo(3);
-        var relayedResult = serializer.Deserialize(serializedDependency);
-        var relayedException = relayedResult!.ExceptionOrDefault as RemoteModuleException;
-        await Assert.That(relayedException).IsNotNull();
-        await Assert.That(relayedException!.WorkerIndex).IsEqualTo(3);
+        var reference = assignment.DependencyResultReferences!.Single();
+        await Assert.That(reference.ModuleTypeName).IsEqualTo(typeof(DependencyModule).FullName!);
+        await Assert.That(reference.IsAvailable).IsTrue();
     }
 
     [Test]
-    public async Task CreateAssignment_Preserves_System_Dependency_Failure_Worker_Index()
-    {
-        var coordinator = new InMemoryDistributedCoordinator();
-        var typeRegistry = new ModuleTypeRegistry();
-        typeRegistry.Register(typeof(DependencyModule));
-        typeRegistry.Register(typeof(ConsumerModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
-        var resultRegistry = new ModuleResultRegistry();
-        var now = DateTimeOffset.UtcNow;
-        ModuleResult<DepResult> depResult = new ModuleResult<DepResult>.Failure(
-            new InvalidOperationException("worker failed"))
-        {
-            Name = nameof(DependencyModule),
-            TypeName = typeof(DependencyModule).FullName,
-            Duration = TimeSpan.Zero,
-            StartTime = now,
-            EndTime = now,
-            Status = ModuleStatus.Failed,
-            WorkerIndex = 3,
-        };
-        resultRegistry.RegisterResult(typeof(DependencyModule), depResult);
-        var publisher = new DistributedWorkPublisher(
-            coordinator,
-            typeRegistry,
-            serializer,
-            resultRegistry);
-
-        var assignment = publisher.CreateAssignment(new ConsumerModule());
-
-        var serializedDependency = assignment.DependencyResults!.Single();
-        await Assert.That(serializedDependency.WorkerIndex).IsEqualTo(3);
-        var relayedResult = serializer.Deserialize(serializedDependency);
-        await Assert.That(relayedResult!.ExceptionOrDefault)
-            .IsTypeOf<InvalidOperationException>();
-        await Assert.That(((ModuleResult) relayedResult).WorkerIndex).IsEqualTo(3);
-    }
-
-    [Test]
-    public async Task CreateAssignment_Includes_Fluent_DependencyResults()
+    public async Task CreateAssignment_Includes_Fluent_DependencyResultReferences()
     {
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(DependencyModule));
         typeRegistry.Register(typeof(FluentConsumerModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
         var depResult = CreateSuccessResult(new DepResult { Value = "from-dep" }, "DependencyModule");
         resultRegistry.RegisterResult(typeof(DependencyModule), depResult);
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         var assignment = publisher.CreateAssignment(new FluentConsumerModule());
 
-        await Assert.That(assignment.DependencyResults).IsNotNull();
-        await Assert.That(assignment.DependencyResults!).HasSingleItem();
-        await Assert.That(assignment.DependencyResults[0].ModuleTypeName).IsEqualTo(typeof(DependencyModule).FullName!);
+        await Assert.That(assignment.DependencyResultReferences).IsNotNull();
+        await Assert.That(assignment.DependencyResultReferences!).HasSingleItem();
+        await Assert.That(assignment.DependencyResultReferences[0].ModuleTypeName).IsEqualTo(typeof(DependencyModule).FullName!);
     }
 
     [Test]
-    public async Task CreateAssignment_Includes_Selector_DependencyResults()
+    public async Task CreateAssignment_Includes_Selector_DependencyResultReferences()
     {
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(SelectorDependencyModule));
         typeRegistry.Register(typeof(SelectorConsumerModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
         var dependencyResult = CreateSuccessResult(new DepResult { Value = "selected" }, "SelectorDependencyModule");
         resultRegistry.RegisterResult(typeof(SelectorDependencyModule), dependencyResult);
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         var assignment = publisher.CreateAssignment(new SelectorConsumerModule());
 
-        await Assert.That(assignment.DependencyResults).IsNotNull();
-        await Assert.That(assignment.DependencyResults!).HasSingleItem();
-        await Assert.That(assignment.DependencyResults[0].ModuleTypeName)
+        await Assert.That(assignment.DependencyResultReferences).IsNotNull();
+        await Assert.That(assignment.DependencyResultReferences!).HasSingleItem();
+        await Assert.That(assignment.DependencyResultReferences[0].ModuleTypeName)
             .IsEqualTo(typeof(SelectorDependencyModule).FullName!);
     }
 
     [Test]
-    public async Task CreateAssignment_Includes_TagSelector_DependencyResults()
+    public async Task CreateAssignment_Includes_TagSelector_DependencyResultReferences()
     {
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(TaggedDependencyModule));
         typeRegistry.Register(typeof(TaggedConsumerModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
         var dependencyResult = CreateSuccessResult(new DepResult { Value = "tagged" }, "TaggedDependencyModule");
         resultRegistry.RegisterResult(typeof(TaggedDependencyModule), dependencyResult);
@@ -370,36 +325,33 @@ public class DistributedWorkPublisherTests
         var publisher = new DistributedWorkPublisher(
             coordinator,
             typeRegistry,
-            serializer,
             resultRegistry,
             dependencyRegistry,
             metadataRegistry);
 
         var assignment = publisher.CreateAssignment(consumerModule);
 
-        await Assert.That(assignment.DependencyResults).IsNotNull();
-        await Assert.That(assignment.DependencyResults!).HasSingleItem();
-        await Assert.That(assignment.DependencyResults[0].ModuleTypeName)
+        await Assert.That(assignment.DependencyResultReferences).IsNotNull();
+        await Assert.That(assignment.DependencyResultReferences!).HasSingleItem();
+        await Assert.That(assignment.DependencyResultReferences[0].ModuleTypeName)
             .IsEqualTo(typeof(TaggedDependencyModule).FullName!);
     }
 
     [Test]
-    public async Task CreateAssignment_Returns_Null_DependencyResults_When_No_Deps()
+    public async Task CreateAssignment_Returns_Null_Dependency_Result_References_When_No_Deps()
     {
         // Arrange
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(IndependentModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         // Act
         var module = new IndependentModule();
         var assignment = publisher.CreateAssignment(module);
 
-        // Assert — no dependencies, so DependencyResults should be null
-        await Assert.That(assignment.DependencyResults).IsNull();
+        await Assert.That(assignment.DependencyResultReferences).IsNull();
     }
 
     [Test]
@@ -408,7 +360,6 @@ public class DistributedWorkPublisherTests
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(IndependentModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
         var routingOptions = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
         var conditionRouting = new DistributedConditionRouting(
@@ -419,7 +370,6 @@ public class DistributedWorkPublisherTests
         var publisher = new DistributedWorkPublisher(
             coordinator,
             typeRegistry,
-            serializer,
             resultRegistry,
             executionLocationContext: conditionRouting);
 
@@ -435,9 +385,8 @@ public class DistributedWorkPublisherTests
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(MixedGenericAlternativeModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         var assignment = publisher.CreateAssignment(new MixedGenericAlternativeModule());
 
@@ -450,9 +399,8 @@ public class DistributedWorkPublisherTests
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(MixedWorkerOnlyAlternativeModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         var assignment = publisher.CreateAssignment(new MixedWorkerOnlyAlternativeModule());
 
@@ -465,9 +413,8 @@ public class DistributedWorkPublisherTests
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(CustomUnixConditionGroupModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         var assignment = publisher.CreateAssignment(new CustomUnixConditionGroupModule());
         var requiredCapability = assignment.RequiredCapabilities.Single();
@@ -489,9 +436,8 @@ public class DistributedWorkPublisherTests
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(WorkerOnlyConditionGroupModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         var assignment = publisher.CreateAssignment(new WorkerOnlyConditionGroupModule());
 
@@ -504,12 +450,10 @@ public class DistributedWorkPublisherTests
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(MultipleCapabilitiesModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
         var publisher = new DistributedWorkPublisher(
             coordinator,
             typeRegistry,
-            serializer,
             resultRegistry);
 
         var assignment = publisher.CreateAssignment(new MultipleCapabilitiesModule());
@@ -524,9 +468,8 @@ public class DistributedWorkPublisherTests
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(ConflictingExplicitOperatingSystemModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         var exception = Assert.Throws<InvalidOperationException>(() =>
             publisher.CreateAssignment(new ConflictingExplicitOperatingSystemModule()));
@@ -540,12 +483,10 @@ public class DistributedWorkPublisherTests
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(ConflictingMixedGenericAlternativeModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
         var publisher = new DistributedWorkPublisher(
             coordinator,
             typeRegistry,
-            serializer,
             resultRegistry);
 
         var assignment = publisher.CreateAssignment(
@@ -564,12 +505,10 @@ public class DistributedWorkPublisherTests
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(ConflictingConditionalMixedAlternativeModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
         var publisher = new DistributedWorkPublisher(
             coordinator,
             typeRegistry,
-            serializer,
             resultRegistry);
 
         var assignment = publisher.CreateAssignment(
@@ -583,7 +522,7 @@ public class DistributedWorkPublisherTests
     }
 
     [Test]
-    public async Task CreateAssignment_Includes_Multiple_DependencyResults()
+    public async Task CreateAssignment_Includes_Multiple_DependencyResultReferences()
     {
         // Arrange
         var coordinator = new InMemoryDistributedCoordinator();
@@ -591,7 +530,6 @@ public class DistributedWorkPublisherTests
         typeRegistry.Register(typeof(DependencyModule));
         typeRegistry.Register(typeof(IndependentModule));
         typeRegistry.Register(typeof(MultiDepModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
 
         // Register both dependency results
@@ -601,41 +539,41 @@ public class DistributedWorkPublisherTests
         var indResult = CreateSuccessResult(42, "IndependentModule");
         resultRegistry.RegisterResult(typeof(IndependentModule), indResult);
 
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         // Act
         var module = new MultiDepModule();
         var assignment = publisher.CreateAssignment(module);
 
         // Assert
-        await Assert.That(assignment.DependencyResults).IsNotNull();
-        await Assert.That(assignment.DependencyResults!.Count).IsEqualTo(2);
+        await Assert.That(assignment.DependencyResultReferences).IsNotNull();
+        await Assert.That(assignment.DependencyResultReferences!.Count).IsEqualTo(2);
 
-        var depTypeNames = assignment.DependencyResults.Select(d => d.ModuleTypeName).ToHashSet();
+        var depTypeNames = assignment.DependencyResultReferences.Select(d => d.ModuleTypeName).ToHashSet();
         await Assert.That(depTypeNames).Contains(typeof(DependencyModule).FullName!);
         await Assert.That(depTypeNames).Contains(typeof(IndependentModule).FullName!);
     }
 
     [Test]
-    public async Task CreateAssignment_Skips_Deps_Not_In_Registry()
+    public async Task CreateAssignment_Marks_Dependency_Result_Unavailable_When_Not_In_Registry()
     {
         // Arrange — dependency result not registered (e.g., optional dependency that didn't run)
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(DependencyModule));
         typeRegistry.Register(typeof(ConsumerModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
         // Intentionally NOT registering DependencyModule result
 
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         // Act
         var module = new ConsumerModule();
         var assignment = publisher.CreateAssignment(module);
 
-        // Assert — no results available, so DependencyResults should be null
-        await Assert.That(assignment.DependencyResults).IsNull();
+        var reference = assignment.DependencyResultReferences!.Single();
+        await Assert.That(reference.ModuleTypeName).IsEqualTo(typeof(DependencyModule).FullName!);
+        await Assert.That(reference.IsAvailable).IsFalse();
     }
 
     private class LargeResult
@@ -659,14 +597,13 @@ public class DistributedWorkPublisherTests
     }
 
     [Test]
-    public async Task CreateAssignment_Compresses_Large_DependencyResults()
+    public async Task CreateAssignment_Does_Not_Inline_Large_Dependency_Result()
     {
         // Arrange — create a dependency result larger than 64 KB compression threshold
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(LargeResultModule));
         typeRegistry.Register(typeof(ConsumerOfLargeModule));
-        var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
 
         // Create a result with a payload > 64 KB (repetitive text compresses well)
@@ -674,32 +611,17 @@ public class DistributedWorkPublisherTests
         var depResult = CreateSuccessResult(new LargeResult { Payload = largePayload }, "LargeResultModule");
         resultRegistry.RegisterResult(typeof(LargeResultModule), depResult);
 
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, resultRegistry);
 
         // Act
         var module = new ConsumerOfLargeModule();
         var assignment = publisher.CreateAssignment(module);
 
-        // Assert — dependency result is included and compressed
-        await Assert.That(assignment.DependencyResults).IsNotNull();
-        await Assert.That(assignment.DependencyResults!.Count).IsEqualTo(1);
-
-        var compressedJson = assignment.DependencyResults[0].SerializedJson;
-        await Assert.That(compressedJson).StartsWith(DistributedWorkPublisher.GzipPrefix);
-        // Compressed should be much smaller than the 300 KB original
-        await Assert.That(compressedJson.Length).IsLessThan(100 * 1024);
-    }
-
-    [Test]
-    public async Task CompressJson_DecompressJson_Roundtrip()
-    {
-        var original = "{\"$type\":\"Success\",\"Value\":\"" + new string('A', 100_000) + "\"}";
-
-        var compressed = DistributedWorkPublisher.CompressJson(original);
-        await Assert.That(compressed).StartsWith(DistributedWorkPublisher.GzipPrefix);
-        await Assert.That(compressed.Length).IsLessThan(original.Length);
-
-        var decompressed = DistributedWorkPublisher.DecompressJson(compressed);
-        await Assert.That(decompressed).IsEqualTo(original);
+        var wirePayload = JsonSerializer.Serialize(assignment);
+        var references = assignment.DependencyResultReferences!;
+        await Assert.That(references).HasSingleItem();
+        await Assert.That(references[0].IsAvailable).IsTrue();
+        await Assert.That(wirePayload).DoesNotContain(largePayload);
+        await Assert.That(wirePayload.Length).IsLessThan(2048);
     }
 }

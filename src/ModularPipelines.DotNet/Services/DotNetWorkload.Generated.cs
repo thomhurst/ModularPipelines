@@ -100,11 +100,11 @@ public class DotNetWorkload : IDotNetWorkload
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> InstallAsync(
-        DotNetWorkloadInstallOptions? options = null,
+        DotNetWorkloadInstallOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetWorkloadInstallOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public class DotNetWorkload : IDotNetWorkload
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UninstallAsync(
-        DotNetWorkloadUninstallOptions? options = null,
+        DotNetWorkloadUninstallOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetWorkloadUninstallOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

@@ -1,12 +1,11 @@
 using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.Extensions.Options;
-using ModularPipelines.Attributes;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using Moq;
 
 namespace ModularPipelines.Distributed.UnitTests;
 
@@ -54,7 +53,7 @@ public class DependencyResultPropagationTests
     }
 
     [Test]
-    public async Task Worker_Applies_Dependency_Results_From_Assignment()
+    public async Task Worker_Fetches_And_Applies_Dependency_Result_Reference_Once_Per_Run()
     {
         // Arrange
         var typeRegistry = new ModuleTypeRegistry();
@@ -70,14 +69,21 @@ public class DependencyResultPropagationTests
             typeof(DepResult).FullName!,
             workerIndex: -1);
 
-        // Create assignment with dependency results
+        var coordinator = new Mock<IDistributedWorkerCoordinator>();
+        coordinator
+            .Setup(x => x.WaitForResultAsync(typeof(DependencyModule).FullName!, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(serializedDep);
+
         var assignment = new ModuleAssignment(
             ModuleTypeName: typeof(ConsumerModule).FullName!,
             ResultTypeName: typeof(string).FullName!,
             RequiredCapabilities: new HashSet<Capability>(),
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(null, false),
-            DependencyResults: [serializedDep]);
+            DependencyResultReferences:
+            [
+                new DependencyResultReference(typeof(DependencyModule).FullName!, IsAvailable: true),
+            ]);
 
         // Create module instances
         var depModule = new DependencyModule();
@@ -95,10 +101,20 @@ public class DependencyResultPropagationTests
         };
         resultRegistry.RegisterResult(typeof(DependencyModule), localSkip);
 
-        // Act — apply dependency results (simulating what WorkerModuleExecutor does)
-        DependencyResultApplicator.Apply(
-            assignment.DependencyResults!,
-            DependencyResultApplicator.BuildModuleLookup(modules),
+        var resultCache = new DependencyResultCache(coordinator.Object, CancellationToken.None);
+        var moduleLookup = DependencyResultApplicator.BuildModuleLookup(modules);
+
+        await DependencyResultApplicator.FetchAndApplyAsync(
+            assignment.DependencyResultReferences!,
+            resultCache,
+            moduleLookup,
+            serializer,
+            resultRegistry,
+            NullLogger.Instance);
+        await DependencyResultApplicator.FetchAndApplyAsync(
+            assignment.DependencyResultReferences!,
+            resultCache,
+            moduleLookup,
             serializer,
             resultRegistry,
             NullLogger.Instance);
@@ -109,10 +125,13 @@ public class DependencyResultPropagationTests
         await Assert.That(moduleResult!.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(resultRegistry.GetResult(typeof(DependencyModule))?.Status)
             .IsEqualTo(ModuleStatus.Succeeded);
+        coordinator.Verify(
+            x => x.WaitForResultAsync(typeof(DependencyModule).FullName!, It.IsAny<CancellationToken>()),
+            Times.Once);
     }
 
     [Test]
-    public async Task Null_DependencyResults_Does_Not_Crash()
+    public async Task Null_Dependency_Result_References_Does_Not_Crash()
     {
         // Arrange — assignment with null DependencyResults (backwards compat)
         var assignment = new ModuleAssignment(
@@ -121,26 +140,52 @@ public class DependencyResultPropagationTests
             RequiredCapabilities: new HashSet<Capability>(),
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(null, false),
-            DependencyResults: null);
+            DependencyResultReferences: null);
 
         // Act & Assert — should not throw
-        await Assert.That(assignment.DependencyResults).IsNull();
+        await Assert.That(assignment.DependencyResultReferences).IsNull();
     }
 
     [Test]
-    public async Task Empty_DependencyResults_Does_Not_Crash()
+    public async Task Unavailable_Dependency_Result_Reference_Does_Not_Fetch()
     {
-        // Arrange — assignment with empty DependencyResults
-        var assignment = new ModuleAssignment(
-            ModuleTypeName: typeof(IndependentModule).FullName!,
-            ResultTypeName: typeof(int).FullName!,
-            RequiredCapabilities: new HashSet<Capability>(),
-            AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, false),
-            DependencyResults: []);
+        var coordinator = new Mock<IDistributedWorkerCoordinator>();
 
-        // Act & Assert — check guard condition
-        var hasResults = assignment.DependencyResults is { Count: > 0 };
-        await Assert.That(hasResults).IsFalse();
+        await DependencyResultApplicator.FetchAndApplyAsync(
+            [new DependencyResultReference(typeof(DependencyModule).FullName!, IsAvailable: false)],
+            new DependencyResultCache(coordinator.Object, CancellationToken.None),
+            DependencyResultApplicator.BuildModuleLookup([new DependencyModule()]),
+            new ModuleResultSerializer(new ModuleTypeRegistry()),
+            new ModuleResultRegistry(),
+            NullLogger.Instance);
+
+        coordinator.Verify(
+            x => x.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+            Times.Never);
+    }
+
+    [Test]
+    public async Task Failed_Dependency_Fetch_Is_Not_Cached()
+    {
+        var moduleTypeName = typeof(DependencyModule).FullName!;
+        var expected = new SerializedModuleResult(
+            moduleTypeName,
+            typeof(DepResult).FullName!,
+            -1,
+            "{}",
+            DateTimeOffset.UtcNow);
+        var coordinator = new Mock<IDistributedWorkerCoordinator>();
+        coordinator
+            .SetupSequence(x => x.WaitForResultAsync(moduleTypeName, It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new IOException("transient failure"))
+            .ReturnsAsync(expected);
+        var cache = new DependencyResultCache(coordinator.Object, CancellationToken.None);
+
+        await Assert.That(async () => await cache.GetAsync(moduleTypeName))
+            .Throws<IOException>();
+        await Assert.That(await cache.GetAsync(moduleTypeName)).IsSameReferenceAs(expected);
+        coordinator.Verify(
+            x => x.WaitForResultAsync(moduleTypeName, It.IsAny<CancellationToken>()),
+            Times.Exactly(2));
     }
 }
