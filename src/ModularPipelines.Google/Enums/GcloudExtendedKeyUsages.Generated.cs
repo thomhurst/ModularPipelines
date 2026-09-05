@@ -17,20 +17,20 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudExtendedKeyUsages
 {
     [EnumValue("server_auth")]
-    ServerAuth = 0,
+    ServerAuth,
 
     [EnumValue("client_auth")]
-    ClientAuth = 1,
+    ClientAuth,
 
     [EnumValue("code_signing")]
-    CodeSigning = 2,
+    CodeSigning,
 
     [EnumValue("email_protection")]
-    EmailProtection = 3,
+    EmailProtection,
 
     [EnumValue("time_stamping")]
-    TimeStamping = 4,
+    TimeStamping,
 
     [EnumValue("ocsp_signing")]
-    OcspSigning = 5
+    OcspSigning
 }

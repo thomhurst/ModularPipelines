@@ -29,7 +29,7 @@ public record GcloudProjectsCreateOptions : GcloudOptions
     public bool? EnableCloudApis { get; set; }
 
     /// <summary>
-    /// Enable cloudapis.googleapis.com during creation. Enabled by default, use --no-enable-cloud-apis to disable.
+    /// Negates --enable-cloud-apis. Enable cloudapis.googleapis.com during creation. Enabled by default, use --no-enable-cloud-apis to disable.
     /// </summary>
     [CliFlag("--no-enable-cloud-apis")]
     public bool? NoEnableCloudApis { get; set; }

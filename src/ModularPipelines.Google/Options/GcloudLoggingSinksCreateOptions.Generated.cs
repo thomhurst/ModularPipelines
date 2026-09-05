@@ -27,7 +27,7 @@ public record GcloudLoggingSinksCreateOptions(
     /// Settings for sink exporting data to BigQuery. Writer identity for the sink. This flag can only be used if the destination is a log bucket in a different project. The writer identity is automatically generated when it is not provided for a sink.
     /// </summary>
     [CliOption("--custom-writer-identity", Format = OptionFormat.EqualsSeparated)]
-    public int? CustomWriterIdentity { get; set; }
+    public string? CustomWriterIdentity { get; set; }
 
     /// <summary>
     /// Settings for sink exporting data to BigQuery. Description of the sink.
@@ -45,7 +45,7 @@ public record GcloudLoggingSinksCreateOptions(
     /// Settings for sink exporting data to BigQuery. Specify an exclusion filter for a log entry that is not to be exported. This flag can be repeated. The name and filter attributes are required. The following keys are accepted: name An identifier, such as load-balancer-exclusion. Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. description A description of this exclusion. filter An advanced log filter that matches the log entries to be excluded. disabled If this exclusion should be disabled and not exclude the log entries.
     /// </summary>
     [CliOption("--exclusion", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ExclusionValues { get; set; }
+    public IEnumerable<string>? Exclusion { get; set; }
 
     /// <summary>
     /// Settings for sink exporting data to BigQuery. Whether to export logs from all child projects and folders. Only applies to sinks for organizations and folders.
@@ -94,12 +94,5 @@ public record GcloudLoggingSinksCreateOptions(
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
-
-    [Obsolete("Use ExclusionValues instead.")]
-    public string? Exclusion
-    {
-        get => ExclusionValues?.FirstOrDefault();
-        set => ExclusionValues = value is null ? null : [value];
-    }
 
 }

@@ -37,6 +37,12 @@ public record GcloudPreviewComputeNetworkEndpointGroupsCreateOptions(
     public string? Network { get; set; }
 
     /// <summary>
+    /// Determines the spec of endpoints attached to this group. gce-vm-ip-port Endpoint IP address must belong to a VM in Compute Engine (either the primary IP or as part of an aliased IP range). The --default-port must be specified or every network endpoint in the network endpoint group must have a port specified. internet-ip-port Endpoint IP address must be a publicly routable address. If specified, the default port is used. If unspecified, the well-known port for your backend protocol is used as the default port (80 for HTTP, 443 for HTTPS). internet-fqdn-port Endpoint FQDN must be resolvable to a public IP address via public DNS. The default port is used, if specified. If the default port is not specified, the well-known port for your backend protocol is used as the default port (80 for HTTP, 443 for HTTPS). After creating a NEG of this type, you can use the gcloud compute network-endpoint-groups update command with the --add-endpoint flag. Example: --add-endpoint="fqdn=backend.example.com,port=443" non-gcp-private-ip-port Endpoint IP address must belong to a VM not in Compute Engine and must be routable using a Cloud Router over VPN or an Interconnect connection. In this case, the NEG must be zonal. The --default-port must be specified or every network endpoint in the network endpoint group must have a port specified. serverless The network endpoint is handled by specified serverless infrastructure, such as Cloud Run, App Engine, or Cloud Function. Default port, network, and subnet are not effective for serverless endpoints. private-service-connect The network endpoint corresponds to a service outside the VPC, accessed via Private Service Connect. gce-vm-ip Endpoint must be the IP address of a VM's network interface in Compute Engine. Instance reference is required. The IP address is optional. If unspecified, the primary NIC address is used. A port must not be specified. gce-vm-ip-portmap Endpoint IP address must be a primary IP of a VM's network interface in Compute Engine. The --default-port must be specified or every network endpoint in the network endpoint group must have a port specified. NETWORK_ENDPOINT_TYPE must be one of: gce-vm-ip-port, internet-ip-port, internet-fqdn-port, non-gcp-private-ip-port, serverless, gce-vm-ip, private-service-connect, gce-vm-ip-portmap.
+    /// </summary>
+    [CliOption("--network-endpoint-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudNetworkEndpointType? NetworkEndpointType { get; set; }
+
+    /// <summary>
     /// The producer port to use when a consumer PSC NEG connects to a producer's internal network load balancer. If this flag isn't specified for a NEG with endpoint type private-service-connect, the PSC NEG will connect to port 443 or the first available port in the PSC producer port range, or to port 1 if the PSC producer's forwarding rule ports flag is set to all-ports. This flag is not supported for NEGs with endpoint type other than private-service-connect.
     /// </summary>
     [CliOption("--producer-port", Format = OptionFormat.EqualsSeparated)]
@@ -55,87 +61,81 @@ public record GcloudPreviewComputeNetworkEndpointGroupsCreateOptions(
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// Cloud Function name to add to the Serverless NEG. The function must be in the same project and the same region as the Serverless network endpoint groups (NEG).
+    /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for a Cloud Function network endpoint group. Cloud Function name must be provided explicitly or in the URL mask. Configuration for a Cloud Run network endpoint group. Cloud Run service must be provided explicitly or in the URL mask. Cloud Run tag is optional, and may be provided explicitly or in the URL mask. Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). Cloud Function name to add to the Serverless NEG. The function must be in the same project and the same region as the Serverless network endpoint groups (NEG).
     /// </summary>
     [CliOption("--cloud-function-name", Format = OptionFormat.EqualsSeparated)]
     public string? CloudFunctionName { get; set; }
 
     /// <summary>
-    /// A template to parse function field from a request URL. URL mask allows for routing to multiple Cloud Functions without having to create multiple network endpoint groups and backend services.
+    /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for a Cloud Function network endpoint group. Cloud Function name must be provided explicitly or in the URL mask. Configuration for a Cloud Run network endpoint group. Cloud Run service must be provided explicitly or in the URL mask. Cloud Run tag is optional, and may be provided explicitly or in the URL mask. Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). A template to parse function field from a request URL. URL mask allows for routing to multiple Cloud Functions without having to create multiple network endpoint groups and backend services.
     /// </summary>
     [CliOption("--cloud-function-url-mask", Format = OptionFormat.EqualsSeparated)]
     public string? CloudFunctionUrlMask { get; set; }
 
     /// <summary>
-    /// Cloud Run service name to add to the Serverless network endpoint groups (NEG). The service must be in the same project and the same region as the Serverless NEG.
+    /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for a Cloud Function network endpoint group. Cloud Function name must be provided explicitly or in the URL mask. Configuration for a Cloud Run network endpoint group. Cloud Run service must be provided explicitly or in the URL mask. Cloud Run tag is optional, and may be provided explicitly or in the URL mask. Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). Cloud Run service name to add to the Serverless network endpoint groups (NEG). The service must be in the same project and the same region as the Serverless NEG.
     /// </summary>
     [CliOption("--cloud-run-service", Format = OptionFormat.EqualsSeparated)]
     public string? CloudRunService { get; set; }
 
     /// <summary>
-    /// Cloud Run tag represents the "named revision" to provide additional fine-grained traffic routing configuration.
+    /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for a Cloud Function network endpoint group. Cloud Function name must be provided explicitly or in the URL mask. Configuration for a Cloud Run network endpoint group. Cloud Run service must be provided explicitly or in the URL mask. Cloud Run tag is optional, and may be provided explicitly or in the URL mask. Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). Cloud Run tag represents the "named revision" to provide additional fine-grained traffic routing configuration.
     /// </summary>
     [CliOption("--cloud-run-tag", Format = OptionFormat.EqualsSeparated)]
     public string? CloudRunTag { get; set; }
 
     /// <summary>
-    /// A template to parse service and tag fields from a request URL. URL mask allows for routing to multiple Run services without having to create multiple network endpoint groups and backend services.
+    /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for a Cloud Function network endpoint group. Cloud Function name must be provided explicitly or in the URL mask. Configuration for a Cloud Run network endpoint group. Cloud Run service must be provided explicitly or in the URL mask. Cloud Run tag is optional, and may be provided explicitly or in the URL mask. Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). A template to parse service and tag fields from a request URL. URL mask allows for routing to multiple Run services without having to create multiple network endpoint groups and backend services.
     /// </summary>
     [CliOption("--cloud-run-url-mask", Format = OptionFormat.EqualsSeparated)]
     public string? CloudRunUrlMask { get; set; }
 
     /// <summary>
-    /// If set, the default routing is used. Use --app-engine-app to enable and --no-app-engine-app to disable.
+    /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for a Cloud Function network endpoint group. Cloud Function name must be provided explicitly or in the URL mask. Configuration for a Cloud Run network endpoint group. Cloud Run service must be provided explicitly or in the URL mask. Cloud Run tag is optional, and may be provided explicitly or in the URL mask. Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). If set, the default routing is used. Use --app-engine-app to enable and --no-app-engine-app to disable.
     /// </summary>
     [CliFlag("--app-engine-app")]
     public bool? AppEngineApp { get; set; }
 
     /// <summary>
-    /// If set, the default routing is used. Use --app-engine-app to enable and --no-app-engine-app to disable.
+    /// Negates --app-engine-app. The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for a Cloud Function network endpoint group. Cloud Function name must be provided explicitly or in the URL mask. Configuration for a Cloud Run network endpoint group. Cloud Run service must be provided explicitly or in the URL mask. Cloud Run tag is optional, and may be provided explicitly or in the URL mask. Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). If set, the default routing is used. Use --app-engine-app to enable and --no-app-engine-app to disable.
     /// </summary>
     [CliFlag("--no-app-engine-app")]
     public bool? NoAppEngineApp { get; set; }
 
     /// <summary>
-    /// Optional serving service to add to the Serverless NEG.
+    /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for a Cloud Function network endpoint group. Cloud Function name must be provided explicitly or in the URL mask. Configuration for a Cloud Run network endpoint group. Cloud Run service must be provided explicitly or in the URL mask. Cloud Run tag is optional, and may be provided explicitly or in the URL mask. Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). Optional serving service to add to the Serverless NEG.
     /// </summary>
     [CliOption("--app-engine-service", Format = OptionFormat.EqualsSeparated)]
     public string? AppEngineService { get; set; }
 
     /// <summary>
-    /// A template to parse service and version fields from a request URL. URL mask allows for routing to multiple App Engine services without having to create multiple network endpoint groups and backend services.
+    /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for a Cloud Function network endpoint group. Cloud Function name must be provided explicitly or in the URL mask. Configuration for a Cloud Run network endpoint group. Cloud Run service must be provided explicitly or in the URL mask. Cloud Run tag is optional, and may be provided explicitly or in the URL mask. Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). A template to parse service and version fields from a request URL. URL mask allows for routing to multiple App Engine services without having to create multiple network endpoint groups and backend services.
     /// </summary>
     [CliOption("--app-engine-url-mask", Format = OptionFormat.EqualsSeparated)]
     public string? AppEngineUrlMask { get; set; }
 
     /// <summary>
-    /// Optional serving version to add to the Serverless NEG.
+    /// The serverless routing configurations are only valid when endpoint type of the network endpoint group is serverless. At most one of these can be specified: Configuration for a Cloud Function network endpoint group. Cloud Function name must be provided explicitly or in the URL mask. Configuration for a Cloud Run network endpoint group. Cloud Run service must be provided explicitly or in the URL mask. Cloud Run tag is optional, and may be provided explicitly or in the URL mask. Configuration for an App Engine network endpoint group. Both App Engine service and version are optional, and may be provided explicitly or in the URL mask. The app-engine-app flag is only used for default routing. The App Engine app must be in the same project as the Serverless network endpoint groups (NEG). Optional serving version to add to the Serverless NEG.
     /// </summary>
     [CliOption("--app-engine-version", Format = OptionFormat.EqualsSeparated)]
     public string? AppEngineVersion { get; set; }
 
     /// <summary>
-    /// If set, the network endpoint group is global.
+    /// At most one of these can be specified: If set, the network endpoint group is global.
     /// </summary>
     [CliFlag("--global")]
     public bool? Global { get; set; }
 
     /// <summary>
-    /// Region of the network endpoint group to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// At most one of these can be specified: Region of the network endpoint group to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Zone of the network endpoint group to operate on. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// At most one of these can be specified: Zone of the network endpoint group to operate on. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
-
-    /// <summary>
-    /// Determines the spec of endpoints attached to this group. gce-vm-ip-port Endpoint IP address must belong to a VM in Compute Engine (either the primary IP or as part of an aliased IP range). The --default-port must be specified or every network endpoint in the network endpoint group must have a port specified. internet-ip-port Endpoint IP address must be a publicly routable address. If specified, the default port is used. If unspecified, the well-known port for your backend protocol is used as the default port (80 for HTTP, 443 for HTTPS). internet-fqdn-port Endpoint FQDN must be resolvable to a public IP address via public DNS. The default port is used, if specified. If the default port is not specified, the well-known port for your backend protocol is used as the default port (80 for HTTP, 443 for HTTPS). After creating a NEG of this type, you can use the gcloud compute network-endpoint-groups update command with the --add-endpoint flag. Example: --add-endpoint="fqdn=backend.example.com,port=443" non-gcp-private-ip-port Endpoint IP address must belong to a VM not in Compute Engine and must be routable using a Cloud Router over VPN or an Interconnect connection. In this case, the NEG must be zonal. The --default-port must be specified or every network endpoint in the network endpoint group must have a port specified. serverless The network endpoint is handled by specified serverless infrastructure, such as Cloud Run, App Engine, or Cloud Function. Default port, network, and subnet are not effective for serverless endpoints. private-service-connect The network endpoint corresponds to a service outside the VPC, accessed via Private Service Connect. gce-vm-ip Endpoint must be the IP address of a VM's network interface in Compute Engine. Instance reference is required. The IP address is optional. If unspecified, the primary NIC address is used. A port must not be specified. gce-vm-ip-portmap Endpoint IP address must be a primary IP of a VM's network interface in Compute Engine. The --default-port must be specified or every network endpoint in the network endpoint group must have a port specified. NETWORK_ENDPOINT_TYPE must be one of: gce-vm-ip-port, internet-ip-port, internet-fqdn-port, non-gcp-private-ip-port, serverless, gce-vm-ip, private-service-connect, gce-vm-ip-portmap.
-    /// </summary>
-    [CliOption("--network-endpoint-type", Format = OptionFormat.EqualsSeparated)]
-    public string? NetworkEndpointType { get; set; }
 
 }

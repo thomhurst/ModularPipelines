@@ -21,7 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-connectivity", "transports", "remote-profiles", "list")]
 public record GcloudNetworkConnectivityTransportsRemoteProfilesListOptions : GcloudOptions
 {
-    [Obsolete("Region is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The region of the remote transport profiles to list. Use "-" to list all profiles.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
 }

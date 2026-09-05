@@ -28,7 +28,7 @@ public record GcloudAuthLoginOptions : GcloudOptions
     public bool? Activate { get; set; }
 
     /// <summary>
-    /// Set the new account to active. Enabled by default, use --no-activate to disable.
+    /// Negates --activate. Set the new account to active. Enabled by default, use --no-activate to disable.
     /// </summary>
     [CliFlag("--no-activate")]
     public bool? NoActivate { get; set; }
@@ -40,13 +40,13 @@ public record GcloudAuthLoginOptions : GcloudOptions
     public bool? Brief { get; set; }
 
     /// <summary>
-    /// If you want to authorize the gcloud CLI on a machine that doesn't have a browser and you can install the gcloud CLI on another machine with a browser, use the --no-browser flag. 1. To initiate authorization, enter the following command: gcloud auth login --no-browser 2. Copy the long command that begins with gcloud auth login
+    /// If you want to authorize the gcloud CLI on a machine that doesn't have a browser and you can install the gcloud CLI on another machine with a browser, use the --no-browser flag. 1. To initiate authorization, enter the following command: gcloud auth login --no-browser 2. Copy the long command that begins with gcloud auth login --remote-bootstrap=". 3. Paste and run this command on the command line of a different, trusted machine that has local installations of both a web browser and the gcloud CLI tool version 372.0 or later. 4. Copy the long URL output from the machine with the web browser. 5. Paste the long URL back to the first machine under the prompt, "Enter the output of the above command", and press Enter to complete the authorization. Enabled by default, use --no-browser to disable.
     /// </summary>
     [CliFlag("--browser")]
     public bool? Browser { get; set; }
 
     /// <summary>
-    /// If you want to authorize the gcloud CLI on a machine that doesn't have a browser and you can install the gcloud CLI on another machine with a browser, use the --no-browser flag. 1. To initiate authorization, enter the following command: gcloud auth login --no-browser 2. Copy the long command that begins with gcloud auth login
+    /// Negates --browser. If you want to authorize the gcloud CLI on a machine that doesn't have a browser and you can install the gcloud CLI on another machine with a browser, use the --no-browser flag. 1. To initiate authorization, enter the following command: gcloud auth login --no-browser 2. Copy the long command that begins with gcloud auth login --remote-bootstrap=". 3. Paste and run this command on the command line of a different, trusted machine that has local installations of both a web browser and the gcloud CLI tool version 372.0 or later. 4. Copy the long URL output from the machine with the web browser. 5. Paste the long URL back to the first machine under the prompt, "Enter the output of the above command", and press Enter to complete the authorization. Enabled by default, use --no-browser to disable.
     /// </summary>
     [CliFlag("--no-browser")]
     public bool? NoBrowser { get; set; }
@@ -76,7 +76,7 @@ public record GcloudAuthLoginOptions : GcloudOptions
     public bool? LaunchBrowser { get; set; }
 
     /// <summary>
-    /// Launch a browser for authorization. If not enabled or if it is not possible to launch a browser, prints a URL to standard output to be copied. If you want to authorize the gcloud CLI on a machine that doesn't have a browser and you cannot install the gcloud CLI on another machine with a browser, use the --no-launch-browser flag. The --no-launch-browser flag prevents the command from automatically opening a web browser. 1. To initiate authorization, enter the following command: gcloud auth login --no-launch-browser 2. Copy the long URL that begins with https://accounts.google.com/o/oauth2/auth... 3. Paste this URL into the browser of a different, trusted machine that has a web browser. 4. Copy the authorization code from the machine with the web browser. 5. Paste the authorization code back to the first machine at the prompt, "Enter authorization code", and press Enter to complete the authorization. Enabled by default, use --no-launch-browser to disable.
+    /// Negates --launch-browser. Launch a browser for authorization. If not enabled or if it is not possible to launch a browser, prints a URL to standard output to be copied. If you want to authorize the gcloud CLI on a machine that doesn't have a browser and you cannot install the gcloud CLI on another machine with a browser, use the --no-launch-browser flag. The --no-launch-browser flag prevents the command from automatically opening a web browser. 1. To initiate authorization, enter the following command: gcloud auth login --no-launch-browser 2. Copy the long URL that begins with https://accounts.google.com/o/oauth2/auth... 3. Paste this URL into the browser of a different, trusted machine that has a web browser. 4. Copy the authorization code from the machine with the web browser. 5. Paste the authorization code back to the first machine at the prompt, "Enter authorization code", and press Enter to complete the authorization. Enabled by default, use --no-launch-browser to disable.
     /// </summary>
     [CliFlag("--no-launch-browser")]
     public bool? NoLaunchBrowser { get; set; }

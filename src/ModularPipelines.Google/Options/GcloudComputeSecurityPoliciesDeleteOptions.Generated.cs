@@ -24,13 +24,13 @@ public record GcloudComputeSecurityPoliciesDeleteOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: If set, the security policies are global.
+    /// At most one of these can be specified: If set, the security policies are global.
     /// </summary>
     [CliFlag("--global")]
     public bool? Global { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Region of the security policies to delete. Overrides the default compute/region property value for this command invocation.
+    /// At most one of these can be specified: Region of the security policies to delete. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

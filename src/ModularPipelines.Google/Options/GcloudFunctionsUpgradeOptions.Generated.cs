@@ -22,55 +22,55 @@ namespace ModularPipelines.Google.Options;
 public record GcloudFunctionsUpgradeOptions : GcloudOptions
 {
     /// <summary>
-    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Undoes all steps of the upgrade process done so far. All traffic will point to the original 1st gen function copy and the 2nd gen function copy will be deleted.
+    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Undoes all steps of the upgrade process done so far. All traffic will point to the original 1st gen function copy and the 2nd gen function copy will be deleted.
     /// </summary>
     [CliFlag("--abort")]
     public bool? Abort { get; set; }
 
     /// <summary>
-    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Redirects production traffic to the 2nd gen copy of the function.
+    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Redirects production traffic to the 2nd gen copy of the function.
     /// </summary>
     [CliFlag("--redirect-traffic")]
     public bool? RedirectTraffic { get; set; }
 
     /// <summary>
-    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Rolls back production traffic to the original 1st gen copy of the function. The 2nd gen copy will still be available for testing.
+    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Rolls back production traffic to the original 1st gen copy of the function. The 2nd gen copy will still be available for testing.
     /// </summary>
     [CliFlag("--rollback-traffic")]
     public bool? RollbackTraffic { get; set; }
 
     /// <summary>
-    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Or at least one of these can be specified: Finishes the upgrade process and permanently deletes the original 1st gen copy of the function.
+    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Or at least one of these can be specified: Finishes the upgrade process and permanently deletes the original 1st gen copy of the function.
     /// </summary>
     [CliFlag("--commit")]
     public bool? Commit { get; set; }
 
     /// <summary>
-    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Or at least one of these can be specified: The function will not be detached when committing the upgrade to allow continued use of the Cloud Functions v2 API. You can detach the function to Cloud Run afterward https://docs.cloud.google.com/run/docs/functions/comparison#detach_your_function. This flag is only valid when used with the --commit flag.
+    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Or at least one of these can be specified: The function will not be detached when committing the upgrade to allow continued use of the Cloud Functions v2 API. You can detach the function to Cloud Run afterward https://docs.cloud.google.com/run/docs/functions/comparison#detach_your_function. This flag is only valid when used with the --commit flag.
     /// </summary>
     [CliFlag("--skip-detach")]
     public bool? SkipDetach { get; set; }
 
     /// <summary>
-    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Or at least one of these can be specified: Sets the maximum number of instances for the function. A function execution that would exceed max-instances times out.
+    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Or at least one of these can be specified: Sets the maximum number of instances for the function. A function execution that would exceed max-instances times out.
     /// </summary>
     [CliOption("--max-instances", Format = OptionFormat.EqualsSeparated)]
     public string? MaxInstances { get; set; }
 
     /// <summary>
-    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Or at least one of these can be specified: Runtime in which to run the function. Required when deploying a new function; optional when updating an existing function. For a list of available runtimes, run gcloud functions runtimes list.
+    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Or at least one of these can be specified: Runtime in which to run the function. Required when deploying a new function; optional when updating an existing function. For a list of available runtimes, run gcloud functions runtimes list.
     /// </summary>
     [CliOption("--runtime", Format = OptionFormat.EqualsSeparated)]
     public string? Runtime { get; set; }
 
     /// <summary>
-    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Or at least one of these can be specified: Sets up the function upgrade config by creating a 2nd gen copy of the function's code and configuration.
+    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Or at least one of these can be specified: Sets up the function upgrade config by creating a 2nd gen copy of the function's code and configuration.
     /// </summary>
     [CliFlag("--setup-config")]
     public bool? SetupConfig { get; set; }
 
     /// <summary>
-    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Or at least one of these can be specified: The email address of the IAM service account associated with the Eventarc trigger for the function. This is used for authenticated invocation. If not provided, the function will use the project's default service account for Compute Engine.
+    /// Upgrade a 1st gen Cloud Function to a Cloud Run Function. You must specify one of the following flags: ◆ --setup-config and optionally --trigger-service-account, ◆ --redirect-traffic, ◆ --rollback-traffic, ◆ --commit and optionally --skip-detach, ◆ --abort. At most one of these can be specified: Or at least one of these can be specified: The email address of the IAM service account associated with the Eventarc trigger for the function. This is used for authenticated invocation. If not provided, the function will use the project's default service account for Compute Engine.
     /// </summary>
     [CliOption("--trigger-service-account", Format = OptionFormat.EqualsSeparated)]
     public string? TriggerServiceAccount { get; set; }

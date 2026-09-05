@@ -24,13 +24,13 @@ public record GcloudComputeSslCertificatesDeleteOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: If set, the SSL certificates are global.
+    /// At most one of these can be specified: If set, the SSL certificates are global.
     /// </summary>
     [CliFlag("--global")]
     public bool? Global { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Region of the SSL certificates to delete. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// At most one of these can be specified: Region of the SSL certificates to delete. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

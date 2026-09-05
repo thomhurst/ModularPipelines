@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudIpVersion
 {
     [EnumValue("IPV4")]
-    Ipv4 = 0,
+    Ipv4,
 
     [EnumValue("IPV6")]
-    Ipv6 = 1
+    Ipv6
 }

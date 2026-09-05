@@ -22,25 +22,25 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAccessContextManagerAuthorizedOrgsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Append the given values to the current orgs.
+    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Append the given values to the current orgs.
     /// </summary>
     [CliOption("--add-orgs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddOrgs { get; set; }
 
     /// <summary>
-    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Empty the current orgs.
+    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Empty the current orgs.
     /// </summary>
     [CliFlag("--clear-orgs")]
     public bool? ClearOrgs { get; set; }
 
     /// <summary>
-    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Remove the given values from the current orgs.
+    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Remove the given values from the current orgs.
     /// </summary>
     [CliOption("--remove-orgs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveOrgs { get; set; }
 
     /// <summary>
-    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Completely replace the current orgs with the given values.
+    /// These flags modify the member orgs of this authorized_orgs_desc. Orgs must be organizations, in the form organizations/&lt;organizationsnumber&gt;. At most one of these can be specified: Completely replace the current orgs with the given values.
     /// </summary>
     [CliOption("--set-orgs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SetOrgs { get; set; }

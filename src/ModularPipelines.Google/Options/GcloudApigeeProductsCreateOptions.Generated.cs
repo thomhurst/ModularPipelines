@@ -10,7 +10,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
-using ModularPipelines.Models;
 using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
@@ -29,7 +28,7 @@ public record GcloudApigeeProductsCreateOptions(
     /// To impose a quota limit on calls to the API product, specify all of the following: Key-value attribute pairs that may be used to extend the default API product profile with customer-specific metadata. Up to 17 attributes can be specified.
     /// </summary>
     [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? Attributes { get; set; }
+    public string? Attributes { get; set; }
 
     /// <summary>
     /// To impose a quota limit on calls to the API product, specify all of the following: Overview of the API product. Include key information about the API product that is not captured by other fields.

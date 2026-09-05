@@ -25,6 +25,6 @@ public record GcloudAuthListOptions : GcloudOptions
     /// List only credentials for one account. Use --filter="account~PATTERN" to select accounts that match PATTERN.
     /// </summary>
     [CliOption("--filter-account", Format = OptionFormat.EqualsSeparated)]
-    public int? FilterAccount { get; set; }
+    public string? FilterAccount { get; set; }
 
 }

@@ -31,7 +31,7 @@ public record GcloudTelcoAutomationOrchestrationClusterCreateOptions : GcloudOpt
     /// Master Authorized Network that supports multiple CIDR blocks. Allows access to the k8s master from multiple blocks.
     /// </summary>
     [CliOption("--cidr-blocks", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? CidrBlocksValues { get; set; }
+    public IEnumerable<string>? CidrBlocks { get; set; }
 
     /// <summary>
     /// IP address range for the cluster pod IPs. Set to blank to have a range chosen with the default size. Set to /netmask (e.g. /14) to have a range chosen with a specific netmask. Set to a CIDR notation (e.g. 10.96.0.0/14) from the RFC-1918 private networks (e.g. 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) to pick a specific range to use.
@@ -80,12 +80,5 @@ public record GcloudTelcoAutomationOrchestrationClusterCreateOptions : GcloudOpt
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }
-
-    [Obsolete("Use CidrBlocksValues instead.")]
-    public string? CidrBlocks
-    {
-        get => CidrBlocksValues?.FirstOrDefault();
-        set => CidrBlocksValues = value is null ? null : [value];
-    }
 
 }

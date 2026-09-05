@@ -88,13 +88,13 @@ public record GcloudContainerAiProfilesListOptions : GcloudOptions
     /// If specified, results will only show profiles with instance types that can meet the latency target and will show their throughput performances at the target inter-token latency (ITL).
     /// </summary>
     [CliOption("--target-itl-milliseconds", Format = OptionFormat.EqualsSeparated)]
-    public int? TargetItlMilliseconds { get; set; }
+    public string? TargetItlMilliseconds { get; set; }
 
     /// <summary>
     /// The target normalized time per output token (NTPOT) in milliseconds. NTPOT is measured as the request_latency / output_tokens. If this field is set, the command will only return accelerators that can meet the target ntpot milliseconds and display their throughput performance at the target latency. Otherwise, the command will return all accelerators and display their highest throughput performance.
     /// </summary>
     [CliOption("--target-ntpot-milliseconds", Format = OptionFormat.EqualsSeparated)]
-    public int? TargetNtpotMilliseconds { get; set; }
+    public string? TargetNtpotMilliseconds { get; set; }
 
     /// <summary>
     /// If specified, results will only show profiles that have an output length within 20% of the specified one. Only works alongside input length.
@@ -106,7 +106,7 @@ public record GcloudContainerAiProfilesListOptions : GcloudOptions
     /// The target time to first token (TTFT) in milliseconds. TTFT is measured as the request_latency / output_tokens. If this field is set, the command will only return profiles that can meet the target ttft milliseconds and display their throughput performance at the target latency. Otherwise, the command will return all profiles and display their highest throughput performance.
     /// </summary>
     [CliOption("--target-ttft-milliseconds", Format = OptionFormat.EqualsSeparated)]
-    public int? TargetTtftMilliseconds { get; set; }
+    public string? TargetTtftMilliseconds { get; set; }
 
     /// <summary>
     /// If specified, results will only show profiles that match the provided use case. Options are: Advanced Customer Support, Code Completion, Text Summarization, Chatbot (ShareGPT), Text Generation, Deep Research

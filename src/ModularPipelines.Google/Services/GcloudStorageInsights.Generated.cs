@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudStorageInsights
 {
     private readonly ICommandContext _command;
-    private GcloudStorageInsightsDatasetConfigs? _datasetConfigs;
+    private GcloudStorageInsightsDataSetConfigs? _dataSetConfigs;
     private GcloudStorageInsightsInventoryReports? _inventoryReports;
 
     /// <summary>
@@ -37,7 +37,7 @@ public class GcloudStorageInsights
     /// <summary>
     /// gcloud dataset-configs sub-commands.
     /// </summary>
-    public GcloudStorageInsightsDatasetConfigs DatasetConfigs => _datasetConfigs ??= new GcloudStorageInsightsDatasetConfigs(_command);
+    public GcloudStorageInsightsDataSetConfigs DataSetConfigs => _dataSetConfigs ??= new GcloudStorageInsightsDataSetConfigs(_command);
 
     /// <summary>
     /// gcloud inventory-reports sub-commands.

@@ -24,298 +24,291 @@ namespace ModularPipelines.Google.Options;
 public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to complete.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// If true, the notebook instance will not register with the proxy.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. If true, the notebook instance will not register with the proxy.
     /// </summary>
     [CliFlag("--disable-proxy-access")]
     public bool? DisableProxyAccess { get; set; }
 
     /// <summary>
-    /// If true, the notebook instance will be created with managed end user credentials enabled.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. If true, the notebook instance will be created with managed end user credentials enabled.
     /// </summary>
     [CliFlag("--enable-managed-euc")]
     public bool? EnableManagedEuc { get; set; }
 
     /// <summary>
-    /// If true, the notebook instance provide a proxy endpoint which allows for third party identity.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. If true, the notebook instance provide a proxy endpoint which allows for third party identity.
     /// </summary>
     [CliFlag("--enable-third-party-identity")]
     public bool? EnableThirdPartyIdentity { get; set; }
 
     /// <summary>
-    /// The owners of this instance after creation. Format: alias@example.com. Currently supports one owner only. If not specified, all of the service account users of the VM instance's service account can use the instance.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. The owners of this instance after creation. Format: alias@example.com. Currently supports one owner only. If not specified, all of the service account users of the VM instance's service account can use the instance.
     /// </summary>
     [CliOption("--instance-owners", Format = OptionFormat.EqualsSeparated)]
     public string? InstanceOwners { get; set; }
 
     /// <summary>
-    /// Labels to apply to this instance. These can be later modified by the setLabels method.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Labels to apply to this instance. These can be later modified by the setLabels method.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance String. VM instance with CC (Confidential Compute) of type. Supported values: SEV.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. String. VM instance with CC (Confidential Compute) of type. Supported values: SEV.
     /// </summary>
     [CliOption("--confidential-compute-type", Format = OptionFormat.EqualsSeparated)]
     public string? ConfidentialComputeType { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance If specified, no public IP will be assigned to this instance.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. If specified, no public IP will be assigned to this instance.
     /// </summary>
     [CliFlag("--disable-public-ip")]
     public bool? DisablePublicIp { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance If specified, IP forwarding will be enabled for this instance.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. If specified, IP forwarding will be enabled for this instance.
     /// </summary>
     [CliFlag("--enable-ip-forwarding")]
     public bool? EnableIpForwarding { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance The Compute Engine machine type (https://cloud.google.com/sdk/gcloud/reference/compute/machine-types) of this instance.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. The Compute Engine machine type (https://cloud.google.com/sdk/gcloud/reference/compute/machine-types) of this instance.
     /// </summary>
     [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
     public string? MachineType { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Custom metadata to apply to this instance.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Custom metadata to apply to this instance.
     /// </summary>
     [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance The minimum CPU platform to use for this instance. The list of valid values can be found in https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform#availablezones
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. The minimum CPU platform to use for this instance. The list of valid values can be found in https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform#availablezones
     /// </summary>
     [CliOption("--min-cpu-platform", Format = OptionFormat.EqualsSeparated)]
     public string? MinCpuPlatform { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used.
     /// </summary>
     [CliOption("--service-account-email", Format = OptionFormat.EqualsSeparated)]
-    public string? ServiceAccountEmailValue { get; set; }
+    public string? ServiceAccountEmail { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Tags to apply to this instance.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Tags to apply to this instance.
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Count of cores of this accelerator.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Count of cores of this accelerator.
     /// </summary>
     [CliOption("--accelerator-core-count", Format = OptionFormat.EqualsSeparated)]
     public int? AcceleratorCoreCount { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Type of this accelerator. ACCELERATOR_TYPE must be one of: NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100, NVIDIA_A100_80GB, NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS, NVIDIA_L4, NVIDIA_H100_80GB, NVIDIA_H100_MEGA_80GB.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Type of this accelerator. ACCELERATOR_TYPE must be one of: NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100, NVIDIA_A100_80GB, NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS, NVIDIA_L4, NVIDIA_H100_80GB, NVIDIA_H100_MEGA_80GB, NVIDIA_H200_141GB, NVIDIA_B200, NVIDIA_RTX6000.
     /// </summary>
     [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
     public string? AcceleratorType { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Boot disk configurations. Disk encryption method used on the boot disk, defaults to GMEK. BOOT_DISK_ENCRYPTION must be one of: GMEK, CMEK.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Disk encryption method used on the boot disk, defaults to GMEK. BOOT_DISK_ENCRYPTION must be one of: GMEK, CMEK.
     /// </summary>
     [CliOption("--boot-disk-encryption", Format = OptionFormat.EqualsSeparated)]
     public GcloudBootDiskEncryption? BootDiskEncryption { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Boot disk configurations. Size of boot disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB). The minimum recommended value is 100 GB. If not specified, this defaults to 100.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Size of boot disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB). The minimum recommended value is 100 GB. If not specified, this defaults to 100.
     /// </summary>
     [CliOption("--boot-disk-size", Format = OptionFormat.EqualsSeparated)]
     public int? BootDiskSize { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Boot disk configurations. Type of boot disk attached to this instance, defaults to standard persistent disk (PD_STANDARD). BOOT_DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Type of boot disk attached to this instance. Defaults to standard persistent disk (PD_STANDARD) on machine types that support Persistent Disk, and to HYPERDISK_BALANCED on Hyperdisk-only machine series (e.g. N4, C4, C4A, M4). BOOT_DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME, HYPERDISK_BALANCED, HYPERDISK_BALANCED_HIGH_AVAILABILITY, HYPERDISK_ML.
     /// </summary>
     [CliOption("--boot-disk-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudBootDiskType? BootDiskType { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: o provide the argument --boot-disk-kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --boot-disk-kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--boot-disk-kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? BootDiskKmsKey { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: o provide the argument --boot-disk-kms-key on the command line with a fully specified name; o provide the argument --boot-disk-encryption-key-keyring on the command line.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-encryption-key-keyring on the command line.
     /// </summary>
     [CliOption("--boot-disk-encryption-key-keyring", Format = OptionFormat.EqualsSeparated)]
     public string? BootDiskEncryptionKeyKeyring { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: o provide the argument --boot-disk-kms-key on the command line with a fully specified name; o provide the argument --boot-disk-encryption-key-location on the command line.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-encryption-key-location on the command line.
     /// </summary>
     [CliOption("--boot-disk-encryption-key-location", Format = OptionFormat.EqualsSeparated)]
     public string? BootDiskEncryptionKeyLocation { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: o provide the argument --boot-disk-kms-key on the command line with a fully specified name; o provide the argument --boot-disk-encryption-key-project on the command line; o set the property core/project.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --boot-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --boot-disk-encryption-key-project on the command line; ◆ set the property core/project.
     /// </summary>
     [CliOption("--boot-disk-encryption-key-project", Format = OptionFormat.EqualsSeparated)]
     public string? BootDiskEncryptionKeyProject { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance At most one of these can be specified: The path to the container image repository. For example: gcr.io/{project_id}/{image_name}. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. At most one of these can be specified: The path to the container image repository. For example: gcr.io/{project_id}/{image_name}. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--container-repository", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerRepository { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance At most one of these can be specified: The tag of the container image. If not specified, this defaults to the latest tag.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. At most one of these can be specified: The tag of the container image. If not specified, this defaults to the latest tag.
     /// </summary>
     [CliOption("--container-tag", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerTag { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance At most one of these can be specified: The ID of the Google Cloud project that this VM image belongs to. Format: projects/{project_id}.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. At most one of these can be specified: The ID of the Google Cloud project that this VM image belongs to. Format: projects/{project_id}.
     /// </summary>
     [CliOption("--vm-image-project", Format = OptionFormat.EqualsSeparated)]
     public string? VmImageProject { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance At most one of these can be specified: Exactly one of these must be specified: Use this VM image family to find the image; the newest image in this family will be used.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. At most one of these can be specified: Exactly one of these must be specified: Use this VM image family to find the image; the newest image in this family will be used.
     /// </summary>
     [CliOption("--vm-image-family", Format = OptionFormat.EqualsSeparated)]
     public string? VmImageFamily { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance At most one of these can be specified: Exactly one of these must be specified: Use this VM image name to find the image.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. At most one of these can be specified: Exactly one of these must be specified: Use this VM image name to find the image.
     /// </summary>
     [CliOption("--vm-image-name", Format = OptionFormat.EqualsSeparated)]
     public string? VmImageName { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance GPU driver configurations. Specify a custom Cloud Storage path where the GPU driver is stored. If not specified, we'll automatically choose from official GPU drivers.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Specify a custom Cloud Storage path where the GPU driver is stored. If not specified, we'll automatically choose from official GPU drivers.
     /// </summary>
     [CliOption("--custom-gpu-driver-path", Format = OptionFormat.EqualsSeparated)]
     public string? CustomGpuDriverPath { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance GPU driver configurations. Whether the end user authorizes Google Cloud to install a GPU driver on this instance. If this field is empty or set to false, the GPU driver won't be installed. Only applicable to instances with GPUs.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Whether the end user authorizes Google Cloud to install a GPU driver on this instance. If this field is empty or set to false, the GPU driver won't be installed. Only applicable to instances with GPUs.
     /// </summary>
     [CliFlag("--install-gpu-driver")]
     public bool? InstallGpuDriver { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Data disk configurations. Disk encryption method used on the data disk, defaults to GMEK. DATA_DISK_ENCRYPTION must be one of: GMEK, CMEK.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Disk encryption method used on the data disk, defaults to GMEK. DATA_DISK_ENCRYPTION must be one of: GMEK, CMEK.
     /// </summary>
     [CliOption("--data-disk-encryption", Format = OptionFormat.EqualsSeparated)]
     public GcloudDataDiskEncryption? DataDiskEncryption { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Data disk configurations. Resource policies to apply to the data disk. Format: projects/{project}/regions/{region}/resourcePolicies/{policy}.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Resource policies to apply to the data disk. Format: projects/{project}/regions/{region}/resourcePolicies/{policy}.
     /// </summary>
     [CliOption("--data-disk-resource-policies", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DataDiskResourcePolicies { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Data disk configurations. Size of data disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB). The minimum recommended value is 100 GB. If not specified, this defaults to 100.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Size of data disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB). The minimum recommended value is 100 GB. If not specified, this defaults to 100.
     /// </summary>
     [CliOption("--data-disk-size", Format = OptionFormat.EqualsSeparated)]
     public int? DataDiskSize { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Data disk configurations. Type of data disk attached to this instance, defaults to standard persistent disk (PD_STANDARD). DATA_DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the boot_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. GPU driver configurations. Data disk configurations. Type of data disk attached to this instance. Defaults to standard persistent disk (PD_STANDARD) on machine types that support Persistent Disk, and to HYPERDISK_BALANCED on Hyperdisk-only machine series (e.g. N4, C4, C4A, M4). DATA_DISK_TYPE must be one of: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME, HYPERDISK_BALANCED, HYPERDISK_BALANCED_HIGH_AVAILABILITY, HYPERDISK_ML, HYPERDISK_EXTREME, HYPERDISK_THROUGHPUT.
     /// </summary>
     [CliOption("--data-disk-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudDataDiskType? DataDiskType { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Data disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the data_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: o provide the argument --data-disk-kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the data_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --data-disk-kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--data-disk-kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? DataDiskKmsKey { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Data disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the data_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: o provide the argument --data-disk-kms-key on the command line with a fully specified name; o provide the argument --data-disk-encryption-key-keyring on the command line.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the data_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --data-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --data-disk-encryption-key-keyring on the command line.
     /// </summary>
     [CliOption("--data-disk-encryption-key-keyring", Format = OptionFormat.EqualsSeparated)]
     public string? DataDiskEncryptionKeyKeyring { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Data disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the data_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: o provide the argument --data-disk-kms-key on the command line with a fully specified name; o provide the argument --data-disk-encryption-key-location on the command line.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the data_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --data-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --data-disk-encryption-key-location on the command line.
     /// </summary>
     [CliOption("--data-disk-encryption-key-location", Format = OptionFormat.EqualsSeparated)]
     public string? DataDiskEncryptionKeyLocation { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Data disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the data_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: o provide the argument --data-disk-kms-key on the command line with a fully specified name; o provide the argument --data-disk-encryption-key-project on the command line; o set the property core/project.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the data_disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --data-disk-kms-key on the command line with a fully specified name; ◆ provide the argument --data-disk-encryption-key-project on the command line; ◆ set the property core/project.
     /// </summary>
     [CliOption("--data-disk-encryption-key-project", Format = OptionFormat.EqualsSeparated)]
     public string? DataDiskEncryptionKeyProject { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Network configs. Network resource - The name of the VPC that this instance is in. Format: projects/{project_id}/global/networks/{network_id}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: - provide the argument --network on the command line with a fully specified name; - provide the argument --project on the command line; - set the property core/project. ID of the network or fully qualified identifier for the network. To set the network attribute: o provide the argument --network on the command line.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Network configs. Network resource - The name of the VPC that this instance is in. Format: projects/{project_id}/global/networks/{network_id}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the network or fully qualified identifier for the network. To set the network attribute: ◆ provide the argument --network on the command line.
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Type of the network interface card. NIC_TYPE must be one of: VIRTIGO_NET, GVNIC.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Network configs. Network resource - The name of the VPC that this instance is in. Format: projects/{project_id}/global/networks/{network_id}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Type of the network interface card. NIC_TYPE must be one of: VIRTIGO_NET, GVNIC.
     /// </summary>
     [CliOption("--nic-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudNicType? NicType { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: - provide the argument --subnet on the command line with a fully specified name; - provide the argument --project on the command line; - set the property core/project. ID of the subnetwork or fully qualified identifier for the subnetwork. To set the subnet attribute: o provide the argument --subnet on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. ID of the subnetwork or fully qualified identifier for the subnetwork. To set the subnet attribute: ◆ provide the argument --subnet on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: - provide the argument --subnet on the command line with a fully specified name; - provide the argument --project on the command line; - set the property core/project. Google Cloud region of this subnetwork https://cloud.google.com/compute/docs/regions-zones/#locations. To set the subnet-region attribute: o provide the argument --subnet on the command line with a fully specified name; o provide the argument --subnet-region on the command line.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. Google Cloud region of this subnetwork https://cloud.google.com/compute/docs/regions-zones/#locations. To set the subnet-region attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --subnet-region on the command line.
     /// </summary>
     [CliOption("--subnet-region", Format = OptionFormat.EqualsSeparated)]
     public string? SubnetRegion { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Reservation configs. The label key of a reservation resource. To target a specific reservation by name, use compute.googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. The label key of a reservation resource. To target a specific reservation by name, use compute.googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
     /// </summary>
     [CliOption("--reservation-key", Format = OptionFormat.EqualsSeparated)]
     public string? ReservationKey { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Reservation configs. Type of the reservation. RESERVATION_TYPE must be one of: none, any, specific.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. Type of the reservation. RESERVATION_TYPE must be one of: none, any, specific.
     /// </summary>
     [CliOption("--reservation-type", Format = OptionFormat.EqualsSeparated)]
-    public string? ReservationType { get; set; }
+    public GcloudReservationType? ReservationType { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Reservation configs. The label value of a reservation resource. To target a specific reservation by name, use compute.googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. The label value of a reservation resource. To target a specific reservation by name, use compute.googleapis.com/reservation-name as the key and specify the name of your reservation as its value.
     /// </summary>
     [CliOption("--reservation-values", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ReservationValues { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Shielded VM configurations. Boolean. Enable monitoring of the boot integrity of the instance. Supported values: true, false.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. Boolean. Enable monitoring of the boot integrity of the instance. Supported values: true, false.
     /// </summary>
     [CliOption("--shielded-integrity-monitoring", Format = OptionFormat.EqualsSeparated)]
     public string? ShieldedIntegrityMonitoring { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Shielded VM configurations. Boolean. Boot instance with secure boot enabled. Supported values: true, false.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. Boolean. Boot instance with secure boot enabled. Supported values: true, false.
     /// </summary>
     [CliOption("--shielded-secure-boot", Format = OptionFormat.EqualsSeparated)]
     public string? ShieldedSecureBoot { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Shielded VM configurations. Boolean. Boot instance with TPM (Trusted Platform Module) enabled. Supported values: true, false.
+    /// Gce Setup for the instance The service account on this instance, giving access to other Google Cloud services. You can use any service account within the same project, but you must grant the service account user permission to use the instance. If not specified, the Compute Engine default service account is used. The hardware accelerator used on this instance. If you use accelerators, make sure that your configuration has enough vCPUs and memory to support the `machine_type` you have selected. Boot disk configurations. Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. Boolean. Boot instance with TPM (Trusted Platform Module) enabled. Supported values: true, false.
     /// </summary>
     [CliOption("--shielded-vtpm", Format = OptionFormat.EqualsSeparated)]
     public string? ShieldedVtpm { get; set; }
-
-    [Obsolete("Use ServiceAccountEmailValue instead.")]
-    public int? ServiceAccountEmail
-    {
-        get => int.TryParse(ServiceAccountEmailValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => ServiceAccountEmailValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

@@ -22,121 +22,121 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerVmwareClustersUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Users that will be granted the cluster-admin role on the cluster, providing full access to the cluster. To add multiple users, specify one in each flag. When updating, the update command overwrites the whole grant list. Specify all existing and new users that you want to be cluster administrators. Examples: $ gcloud container vmware clusters update --admin-users alice@example.com --admin-users bob@example.com
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Users that will be granted the cluster-admin role on the cluster, providing full access to the cluster. To add multiple users, specify one in each flag. When updating, the update command overwrites the whole grant list. Specify all existing and new users that you want to be cluster administrators. Examples: $ gcloud container vmware clusters update --admin-users alice@example.com --admin-users bob@example.com
     /// </summary>
     [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated)]
     public string? AdminUsers { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Return immediately, without waiting for the operation in progress to complete.
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Description for the resource.
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Description for the resource.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Anthos on VMware cluster load balancer configurations Populate one of the load balancers. MetalLB Configuration At most one of these can be specified: MetalLB load balancer configurations. Examples: To specify MetalLB load balancer configurations for two address pools pool1 and pool2, $ gcloud gcloud container vmware clusters update --metal-lb-config-address-pools 'pool=pool1,avoid-buggy-ips=True,manual-assign=True,addresses=192.168.1.1/32;192.168.1.2-192.168.1.3' --metal-lb-config-address-pools 'pool=pool2,avoid-buggy-ips=False,manual-assign=False,addresses=192.168.2.1/32;192.168.2.2-192.168.2.3' Use quote around the flag value to escape semicolon in the terminal.
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Anthos on VMware cluster load balancer configurations Populate one of the load balancers. MetalLB Configuration At most one of these can be specified: MetalLB load balancer configurations. Examples: To specify MetalLB load balancer configurations for two address pools pool1 and pool2, $ gcloud gcloud container vmware clusters update --metal-lb-config-address-pools 'pool=pool1,avoid-buggy-ips=True,manual-assign=True,addresses=192.168.1.1/32;192.168.1.2-192.168.1.3' --metal-lb-config-address-pools 'pool=pool2,avoid-buggy-ips=False,manual-assign=False,addresses=192.168.2.1/32;192.168.2.2-192.168.2.3' Use quote around the flag value to escape semicolon in the terminal.
     /// </summary>
     [CliOption("--metal-lb-config-address-pools", Format = OptionFormat.EqualsSeparated)]
     public string? MetalLbConfigAddressPools { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations VMware User Cluster network configurations IP configuration used by the VMware User Cluster Static IP configuration group At most one of these can be specified: Static IP configurations. Expect an individual IP address, an individual IP address with an optional hostname, or a CIDR block. Example: To specify two Static IP blocks, $ gcloud gcloud container vmware clusters update --static-ip-config-ip-blocks 'gateway=192.168.0.1,netmask=255.255.255.0,ips=192.168.1.1;0.0.0.0 localhost;192.168.1.2/16' --static-ip-config-ip-blocks 'gateway=192.168.1.1,netmask=255.255.0.0,ips=8.8.8.8;4.4.4.4' Use quote around the flag value to escape semicolon in the terminal.
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations VMware User Cluster network configurations IP configuration used by the VMware User Cluster Static IP configuration group At most one of these can be specified: Static IP configurations. Expect an individual IP address, an individual IP address with an optional hostname, or a CIDR block. Example: To specify two Static IP blocks, $ gcloud gcloud container vmware clusters update --static-ip-config-ip-blocks 'gateway=192.168.0.1,netmask=255.255.255.0,ips=192.168.1.1;0.0.0.0 localhost;192.168.1.2/16' --static-ip-config-ip-blocks 'gateway=192.168.1.1,netmask=255.255.0.0,ips=8.8.8.8;4.4.4.4' Use quote around the flag value to escape semicolon in the terminal.
     /// </summary>
     [CliOption("--static-ip-config-ip-blocks", Format = OptionFormat.EqualsSeparated)]
     public string? StaticIpConfigIpBlocks { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations If not specified, control-plane-only is set to False. In the next upgrade operation, all worker node pools will be upgraded together with the control plane. Example: To upgrade the control plane only and keep worker node pools version unchanged, first specify the policy: $ gcloud container vmware clusters update CLUSTER \ --upgrade-policy control-plane-only=True Then to start the upgrade operation using the specified policy, run: $ gcloud container vmware clusters upgrade CLUSTER --version=VERSION After upgrading only the cluster control plane, to upgrade an individual node pool, run: $ gcloud container vmware node-pools update NODE_POOL \ --version=VERSION Example: Alternatively, to upgrade both the control plane and all worker node pools, first specify the policy: $ gcloud container vmware clusters update CLUSTER \ --upgrade-policy control-plane-only=False Then to start the upgrade operation using the specified policy, run: $ gcloud container vmware clusters upgrade CLUSTER --version=VERSION
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations If not specified, control-plane-only is set to False. In the next upgrade operation, all worker node pools will be upgraded together with the control plane. Example: To upgrade the control plane only and keep worker node pools version unchanged, first specify the policy: $ gcloud container vmware clusters update CLUSTER \ --upgrade-policy control-plane-only=True Then to start the upgrade operation using the specified policy, run: $ gcloud container vmware clusters upgrade CLUSTER --version=VERSION After upgrading only the cluster control plane, to upgrade an individual node pool, run: $ gcloud container vmware node-pools update NODE_POOL \ --version=VERSION Example: Alternatively, to upgrade both the control plane and all worker node pools, first specify the policy: $ gcloud container vmware clusters update CLUSTER \ --upgrade-policy control-plane-only=False Then to start the upgrade operation using the specified policy, run: $ gcloud container vmware clusters upgrade CLUSTER --version=VERSION
     /// </summary>
     [CliOption("--upgrade-policy", Format = OptionFormat.EqualsSeparated)]
     public string? UpgradePolicy { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations If set, only validate the request, but do not actually perform the operation.
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations If set, only validate the request, but do not actually perform the operation.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Anthos Cluster on VMware version for the cluster resource
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Anthos Cluster on VMware version for the cluster resource
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations At most one of these can be specified: Add the given key-value pairs to the current annotations, or update its value if the key already exists.
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations At most one of these can be specified: Add the given key-value pairs to the current annotations, or update its value if the key already exists.
     /// </summary>
     [CliOption("--add-annotations", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddAnnotations { get; set; }
+    public string? AddAnnotations { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations At most one of these can be specified: Remove annotations of the given keys.
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations At most one of these can be specified: Remove annotations of the given keys.
     /// </summary>
     [CliOption("--remove-annotations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveAnnotations { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Number of CPUs for each admin cluster node that serve as control planes for this VMware user cluster. (default: 4 CPUs)
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Number of CPUs for each admin cluster node that serve as control planes for this VMware user cluster. (default: 4 CPUs)
     /// </summary>
     [CliOption("--cpus", Format = OptionFormat.EqualsSeparated)]
     public string? Cpus { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Megabytes of memory for each admin cluster node that serves as a control plane for this VMware User Cluster (default: 8192 MB memory).
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Megabytes of memory for each admin cluster node that serves as a control plane for this VMware User Cluster (default: 8192 MB memory).
     /// </summary>
     [CliOption("--memory", Format = OptionFormat.EqualsSeparated)]
     public string? Memory { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Auto resize configurations At most one of these can be specified: Disable controle plane node auto resize.
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Auto resize configurations At most one of these can be specified: Disable controle plane node auto resize.
     /// </summary>
     [CliFlag("--disable-auto-resize")]
     public bool? DisableAutoResize { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Auto resize configurations At most one of these can be specified: Enable controle plane node auto resize.
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Auto resize configurations At most one of these can be specified: Enable controle plane node auto resize.
     /// </summary>
     [CliFlag("--enable-auto-resize")]
     public bool? EnableAutoResize { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Anti-affinity group configurations At most one of these can be specified: If set, spread nodes across at least three physical hosts (requires at least three hosts). Enabled by default.
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Anti-affinity group configurations At most one of these can be specified: If set, spread nodes across at least three physical hosts (requires at least three hosts). Enabled by default.
     /// </summary>
     [CliFlag("--disable-aag-config")]
     public bool? DisableAagConfig { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Anti-affinity group configurations At most one of these can be specified: If set, enable anti-affinity group config.
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Anti-affinity group configurations At most one of these can be specified: If set, enable anti-affinity group config.
     /// </summary>
     [CliFlag("--enable-aag-config")]
     public bool? EnableAagConfig { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Auto-repair configurations At most one of these can be specified: If set, disables auto repair.
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Auto-repair configurations At most one of these can be specified: If set, disables auto repair.
     /// </summary>
     [CliFlag("--disable-auto-repair")]
     public bool? DisableAutoRepair { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Auto-repair configurations At most one of these can be specified: If set, deploy the cluster-health-controller.
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Auto-repair configurations At most one of these can be specified: If set, deploy the cluster-health-controller.
     /// </summary>
     [CliFlag("--enable-auto-repair")]
     public bool? EnableAutoRepair { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Storage configurations At most one of these can be specified: If set, vSphere CSI components are not deployed in the VMware User Cluster. Enabled by default.
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Storage configurations At most one of these can be specified: If set, vSphere CSI components are not deployed in the VMware User Cluster. Enabled by default.
     /// </summary>
     [CliFlag("--disable-vsphere-csi")]
     public bool? DisableVsphereCsi { get; set; }
 
     /// <summary>
-    /// User cluster authorization configurations to bootstrap onto the admin cluster User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Storage configurations At most one of these can be specified: If set, vSphere CSI components are deployed in the VMware User Cluster.
+    /// User cluster authorization configurations to bootstrap onto the admin cluster Upgrade policy for the cluster. Control plane node configurations Storage configurations At most one of these can be specified: If set, vSphere CSI components are deployed in the VMware User Cluster.
     /// </summary>
     [CliFlag("--enable-vsphere-csi")]
     public bool? EnableVsphereCsi { get; set; }

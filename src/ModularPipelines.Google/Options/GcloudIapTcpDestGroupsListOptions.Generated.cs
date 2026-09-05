@@ -21,7 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iap", "tcp", "dest-groups", "list")]
 public record GcloudIapTcpDestGroupsListOptions : GcloudOptions
 {
-    [Obsolete("Region is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Region of the Destination Group, will list all regions by default
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
 }

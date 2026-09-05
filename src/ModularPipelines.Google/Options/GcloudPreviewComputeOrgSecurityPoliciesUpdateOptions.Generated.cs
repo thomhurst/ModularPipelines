@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -39,13 +40,13 @@ public record GcloudPreviewComputeOrgSecurityPoliciesUpdateOptions(
     /// The JSON parsing behavior for this rule. Must be one of the following values: [DISABLED, STANDARD, STANDARD_WITH_GRAPHQL]. JSON_PARSING must be one of: DISABLED, STANDARD, STANDARD_WITH_GRAPHQL.
     /// </summary>
     [CliOption("--json-parsing", Format = OptionFormat.EqualsSeparated)]
-    public string? JsonParsing { get; set; }
+    public GcloudJsonParsing? JsonParsing { get; set; }
 
     /// <summary>
     /// The level of detail to display for WAF logging. LOG_LEVEL must be one of: NORMAL, VERBOSE.
     /// </summary>
     [CliOption("--log-level", Format = OptionFormat.EqualsSeparated)]
-    public string? LogLevel { get; set; }
+    public GcloudLogLevel? LogLevel { get; set; }
 
     /// <summary>
     /// Organization in which the organization security policy is to be updated. Must be set if SECURITY_POLICY is the short name.

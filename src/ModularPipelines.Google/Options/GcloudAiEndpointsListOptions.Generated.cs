@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAiEndpointsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Region resource - Cloud region to list endpoints. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Whether to only list endpoints related to Model Garden.
+    /// Whether to only list endpoints related to Model Garden.
     /// </summary>
     [CliFlag("--list-model-garden-endpoints-only")]
     public bool? ListModelGardenEndpointsOnly { get; set; }

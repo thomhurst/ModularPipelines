@@ -41,10 +41,16 @@ public record GcloudFunctionsLogsReadOptions : GcloudOptions
     public bool? Gen2 { get; set; }
 
     /// <summary>
-    /// If enabled, this command will use Cloud Functions (Second generation). If disabled with --no-gen2, Cloud Functions (First generation) will be used. If not specified, the value of this flag will be taken from the functions/gen2 configuration property. If the functions/gen2 configuration property is not set, defaults to looking up the given function and using its generation.
+    /// Negates --gen2. If enabled, this command will use Cloud Functions (Second generation). If disabled with --no-gen2, Cloud Functions (First generation) will be used. If not specified, the value of this flag will be taken from the functions/gen2 configuration property. If the functions/gen2 configuration property is not set, defaults to looking up the given function and using its generation.
     /// </summary>
     [CliFlag("--no-gen2")]
     public bool? NoGen2 { get; set; }
+
+    /// <summary>
+    /// Number of log entries to be fetched; must not be greater than 1000. Note that the most recent entries in the specified time range are returned, rather than the earliest.
+    /// </summary>
+    [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
+    public string? Limit { get; set; }
 
     /// <summary>
     /// Minimum level of logs to be fetched. MIN_LOG_LEVEL must be one of: debug, info, error.
@@ -63,11 +69,5 @@ public record GcloudFunctionsLogsReadOptions : GcloudOptions
     /// </summary>
     [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
     public string? StartTime { get; set; }
-
-    /// <summary>
-    /// Number of log entries to be fetched; must not be greater than 1000. Note that the most recent entries in the specified time range are returned, rather than the earliest.
-    /// </summary>
-    [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
-    public string? Limit { get; set; }
 
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudSecurityPreference
 {
     [EnumValue("balance")]
-    Balance = 0,
+    Balance,
 
     [EnumValue("security")]
-    Security = 1,
+    Security,
 
     [EnumValue("usability")]
-    Usability = 2
+    Usability
 }

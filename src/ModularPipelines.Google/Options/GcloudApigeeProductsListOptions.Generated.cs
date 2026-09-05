@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudApigeeProductsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Organization resource - Apigee organization whose products should be listed. If unspecified, the Cloud Platform project's associated organization will be used. This represents a Cloud resource. Organization resource - Apigee organization whose products should be listed. If unspecified, the Cloud Platform project's associated organization will be used. This represents a Cloud resource. ID of the organization or fully qualified identifier for the organization. To set the organization attribute: ◆ provide the argument --organization on the command line; ◆ set the property [project] or provide the argument [--project] on the command line, using a Cloud Platform project with an associated Apigee organization.
+    /// Organization resource - Apigee organization whose products should be listed. If unspecified, the Cloud Platform project's associated organization will be used. This represents a Cloud resource. ID of the organization or fully qualified identifier for the organization. To set the organization attribute: ◆ provide the argument --organization on the command line; ◆ set the property [project] or provide the argument [--project] on the command line, using a Cloud Platform project with an associated Apigee organization.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }

@@ -21,7 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("privateca", "templates", "list")]
 public record GcloudPrivatecaTemplatesListOptions : GcloudOptions
 {
-    [Obsolete("Location is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The location you want to list the certificate templates for. Set this to "-" to list certificate templates across all locations.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
 }

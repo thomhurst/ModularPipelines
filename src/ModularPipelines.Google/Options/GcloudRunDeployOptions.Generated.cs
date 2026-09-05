@@ -144,19 +144,31 @@ public record GcloudRunDeployOptions : GcloudOptions
     public bool? NoGpuZonalRedundancy { get; set; }
 
     /// <summary>
+    /// Whether to enable IAP for the Service. Use --iap to enable and --no-iap to disable.
+    /// </summary>
+    [CliFlag("--iap")]
+    public bool? Iap { get; set; }
+
+    /// <summary>
+    /// Negates --iap. Whether to enable IAP for the Service. Use --iap to enable and --no-iap to disable.
+    /// </summary>
+    [CliFlag("--no-iap")]
+    public bool? NoIap { get; set; }
+
+    /// <summary>
     /// Set the ingress traffic sources allowed to call the service. For Cloud Run the --[no-]allow-unauthenticated flag separately controls the identities allowed to call the service. INGRESS must be one of: all Inbound requests from all sources are allowed. internal For Cloud Run, only inbound requests from VPC networks in the same project or VPC Service Controls perimeter, as well as Pub/Sub subscriptions and Eventarc events in the same project or VPC Service Controls perimeter are allowed. All other requests are rejected. See https://cloud.google.com/run/docs/securing/ingress for full details on the definition of internal traffic for Cloud Run. internal-and-cloud-load-balancing Only inbound requests from Google Cloud Load Balancing or a traffic source allowed by the internal option are allowed.
     /// </summary>
     [CliOption("--ingress", Format = OptionFormat.EqualsSeparated)]
     public string? Ingress { get; set; }
 
     /// <summary>
-    /// Optionally disable invoker IAM checks. This feature is available by invitation only. More info at https://cloud.google.com/run/docs/securing/managing-access#invoker_check. Use --invoker-iam-check to enable and --no-invoker-iam-check to disable.
+    /// Optionally disable invoker IAM checks. More info at https://cloud.google.com/run/docs/securing/managing-access#invoker_check. Use --invoker-iam-check to enable and --no-invoker-iam-check to disable.
     /// </summary>
     [CliFlag("--invoker-iam-check")]
     public bool? InvokerIamCheck { get; set; }
 
     /// <summary>
-    /// Negates --invoker-iam-check. Optionally disable invoker IAM checks. This feature is available by invitation only. More info at https://cloud.google.com/run/docs/securing/managing-access#invoker_check. Use --invoker-iam-check to enable and --no-invoker-iam-check to disable.
+    /// Negates --invoker-iam-check. Optionally disable invoker IAM checks. More info at https://cloud.google.com/run/docs/securing/managing-access#invoker_check. Use --invoker-iam-check to enable and --no-invoker-iam-check to disable.
     /// </summary>
     [CliFlag("--no-invoker-iam-check")]
     public bool? NoInvokerIamCheck { get; set; }
@@ -210,7 +222,7 @@ public record GcloudRunDeployOptions : GcloudOptions
     public string? RevisionSuffix { get; set; }
 
     /// <summary>
-    /// The scaling mode to use for this resource. Flag value could be either "auto" for automatic scaling, or a positive integer to configure manual scaling with the given integer as a fixed instance count.
+    /// The scaling mode to use for this service. Flag value could be either "auto" for automatic scaling, or a positive integer to configure manual scaling with the given integer as a fixed instance count.
     /// </summary>
     [CliOption("--scaling", Format = OptionFormat.EqualsSeparated)]
     public string? Scaling { get; set; }
@@ -219,7 +231,7 @@ public record GcloudRunDeployOptions : GcloudOptions
     /// the email address of an IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public string? ServiceAccountValue { get; set; }
+    public string? ServiceAccount { get; set; }
 
     /// <summary>
     /// Whether to enable session affinity for connections to the service. Use --session-affinity to enable and --no-session-affinity to disable.
@@ -312,7 +324,7 @@ public record GcloudRunDeployOptions : GcloudOptions
     public IEnumerable<string>? SetCustomAudiences { get; set; }
 
     /// <summary>
-    /// Adds a volume to the Cloud Run resource. To add more than one volume, specify this flag multiple times. Volumes must have a name and type key. Only certain values are supported for type. Depending on the provided type, other keys will be required. The following types are supported with the specified additional keys: cloud-storage: A volume representing a Cloud Storage bucket. This volume type is mounted using Cloud Storage FUSE. See https://cloud.google.com/storage/docs/gcs-fuse for the details and limitations of this filesystem. Additional keys: * bucket: (required) the name of the bucket to use as the source of this volume * readonly: (optional) A boolean. If true, this volume will be read-only from all mounts. * mount-options: (optional) A list of flags to pass to GCSFuse. Flags should be specified without leading dashes and separated by semicolons. in-memory: An ephemeral volume that stores data in the instance's memory. With this type of volume, data is not shared between instances and all data will be lost when the instance it is on is terminated. Additional keys: * size-limit: (optional) A quantity representing the maximum amount of memory allocated to this volume, such as "512Mi" or "3G". Data stored in an in-memory volume consumes the memory allocation of the container that wrote the data. If size-limit is not specified, the maximum size will be half the total memory limit of all containers. nfs: Represents a volume backed by an NFS server. Additional keys: * location: (required) The location of the NFS Server, in the form SERVER:/PATH * readonly: (optional) A boolean. If true, this volume will be read-only from all mounts.
+    /// Adds a volume to the Cloud Run resource. To add more than one volume, specify this flag multiple times. Volumes must have a type key. Volumes must have a name key if mount-path is not specified. A name key is optional if mount-path is specified.Only certain values are supported for type. Depending on the provided type, other keys will be required. The following types are supported with the specified additional keys: cloud-storage: A volume representing a Cloud Storage bucket. This volume type is mounted using Cloud Storage FUSE. See https://cloud.google.com/storage/docs/gcs-fuse for the details and limitations of this filesystem. Additional keys: ◆ bucket: (required) the name of the bucket to use as the source of this volume ◆ readonly: (optional) A boolean. If true, this volume will be read-only from all mounts. ◆ mount-options: (optional) A list of flags to pass to GCSFuse. Flags should be specified without leading dashes and separated by semicolons. ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. in-memory: An ephemeral volume that stores data in the instance's memory. With this type of volume, data is not shared between instances and all data will be lost when the instance it is on is terminated. Additional keys: ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. ◆ size-limit: (optional) A quantity representing the maximum amount of memory allocated to this volume, such as "512Mi" or "3G". Data stored in an in-memory volume consumes the memory allocation of the container that wrote the data. If size-limit is not specified, the maximum size will be half the total memory limit of all containers. nfs: Represents a volume backed by an NFS server. Additional keys: ◆ location: (required) The location of the NFS Server, in the form SERVER:/PATH ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. ◆ readonly: (optional) A boolean. If true, this volume will be read-only from all mounts.
     /// </summary>
     [CliOption("--add-volume", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? AddVolume { get; set; }
@@ -333,7 +345,7 @@ public record GcloudRunDeployOptions : GcloudOptions
     /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. Adds a mount to the current container. Must contain the keys volume=NAME and mount-path=/PATH where NAME is the name of a volume on this resource and PATH is the path within the container's filesystem to mount this volume.
     /// </summary>
     [CliOption("--add-volume-mount", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? AddVolumeMount { get; set; }
+    public string? AddVolumeMount { get; set; }
 
     /// <summary>
     /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. Comma-separated arguments passed to the command run by the container image. If not specified and no '--command' is provided, the container image's default Cmd is used. Otherwise, if not specified, no arguments are passed. To reset this field to its default, pass an empty string.
@@ -396,6 +408,12 @@ public record GcloudRunDeployOptions : GcloudOptions
     public string? Port { get; set; }
 
     /// <summary>
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. Comma separated settings for readiness probe in the form KEY=VALUE. Each key stands for a field of the probe described in https://cloud.google.com/run/docs/reference/rest/v1/Container#Probe. Currently supported keys are: timeoutSeconds, periodSeconds, failureThreshold, successThreshold, httpGet.port, httpGet.path, grpc.port, grpc.service. For example, to set a probe with 10s timeout and HTTP probe requests sent to 8080 port of the container: $ --readiness-probe=timeoutSeconds=10,httpGet.port=8080 To remove existing probe: $ --readiness-probe=""
+    /// </summary>
+    [CliOption("--readiness-probe", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ReadinessProbe { get; set; }
+
+    /// <summary>
     /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. Removes the volume mounted at the specified path from the current container.
     /// </summary>
     [CliOption("--remove-volume-mount", Format = OptionFormat.EqualsSeparated)]
@@ -418,6 +436,12 @@ public record GcloudRunDeployOptions : GcloudOptions
     /// </summary>
     [CliFlag("--no-use-http2")]
     public bool? NoUseHttp2 { get; set; }
+
+    /// <summary>
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. Working directory of the container process. If not specified, the container image's default working directory is used. To reset this field to its default, pass an empty string.
+    /// </summary>
+    [CliOption("--workdir", Format = OptionFormat.EqualsSeparated)]
+    public string? Workdir { get; set; }
 
     /// <summary>
     /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Specifies the base image to be used for automatic base image updates. When deploying from source using the Google Cloud buildpacks, this flag will also override the base image used for the application image. See https://cloud.google.com/run/docs/configuring/services/automatic-base-image-updates for more details.
@@ -450,13 +474,13 @@ public record GcloudRunDeployOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? SetBuildEnvVars { get; set; }
 
     /// <summary>
-    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Only --update-build-env-vars and --remove-build-env-vars can be used together. If both are specified, --remove-build-env-vars will be applied first. List of build environment variables to be removed.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Or at least one of these can be specified: Only --update-build-env-vars and --remove-build-env-vars can be used together. If both are specified, --remove-build-env-vars will be applied first. List of build environment variables to be removed.
     /// </summary>
     [CliOption("--remove-build-env-vars", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveBuildEnvVars { get; set; }
 
     /// <summary>
-    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Only --update-build-env-vars and --remove-build-env-vars can be used together. If both are specified, --remove-build-env-vars will be applied first. List of key-value pairs to set as build environment variables.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Or at least one of these can be specified: Only --update-build-env-vars and --remove-build-env-vars can be used together. If both are specified, --remove-build-env-vars will be applied first. List of key-value pairs to set as build environment variables.
     /// </summary>
     [CliOption("--update-build-env-vars", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateBuildEnvVars { get; set; }
@@ -465,7 +489,7 @@ public record GcloudRunDeployOptions : GcloudOptions
     /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Specifies the service account to use to execute the build. Applies only to source deploy builds using the Build API.
     /// </summary>
     [CliOption("--build-service-account", Format = OptionFormat.EqualsSeparated)]
-    public string? BuildServiceAccountValue { get; set; }
+    public string? BuildServiceAccount { get; set; }
 
     /// <summary>
     /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Clears the Cloud Build service account field.
@@ -504,13 +528,13 @@ public record GcloudRunDeployOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? SetEnvVars { get; set; }
 
     /// <summary>
-    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of environment variables to be removed.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of environment variables to be removed.
     /// </summary>
     [CliOption("--remove-env-vars", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveEnvVars { get; set; }
 
     /// <summary>
-    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of key-value pairs to set as environment variables.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of key-value pairs to set as environment variables.
     /// </summary>
     [CliOption("--update-env-vars", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateEnvVars { get; set; }
@@ -529,14 +553,14 @@ public record GcloudRunDeployOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? SetSecrets { get; set; }
 
     /// <summary>
-    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of secrets to be removed.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of secrets to be removed.
     /// </summary>
     [SecretValue]
     [CliOption("--remove-secrets", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveSecrets { get; set; }
 
     /// <summary>
-    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of key-value pairs to set as secrets.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of key-value pairs to set as secrets.
     /// </summary>
     [SecretValue]
     [CliOption("--update-secrets", Format = OptionFormat.EqualsSeparated)]
@@ -567,131 +591,105 @@ public record GcloudRunDeployOptions : GcloudOptions
     public string? Source { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Binary Authorization policy to check against. This must be set to "default".
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Binary Authorization policy to check against. This must be set to "default".
     /// </summary>
     [CliOption("--binary-authorization", Format = OptionFormat.EqualsSeparated)]
     public string? BinaryAuthorization { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Remove any previously set Binary Authorization policy.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Remove any previously set Binary Authorization policy.
     /// </summary>
     [CliFlag("--clear-binary-authorization")]
     public bool? ClearBinaryAuthorization { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Remove any previously set CMEK key shutdown hours setting.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Remove any previously set CMEK key shutdown hours setting.
     /// </summary>
     [CliFlag("--clear-encryption-key-shutdown-hours")]
     public bool? ClearEncryptionKeyShutdownHours { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: The number of hours to wait before an automatic shutdown server after CMEK key revocation is detected.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: The number of hours to wait before an automatic shutdown server after CMEK key revocation is detected.
     /// </summary>
     [CliOption("--encryption-key-shutdown-hours", Format = OptionFormat.EqualsSeparated)]
     public string? EncryptionKeyShutdownHours { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Remove any previously set CMEK key reference.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Remove any previously set CMEK key reference.
     /// </summary>
     [CliFlag("--clear-key")]
     public bool? ClearKey { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: CMEK key reference to encrypt the container with.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: CMEK key reference to encrypt the container with.
     /// </summary>
     [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
     public string? Key { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud run deploy --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud run deploy --clear-labels --update-labels foo=bar,baz=qux
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud run deploy --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud run deploy --clear-labels --update-labels foo=bar,baz=qux
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label KEY=VALUE pairs to add. An alias to --update-labels.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: List of label KEY=VALUE pairs to add. An alias to --update-labels.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Disconnect this Cloud Run service from the VPC network it is connected to.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Disconnect this Cloud Run service from the VPC network it is connected to.
     /// </summary>
     [CliFlag("--clear-network")]
     public bool? ClearNetwork { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Direct VPC egress setting flags group. The VPC network that the Cloud Run service will be able to send traffic to. If --subnet is also specified, subnet must be a subnetwork of the network specified by this --network flag. To clear existing VPC network settings, use --clear-network.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. The VPC network that the Cloud Run service will be able to send traffic to. If --subnet is also specified, subnet must be a subnetwork of the network specified by this --network flag. To clear existing VPC network settings, use --clear-network.
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Direct VPC egress setting flags group. The VPC subnetwork that the Cloud Run service will get IPs from. The subnetwork must be /26 or larger. If --network is also specified, subnet must be a subnetwork of the network specified by the --network flag. If --network is not specified, network will be looked up from this subnetwork. To clear existing VPC network settings, use --clear-network.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. The VPC subnetwork that the Cloud Run service will get IPs from. The subnetwork must be /26 or larger. If --network is also specified, subnet must be a subnetwork of the network specified by the --network flag. If --network is not specified, network will be looked up from this subnetwork. To clear existing VPC network settings, use --clear-network.
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Clears all existing network tags from the Cloud Run service.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Clears all existing network tags from the Cloud Run service.
     /// </summary>
     [CliFlag("--clear-network-tags")]
     public bool? ClearNetworkTags { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Applies the given network tags (comma separated) to the Cloud Run service. To clear existing tags, use --clear-network-tags.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Applies the given network tags (comma separated) to the Cloud Run service. To clear existing tags, use --clear-network-tags.
     /// </summary>
     [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkTags { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Remove any previously set post CMEK key revocation action type.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Remove any previously set post CMEK key revocation action type.
     /// </summary>
     [CliFlag("--clear-post-key-revocation-action-type")]
     public bool? ClearPostKeyRevocationActionType { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Action type after CMEK key revocation. POST_KEY_REVOCATION_ACTION_TYPE must be one of: prevent-new No new instances will be started after CMEK key revocation. shut-down No new instances will be started and the existing instances will be shut down after CMEK key revocation.
+    /// Container Flags The following flags apply to a single container. If the --container flag is specified these flags may only be specified after a --container flag. Otherwise they will apply to the primary ingress container. At most one of these can be specified: Action type after CMEK key revocation. POST_KEY_REVOCATION_ACTION_TYPE must be one of: prevent-new No new instances will be started after CMEK key revocation. shut-down No new instances will be started and the existing instances will be shut down after CMEK key revocation.
     /// </summary>
     [CliOption("--post-key-revocation-action-type", Format = OptionFormat.EqualsSeparated)]
     public string? PostKeyRevocationActionType { get; set; }
-
-    [Obsolete("Use ServiceAccountValue instead.")]
-    public int? ServiceAccount
-    {
-        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use BuildServiceAccountValue instead.")]
-    public int? BuildServiceAccount
-    {
-        get => int.TryParse(BuildServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => BuildServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Iap is no longer supported by the installed CLI and has no effect.")]
-    public bool? Iap { get; set; }
-
-    [Obsolete("NoIap is no longer supported by the installed CLI and has no effect.")]
-    public bool? NoIap { get; set; }
-
-    [Obsolete("ReadinessProbe is no longer supported by the installed CLI and has no effect.")]
-    public IReadOnlyList<KeyValue>? ReadinessProbe { get; set; }
-
-    [Obsolete("Workdir is no longer supported by the installed CLI and has no effect.")]
-    public string? Workdir { get; set; }
 
 }

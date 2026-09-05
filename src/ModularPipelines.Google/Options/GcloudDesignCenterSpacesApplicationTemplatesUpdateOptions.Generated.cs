@@ -37,13 +37,13 @@ public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : Gcloud
     /// SaaS runtime context. Update application_parameters. At most one of these can be specified: Set application_parameters to new value. Parameters to apply to all components in an application. You can specify projectID and region. key The key of the parameter. value The value of the parameter. Shorthand Example: --application-parameters=key=string,value={...} --application-parameters=key=string,value={...} JSON Example: --application-parameters='[{"key": "string", "value": {...}}]' File Example: --application-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--application-parameters", Format = OptionFormat.EqualsSeparated)]
-    public string? ApplicationParameters { get; set; }
+    public IEnumerable<string>? ApplicationParameters { get; set; }
 
     /// <summary>
     /// SaaS runtime context. Update application_parameters. At most one of these can be specified: Or at least one of these can be specified: Add new value to application_parameters list. Parameters to apply to all components in an application. You can specify projectID and region. key The key of the parameter. value The value of the parameter. Shorthand Example: --add-application-parameters=key=string,value={...} --add-application-parameters=key=string,value={...} JSON Example: --add-application-parameters='[{"key": "string", "value": {...}}]' File Example: --add-application-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-application-parameters", Format = OptionFormat.EqualsSeparated)]
-    public string? AddApplicationParameters { get; set; }
+    public IEnumerable<string>? AddApplicationParameters { get; set; }
 
     /// <summary>
     /// SaaS runtime context. Update application_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear application_parameters value and set to empty list.
@@ -55,7 +55,7 @@ public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : Gcloud
     /// SaaS runtime context. Update application_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from application_parameters list. Parameters to apply to all components in an application. You can specify projectID and region. key The key of the parameter. value The value of the parameter. Shorthand Example: --remove-application-parameters=key=string,value={...} --remove-application-parameters=key=string,value={...} JSON Example: --remove-application-parameters='[{"key": "string", "value": {...}}]' File Example: --remove-application-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-application-parameters", Format = OptionFormat.EqualsSeparated)]
-    public string? RemoveApplicationParameters { get; set; }
+    public IEnumerable<string>? RemoveApplicationParameters { get; set; }
 
     /// <summary>
     /// SaaS runtime context. Set applicationTemplate.saasRuntimeContext back to default value.
@@ -91,13 +91,13 @@ public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : Gcloud
     /// SaaS runtime context. Update root_input_variables. At most one of these can be specified: Set root_input_variables to new value. Root level input variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --root-input-variables=componentUri=string,variable=string --root-input-variables=componentUri=string,variable=string JSON Example: --root-input-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --root-input-variables=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--root-input-variables", Format = OptionFormat.EqualsSeparated)]
-    public string? RootInputVariables { get; set; }
+    public IEnumerable<string>? RootInputVariables { get; set; }
 
     /// <summary>
     /// SaaS runtime context. Update root_input_variables. At most one of these can be specified: Or at least one of these can be specified: Add new value to root_input_variables list. Root level input variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --add-root-input-variables=componentUri=string,variable=string --add-root-input-variables=componentUri=string,variable=string JSON Example: --add-root-input-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --add-root-input-variables=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-root-input-variables", Format = OptionFormat.EqualsSeparated)]
-    public string? AddRootInputVariables { get; set; }
+    public IEnumerable<string>? AddRootInputVariables { get; set; }
 
     /// <summary>
     /// SaaS runtime context. Update root_input_variables. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear root_input_variables value and set to empty list.
@@ -109,19 +109,19 @@ public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : Gcloud
     /// SaaS runtime context. Update root_input_variables. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from root_input_variables list. Root level input variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --remove-root-input-variables=componentUri=string,variable=string --remove-root-input-variables=componentUri=string,variable=string JSON Example: --remove-root-input-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --remove-root-input-variables=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-root-input-variables", Format = OptionFormat.EqualsSeparated)]
-    public string? RemoveRootInputVariables { get; set; }
+    public IEnumerable<string>? RemoveRootInputVariables { get; set; }
 
     /// <summary>
     /// SaaS runtime context. Update root_output_variables. At most one of these can be specified: Set root_output_variables to new value. Root level output variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --root-output-variables=componentUri=string,variable=string --root-output-variables=componentUri=string,variable=string JSON Example: --root-output-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --root-output-variables=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--root-output-variables", Format = OptionFormat.EqualsSeparated)]
-    public string? RootOutputVariables { get; set; }
+    public IEnumerable<string>? RootOutputVariables { get; set; }
 
     /// <summary>
     /// SaaS runtime context. Update root_output_variables. At most one of these can be specified: Or at least one of these can be specified: Add new value to root_output_variables list. Root level output variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --add-root-output-variables=componentUri=string,variable=string --add-root-output-variables=componentUri=string,variable=string JSON Example: --add-root-output-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --add-root-output-variables=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-root-output-variables", Format = OptionFormat.EqualsSeparated)]
-    public string? AddRootOutputVariables { get; set; }
+    public IEnumerable<string>? AddRootOutputVariables { get; set; }
 
     /// <summary>
     /// SaaS runtime context. Update root_output_variables. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear root_output_variables value and set to empty list.
@@ -133,6 +133,6 @@ public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : Gcloud
     /// SaaS runtime context. Update root_output_variables. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from root_output_variables list. Root level output variables of the application template. componentUri Component to which this variable belongs. variable Name of the variable. Shorthand Example: --remove-root-output-variables=componentUri=string,variable=string --remove-root-output-variables=componentUri=string,variable=string JSON Example: --remove-root-output-variables='[{"componentUri": "string", "variable": "string"}]' File Example: --remove-root-output-variables=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-root-output-variables", Format = OptionFormat.EqualsSeparated)]
-    public string? RemoveRootOutputVariables { get; set; }
+    public IEnumerable<string>? RemoveRootOutputVariables { get; set; }
 
 }

@@ -103,13 +103,13 @@ public record GcloudAgentRegistryServicesUpdateOptions : GcloudOptions
     /// Update interfaces. At most one of these can be specified: Set interfaces to new value. The connection details for the Service. protocolBinding The protocol binding of the interface. url The destination URL. Shorthand Example: --interfaces=protocolBinding=string,url=string --interfaces=protocolBinding=string,url=string JSON Example: --interfaces='[{"protocolBinding": "string", "url": "string"}]' File Example: --interfaces=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--interfaces", Format = OptionFormat.EqualsSeparated)]
-    public string? Interfaces { get; set; }
+    public IEnumerable<string>? Interfaces { get; set; }
 
     /// <summary>
     /// Update interfaces. At most one of these can be specified: Or at least one of these can be specified: Add new value to interfaces list. The connection details for the Service. protocolBinding The protocol binding of the interface. url The destination URL. Shorthand Example: --add-interfaces=protocolBinding=string,url=string --add-interfaces=protocolBinding=string,url=string JSON Example: --add-interfaces='[{"protocolBinding": "string", "url": "string"}]' File Example: --add-interfaces=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-interfaces", Format = OptionFormat.EqualsSeparated)]
-    public string? AddInterfaces { get; set; }
+    public IEnumerable<string>? AddInterfaces { get; set; }
 
     /// <summary>
     /// Update interfaces. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear interfaces value and set to empty list.
@@ -121,6 +121,6 @@ public record GcloudAgentRegistryServicesUpdateOptions : GcloudOptions
     /// Update interfaces. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from interfaces list. The connection details for the Service. protocolBinding The protocol binding of the interface. url The destination URL. Shorthand Example: --remove-interfaces=protocolBinding=string,url=string --remove-interfaces=protocolBinding=string,url=string JSON Example: --remove-interfaces='[{"protocolBinding": "string", "url": "string"}]' File Example: --remove-interfaces=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-interfaces", Format = OptionFormat.EqualsSeparated)]
-    public string? RemoveInterfaces { get; set; }
+    public IEnumerable<string>? RemoveInterfaces { get; set; }
 
 }
