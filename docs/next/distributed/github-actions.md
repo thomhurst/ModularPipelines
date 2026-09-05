@@ -221,8 +221,6 @@ builder.AddRedisDistributedCoordinator(o =>
 
     o.ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")!;
 
-    o.RunIdentifier = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
-
 });
 
 

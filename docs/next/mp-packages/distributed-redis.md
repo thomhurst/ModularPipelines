@@ -27,22 +27,12 @@ builder.AddDistributedMode();
 
 builder.AddRedisDistributed(
 
-    redis =>
-
-    {
-
-        redis.ConnectionString = "localhost:6379";
-
-        redis.RunIdentifier = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID")
-
-            ?? throw new InvalidOperationException("MODULARPIPELINES_RUN_ID must identify this pipeline run.");
-
-    },
+    redis => redis.ConnectionString = "localhost:6379",
 
     artifacts => artifacts.TimeToLive = TimeSpan.FromHours(2));
 ```
 
-Set `MODULARPIPELINES_RUN_ID` to the same unique value on every worker participating in one pipeline run.
+Set `MODULARPIPELINES_RUN_ID` to the same unique value on the master and every worker participating in one pipeline run. Core distributed configuration resolves `DistributedOptions.RunId` from it automatically.
 
 `AddRedisDistributedCoordinator` and `AddRedisDistributedArtifactStore` are also available when only one Redis service is required. All Redis registration methods also accept an `IConfigurationSection` and use the .NET options pattern.
 
