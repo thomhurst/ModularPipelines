@@ -1,4 +1,26 @@
 #nullable enable
+*REMOVED*ModularPipelines.Podman.Options.PodmanBuildOptions.Output.get -> string?
+*REMOVED*ModularPipelines.Podman.Options.PodmanBuildOptions.Output.set -> void
+*REMOVED*ModularPipelines.Podman.Options.PodmanBuildOptions.Timestamp.get -> int?
+*REMOVED*ModularPipelines.Podman.Options.PodmanBuildOptions.Timestamp.set -> void
+*REMOVED*ModularPipelines.Podman.Options.PodmanFarmBuildOptions.Timestamp.get -> int?
+*REMOVED*ModularPipelines.Podman.Options.PodmanFarmBuildOptions.Timestamp.set -> void
+*REMOVED*ModularPipelines.Podman.Options.PodmanGenerateKubeOptions.NoTrunc.get -> bool?
+*REMOVED*ModularPipelines.Podman.Options.PodmanGenerateKubeOptions.NoTrunc.set -> void
+*REMOVED*ModularPipelines.Podman.Options.PodmanImageBuildOptions.Output.get -> string?
+*REMOVED*ModularPipelines.Podman.Options.PodmanImageBuildOptions.Output.set -> void
+*REMOVED*ModularPipelines.Podman.Options.PodmanImageBuildOptions.Timestamp.get -> int?
+*REMOVED*ModularPipelines.Podman.Options.PodmanImageBuildOptions.Timestamp.set -> void
+*REMOVED*ModularPipelines.Podman.Options.PodmanKubeGenerateOptions.NoTrunc.get -> bool?
+*REMOVED*ModularPipelines.Podman.Options.PodmanKubeGenerateOptions.NoTrunc.set -> void
+*REMOVED*ModularPipelines.Podman.Options.PodmanKubePlayOptions.NoTrunc.get -> bool?
+*REMOVED*ModularPipelines.Podman.Options.PodmanKubePlayOptions.NoTrunc.set -> void
+*REMOVED*ModularPipelines.Podman.Options.PodmanMachineInitOptions.ImagePath.get -> string?
+*REMOVED*ModularPipelines.Podman.Options.PodmanMachineInitOptions.ImagePath.set -> void
+*REMOVED*ModularPipelines.Podman.Options.PodmanMachineInitOptions.VolumeDriver.get -> string?
+*REMOVED*ModularPipelines.Podman.Options.PodmanMachineInitOptions.VolumeDriver.set -> void
+*REMOVED*ModularPipelines.Podman.Options.PodmanMachineRmOptions.SaveKeys.get -> bool?
+*REMOVED*ModularPipelines.Podman.Options.PodmanMachineRmOptions.SaveKeys.set -> void
 *REMOVED*ModularPipelines.Podman.Services.IPodman.AttachAsync(ModularPipelines.Podman.Options.PodmanAttachOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Podman.Services.IPodman.AutoUpdateAsync(ModularPipelines.Podman.Options.PodmanAutoUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Podman.Services.IPodman.BuildAsync(ModularPipelines.Podman.Options.PodmanBuildOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
@@ -870,7 +892,6 @@ override sealed ModularPipelines.Podman.Options.PodmanSecretOptions.Equals(Modul
 override sealed ModularPipelines.Podman.Options.PodmanSystemConnectionOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
 override sealed ModularPipelines.Podman.Options.PodmanSystemOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
 override sealed ModularPipelines.Podman.Options.PodmanVolumeOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
-static ModularPipelines.Podman.Extensions.PodmanExtensions.Podman(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Podman.Services.IPodman!
 static ModularPipelines.Podman.Options.PodmanArtifactOptions.operator !=(ModularPipelines.Podman.Options.PodmanArtifactOptions? left, ModularPipelines.Podman.Options.PodmanArtifactOptions? right) -> bool
 static ModularPipelines.Podman.Options.PodmanArtifactOptions.operator ==(ModularPipelines.Podman.Options.PodmanArtifactOptions? left, ModularPipelines.Podman.Options.PodmanArtifactOptions? right) -> bool
 static ModularPipelines.Podman.Options.PodmanContainerOptions.operator !=(ModularPipelines.Podman.Options.PodmanContainerOptions? left, ModularPipelines.Podman.Options.PodmanContainerOptions? right) -> bool

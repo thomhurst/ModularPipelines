@@ -19,7 +19,9 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "sign")]
-public record DotNetNuGetSignOptions : DotNetOptions
+public record DotNetNuGetSignOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> PackagePaths
+) : DotNetOptions
 {
     /// <summary>
     /// Directory where the signed package(s) should be saved. By default the original package is overwritten by the signed package.
@@ -55,7 +57,7 @@ public record DotNetNuGetSignOptions : DotNetOptions
     /// SHA-256, SHA-384 or SHA-512 fingerprint of the certificate used to search a local certificate store for the certificate. The certificate store can be specified by --certificate-store-name and --certificate-store-location options.
     /// </summary>
     [CliOption("--certificate-fingerprint")]
-    public string? CertificateFingerprintValue { get; set; }
+    public string? CertificateFingerprint { get; set; }
 
     /// <summary>
     /// Password for the certificate, if needed. This option can be used to specify the password for the certificate. The command will throw an error message if certificate is password protected but password is not provided as input.
@@ -68,7 +70,7 @@ public record DotNetNuGetSignOptions : DotNetOptions
     /// Hash algorithm to be used to sign the package. Defaults to SHA256.
     /// </summary>
     [CliOption("--hash-algorithm")]
-    public string? HashAlgorithmValue { get; set; }
+    public string? HashAlgorithm { get; set; }
 
     /// <summary>
     /// URL to an RFC 3161 timestamping server.
@@ -80,7 +82,7 @@ public record DotNetNuGetSignOptions : DotNetOptions
     /// Hash algorithm to be used by the RFC 3161 timestamp server. Defaults to SHA256.
     /// </summary>
     [CliOption("--timestamp-hash-algorithm")]
-    public string? TimestampHashAlgorithmValue { get; set; }
+    public string? TimestampHashAlgorithm { get; set; }
 
     /// <summary>
     /// Switch to indicate if the current signature should be overwritten. By default the command will fail if the package already has a signature.
@@ -105,32 +107,5 @@ public record DotNetNuGetSignOptions : DotNetOptions
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
-
-    /// <summary>
-    /// Signs NuGet packages at &lt;package-paths&gt; with the specified certificate.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? PackagePaths { get; set; }
-
-    [Obsolete("Use CertificateFingerprintValue instead.")]
-    public bool? CertificateFingerprint
-    {
-        get => bool.TryParse(CertificateFingerprintValue, out var value) ? value : null;
-        set => CertificateFingerprintValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use HashAlgorithmValue instead.")]
-    public bool? HashAlgorithm
-    {
-        get => bool.TryParse(HashAlgorithmValue, out var value) ? value : null;
-        set => HashAlgorithmValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TimestampHashAlgorithmValue instead.")]
-    public bool? TimestampHashAlgorithm
-    {
-        get => bool.TryParse(TimestampHashAlgorithmValue, out var value) ? value : null;
-        set => TimestampHashAlgorithmValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("new", "details")]
-public record DotNetNewDetailsOptions : DotNetOptions
+public record DotNetNewDetailsOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PackageIdentifier
+) : DotNetOptions
 {
     /// <summary>
     /// Allows the command to stop and wait for user input or action (for example to complete authentication). [default: False]
@@ -31,11 +33,5 @@ public record DotNetNewDetailsOptions : DotNetOptions
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
-
-    /// <summary>
-    /// Package identifier
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? PackageIdentifier { get; set; }
 
 }

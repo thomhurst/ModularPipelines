@@ -1,6 +1,4 @@
 using Microsoft.Extensions.Options;
-using ModularPipelines.Distributed.Redis;
-using ModularPipelines.Distributed.Redis.Configuration;
 using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Redis.Coordination;
@@ -11,8 +9,8 @@ namespace ModularPipelines.Distributed.Redis.Coordination;
 internal sealed class RedisDistributedCoordinatorFactory : IDistributedCoordinatorFactory
 {
     private readonly RedisDistributedOptions _options;
-    private readonly IConnectionMultiplexer _connection;
     private readonly DistributedOptions _distributedOptions;
+    private readonly IConnectionMultiplexer _connection;
 
     public RedisDistributedCoordinatorFactory(
         IOptions<RedisDistributedOptions> options,
@@ -40,8 +38,7 @@ internal sealed class RedisDistributedCoordinatorFactory : IDistributedCoordinat
     {
         var database = _connection.GetDatabase();
         var subscriber = _connection.GetSubscriber();
-        var runId = RunIdentifierResolver.Resolve(_options.RunIdentifier);
-        var keys = new RedisKeyBuilder(_options.KeyPrefix, runId);
+        var keys = new RedisKeyBuilder(_options.KeyPrefix, _distributedOptions.RunId);
         return new RedisDistributedCoordinator(
             database,
             subscriber,

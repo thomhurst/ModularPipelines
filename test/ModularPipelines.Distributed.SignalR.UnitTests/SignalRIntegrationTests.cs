@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.SignalR;
+using ModularPipelines.Distributed.SignalR.Coordination;
 using ModularPipelines.Distributed.SignalR.Hub;
 using ModularPipelines.Distributed.SignalR.Server;
 
@@ -17,17 +18,34 @@ namespace ModularPipelines.Distributed.SignalR.UnitTests;
 /// </summary>
 public class SignalRIntegrationTests
 {
-    private static HubConnection BuildClient(string serverUrl, string hubPath)
+    private static HubConnection BuildClient(
+        string serverUrl,
+        string hubPath,
+        bool enableImmediateReconnect = false)
     {
-        return new HubConnectionBuilder()
+        var builder = new HubConnectionBuilder()
             .WithUrl($"{serverUrl}{hubPath}")
             .AddJsonProtocol(jsonOptions =>
             {
                 jsonOptions.PayloadSerializerOptions.PropertyNamingPolicy = null;
                 jsonOptions.PayloadSerializerOptions.PropertyNameCaseInsensitive = true;
                 jsonOptions.PayloadSerializerOptions.Converters.Add(new ReadOnlySetJsonConverter());
-            })
-            .Build();
+            });
+
+        if (enableImmediateReconnect)
+        {
+            builder.WithAutomaticReconnect(
+            [
+                TimeSpan.Zero,
+                TimeSpan.FromMilliseconds(100),
+                TimeSpan.FromMilliseconds(250),
+                TimeSpan.FromMilliseconds(500),
+                TimeSpan.FromSeconds(1),
+                TimeSpan.FromSeconds(2),
+            ]);
+        }
+
+        return builder.Build();
     }
     [Test]
     public async Task RegisterWorker_RoundTrip_Succeeds()
@@ -334,11 +352,8 @@ public class SignalRIntegrationTests
     }
 
     [Test]
-    public async Task MultiWorker_ResultBroadcast_OtherWorkersReceiveDependencyResults()
+    public async Task Worker_Fetches_Dependency_Result_After_It_Is_Published()
     {
-        // When worker 1 publishes a result, worker 2 should receive it
-        // as a dependency result (for CompletionSource pre-population)
-
         var options = new SignalRDistributedOptions { MasterUrl = "http://127.0.0.1:0" };
         var masterState = new SignalRMasterState();
         var serverHost = new MasterServerHost();
@@ -350,15 +365,6 @@ public class SignalRIntegrationTests
 
             var worker1 = BuildClient(serverUrl, options.HubPath);
             var worker2 = BuildClient(serverUrl, options.HubPath);
-
-            // Track dependency results received by worker 2
-            SerializedModuleResult? receivedByWorker2 = null;
-            var resultReceived = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-            worker2.On<SerializedModuleResult>(HubMethodNames.ReceiveDependencyResult, result =>
-            {
-                receivedByWorker2 = result;
-                resultReceived.TrySetResult();
-            });
 
             await Task.WhenAll(worker1.StartAsync(), worker2.StartAsync());
 
@@ -373,18 +379,19 @@ public class SignalRIntegrationTests
             masterState.ResultWaiters["BuildModule"] = new TaskCompletionSource<SerializedModuleResult>(
                 TaskCreationOptions.RunContinuationsAsynchronously);
 
-            // Worker 1 publishes a result
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            var resultTask = worker2.InvokeAsync<SerializedModuleResult>(
+                HubMethodNames.WaitForResult,
+                "BuildModule",
+                cts.Token);
+
             var result = new SerializedModuleResult(
                 "BuildModule", "System.String", 1, "{\"Output\":\"build.zip\"}", DateTimeOffset.UtcNow);
             await worker1.InvokeAsync(HubMethodNames.PublishResult, result);
 
-            // Worker 2 should receive the dependency result
-            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-            await resultReceived.Task.WaitAsync(cts.Token);
-
-            await Assert.That(receivedByWorker2).IsNotNull();
-            await Assert.That(receivedByWorker2!.ModuleTypeName).IsEqualTo("BuildModule");
-            await Assert.That(receivedByWorker2.SerializedJson).IsEqualTo("{\"Output\":\"build.zip\"}");
+            var fetchedResult = await resultTask;
+            await Assert.That(fetchedResult.ModuleTypeName).IsEqualTo("BuildModule");
+            await Assert.That(fetchedResult.SerializedJson).IsEqualTo("{\"Output\":\"build.zip\"}");
 
             // Master should also have the result
             var masterResult = await masterState.ResultWaiters["BuildModule"].Task;
@@ -397,6 +404,80 @@ public class SignalRIntegrationTests
         finally
         {
             await serverHost.DisposeAsync();
+        }
+    }
+
+    [Test]
+    public async Task Worker_Result_Wait_Survives_Disconnect_And_Reconnect()
+    {
+        var options = new SignalRDistributedOptions { MasterUrl = "http://127.0.0.1:0" };
+        var masterState = new SignalRMasterState();
+        MasterServerHost? serverHost = new();
+
+        try
+        {
+            await serverHost.StartAsync(
+                options,
+                masterState,
+                NullLoggerFactory.Instance,
+                CancellationToken.None);
+            var serverUrl = serverHost.AdvertisedUrl;
+            await using var connection = BuildClient(
+                serverUrl,
+                options.HubPath,
+                enableImmediateReconnect: true);
+            var coordinator = new SignalRWorkerCoordinator(
+                connection,
+                NullLogger<SignalRWorkerCoordinator>.Instance);
+            var reconnected = new TaskCompletionSource(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+            connection.Reconnected += _ =>
+            {
+                reconnected.TrySetResult();
+                return Task.CompletedTask;
+            };
+
+            await connection.StartAsync();
+            await coordinator.RegisterWorkerAsync(
+                new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
+                CancellationToken.None);
+
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+            var resultTask = coordinator.WaitForResultAsync("BuildModule", cts.Token);
+            while (!masterState.ResultWaiters.ContainsKey("BuildModule"))
+            {
+                await Task.Delay(10, cts.Token);
+            }
+
+            await serverHost.DisposeAsync();
+            serverHost = null;
+
+            options.MasterUrl = serverUrl;
+            serverHost = new MasterServerHost();
+            await serverHost.StartAsync(
+                options,
+                masterState,
+                NullLoggerFactory.Instance,
+                cts.Token);
+            await reconnected.Task.WaitAsync(cts.Token);
+
+            var expected = new SerializedModuleResult(
+                "BuildModule",
+                "System.String",
+                2,
+                "{\"Output\":\"build.zip\"}",
+                DateTimeOffset.UtcNow);
+            masterState.ResultWaiters["BuildModule"].TrySetResult(expected);
+
+            var actual = await resultTask;
+            await Assert.That(actual).IsEqualTo(expected);
+        }
+        finally
+        {
+            if (serverHost is not null)
+            {
+                await serverHost.DisposeAsync();
+            }
         }
     }
 

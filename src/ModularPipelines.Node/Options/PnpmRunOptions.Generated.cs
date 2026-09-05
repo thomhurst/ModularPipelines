@@ -35,6 +35,12 @@ public record PnpmRunOptions(
     public string? Dir { get; set; }
 
     /// <summary>
+    /// Print the task graph a recursive run would execute, without running anything. With "--json", prints the tasks and their resolved dependency edges as JSON
+    /// </summary>
+    [CliFlag("--dry-run")]
+    public bool? DryRun { get; set; }
+
+    /// <summary>
     /// Output usage information
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]

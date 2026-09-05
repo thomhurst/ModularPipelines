@@ -94,10 +94,7 @@ internal class DistributedPipelineHub(
             workersToRelease.Add(sendingWorker);
         }
 
-        // 2. Broadcast ReceiveDependencyResult to all workers for CompletionSource pre-population
-        await Clients.Others.SendAsync(HubMethodNames.ReceiveDependencyResult, result);
-
-        // 3. Mark the sender and any reconnected original worker idle.
+        // 2. Mark the sender and any reconnected original worker idle.
         foreach (var workerState in workersToRelease)
         {
             if (workerState.TryCompleteAssignment(result.ModuleTypeName))
@@ -105,6 +102,19 @@ internal class DistributedPipelineHub(
                 await TryAssignPendingWork(workerState, state);
             }
         }
+    }
+
+    /// <summary>
+    /// Returns a stored module result after it becomes available.
+    /// </summary>
+    public async Task<SerializedModuleResult> WaitForResult(string moduleTypeName)
+    {
+        var waiter = _masterState.ResultWaiters.GetOrAdd(
+            moduleTypeName,
+            static _ => new TaskCompletionSource<SerializedModuleResult>(
+                TaskCreationOptions.RunContinuationsAsynchronously));
+
+        return await waiter.Task.WaitAsync(Context.ConnectionAborted).ConfigureAwait(false);
     }
 
     /// <summary>

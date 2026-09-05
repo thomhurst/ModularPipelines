@@ -85,18 +85,20 @@ In GitHub Actions, use a matrix strategy to launch multiple instances. See the [
 
 Every Redis key is prefixed with a run identifier so concurrent or repeated pipeline runs on the same Redis instance don't collide. The identifier is resolved from:
 
-1. Explicit `RedisDistributedOptions.RunIdentifier` configuration
+1. Explicit `DistributedOptions.RunId` configuration
 2. The `MODULARPIPELINES_RUN_ID` environment variable
+3. A generated GUID when neither is configured and `TotalInstances` is `1`
 
 Commit hashes are not safe because repeated executions of the same commit would reuse stale keys.
-For local or CI multi-process runs, export one invocation-specific `MODULARPIPELINES_RUN_ID` value before
-starting every process:
+Multi-process runs fail fast when no shared identifier is configured. For local or CI runs, export
+one invocation-specific `MODULARPIPELINES_RUN_ID` value before starting every process:
 
 ```csharp
+builder.AddDistributedMode();
+
 builder.AddRedisDistributedCoordinator(o =>
 {
     o.ConnectionString = "your-redis-url";
-    o.RunIdentifier = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
 });
 ```
 

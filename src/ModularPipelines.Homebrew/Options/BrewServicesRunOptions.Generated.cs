@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Homebrew.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Homebrew.Options;
 
@@ -18,7 +19,7 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "run")]
-public record BrewServicesRunOptions : BrewOptions
+public record BrewServicesRunOptions : BrewOptions, IValidatableObject
 {
     /// <summary>
     /// Display any debugging information.
@@ -67,5 +68,14 @@ public record BrewServicesRunOptions : BrewOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Formula { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(Formula) || All == true))
+        {
+            yield return new ValidationResult("At least one of Formula or All must be specified.", [nameof(Formula), nameof(All)]);
+        }
+    }
 
 }

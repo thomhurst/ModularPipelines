@@ -18,7 +18,9 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tool", "uninstall")]
-public record DotNetToolUninstallOptions : DotNetOptions
+public record DotNetToolUninstallOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PackageId
+) : DotNetOptions
 {
     /// <summary>
     /// Uninstall the tool from the current user's tools directory. [default: False]
@@ -43,11 +45,5 @@ public record DotNetToolUninstallOptions : DotNetOptions
     /// </summary>
     [CliOption("--tool-manifest")]
     public string? ToolManifest { get; set; }
-
-    /// <summary>
-    /// Package reference
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? PackageId { get; set; }
 
 }

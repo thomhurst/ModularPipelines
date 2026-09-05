@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Distributed.Configuration;
 
 namespace ModularPipelines.Distributed;
 
@@ -12,7 +13,6 @@ public static class DistributedPipelineBuilderExtensions
 {
     private const string InstanceIndexEnvironmentVariable = "MODULARPIPELINES_INSTANCE_INDEX";
     private const string TotalInstancesEnvironmentVariable = "MODULARPIPELINES_TOTAL_INSTANCES";
-    private const string RunIdEnvironmentVariable = "MODULARPIPELINES_RUN_ID";
     private const string RoleEnvironmentVariable = "MODULARPIPELINES_ROLE";
 
     /// <summary>
@@ -36,8 +36,8 @@ public static class DistributedPipelineBuilderExtensions
                 TotalInstancesEnvironmentVariable,
                 options.TotalInstances,
                 minimum: 1);
-            options.RunIdentifier = Environment.GetEnvironmentVariable(RunIdEnvironmentVariable)
-                                    ?? options.RunIdentifier;
+            options.RunId = Environment.GetEnvironmentVariable(RunIdResolver.EnvironmentVariable)
+                            ?? options.RunId;
             options.Role = GetEnvironmentRole(options.Role);
         });
     }
@@ -54,10 +54,8 @@ public static class DistributedPipelineBuilderExtensions
     {
         builder.Services.TryAddSingleton<DistributedModeRegistration>();
         builder.Services.Configure<DistributedOptions>(o =>
-        {
-            configure(o);
-            o.Enabled = true;
-        });
+            configure(o));
+        builder.Services.PostConfigure<DistributedOptions>(EnableDistributedMode);
 
         return builder;
     }
@@ -74,7 +72,7 @@ public static class DistributedPipelineBuilderExtensions
         builder.Services.Configure<DistributedOptions>(section);
 
         // Also ensure Enabled is set
-        builder.Services.PostConfigure<DistributedOptions>(o => o.Enabled = true);
+        builder.Services.PostConfigure<DistributedOptions>(EnableDistributedMode);
         return builder;
     }
 
@@ -169,6 +167,11 @@ public static class DistributedPipelineBuilderExtensions
     {
         builder.Services.AddSingleton<IDistributedArtifactStoreFactory, TFactory>();
         return builder;
+    }
+
+    private static void EnableDistributedMode(DistributedOptions options)
+    {
+        options.Enabled = true;
     }
 }
 

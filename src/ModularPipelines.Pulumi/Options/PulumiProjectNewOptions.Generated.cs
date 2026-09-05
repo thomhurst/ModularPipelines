@@ -188,13 +188,4 @@ public record PulumiProjectNewOptions : PulumiOptions
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Template { get; set; }
 
-    [Obsolete("Ai is no longer supported by the installed CLI and has no effect.")]
-    public string? Ai { get; set; }
-
-    [Obsolete("Language is no longer supported by the installed CLI and has no effect.")]
-    public string? Language { get; set; }
-
-    [Obsolete("TemplateMode is no longer supported by the installed CLI and has no effect.")]
-    public bool? TemplateMode { get; set; }
-
 }

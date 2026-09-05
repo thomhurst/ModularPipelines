@@ -47,12 +47,6 @@ public class S3ArtifactOptions
     public string KeyPrefix { get; set; } = "modpipe-artifacts";
 
     /// <summary>
-    /// Gets or sets the run identifier for key isolation.
-    /// If not set, auto-detected from CI environment variables or git SHA.
-    /// </summary>
-    public string? RunIdentifier { get; set; }
-
-    /// <summary>
     /// Gets or sets whether to auto-configure a lifecycle rule on the bucket for artifact expiration.
     /// Default: true.
     /// </summary>

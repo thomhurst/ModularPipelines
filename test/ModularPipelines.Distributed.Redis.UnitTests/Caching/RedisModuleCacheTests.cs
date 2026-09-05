@@ -47,7 +47,6 @@ public class RedisModuleCacheTests
             new RedisDistributedOptions
             {
                 KeyPrefix = "custom-prefix",
-                RunIdentifier = "must-not-appear",
             },
             new ArtifactOptions
             {
@@ -217,7 +216,6 @@ public class RedisModuleCacheTests
             {
                 options.ConnectionString = "distributed:6379";
                 options.KeyPrefix = "distributed";
-                options.RunIdentifier = "distributed-run";
             },
             options => options.ChunkSizeBytes = 123);
         builder.AddRedisModuleCache(

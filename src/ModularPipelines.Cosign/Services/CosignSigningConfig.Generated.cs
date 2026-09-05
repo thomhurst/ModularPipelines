@@ -40,11 +40,11 @@ public class CosignSigningConfig : ICosignSigningConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExecuteAsync(
-        CosignSigningConfigExecuteOptions? options = null,
+        CosignSigningConfigOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new CosignSigningConfigExecuteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new CosignSigningConfigOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

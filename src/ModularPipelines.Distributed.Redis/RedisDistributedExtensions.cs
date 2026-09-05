@@ -4,10 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
-using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Redis.Artifacts;
 using ModularPipelines.Distributed.Redis.Caching;
-using ModularPipelines.Distributed.Redis.Configuration;
 using ModularPipelines.Distributed.Redis.Coordination;
 using ModularPipelines.Extensions;
 using StackExchange.Redis;
@@ -178,20 +176,16 @@ public static class RedisDistributedExtensions
 
     private static PipelineBuilder AddRedisDistributedCoordinatorServices(PipelineBuilder builder)
     {
-        builder.Services.AddOptions<RedisDistributedOptions>()
-            .PostConfigure(options =>
-                options.RunIdentifier = RunIdentifierResolver.ResolveRunIdentifier(options.RunIdentifier))
-            .Validate(
-                options => !string.IsNullOrWhiteSpace(options.RunIdentifier),
-                "Redis distributed coordination requires a unique RunIdentifier for each pipeline execution. "
-                + "Configure RunIdentifier explicitly or set MODULARPIPELINES_RUN_ID.")
-            .ValidateOnStart();
-        builder.Services.AddOptions<DistributedOptions>()
-            .PostConfigure<IOptions<RedisDistributedOptions>>((distributedOptions, redisOptions) =>
-                distributedOptions.RunIdentifier ??= redisOptions.Value.RunIdentifier);
+        AddExplicitRunIdRequirement(builder);
         builder.Services.AddSingleton<IDistributedCoordinatorFactory, RedisDistributedCoordinatorFactory>();
 
         return builder;
+    }
+
+    private static void AddExplicitRunIdRequirement(PipelineBuilder builder)
+    {
+        builder.Services.Configure<DistributedOptions>(options => options.RequireExplicitRunId = true);
+        builder.Services.AddOptions<DistributedOptions>().ValidateOnStart();
     }
 
     private static PipelineBuilder AddRedisModuleCacheServices(
@@ -218,6 +212,7 @@ public static class RedisDistributedExtensions
         PipelineBuilder builder,
         Action<ArtifactOptions>? configureArtifacts)
     {
+        AddExplicitRunIdRequirement(builder);
         if (configureArtifacts is not null)
         {
             builder.Services.Configure(configureArtifacts);

@@ -18,18 +18,14 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workload", "uninstall")]
-public record DotNetWorkloadUninstallOptions : DotNetOptions
+public record DotNetWorkloadUninstallOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> WorkloadId
+) : DotNetOptions
 {
     /// <summary>
     /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic]. [default: normal]
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
-
-    /// <summary>
-    /// The NuGet package ID of the workload to install.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public IEnumerable<string>? WorkloadId { get; set; }
 
 }

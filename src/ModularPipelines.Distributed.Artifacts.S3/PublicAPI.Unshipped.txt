@@ -36,8 +36,6 @@ ModularPipelines.Distributed.Artifacts.S3.S3ArtifactOptions.KeyPrefix.get -> str
 ModularPipelines.Distributed.Artifacts.S3.S3ArtifactOptions.KeyPrefix.set -> void
 ModularPipelines.Distributed.Artifacts.S3.S3ArtifactOptions.Region.get -> string!
 ModularPipelines.Distributed.Artifacts.S3.S3ArtifactOptions.Region.set -> void
-ModularPipelines.Distributed.Artifacts.S3.S3ArtifactOptions.RunIdentifier.get -> string?
-ModularPipelines.Distributed.Artifacts.S3.S3ArtifactOptions.RunIdentifier.set -> void
 ModularPipelines.Distributed.Artifacts.S3.S3ArtifactOptions.S3ArtifactOptions() -> void
 ModularPipelines.Distributed.Artifacts.S3.S3ArtifactOptions.SecretKey.get -> string?
 ModularPipelines.Distributed.Artifacts.S3.S3ArtifactOptions.SecretKey.set -> void

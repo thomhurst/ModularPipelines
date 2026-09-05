@@ -32,10 +32,4 @@ public record DockerComposeStartOptions : DockerOptions
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? Service { get; set; }
 
-    [Obsolete("Wait is no longer supported by the installed CLI and has no effect.")]
-    public bool? Wait { get; set; }
-
-    [Obsolete("WaitTimeout is no longer supported by the installed CLI and has no effect.")]
-    public int? WaitTimeout { get; set; }
-
 }

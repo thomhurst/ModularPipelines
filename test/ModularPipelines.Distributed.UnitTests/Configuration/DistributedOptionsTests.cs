@@ -26,6 +26,7 @@ public class DistributedOptionsTests
             await Assert.That(options.CapabilityTimeout).IsEqualTo(TimeSpan.FromMinutes(5));
             await Assert.That(options.MinimumWorkerCount).IsEqualTo(0);
             await Assert.That(options.ModuleResultTimeout).IsEqualTo(TimeSpan.FromMinutes(45));
+            await Assert.That(options.RequireExplicitRunId).IsFalse();
         }
     }
 
@@ -168,7 +169,7 @@ public class DistributedOptionsTests
             {
                 await Assert.That(options.InstanceIndex).IsEqualTo(3);
                 await Assert.That(options.TotalInstances).IsEqualTo(5);
-                await Assert.That(options.RunIdentifier).IsEqualTo("test-run");
+                await Assert.That(options.RunId).IsEqualTo("test-run");
                 await Assert.That(options.Role).IsEqualTo(DistributedRole.Worker);
                 await Assert.That(options.Enabled).IsTrue();
             }

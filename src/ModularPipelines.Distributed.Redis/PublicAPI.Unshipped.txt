@@ -25,8 +25,6 @@ ModularPipelines.Distributed.Redis.RedisDistributedOptions.KeyExpirationSeconds.
 ModularPipelines.Distributed.Redis.RedisDistributedOptions.KeyPrefix.get -> string!
 ModularPipelines.Distributed.Redis.RedisDistributedOptions.KeyPrefix.set -> void
 ModularPipelines.Distributed.Redis.RedisDistributedOptions.RedisDistributedOptions() -> void
-ModularPipelines.Distributed.Redis.RedisDistributedOptions.RunIdentifier.get -> string?
-ModularPipelines.Distributed.Redis.RedisDistributedOptions.RunIdentifier.set -> void
 static ModularPipelines.Distributed.Redis.RedisDistributedExtensions.AddRedisDistributed(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! redisSection, System.Action<ModularPipelines.Distributed.ArtifactOptions!>? configureArtifacts = null) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.Redis.RedisDistributedExtensions.AddRedisDistributed(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.Redis.RedisDistributedOptions!>! configureRedis, System.Action<ModularPipelines.Distributed.ArtifactOptions!>? configureArtifacts = null) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.Redis.RedisDistributedExtensions.AddRedisDistributedArtifactStore(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! redisSection, System.Action<ModularPipelines.Distributed.ArtifactOptions!>? configureArtifacts = null) -> ModularPipelines.PipelineBuilder!

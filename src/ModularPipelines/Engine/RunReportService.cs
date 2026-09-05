@@ -376,7 +376,7 @@ internal sealed class RunReportService(
                                 capabilities,
                                 DateTimeOffset.UtcNow)
                             {
-                                RunIdentifier = options.RunIdentifier,
+                                RunId = options.RunId,
                                 UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
                                 ModuleCommandCounts = commandExecutionCounter.GetModuleCounts()
                                     .GroupBy(
@@ -449,7 +449,7 @@ internal sealed class RunReportService(
             var options = distributedOptions.Value;
             var waitResult = await WaitForFinalWorkerMetricsAsync(
                     options.InstanceIndex,
-                    options.RunIdentifier,
+                    options.RunId,
                     timeout.Token)
                 .ConfigureAwait(false);
             if (cancellationToken.IsCancellationRequested)
@@ -647,10 +647,10 @@ internal sealed class RunReportService(
     private static WorkerRegistration[] GetLatestWorkerRegistrations(
         IEnumerable<WorkerRegistration> workers,
         HashSet<int> expectedWorkerIndexes,
-        string? executionIdentifier) =>
+        string? runId) =>
         [.. workers
             .Where(worker => expectedWorkerIndexes.Contains(worker.WorkerIndex)
-                             && IsCurrentExecution(worker, executionIdentifier))
+                             && IsCurrentExecution(worker, runId))
             .GroupBy(worker => worker.WorkerIndex)
             .Select(group => group.MaxBy(worker => worker.RegisteredAt)!)];
 
@@ -661,11 +661,11 @@ internal sealed class RunReportService(
 
     private static bool IsCurrentExecution(
         WorkerRegistration worker,
-        string? executionIdentifier) =>
-        string.IsNullOrWhiteSpace(executionIdentifier)
+        string? runId) =>
+        string.IsNullOrWhiteSpace(runId)
         || string.Equals(
-            worker.RunIdentifier,
-            executionIdentifier,
+            worker.RunId,
+            runId,
             StringComparison.Ordinal);
 
     private static CancellationTokenSource CreatePhaseCancellationTokenSource(

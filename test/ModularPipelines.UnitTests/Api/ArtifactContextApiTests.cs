@@ -74,7 +74,9 @@ public class ArtifactContextApiTests
                 .IsEqualTo(typeof(TimeSpan));
             await Assert.That(typeof(DistributedOptions).GetProperty("ExecutionIdentifier")).IsNull();
             await Assert.That(typeof(WorkerRegistration).GetProperty("ExecutionIdentifier")).IsNull();
-            await Assert.That(typeof(WorkerRegistration).GetProperty("RunIdentifier")).IsNotNull();
+            await Assert.That(typeof(DistributedOptions).GetProperty("RunId")).IsNotNull();
+            await Assert.That(typeof(ArtifactOptions).GetProperty("RunIdentifier")).IsNull();
+            await Assert.That(typeof(WorkerRegistration).GetProperty("RunId")).IsNotNull();
             await Assert.That(assembly.GetType("ModularPipelines.Distributed.ModuleAssignmentConfig"))
                 .IsNull();
             await Assert.That(assembly.GetType(

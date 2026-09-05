@@ -11,10 +11,10 @@ internal static class HubMethodNames
     public const string Heartbeat = "Heartbeat";
     public const string PublishResult = "PublishResult";
     public const string RequestWork = "RequestWork";
+    public const string WaitForResult = "WaitForResult";
 
     // Master -> Worker (client methods)
     public const string ReceiveAssignment = "ReceiveAssignment";
-    public const string ReceiveDependencyResult = "ReceiveDependencyResult";
     public const string SignalCompletion = "SignalCompletion";
     public const string BroadcastCancellation = "BroadcastCancellation";
 }

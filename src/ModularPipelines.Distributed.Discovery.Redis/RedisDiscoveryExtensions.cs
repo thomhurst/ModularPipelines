@@ -46,6 +46,8 @@ public static class RedisDiscoveryExtensions
 
     private static PipelineBuilder AddRedisMasterDiscoveryServices(PipelineBuilder builder)
     {
+        builder.Services.Configure<DistributedOptions>(options => options.RequireExplicitRunId = true);
+        builder.Services.AddOptions<DistributedOptions>().ValidateOnStart();
         builder.Services.AddOptions<RedisDiscoveryOptions>()
             .Validate(
                 options => string.IsNullOrWhiteSpace(options.RestUrl)
@@ -68,6 +70,7 @@ public static class RedisDiscoveryExtensions
         builder.Services.AddSingleton<IMasterDiscovery>(sp => new RedisMasterDiscovery(
             sp.GetRequiredService<IRedisDiscoveryStore>(),
             sp.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value,
+            sp.GetRequiredService<IOptions<DistributedOptions>>().Value,
             sp.GetRequiredService<ILogger<RedisMasterDiscovery>>()));
 
         return builder;

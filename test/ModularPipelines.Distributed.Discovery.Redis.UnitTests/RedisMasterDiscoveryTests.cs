@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Discovery.Redis;
 using StackExchange.Redis;
 
@@ -26,12 +27,11 @@ public class RedisMasterDiscoveryTests
         var options = new RedisDiscoveryOptions
         {
             KeyPrefix = "test-prefix",
-            RunIdentifier = "test-run",
             TtlSeconds = 600,
         };
 
         var discovery = new RedisMasterDiscovery(
-            connection.Object, options, NullLogger<RedisMasterDiscovery>.Instance);
+            connection.Object, options, RunOptions(), NullLogger<RedisMasterDiscovery>.Instance);
 
         // Act — should not throw
         await discovery.AdvertiseMasterEndpointAsync("http://master:5099", CancellationToken.None);
@@ -51,11 +51,10 @@ public class RedisMasterDiscoveryTests
         var options = new RedisDiscoveryOptions
         {
             KeyPrefix = "test-prefix",
-            RunIdentifier = "test-run",
         };
 
         var discovery = new RedisMasterDiscovery(
-            connection.Object, options, NullLogger<RedisMasterDiscovery>.Instance);
+            connection.Object, options, RunOptions(), NullLogger<RedisMasterDiscovery>.Instance);
 
         // Act
         var result = await discovery.DiscoverMasterEndpointAsync(CancellationToken.None);
@@ -83,12 +82,11 @@ public class RedisMasterDiscoveryTests
         var options = new RedisDiscoveryOptions
         {
             KeyPrefix = "test-prefix",
-            RunIdentifier = "test-run",
             PollIntervalMs = 50,
         };
 
         var discovery = new RedisMasterDiscovery(
-            connection.Object, options, NullLogger<RedisMasterDiscovery>.Instance);
+            connection.Object, options, RunOptions(), NullLogger<RedisMasterDiscovery>.Instance);
 
         // Act
         var result = await discovery.DiscoverMasterEndpointAsync(CancellationToken.None);
@@ -112,13 +110,12 @@ public class RedisMasterDiscoveryTests
         var options = new RedisDiscoveryOptions
         {
             KeyPrefix = "test-prefix",
-            RunIdentifier = "test-run",
             DiscoveryTimeoutSeconds = 1,
             PollIntervalMs = 100,
         };
 
         var discovery = new RedisMasterDiscovery(
-            connection.Object, options, NullLogger<RedisMasterDiscovery>.Instance);
+            connection.Object, options, RunOptions(), NullLogger<RedisMasterDiscovery>.Instance);
 
         // Act & Assert
         var threw = false;
@@ -133,4 +130,6 @@ public class RedisMasterDiscoveryTests
 
         await Assert.That(threw).IsTrue();
     }
+
+    private static DistributedOptions RunOptions() => new() { RunId = "test-run" };
 }

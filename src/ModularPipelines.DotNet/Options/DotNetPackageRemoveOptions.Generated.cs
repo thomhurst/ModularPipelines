@@ -18,7 +18,9 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "remove")]
-public record DotNetPackageRemoveOptions : DotNetOptions
+public record DotNetPackageRemoveOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> PackageName
+) : DotNetOptions
 {
     /// <summary>
     /// Allows the command to stop and wait for user input or action (for example to complete authentication). [default: False]
@@ -37,11 +39,5 @@ public record DotNetPackageRemoveOptions : DotNetOptions
     /// </summary>
     [CliOption("--file")]
     public string? File { get; set; }
-
-    /// <summary>
-    /// The package reference to remove.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public IEnumerable<string>? PackageName { get; set; }
 
 }

@@ -28,11 +28,6 @@ public class ArtifactOptions
     public bool AutoCleanup { get; set; } = true;
 
     /// <summary>
-    /// Explicit run identifier override. If not set, auto-detected from CI environment or git SHA.
-    /// </summary>
-    public string? RunIdentifier { get; set; }
-
-    /// <summary>
     /// Time-to-live for stored artifacts. Default: 1 hour.
     /// </summary>
     public TimeSpan TimeToLive { get; set; } = TimeSpan.FromHours(1);

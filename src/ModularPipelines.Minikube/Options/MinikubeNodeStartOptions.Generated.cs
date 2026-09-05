@@ -18,7 +18,9 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("node", "start")]
-public record MinikubeNodeStartOptions : MinikubeOptions
+public record MinikubeNodeStartOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NodeName
+) : MinikubeOptions
 {
     /// <summary>
     /// If set, delete the current cluster if start fails and try again. Defaults to false.

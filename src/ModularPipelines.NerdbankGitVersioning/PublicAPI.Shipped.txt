@@ -94,7 +94,6 @@ ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.VersionOrRef.set -
 ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.WhatIf.get -> bool?
 ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.WhatIf.set -> void
 ModularPipelines.NerdbankGitVersioning.Services.INbgv
-override abstract ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions.<Clone>$() -> ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions!
 override ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.<Clone>$() -> ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions!
 override ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.Equals(object? obj) -> bool
@@ -142,6 +141,7 @@ override ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.Equals(ob
 override ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.GetHashCode() -> int
 override ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.NerdbankGitVersioning.Options.NbgvTagOptions.ToString() -> string!
+override abstract ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions.<Clone>$() -> ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions!
 override sealed ModularPipelines.NerdbankGitVersioning.Options.NbgvCloudOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions? other) -> bool
 override sealed ModularPipelines.NerdbankGitVersioning.Options.NbgvGetCommitsOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions? other) -> bool
 override sealed ModularPipelines.NerdbankGitVersioning.Options.NbgvGetVersionOptions.Equals(ModularPipelines.NerdbankGitVersioning.Options.NbgvOptions? other) -> bool
