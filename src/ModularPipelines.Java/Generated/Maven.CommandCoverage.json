@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "mvn",
-  "toolVersion": "Apache Maven 3.9.16 (2bdd9fddda4b155ebf8000e807eb73fd829a51d5) Maven home: /home/runner/work/_temp/cli-tools/apache-maven-3.9.16 Java version: 17.0.20.1, vendor: Eclipse Adoptium, runtime: /usr/lib/jvm/temurin-17-jdk-amd64 Default locale: en, platform encoding: UTF-8 OS name: \u0022linux\u0022, version: \u00226.17.0-1022-azure\u0022, arch: \u0022amd64\u0022, family: \u0022unix\u0022",
+  "toolVersion": "3.9.16",
   "commandCount": 1,
   "commandTreeSha256": "77b009e6e3fcca705290e093300672ab0c85c6661417cced8369040f3290be3f",
   "commands": [

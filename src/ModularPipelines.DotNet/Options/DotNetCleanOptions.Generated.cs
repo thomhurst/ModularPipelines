@@ -87,11 +87,4 @@ public record DotNetCleanOptions : DotNetOptions
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ProjectSolution { get; set; }
 
-    [Obsolete("Use NoLogo instead.")]
-    public bool? Nologo
-    {
-        get => NoLogo;
-        set => NoLogo = value;
-    }
-
 }

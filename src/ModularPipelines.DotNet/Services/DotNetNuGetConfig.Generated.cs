@@ -55,11 +55,11 @@ public class DotNetNuGetConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAsync(
-        DotNetNuGetConfigGetOptions? options = null,
+        DotNetNuGetConfigGetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetConfigGetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -85,11 +85,11 @@ public class DotNetNuGetConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetAsync(
-        DotNetNuGetConfigSetOptions? options = null,
+        DotNetNuGetConfigSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetConfigSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public class DotNetNuGetConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UnsetAsync(
-        DotNetNuGetConfigUnsetOptions? options = null,
+        DotNetNuGetConfigUnsetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetConfigUnsetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

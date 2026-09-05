@@ -51,6 +51,21 @@ public class MavenCliScraperTests
         await Assert.That(argument.Phase).IsEqualTo(CommandLinePhase.Passthrough);
     }
 
+    [Test]
+    public async Task Parses_Stable_Version_Identity()
+    {
+        const string versionOutput = """
+            Apache Maven 3.9.16 (abcdef)
+            Maven home: /home/runner/work/_temp/cli-tools/apache-maven-3.9.16
+            Java version: 17.0.20.1, vendor: Eclipse Adoptium
+            OS name: "linux", version: "6.17.0-1022-azure", arch: "amd64"
+            """;
+
+        var version = new TestMavenCliScraper().ParseVersion(versionOutput);
+
+        await Assert.That(version).IsEqualTo("3.9.16");
+    }
+
     private sealed class TestMavenCliScraper : MavenCliScraper
     {
         public TestMavenCliScraper()
@@ -63,5 +78,12 @@ public class MavenCliScraperTests
 
         public async Task<CliCommandDefinition> Parse(string helpText) =>
             (await ParseCommandAsync([ToolName], helpText, CancellationToken.None))!;
+
+        public string? ParseVersion(string standardOutput) => ParseVersionOutput(new CliCommandResult
+        {
+            StandardOutput = standardOutput,
+            StandardError = string.Empty,
+            ExitCode = 0,
+        });
     }
 }

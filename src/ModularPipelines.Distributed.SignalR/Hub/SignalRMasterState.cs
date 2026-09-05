@@ -259,10 +259,11 @@ internal class SignalRMasterState
 
         lock (_pendingReconnectLock)
         {
-            if (ResultWaiters.TryGetValue(result.ModuleTypeName, out var waiter))
-            {
-                waiter.TrySetResult(result);
-            }
+            var waiter = ResultWaiters.GetOrAdd(
+                result.ModuleTypeName,
+                static _ => new TaskCompletionSource<SerializedModuleResult>(
+                    TaskCreationOptions.RunContinuationsAsynchronously));
+            waiter.TrySetResult(result);
 
             if (_pendingReconnects.Remove(result.ModuleTypeName, out pending))
             {

@@ -10,7 +10,7 @@ public record ModuleAssignment(
     IReadOnlySet<Capability> RequiredCapabilities,
     DateTimeOffset AssignedAt,
     ModuleAssignmentConfiguration Configuration,
-    IReadOnlyList<SerializedModuleResult>? DependencyResults = null)
+    IReadOnlyList<DependencyResultReference>? DependencyResultReferences = null)
 {
     /// <summary>
     /// Gets the user-configured scheduling priority.

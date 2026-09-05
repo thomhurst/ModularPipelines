@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Pulumi.Services;
 
 namespace ModularPipelines.Pulumi.Extensions;

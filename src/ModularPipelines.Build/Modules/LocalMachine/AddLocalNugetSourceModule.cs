@@ -31,10 +31,10 @@ public class AddLocalNugetSourceModule : Module<CommandResult>
     {
         var localNugetPathResult = await context.GetModule<CreateLocalNugetFolderModule>();
 
-        return await context.Tools.DotNet.NuGet.Add.SourceAsync(new DotNetNuGetAddSourceOptions
+        return await context.Tools.DotNet.NuGet.Add.SourceAsync(new DotNetNuGetAddSourceOptions(
+            localNugetPathResult.Value.AssertExists().Path)
         {
             Name = _localNuGetSettings.Value.SourceName,
-            Packagesourcepath = localNugetPathResult.Value.AssertExists(),
         }, cancellationToken: cancellationToken);
     }
 }

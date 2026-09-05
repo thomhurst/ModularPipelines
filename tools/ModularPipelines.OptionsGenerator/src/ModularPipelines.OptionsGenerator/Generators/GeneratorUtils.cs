@@ -893,7 +893,7 @@ public static partial class GeneratorUtils
 
     private static readonly string[] FilePathPropertySuffixes = ["File", "Path", "Keyring", "Dir"];
 
-    private static readonly string[] IdentifierPropertySuffixes = ["Name", "Id", "Identifier"];
+    private static readonly string[] IdentifierPropertySuffixes = ["Id", "Identifier"];
 
     private const string SecretDescriptionKeywordPattern =
         @"secret|password|passphrase|token|credential|api[\s-]*key|private[\s-]*key|access[\s-]*key|secret[\s-]*key|one[\s-]*time[\s-]*password|otp";
@@ -917,7 +917,7 @@ public static partial class GeneratorUtils
 
         if (isFlag
             || propertyName.EndsWith("SecretsProvider", StringComparison.OrdinalIgnoreCase)
-            || IsSecretIdentifier(propertyName)
+            || propertyName.EndsWith("Name", StringComparison.OrdinalIgnoreCase)
             || IsFilePathOption(propertyName, description))
         {
             return false;
@@ -927,7 +927,12 @@ public static partial class GeneratorUtils
                                    propertyName.Contains(keyword, StringComparison.OrdinalIgnoreCase))
                                || ContainsIdentifierSegment(propertyName, "Otp")
                                || propertyName.EndsWith("Creds", StringComparison.OrdinalIgnoreCase);
-        return hasSecretKeyword || DescriptionIdentifiesSecretValue(description);
+        if (hasSecretKeyword)
+        {
+            return true;
+        }
+
+        return !IsSecretIdentifier(propertyName) && DescriptionIdentifiesSecretValue(description);
     }
 
     private static bool IsSecretIdentifier(string propertyName) =>

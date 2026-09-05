@@ -18,7 +18,9 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("reference", "add")]
-public record DotNetReferenceAddOptions : DotNetOptions
+public record DotNetReferenceAddOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> ProjectPath
+) : DotNetOptions
 {
     /// <summary>
     /// Add the reference only when targeting a specific framework.
@@ -43,11 +45,5 @@ public record DotNetReferenceAddOptions : DotNetOptions
     /// </summary>
     [CliFlag("--project")]
     public bool? Project { get; set; }
-
-    /// <summary>
-    /// The paths to the projects to add as references.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public IEnumerable<string>? ProjectPath { get; set; }
 
 }

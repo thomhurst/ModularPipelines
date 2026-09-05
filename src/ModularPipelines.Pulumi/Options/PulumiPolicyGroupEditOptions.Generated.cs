@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "group", "edit")]
 public record PulumiPolicyGroupEditOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NameArgument
 ) : PulumiOptions
 {
     /// <summary>
@@ -50,7 +50,7 @@ public record PulumiPolicyGroupEditOptions(
     /// Rename the Policy Group
     /// </summary>
     [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
-    public string? NameOption { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// The organization that owns the Policy Group

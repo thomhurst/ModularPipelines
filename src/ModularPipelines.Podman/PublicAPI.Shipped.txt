@@ -303,8 +303,6 @@ ModularPipelines.Podman.Options.PodmanBuildOptions.OsFeature.get -> string?
 ModularPipelines.Podman.Options.PodmanBuildOptions.OsFeature.set -> void
 ModularPipelines.Podman.Options.PodmanBuildOptions.OsVersion.get -> string?
 ModularPipelines.Podman.Options.PodmanBuildOptions.OsVersion.set -> void
-ModularPipelines.Podman.Options.PodmanBuildOptions.Output.get -> string?
-ModularPipelines.Podman.Options.PodmanBuildOptions.Output.set -> void
 ModularPipelines.Podman.Options.PodmanBuildOptions.Outputs.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Podman.Options.PodmanBuildOptions.Outputs.set -> void
 ModularPipelines.Podman.Options.PodmanBuildOptions.Pid.get -> string?
@@ -367,8 +365,6 @@ ModularPipelines.Podman.Options.PodmanBuildOptions.Tag.get -> string?
 ModularPipelines.Podman.Options.PodmanBuildOptions.Tag.set -> void
 ModularPipelines.Podman.Options.PodmanBuildOptions.Target.get -> string?
 ModularPipelines.Podman.Options.PodmanBuildOptions.Target.set -> void
-ModularPipelines.Podman.Options.PodmanBuildOptions.Timestamp.get -> int?
-ModularPipelines.Podman.Options.PodmanBuildOptions.Timestamp.set -> void
 ModularPipelines.Podman.Options.PodmanBuildOptions.TimestampValue.get -> string?
 ModularPipelines.Podman.Options.PodmanBuildOptions.TimestampValue.set -> void
 ModularPipelines.Podman.Options.PodmanBuildOptions.TlsVerify.get -> bool?
@@ -2955,8 +2951,6 @@ ModularPipelines.Podman.Options.PodmanFarmBuildOptions.Tag.get -> string?
 ModularPipelines.Podman.Options.PodmanFarmBuildOptions.Tag.set -> void
 ModularPipelines.Podman.Options.PodmanFarmBuildOptions.Target.get -> string?
 ModularPipelines.Podman.Options.PodmanFarmBuildOptions.Target.set -> void
-ModularPipelines.Podman.Options.PodmanFarmBuildOptions.Timestamp.get -> int?
-ModularPipelines.Podman.Options.PodmanFarmBuildOptions.Timestamp.set -> void
 ModularPipelines.Podman.Options.PodmanFarmBuildOptions.TimestampValue.get -> string?
 ModularPipelines.Podman.Options.PodmanFarmBuildOptions.TimestampValue.set -> void
 ModularPipelines.Podman.Options.PodmanFarmBuildOptions.TlsVerify.get -> bool?
@@ -3021,8 +3015,6 @@ ModularPipelines.Podman.Options.PodmanGenerateKubeOptions.Container.init -> void
 ModularPipelines.Podman.Options.PodmanGenerateKubeOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Container) -> void
 ModularPipelines.Podman.Options.PodmanGenerateKubeOptions.Filename.get -> string?
 ModularPipelines.Podman.Options.PodmanGenerateKubeOptions.Filename.set -> void
-ModularPipelines.Podman.Options.PodmanGenerateKubeOptions.NoTrunc.get -> bool?
-ModularPipelines.Podman.Options.PodmanGenerateKubeOptions.NoTrunc.set -> void
 ModularPipelines.Podman.Options.PodmanGenerateKubeOptions.PodmanGenerateKubeOptions(ModularPipelines.Podman.Options.PodmanGenerateKubeOptions! original) -> void
 ModularPipelines.Podman.Options.PodmanGenerateKubeOptions.PodmanGenerateKubeOptions(System.Collections.Generic.IEnumerable<string!>! Container) -> void
 ModularPipelines.Podman.Options.PodmanGenerateKubeOptions.PodmanOnly.get -> bool?
@@ -3238,8 +3230,6 @@ ModularPipelines.Podman.Options.PodmanImageBuildOptions.OsFeature.get -> string?
 ModularPipelines.Podman.Options.PodmanImageBuildOptions.OsFeature.set -> void
 ModularPipelines.Podman.Options.PodmanImageBuildOptions.OsVersion.get -> string?
 ModularPipelines.Podman.Options.PodmanImageBuildOptions.OsVersion.set -> void
-ModularPipelines.Podman.Options.PodmanImageBuildOptions.Output.get -> string?
-ModularPipelines.Podman.Options.PodmanImageBuildOptions.Output.set -> void
 ModularPipelines.Podman.Options.PodmanImageBuildOptions.Outputs.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Podman.Options.PodmanImageBuildOptions.Outputs.set -> void
 ModularPipelines.Podman.Options.PodmanImageBuildOptions.Pid.get -> string?
@@ -3302,8 +3292,6 @@ ModularPipelines.Podman.Options.PodmanImageBuildOptions.Tag.get -> string?
 ModularPipelines.Podman.Options.PodmanImageBuildOptions.Tag.set -> void
 ModularPipelines.Podman.Options.PodmanImageBuildOptions.Target.get -> string?
 ModularPipelines.Podman.Options.PodmanImageBuildOptions.Target.set -> void
-ModularPipelines.Podman.Options.PodmanImageBuildOptions.Timestamp.get -> int?
-ModularPipelines.Podman.Options.PodmanImageBuildOptions.Timestamp.set -> void
 ModularPipelines.Podman.Options.PodmanImageBuildOptions.TimestampValue.get -> string?
 ModularPipelines.Podman.Options.PodmanImageBuildOptions.TimestampValue.set -> void
 ModularPipelines.Podman.Options.PodmanImageBuildOptions.TlsVerify.get -> bool?
@@ -3777,8 +3765,6 @@ ModularPipelines.Podman.Options.PodmanKubeGenerateOptions.Container.init -> void
 ModularPipelines.Podman.Options.PodmanKubeGenerateOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Container) -> void
 ModularPipelines.Podman.Options.PodmanKubeGenerateOptions.Filename.get -> string?
 ModularPipelines.Podman.Options.PodmanKubeGenerateOptions.Filename.set -> void
-ModularPipelines.Podman.Options.PodmanKubeGenerateOptions.NoTrunc.get -> bool?
-ModularPipelines.Podman.Options.PodmanKubeGenerateOptions.NoTrunc.set -> void
 ModularPipelines.Podman.Options.PodmanKubeGenerateOptions.PodmanKubeGenerateOptions(ModularPipelines.Podman.Options.PodmanKubeGenerateOptions! original) -> void
 ModularPipelines.Podman.Options.PodmanKubeGenerateOptions.PodmanKubeGenerateOptions(System.Collections.Generic.IEnumerable<string!>! Container) -> void
 ModularPipelines.Podman.Options.PodmanKubeGenerateOptions.PodmanOnly.get -> bool?
@@ -3827,8 +3813,6 @@ ModularPipelines.Podman.Options.PodmanKubePlayOptions.NoHosts.get -> bool?
 ModularPipelines.Podman.Options.PodmanKubePlayOptions.NoHosts.set -> void
 ModularPipelines.Podman.Options.PodmanKubePlayOptions.NoPodPrefix.get -> bool?
 ModularPipelines.Podman.Options.PodmanKubePlayOptions.NoPodPrefix.set -> void
-ModularPipelines.Podman.Options.PodmanKubePlayOptions.NoTrunc.get -> bool?
-ModularPipelines.Podman.Options.PodmanKubePlayOptions.NoTrunc.set -> void
 ModularPipelines.Podman.Options.PodmanKubePlayOptions.PodmanKubePlayOptions(ModularPipelines.Podman.Options.PodmanKubePlayOptions! original) -> void
 ModularPipelines.Podman.Options.PodmanKubePlayOptions.PodmanKubePlayOptions(string! Kubefile) -> void
 ModularPipelines.Podman.Options.PodmanKubePlayOptions.Publish.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -3933,8 +3917,6 @@ ModularPipelines.Podman.Options.PodmanMachineInitOptions.IgnitionPath.get -> str
 ModularPipelines.Podman.Options.PodmanMachineInitOptions.IgnitionPath.set -> void
 ModularPipelines.Podman.Options.PodmanMachineInitOptions.Image.get -> string?
 ModularPipelines.Podman.Options.PodmanMachineInitOptions.Image.set -> void
-ModularPipelines.Podman.Options.PodmanMachineInitOptions.ImagePath.get -> string?
-ModularPipelines.Podman.Options.PodmanMachineInitOptions.ImagePath.set -> void
 ModularPipelines.Podman.Options.PodmanMachineInitOptions.Memory.get -> int?
 ModularPipelines.Podman.Options.PodmanMachineInitOptions.Memory.set -> void
 ModularPipelines.Podman.Options.PodmanMachineInitOptions.Name.get -> string?
@@ -3961,8 +3943,6 @@ ModularPipelines.Podman.Options.PodmanMachineInitOptions.Username.get -> string?
 ModularPipelines.Podman.Options.PodmanMachineInitOptions.Username.set -> void
 ModularPipelines.Podman.Options.PodmanMachineInitOptions.Volume.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Podman.Options.PodmanMachineInitOptions.Volume.set -> void
-ModularPipelines.Podman.Options.PodmanMachineInitOptions.VolumeDriver.get -> string?
-ModularPipelines.Podman.Options.PodmanMachineInitOptions.VolumeDriver.set -> void
 ModularPipelines.Podman.Options.PodmanMachineInspectOptions
 ModularPipelines.Podman.Options.PodmanMachineInspectOptions.Format.get -> string?
 ModularPipelines.Podman.Options.PodmanMachineInspectOptions.Format.set -> void
@@ -4007,8 +3987,6 @@ ModularPipelines.Podman.Options.PodmanMachineRmOptions.SaveIgnition.get -> bool?
 ModularPipelines.Podman.Options.PodmanMachineRmOptions.SaveIgnition.set -> void
 ModularPipelines.Podman.Options.PodmanMachineRmOptions.SaveImage.get -> bool?
 ModularPipelines.Podman.Options.PodmanMachineRmOptions.SaveImage.set -> void
-ModularPipelines.Podman.Options.PodmanMachineRmOptions.SaveKeys.get -> bool?
-ModularPipelines.Podman.Options.PodmanMachineRmOptions.SaveKeys.set -> void
 ModularPipelines.Podman.Options.PodmanMachineSetOptions
 ModularPipelines.Podman.Options.PodmanMachineSetOptions.Cpus.get -> int?
 ModularPipelines.Podman.Options.PodmanMachineSetOptions.Cpus.set -> void

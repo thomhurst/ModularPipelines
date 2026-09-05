@@ -18,7 +18,10 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "config", "set")]
-public record DotNetNuGetConfigSetOptions : DotNetOptions
+public record DotNetNuGetConfigSetOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ConfigKey,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ConfigValue
+) : DotNetOptions
 {
     /// <summary>
     /// The NuGet configuration file. If specified, only the settings from this file will be used. If not specified, the hierarchy of configuration files from the current directory will be used. For more information, see https://docs.microsoft.com/nuget/consume-packages/configuring-nuget-behavior.
@@ -31,17 +34,5 @@ public record DotNetNuGetConfigSetOptions : DotNetOptions
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
-
-    /// <summary>
-    /// The key of the settings that are to be set.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? ConfigKey { get; set; }
-
-    /// <summary>
-    /// The value of the settings that are to be set.
-    /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
-    public string? ConfigValue { get; set; }
 
 }

@@ -145,16 +145,6 @@ public partial interface IPulumi
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// [EXPERIMENTAL] Interact with any cloud
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DoAsync(PulumiDoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
     /// Import resources into an existing stack.
     /// </summary>
     /// <param name="options">The command options.</param>
