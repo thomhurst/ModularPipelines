@@ -10,18 +10,21 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.ArgoCd.Enums;
 
+/// <summary>
+/// Allowed values for the --loglevel option.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public enum ArgoCdProjRemoveSignatureKeyLoglevel
+public enum ArgoCdAdminClusterKubeConfigLoglevel
 {
     [EnumValue("debug")]
-    Debug = 0,
+    Debug,
 
     [EnumValue("info")]
-    Info = 1,
+    Info,
 
     [EnumValue("warn")]
-    Warn = 2,
+    Warn,
 
     [EnumValue("error")]
-    Error = 3
+    Error
 }

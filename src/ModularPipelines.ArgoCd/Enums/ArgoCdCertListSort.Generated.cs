@@ -17,8 +17,8 @@ namespace ModularPipelines.ArgoCd.Enums;
 public enum ArgoCdCertListSort
 {
     [EnumValue("hostname")]
-    Hostname = 0,
+    Hostname,
 
     [EnumValue("type")]
-    Type = 1
+    Type
 }

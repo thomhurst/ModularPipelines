@@ -17,11 +17,11 @@ namespace ModularPipelines.ArgoCd.Enums;
 public enum ArgoCdProjSourceIntegrityGitPoliciesAddGpgMode
 {
     [EnumValue("strict")]
-    Strict = 0,
+    Strict,
 
     [EnumValue("head")]
-    Head = 1,
+    Head,
 
     [EnumValue("none")]
-    None = 2
+    None
 }

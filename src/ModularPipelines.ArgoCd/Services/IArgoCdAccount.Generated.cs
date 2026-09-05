@@ -41,13 +41,6 @@ public interface IArgoCdAccount
     public Task<CommandResult> BcryptAsync(ArgoCdAccountBcryptOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    /// <summary>
-    /// # Can I sync any app?
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
     public Task<CommandResult> CanIAsync(ArgoCdAccountCanIOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
