@@ -18,22 +18,23 @@ internal class RedisSignalRMasterDiscovery : ISignalRMasterDiscovery
     public RedisSignalRMasterDiscovery(
         IConnectionMultiplexer connection,
         RedisDiscoveryOptions options,
+        DistributedOptions distributedOptions,
         ILogger<RedisSignalRMasterDiscovery> logger)
-        : this(new StackExchangeRedisDiscoveryStore(connection), options, logger)
+        : this(new StackExchangeRedisDiscoveryStore(connection), options, distributedOptions, logger)
     {
     }
 
     internal RedisSignalRMasterDiscovery(
         IRedisDiscoveryStore store,
         RedisDiscoveryOptions options,
+        DistributedOptions distributedOptions,
         ILogger<RedisSignalRMasterDiscovery> logger)
     {
         _store = store;
         _options = options;
         _logger = logger;
 
-        var runId = RunIdentifierResolver.Resolve(options.RunIdentifier);
-        _masterUrlKey = $"{options.KeyPrefix}:{runId}:master-url";
+        _masterUrlKey = $"{options.KeyPrefix}:{distributedOptions.RunId}:master-url";
     }
 
     public async Task AdvertiseMasterUrlAsync(string masterUrl, CancellationToken cancellationToken)
