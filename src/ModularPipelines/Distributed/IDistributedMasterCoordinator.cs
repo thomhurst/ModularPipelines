@@ -12,13 +12,6 @@ public interface IDistributedMasterCoordinator : IDistributedWorkerCoordinator
     Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken);
 
     /// <summary>
-    /// Waits for the result of a distributed module assignment.
-    /// </summary>
-    Task<SerializedModuleResult> WaitForResultAsync(
-        string moduleTypeName,
-        CancellationToken cancellationToken);
-
-    /// <summary>
     /// Gets workers whose registrations are still live.
     /// </summary>
     Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(

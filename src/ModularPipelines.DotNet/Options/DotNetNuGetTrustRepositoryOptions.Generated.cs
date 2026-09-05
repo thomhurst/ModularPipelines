@@ -18,7 +18,10 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "trust", "repository")]
-public record DotNetNuGetTrustRepositoryOptions : DotNetOptions
+public record DotNetNuGetTrustRepositoryOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Package
+) : DotNetOptions
 {
     /// <summary>
     /// Specifies if the certificate for the trusted signer should be allowed to chain to an untrusted root. This is not recommended.
@@ -49,17 +52,5 @@ public record DotNetNuGetTrustRepositoryOptions : DotNetOptions
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
-
-    /// <summary>
-    /// The name of the trusted signer to add. If name already exists in the configuration, the signature is appended.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Name { get; set; }
-
-    /// <summary>
-    /// The given package should be a local path to the signed .nupkg file.
-    /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Package { get; set; }
 
 }

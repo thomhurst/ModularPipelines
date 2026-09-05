@@ -17,8 +17,8 @@ namespace ModularPipelines.Liquibase.Enums;
 public enum LiquibaseUiService
 {
     [EnumValue("console")]
-    Console = 0,
+    Console,
 
     [EnumValue("logger")]
-    Logger = 1
+    Logger
 }

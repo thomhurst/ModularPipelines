@@ -1,0 +1,7 @@
+{
+  "formatVersion": 1,
+  "toolName": "eksctl",
+  "toolVersion": "0.230.0",
+  "commandTreeSha256": "84fec058d6a4a16c205233e11b13a4ffb48fce85b9cb074d731bba5dc937d7a5",
+  "generatorSourceSha256": "def6f7dcd95c0ad3f3902a39e707f5783b6610d1bd323bf9e9c3a0ea8d9a2d39"
+}

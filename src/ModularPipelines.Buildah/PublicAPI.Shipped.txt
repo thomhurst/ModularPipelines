@@ -611,8 +611,6 @@ ModularPipelines.Buildah.Options.BuildahManifestInspectOptions.TlsVerify.set -> 
 ModularPipelines.Buildah.Options.BuildahManifestOptions
 ModularPipelines.Buildah.Options.BuildahManifestOptions.BuildahManifestOptions() -> void
 ModularPipelines.Buildah.Options.BuildahManifestOptions.BuildahManifestOptions(ModularPipelines.Buildah.Options.BuildahManifestOptions! original) -> void
-ModularPipelines.Buildah.Options.BuildahManifestOptions.Command.get -> string?
-ModularPipelines.Buildah.Options.BuildahManifestOptions.Command.set -> void
 ModularPipelines.Buildah.Options.BuildahManifestOptions.Help.get -> bool?
 ModularPipelines.Buildah.Options.BuildahManifestOptions.Help.set -> void
 ModularPipelines.Buildah.Options.BuildahManifestPushOptions
@@ -871,8 +869,6 @@ ModularPipelines.Buildah.Options.BuildahSourceCreateOptions.TimeStamp.set -> voi
 ModularPipelines.Buildah.Options.BuildahSourceOptions
 ModularPipelines.Buildah.Options.BuildahSourceOptions.BuildahSourceOptions() -> void
 ModularPipelines.Buildah.Options.BuildahSourceOptions.BuildahSourceOptions(ModularPipelines.Buildah.Options.BuildahSourceOptions! original) -> void
-ModularPipelines.Buildah.Options.BuildahSourceOptions.Command.get -> string?
-ModularPipelines.Buildah.Options.BuildahSourceOptions.Command.set -> void
 ModularPipelines.Buildah.Options.BuildahSourceOptions.Help.get -> bool?
 ModularPipelines.Buildah.Options.BuildahSourceOptions.Help.set -> void
 ModularPipelines.Buildah.Options.BuildahSourcePullOptions

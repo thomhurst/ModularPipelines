@@ -260,14 +260,14 @@ ModularPipelines.Snyk.Options.SnykIacDescribeOptions.SnykIacDescribeOptions() ->
 ModularPipelines.Snyk.Options.SnykIacDescribeOptions.SnykIacDescribeOptions(ModularPipelines.Snyk.Options.SnykIacDescribeOptions! original) -> void
 ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Strict.get -> bool?
 ModularPipelines.Snyk.Options.SnykIacDescribeOptions.Strict.set -> void
-ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfcEndpoint.get -> string?
-ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfcEndpoint.set -> void
-ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfcToken.get -> string?
-ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfcToken.set -> void
 ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfLockfile.get -> string?
 ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfLockfile.set -> void
 ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfProviderVersion.get -> string?
 ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfProviderVersion.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfcEndpoint.get -> string?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfcEndpoint.set -> void
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfcToken.get -> string?
+ModularPipelines.Snyk.Options.SnykIacDescribeOptions.TfcToken.set -> void
 ModularPipelines.Snyk.Options.SnykIacDescribeOptions.To.get -> string?
 ModularPipelines.Snyk.Options.SnykIacDescribeOptions.To.set -> void
 ModularPipelines.Snyk.Options.SnykIacOptions
@@ -464,12 +464,12 @@ ModularPipelines.Snyk.Options.SnykPolicyOptions.PathToPolicyFile.set -> void
 ModularPipelines.Snyk.Options.SnykPolicyOptions.SnykPolicyOptions() -> void
 ModularPipelines.Snyk.Options.SnykPolicyOptions.SnykPolicyOptions(ModularPipelines.Snyk.Options.SnykPolicyOptions! original) -> void
 ModularPipelines.Snyk.Options.SnykSbomOptions
-ModularPipelines.Snyk.Options.SnykSbomOptions.AllowIncompleteSbom.get -> bool?
-ModularPipelines.Snyk.Options.SnykSbomOptions.AllowIncompleteSbom.set -> void
 ModularPipelines.Snyk.Options.SnykSbomOptions.AllProjects.get -> bool?
 ModularPipelines.Snyk.Options.SnykSbomOptions.AllProjects.set -> void
 ModularPipelines.Snyk.Options.SnykSbomOptions.AllSubProjects.get -> bool?
 ModularPipelines.Snyk.Options.SnykSbomOptions.AllSubProjects.set -> void
+ModularPipelines.Snyk.Options.SnykSbomOptions.AllowIncompleteSbom.get -> bool?
+ModularPipelines.Snyk.Options.SnykSbomOptions.AllowIncompleteSbom.set -> void
 ModularPipelines.Snyk.Options.SnykSbomOptions.AssetsProjectName.get -> bool?
 ModularPipelines.Snyk.Options.SnykSbomOptions.AssetsProjectName.set -> void
 ModularPipelines.Snyk.Options.SnykSbomOptions.Command.get -> string?
@@ -657,7 +657,6 @@ ModularPipelines.Snyk.Options.SnykTestOptions.Unmanaged.set -> void
 ModularPipelines.Snyk.Options.SnykTestOptions.YarnWorkspaces.get -> bool?
 ModularPipelines.Snyk.Options.SnykTestOptions.YarnWorkspaces.set -> void
 ModularPipelines.Snyk.Services.ISnyk
-override abstract ModularPipelines.Snyk.Options.SnykOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykOptions!
 override ModularPipelines.Snyk.Options.SnykAibomOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykAibomOptions!
 override ModularPipelines.Snyk.Options.SnykAibomOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Snyk.Options.SnykAibomOptions.Equals(object? obj) -> bool
@@ -771,6 +770,7 @@ override ModularPipelines.Snyk.Options.SnykTestOptions.Equals(object? obj) -> bo
 override ModularPipelines.Snyk.Options.SnykTestOptions.GetHashCode() -> int
 override ModularPipelines.Snyk.Options.SnykTestOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Snyk.Options.SnykTestOptions.ToString() -> string!
+override abstract ModularPipelines.Snyk.Options.SnykOptions.<Clone>$() -> ModularPipelines.Snyk.Options.SnykOptions!
 override sealed ModularPipelines.Snyk.Options.SnykAibomOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
 override sealed ModularPipelines.Snyk.Options.SnykAibomTestOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool
 override sealed ModularPipelines.Snyk.Options.SnykAuthOptions.Equals(ModularPipelines.Snyk.Options.SnykOptions? other) -> bool

@@ -1,6 +1,4 @@
-using System.IO.Compression;
 using System.Reflection;
-using System.Text;
 using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
@@ -12,7 +10,6 @@ namespace ModularPipelines.Distributed.Master;
 internal class DistributedWorkPublisher(
     IDistributedMasterCoordinator coordinator,
     ModuleTypeRegistry typeRegistry,
-    ModuleResultSerializer serializer,
     IModuleResultRegistry resultRegistry,
     IModuleDependencyRegistry? dependencyRegistry = null,
     IModuleMetadataRegistry? metadataRegistry = null,
@@ -21,7 +18,6 @@ internal class DistributedWorkPublisher(
 {
     private readonly IDistributedMasterCoordinator _coordinator = coordinator;
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
-    private readonly ModuleResultSerializer _serializer = serializer;
     private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
     private readonly IModuleDependencyRegistry? _dependencyRegistry = dependencyRegistry;
     private readonly IModuleMetadataRegistry? _metadataRegistry = metadataRegistry;
@@ -60,7 +56,7 @@ internal class DistributedWorkPublisher(
 
         var config = module.Configuration;
 
-        var dependencyResults = GatherDependencyResults(module);
+        var dependencyResultReferences = GatherDependencyResultReferences(module);
 
         return new ModuleAssignment(
             ModuleTypeName: moduleType.FullName!,
@@ -71,7 +67,7 @@ internal class DistributedWorkPublisher(
                 TimeoutSeconds: config.Timeout is not null ? (int?) config.Timeout.Value.TotalSeconds : null,
                 AlwaysRun: config.AlwaysRun
             ),
-            DependencyResults: dependencyResults)
+            DependencyResultReferences: dependencyResultReferences)
         {
             SatisfiedConditionGroups = _conditionRouting?.GetLocallySatisfiedGroupNames(module) ?? [],
         };
@@ -131,7 +127,7 @@ internal class DistributedWorkPublisher(
 
     public async Task PublishAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
     {
-        await _coordinator.EnqueueModuleAsync(assignment, cancellationToken);
+        await _coordinator.EnqueueModuleAsync(assignment, cancellationToken).ConfigureAwait(false);
     }
 
     private static void AddExplicitOperatingSystemRoutes(
@@ -189,54 +185,9 @@ internal class DistributedWorkPublisher(
     }
 
     /// <summary>
-    /// Prefix marker for GZip-compressed dependency result JSON.
-    /// When <c>SerializedJson</c> starts with this prefix, the remainder is a base64-encoded
-    /// GZip payload that must be decompressed before JSON deserialization.
+    /// Gathers result-store references for all dependencies resolved by the canonical dependency resolver.
     /// </summary>
-    internal const string GzipPrefix = "gzip:";
-
-    /// <summary>
-    /// Threshold in bytes above which a dependency result's <c>SerializedJson</c> is compressed
-    /// using GZip to prevent coordinator payloads from exceeding transport limits (e.g., Redis
-    /// 10 MB request cap). Text-heavy results like build output compress at ~10:1 ratio.
-    /// </summary>
-    private const int CompressionThresholdBytes = 64 * 1024;
-
-    /// <summary>
-    /// GZip-compresses a JSON string and returns it as a prefixed base64 string.
-    /// </summary>
-    internal static string CompressJson(string json)
-    {
-        var bytes = Encoding.UTF8.GetBytes(json);
-        using var output = new MemoryStream();
-        using (var gzip = new GZipStream(output, CompressionLevel.Optimal))
-        {
-            gzip.Write(bytes, 0, bytes.Length);
-        }
-
-        return GzipPrefix + Convert.ToBase64String(output.ToArray());
-    }
-
-    /// <summary>
-    /// Decompresses a GZip-compressed JSON string (with prefix removed).
-    /// </summary>
-    internal static string DecompressJson(string compressed)
-    {
-        var payload = compressed.AsSpan(GzipPrefix.Length);
-        var bytes = Convert.FromBase64String(payload.ToString());
-        using var input = new MemoryStream(bytes);
-        using var gzip = new GZipStream(input, CompressionMode.Decompress);
-        using var output = new MemoryStream();
-        gzip.CopyTo(output);
-        return Encoding.UTF8.GetString(output.ToArray());
-    }
-
-    /// <summary>
-    /// Gathers serialized results for all dependencies resolved by the canonical dependency resolver.
-    /// The scheduler guarantees that all dependencies have completed before a module becomes ready,
-    /// so all results are guaranteed to be in the registry.
-    /// </summary>
-    private IReadOnlyList<SerializedModuleResult>? GatherDependencyResults(IModule module)
+    private IReadOnlyList<DependencyResultReference>? GatherDependencyResultReferences(IModule module)
     {
         var dependencies = ModuleDependencyResolver
             .GetAllDependencies(
@@ -251,31 +202,14 @@ internal class DistributedWorkPublisher(
             return null;
         }
 
-        var results = new List<SerializedModuleResult>(dependencies.Count);
+        var references = new List<DependencyResultReference>(dependencies.Count);
         foreach (var (depType, _) in dependencies)
         {
-            var result = _resultRegistry.GetResult(depType);
-            if (result is null)
-            {
-                // Optional dependency that didn't run, or not yet registered — skip
-                continue;
-            }
-
-            var depResultTypeName = ModuleTypeRegistry.GetResultTypeName(depType) ?? "System.Object";
-            var workerIndex = result is ModuleResult { WorkerIndex: { } origin }
-                ? origin
-                : -1;
-            var serialized = _serializer.Serialize(result, depType.FullName!, depResultTypeName, workerIndex);
-
-            // Compress large results to stay within transport payload limits.
-            if (serialized.SerializedJson.Length > CompressionThresholdBytes)
-            {
-                serialized = serialized with { SerializedJson = CompressJson(serialized.SerializedJson) };
-            }
-
-            results.Add(serialized);
+            references.Add(new DependencyResultReference(
+                depType.FullName!,
+                _resultRegistry.GetResult(depType) is not null));
         }
 
-        return results.Count > 0 ? results : null;
+        return references;
     }
 }

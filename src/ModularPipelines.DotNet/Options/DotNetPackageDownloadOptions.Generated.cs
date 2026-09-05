@@ -18,7 +18,9 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "download")]
-public record DotNetPackageDownloadOptions : DotNetOptions
+public record DotNetPackageDownloadOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Packages
+) : DotNetOptions
 {
     /// <summary>
     /// Allows downloading from HTTP (non-HTTPS) package sources. [default: False]
@@ -61,11 +63,5 @@ public record DotNetPackageDownloadOptions : DotNetOptions
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
-
-    /// <summary>
-    /// Package reference in the form of a package identifier like 'Newtonsoft.Json' or package identifier and version separated by '@' like 'Newtonsoft.Json@13.0.3'.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public IEnumerable<string>? Packages { get; set; }
 
 }

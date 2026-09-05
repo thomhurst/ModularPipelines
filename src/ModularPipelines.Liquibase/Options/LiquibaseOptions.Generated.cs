@@ -28,13 +28,7 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     /// Allows duplicated changeset identifiers without failing Liquibase execution. DEFAULT: false
     /// </summary>
     [CliOption("--allow-duplicated-changeset-identifiers", Format = OptionFormat.EqualsSeparated)]
-#pragma warning disable CS0618
-    public virtual bool? AllowDuplicatedChangeSetIdentifiers
-    {
-        get => AllowDuplicatedChangesetIdentifiers;
-        set => AllowDuplicatedChangesetIdentifiers = value;
-    }
-#pragma warning restore CS0618
+    public virtual bool? AllowDuplicatedChangeSetIdentifiers { get; set; }
 
     /// <summary>
     /// If true, included changelogs without an explicit logicalFilePath will inherit their parent changelog's logicalFilePath, and explicit logicalFilePath attributes on include statements are honored (Liquibase 4.31.0+ behavior). If false, included changelogs use their physical file paths, ignoring both implicit inheritance and explicit logicalFilePath attributes on include statements. Only logicalFilePath set directly on the changelog itself is respected. Defaults to true for backward compatibility. DEFAULT: true
@@ -196,25 +190,13 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     /// Should Liquibase include a 'created' attribute in diff/generateChangelog changesets with the current datetime DEFAULT: false
     /// </summary>
     [CliOption("--generate-changeset-created-values", Format = OptionFormat.EqualsSeparated)]
-#pragma warning disable CS0618
-    public virtual bool? GenerateChangeSetCreatedValues
-    {
-        get => GenerateChangesetCreatedValues;
-        set => GenerateChangesetCreatedValues = value;
-    }
-#pragma warning restore CS0618
+    public virtual bool? GenerateChangeSetCreatedValues { get; set; }
 
     /// <summary>
     /// Should Liquibase include the change description in the id when generating changesets? DEFAULT: false
     /// </summary>
     [CliOption("--generated-changeset-ids-contains-description", Format = OptionFormat.EqualsSeparated)]
-#pragma warning disable CS0618
-    public virtual bool? GeneratedChangeSetIdsContainsDescription
-    {
-        get => GeneratedChangesetIdsContainsDescription;
-        set => GeneratedChangesetIdsContainsDescription = value;
-    }
-#pragma warning restore CS0618
+    public virtual bool? GeneratedChangeSetIdsContainsDescription { get; set; }
 
     /// <summary>
     /// Force Liquibase to think it has no access to a keyboard DEFAULT: false
@@ -465,14 +447,5 @@ public abstract record LiquibaseOptions : CommandLineToolOptions
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public virtual bool? Version { get; set; }
-
-    [Obsolete("Use AllowDuplicatedChangeSetIdentifiers instead.")]
-    public virtual bool? AllowDuplicatedChangesetIdentifiers { get; set; }
-
-    [Obsolete("Use GenerateChangeSetCreatedValues instead.")]
-    public virtual bool? GenerateChangesetCreatedValues { get; set; }
-
-    [Obsolete("Use GeneratedChangeSetIdsContainsDescription instead.")]
-    public virtual bool? GeneratedChangesetIdsContainsDescription { get; set; }
 
 }
