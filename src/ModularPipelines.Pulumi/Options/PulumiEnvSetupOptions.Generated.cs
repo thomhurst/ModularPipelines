@@ -13,60 +13,18 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// [EXPERIMENTAL] Trigger a resource discovery scan for an Insights account.
+/// [EXPERIMENTAL] Set up cloud provider OIDC integrations
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("insights", "account", "scan")]
-public record PulumiInsightsAccountScanOptions : PulumiOptions
+[CliSubCommand("env", "setup")]
+public record PulumiEnvSetupOptions : PulumiOptions
 {
     /// <summary>
-    /// Agent pool ID to use for the scan (defaults to the account's default pool)
-    /// </summary>
-    [CliOption("--agent-pool", Format = OptionFormat.EqualsSeparated)]
-    public string? AgentPool { get; set; }
-
-    /// <summary>
-    /// Number of resources processed per batch (server default when 0)
-    /// </summary>
-    [CliOption("--batch-size", Format = OptionFormat.EqualsSeparated)]
-    public int? BatchSize { get; set; }
-
-    /// <summary>
-    /// help for scan
+    /// help for setup
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    /// <summary>
-    /// Parallelism for list operations during the scan (server default when 0)
-    /// </summary>
-    [CliOption("--list-concurrency", Format = OptionFormat.EqualsSeparated)]
-    public int? ListConcurrency { get; set; }
-
-    /// <summary>
-    /// Organization that owns the Insights account (defaults to the current default org)
-    /// </summary>
-    [CliOption("--org", Format = OptionFormat.EqualsSeparated)]
-    public string? Org { get; set; }
-
-    /// <summary>
-    /// Output format. Supported values are: default and json (default "default")
-    /// </summary>
-    [CliOption("--output", Format = OptionFormat.EqualsSeparated)]
-    public string? Output { get; set; }
-
-    /// <summary>
-    /// Parallelism for read operations during the scan (server default when 0)
-    /// </summary>
-    [CliOption("--read-concurrency", Format = OptionFormat.EqualsSeparated)]
-    public int? ReadConcurrency { get; set; }
-
-    /// <summary>
-    /// Per-read timeout as a Go duration (e.g. '30s', '5m'); server default when empty
-    /// </summary>
-    [CliOption("--read-timeout", Format = OptionFormat.EqualsSeparated)]
-    public string? ReadTimeout { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -91,6 +49,12 @@ public record PulumiInsightsAccountScanOptions : PulumiOptions
     /// </summary>
     [CliFlag("--emoji", ShortForm = "-e")]
     public bool? Emoji { get; set; }
+
+    /// <summary>
+    /// The name of the environment to operate on.
+    /// </summary>
+    [CliOption("--env", Format = OptionFormat.EqualsSeparated)]
+    public string? Env { get; set; }
 
     /// <summary>
     /// Show fully-qualified stack names
@@ -145,11 +109,5 @@ public record PulumiInsightsAccountScanOptions : PulumiOptions
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
-
-    /// <summary>
-    /// The &lt;account&gt; operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Account { get; set; }
 
 }

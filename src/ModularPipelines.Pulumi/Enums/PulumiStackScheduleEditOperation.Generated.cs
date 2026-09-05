@@ -17,14 +17,14 @@ namespace ModularPipelines.Pulumi.Enums;
 public enum PulumiStackScheduleEditOperation
 {
     [EnumValue("update")]
-    Update = 0,
+    Update,
 
     [EnumValue("preview")]
-    Preview = 1,
+    Preview,
 
     [EnumValue("refresh")]
-    Refresh = 2,
+    Refresh,
 
     [EnumValue("destroy")]
-    Destroy = 3
+    Destroy
 }

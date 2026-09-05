@@ -17,56 +17,56 @@ namespace ModularPipelines.Pulumi.Enums;
 public enum PulumiInsightsResourceSearchSort
 {
     [EnumValue("category")]
-    Category = 0,
+    Category,
 
     [EnumValue("created")]
-    Created = 1,
+    Created,
 
     [EnumValue("custom")]
-    Custom = 2,
+    Custom,
 
     [EnumValue("delete")]
-    Delete = 3,
+    Delete,
 
     [EnumValue("dependencies")]
-    Dependencies = 4,
+    Dependencies,
 
     [EnumValue("id")]
-    Id = 5,
+    Id,
 
     [EnumValue("managed")]
-    Managed = 6,
+    Managed,
 
     [EnumValue("modified")]
-    Modified = 7,
+    Modified,
 
     [EnumValue("module")]
-    Module = 8,
+    Module,
 
     [EnumValue("name")]
-    Name = 9,
+    Name,
 
     [EnumValue("package")]
-    Package = 10,
+    Package,
 
     [EnumValue("parentUrn")]
-    ParentUrn = 11,
+    ParentUrn,
 
     [EnumValue("project")]
-    Project = 12,
+    Project,
 
     [EnumValue("protected")]
-    Protected = 13,
+    Protected,
 
     [EnumValue("providerUrn")]
-    ProviderUrn = 14,
+    ProviderUrn,
 
     [EnumValue("stack")]
-    Stack = 15,
+    Stack,
 
     [EnumValue("type")]
-    Type = 16,
+    Type,
 
     [EnumValue("urn")]
-    Urn = 17
+    Urn
 }
