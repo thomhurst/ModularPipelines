@@ -9,7 +9,7 @@ public class AwsAmplifyCreateAppOptionsTests
     [Test]
     public async Task CreateApp_Joins_Environment_Variables()
     {
-        var arguments = BuildArguments(new AwsAmplifyCreateAppOptions
+        var arguments = BuildArguments(new AwsAmplifyCreateAppOptions("sample-app")
         {
             EnvironmentVariables =
             [
@@ -20,6 +20,8 @@ public class AwsAmplifyCreateAppOptionsTests
 
         await AssertArguments(arguments,
         [
+            "--name",
+            "sample-app",
             "--environment-variables",
             "FIRST=one,SECOND=two",
         ]);

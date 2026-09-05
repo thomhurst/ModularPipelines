@@ -107,7 +107,6 @@ public partial class AwsCliScraper : CliScraperBase
     /// AWS CLI has 350+ services - use higher parallelism for faster discovery.
     /// </summary>
     protected override int MaxParallelism => Math.Max(Environment.ProcessorCount * 2, 16);
-
     /// <summary>
     /// Skip utility commands and commands that don't have traditional options.
     /// </summary>
@@ -344,6 +343,7 @@ public partial class AwsCliScraper : CliScraperBase
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var requiredSynopsisOptions = GetRequiredSynopsisOptions(helpText);
         var className = GenerateClassName([ToolName, .. commandParts]);
 
         // Find OPTIONS section
@@ -372,6 +372,7 @@ public partial class AwsCliScraper : CliScraperBase
             var (longForm, negatedLongForm) = GetBooleanSwitchPair(
                 firstLongForm,
                 alternateLongForm);
+            negatedLongForm ??= FindWrappedNegatedSwitch(helpText, longForm);
 
             if (string.IsNullOrEmpty(longForm)
                 || seenOptions.Contains(longForm)
@@ -408,18 +409,38 @@ public partial class AwsCliScraper : CliScraperBase
                 ? Regex.Replace(descMatch.Groups[1].Value.Trim(), @"\s+", " ")
                 : null;
 
-            var isFlag = (!string.IsNullOrEmpty(negatedLongForm) || IsAwsBooleanType(typeHint))
+            var isBooleanValue = !string.IsNullOrEmpty(typeHint) && IsAwsBooleanType(typeHint);
+            var requiresExplicitBooleanValue = isBooleanValue
+                                               && string.IsNullOrEmpty(negatedLongForm)
+                                               && HelpDeclaresExplicitBooleanValue(description ?? string.Empty);
+            var isFlag = (!string.IsNullOrEmpty(negatedLongForm)
+                          || string.IsNullOrEmpty(typeHint)
+                          || (isBooleanValue && !requiresExplicitBooleanValue))
                          && !ValueOptionsWithoutTypeHints.Contains(longForm);
-            var isArray = typeHint.Contains("list") || typeHint.Contains("...") || (description?.Contains("multiple values") ?? false);
-            var isNumeric = IsNumericType(typeHint);
             var isStructure = typeHint.Contains("structure");
             var isKeyValue = !isStructure
                              && (typeHint.Contains("map") || (description?.Contains("key=value") ?? false));
+            var isArray = typeHint.Contains("list")
+                          || typeHint.Contains("...")
+                          || (!isStructure
+                              && !isKeyValue
+                              && !isFlag
+                              && !isBooleanValue
+                              && HelpDeclaresRepeatableOption(
+                                  helpText,
+                                  longForm,
+                                  description ?? string.Empty));
+            var isNumeric = IsNumericType(typeHint);
 
             var enumDef = isStructure || isKeyValue || isArray || isNumeric
                 ? null
                 : TryDetectEnum(propertyName, className, description);
-            var csharpType = DetermineCSharpType(isFlag, isArray, isKeyValue, isNumeric, enumDef);
+            var csharpType = DetermineCSharpType(
+                isFlag || isBooleanValue,
+                isArray,
+                isKeyValue,
+                isNumeric,
+                enumDef);
 
             options.Add(new CliOptionDefinition
             {
@@ -429,15 +450,17 @@ public partial class AwsCliScraper : CliScraperBase
                 CSharpType = csharpType,
                 Description = description,
                 IsFlag = isFlag,
-                IsRequired = false,
+                IsRequired = match.Groups["required"].Success
+                             || requiredSynopsisOptions.Contains(longForm),
                 AcceptsMultipleValues = isArray,
                 GroupValues = isArray && !isKeyValue,
                 CollectionSeparator = isKeyValue ? "," : null,
                 IsKeyValue = isKeyValue,
+                IsStructuredValue = isStructure || isKeyValue,
                 IsNumeric = isNumeric,
                 ValueSeparator = isFlag ? " " : " ",
                 EnumDefinition = enumDef,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag || isBooleanValue)
             });
         }
 
@@ -466,6 +489,72 @@ public partial class AwsCliScraper : CliScraperBase
     private static bool IsNegatedFormOf(string candidate, string positiveSwitch) =>
         candidate.StartsWith("--no-", StringComparison.OrdinalIgnoreCase)
         && candidate[5..].Equals(positiveSwitch[2..], StringComparison.OrdinalIgnoreCase);
+
+    private static string? FindWrappedNegatedSwitch(string helpText, string positiveSwitch)
+    {
+        if (!positiveSwitch.StartsWith("--", StringComparison.Ordinal)
+            || positiveSwitch.StartsWith("--no-", StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        var negatedSwitch = $"--no-{positiveSwitch[2..]}";
+        var wrappedPattern = Regex.Escape(negatedSwitch).Replace("-", @"-\s*");
+        return Regex.IsMatch(helpText, $@"\|\s+""?{wrappedPattern}""?", RegexOptions.IgnoreCase)
+            ? negatedSwitch
+            : null;
+    }
+
+    private static HashSet<string> GetRequiredSynopsisOptions(string helpText)
+    {
+        var requiredOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var synopsisMatch = Regex.Match(
+            helpText,
+            @"^SYNOPSIS\s*$",
+            RegexOptions.Multiline | RegexOptions.IgnoreCase);
+        if (!synopsisMatch.Success)
+        {
+            return requiredOptions;
+        }
+
+        var sectionStart = synopsisMatch.Index + synopsisMatch.Length;
+        var nextSectionMatch = Regex.Match(
+            helpText[sectionStart..],
+            @"^[A-Z][A-Z\s]+$",
+            RegexOptions.Multiline);
+        var sectionEnd = nextSectionMatch.Success
+            ? sectionStart + nextSectionMatch.Index
+            : helpText.Length;
+
+        foreach (var line in helpText[sectionStart..sectionEnd].Split('\n'))
+        {
+            var candidate = line.Trim();
+            if (candidate.StartsWith('['))
+            {
+                continue;
+            }
+
+            var booleanAlternativeMatch = AwsRequiredBooleanAlternativePattern().Match(candidate);
+            if (booleanAlternativeMatch.Success)
+            {
+                requiredOptions.Add(booleanAlternativeMatch.Groups["positive"].Value);
+                continue;
+            }
+
+            if (candidate.Contains(" | ", StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var optionMatch = AwsSynopsisOptionPattern().Match(candidate);
+            if (optionMatch.Success)
+            {
+                requiredOptions.Add(optionMatch.Groups["long"].Value);
+            }
+        }
+
+        return requiredOptions;
+    }
 
     private static bool IsGlobalOption(string optionName)
     {
@@ -688,13 +777,24 @@ public partial class AwsCliScraper : CliScraperBase
     /// --option (type)
     /// --flag
     /// </summary>
-    [GeneratedRegex("""^\s{7}"?(?<long>--[\w-]+)"?(?:\s+\|\s+"?(?<alternate>--[\w-]+)"?)?(?:\s+\((?<type>[^)]+)\))?""", RegexOptions.Multiline)]
+    [GeneratedRegex("""^\s{7}"?(?<long>--[\w-]+)"?(?:\s+\|\s+"?(?<alternate>--[\w-]+)"?)?(?:\s+\((?<type>[^)]+)\))?(?:\s+\[(?<required>required)\])?""", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
     private static partial Regex AwsOptionPattern();
 
     [GeneratedRegex(
         @"\b(?:integer|long|float|double)\s+(?:greater|less)\s+than\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex NumericConstraintValuesPattern();
+
+    /// <summary>
+    /// Matches an unbracketed AWS option at the start of a synopsis line.
+    /// </summary>
+    [GeneratedRegex(@"^(?<long>--[\w-]+)(?:\s|$)")]
+    private static partial Regex AwsSynopsisOptionPattern();
+
+    [GeneratedRegex(
+        @"^(?<positive>--(?<name>[\w-]+))\s+\|\s+--no-\k<name>(?:\s|$)",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex AwsRequiredBooleanAlternativePattern();
 
     #endregion
 }
