@@ -17,12 +17,12 @@ New-Item -ItemType Directory -Path $testRoot | Out-Null
 function Assert-Lines([string] $Path, [string[]] $Expected) {
     $actual = @(Get-Content -LiteralPath $Path)
     $expectedLines = @($Expected)
-    $matches = $actual.Count -eq $expectedLines.Count
-    for ($index = 0; $matches -and $index -lt $actual.Count; $index++) {
-        $matches = $actual[$index] -ceq $expectedLines[$index]
+    $isMatch = $actual.Count -eq $expectedLines.Count
+    for ($index = 0; $isMatch -and $index -lt $actual.Count; $index++) {
+        $isMatch = $actual[$index] -ceq $expectedLines[$index]
     }
 
-    if (-not $matches) {
+    if (-not $isMatch) {
         throw @"
 Unexpected contents in $Path.
 Expected:
