@@ -290,21 +290,22 @@ public class ModuleConditionHandlerTests
     public async Task Distributed_Master_Prepares_Non_Platform_Grouped_Alternatives()
     {
         _mixedAlternativeEvaluationCount = 0;
-        var conditionRouting = new DistributedConditionRouting();
-        var handler = CreateHandler(new DistributedOptions
+        var options = new DistributedOptions
         {
             Enabled = true,
             InstanceIndex = 0,
             TotalInstances = 3,
-        }, distributedConditionRouting: conditionRouting);
+        };
+        var conditionRouting = CreateExecutionLocationContext(options);
+        var handler = CreateHandler(options, executionLocationContext: conditionRouting);
         var module = new MixedMatchingAlternativeModule();
 
-        await handler.PrepareDistributedRoutingAsync(module);
+        await handler.PrepareExecutionRoutingAsync(module);
 
         using (Assert.Multiple())
         {
             await Assert.That(_mixedAlternativeEvaluationCount).IsEqualTo(1);
-            await Assert.That(conditionRouting.IsLocallySatisfied(
+            await Assert.That(conditionRouting.IsConditionGroupSatisfied(
                 module,
                 typeof(MixedAlternativeModule))).IsTrue();
         }
@@ -350,9 +351,9 @@ public class ModuleConditionHandlerTests
             Enabled = true,
             InstanceIndex = 0,
             TotalInstances = 3,
-        }, distributedConditionRouting: new DistributedConditionRouting());
+        });
 
-        await handler.PrepareDistributedRoutingAsync(new MandatoryFalseMixedAlternativeModule());
+        await handler.PrepareExecutionRoutingAsync(new MandatoryFalseMixedAlternativeModule());
 
         await Assert.That(_mixedAlternativeEvaluationCount).IsEqualTo(0);
     }
@@ -366,9 +367,9 @@ public class ModuleConditionHandlerTests
             Enabled = true,
             InstanceIndex = 0,
             TotalInstances = 3,
-        }, distributedConditionRouting: new DistributedConditionRouting());
+        });
 
-        await handler.PrepareDistributedRoutingAsync(new WorkerOnlyConditionModule());
+        await handler.PrepareExecutionRoutingAsync(new WorkerOnlyConditionModule());
 
         await Assert.That(_workerOnlyEvaluationCount).IsEqualTo(0);
     }
@@ -376,18 +377,19 @@ public class ModuleConditionHandlerTests
     [Test]
     public async Task Distributed_Master_Routing_Continues_After_Planning_Safe_Condition()
     {
-        var conditionRouting = new DistributedConditionRouting();
-        var module = new PlanningSafeThenMixedAlternativeModule();
-        var handler = CreateHandler(new DistributedOptions
+        var options = new DistributedOptions
         {
             Enabled = true,
             InstanceIndex = 0,
             TotalInstances = 3,
-        }, distributedConditionRouting: conditionRouting);
+        };
+        var conditionRouting = CreateExecutionLocationContext(options);
+        var module = new PlanningSafeThenMixedAlternativeModule();
+        var handler = CreateHandler(options, executionLocationContext: conditionRouting);
 
-        await handler.PrepareDistributedRoutingAsync(module);
+        await handler.PrepareExecutionRoutingAsync(module);
 
-        await Assert.That(conditionRouting.IsLocallySatisfied(
+        await Assert.That(conditionRouting.IsConditionGroupSatisfied(
             module,
             typeof(RunIfAnyAttribute<OnLinux, PlanningTrueCondition>))).IsTrue();
     }
@@ -395,18 +397,19 @@ public class ModuleConditionHandlerTests
     [Test]
     public async Task Distributed_Master_Routing_Continues_After_Required_Planning_Safe_Condition()
     {
-        var conditionRouting = new DistributedConditionRouting();
-        var module = new RequiredPlanningSafeThenMixedAlternativeModule();
-        var handler = CreateHandler(new DistributedOptions
+        var options = new DistributedOptions
         {
             Enabled = true,
             InstanceIndex = 0,
             TotalInstances = 3,
-        }, distributedConditionRouting: conditionRouting);
+        };
+        var conditionRouting = CreateExecutionLocationContext(options);
+        var module = new RequiredPlanningSafeThenMixedAlternativeModule();
+        var handler = CreateHandler(options, executionLocationContext: conditionRouting);
 
-        await handler.PrepareDistributedRoutingAsync(module);
+        await handler.PrepareExecutionRoutingAsync(module);
 
-        await Assert.That(conditionRouting.IsLocallySatisfied(
+        await Assert.That(conditionRouting.IsConditionGroupSatisfied(
             module,
             typeof(RunIfAnyAttribute<OnLinux, PlanningTrueCondition>))).IsTrue();
     }
@@ -414,18 +417,19 @@ public class ModuleConditionHandlerTests
     [Test]
     public async Task Distributed_Master_Routing_Continues_After_False_Planning_Safe_Skip()
     {
-        var conditionRouting = new DistributedConditionRouting();
-        var module = new FalsePlanningSkipThenMixedAlternativeModule();
-        var handler = CreateHandler(new DistributedOptions
+        var options = new DistributedOptions
         {
             Enabled = true,
             InstanceIndex = 0,
             TotalInstances = 3,
-        }, distributedConditionRouting: conditionRouting);
+        };
+        var conditionRouting = CreateExecutionLocationContext(options);
+        var module = new FalsePlanningSkipThenMixedAlternativeModule();
+        var handler = CreateHandler(options, executionLocationContext: conditionRouting);
 
-        await handler.PrepareDistributedRoutingAsync(module);
+        await handler.PrepareExecutionRoutingAsync(module);
 
-        await Assert.That(conditionRouting.IsLocallySatisfied(
+        await Assert.That(conditionRouting.IsConditionGroupSatisfied(
             module,
             typeof(RunIfAnyAttribute<OnLinux, PlanningTrueCondition>))).IsTrue();
     }
@@ -439,9 +443,9 @@ public class ModuleConditionHandlerTests
             Enabled = true,
             InstanceIndex = 0,
             TotalInstances = 3,
-        }, distributedConditionRouting: new DistributedConditionRouting());
+        });
 
-        await handler.PrepareDistributedRoutingAsync(new MixedWorkerOnlyAlternativeModule());
+        await handler.PrepareExecutionRoutingAsync(new MixedWorkerOnlyAlternativeModule());
 
         await Assert.That(_workerOnlyEvaluationCount).IsEqualTo(0);
     }
@@ -471,6 +475,26 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Assignment_Execution_Does_Not_Report_A_Distributed_Role()
+    {
+        var executionLocation = CreateExecutionLocationContext(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        using var assignmentExecution = DistributedAssignmentExecutionScope.Enter();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(executionLocation.IsMaster).IsFalse();
+            await Assert.That(executionLocation.IsWorker).IsFalse();
+            await Assert.That(executionLocation.ShouldDeferOperatingSystemConditions).IsFalse();
+        }
+    }
+
+    [Test]
     public async Task Distributed_Master_Routing_Does_Not_Evaluate_Worker_Only_Grouped_Alternative()
     {
         _workerOnlyEvaluationCount = 0;
@@ -479,9 +503,9 @@ public class ModuleConditionHandlerTests
             Enabled = true,
             InstanceIndex = 0,
             TotalInstances = 3,
-        }, distributedConditionRouting: new DistributedConditionRouting());
+        });
 
-        await handler.PrepareDistributedRoutingAsync(new MixedWorkerOnlyGroupedAlternativeModule());
+        await handler.PrepareExecutionRoutingAsync(new MixedWorkerOnlyGroupedAlternativeModule());
 
         await Assert.That(_workerOnlyEvaluationCount).IsEqualTo(0);
     }
@@ -533,16 +557,16 @@ public class ModuleConditionHandlerTests
     {
         _mixedAlternativeEvaluationCount = 0;
         var masterModule = new MixedMatchingAlternativeModule();
-        var masterRouting = new DistributedConditionRouting();
-        masterRouting.MarkLocallySatisfied(masterModule, typeof(MixedAlternativeModule));
+        var masterRouting = CreateExecutionLocationContext(new DistributedOptions());
+        masterRouting.MarkConditionGroupSatisfied(masterModule, typeof(MixedAlternativeModule));
         var workerModule = new MixedMatchingAlternativeModule();
-        var workerRouting = new DistributedConditionRouting();
-        workerRouting.RestoreLocallySatisfiedGroups(
+        var workerRouting = CreateExecutionLocationContext(new DistributedOptions());
+        workerRouting.RestoreSatisfiedConditionGroups(
             workerModule,
-            masterRouting.GetLocallySatisfiedGroupNames(masterModule));
+            masterRouting.GetSatisfiedConditionGroupNames(masterModule));
         var handler = CreateHandler(
             new DistributedOptions(),
-            distributedConditionRouting: workerRouting);
+            executionLocationContext: workerRouting);
 
         var result = await handler.ShouldIgnore(workerModule);
 
@@ -582,7 +606,7 @@ public class ModuleConditionHandlerTests
     private static ModuleConditionHandler CreateHandler(
         DistributedOptions distributedOptions,
         IPipelineContext? pipelineContext = null,
-        DistributedConditionRouting? distributedConditionRouting = null)
+        IExecutionLocationContext? executionLocationContext = null)
     {
         var contextProvider = new Mock<IPipelineContextProvider>();
         contextProvider
@@ -595,11 +619,16 @@ public class ModuleConditionHandlerTests
 
         return new ModuleConditionHandler(
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
-            Microsoft.Extensions.Options.Options.Create(distributedOptions),
-            new RoleDetector(Microsoft.Extensions.Options.Options.Create(distributedOptions)),
             contextProvider.Object,
             metadataRegistry,
-            distributedConditionRouting);
+            executionLocationContext ?? CreateExecutionLocationContext(distributedOptions));
+    }
+
+    private static DistributedConditionRouting CreateExecutionLocationContext(
+        DistributedOptions options)
+    {
+        var wrappedOptions = Microsoft.Extensions.Options.Options.Create(options);
+        return new DistributedConditionRouting(wrappedOptions, new RoleDetector(wrappedOptions));
     }
 
     private static IModule CreateForeignOsModule()

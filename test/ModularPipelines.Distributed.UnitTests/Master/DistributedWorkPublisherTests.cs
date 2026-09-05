@@ -361,14 +361,17 @@ public class DistributedWorkPublisherTests
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(IndependentModule));
         var resultRegistry = new ModuleResultRegistry();
-        var conditionRouting = new DistributedConditionRouting();
+        var routingOptions = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
+        var conditionRouting = new DistributedConditionRouting(
+            routingOptions,
+            new ModularPipelines.Distributed.Configuration.RoleDetector(routingOptions));
         var module = new IndependentModule();
-        conditionRouting.MarkLocallySatisfied(module, typeof(DistributedWorkPublisherTests));
+        conditionRouting.MarkConditionGroupSatisfied(module, typeof(DistributedWorkPublisherTests));
         var publisher = new DistributedWorkPublisher(
             coordinator,
             typeRegistry,
             resultRegistry,
-            conditionRouting: conditionRouting);
+            executionLocationContext: conditionRouting);
 
         var assignment = publisher.CreateAssignment(module);
 

@@ -1,20 +1,39 @@
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Distributed.Configuration;
+using ModularPipelines.Engine;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Distributed;
 
-internal sealed class DistributedConditionRouting
+internal sealed class DistributedConditionRouting(
+    IOptions<DistributedOptions> options,
+    RoleDetector roleDetector) : IExecutionLocationContext
 {
+    private readonly DistributedOptions _options = options.Value;
+    private readonly RoleDetector _roleDetector = roleDetector;
     private readonly ConditionalWeakTable<IModule, HashSet<Type>> _locallySatisfiedGroups = new();
     private readonly ConditionalWeakTable<IModule, object> _preparedModules = new();
 
-    public bool IsPrepared(IModule module) => _preparedModules.TryGetValue(module, out _);
+    public bool IsMaster => IsDistributedExecution
+                            && _roleDetector.DetectRole() == DistributedRole.Master;
 
-    public void MarkPrepared(IModule module) =>
+    public bool IsWorker => IsDistributedExecution
+                            && _roleDetector.DetectRole() == DistributedRole.Worker;
+
+    public bool ShouldDeferOperatingSystemConditions => IsMaster;
+
+    private bool IsDistributedExecution => _options.Enabled
+                                           && _options.TotalInstances > 1
+                                           && !DistributedAssignmentExecutionScope.IsActive;
+
+    public bool IsRoutingPrepared(IModule module) => _preparedModules.TryGetValue(module, out _);
+
+    public void MarkRoutingPrepared(IModule module) =>
         _preparedModules.GetValue(module, static _ => new object());
 
-    public void MarkLocallySatisfied(IModule module, Type conditionGroupType)
+    public void MarkConditionGroupSatisfied(IModule module, Type conditionGroupType)
     {
         var groups = _locallySatisfiedGroups.GetOrCreateValue(module);
         lock (groups)
@@ -23,7 +42,7 @@ internal sealed class DistributedConditionRouting
         }
     }
 
-    public bool IsLocallySatisfied(IModule module, Type conditionGroupType)
+    public bool IsConditionGroupSatisfied(IModule module, Type conditionGroupType)
     {
         if (!_locallySatisfiedGroups.TryGetValue(module, out var groups))
         {
@@ -36,7 +55,7 @@ internal sealed class DistributedConditionRouting
         }
     }
 
-    public IReadOnlyList<string> GetLocallySatisfiedGroupNames(IModule module)
+    public IReadOnlyList<string> GetSatisfiedConditionGroupNames(IModule module)
     {
         if (!_locallySatisfiedGroups.TryGetValue(module, out var groups))
         {
@@ -52,7 +71,7 @@ internal sealed class DistributedConditionRouting
         }
     }
 
-    public void RestoreLocallySatisfiedGroups(
+    public void RestoreSatisfiedConditionGroups(
         IModule module,
         IReadOnlyCollection<string> groupNames)
     {
@@ -73,7 +92,7 @@ internal sealed class DistributedConditionRouting
         {
             if (groupsByName.TryGetValue(groupName, out var groupType))
             {
-                MarkLocallySatisfied(module, groupType);
+                MarkConditionGroupSatisfied(module, groupType);
             }
         }
     }
