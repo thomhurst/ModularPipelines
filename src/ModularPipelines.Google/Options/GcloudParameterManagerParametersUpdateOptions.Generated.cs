@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Options;
 public record GcloudParameterManagerParametersUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Arguments for the kms key. All arguments needed to update kms_key. For resources [parameter, kms-key], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// For resources [parameter, kms-key], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// Arguments for the kms key. All arguments needed to update kms_key. Specifies the format of a Parameter. PARAMETER_FORMAT must be one of: json JSON format. unformatted Unformatted. yaml YAML format.
+    /// Specifies the format of a Parameter. PARAMETER_FORMAT must be one of: json JSON format. unformatted Unformatted. yaml YAML format.
     /// </summary>
     [CliOption("--parameter-format", Format = OptionFormat.EqualsSeparated)]
     public string? ParameterFormat { get; set; }
 
     /// <summary>
-    /// Arguments for the kms key. All arguments needed to update kms_key. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }

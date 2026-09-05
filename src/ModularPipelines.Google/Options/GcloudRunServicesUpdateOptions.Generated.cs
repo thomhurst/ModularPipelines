@@ -24,295 +24,295 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunServicesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Justification to bypass Binary Authorization policy constraints and allow the operation. See https://cloud.google.com/binary-authorization/docs/using-breakglass for more information. Next update or deploy command will automatically clear existing breakglass justification.
+    /// Justification to bypass Binary Authorization policy constraints and allow the operation. See https://cloud.google.com/binary-authorization/docs/using-breakglass for more information. Next update or deploy command will automatically clear existing breakglass justification.
     /// </summary>
     [CliOption("--breakglass", Format = OptionFormat.EqualsSeparated)]
     public string? Breakglass { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Remove the VPC connector for this resource.
+    /// Remove the VPC connector for this resource.
     /// </summary>
     [CliFlag("--clear-vpc-connector")]
     public bool? ClearVpcConnector { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Set the maximum number of concurrent requests allowed per container instance. Leave concurrency unspecified or provide the special value 'default' to receive the server default value.
+    /// Set the maximum number of concurrent requests allowed per container instance. Leave concurrency unspecified or provide the special value 'default' to receive the server default value.
     /// </summary>
     [CliOption("--concurrency", Format = OptionFormat.EqualsSeparated)]
     public string? Concurrency { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Specifies a container by name. Flags following --container will apply to the specified container. Flags that are not container-specific must be specified before --container.
+    /// Specifies a container by name. Flags following --container will apply to the specified container. Flags that are not container-specific must be specified before --container.
     /// </summary>
     [CliOption("--container", Format = OptionFormat.EqualsSeparated)]
     public string? Container { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Whether to allocate extra CPU to containers on startup to reduce the perceived latency of a cold start request. Enabled by default when unspecified on new services. Use --cpu-boost to enable and --no-cpu-boost to disable.
+    /// Whether to allocate extra CPU to containers on startup to reduce the perceived latency of a cold start request. Enabled by default when unspecified on new services. Use --cpu-boost to enable and --no-cpu-boost to disable.
     /// </summary>
     [CliFlag("--cpu-boost")]
     public bool? CpuBoost { get; set; }
 
     /// <summary>
-    /// Negates --cpu-boost. Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Whether to allocate extra CPU to containers on startup to reduce the perceived latency of a cold start request. Enabled by default when unspecified on new services. Use --cpu-boost to enable and --no-cpu-boost to disable.
+    /// Negates --cpu-boost. Whether to allocate extra CPU to containers on startup to reduce the perceived latency of a cold start request. Enabled by default when unspecified on new services. Use --cpu-boost to enable and --no-cpu-boost to disable.
     /// </summary>
     [CliFlag("--no-cpu-boost")]
     public bool? NoCpuBoost { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Whether to throttle the CPU when the container is not actively serving requests. Use --cpu-throttling to enable and --no-cpu-throttling to disable.
+    /// Whether to throttle the CPU when the container is not actively serving requests. Use --cpu-throttling to enable and --no-cpu-throttling to disable.
     /// </summary>
     [CliFlag("--cpu-throttling")]
     public bool? CpuThrottling { get; set; }
 
     /// <summary>
-    /// Negates --cpu-throttling. Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Whether to throttle the CPU when the container is not actively serving requests. Use --cpu-throttling to enable and --no-cpu-throttling to disable.
+    /// Negates --cpu-throttling. Whether to throttle the CPU when the container is not actively serving requests. Use --cpu-throttling to enable and --no-cpu-throttling to disable.
     /// </summary>
     [CliFlag("--no-cpu-throttling")]
     public bool? NoCpuThrottling { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Toggles the default url for a run service. This is enabled by default if not specified. Use --default-url to enable and --no-default-url to disable.
+    /// Toggles the default url for a run service. This is enabled by default if not specified. Use --default-url to enable and --no-default-url to disable.
     /// </summary>
     [CliFlag("--default-url")]
     public bool? DefaultUrl { get; set; }
 
     /// <summary>
-    /// Negates --default-url. Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Toggles the default url for a run service. This is enabled by default if not specified. Use --default-url to enable and --no-default-url to disable.
+    /// Negates --default-url. Toggles the default url for a run service. This is enabled by default if not specified. Use --default-url to enable and --no-default-url to disable.
     /// </summary>
     [CliFlag("--no-default-url")]
     public bool? NoDefaultUrl { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Schedules a single instance of the Revision and waits for it to pass its startup probe for the deployment to succeed. If disabled, the startup probe runs only when the revision is first started via invocation or by setting min-instances. This check is enabled by default when unspecified. Use --deploy-health-check to enable and --no-deploy-health-check to disable.
+    /// Schedules a single instance of the Revision and waits for it to pass its startup probe for the deployment to succeed. If disabled, the startup probe runs only when the revision is first started via invocation or by setting min-instances. This check is enabled by default when unspecified. Use --deploy-health-check to enable and --no-deploy-health-check to disable.
     /// </summary>
     [CliFlag("--deploy-health-check")]
     public bool? DeployHealthCheck { get; set; }
 
     /// <summary>
-    /// Negates --deploy-health-check. Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Schedules a single instance of the Revision and waits for it to pass its startup probe for the deployment to succeed. If disabled, the startup probe runs only when the revision is first started via invocation or by setting min-instances. This check is enabled by default when unspecified. Use --deploy-health-check to enable and --no-deploy-health-check to disable.
+    /// Negates --deploy-health-check. Schedules a single instance of the Revision and waits for it to pass its startup probe for the deployment to succeed. If disabled, the startup probe runs only when the revision is first started via invocation or by setting min-instances. This check is enabled by default when unspecified. Use --deploy-health-check to enable and --no-deploy-health-check to disable.
     /// </summary>
     [CliFlag("--no-deploy-health-check")]
     public bool? NoDeployHealthCheck { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Selects the execution environment where the application will run. EXECUTION_ENVIRONMENT must be one of: gen1 Run the application in a first generation execution environment. gen2 Run the application in a second generation execution environment.
+    /// Selects the execution environment where the application will run. EXECUTION_ENVIRONMENT must be one of: gen1 Run the application in a first generation execution environment. gen2 Run the application in a second generation execution environment.
     /// </summary>
     [CliOption("--execution-environment", Format = OptionFormat.EqualsSeparated)]
     public string? ExecutionEnvironment { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. The GPU type to use.
+    /// The GPU type to use.
     /// </summary>
     [CliOption("--gpu-type", Format = OptionFormat.EqualsSeparated)]
     public string? GpuType { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
+    /// Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
     /// </summary>
     [CliFlag("--gpu-zonal-redundancy")]
     public bool? GpuZonalRedundancy { get; set; }
 
     /// <summary>
-    /// Negates --gpu-zonal-redundancy. Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
+    /// Negates --gpu-zonal-redundancy. Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
     /// </summary>
     [CliFlag("--no-gpu-zonal-redundancy")]
     public bool? NoGpuZonalRedundancy { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Whether to enable IAP for the Service. Use --iap to enable and --no-iap to disable.
+    /// Whether to enable IAP for the Service. Use --iap to enable and --no-iap to disable.
     /// </summary>
     [CliFlag("--iap")]
     public bool? Iap { get; set; }
 
     /// <summary>
-    /// Negates --iap. Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Whether to enable IAP for the Service. Use --iap to enable and --no-iap to disable.
+    /// Negates --iap. Whether to enable IAP for the Service. Use --iap to enable and --no-iap to disable.
     /// </summary>
     [CliFlag("--no-iap")]
     public bool? NoIap { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Set the ingress traffic sources allowed to call the service. For Cloud Run the --[no-]allow-unauthenticated flag separately controls the identities allowed to call the service. INGRESS must be one of: all Inbound requests from all sources are allowed. internal For Cloud Run, only inbound requests from VPC networks in the same project or VPC Service Controls perimeter, as well as Pub/Sub subscriptions and Eventarc events in the same project or VPC Service Controls perimeter are allowed. All other requests are rejected. See https://cloud.google.com/run/docs/securing/ingress for full details on the definition of internal traffic for Cloud Run. internal-and-cloud-load-balancing Only inbound requests from Google Cloud Load Balancing or a traffic source allowed by the internal option are allowed.
+    /// Set the ingress traffic sources allowed to call the service. For Cloud Run the --[no-]allow-unauthenticated flag separately controls the identities allowed to call the service. INGRESS must be one of: all Inbound requests from all sources are allowed. internal For Cloud Run, only inbound requests from VPC networks in the same project or VPC Service Controls perimeter, as well as Pub/Sub subscriptions and Eventarc events in the same project or VPC Service Controls perimeter are allowed. All other requests are rejected. See https://cloud.google.com/run/docs/securing/ingress for full details on the definition of internal traffic for Cloud Run. internal-and-cloud-load-balancing Only inbound requests from Google Cloud Load Balancing or a traffic source allowed by the internal option are allowed.
     /// </summary>
     [CliOption("--ingress", Format = OptionFormat.EqualsSeparated)]
     public string? Ingress { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Optionally disable invoker IAM checks. More info at https://cloud.google.com/run/docs/securing/managing-access#invoker_check. Use --invoker-iam-check to enable and --no-invoker-iam-check to disable.
+    /// Optionally disable invoker IAM checks. More info at https://cloud.google.com/run/docs/securing/managing-access#invoker_check. Use --invoker-iam-check to enable and --no-invoker-iam-check to disable.
     /// </summary>
     [CliFlag("--invoker-iam-check")]
     public bool? InvokerIamCheck { get; set; }
 
     /// <summary>
-    /// Negates --invoker-iam-check. Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Optionally disable invoker IAM checks. More info at https://cloud.google.com/run/docs/securing/managing-access#invoker_check. Use --invoker-iam-check to enable and --no-invoker-iam-check to disable.
+    /// Negates --invoker-iam-check. Optionally disable invoker IAM checks. More info at https://cloud.google.com/run/docs/securing/managing-access#invoker_check. Use --invoker-iam-check to enable and --no-invoker-iam-check to disable.
     /// </summary>
     [CliFlag("--no-invoker-iam-check")]
     public bool? NoInvokerIamCheck { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. The maximum number of container instances to run for this Service. This instance limit will be divided among all Revisions receiving a percentage of traffic and can be modified without deploying a new Revision.
+    /// The maximum number of container instances to run for this Service. This instance limit will be divided among all Revisions receiving a percentage of traffic and can be modified without deploying a new Revision.
     /// </summary>
     [CliOption("--max", Format = OptionFormat.EqualsSeparated)]
     public string? Max { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. The maximum number of container instances for this Revision to run or 'default' to remove. This setting is immutably set on each new Revision and modifying its value will deploy another Revision.
+    /// The maximum number of container instances for this Revision to run or 'default' to remove. This setting is immutably set on each new Revision and modifying its value will deploy another Revision.
     /// </summary>
     [CliOption("--max-instances", Format = OptionFormat.EqualsSeparated)]
     public string? MaxInstances { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. The minimum number of container instances to run for this Service or 'default' to remove. These instances will be divided among all Revisions receiving a percentage of traffic and can be modified without deploying a new Revision.
+    /// The minimum number of container instances to run for this Service or 'default' to remove. These instances will be divided among all Revisions receiving a percentage of traffic and can be modified without deploying a new Revision.
     /// </summary>
     [CliOption("--min", Format = OptionFormat.EqualsSeparated)]
     public string? Min { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. The minimum number of container instances to run for this Revision or 'default' to remove. This setting is immutably set on each new Revision and modifying its value will deploy a another Revision. Consider using --min to set the minimum number of instances across all revisions of the Service which may be modified dynamically.
+    /// The minimum number of container instances to run for this Revision or 'default' to remove. This setting is immutably set on each new Revision and modifying its value will deploy a another Revision. Consider using --min to set the minimum number of instances across all revisions of the Service which may be modified dynamically.
     /// </summary>
     [CliOption("--min-instances", Format = OptionFormat.EqualsSeparated)]
     public string? MinInstances { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Region in which the resource can be found. Alternatively, set the property [run/region].
+    /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. List of containers to remove.
+    /// List of containers to remove.
     /// </summary>
     [CliOption("--remove-containers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveContainers { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Specify the suffix of the revision name. Revision names always start with the service name automatically. For example, specifying [--revision-suffix=v1] for a service named 'helloworld', would lead to a revision named 'helloworld-v1'. Set empty string to clear the suffix and resume server-assigned naming.
+    /// Specify the suffix of the revision name. Revision names always start with the service name automatically. For example, specifying [--revision-suffix=v1] for a service named 'helloworld', would lead to a revision named 'helloworld-v1'. Set empty string to clear the suffix and resume server-assigned naming.
     /// </summary>
     [CliOption("--revision-suffix", Format = OptionFormat.EqualsSeparated)]
     public string? RevisionSuffix { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. The scaling mode to use for this service. Flag value could be either "auto" for automatic scaling, or a positive integer to configure manual scaling with the given integer as a fixed instance count.
+    /// The scaling mode to use for this service. Flag value could be either "auto" for automatic scaling, or a positive integer to configure manual scaling with the given integer as a fixed instance count.
     /// </summary>
     [CliOption("--scaling", Format = OptionFormat.EqualsSeparated)]
     public string? Scaling { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. the email address of an IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has.
+    /// the email address of an IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceAccount { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Whether to enable session affinity for connections to the service. Use --session-affinity to enable and --no-session-affinity to disable.
+    /// Whether to enable session affinity for connections to the service. Use --session-affinity to enable and --no-session-affinity to disable.
     /// </summary>
     [CliFlag("--session-affinity")]
     public bool? SessionAffinity { get; set; }
 
     /// <summary>
-    /// Negates --session-affinity. Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Whether to enable session affinity for connections to the service. Use --session-affinity to enable and --no-session-affinity to disable.
+    /// Negates --session-affinity. Whether to enable session affinity for connections to the service. Use --session-affinity to enable and --no-session-affinity to disable.
     /// </summary>
     [CliFlag("--no-session-affinity")]
     public bool? NoSessionAffinity { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Traffic tag to assign to the newly created revision.
+    /// Traffic tag to assign to the newly created revision.
     /// </summary>
     [CliOption("--tag", Format = OptionFormat.EqualsSeparated)]
     public string? Tag { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Set the maximum request execution time (timeout). It is specified as a duration; for example, "10m5s" is ten minutes, and five seconds. If you don't specify a unit, seconds is assumed. For example, "10" is 10 seconds.
+    /// Set the maximum request execution time (timeout). It is specified as a duration; for example, "10m5s" is ten minutes, and five seconds. If you don't specify a unit, seconds is assumed. For example, "10" is 10 seconds.
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
     public int? Timeout { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. True to avoid sending traffic to the revision being deployed. Setting this flag assigns any traffic assigned to the LATEST revision to the specific revision bound to LATEST before the deployment. The effect is that the revision being deployed will not receive traffic. After a deployment with this flag the LATEST revision will not receive traffic on future deployments. To restore sending traffic to the LATEST revision by default, run the gcloud run services update-traffic command with --to-latest.
+    /// True to avoid sending traffic to the revision being deployed. Setting this flag assigns any traffic assigned to the LATEST revision to the specific revision bound to LATEST before the deployment. The effect is that the revision being deployed will not receive traffic. After a deployment with this flag the LATEST revision will not receive traffic on future deployments. To restore sending traffic to the LATEST revision by default, run the gcloud run services update-traffic command with --to-latest.
     /// </summary>
     [CliFlag("--no-traffic")]
     public bool? NoTraffic { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Set a VPC connector for this resource.
+    /// Set a VPC connector for this resource.
     /// </summary>
     [CliOption("--vpc-connector", Format = OptionFormat.EqualsSeparated)]
     public string? VpcConnector { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Specify which of the outbound traffic to send through Direct VPC egress or the VPC connector for this resource. This resource must have Direct VPC egress enabled or a VPC connector to set this flag. VPC_EGRESS must be one of: all (DEPRECATED) Sends all outbound traffic through Direct VPC egress or the VPC connector. Provides the same functionality as 'all-traffic'. Prefer to use 'all-traffic' instead. all-traffic Sends all outbound traffic through Direct VPC egress or the VPC connector. private-ranges-only Default option. Sends outbound traffic to private IP addresses (RFC 1918 and Private Google Access IPs) through Direct VPC egress or the VPC connector. Traffic to other Cloud Run services might require additional configuration. See https://cloud.google.com/run/docs/securing/private-networking#send_requests_to_other_services_and_services for more information.
+    /// Specify which of the outbound traffic to send through Direct VPC egress or the VPC connector for this resource. This resource must have Direct VPC egress enabled or a VPC connector to set this flag. VPC_EGRESS must be one of: all (DEPRECATED) Sends all outbound traffic through Direct VPC egress or the VPC connector. Provides the same functionality as 'all-traffic'. Prefer to use 'all-traffic' instead. all-traffic Sends all outbound traffic through Direct VPC egress or the VPC connector. private-ranges-only Default option. Sends outbound traffic to private IP addresses (RFC 1918 and Private Google Access IPs) through Direct VPC egress or the VPC connector. Traffic to other Cloud Run services might require additional configuration. See https://cloud.google.com/run/docs/securing/private-networking#send_requests_to_other_services_and_services for more information.
     /// </summary>
     [CliOption("--vpc-egress", Format = OptionFormat.EqualsSeparated)]
     public string? VpcEgress { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. These flags modify the Cloud SQL instances this Service connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run service; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Append the given values to the current Cloud SQL instances.
+    /// These flags modify the Cloud SQL instances this Service connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run service; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Append the given values to the current Cloud SQL instances.
     /// </summary>
     [CliOption("--add-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddCloudsqlInstances { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. These flags modify the Cloud SQL instances this Service connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run service; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Empty the current Cloud SQL instances.
+    /// These flags modify the Cloud SQL instances this Service connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run service; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Empty the current Cloud SQL instances.
     /// </summary>
     [CliFlag("--clear-cloudsql-instances")]
     public bool? ClearCloudsqlInstances { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. These flags modify the Cloud SQL instances this Service connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run service; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Remove the given values from the current Cloud SQL instances.
+    /// These flags modify the Cloud SQL instances this Service connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run service; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Remove the given values from the current Cloud SQL instances.
     /// </summary>
     [CliOption("--remove-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveCloudsqlInstances { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. These flags modify the Cloud SQL instances this Service connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run service; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Completely replace the current Cloud SQL instances with the given values.
+    /// These flags modify the Cloud SQL instances this Service connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run service; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Completely replace the current Cloud SQL instances with the given values.
     /// </summary>
     [CliOption("--set-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SetCloudsqlInstances { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. These flags modify the custom audiences that can be used in the audience field of ID token for authenticated requests. At most one of these can be specified: Append the given values to the current custom audiences.
+    /// These flags modify the custom audiences that can be used in the audience field of ID token for authenticated requests. At most one of these can be specified: Append the given values to the current custom audiences.
     /// </summary>
     [CliOption("--add-custom-audiences", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddCustomAudiences { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. These flags modify the custom audiences that can be used in the audience field of ID token for authenticated requests. At most one of these can be specified: Empty the current custom audiences.
+    /// These flags modify the custom audiences that can be used in the audience field of ID token for authenticated requests. At most one of these can be specified: Empty the current custom audiences.
     /// </summary>
     [CliFlag("--clear-custom-audiences")]
     public bool? ClearCustomAudiences { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. These flags modify the custom audiences that can be used in the audience field of ID token for authenticated requests. At most one of these can be specified: Remove the given values from the current custom audiences.
+    /// These flags modify the custom audiences that can be used in the audience field of ID token for authenticated requests. At most one of these can be specified: Remove the given values from the current custom audiences.
     /// </summary>
     [CliOption("--remove-custom-audiences", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveCustomAudiences { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. These flags modify the custom audiences that can be used in the audience field of ID token for authenticated requests. At most one of these can be specified: Completely replace the current custom audiences with the given values.
+    /// These flags modify the custom audiences that can be used in the audience field of ID token for authenticated requests. At most one of these can be specified: Completely replace the current custom audiences with the given values.
     /// </summary>
     [CliOption("--set-custom-audiences", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SetCustomAudiences { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Adds a volume to the Cloud Run resource. To add more than one volume, specify this flag multiple times. Volumes must have a type key. Volumes must have a name key if mount-path is not specified. A name key is optional if mount-path is specified.Only certain values are supported for type. Depending on the provided type, other keys will be required. The following types are supported with the specified additional keys: cloud-storage: A volume representing a Cloud Storage bucket. This volume type is mounted using Cloud Storage FUSE. See https://cloud.google.com/storage/docs/gcs-fuse for the details and limitations of this filesystem. Additional keys: ◆ bucket: (required) the name of the bucket to use as the source of this volume ◆ readonly: (optional) A boolean. If true, this volume will be read-only from all mounts. ◆ mount-options: (optional) A list of flags to pass to GCSFuse. Flags should be specified without leading dashes and separated by semicolons. ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. in-memory: An ephemeral volume that stores data in the instance's memory. With this type of volume, data is not shared between instances and all data will be lost when the instance it is on is terminated. Additional keys: ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. ◆ size-limit: (optional) A quantity representing the maximum amount of memory allocated to this volume, such as "512Mi" or "3G". Data stored in an in-memory volume consumes the memory allocation of the container that wrote the data. If size-limit is not specified, the maximum size will be half the total memory limit of all containers. nfs: Represents a volume backed by an NFS server. Additional keys: ◆ location: (required) The location of the NFS Server, in the form SERVER:/PATH ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. ◆ readonly: (optional) A boolean. If true, this volume will be read-only from all mounts.
+    /// Adds a volume to the Cloud Run resource. To add more than one volume, specify this flag multiple times. Volumes must have a type key. Volumes must have a name key if mount-path is not specified. A name key is optional if mount-path is specified.Only certain values are supported for type. Depending on the provided type, other keys will be required. The following types are supported with the specified additional keys: cloud-storage: A volume representing a Cloud Storage bucket. This volume type is mounted using Cloud Storage FUSE. See https://cloud.google.com/storage/docs/gcs-fuse for the details and limitations of this filesystem. Additional keys: ◆ bucket: (required) the name of the bucket to use as the source of this volume ◆ readonly: (optional) A boolean. If true, this volume will be read-only from all mounts. ◆ mount-options: (optional) A list of flags to pass to GCSFuse. Flags should be specified without leading dashes and separated by semicolons. ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. in-memory: An ephemeral volume that stores data in the instance's memory. With this type of volume, data is not shared between instances and all data will be lost when the instance it is on is terminated. Additional keys: ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. ◆ size-limit: (optional) A quantity representing the maximum amount of memory allocated to this volume, such as "512Mi" or "3G". Data stored in an in-memory volume consumes the memory allocation of the container that wrote the data. If size-limit is not specified, the maximum size will be half the total memory limit of all containers. nfs: Represents a volume backed by an NFS server. Additional keys: ◆ location: (required) The location of the NFS Server, in the form SERVER:/PATH ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. ◆ readonly: (optional) A boolean. If true, this volume will be read-only from all mounts.
     /// </summary>
     [CliOption("--add-volume", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? AddVolume { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Remove all existing volumes from the Cloud Run resource, including volumes mounted as secrets
+    /// Remove all existing volumes from the Cloud Run resource, including volumes mounted as secrets
     /// </summary>
     [CliFlag("--clear-volumes")]
     public bool? ClearVolumes { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Removes volumes from the Cloud Run resource.
+    /// Removes volumes from the Cloud Run resource.
     /// </summary>
     [CliOption("--remove-volume", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveVolume { get; set; }

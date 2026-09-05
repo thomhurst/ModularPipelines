@@ -24,121 +24,121 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunJobsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Binary Authorization policy to check against. This must be set to "default".
+    /// Binary Authorization policy to check against. This must be set to "default".
     /// </summary>
     [CliOption("--binary-authorization", Format = OptionFormat.EqualsSeparated)]
     public string? BinaryAuthorization { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Justification to bypass Binary Authorization policy constraints and allow the operation. See https://cloud.google.com/binary-authorization/docs/using-breakglass for more information. Next update or deploy command will automatically clear existing breakglass justification.
+    /// Justification to bypass Binary Authorization policy constraints and allow the operation. See https://cloud.google.com/binary-authorization/docs/using-breakglass for more information. Next update or deploy command will automatically clear existing breakglass justification.
     /// </summary>
     [CliOption("--breakglass", Format = OptionFormat.EqualsSeparated)]
     public string? Breakglass { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Specifies a container by name. Flags following --container will apply to the specified container. Flags that are not container-specific must be specified before --container.
+    /// Specifies a container by name. Flags following --container will apply to the specified container. Flags that are not container-specific must be specified before --container.
     /// </summary>
     [CliOption("--container", Format = OptionFormat.EqualsSeparated)]
     public string? Container { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. The GPU type to use.
+    /// The GPU type to use.
     /// </summary>
     [CliOption("--gpu-type", Format = OptionFormat.EqualsSeparated)]
     public string? GpuType { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
+    /// Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
     /// </summary>
     [CliFlag("--gpu-zonal-redundancy")]
     public bool? GpuZonalRedundancy { get; set; }
 
     /// <summary>
-    /// Negates --gpu-zonal-redundancy. Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
+    /// Negates --gpu-zonal-redundancy. Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
     /// </summary>
     [CliFlag("--no-gpu-zonal-redundancy")]
     public bool? NoGpuZonalRedundancy { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. CMEK key reference to encrypt the container with.
+    /// CMEK key reference to encrypt the container with.
     /// </summary>
     [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
     public string? Key { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. List of label KEY=VALUE pairs to add.
+    /// List of label KEY=VALUE pairs to add.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Number of times a task is allowed to restart in case of failure before being failed permanently. This applies per-task, not per-job. If set to 0, tasks will only run once and never be retried on failure.
+    /// Number of times a task is allowed to restart in case of failure before being failed permanently. This applies per-task, not per-job. If set to 0, tasks will only run once and never be retried on failure.
     /// </summary>
     [CliOption("--max-retries", Format = OptionFormat.EqualsSeparated)]
     public string? MaxRetries { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Number of tasks that may run concurrently. Must be less than or equal to the number of tasks. Set to 0 to unset.
+    /// Number of tasks that may run concurrently. Must be less than or equal to the number of tasks. Set to 0 to unset.
     /// </summary>
     [CliOption("--parallelism", Format = OptionFormat.EqualsSeparated)]
     public string? Parallelism { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Region in which the resource can be found. Alternatively, set the property [run/region].
+    /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. the email address of an IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has.
+    /// the email address of an IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceAccount { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run resource; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance.
+    /// You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run resource; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance.
     /// </summary>
     [CliOption("--set-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SetCloudsqlInstances { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Set the maximum time (deadline) a job task attempt can run for. In the case of retries, this deadline applies to each attempt of a task. If the task attempt does not complete within this time, it will be killed. It is specified as a duration; for example, "10m5s" is ten minutes, and five seconds. If you don't specify a unit, seconds is assumed. For example, "10" is 10 seconds.
+    /// Set the maximum time (deadline) a job task attempt can run for. In the case of retries, this deadline applies to each attempt of a task. If the task attempt does not complete within this time, it will be killed. It is specified as a duration; for example, "10m5s" is ten minutes, and five seconds. If you don't specify a unit, seconds is assumed. For example, "10" is 10 seconds.
     /// </summary>
     [CliOption("--task-timeout", Format = OptionFormat.EqualsSeparated)]
     public int? TaskTimeout { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Number of tasks that must run to completion for the execution to be considered done.
+    /// Number of tasks that must run to completion for the execution to be considered done.
     /// </summary>
     [CliOption("--tasks", Format = OptionFormat.EqualsSeparated)]
     public string? Tasks { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Set a VPC connector for this resource.
+    /// Set a VPC connector for this resource.
     /// </summary>
     [CliOption("--vpc-connector", Format = OptionFormat.EqualsSeparated)]
     public string? VpcConnector { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Specify which of the outbound traffic to send through Direct VPC egress or the VPC connector for this resource. This resource must have Direct VPC egress enabled or a VPC connector to set this flag. VPC_EGRESS must be one of: all (DEPRECATED) Sends all outbound traffic through Direct VPC egress or the VPC connector. Provides the same functionality as 'all-traffic'. Prefer to use 'all-traffic' instead. all-traffic Sends all outbound traffic through Direct VPC egress or the VPC connector. private-ranges-only Default option. Sends outbound traffic to private IP addresses (RFC 1918 and Private Google Access IPs) through Direct VPC egress or the VPC connector. Traffic to other Cloud Run services might require additional configuration. See https://cloud.google.com/run/docs/securing/private-networking#send_requests_to_other_services_and_services for more information.
+    /// Specify which of the outbound traffic to send through Direct VPC egress or the VPC connector for this resource. This resource must have Direct VPC egress enabled or a VPC connector to set this flag. VPC_EGRESS must be one of: all (DEPRECATED) Sends all outbound traffic through Direct VPC egress or the VPC connector. Provides the same functionality as 'all-traffic'. Prefer to use 'all-traffic' instead. all-traffic Sends all outbound traffic through Direct VPC egress or the VPC connector. private-ranges-only Default option. Sends outbound traffic to private IP addresses (RFC 1918 and Private Google Access IPs) through Direct VPC egress or the VPC connector. Traffic to other Cloud Run services might require additional configuration. See https://cloud.google.com/run/docs/securing/private-networking#send_requests_to_other_services_and_services for more information.
     /// </summary>
     [CliOption("--vpc-egress", Format = OptionFormat.EqualsSeparated)]
     public string? VpcEgress { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Adds a volume to the Cloud Run resource. To add more than one volume, specify this flag multiple times. Volumes must have a type key. Volumes must have a name key if mount-path is not specified. A name key is optional if mount-path is specified.Only certain values are supported for type. Depending on the provided type, other keys will be required. The following types are supported with the specified additional keys: cloud-storage: A volume representing a Cloud Storage bucket. This volume type is mounted using Cloud Storage FUSE. See https://cloud.google.com/storage/docs/gcs-fuse for the details and limitations of this filesystem. Additional keys: ◆ bucket: (required) the name of the bucket to use as the source of this volume ◆ readonly: (optional) A boolean. If true, this volume will be read-only from all mounts. ◆ mount-options: (optional) A list of flags to pass to GCSFuse. Flags should be specified without leading dashes and separated by semicolons. ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. in-memory: An ephemeral volume that stores data in the instance's memory. With this type of volume, data is not shared between instances and all data will be lost when the instance it is on is terminated. Additional keys: ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. ◆ size-limit: (optional) A quantity representing the maximum amount of memory allocated to this volume, such as "512Mi" or "3G". Data stored in an in-memory volume consumes the memory allocation of the container that wrote the data. If size-limit is not specified, the maximum size will be half the total memory limit of all containers. nfs: Represents a volume backed by an NFS server. Additional keys: ◆ location: (required) The location of the NFS Server, in the form SERVER:/PATH ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. ◆ readonly: (optional) A boolean. If true, this volume will be read-only from all mounts.
+    /// Adds a volume to the Cloud Run resource. To add more than one volume, specify this flag multiple times. Volumes must have a type key. Volumes must have a name key if mount-path is not specified. A name key is optional if mount-path is specified.Only certain values are supported for type. Depending on the provided type, other keys will be required. The following types are supported with the specified additional keys: cloud-storage: A volume representing a Cloud Storage bucket. This volume type is mounted using Cloud Storage FUSE. See https://cloud.google.com/storage/docs/gcs-fuse for the details and limitations of this filesystem. Additional keys: ◆ bucket: (required) the name of the bucket to use as the source of this volume ◆ readonly: (optional) A boolean. If true, this volume will be read-only from all mounts. ◆ mount-options: (optional) A list of flags to pass to GCSFuse. Flags should be specified without leading dashes and separated by semicolons. ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. in-memory: An ephemeral volume that stores data in the instance's memory. With this type of volume, data is not shared between instances and all data will be lost when the instance it is on is terminated. Additional keys: ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. ◆ size-limit: (optional) A quantity representing the maximum amount of memory allocated to this volume, such as "512Mi" or "3G". Data stored in an in-memory volume consumes the memory allocation of the container that wrote the data. If size-limit is not specified, the maximum size will be half the total memory limit of all containers. nfs: Represents a volume backed by an NFS server. Additional keys: ◆ location: (required) The location of the NFS Server, in the form SERVER:/PATH ◆ mount-path: (optional) The path at which the volume should be mounted. The mount-path parameter is only supported for single container services which do not make use of the --container flag. For multi-container services, specify the mount-path parameter under the --add-volume-mount flag. ◆ readonly: (optional) A boolean. If true, this volume will be read-only from all mounts.
     /// </summary>
     [CliOption("--add-volume", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? AddVolume { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Remove all existing volumes from the Cloud Run resource, including volumes mounted as secrets
+    /// Remove all existing volumes from the Cloud Run resource, including volumes mounted as secrets
     /// </summary>
     [CliFlag("--clear-volumes")]
     public bool? ClearVolumes { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Removes volumes from the Cloud Run resource.
+    /// Removes volumes from the Cloud Run resource.
     /// </summary>
     [CliOption("--remove-volume", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveVolume { get; set; }

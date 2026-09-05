@@ -22,97 +22,97 @@ namespace ModularPipelines.Google.Options;
 public record GcloudLustreInstancesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. Return immediately, without waiting for the operation in progress to complete.
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. The storage capacity of the instance in gibibytes (GiB). Allowed values depend on the perUnitStorageThroughput. See Performance tiers (https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for specific minimums, maximums, and step sizes for each performance tier.
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The storage capacity of the instance in gibibytes (GiB). Allowed values depend on the perUnitStorageThroughput. See Performance tiers (https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for specific minimums, maximums, and step sizes for each performance tier.
     /// </summary>
     [CliOption("--capacity-gib", Format = OptionFormat.EqualsSeparated)]
     public string? CapacityGib { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. A user-readable description of the instance.
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. A user-readable description of the instance.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. Deprecated: No longer required for GKE instance creation. Indicates whether you want to enable support for GKE clients. By default, GKE clients are not supported. Use --gke-support-enabled to enable and --no-gke-support-enabled to disable.
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Deprecated: No longer required for GKE instance creation. Indicates whether you want to enable support for GKE clients. By default, GKE clients are not supported. Use --gke-support-enabled to enable and --no-gke-support-enabled to disable.
     /// </summary>
     [CliFlag("--gke-support-enabled")]
     public bool? GkeSupportEnabled { get; set; }
 
     /// <summary>
-    /// Negates --gke-support-enabled. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. Deprecated: No longer required for GKE instance creation. Indicates whether you want to enable support for GKE clients. By default, GKE clients are not supported. Use --gke-support-enabled to enable and --no-gke-support-enabled to disable.
+    /// Negates --gke-support-enabled. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Deprecated: No longer required for GKE instance creation. Indicates whether you want to enable support for GKE clients. By default, GKE clients are not supported. Use --gke-support-enabled to enable and --no-gke-support-enabled to disable.
     /// </summary>
     [CliFlag("--no-gke-support-enabled")]
     public bool? NoGkeSupportEnabled { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. The throughput of the instance in MBps per TiB. Valid values are 0, 125, 250, 500, 1000. See Performance tiers (https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for more information. If the instance is using the Dynamic tier, this field must not be set or must be set to zero.
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The throughput of the instance in MBps per TiB. Valid values are 0, 125, 250, 500, 1000. See Performance tiers (https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for more information. If the instance is using the Dynamic tier, this field must not be set or must be set to zero.
     /// </summary>
     [CliOption("--per-unit-storage-throughput", Format = OptionFormat.EqualsSeparated)]
     public string? PerUnitStorageThroughput { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. The placement policy name for the instance in the format of projects/{project}/locations/{location}/resourcePolicies/{resource_policy}
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The placement policy name for the instance in the format of projects/{project}/locations/{location}/resourcePolicies/{resource_policy}
     /// </summary>
     [CliOption("--placement-policy", Format = OptionFormat.EqualsSeparated)]
     public string? PlacementPolicy { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. Set instance.accessRulesOptions back to default value.
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Set instance.accessRulesOptions back to default value.
     /// </summary>
     [CliFlag("--clear-")]
     public bool? Clear { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. The user squash GID for the default access rule. This user squash GID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no GID squash).
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The user squash GID for the default access rule. This user squash GID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no GID squash).
     /// </summary>
     [CliOption("--default-squash-gid", Format = OptionFormat.EqualsSeparated)]
     public string? DefaultSquashGid { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. The squash mode for the default access rule. DEFAULT_SQUASH_MODE must be one of: no-squash Squash is disabled. If set inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule], root users matching the [ip_ranges][AccessRule.ip_ranges] are not squashed. If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode], root squash is disabled for this instance. If the default squash mode is NO_SQUASH, do not set the [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] or [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid], or an invalid argument error is returned. root-squash Root user squash is enabled. Not supported inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule]. If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode], root users not matching any of the [access_rules][google.cloud.lustre.v1.AccessRulesOptions.access_rules] are squashed to the [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] and [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid].
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The squash mode for the default access rule. DEFAULT_SQUASH_MODE must be one of: no-squash Squash is disabled. If set inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule], root users matching the [ip_ranges][AccessRule.ip_ranges] are not squashed. If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode], root squash is disabled for this instance. If the default squash mode is NO_SQUASH, do not set the [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] or [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid], or an invalid argument error is returned. root-squash Root user squash is enabled. Not supported inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule]. If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode], root users not matching any of the [access_rules][google.cloud.lustre.v1.AccessRulesOptions.access_rules] are squashed to the [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] and [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid].
     /// </summary>
     [CliOption("--default-squash-mode", Format = OptionFormat.EqualsSeparated)]
     public string? DefaultSquashMode { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. The user squash UID for the default access rule. This user squash UID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no UID squash).
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The user squash UID for the default access rule. This user squash UID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no UID squash).
     /// </summary>
     [CliOption("--default-squash-uid", Format = OptionFormat.EqualsSeparated)]
     public string? DefaultSquashUid { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. Update access_rules. At most one of these can be specified: Set access_rules to new value. The access rules for the instance. ipAddressRanges The IP address ranges to which to apply this access rule. Accepts non-overlapping CIDR ranges (e.g., 192.168.1.0/24) and IP addresses (e.g., 192.168.1.0). name The name of the access rule policy group. Must be 16 characters or less and include only alphanumeric characters or ''. squashMode Squash mode for the access rule. Shorthand Example: --access-rules=ipAddressRanges=[string],name=string,squashMode=string --access-rules=ipAddressRanges=[string],name=string,squashMode=string JSON Example: --access-rules='[{"ipAddressRanges": ["string"], "name": "string", "squashMode": "string"}]' File Example: --access-rules=path_to_file.(yaml|json)
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Update access_rules. At most one of these can be specified: Set access_rules to new value. The access rules for the instance. ipAddressRanges The IP address ranges to which to apply this access rule. Accepts non-overlapping CIDR ranges (e.g., 192.168.1.0/24) and IP addresses (e.g., 192.168.1.0). name The name of the access rule policy group. Must be 16 characters or less and include only alphanumeric characters or ''. squashMode Squash mode for the access rule. Shorthand Example: --access-rules=ipAddressRanges=[string],name=string,squashMode=string --access-rules=ipAddressRanges=[string],name=string,squashMode=string JSON Example: --access-rules='[{"ipAddressRanges": ["string"], "name": "string", "squashMode": "string"}]' File Example: --access-rules=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--access-rules", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AccessRules { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. Update access_rules. At most one of these can be specified: Or at least one of these can be specified: Add new value to access_rules list. The access rules for the instance. ipAddressRanges The IP address ranges to which to apply this access rule. Accepts non-overlapping CIDR ranges (e.g., 192.168.1.0/24) and IP addresses (e.g., 192.168.1.0). name The name of the access rule policy group. Must be 16 characters or less and include only alphanumeric characters or ''. squashMode Squash mode for the access rule. Shorthand Example: --add-access-rules=ipAddressRanges=[string],name=string,squashMode=string --add-access-rules=ipAddressRanges=[string],name=string,squashMode=string JSON Example: --add-access-rules='[{"ipAddressRanges": ["string"], "name": "string", "squashMode": "string"}]' File Example: --add-access-rules=path_to_file.(yaml|json)
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Update access_rules. At most one of these can be specified: Or at least one of these can be specified: Add new value to access_rules list. The access rules for the instance. ipAddressRanges The IP address ranges to which to apply this access rule. Accepts non-overlapping CIDR ranges (e.g., 192.168.1.0/24) and IP addresses (e.g., 192.168.1.0). name The name of the access rule policy group. Must be 16 characters or less and include only alphanumeric characters or ''. squashMode Squash mode for the access rule. Shorthand Example: --add-access-rules=ipAddressRanges=[string],name=string,squashMode=string --add-access-rules=ipAddressRanges=[string],name=string,squashMode=string JSON Example: --add-access-rules='[{"ipAddressRanges": ["string"], "name": "string", "squashMode": "string"}]' File Example: --add-access-rules=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-access-rules", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddAccessRules { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. Update access_rules. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear access_rules value and set to empty list.
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Update access_rules. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear access_rules value and set to empty list.
     /// </summary>
     [CliFlag("--clear-access-rules")]
     public bool? ClearAccessRules { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. Update access_rules. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from access_rules list. The access rules for the instance. ipAddressRanges The IP address ranges to which to apply this access rule. Accepts non-overlapping CIDR ranges (e.g., 192.168.1.0/24) and IP addresses (e.g., 192.168.1.0). name The name of the access rule policy group. Must be 16 characters or less and include only alphanumeric characters or ''. squashMode Squash mode for the access rule. Shorthand Example: --remove-access-rules=ipAddressRanges=[string],name=string,squashMode=string --remove-access-rules=ipAddressRanges=[string],name=string,squashMode=string JSON Example: --remove-access-rules='[{"ipAddressRanges": ["string"], "name": "string", "squashMode": "string"}]' File Example: --remove-access-rules=path_to_file.(yaml|json)
+    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Update access_rules. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from access_rules list. The access rules for the instance. ipAddressRanges The IP address ranges to which to apply this access rule. Accepts non-overlapping CIDR ranges (e.g., 192.168.1.0/24) and IP addresses (e.g., 192.168.1.0). name The name of the access rule policy group. Must be 16 characters or less and include only alphanumeric characters or ''. squashMode Squash mode for the access rule. Shorthand Example: --remove-access-rules=ipAddressRanges=[string],name=string,squashMode=string --remove-access-rules=ipAddressRanges=[string],name=string,squashMode=string JSON Example: --remove-access-rules='[{"ipAddressRanges": ["string"], "name": "string", "squashMode": "string"}]' File Example: --remove-access-rules=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-access-rules", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveAccessRules { get; set; }

@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDesignCenterSpacesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Arguments for the enable gcp shared templates. Description for the space.
+    /// Description for the space.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Arguments for the enable gcp shared templates. Display name for the space.
+    /// Display name for the space.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }

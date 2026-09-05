@@ -23,25 +23,25 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataplexAssetsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Description of the asset
+    /// Description of the asset
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. Display Name
+    /// Display Name
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Specification of the resource that is referenced by this asset. Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }

@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAnthosConfigControllerListOptions : GcloudOptions
 {
     /// <summary>
-    /// Instance list resource - List of Anthos Config Controller instances. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ use global location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Print the fully specified name of the instance.
+    /// Print the fully specified name of the instance.
     /// </summary>
     [CliFlag("--full-name")]
     public bool? FullName { get; set; }

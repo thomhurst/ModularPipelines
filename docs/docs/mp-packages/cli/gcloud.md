@@ -1175,7 +1175,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud builds triggers create` | `GcloudBuildsTriggersCreateOptions` |
 | `gcloud builds triggers create bitbucket-cloud` | `GcloudBuildsTriggersCreateBitbucketCloudOptions` |
 | `gcloud builds triggers create bitbucket-data-center` | `GcloudBuildsTriggersCreateBitbucketDataCenterOptions` |
-| `gcloud builds triggers create bitbucketserver` | `GcloudBuildsTriggersCreateBitbucketserverOptions` |
+| `gcloud builds triggers create bitbucketserver` | `GcloudBuildsTriggersCreateBitbucketServerOptions` |
 | `gcloud builds triggers create cloud-source-repositories` | `GcloudBuildsTriggersCreateCloudSourceRepositoriesOptions` |
 | `gcloud builds triggers create github` | `GcloudBuildsTriggersCreateGithubOptions` |
 | `gcloud builds triggers create gitlab` | `GcloudBuildsTriggersCreateGitlabOptions` |
@@ -1190,7 +1190,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud builds triggers update` | `GcloudBuildsTriggersUpdateOptions` |
 | `gcloud builds triggers update bitbucket-cloud` | `GcloudBuildsTriggersUpdateBitbucketCloudOptions` |
 | `gcloud builds triggers update bitbucket-data-center` | `GcloudBuildsTriggersUpdateBitbucketDataCenterOptions` |
-| `gcloud builds triggers update bitbucketserver` | `GcloudBuildsTriggersUpdateBitbucketserverOptions` |
+| `gcloud builds triggers update bitbucketserver` | `GcloudBuildsTriggersUpdateBitbucketServerOptions` |
 | `gcloud builds triggers update cloud-source-repositories` | `GcloudBuildsTriggersUpdateCloudSourceRepositoriesOptions` |
 | `gcloud builds triggers update github` | `GcloudBuildsTriggersUpdateGithubOptions` |
 | `gcloud builds triggers update gitlab` | `GcloudBuildsTriggersUpdateGitlabOptions` |
@@ -3042,7 +3042,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud database-migration connection-profiles create mysql` | `GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions` |
 | `gcloud database-migration connection-profiles create oracle` | `GcloudDatabaseMigrationConnectionProfilesCreateOracleOptions` |
 | `gcloud database-migration connection-profiles create postgresql` | `GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions` |
-| `gcloud database-migration connection-profiles create sqlserver` | `GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions` |
+| `gcloud database-migration connection-profiles create sqlserver` | `GcloudDatabaseMigrationConnectionProfilesCreateSqlServerOptions` |
 | `gcloud database-migration connection-profiles delete` | `GcloudDatabaseMigrationConnectionProfilesDeleteOptions` |
 | `gcloud database-migration connection-profiles describe` | `GcloudDatabaseMigrationConnectionProfilesDescribeOptions` |
 | `gcloud database-migration connection-profiles fetch-static-ips` | `GcloudDatabaseMigrationConnectionProfilesFetchStaticIpsOptions` |
@@ -5759,20 +5759,20 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud pam operations describe` | `GcloudPamOperationsDescribeOptions` |
 | `gcloud pam operations list` | `GcloudPamOperationsListOptions` |
 | `gcloud pam operations wait` | `GcloudPamOperationsWaitOptions` |
-| `gcloud parametermanager` | `GcloudParametermanagerOptions` |
-| `gcloud parametermanager parameters` | `GcloudParametermanagerParametersOptions` |
-| `gcloud parametermanager parameters create` | `GcloudParametermanagerParametersCreateOptions` |
-| `gcloud parametermanager parameters delete` | `GcloudParametermanagerParametersDeleteOptions` |
-| `gcloud parametermanager parameters describe` | `GcloudParametermanagerParametersDescribeOptions` |
-| `gcloud parametermanager parameters list` | `GcloudParametermanagerParametersListOptions` |
-| `gcloud parametermanager parameters update` | `GcloudParametermanagerParametersUpdateOptions` |
-| `gcloud parametermanager parameters versions` | `GcloudParametermanagerParametersVersionsOptions` |
-| `gcloud parametermanager parameters versions create` | `GcloudParametermanagerParametersVersionsCreateOptions` |
-| `gcloud parametermanager parameters versions delete` | `GcloudParametermanagerParametersVersionsDeleteOptions` |
-| `gcloud parametermanager parameters versions describe` | `GcloudParametermanagerParametersVersionsDescribeOptions` |
-| `gcloud parametermanager parameters versions list` | `GcloudParametermanagerParametersVersionsListOptions` |
-| `gcloud parametermanager parameters versions render` | `GcloudParametermanagerParametersVersionsRenderOptions` |
-| `gcloud parametermanager parameters versions update` | `GcloudParametermanagerParametersVersionsUpdateOptions` |
+| `gcloud parametermanager` | `GcloudParameterManagerOptions` |
+| `gcloud parametermanager parameters` | `GcloudParameterManagerParametersOptions` |
+| `gcloud parametermanager parameters create` | `GcloudParameterManagerParametersCreateOptions` |
+| `gcloud parametermanager parameters delete` | `GcloudParameterManagerParametersDeleteOptions` |
+| `gcloud parametermanager parameters describe` | `GcloudParameterManagerParametersDescribeOptions` |
+| `gcloud parametermanager parameters list` | `GcloudParameterManagerParametersListOptions` |
+| `gcloud parametermanager parameters update` | `GcloudParameterManagerParametersUpdateOptions` |
+| `gcloud parametermanager parameters versions` | `GcloudParameterManagerParametersVersionsOptions` |
+| `gcloud parametermanager parameters versions create` | `GcloudParameterManagerParametersVersionsCreateOptions` |
+| `gcloud parametermanager parameters versions delete` | `GcloudParameterManagerParametersVersionsDeleteOptions` |
+| `gcloud parametermanager parameters versions describe` | `GcloudParameterManagerParametersVersionsDescribeOptions` |
+| `gcloud parametermanager parameters versions list` | `GcloudParameterManagerParametersVersionsListOptions` |
+| `gcloud parametermanager parameters versions render` | `GcloudParameterManagerParametersVersionsRenderOptions` |
+| `gcloud parametermanager parameters versions update` | `GcloudParameterManagerParametersVersionsUpdateOptions` |
 | `gcloud parametermanager templates` | `GcloudParameterManagerTemplatesOptions` |
 | `gcloud parametermanager templates versions` | `GcloudParameterManagerTemplatesVersionsOptions` |
 | `gcloud policy-intelligence` | `GcloudPolicyIntelligenceOptions` |
@@ -7591,14 +7591,14 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud storage hmac list` | `GcloudStorageHmacListOptions` |
 | `gcloud storage hmac update` | `GcloudStorageHmacUpdateOptions` |
 | `gcloud storage insights` | `GcloudStorageInsightsOptions` |
-| `gcloud storage insights dataset-configs` | `GcloudStorageInsightsDatasetConfigsOptions` |
-| `gcloud storage insights dataset-configs create` | `GcloudStorageInsightsDatasetConfigsCreateOptions` |
-| `gcloud storage insights dataset-configs create-link` | `GcloudStorageInsightsDatasetConfigsCreateLinkOptions` |
-| `gcloud storage insights dataset-configs delete` | `GcloudStorageInsightsDatasetConfigsDeleteOptions` |
-| `gcloud storage insights dataset-configs delete-link` | `GcloudStorageInsightsDatasetConfigsDeleteLinkOptions` |
-| `gcloud storage insights dataset-configs describe` | `GcloudStorageInsightsDatasetConfigsDescribeOptions` |
-| `gcloud storage insights dataset-configs list` | `GcloudStorageInsightsDatasetConfigsListOptions` |
-| `gcloud storage insights dataset-configs update` | `GcloudStorageInsightsDatasetConfigsUpdateOptions` |
+| `gcloud storage insights dataset-configs` | `GcloudStorageInsightsDataSetConfigsOptions` |
+| `gcloud storage insights dataset-configs create` | `GcloudStorageInsightsDataSetConfigsCreateOptions` |
+| `gcloud storage insights dataset-configs create-link` | `GcloudStorageInsightsDataSetConfigsCreateLinkOptions` |
+| `gcloud storage insights dataset-configs delete` | `GcloudStorageInsightsDataSetConfigsDeleteOptions` |
+| `gcloud storage insights dataset-configs delete-link` | `GcloudStorageInsightsDataSetConfigsDeleteLinkOptions` |
+| `gcloud storage insights dataset-configs describe` | `GcloudStorageInsightsDataSetConfigsDescribeOptions` |
+| `gcloud storage insights dataset-configs list` | `GcloudStorageInsightsDataSetConfigsListOptions` |
+| `gcloud storage insights dataset-configs update` | `GcloudStorageInsightsDataSetConfigsUpdateOptions` |
 | `gcloud storage insights inventory-reports` | `GcloudStorageInsightsInventoryReportsOptions` |
 | `gcloud storage insights inventory-reports create` | `GcloudStorageInsightsInventoryReportsCreateOptions` |
 | `gcloud storage insights inventory-reports delete` | `GcloudStorageInsightsInventoryReportsDeleteOptions` |

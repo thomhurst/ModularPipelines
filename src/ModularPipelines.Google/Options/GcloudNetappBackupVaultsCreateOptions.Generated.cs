@@ -23,19 +23,19 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetappBackupVaultsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Kms config resource - The resource name of the KMS Config to use for encrypting backups within this backup vault. Format: projects/{project_id}/locations/{location}/kmsConfigs/{kms_config_id} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Kms config resource - The resource name of the KMS Config to use for encrypting backups within this backup vault. Format: projects/{project_id}/locations/{location}/kmsConfigs/{kms_config_id} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. Backup Retention Policy of the Backup Vault. Backup Retention Policy allows you to configure the retention policy for backups created within this vault. It consists of several fields that govern how long backups are kept and what type of backups are immutable.
+    /// Backup Retention Policy of the Backup Vault. Backup Retention Policy allows you to configure the retention policy for backups created within this vault. It consists of several fields that govern how long backups are kept and what type of backups are immutable.
     /// </summary>
     [CliOption("--backup-retention-policy", Format = OptionFormat.EqualsSeparated)]
     public string? BackupRetentionPolicy { get; set; }
 
     /// <summary>
-    /// Kms config resource - The resource name of the KMS Config to use for encrypting backups within this backup vault. Format: projects/{project_id}/locations/{location}/kmsConfigs/{kms_config_id} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --kms-config on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property netapp/location. A description of the Cloud NetApp Backup Vault
+    /// A description of the Cloud NetApp Backup Vault
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }

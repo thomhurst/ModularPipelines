@@ -22,61 +22,61 @@ namespace ModularPipelines.Google.Options;
 public record GcloudStorageRestoreOptions : GcloudOptions
 {
     /// <summary>
-    /// SYNCHRONOUS RESTORE OPTIONS SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Restores all versions of soft-deleted objects. This flag is only useful for buckets with [object versioning] (https://cloud.google.com/storage/docs/object-versioning) enabled. In this case, the latest soft-deleted version will become live and the previous generations will become noncurrent. If versioning is disabled, the latest soft-deleted version will become live and previous generations will be soft-deleted again. This flag disables parallelism to preserve version order.
+    /// SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Restores all versions of soft-deleted objects. This flag is only useful for buckets with [object versioning] (https://cloud.google.com/storage/docs/object-versioning) enabled. In this case, the latest soft-deleted version will become live and the previous generations will become noncurrent. If versioning is disabled, the latest soft-deleted version will become live and previous generations will be soft-deleted again. This flag disables parallelism to preserve version order.
     /// </summary>
     [CliFlag("--all-versions")]
     public bool? AllVersions { get; set; }
 
     /// <summary>
-    /// SYNCHRONOUS RESTORE OPTIONS SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Initiates an asynchronous bulk restore operation on the specified bucket.
+    /// SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Initiates an asynchronous bulk restore operation on the specified bucket.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// SYNCHRONOUS RESTORE OPTIONS SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
+    /// SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
     /// </summary>
     [CliFlag("--preserve-acl")]
     public bool? PreserveAcl { get; set; }
 
     /// <summary>
-    /// Negates --preserve-acl. SYNCHRONOUS RESTORE OPTIONS SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
+    /// Negates --preserve-acl. SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
     /// </summary>
     [CliFlag("--no-preserve-acl")]
     public bool? NoPreserveAcl { get; set; }
 
     /// <summary>
-    /// SYNCHRONOUS RESTORE OPTIONS SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Read the list of URLs from stdin.
+    /// SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Read the list of URLs from stdin.
     /// </summary>
     [CliFlag("--read-paths-from-stdin")]
     public bool? ReadPathsFromStdin { get; set; }
 
     /// <summary>
-    /// SYNCHRONOUS RESTORE OPTIONS SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS If included, live objects will be overwritten. If versioning is enabled, this will result in a noncurrent object. If versioning is not enabled, this will result in a soft-deleted object.
+    /// SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS If included, live objects will be overwritten. If versioning is enabled, this will result in a noncurrent object. If versioning is not enabled, this will result in a soft-deleted object.
     /// </summary>
     [CliFlag("--allow-overwrite")]
     public bool? AllowOverwrite { get; set; }
 
     /// <summary>
-    /// SYNCHRONOUS RESTORE OPTIONS SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Restores only the objects that were created after this time.
+    /// SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Restores only the objects that were created after this time.
     /// </summary>
     [CliOption("--created-after-time", Format = OptionFormat.EqualsSeparated)]
     public string? CreatedAfterTime { get; set; }
 
     /// <summary>
-    /// SYNCHRONOUS RESTORE OPTIONS SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Restores only the objects that were created before this time.
+    /// SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Restores only the objects that were created before this time.
     /// </summary>
     [CliOption("--created-before-time", Format = OptionFormat.EqualsSeparated)]
     public string? CreatedBeforeTime { get; set; }
 
     /// <summary>
-    /// SYNCHRONOUS RESTORE OPTIONS SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Restores only the objects that were soft-deleted after this time.
+    /// SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Restores only the objects that were soft-deleted after this time.
     /// </summary>
     [CliOption("--deleted-after-time", Format = OptionFormat.EqualsSeparated)]
     public string? DeletedAfterTime { get; set; }
 
     /// <summary>
-    /// SYNCHRONOUS RESTORE OPTIONS SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Restores only the objects that were soft-deleted before this time.
+    /// SYNCHRONOUS RESTORE OPTIONS BULK RESTORE OPTIONS Restores only the objects that were soft-deleted before this time.
     /// </summary>
     [CliOption("--deleted-before-time", Format = OptionFormat.EqualsSeparated)]
     public string? DeletedBeforeTime { get; set; }

@@ -23,31 +23,31 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBackupDrBackupsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Update Backup Flags Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Negates --async. Update Backup Flags Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
 
     /// <summary>
-    /// Update Backup Flags At most one of these can be specified: Remove all labels from the backup. If the backup has no labels, this operation is a no-op.
+    /// At most one of these can be specified: Remove all labels from the backup. If the backup has no labels, this operation is a no-op.
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Update Backup Flags At most one of these can be specified: A list of label keys to remove from the backup. If a label does not exist, it is silently ignored.
+    /// At most one of these can be specified: A list of label keys to remove from the backup. If a label does not exist, it is silently ignored.
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
-    /// Update Backup Flags At most one of these can be specified: A list of labels to apply to the backup. Keys must start with a lowercase letter and contain only lowercase letters, numbers, and hyphens, and must be between 1 and 63 characters long. Values must contain only lowercase letters, numbers, and hyphens, and must be between 0 and 63 characters long. For example: --update-labels=env=prod,team=storage
+    /// At most one of these can be specified: A list of labels to apply to the backup. Keys must start with a lowercase letter and contain only lowercase letters, numbers, and hyphens, and must be between 1 and 63 characters long. Values must contain only lowercase letters, numbers, and hyphens, and must be between 0 and 63 characters long. For example: --update-labels=env=prod,team=storage
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }

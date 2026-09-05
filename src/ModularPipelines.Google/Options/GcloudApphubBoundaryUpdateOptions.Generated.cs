@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudApphubBoundaryUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Update Boundary Options Location resource - Location of the Boundary. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ Boundaries only support global location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Return immediately, without waiting for the operation in progress to complete.
+    /// Update Boundary Options Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Update Boundary Options Location resource - Location of the Boundary. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ Boundaries only support global location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The CRM node to associate with the boundary.
+    /// Update Boundary Options The CRM node to associate with the boundary.
     /// </summary>
     [CliOption("--crm-node", Format = OptionFormat.EqualsSeparated)]
     public string? CrmNode { get; set; }

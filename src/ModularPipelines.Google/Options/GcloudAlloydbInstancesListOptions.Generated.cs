@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAlloydbInstancesListOptions : GcloudOptions
 {
     /// <summary>
-    /// Cluster Cluster AlloyDB cluster ID This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Cluster AlloyDB cluster ID This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
     public string? Cluster { get; set; }
 
     /// <summary>
-    /// Cluster Cluster Regional location (e.g. asia-east1, us-east1) of CLUSTER. See the full list of regions at https://cloud.google.com/sql/docs/instance-locations. Default: list clusters in all regions. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Cluster Regional location (e.g. asia-east1, us-east1) of CLUSTER. See the full list of regions at https://cloud.google.com/sql/docs/instance-locations. Default: list clusters in all regions. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

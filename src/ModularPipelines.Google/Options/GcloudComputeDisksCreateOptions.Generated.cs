@@ -26,163 +26,163 @@ public record GcloudComputeDisksCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Specifies how VMs attached to the disk can access the data on the disk. To grant read-only access to multiple VMs attached to the disk, set access-mode to READ_ONLY_MANY. To grant read-write access to only one VM attached to the disk, use READ_WRITE_SINGLE. READ_WRITE_SINGLE is used if omitted. ACCESS_MODE must be one of: READ_ONLY_MANY, READ_WRITE_MANY, READ_WRITE_SINGLE.
+    /// Specifies how VMs attached to the disk can access the data on the disk. To grant read-only access to multiple VMs attached to the disk, set access-mode to READ_ONLY_MANY. To grant read-write access to only one VM attached to the disk, use READ_WRITE_SINGLE. READ_WRITE_SINGLE is used if omitted. ACCESS_MODE must be one of: READ_ONLY_MANY, READ_WRITE_MANY, READ_WRITE_SINGLE.
     /// </summary>
     [CliOption("--access-mode", Format = OptionFormat.EqualsSeparated)]
     public GcloudAccessMode? AccessMode { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Specifies the architecture or processor type that this disk can support. For available processor types on Compute Engine, see https://cloud.google.com/compute/docs/cpu-platforms. ARCHITECTURE must be one of: ARM64, X86_64.
+    /// Specifies the architecture or processor type that this disk can support. For available processor types on Compute Engine, see https://cloud.google.com/compute/docs/cpu-platforms. ARCHITECTURE must be one of: ARM64, X86_64.
     /// </summary>
     [CliOption("--architecture", Format = OptionFormat.EqualsSeparated)]
     public GcloudArchitecture? Architecture { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Creates the disk with confidential compute mode enabled. Encryption with a Cloud KMS key is required to enable this option.
+    /// Creates the disk with confidential compute mode enabled. Encryption with a Cloud KMS key is required to enable this option.
     /// </summary>
     [CliFlag("--confidential-compute")]
     public bool? ConfidentialCompute { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. (DEPRECATED) Path to a Customer-Supplied Encryption Key (CSEK) key file that maps Compute Engine resources to user managed keys to be used when creating, mounting, or taking snapshots of disks. If you pass `-` as value of the flag, the CSEK is read from stdin. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --csek-key-file flag is deprecated.
+    /// (DEPRECATED) Path to a Customer-Supplied Encryption Key (CSEK) key file that maps Compute Engine resources to user managed keys to be used when creating, mounting, or taking snapshots of disks. If you pass `-` as value of the flag, the CSEK is read from stdin. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --csek-key-file flag is deprecated.
     /// </summary>
     [CliOption("--csek-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? CsekKeyFile { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. An optional, textual description for the disks being created.
+    /// An optional, textual description for the disks being created.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Enables one or more features for VM instances that use the image for their boot disks. See the descriptions of supported features at: https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features. GUEST_OS_FEATURE must be one of: BARE_METAL_LINUX_COMPATIBLE, BMSAI_CAPABLE, CCA_CAPABLE, GVNIC, IDPF, MULTI_IP_SUBNET, SEV_CAPABLE, SEV_LIVE_MIGRATABLE, SEV_LIVE_MIGRATABLE_V2, SEV_SNP_CAPABLE, SNP_SVSM_CAPABLE, SUSPEND_SAFE_FPR, TDX_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS.
+    /// Enables one or more features for VM instances that use the image for their boot disks. See the descriptions of supported features at: https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features. GUEST_OS_FEATURE must be one of: BARE_METAL_LINUX_COMPATIBLE, BMSAI_CAPABLE, CCA_CAPABLE, GVNIC, IDPF, MULTI_IP_SUBNET, SEV_CAPABLE, SEV_LIVE_MIGRATABLE, SEV_LIVE_MIGRATABLE_V2, SEV_SNP_CAPABLE, SNP_SVSM_CAPABLE, SUSPEND_SAFE_FPR, TDX_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS.
     /// </summary>
     [CliOption("--guest-os-features", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? GuestOsFeatures { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. A list of URIs to license resources. The provided licenses will be added onto the created disks to indicate the licensing and billing policies.
+    /// A list of URIs to license resources. The provided licenses will be added onto the created disks to indicate the licensing and billing policies.
     /// </summary>
     [CliOption("--licenses", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Licenses { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Project of the primary disk for asynchronous replication.
+    /// Project of the primary disk for asynchronous replication.
     /// </summary>
     [CliOption("--primary-disk-project", Format = OptionFormat.EqualsSeparated)]
     public string? PrimaryDiskProject { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Provisioned IOPS of disk to create. Only for use with disks of type pd-extreme and hyperdisk-extreme.
+    /// Provisioned IOPS of disk to create. Only for use with disks of type pd-extreme and hyperdisk-extreme.
     /// </summary>
     [CliOption("--provisioned-iops", Format = OptionFormat.EqualsSeparated)]
     public int? ProvisionedIops { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Provisioned throughput of disk to create. The throughput unit is MB per sec. Only for use with disks of type hyperdisk-throughput.
+    /// Provisioned throughput of disk to create. The throughput unit is MB per sec. Only for use with disks of type hyperdisk-throughput.
     /// </summary>
     [CliOption("--provisioned-throughput", Format = OptionFormat.EqualsSeparated)]
     public string? ProvisionedThroughput { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. A comma-separated list of exactly 2 zones that a regional disk will be replicated to. Required when creating regional disk. The zones must be in the same region as specified in the --region flag. See available zones with gcloud compute zones list.
+    /// A comma-separated list of exactly 2 zones that a regional disk will be replicated to. Required when creating regional disk. The zones must be in the same region as specified in the --region flag. See available zones with gcloud compute zones list.
     /// </summary>
     [CliOption("--replica-zones", Format = OptionFormat.EqualsSeparated)]
     public string? ReplicaZones { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. (DEPRECATED) Refuse to create resources not protected by a user managed key in the key file when --csek-key-file is given. This behavior is enabled by default to prevent incorrect gcloud invocations from accidentally creating resources with no user managed key. Disabling the check allows creation of some resources without a matching Customer-Supplied Encryption Key in the supplied --csek-key-file. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --require-csek-key-create flag is deprecated. Enabled by default, use --no-require-csek-key-create to disable.
+    /// (DEPRECATED) Refuse to create resources not protected by a user managed key in the key file when --csek-key-file is given. This behavior is enabled by default to prevent incorrect gcloud invocations from accidentally creating resources with no user managed key. Disabling the check allows creation of some resources without a matching Customer-Supplied Encryption Key in the supplied --csek-key-file. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --require-csek-key-create flag is deprecated. Enabled by default, use --no-require-csek-key-create to disable.
     /// </summary>
     [CliFlag("--require-csek-key-create")]
     public bool? RequireCsekKeyCreate { get; set; }
 
     /// <summary>
-    /// Negates --require-csek-key-create. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. (DEPRECATED) Refuse to create resources not protected by a user managed key in the key file when --csek-key-file is given. This behavior is enabled by default to prevent incorrect gcloud invocations from accidentally creating resources with no user managed key. Disabling the check allows creation of some resources without a matching Customer-Supplied Encryption Key in the supplied --csek-key-file. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --require-csek-key-create flag is deprecated. Enabled by default, use --no-require-csek-key-create to disable.
+    /// Negates --require-csek-key-create. (DEPRECATED) Refuse to create resources not protected by a user managed key in the key file when --csek-key-file is given. This behavior is enabled by default to prevent incorrect gcloud invocations from accidentally creating resources with no user managed key. Disabling the check allows creation of some resources without a matching Customer-Supplied Encryption Key in the supplied --csek-key-file. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --require-csek-key-create flag is deprecated. Enabled by default, use --no-require-csek-key-create to disable.
     /// </summary>
     [CliFlag("--no-require-csek-key-create")]
     public bool? NoRequireCsekKeyCreate { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. A comma-separated list of Resource Manager tags to apply to the disk.
+    /// A comma-separated list of Resource Manager tags to apply to the disk.
     /// </summary>
     [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. A list of resource policy names to be added to the disk. The policies must exist in the same region as the disk.
+    /// A list of resource policy names to be added to the disk. The policies must exist in the same region as the disk.
     /// </summary>
     [CliOption("--resource-policies", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ResourcePolicies { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Size of the disks. The value must be a whole number followed by a size unit of GB for gigabyte, or TB for terabyte. If no size unit is specified, GB is assumed. For example, 10GB will produce 10 gigabyte disks. Disk size must be a multiple of 1 GB. If disk size is not specified, the default size of 500GB for pd-standard disks, 100GB for pd-balanced disks, 100GB for pd-ssd disks, and 1000GB for pd-extreme will be used. For details about disk size limits, refer to: https://cloud.google.com/compute/docs/disks
+    /// Size of the disks. The value must be a whole number followed by a size unit of GB for gigabyte, or TB for terabyte. If no size unit is specified, GB is assumed. For example, 10GB will produce 10 gigabyte disks. Disk size must be a multiple of 1 GB. If disk size is not specified, the default size of 500GB for pd-standard disks, 100GB for pd-balanced disks, 100GB for pd-ssd disks, and 1000GB for pd-extreme will be used. For details about disk size limits, refer to: https://cloud.google.com/compute/docs/disks
     /// </summary>
     [CliOption("--size", Format = OptionFormat.EqualsSeparated)]
     public int? Size { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Specifies the URI of the storage pool in which the disk is created.
+    /// Specifies the URI of the storage pool in which the disk is created.
     /// </summary>
     [CliOption("--storage-pool", Format = OptionFormat.EqualsSeparated)]
     public string? StoragePool { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Specifies the type of disk to create. To get a list of available disk types, run gcloud compute disk-types list. The default disk type is pd-standard.
+    /// Specifies the type of disk to create. To get a list of available disk types, run gcloud compute disk-types list. The default disk type is pd-standard.
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
     public string? Type { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Sets the scope for the --image-family flag. By default, when specifying an image family in a public image project, the zonal image family scope is used. All other projects default to the global image. Use this flag to override this behavior. IMAGE_FAMILY_SCOPE must be one of: zonal, global.
+    /// Sets the scope for the --image-family flag. By default, when specifying an image family in a public image project, the zonal image family scope is used. All other projects default to the global image. Use this flag to override this behavior. IMAGE_FAMILY_SCOPE must be one of: zonal, global.
     /// </summary>
     [CliOption("--image-family-scope", Format = OptionFormat.EqualsSeparated)]
     public GcloudImageFamilyScope? ImageFamilyScope { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project against which all image and image family references will be resolved. It is best practice to define image-project. A full list of available projects can be generated by running gcloud projects list. ◆ If specifying one of our public images, image-project must be provided. ◆ If there are several of the same image-family value in multiple projects, image-project must be specified to clarify the image to be used. ◆ If not specified and either image or image-family is provided, the current default project is used.
+    /// The Google Cloud project against which all image and image family references will be resolved. It is best practice to define image-project. A full list of available projects can be generated by running gcloud projects list. ◆ If specifying one of our public images, image-project must be provided. ◆ If there are several of the same image-family value in multiple projects, image-project must be specified to clarify the image to be used. ◆ If not specified and either image or image-family is provided, the current default project is used.
     /// </summary>
     [CliOption("--image-project", Format = OptionFormat.EqualsSeparated)]
     public string? ImageProject { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: An image to apply to the disks being created. When using this option, the size of the disks must be at least as large as the image size. Use --size to adjust the size of the disks. This flag is mutually exclusive with --source-snapshot and --image-family.
+    /// At most one of these can be specified: An image to apply to the disks being created. When using this option, the size of the disks must be at least as large as the image size. Use --size to adjust the size of the disks. This flag is mutually exclusive with --source-snapshot and --image-family.
     /// </summary>
     [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
     public string? Image { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: The image family for the operating system that the boot disk will be initialized with. Compute Engine offers multiple Linux distributions, some of which are available as both regular and Shielded VM images. When a family is specified instead of an image, the latest non-deprecated image associated with that family is used. It is best practice to use --image-family when the latest version of an image is needed.
+    /// At most one of these can be specified: The image family for the operating system that the boot disk will be initialized with. Compute Engine offers multiple Linux distributions, some of which are available as both regular and Shielded VM images. When a family is specified instead of an image, the latest non-deprecated image associated with that family is used. It is best practice to use --image-family when the latest version of an image is needed.
     /// </summary>
     [CliOption("--image-family", Format = OptionFormat.EqualsSeparated)]
     public string? ImageFamily { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Primary disk for asynchronous replication. This flag is required when creating a secondary disk.
+    /// At most one of these can be specified: Primary disk for asynchronous replication. This flag is required when creating a secondary disk.
     /// </summary>
     [CliOption("--primary-disk", Format = OptionFormat.EqualsSeparated)]
     public string? PrimaryDisk { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Source disk used to create the disk(s). It is safe to delete a source disk after a disk has been created from the source disk. To get a list of disks in your current project, run gcloud compute disks list. This flag is mutually exclusive with --image and --source-snapshot. When using this option, the size of the disks must be at least as large as the source disk size. Use --size to adjust the size of the disks. The source disk must be in the same zone/region as the disk to be created.
+    /// At most one of these can be specified: Source disk used to create the disk(s). It is safe to delete a source disk after a disk has been created from the source disk. To get a list of disks in your current project, run gcloud compute disks list. This flag is mutually exclusive with --image and --source-snapshot. When using this option, the size of the disks must be at least as large as the source disk size. Use --size to adjust the size of the disks. The source disk must be in the same zone/region as the disk to be created.
     /// </summary>
     [CliOption("--source-disk", Format = OptionFormat.EqualsSeparated)]
     public string? SourceDisk { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Name of the source instant snapshot used to create the disks.
+    /// At most one of these can be specified: Name of the source instant snapshot used to create the disks.
     /// </summary>
     [CliOption("--source-instant-snapshot", Format = OptionFormat.EqualsSeparated)]
     public string? SourceInstantSnapshot { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Source snapshot used to create the disks. It is safe to delete a snapshot after a disk has been created from the snapshot. In such cases, the disks will no longer reference the deleted snapshot. To get a list of snapshots in your current project, run gcloud compute snapshots list. A snapshot from an existing disk can be created using the gcloud compute disks snapshot command. This flag is mutually exclusive with --image. When using this option, the size of the disks must be at least as large as the snapshot size. Use --size to adjust the size of the disks.
+    /// At most one of these can be specified: Source snapshot used to create the disks. It is safe to delete a snapshot after a disk has been created from the snapshot. In such cases, the disks will no longer reference the deleted snapshot. To get a list of snapshots in your current project, run gcloud compute snapshots list. A snapshot from an existing disk can be created using the gcloud compute disks snapshot command. This flag is mutually exclusive with --image. When using this option, the size of the disks must be at least as large as the snapshot size. Use --size to adjust the size of the disks.
     /// </summary>
     [CliOption("--source-snapshot", Format = OptionFormat.EqualsSeparated)]
     public string? SourceSnapshot { get; set; }

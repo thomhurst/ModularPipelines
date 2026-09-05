@@ -25,31 +25,31 @@ public record GcloudInfraManagerPreviewsCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Preview annotations cannot be updated after creation.
+    /// Preview annotations cannot be updated after creation.
     /// </summary>
     [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Annotations { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. user-defined location of Cloud Build logs, artifacts, and Terraform state files in Google Cloud Storage. Format: gs://{bucket}/{folder} A default bucket will be bootstrapped if the field is not set or empty
+    /// user-defined location of Cloud Build logs, artifacts, and Terraform state files in Google Cloud Storage. Format: gs://{bucket}/{folder} A default bucket will be bootstrapped if the field is not set or empty
     /// </summary>
     [CliOption("--artifacts-gcs-bucket", Format = OptionFormat.EqualsSeparated)]
     public string? ArtifactsGcsBucket { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Deployment reference for preview.
+    /// Deployment reference for preview.
     /// </summary>
     [CliOption("--deployment", Format = OptionFormat.EqualsSeparated)]
     public string? Deployment { get; set; }
 
     /// <summary>
-    /// Location resource - the location to be used as parent. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property infra-manager/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Preview labels cannot be updated after creation.
+    /// Preview labels cannot be updated after creation.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }

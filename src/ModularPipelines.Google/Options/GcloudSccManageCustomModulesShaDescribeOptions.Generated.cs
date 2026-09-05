@@ -24,25 +24,25 @@ public record GcloudSccManageCustomModulesShaDescribeOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Folder associated with the custom module.
+    /// At most one of these can be specified: Folder associated with the custom module.
     /// </summary>
     [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
     public string? Folder { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Organization associated with the custom module.
+    /// At most one of these can be specified: Organization associated with the custom module.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Parent associated with the custom module. Can be one of organizations/&lt;id&gt;, projects/&lt;id or name&gt;, folders/&lt;id&gt;
+    /// At most one of these can be specified: Parent associated with the custom module. Can be one of organizations/&lt;id&gt;, projects/&lt;id or name&gt;, folders/&lt;id&gt;
     /// </summary>
     [CliOption("--parent", Format = OptionFormat.EqualsSeparated)]
     public string? Parent { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Project associated with the custom module.
+    /// At most one of these can be specified: Project associated with the custom module.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }

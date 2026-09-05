@@ -25,139 +25,139 @@ public record GcloudAiPlatformJobsSubmitTrainingOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Path to the job configuration file. This file should be a YAML document (JSON also accepted) containing a Job resource as defined in the API (all fields are optional): https://cloud.google.com/ml/reference/rest/v1/projects.jobs EXAMPLES: JSON: { "jobId": "my_job", "labels": { "type": "prod", "owner": "alice" }, "trainingInput": { "scaleTier": "BASIC", "packageUris": [ "gs://my/package/path" ], "region": "us-east1" } } YAML: jobId: my_job labels: type: prod owner: alice trainingInput: scaleTier: BASIC packageUris: - gs://my/package/path region: us-east1 If an option is specified both in the configuration file **and** via command line arguments, the command line arguments override the configuration file.
+    /// Path to the job configuration file. This file should be a YAML document (JSON also accepted) containing a Job resource as defined in the API (all fields are optional): https://cloud.google.com/ml/reference/rest/v1/projects.jobs EXAMPLES: JSON: { "jobId": "my_job", "labels": { "type": "prod", "owner": "alice" }, "trainingInput": { "scaleTier": "BASIC", "packageUris": [ "gs://my/package/path" ], "region": "us-east1" } } YAML: jobId: my_job labels: type: prod owner: alice trainingInput: scaleTier: BASIC packageUris: - gs://my/package/path region: us-east1 If an option is specified both in the configuration file **and** via command line arguments, the command line arguments override the configuration file.
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
     public string? Config { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Whether you want AI Platform Training to enable [interactive shell access] (https://cloud.google.com/ai-platform/training/docs/monitor-debug-interactive-shell) to training containers. If set to true, you can access interactive shells at the URIs given by TrainingOutput.web_access_uris or HyperparameterOutput.web_access_uris (within TrainingOutput.trials).
+    /// Whether you want AI Platform Training to enable [interactive shell access] (https://cloud.google.com/ai-platform/training/docs/monitor-debug-interactive-shell) to training containers. If set to true, you can access interactive shells at the URIs given by TrainingOutput.web_access_uris or HyperparameterOutput.web_access_uris (within TrainingOutput.trials).
     /// </summary>
     [CliFlag("--enable-web-access")]
     public bool? EnableWebAccess { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Cloud Storage path in which to store training outputs and other data needed for training. This path will be passed to your TensorFlow program as the --job-dir command-line arg. The benefit of specifying this field is that AI Platform will validate the path for use in training. However, note that your training program will need to parse the provided --job-dir argument. If packages must be uploaded and --staging-bucket is not provided, this path will be used instead.
+    /// Cloud Storage path in which to store training outputs and other data needed for training. This path will be passed to your TensorFlow program as the --job-dir command-line arg. The benefit of specifying this field is that AI Platform will validate the path for use in training. However, note that your training program will need to parse the provided --job-dir argument. If packages must be uploaded and --staging-bucket is not provided, this path will be used instead.
     /// </summary>
     [CliOption("--job-dir", Format = OptionFormat.EqualsSeparated)]
     public string? JobDir { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Hardware accelerator config for the master worker. Must specify both the accelerator type (TYPE) for each server and the number of accelerators to attach to each server (COUNT). type Type of the accelerator. Choices are nvidia-tesla-a100,nvidia-tesla-k80,nvidia-tesla-p100,nvidia-tesla-p4,nvidia-tesla-t4,nvidia-tesla-v100,tpu-v2,tpu-v2-pod,tpu-v3,tpu-v3-pod,tpu-v4-pod count Number of accelerators to attach to each machine running the job. Must be greater than 0.
+    /// Hardware accelerator config for the master worker. Must specify both the accelerator type (TYPE) for each server and the number of accelerators to attach to each server (COUNT). type Type of the accelerator. Choices are nvidia-tesla-a100,nvidia-tesla-k80,nvidia-tesla-p100,nvidia-tesla-p4,nvidia-tesla-t4,nvidia-tesla-v100,tpu-v2,tpu-v2-pod,tpu-v3,tpu-v3-pod,tpu-v4-pod count Number of accelerators to attach to each machine running the job. Must be greater than 0.
     /// </summary>
     [CliOption("--master-accelerator", Format = OptionFormat.EqualsSeparated)]
     public string? MasterAccelerator { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Docker image to run on each master worker. This image must be in Container Registry. Only one of --master-image-uri and --runtime-version must be specified.
+    /// Docker image to run on each master worker. This image must be in Container Registry. Only one of --master-image-uri and --runtime-version must be specified.
     /// </summary>
     [CliOption("--master-image-uri", Format = OptionFormat.EqualsSeparated)]
     public string? MasterImageUri { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Specifies the type of virtual machine to use for training job's master worker. You must set this value when --scale-tier is set to CUSTOM.
+    /// Specifies the type of virtual machine to use for training job's master worker. You must set this value when --scale-tier is set to CUSTOM.
     /// </summary>
     [CliOption("--master-machine-type", Format = OptionFormat.EqualsSeparated)]
     public string? MasterMachineType { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Name of the module to run.
+    /// Name of the module to run.
     /// </summary>
     [CliOption("--module-name", Format = OptionFormat.EqualsSeparated)]
     public string? ModuleName { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Path to a Python package to build. This should point to a local directory containing the Python source for the job. It will be built using setuptools (which must be installed) using its parent directory as context. If the parent directory contains a setup.py file, the build will use that; otherwise, it will use a simple built-in one.
+    /// Path to a Python package to build. This should point to a local directory containing the Python source for the job. It will be built using setuptools (which must be installed) using its parent directory as context. If the parent directory contains a setup.py file, the build will use that; otherwise, it will use a simple built-in one.
     /// </summary>
     [CliOption("--package-path", Format = OptionFormat.EqualsSeparated)]
     public string? PackagePath { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Path to Python archives used for training. These can be local paths (absolute or relative), in which case they will be uploaded to the Cloud Storage bucket given by --staging-bucket, or Cloud Storage URLs ('gs://bucket-name/path/to/package.tar.gz').
+    /// Path to Python archives used for training. These can be local paths (absolute or relative), in which case they will be uploaded to the Cloud Storage bucket given by --staging-bucket, or Cloud Storage URLs ('gs://bucket-name/path/to/package.tar.gz').
     /// </summary>
     [CliOption("--packages", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Packages { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Hardware accelerator config for the parameter servers. Must specify both the accelerator type (TYPE) for each server and the number of accelerators to attach to each server (COUNT). type Type of the accelerator. Choices are nvidia-tesla-a100,nvidia-tesla-k80,nvidia-tesla-p100,nvidia-tesla-p4,nvidia-tesla-t4,nvidia-tesla-v100,tpu-v2,tpu-v2-pod,tpu-v3,tpu-v3-pod,tpu-v4-pod count Number of accelerators to attach to each machine running the job. Must be greater than 0.
+    /// Hardware accelerator config for the parameter servers. Must specify both the accelerator type (TYPE) for each server and the number of accelerators to attach to each server (COUNT). type Type of the accelerator. Choices are nvidia-tesla-a100,nvidia-tesla-k80,nvidia-tesla-p100,nvidia-tesla-p4,nvidia-tesla-t4,nvidia-tesla-v100,tpu-v2,tpu-v2-pod,tpu-v3,tpu-v3-pod,tpu-v4-pod count Number of accelerators to attach to each machine running the job. Must be greater than 0.
     /// </summary>
     [CliOption("--parameter-server-accelerator", Format = OptionFormat.EqualsSeparated)]
     public string? ParameterServerAccelerator { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Docker image to run on each parameter server. This image must be in Container Registry. If not specified, the value of --master-image-uri is used.
+    /// Docker image to run on each parameter server. This image must be in Container Registry. If not specified, the value of --master-image-uri is used.
     /// </summary>
     [CliOption("--parameter-server-image-uri", Format = OptionFormat.EqualsSeparated)]
     public string? ParameterServerImageUri { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Version of Python used during training. Choices are 3.7, 3.5, and 2.7. However, this value must be compatible with the chosen runtime version for the job. Must be used with a compatible runtime version: ◆ 3.7 is compatible with runtime versions 1.15 and later. ◆ 3.5 is compatible with runtime versions 1.4 through 1.14. ◆ 2.7 is compatible with runtime versions 1.15 and earlier.
+    /// Version of Python used during training. Choices are 3.7, 3.5, and 2.7. However, this value must be compatible with the chosen runtime version for the job. Must be used with a compatible runtime version: ◆ 3.7 is compatible with runtime versions 1.15 and later. ◆ 3.5 is compatible with runtime versions 1.4 through 1.14. ◆ 2.7 is compatible with runtime versions 1.15 and earlier.
     /// </summary>
     [CliOption("--python-version", Format = OptionFormat.EqualsSeparated)]
     public string? PythonVersion { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Region of the machine learning training job to submit. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// Region of the machine learning training job to submit. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. AI Platform runtime version for this job. Must be specified unless --master-image-uri is specified instead. It is defined in documentation along with the list of supported versions: https://cloud.google.com/ai-platform/prediction/docs/runtime-version-list
+    /// AI Platform runtime version for this job. Must be specified unless --master-image-uri is specified instead. It is defined in documentation along with the list of supported versions: https://cloud.google.com/ai-platform/prediction/docs/runtime-version-list
     /// </summary>
     [CliOption("--runtime-version", Format = OptionFormat.EqualsSeparated)]
     public string? RuntimeVersion { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Specify the machine types, the number of replicas for workers, and parameter servers. SCALE_TIER must be one of: basic Single worker instance. This tier is suitable for learning how to use AI Platform, and for experimenting with new models using small datasets. basic-gpu Single worker instance with a GPU. basic-tpu Single worker instance with a Cloud TPU. custom CUSTOM tier is not a set tier, but rather enables you to use your own cluster specification. When you use this tier, set values to configure your processing cluster according to these guidelines (using the --config flag): ▸ You must set TrainingInput.masterType to specify the type of machine to use for your master node. This is the only required setting. ▸ You may set TrainingInput.workerCount to specify the number of workers to use. If you specify one or more workers, you must also set TrainingInput.workerType to specify the type of machine to use for your worker nodes. ▸ You may set TrainingInput.parameterServerCount to specify the number of parameter servers to use. If you specify one or more parameter servers, you must also set TrainingInput.parameterServerType to specify the type of machine to use for your parameter servers. Note that all of your workers must use the same machine type, which can be different from your parameter server type and master type. Your parameter servers must likewise use the same machine type, which can be different from your worker type and master type. premium-1 Large number of workers with many parameter servers. standard-1 Many workers and a few parameter servers.
+    /// Specify the machine types, the number of replicas for workers, and parameter servers. SCALE_TIER must be one of: basic Single worker instance. This tier is suitable for learning how to use AI Platform, and for experimenting with new models using small datasets. basic-gpu Single worker instance with a GPU. basic-tpu Single worker instance with a Cloud TPU. custom CUSTOM tier is not a set tier, but rather enables you to use your own cluster specification. When you use this tier, set values to configure your processing cluster according to these guidelines (using the --config flag): ▸ You must set TrainingInput.masterType to specify the type of machine to use for your master node. This is the only required setting. ▸ You may set TrainingInput.workerCount to specify the number of workers to use. If you specify one or more workers, you must also set TrainingInput.workerType to specify the type of machine to use for your worker nodes. ▸ You may set TrainingInput.parameterServerCount to specify the number of parameter servers to use. If you specify one or more parameter servers, you must also set TrainingInput.parameterServerType to specify the type of machine to use for your parameter servers. Note that all of your workers must use the same machine type, which can be different from your parameter server type and master type. Your parameter servers must likewise use the same machine type, which can be different from your worker type and master type. premium-1 Large number of workers with many parameter servers. standard-1 Many workers and a few parameter servers.
     /// </summary>
     [CliOption("--scale-tier", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ScaleTier { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. The email address of a service account to use when running the training appplication. You must have the iam.serviceAccounts.actAs permission for the specified service account. In addition, the AI Platform Training Google-managed service account must have the roles/iam.serviceAccountAdmin role for the specified service account. Learn more about configuring a service account. (https://cloud.google.com/ai-platform/training/docs/custom-service-account) If not specified, the AI Platform Training Google-managed service account is used by default.
+    /// The email address of a service account to use when running the training appplication. You must have the iam.serviceAccounts.actAs permission for the specified service account. In addition, the AI Platform Training Google-managed service account must have the roles/iam.serviceAccountAdmin role for the specified service account. Learn more about configuring a service account. (https://cloud.google.com/ai-platform/training/docs/custom-service-account) If not specified, the AI Platform Training Google-managed service account is used by default.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceAccount { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Bucket in which to stage training archives. Required only if a file upload is necessary (that is, other flags include local paths) and no other flags implicitly specify an upload path.
+    /// Bucket in which to stage training archives. Required only if a file upload is necessary (that is, other flags include local paths) and no other flags implicitly specify an upload path.
     /// </summary>
     [CliOption("--staging-bucket", Format = OptionFormat.EqualsSeparated)]
     public string? StagingBucket { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Use "chief" role in the cluster instead of "master". This is required for TensorFlow 2.0 and newer versions. Unlike "master" node, "chief" node does not run evaluation.
+    /// Use "chief" role in the cluster instead of "master". This is required for TensorFlow 2.0 and newer versions. Unlike "master" node, "chief" node does not run evaluation.
     /// </summary>
     [CliOption("--use-chief-in-tf-config", Format = OptionFormat.EqualsSeparated)]
     public string? UseChiefInTfConfig { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Hardware accelerator config for the worker nodes. Must specify both the accelerator type (TYPE) for each server and the number of accelerators to attach to each server (COUNT). type Type of the accelerator. Choices are nvidia-tesla-a100,nvidia-tesla-k80,nvidia-tesla-p100,nvidia-tesla-p4,nvidia-tesla-t4,nvidia-tesla-v100,tpu-v2,tpu-v2-pod,tpu-v3,tpu-v3-pod,tpu-v4-pod count Number of accelerators to attach to each machine running the job. Must be greater than 0.
+    /// Hardware accelerator config for the worker nodes. Must specify both the accelerator type (TYPE) for each server and the number of accelerators to attach to each server (COUNT). type Type of the accelerator. Choices are nvidia-tesla-a100,nvidia-tesla-k80,nvidia-tesla-p100,nvidia-tesla-p4,nvidia-tesla-t4,nvidia-tesla-v100,tpu-v2,tpu-v2-pod,tpu-v3,tpu-v3-pod,tpu-v4-pod count Number of accelerators to attach to each machine running the job. Must be greater than 0.
     /// </summary>
     [CliOption("--worker-accelerator", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerAccelerator { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Docker image to run on each worker node. This image must be in Container Registry. If not specified, the value of --master-image-uri is used.
+    /// Docker image to run on each worker node. This image must be in Container Registry. If not specified, the value of --master-image-uri is used.
     /// </summary>
     [CliOption("--worker-image-uri", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerImageUri { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. At most one of these can be specified: (DEPRECATED) Display information about the operation in progress without waiting for the operation to complete. Enabled by default and can be omitted; use --stream-logs to run synchronously.
+    /// At most one of these can be specified: (DEPRECATED) Display information about the operation in progress without waiting for the operation to complete. Enabled by default and can be omitted; use --stream-logs to run synchronously.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. At most one of these can be specified: Block until job completion and stream the logs while the job runs. Note that even if command execution is halted, the job will still run until cancelled with $ gcloud ai-platform jobs cancel JOB_ID
+    /// At most one of these can be specified: Block until job completion and stream the logs while the job runs. Note that even if command execution is halted, the job will still run until cancelled with $ gcloud ai-platform jobs cancel JOB_ID
     /// </summary>
     [CliFlag("--stream-logs")]
     public bool? StreamLogs { get; set; }

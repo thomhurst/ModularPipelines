@@ -24,37 +24,37 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPrivatecaRootsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Source CA resource - An existing CA from which to copy configuration values for the new CA. You can still override any of those values by explicitly providing the appropriate flags. The specified existing CA must be part of the same pool as the one being created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property privateca/location. To set the pool attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --pool on the command line. If this flag is set, the Certificate Authority will be automatically enabled upon creation.
+    /// If this flag is set, the Certificate Authority will be automatically enabled upon creation.
     /// </summary>
     [CliFlag("--auto-enable")]
     public bool? AutoEnable { get; set; }
 
     /// <summary>
-    /// Source CA resource - An existing CA from which to copy configuration values for the new CA. You can still override any of those values by explicitly providing the appropriate flags. The specified existing CA must be part of the same pool as the one being created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property privateca/location. To set the pool attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --pool on the command line. The name of an existing storage bucket to use for storing the CA certificates and CRLs for CAs in this pool. If omitted, a new bucket will be created and managed by the service on your behalf.
+    /// The name of an existing storage bucket to use for storing the CA certificates and CRLs for CAs in this pool. If omitted, a new bucket will be created and managed by the service on your behalf.
     /// </summary>
     [CliOption("--bucket", Format = OptionFormat.EqualsSeparated)]
     public string? Bucket { get; set; }
 
     /// <summary>
-    /// Source CA resource - An existing CA from which to copy configuration values for the new CA. You can still override any of those values by explicitly providing the appropriate flags. The specified existing CA must be part of the same pool as the one being created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property privateca/location. To set the pool attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --pool on the command line. One or more comma-separated URLs that will be added to the Authority Information Access extension in the issued certificate. These URLs are where the issuer CA certificate is located.
+    /// One or more comma-separated URLs that will be added to the Authority Information Access extension in the issued certificate. These URLs are where the issuer CA certificate is located.
     /// </summary>
     [CliOption("--custom-aia-urls", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CustomAiaUrls { get; set; }
 
     /// <summary>
-    /// Source CA resource - An existing CA from which to copy configuration values for the new CA. You can still override any of those values by explicitly providing the appropriate flags. The specified existing CA must be part of the same pool as the one being created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property privateca/location. To set the pool attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --pool on the command line. One or more comma-separated URLs that will be added to the CRL Distribution Points (CDP) extension in the issued certificate. These URLs are where CRL information is located.
+    /// One or more comma-separated URLs that will be added to the CRL Distribution Points (CDP) extension in the issued certificate. These URLs are where CRL information is located.
     /// </summary>
     [CliOption("--custom-cdp-urls", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CustomCdpUrls { get; set; }
 
     /// <summary>
-    /// Source CA resource - An existing CA from which to copy configuration values for the new CA. You can still override any of those values by explicitly providing the appropriate flags. The specified existing CA must be part of the same pool as the one being created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property privateca/location. To set the pool attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --pool on the command line. One or more comma-separated DNS Subject Alternative Names.
+    /// One or more comma-separated DNS Subject Alternative Names.
     /// </summary>
     [CliOption("--dns-san", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DnsSan { get; set; }
 
     /// <summary>
-    /// Source CA resource - An existing CA from which to copy configuration values for the new CA. You can still override any of those values by explicitly providing the appropriate flags. The specified existing CA must be part of the same pool as the one being created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property privateca/location. To set the pool attribute: ◆ provide the argument --from-ca on the command line with a fully specified name; ◆ provide the argument --pool on the command line. One or more comma-separated email Subject Alternative Names.
+    /// One or more comma-separated email Subject Alternative Names.
     /// </summary>
     [CliOption("--email-san", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EmailSan { get; set; }
