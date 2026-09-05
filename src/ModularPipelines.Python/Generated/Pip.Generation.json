@@ -1,0 +1,7 @@
+{
+  "formatVersion": 1,
+  "toolName": "pip",
+  "toolVersion": "pip 24.0 from /usr/lib/python3/dist-packages/pip (python 3.12)",
+  "commandTreeSha256": "a9b92993f96a5cee7b1131d5da44c679e8bd64ee6a736a1d92dc95e915bd18ac",
+  "generatorSourceSha256": "4219b30715b928fb0ce1a6b398f305e5e076b5e1a21fecac6cfd274978c3b41a"
+}
