@@ -108,7 +108,7 @@ internal static partial class CliArgumentGroupParser
             .Skip(previousDeclaration.LineIndex + 1)
             .Take(candidateIndex - previousDeclaration.LineIndex - 1)
             .Where(line => !string.IsNullOrWhiteSpace(line))
-            .All(line => GetIndentation(line) > declarationIndentation);
+            .All(line => CliScraperBase.GetIndentation(line) > declarationIndentation);
     }
 
     private static void MoveToContainingGroup(
@@ -162,7 +162,7 @@ internal static partial class CliArgumentGroupParser
         for (var index = start; index < end; index++)
         {
             if (!string.IsNullOrWhiteSpace(lines[index])
-                && GetIndentation(lines[index]) <= declarationIndentation)
+                && CliScraperBase.GetIndentation(lines[index]) <= declarationIndentation)
             {
                 return index;
             }
@@ -171,32 +171,11 @@ internal static partial class CliArgumentGroupParser
         return end;
     }
 
-    private static int GetIndentation(string line)
-    {
-        var indentation = 0;
-        foreach (var character in line)
-        {
-            switch (character)
-            {
-                case ' ':
-                    indentation++;
-                    break;
-                case '\t':
-                    indentation += 4;
-                    break;
-                default:
-                    return indentation;
-            }
-        }
-
-        return indentation;
-    }
-
     private static int GetMinimumContentIndentation(IEnumerable<string> lines)
     {
         var indentations = lines
             .Where(line => !string.IsNullOrWhiteSpace(line))
-            .Select(GetIndentation)
+            .Select(CliScraperBase.GetIndentation)
             .ToArray();
 
         return indentations.Length == 0 ? int.MaxValue : indentations.Min();

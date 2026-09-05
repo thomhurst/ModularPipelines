@@ -250,13 +250,16 @@ public partial class CargoCliScraper : CliScraperBase
                 csharpType = "IEnumerable<string>?";
             }
 
+            // Consumes wrapped description lines so they are not re-read as declarations.
+            var description = AccumulateWrappedDescription(lines, ref index, match.Groups["desc"], IsOptionRow);
+
             options.Add(new CliOptionDefinition
             {
                 SwitchName = switchName,
                 ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
                 PropertyName = propertyName,
                 CSharpType = csharpType,
-                Description = GetOptionDescription(lines, index, match.Groups["desc"].Value),
+                Description = description,
                 IsFlag = isFlag,
                 IsRequired = false,
                 AcceptsMultipleValues = csharpType.Contains("IEnumerable"),
@@ -282,34 +285,7 @@ public partial class CargoCliScraper : CliScraperBase
         heading.Contains("option", StringComparison.OrdinalIgnoreCase)
         || heading.EndsWith("selection:", StringComparison.OrdinalIgnoreCase);
 
-    private static string GetOptionDescription(
-        string[] lines,
-        int declarationIndex,
-        string inlineDescription)
-    {
-        var declarationIndentation = lines[declarationIndex].TakeWhile(char.IsWhiteSpace).Count();
-        var description = new List<string>();
-        if (!string.IsNullOrWhiteSpace(inlineDescription))
-        {
-            description.Add(inlineDescription.Trim());
-        }
-
-        for (var index = declarationIndex + 1; index < lines.Length; index++)
-        {
-            var line = lines[index];
-            var trimmed = line.Trim();
-            if (string.IsNullOrEmpty(trimmed)
-                || CargoOptionDeclarationPattern().IsMatch(line)
-                || line.TakeWhile(char.IsWhiteSpace).Count() <= declarationIndentation)
-            {
-                break;
-            }
-
-            description.Add(trimmed);
-        }
-
-        return string.Join(' ', description);
-    }
+    private static bool IsOptionRow(string line) => CargoOptionDeclarationPattern().IsMatch(line);
 
     /// <summary>
     /// Checks if help text indicates the command has options.
