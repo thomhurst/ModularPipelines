@@ -94,6 +94,10 @@ var pulumi = context.Tools.Pulumi;
 | `pulumi env settings`                     | `PulumiEnvSettingsOptions`                   |
 | `pulumi env settings get`                 | `PulumiEnvSettingsGetOptions`                |
 | `pulumi env settings set`                 | `PulumiEnvSettingsSetOptions`                |
+| `pulumi env setup`                        | `PulumiEnvSetupOptions`                      |
+| `pulumi env setup aws`                    | `PulumiEnvSetupAwsOptions`                   |
+| `pulumi env setup azure`                  | `PulumiEnvSetupAzureOptions`                 |
+| `pulumi env setup gcp`                    | `PulumiEnvSetupGcpOptions`                   |
 | `pulumi env tag`                          | `PulumiEnvTagOptions`                        |
 | `pulumi env tag get`                      | `PulumiEnvTagGetOptions`                     |
 | `pulumi env tag list`                     | `PulumiEnvTagListOptions`                    |
