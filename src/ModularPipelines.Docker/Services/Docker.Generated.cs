@@ -27,7 +27,6 @@ internal partial class Docker : IDocker
     /// </summary>
     public Docker(
         IDockerBuildx buildx,
-        IDockerBuilder builder,
         IDockerCompose compose,
         IDockerContainer container,
         IDockerContext context,
@@ -43,7 +42,6 @@ internal partial class Docker : IDocker
     )
     {
         Buildx = buildx;
-        Builder = builder;
         Compose = compose;
         Container = container;
         Context = context;
@@ -62,9 +60,6 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public IDockerBuildx Buildx { get; }
-
-    /// <inheritdoc />
-    public IDockerBuilder Builder { get; }
 
     /// <inheritdoc />
     public IDockerCompose Compose { get; }

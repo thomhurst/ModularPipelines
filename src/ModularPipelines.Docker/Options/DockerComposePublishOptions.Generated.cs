@@ -52,7 +52,4 @@ public record DockerComposePublishOptions(
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("App is no longer supported by the installed CLI and has no effect.")]
-    public bool? App { get; set; }
-
 }

@@ -25,9 +25,6 @@ public partial interface IDocker
     /// </summary>
     IDockerBuildx Buildx => throw new System.NotSupportedException();
 
-    [Obsolete("docker builder is an alias of docker buildx. Use Buildx instead.")]
-    IDockerBuilder Builder { get; }
-
     /// <summary>
     /// Gets the compose sub-domain service.
     /// </summary>
