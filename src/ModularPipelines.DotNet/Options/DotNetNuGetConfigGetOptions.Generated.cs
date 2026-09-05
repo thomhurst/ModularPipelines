@@ -18,7 +18,9 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "config", "get")]
-public record DotNetNuGetConfigGetOptions : DotNetOptions
+public record DotNetNuGetConfigGetOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AllOrConfigKey
+) : DotNetOptions
 {
     /// <summary>
     /// Specifies the directory to start from when listing configuration files. If not specified, the current directory is used.
@@ -37,11 +39,5 @@ public record DotNetNuGetConfigGetOptions : DotNetOptions
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
-
-    /// <summary>
-    /// ALL: Get all merged NuGet configuration settings from multiple NuGet configuration files that will be applied, when invoking NuGet command from the working directory path.  CONFIG_KEY: Get the effective value of the specified configuration settings of the config section.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? AllOrConfigKey { get; set; }
 
 }

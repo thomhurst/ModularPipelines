@@ -72,6 +72,6 @@ public record DotNetNewOptions : DotNetOptions
     /// Template specific options to use.
     /// </summary>
     [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
-    public string? TemplateArgs { get; set; }
+    public IEnumerable<string>? TemplateArgs { get; set; }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("reference", "remove")]
-public record DotNetReferenceRemoveOptions : DotNetOptions
+public record DotNetReferenceRemoveOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> ProjectPath
+) : DotNetOptions
 {
     /// <summary>
     /// Remove the reference only when targeting a specific framework.
@@ -37,11 +39,5 @@ public record DotNetReferenceRemoveOptions : DotNetOptions
     /// </summary>
     [CliFlag("--project")]
     public bool? Project { get; set; }
-
-    /// <summary>
-    /// The paths to the referenced projects to remove.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public IEnumerable<string>? ProjectPath { get; set; }
 
 }
