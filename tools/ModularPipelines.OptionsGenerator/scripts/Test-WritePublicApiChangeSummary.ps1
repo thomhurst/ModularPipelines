@@ -19,7 +19,12 @@ try {
         'ModularPipelines.Kubernetes.Services.IKubernetesApply.ApplyAsync(ModularPipelines.Kubernetes.Options.KubernetesApplyOptions? options = null) -> System.Threading.Tasks.Task!'
     ))
     [IO.File]::WriteAllLines($originalUnshipped, @())
-    [IO.File]::WriteAllLines($currentShipped, @('#nullable enable'))
+    # Removed members keep their shipped entry; the *REMOVED* marker retires them.
+    [IO.File]::WriteAllLines($currentShipped, @(
+        '#nullable enable',
+        'ModularPipelines.Kubernetes.Options.KubernetesApplyOptions.DryRun.get -> string?',
+        'ModularPipelines.Kubernetes.Services.IKubernetesApply.ApplyAsync(ModularPipelines.Kubernetes.Options.KubernetesApplyOptions? options = null) -> System.Threading.Tasks.Task!'
+    ))
     [IO.File]::WriteAllLines($currentUnshipped, @(
         '*REMOVED*ModularPipelines.Kubernetes.Options.KubernetesApplyOptions.DryRun.get -> string?',
         '*REMOVED*ModularPipelines.Kubernetes.Services.IKubernetesApply.ApplyAsync(ModularPipelines.Kubernetes.Options.KubernetesApplyOptions? options = null) -> System.Threading.Tasks.Task!',
@@ -41,6 +46,8 @@ try {
     foreach ($expected in @(
         'Affected API families: `Kubernetes (kubectl)`, `Kustomize`.',
         'Breaking changes are present.',
+        '- Added APIs: 2',
+        '- Removed or changed APIs: 2',
         'Members with matching names but changed signatures: 1',
         'KubernetesApplyOptions.DryRun.get -> string?',
         'KustomizeBuildOptions.EnableAlphaPlugins.get -> bool?')) {

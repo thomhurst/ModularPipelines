@@ -19,7 +19,9 @@ try {
     Add-File 'src/ModularPipelines/ModularPipelines.csproj' '<Project />'
     Add-BaselinePair 'src/ModularPipelines'
     Add-File 'src/ModularPipelines.Cmd/ModularPipelines.Cmd.csproj' '<Project />'
-    Add-BaselinePair 'src/ModularPipelines.Cmd'
+    # A marker whose entry is still shipped is the expected removal shape.
+    Add-File 'src/ModularPipelines.Cmd/PublicAPI.Shipped.txt' "#nullable enable`nApi.Retired`nApi.Kept"
+    Add-File 'src/ModularPipelines.Cmd/PublicAPI.Unshipped.txt' "#nullable enable`n*REMOVED*Api.Retired`nApi.Added"
     Add-File 'src/ModularPipelines.Example/ModularPipelines.Example.csproj' '<Project />'
     Add-File 'src/ModularPipelines.Example/ModularPipelines.Example.slnx' '<Solution />'
     Add-BaselinePair 'src/ModularPipelines.Example'
@@ -31,6 +33,17 @@ try {
         throw "Expected successful coverage output, got: $successOutput"
     }
 
+    Add-File 'src/ModularPipelines.Cmd/PublicAPI.Unshipped.txt' "#nullable enable`n*REMOVED*Api.Retired`n*REMOVED*Api.Orphaned"
+    $orphanOutput = & pwsh -NoProfile -File $scriptPath -RepositoryRoot $testRoot 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        throw 'Orphaned *REMOVED* marker unexpectedly passed.'
+    }
+
+    if (($orphanOutput -join "`n") -notmatch 'ModularPipelines.Cmd[\\/]PublicAPI.Unshipped.txt: \*REMOVED\*Api.Orphaned') {
+        throw "Orphaned marker was not reported: $($orphanOutput -join "`n")"
+    }
+
+    Add-BaselinePair 'src/ModularPipelines.Cmd'
     Remove-Item -LiteralPath (Join-Path $testRoot 'src/ModularPipelines.Example/PublicAPI.Unshipped.txt')
     $failureOutput = & pwsh -NoProfile -File $scriptPath -RepositoryRoot $testRoot 2>&1
     if ($LASTEXITCODE -eq 0) {

@@ -1,5 +1,4 @@
 #nullable enable
-*REMOVED*static ModularPipelines.Cmd.Extensions.CmdExtensions.Cmd(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Cmd.ICmd!
 ModularPipelines.Cmd.ICmdContext
 ModularPipelines.Context.ModularPipelines_Cmd_3e922be450af9c26ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Cmd.get -> ModularPipelines.Cmd.ICmdContext!
 ModularPipelines.Options.CmdFileOptions
