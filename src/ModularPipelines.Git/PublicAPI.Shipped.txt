@@ -30,10 +30,11 @@ ModularPipelines.Git.Attributes.SkipIfBranchAttribute.BranchName.get -> string!
 ModularPipelines.Git.Attributes.SkipIfBranchAttribute.SkipIfBranchAttribute(string! branchName) -> void
 ModularPipelines.Git.Extensions.GitExtensions
 ModularPipelines.Git.GitCommandRunner
-ModularPipelines.Git.GitCommandRunner.RunCommands(ModularPipelines.Options.CommandExecutionOptions? commandEnvironmentOptions, params string?[]! commands) -> System.Threading.Tasks.Task<string!>!
 ModularPipelines.Git.GitCommandRunner.RunCommands(ModularPipelines.Options.CommandExecutionOptions? commandEnvironmentOptions, System.Threading.CancellationToken cancellationToken, params string?[]! commands) -> System.Threading.Tasks.Task<string!>!
-ModularPipelines.Git.GitCommandRunner.RunCommandsOrNull(ModularPipelines.Options.CommandExecutionOptions? commandEnvironmentOptions, params string?[]! commands) -> System.Threading.Tasks.Task<string?>!
+ModularPipelines.Git.GitCommandRunner.RunCommands(ModularPipelines.Options.CommandExecutionOptions? commandEnvironmentOptions, params string?[]! commands) -> System.Threading.Tasks.Task<string!>!
 ModularPipelines.Git.GitCommandRunner.RunCommandsOrNull(ModularPipelines.Options.CommandExecutionOptions? commandEnvironmentOptions, System.Threading.CancellationToken cancellationToken, params string?[]! commands) -> System.Threading.Tasks.Task<string?>!
+ModularPipelines.Git.GitCommandRunner.RunCommandsOrNull(ModularPipelines.Options.CommandExecutionOptions? commandEnvironmentOptions, params string?[]! commands) -> System.Threading.Tasks.Task<string?>!
+ModularPipelines.Git.GitCommandService
 ModularPipelines.Git.GitCommands
 ModularPipelines.Git.GitCommands.Branches.get -> ModularPipelines.Git.IGitBranchCommands!
 ModularPipelines.Git.GitCommands.History.get -> ModularPipelines.Git.IGitHistoryCommands!
@@ -41,7 +42,6 @@ ModularPipelines.Git.GitCommands.Maintenance.get -> ModularPipelines.Git.IGitMai
 ModularPipelines.Git.GitCommands.Remotes.get -> ModularPipelines.Git.IGitRemoteCommands!
 ModularPipelines.Git.GitCommands.Repository.get -> ModularPipelines.Git.IGitRepositoryCommands!
 ModularPipelines.Git.GitCommands.WorkingTree.get -> ModularPipelines.Git.IGitWorkingTreeCommands!
-ModularPipelines.Git.GitCommandService
 ModularPipelines.Git.GitCommitMapper
 ModularPipelines.Git.GitCommitMapper.GitCommitMapper() -> void
 ModularPipelines.Git.GitCommitMapper.Map(string! commandLineOutput) -> ModularPipelines.Git.Models.GitCommit!
@@ -54,10 +54,10 @@ ModularPipelines.Git.IGitBranchCommands
 ModularPipelines.Git.IGitChanges
 ModularPipelines.Git.IGitChanges.HasChangesAsync(System.Collections.Generic.IEnumerable<string!>! pathPatterns, string! baseReference = "origin/main", System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.Git.IGitCommandRunner
-ModularPipelines.Git.IGitCommandRunner.RunCommands(ModularPipelines.Options.CommandExecutionOptions? commandEnvironmentOptions, params string?[]! commands) -> System.Threading.Tasks.Task<string!>!
 ModularPipelines.Git.IGitCommandRunner.RunCommands(ModularPipelines.Options.CommandExecutionOptions? commandEnvironmentOptions, System.Threading.CancellationToken cancellationToken, params string?[]! commands) -> System.Threading.Tasks.Task<string!>!
-ModularPipelines.Git.IGitCommandRunner.RunCommandsOrNull(ModularPipelines.Options.CommandExecutionOptions? commandEnvironmentOptions, params string?[]! commands) -> System.Threading.Tasks.Task<string?>!
+ModularPipelines.Git.IGitCommandRunner.RunCommands(ModularPipelines.Options.CommandExecutionOptions? commandEnvironmentOptions, params string?[]! commands) -> System.Threading.Tasks.Task<string!>!
 ModularPipelines.Git.IGitCommandRunner.RunCommandsOrNull(ModularPipelines.Options.CommandExecutionOptions? commandEnvironmentOptions, System.Threading.CancellationToken cancellationToken, params string?[]! commands) -> System.Threading.Tasks.Task<string?>!
+ModularPipelines.Git.IGitCommandRunner.RunCommandsOrNull(ModularPipelines.Options.CommandExecutionOptions? commandEnvironmentOptions, params string?[]! commands) -> System.Threading.Tasks.Task<string?>!
 ModularPipelines.Git.IGitCommands
 ModularPipelines.Git.IGitCommands.Branches.get -> ModularPipelines.Git.IGitBranchCommands!
 ModularPipelines.Git.IGitCommands.History.get -> ModularPipelines.Git.IGitHistoryCommands!
@@ -365,8 +365,8 @@ ModularPipelines.Git.Options.GitCheckoutIndexOptions.Temp.get -> bool?
 ModularPipelines.Git.Options.GitCheckoutIndexOptions.Temp.set -> void
 ModularPipelines.Git.Options.GitCheckoutOptions
 ModularPipelines.Git.Options.GitCheckoutOptions.GitCheckoutOptions(ModularPipelines.Git.Options.GitCheckoutOptions! original) -> void
-ModularPipelines.Git.Options.GitCheckoutOptions.GitCheckoutOptions(string! branchName, bool create) -> void
 ModularPipelines.Git.Options.GitCheckoutOptions.GitCheckoutOptions(string! branchName) -> void
+ModularPipelines.Git.Options.GitCheckoutOptions.GitCheckoutOptions(string! branchName, bool create) -> void
 ModularPipelines.Git.Options.GitCherryPickOptions
 ModularPipelines.Git.Options.GitCherryPickOptions.GitCherryPickOptions() -> void
 ModularPipelines.Git.Options.GitCherryPickOptions.GitCherryPickOptions(ModularPipelines.Git.Options.GitCherryPickOptions! original) -> void
@@ -525,9 +525,6 @@ ModularPipelines.Git.Options.GitDiffOptions.Quiet.get -> bool?
 ModularPipelines.Git.Options.GitDiffOptions.Quiet.set -> void
 ModularPipelines.Git.Options.GitDiffOptions.Stat.get -> bool?
 ModularPipelines.Git.Options.GitDiffOptions.Stat.set -> void
-ModularPipelines.Git.Options.GitDifftoolOptions
-ModularPipelines.Git.Options.GitDifftoolOptions.GitDifftoolOptions() -> void
-ModularPipelines.Git.Options.GitDifftoolOptions.GitDifftoolOptions(ModularPipelines.Git.Options.GitDifftoolOptions! original) -> void
 ModularPipelines.Git.Options.GitDiffTreeOptions
 ModularPipelines.Git.Options.GitDiffTreeOptions.Abbrev.get -> int?
 ModularPipelines.Git.Options.GitDiffTreeOptions.Abbrev.set -> void
@@ -547,6 +544,9 @@ ModularPipelines.Git.Options.GitDiffTreeOptions.Root.get -> string?
 ModularPipelines.Git.Options.GitDiffTreeOptions.Root.set -> void
 ModularPipelines.Git.Options.GitDiffTreeOptions.Stat.get -> bool?
 ModularPipelines.Git.Options.GitDiffTreeOptions.Stat.set -> void
+ModularPipelines.Git.Options.GitDifftoolOptions
+ModularPipelines.Git.Options.GitDifftoolOptions.GitDifftoolOptions() -> void
+ModularPipelines.Git.Options.GitDifftoolOptions.GitDifftoolOptions(ModularPipelines.Git.Options.GitDifftoolOptions! original) -> void
 ModularPipelines.Git.Options.GitFastImportOptions
 ModularPipelines.Git.Options.GitFastImportOptions.GitFastImportOptions() -> void
 ModularPipelines.Git.Options.GitFastImportOptions.GitFastImportOptions(ModularPipelines.Git.Options.GitFastImportOptions! original) -> void
@@ -881,18 +881,18 @@ ModularPipelines.Git.Options.GitResetOptions.GitResetOptions(ModularPipelines.Gi
 ModularPipelines.Git.Options.GitRestoreOptions
 ModularPipelines.Git.Options.GitRestoreOptions.GitRestoreOptions() -> void
 ModularPipelines.Git.Options.GitRestoreOptions.GitRestoreOptions(ModularPipelines.Git.Options.GitRestoreOptions! original) -> void
-ModularPipelines.Git.Options.GitRevertOptions
-ModularPipelines.Git.Options.GitRevertOptions.GitRevertOptions() -> void
-ModularPipelines.Git.Options.GitRevertOptions.GitRevertOptions(ModularPipelines.Git.Options.GitRevertOptions! original) -> void
-ModularPipelines.Git.Options.GitRevisionsOptions
-ModularPipelines.Git.Options.GitRevisionsOptions.GitRevisionsOptions() -> void
-ModularPipelines.Git.Options.GitRevisionsOptions.GitRevisionsOptions(ModularPipelines.Git.Options.GitRevisionsOptions! original) -> void
 ModularPipelines.Git.Options.GitRevListOptions
 ModularPipelines.Git.Options.GitRevListOptions.GitRevListOptions() -> void
 ModularPipelines.Git.Options.GitRevListOptions.GitRevListOptions(ModularPipelines.Git.Options.GitRevListOptions! original) -> void
 ModularPipelines.Git.Options.GitRevParseOptions
 ModularPipelines.Git.Options.GitRevParseOptions.GitRevParseOptions() -> void
 ModularPipelines.Git.Options.GitRevParseOptions.GitRevParseOptions(ModularPipelines.Git.Options.GitRevParseOptions! original) -> void
+ModularPipelines.Git.Options.GitRevertOptions
+ModularPipelines.Git.Options.GitRevertOptions.GitRevertOptions() -> void
+ModularPipelines.Git.Options.GitRevertOptions.GitRevertOptions(ModularPipelines.Git.Options.GitRevertOptions! original) -> void
+ModularPipelines.Git.Options.GitRevisionsOptions
+ModularPipelines.Git.Options.GitRevisionsOptions.GitRevisionsOptions() -> void
+ModularPipelines.Git.Options.GitRevisionsOptions.GitRevisionsOptions(ModularPipelines.Git.Options.GitRevisionsOptions! original) -> void
 ModularPipelines.Git.Options.GitRmOptions
 ModularPipelines.Git.Options.GitRmOptions.GitRmOptions() -> void
 ModularPipelines.Git.Options.GitRmOptions.GitRmOptions(ModularPipelines.Git.Options.GitRmOptions! original) -> void
@@ -1186,18 +1186,18 @@ override ModularPipelines.Git.Options.GitDiffOptions.Equals(object? obj) -> bool
 override ModularPipelines.Git.Options.GitDiffOptions.GetHashCode() -> int
 override ModularPipelines.Git.Options.GitDiffOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Git.Options.GitDiffOptions.ToString() -> string!
-override ModularPipelines.Git.Options.GitDifftoolOptions.<Clone>$() -> ModularPipelines.Git.Options.GitDifftoolOptions!
-override ModularPipelines.Git.Options.GitDifftoolOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Git.Options.GitDifftoolOptions.Equals(object? obj) -> bool
-override ModularPipelines.Git.Options.GitDifftoolOptions.GetHashCode() -> int
-override ModularPipelines.Git.Options.GitDifftoolOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Git.Options.GitDifftoolOptions.ToString() -> string!
 override ModularPipelines.Git.Options.GitDiffTreeOptions.<Clone>$() -> ModularPipelines.Git.Options.GitDiffTreeOptions!
 override ModularPipelines.Git.Options.GitDiffTreeOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Git.Options.GitDiffTreeOptions.Equals(object? obj) -> bool
 override ModularPipelines.Git.Options.GitDiffTreeOptions.GetHashCode() -> int
 override ModularPipelines.Git.Options.GitDiffTreeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Git.Options.GitDiffTreeOptions.ToString() -> string!
+override ModularPipelines.Git.Options.GitDifftoolOptions.<Clone>$() -> ModularPipelines.Git.Options.GitDifftoolOptions!
+override ModularPipelines.Git.Options.GitDifftoolOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Git.Options.GitDifftoolOptions.Equals(object? obj) -> bool
+override ModularPipelines.Git.Options.GitDifftoolOptions.GetHashCode() -> int
+override ModularPipelines.Git.Options.GitDifftoolOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Git.Options.GitDifftoolOptions.ToString() -> string!
 override ModularPipelines.Git.Options.GitFastImportOptions.<Clone>$() -> ModularPipelines.Git.Options.GitFastImportOptions!
 override ModularPipelines.Git.Options.GitFastImportOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Git.Options.GitFastImportOptions.Equals(object? obj) -> bool
@@ -1510,18 +1510,6 @@ override ModularPipelines.Git.Options.GitRestoreOptions.Equals(object? obj) -> b
 override ModularPipelines.Git.Options.GitRestoreOptions.GetHashCode() -> int
 override ModularPipelines.Git.Options.GitRestoreOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Git.Options.GitRestoreOptions.ToString() -> string!
-override ModularPipelines.Git.Options.GitRevertOptions.<Clone>$() -> ModularPipelines.Git.Options.GitRevertOptions!
-override ModularPipelines.Git.Options.GitRevertOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Git.Options.GitRevertOptions.Equals(object? obj) -> bool
-override ModularPipelines.Git.Options.GitRevertOptions.GetHashCode() -> int
-override ModularPipelines.Git.Options.GitRevertOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Git.Options.GitRevertOptions.ToString() -> string!
-override ModularPipelines.Git.Options.GitRevisionsOptions.<Clone>$() -> ModularPipelines.Git.Options.GitRevisionsOptions!
-override ModularPipelines.Git.Options.GitRevisionsOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Git.Options.GitRevisionsOptions.Equals(object? obj) -> bool
-override ModularPipelines.Git.Options.GitRevisionsOptions.GetHashCode() -> int
-override ModularPipelines.Git.Options.GitRevisionsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Git.Options.GitRevisionsOptions.ToString() -> string!
 override ModularPipelines.Git.Options.GitRevListOptions.<Clone>$() -> ModularPipelines.Git.Options.GitRevListOptions!
 override ModularPipelines.Git.Options.GitRevListOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Git.Options.GitRevListOptions.Equals(object? obj) -> bool
@@ -1534,6 +1522,18 @@ override ModularPipelines.Git.Options.GitRevParseOptions.Equals(object? obj) -> 
 override ModularPipelines.Git.Options.GitRevParseOptions.GetHashCode() -> int
 override ModularPipelines.Git.Options.GitRevParseOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Git.Options.GitRevParseOptions.ToString() -> string!
+override ModularPipelines.Git.Options.GitRevertOptions.<Clone>$() -> ModularPipelines.Git.Options.GitRevertOptions!
+override ModularPipelines.Git.Options.GitRevertOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Git.Options.GitRevertOptions.Equals(object? obj) -> bool
+override ModularPipelines.Git.Options.GitRevertOptions.GetHashCode() -> int
+override ModularPipelines.Git.Options.GitRevertOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Git.Options.GitRevertOptions.ToString() -> string!
+override ModularPipelines.Git.Options.GitRevisionsOptions.<Clone>$() -> ModularPipelines.Git.Options.GitRevisionsOptions!
+override ModularPipelines.Git.Options.GitRevisionsOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Git.Options.GitRevisionsOptions.Equals(object? obj) -> bool
+override ModularPipelines.Git.Options.GitRevisionsOptions.GetHashCode() -> int
+override ModularPipelines.Git.Options.GitRevisionsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Git.Options.GitRevisionsOptions.ToString() -> string!
 override ModularPipelines.Git.Options.GitRmOptions.<Clone>$() -> ModularPipelines.Git.Options.GitRmOptions!
 override ModularPipelines.Git.Options.GitRmOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Git.Options.GitRmOptions.Equals(object? obj) -> bool
@@ -1686,8 +1686,8 @@ override sealed ModularPipelines.Git.Options.GitDescribeOptions.Equals(ModularPi
 override sealed ModularPipelines.Git.Options.GitDiffFilesOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
 override sealed ModularPipelines.Git.Options.GitDiffIndexOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
 override sealed ModularPipelines.Git.Options.GitDiffOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
-override sealed ModularPipelines.Git.Options.GitDifftoolOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
 override sealed ModularPipelines.Git.Options.GitDiffTreeOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
+override sealed ModularPipelines.Git.Options.GitDifftoolOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
 override sealed ModularPipelines.Git.Options.GitFastImportOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
 override sealed ModularPipelines.Git.Options.GitFetchOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
 override sealed ModularPipelines.Git.Options.GitFetchPackOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
@@ -1740,10 +1740,10 @@ override sealed ModularPipelines.Git.Options.GitRepositoryLayoutOptions.Equals(M
 override sealed ModularPipelines.Git.Options.GitRequestPullOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
 override sealed ModularPipelines.Git.Options.GitResetOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
 override sealed ModularPipelines.Git.Options.GitRestoreOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
-override sealed ModularPipelines.Git.Options.GitRevertOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
-override sealed ModularPipelines.Git.Options.GitRevisionsOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
 override sealed ModularPipelines.Git.Options.GitRevListOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
 override sealed ModularPipelines.Git.Options.GitRevParseOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
+override sealed ModularPipelines.Git.Options.GitRevertOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
+override sealed ModularPipelines.Git.Options.GitRevisionsOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
 override sealed ModularPipelines.Git.Options.GitRmOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
 override sealed ModularPipelines.Git.Options.GitScalarOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
 override sealed ModularPipelines.Git.Options.GitSendEmailOptions.Equals(ModularPipelines.Git.Options.GitOptions? other) -> bool
@@ -1842,10 +1842,10 @@ static ModularPipelines.Git.Options.GitDiffIndexOptions.operator !=(ModularPipel
 static ModularPipelines.Git.Options.GitDiffIndexOptions.operator ==(ModularPipelines.Git.Options.GitDiffIndexOptions? left, ModularPipelines.Git.Options.GitDiffIndexOptions? right) -> bool
 static ModularPipelines.Git.Options.GitDiffOptions.operator !=(ModularPipelines.Git.Options.GitDiffOptions? left, ModularPipelines.Git.Options.GitDiffOptions? right) -> bool
 static ModularPipelines.Git.Options.GitDiffOptions.operator ==(ModularPipelines.Git.Options.GitDiffOptions? left, ModularPipelines.Git.Options.GitDiffOptions? right) -> bool
-static ModularPipelines.Git.Options.GitDifftoolOptions.operator !=(ModularPipelines.Git.Options.GitDifftoolOptions? left, ModularPipelines.Git.Options.GitDifftoolOptions? right) -> bool
-static ModularPipelines.Git.Options.GitDifftoolOptions.operator ==(ModularPipelines.Git.Options.GitDifftoolOptions? left, ModularPipelines.Git.Options.GitDifftoolOptions? right) -> bool
 static ModularPipelines.Git.Options.GitDiffTreeOptions.operator !=(ModularPipelines.Git.Options.GitDiffTreeOptions? left, ModularPipelines.Git.Options.GitDiffTreeOptions? right) -> bool
 static ModularPipelines.Git.Options.GitDiffTreeOptions.operator ==(ModularPipelines.Git.Options.GitDiffTreeOptions? left, ModularPipelines.Git.Options.GitDiffTreeOptions? right) -> bool
+static ModularPipelines.Git.Options.GitDifftoolOptions.operator !=(ModularPipelines.Git.Options.GitDifftoolOptions? left, ModularPipelines.Git.Options.GitDifftoolOptions? right) -> bool
+static ModularPipelines.Git.Options.GitDifftoolOptions.operator ==(ModularPipelines.Git.Options.GitDifftoolOptions? left, ModularPipelines.Git.Options.GitDifftoolOptions? right) -> bool
 static ModularPipelines.Git.Options.GitFastImportOptions.operator !=(ModularPipelines.Git.Options.GitFastImportOptions? left, ModularPipelines.Git.Options.GitFastImportOptions? right) -> bool
 static ModularPipelines.Git.Options.GitFastImportOptions.operator ==(ModularPipelines.Git.Options.GitFastImportOptions? left, ModularPipelines.Git.Options.GitFastImportOptions? right) -> bool
 static ModularPipelines.Git.Options.GitFetchOptions.operator !=(ModularPipelines.Git.Options.GitFetchOptions? left, ModularPipelines.Git.Options.GitFetchOptions? right) -> bool
@@ -1950,14 +1950,14 @@ static ModularPipelines.Git.Options.GitResetOptions.operator !=(ModularPipelines
 static ModularPipelines.Git.Options.GitResetOptions.operator ==(ModularPipelines.Git.Options.GitResetOptions? left, ModularPipelines.Git.Options.GitResetOptions? right) -> bool
 static ModularPipelines.Git.Options.GitRestoreOptions.operator !=(ModularPipelines.Git.Options.GitRestoreOptions? left, ModularPipelines.Git.Options.GitRestoreOptions? right) -> bool
 static ModularPipelines.Git.Options.GitRestoreOptions.operator ==(ModularPipelines.Git.Options.GitRestoreOptions? left, ModularPipelines.Git.Options.GitRestoreOptions? right) -> bool
-static ModularPipelines.Git.Options.GitRevertOptions.operator !=(ModularPipelines.Git.Options.GitRevertOptions? left, ModularPipelines.Git.Options.GitRevertOptions? right) -> bool
-static ModularPipelines.Git.Options.GitRevertOptions.operator ==(ModularPipelines.Git.Options.GitRevertOptions? left, ModularPipelines.Git.Options.GitRevertOptions? right) -> bool
-static ModularPipelines.Git.Options.GitRevisionsOptions.operator !=(ModularPipelines.Git.Options.GitRevisionsOptions? left, ModularPipelines.Git.Options.GitRevisionsOptions? right) -> bool
-static ModularPipelines.Git.Options.GitRevisionsOptions.operator ==(ModularPipelines.Git.Options.GitRevisionsOptions? left, ModularPipelines.Git.Options.GitRevisionsOptions? right) -> bool
 static ModularPipelines.Git.Options.GitRevListOptions.operator !=(ModularPipelines.Git.Options.GitRevListOptions? left, ModularPipelines.Git.Options.GitRevListOptions? right) -> bool
 static ModularPipelines.Git.Options.GitRevListOptions.operator ==(ModularPipelines.Git.Options.GitRevListOptions? left, ModularPipelines.Git.Options.GitRevListOptions? right) -> bool
 static ModularPipelines.Git.Options.GitRevParseOptions.operator !=(ModularPipelines.Git.Options.GitRevParseOptions? left, ModularPipelines.Git.Options.GitRevParseOptions? right) -> bool
 static ModularPipelines.Git.Options.GitRevParseOptions.operator ==(ModularPipelines.Git.Options.GitRevParseOptions? left, ModularPipelines.Git.Options.GitRevParseOptions? right) -> bool
+static ModularPipelines.Git.Options.GitRevertOptions.operator !=(ModularPipelines.Git.Options.GitRevertOptions? left, ModularPipelines.Git.Options.GitRevertOptions? right) -> bool
+static ModularPipelines.Git.Options.GitRevertOptions.operator ==(ModularPipelines.Git.Options.GitRevertOptions? left, ModularPipelines.Git.Options.GitRevertOptions? right) -> bool
+static ModularPipelines.Git.Options.GitRevisionsOptions.operator !=(ModularPipelines.Git.Options.GitRevisionsOptions? left, ModularPipelines.Git.Options.GitRevisionsOptions? right) -> bool
+static ModularPipelines.Git.Options.GitRevisionsOptions.operator ==(ModularPipelines.Git.Options.GitRevisionsOptions? left, ModularPipelines.Git.Options.GitRevisionsOptions? right) -> bool
 static ModularPipelines.Git.Options.GitRmOptions.operator !=(ModularPipelines.Git.Options.GitRmOptions? left, ModularPipelines.Git.Options.GitRmOptions? right) -> bool
 static ModularPipelines.Git.Options.GitRmOptions.operator ==(ModularPipelines.Git.Options.GitRmOptions? left, ModularPipelines.Git.Options.GitRmOptions? right) -> bool
 static ModularPipelines.Git.Options.GitScalarOptions.operator !=(ModularPipelines.Git.Options.GitScalarOptions? left, ModularPipelines.Git.Options.GitScalarOptions? right) -> bool
@@ -2173,14 +2173,14 @@ virtual ModularPipelines.Git.Options.GitBaseOptions.ManPath.get -> bool?
 virtual ModularPipelines.Git.Options.GitBaseOptions.ManPath.set -> void
 virtual ModularPipelines.Git.Options.GitBaseOptions.Namespace.get -> string?
 virtual ModularPipelines.Git.Options.GitBaseOptions.Namespace.set -> void
-virtual ModularPipelines.Git.Options.GitBaseOptions.NoglobPathspecs.get -> bool?
-virtual ModularPipelines.Git.Options.GitBaseOptions.NoglobPathspecs.set -> void
 virtual ModularPipelines.Git.Options.GitBaseOptions.NoOptionalLocks.get -> bool?
 virtual ModularPipelines.Git.Options.GitBaseOptions.NoOptionalLocks.set -> void
 virtual ModularPipelines.Git.Options.GitBaseOptions.NoPager.get -> bool?
 virtual ModularPipelines.Git.Options.GitBaseOptions.NoPager.set -> void
 virtual ModularPipelines.Git.Options.GitBaseOptions.NoReplaceObjects.get -> bool?
 virtual ModularPipelines.Git.Options.GitBaseOptions.NoReplaceObjects.set -> void
+virtual ModularPipelines.Git.Options.GitBaseOptions.NoglobPathspecs.get -> bool?
+virtual ModularPipelines.Git.Options.GitBaseOptions.NoglobPathspecs.set -> void
 virtual ModularPipelines.Git.Options.GitBaseOptions.Paginate.get -> bool?
 virtual ModularPipelines.Git.Options.GitBaseOptions.Paginate.set -> void
 virtual ModularPipelines.Git.Options.GitBaseOptions.Version.get -> bool?
@@ -2640,6 +2640,7 @@ virtual ModularPipelines.Git.Options.GitDescribeOptions.Tags.set -> void
 virtual ModularPipelines.Git.Options.GitDiffFilesOptions.Equals(ModularPipelines.Git.Options.GitDiffFilesOptions? other) -> bool
 virtual ModularPipelines.Git.Options.GitDiffIndexOptions.Equals(ModularPipelines.Git.Options.GitDiffIndexOptions? other) -> bool
 virtual ModularPipelines.Git.Options.GitDiffOptions.Equals(ModularPipelines.Git.Options.GitDiffOptions? other) -> bool
+virtual ModularPipelines.Git.Options.GitDiffTreeOptions.Equals(ModularPipelines.Git.Options.GitDiffTreeOptions? other) -> bool
 virtual ModularPipelines.Git.Options.GitDifftoolOptions.DirDiff.get -> bool?
 virtual ModularPipelines.Git.Options.GitDifftoolOptions.DirDiff.set -> void
 virtual ModularPipelines.Git.Options.GitDifftoolOptions.Equals(ModularPipelines.Git.Options.GitDifftoolOptions? other) -> bool
@@ -2669,7 +2670,6 @@ virtual ModularPipelines.Git.Options.GitDifftoolOptions.ToolHelp.get -> bool?
 virtual ModularPipelines.Git.Options.GitDifftoolOptions.ToolHelp.set -> void
 virtual ModularPipelines.Git.Options.GitDifftoolOptions.TrustExitCode.get -> bool?
 virtual ModularPipelines.Git.Options.GitDifftoolOptions.TrustExitCode.set -> void
-virtual ModularPipelines.Git.Options.GitDiffTreeOptions.Equals(ModularPipelines.Git.Options.GitDiffTreeOptions? other) -> bool
 virtual ModularPipelines.Git.Options.GitFastImportOptions.Equals(ModularPipelines.Git.Options.GitFastImportOptions? other) -> bool
 virtual ModularPipelines.Git.Options.GitFetchOptions.All.get -> bool?
 virtual ModularPipelines.Git.Options.GitFetchOptions.All.set -> void
@@ -2885,16 +2885,16 @@ virtual ModularPipelines.Git.Options.GitFormatPatchOptions.IgnoreSpaceChange.get
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.IgnoreSpaceChange.set -> void
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.IgnoreSubmodules.get -> string?
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.IgnoreSubmodules.set -> void
+virtual ModularPipelines.Git.Options.GitFormatPatchOptions.InReplyTo.get -> string?
+virtual ModularPipelines.Git.Options.GitFormatPatchOptions.InReplyTo.set -> void
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.IndentHeuristic.get -> bool?
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.IndentHeuristic.set -> void
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.Inline.get -> string?
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.Inline.set -> void
-virtual ModularPipelines.Git.Options.GitFormatPatchOptions.InReplyTo.get -> string?
-virtual ModularPipelines.Git.Options.GitFormatPatchOptions.InReplyTo.set -> void
-virtual ModularPipelines.Git.Options.GitFormatPatchOptions.Interdiff.get -> string?
-virtual ModularPipelines.Git.Options.GitFormatPatchOptions.Interdiff.set -> void
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.InterHunkContext.get -> string?
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.InterHunkContext.set -> void
+virtual ModularPipelines.Git.Options.GitFormatPatchOptions.Interdiff.get -> string?
+virtual ModularPipelines.Git.Options.GitFormatPatchOptions.Interdiff.set -> void
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.IrreversibleDelete.get -> bool?
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.IrreversibleDelete.set -> void
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.ItaInvisibleInIndex.get -> bool?
@@ -2937,12 +2937,12 @@ virtual ModularPipelines.Git.Options.GitFormatPatchOptions.NoSignature.get -> st
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.NoSignature.set -> void
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.NoStat.get -> bool?
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.NoStat.set -> void
-virtual ModularPipelines.Git.Options.GitFormatPatchOptions.Notes.get -> string?
-virtual ModularPipelines.Git.Options.GitFormatPatchOptions.Notes.set -> void
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.NoTextconv.get -> bool?
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.NoTextconv.set -> void
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.NoThread.get -> bool?
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.NoThread.set -> void
+virtual ModularPipelines.Git.Options.GitFormatPatchOptions.Notes.get -> string?
+virtual ModularPipelines.Git.Options.GitFormatPatchOptions.Notes.set -> void
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.Numbered.get -> bool?
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.Numbered.set -> void
 virtual ModularPipelines.Git.Options.GitFormatPatchOptions.NumberedFiles.get -> bool?
@@ -3109,10 +3109,10 @@ virtual ModularPipelines.Git.Options.GitGrepOptions.NoIndex.get -> bool?
 virtual ModularPipelines.Git.Options.GitGrepOptions.NoIndex.set -> void
 virtual ModularPipelines.Git.Options.GitGrepOptions.NoRecursive.get -> bool?
 virtual ModularPipelines.Git.Options.GitGrepOptions.NoRecursive.set -> void
-virtual ModularPipelines.Git.Options.GitGrepOptions.Not.get -> bool?
-virtual ModularPipelines.Git.Options.GitGrepOptions.Not.set -> void
 virtual ModularPipelines.Git.Options.GitGrepOptions.NoTextconv.get -> bool?
 virtual ModularPipelines.Git.Options.GitGrepOptions.NoTextconv.set -> void
+virtual ModularPipelines.Git.Options.GitGrepOptions.Not.get -> bool?
+virtual ModularPipelines.Git.Options.GitGrepOptions.Not.set -> void
 virtual ModularPipelines.Git.Options.GitGrepOptions.Null.get -> bool?
 virtual ModularPipelines.Git.Options.GitGrepOptions.Null.set -> void
 virtual ModularPipelines.Git.Options.GitGrepOptions.OnlyMatching.get -> bool?
@@ -3398,10 +3398,10 @@ virtual ModularPipelines.Git.Options.GitLogOptions.Merge.get -> bool?
 virtual ModularPipelines.Git.Options.GitLogOptions.Merge.set -> void
 virtual ModularPipelines.Git.Options.GitLogOptions.Merges.get -> bool?
 virtual ModularPipelines.Git.Options.GitLogOptions.Merges.set -> void
-virtual ModularPipelines.Git.Options.GitLogOptions.Minimal.get -> bool?
-virtual ModularPipelines.Git.Options.GitLogOptions.Minimal.set -> void
 virtual ModularPipelines.Git.Options.GitLogOptions.MinParents.get -> string?
 virtual ModularPipelines.Git.Options.GitLogOptions.MinParents.set -> void
+virtual ModularPipelines.Git.Options.GitLogOptions.Minimal.get -> bool?
+virtual ModularPipelines.Git.Options.GitLogOptions.Minimal.set -> void
 virtual ModularPipelines.Git.Options.GitLogOptions.NameOnly.get -> bool?
 virtual ModularPipelines.Git.Options.GitLogOptions.NameOnly.set -> void
 virtual ModularPipelines.Git.Options.GitLogOptions.NameStatus.get -> bool?
@@ -3446,16 +3446,16 @@ virtual ModularPipelines.Git.Options.GitLogOptions.NoRenames.get -> bool?
 virtual ModularPipelines.Git.Options.GitLogOptions.NoRenames.set -> void
 virtual ModularPipelines.Git.Options.GitLogOptions.NoStandardNotes.get -> bool?
 virtual ModularPipelines.Git.Options.GitLogOptions.NoStandardNotes.set -> void
-virtual ModularPipelines.Git.Options.GitLogOptions.Not.get -> bool?
-virtual ModularPipelines.Git.Options.GitLogOptions.Not.set -> void
-virtual ModularPipelines.Git.Options.GitLogOptions.Notes.get -> string?
-virtual ModularPipelines.Git.Options.GitLogOptions.Notes.set -> void
 virtual ModularPipelines.Git.Options.GitLogOptions.NoTextconv.get -> bool?
 virtual ModularPipelines.Git.Options.GitLogOptions.NoTextconv.set -> void
 virtual ModularPipelines.Git.Options.GitLogOptions.NoUseMailmap.get -> bool?
 virtual ModularPipelines.Git.Options.GitLogOptions.NoUseMailmap.set -> void
 virtual ModularPipelines.Git.Options.GitLogOptions.NoWalk.get -> bool?
 virtual ModularPipelines.Git.Options.GitLogOptions.NoWalk.set -> void
+virtual ModularPipelines.Git.Options.GitLogOptions.Not.get -> bool?
+virtual ModularPipelines.Git.Options.GitLogOptions.Not.set -> void
+virtual ModularPipelines.Git.Options.GitLogOptions.Notes.get -> string?
+virtual ModularPipelines.Git.Options.GitLogOptions.Notes.set -> void
 virtual ModularPipelines.Git.Options.GitLogOptions.Numstat.get -> bool?
 virtual ModularPipelines.Git.Options.GitLogOptions.Numstat.set -> void
 virtual ModularPipelines.Git.Options.GitLogOptions.Oneline.get -> bool?
@@ -4010,42 +4010,6 @@ virtual ModularPipelines.Git.Options.GitRestoreOptions.Theirs.get -> bool?
 virtual ModularPipelines.Git.Options.GitRestoreOptions.Theirs.set -> void
 virtual ModularPipelines.Git.Options.GitRestoreOptions.Worktree.get -> bool?
 virtual ModularPipelines.Git.Options.GitRestoreOptions.Worktree.set -> void
-virtual ModularPipelines.Git.Options.GitRevertOptions.Abort.get -> bool?
-virtual ModularPipelines.Git.Options.GitRevertOptions.Abort.set -> void
-virtual ModularPipelines.Git.Options.GitRevertOptions.Cleanup.get -> string?
-virtual ModularPipelines.Git.Options.GitRevertOptions.Cleanup.set -> void
-virtual ModularPipelines.Git.Options.GitRevertOptions.Continue.get -> bool?
-virtual ModularPipelines.Git.Options.GitRevertOptions.Continue.set -> void
-virtual ModularPipelines.Git.Options.GitRevertOptions.Edit.get -> bool?
-virtual ModularPipelines.Git.Options.GitRevertOptions.Edit.set -> void
-virtual ModularPipelines.Git.Options.GitRevertOptions.Equals(ModularPipelines.Git.Options.GitRevertOptions? other) -> bool
-virtual ModularPipelines.Git.Options.GitRevertOptions.GpgSign.get -> string?
-virtual ModularPipelines.Git.Options.GitRevertOptions.GpgSign.set -> void
-virtual ModularPipelines.Git.Options.GitRevertOptions.Mainline.get -> bool?
-virtual ModularPipelines.Git.Options.GitRevertOptions.Mainline.set -> void
-virtual ModularPipelines.Git.Options.GitRevertOptions.NoCommit.get -> bool?
-virtual ModularPipelines.Git.Options.GitRevertOptions.NoCommit.set -> void
-virtual ModularPipelines.Git.Options.GitRevertOptions.NoEdit.get -> bool?
-virtual ModularPipelines.Git.Options.GitRevertOptions.NoEdit.set -> void
-virtual ModularPipelines.Git.Options.GitRevertOptions.NoGpgSign.get -> bool?
-virtual ModularPipelines.Git.Options.GitRevertOptions.NoGpgSign.set -> void
-virtual ModularPipelines.Git.Options.GitRevertOptions.NoRerereAutoupdate.get -> bool?
-virtual ModularPipelines.Git.Options.GitRevertOptions.NoRerereAutoupdate.set -> void
-virtual ModularPipelines.Git.Options.GitRevertOptions.Quit.get -> bool?
-virtual ModularPipelines.Git.Options.GitRevertOptions.Quit.set -> void
-virtual ModularPipelines.Git.Options.GitRevertOptions.Reference.get -> bool?
-virtual ModularPipelines.Git.Options.GitRevertOptions.Reference.set -> void
-virtual ModularPipelines.Git.Options.GitRevertOptions.RerereAutoupdate.get -> bool?
-virtual ModularPipelines.Git.Options.GitRevertOptions.RerereAutoupdate.set -> void
-virtual ModularPipelines.Git.Options.GitRevertOptions.Signoff.get -> bool?
-virtual ModularPipelines.Git.Options.GitRevertOptions.Signoff.set -> void
-virtual ModularPipelines.Git.Options.GitRevertOptions.Skip.get -> bool?
-virtual ModularPipelines.Git.Options.GitRevertOptions.Skip.set -> void
-virtual ModularPipelines.Git.Options.GitRevertOptions.Strategy.get -> string?
-virtual ModularPipelines.Git.Options.GitRevertOptions.Strategy.set -> void
-virtual ModularPipelines.Git.Options.GitRevertOptions.StrategyOption.get -> string?
-virtual ModularPipelines.Git.Options.GitRevertOptions.StrategyOption.set -> void
-virtual ModularPipelines.Git.Options.GitRevisionsOptions.Equals(ModularPipelines.Git.Options.GitRevisionsOptions? other) -> bool
 virtual ModularPipelines.Git.Options.GitRevListOptions.AbbrevCommit.get -> bool?
 virtual ModularPipelines.Git.Options.GitRevListOptions.AbbrevCommit.set -> void
 virtual ModularPipelines.Git.Options.GitRevListOptions.After.get -> string?
@@ -4183,10 +4147,10 @@ virtual ModularPipelines.Git.Options.GitRevListOptions.NoMinParents.get -> bool?
 virtual ModularPipelines.Git.Options.GitRevListOptions.NoMinParents.set -> void
 virtual ModularPipelines.Git.Options.GitRevListOptions.NoObjectNames.get -> bool?
 virtual ModularPipelines.Git.Options.GitRevListOptions.NoObjectNames.set -> void
-virtual ModularPipelines.Git.Options.GitRevListOptions.Not.get -> bool?
-virtual ModularPipelines.Git.Options.GitRevListOptions.Not.set -> void
 virtual ModularPipelines.Git.Options.GitRevListOptions.NoWalk.get -> bool?
 virtual ModularPipelines.Git.Options.GitRevListOptions.NoWalk.set -> void
+virtual ModularPipelines.Git.Options.GitRevListOptions.Not.get -> bool?
+virtual ModularPipelines.Git.Options.GitRevListOptions.Not.set -> void
 virtual ModularPipelines.Git.Options.GitRevListOptions.ObjectNames.get -> bool?
 virtual ModularPipelines.Git.Options.GitRevListOptions.ObjectNames.set -> void
 virtual ModularPipelines.Git.Options.GitRevListOptions.Objects.get -> bool?
@@ -4358,6 +4322,42 @@ virtual ModularPipelines.Git.Options.GitRevParseOptions.Until.get -> bool?
 virtual ModularPipelines.Git.Options.GitRevParseOptions.Until.set -> void
 virtual ModularPipelines.Git.Options.GitRevParseOptions.Verify.get -> bool?
 virtual ModularPipelines.Git.Options.GitRevParseOptions.Verify.set -> void
+virtual ModularPipelines.Git.Options.GitRevertOptions.Abort.get -> bool?
+virtual ModularPipelines.Git.Options.GitRevertOptions.Abort.set -> void
+virtual ModularPipelines.Git.Options.GitRevertOptions.Cleanup.get -> string?
+virtual ModularPipelines.Git.Options.GitRevertOptions.Cleanup.set -> void
+virtual ModularPipelines.Git.Options.GitRevertOptions.Continue.get -> bool?
+virtual ModularPipelines.Git.Options.GitRevertOptions.Continue.set -> void
+virtual ModularPipelines.Git.Options.GitRevertOptions.Edit.get -> bool?
+virtual ModularPipelines.Git.Options.GitRevertOptions.Edit.set -> void
+virtual ModularPipelines.Git.Options.GitRevertOptions.Equals(ModularPipelines.Git.Options.GitRevertOptions? other) -> bool
+virtual ModularPipelines.Git.Options.GitRevertOptions.GpgSign.get -> string?
+virtual ModularPipelines.Git.Options.GitRevertOptions.GpgSign.set -> void
+virtual ModularPipelines.Git.Options.GitRevertOptions.Mainline.get -> bool?
+virtual ModularPipelines.Git.Options.GitRevertOptions.Mainline.set -> void
+virtual ModularPipelines.Git.Options.GitRevertOptions.NoCommit.get -> bool?
+virtual ModularPipelines.Git.Options.GitRevertOptions.NoCommit.set -> void
+virtual ModularPipelines.Git.Options.GitRevertOptions.NoEdit.get -> bool?
+virtual ModularPipelines.Git.Options.GitRevertOptions.NoEdit.set -> void
+virtual ModularPipelines.Git.Options.GitRevertOptions.NoGpgSign.get -> bool?
+virtual ModularPipelines.Git.Options.GitRevertOptions.NoGpgSign.set -> void
+virtual ModularPipelines.Git.Options.GitRevertOptions.NoRerereAutoupdate.get -> bool?
+virtual ModularPipelines.Git.Options.GitRevertOptions.NoRerereAutoupdate.set -> void
+virtual ModularPipelines.Git.Options.GitRevertOptions.Quit.get -> bool?
+virtual ModularPipelines.Git.Options.GitRevertOptions.Quit.set -> void
+virtual ModularPipelines.Git.Options.GitRevertOptions.Reference.get -> bool?
+virtual ModularPipelines.Git.Options.GitRevertOptions.Reference.set -> void
+virtual ModularPipelines.Git.Options.GitRevertOptions.RerereAutoupdate.get -> bool?
+virtual ModularPipelines.Git.Options.GitRevertOptions.RerereAutoupdate.set -> void
+virtual ModularPipelines.Git.Options.GitRevertOptions.Signoff.get -> bool?
+virtual ModularPipelines.Git.Options.GitRevertOptions.Signoff.set -> void
+virtual ModularPipelines.Git.Options.GitRevertOptions.Skip.get -> bool?
+virtual ModularPipelines.Git.Options.GitRevertOptions.Skip.set -> void
+virtual ModularPipelines.Git.Options.GitRevertOptions.Strategy.get -> string?
+virtual ModularPipelines.Git.Options.GitRevertOptions.Strategy.set -> void
+virtual ModularPipelines.Git.Options.GitRevertOptions.StrategyOption.get -> string?
+virtual ModularPipelines.Git.Options.GitRevertOptions.StrategyOption.set -> void
+virtual ModularPipelines.Git.Options.GitRevisionsOptions.Equals(ModularPipelines.Git.Options.GitRevisionsOptions? other) -> bool
 virtual ModularPipelines.Git.Options.GitRmOptions.Cached.get -> bool?
 virtual ModularPipelines.Git.Options.GitRmOptions.Cached.set -> void
 virtual ModularPipelines.Git.Options.GitRmOptions.DryRun.get -> bool?
@@ -4754,10 +4754,10 @@ virtual ModularPipelines.Git.Options.GitShowOptions.NoRenames.get -> bool?
 virtual ModularPipelines.Git.Options.GitShowOptions.NoRenames.set -> void
 virtual ModularPipelines.Git.Options.GitShowOptions.NoStandardNotes.get -> bool?
 virtual ModularPipelines.Git.Options.GitShowOptions.NoStandardNotes.set -> void
-virtual ModularPipelines.Git.Options.GitShowOptions.Notes.get -> string?
-virtual ModularPipelines.Git.Options.GitShowOptions.Notes.set -> void
 virtual ModularPipelines.Git.Options.GitShowOptions.NoTextconv.get -> bool?
 virtual ModularPipelines.Git.Options.GitShowOptions.NoTextconv.set -> void
+virtual ModularPipelines.Git.Options.GitShowOptions.Notes.get -> string?
+virtual ModularPipelines.Git.Options.GitShowOptions.Notes.set -> void
 virtual ModularPipelines.Git.Options.GitShowOptions.Numstat.get -> bool?
 virtual ModularPipelines.Git.Options.GitShowOptions.Numstat.set -> void
 virtual ModularPipelines.Git.Options.GitShowOptions.Oneline.get -> bool?
@@ -5025,12 +5025,12 @@ virtual ModularPipelines.Git.Options.GitSvnOptions.Trunk.get -> string?
 virtual ModularPipelines.Git.Options.GitSvnOptions.Trunk.set -> void
 virtual ModularPipelines.Git.Options.GitSvnOptions.UseLogAuthor.get -> bool?
 virtual ModularPipelines.Git.Options.GitSvnOptions.UseLogAuthor.set -> void
-virtual ModularPipelines.Git.Options.GitSvnOptions.Username.get -> string?
-virtual ModularPipelines.Git.Options.GitSvnOptions.Username.set -> void
 virtual ModularPipelines.Git.Options.GitSvnOptions.UseSvmProps.get -> bool?
 virtual ModularPipelines.Git.Options.GitSvnOptions.UseSvmProps.set -> void
 virtual ModularPipelines.Git.Options.GitSvnOptions.UseSvnsyncProps.get -> bool?
 virtual ModularPipelines.Git.Options.GitSvnOptions.UseSvnsyncProps.set -> void
+virtual ModularPipelines.Git.Options.GitSvnOptions.Username.get -> string?
+virtual ModularPipelines.Git.Options.GitSvnOptions.Username.set -> void
 virtual ModularPipelines.Git.Options.GitSvnOptions.Verbose.get -> bool?
 virtual ModularPipelines.Git.Options.GitSvnOptions.Verbose.set -> void
 virtual ModularPipelines.Git.Options.GitSwitchOptions.Conflict.get -> string?

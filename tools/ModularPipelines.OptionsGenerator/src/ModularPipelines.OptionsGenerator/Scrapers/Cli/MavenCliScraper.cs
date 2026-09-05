@@ -38,6 +38,14 @@ public partial class MavenCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.Java";
 
+    protected override string? ParseVersionOutput(CliCommandResult result)
+    {
+        var match = MavenVersionPattern().Match(result.CombinedOutput);
+        return match.Success
+            ? match.Groups["version"].Value
+            : base.ParseVersionOutput(result);
+    }
+
     /// <summary>
     /// Maven doesn't have subcommands in the traditional sense - it uses goals and phases.
     /// </summary>
@@ -321,6 +329,9 @@ public partial class MavenCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^\s*(?:(?<short>-\w+),)?(?<long>--[\w-]+)(?:\s+(?<value><[^>]+>))?\s{2,}(?<desc>.*)?$", RegexOptions.Multiline)]
     private static partial Regex MavenOptionPattern();
+
+    [GeneratedRegex(@"^Apache Maven\s+(?<version>\S+)", RegexOptions.IgnoreCase)]
+    private static partial Regex MavenVersionPattern();
 
     #endregion
 }

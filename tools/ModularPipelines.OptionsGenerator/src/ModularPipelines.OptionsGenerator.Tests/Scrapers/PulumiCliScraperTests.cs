@@ -111,6 +111,29 @@ public class PulumiCliScraperTests
             .IsTrue();
     }
 
+    [Test]
+    public async Task Aws_Static_Provider_Access_Keys_Are_Secret()
+    {
+        const string helpText = """
+            Add static credentials.
+
+            Usage:
+              pulumi env provider aws-login static <environment-name> <access-key-id> <secret-access-key> [flags]
+            """;
+
+        var command = await new TestPulumiCliScraper().Parse(
+            ["pulumi", "env", "provider", "aws-login", "static"],
+            helpText);
+
+        await Assert.That(command).IsNotNull();
+        await Assert.That(command!.PositionalArguments
+                .Single(argument => argument.PropertyName == "AccessKeyId").IsSecret)
+            .IsTrue();
+        await Assert.That(command.PositionalArguments
+                .Single(argument => argument.PropertyName == "SecretAccessKey").IsSecret)
+            .IsTrue();
+    }
+
     private sealed class TestPulumiCliScraper : PulumiCliScraper
     {
         public TestPulumiCliScraper()

@@ -18,7 +18,10 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "trust", "certificate")]
-public record DotNetNuGetTrustCertificateOptions : DotNetOptions
+public record DotNetNuGetTrustCertificateOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Fingerprint
+) : DotNetOptions
 {
     /// <summary>
     /// Specifies the hash algorithm used to calculate the certificate fingerprint. Defaults to SHA256. Values supported are SHA256, SHA384 and SHA512.
@@ -49,17 +52,5 @@ public record DotNetNuGetTrustCertificateOptions : DotNetOptions
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
-
-    /// <summary>
-    /// The name of the trusted signer to add. If a trusted signer with the given name already exists, the certificate item is added to that signer. Otherwise a trusted author is created with a certificate item from the given certificate information.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Name { get; set; }
-
-    /// <summary>
-    /// The fingerprint of the certificate.
-    /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Fingerprint { get; set; }
 
 }

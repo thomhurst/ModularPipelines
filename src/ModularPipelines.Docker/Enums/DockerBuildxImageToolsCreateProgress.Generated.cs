@@ -17,17 +17,17 @@ namespace ModularPipelines.Docker.Enums;
 public enum DockerBuildxImageToolsCreateProgress
 {
     [EnumValue("auto")]
-    Auto = 0,
+    Auto,
 
     [EnumValue("none")]
-    None = 1,
+    None,
 
     [EnumValue("plain")]
-    Plain = 2,
+    Plain,
 
     [EnumValue("rawjson")]
-    Rawjson = 3,
+    Rawjson,
 
     [EnumValue("tty")]
-    Tty = 4
+    Tty
 }

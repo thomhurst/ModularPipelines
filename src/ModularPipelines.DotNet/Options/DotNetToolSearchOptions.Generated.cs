@@ -18,7 +18,9 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tool", "search")]
-public record DotNetToolSearchOptions : DotNetOptions
+public record DotNetToolSearchOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SearchTerm
+) : DotNetOptions
 {
     /// <summary>
     /// Show detail result of the query. [default: False]
@@ -43,11 +45,5 @@ public record DotNetToolSearchOptions : DotNetOptions
     /// </summary>
     [CliFlag("--prerelease")]
     public bool? Prerelease { get; set; }
-
-    /// <summary>
-    /// Search term from package id or package description. Require at least one character.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? SearchTerm { get; set; }
 
 }

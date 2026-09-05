@@ -75,6 +75,7 @@ internal class WorkerModuleExecutor(
         }
 
         var moduleLookup = DependencyResultApplicator.BuildModuleLookup(availableModules);
+        var dependencyResultCache = new DependencyResultCache(_coordinator, cancellationToken);
         var capabilities = BuildCapabilities(options);
         await RegisterWorkerAsync(options.InstanceIndex, capabilities, cancellationToken);
         var heartbeatTask = SendHeartbeatsAsync(
@@ -104,6 +105,7 @@ internal class WorkerModuleExecutor(
                     await ExecuteAssignmentAsync(
                         assignment,
                         moduleLookup,
+                        dependencyResultCache,
                         executedModules,
                         options.InstanceIndex,
                         cancellationToken);
@@ -225,7 +227,7 @@ internal class WorkerModuleExecutor(
             Capabilities: capabilities,
             RegisteredAt: DateTimeOffset.UtcNow)
         {
-            RunIdentifier = _options.Value.RunIdentifier,
+            RunId = _options.Value.RunId,
         };
         await _coordinator.RegisterWorkerAsync(registration, cancellationToken);
         _logger.LogInformation("Worker {Index} registered with capabilities: {Capabilities}",
@@ -235,6 +237,7 @@ internal class WorkerModuleExecutor(
     private async Task ExecuteAssignmentAsync(
         ModuleAssignment assignment,
         Dictionary<string, IModule> moduleLookup,
+        DependencyResultCache dependencyResultCache,
         List<IModule> executedModules,
         int instanceIndex,
         CancellationToken cancellationToken)
@@ -254,18 +257,19 @@ internal class WorkerModuleExecutor(
             return;
         }
 
-        if (assignment.DependencyResults is { Count: > 0 })
-        {
-            DependencyResultApplicator.Apply(
-                assignment.DependencyResults,
-                moduleLookup,
-                _serializer,
-                _resultRegistry,
-                _logger);
-        }
-
         try
         {
+            if (assignment.DependencyResultReferences is { Count: > 0 })
+            {
+                await DependencyResultApplicator.FetchAndApplyAsync(
+                    assignment.DependencyResultReferences,
+                    dependencyResultCache,
+                    moduleLookup,
+                    _serializer,
+                    _resultRegistry,
+                    _logger).ConfigureAwait(false);
+            }
+
             await ExecuteAndPublishAsync(assignment, module, instanceIndex, cancellationToken).ConfigureAwait(false);
             executedModules.Add(module);
         }

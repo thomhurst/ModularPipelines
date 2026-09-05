@@ -385,6 +385,11 @@ internal static class DependencyInjectionSetup
     {
         // Always-on defaults (TryAdd so user/extension can override)
         services.Configure<DistributedOptions>(_ => { });
+        services.PostConfigure<DistributedOptions>(options =>
+            options.RunId = RunIdResolver.Resolve(
+                options.RunId,
+                options.TotalInstances,
+                options.RequireExplicitRunId));
         services.Configure<ArtifactOptions>(_ => { });
         services.TryAddSingleton(serviceProvider =>
             serviceProvider.GetRequiredService<IOptions<ArtifactOptions>>().Value);

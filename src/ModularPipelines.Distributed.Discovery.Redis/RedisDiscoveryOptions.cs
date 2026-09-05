@@ -27,12 +27,6 @@ public class RedisDiscoveryOptions
     public string KeyPrefix { get; set; } = "modular-pipelines";
 
     /// <summary>
-    /// Optional run identifier for isolating concurrent pipeline runs.
-    /// If null, uses the current CI commit SHA, local Git SHA, or a unique fallback.
-    /// </summary>
-    public string? RunIdentifier { get; set; }
-
-    /// <summary>
     /// TTL in seconds for the master URL key. Prevents stale URLs from persisting.
     /// </summary>
     public int TtlSeconds { get; set; } = 3600;

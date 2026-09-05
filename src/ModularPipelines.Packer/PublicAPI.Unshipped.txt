@@ -1,4 +1,16 @@
 #nullable enable
+*REMOVED*ModularPipelines.Packer.Options.PackerBuildOptions.PackerBuildOptions() -> void
+*REMOVED*ModularPipelines.Packer.Options.PackerBuildOptions.Var.get -> bool?
+*REMOVED*ModularPipelines.Packer.Options.PackerBuildOptions.VarFile.get -> string?
+*REMOVED*ModularPipelines.Packer.Options.PackerConsoleOptions.Var.get -> bool?
+*REMOVED*ModularPipelines.Packer.Options.PackerFixOptions.PackerFixOptions() -> void
+*REMOVED*ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions.PackerHcl2UpgradeOptions() -> void
+*REMOVED*ModularPipelines.Packer.Options.PackerInitOptions.PackerInitOptions() -> void
+*REMOVED*ModularPipelines.Packer.Options.PackerInspectOptions.PackerInspectOptions() -> void
+*REMOVED*ModularPipelines.Packer.Options.PackerPluginsOptions.PackerPluginsOptions() -> void
+*REMOVED*ModularPipelines.Packer.Options.PackerValidateOptions.PackerValidateOptions() -> void
+*REMOVED*ModularPipelines.Packer.Options.PackerValidateOptions.Var.get -> bool?
+*REMOVED*ModularPipelines.Packer.Options.PackerValidateOptions.VarFile.get -> string?
 *REMOVED*ModularPipelines.Packer.Services.IPacker.BuildAsync(ModularPipelines.Packer.Options.PackerBuildOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Packer.Services.IPacker.ConsoleAsync(ModularPipelines.Packer.Options.PackerConsoleOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Packer.Services.IPacker.FixAsync(ModularPipelines.Packer.Options.PackerFixOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
@@ -9,25 +21,15 @@
 *REMOVED*ModularPipelines.Packer.Services.IPacker.PluginsAsync(ModularPipelines.Packer.Options.PackerPluginsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Packer.Services.IPacker.ValidateAsync(ModularPipelines.Packer.Options.PackerValidateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*static ModularPipelines.Packer.Extensions.PackerExtensions.Packer(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Packer.Services.IPacker!
-ModularPipelines.Packer.Services.IPacker.BuildAsync(ModularPipelines.Packer.Options.PackerBuildOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Packer.Services.IPacker.ConsoleAsync(ModularPipelines.Packer.Options.PackerConsoleOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Packer.Services.IPacker.FixAsync(ModularPipelines.Packer.Options.PackerFixOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Packer.Services.IPacker.FmtAsync(ModularPipelines.Packer.Options.PackerFmtOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Packer.Services.IPacker.Hcl2UpgradeAsync(ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Packer.Services.IPacker.InitAsync(ModularPipelines.Packer.Options.PackerInitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Packer.Services.IPacker.InspectAsync(ModularPipelines.Packer.Options.PackerInspectOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Packer.Services.IPacker.PluginsAsync(ModularPipelines.Packer.Options.PackerPluginsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Packer.Services.IPacker.ValidateAsync(ModularPipelines.Packer.Options.PackerValidateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Packer.Services.IPacker.VerifyAttestationAsync(ModularPipelines.Packer.Options.PackerVerifyAttestationOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-static ModularPipelines.Packer.Extensions.PackerExtensions.Packer(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Packer.Services.IPacker!
 ModularPipelines.Packer.Options.PackerBuildOptions.Deconstruct(out string! Template) -> void
 ModularPipelines.Packer.Options.PackerBuildOptions.PackerBuildOptions(string! Template) -> void
 ModularPipelines.Packer.Options.PackerBuildOptions.Template.get -> string!
 ModularPipelines.Packer.Options.PackerBuildOptions.Template.init -> void
-ModularPipelines.Packer.Options.PackerBuildOptions.VarFileValues.get -> System.Collections.Generic.IEnumerable<string!>?
-ModularPipelines.Packer.Options.PackerBuildOptions.VarFileValues.set -> void
+ModularPipelines.Packer.Options.PackerBuildOptions.Var.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Packer.Options.PackerBuildOptions.VarFile.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Packer.Options.PackerConsoleOptions.Template.get -> string?
 ModularPipelines.Packer.Options.PackerConsoleOptions.Template.set -> void
+ModularPipelines.Packer.Options.PackerConsoleOptions.Var.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Packer.Options.PackerFixOptions.Deconstruct(out string! Template) -> void
 ModularPipelines.Packer.Options.PackerFixOptions.PackerFixOptions(string! Template) -> void
 ModularPipelines.Packer.Options.PackerFixOptions.Template.get -> string!
@@ -56,8 +58,8 @@ ModularPipelines.Packer.Options.PackerValidateOptions.Deconstruct(out string! Te
 ModularPipelines.Packer.Options.PackerValidateOptions.PackerValidateOptions(string! Template) -> void
 ModularPipelines.Packer.Options.PackerValidateOptions.Template.get -> string!
 ModularPipelines.Packer.Options.PackerValidateOptions.Template.init -> void
-ModularPipelines.Packer.Options.PackerValidateOptions.VarFileValues.get -> System.Collections.Generic.IEnumerable<string!>?
-ModularPipelines.Packer.Options.PackerValidateOptions.VarFileValues.set -> void
+ModularPipelines.Packer.Options.PackerValidateOptions.Var.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Packer.Options.PackerValidateOptions.VarFile.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Packer.Options.PackerVerifyAttestationOptions
 ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Artifact.get -> string?
 ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Artifact.set -> void
@@ -90,6 +92,16 @@ ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.TrustedRootPath.g
 ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.TrustedRootPath.set -> void
 ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Verifier.get -> string?
 ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Verifier.set -> void
+ModularPipelines.Packer.Services.IPacker.BuildAsync(ModularPipelines.Packer.Options.PackerBuildOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.ConsoleAsync(ModularPipelines.Packer.Options.PackerConsoleOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.FixAsync(ModularPipelines.Packer.Options.PackerFixOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.FmtAsync(ModularPipelines.Packer.Options.PackerFmtOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.Hcl2UpgradeAsync(ModularPipelines.Packer.Options.PackerHcl2UpgradeOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.InitAsync(ModularPipelines.Packer.Options.PackerInitOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.InspectAsync(ModularPipelines.Packer.Options.PackerInspectOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.PluginsAsync(ModularPipelines.Packer.Options.PackerPluginsOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.ValidateAsync(ModularPipelines.Packer.Options.PackerValidateOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Packer.Services.IPacker.VerifyAttestationAsync(ModularPipelines.Packer.Options.PackerVerifyAttestationOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 override ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.<Clone>$() -> ModularPipelines.Packer.Options.PackerVerifyAttestationOptions!
 override ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Packer.Options.PackerVerifyAttestationOptions.Equals(object? obj) -> bool

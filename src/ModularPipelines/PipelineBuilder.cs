@@ -635,6 +635,9 @@ public sealed class PipelineBuilder
 
         public async Task PublishResultAsync(SerializedModuleResult r, CancellationToken ct) => await (await GetAsync(ct)).PublishResultAsync(r, ct);
 
+        public async Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken ct) =>
+            await (await GetAsync(ct)).WaitForResultAsync(moduleTypeName, ct);
+
         public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct)).RegisterWorkerAsync(r, ct);
 
         public async Task SendHeartbeatAsync(int workerIndex, CancellationToken ct) => await (await GetAsync(ct)).SendHeartbeatAsync(workerIndex, ct);

@@ -17,11 +17,11 @@ namespace ModularPipelines.Liquibase.Enums;
 public enum LiquibaseSupportsMethodValidationLevel
 {
     [EnumValue("off")]
-    Off = 0,
+    Off,
 
     [EnumValue("warn")]
-    Warn = 1,
+    Warn,
 
     [EnumValue("fail")]
-    Fail = 2
+    Fail
 }

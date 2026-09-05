@@ -17,17 +17,17 @@ namespace ModularPipelines.Liquibase.Enums;
 public enum LiquibaseLogLevel
 {
     [EnumValue("off")]
-    Off = 0,
+    Off,
 
     [EnumValue("severe")]
-    Severe = 1,
+    Severe,
 
     [EnumValue("warning")]
-    Warning = 2,
+    Warning,
 
     [EnumValue("info")]
-    Info = 3,
+    Info,
 
     [EnumValue("fine")]
-    Fine = 4
+    Fine
 }

@@ -46,7 +46,6 @@ ModularPipelines.SonarScanner.Options.SonarScannerOptions
 ModularPipelines.SonarScanner.Options.SonarScannerOptions.SonarScannerOptions() -> void
 ModularPipelines.SonarScanner.Options.SonarScannerOptions.SonarScannerOptions(ModularPipelines.SonarScanner.Options.SonarScannerOptions! original) -> void
 ModularPipelines.SonarScanner.Services.ISonarScanner
-override abstract ModularPipelines.SonarScanner.Options.SonarScannerOptions.<Clone>$() -> ModularPipelines.SonarScanner.Options.SonarScannerOptions!
 override ModularPipelines.SonarScanner.Options.SonarScannerExecuteOptions.<Clone>$() -> ModularPipelines.SonarScanner.Options.SonarScannerExecuteOptions!
 override ModularPipelines.SonarScanner.Options.SonarScannerExecuteOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.SonarScanner.Options.SonarScannerExecuteOptions.Equals(object? obj) -> bool
@@ -58,6 +57,7 @@ override ModularPipelines.SonarScanner.Options.SonarScannerOptions.Equals(object
 override ModularPipelines.SonarScanner.Options.SonarScannerOptions.GetHashCode() -> int
 override ModularPipelines.SonarScanner.Options.SonarScannerOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.SonarScanner.Options.SonarScannerOptions.ToString() -> string!
+override abstract ModularPipelines.SonarScanner.Options.SonarScannerOptions.<Clone>$() -> ModularPipelines.SonarScanner.Options.SonarScannerOptions!
 override sealed ModularPipelines.SonarScanner.Options.SonarScannerExecuteOptions.Equals(ModularPipelines.SonarScanner.Options.SonarScannerOptions? other) -> bool
 override sealed ModularPipelines.SonarScanner.Options.SonarScannerOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 static ModularPipelines.Context.ModularPipelines_SonarScanner_91e771f1898f8c69ToolsExtensions.get_SonarScanner(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.SonarScanner.Services.ISonarScanner!
