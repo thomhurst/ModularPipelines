@@ -1,0 +1,7 @@
+{
+  "formatVersion": 1,
+  "toolName": "syft",
+  "toolVersion": "syft 1.51.1",
+  "commandTreeSha256": "312b56070505f8e9227e5762adaba7ae25213d326283923b5592ce0281c0c868",
+  "generatorSourceSha256": "21bcf067cb0f770e4de4bb1c8d98643a012c00048aa346ef5ef1ca7e4f7f9af3"
+}
