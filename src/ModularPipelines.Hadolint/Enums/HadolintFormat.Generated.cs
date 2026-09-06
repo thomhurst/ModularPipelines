@@ -16,14 +16,11 @@ namespace ModularPipelines.Hadolint.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum HadolintFormat
 {
-    [EnumValue("tty")]
-    Tty,
-
-    [EnumValue("json")]
-    Json,
-
     [EnumValue("checkstyle")]
     Checkstyle,
+
+    [EnumValue("codacy")]
+    Codacy,
 
     [EnumValue("codeclimate")]
     Codeclimate,
@@ -34,15 +31,18 @@ public enum HadolintFormat
     [EnumValue("gnu")]
     Gnu,
 
-    [EnumValue("codacy")]
-    Codacy,
+    [EnumValue("json")]
+    Json,
 
-    [EnumValue("sonarqube")]
-    Sonarqube,
+    [EnumValue("junit")]
+    Junit,
 
     [EnumValue("sarif")]
     Sarif,
 
-    [EnumValue("junit")]
-    Junit
+    [EnumValue("sonarqube")]
+    Sonarqube,
+
+    [EnumValue("tty")]
+    Tty
 }

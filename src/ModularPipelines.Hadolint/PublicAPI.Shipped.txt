@@ -4,22 +4,8 @@ ModularPipelines.Context.ModularPipelines_Hadolint_a7b9813b1c6440cdToolsExtensio
 ModularPipelines.Context.ModularPipelines_Hadolint_a7b9813b1c6440cdToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Hadolint.get -> ModularPipelines.Hadolint.Services.IHadolint!
 ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
 ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.Error = 0 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
-ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.Ignore = 4 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
 ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.Info = 2 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
-ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.None = 5 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
-ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.Style = 3 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
-ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.Warning = 1 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
 ModularPipelines.Hadolint.Enums.HadolintFormat
-ModularPipelines.Hadolint.Enums.HadolintFormat.Checkstyle = 2 -> ModularPipelines.Hadolint.Enums.HadolintFormat
-ModularPipelines.Hadolint.Enums.HadolintFormat.Codacy = 6 -> ModularPipelines.Hadolint.Enums.HadolintFormat
-ModularPipelines.Hadolint.Enums.HadolintFormat.Codeclimate = 3 -> ModularPipelines.Hadolint.Enums.HadolintFormat
-ModularPipelines.Hadolint.Enums.HadolintFormat.GitlabCodeclimate = 4 -> ModularPipelines.Hadolint.Enums.HadolintFormat
-ModularPipelines.Hadolint.Enums.HadolintFormat.Gnu = 5 -> ModularPipelines.Hadolint.Enums.HadolintFormat
-ModularPipelines.Hadolint.Enums.HadolintFormat.Json = 1 -> ModularPipelines.Hadolint.Enums.HadolintFormat
-ModularPipelines.Hadolint.Enums.HadolintFormat.Junit = 9 -> ModularPipelines.Hadolint.Enums.HadolintFormat
-ModularPipelines.Hadolint.Enums.HadolintFormat.Sarif = 8 -> ModularPipelines.Hadolint.Enums.HadolintFormat
-ModularPipelines.Hadolint.Enums.HadolintFormat.Sonarqube = 7 -> ModularPipelines.Hadolint.Enums.HadolintFormat
-ModularPipelines.Hadolint.Enums.HadolintFormat.Tty = 0 -> ModularPipelines.Hadolint.Enums.HadolintFormat
 ModularPipelines.Hadolint.Extensions.HadolintExtensions
 ModularPipelines.Hadolint.Options.HadolintExecuteOptions
 ModularPipelines.Hadolint.Options.HadolintExecuteOptions.Config.get -> string?

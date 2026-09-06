@@ -1,4 +1,32 @@
 #nullable enable
+*REMOVED*ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.Ignore = 4 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
+*REMOVED*ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.None = 5 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
+*REMOVED*ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.Style = 3 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
+*REMOVED*ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.Warning = 1 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
+*REMOVED*ModularPipelines.Hadolint.Enums.HadolintFormat.Checkstyle = 2 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+*REMOVED*ModularPipelines.Hadolint.Enums.HadolintFormat.Codacy = 6 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+*REMOVED*ModularPipelines.Hadolint.Enums.HadolintFormat.Codeclimate = 3 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+*REMOVED*ModularPipelines.Hadolint.Enums.HadolintFormat.GitlabCodeclimate = 4 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+*REMOVED*ModularPipelines.Hadolint.Enums.HadolintFormat.Gnu = 5 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+*REMOVED*ModularPipelines.Hadolint.Enums.HadolintFormat.Json = 1 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+*REMOVED*ModularPipelines.Hadolint.Enums.HadolintFormat.Junit = 9 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+*REMOVED*ModularPipelines.Hadolint.Enums.HadolintFormat.Sarif = 8 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+*REMOVED*ModularPipelines.Hadolint.Enums.HadolintFormat.Sonarqube = 7 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+*REMOVED*ModularPipelines.Hadolint.Enums.HadolintFormat.Tty = 0 -> ModularPipelines.Hadolint.Enums.HadolintFormat
 *REMOVED*ModularPipelines.Hadolint.Services.IHadolint.ExecuteAsync(ModularPipelines.Hadolint.Options.HadolintExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*static ModularPipelines.Hadolint.Extensions.HadolintExtensions.Hadolint(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Hadolint.Services.IHadolint!
+ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.Ignore = 1 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
+ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.None = 3 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
+ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.Style = 4 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
+ModularPipelines.Hadolint.Enums.HadolintFailureThreshold.Warning = 5 -> ModularPipelines.Hadolint.Enums.HadolintFailureThreshold
+ModularPipelines.Hadolint.Enums.HadolintFormat.Checkstyle = 0 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.Codacy = 1 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.Codeclimate = 2 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.GitlabCodeclimate = 3 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.Gnu = 4 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.Json = 5 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.Junit = 6 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.Sarif = 7 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.Sonarqube = 8 -> ModularPipelines.Hadolint.Enums.HadolintFormat
+ModularPipelines.Hadolint.Enums.HadolintFormat.Tty = 9 -> ModularPipelines.Hadolint.Enums.HadolintFormat
 ModularPipelines.Hadolint.Services.IHadolint.ExecuteAsync(ModularPipelines.Hadolint.Options.HadolintExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
