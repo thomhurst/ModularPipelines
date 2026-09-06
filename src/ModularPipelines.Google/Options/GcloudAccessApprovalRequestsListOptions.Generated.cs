@@ -22,27 +22,27 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAccessApprovalRequestsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Folder number. Only one of --project, --folder, or --organization can be provided. If none are provided then it uses config property [core/project].
+    /// filter for request state
+    /// </summary>
+    [CliOption("--state", Format = OptionFormat.EqualsSeparated)]
+    public string? State { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Folder number. Only one of --project, --folder, or --organization can be provided. If none are provided then it uses config property [core/project].
     /// </summary>
     [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
     public string? Folder { get; set; }
 
     /// <summary>
-    /// Organization number. Either --project, --folder, or --organization must be provided. If none are provided then it uses config property [core/project].
+    /// At most one of these can be specified: Organization number. Either --project, --folder, or --organization must be provided. If none are provided then it uses config property [core/project].
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
 
     /// <summary>
-    /// Project number or id. Only one of --project, --folder, or --organization can be provided. If none are provided then it uses config property [core/project].
+    /// At most one of these can be specified: Project number or id. Only one of --project, --folder, or --organization can be provided. If none are provided then it uses config property [core/project].
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
-
-    /// <summary>
-    /// filter for request state
-    /// </summary>
-    [CliOption("--state", Format = OptionFormat.EqualsSeparated)]
-    public string? State { get; set; }
 
 }

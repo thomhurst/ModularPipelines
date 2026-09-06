@@ -85,20 +85,11 @@ public class GcloudBuildsTriggersCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BitbucketServerAsync(
-        GcloudBuildsTriggersCreateBitbucketserverOptions? options = null,
+        GcloudBuildsTriggersCreateBitbucketServerOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBuildsTriggersCreateBitbucketserverOptions(), executionOptions, cancellationToken);
-    }
-
-    [Obsolete("Use BitbucketServerAsync instead.")]
-    public virtual async Task<CommandResult> BitbucketserverAsync(
-        GcloudBuildsTriggersCreateBitbucketserverOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await BitbucketServerAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBuildsTriggersCreateBitbucketServerOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

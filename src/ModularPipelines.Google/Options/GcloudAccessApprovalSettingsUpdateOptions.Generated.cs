@@ -68,7 +68,7 @@ public record GcloudAccessApprovalSettingsUpdateOptions : GcloudOptions
     /// The preference for the broadest scope of access for access requests without a specific method. REQUEST_SCOPE_MAX_WIDTH_PREFERENCE must be one of: ORGANIZATION, FOLDER, PROJECT.
     /// </summary>
     [CliOption("--request_scope_max_width_preference", Format = OptionFormat.EqualsSeparated)]
-    public string? RequestScopeMaxWidthPreference { get; set; }
+    public GcloudRequestScopeMaxWidthPreference? RequestScopeMaxWidthPreference { get; set; }
 
     /// <summary>
     /// The preference to configure if a customer visible justification (i.e. Vector Case) is required for a Googler to create an Access Ticket to send to the customer when attempting to access customer resources.

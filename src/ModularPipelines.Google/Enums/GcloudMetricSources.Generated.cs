@@ -17,24 +17,23 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudMetricSources
 {
     [EnumValue("FLINK")]
-    Flink = 0,
+    Flink,
 
     [EnumValue("HDFS")]
-    Hdfs = 1,
+    Hdfs,
 
     [EnumValue("HIVEMETASTORE")]
-    Hivemetastore = 2,
+    Hivemetastore,
 
     [EnumValue("HIVESERVER2")]
-    Hiveserver2 = 3,
+    Hiveserver2,
 
     [EnumValue("SPARK")]
-    Spark = 4,
+    Spark,
 
     [EnumValue("SPARK_HISTORY_SERVER")]
-    SparkHistoryServer = 5,
+    SparkHistoryServer,
 
     [EnumValue("YARN")]
-    Yarn = 6,
-
+    Yarn
 }

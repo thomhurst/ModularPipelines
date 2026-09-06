@@ -37,7 +37,7 @@ public record GcloudStorageDuOptions : GcloudOptions
     /// Exclude a pattern from the report. Example: -e "*.o" excludes any object that ends in ".o". Can be specified multiple times.
     /// </summary>
     [CliOption("--exclude-name-pattern", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ExcludeNamePatternValues { get; set; }
+    public IEnumerable<string>? ExcludeNamePattern { get; set; }
 
     /// <summary>
     /// Similar to -e, but excludes patterns from the given file. The patterns to exclude should be listed one per line.
@@ -74,12 +74,5 @@ public record GcloudStorageDuOptions : GcloudOptions
     /// </summary>
     [CliFlag("--zero-terminator")]
     public bool? ZeroTerminator { get; set; }
-
-    [Obsolete("Use ExcludeNamePatternValues instead.")]
-    public string? ExcludeNamePattern
-    {
-        get => ExcludeNamePatternValues?.FirstOrDefault();
-        set => ExcludeNamePatternValues = value is null ? null : [value];
-    }
 
 }

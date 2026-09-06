@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudEffect
 {
     [EnumValue("NoSchedule")]
-    Noschedule = 0,
+    NoSchedule,
 
     [EnumValue("PreferNoSchedule")]
-    Prefernoschedule = 1,
+    PreferNoSchedule,
 
     [EnumValue("NoExecute")]
-    Noexecute = 2
+    NoExecute
 }

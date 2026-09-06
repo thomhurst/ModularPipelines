@@ -17,7 +17,7 @@ using ModularPipelines.Google.Enums;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// create an Autopilot cluster for      running containers
+/// create an Autopilot cluster for     running containers
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,590 +27,641 @@ public record GcloudContainerClustersCreateAutoOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Enable or restrict anonymous access to the cluster. When enabled, anonymous users will be authenticated as system:anonymous with the group system:unauthenticated. Limiting access restricts anonymous access to only the health check endpoints /readyz, /livez, and /healthz. ANONYMOUS_AUTHENTICATION_CONFIG must be one of: ENABLED 'ENABLED' enables anonymous calls. LIMITED 'LIMITED' restricts anonymous access to the cluster. Only calls to the health check endpoints are allowed anonymously, all other calls will be rejected.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable or restrict anonymous access to the cluster. When enabled, anonymous users will be authenticated as system:anonymous with the group system:unauthenticated. Limiting access restricts anonymous access to only the health check endpoints /readyz, /livez, and /healthz. ANONYMOUS_AUTHENTICATION_CONFIG must be one of: ENABLED 'ENABLED' enables anonymous calls. LIMITED 'LIMITED' restricts anonymous access to the cluster. Only calls to the health check endpoints are allowed anonymously, all other calls will be rejected.
     /// </summary>
     [CliOption("--anonymous-authentication-config", Format = OptionFormat.EqualsSeparated)]
     public string? AnonymousAuthenticationConfig { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to complete.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Enables Auto-Monitoring for a specific scope within the cluster. ALL: Enables Auto-Monitoring for all supported workloads within the cluster. NONE: Disables Auto-Monitoring. AUTO_MONITORING_SCOPE must be one of: ALL, NONE.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enables Auto-Monitoring for a specific scope within the cluster. ALL: Enables Auto-Monitoring for all supported workloads within the cluster. NONE: Disables Auto-Monitoring. AUTO_MONITORING_SCOPE must be one of: ALL, NONE.
     /// </summary>
     [CliOption("--auto-monitoring-scope", Format = OptionFormat.EqualsSeparated)]
     public GcloudAutoMonitoringScope? AutoMonitoringScope { get; set; }
 
     /// <summary>
-    /// Enables the Kubelet's insecure read only port for Autoprovisioned Node Pools. If not set, the value from nodePoolDefaults.nodeConfigDefaults will be used. To disable the readonly port --no-autoprovisioning-enable-insecure-kubelet-readonly-port.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Sets the Autopilot general profile for the cluster; possible values are none and no-performance. If none is used, the cluster will use the Autopilot default configuration. AUTOPILOT_GENERAL_PROFILE must be one of: none, no-performance.
+    /// </summary>
+    [CliOption("--autopilot-general-profile", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAutopilotGeneralProfile? AutopilotGeneralProfile { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Specifies which privileged workload allowlist paths can be referenced and installed by AllowlistSynchronizers in Autopilot modes. The value is a comma-separated list of paths in the format: ◆ gke://&lt;partner_name&gt;/&lt;app_name&gt;/&lt;allowlist_path&gt; for Autopilot partner allowlists ◆ gs://&lt;bucket_name&gt;/&lt;allowlist_path&gt; for user allowlists By default, all GKE-managed allowlists (gke://*) are authorized. See https://cloud.google.com/kubernetes-engine/docs/resources/autopilot-partners for all supported Autopilot partner allowlists. When setting this flag, be careful to explicitly specify gke://* in addition to other entries if you rely on this default behavior. Wildcards (*) are supported. For example, if gke://* is authorized, then AllowlistSynchronizers can be used to install gke://partner1/allowlist1.yaml and gke://partner2/allowlist2.yaml. Note: Use of user allowlists (gs://) requires special permissions and is only available to a subset of high tier customers. Please contact your account team for more information. Examples: Allow all GKE-managed allowlists (default behavior): $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gke://* Authorize only allowlists from a GKE Autopilot partner: $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gke://my-partner/* Authorize only a singular user-owned allowlist $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gs://my-bucket/allowlists/\ my-allowlist.yaml Authorize all user-owned allowlists under a given path: $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gs://my-bucket/* Authorize all GKE-managed allowlists and a specific user-owned allowlist: $ gcloud container clusters create-auto \ --autopilot-privileged-admission=gke://*,gs://my-bucket/\ allowlists/my-allowlist.yaml Disable allowlist installation entirely: $ gcloud container clusters create-auto \ --autopilot-privileged-admission="" Exercise caution when using this flag on an existing cluster. Upon updates, existing AllowlistSynchronizers will uninstall allowlists that are no longer authorized. For instructions on installing allowlists in the cluster after authorization, please refer to: https://cloud.google.com/kubernetes-engine/docs/how-to/run-autopilot-partner-workloads
+    /// </summary>
+    [CliOption("--autopilot-privileged-admission", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AutopilotPrivilegedAdmission { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enables the Kubelet's insecure read only port for Autoprovisioned Node Pools. If not set, the value from nodePoolDefaults.nodeConfigDefaults will be used. To disable the readonly port --no-autoprovisioning-enable-insecure-kubelet-readonly-port.
     /// </summary>
     [CliFlag("--autoprovisioning-enable-insecure-kubelet-readonly-port")]
     public bool? AutoprovisioningEnableInsecureKubeletReadonlyPort { get; set; }
 
     /// <summary>
-    /// Negates --autoprovisioning-enable-insecure-kubelet-readonly-port. Enables the Kubelet's insecure read only port for Autoprovisioned Node Pools. If not set, the value from nodePoolDefaults.nodeConfigDefaults will be used. To disable the readonly port --no-autoprovisioning-enable-insecure-kubelet-readonly-port.
+    /// Negates --autoprovisioning-enable-insecure-kubelet-readonly-port. Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enables the Kubelet's insecure read only port for Autoprovisioned Node Pools. If not set, the value from nodePoolDefaults.nodeConfigDefaults will be used. To disable the readonly port --no-autoprovisioning-enable-insecure-kubelet-readonly-port.
     /// </summary>
     [CliFlag("--no-autoprovisioning-enable-insecure-kubelet-readonly-port")]
     public bool? NoAutoprovisioningEnableInsecureKubeletReadonlyPort { get; set; }
 
     /// <summary>
-    /// Applies the given Compute Engine tags (comma separated) on all nodes in the auto-provisioned node pools of the new Standard cluster or the new Autopilot cluster. Examples: $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-network-tags=tag1,tag2 New nodes in auto-provisioned node pools, including ones created by resize or recreate, will have these tags on the Compute Engine API instance object and can be used in firewall rules. See https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create for examples.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Applies the given Compute Engine tags (comma separated) on all nodes in the auto-provisioned node pools of the new Standard cluster or the new Autopilot cluster. Examples: $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-network-tags=tag1,tag2 New nodes in auto-provisioned node pools, including ones created by resize or recreate, will have these tags on the Compute Engine API instance object and can be used in firewall rules. See https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create for examples.
     /// </summary>
     [CliOption("--autoprovisioning-network-tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AutoprovisioningNetworkTags { get; set; }
 
     /// <summary>
-    /// Applies the specified comma-separated resource manager tags that has the GCE_FIREWALL purpose to all nodes in the new Autopilot cluster or all auto-provisioned nodes in the new Standard cluster. Examples: $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-resource-manager-tags=tagKeys/\ 1234=tagValues/2345 $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-resource-manager-tags=my-project/key1=value1 $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-resource-manager-tags=12345/key1=value1,\ 23456/key2=value2 $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-resource-manager-tags= All nodes in an Autopilot cluster or all auto-provisioned nodes in a Standard cluster, including nodes that are resized or re-created, will have the specified tags on the corresponding Instance object in the Compute Engine API. You can reference these tags in network firewall policy rules. For instructions, see https://cloud.google.com/firewall/docs/use-tags-for-firewalls.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Applies the specified comma-separated resource manager tags that has the GCE_FIREWALL purpose to all nodes in the new Autopilot cluster or all auto-provisioned nodes in the new Standard cluster. Examples: $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-resource-manager-tags=tagKeys/\ 1234=tagValues/2345 $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-resource-manager-tags=my-project/key1=value1 $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-resource-manager-tags=12345/key1=value1,\ 23456/key2=value2 $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-resource-manager-tags= All nodes in an Autopilot cluster or all auto-provisioned nodes in a Standard cluster, including nodes that are resized or re-created, will have the specified tags on the corresponding Instance object in the Compute Engine API. You can reference these tags in network firewall policy rules. For instructions, see https://cloud.google.com/firewall/docs/use-tags-for-firewalls.
     /// </summary>
     [CliOption("--autoprovisioning-resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? AutoprovisioningResourceManagerTags { get; set; }
 
     /// <summary>
-    /// Flags for Binary Authorization: Enable Binary Authorization for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: disabled, project-singleton-policy-enforce.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable Binary Authorization for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: disabled, project-singleton-policy-enforce.
     /// </summary>
     [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
     public string? BinauthzEvaluationMode { get; set; }
 
     /// <summary>
-    /// The Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool. This should be of the form projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME]. For more information about protecting resources with Cloud KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. The Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool. This should be of the form projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME]. For more information about protecting resources with Cloud KMS Keys please see: https://cloud.google.com/compute/docs/disks/customer-managed-encryption
     /// </summary>
     [CliOption("--boot-disk-kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? BootDiskKmsKey { get; set; }
 
     /// <summary>
-    /// The IP address range for the pods in this cluster in CIDR notation (e.g. 10.0.0.0/14). Prior to Kubernetes version 1.7.0 this must be a subset of 10.0.0.0/8; however, starting with version 1.7.0 can be any RFC 1918 IP range. If you omit this option, a range is chosen automatically. The automatically chosen range is randomly selected from 10.0.0.0/8 and will not include IP address ranges allocated to VMs, existing routes, or ranges allocated to other clusters. The automatically chosen range might conflict with reserved IP addresses, dynamic routes, or routes within VPCs that peer with this cluster. You should specify --cluster-ipv4-cidr to prevent conflicts. This field is not applicable in a Shared VPC setup where the IP address range for the pods must be specified with --cluster-secondary-range-name
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. The IP address range for the pods in this cluster in CIDR notation (e.g. 10.0.0.0/14). Prior to Kubernetes version 1.7.0 this must be a subset of 10.0.0.0/8; however, starting with version 1.7.0 can be any RFC 1918 IP range. If you omit this option, a range is chosen automatically. The automatically chosen range is randomly selected from 10.0.0.0/8 and will not include IP address ranges allocated to VMs, existing routes, or ranges allocated to other clusters. The automatically chosen range might conflict with reserved IP addresses, dynamic routes, or routes within VPCs that peer with this cluster. You should specify --cluster-ipv4-cidr to prevent conflicts. This field is not applicable in a Shared VPC setup where the IP address range for the pods must be specified with --cluster-secondary-range-name
     /// </summary>
     [CliOption("--cluster-ipv4-cidr", Format = OptionFormat.EqualsSeparated)]
     public string? ClusterIpv4Cidr { get; set; }
 
     /// <summary>
-    /// Set the secondary range to be used as the source for pod IPs. Alias ranges will be allocated from this secondary range. NAME must be the name of an existing secondary range in the cluster subnetwork. Cannot be used with '--create-subnetwork' option.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Set the secondary range to be used as the source for pod IPs. Alias ranges will be allocated from this secondary range. NAME must be the name of an existing secondary range in the cluster subnetwork. Cannot be used with '--create-subnetwork' option.
     /// </summary>
     [CliOption("--cluster-secondary-range-name", Format = OptionFormat.EqualsSeparated)]
     public string? ClusterSecondaryRangeName { get; set; }
 
     /// <summary>
-    /// The Kubernetes version to use for the master and nodes. Defaults to server-specified. The default Kubernetes version is available using the following command. $ gcloud container get-server-config
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. The Kubernetes version to use for the master and nodes. Defaults to server-specified. The default Kubernetes version is available using the following command. $ gcloud container get-server-config
     /// </summary>
     [CliOption("--cluster-version", Format = OptionFormat.EqualsSeparated)]
     public string? ClusterVersion { get; set; }
 
     /// <summary>
-    /// Path of the YAML file that contains containerd configuration entries like configuring access to private image registries. For detailed information on the configuration usage, please refer to https://cloud.google.com/kubernetes-engine/docs/how-to/customize-containerd-configuration. Note: Updating the containerd configuration of an existing cluster or node pool requires recreation of the existing nodes, which might cause disruptions in running workloads. Use a full or relative path to a local file containing the value of containerd_config.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable confidential nodes for the cluster. Enabling Confidential Nodes will create nodes using Confidential VM https://docs.cloud.google.com/compute/docs/about-confidential-vm. CONFIDENTIAL_NODE_TYPE must be one of: sev, sev_snp, tdx.
+    /// </summary>
+    [CliOption("--confidential-node-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudConfidentialNodeType? ConfidentialNodeType { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Path of the YAML file that contains containerd configuration entries like configuring access to private image registries. For detailed information on the configuration usage, please refer to https://cloud.google.com/kubernetes-engine/docs/how-to/customize-containerd-configuration. Note: Updating the containerd configuration of an existing cluster or node pool requires recreation of the existing nodes, which might cause disruptions in running workloads. Use a full or relative path to a local file containing the value of containerd_config.
     /// </summary>
     [CliOption("--containerd-config-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? ContainerdConfigFromFile { get; set; }
 
     /// <summary>
-    /// Create a new subnetwork for the cluster. The name and range of the subnetwork can be customized via optional 'name' and 'range' key-value pairs. 'name' specifies the name of the subnetwork to be created. 'range' specifies the IP range for the new subnetwork. This can either be a netmask size (e.g. '/20') or a CIDR range (e.g. '10.0.0.0/20'). If a netmask size is specified, the IP is automatically taken from the free space in the cluster's network. Examples: Create a new subnetwork with a default name and size. $ gcloud container clusters create-auto --create-subnetwork "" Create a new subnetwork named "my-subnet" with netmask of size 21. $ gcloud container clusters create-auto \ --create-subnetwork name=my-subnet,range=/21 Create a new subnetwork with a default name with the primary range of 10.100.0.0/16. $ gcloud container clusters create-auto \ --create-subnetwork range=10.100.0.0/16 Create a new subnetwork with the name "my-subnet" with a default range. $ gcloud container clusters create-auto \ --create-subnetwork name=my-subnet Cannot be used in conjunction with '--subnetwork' option.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Configures the egress policy for the GKE control plane to control outbound traffic from the kube-apiserver. CONTROL_PLANE_EGRESS must be one of: NONE (Recommended) Provides maximum security. This mode removes the control plane's public IP address and blocks all outbound traffic from the kube-apiserver by default, preventing unexpected data exfiltration. Webhooks that use clientConfig.url will be disabled. Essential GKE-managed services are still permitted to function via an internal allowlist. VIA_CONTROL_PLANE (Default) Maintains backward compatibility. The control plane retains its public IP address and allows egress traffic from the kube-apiserver.
+    /// </summary>
+    [CliOption("--control-plane-egress", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneEgress { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Create a new subnetwork for the cluster. The name and range of the subnetwork can be customized via optional 'name' and 'range' key-value pairs. 'name' specifies the name of the subnetwork to be created. 'range' specifies the IP range for the new subnetwork. This can either be a netmask size (e.g. '/20') or a CIDR range (e.g. '10.0.0.0/20'). If a netmask size is specified, the IP is automatically taken from the free space in the cluster's network. Examples: Create a new subnetwork with a default name and size. $ gcloud container clusters create-auto --create-subnetwork "" Create a new subnetwork named "my-subnet" with netmask of size 21. $ gcloud container clusters create-auto \ --create-subnetwork name=my-subnet,range=/21 Create a new subnetwork with a default name with the primary range of 10.100.0.0/16. $ gcloud container clusters create-auto \ --create-subnetwork range=10.100.0.0/16 Create a new subnetwork with the name "my-subnet" with a default range. $ gcloud container clusters create-auto \ --create-subnetwork name=my-subnet Cannot be used in conjunction with '--subnetwork' option.
     /// </summary>
     [CliOption("--create-subnetwork", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? CreateSubnetwork { get; set; }
 
     /// <summary>
-    /// Enable Database Encryption. Enable database encryption that will be used to encrypt Kubernetes Secrets at the application layer. The key provided should be the resource ID in the format of projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME]. For more information, see https://cloud.google.com/kubernetes-engine/docs/how-to/encrypting-secrets.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable Database Encryption. Enable database encryption that will be used to encrypt Kubernetes Secrets at the application layer. The key provided should be the resource ID in the format of projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME]. For more information, see https://cloud.google.com/kubernetes-engine/docs/how-to/encrypting-secrets.
     /// </summary>
     [CliOption("--database-encryption-key", Format = OptionFormat.EqualsSeparated)]
     public string? DatabaseEncryptionKey { get; set; }
 
     /// <summary>
-    /// Disable reconciliation on the cluster for L4 Load Balancer VPC firewalls targeting ingress traffic.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Disable reconciliation on the cluster for L4 Load Balancer VPC firewalls targeting ingress traffic.
     /// </summary>
     [CliFlag("--disable-l4-lb-firewall-reconciliation")]
     public bool? DisableL4LbFirewallReconciliation { get; set; }
 
     /// <summary>
-    /// Enable enforcement of --master-authorized-networks CIDR ranges for traffic reaching cluster's control plane via private IP.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Disable the Lustre CSI driver to automatically detect and configure all suitable network interfaces on a node for Lustre IO.
+    /// </summary>
+    [CliFlag("--disable-multi-nic-lustre")]
+    public bool? DisableMultiNicLustre { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable the Agent Sandbox feature on the cluster. Use --no-enable-agent-sandbox to disable.
+    /// </summary>
+    [CliFlag("--enable-agent-sandbox")]
+    public bool? EnableAgentSandbox { get; set; }
+
+    /// <summary>
+    /// Negates --enable-agent-sandbox. Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable the Agent Sandbox feature on the cluster. Use --no-enable-agent-sandbox to disable.
+    /// </summary>
+    [CliFlag("--no-enable-agent-sandbox")]
+    public bool? NoEnableAgentSandbox { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable enforcement of --master-authorized-networks CIDR ranges for traffic reaching cluster's control plane via private IP.
     /// </summary>
     [CliFlag("--enable-authorized-networks-on-private-endpoint")]
     public bool? EnableAuthorizedNetworksOnPrivateEndpoint { get; set; }
 
     /// <summary>
-    /// Enable the Auto IP Address Management (Auto IPAM) feature for the cluster.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable the Auto IP Address Management (Auto IPAM) feature for the cluster.
     /// </summary>
     [CliFlag("--enable-auto-ipam")]
     public bool? EnableAutoIpam { get; set; }
 
     /// <summary>
-    /// Enable the Backup for GKE add-on. This add-on is disabled by default. To learn more, see the Backup for GKE overview: https://cloud.google.com/kubernetes-engine/docs/add-on/backup-for-gke/concepts/backup-for-gke.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable the Backup for GKE add-on. This add-on is disabled by default. To learn more, see the Backup for GKE overview: https://cloud.google.com/kubernetes-engine/docs/add-on/backup-for-gke/concepts/backup-for-gke.
     /// </summary>
     [CliFlag("--enable-backup-restore")]
     public bool? EnableBackupRestore { get; set; }
 
     /// <summary>
-    /// Enable Cilium Clusterwide Network Policies on the cluster. Disabled by default.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable Cilium Clusterwide Network Policies on the cluster. Disabled by default.
     /// </summary>
     [CliFlag("--enable-cilium-clusterwide-network-policy")]
     public bool? EnableCiliumClusterwideNetworkPolicy { get; set; }
 
     /// <summary>
-    /// Enable confidential nodes for the cluster. Enabling Confidential Nodes will create nodes using Confidential VM https://cloud.google.com/compute/confidential-vm/docs/about-cvm.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable confidential nodes for the cluster. Enabling Confidential Nodes will create nodes using Confidential VM https://docs.cloud.google.com/compute/docs/about-confidential-vm.
     /// </summary>
     [CliFlag("--enable-confidential-nodes")]
     public bool? EnableConfidentialNodes { get; set; }
 
     /// <summary>
-    /// Enable the default compute class to use for the cluster. To disable Default Compute Class in an existing cluster, explicitly set flag --no-enable-default-compute-class.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable the default compute class to use for the cluster. To disable Default Compute Class in an existing cluster, explicitly set flag --no-enable-default-compute-class.
     /// </summary>
     [CliFlag("--enable-default-compute-class")]
     public bool? EnableDefaultComputeClass { get; set; }
 
     /// <summary>
-    /// Negates --enable-default-compute-class. Enable the default compute class to use for the cluster. To disable Default Compute Class in an existing cluster, explicitly set flag --no-enable-default-compute-class.
+    /// Negates --enable-default-compute-class. Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable the default compute class to use for the cluster. To disable Default Compute Class in an existing cluster, explicitly set flag --no-enable-default-compute-class.
     /// </summary>
     [CliFlag("--no-enable-default-compute-class")]
     public bool? NoEnableDefaultComputeClass { get; set; }
 
     /// <summary>
-    /// Enable access to the cluster's control plane over DNS-based endpoint. DNS-based control plane access is recommended.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable access to the cluster's control plane over DNS-based endpoint. DNS-based control plane access is recommended.
     /// </summary>
     [CliFlag("--enable-dns-access")]
     public bool? EnableDnsAccess { get; set; }
 
     /// <summary>
-    /// Set cluster project as the fleet host project. This will register the cluster to the same project. To register the cluster to a fleet in a different project, please use --fleet-project=FLEET_HOST_PROJECT. Example: $ gcloud container clusters create-auto --enable-fleet
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Set cluster project as the fleet host project. This will register the cluster to the same project. To register the cluster to a fleet in a different project, please use --fleet-project=FLEET_HOST_PROJECT. Example: $ gcloud container clusters create-auto --enable-fleet
     /// </summary>
     [CliFlag("--enable-fleet")]
     public bool? EnableFleet { get; set; }
 
     /// <summary>
-    /// When you enable Google Cloud Access, any public IP addresses owned by Google Cloud can reach the public control plane endpoint of your cluster.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. When you enable Google Cloud Access, any public IP addresses owned by Google Cloud can reach the public control plane endpoint of your cluster.
     /// </summary>
     [CliFlag("--enable-google-cloud-access")]
     public bool? EnableGoogleCloudAccess { get; set; }
 
     /// <summary>
-    /// Enable access to the cluster's control plane over private IP and public IP if --enable-private-endpoint is not enabled.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable access to the cluster's control plane over private IP and public IP if --enable-private-endpoint is not enabled.
     /// </summary>
     [CliFlag("--enable-ip-access")]
     public bool? EnableIpAccess { get; set; }
 
     /// <summary>
-    /// Enable K8s client certificates Authentication to the cluster's control plane over DNS-based endpoint.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable K8s client certificates Authentication to the cluster's control plane over DNS-based endpoint.
     /// </summary>
     [CliFlag("--enable-k8s-certs-via-dns")]
     public bool? EnableK8sCertsViaDns { get; set; }
 
     /// <summary>
-    /// Enable K8s Service Account tokens Authentication to the cluster's control plane over DNS-based endpoint.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable K8s Service Account tokens Authentication to the cluster's control plane over DNS-based endpoint.
     /// </summary>
     [CliFlag("--enable-k8s-tokens-via-dns")]
     public bool? EnableK8sTokensViaDns { get; set; }
 
     /// <summary>
-    /// Enforces that kernel modules are signed on all new nodes in the cluster unless explicitly overridden with --no-enable-kernel-module-signature-enforcement when creating the nodepool. Use --no-enable-kernel-module-signature-enforcement to disable. Examples: $ gcloud container clusters create-auto example-cluster \ --enable-kernel-module-signature-enforcement
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enforces that kernel modules are signed on all new nodes in the cluster unless explicitly overridden with --no-enable-kernel-module-signature-enforcement when creating the nodepool. Use --no-enable-kernel-module-signature-enforcement to disable. Examples: $ gcloud container clusters create-auto example-cluster \ --enable-kernel-module-signature-enforcement
     /// </summary>
     [CliFlag("--enable-kernel-module-signature-enforcement")]
     public bool? EnableKernelModuleSignatureEnforcement { get; set; }
 
     /// <summary>
-    /// Negates --enable-kernel-module-signature-enforcement. Enforces that kernel modules are signed on all new nodes in the cluster unless explicitly overridden with --no-enable-kernel-module-signature-enforcement when creating the nodepool. Use --no-enable-kernel-module-signature-enforcement to disable. Examples: $ gcloud container clusters create-auto example-cluster \ --enable-kernel-module-signature-enforcement
+    /// Negates --enable-kernel-module-signature-enforcement. Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enforces that kernel modules are signed on all new nodes in the cluster unless explicitly overridden with --no-enable-kernel-module-signature-enforcement when creating the nodepool. Use --no-enable-kernel-module-signature-enforcement to disable. Examples: $ gcloud container clusters create-auto example-cluster \ --enable-kernel-module-signature-enforcement
     /// </summary>
     [CliFlag("--no-enable-kernel-module-signature-enforcement")]
     public bool? NoEnableKernelModuleSignatureEnforcement { get; set; }
 
     /// <summary>
-    /// Enable Kubernetes beta API features on this cluster. Beta APIs are not expected to be production ready and should be avoided in production-grade environments.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable Kubernetes beta API features on this cluster. Beta APIs are not expected to be production ready and should be avoided in production-grade environments.
     /// </summary>
     [CliOption("--enable-kubernetes-unstable-apis", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EnableKubernetesUnstableApis { get; set; }
 
     /// <summary>
-    /// Allow the Lustre CSI driver to initialize LNet (the virtual network layer for Lustre kernel module) using port 6988. This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Allow the Lustre CSI driver to initialize LNet (the virtual network layer for Lustre kernel module) using port 6988. This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
     /// </summary>
     [CliFlag("--enable-legacy-lustre-port")]
     public bool? EnableLegacyLustrePort { get; set; }
 
     /// <summary>
-    /// Enable the Lustre CSI Driver GKE add-on. This add-on is disabled by default.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable the Lustre CSI Driver GKE add-on. This add-on is disabled by default.
     /// </summary>
     [CliFlag("--enable-lustre-csi-driver")]
     public bool? EnableLustreCsiDriver { get; set; }
 
     /// <summary>
-    /// Use with private clusters to allow access to the master's private endpoint from any Google Cloud region or on-premises environment regardless of the private cluster's region.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Use with private clusters to allow access to the master's private endpoint from any Google Cloud region or on-premises environment regardless of the private cluster's region.
     /// </summary>
     [CliFlag("--enable-master-global-access")]
     public bool? EnableMasterGlobalAccess { get; set; }
 
     /// <summary>
-    /// Enables multi-networking on the cluster. Multi-networking is disabled by default.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enables multi-networking on the cluster. Multi-networking is disabled by default.
     /// </summary>
     [CliFlag("--enable-multi-networking")]
     public bool? EnableMultiNetworking { get; set; }
 
     /// <summary>
-    /// Enable automatic log processing sidecar for Ray clusters.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable automatic log processing sidecar for Ray clusters.
     /// </summary>
     [CliFlag("--enable-ray-cluster-logging")]
     public bool? EnableRayClusterLogging { get; set; }
 
     /// <summary>
-    /// Enable automatic metrics collection for Ray clusters.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable automatic metrics collection for Ray clusters.
     /// </summary>
     [CliFlag("--enable-ray-cluster-monitoring")]
     public bool? EnableRayClusterMonitoring { get; set; }
 
     /// <summary>
-    /// Enable the Ray Operator GKE add-on. This add-on is disabled by default.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enable the Ray Operator GKE add-on. This add-on is disabled by default.
     /// </summary>
     [CliFlag("--enable-ray-operator")]
     public bool? EnableRayOperator { get; set; }
 
     /// <summary>
-    /// Sets fleet host project for the cluster. If specified, the current cluster will be registered as a fleet membership under the fleet host project. Example: $ gcloud container clusters create-auto --fleet-project=my-project
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Sets fleet host project for the cluster. If specified, the current cluster will be registered as a fleet membership under the fleet host project. Example: $ gcloud container clusters create-auto --fleet-project=my-project
     /// </summary>
     [CliOption("--fleet-project", Format = OptionFormat.EqualsSeparated)]
     public int? FleetProject { get; set; }
 
     /// <summary>
-    /// Set Horizontal Pod Autoscaler behavior. Accepted values are: none, performance. For more information, see https://cloud.google.com/kubernetes-engine/docs/how-to/horizontal-pod-autoscaling#hpa-profile.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Set Horizontal Pod Autoscaler behavior. Accepted values are: none, performance. For more information, see https://cloud.google.com/kubernetes-engine/docs/how-to/horizontal-pod-autoscaling#hpa-profile.
     /// </summary>
     [CliOption("--hpa-profile", Format = OptionFormat.EqualsSeparated)]
     public string? HpaProfile { get; set; }
 
     /// <summary>
-    /// Labels to apply to the Google Cloud resources in use by the Kubernetes Engine cluster. These are unrelated to Kubernetes labels. Examples: $ gcloud container clusters create-auto example-cluster \ --labels=label_a=value1,label_b=,label_c=value3
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. The Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
+    /// </summary>
+    [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
+    public string? Image { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. The Google Cloud project storing the Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
+    /// </summary>
+    [CliOption("--image-project", Format = OptionFormat.EqualsSeparated)]
+    public string? ImageProject { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. The image type to use for the cluster. Defaults to server-specified. Image Type specifies the base OS that the nodes in the cluster will run on. If an image type is specified, that will be assigned to the cluster and all future upgrades will use the specified image type. If it is not specified the server will pick the default image type. The default image type and the list of valid image types are available using the following command. $ gcloud container get-server-config
+    /// </summary>
+    [CliOption("--image-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ImageType { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Labels to apply to the Google Cloud resources in use by the Kubernetes Engine cluster. These are unrelated to Kubernetes labels. Examples: $ gcloud container clusters create-auto example-cluster \ --labels=label_a=value1,label_b=,label_c=value3
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Set the components that have logging enabled. Valid component values are: SYSTEM, WORKLOAD, API_SERVER, CONTROLLER_MANAGER, SCHEDULER The default is SYSTEM,WORKLOAD. If this flag is set, then SYSTEM must be included. For more information, see https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs#available-logs Examples: $ gcloud container clusters create-auto --logging=SYSTEM $ gcloud container clusters create-auto --logging=SYSTEM,WORKLOAD $ gcloud container clusters create-auto \ --logging=SYSTEM,WORKLOAD,API_SERVER,CONTROLLER_MANAGER,\ SCHEDULER
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Set the components that have logging enabled. Valid component values are: SYSTEM, WORKLOAD, API_SERVER, CONTROLLER_MANAGER, SCHEDULER, KCP_HPA, KCP_VPA The default is SYSTEM,WORKLOAD. If this flag is set, then SYSTEM must be included. For more information, see https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs#available-logs Examples: $ gcloud container clusters create-auto --logging=SYSTEM $ gcloud container clusters create-auto --logging=SYSTEM,WORKLOAD $ gcloud container clusters create-auto \ --logging=SYSTEM,WORKLOAD,API_SERVER,CONTROLLER_MANAGER,\ SCHEDULER,KCP_HPA,KCP_VPA
     /// </summary>
     [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Logging { get; set; }
 
     /// <summary>
-    /// Specify a membership type for the cluster's fleet membership. Example: $ gcloud container clusters create-auto \ --membership-type=LIGHTWEIGHT. MEMBERSHIP_TYPE must be (only \ one value is supported): LIGHTWEIGHT Fleet membership representing this cluster will be lightweight.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Specifies the scope of Managed OpenTelemetry within the cluster. COLLECTION_AND_INSTRUMENTATION_COMPONENTS: Enables GKE Managed OpenTelemetry Collector and other Instrumentations components like Instrumentation CRD within the cluster. NONE: Disables the GKE Managed OpenTelemetry. MANAGED_OTEL_SCOPE must be one of: COLLECTION_AND_INSTRUMENTATION_COMPONENTS, NONE.
+    /// </summary>
+    [CliOption("--managed-otel-scope", Format = OptionFormat.EqualsSeparated)]
+    public string? ManagedOtelScope { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Specify a membership type for the cluster's fleet membership. Example: $ gcloud container clusters create-auto \ --membership-type=LIGHTWEIGHT. MEMBERSHIP_TYPE must be (only \ one value is supported): LIGHTWEIGHT Fleet membership representing this cluster will be lightweight.
     /// </summary>
     [CliOption("--membership-type", Format = OptionFormat.EqualsSeparated)]
     public string? MembershipType { get; set; }
 
     /// <summary>
-    /// Set the components that have monitoring enabled. Valid component values are: SYSTEM, WORKLOAD (Deprecated), NONE, API_SERVER, CONTROLLER_MANAGER, SCHEDULER, DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, JOBSET For more information, see https://cloud.google.com/kubernetes-engine/docs/how-to/configure-metrics#available-metrics Examples: $ gcloud container clusters create-auto \ --monitoring=SYSTEM,API_SERVER,POD,DCGM $ gcloud container clusters create-auto --monitoring=SYSTEM
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Set the components that have monitoring enabled. Valid component values are: SYSTEM, WORKLOAD (Deprecated), NONE, API_SERVER, CONTROLLER_MANAGER, SCHEDULER, DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, JOBSET Note: DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, and JOBSET require Google Managed Prometheus to be enabled. For more information, see https://cloud.google.com/kubernetes-engine/docs/how-to/configure-metrics#available-metrics Examples: $ gcloud container clusters create-auto \ --monitoring=SYSTEM,API_SERVER,POD,DCGM $ gcloud container clusters create-auto --monitoring=SYSTEM
     /// </summary>
     [CliOption("--monitoring", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Monitoring { get; set; }
 
     /// <summary>
-    /// The Compute Engine Network that the cluster will connect to. Google Kubernetes Engine will use this network when creating routes and firewalls for the clusters. Defaults to the 'default' network.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. The Compute Engine Network that the cluster will connect to. Google Kubernetes Engine will use this network when creating routes and firewalls for the clusters. Defaults to the 'default' network.
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
 
     /// <summary>
-    /// Sets the subnetwork GKE uses to provision the control plane's private endpoint.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Configures node creation mode for the cluster, either via kubelet or via control plane. NODE_CREATION_MODE must be one of: CONTROL_PLANE registers nodes via control plane; kubelet registration will be rejected. This selection will not take effect if you turn off Shielded Nodes. KUBELET registers nodes via kubelet.
+    /// </summary>
+    [CliOption("--node-creation-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? NodeCreationMode { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Sets the subnetwork GKE uses to provision the control plane's private endpoint.
     /// </summary>
     [CliOption("--private-endpoint-subnetwork", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateEndpointSubnetwork { get; set; }
 
     /// <summary>
-    /// Release channel a cluster is subscribed to. If left unspecified and a version is specified, the cluster is enrolled in the most mature release channel where the version is available (first checking STABLE, then REGULAR, and finally RAPID). Otherwise, if no release channel and no version is specified, the cluster is enrolled in the REGULAR channel with its default version. When a cluster is subscribed to a release channel, Google maintains both the master version and the node version. Node auto-upgrade is enabled by default for release channel clusters and can be controlled via upgrade-scope exclusions (https://cloud.google.com/kubernetes-engine/docs/concepts/maintenance-windows-and-exclusions#scope_of_maintenance_to_exclude). CHANNEL must be one of: extended Clusters subscribed to 'extended' can remain on a minor version for 24 months from when the minor version is made available in the Regular channel. rapid 'rapid' channel is offered on an early access basis for customers who want to test new releases. WARNING: Versions available in the 'rapid' channel may be subject to unresolved issues with no known workaround and are not subject to any SLAs. regular Clusters subscribed to 'regular' receive versions that are considered GA quality. 'regular' is intended for production users who want to take advantage of new features. stable Clusters subscribed to 'stable' receive versions that are known to be stable and reliable in production.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Release channel a cluster is subscribed to. If left unspecified and a version is specified, the cluster is enrolled in the most mature release channel where the version is available (first checking STABLE, then REGULAR, and finally RAPID). Otherwise, if no release channel and no version is specified, the cluster is enrolled in the REGULAR channel with its default version. When a cluster is subscribed to a release channel, Google maintains both the master version and the node version. Node auto-upgrade is enabled by default for release channel clusters and can be controlled via upgrade-scope exclusions (https://cloud.google.com/kubernetes-engine/docs/concepts/maintenance-windows-and-exclusions#scope_of_maintenance_to_exclude). CHANNEL must be one of: extended Clusters subscribed to 'extended' can remain on a minor version for 24 months from when the minor version is made available in the Regular channel. rapid 'rapid' channel is offered on an early access basis for customers who want to test new releases. WARNING: Versions available in the 'rapid' channel may be subject to unresolved issues with no known workaround and are not subject to any SLAs. regular Clusters subscribed to 'regular' receive versions that are considered GA quality. 'regular' is intended for production users who want to take advantage of new features. stable Clusters subscribed to 'stable' receive versions that are known to be stable and reliable in production.
     /// </summary>
     [CliOption("--release-channel", Format = OptionFormat.EqualsSeparated)]
     public string? ReleaseChannel { get; set; }
 
     /// <summary>
-    /// The name of the RBAC security group for use with Google security groups in Kubernetes RBAC (https://kubernetes.io/docs/reference/access-authn-authz/rbac/). To include group membership as part of the claims issued by Google during authentication, a group must be designated as a security group by including it as a direct member of this group. If unspecified, no groups will be returned for use with RBAC.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. The name of the RBAC security group for use with Google security groups in Kubernetes RBAC (https://kubernetes.io/docs/reference/access-authn-authz/rbac/). To include group membership as part of the claims issued by Google during authentication, a group must be designated as a security group by including it as a direct member of this group. If unspecified, no groups will be returned for use with RBAC.
     /// </summary>
     [CliOption("--security-group", Format = OptionFormat.EqualsSeparated)]
     public string? SecurityGroup { get; set; }
 
     /// <summary>
-    /// Sets the mode of the Kubernetes security posture API's off-cluster features. To enable advanced mode explicitly set the flag to --security-posture=enterprise. To enable in standard mode explicitly set the flag to --security-posture=standard To disable in an existing cluster, explicitly set the flag to --security-posture=disabled. For more information on enablement, see https://cloud.google.com/kubernetes-engine/docs/concepts/about-security-posture-dashboard#feature-enablement. SECURITY_POSTURE must be one of: disabled, standard, enterprise.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Sets the mode of the Kubernetes security posture API's off-cluster features. To enable advanced mode explicitly set the flag to --security-posture=enterprise. To enable in standard mode explicitly set the flag to --security-posture=standard To disable in an existing cluster, explicitly set the flag to --security-posture=disabled. For more information on enablement, see https://cloud.google.com/kubernetes-engine/docs/concepts/about-security-posture-dashboard#feature-enablement. SECURITY_POSTURE must be one of: disabled, standard, enterprise.
     /// </summary>
     [CliOption("--security-posture", Format = OptionFormat.EqualsSeparated)]
     public GcloudSecurityPosture? SecurityPosture { get; set; }
 
     /// <summary>
-    /// Set the IP range for the services IPs. Can be specified as a netmask size (e.g. '/20') or as in CIDR notion (e.g. '10.100.0.0/20'). If given as a netmask size, the IP range will be chosen automatically from the available space in the network. If unspecified, the services CIDR range will be chosen with a default mask size.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Set the IP range for the services IPs. Can be specified as a netmask size (e.g. '/20') or as in CIDR notion (e.g. '10.100.0.0/20'). If given as a netmask size, the IP range will be chosen automatically from the available space in the network. If unspecified, the services CIDR range will be chosen with a default mask size.
     /// </summary>
     [CliOption("--services-ipv4-cidr", Format = OptionFormat.EqualsSeparated)]
     public string? ServicesIpv4Cidr { get; set; }
 
     /// <summary>
-    /// Set the secondary range to be used for services (e.g. ClusterIPs). NAME must be the name of an existing secondary range in the cluster subnetwork. Cannot be used with '--create-subnetwork' option.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Set the secondary range to be used for services (e.g. ClusterIPs). NAME must be the name of an existing secondary range in the cluster subnetwork. Cannot be used with '--create-subnetwork' option.
     /// </summary>
     [CliOption("--services-secondary-range-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServicesSecondaryRangeName { get; set; }
 
     /// <summary>
-    /// The Google Compute Engine subnetwork (https://cloud.google.com/compute/docs/subnetworks) to which the cluster is connected. The subnetwork must belong to the network specified by --network. Cannot be used with the "--create-subnetwork" option.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. The Google Compute Engine subnetwork (https://cloud.google.com/compute/docs/subnetworks) to which the cluster is connected. The subnetwork must belong to the network specified by --network. Cannot be used with the "--create-subnetwork" option.
     /// </summary>
     [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
     public string? Subnetwork { get; set; }
 
     /// <summary>
-    /// (DEPRECATED) Set the desired tier for the cluster. The --tier flag is deprecated. More info: https://cloud.google.com/kubernetes-engine/docs/release-notes#September_02_2025. TIER must be one of: standard, enterprise.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. (DEPRECATED) Set the desired tier for the cluster. The --tier flag is deprecated. More info: https://cloud.google.com/kubernetes-engine/docs/release-notes#September_02_2025. TIER must be one of: standard, enterprise.
     /// </summary>
     [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
     public GcloudTier? Tier { get; set; }
 
     /// <summary>
-    /// Add Autopilot workload policies to the cluster. Examples: $ gcloud container clusters create-auto example-cluster \ --workload-policies=allow-net-admin The only supported workload policy is 'allow-net-admin'.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Add Autopilot workload policies to the cluster. Examples: $ gcloud container clusters create-auto example-cluster \ --workload-policies=allow-net-admin The only supported workload policy is 'allow-net-admin'.
     /// </summary>
     [CliOption("--workload-policies", Format = OptionFormat.EqualsSeparated)]
     public string? WorkloadPolicies { get; set; }
 
     /// <summary>
-    /// Sets the mode of the Kubernetes security posture API's workload vulnerability scanning. To enable Advanced vulnerability insights mode explicitly set the flag to --workload-vulnerability-scanning=enterprise. To enable in standard mode explicitly set the flag to --workload-vulnerability-scanning=standard. To disable in an existing cluster, explicitly set the flag to --workload-vulnerability-scanning=disabled. For more information on enablement, see https://cloud.google.com/kubernetes-engine/docs/concepts/about-security-posture-dashboard#feature-enablement. WORKLOAD_VULNERABILITY_SCANNING must be one of: disabled, standard, enterprise.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Sets the mode of the Kubernetes security posture API's workload vulnerability scanning. To enable Advanced vulnerability insights mode explicitly set the flag to --workload-vulnerability-scanning=enterprise. To enable in standard mode explicitly set the flag to --workload-vulnerability-scanning=standard. To disable in an existing cluster, explicitly set the flag to --workload-vulnerability-scanning=disabled. For more information on enablement, see https://cloud.google.com/kubernetes-engine/docs/concepts/about-security-posture-dashboard#feature-enablement. WORKLOAD_VULNERABILITY_SCANNING must be one of: disabled, standard, enterprise.
     /// </summary>
     [CliOption("--workload-vulnerability-scanning", Format = OptionFormat.EqualsSeparated)]
     public GcloudWorkloadVulnerabilityScanning? WorkloadVulnerabilityScanning { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: The domain used in Additive VPC scope. Only works with Cluster Scope.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. At most one of these can be specified: The domain used in Additive VPC scope. Only works with Cluster Scope.
     /// </summary>
     [CliOption("--additive-vpc-scope-dns-domain", Format = OptionFormat.EqualsSeparated)]
     public string? AdditiveVpcScopeDnsDomain { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Disables Additive VPC Scope.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. At most one of these can be specified: Disables Additive VPC Scope.
     /// </summary>
     [CliFlag("--disable-additive-vpc-scope")]
     public bool? DisableAdditiveVpcScope { get; set; }
 
     /// <summary>
-    /// Control Plane Keys The Certificate Authority Service caPool that will back the aggregation CA
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. The Certificate Authority Service caPool that will back the aggregation CA
     /// </summary>
     [CliOption("--aggregation-ca", Format = OptionFormat.EqualsSeparated)]
     public string? AggregationCa { get; set; }
 
     /// <summary>
-    /// Control Plane Keys The Certificate Authority Service caPool that will back the cluster CA
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. The Certificate Authority Service caPool that will back the cluster CA
     /// </summary>
     [CliOption("--cluster-ca", Format = OptionFormat.EqualsSeparated)]
     public string? ClusterCa { get; set; }
 
     /// <summary>
-    /// Control Plane Keys The Cloud KMS symmetric encryption cryptoKey that will be used to encrypt the control plane disks
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. The Cloud KMS symmetric encryption cryptoKey that will be used to encrypt the control plane disks
     /// </summary>
     [CliOption("--control-plane-disk-encryption-key", Format = OptionFormat.EqualsSeparated)]
     public string? ControlPlaneDiskEncryptionKey { get; set; }
 
     /// <summary>
-    /// Control Plane Keys The Certificate Authority Service caPool that will back the etcd API CA
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. The Certificate Authority Service caPool that will back the etcd API CA
     /// </summary>
     [CliOption("--etcd-api-ca", Format = OptionFormat.EqualsSeparated)]
     public string? EtcdApiCa { get; set; }
 
     /// <summary>
-    /// Control Plane Keys The Certificate Authority Service caPool that will back the etcd peer CA
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. The Certificate Authority Service caPool that will back the etcd peer CA
     /// </summary>
     [CliOption("--etcd-peer-ca", Format = OptionFormat.EqualsSeparated)]
     public string? EtcdPeerCa { get; set; }
 
     /// <summary>
-    /// Control Plane Keys The Cloud KMS symmetric encryption cryptoKey that will be used to encrypt the disaster recovery etcd backups for the cluster
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. The Cloud KMS symmetric encryption cryptoKey that will be used to encrypt the disaster recovery etcd backups for the cluster
     /// </summary>
     [CliOption("--gkeops-etcd-backup-encryption-key", Format = OptionFormat.EqualsSeparated)]
     public string? GkeopsEtcdBackupEncryptionKey { get; set; }
 
     /// <summary>
-    /// Control Plane Keys A Cloud KMS asymmetric signing cryptoKeyVersion that will be used to sign service account tokens
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. A Cloud KMS asymmetric signing cryptoKeyVersion that will be used to sign service account tokens
     /// </summary>
     [CliOption("--service-account-signing-keys", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ServiceAccountSigningKeys { get; set; }
 
     /// <summary>
-    /// Control Plane Keys A Cloud KMS asymmetric signing cryptoKeyVersion that will be used to verify service account tokens. Maybe specified multiple times.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. A Cloud KMS asymmetric signing cryptoKeyVersion that will be used to verify service account tokens. Maybe specified multiple times.
     /// </summary>
     [CliOption("--service-account-verification-keys", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ServiceAccountVerificationKeys { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: (REMOVED) Select Advanced Datapath Observability mode for the cluster. Defaults to DISABLED. Advanced Datapath Observability allows for a real-time view into pod-to-pod traffic within your cluster. Examples: $ gcloud container clusters create-auto \ --dataplane-v2-observability-mode=DISABLED $ gcloud container clusters create-auto \ --dataplane-v2-observability-mode=INTERNAL_VPC_LB $ gcloud container clusters create-auto \ --dataplane-v2-observability-mode=EXTERNAL_LB Flag --dataplane-v2-observability-mode has been removed. DATAPLANE_V2_OBSERVABILITY_MODE must be one of: DISABLED Disables Advanced Datapath Observability. EXTERNAL_LB Makes Advanced Datapath Observability available to the external network. INTERNAL_VPC_LB Makes Advanced Datapath Observability available from the VPC network.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. At most one of these can be specified: (REMOVED) Select Advanced Datapath Observability mode for the cluster. Defaults to DISABLED. Advanced Datapath Observability allows for a real-time view into pod-to-pod traffic within your cluster. Examples: $ gcloud container clusters create-auto \ --dataplane-v2-observability-mode=DISABLED $ gcloud container clusters create-auto \ --dataplane-v2-observability-mode=INTERNAL_VPC_LB $ gcloud container clusters create-auto \ --dataplane-v2-observability-mode=EXTERNAL_LB Flag --dataplane-v2-observability-mode has been removed. DATAPLANE_V2_OBSERVABILITY_MODE must be one of: DISABLED Disables Advanced Datapath Observability. EXTERNAL_LB Makes Advanced Datapath Observability available to the external network. INTERNAL_VPC_LB Makes Advanced Datapath Observability available from the VPC network.
     /// </summary>
     [CliOption("--dataplane-v2-observability-mode", Format = OptionFormat.EqualsSeparated)]
     public string? DataplaneV2ObservabilityMode { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Disables Advanced Datapath Observability.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. At most one of these can be specified: Disables Advanced Datapath Observability.
     /// </summary>
     [CliFlag("--disable-dataplane-v2-flow-observability")]
     public bool? DisableDataplaneV2FlowObservability { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Enables Advanced Datapath Observability which allows for a real-time view into pod-to-pod traffic within your cluster.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. At most one of these can be specified: Enables Advanced Datapath Observability which allows for a real-time view into pod-to-pod traffic within your cluster.
     /// </summary>
     [CliFlag("--enable-dataplane-v2-flow-observability")]
     public bool? EnableDataplaneV2FlowObservability { get; set; }
 
     /// <summary>
-    /// Allow using system:authenticated as a subject in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:authenticated is a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-authenticated flag instead.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. At most one of these can be specified: Disable the Pod Snapshot feature on the cluster.
+    /// </summary>
+    [CliFlag("--disable-pod-snapshots")]
+    public bool? DisablePodSnapshots { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. At most one of these can be specified: Enable the Pod Snapshot feature on the cluster.
+    /// </summary>
+    [CliFlag("--enable-pod-snapshots")]
+    public bool? EnablePodSnapshots { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Allow using system:authenticated as a subject in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:authenticated is a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-authenticated flag instead.
     /// </summary>
     [CliFlag("--enable-insecure-binding-system-authenticated")]
     public bool? EnableInsecureBindingSystemAuthenticated { get; set; }
 
     /// <summary>
-    /// Negates --enable-insecure-binding-system-authenticated. Allow using system:authenticated as a subject in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:authenticated is a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-authenticated flag instead.
+    /// Negates --enable-insecure-binding-system-authenticated. Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Allow using system:authenticated as a subject in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:authenticated is a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-authenticated flag instead.
     /// </summary>
     [CliFlag("--no-enable-insecure-binding-system-authenticated")]
     public bool? NoEnableInsecureBindingSystemAuthenticated { get; set; }
 
     /// <summary>
-    /// Allow using system:unauthenticated and system:anonymous as subjects in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:unauthenticated and system:anonymous are a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-unauthenticated flag instead.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Allow using system:unauthenticated and system:anonymous as subjects in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:unauthenticated and system:anonymous are a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-unauthenticated flag instead.
     /// </summary>
     [CliFlag("--enable-insecure-binding-system-unauthenticated")]
     public bool? EnableInsecureBindingSystemUnauthenticated { get; set; }
 
     /// <summary>
-    /// Negates --enable-insecure-binding-system-unauthenticated. Allow using system:unauthenticated and system:anonymous as subjects in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:unauthenticated and system:anonymous are a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-unauthenticated flag instead.
+    /// Negates --enable-insecure-binding-system-unauthenticated. Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Allow using system:unauthenticated and system:anonymous as subjects in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:unauthenticated and system:anonymous are a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-unauthenticated flag instead.
     /// </summary>
     [CliFlag("--no-enable-insecure-binding-system-unauthenticated")]
     public bool? NoEnableInsecureBindingSystemUnauthenticated { get; set; }
 
     /// <summary>
-    /// Master Authorized Networks Allow only specified set of CIDR blocks (specified by the --master-authorized-networks flag) to connect to Kubernetes master through HTTPS. Besides these blocks, the following have access as well: 1) The private network the cluster connects to if `--enable-private-nodes` is specified. 2) Google Compute Engine Public IPs if `--enable-private-nodes` is not specified. Use --no-enable-master-authorized-networks to disable. When disabled, public internet (0.0.0.0/0) is allowed to connect to Kubernetes master through HTTPS.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Allow only specified set of CIDR blocks (specified by the --master-authorized-networks flag) to connect to Kubernetes master through HTTPS. Besides these blocks, the following have access as well: 1) The private network the cluster connects to if `--enable-private-nodes` is specified. 2) Google Compute Engine Public IPs if `--enable-private-nodes` is not specified. Use --no-enable-master-authorized-networks to disable. When disabled, public internet (0.0.0.0/0) is allowed to connect to Kubernetes master through HTTPS.
     /// </summary>
     [CliFlag("--enable-master-authorized-networks")]
     public bool? EnableMasterAuthorizedNetworks { get; set; }
 
     /// <summary>
-    /// Negates --enable-master-authorized-networks. Master Authorized Networks Allow only specified set of CIDR blocks (specified by the --master-authorized-networks flag) to connect to Kubernetes master through HTTPS. Besides these blocks, the following have access as well: 1) The private network the cluster connects to if `--enable-private-nodes` is specified. 2) Google Compute Engine Public IPs if `--enable-private-nodes` is not specified. Use --no-enable-master-authorized-networks to disable. When disabled, public internet (0.0.0.0/0) is allowed to connect to Kubernetes master through HTTPS.
+    /// Negates --enable-master-authorized-networks. Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Allow only specified set of CIDR blocks (specified by the --master-authorized-networks flag) to connect to Kubernetes master through HTTPS. Besides these blocks, the following have access as well: 1) The private network the cluster connects to if `--enable-private-nodes` is specified. 2) Google Compute Engine Public IPs if `--enable-private-nodes` is not specified. Use --no-enable-master-authorized-networks to disable. When disabled, public internet (0.0.0.0/0) is allowed to connect to Kubernetes master through HTTPS.
     /// </summary>
     [CliFlag("--no-enable-master-authorized-networks")]
     public bool? NoEnableMasterAuthorizedNetworks { get; set; }
 
     /// <summary>
-    /// Master Authorized Networks The list of CIDR blocks (up to 100 for private cluster, 50 for public cluster) that are allowed to connect to Kubernetes master through HTTPS. Specified in CIDR notation (e.g. 1.2.3.4/30). Cannot be specified unless --enable-master-authorized-networks is also specified.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. The list of CIDR blocks (up to 100 for private cluster, 50 for public cluster) that are allowed to connect to Kubernetes master through HTTPS. Specified in CIDR notation (e.g. 1.2.3.4/30). Cannot be specified unless --enable-master-authorized-networks is also specified.
     /// </summary>
     [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MasterAuthorizedNetworks { get; set; }
 
     /// <summary>
-    /// Private Clusters Cluster is managed using the private IP address of the master API endpoint.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Cluster is managed using the private IP address of the master API endpoint.
     /// </summary>
     [CliFlag("--enable-private-endpoint")]
     public bool? EnablePrivateEndpoint { get; set; }
 
     /// <summary>
-    /// Private Clusters Cluster is created with no public IP addresses on the cluster nodes.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Cluster is created with no public IP addresses on the cluster nodes.
     /// </summary>
     [CliFlag("--enable-private-nodes")]
     public bool? EnablePrivateNodes { get; set; }
 
     /// <summary>
-    /// Private Clusters IPv4 CIDR range to use for the master network. This should have a netmask of size /28 and should be used in conjunction with the --enable-private-nodes flag.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. IPv4 CIDR range to use for the master network. This should have a netmask of size /28 and should be used in conjunction with the --enable-private-nodes flag.
     /// </summary>
     [CliOption("--master-ipv4-cidr", Format = OptionFormat.EqualsSeparated)]
     public string? MasterIpv4Cidr { get; set; }
 
     /// <summary>
-    /// Flags for Secret Manager configuration: Enables the Secret Manager CSI driver provider component. See https://secrets-store-csi-driver.sigs.k8s.io/introduction https://github.com/GoogleCloudPlatform/secrets-store-csi-driver-provider-gcp
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enables the Secret Manager CSI driver provider component. See https://secrets-store-csi-driver.sigs.k8s.io/introduction https://github.com/GoogleCloudPlatform/secrets-store-csi-driver-provider-gcp
     /// </summary>
     [CliFlag("--enable-secret-manager")]
     public bool? EnableSecretManager { get; set; }
 
     /// <summary>
-    /// Flags for Secret Manager configuration: Enables the rotation of secrets in the Secret Manager CSI driver provider component.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enables the rotation of secrets in the Secret Manager CSI driver provider component.
     /// </summary>
     [CliFlag("--enable-secret-manager-rotation")]
     public bool? EnableSecretManagerRotation { get; set; }
 
     /// <summary>
-    /// Flags for Secret Manager configuration: Set the rotation period for secrets in the Secret Manager CSI driver provider component. If you don't specify a time interval for the rotation, it will default to a rotation period of two minutes.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Set the rotation period for secrets in the Secret Manager CSI driver provider component. If you don't specify a time interval for the rotation, it will default to a rotation period of two minutes.
     /// </summary>
     [SecretValue]
     [CliOption("--secret-manager-rotation-interval", Format = OptionFormat.EqualsSeparated)]
     public string? SecretManagerRotationInterval { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Compute zone or region (e.g. us-central1-a or us-central1) for the cluster. Overrides the default compute/region or compute/zone value for this command invocation. Prefer using this flag over the --region or --zone flags.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enables the Secret Sync component. For details, see Synchronize secrets to Kubernetes Secrets (https://docs.cloud.google.com/secret-manager/docs/sync-k8-secrets).
+    /// </summary>
+    [CliFlag("--enable-secret-sync")]
+    public bool? EnableSecretSync { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Enables the rotation of secrets in the Secret Sync component.
+    /// </summary>
+    [CliFlag("--enable-secret-sync-rotation")]
+    public bool? EnableSecretSyncRotation { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Set the rotation period for secrets in the Secret Sync component.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secret-sync-rotation-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? SecretSyncRotationInterval { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. At most one of these can be specified: Compute zone or region (e.g. us-central1-a or us-central1) for the cluster. Overrides the default compute/region or compute/zone value for this command invocation. Prefer using this flag over the --region or --zone flags.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Compute region (e.g. us-central1) for a regional cluster. Overrides the default compute/region property value for this command invocation.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. At most one of these can be specified: Compute region (e.g. us-central1) for a regional cluster. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the default compute/zone property value for this command invocation.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. At most one of these can be specified: Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the default compute/zone property value for this command invocation.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
 
     /// <summary>
-    /// Options to specify the node identity. Scopes options. Specifies scopes for the node instances. Examples: $ gcloud container clusters create-auto example-cluster \ --scopes=https://www.googleapis.com/auth/devstorage.read_only $ gcloud container clusters create-auto example-cluster \ --scopes=bigquery,storage-rw,compute-ro Multiple scopes can be specified, separated by commas. Various scopes are automatically added based on feature usage. Such scopes are not added if an equivalent scope already exists. - monitoring-write: always added to ensure metrics can be written - logging-write: added if Cloud Logging is enabled (--enable-cloud-logging/--logging) - monitoring: added if Cloud Monitoring is enabled (--enable-cloud-monitoring/--monitoring) - gke-default: added for Autopilot clusters that use the default service account - cloud-platform: added for Autopilot clusters that use any other service account SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Set the minimum interval of time between minor version cluster upgrades.
+    /// </summary>
+    [CliOption("--maintenance-minor-version-disruption-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceMinorVersionDisruptionInterval { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Set the minimum interval of time between patch version cluster upgrades.
+    /// </summary>
+    [CliOption("--maintenance-patch-version-disruption-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenancePatchVersionDisruptionInterval { get; set; }
+
+    /// <summary>
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. Specifies scopes for the node instances. Examples: $ gcloud container clusters create-auto example-cluster \ --scopes=https://www.googleapis.com/auth/devstorage.read_only $ gcloud container clusters create-auto example-cluster \ --scopes=bigquery,storage-rw,compute-ro Multiple scopes can be specified, separated by commas. Various scopes are automatically added based on feature usage. Such scopes are not added if an equivalent scope already exists. ◆ monitoring-write: always added to ensure metrics can be written ◆ logging-write: added if Cloud Logging is enabled (--enable-cloud-logging/--logging) ◆ monitoring: added if Cloud Monitoring is enabled (--enable-cloud-monitoring/--monitoring) ◆ gke-default: added for Autopilot clusters that use the default service account ◆ cloud-platform: added for Autopilot clusters that use any other service account SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances.
     /// </summary>
     [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>
-    /// The Google Cloud Platform Service Account to be used by the node VMs. If a service account is specified, the cloud-platform and userinfo.email scopes are used. If no Service Account is specified, the project default service account is used.
+    /// Flags for Binary Authorization: Control Plane Keys Master Authorized Networks Private Clusters Flags for Secret Manager configuration: Flags for Secret Sync configuration: Flags for cluster disruption budget configuration: Options to specify the node identity. Scopes options. The Google Cloud Platform Service Account to be used by the node VMs. If a service account is specified, the cloud-platform and userinfo.email scopes are used. If no Service Account is specified, the project default service account is used.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public string? ServiceAccountValue { get; set; }
-
-    [Obsolete("Use ServiceAccountValue instead.")]
-    public int? ServiceAccount
-    {
-        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("AutopilotGeneralProfile is no longer supported by the installed CLI and has no effect.")]
-    public string? AutopilotGeneralProfile { get; set; }
-
-    [Obsolete("AutopilotPrivilegedAdmission is no longer supported by the installed CLI and has no effect.")]
-    public IEnumerable<string>? AutopilotPrivilegedAdmission { get; set; }
-
-    [Obsolete("ConfidentialNodeType is no longer supported by the installed CLI and has no effect.")]
-    public GcloudConfidentialNodeType? ConfidentialNodeType { get; set; }
-
-    [Obsolete("ControlPlaneEgress is no longer supported by the installed CLI and has no effect.")]
-    public string? ControlPlaneEgress { get; set; }
-
-    [Obsolete("DisableMultiNicLustre is no longer supported by the installed CLI and has no effect.")]
-    public bool? DisableMultiNicLustre { get; set; }
-
-    [Obsolete("EnableAgentSandbox is no longer supported by the installed CLI and has no effect.")]
-    public bool? EnableAgentSandbox { get; set; }
-
-    [Obsolete("NoEnableAgentSandbox is no longer supported by the installed CLI and has no effect.")]
-    public bool? NoEnableAgentSandbox { get; set; }
-
-    [Obsolete("Image is no longer supported by the installed CLI and has no effect.")]
-    public string? Image { get; set; }
-
-    [Obsolete("ImageProject is no longer supported by the installed CLI and has no effect.")]
-    public string? ImageProject { get; set; }
-
-    [Obsolete("ImageType is no longer supported by the installed CLI and has no effect.")]
-    public string? ImageType { get; set; }
-
-    [Obsolete("ManagedOtelScope is no longer supported by the installed CLI and has no effect.")]
-    public string? ManagedOtelScope { get; set; }
-
-    [Obsolete("NodeCreationMode is no longer supported by the installed CLI and has no effect.")]
-    public string? NodeCreationMode { get; set; }
-
-    [Obsolete("DisablePodSnapshots is no longer supported by the installed CLI and has no effect.")]
-    public bool? DisablePodSnapshots { get; set; }
-
-    [Obsolete("EnablePodSnapshots is no longer supported by the installed CLI and has no effect.")]
-    public bool? EnablePodSnapshots { get; set; }
-
-    [Obsolete("EnableSecretSync is no longer supported by the installed CLI and has no effect.")]
-    public bool? EnableSecretSync { get; set; }
-
-    [Obsolete("EnableSecretSyncRotation is no longer supported by the installed CLI and has no effect.")]
-    public bool? EnableSecretSyncRotation { get; set; }
-
-    [Obsolete("SecretSyncRotationInterval is no longer supported by the installed CLI and has no effect.")]
-    public string? SecretSyncRotationInterval { get; set; }
-
-    [Obsolete("MaintenanceMinorVersionDisruptionInterval is no longer supported by the installed CLI and has no effect.")]
-    public string? MaintenanceMinorVersionDisruptionInterval { get; set; }
-
-    [Obsolete("MaintenancePatchVersionDisruptionInterval is no longer supported by the installed CLI and has no effect.")]
-    public string? MaintenancePatchVersionDisruptionInterval { get; set; }
+    public string? ServiceAccount { get; set; }
 
 }

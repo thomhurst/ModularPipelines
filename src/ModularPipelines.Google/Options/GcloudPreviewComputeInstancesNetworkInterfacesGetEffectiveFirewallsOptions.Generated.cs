@@ -24,6 +24,12 @@ public record GcloudPreviewComputeInstancesNetworkInterfacesGetEffectiveFirewall
 ) : GcloudOptions
 {
     /// <summary>
+    /// The name of the network interface to get the effective firewalls for.
+    /// </summary>
+    [CliOption("--network-interface", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkInterface { get; set; }
+
+    /// <summary>
     /// (DEPRECATED) Regular expression to filter the names of the results on. Any names that do not match the entire regular expression will be filtered out. Flag --regexp is deprecated. Use --filter="name~'REGEXP'" instead.
     /// </summary>
     [CliOption("--regexp", Format = OptionFormat.EqualsSeparated)]
@@ -34,11 +40,5 @@ public record GcloudPreviewComputeInstancesNetworkInterfacesGetEffectiveFirewall
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
-
-    /// <summary>
-    /// The name of the network interface to get the effective firewalls for.
-    /// </summary>
-    [CliOption("--network-interface", Format = OptionFormat.EqualsSeparated)]
-    public string? NetworkInterface { get; set; }
 
 }

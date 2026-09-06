@@ -51,7 +51,4 @@ public record GcloudStorageRmOptions : GcloudOptions
     [CliFlag("--read-paths-from-stdin")]
     public bool? ReadPathsFromStdin { get; set; }
 
-    [Obsolete("Recursive is no longer supported by the installed CLI and has no effect.")]
-    public bool? Recursive { get; set; }
-
 }

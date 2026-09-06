@@ -53,49 +53,49 @@ public record GcloudStorageInsightsInventoryReportsUpdateOptions : GcloudOptions
     public string? ScheduleStarts { get; set; }
 
     /// <summary>
-    /// The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated.
+    /// At most one of these can be specified: The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated.
     /// </summary>
     [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MetadataFields { get; set; }
 
     /// <summary>
-    /// Adds fields to the metadata_fields list. METADATA_FIELDS must be one of: location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated.
+    /// At most one of these can be specified: Or at least one of these can be specified: Add and Remove flags for metadata fields Adds fields to the metadata_fields list. METADATA_FIELDS must be one of: location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated.
     /// </summary>
     [CliOption("--add-metadata-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddMetadataFields { get; set; }
 
     /// <summary>
-    /// Removes fields from the metadata_fields list. METADATA_FIELDS must be one of: location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated.
+    /// At most one of these can be specified: Or at least one of these can be specified: Add and Remove flags for metadata fields Removes fields from the metadata_fields list. METADATA_FIELDS must be one of: location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated.
     /// </summary>
     [CliOption("--remove-metadata-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveMetadataFields { get; set; }
 
     /// <summary>
-    /// Generate reports in parquet format.
+    /// Report format configuration. Any combination of CSV flags is valid as long as the Parquet flag is not present. At most one of these can be specified: Generate reports in parquet format.
     /// </summary>
     [CliFlag("--parquet")]
     public bool? Parquet { get; set; }
 
     /// <summary>
-    /// Sets the delimiter that separates the fields in the inventory report CSV file. For example, ``,``
+    /// Report format configuration. Any combination of CSV flags is valid as long as the Parquet flag is not present. At most one of these can be specified: Or at least one of these can be specified: Flags for setting CSV format options. Sets the delimiter that separates the fields in the inventory report CSV file. For example, ``,``
     /// </summary>
     [CliOption("--csv-delimiter", Format = OptionFormat.EqualsSeparated)]
     public string? CsvDelimiter { get; set; }
 
     /// <summary>
-    /// Indicates whether or not headers are included in the inventory report CSV file. Default is None. Use --csv-header to enable and --no-csv-header to disable.
+    /// Report format configuration. Any combination of CSV flags is valid as long as the Parquet flag is not present. At most one of these can be specified: Or at least one of these can be specified: Flags for setting CSV format options. Indicates whether or not headers are included in the inventory report CSV file. Default is None. Use --csv-header to enable and --no-csv-header to disable.
     /// </summary>
     [CliFlag("--csv-header")]
     public bool? CsvHeader { get; set; }
 
     /// <summary>
-    /// Indicates whether or not headers are included in the inventory report CSV file. Default is None. Use --csv-header to enable and --no-csv-header to disable.
+    /// Negates --csv-header. Report format configuration. Any combination of CSV flags is valid as long as the Parquet flag is not present. At most one of these can be specified: Or at least one of these can be specified: Flags for setting CSV format options. Indicates whether or not headers are included in the inventory report CSV file. Default is None. Use --csv-header to enable and --no-csv-header to disable.
     /// </summary>
     [CliFlag("--no-csv-header")]
     public bool? NoCsvHeader { get; set; }
 
     /// <summary>
-    /// Sets the character used to separate the records in the inventory report CSV file. For example, ``\n``. SEPARATOR must be one of: \n, \r\n.
+    /// Report format configuration. Any combination of CSV flags is valid as long as the Parquet flag is not present. At most one of these can be specified: Or at least one of these can be specified: Flags for setting CSV format options. Sets the character used to separate the records in the inventory report CSV file. For example, ``\n``. SEPARATOR must be one of: \n, \r\n.
     /// </summary>
     [CliOption("--csv-separator", Format = OptionFormat.EqualsSeparated)]
     public string? CsvSeparator { get; set; }

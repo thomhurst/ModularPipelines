@@ -26,10 +26,22 @@ public record GcloudStorageSignUrlOptions(
 ) : GcloudOptions
 {
     /// <summary>
+    /// Specifies the duration that the signed url should be valid for, default duration is 1 hour. For example 10s for 10 seconds. See $ gcloud topic datetimes for information on duration formats. The max duration allowed is 12 hours. This limitation exists because the system-managed key used to sign the URL may not remain valid after 12 hours. Alternatively, the max duration allowed is 7 days when signing with either the --private-key-file flag or an account that authorized with gcloud auth activate-service-account.
+    /// </summary>
+    [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
+    public string? Duration { get; set; }
+
+    /// <summary>
     /// Specifies the headers to be used in the signed request. Possible headers are listed in the XML API's documentation: https://cloud.google.com/storage/docs/xml-api/reference-headers#headers
     /// </summary>
     [CliOption("--headers", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Headers { get; set; }
+
+    /// <summary>
+    /// Specifies the HTTP verb to be authorized for use with the signed URL, default is GET. When using a signed URL to start a resumable upload session, you will need to specify the x-goog-resumable:start header in the request or else signature validation will fail.
+    /// </summary>
+    [CliOption("--http-verb", Format = OptionFormat.EqualsSeparated)]
+    public string? HttpVerb { get; set; }
 
     /// <summary>
     /// Generate path-style signed URL. By default, virtual hosted-style signed URL is generated, except for domain-named buckets (https://cloud.google.com/storage/docs/domain-name-verification). Use this flag to force the generation of path-style signed URL. Signed URL generated for domain-named buckets is always path-style. Learn more about the two URL styles here (https://cloud.google.com/storage/docs/request-endpoints#xml-api).
@@ -61,17 +73,5 @@ public record GcloudStorageSignUrlOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
-
-    /// <summary>
-    /// Specifies the duration that the signed url should be valid for, default duration is 1 hour. For example 10s for 10 seconds. See $ gcloud topic datetimes for information on duration formats. The max duration allowed is 12 hours. This limitation exists because the system-managed key used to sign the URL may not remain valid after 12 hours. Alternatively, the max duration allowed is 7 days when signing with either the --private-key-file flag or an account that authorized with gcloud auth activate-service-account.
-    /// </summary>
-    [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
-    public string? Duration { get; set; }
-
-    /// <summary>
-    /// Specifies the HTTP verb to be authorized for use with the signed URL, default is GET. When using a signed URL to start a resumable upload session, you will need to specify the x-goog-resumable:start header in the request or else signature validation will fail.
-    /// </summary>
-    [CliOption("--http-verb", Format = OptionFormat.EqualsSeparated)]
-    public string? HttpVerb { get; set; }
 
 }

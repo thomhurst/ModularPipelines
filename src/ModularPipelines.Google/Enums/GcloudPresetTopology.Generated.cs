@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudPresetTopology
 {
     [EnumValue("hybrid-inspection")]
-    HybridInspection = 0,
+    HybridInspection,
 
     [EnumValue("mesh")]
-    Mesh = 1,
+    Mesh,
 
     [EnumValue("star")]
-    Star = 2
+    Star
 }

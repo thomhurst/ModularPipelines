@@ -30,6 +30,12 @@ public record GcloudPreviewComputeStartIapTunnelOptions(
     public bool? IapTunnelDisableConnectionCheck { get; set; }
 
     /// <summary>
+    /// LOCAL_HOST:LOCAL_PORT on which gcloud should bind and listen for connections that should be tunneled. LOCAL_PORT may be omitted, in which case it is treated as 0 and an arbitrary unused local port is chosen. The colon also may be omitted in that case. If LOCAL_PORT is 0, an arbitrary unused local port is chosen.
+    /// </summary>
+    [CliOption("--local-host-port", Format = OptionFormat.EqualsSeparated)]
+    public string? LocalHostPort { get; set; }
+
+    /// <summary>
     /// Zone of the instance to operate on. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
@@ -52,11 +58,5 @@ public record GcloudPreviewComputeStartIapTunnelOptions(
     /// </summary>
     [CliOption("--dest-group", Format = OptionFormat.EqualsSeparated)]
     public string? DestGroup { get; set; }
-
-    /// <summary>
-    /// LOCAL_HOST:LOCAL_PORT on which gcloud should bind and listen for connections that should be tunneled. LOCAL_PORT may be omitted, in which case it is treated as 0 and an arbitrary unused local port is chosen. The colon also may be omitted in that case. If LOCAL_PORT is 0, an arbitrary unused local port is chosen.
-    /// </summary>
-    [CliOption("--local-host-port", Format = OptionFormat.EqualsSeparated)]
-    public string? LocalHostPort { get; set; }
 
 }

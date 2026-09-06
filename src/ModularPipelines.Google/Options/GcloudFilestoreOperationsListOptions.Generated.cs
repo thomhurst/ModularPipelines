@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudFilestoreOperationsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Zone resource - The location in which to list operations. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --zone on the command line with a fully specified name; ◆ uses all locations by default. with a fully specified name; ◆ provide the argument region on the command line with a fully specified name; ◆ provide the argument location on the command line with a fully specified name; ◆ set the property filestore/zone with a fully specified name; ◆ set the property filestore/region with a fully specified name; ◆ set the property filestore/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Location of the Cloud Filestore instance/operation.
+    /// Location of the Cloud Filestore instance/operation.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }

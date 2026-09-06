@@ -35,6 +35,12 @@ public record GcloudEdgeCloudContainerClustersCreateOptions : GcloudOptions
     public bool? Async { get; set; }
 
     /// <summary>
+    /// All pods in the cluster are assigned an RFC1918 IPv4 address from this block. This field cannot be changed after creation.
+    /// </summary>
+    [CliOption("--cluster-ipv4-cidr", Format = OptionFormat.EqualsSeparated)]
+    public string? ClusterIpv4Cidr { get; set; }
+
+    /// <summary>
     /// Name of the default runtime class for containers. It supports two values RUNC and GVISOR.
     /// </summary>
     [CliOption("--container-default-runtime-class", Format = OptionFormat.EqualsSeparated)]
@@ -69,6 +75,12 @@ public record GcloudEdgeCloudContainerClustersCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--control-plane-node-storage-schema", Format = OptionFormat.EqualsSeparated)]
     public string? ControlPlaneNodeStorageSchema { get; set; }
+
+    /// <summary>
+    /// Specifies the system partition size in GiB for the control plane nodes. This parameter is optional. Valid values are 100 and 300 to set the system partition size to 100GiB and 300GiB, respectively. If this parameter is not specified, the system partition is created using the default size specified in the system storage schema applicable to the control plane nodes. CONTROL_PLANE_NODE_SYSTEM_PARTITION_SIZE_GIB must be one of: 100, 300.
+    /// </summary>
+    [CliOption("--control-plane-node-system-partition-size-gib", Format = OptionFormat.EqualsSeparated)]
+    public int? ControlPlaneNodeSystemPartitionSizeGib { get; set; }
 
     /// <summary>
     /// Policy configuration about how user application is deployed for local control plane cluster. It supports two values, ALLOWED and DISALLOWED. ALLOWED means that user application can be deployed on control plane nodes. DISALLOWED means that user application can not be deployed on control plane nodes. Instead, it can only be deployed on worker nodes. By default, this value is DISALLOWED. The input is case insensitive.
@@ -137,6 +149,18 @@ public record GcloudEdgeCloudContainerClustersCreateOptions : GcloudOptions
     public string? OfflineRebootTtl { get; set; }
 
     /// <summary>
+    /// Release channel a cluster is subscribed to. It supports two values, NONE and REGULAR. NONE is used to opt out of any release channel. Clusters subscribed to the REGULAR channel will be automatically upgraded to versions that are considered GA quality, and cannot be manually upgraded. Additionally, if the REGULAR channel is used, a specific target version cannot be set with the 'version' flag. If left unspecified, the release channel will default to REGULAR.
+    /// </summary>
+    [CliOption("--release-channel", Format = OptionFormat.EqualsSeparated)]
+    public string? ReleaseChannel { get; set; }
+
+    /// <summary>
+    /// All services in the cluster are assigned an RFC1918 IPv4 address from this block. This field cannot be changed after creation.
+    /// </summary>
+    [CliOption("--services-ipv4-cidr", Format = OptionFormat.EqualsSeparated)]
+    public string? ServicesIpv4Cidr { get; set; }
+
+    /// <summary>
     /// If specified as a YAML/JSON file, customized configuration in this file will be applied to the system add-ons. For example, { "systemAddonsConfig": { "ingress": { "disabled": true, "ipv4_vip": "10.0.0.1" } } }
     /// </summary>
     [CliOption("--system-addons-config", Format = OptionFormat.EqualsSeparated)]
@@ -153,23 +177,5 @@ public record GcloudEdgeCloudContainerClustersCreateOptions : GcloudOptions
     /// </summary>
     [CliOption("--zone-storage-kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? ZoneStorageKmsKey { get; set; }
-
-    /// <summary>
-    /// All pods in the cluster are assigned an RFC1918 IPv4 address from this block. This field cannot be changed after creation.
-    /// </summary>
-    [CliOption("--cluster-ipv4-cidr", Format = OptionFormat.EqualsSeparated)]
-    public string? ClusterIpv4Cidr { get; set; }
-
-    /// <summary>
-    /// Release channel a cluster is subscribed to. It supports two values, NONE and REGULAR. NONE is used to opt out of any release channel. Clusters subscribed to the REGULAR channel will be automatically upgraded to versions that are considered GA quality, and cannot be manually upgraded. Additionally, if the REGULAR channel is used, a specific target version cannot be set with the 'version' flag. If left unspecified, the release channel will default to REGULAR.
-    /// </summary>
-    [CliOption("--release-channel", Format = OptionFormat.EqualsSeparated)]
-    public string? ReleaseChannel { get; set; }
-
-    /// <summary>
-    /// All services in the cluster are assigned an RFC1918 IPv4 address from this block. This field cannot be changed after creation.
-    /// </summary>
-    [CliOption("--services-ipv4-cidr", Format = OptionFormat.EqualsSeparated)]
-    public string? ServicesIpv4Cidr { get; set; }
 
 }

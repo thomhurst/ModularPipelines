@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSecretsVersionsEnableOptions : GcloudOptions
 {
     /// <summary>
-    /// Location resource - The location to enable. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Current entity tag (ETag) of the secret version. If specified, the version is enabled only if the ETag provided matches the current version's ETag.
+    /// Current entity tag (ETag) of the secret version. If specified, the version is enabled only if the ETag provided matches the current version's ETag.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }

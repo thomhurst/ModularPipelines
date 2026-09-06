@@ -66,7 +66,7 @@ public record GcloudRedisClustersUpdateOptions : GcloudOptions
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// Enable deletion protection for the Redis Cluster. Use --deletion-protection/--no-deletion-protection to enable/disable it.
+    /// Negates --deletion-protection. Enable deletion protection for the Redis Cluster. Use --deletion-protection/--no-deletion-protection to enable/disable it.
     /// </summary>
     [CliFlag("--no-deletion-protection")]
     public bool? NoDeletionProtection { get; set; }
@@ -141,34 +141,34 @@ public record GcloudRedisClustersUpdateOptions : GcloudOptions
     /// A list of Redis Cluster config KEY=VALUE pairs to update. If a config parameter is already set, its value is modified; otherwise a new Redis config parameter is added.
     /// </summary>
     [CliOption("--update-redis-config", Format = OptionFormat.EqualsSeparated)]
-    public string? UpdateRedisConfig { get; set; }
+    public IReadOnlyList<KeyValue>? UpdateRedisConfig { get; set; }
 
     /// <summary>
-    /// Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud redis clusters update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud redis clusters update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud redis clusters update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud redis clusters update --clear-labels \ --update-labels foo=bar,baz=qux
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
-    /// Removes the user-specified maintenance window.
+    /// At most one of these can be specified: Removes the user-specified maintenance window.
     /// </summary>
     [CliFlag("--maintenance-window-any")]
     public bool? MaintenanceWindowAny { get; set; }
 
     /// <summary>
-    /// The day of week when the window starts, e.g. sunday. MAINTENANCE_WINDOW_DAY must be one of: friday, monday, saturday, sunday, thursday, tuesday, wednesday.
+    /// At most one of these can be specified: Or at least one of these can be specified: The day of week when the window starts, e.g. sunday. MAINTENANCE_WINDOW_DAY must be one of: friday, monday, saturday, sunday, thursday, tuesday, wednesday.
     /// </summary>
     [CliOption("--maintenance-window-day", Format = OptionFormat.EqualsSeparated)]
     public GcloudMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
 
     /// <summary>
-    /// Hour of day (0 to 23) for the start of maintenance window, in UTC time zone.
+    /// At most one of these can be specified: Or at least one of these can be specified: Hour of day (0 to 23) for the start of maintenance window, in UTC time zone.
     /// </summary>
     [CliOption("--maintenance-window-hour", Format = OptionFormat.EqualsSeparated)]
     public string? MaintenanceWindowHour { get; set; }

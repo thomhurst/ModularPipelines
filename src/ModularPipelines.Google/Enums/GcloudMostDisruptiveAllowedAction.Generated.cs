@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudMostDisruptiveAllowedAction
 {
     [EnumValue("NO_EFFECT")]
-    NoEffect = 0,
+    NoEffect,
 
     [EnumValue("REFRESH")]
-    Refresh = 1,
+    Refresh,
 
     [EnumValue("RESTART")]
-    Restart = 2
+    Restart
 }

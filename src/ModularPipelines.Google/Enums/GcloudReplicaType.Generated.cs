@@ -10,12 +10,15 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Google.Enums;
 
+/// <summary>
+/// Allowed values for --replicatype.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudReplicaType
 {
     [EnumValue("READ")]
-    Read = 0,
+    Read,
 
     [EnumValue("FAILOVER")]
-    Failover = 1
+    Failover
 }

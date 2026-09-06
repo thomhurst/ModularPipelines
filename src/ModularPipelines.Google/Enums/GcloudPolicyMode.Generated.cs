@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudPolicyMode
 {
     [EnumValue("policy-mode-unspecified")]
-    PolicyModeUnspecified = 0,
+    PolicyModeUnspecified,
 
     [EnumValue("preset")]
-    Preset = 1
+    Preset
 }

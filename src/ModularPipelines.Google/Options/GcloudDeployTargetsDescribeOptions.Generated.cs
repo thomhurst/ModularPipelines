@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "targets", "describe")]
-public record GcloudDeployTargetsDescribeOptions : GcloudOptions
+public record GcloudDeployTargetsDescribeOptions : GcloudOptions, IValidatableObject
 {
     /// <summary>
     /// The name of the Cloud Deploy delivery pipeline
@@ -38,5 +39,14 @@ public record GcloudDeployTargetsDescribeOptions : GcloudOptions
     /// </summary>
     [CliFlag("--skip-pipeline-lookup")]
     public bool? SkipPipelineLookup { get; set; }
+
+    /// <inheritdoc />
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (!(ListAllPipelines == true || SkipPipelineLookup == true))
+        {
+            yield return new ValidationResult("At least one of ListAllPipelines or SkipPipelineLookup must be specified.", [nameof(ListAllPipelines), nameof(SkipPipelineLookup)]);
+        }
+    }
 
 }

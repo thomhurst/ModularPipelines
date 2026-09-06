@@ -46,7 +46,7 @@ public record GcloudIamWorkforcePoolsUpdateOptions : GcloudOptions
     public bool? Disabled { get; set; }
 
     /// <summary>
-    /// Disables the workforce pool. You cannot use a disabled workforce pool to perform new token exchanges or sign-ins using any provider in the workforce pool. Specify --no-disabled to enable a disabled pool.
+    /// Negates --disabled. Disables the workforce pool. You cannot use a disabled workforce pool to perform new token exchanges or sign-ins using any provider in the workforce pool. Specify --no-disabled to enable a disabled pool.
     /// </summary>
     [CliFlag("--no-disabled")]
     public bool? NoDisabled { get; set; }

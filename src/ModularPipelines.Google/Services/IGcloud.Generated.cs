@@ -23,27 +23,27 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the accessapproval sub-domain service.
     /// </summary>
-    IGcloudAccessapproval Accessapproval => throw new System.NotSupportedException();
+    IGcloudAccessApproval AccessApproval => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the accesscontextmanager sub-domain service.
     /// </summary>
-    IGcloudAccesscontextmanager Accesscontextmanager => throw new System.NotSupportedException();
+    IGcloudAccessContextManager AccessContextManager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the activedirectory sub-domain service.
     /// </summary>
-    IGcloudActivedirectory Activedirectory => throw new System.NotSupportedException();
+    IGcloudActiveDirectory ActiveDirectory => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the agentidentity sub-domain service.
     /// </summary>
-    IGcloudAgentidentity Agentidentity => throw new System.NotSupportedException();
+    IGcloudAgentIdentity AgentIdentity => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the agentregistry sub-domain service.
     /// </summary>
-    IGcloudAgentregistry Agentregistry => throw new System.NotSupportedException();
+    IGcloudAgentRegistry AgentRegistry => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the ai sub-domain service.
@@ -53,7 +53,7 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the aiplatform sub-domain service.
     /// </summary>
-    IGcloudAiplatform Aiplatform => throw new System.NotSupportedException();
+    IGcloudAiPlatform AiPlatform => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the alloydb sub-domain service.
@@ -68,7 +68,7 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the apigateway sub-domain service.
     /// </summary>
-    IGcloudApigateway Apigateway => throw new System.NotSupportedException();
+    IGcloudApiGateway ApiGateway => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the apigee sub-domain service.
@@ -108,7 +108,7 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the auditmanager sub-domain service.
     /// </summary>
-    IGcloudAuditmanager Auditmanager => throw new System.NotSupportedException();
+    IGcloudAuditManager AuditManager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the auth sub-domain service.
@@ -118,7 +118,7 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the backupdr sub-domain service.
     /// </summary>
-    IGcloudBackupdr Backupdr => throw new System.NotSupportedException();
+    IGcloudBackupDr BackupDr => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the batch sub-domain service.
@@ -163,7 +163,7 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the certificatemanager sub-domain service.
     /// </summary>
-    IGcloudCertificatemanager Certificatemanager => throw new System.NotSupportedException();
+    IGcloudCertificateManager CertificateManager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the cloudlocationfinder sub-domain service.
@@ -173,7 +173,12 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the cloudshell sub-domain service.
     /// </summary>
-    IGcloudCloudshell Cloudshell => throw new System.NotSupportedException();
+    IGcloudCloudShell CloudShell => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the clusterdirector sub-domain service.
+    /// </summary>
+    IGcloudClusterDirector ClusterDirector => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the colab sub-domain service.
@@ -183,7 +188,7 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the compliancemanager sub-domain service.
     /// </summary>
-    IGcloudCompliancemanager Compliancemanager => throw new System.NotSupportedException();
+    IGcloudComplianceManager ComplianceManager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the components sub-domain service.
@@ -213,12 +218,12 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the databasemigration sub-domain service.
     /// </summary>
-    IGcloudDatabasemigration Databasemigration => throw new System.NotSupportedException();
+    IGcloudDatabaseMigration DatabaseMigration => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the datacatalog sub-domain service.
     /// </summary>
-    IGcloudDatacatalog Datacatalog => throw new System.NotSupportedException();
+    IGcloudDataCatalog DataCatalog => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the dataflow sub-domain service.
@@ -258,17 +263,17 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the deploymentmanager sub-domain service.
     /// </summary>
-    IGcloudDeploymentmanager Deploymentmanager => throw new System.NotSupportedException();
+    IGcloudDeploymentManager DeploymentManager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the designcenter sub-domain service.
     /// </summary>
-    IGcloudDesigncenter Designcenter => throw new System.NotSupportedException();
+    IGcloudDesignCenter DesignCenter => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the developerconnect sub-domain service.
     /// </summary>
-    IGcloudDeveloperconnect Developerconnect => throw new System.NotSupportedException();
+    IGcloudDeveloperConnect DeveloperConnect => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the dns sub-domain service.
@@ -283,12 +288,12 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the edgecache sub-domain service.
     /// </summary>
-    IGcloudEdgecache Edgecache => throw new System.NotSupportedException();
+    IGcloudEdgeCache EdgeCache => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the edgecloud sub-domain service.
     /// </summary>
-    IGcloudEdgecloud Edgecloud => throw new System.NotSupportedException();
+    IGcloudEdgeCloud EdgeCloud => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the emulators sub-domain service.
@@ -303,7 +308,7 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the essentialcontacts sub-domain service.
     /// </summary>
-    IGcloudEssentialcontacts Essentialcontacts => throw new System.NotSupportedException();
+    IGcloudEssentialContacts EssentialContacts => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the eventarc sub-domain service.
@@ -363,7 +368,7 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the inframanager sub-domain service.
     /// </summary>
-    IGcloudInframanager Inframanager => throw new System.NotSupportedException();
+    IGcloudInfraManager InfraManager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the kms sub-domain service.
@@ -388,7 +393,7 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the managedkafka sub-domain service.
     /// </summary>
-    IGcloudManagedkafka Managedkafka => throw new System.NotSupportedException();
+    IGcloudManagedKafka ManagedKafka => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the memcache sub-domain service.
@@ -418,7 +423,7 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the modelarmor sub-domain service.
     /// </summary>
-    IGcloudModelarmor Modelarmor => throw new System.NotSupportedException();
+    IGcloudModelArmor ModelArmor => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the monitoring sub-domain service.
@@ -433,22 +438,22 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the networkconnectivity sub-domain service.
     /// </summary>
-    IGcloudNetworkconnectivity Networkconnectivity => throw new System.NotSupportedException();
+    IGcloudNetworkConnectivity NetworkConnectivity => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the networkmanagement sub-domain service.
     /// </summary>
-    IGcloudNetworkmanagement Networkmanagement => throw new System.NotSupportedException();
+    IGcloudNetworkManagement NetworkManagement => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the networksecurity sub-domain service.
     /// </summary>
-    IGcloudNetworksecurity Networksecurity => throw new System.NotSupportedException();
+    IGcloudNetworkSecurity NetworkSecurity => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the networkservices sub-domain service.
     /// </summary>
-    IGcloudNetworkservices Networkservices => throw new System.NotSupportedException();
+    IGcloudNetworkServices NetworkServices => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the notebooks sub-domain service.
@@ -463,7 +468,7 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the oracledatabase sub-domain service.
     /// </summary>
-    IGcloudOracledatabase Oracledatabase => throw new System.NotSupportedException();
+    IGcloudOracleDatabase OracleDatabase => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the organizations sub-domain service.
@@ -473,7 +478,7 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the orgpolicies sub-domain service.
     /// </summary>
-    IGcloudOrgpolicies Orgpolicies => throw new System.NotSupportedException();
+    IGcloudOrgPolicies OrgPolicies => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the pam sub-domain service.
@@ -483,17 +488,17 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the parametermanager sub-domain service.
     /// </summary>
-    IGcloudParametermanager Parametermanager => throw new System.NotSupportedException();
+    IGcloudParameterManager ParameterManager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the policyintelligence sub-domain service.
     /// </summary>
-    IGcloudPolicyintelligence Policyintelligence => throw new System.NotSupportedException();
+    IGcloudPolicyIntelligence PolicyIntelligence => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the policytroubleshoot sub-domain service.
     /// </summary>
-    IGcloudPolicytroubleshoot Policytroubleshoot => throw new System.NotSupportedException();
+    IGcloudPolicyTroubleshoot PolicyTroubleshoot => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the preview sub-domain service.
@@ -568,17 +573,17 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the servicedirectory sub-domain service.
     /// </summary>
-    IGcloudServicedirectory Servicedirectory => throw new System.NotSupportedException();
+    IGcloudServiceDirectory ServiceDirectory => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the serviceextensions sub-domain service.
     /// </summary>
-    IGcloudServiceextensions Serviceextensions => throw new System.NotSupportedException();
+    IGcloudServiceExtensions ServiceExtensions => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the servicehealth sub-domain service.
     /// </summary>
-    IGcloudServicehealth Servicehealth => throw new System.NotSupportedException();
+    IGcloudServiceHealth ServiceHealth => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the services sub-domain service.
@@ -593,7 +598,7 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the sourcemanager sub-domain service.
     /// </summary>
-    IGcloudSourcemanager Sourcemanager => throw new System.NotSupportedException();
+    IGcloudSourceManager SourceManager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the spanner sub-domain service.
@@ -623,7 +628,7 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the telcoautomation sub-domain service.
     /// </summary>
-    IGcloudTelcoautomation Telcoautomation => throw new System.NotSupportedException();
+    IGcloudTelcoAutomation TelcoAutomation => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the transcoder sub-domain service.
@@ -638,7 +643,7 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the vectorsearch sub-domain service.
     /// </summary>
-    IGcloudVectorsearch Vectorsearch => throw new System.NotSupportedException();
+    IGcloudVectorSearch VectorSearch => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the vmware sub-domain service.
@@ -658,12 +663,12 @@ public partial interface IGcloud
     /// <summary>
     /// Gets the workloadidentity sub-domain service.
     /// </summary>
-    IGcloudWorkloadidentity Workloadidentity => throw new System.NotSupportedException();
+    IGcloudWorkloadIdentity WorkloadIdentity => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the workspaceaddons sub-domain service.
     /// </summary>
-    IGcloudWorkspaceaddons Workspaceaddons => throw new System.NotSupportedException();
+    IGcloudWorkspaceAddOns WorkspaceAddOns => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the workstations sub-domain service.

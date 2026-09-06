@@ -24,19 +24,19 @@ namespace ModularPipelines.Google.Options;
 public record GcloudTranscoderJobsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Location resource - Transcoder location This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property transcoder/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Processing priority of a batch mode transcoder job. This value will override batch mode priority in job config.
+    /// Processing priority of a batch mode transcoder job. This value will override batch mode priority in job config.
     /// </summary>
     [CliOption("--batch-mode-priority", Format = OptionFormat.EqualsSeparated)]
     public string? BatchModePriority { get; set; }
 
     /// <summary>
-    /// Location resource - Transcoder location This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property transcoder/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Google Cloud Storage URI. This value will override input URI in job config.
+    /// Google Cloud Storage URI. This value will override input URI in job config.
     /// </summary>
     [CliOption("--input-uri", Format = OptionFormat.EqualsSeparated)]
     public string? InputUri { get; set; }
 
     /// <summary>
-    /// Location resource - Transcoder location This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property transcoder/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }

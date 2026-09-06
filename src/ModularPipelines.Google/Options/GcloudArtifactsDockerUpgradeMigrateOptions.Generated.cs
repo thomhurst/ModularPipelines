@@ -52,6 +52,12 @@ public record GcloudArtifactsDockerUpgradeMigrateOptions : GcloudOptions
     public string? LastUploadedVersions { get; set; }
 
     /// <summary>
+    /// Max number of images to copy simultaneously. Consider quota usage when increasing this
+    /// </summary>
+    [CliOption("--max-threads", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxThreads { get; set; }
+
+    /// <summary>
     /// Outputs Artifact Registry-equivalent bindings to this directory during IAM update step and then exits the tool. After any neccesary modifications are made, the tool can be rerun with --input-iam-policy-dir to continue migration with the generated bindings.
     /// </summary>
     [CliOption("--output-iam-policy-dir", Format = OptionFormat.EqualsSeparated)]
@@ -100,15 +106,9 @@ public record GcloudArtifactsDockerUpgradeMigrateOptions : GcloudOptions
     public bool? UseAnalyzeIam { get; set; }
 
     /// <summary>
-    /// Use analyzeIAMPolicy to get IAM bindings. If false, tooling iterates through IAM bindings itself, which is slower, but doesn't require anlayzeIAMPolicy quota. Enabled by default, use --no-use-analyze-iam to disable.
+    /// Negates --use-analyze-iam. Use analyzeIAMPolicy to get IAM bindings. If false, tooling iterates through IAM bindings itself, which is slower, but doesn't require anlayzeIAMPolicy quota. Enabled by default, use --no-use-analyze-iam to disable.
     /// </summary>
     [CliFlag("--no-use-analyze-iam")]
     public bool? NoUseAnalyzeIam { get; set; }
-
-    /// <summary>
-    /// Max number of images to copy simultaneously. Consider quota usage when increasing this
-    /// </summary>
-    [CliOption("--max-threads", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxThreads { get; set; }
 
 }

@@ -24,6 +24,7 @@ using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.Distributed.UnitTests.Master;
 
@@ -1146,7 +1147,7 @@ public class DistributedModuleExecutorTests
             coordinator: coordinator,
             distributedOptions: options);
 
-        await executor.ExecuteAsync([module]).WaitAsync(TimeSpan.FromSeconds(2), testCancellation);
+        await executor.ExecuteAsync([module]).WaitAsync(testCancellation);
 
         var registeredResult = resultRegistry.GetResult(typeof(ShortTimeoutDistributedModule));
         await Assert.That(registeredResult).IsNotNull();
@@ -1411,7 +1412,7 @@ public class DistributedModuleExecutorTests
 
         var executionTask = executor.ExecuteAsync([failedModule, alwaysRunModule]);
         await trackingCoordinator.WaitForResultStartedAsync(typeof(DistributedModule))
-            .WaitAsync(TimeSpan.FromSeconds(2));
+            .WaitAsync(TestHostSettings.DefaultTestTimeout);
         var failedAssignment = await coordinator.DequeueModuleAsync(
             new HashSet<Capability>(),
             CancellationToken.None);
@@ -1419,8 +1420,8 @@ public class DistributedModuleExecutorTests
         await coordinator.PublishResultAsync(serializedFailure, CancellationToken.None);
 
         await trackingCoordinator.WaitForResultPublishedAsync(typeof(AlwaysRunDistributedModule))
-            .WaitAsync(TimeSpan.FromSeconds(2));
-        await executionTask.WaitAsync(TimeSpan.FromSeconds(2));
+            .WaitAsync(TestHostSettings.DefaultTestTimeout);
+        await executionTask.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await Assert.That(resultRegistry.GetResult(typeof(AlwaysRunDistributedModule))?.Status)
             .IsEqualTo(ModuleStatus.Succeeded);
         moduleRunner.VerifyAll();

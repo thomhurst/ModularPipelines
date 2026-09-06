@@ -359,11 +359,4 @@ public record ArgoCdAdminSettingsRbacCanOptions(
     [CliArgument(3, Phase = CommandLinePhase.EarlyOperand)]
     public string? SubResource { get; set; }
 
-    [Obsolete("Use KubeConfig instead.")]
-    public string? Kubeconfig
-    {
-        get => KubeConfig;
-        set => KubeConfig = value;
-    }
-
 }

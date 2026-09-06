@@ -1,0 +1,7 @@
+{
+  "formatVersion": 1,
+  "toolName": "gcloud",
+  "toolVersion": "Google Cloud SDK 583.0.0 alpha 2026.08.31 beta 2026.08.31 bq 2.1.38 bundled-python3-unix 3.14.7 core 2026.08.31 gcloud-crc32c 1.0.0 gsutil 5.37 preview 2026.08.31",
+  "commandTreeSha256": "4d32da962cb0499d00e69deecb2f63f2dd40bef68663dfa63569a92628ca6490",
+  "generatorSourceSha256": "8e8a344caa4d5c70ecb96afaebc94d7afa0a5056ff8a9e6f53efb7bd505e47e3"
+}

@@ -44,7 +44,7 @@ public record GcloudCertificateManagerTrustConfigsUpdateOptions : GcloudOptions
     /// Trust Store with the given trust anchor and intermediate CA PEM-encoded certificates. Certificates should be provided in files. For multiple file names, separate them by a semicolon (';') and quote them ('"'). One file can contain multiple certificates. Intermediate CAs are optional. Examples: Single files: --trust-store trust-anchors=ta.pem,intermediate-cas=ica.pem No intermediate CAs: --trust-store trust-anchors=ta.pem Multiple files: --trust-store trust-anchors="ta1.pem;ta2.pem",intermediate-cas="ica1.pem;ica2.pem"
     /// </summary>
     [CliOption("--trust-store", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? TrustStoreValues { get; set; }
+    public IEnumerable<string>? TrustStore { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
@@ -75,12 +75,5 @@ public record GcloudCertificateManagerTrustConfigsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveLabels { get; set; }
-
-    [Obsolete("Use TrustStoreValues instead.")]
-    public string? TrustStore
-    {
-        get => TrustStoreValues?.FirstOrDefault();
-        set => TrustStoreValues = value is null ? null : [value];
-    }
 
 }

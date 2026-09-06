@@ -33,7 +33,10 @@ public record GcloudDockerOptions : GcloudOptions
     [CliOption("--docker-host", Format = OptionFormat.EqualsSeparated)]
     public string? DockerHost { get; set; }
 
-    [Obsolete("Server is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Address of the Google Cloud Registry.
+    /// </summary>
+    [CliOption("--server", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Server { get; set; }
 
 }

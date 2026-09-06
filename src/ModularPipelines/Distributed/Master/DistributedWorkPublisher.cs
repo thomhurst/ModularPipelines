@@ -26,7 +26,9 @@ internal class DistributedWorkPublisher(
 
     public async Task<ModuleAssignment> CreateAssignmentAsync(
         IModule module,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        ModulePriority? priority = null,
+        TimeSpan criticalPathWeight = default)
     {
         if (_conditionHandler is not null)
         {
@@ -34,10 +36,13 @@ internal class DistributedWorkPublisher(
                 .ConfigureAwait(false);
         }
 
-        return CreateAssignment(module);
+        return CreateAssignment(module, priority, criticalPathWeight);
     }
 
-    public ModuleAssignment CreateAssignment(IModule module)
+    public ModuleAssignment CreateAssignment(
+        IModule module,
+        ModulePriority? priority = null,
+        TimeSpan criticalPathWeight = default)
     {
         var moduleType = module.GetType();
         var resultTypeName = ModuleTypeRegistry.GetResultTypeName(moduleType) ?? "System.Object";
@@ -69,6 +74,11 @@ internal class DistributedWorkPublisher(
             ),
             DependencyResultReferences: dependencyResultReferences)
         {
+            Priority = priority
+                       ?? config.Priority
+                       ?? moduleType.GetCustomAttribute<PriorityAttribute>(inherit: true)?.Priority
+                       ?? ModulePriority.Normal,
+            CriticalPathWeight = criticalPathWeight,
             SatisfiedConditionGroups = _conditionRouting?.GetLocallySatisfiedGroupNames(module) ?? [],
         };
     }

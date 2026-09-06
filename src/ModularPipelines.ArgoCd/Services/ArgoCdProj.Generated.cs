@@ -114,16 +114,6 @@ public class ArgoCdProj : IArgoCdProj
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> AddSignatureKeyAsync(
-        ArgoCdProjAddSignatureKeyOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
-    }
-
     /// <summary>
     /// Add source namespace to the AppProject
     /// </summary>
@@ -328,16 +318,6 @@ public class ArgoCdProj : IArgoCdProj
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveOrphanedIgnoreAsync(
         ArgoCdProjRemoveOrphanedIgnoreOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public virtual async Task<CommandResult> RemoveSignatureKeyAsync(
-        ArgoCdProjRemoveSignatureKeyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

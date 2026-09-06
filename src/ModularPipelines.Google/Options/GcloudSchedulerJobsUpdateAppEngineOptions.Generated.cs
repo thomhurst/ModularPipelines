@@ -36,6 +36,12 @@ public record GcloudSchedulerJobsUpdateAppEngineOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
+    /// HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put.
+    /// </summary>
+    [CliOption("--http-method", Format = OptionFormat.EqualsSeparated)]
+    public GcloudHttpMethod? HttpMethod { get; set; }
+
+    /// <summary>
     /// Schedule on which the job will be executed. As a general rule, execution n + 1 of a job will not begin until execution n has finished. Cloud Scheduler will never allow two simultaneously outstanding executions. For example, this implies that if the n+1 execution is scheduled to run at 16:00 but the n execution takes until 16:15, the n+1 execution will not start until 16:15. A scheduled start time will be delayed if the previous execution has not ended when its scheduled time occurs. Learn more about the cron job format (https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules). If --retry-count &gt; 0 and a job attempt fails, the job will be tried a total of --retry-count times, with exponential backoff, until the job succeeds or the number of retries is exhausted. Note that the next scheduled execution time might be skipped if the retries continue through that time. For more information, see Retry jobs (https://cloud.google.com/scheduler/docs/configuring/retry-jobs).
     /// </summary>
     [CliOption("--schedule", Format = OptionFormat.EqualsSeparated)]
@@ -48,139 +54,133 @@ public record GcloudSchedulerJobsUpdateAppEngineOptions : GcloudOptions
     public string? Version { get; set; }
 
     /// <summary>
-    /// Clear the list of HTTP headers.
+    /// At most one of these can be specified: Clear the list of HTTP headers.
     /// </summary>
     [CliFlag("--clear-headers")]
     public bool? ClearHeaders { get; set; }
 
     /// <summary>
-    /// KEY1,KEY2 list of HTTP headers to remove from the request. --remove-headers Accept-Language,Accept
+    /// At most one of these can be specified: Or at least one of these can be specified: KEY1,KEY2 list of HTTP headers to remove from the request. --remove-headers Accept-Language,Accept
     /// </summary>
     [CliOption("--remove-headers", Format = OptionFormat.EqualsSeparated)]
-    public string? RemoveHeaders { get; set; }
+    public IEnumerable<string>? RemoveHeaders { get; set; }
 
     /// <summary>
-    /// KEY=VALUE pairs of HTTP headers to include in the request. Cannot be repeated. For example: --update-headers Accept-Language=en-us,Accept=text/plain
+    /// At most one of these can be specified: Or at least one of these can be specified: KEY=VALUE pairs of HTTP headers to include in the request. Cannot be repeated. For example: --update-headers Accept-Language=en-us,Accept=text/plain
     /// </summary>
     [CliOption("--update-headers", Format = OptionFormat.EqualsSeparated)]
-    public string? UpdateHeaders { get; set; }
+    public IReadOnlyList<KeyValue>? UpdateHeaders { get; set; }
 
     /// <summary>
-    /// Clear the field corresponding to --max-backoff.
+    /// At most one of these can be specified: Clear the field corresponding to --max-backoff.
     /// </summary>
     [CliFlag("--clear-max-backoff")]
     public bool? ClearMaxBackoff { get; set; }
 
     /// <summary>
-    /// Clear the field corresponding to --max-doublings.
-    /// </summary>
-    [CliFlag("--clear-max-doublings")]
-    public bool? ClearMaxDoublings { get; set; }
-
-    /// <summary>
-    /// Clear the field corresponding to --max-retry-attempts.
-    /// </summary>
-    [CliFlag("--clear-max-retry-attempts")]
-    public bool? ClearMaxRetryAttempts { get; set; }
-
-    /// <summary>
-    /// Number of times to retry the request if it fails or times out. Must be in range 0-5 inclusive. Default is 0.
-    /// </summary>
-    [CliOption("--max-retry-attempts", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxRetryAttempts { get; set; }
-
-    /// <summary>
-    /// Clear the field corresponding to --max-retry-duration.
-    /// </summary>
-    [CliFlag("--clear-max-retry-duration")]
-    public bool? ClearMaxRetryDuration { get; set; }
-
-    /// <summary>
-    /// Time limit for retrying a failed job, measured from when the job was first run. If specified with --max-retry-attempts greater than 0, the job will be retried until both limits are reached. Default is 0 seconds (which means unlimited); however, if --max-retry-attempts is also 0, a job attempt won't be retried if it fails.
-    /// </summary>
-    [CliOption("--max-retry-duration", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxRetryDuration { get; set; }
-
-    /// <summary>
-    /// Clear the field corresponding to --message-body or --message-body-from-file.
-    /// </summary>
-    [CliFlag("--clear-message-body")]
-    public bool? ClearMessageBody { get; set; }
-
-    /// <summary>
-    /// Data payload to be included as the body of the HTTP request. May only be given with compatible HTTP methods (PUT or POST).
-    /// </summary>
-    [CliOption("--message-body", Format = OptionFormat.EqualsSeparated)]
-    public string? MessageBody { get; set; }
-
-    /// <summary>
-    /// Path to file containing the data payload to be included as the body of the HTTP request. May only be given with compatible HTTP methods (PUT or POST). Use a full or relative path to a local file containing the value of message_body.
-    /// </summary>
-    [CliOption("--message-body-from-file", Format = OptionFormat.EqualsSeparated)]
-    public string? MessageBodyFromFile { get; set; }
-
-    /// <summary>
-    /// Clear the field corresponding to --min-backoff.
-    /// </summary>
-    [CliFlag("--clear-min-backoff")]
-    public bool? ClearMinBackoff { get; set; }
-
-    /// <summary>
-    /// Clear the field corresponding to --relative-url.
-    /// </summary>
-    [CliFlag("--clear-relative-url")]
-    public bool? ClearRelativeUrl { get; set; }
-
-    /// <summary>
-    /// Clear the field corresponding to --service.
-    /// </summary>
-    [CliFlag("--clear-service")]
-    public bool? ClearService { get; set; }
-
-    /// <summary>
-    /// Clear the field corresponding to --time-zone.
-    /// </summary>
-    [CliFlag("--clear-time-zone")]
-    public bool? ClearTimeZone { get; set; }
-
-    /// <summary>
-    /// HTTP method to use for the request. HTTP_METHOD must be one of: delete, get, head, post, put.
-    /// </summary>
-    [CliOption("--http-method", Format = OptionFormat.EqualsSeparated)]
-    public string? HttpMethod { get; set; }
-
-    /// <summary>
-    /// Maximum amount of time to wait before retrying a job after it fails. For example, 60s. Default is 3600s (1 hour).
+    /// At most one of these can be specified: Maximum amount of time to wait before retrying a job after it fails. For example, 60s. Default is 3600s (1 hour).
     /// </summary>
     [CliOption("--max-backoff", Format = OptionFormat.EqualsSeparated)]
     public string? MaxBackoff { get; set; }
 
     /// <summary>
-    /// Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant.
+    /// At most one of these can be specified: Clear the field corresponding to --max-doublings.
+    /// </summary>
+    [CliFlag("--clear-max-doublings")]
+    public bool? ClearMaxDoublings { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant.
     /// </summary>
     [CliOption("--max-doublings", Format = OptionFormat.EqualsSeparated)]
     public string? MaxDoublings { get; set; }
 
     /// <summary>
-    /// Minimum amount of time to wait before retrying a job after it fails. For example, 10s. Default is 5s.
+    /// At most one of these can be specified: Clear the field corresponding to --max-retry-attempts.
+    /// </summary>
+    [CliFlag("--clear-max-retry-attempts")]
+    public bool? ClearMaxRetryAttempts { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Number of times to retry the request if it fails or times out. Must be in range 0-5 inclusive. Default is 0.
+    /// </summary>
+    [CliOption("--max-retry-attempts", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRetryAttempts { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear the field corresponding to --max-retry-duration.
+    /// </summary>
+    [CliFlag("--clear-max-retry-duration")]
+    public bool? ClearMaxRetryDuration { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Time limit for retrying a failed job, measured from when the job was first run. If specified with --max-retry-attempts greater than 0, the job will be retried until both limits are reached. Default is 0 seconds (which means unlimited); however, if --max-retry-attempts is also 0, a job attempt won't be retried if it fails.
+    /// </summary>
+    [CliOption("--max-retry-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRetryDuration { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear the field corresponding to --message-body or --message-body-from-file.
+    /// </summary>
+    [CliFlag("--clear-message-body")]
+    public bool? ClearMessageBody { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Data payload to be included as the body of the HTTP request. May only be given with compatible HTTP methods (PUT or POST).
+    /// </summary>
+    [CliOption("--message-body", Format = OptionFormat.EqualsSeparated)]
+    public string? MessageBody { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Path to file containing the data payload to be included as the body of the HTTP request. May only be given with compatible HTTP methods (PUT or POST). Use a full or relative path to a local file containing the value of message_body.
+    /// </summary>
+    [CliOption("--message-body-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? MessageBodyFromFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear the field corresponding to --min-backoff.
+    /// </summary>
+    [CliFlag("--clear-min-backoff")]
+    public bool? ClearMinBackoff { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Minimum amount of time to wait before retrying a job after it fails. For example, 10s. Default is 5s.
     /// </summary>
     [CliOption("--min-backoff", Format = OptionFormat.EqualsSeparated)]
     public string? MinBackoff { get; set; }
 
     /// <summary>
-    /// Relative URL to use for the request (beginning with "/").
+    /// At most one of these can be specified: Clear the field corresponding to --relative-url.
+    /// </summary>
+    [CliFlag("--clear-relative-url")]
+    public bool? ClearRelativeUrl { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Relative URL to use for the request (beginning with "/").
     /// </summary>
     [CliOption("--relative-url", Format = OptionFormat.EqualsSeparated)]
     public string? RelativeUrl { get; set; }
 
     /// <summary>
-    /// ID of the App Engine service to send the request to.
+    /// At most one of these can be specified: Clear the field corresponding to --service.
+    /// </summary>
+    [CliFlag("--clear-service")]
+    public bool? ClearService { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: ID of the App Engine service to send the request to.
     /// </summary>
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
     public string? Service { get; set; }
 
     /// <summary>
-    /// Specifies the time zone to be used in interpreting --schedule. The value of this field must be a time zone name from the tz database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). Note that some time zones include a provision for daylight savings time. The rules for daylight saving time are determined by the chosen time zone. For UTC use the string "utc". Default is "utc".
+    /// At most one of these can be specified: Clear the field corresponding to --time-zone.
+    /// </summary>
+    [CliFlag("--clear-time-zone")]
+    public bool? ClearTimeZone { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Specifies the time zone to be used in interpreting --schedule. The value of this field must be a time zone name from the tz database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). Note that some time zones include a provision for daylight savings time. The rules for daylight saving time are determined by the chosen time zone. For UTC use the string "utc". Default is "utc".
     /// </summary>
     [CliOption("--time-zone", Format = OptionFormat.EqualsSeparated)]
     public string? TimeZone { get; set; }

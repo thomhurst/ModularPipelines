@@ -17,14 +17,14 @@ namespace ModularPipelines.ArgoCd.Enums;
 public enum ArgoCdAdminSettingsValidateGroup
 {
     [EnumValue("accounts")]
-    Accounts = 0,
+    Accounts,
 
     [EnumValue("general")]
-    General = 1,
+    General,
 
     [EnumValue("kustomize")]
-    Kustomize = 2,
+    Kustomize,
 
     [EnumValue("resource-overrides")]
-    ResourceOverrides = 3
+    ResourceOverrides
 }

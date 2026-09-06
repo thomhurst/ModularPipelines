@@ -1,5 +1,5 @@
-using ModularPipelines.Google.Enums;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.Google.UnitTests;
@@ -26,14 +26,14 @@ public class GcloudCompositeValueTests
     }
 
     [Test]
-    public async Task ShippedUpdateLabelsEnumStillRenders()
+    public async Task UpdateLabelsRenderAsStructuredValues()
     {
         var arguments = BuildArguments(new GcloudBmsNfsSharesUpdateOptions
         {
-            UpdateLabels = GcloudUpdateLabels.ReadOnly,
+            UpdateLabels = [new KeyValue("access", "READ_ONLY")],
         });
 
-        await AssertArguments(arguments, ["--update-labels=READ_ONLY"]);
+        await AssertArguments(arguments, ["--update-labels=access=READ_ONLY"]);
     }
 
     [Test]

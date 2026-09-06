@@ -28,7 +28,7 @@ public record GcloudRunRevisionsDeleteOptions : GcloudOptions
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to complete. Defaults to --no-async. Use --async to enable and --no-async to disable.
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. Defaults to --no-async. Use --async to enable and --no-async to disable.
     /// </summary>
     [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }

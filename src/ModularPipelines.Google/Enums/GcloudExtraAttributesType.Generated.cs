@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudExtraAttributesType
 {
     [EnumValue("azure-ad-groups-id")]
-    AzureAdGroupsId = 0,
+    AzureAdGroupsId,
 
     [EnumValue("azure-ad-groups-mail")]
-    AzureAdGroupsMail = 1
+    AzureAdGroupsMail
 }

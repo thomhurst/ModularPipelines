@@ -72,6 +72,12 @@ public record GcloudComputeInstancesNetworkInterfacesUpdateOptions(
     public string? Network { get; set; }
 
     /// <summary>
+    /// The name of the network interface to update.
+    /// </summary>
+    [CliOption("--network-interface", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkInterface { get; set; }
+
+    /// <summary>
     /// Assign the given IP address to the interface. Can be specified only together with --network and/or --subnetwork to choose the IP address in the new subnetwork. If unspecified, then the previous IP address will be allocated in the new subnetwork. If the previous IP address is not available in the new subnetwork, then another available IP address will be allocated automatically from the new subnetwork CIDR range.
     /// </summary>
     [CliOption("--private-network-ip", Format = OptionFormat.EqualsSeparated)]
@@ -106,11 +112,5 @@ public record GcloudComputeInstancesNetworkInterfacesUpdateOptions(
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
-
-    /// <summary>
-    /// The name of the network interface to update.
-    /// </summary>
-    [CliOption("--network-interface", Format = OptionFormat.EqualsSeparated)]
-    public string? NetworkInterface { get; set; }
 
 }

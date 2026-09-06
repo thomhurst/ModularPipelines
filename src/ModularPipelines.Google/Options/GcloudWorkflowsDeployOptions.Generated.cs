@@ -56,7 +56,7 @@ public record GcloudWorkflowsDeployOptions : GcloudOptions
     /// The service account that should be used as the workflow identity. "projects/PROJECT_ID/serviceAccounts/" prefix may be skipped from the full resource name, in that case "projects/-/serviceAccounts/" is prepended to the service account ID.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public string? ServiceAccountValue { get; set; }
+    public string? ServiceAccount { get; set; }
 
     /// <summary>
     /// Location of a workflow source code to deploy. Required on first deployment. Location needs to be defined as a path to a local file with the source code.
@@ -99,12 +99,5 @@ public record GcloudWorkflowsDeployOptions : GcloudOptions
     /// </summary>
     [CliOption("--update-env-vars", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateEnvVars { get; set; }
-
-    [Obsolete("Use ServiceAccountValue instead.")]
-    public int? ServiceAccount
-    {
-        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

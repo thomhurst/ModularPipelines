@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// preview an application
+/// preview a Design Center     application
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,25 +28,21 @@ public record GcloudDesignCenterSpacesApplicationsPreviewOptions : GcloudOptions
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The email address of the service account to use for this preview operation. * If provided, this service account will be used to execute the preview process, taking precedence over any service_account specified on the Application resource. * The caller must have the 'iam.serviceAccounts.actAs' permission on this service account. * If this field is omitted, the system will use the 'service_account' defined within the Application resource. * We recommend that you provide a service account here or on the Application resource. If you don't provide a service account, the preview will fail. Format: projects/{PROJECT}/serviceAccounts/{EMAIL_ADDRESS}
+    /// Create a new service account for the preview.
+    /// </summary>
+    [CliFlag("--create-sa")]
+    public bool? CreateSa { get; set; }
+
+    /// <summary>
+    /// The service account to use for this preview. ◆ If provided, this service account will be used to execute the preview process, taking precedence over any service_account specified on the Application resource. ◆ The caller must have the "iam.serviceAccounts.actAs" permission on this service account. ◆ If this field is omitted, the system will use the "service_account" defined within the Application resource. ◆ If this field is omitted with --create-sa flag, the system will create a new and unique service_account and use it for the preview. ◆ We recommend that you provide a service account here or on the Application resource. If you don't provide a service account, the preview will fail. ◆ If the --create-sa flag is also provided, this value is the ID of a new service account to be created (e.g., my-new-sa). Format: projects/{PROJECT}/serviceAccounts/{EMAIL_ADDRESS} (when not using --create-sa)
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public string? ServiceAccountValue { get; set; }
+    public string? ServiceAccount { get; set; }
 
     /// <summary>
     /// The user-specified Worker Pool resource in which the Cloud Build job will execute. Format: projects/{project}/locations/{location}/workerPools/{workerPoolId} If this flag is omitted, the worker pool already defined on the application will be used. If no worker pool is defined on the application, the default Cloud Build worker pool is used. The worker pool must exist in the same region as the application.
     /// </summary>
     [CliOption("--worker-pool", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerPool { get; set; }
-
-    [Obsolete("Use ServiceAccountValue instead.")]
-    public int? ServiceAccount
-    {
-        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("CreateSa is no longer supported by the installed CLI and has no effect.")]
-    public bool? CreateSa { get; set; }
 
 }

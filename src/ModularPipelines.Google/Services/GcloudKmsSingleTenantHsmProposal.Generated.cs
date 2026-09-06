@@ -122,15 +122,6 @@ public class GcloudKmsSingleTenantHsmProposal
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudKmsSingleTenantHsmProposalExecuteOptions(), executionOptions, cancellationToken);
     }
 
-    [Obsolete("Use ExecuteCommandAsync instead.")]
-    public virtual async Task<CommandResult> ExecuteAsync(
-        GcloudKmsSingleTenantHsmProposalExecuteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await ExecuteCommandAsync(options, executionOptions, cancellationToken);
-    }
-
     /// <summary>
     /// list single tenant HSM     instance proposals within a single tenant HSM instance
     /// </summary>

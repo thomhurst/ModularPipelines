@@ -25,10 +25,22 @@ public record GcloudSccFindingsUpdateMarksOptions(
 ) : GcloudOptions
 {
     /// <summary>
+    /// When data residency controls are enabled, this attribute specifies the location in which the resource is located and applicable. The location attribute can be provided as part of the fully specified resource name or with the --location argument on the command line. The default location is global. NOTE: If you override the endpoint to a regional endpoint (https://cloud.google.com/security-command-center/docs/reference/rest/index.html?rep_location=global#regional-service-endpoint) you must specify the correct data location (https://cloud.google.com/security-command-center/docs/data-residency-support#locations) using this flag. The default location on this command is unrelated to the default location that is specified when data residency controls are enabled for Security Command Center. NOTE: If no location is specified, the default location is global AND the request will be routed to the SCC V1 API. To use the SCC V2 API - please explicitly specify the flag.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// SecurityMarks resource to be passed as the request body. It's a key=value pair separated by comma (,). For example: --security-marks="key1=val1,key2=val2".
     /// </summary>
     [CliOption("--security-marks", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? SecurityMarks { get; set; }
+
+    /// <summary>
+    /// Source id. Defaults to all sources.
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
 
     /// <summary>
     /// Time at which the updated SecurityMarks take effect. See $ gcloud topic datetimes for information on supported time formats.
@@ -43,33 +55,21 @@ public record GcloudSccFindingsUpdateMarksOptions(
     public string? UpdateMask { get; set; }
 
     /// <summary>
-    /// The folder ID (e.g., 456) that contains the finding.
+    /// At most one of these can be specified: The folder ID (e.g., 456) that contains the finding.
     /// </summary>
     [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
     public string? Folder { get; set; }
 
     /// <summary>
-    /// The organization ID (e.g., 123) that contains the finding.
+    /// At most one of these can be specified: The organization ID (e.g., 123) that contains the finding.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
 
     /// <summary>
-    /// The project ID (e.g., example-project) that contains the finding.
+    /// At most one of these can be specified: The project ID (e.g., example-project) that contains the finding.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
-
-    /// <summary>
-    /// When data residency controls are enabled, this attribute specifies the location in which the resource is located and applicable. The location attribute can be provided as part of the fully specified resource name or with the --location argument on the command line. The default location is global. NOTE: If you override the endpoint to a regional endpoint (https://cloud.google.com/security-command-center/docs/reference/rest/index.html?rep_location=global#regional-service-endpoint) you must specify the correct data location (https://cloud.google.com/security-command-center/docs/data-residency-support#locations) using this flag. The default location on this command is unrelated to the default location that is specified when data residency controls are enabled for Security Command Center. NOTE: If no location is specified, the default location is global AND the request will be routed to the SCC V1 API. To use the SCC V2 API - please explicitly specify the flag.
-    /// </summary>
-    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
-    public string? Location { get; set; }
-
-    /// <summary>
-    /// Source id. Defaults to all sources.
-    /// </summary>
-    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
-    public string? Source { get; set; }
 
 }
