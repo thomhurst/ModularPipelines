@@ -62,24 +62,42 @@ function Test-BranchIdentifiesPrNumber {
     return $Branch -match "(?:^|[-/])pr-$PrNumber(?:$|[-/])"
 }
 
+function Test-IsAncestorCommit {
+    param(
+        [Parameter(Mandatory)][string]$RepoPath,
+        [Parameter(Mandatory)][string]$Ancestor,
+        [Parameter(Mandatory)][string]$Descendant
+    )
+
+    # An object git cannot find locally (a merged head never fetched here) exits 128.
+    # For cleanup that is "not an ancestor": it may keep a worktree, never remove one.
+    git -C $RepoPath merge-base --is-ancestor $Ancestor $Descendant 2>$null
+    return $LASTEXITCODE -eq 0
+}
+
 function Get-MergedAssociationReason {
     param(
         [AllowEmptyCollection()][object[]]$Associations = @(),
-        [string]$Branch
+        [string]$Branch,
+        [scriptblock]$IsAncestor = { param($sha) $false }
     )
 
     # GitHub's commits/{sha}/pulls association is merge evidence for a detached
     # snapshot, but a named branch that merely points at an already-merged commit is
     # active work: every branch cut from origin/main sits on the latest squash commit
     # until its first commit. A named branch therefore needs a merged PR whose head
-    # branch is this branch.
+    # branch is this branch (branch names are case-sensitive) and whose head commit the
+    # worktree still contains; a branch recreated under its old name right after the
+    # squash merge sits on the squash commit, which never contains the old head.
     $merged = @($Associations | Where-Object { $_.merged_at })
     if (-not $Branch) {
         if ($merged.Count -gt 0) { return 'merged PR via commit association' }
         return $null
     }
 
-    $own = $merged | Where-Object { $_.head.ref -eq $Branch } | Select-Object -First 1
+    $own = $merged |
+        Where-Object { $_.head.ref -ceq $Branch -and $_.head.sha -and (& $IsAncestor $_.head.sha) } |
+        Select-Object -First 1
     if ($own) { return "merged PR #$($own.number) via commit association for branch '$Branch'" }
     return $null
 }

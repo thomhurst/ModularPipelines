@@ -110,11 +110,19 @@ try {
     # Authoritative merge signal: merged-PR head branches AND head tip SHAs (squash-safe).
     # --limit 1000 covers any realistic leftover window for the NAME tier; anything older
     # falls through to the per-commit association tier below.
-    $mergedNames = @{}; $mergedOids = @{}; $mergedPrByNumber = @{}; $openNames = @{}; $openOids = @{}
+    # Branch names are case-sensitive in git; every merged head OID is kept per name because
+    # a branch name can be reused across PRs.
+    $mergedNames = [System.Collections.Hashtable]::new([System.StringComparer]::Ordinal)
+    $openNames = [System.Collections.Hashtable]::new([System.StringComparer]::Ordinal)
+    $mergedOids = @{}; $mergedPrByNumber = @{}; $openOids = @{}
     $rawMerged = gh pr list @repoArgs --state merged --limit 1000 --json number,mergedAt,headRefName,headRefOid 2>$null
     if ($LASTEXITCODE -ne 0) { Warn "could not list merged PRs (exit $LASTEXITCODE) -- skipping sweep this round"; exit 0 }
     foreach ($p in (($rawMerged -join "`n") | ConvertFrom-Json)) {
-        if ($p.headRefName -and $p.headRefOid) { $mergedNames[$p.headRefName.Trim()] = $p.headRefOid.Trim() }
+        if ($p.headRefName -and $p.headRefOid) {
+            $name = $p.headRefName.Trim()
+            if (-not $mergedNames.ContainsKey($name)) { $mergedNames[$name] = @() }
+            $mergedNames[$name] += $p.headRefOid.Trim()
+        }
         if ($p.headRefOid) { $mergedOids[$p.headRefOid.Trim()] = $true }
         if ($p.number) { $mergedPrByNumber[[int]$p.number] = $p }
     }
@@ -172,9 +180,10 @@ try {
         # also contain that PR's head commit: a fresh branch that reuses the name after
         # a squash merge is cut from main, which never contains the old head.
         $why = $null
-        if ($w.Branch -and $mergedNames.ContainsKey($w.Branch) -and $sha) {
-            git -C $w.Path merge-base --is-ancestor $mergedNames[$w.Branch] $sha 2>$null
-            if ($LASTEXITCODE -eq 0) { $why = "merged PR head branch '$($w.Branch)'" }
+        if ($w.Branch -and $sha -and $mergedNames.ContainsKey($w.Branch) -and
+            @($mergedNames[$w.Branch] | Where-Object {
+                Test-IsAncestorCommit -RepoPath $w.Path -Ancestor $_ -Descendant $sha }).Count -gt 0) {
+            $why = "merged PR head branch '$($w.Branch)'"
         }
 
         if (-not $why) {
@@ -187,9 +196,9 @@ try {
         # Tier 3 (detached only): checkout of a commit already reachable from main —
         # A/B baselines and gate parents. A named branch never qualifies here; it needs
         # positive PR evidence so a freshly-cut work branch is never reaped.
-        if (-not $why -and $sha -and $w.Detached -and $mainTip) {
-            git -C $mainRepo merge-base --is-ancestor $sha $mainTip 2>$null
-            if ($LASTEXITCODE -eq 0) { $why = 'detached HEAD reachable from origin/main' }
+        if (-not $why -and $sha -and $w.Detached -and $mainTip -and
+            (Test-IsAncestorCommit -RepoPath $mainRepo -Ancestor $sha -Descendant $mainTip)) {
+            $why = 'detached HEAD reachable from origin/main'
         }
 
         # Tier 4: matching canonical path and branch identities safely recognize named
@@ -210,7 +219,11 @@ try {
                 $associationChecked = $true
                 $assoc = if ($assocRaw) { @(($assocRaw -join "`n") | ConvertFrom-Json) } else { @() }
                 if (@($assoc | Where-Object { $_.state -eq 'open' }).Count -gt 0) { continue }   # commit belongs to an open PR — keep
-                $why = Get-MergedAssociationReason -Associations $assoc -Branch $w.Branch
+                $worktreePath = $w.Path; $worktreeSha = $sha
+                $why = Get-MergedAssociationReason -Associations $assoc -Branch $w.Branch -IsAncestor {
+                    param($headSha)
+                    Test-IsAncestorCommit -RepoPath $worktreePath -Ancestor $headSha -Descendant $worktreeSha
+                }.GetNewClosure()
             }
         }
 
