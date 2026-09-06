@@ -15,6 +15,18 @@ function Add-BaselinePair([string] $RelativeDirectory) {
     Add-File "$RelativeDirectory/PublicAPI.Unshipped.txt" '#nullable enable'
 }
 
+function Get-AssertFailureMessage {
+    # Runs the script in-process so the thrown message is inspected raw; the console
+    # error view wraps long lines on Linux and would break a match on the full text.
+    try {
+        & $scriptPath -RepositoryRoot $testRoot | Out-Null
+        return $null
+    }
+    catch {
+        return $_.Exception.Message
+    }
+}
+
 try {
     Add-File 'src/ModularPipelines/ModularPipelines.csproj' '<Project />'
     Add-BaselinePair 'src/ModularPipelines'
@@ -56,24 +68,24 @@ try {
     # The same plain symbol in both files is the RS0025 shape; a shipped entry plus its
     # marker is not.
     Add-File 'src/ModularPipelines.Cmd/PublicAPI.Unshipped.txt' "#nullable enable`n*REMOVED*Api.Retired`nApi.Kept"
-    $pairOutput = & pwsh -NoProfile -File $scriptPath -RepositoryRoot $testRoot 2>&1
-    if ($LASTEXITCODE -eq 0) {
+    $pairMessage = Get-AssertFailureMessage
+    if (-not $pairMessage) {
         throw 'Symbol listed in both baselines unexpectedly passed.'
     }
 
-    if (($pairOutput -join "`n") -notmatch 'ModularPipelines.Cmd[\\/]PublicAPI.Unshipped.txt: Api.Kept \(also in PublicAPI.Shipped.txt\)') {
-        throw "Cross-file duplicate was not reported: $($pairOutput -join "`n")"
+    if ($pairMessage -notmatch 'ModularPipelines.Cmd[\\/]PublicAPI.Unshipped.txt: Api.Kept \(also in PublicAPI.Shipped.txt\)') {
+        throw "Cross-file duplicate was not reported: $pairMessage"
     }
 
     # Markers compare exactly, as the merge script does; trailing whitespace is an orphan.
     Add-File 'src/ModularPipelines.Cmd/PublicAPI.Unshipped.txt' "#nullable enable`n*REMOVED*Api.Retired "
-    $whitespaceOutput = & pwsh -NoProfile -File $scriptPath -RepositoryRoot $testRoot 2>&1
-    if ($LASTEXITCODE -eq 0) {
+    $whitespaceMessage = Get-AssertFailureMessage
+    if (-not $whitespaceMessage) {
         throw 'Marker with trailing whitespace unexpectedly passed.'
     }
 
-    if (($whitespaceOutput -join "`n") -notmatch 'ModularPipelines.Cmd[\\/]PublicAPI.Unshipped.txt: \*REMOVED\*Api.Retired ') {
-        throw "Whitespace marker was not reported: $($whitespaceOutput -join "`n")"
+    if ($whitespaceMessage -notmatch 'ModularPipelines.Cmd[\\/]PublicAPI.Unshipped.txt: \*REMOVED\*Api.Retired ') {
+        throw "Whitespace marker was not reported: $whitespaceMessage"
     }
 
     Add-BaselinePair 'src/ModularPipelines.Cmd'
