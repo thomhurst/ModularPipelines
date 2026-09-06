@@ -21,7 +21,7 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformTestOptions : TerraformOptions
 {
     /// <summary>
-    /// If specified, Terraform will execute this test run remotely using HCP Terraform or Terraform Enterprise.
+    /// If specified, Terraform will execute this test run remotely using HCP Terraform or Terraform Enterprise. You must specify the source of a module registered in a private module registry as the argument to this flag. This allows Terraform to associate the cloud run with the correct HCP Terraform or Terraform Enterprise module and organization.
     /// </summary>
     [CliOption("-cloud-run", Format = OptionFormat.EqualsSeparated)]
     public string? CloudRun { get; set; }
@@ -51,7 +51,7 @@ public record TerraformTestOptions : TerraformOptions
     public bool? NoColor { get; set; }
 
     /// <summary>
-    /// Limit the number of concurrent operations within the
+    /// Limit the number of concurrent operations within the plan/apply operation of a test run. Defaults to 10.
     /// </summary>
     [CliOption("-parallelism", Format = OptionFormat.EqualsSeparated)]
     public int? Parallelism { get; set; }

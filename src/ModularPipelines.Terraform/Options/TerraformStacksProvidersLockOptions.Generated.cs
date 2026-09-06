@@ -21,7 +21,7 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformStacksProvidersLockOptions : TerraformOptions
 {
     /// <summary>
-    /// Output results in JSON format instead of the default
+    /// Output results in JSON format instead of the default human-readable text format.
     /// </summary>
     [CliFlag("-json")]
     public bool? Json { get; set; }
