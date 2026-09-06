@@ -61,10 +61,31 @@ public class ContinuationLineTests
     [Test]
     [Arguments("  --quiet")]
     [Arguments("  -f, --file string")]
+    [Arguments("  --env  stringArray")]
+    [Arguments("  --output  <path>")]
+    [Arguments("  --level  DEBUG")]
     [Arguments("   ")]
     public async Task Rows_Without_Prose_Have_No_Inline_Description_Column(string line)
     {
         await Assert.That(CliScraperBase.GetInlineDescriptionColumn(line)).IsNull();
+    }
+
+    [Test]
+    public async Task Repeatable_Lookahead_Does_Not_Anchor_On_A_Terminal_Value_Hint()
+    {
+        // --env's description starts on the next line; the padded hint must not become the
+        // continuation threshold, or the nested --env-file row at that column would be absorbed.
+        const string helpText = """
+              --env  stringArray
+                     Set environment variables
+                     --env-file=PATH   Read variables from a file; may be specified multiple times
+            """;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env-file", string.Empty)).IsTrue();
+        }
     }
 
     [Test]
