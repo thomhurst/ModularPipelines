@@ -21,7 +21,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerSwarmInitOptions : DockerOptions
 {
     /// <summary>
-    /// Advertised address
+    /// Advertised address (format: "&lt;ip|interface&gt;[:port]")
     /// </summary>
     [CliOption("--advertise-addr", Format = OptionFormat.EqualsSeparated)]
     public string? AdvertiseAddr { get; set; }

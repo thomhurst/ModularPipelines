@@ -1441,7 +1441,7 @@ public class ModuleOutputBufferTests
             loggerControl,
             loggerControl,
             OutputFlushKind.Incremental));
-        await renderingStarted.Task.WaitAsync(TimeSpan.FromSeconds(1));
+        await renderingStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
 
         try
         {
@@ -1761,7 +1761,7 @@ public class ModuleOutputBufferTests
             }
         });
 
-        await lockAcquired.Task.WaitAsync(TimeSpan.FromSeconds(1));
+        await lockAcquired.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         try
         {
             var flush = Task.Run(() => buffer.FlushToAsync(
@@ -1773,7 +1773,7 @@ public class ModuleOutputBufferTests
                 [fallbackLogger],
                 CancellationToken.None));
 
-            await flush.WaitAsync(TimeSpan.FromSeconds(2));
+            await flush.WaitAsync(TestHostSettings.DefaultTestTimeout);
         }
         finally
         {
@@ -1965,7 +1965,7 @@ public class ModuleOutputBufferTests
             }
         });
 
-        await lockAcquired.Task.WaitAsync(TimeSpan.FromSeconds(1));
+        await lockAcquired.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         try
         {
             await buffer.FlushToAsync(
@@ -2015,7 +2015,7 @@ public class ModuleOutputBufferTests
             }
         });
 
-        await lockAcquired.Task.WaitAsync(TimeSpan.FromSeconds(1));
+        await lockAcquired.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         try
         {
             await buffer.FlushToAsync(

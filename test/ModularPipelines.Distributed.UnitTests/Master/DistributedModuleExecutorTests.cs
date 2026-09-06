@@ -777,7 +777,7 @@ public class DistributedModuleExecutorTests
             workerIndex: 1);
         // Act
         var executionTask = executor.ExecuteAsync([module]);
-        await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await noDequeue.ResultWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await coordinator.PublishResultAsync(serialized, CancellationToken.None);
         await executionTask;
 
@@ -817,7 +817,7 @@ public class DistributedModuleExecutorTests
             workerIndex: 1);
         // Act
         var executionTask = executor.ExecuteAsync([module]);
-        await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await noDequeue.ResultWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await coordinator.PublishResultAsync(serialized, CancellationToken.None);
         await executionTask;
 
@@ -1229,7 +1229,7 @@ public class DistributedModuleExecutorTests
             workerIndex: 1);
         // Act
         var executionTask = executor.ExecuteAsync([moduleA, moduleB]);
-        await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await noDequeue.ResultWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await coordinator.PublishResultAsync(serializedFailure, CancellationToken.None);
         // Don't publish moduleB result — it should be cancelled
         await executionTask;
@@ -1295,23 +1295,23 @@ public class DistributedModuleExecutorTests
             resultCollector: resultCollector);
 
         var executionTask = executor.ExecuteAsync([failedModule, alwaysRunModule]);
-        await noDequeue.WaitForResultStartedAsync(typeof(DistributedModule)).WaitAsync(TimeSpan.FromSeconds(2));
-        await noDequeue.WaitForResultStartedAsync(typeof(AlwaysRunDistributedModule)).WaitAsync(TimeSpan.FromSeconds(2));
+        await noDequeue.WaitForResultStartedAsync(typeof(DistributedModule)).WaitAsync(TestHostSettings.DefaultTestTimeout);
+        await noDequeue.WaitForResultStartedAsync(typeof(AlwaysRunDistributedModule)).WaitAsync(TestHostSettings.DefaultTestTimeout);
         await coordinator.PublishResultAsync(serializedFailure, CancellationToken.None);
-        await pipelineCancelled.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await pipelineCancelled.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
 
         var alwaysRunWaitToken = noDequeue.ResultWaitTokens[typeof(AlwaysRunDistributedModule).FullName!];
         await Assert.That(alwaysRunWaitToken.IsCancellationRequested).IsFalse();
         await Assert.That(executionTask.IsCompleted).IsFalse();
 
         await coordinator.PublishResultAsync(serializedAlwaysRunResult, CancellationToken.None);
-        await alwaysRunStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await alwaysRunStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await Assert.That(executionTask.IsCompleted).IsFalse();
         await Assert.That(noDequeue.CompletionSignaled.Task.IsCompleted).IsFalse();
 
         releaseAlwaysRun.TrySetResult();
-        await executionTask.WaitAsync(TimeSpan.FromSeconds(2));
-        await noDequeue.CompletionSignaled.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await executionTask.WaitAsync(TestHostSettings.DefaultTestTimeout);
+        await noDequeue.CompletionSignaled.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await Assert.That(resultRegistry.GetResult(typeof(AlwaysRunDistributedModule))?.ExceptionOrDefault).IsNull();
         alwaysRunHandler.VerifyAll();
     }
@@ -1346,11 +1346,11 @@ public class DistributedModuleExecutorTests
             resultCollector: new DistributedResultCollector(noDequeue, serializer));
 
         var executionTask = executor.ExecuteAsync([failedModule, alwaysRunModule]);
-        await noDequeue.WaitForResultStartedAsync(typeof(DistributedModule)).WaitAsync(TimeSpan.FromSeconds(2));
+        await noDequeue.WaitForResultStartedAsync(typeof(DistributedModule)).WaitAsync(TestHostSettings.DefaultTestTimeout);
         await noDequeue.WaitForResultStartedAsync(typeof(ShortTimeoutAlwaysRunDistributedModule))
-            .WaitAsync(TimeSpan.FromSeconds(2));
+            .WaitAsync(TestHostSettings.DefaultTestTimeout);
         await coordinator.PublishResultAsync(serializedFailure, CancellationToken.None);
-        await executionTask.WaitAsync(TimeSpan.FromSeconds(2));
+        await executionTask.WaitAsync(TestHostSettings.DefaultTestTimeout);
 
         var result = resultRegistry.GetResult(typeof(ShortTimeoutAlwaysRunDistributedModule));
         await Assert.That(result).IsNotNull();
@@ -1458,14 +1458,13 @@ public class DistributedModuleExecutorTests
             alwaysRunHandler: alwaysRunHandler.Object);
 
         var executionTask = executor.ExecuteAsync([module]);
-        await trackingCoordinator.WaitForResultStartedAsync(typeof(DistributedModule))
-            .WaitAsync(TimeSpan.FromSeconds(2));
+        await trackingCoordinator.WaitForResultStartedAsync(typeof(DistributedModule)).WaitAsync(TestHostSettings.DefaultTestTimeout);
         await coordinator.PublishResultAsync(serializedFailure, CancellationToken.None);
         var exception = await Assert.That(async () => await executionTask)
             .Throws<InvalidOperationException>();
 
         await Assert.That(exception).IsSameReferenceAs(failure);
-        await trackingCoordinator.CompletionSignaled.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await trackingCoordinator.CompletionSignaled.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         alwaysRunHandler.VerifyAll();
     }
 
@@ -1515,17 +1514,17 @@ public class DistributedModuleExecutorTests
             resultCollector: resultCollector);
 
         var executionTask = executor.ExecuteAsync([failedModule, queuedModule]);
-        await noDequeue.WaitForResultStartedAsync(typeof(DistributedModule)).WaitAsync(TimeSpan.FromSeconds(2));
-        await noDequeue.WaitForResultStartedAsync(typeof(AnotherDistributedModule)).WaitAsync(TimeSpan.FromSeconds(2));
+        await noDequeue.WaitForResultStartedAsync(typeof(DistributedModule)).WaitAsync(TestHostSettings.DefaultTestTimeout);
+        await noDequeue.WaitForResultStartedAsync(typeof(AnotherDistributedModule)).WaitAsync(TestHostSettings.DefaultTestTimeout);
         var externalWorkerAssignment = await coordinator.DequeueModuleAsync(
             new HashSet<Capability>(),
             CancellationToken.None);
         await Assert.That(externalWorkerAssignment?.ModuleTypeName)
             .IsEqualTo(typeof(DistributedModule).FullName);
         await coordinator.PublishResultAsync(serializedFailure, CancellationToken.None);
-        await pipelineCancelled.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await pipelineCancelled.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
 
-        await executionTask.WaitAsync(TimeSpan.FromSeconds(2));
+        await executionTask.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await Assert.That(noDequeue.DequeueCount).IsEqualTo(1);
         moduleRunner.Verify(runner => runner.ExecuteWithoutDependencyWaitAsync(
             It.IsAny<ModuleState>(),
@@ -2164,7 +2163,7 @@ public class DistributedModuleExecutorTests
         var serialized = serializer.Serialize(successResult, typeof(DistributedModule).FullName!, typeof(SimpleResult).FullName!, 1);
         // Act
         var executionTask = executor.ExecuteAsync([module]);
-        await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await noDequeue.ResultWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await coordinator.PublishResultAsync(serialized, CancellationToken.None);
         await executionTask;
 
@@ -2280,7 +2279,7 @@ public class DistributedModuleExecutorTests
             typeof(SimpleResult).FullName!,
             1);
         var executionTask = executor.ExecuteAsync([module]);
-        await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await noDequeue.ResultWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await coordinator.PublishResultAsync(serialized, CancellationToken.None);
         await executionTask;
 
@@ -2472,7 +2471,7 @@ public class DistributedModuleExecutorTests
         var serialized = serializer.Serialize(failureResult, typeof(DistributedModule).FullName!, typeof(SimpleResult).FullName!, 1);
         // Act
         var executionTask = executor.ExecuteAsync([module]);
-        await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await noDequeue.ResultWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await coordinator.PublishResultAsync(serialized, CancellationToken.None);
         await executionTask;
 
@@ -2554,7 +2553,9 @@ public class DistributedModuleExecutorTests
         var resultCollector = new DistributedResultCollector(noDequeue, serializer);
         var resultRegistry = new ModuleResultRegistry();
 
-        var distributedOptions = new DistributedOptions { TotalInstances = 2, CapabilityTimeout = TimeSpan.FromSeconds(10) };
+        // Above DefaultTestTimeout so a regressed worker gate fails on the guard instead of
+        // falling through to dispatch first.
+        var distributedOptions = new DistributedOptions { TotalInstances = 2, CapabilityTimeout = TimeSpan.FromMinutes(1) };
 
         var lifetime = new Mock<IHostApplicationLifetime>();
         lifetime.Setup(l => l.ApplicationStopping).Returns(CancellationToken.None);
@@ -2576,7 +2577,7 @@ public class DistributedModuleExecutorTests
 
         // Act
         var executionTask = executor.ExecuteAsync([module]);
-        await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await noDequeue.ResultWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         var workers = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
         var successResult = CreateSuccessResult(new SimpleResult { Message = "ok" }, "DistributedModule");
         var serialized = serializer.Serialize(
@@ -2614,7 +2615,10 @@ public class DistributedModuleExecutorTests
         {
             TotalInstances = 2,
             MinimumWorkerCount = 1,
-            CapabilityTimeout = TimeSpan.FromSeconds(10),
+
+            // Above DefaultTestTimeout so a regressed worker gate fails on the guard instead of
+            // falling through to dispatch first.
+            CapabilityTimeout = TimeSpan.FromMinutes(1),
         };
 
         var executor = CreateExecutor(
@@ -2625,14 +2629,14 @@ public class DistributedModuleExecutorTests
             distributedOptions: options);
 
         var executionTask = executor.ExecuteAsync([module]);
-        await noDequeue.WorkerQueryStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await noDequeue.WorkerQueryStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await Assert.That(noDequeue.ResultWaitStarted.Task.IsCompleted).IsFalse();
 
         await coordinator.RegisterWorkerAsync(
             new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
             CancellationToken.None);
         noDequeue.ReleaseWorkerQuery();
-        await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await noDequeue.ResultWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         var successResult = CreateSuccessResult(new SimpleResult { Message = "ok" }, "DistributedModule");
         var serialized = serializer.Serialize(
             successResult,

@@ -174,7 +174,6 @@ public partial class MavenCliScraper : CliScraperBase
             var shortForm = match.Groups["short"].Value.Trim();
             var longForm = match.Groups["long"].Value.Trim();
             var valueHint = match.Groups["value"].Value.Trim();
-            var description = match.Groups["desc"].Value.Trim();
 
             if (string.IsNullOrEmpty(longForm))
             {
@@ -194,8 +193,7 @@ public partial class MavenCliScraper : CliScraperBase
 
             seenOptions.Add(longForm);
 
-            // Accumulate multi-line descriptions
-            i = AccumulateMultiLineDescription(lines, i, ref description);
+            var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow);
 
             var propertyName = NormalizePropertyName(longForm);
             if (propertyName is null)
@@ -263,48 +261,7 @@ public partial class MavenCliScraper : CliScraperBase
         };
     }
 
-    /// <summary>
-    /// Accumulates multi-line descriptions.
-    /// </summary>
-    private static int AccumulateMultiLineDescription(string[] lines, int currentIndex, ref string description)
-    {
-        var descriptionParts = new List<string>();
-        if (!string.IsNullOrEmpty(description))
-        {
-            descriptionParts.Add(description);
-        }
-
-        var nextIndex = currentIndex + 1;
-        while (nextIndex < lines.Length)
-        {
-            var nextLine = lines[nextIndex];
-            var trimmedNext = nextLine.Trim();
-
-            if (string.IsNullOrWhiteSpace(trimmedNext))
-            {
-                break;
-            }
-
-            // If line starts with -, it's a new option
-            if (trimmedNext.StartsWith('-'))
-            {
-                break;
-            }
-
-            // Check indentation - continuation lines are heavily indented
-            var leadingSpaces = nextLine.Length - nextLine.TrimStart().Length;
-            if (leadingSpaces < 30)
-            {
-                break;
-            }
-
-            descriptionParts.Add(trimmedNext);
-            nextIndex++;
-        }
-
-        description = string.Join(" ", descriptionParts);
-        return nextIndex - 1;
-    }
+    private static bool IsOptionRow(string line) => MavenOptionPattern().IsMatch(line);
 
     /// <summary>
     /// Checks if help text indicates the command has options.

@@ -33,7 +33,7 @@ builder.AddDistributedMode(o =>
 | `TotalInstances` | `int` | `1` | Total number of instances (master + workers). |
 | `Capabilities` | `IReadOnlyList<Capability>` | `[]` | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values. |
 | `RunId` | `string` | `MODULARPIPELINES_RUN_ID` or generated for one instance | Identifier shared by every process in this pipeline run. Multi-instance runs fail fast when neither source is configured. |
-| `RequireExplicitRunId` | `bool` | `false` | Reject generated single-instance IDs. Shared Redis backends enable this automatically. S3 artifact-store registrations also require an explicit shared `RunId`, including for single-instance configurations. |
+| `RequireExplicitRunId` | `bool` | `false` | Reject generated single-instance IDs. Shared Redis backends enable this automatically. S3 artifact-store registrations also require an explicit shared `RunId`, including for single-instance configurations. Custom backends opt in with `builder.RequireExplicitRunId()`. |
 | `CapabilityTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(5)` | Registration grace period before an assignment with no capable worker fails with an explicit routing error. |
 | `MinimumWorkerCount` | `int` | `0` | Number of external workers required before dispatch starts. Keep zero for immediate dispatch; set `TotalInstances - 1` for the former full-worker barrier. |
 | `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely. |
@@ -76,9 +76,14 @@ Satellite registrations use the same options pattern and accept configuration se
 ```csharp
 builder.AddRedisDistributedCoordinator(builder.Configuration.GetSection("Redis"));
 builder.AddSignalRDistributedCoordinator(builder.Configuration.GetSection("SignalR"));
-builder.AddRedisSignalRDiscovery(builder.Configuration.GetSection("RedisDiscovery"));
+builder.AddRedisMasterDiscovery(builder.Configuration.GetSection("RedisDiscovery"));
 builder.AddS3DistributedArtifactStore(builder.Configuration.GetSection("S3"));
 ```
+
+`AddRedisMasterDiscovery` keys the advertised master endpoint by `DistributedOptions.RunId` and enables
+`RequireExplicitRunId`, so every process in the run must share one explicit `RunId`: set it in the
+`Distributed` section, assign `options.RunId`, or export `MODULARPIPELINES_RUN_ID` for each master and
+worker. See [Run Identifier Resolution](#run-identifier-resolution).
 
 ## RedisDistributedOptions
 

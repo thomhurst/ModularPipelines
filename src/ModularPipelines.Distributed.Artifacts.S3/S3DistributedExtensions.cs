@@ -6,11 +6,9 @@ using ModularPipelines.Caching;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 using ModularPipelines.Distributed.Artifacts.S3.Caching;
-using ModularPipelines.Distributed.Artifacts.S3.Configuration;
-using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Extensions;
 
-namespace ModularPipelines.Distributed.Artifacts.S3.Extensions;
+namespace ModularPipelines.Distributed.Artifacts.S3;
 
 /// <summary>
 /// Extension methods for registering the S3-compatible distributed artifact store.
@@ -103,12 +101,10 @@ public static class S3DistributedExtensions
         return AddS3DistributedArtifactStoreFactory(builder);
     }
 
-    private static PipelineBuilder AddS3DistributedArtifactStoreFactory(PipelineBuilder builder)
-    {
-        builder.Services.Configure<DistributedOptions>(options => options.RequireExplicitRunId = true);
-        builder.Services.AddOptions<DistributedOptions>().ValidateOnStart();
-        return builder.AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
-    }
+    private static PipelineBuilder AddS3DistributedArtifactStoreFactory(PipelineBuilder builder) =>
+        builder
+            .RequireExplicitRunId()
+            .AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
 
     private static PipelineBuilder AddS3ModuleCacheServices(
         PipelineBuilder builder,

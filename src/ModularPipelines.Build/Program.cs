@@ -8,10 +8,10 @@ using ModularPipelines.Build.Modules;
 using ModularPipelines.Build.Modules.LocalMachine;
 using ModularPipelines.Build.Modules.UnitTests;
 using ModularPipelines.Build.Settings;
-using ModularPipelines.Distributed.Artifacts.S3.Extensions;
+using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Artifacts.S3;
 using ModularPipelines.Distributed.Discovery.Redis;
-using ModularPipelines.Distributed.Extensions;
-using ModularPipelines.Distributed.SignalR.Extensions;
+using ModularPipelines.Distributed.SignalR;
 using ModularPipelines.Extensions;
 using Octokit;
 using Octokit.Internal;
@@ -214,7 +214,7 @@ file static class BuildPipelineConfiguration
             // Distributed CI must install cloudflared before enabling multiple instances.
             o.EnableTunnel = true;
         });
-        builder.AddRedisSignalRDiscovery(o =>
+        builder.AddRedisMasterDiscovery(o =>
         {
             o.RestUrl = redisRestUrl;
             o.RestToken = redisRestToken;

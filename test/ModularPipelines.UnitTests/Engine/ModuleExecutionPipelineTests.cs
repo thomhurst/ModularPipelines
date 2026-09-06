@@ -127,8 +127,7 @@ public class ModuleExecutionPipelineTests
     private sealed class AlwaysRunElapsedCancellationModule : Module<int>
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module
-            .WithAlwaysRun()
-            .WithTimeout(TimeSpan.FromMilliseconds(5));
+            .WithAlwaysRun();
 
         protected internal override Task<int> ExecuteAsync(
             IModuleContext context,
@@ -209,16 +208,59 @@ public class ModuleExecutionPipelineTests
     [Test]
     public async Task ExecuteAsync_DoesNotClassifyAlwaysRunElapsedCancellationAsTimeout()
     {
+        // The status comes from the cancellation source, not from how long the attempt took.
         var module = new AlwaysRunElapsedCancellationModule();
         var executionContext = new ModuleExecutionContext<int>(module, module.GetType());
-        executionContext.Stopwatch.Start();
-        await Task.Delay(TimeSpan.FromMilliseconds(25));
-        executionContext.Stopwatch.Stop();
 
         await Assert.That(async () => await ExecuteAfterPipelineCancellation(module, executionContext))
             .Throws<ModuleFailedException>();
 
         await Assert.That(executionContext.Status).IsEqualTo(ModuleStatus.Failed);
+    }
+
+    private sealed class AlwaysRunTinyTimeoutModule : Module<int>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithAlwaysRun()
+            .WithTimeout(TimeSpan.FromMilliseconds(5));
+
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(42);
+        }
+    }
+
+    [Test]
+    public async Task ClassifyException_UsesTheExceptionNotTheAttemptDuration()
+    {
+        // The module never executes here, so its 5 ms deadline cannot race the classifier.
+        // Any real attempt would outlive that timeout; the status still follows the exception:
+        // a pipeline cancellation stays Failed for an always-run module and only a genuine
+        // ModuleTimeoutException becomes TimedOut.
+        var module = new AlwaysRunTinyTimeoutModule();
+        var configuration = ((IModule) module).Configuration;
+        using var engineCancellationToken =
+            new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        engineCancellationToken.CancelWithException(new InvalidOperationException("Prior module failure"));
+        var pipeline = new ModuleExecutionPipeline(
+            Mock.Of<IModuleResultRepository>(),
+            engineCancellationToken,
+            Mock.Of<IDirectHookInvoker>(),
+            Mock.Of<IModuleConditionHandler>(),
+            OptionsFactory.Create(new PipelineOptions()));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(configuration.Timeout).IsEqualTo(TimeSpan.FromMilliseconds(5));
+            await Assert.That(pipeline.ClassifyException(configuration, new OperationCanceledException()))
+                .IsEqualTo(ModuleStatus.Failed);
+            await Assert.That(pipeline.ClassifyException(
+                    configuration,
+                    new ModuleTimeoutException(module.GetType(), configuration.Timeout!.Value)))
+                .IsEqualTo(ModuleStatus.TimedOut);
+        }
     }
 
     [Test]

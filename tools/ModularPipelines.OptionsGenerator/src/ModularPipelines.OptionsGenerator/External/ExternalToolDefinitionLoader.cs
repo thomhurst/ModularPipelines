@@ -441,11 +441,7 @@ public static class ExternalToolDefinitionLoader
         CliEnumDefinition first,
         CliEnumDefinition second) =>
         string.Equals(first.Description, second.Description, StringComparison.Ordinal)
-        && first.Values.Count == second.Values.Count
-        && first.Values.Zip(second.Values).All(pair =>
-            string.Equals(pair.First.MemberName, pair.Second.MemberName, StringComparison.Ordinal)
-            && string.Equals(pair.First.CliValue, pair.Second.CliValue, StringComparison.Ordinal)
-            && string.Equals(pair.First.Description, pair.Second.Description, StringComparison.Ordinal));
+        && CliEnumDefinition.OrderValues(first.Values).SequenceEqual(CliEnumDefinition.OrderValues(second.Values));
 
     private static void ValidateUniqueEffectiveSwitches(
         CliCommandDefinition command,

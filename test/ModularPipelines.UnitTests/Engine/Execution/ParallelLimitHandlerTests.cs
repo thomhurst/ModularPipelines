@@ -104,7 +104,7 @@ public class ParallelLimitHandlerTests
             moduleState,
             scheduler.Object,
             CancellationToken.None);
-        await limitWaitObserved.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await limitWaitObserved.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
 
         handler.Verify(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()), Times.Once);
         await Assert.That(TrackingReadyAttribute.InvocationCount).IsEqualTo(1);
@@ -266,7 +266,7 @@ public class ParallelLimitHandlerTests
             moduleState,
             scheduler.Object,
             workerCancellationTokenSource.Token);
-        await limiterWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await limiterWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         engineCancellationToken.Cancel();
 
         var exception = await Assert.ThrowsAsync<OperationCanceledException>(() => executionTask);
@@ -319,7 +319,7 @@ public class ParallelLimitHandlerTests
             moduleState,
             scheduler.Object,
             workerCancellationTokenSource.Token);
-        await limiterWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await limiterWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         engineCancellationToken.CancelWithReason("User cancellation");
 
         var exception = await Assert.ThrowsAsync<OperationCanceledException>(() => executionTask);
@@ -361,7 +361,7 @@ public class ParallelLimitHandlerTests
             moduleState,
             scheduler.Object,
             workerCancellationTokenSource.Token);
-        await limiterWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await limiterWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         engineCancellationToken.CancelWithException(originalException);
 
         var exception = await Assert.ThrowsAsync<OperationCanceledException>(() => executionTask);
@@ -555,7 +555,7 @@ public class ParallelLimitHandlerTests
             moduleState,
             scheduler.Object,
             workerCancellationTokenSource.Token);
-        await limiterWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await limiterWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         workerCancellationTokenSource.Cancel();
 
         var exception = await Assert.ThrowsAsync<OperationCanceledException>(() => executionTask);
