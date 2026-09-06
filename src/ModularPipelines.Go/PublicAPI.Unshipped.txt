@@ -5,27 +5,179 @@
 *REMOVED*ModularPipelines.Go.Services.IGo.TestAsync(ModularPipelines.Go.Options.GoTestOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Go.Services.IGo.VetAsync(ModularPipelines.Go.Options.GoVetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*static ModularPipelines.Go.Extensions.GoExtensions.Go(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Go.Services.IGo!
+ModularPipelines.Go.Options.GoBugOptions
+ModularPipelines.Go.Options.GoBugOptions.GoBugOptions() -> void
+ModularPipelines.Go.Options.GoBugOptions.GoBugOptions(ModularPipelines.Go.Options.GoBugOptions! original) -> void
+ModularPipelines.Go.Options.GoBuildOptions.A.get -> bool?
+ModularPipelines.Go.Options.GoBuildOptions.A.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Asan.get -> bool?
+ModularPipelines.Go.Options.GoBuildOptions.Asan.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Asmflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoBuildOptions.Asmflags.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Buildmode.get -> string?
+ModularPipelines.Go.Options.GoBuildOptions.Buildmode.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Buildvcs.get -> string?
+ModularPipelines.Go.Options.GoBuildOptions.Buildvcs.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.C.get -> string?
+ModularPipelines.Go.Options.GoBuildOptions.C.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Compiler.get -> string?
+ModularPipelines.Go.Options.GoBuildOptions.Compiler.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Cover.get -> bool?
+ModularPipelines.Go.Options.GoBuildOptions.Cover.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Covermode.get -> string?
+ModularPipelines.Go.Options.GoBuildOptions.Covermode.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Coverpkg.get -> string?
+ModularPipelines.Go.Options.GoBuildOptions.Coverpkg.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Gccgoflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoBuildOptions.Gccgoflags.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Gcflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoBuildOptions.Gcflags.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Installsuffix.get -> string?
+ModularPipelines.Go.Options.GoBuildOptions.Installsuffix.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Json.get -> bool?
+ModularPipelines.Go.Options.GoBuildOptions.Json.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Ldflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoBuildOptions.Ldflags.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Linkshared.get -> bool?
+ModularPipelines.Go.Options.GoBuildOptions.Linkshared.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Mod.get -> string?
+ModularPipelines.Go.Options.GoBuildOptions.Mod.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Modcacherw.get -> bool?
+ModularPipelines.Go.Options.GoBuildOptions.Modcacherw.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Modfile.get -> string?
+ModularPipelines.Go.Options.GoBuildOptions.Modfile.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Msan.get -> bool?
+ModularPipelines.Go.Options.GoBuildOptions.Msan.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.N.get -> bool?
+ModularPipelines.Go.Options.GoBuildOptions.N.set -> void
 ModularPipelines.Go.Options.GoBuildOptions.O.get -> string?
 ModularPipelines.Go.Options.GoBuildOptions.O.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Overlay.get -> string?
+ModularPipelines.Go.Options.GoBuildOptions.Overlay.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.P.get -> string?
+ModularPipelines.Go.Options.GoBuildOptions.P.set -> void
 ModularPipelines.Go.Options.GoBuildOptions.Packages.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Go.Options.GoBuildOptions.Packages.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Pgo.get -> string?
+ModularPipelines.Go.Options.GoBuildOptions.Pgo.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Pkgdir.get -> string?
+ModularPipelines.Go.Options.GoBuildOptions.Pkgdir.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Race.get -> bool?
+ModularPipelines.Go.Options.GoBuildOptions.Race.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Tags.get -> string?
+ModularPipelines.Go.Options.GoBuildOptions.Tags.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Toolexec.get -> string?
+ModularPipelines.Go.Options.GoBuildOptions.Toolexec.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Trimpath.get -> bool?
+ModularPipelines.Go.Options.GoBuildOptions.Trimpath.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.V.get -> bool?
+ModularPipelines.Go.Options.GoBuildOptions.V.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.Work.get -> bool?
+ModularPipelines.Go.Options.GoBuildOptions.Work.set -> void
+ModularPipelines.Go.Options.GoBuildOptions.X.get -> bool?
+ModularPipelines.Go.Options.GoBuildOptions.X.set -> void
 ModularPipelines.Go.Options.GoCleanOptions
+ModularPipelines.Go.Options.GoCleanOptions.A.get -> bool?
+ModularPipelines.Go.Options.GoCleanOptions.A.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Asan.get -> bool?
+ModularPipelines.Go.Options.GoCleanOptions.Asan.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Asmflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoCleanOptions.Asmflags.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Buildmode.get -> string?
+ModularPipelines.Go.Options.GoCleanOptions.Buildmode.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Buildvcs.get -> string?
+ModularPipelines.Go.Options.GoCleanOptions.Buildvcs.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.C.get -> string?
+ModularPipelines.Go.Options.GoCleanOptions.C.set -> void
 ModularPipelines.Go.Options.GoCleanOptions.Cache.get -> bool?
 ModularPipelines.Go.Options.GoCleanOptions.Cache.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Compiler.get -> string?
+ModularPipelines.Go.Options.GoCleanOptions.Compiler.set -> void
 ModularPipelines.Go.Options.GoCleanOptions.Fuzzcache.get -> bool?
 ModularPipelines.Go.Options.GoCleanOptions.Fuzzcache.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Gccgoflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoCleanOptions.Gccgoflags.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Gcflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoCleanOptions.Gcflags.set -> void
 ModularPipelines.Go.Options.GoCleanOptions.GoCleanOptions() -> void
 ModularPipelines.Go.Options.GoCleanOptions.GoCleanOptions(ModularPipelines.Go.Options.GoCleanOptions! original) -> void
 ModularPipelines.Go.Options.GoCleanOptions.I.get -> bool?
 ModularPipelines.Go.Options.GoCleanOptions.I.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Installsuffix.get -> string?
+ModularPipelines.Go.Options.GoCleanOptions.Installsuffix.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Ldflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoCleanOptions.Ldflags.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Linkshared.get -> bool?
+ModularPipelines.Go.Options.GoCleanOptions.Linkshared.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Mod.get -> string?
+ModularPipelines.Go.Options.GoCleanOptions.Mod.set -> void
 ModularPipelines.Go.Options.GoCleanOptions.Modcache.get -> bool?
 ModularPipelines.Go.Options.GoCleanOptions.Modcache.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Modcacherw.get -> bool?
+ModularPipelines.Go.Options.GoCleanOptions.Modcacherw.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Modfile.get -> string?
+ModularPipelines.Go.Options.GoCleanOptions.Modfile.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Msan.get -> bool?
+ModularPipelines.Go.Options.GoCleanOptions.Msan.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.N.get -> bool?
+ModularPipelines.Go.Options.GoCleanOptions.N.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Overlay.get -> string?
+ModularPipelines.Go.Options.GoCleanOptions.Overlay.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.P.get -> string?
+ModularPipelines.Go.Options.GoCleanOptions.P.set -> void
 ModularPipelines.Go.Options.GoCleanOptions.Packages.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Go.Options.GoCleanOptions.Packages.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Pgo.get -> string?
+ModularPipelines.Go.Options.GoCleanOptions.Pgo.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Pkgdir.get -> string?
+ModularPipelines.Go.Options.GoCleanOptions.Pkgdir.set -> void
 ModularPipelines.Go.Options.GoCleanOptions.R.get -> bool?
 ModularPipelines.Go.Options.GoCleanOptions.R.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Race.get -> bool?
+ModularPipelines.Go.Options.GoCleanOptions.Race.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Tags.get -> string?
+ModularPipelines.Go.Options.GoCleanOptions.Tags.set -> void
 ModularPipelines.Go.Options.GoCleanOptions.Testcache.get -> bool?
 ModularPipelines.Go.Options.GoCleanOptions.Testcache.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Toolexec.get -> string?
+ModularPipelines.Go.Options.GoCleanOptions.Toolexec.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Trimpath.get -> bool?
+ModularPipelines.Go.Options.GoCleanOptions.Trimpath.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.V.get -> bool?
+ModularPipelines.Go.Options.GoCleanOptions.V.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.Work.get -> bool?
+ModularPipelines.Go.Options.GoCleanOptions.Work.set -> void
+ModularPipelines.Go.Options.GoCleanOptions.X.get -> bool?
+ModularPipelines.Go.Options.GoCleanOptions.X.set -> void
+ModularPipelines.Go.Options.GoDocOptions
+ModularPipelines.Go.Options.GoDocOptions.All.get -> bool?
+ModularPipelines.Go.Options.GoDocOptions.All.set -> void
+ModularPipelines.Go.Options.GoDocOptions.Cmd.get -> bool?
+ModularPipelines.Go.Options.GoDocOptions.Cmd.set -> void
+ModularPipelines.Go.Options.GoDocOptions.Ex.get -> bool?
+ModularPipelines.Go.Options.GoDocOptions.Ex.set -> void
+ModularPipelines.Go.Options.GoDocOptions.GoDocOptions() -> void
+ModularPipelines.Go.Options.GoDocOptions.GoDocOptions(ModularPipelines.Go.Options.GoDocOptions! original) -> void
+ModularPipelines.Go.Options.GoDocOptions.Http.get -> bool?
+ModularPipelines.Go.Options.GoDocOptions.Http.set -> void
+ModularPipelines.Go.Options.GoDocOptions.LowerC.get -> bool?
+ModularPipelines.Go.Options.GoDocOptions.LowerC.set -> void
+ModularPipelines.Go.Options.GoDocOptions.Package.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoDocOptions.Package.set -> void
+ModularPipelines.Go.Options.GoDocOptions.Short.get -> bool?
+ModularPipelines.Go.Options.GoDocOptions.Short.set -> void
+ModularPipelines.Go.Options.GoDocOptions.Src.get -> bool?
+ModularPipelines.Go.Options.GoDocOptions.Src.set -> void
+ModularPipelines.Go.Options.GoDocOptions.U.get -> bool?
+ModularPipelines.Go.Options.GoDocOptions.U.set -> void
+ModularPipelines.Go.Options.GoDocOptions.UpperC.get -> string?
+ModularPipelines.Go.Options.GoDocOptions.UpperC.set -> void
+ModularPipelines.Go.Options.GoEditOperation
+ModularPipelines.Go.Options.GoEditOperation.<Clone>$() -> ModularPipelines.Go.Options.GoEditOperation!
+ModularPipelines.Go.Options.GoEditOperation.Equals(ModularPipelines.Go.Options.GoEditOperation? other) -> bool
+ModularPipelines.Go.Options.GoEditOperation.GoEditOperation(string! option, string! value) -> void
+ModularPipelines.Go.Options.GoEditOperation.Option.get -> string!
+ModularPipelines.Go.Options.GoEditOperation.Value.get -> string!
 ModularPipelines.Go.Options.GoEnvOptions
 ModularPipelines.Go.Options.GoEnvOptions.Changed.get -> bool?
 ModularPipelines.Go.Options.GoEnvOptions.Changed.set -> void
@@ -39,56 +191,372 @@ ModularPipelines.Go.Options.GoEnvOptions.Var.get -> System.Collections.Generic.I
 ModularPipelines.Go.Options.GoEnvOptions.Var.set -> void
 ModularPipelines.Go.Options.GoEnvOptions.W.get -> bool?
 ModularPipelines.Go.Options.GoEnvOptions.W.set -> void
+ModularPipelines.Go.Options.GoFixOptions.A.get -> bool?
+ModularPipelines.Go.Options.GoFixOptions.A.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Asan.get -> bool?
+ModularPipelines.Go.Options.GoFixOptions.Asan.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Asmflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoFixOptions.Asmflags.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Buildmode.get -> string?
+ModularPipelines.Go.Options.GoFixOptions.Buildmode.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Buildvcs.get -> string?
+ModularPipelines.Go.Options.GoFixOptions.Buildvcs.set -> void
+ModularPipelines.Go.Options.GoFixOptions.C.get -> string?
+ModularPipelines.Go.Options.GoFixOptions.C.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Compiler.get -> string?
+ModularPipelines.Go.Options.GoFixOptions.Compiler.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Diff.get -> bool?
+ModularPipelines.Go.Options.GoFixOptions.Diff.set -> void
 ModularPipelines.Go.Options.GoFixOptions.Fixtool.get -> string?
 ModularPipelines.Go.Options.GoFixOptions.Fixtool.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Gccgoflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoFixOptions.Gccgoflags.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Gcflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoFixOptions.Gcflags.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Installsuffix.get -> string?
+ModularPipelines.Go.Options.GoFixOptions.Installsuffix.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Json.get -> bool?
+ModularPipelines.Go.Options.GoFixOptions.Json.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Ldflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoFixOptions.Ldflags.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Linkshared.get -> bool?
+ModularPipelines.Go.Options.GoFixOptions.Linkshared.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Mod.get -> string?
+ModularPipelines.Go.Options.GoFixOptions.Mod.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Modcacherw.get -> bool?
+ModularPipelines.Go.Options.GoFixOptions.Modcacherw.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Modfile.get -> string?
+ModularPipelines.Go.Options.GoFixOptions.Modfile.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Msan.get -> bool?
+ModularPipelines.Go.Options.GoFixOptions.Msan.set -> void
+ModularPipelines.Go.Options.GoFixOptions.N.get -> bool?
+ModularPipelines.Go.Options.GoFixOptions.N.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Overlay.get -> string?
+ModularPipelines.Go.Options.GoFixOptions.Overlay.set -> void
+ModularPipelines.Go.Options.GoFixOptions.P.get -> string?
+ModularPipelines.Go.Options.GoFixOptions.P.set -> void
 ModularPipelines.Go.Options.GoFixOptions.Packages.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Go.Options.GoFixOptions.Packages.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Pgo.get -> string?
+ModularPipelines.Go.Options.GoFixOptions.Pgo.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Pkgdir.get -> string?
+ModularPipelines.Go.Options.GoFixOptions.Pkgdir.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Race.get -> bool?
+ModularPipelines.Go.Options.GoFixOptions.Race.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Tags.get -> string?
+ModularPipelines.Go.Options.GoFixOptions.Tags.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Toolexec.get -> string?
+ModularPipelines.Go.Options.GoFixOptions.Toolexec.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Trimpath.get -> bool?
+ModularPipelines.Go.Options.GoFixOptions.Trimpath.set -> void
+ModularPipelines.Go.Options.GoFixOptions.V.get -> bool?
+ModularPipelines.Go.Options.GoFixOptions.V.set -> void
+ModularPipelines.Go.Options.GoFixOptions.Work.get -> bool?
+ModularPipelines.Go.Options.GoFixOptions.Work.set -> void
+ModularPipelines.Go.Options.GoFixOptions.X.get -> bool?
+ModularPipelines.Go.Options.GoFixOptions.X.set -> void
 ModularPipelines.Go.Options.GoFmtOptions
 ModularPipelines.Go.Options.GoFmtOptions.GoFmtOptions() -> void
 ModularPipelines.Go.Options.GoFmtOptions.GoFmtOptions(ModularPipelines.Go.Options.GoFmtOptions! original) -> void
+ModularPipelines.Go.Options.GoFmtOptions.Mod.get -> string?
+ModularPipelines.Go.Options.GoFmtOptions.Mod.set -> void
 ModularPipelines.Go.Options.GoFmtOptions.N.get -> bool?
 ModularPipelines.Go.Options.GoFmtOptions.N.set -> void
 ModularPipelines.Go.Options.GoFmtOptions.Packages.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Go.Options.GoFmtOptions.Packages.set -> void
 ModularPipelines.Go.Options.GoFmtOptions.X.get -> bool?
 ModularPipelines.Go.Options.GoFmtOptions.X.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.A.get -> bool?
+ModularPipelines.Go.Options.GoGenerateOptions.A.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Asan.get -> bool?
+ModularPipelines.Go.Options.GoGenerateOptions.Asan.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Asmflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoGenerateOptions.Asmflags.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Buildmode.get -> string?
+ModularPipelines.Go.Options.GoGenerateOptions.Buildmode.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Buildvcs.get -> string?
+ModularPipelines.Go.Options.GoGenerateOptions.Buildvcs.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.C.get -> string?
+ModularPipelines.Go.Options.GoGenerateOptions.C.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Compiler.get -> string?
+ModularPipelines.Go.Options.GoGenerateOptions.Compiler.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Gccgoflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoGenerateOptions.Gccgoflags.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Gcflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoGenerateOptions.Gcflags.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Installsuffix.get -> string?
+ModularPipelines.Go.Options.GoGenerateOptions.Installsuffix.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Ldflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoGenerateOptions.Ldflags.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Linkshared.get -> bool?
+ModularPipelines.Go.Options.GoGenerateOptions.Linkshared.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Mod.get -> string?
+ModularPipelines.Go.Options.GoGenerateOptions.Mod.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Modcacherw.get -> bool?
+ModularPipelines.Go.Options.GoGenerateOptions.Modcacherw.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Modfile.get -> string?
+ModularPipelines.Go.Options.GoGenerateOptions.Modfile.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Msan.get -> bool?
+ModularPipelines.Go.Options.GoGenerateOptions.Msan.set -> void
 ModularPipelines.Go.Options.GoGenerateOptions.N.get -> bool?
 ModularPipelines.Go.Options.GoGenerateOptions.N.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Overlay.get -> string?
+ModularPipelines.Go.Options.GoGenerateOptions.Overlay.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.P.get -> string?
+ModularPipelines.Go.Options.GoGenerateOptions.P.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Pgo.get -> string?
+ModularPipelines.Go.Options.GoGenerateOptions.Pgo.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Pkgdir.get -> string?
+ModularPipelines.Go.Options.GoGenerateOptions.Pkgdir.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Race.get -> bool?
+ModularPipelines.Go.Options.GoGenerateOptions.Race.set -> void
 ModularPipelines.Go.Options.GoGenerateOptions.Run.get -> string?
 ModularPipelines.Go.Options.GoGenerateOptions.Run.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Skip.get -> string?
+ModularPipelines.Go.Options.GoGenerateOptions.Skip.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Tags.get -> string?
+ModularPipelines.Go.Options.GoGenerateOptions.Tags.set -> void
 ModularPipelines.Go.Options.GoGenerateOptions.Targets.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Go.Options.GoGenerateOptions.Targets.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Toolexec.get -> string?
+ModularPipelines.Go.Options.GoGenerateOptions.Toolexec.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Trimpath.get -> bool?
+ModularPipelines.Go.Options.GoGenerateOptions.Trimpath.set -> void
 ModularPipelines.Go.Options.GoGenerateOptions.V.get -> bool?
 ModularPipelines.Go.Options.GoGenerateOptions.V.set -> void
+ModularPipelines.Go.Options.GoGenerateOptions.Work.get -> bool?
+ModularPipelines.Go.Options.GoGenerateOptions.Work.set -> void
 ModularPipelines.Go.Options.GoGenerateOptions.X.get -> bool?
 ModularPipelines.Go.Options.GoGenerateOptions.X.set -> void
 ModularPipelines.Go.Options.GoGetOptions
+ModularPipelines.Go.Options.GoGetOptions.A.get -> bool?
+ModularPipelines.Go.Options.GoGetOptions.A.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Asan.get -> bool?
+ModularPipelines.Go.Options.GoGetOptions.Asan.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Asmflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoGetOptions.Asmflags.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Buildmode.get -> string?
+ModularPipelines.Go.Options.GoGetOptions.Buildmode.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Buildvcs.get -> string?
+ModularPipelines.Go.Options.GoGetOptions.Buildvcs.set -> void
+ModularPipelines.Go.Options.GoGetOptions.C.get -> string?
+ModularPipelines.Go.Options.GoGetOptions.C.set -> void
 ModularPipelines.Go.Options.GoGetOptions.CliTool.get -> bool?
 ModularPipelines.Go.Options.GoGetOptions.CliTool.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Compiler.get -> string?
+ModularPipelines.Go.Options.GoGetOptions.Compiler.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Gccgoflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoGetOptions.Gccgoflags.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Gcflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoGetOptions.Gcflags.set -> void
 ModularPipelines.Go.Options.GoGetOptions.GoGetOptions() -> void
 ModularPipelines.Go.Options.GoGetOptions.GoGetOptions(ModularPipelines.Go.Options.GoGetOptions! original) -> void
+ModularPipelines.Go.Options.GoGetOptions.Installsuffix.get -> string?
+ModularPipelines.Go.Options.GoGetOptions.Installsuffix.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Json.get -> bool?
+ModularPipelines.Go.Options.GoGetOptions.Json.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Ldflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoGetOptions.Ldflags.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Linkshared.get -> bool?
+ModularPipelines.Go.Options.GoGetOptions.Linkshared.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Modcacherw.get -> bool?
+ModularPipelines.Go.Options.GoGetOptions.Modcacherw.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Modfile.get -> string?
+ModularPipelines.Go.Options.GoGetOptions.Modfile.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Msan.get -> bool?
+ModularPipelines.Go.Options.GoGetOptions.Msan.set -> void
+ModularPipelines.Go.Options.GoGetOptions.N.get -> bool?
+ModularPipelines.Go.Options.GoGetOptions.N.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Overlay.get -> string?
+ModularPipelines.Go.Options.GoGetOptions.Overlay.set -> void
+ModularPipelines.Go.Options.GoGetOptions.P.get -> string?
+ModularPipelines.Go.Options.GoGetOptions.P.set -> void
 ModularPipelines.Go.Options.GoGetOptions.Packages.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Go.Options.GoGetOptions.Packages.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Pgo.get -> string?
+ModularPipelines.Go.Options.GoGetOptions.Pgo.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Pkgdir.get -> string?
+ModularPipelines.Go.Options.GoGetOptions.Pkgdir.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Race.get -> bool?
+ModularPipelines.Go.Options.GoGetOptions.Race.set -> void
 ModularPipelines.Go.Options.GoGetOptions.T.get -> bool?
 ModularPipelines.Go.Options.GoGetOptions.T.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Tags.get -> string?
+ModularPipelines.Go.Options.GoGetOptions.Tags.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Toolexec.get -> string?
+ModularPipelines.Go.Options.GoGetOptions.Toolexec.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Trimpath.get -> bool?
+ModularPipelines.Go.Options.GoGetOptions.Trimpath.set -> void
 ModularPipelines.Go.Options.GoGetOptions.U.get -> ModularPipelines.Models.CliOptionValue?
 ModularPipelines.Go.Options.GoGetOptions.U.set -> void
+ModularPipelines.Go.Options.GoGetOptions.V.get -> bool?
+ModularPipelines.Go.Options.GoGetOptions.V.set -> void
+ModularPipelines.Go.Options.GoGetOptions.Work.get -> bool?
+ModularPipelines.Go.Options.GoGetOptions.Work.set -> void
+ModularPipelines.Go.Options.GoGetOptions.X.get -> bool?
+ModularPipelines.Go.Options.GoGetOptions.X.set -> void
 ModularPipelines.Go.Options.GoInstallOptions
+ModularPipelines.Go.Options.GoInstallOptions.A.get -> bool?
+ModularPipelines.Go.Options.GoInstallOptions.A.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Asan.get -> bool?
+ModularPipelines.Go.Options.GoInstallOptions.Asan.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Asmflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoInstallOptions.Asmflags.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Buildmode.get -> string?
+ModularPipelines.Go.Options.GoInstallOptions.Buildmode.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Buildvcs.get -> string?
+ModularPipelines.Go.Options.GoInstallOptions.Buildvcs.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.C.get -> string?
+ModularPipelines.Go.Options.GoInstallOptions.C.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Compiler.get -> string?
+ModularPipelines.Go.Options.GoInstallOptions.Compiler.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Cover.get -> bool?
+ModularPipelines.Go.Options.GoInstallOptions.Cover.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Covermode.get -> string?
+ModularPipelines.Go.Options.GoInstallOptions.Covermode.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Coverpkg.get -> string?
+ModularPipelines.Go.Options.GoInstallOptions.Coverpkg.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Gccgoflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoInstallOptions.Gccgoflags.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Gcflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoInstallOptions.Gcflags.set -> void
 ModularPipelines.Go.Options.GoInstallOptions.GoInstallOptions() -> void
 ModularPipelines.Go.Options.GoInstallOptions.GoInstallOptions(ModularPipelines.Go.Options.GoInstallOptions! original) -> void
+ModularPipelines.Go.Options.GoInstallOptions.Installsuffix.get -> string?
+ModularPipelines.Go.Options.GoInstallOptions.Installsuffix.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Json.get -> bool?
+ModularPipelines.Go.Options.GoInstallOptions.Json.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Ldflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoInstallOptions.Ldflags.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Linkshared.get -> bool?
+ModularPipelines.Go.Options.GoInstallOptions.Linkshared.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Mod.get -> string?
+ModularPipelines.Go.Options.GoInstallOptions.Mod.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Modcacherw.get -> bool?
+ModularPipelines.Go.Options.GoInstallOptions.Modcacherw.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Modfile.get -> string?
+ModularPipelines.Go.Options.GoInstallOptions.Modfile.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Msan.get -> bool?
+ModularPipelines.Go.Options.GoInstallOptions.Msan.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.N.get -> bool?
+ModularPipelines.Go.Options.GoInstallOptions.N.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Overlay.get -> string?
+ModularPipelines.Go.Options.GoInstallOptions.Overlay.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.P.get -> string?
+ModularPipelines.Go.Options.GoInstallOptions.P.set -> void
 ModularPipelines.Go.Options.GoInstallOptions.Packages.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Go.Options.GoInstallOptions.Packages.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Pgo.get -> string?
+ModularPipelines.Go.Options.GoInstallOptions.Pgo.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Pkgdir.get -> string?
+ModularPipelines.Go.Options.GoInstallOptions.Pkgdir.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Race.get -> bool?
+ModularPipelines.Go.Options.GoInstallOptions.Race.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Tags.get -> string?
+ModularPipelines.Go.Options.GoInstallOptions.Tags.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Toolexec.get -> string?
+ModularPipelines.Go.Options.GoInstallOptions.Toolexec.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Trimpath.get -> bool?
+ModularPipelines.Go.Options.GoInstallOptions.Trimpath.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.V.get -> bool?
+ModularPipelines.Go.Options.GoInstallOptions.V.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.Work.get -> bool?
+ModularPipelines.Go.Options.GoInstallOptions.Work.set -> void
+ModularPipelines.Go.Options.GoInstallOptions.X.get -> bool?
+ModularPipelines.Go.Options.GoInstallOptions.X.set -> void
 ModularPipelines.Go.Options.GoListOptions
+ModularPipelines.Go.Options.GoListOptions.A.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.A.set -> void
+ModularPipelines.Go.Options.GoListOptions.Asan.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.Asan.set -> void
+ModularPipelines.Go.Options.GoListOptions.Asmflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoListOptions.Asmflags.set -> void
+ModularPipelines.Go.Options.GoListOptions.Buildmode.get -> string?
+ModularPipelines.Go.Options.GoListOptions.Buildmode.set -> void
+ModularPipelines.Go.Options.GoListOptions.Buildvcs.get -> string?
+ModularPipelines.Go.Options.GoListOptions.Buildvcs.set -> void
+ModularPipelines.Go.Options.GoListOptions.C.get -> string?
+ModularPipelines.Go.Options.GoListOptions.C.set -> void
+ModularPipelines.Go.Options.GoListOptions.Compiled.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.Compiled.set -> void
+ModularPipelines.Go.Options.GoListOptions.Compiler.get -> string?
+ModularPipelines.Go.Options.GoListOptions.Compiler.set -> void
+ModularPipelines.Go.Options.GoListOptions.Cover.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.Cover.set -> void
+ModularPipelines.Go.Options.GoListOptions.Covermode.get -> string?
+ModularPipelines.Go.Options.GoListOptions.Covermode.set -> void
+ModularPipelines.Go.Options.GoListOptions.Coverpkg.get -> string?
+ModularPipelines.Go.Options.GoListOptions.Coverpkg.set -> void
+ModularPipelines.Go.Options.GoListOptions.Deps.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.Deps.set -> void
+ModularPipelines.Go.Options.GoListOptions.E.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.E.set -> void
+ModularPipelines.Go.Options.GoListOptions.Export.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.Export.set -> void
 ModularPipelines.Go.Options.GoListOptions.F.get -> string?
 ModularPipelines.Go.Options.GoListOptions.F.set -> void
+ModularPipelines.Go.Options.GoListOptions.Find.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.Find.set -> void
+ModularPipelines.Go.Options.GoListOptions.Gccgoflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoListOptions.Gccgoflags.set -> void
+ModularPipelines.Go.Options.GoListOptions.Gcflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoListOptions.Gcflags.set -> void
 ModularPipelines.Go.Options.GoListOptions.GoListOptions() -> void
 ModularPipelines.Go.Options.GoListOptions.GoListOptions(ModularPipelines.Go.Options.GoListOptions! original) -> void
+ModularPipelines.Go.Options.GoListOptions.Installsuffix.get -> string?
+ModularPipelines.Go.Options.GoListOptions.Installsuffix.set -> void
 ModularPipelines.Go.Options.GoListOptions.Json.get -> ModularPipelines.Models.CliOptionValue?
 ModularPipelines.Go.Options.GoListOptions.Json.set -> void
+ModularPipelines.Go.Options.GoListOptions.Ldflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoListOptions.Ldflags.set -> void
+ModularPipelines.Go.Options.GoListOptions.Linkshared.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.Linkshared.set -> void
 ModularPipelines.Go.Options.GoListOptions.M.get -> bool?
 ModularPipelines.Go.Options.GoListOptions.M.set -> void
+ModularPipelines.Go.Options.GoListOptions.Mod.get -> string?
+ModularPipelines.Go.Options.GoListOptions.Mod.set -> void
+ModularPipelines.Go.Options.GoListOptions.Modcacherw.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.Modcacherw.set -> void
+ModularPipelines.Go.Options.GoListOptions.Modfile.get -> string?
+ModularPipelines.Go.Options.GoListOptions.Modfile.set -> void
+ModularPipelines.Go.Options.GoListOptions.Msan.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.Msan.set -> void
+ModularPipelines.Go.Options.GoListOptions.N.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.N.set -> void
+ModularPipelines.Go.Options.GoListOptions.Overlay.get -> string?
+ModularPipelines.Go.Options.GoListOptions.Overlay.set -> void
+ModularPipelines.Go.Options.GoListOptions.P.get -> string?
+ModularPipelines.Go.Options.GoListOptions.P.set -> void
 ModularPipelines.Go.Options.GoListOptions.Packages.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Go.Options.GoListOptions.Packages.set -> void
+ModularPipelines.Go.Options.GoListOptions.Pgo.get -> string?
+ModularPipelines.Go.Options.GoListOptions.Pgo.set -> void
+ModularPipelines.Go.Options.GoListOptions.Pkgdir.get -> string?
+ModularPipelines.Go.Options.GoListOptions.Pkgdir.set -> void
+ModularPipelines.Go.Options.GoListOptions.Race.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.Race.set -> void
+ModularPipelines.Go.Options.GoListOptions.Retracted.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.Retracted.set -> void
+ModularPipelines.Go.Options.GoListOptions.Reuse.get -> string?
+ModularPipelines.Go.Options.GoListOptions.Reuse.set -> void
+ModularPipelines.Go.Options.GoListOptions.Tags.get -> string?
+ModularPipelines.Go.Options.GoListOptions.Tags.set -> void
+ModularPipelines.Go.Options.GoListOptions.Test.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.Test.set -> void
+ModularPipelines.Go.Options.GoListOptions.Toolexec.get -> string?
+ModularPipelines.Go.Options.GoListOptions.Toolexec.set -> void
+ModularPipelines.Go.Options.GoListOptions.Trimpath.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.Trimpath.set -> void
+ModularPipelines.Go.Options.GoListOptions.U.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.U.set -> void
+ModularPipelines.Go.Options.GoListOptions.V.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.V.set -> void
+ModularPipelines.Go.Options.GoListOptions.Versions.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.Versions.set -> void
+ModularPipelines.Go.Options.GoListOptions.Work.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.Work.set -> void
+ModularPipelines.Go.Options.GoListOptions.X.get -> bool?
+ModularPipelines.Go.Options.GoListOptions.X.set -> void
 ModularPipelines.Go.Options.GoModDownloadOptions
 ModularPipelines.Go.Options.GoModDownloadOptions.GoModDownloadOptions() -> void
 ModularPipelines.Go.Options.GoModDownloadOptions.GoModDownloadOptions(ModularPipelines.Go.Options.GoModDownloadOptions! original) -> void
@@ -101,16 +569,65 @@ ModularPipelines.Go.Options.GoModDownloadOptions.Reuse.set -> void
 ModularPipelines.Go.Options.GoModDownloadOptions.X.get -> bool?
 ModularPipelines.Go.Options.GoModDownloadOptions.X.set -> void
 ModularPipelines.Go.Options.GoModEditOptions
+ModularPipelines.Go.Options.GoModEditOptions.C.get -> string?
+ModularPipelines.Go.Options.GoModEditOptions.C.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.Dropexclude.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoModEditOptions.Dropexclude.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.Dropgodebug.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoModEditOptions.Dropgodebug.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.Dropignore.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoModEditOptions.Dropignore.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.Dropreplace.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoModEditOptions.Dropreplace.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.Droprequire.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoModEditOptions.Droprequire.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.Dropretract.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoModEditOptions.Dropretract.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.Droptool.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoModEditOptions.Droptool.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.Exclude.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoModEditOptions.Exclude.set -> void
 ModularPipelines.Go.Options.GoModEditOptions.Fmt.get -> bool?
 ModularPipelines.Go.Options.GoModEditOptions.Fmt.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.Go.get -> string?
+ModularPipelines.Go.Options.GoModEditOptions.Go.set -> void
 ModularPipelines.Go.Options.GoModEditOptions.GoMod.get -> string?
 ModularPipelines.Go.Options.GoModEditOptions.GoMod.set -> void
 ModularPipelines.Go.Options.GoModEditOptions.GoModEditOptions() -> void
 ModularPipelines.Go.Options.GoModEditOptions.GoModEditOptions(ModularPipelines.Go.Options.GoModEditOptions! original) -> void
+ModularPipelines.Go.Options.GoModEditOptions.Godebug.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoModEditOptions.Godebug.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.Ignore.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoModEditOptions.Ignore.set -> void
 ModularPipelines.Go.Options.GoModEditOptions.Json.get -> bool?
 ModularPipelines.Go.Options.GoModEditOptions.Json.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.ModTool.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoModEditOptions.ModTool.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.Module.get -> string?
+ModularPipelines.Go.Options.GoModEditOptions.Module.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.N.get -> bool?
+ModularPipelines.Go.Options.GoModEditOptions.N.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.OrderedEdits.get -> System.Collections.Generic.IEnumerable<ModularPipelines.Go.Options.GoEditOperation!>?
+ModularPipelines.Go.Options.GoModEditOptions.OrderedEdits.set -> void
 ModularPipelines.Go.Options.GoModEditOptions.Print.get -> bool?
 ModularPipelines.Go.Options.GoModEditOptions.Print.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.Replace.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoModEditOptions.Replace.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.Require.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoModEditOptions.Require.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.Retract.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoModEditOptions.Retract.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.Toolchain.get -> string?
+ModularPipelines.Go.Options.GoModEditOptions.Toolchain.set -> void
+ModularPipelines.Go.Options.GoModEditOptions.X.get -> bool?
+ModularPipelines.Go.Options.GoModEditOptions.X.set -> void
+ModularPipelines.Go.Options.GoModGraphOptions
+ModularPipelines.Go.Options.GoModGraphOptions.Go.get -> string?
+ModularPipelines.Go.Options.GoModGraphOptions.Go.set -> void
+ModularPipelines.Go.Options.GoModGraphOptions.GoModGraphOptions() -> void
+ModularPipelines.Go.Options.GoModGraphOptions.GoModGraphOptions(ModularPipelines.Go.Options.GoModGraphOptions! original) -> void
+ModularPipelines.Go.Options.GoModGraphOptions.X.get -> bool?
+ModularPipelines.Go.Options.GoModGraphOptions.X.set -> void
 ModularPipelines.Go.Options.GoModInitOptions
 ModularPipelines.Go.Options.GoModInitOptions.GoModInitOptions() -> void
 ModularPipelines.Go.Options.GoModInitOptions.GoModInitOptions(ModularPipelines.Go.Options.GoModInitOptions! original) -> void
@@ -121,6 +638,33 @@ ModularPipelines.Go.Options.GoModOptions.CliArguments.get -> System.Collections.
 ModularPipelines.Go.Options.GoModOptions.CliArguments.set -> void
 ModularPipelines.Go.Options.GoModOptions.GoModOptions() -> void
 ModularPipelines.Go.Options.GoModOptions.GoModOptions(ModularPipelines.Go.Options.GoModOptions! original) -> void
+ModularPipelines.Go.Options.GoModTidyOptions
+ModularPipelines.Go.Options.GoModTidyOptions.Compat.get -> string?
+ModularPipelines.Go.Options.GoModTidyOptions.Compat.set -> void
+ModularPipelines.Go.Options.GoModTidyOptions.Diff.get -> bool?
+ModularPipelines.Go.Options.GoModTidyOptions.Diff.set -> void
+ModularPipelines.Go.Options.GoModTidyOptions.E.get -> bool?
+ModularPipelines.Go.Options.GoModTidyOptions.E.set -> void
+ModularPipelines.Go.Options.GoModTidyOptions.Go.get -> string?
+ModularPipelines.Go.Options.GoModTidyOptions.Go.set -> void
+ModularPipelines.Go.Options.GoModTidyOptions.GoModTidyOptions() -> void
+ModularPipelines.Go.Options.GoModTidyOptions.GoModTidyOptions(ModularPipelines.Go.Options.GoModTidyOptions! original) -> void
+ModularPipelines.Go.Options.GoModTidyOptions.V.get -> bool?
+ModularPipelines.Go.Options.GoModTidyOptions.V.set -> void
+ModularPipelines.Go.Options.GoModTidyOptions.X.get -> bool?
+ModularPipelines.Go.Options.GoModTidyOptions.X.set -> void
+ModularPipelines.Go.Options.GoModVendorOptions
+ModularPipelines.Go.Options.GoModVendorOptions.E.get -> bool?
+ModularPipelines.Go.Options.GoModVendorOptions.E.set -> void
+ModularPipelines.Go.Options.GoModVendorOptions.GoModVendorOptions() -> void
+ModularPipelines.Go.Options.GoModVendorOptions.GoModVendorOptions(ModularPipelines.Go.Options.GoModVendorOptions! original) -> void
+ModularPipelines.Go.Options.GoModVendorOptions.O.get -> string?
+ModularPipelines.Go.Options.GoModVendorOptions.O.set -> void
+ModularPipelines.Go.Options.GoModVendorOptions.V.get -> bool?
+ModularPipelines.Go.Options.GoModVendorOptions.V.set -> void
+ModularPipelines.Go.Options.GoModVerifyOptions
+ModularPipelines.Go.Options.GoModVerifyOptions.GoModVerifyOptions() -> void
+ModularPipelines.Go.Options.GoModVerifyOptions.GoModVerifyOptions(ModularPipelines.Go.Options.GoModVerifyOptions! original) -> void
 ModularPipelines.Go.Options.GoModWhyOptions
 ModularPipelines.Go.Options.GoModWhyOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Packages) -> void
 ModularPipelines.Go.Options.GoModWhyOptions.GoModWhyOptions(ModularPipelines.Go.Options.GoModWhyOptions! original) -> void
@@ -132,41 +676,342 @@ ModularPipelines.Go.Options.GoModWhyOptions.Packages.init -> void
 ModularPipelines.Go.Options.GoModWhyOptions.Vendor.get -> bool?
 ModularPipelines.Go.Options.GoModWhyOptions.Vendor.set -> void
 ModularPipelines.Go.Options.GoRunOptions
+ModularPipelines.Go.Options.GoRunOptions.A.get -> bool?
+ModularPipelines.Go.Options.GoRunOptions.A.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Asan.get -> bool?
+ModularPipelines.Go.Options.GoRunOptions.Asan.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Asmflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoRunOptions.Asmflags.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Buildmode.get -> string?
+ModularPipelines.Go.Options.GoRunOptions.Buildmode.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Buildvcs.get -> string?
+ModularPipelines.Go.Options.GoRunOptions.Buildvcs.set -> void
+ModularPipelines.Go.Options.GoRunOptions.C.get -> string?
+ModularPipelines.Go.Options.GoRunOptions.C.set -> void
 ModularPipelines.Go.Options.GoRunOptions.CliArguments.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Go.Options.GoRunOptions.CliArguments.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Compiler.get -> string?
+ModularPipelines.Go.Options.GoRunOptions.Compiler.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Cover.get -> bool?
+ModularPipelines.Go.Options.GoRunOptions.Cover.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Covermode.get -> string?
+ModularPipelines.Go.Options.GoRunOptions.Covermode.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Coverpkg.get -> string?
+ModularPipelines.Go.Options.GoRunOptions.Coverpkg.set -> void
 ModularPipelines.Go.Options.GoRunOptions.Deconstruct(out string! Package) -> void
 ModularPipelines.Go.Options.GoRunOptions.Exec.get -> string?
 ModularPipelines.Go.Options.GoRunOptions.Exec.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Gccgoflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoRunOptions.Gccgoflags.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Gcflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoRunOptions.Gcflags.set -> void
 ModularPipelines.Go.Options.GoRunOptions.GoRunOptions(ModularPipelines.Go.Options.GoRunOptions! original) -> void
 ModularPipelines.Go.Options.GoRunOptions.GoRunOptions(string! Package) -> void
+ModularPipelines.Go.Options.GoRunOptions.Installsuffix.get -> string?
+ModularPipelines.Go.Options.GoRunOptions.Installsuffix.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Json.get -> bool?
+ModularPipelines.Go.Options.GoRunOptions.Json.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Ldflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoRunOptions.Ldflags.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Linkshared.get -> bool?
+ModularPipelines.Go.Options.GoRunOptions.Linkshared.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Mod.get -> string?
+ModularPipelines.Go.Options.GoRunOptions.Mod.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Modcacherw.get -> bool?
+ModularPipelines.Go.Options.GoRunOptions.Modcacherw.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Modfile.get -> string?
+ModularPipelines.Go.Options.GoRunOptions.Modfile.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Msan.get -> bool?
+ModularPipelines.Go.Options.GoRunOptions.Msan.set -> void
+ModularPipelines.Go.Options.GoRunOptions.N.get -> bool?
+ModularPipelines.Go.Options.GoRunOptions.N.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Overlay.get -> string?
+ModularPipelines.Go.Options.GoRunOptions.Overlay.set -> void
+ModularPipelines.Go.Options.GoRunOptions.P.get -> string?
+ModularPipelines.Go.Options.GoRunOptions.P.set -> void
 ModularPipelines.Go.Options.GoRunOptions.Package.get -> string!
 ModularPipelines.Go.Options.GoRunOptions.Package.init -> void
+ModularPipelines.Go.Options.GoRunOptions.Pgo.get -> string?
+ModularPipelines.Go.Options.GoRunOptions.Pgo.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Pkgdir.get -> string?
+ModularPipelines.Go.Options.GoRunOptions.Pkgdir.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Race.get -> bool?
+ModularPipelines.Go.Options.GoRunOptions.Race.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Tags.get -> string?
+ModularPipelines.Go.Options.GoRunOptions.Tags.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Toolexec.get -> string?
+ModularPipelines.Go.Options.GoRunOptions.Toolexec.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Trimpath.get -> bool?
+ModularPipelines.Go.Options.GoRunOptions.Trimpath.set -> void
+ModularPipelines.Go.Options.GoRunOptions.V.get -> bool?
+ModularPipelines.Go.Options.GoRunOptions.V.set -> void
+ModularPipelines.Go.Options.GoRunOptions.Work.get -> bool?
+ModularPipelines.Go.Options.GoRunOptions.Work.set -> void
+ModularPipelines.Go.Options.GoRunOptions.X.get -> bool?
+ModularPipelines.Go.Options.GoRunOptions.X.set -> void
 ModularPipelines.Go.Options.GoTelemetryOptions
 ModularPipelines.Go.Options.GoTelemetryOptions.GoTelemetryOptions() -> void
 ModularPipelines.Go.Options.GoTelemetryOptions.GoTelemetryOptions(ModularPipelines.Go.Options.GoTelemetryOptions! original) -> void
 ModularPipelines.Go.Options.GoTelemetryOptions.Mode.get -> string?
 ModularPipelines.Go.Options.GoTelemetryOptions.Mode.set -> void
+ModularPipelines.Go.Options.GoTestOptions.A.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.A.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Args.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoTestOptions.Args.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Artifacts.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.Artifacts.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Asan.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.Asan.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Asmflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoTestOptions.Asmflags.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Bench.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Bench.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Benchmem.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.Benchmem.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Benchtime.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Benchtime.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Blockprofile.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Blockprofile.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Blockprofilerate.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Blockprofilerate.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Buildmode.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Buildmode.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Buildvcs.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Buildvcs.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Compiler.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Compiler.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Count.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Count.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Cover.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.Cover.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Covermode.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Covermode.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Coverpkg.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Coverpkg.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Coverprofile.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Coverprofile.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Cpu.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Cpu.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Cpuprofile.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Cpuprofile.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Exec.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Exec.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Failfast.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.Failfast.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Fullpath.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.Fullpath.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Fuzz.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Fuzz.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Fuzzminimizetime.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Fuzzminimizetime.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Fuzztime.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Fuzztime.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Gccgoflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoTestOptions.Gccgoflags.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Gcflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoTestOptions.Gcflags.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Installsuffix.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Installsuffix.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Json.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.Json.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Ldflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoTestOptions.Ldflags.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Linkshared.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.Linkshared.set -> void
+ModularPipelines.Go.Options.GoTestOptions.List.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.List.set -> void
+ModularPipelines.Go.Options.GoTestOptions.LowerC.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.LowerC.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Memprofile.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Memprofile.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Memprofilerate.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Memprofilerate.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Mod.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Mod.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Modcacherw.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.Modcacherw.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Modfile.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Modfile.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Msan.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.Msan.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Mutexprofile.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Mutexprofile.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Mutexprofilefraction.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Mutexprofilefraction.set -> void
+ModularPipelines.Go.Options.GoTestOptions.N.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.N.set -> void
+ModularPipelines.Go.Options.GoTestOptions.O.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.O.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Outputdir.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Outputdir.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Overlay.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Overlay.set -> void
+ModularPipelines.Go.Options.GoTestOptions.P.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.P.set -> void
 ModularPipelines.Go.Options.GoTestOptions.Packages.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Go.Options.GoTestOptions.Packages.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Parallel.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Parallel.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Pgo.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Pgo.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Pkgdir.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Pkgdir.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Race.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.Race.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Run.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Run.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Short.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.Short.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Shuffle.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Shuffle.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Skip.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Skip.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Tags.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Tags.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Timeout.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Timeout.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Toolexec.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Toolexec.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Trace.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Trace.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Trimpath.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.Trimpath.set -> void
+ModularPipelines.Go.Options.GoTestOptions.UpperC.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.UpperC.set -> void
+ModularPipelines.Go.Options.GoTestOptions.V.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.V.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Vet.get -> string?
+ModularPipelines.Go.Options.GoTestOptions.Vet.set -> void
+ModularPipelines.Go.Options.GoTestOptions.Work.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.Work.set -> void
+ModularPipelines.Go.Options.GoTestOptions.X.get -> bool?
+ModularPipelines.Go.Options.GoTestOptions.X.set -> void
 ModularPipelines.Go.Options.GoToolOptions
 ModularPipelines.Go.Options.GoToolOptions.Args.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Go.Options.GoToolOptions.Args.set -> void
+ModularPipelines.Go.Options.GoToolOptions.C.get -> string?
+ModularPipelines.Go.Options.GoToolOptions.C.set -> void
 ModularPipelines.Go.Options.GoToolOptions.Command.get -> string!
 ModularPipelines.Go.Options.GoToolOptions.Command.init -> void
 ModularPipelines.Go.Options.GoToolOptions.Deconstruct(out string! Command) -> void
 ModularPipelines.Go.Options.GoToolOptions.GoToolOptions(ModularPipelines.Go.Options.GoToolOptions! original) -> void
 ModularPipelines.Go.Options.GoToolOptions.GoToolOptions(string! Command) -> void
+ModularPipelines.Go.Options.GoToolOptions.Modcacherw.get -> bool?
+ModularPipelines.Go.Options.GoToolOptions.Modcacherw.set -> void
+ModularPipelines.Go.Options.GoToolOptions.Modfile.get -> string?
+ModularPipelines.Go.Options.GoToolOptions.Modfile.set -> void
 ModularPipelines.Go.Options.GoToolOptions.N.get -> bool?
 ModularPipelines.Go.Options.GoToolOptions.N.set -> void
+ModularPipelines.Go.Options.GoToolOptions.Overlay.get -> string?
+ModularPipelines.Go.Options.GoToolOptions.Overlay.set -> void
+ModularPipelines.Go.Options.GoVersionOptions
+ModularPipelines.Go.Options.GoVersionOptions.File.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoVersionOptions.File.set -> void
+ModularPipelines.Go.Options.GoVersionOptions.GoVersionOptions() -> void
+ModularPipelines.Go.Options.GoVersionOptions.GoVersionOptions(ModularPipelines.Go.Options.GoVersionOptions! original) -> void
+ModularPipelines.Go.Options.GoVersionOptions.Json.get -> bool?
+ModularPipelines.Go.Options.GoVersionOptions.Json.set -> void
+ModularPipelines.Go.Options.GoVersionOptions.M.get -> bool?
+ModularPipelines.Go.Options.GoVersionOptions.M.set -> void
+ModularPipelines.Go.Options.GoVersionOptions.V.get -> bool?
+ModularPipelines.Go.Options.GoVersionOptions.V.set -> void
+ModularPipelines.Go.Options.GoVetOptions.A.get -> bool?
+ModularPipelines.Go.Options.GoVetOptions.A.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Asan.get -> bool?
+ModularPipelines.Go.Options.GoVetOptions.Asan.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Asmflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoVetOptions.Asmflags.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Buildmode.get -> string?
+ModularPipelines.Go.Options.GoVetOptions.Buildmode.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Buildvcs.get -> string?
+ModularPipelines.Go.Options.GoVetOptions.Buildvcs.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Compiler.get -> string?
+ModularPipelines.Go.Options.GoVetOptions.Compiler.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Diff.get -> bool?
+ModularPipelines.Go.Options.GoVetOptions.Diff.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Fix.get -> bool?
+ModularPipelines.Go.Options.GoVetOptions.Fix.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Gccgoflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoVetOptions.Gccgoflags.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Gcflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoVetOptions.Gcflags.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Installsuffix.get -> string?
+ModularPipelines.Go.Options.GoVetOptions.Installsuffix.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Json.get -> bool?
+ModularPipelines.Go.Options.GoVetOptions.Json.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Ldflags.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoVetOptions.Ldflags.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Linkshared.get -> bool?
+ModularPipelines.Go.Options.GoVetOptions.Linkshared.set -> void
+ModularPipelines.Go.Options.GoVetOptions.LowerC.get -> string?
+ModularPipelines.Go.Options.GoVetOptions.LowerC.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Mod.get -> string?
+ModularPipelines.Go.Options.GoVetOptions.Mod.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Modcacherw.get -> bool?
+ModularPipelines.Go.Options.GoVetOptions.Modcacherw.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Modfile.get -> string?
+ModularPipelines.Go.Options.GoVetOptions.Modfile.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Msan.get -> bool?
+ModularPipelines.Go.Options.GoVetOptions.Msan.set -> void
+ModularPipelines.Go.Options.GoVetOptions.N.get -> bool?
+ModularPipelines.Go.Options.GoVetOptions.N.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Overlay.get -> string?
+ModularPipelines.Go.Options.GoVetOptions.Overlay.set -> void
+ModularPipelines.Go.Options.GoVetOptions.P.get -> string?
+ModularPipelines.Go.Options.GoVetOptions.P.set -> void
 ModularPipelines.Go.Options.GoVetOptions.Packages.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Go.Options.GoVetOptions.Packages.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Pgo.get -> string?
+ModularPipelines.Go.Options.GoVetOptions.Pgo.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Pkgdir.get -> string?
+ModularPipelines.Go.Options.GoVetOptions.Pkgdir.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Race.get -> bool?
+ModularPipelines.Go.Options.GoVetOptions.Race.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Tags.get -> string?
+ModularPipelines.Go.Options.GoVetOptions.Tags.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Toolexec.get -> string?
+ModularPipelines.Go.Options.GoVetOptions.Toolexec.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Trimpath.get -> bool?
+ModularPipelines.Go.Options.GoVetOptions.Trimpath.set -> void
+ModularPipelines.Go.Options.GoVetOptions.UpperC.get -> string?
+ModularPipelines.Go.Options.GoVetOptions.UpperC.set -> void
+ModularPipelines.Go.Options.GoVetOptions.V.get -> bool?
+ModularPipelines.Go.Options.GoVetOptions.V.set -> void
 ModularPipelines.Go.Options.GoVetOptions.Vettool.get -> string?
 ModularPipelines.Go.Options.GoVetOptions.Vettool.set -> void
+ModularPipelines.Go.Options.GoVetOptions.Work.get -> bool?
+ModularPipelines.Go.Options.GoVetOptions.Work.set -> void
+ModularPipelines.Go.Options.GoVetOptions.X.get -> bool?
+ModularPipelines.Go.Options.GoVetOptions.X.set -> void
 ModularPipelines.Go.Options.GoWorkEditOptions
+ModularPipelines.Go.Options.GoWorkEditOptions.Dropgodebug.get -> string?
+ModularPipelines.Go.Options.GoWorkEditOptions.Dropgodebug.set -> void
+ModularPipelines.Go.Options.GoWorkEditOptions.Dropreplace.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoWorkEditOptions.Dropreplace.set -> void
+ModularPipelines.Go.Options.GoWorkEditOptions.Dropuse.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoWorkEditOptions.Dropuse.set -> void
+ModularPipelines.Go.Options.GoWorkEditOptions.Fmt.get -> bool?
+ModularPipelines.Go.Options.GoWorkEditOptions.Fmt.set -> void
+ModularPipelines.Go.Options.GoWorkEditOptions.Go.get -> string?
+ModularPipelines.Go.Options.GoWorkEditOptions.Go.set -> void
 ModularPipelines.Go.Options.GoWorkEditOptions.GoWork.get -> string?
 ModularPipelines.Go.Options.GoWorkEditOptions.GoWork.set -> void
 ModularPipelines.Go.Options.GoWorkEditOptions.GoWorkEditOptions() -> void
 ModularPipelines.Go.Options.GoWorkEditOptions.GoWorkEditOptions(ModularPipelines.Go.Options.GoWorkEditOptions! original) -> void
+ModularPipelines.Go.Options.GoWorkEditOptions.Godebug.get -> string?
+ModularPipelines.Go.Options.GoWorkEditOptions.Godebug.set -> void
+ModularPipelines.Go.Options.GoWorkEditOptions.Json.get -> bool?
+ModularPipelines.Go.Options.GoWorkEditOptions.Json.set -> void
+ModularPipelines.Go.Options.GoWorkEditOptions.OrderedEdits.get -> System.Collections.Generic.IEnumerable<ModularPipelines.Go.Options.GoEditOperation!>?
+ModularPipelines.Go.Options.GoWorkEditOptions.OrderedEdits.set -> void
+ModularPipelines.Go.Options.GoWorkEditOptions.Print.get -> bool?
+ModularPipelines.Go.Options.GoWorkEditOptions.Print.set -> void
+ModularPipelines.Go.Options.GoWorkEditOptions.Replace.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoWorkEditOptions.Replace.set -> void
+ModularPipelines.Go.Options.GoWorkEditOptions.Toolchain.get -> string?
+ModularPipelines.Go.Options.GoWorkEditOptions.Toolchain.set -> void
+ModularPipelines.Go.Options.GoWorkEditOptions.Use.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Go.Options.GoWorkEditOptions.Use.set -> void
 ModularPipelines.Go.Options.GoWorkInitOptions
 ModularPipelines.Go.Options.GoWorkInitOptions.GoWorkInitOptions() -> void
 ModularPipelines.Go.Options.GoWorkInitOptions.GoWorkInitOptions(ModularPipelines.Go.Options.GoWorkInitOptions! original) -> void
@@ -177,6 +1022,9 @@ ModularPipelines.Go.Options.GoWorkOptions.CliArguments.get -> System.Collections
 ModularPipelines.Go.Options.GoWorkOptions.CliArguments.set -> void
 ModularPipelines.Go.Options.GoWorkOptions.GoWorkOptions() -> void
 ModularPipelines.Go.Options.GoWorkOptions.GoWorkOptions(ModularPipelines.Go.Options.GoWorkOptions! original) -> void
+ModularPipelines.Go.Options.GoWorkSyncOptions
+ModularPipelines.Go.Options.GoWorkSyncOptions.GoWorkSyncOptions() -> void
+ModularPipelines.Go.Options.GoWorkSyncOptions.GoWorkSyncOptions(ModularPipelines.Go.Options.GoWorkSyncOptions! original) -> void
 ModularPipelines.Go.Options.GoWorkUseOptions
 ModularPipelines.Go.Options.GoWorkUseOptions.GoWorkUseOptions() -> void
 ModularPipelines.Go.Options.GoWorkUseOptions.GoWorkUseOptions(ModularPipelines.Go.Options.GoWorkUseOptions! original) -> void
@@ -184,8 +1032,19 @@ ModularPipelines.Go.Options.GoWorkUseOptions.Moddirs.get -> System.Collections.G
 ModularPipelines.Go.Options.GoWorkUseOptions.Moddirs.set -> void
 ModularPipelines.Go.Options.GoWorkUseOptions.R.get -> bool?
 ModularPipelines.Go.Options.GoWorkUseOptions.R.set -> void
+ModularPipelines.Go.Options.GoWorkVendorOptions
+ModularPipelines.Go.Options.GoWorkVendorOptions.E.get -> bool?
+ModularPipelines.Go.Options.GoWorkVendorOptions.E.set -> void
+ModularPipelines.Go.Options.GoWorkVendorOptions.GoWorkVendorOptions() -> void
+ModularPipelines.Go.Options.GoWorkVendorOptions.GoWorkVendorOptions(ModularPipelines.Go.Options.GoWorkVendorOptions! original) -> void
+ModularPipelines.Go.Options.GoWorkVendorOptions.O.get -> string?
+ModularPipelines.Go.Options.GoWorkVendorOptions.O.set -> void
+ModularPipelines.Go.Options.GoWorkVendorOptions.V.get -> bool?
+ModularPipelines.Go.Options.GoWorkVendorOptions.V.set -> void
+ModularPipelines.Go.Services.IGo.BugAsync(ModularPipelines.Go.Options.GoBugOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.BuildAsync(ModularPipelines.Go.Options.GoBuildOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.CleanAsync(ModularPipelines.Go.Options.GoCleanOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Go.Services.IGo.DocAsync(ModularPipelines.Go.Options.GoDocOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.EnvAsync(ModularPipelines.Go.Options.GoEnvOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.FixAsync(ModularPipelines.Go.Options.GoFixOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.FmtAsync(ModularPipelines.Go.Options.GoFmtOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -196,23 +1055,45 @@ ModularPipelines.Go.Services.IGo.ListAsync(ModularPipelines.Go.Options.GoListOpt
 ModularPipelines.Go.Services.IGo.ModAsync(ModularPipelines.Go.Options.GoModOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.ModDownloadAsync(ModularPipelines.Go.Options.GoModDownloadOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.ModEditAsync(ModularPipelines.Go.Options.GoModEditOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Go.Services.IGo.ModGraphAsync(ModularPipelines.Go.Options.GoModGraphOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.ModInitAsync(ModularPipelines.Go.Options.GoModInitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Go.Services.IGo.ModTidyAsync(ModularPipelines.Go.Options.GoModTidyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Go.Services.IGo.ModVendorAsync(ModularPipelines.Go.Options.GoModVendorOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Go.Services.IGo.ModVerifyAsync(ModularPipelines.Go.Options.GoModVerifyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.ModWhyAsync(ModularPipelines.Go.Options.GoModWhyOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.RunAsync(ModularPipelines.Go.Options.GoRunOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.TelemetryAsync(ModularPipelines.Go.Options.GoTelemetryOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.TestAsync(ModularPipelines.Go.Options.GoTestOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.ToolAsync(ModularPipelines.Go.Options.GoToolOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Go.Services.IGo.VersionAsync(ModularPipelines.Go.Options.GoVersionOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.VetAsync(ModularPipelines.Go.Options.GoVetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.WorkAsync(ModularPipelines.Go.Options.GoWorkOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.WorkEditAsync(ModularPipelines.Go.Options.GoWorkEditOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.WorkInitAsync(ModularPipelines.Go.Options.GoWorkInitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Go.Services.IGo.WorkSyncAsync(ModularPipelines.Go.Options.GoWorkSyncOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Go.Services.IGo.WorkUseAsync(ModularPipelines.Go.Options.GoWorkUseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Go.Services.IGo.WorkVendorAsync(ModularPipelines.Go.Options.GoWorkVendorOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+override ModularPipelines.Go.Options.GoBugOptions.<Clone>$() -> ModularPipelines.Go.Options.GoBugOptions!
+override ModularPipelines.Go.Options.GoBugOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Go.Options.GoBugOptions.Equals(object? obj) -> bool
+override ModularPipelines.Go.Options.GoBugOptions.GetHashCode() -> int
+override ModularPipelines.Go.Options.GoBugOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Go.Options.GoBugOptions.ToString() -> string!
 override ModularPipelines.Go.Options.GoCleanOptions.<Clone>$() -> ModularPipelines.Go.Options.GoCleanOptions!
 override ModularPipelines.Go.Options.GoCleanOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Go.Options.GoCleanOptions.Equals(object? obj) -> bool
 override ModularPipelines.Go.Options.GoCleanOptions.GetHashCode() -> int
 override ModularPipelines.Go.Options.GoCleanOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Go.Options.GoCleanOptions.ToString() -> string!
+override ModularPipelines.Go.Options.GoDocOptions.<Clone>$() -> ModularPipelines.Go.Options.GoDocOptions!
+override ModularPipelines.Go.Options.GoDocOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Go.Options.GoDocOptions.Equals(object? obj) -> bool
+override ModularPipelines.Go.Options.GoDocOptions.GetHashCode() -> int
+override ModularPipelines.Go.Options.GoDocOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Go.Options.GoDocOptions.ToString() -> string!
+override ModularPipelines.Go.Options.GoEditOperation.Equals(object? obj) -> bool
+override ModularPipelines.Go.Options.GoEditOperation.GetHashCode() -> int
+override ModularPipelines.Go.Options.GoEditOperation.ToString() -> string!
 override ModularPipelines.Go.Options.GoEnvOptions.<Clone>$() -> ModularPipelines.Go.Options.GoEnvOptions!
 override ModularPipelines.Go.Options.GoEnvOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Go.Options.GoEnvOptions.Equals(object? obj) -> bool
@@ -255,6 +1136,12 @@ override ModularPipelines.Go.Options.GoModEditOptions.Equals(object? obj) -> boo
 override ModularPipelines.Go.Options.GoModEditOptions.GetHashCode() -> int
 override ModularPipelines.Go.Options.GoModEditOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Go.Options.GoModEditOptions.ToString() -> string!
+override ModularPipelines.Go.Options.GoModGraphOptions.<Clone>$() -> ModularPipelines.Go.Options.GoModGraphOptions!
+override ModularPipelines.Go.Options.GoModGraphOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Go.Options.GoModGraphOptions.Equals(object? obj) -> bool
+override ModularPipelines.Go.Options.GoModGraphOptions.GetHashCode() -> int
+override ModularPipelines.Go.Options.GoModGraphOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Go.Options.GoModGraphOptions.ToString() -> string!
 override ModularPipelines.Go.Options.GoModInitOptions.<Clone>$() -> ModularPipelines.Go.Options.GoModInitOptions!
 override ModularPipelines.Go.Options.GoModInitOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Go.Options.GoModInitOptions.Equals(object? obj) -> bool
@@ -267,6 +1154,24 @@ override ModularPipelines.Go.Options.GoModOptions.Equals(object? obj) -> bool
 override ModularPipelines.Go.Options.GoModOptions.GetHashCode() -> int
 override ModularPipelines.Go.Options.GoModOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Go.Options.GoModOptions.ToString() -> string!
+override ModularPipelines.Go.Options.GoModTidyOptions.<Clone>$() -> ModularPipelines.Go.Options.GoModTidyOptions!
+override ModularPipelines.Go.Options.GoModTidyOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Go.Options.GoModTidyOptions.Equals(object? obj) -> bool
+override ModularPipelines.Go.Options.GoModTidyOptions.GetHashCode() -> int
+override ModularPipelines.Go.Options.GoModTidyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Go.Options.GoModTidyOptions.ToString() -> string!
+override ModularPipelines.Go.Options.GoModVendorOptions.<Clone>$() -> ModularPipelines.Go.Options.GoModVendorOptions!
+override ModularPipelines.Go.Options.GoModVendorOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Go.Options.GoModVendorOptions.Equals(object? obj) -> bool
+override ModularPipelines.Go.Options.GoModVendorOptions.GetHashCode() -> int
+override ModularPipelines.Go.Options.GoModVendorOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Go.Options.GoModVendorOptions.ToString() -> string!
+override ModularPipelines.Go.Options.GoModVerifyOptions.<Clone>$() -> ModularPipelines.Go.Options.GoModVerifyOptions!
+override ModularPipelines.Go.Options.GoModVerifyOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Go.Options.GoModVerifyOptions.Equals(object? obj) -> bool
+override ModularPipelines.Go.Options.GoModVerifyOptions.GetHashCode() -> int
+override ModularPipelines.Go.Options.GoModVerifyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Go.Options.GoModVerifyOptions.ToString() -> string!
 override ModularPipelines.Go.Options.GoModWhyOptions.<Clone>$() -> ModularPipelines.Go.Options.GoModWhyOptions!
 override ModularPipelines.Go.Options.GoModWhyOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Go.Options.GoModWhyOptions.Equals(object? obj) -> bool
@@ -291,6 +1196,12 @@ override ModularPipelines.Go.Options.GoToolOptions.Equals(object? obj) -> bool
 override ModularPipelines.Go.Options.GoToolOptions.GetHashCode() -> int
 override ModularPipelines.Go.Options.GoToolOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Go.Options.GoToolOptions.ToString() -> string!
+override ModularPipelines.Go.Options.GoVersionOptions.<Clone>$() -> ModularPipelines.Go.Options.GoVersionOptions!
+override ModularPipelines.Go.Options.GoVersionOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Go.Options.GoVersionOptions.Equals(object? obj) -> bool
+override ModularPipelines.Go.Options.GoVersionOptions.GetHashCode() -> int
+override ModularPipelines.Go.Options.GoVersionOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Go.Options.GoVersionOptions.ToString() -> string!
 override ModularPipelines.Go.Options.GoWorkEditOptions.<Clone>$() -> ModularPipelines.Go.Options.GoWorkEditOptions!
 override ModularPipelines.Go.Options.GoWorkEditOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Go.Options.GoWorkEditOptions.Equals(object? obj) -> bool
@@ -309,13 +1220,27 @@ override ModularPipelines.Go.Options.GoWorkOptions.Equals(object? obj) -> bool
 override ModularPipelines.Go.Options.GoWorkOptions.GetHashCode() -> int
 override ModularPipelines.Go.Options.GoWorkOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Go.Options.GoWorkOptions.ToString() -> string!
+override ModularPipelines.Go.Options.GoWorkSyncOptions.<Clone>$() -> ModularPipelines.Go.Options.GoWorkSyncOptions!
+override ModularPipelines.Go.Options.GoWorkSyncOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Go.Options.GoWorkSyncOptions.Equals(object? obj) -> bool
+override ModularPipelines.Go.Options.GoWorkSyncOptions.GetHashCode() -> int
+override ModularPipelines.Go.Options.GoWorkSyncOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Go.Options.GoWorkSyncOptions.ToString() -> string!
 override ModularPipelines.Go.Options.GoWorkUseOptions.<Clone>$() -> ModularPipelines.Go.Options.GoWorkUseOptions!
 override ModularPipelines.Go.Options.GoWorkUseOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Go.Options.GoWorkUseOptions.Equals(object? obj) -> bool
 override ModularPipelines.Go.Options.GoWorkUseOptions.GetHashCode() -> int
 override ModularPipelines.Go.Options.GoWorkUseOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Go.Options.GoWorkUseOptions.ToString() -> string!
+override ModularPipelines.Go.Options.GoWorkVendorOptions.<Clone>$() -> ModularPipelines.Go.Options.GoWorkVendorOptions!
+override ModularPipelines.Go.Options.GoWorkVendorOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Go.Options.GoWorkVendorOptions.Equals(object? obj) -> bool
+override ModularPipelines.Go.Options.GoWorkVendorOptions.GetHashCode() -> int
+override ModularPipelines.Go.Options.GoWorkVendorOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Go.Options.GoWorkVendorOptions.ToString() -> string!
+override sealed ModularPipelines.Go.Options.GoBugOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 override sealed ModularPipelines.Go.Options.GoCleanOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
+override sealed ModularPipelines.Go.Options.GoDocOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 override sealed ModularPipelines.Go.Options.GoEnvOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 override sealed ModularPipelines.Go.Options.GoFmtOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 override sealed ModularPipelines.Go.Options.GoGetOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
@@ -323,18 +1248,31 @@ override sealed ModularPipelines.Go.Options.GoInstallOptions.Equals(ModularPipel
 override sealed ModularPipelines.Go.Options.GoListOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 override sealed ModularPipelines.Go.Options.GoModDownloadOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 override sealed ModularPipelines.Go.Options.GoModEditOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
+override sealed ModularPipelines.Go.Options.GoModGraphOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 override sealed ModularPipelines.Go.Options.GoModInitOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 override sealed ModularPipelines.Go.Options.GoModOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
+override sealed ModularPipelines.Go.Options.GoModTidyOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
+override sealed ModularPipelines.Go.Options.GoModVendorOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
+override sealed ModularPipelines.Go.Options.GoModVerifyOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 override sealed ModularPipelines.Go.Options.GoModWhyOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 override sealed ModularPipelines.Go.Options.GoRunOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 override sealed ModularPipelines.Go.Options.GoTelemetryOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 override sealed ModularPipelines.Go.Options.GoToolOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
+override sealed ModularPipelines.Go.Options.GoVersionOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 override sealed ModularPipelines.Go.Options.GoWorkEditOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 override sealed ModularPipelines.Go.Options.GoWorkInitOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 override sealed ModularPipelines.Go.Options.GoWorkOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
+override sealed ModularPipelines.Go.Options.GoWorkSyncOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
 override sealed ModularPipelines.Go.Options.GoWorkUseOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
+override sealed ModularPipelines.Go.Options.GoWorkVendorOptions.Equals(ModularPipelines.Go.Options.GoOptions? other) -> bool
+static ModularPipelines.Go.Options.GoBugOptions.operator !=(ModularPipelines.Go.Options.GoBugOptions? left, ModularPipelines.Go.Options.GoBugOptions? right) -> bool
+static ModularPipelines.Go.Options.GoBugOptions.operator ==(ModularPipelines.Go.Options.GoBugOptions? left, ModularPipelines.Go.Options.GoBugOptions? right) -> bool
 static ModularPipelines.Go.Options.GoCleanOptions.operator !=(ModularPipelines.Go.Options.GoCleanOptions? left, ModularPipelines.Go.Options.GoCleanOptions? right) -> bool
 static ModularPipelines.Go.Options.GoCleanOptions.operator ==(ModularPipelines.Go.Options.GoCleanOptions? left, ModularPipelines.Go.Options.GoCleanOptions? right) -> bool
+static ModularPipelines.Go.Options.GoDocOptions.operator !=(ModularPipelines.Go.Options.GoDocOptions? left, ModularPipelines.Go.Options.GoDocOptions? right) -> bool
+static ModularPipelines.Go.Options.GoDocOptions.operator ==(ModularPipelines.Go.Options.GoDocOptions? left, ModularPipelines.Go.Options.GoDocOptions? right) -> bool
+static ModularPipelines.Go.Options.GoEditOperation.operator !=(ModularPipelines.Go.Options.GoEditOperation? left, ModularPipelines.Go.Options.GoEditOperation? right) -> bool
+static ModularPipelines.Go.Options.GoEditOperation.operator ==(ModularPipelines.Go.Options.GoEditOperation? left, ModularPipelines.Go.Options.GoEditOperation? right) -> bool
 static ModularPipelines.Go.Options.GoEnvOptions.operator !=(ModularPipelines.Go.Options.GoEnvOptions? left, ModularPipelines.Go.Options.GoEnvOptions? right) -> bool
 static ModularPipelines.Go.Options.GoEnvOptions.operator ==(ModularPipelines.Go.Options.GoEnvOptions? left, ModularPipelines.Go.Options.GoEnvOptions? right) -> bool
 static ModularPipelines.Go.Options.GoFmtOptions.operator !=(ModularPipelines.Go.Options.GoFmtOptions? left, ModularPipelines.Go.Options.GoFmtOptions? right) -> bool
@@ -349,10 +1287,18 @@ static ModularPipelines.Go.Options.GoModDownloadOptions.operator !=(ModularPipel
 static ModularPipelines.Go.Options.GoModDownloadOptions.operator ==(ModularPipelines.Go.Options.GoModDownloadOptions? left, ModularPipelines.Go.Options.GoModDownloadOptions? right) -> bool
 static ModularPipelines.Go.Options.GoModEditOptions.operator !=(ModularPipelines.Go.Options.GoModEditOptions? left, ModularPipelines.Go.Options.GoModEditOptions? right) -> bool
 static ModularPipelines.Go.Options.GoModEditOptions.operator ==(ModularPipelines.Go.Options.GoModEditOptions? left, ModularPipelines.Go.Options.GoModEditOptions? right) -> bool
+static ModularPipelines.Go.Options.GoModGraphOptions.operator !=(ModularPipelines.Go.Options.GoModGraphOptions? left, ModularPipelines.Go.Options.GoModGraphOptions? right) -> bool
+static ModularPipelines.Go.Options.GoModGraphOptions.operator ==(ModularPipelines.Go.Options.GoModGraphOptions? left, ModularPipelines.Go.Options.GoModGraphOptions? right) -> bool
 static ModularPipelines.Go.Options.GoModInitOptions.operator !=(ModularPipelines.Go.Options.GoModInitOptions? left, ModularPipelines.Go.Options.GoModInitOptions? right) -> bool
 static ModularPipelines.Go.Options.GoModInitOptions.operator ==(ModularPipelines.Go.Options.GoModInitOptions? left, ModularPipelines.Go.Options.GoModInitOptions? right) -> bool
 static ModularPipelines.Go.Options.GoModOptions.operator !=(ModularPipelines.Go.Options.GoModOptions? left, ModularPipelines.Go.Options.GoModOptions? right) -> bool
 static ModularPipelines.Go.Options.GoModOptions.operator ==(ModularPipelines.Go.Options.GoModOptions? left, ModularPipelines.Go.Options.GoModOptions? right) -> bool
+static ModularPipelines.Go.Options.GoModTidyOptions.operator !=(ModularPipelines.Go.Options.GoModTidyOptions? left, ModularPipelines.Go.Options.GoModTidyOptions? right) -> bool
+static ModularPipelines.Go.Options.GoModTidyOptions.operator ==(ModularPipelines.Go.Options.GoModTidyOptions? left, ModularPipelines.Go.Options.GoModTidyOptions? right) -> bool
+static ModularPipelines.Go.Options.GoModVendorOptions.operator !=(ModularPipelines.Go.Options.GoModVendorOptions? left, ModularPipelines.Go.Options.GoModVendorOptions? right) -> bool
+static ModularPipelines.Go.Options.GoModVendorOptions.operator ==(ModularPipelines.Go.Options.GoModVendorOptions? left, ModularPipelines.Go.Options.GoModVendorOptions? right) -> bool
+static ModularPipelines.Go.Options.GoModVerifyOptions.operator !=(ModularPipelines.Go.Options.GoModVerifyOptions? left, ModularPipelines.Go.Options.GoModVerifyOptions? right) -> bool
+static ModularPipelines.Go.Options.GoModVerifyOptions.operator ==(ModularPipelines.Go.Options.GoModVerifyOptions? left, ModularPipelines.Go.Options.GoModVerifyOptions? right) -> bool
 static ModularPipelines.Go.Options.GoModWhyOptions.operator !=(ModularPipelines.Go.Options.GoModWhyOptions? left, ModularPipelines.Go.Options.GoModWhyOptions? right) -> bool
 static ModularPipelines.Go.Options.GoModWhyOptions.operator ==(ModularPipelines.Go.Options.GoModWhyOptions? left, ModularPipelines.Go.Options.GoModWhyOptions? right) -> bool
 static ModularPipelines.Go.Options.GoRunOptions.operator !=(ModularPipelines.Go.Options.GoRunOptions? left, ModularPipelines.Go.Options.GoRunOptions? right) -> bool
@@ -361,15 +1307,23 @@ static ModularPipelines.Go.Options.GoTelemetryOptions.operator !=(ModularPipelin
 static ModularPipelines.Go.Options.GoTelemetryOptions.operator ==(ModularPipelines.Go.Options.GoTelemetryOptions? left, ModularPipelines.Go.Options.GoTelemetryOptions? right) -> bool
 static ModularPipelines.Go.Options.GoToolOptions.operator !=(ModularPipelines.Go.Options.GoToolOptions? left, ModularPipelines.Go.Options.GoToolOptions? right) -> bool
 static ModularPipelines.Go.Options.GoToolOptions.operator ==(ModularPipelines.Go.Options.GoToolOptions? left, ModularPipelines.Go.Options.GoToolOptions? right) -> bool
+static ModularPipelines.Go.Options.GoVersionOptions.operator !=(ModularPipelines.Go.Options.GoVersionOptions? left, ModularPipelines.Go.Options.GoVersionOptions? right) -> bool
+static ModularPipelines.Go.Options.GoVersionOptions.operator ==(ModularPipelines.Go.Options.GoVersionOptions? left, ModularPipelines.Go.Options.GoVersionOptions? right) -> bool
 static ModularPipelines.Go.Options.GoWorkEditOptions.operator !=(ModularPipelines.Go.Options.GoWorkEditOptions? left, ModularPipelines.Go.Options.GoWorkEditOptions? right) -> bool
 static ModularPipelines.Go.Options.GoWorkEditOptions.operator ==(ModularPipelines.Go.Options.GoWorkEditOptions? left, ModularPipelines.Go.Options.GoWorkEditOptions? right) -> bool
 static ModularPipelines.Go.Options.GoWorkInitOptions.operator !=(ModularPipelines.Go.Options.GoWorkInitOptions? left, ModularPipelines.Go.Options.GoWorkInitOptions? right) -> bool
 static ModularPipelines.Go.Options.GoWorkInitOptions.operator ==(ModularPipelines.Go.Options.GoWorkInitOptions? left, ModularPipelines.Go.Options.GoWorkInitOptions? right) -> bool
 static ModularPipelines.Go.Options.GoWorkOptions.operator !=(ModularPipelines.Go.Options.GoWorkOptions? left, ModularPipelines.Go.Options.GoWorkOptions? right) -> bool
 static ModularPipelines.Go.Options.GoWorkOptions.operator ==(ModularPipelines.Go.Options.GoWorkOptions? left, ModularPipelines.Go.Options.GoWorkOptions? right) -> bool
+static ModularPipelines.Go.Options.GoWorkSyncOptions.operator !=(ModularPipelines.Go.Options.GoWorkSyncOptions? left, ModularPipelines.Go.Options.GoWorkSyncOptions? right) -> bool
+static ModularPipelines.Go.Options.GoWorkSyncOptions.operator ==(ModularPipelines.Go.Options.GoWorkSyncOptions? left, ModularPipelines.Go.Options.GoWorkSyncOptions? right) -> bool
 static ModularPipelines.Go.Options.GoWorkUseOptions.operator !=(ModularPipelines.Go.Options.GoWorkUseOptions? left, ModularPipelines.Go.Options.GoWorkUseOptions? right) -> bool
 static ModularPipelines.Go.Options.GoWorkUseOptions.operator ==(ModularPipelines.Go.Options.GoWorkUseOptions? left, ModularPipelines.Go.Options.GoWorkUseOptions? right) -> bool
+static ModularPipelines.Go.Options.GoWorkVendorOptions.operator !=(ModularPipelines.Go.Options.GoWorkVendorOptions? left, ModularPipelines.Go.Options.GoWorkVendorOptions? right) -> bool
+static ModularPipelines.Go.Options.GoWorkVendorOptions.operator ==(ModularPipelines.Go.Options.GoWorkVendorOptions? left, ModularPipelines.Go.Options.GoWorkVendorOptions? right) -> bool
+virtual ModularPipelines.Go.Options.GoBugOptions.Equals(ModularPipelines.Go.Options.GoBugOptions? other) -> bool
 virtual ModularPipelines.Go.Options.GoCleanOptions.Equals(ModularPipelines.Go.Options.GoCleanOptions? other) -> bool
+virtual ModularPipelines.Go.Options.GoDocOptions.Equals(ModularPipelines.Go.Options.GoDocOptions? other) -> bool
 virtual ModularPipelines.Go.Options.GoEnvOptions.Equals(ModularPipelines.Go.Options.GoEnvOptions? other) -> bool
 virtual ModularPipelines.Go.Options.GoFmtOptions.Equals(ModularPipelines.Go.Options.GoFmtOptions? other) -> bool
 virtual ModularPipelines.Go.Options.GoGetOptions.Equals(ModularPipelines.Go.Options.GoGetOptions? other) -> bool
@@ -377,13 +1331,20 @@ virtual ModularPipelines.Go.Options.GoInstallOptions.Equals(ModularPipelines.Go.
 virtual ModularPipelines.Go.Options.GoListOptions.Equals(ModularPipelines.Go.Options.GoListOptions? other) -> bool
 virtual ModularPipelines.Go.Options.GoModDownloadOptions.Equals(ModularPipelines.Go.Options.GoModDownloadOptions? other) -> bool
 virtual ModularPipelines.Go.Options.GoModEditOptions.Equals(ModularPipelines.Go.Options.GoModEditOptions? other) -> bool
+virtual ModularPipelines.Go.Options.GoModGraphOptions.Equals(ModularPipelines.Go.Options.GoModGraphOptions? other) -> bool
 virtual ModularPipelines.Go.Options.GoModInitOptions.Equals(ModularPipelines.Go.Options.GoModInitOptions? other) -> bool
 virtual ModularPipelines.Go.Options.GoModOptions.Equals(ModularPipelines.Go.Options.GoModOptions? other) -> bool
+virtual ModularPipelines.Go.Options.GoModTidyOptions.Equals(ModularPipelines.Go.Options.GoModTidyOptions? other) -> bool
+virtual ModularPipelines.Go.Options.GoModVendorOptions.Equals(ModularPipelines.Go.Options.GoModVendorOptions? other) -> bool
+virtual ModularPipelines.Go.Options.GoModVerifyOptions.Equals(ModularPipelines.Go.Options.GoModVerifyOptions? other) -> bool
 virtual ModularPipelines.Go.Options.GoModWhyOptions.Equals(ModularPipelines.Go.Options.GoModWhyOptions? other) -> bool
 virtual ModularPipelines.Go.Options.GoRunOptions.Equals(ModularPipelines.Go.Options.GoRunOptions? other) -> bool
 virtual ModularPipelines.Go.Options.GoTelemetryOptions.Equals(ModularPipelines.Go.Options.GoTelemetryOptions? other) -> bool
 virtual ModularPipelines.Go.Options.GoToolOptions.Equals(ModularPipelines.Go.Options.GoToolOptions? other) -> bool
+virtual ModularPipelines.Go.Options.GoVersionOptions.Equals(ModularPipelines.Go.Options.GoVersionOptions? other) -> bool
 virtual ModularPipelines.Go.Options.GoWorkEditOptions.Equals(ModularPipelines.Go.Options.GoWorkEditOptions? other) -> bool
 virtual ModularPipelines.Go.Options.GoWorkInitOptions.Equals(ModularPipelines.Go.Options.GoWorkInitOptions? other) -> bool
 virtual ModularPipelines.Go.Options.GoWorkOptions.Equals(ModularPipelines.Go.Options.GoWorkOptions? other) -> bool
+virtual ModularPipelines.Go.Options.GoWorkSyncOptions.Equals(ModularPipelines.Go.Options.GoWorkSyncOptions? other) -> bool
 virtual ModularPipelines.Go.Options.GoWorkUseOptions.Equals(ModularPipelines.Go.Options.GoWorkUseOptions? other) -> bool
+virtual ModularPipelines.Go.Options.GoWorkVendorOptions.Equals(ModularPipelines.Go.Options.GoWorkVendorOptions? other) -> bool
