@@ -386,7 +386,7 @@ public class AggregateResultsModule : Module<string>
 ## Important Notes[​](#important-notes "Direct link to Important Notes")
 
 * **Matrix jobs don't start simultaneously.** GitHub Actions may stagger runner provisioning. Workers that start before the master will wait for work to appear in the queue.
-* **Runner timeout.** GitHub Actions has a 6-hour job timeout. Set `KeyExpirationSeconds` accordingly if you have very long pipelines.
+* **Runner timeout.** GitHub Actions has a 6-hour job timeout. Set `KeyExpiration` accordingly if you have very long pipelines.
 * **fail-fast: false** is important — you don't want GitHub to cancel workers if the master reports an error in one module.
 * **Run isolation.** The `initialize` job combines the GitHub run ID and attempt. Use **Re-run all jobs** after a failure so GitHub reruns the initializer and complete worker matrix with a fresh Redis namespace. Partial retries cannot recreate successful worker jobs, so the generated validation step rejects **Re-run failed jobs** before any stale coordination state is read.
 * **Secrets** — store your Redis connection string as a repository or organization secret, not in code.
