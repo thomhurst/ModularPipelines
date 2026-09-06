@@ -959,6 +959,7 @@ public class CliScraperTraversalTests
     [Test]
     [Arguments("Accepts multiple values")]
     [Arguments("One or more label selectors")]
+    [Arguments("Specifications of one or more certificate signing endpoints")]
     public async Task SharedShapeInference_Preserves_Common_Repeatability_Phrases(string description)
     {
         var helpText = $"""
@@ -978,6 +979,32 @@ public class CliScraperTraversalTests
 
         await Assert.That(tag.AcceptsMultipleValues).IsTrue();
         await Assert.That(tag.CSharpType).IsEqualTo("IEnumerable<string>?");
+    }
+
+    [Test]
+    [Arguments("Expression is a list of one or more restrictions combined via logical operators 'AND' and 'OR'.")]
+    [Arguments("The expression is a list of one or more restrictions. Restrictions have the form '<field> <operator> <value>'.")]
+    public async Task SharedShapeInference_Keeps_A_Value_Described_As_A_List_Of_Restrictions_Scalar(string description)
+    {
+        // gcloud's --filter is one expression string; the prose describes its grammar, not how
+        // many times the flag may be passed.
+        var helpText = $"""
+            Execute a command.
+
+            Usage:
+              fake execute [flags]
+
+            Flags:
+              --filter string   {description}
+            """;
+        var scraper = new TestCobraScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+
+        var command = await scraper.Parse(["fake", "execute"], helpText);
+        var filter = command!.Options.Single();
+
+        await Assert.That(filter.AcceptsMultipleValues).IsFalse();
+        await Assert.That(filter.CSharpType).IsEqualTo("string?");
     }
 
     [Test]
