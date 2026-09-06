@@ -3,48 +3,26 @@ ModularPipelines.Context.ModularPipelines_Helm_e8de683e0682de7aToolsExtensions
 ModularPipelines.Context.ModularPipelines_Helm_e8de683e0682de7aToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
 ModularPipelines.Context.ModularPipelines_Helm_e8de683e0682de7aToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Helm.get -> ModularPipelines.Helm.Services.IHelm!
 ModularPipelines.Helm.Enums.HelmGetMetadataOutput
-ModularPipelines.Helm.Enums.HelmGetMetadataOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmGetMetadataOutput
-ModularPipelines.Helm.Enums.HelmGetMetadataOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmGetMetadataOutput
 ModularPipelines.Helm.Enums.HelmGetMetadataOutput.Yaml = 2 -> ModularPipelines.Helm.Enums.HelmGetMetadataOutput
 ModularPipelines.Helm.Enums.HelmGetValuesOutput
-ModularPipelines.Helm.Enums.HelmGetValuesOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmGetValuesOutput
-ModularPipelines.Helm.Enums.HelmGetValuesOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmGetValuesOutput
 ModularPipelines.Helm.Enums.HelmGetValuesOutput.Yaml = 2 -> ModularPipelines.Helm.Enums.HelmGetValuesOutput
 ModularPipelines.Helm.Enums.HelmHistoryOutput
-ModularPipelines.Helm.Enums.HelmHistoryOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmHistoryOutput
-ModularPipelines.Helm.Enums.HelmHistoryOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmHistoryOutput
 ModularPipelines.Helm.Enums.HelmHistoryOutput.Yaml = 2 -> ModularPipelines.Helm.Enums.HelmHistoryOutput
 ModularPipelines.Helm.Enums.HelmInstallOutput
-ModularPipelines.Helm.Enums.HelmInstallOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmInstallOutput
-ModularPipelines.Helm.Enums.HelmInstallOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmInstallOutput
 ModularPipelines.Helm.Enums.HelmInstallOutput.Yaml = 2 -> ModularPipelines.Helm.Enums.HelmInstallOutput
 ModularPipelines.Helm.Enums.HelmListOutput
-ModularPipelines.Helm.Enums.HelmListOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmListOutput
-ModularPipelines.Helm.Enums.HelmListOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmListOutput
 ModularPipelines.Helm.Enums.HelmListOutput.Yaml = 2 -> ModularPipelines.Helm.Enums.HelmListOutput
 ModularPipelines.Helm.Enums.HelmRepoListOutput
-ModularPipelines.Helm.Enums.HelmRepoListOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmRepoListOutput
-ModularPipelines.Helm.Enums.HelmRepoListOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmRepoListOutput
 ModularPipelines.Helm.Enums.HelmRepoListOutput.Yaml = 2 -> ModularPipelines.Helm.Enums.HelmRepoListOutput
 ModularPipelines.Helm.Enums.HelmSearchHubOutput
-ModularPipelines.Helm.Enums.HelmSearchHubOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmSearchHubOutput
-ModularPipelines.Helm.Enums.HelmSearchHubOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmSearchHubOutput
 ModularPipelines.Helm.Enums.HelmSearchHubOutput.Yaml = 2 -> ModularPipelines.Helm.Enums.HelmSearchHubOutput
 ModularPipelines.Helm.Enums.HelmSearchRepoOutput
-ModularPipelines.Helm.Enums.HelmSearchRepoOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmSearchRepoOutput
-ModularPipelines.Helm.Enums.HelmSearchRepoOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmSearchRepoOutput
 ModularPipelines.Helm.Enums.HelmSearchRepoOutput.Yaml = 2 -> ModularPipelines.Helm.Enums.HelmSearchRepoOutput
 ModularPipelines.Helm.Enums.HelmStatusOutput
-ModularPipelines.Helm.Enums.HelmStatusOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmStatusOutput
-ModularPipelines.Helm.Enums.HelmStatusOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmStatusOutput
 ModularPipelines.Helm.Enums.HelmStatusOutput.Yaml = 2 -> ModularPipelines.Helm.Enums.HelmStatusOutput
 ModularPipelines.Helm.Enums.HelmUninstallCascade
 ModularPipelines.Helm.Enums.HelmUninstallCascade.Background = 0 -> ModularPipelines.Helm.Enums.HelmUninstallCascade
-ModularPipelines.Helm.Enums.HelmUninstallCascade.Foreground = 2 -> ModularPipelines.Helm.Enums.HelmUninstallCascade
-ModularPipelines.Helm.Enums.HelmUninstallCascade.Orphan = 1 -> ModularPipelines.Helm.Enums.HelmUninstallCascade
 ModularPipelines.Helm.Enums.HelmUpgradeOutput
-ModularPipelines.Helm.Enums.HelmUpgradeOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmUpgradeOutput
-ModularPipelines.Helm.Enums.HelmUpgradeOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmUpgradeOutput
 ModularPipelines.Helm.Enums.HelmUpgradeOutput.Yaml = 2 -> ModularPipelines.Helm.Enums.HelmUpgradeOutput
 ModularPipelines.Helm.Extensions.HelmExtensions
 ModularPipelines.Helm.Options.HelmCreateOptions
