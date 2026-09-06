@@ -18,6 +18,18 @@ internal sealed class CliScrapeProvenance
     private readonly ConcurrentDictionary<string, CliHelpInvocation> _helpInvocations =
         new(StringComparer.OrdinalIgnoreCase);
 
+    /// <summary>
+    /// Help paths whose latest invocation timed out after every retry. Those commands are
+    /// unavailable in this scrape rather than absent from the tool, so coverage validation
+    /// must not report them as removals.
+    /// </summary>
+    public IReadOnlyList<string> TimedOutHelpPaths =>
+        _helpInvocations.Values
+            .Where(static invocation => invocation.TimedOut)
+            .Select(static invocation => invocation.CommandPath)
+            .Order(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
     public void Record(
         IReadOnlyList<string> commandPath,
         string arguments,
@@ -35,6 +47,7 @@ internal sealed class CliScrapeProvenance
             OutputSha256 = Fingerprint(result.CombinedOutput),
             RawHelp = result.CombinedOutput,
             PreserveRawHelp = preserveRawHelp || commandPath.Count == 1 || result.ExitCode != 0,
+            TimedOut = result.TimedOut,
         };
     }
 
@@ -82,8 +95,10 @@ internal sealed class CliScrapeProvenance
         CancellationToken cancellationToken)
     {
         var toolName = coverage.Manifest.ToolName;
+        var timedOutHelpPaths = coverage.TimedOutCommands;
         var requestedHelpPaths = coverage.RemovedCommands
             .SelectMany(GetAncestorCommands)
+            .Concat(timedOutHelpPaths)
             .Append(toolName)
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .Order(StringComparer.OrdinalIgnoreCase)
@@ -106,6 +121,7 @@ internal sealed class CliScrapeProvenance
             RemovedCommands = coverage.RemovedCommands,
             RequestedHelpPaths = requestedHelpPaths,
             MissingHelpPaths = missingHelpPaths,
+            TimedOutHelpPaths = timedOutHelpPaths,
             HelpInvocations = invocations,
         };
 
@@ -165,6 +181,12 @@ internal sealed record CliHelpInvocation
     public string? RawHelp { get; init; }
 
     internal bool PreserveRawHelp { get; init; }
+
+    /// <summary>
+    /// Whether this invocation was abandoned by the executor's timeout, so the command is
+    /// unavailable in this scrape rather than absent from the tool.
+    /// </summary>
+    internal bool TimedOut { get; init; }
 }
 
 internal sealed record CliCoverageFailureDiagnostics
@@ -184,6 +206,8 @@ internal sealed record CliCoverageFailureDiagnostics
     public required IReadOnlyList<string> RequestedHelpPaths { get; init; }
 
     public required IReadOnlyList<string> MissingHelpPaths { get; init; }
+
+    public required IReadOnlyList<string> TimedOutHelpPaths { get; init; }
 
     public required IReadOnlyList<CliHelpInvocation> HelpInvocations { get; init; }
 }

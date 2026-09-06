@@ -63,6 +63,12 @@ public class CliCommandResult
     public required int ExitCode { get; init; }
 
     /// <summary>
+    /// Whether the command was abandoned because the executor's timeout elapsed. Callers treat
+    /// such output as unavailable rather than as the command's real response.
+    /// </summary>
+    public bool TimedOut { get; init; }
+
+    /// <summary>
     /// Whether the command executed successfully (exit code 0).
     /// </summary>
     public bool Success => ExitCode == 0;

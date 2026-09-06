@@ -257,6 +257,70 @@ public class CommandCoverageGuardTests
     }
 
     [Test]
+    public async Task CoverageFailureDiagnostics_ListTimedOutHelpPaths()
+    {
+        var outputDirectory = CreateOutputDirectory();
+
+        try
+        {
+            var baseline = CommandCoverageGuard.Evaluate(
+                Tool(
+                    Command("aws ec2 describe-instances"),
+                    Command("aws fsx describe-backups")) with { ToolName = "aws" },
+                outputDirectory,
+                approveShrinkage: false);
+            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
+            var provenance = new CliScrapeProvenance();
+            provenance.Record(["aws"], "help", Result("RAW ROOT HELP"));
+            provenance.Record(["aws", "fsx"], "fsx help", TimedOutResult());
+            provenance.Record(["aws", "fsx"], "fsx help", Result("RAW FSX HELP"));
+            provenance.Record(["aws", "fsx", "describe-backups"], "fsx describe-backups help", TimedOutResult());
+
+            static CliCommandResult TimedOutResult() =>
+                Result(string.Empty, standardError: "Command timed out or cancelled", exitCode: -1, timedOut: true);
+
+            // Approval must not absorb the timed-out command, and it is not a removal.
+            var current = CommandCoverageGuard.Evaluate(
+                Tool(Command("aws ec2 describe-instances")) with { ToolName = "aws" },
+                outputDirectory,
+                approveShrinkage: true,
+                timedOutHelpPaths: provenance.TimedOutHelpPaths);
+
+            var path = await provenance.WriteCoverageFailureDiagnosticsAsync(
+                outputDirectory,
+                current,
+                CancellationToken.None);
+            using var diagnostics = JsonDocument.Parse(await File.ReadAllTextAsync(path!));
+            var timedOutHelpPaths = diagnostics.RootElement
+                .GetProperty("timedOutHelpPaths")
+                .EnumerateArray()
+                .Select(static element => element.GetString())
+                .ToArray();
+            var invocationPaths = diagnostics.RootElement
+                .GetProperty("helpInvocations")
+                .EnumerateArray()
+                .Select(static element => element.GetProperty("commandPath").GetString())
+                .ToArray();
+
+            using (Assert.Multiple())
+            {
+                // A later successful invocation clears the path; the leaf that never answered stays.
+                await Assert.That(provenance.TimedOutHelpPaths).IsEquivalentTo(["aws fsx describe-backups"]);
+                await Assert.That(current.TimedOutCommands).IsEquivalentTo(["aws fsx describe-backups"]);
+                await Assert.That(current.RemovedCommands).IsEmpty();
+                await Assert.That(current.Violations).HasSingleItem();
+                await Assert.That(current.Violations[0]).Contains("Help timed out after all retries");
+                await Assert.That(timedOutHelpPaths).IsEquivalentTo(["aws fsx describe-backups"]);
+                await Assert.That(invocationPaths).Contains("aws fsx describe-backups");
+            }
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task CoverageFailureDiagnostics_DiscardUnpreservedLeafRawHelp()
     {
         var outputDirectory = CreateOutputDirectory();
@@ -682,10 +746,15 @@ public class CommandCoverageGuardTests
         Options = [],
     };
 
-    private static CliCommandResult Result(string standardOutput) => new()
+    private static CliCommandResult Result(
+        string standardOutput,
+        string standardError = "",
+        int exitCode = 0,
+        bool timedOut = false) => new()
     {
         StandardOutput = standardOutput,
-        StandardError = string.Empty,
-        ExitCode = 0,
+        StandardError = standardError,
+        ExitCode = exitCode,
+        TimedOut = timedOut,
     };
 }

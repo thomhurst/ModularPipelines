@@ -755,7 +755,24 @@ public abstract partial class CliScraperBase : ICliScraper
             cancellationToken,
             workingDirectory);
         _scrapeProvenance.Record(commandPath, arguments, result, preserveRawHelp);
-        return result;
+        if (!result.TimedOut)
+        {
+            return result;
+        }
+
+        // Every scraper's help parsing treats blank output as "no help", so hand back an empty
+        // result instead of the executor's placeholder text. The provenance keeps the path as
+        // timed out, and coverage validation fails the run instead of reporting a removal.
+        Logger.LogWarning(
+            "Help timed out for {Command}; the command is unavailable in this scrape",
+            string.Join(' ', commandPath));
+        return new CliCommandResult
+        {
+            StandardOutput = string.Empty,
+            StandardError = string.Empty,
+            ExitCode = result.ExitCode,
+            TimedOut = true,
+        };
     }
 
     internal Task<string?> WriteCoverageFailureDiagnosticsAsync(
@@ -766,6 +783,11 @@ public abstract partial class CliScraperBase : ICliScraper
             outputDirectory,
             coverage,
             cancellationToken);
+
+    /// <summary>
+    /// Help paths whose invocation timed out after every retry during this scrape.
+    /// </summary>
+    internal IReadOnlyList<string> TimedOutHelpPaths => _scrapeProvenance.TimedOutHelpPaths;
 
     internal void PreserveRawHelpForCommandGroups(IEnumerable<string> commandGroups)
     {
