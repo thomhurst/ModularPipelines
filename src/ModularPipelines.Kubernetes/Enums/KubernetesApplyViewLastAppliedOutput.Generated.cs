@@ -16,9 +16,9 @@ namespace ModularPipelines.Kubernetes.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum KubernetesApplyViewLastAppliedOutput
 {
-    [EnumValue("yaml")]
-    Yaml,
-
     [EnumValue("json")]
-    Json
+    Json,
+
+    [EnumValue("yaml")]
+    Yaml
 }
