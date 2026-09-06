@@ -1,4 +1,7 @@
 #nullable enable
+*REMOVED*ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility.Internal = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility
+*REMOVED*ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility.Private = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility
+*REMOVED*ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility.Public = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility
 *REMOVED*ModularPipelines.Flux.Options.FluxBootstrapOptions.Command.get -> string?
 *REMOVED*ModularPipelines.Flux.Options.FluxBootstrapOptions.Command.set -> void
 *REMOVED*ModularPipelines.Flux.Options.FluxBuildOptions.Command.get -> string?
@@ -356,6 +359,9 @@
 *REMOVED*virtual ModularPipelines.Flux.Services.FluxTreeArtifact.GeneratorAsync(ModularPipelines.Flux.Options.FluxTreeArtifactGeneratorOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Flux.Services.FluxTrigger.ExecuteAsync(ModularPipelines.Flux.Options.FluxTriggerOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Flux.Services.FluxTrigger.ReceiverAsync(ModularPipelines.Flux.Options.FluxTriggerReceiverOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility.Internal = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility
+ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility.Private = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility
+ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility.Public = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility
 ModularPipelines.Flux.Services.FluxBootstrap.FluxBootstrap(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxBuild.FluxBuild(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxCreate.FluxCreate(ModularPipelines.Context.ICommandContext! command) -> void

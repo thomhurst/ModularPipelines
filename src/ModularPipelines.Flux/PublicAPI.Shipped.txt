@@ -63,9 +63,6 @@ ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshKeyAlgorithm.Ecdsa = 1 -> Modu
 ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshKeyAlgorithm.Ed25519 = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshKeyAlgorithm
 ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshKeyAlgorithm.Rsa = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshKeyAlgorithm
 ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility
-ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility.Internal = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility
-ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility.Private = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility
-ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility.Public = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility
 ModularPipelines.Flux.Enums.FluxBootstrapLogLevel
 ModularPipelines.Flux.Enums.FluxBootstrapLogLevel.Debug = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapLogLevel
 ModularPipelines.Flux.Enums.FluxBootstrapLogLevel.Error = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapLogLevel
