@@ -1,6 +1,18 @@
 #nullable enable
+*REMOVED*ModularPipelines.Eksctl.Enums.EksctlCreateCapabilityType.Argocd = 2 -> ModularPipelines.Eksctl.Enums.EksctlCreateCapabilityType
+*REMOVED*ModularPipelines.Eksctl.Enums.EksctlCreateCapabilityType.Kro = 1 -> ModularPipelines.Eksctl.Enums.EksctlCreateCapabilityType
+*REMOVED*ModularPipelines.Eksctl.Enums.EksctlUpdateCapabilityType.Argocd = 2 -> ModularPipelines.Eksctl.Enums.EksctlUpdateCapabilityType
+*REMOVED*ModularPipelines.Eksctl.Enums.EksctlUpdateCapabilityType.Kro = 1 -> ModularPipelines.Eksctl.Enums.EksctlUpdateCapabilityType
+*REMOVED*ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.Api = 2 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
+*REMOVED*ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.Audit = 3 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
+*REMOVED*ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.Authenticator = 4 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
 *REMOVED*ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.Controllermanager = 5 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
+*REMOVED*ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.None = 1 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
+*REMOVED*ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.Api = 2 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
+*REMOVED*ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.Audit = 3 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
+*REMOVED*ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.Authenticator = 4 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
 *REMOVED*ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.Controllermanager = 5 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
+*REMOVED*ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.None = 1 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
 *REMOVED*ModularPipelines.Eksctl.Services.EksctlAssociate.EksctlAssociate(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.Eksctl.Services.EksctlCreate.EksctlCreate(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.Eksctl.Services.EksctlDelete.EksctlDelete(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
@@ -189,8 +201,20 @@
 *REMOVED*virtual ModularPipelines.Eksctl.Services.EksctlUtils.UpdateZonalShiftConfigAsync(ModularPipelines.Eksctl.Options.EksctlUtilsUpdateZonalShiftConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Eksctl.Services.EksctlUtils.WriteKubeConfigAsync(ModularPipelines.Eksctl.Options.EksctlUtilsWriteKubeconfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Eksctl.Services.EksctlUtils.WriteKubeconfigAsync(ModularPipelines.Eksctl.Options.EksctlUtilsWriteKubeconfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
-ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.ControllerManager = 5 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
-ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.ControllerManager = 5 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
+ModularPipelines.Eksctl.Enums.EksctlCreateCapabilityType.Argocd = 1 -> ModularPipelines.Eksctl.Enums.EksctlCreateCapabilityType
+ModularPipelines.Eksctl.Enums.EksctlCreateCapabilityType.Kro = 2 -> ModularPipelines.Eksctl.Enums.EksctlCreateCapabilityType
+ModularPipelines.Eksctl.Enums.EksctlUpdateCapabilityType.Argocd = 1 -> ModularPipelines.Eksctl.Enums.EksctlUpdateCapabilityType
+ModularPipelines.Eksctl.Enums.EksctlUpdateCapabilityType.Kro = 2 -> ModularPipelines.Eksctl.Enums.EksctlUpdateCapabilityType
+ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.Api = 1 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
+ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.Audit = 2 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
+ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.Authenticator = 3 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
+ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.ControllerManager = 4 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
+ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.None = 5 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
+ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.Api = 1 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
+ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.Audit = 2 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
+ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.Authenticator = 3 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
+ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.ControllerManager = 4 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
+ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.None = 5 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
 ModularPipelines.Eksctl.Services.EksctlAssociate.EksctlAssociate(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Eksctl.Services.EksctlCreate.EksctlCreate(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Eksctl.Services.EksctlDelete.EksctlDelete(ModularPipelines.Context.ICommandContext! command) -> void

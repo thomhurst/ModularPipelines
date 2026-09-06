@@ -33,7 +33,7 @@ public class EksctlSet : IEksctlSet
     #region Commands
 
     /// <summary>
-    /// Executes the parent command directly.
+    /// Set values
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
