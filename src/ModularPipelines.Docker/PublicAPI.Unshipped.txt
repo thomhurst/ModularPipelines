@@ -35,6 +35,9 @@
 *REMOVED*ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress.Plain = 2 -> ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress
 *REMOVED*ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress.Rawjson = 3 -> ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress
 *REMOVED*ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress.Tty = 4 -> ModularPipelines.Docker.Enums.DockerBuilderImageToolsCreateProgress
+*REMOVED*ModularPipelines.Docker.Enums.DockerComposeProgress.Json = 3 -> ModularPipelines.Docker.Enums.DockerComposeProgress
+*REMOVED*ModularPipelines.Docker.Enums.DockerComposeProgress.Quiet = 4 -> ModularPipelines.Docker.Enums.DockerComposeProgress
+*REMOVED*ModularPipelines.Docker.Enums.DockerComposeProgress.Tty = 1 -> ModularPipelines.Docker.Enums.DockerComposeProgress
 *REMOVED*ModularPipelines.Docker.Options.DockerBuilderBakeOptions
 *REMOVED*ModularPipelines.Docker.Options.DockerBuilderBakeOptions.DockerBuilderBakeOptions() -> void
 *REMOVED*ModularPipelines.Docker.Options.DockerBuilderBakeOptions.DockerBuilderBakeOptions(ModularPipelines.Docker.Options.DockerBuilderBakeOptions! original) -> void
@@ -884,6 +887,9 @@
 *REMOVED*virtual ModularPipelines.Docker.Services.DockerVolume.LsAsync(ModularPipelines.Docker.Options.DockerVolumeLsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Docker.Services.DockerVolume.PruneAsync(ModularPipelines.Docker.Options.DockerVolumePruneOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Docker.Services.DockerVolume.RmAsync(ModularPipelines.Docker.Options.DockerVolumeRmOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Docker.Enums.DockerComposeProgress.Json = 1 -> ModularPipelines.Docker.Enums.DockerComposeProgress
+ModularPipelines.Docker.Enums.DockerComposeProgress.Quiet = 3 -> ModularPipelines.Docker.Enums.DockerComposeProgress
+ModularPipelines.Docker.Enums.DockerComposeProgress.Tty = 4 -> ModularPipelines.Docker.Enums.DockerComposeProgress
 ModularPipelines.Docker.Services.DockerBuildx.DockerBuildx(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Docker.Services.DockerBuildxDap.DockerBuildxDap(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Docker.Services.DockerBuildxHistory.DockerBuildxHistory(ModularPipelines.Context.ICommandContext! command) -> void

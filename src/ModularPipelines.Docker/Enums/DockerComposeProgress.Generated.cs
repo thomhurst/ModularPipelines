@@ -19,15 +19,15 @@ public enum DockerComposeProgress
     [EnumValue("auto")]
     Auto,
 
-    [EnumValue("tty")]
-    Tty,
+    [EnumValue("json")]
+    Json,
 
     [EnumValue("plain")]
     Plain,
 
-    [EnumValue("json")]
-    Json,
-
     [EnumValue("quiet")]
-    Quiet
+    Quiet,
+
+    [EnumValue("tty")]
+    Tty
 }
