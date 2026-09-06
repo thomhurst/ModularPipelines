@@ -16,12 +16,12 @@ namespace ModularPipelines.Snyk.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum SnykReachabilityFilter
 {
-    [EnumValue("reachable")]
-    Reachable,
-
     [EnumValue("no-info")]
     NoInfo,
 
     [EnumValue("not-applicable")]
-    NotApplicable
+    NotApplicable,
+
+    [EnumValue("reachable")]
+    Reachable
 }

@@ -3,19 +3,12 @@ ModularPipelines.Context.ModularPipelines_Snyk_a393d86d3cffbf3fToolsExtensions
 ModularPipelines.Context.ModularPipelines_Snyk_a393d86d3cffbf3fToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
 ModularPipelines.Context.ModularPipelines_Snyk_a393d86d3cffbf3fToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Snyk.get -> ModularPipelines.Snyk.Services.ISnyk!
 ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold
-ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold.High = 2 -> ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold
-ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold.Low = 0 -> ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold
-ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold.Medium = 1 -> ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold
 ModularPipelines.Snyk.Enums.SnykContainerTestFailOn
 ModularPipelines.Snyk.Enums.SnykContainerTestFailOn.All = 0 -> ModularPipelines.Snyk.Enums.SnykContainerTestFailOn
 ModularPipelines.Snyk.Enums.SnykContainerTestFailOn.Upgradable = 1 -> ModularPipelines.Snyk.Enums.SnykContainerTestFailOn
 ModularPipelines.Snyk.Enums.SnykFailOn
 ModularPipelines.Snyk.Enums.SnykFailOn.All = 0 -> ModularPipelines.Snyk.Enums.SnykFailOn
-ModularPipelines.Snyk.Enums.SnykFailOn.Patchable = 2 -> ModularPipelines.Snyk.Enums.SnykFailOn
-ModularPipelines.Snyk.Enums.SnykFailOn.Upgradable = 1 -> ModularPipelines.Snyk.Enums.SnykFailOn
 ModularPipelines.Snyk.Enums.SnykFilePathGroup
-ModularPipelines.Snyk.Enums.SnykFilePathGroup.Code = 1 -> ModularPipelines.Snyk.Enums.SnykFilePathGroup
-ModularPipelines.Snyk.Enums.SnykFilePathGroup.Global = 0 -> ModularPipelines.Snyk.Enums.SnykFilePathGroup
 ModularPipelines.Snyk.Enums.SnykFilePathGroup.IacDrift = 2 -> ModularPipelines.Snyk.Enums.SnykFilePathGroup
 ModularPipelines.Snyk.Enums.SnykFormat
 ModularPipelines.Snyk.Enums.SnykFormat.Cyclonedx14Json = 0 -> ModularPipelines.Snyk.Enums.SnykFormat
@@ -26,18 +19,8 @@ ModularPipelines.Snyk.Enums.SnykFormat.Cyclonedx16Json = 4 -> ModularPipelines.S
 ModularPipelines.Snyk.Enums.SnykFormat.Cyclonedx16Xml = 5 -> ModularPipelines.Snyk.Enums.SnykFormat
 ModularPipelines.Snyk.Enums.SnykFormat.Spdx23Json = 6 -> ModularPipelines.Snyk.Enums.SnykFormat
 ModularPipelines.Snyk.Enums.SnykReachabilityFilter
-ModularPipelines.Snyk.Enums.SnykReachabilityFilter.NoInfo = 1 -> ModularPipelines.Snyk.Enums.SnykReachabilityFilter
-ModularPipelines.Snyk.Enums.SnykReachabilityFilter.NotApplicable = 2 -> ModularPipelines.Snyk.Enums.SnykReachabilityFilter
-ModularPipelines.Snyk.Enums.SnykReachabilityFilter.Reachable = 0 -> ModularPipelines.Snyk.Enums.SnykReachabilityFilter
 ModularPipelines.Snyk.Enums.SnykSeverityThreshold
-ModularPipelines.Snyk.Enums.SnykSeverityThreshold.Critical = 3 -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold
-ModularPipelines.Snyk.Enums.SnykSeverityThreshold.High = 2 -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold
-ModularPipelines.Snyk.Enums.SnykSeverityThreshold.Low = 0 -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold
-ModularPipelines.Snyk.Enums.SnykSeverityThreshold.Medium = 1 -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold
 ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths
-ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths.All = 2 -> ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths
-ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths.None = 0 -> ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths
-ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths.Some = 1 -> ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths
 ModularPipelines.Snyk.Extensions.SnykExtensions
 ModularPipelines.Snyk.Options.SnykAibomOptions
 ModularPipelines.Snyk.Options.SnykAibomOptions.Debug.get -> bool?
