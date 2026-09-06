@@ -1,4 +1,7 @@
 #nullable enable
+*REMOVED*ModularPipelines.Kind.Enums.KindBuildNodeImageType.Ci = 3 -> ModularPipelines.Kind.Enums.KindBuildNodeImageType
+*REMOVED*ModularPipelines.Kind.Enums.KindBuildNodeImageType.Source = 4 -> ModularPipelines.Kind.Enums.KindBuildNodeImageType
+*REMOVED*ModularPipelines.Kind.Enums.KindBuildNodeImageType.Url = 0 -> ModularPipelines.Kind.Enums.KindBuildNodeImageType
 *REMOVED*ModularPipelines.Kind.Options.KindCreateClusterOptions.Kubeconfig.get -> string?
 *REMOVED*ModularPipelines.Kind.Options.KindCreateClusterOptions.Kubeconfig.set -> void
 *REMOVED*ModularPipelines.Kind.Options.KindDeleteClusterOptions.Kubeconfig.get -> string?
@@ -100,6 +103,9 @@
 *REMOVED*virtual ModularPipelines.Kind.Services.KindLoad.DockerImageAsync(ModularPipelines.Kind.Options.KindLoadDockerImageOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Kind.Services.KindLoad.ExecuteAsync(ModularPipelines.Kind.Options.KindLoadOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Kind.Services.KindLoad.ImageArchiveAsync(ModularPipelines.Kind.Options.KindLoadImageArchiveOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Kind.Enums.KindBuildNodeImageType.Ci = 0 -> ModularPipelines.Kind.Enums.KindBuildNodeImageType
+ModularPipelines.Kind.Enums.KindBuildNodeImageType.Source = 3 -> ModularPipelines.Kind.Enums.KindBuildNodeImageType
+ModularPipelines.Kind.Enums.KindBuildNodeImageType.Url = 4 -> ModularPipelines.Kind.Enums.KindBuildNodeImageType
 ModularPipelines.Kind.Options.KindExportKubeConfigOptions
 ModularPipelines.Kind.Options.KindExportKubeConfigOptions.Help.get -> bool?
 ModularPipelines.Kind.Options.KindExportKubeConfigOptions.Help.set -> void

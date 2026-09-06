@@ -3,11 +3,8 @@ ModularPipelines.Context.ModularPipelines_Kind_84aa8736f42f49b8ToolsExtensions
 ModularPipelines.Context.ModularPipelines_Kind_84aa8736f42f49b8ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
 ModularPipelines.Context.ModularPipelines_Kind_84aa8736f42f49b8ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Kind.get -> ModularPipelines.Kind.Services.IKind!
 ModularPipelines.Kind.Enums.KindBuildNodeImageType
-ModularPipelines.Kind.Enums.KindBuildNodeImageType.Ci = 3 -> ModularPipelines.Kind.Enums.KindBuildNodeImageType
 ModularPipelines.Kind.Enums.KindBuildNodeImageType.File = 1 -> ModularPipelines.Kind.Enums.KindBuildNodeImageType
 ModularPipelines.Kind.Enums.KindBuildNodeImageType.Release = 2 -> ModularPipelines.Kind.Enums.KindBuildNodeImageType
-ModularPipelines.Kind.Enums.KindBuildNodeImageType.Source = 4 -> ModularPipelines.Kind.Enums.KindBuildNodeImageType
-ModularPipelines.Kind.Enums.KindBuildNodeImageType.Url = 0 -> ModularPipelines.Kind.Enums.KindBuildNodeImageType
 ModularPipelines.Kind.Extensions.KindExtensions
 ModularPipelines.Kind.Options.KindBuildNodeImageOptions
 ModularPipelines.Kind.Options.KindBuildNodeImageOptions.Arch.get -> string?
