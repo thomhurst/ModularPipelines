@@ -1,4 +1,21 @@
 #nullable enable
+*REMOVED*ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold.High = 2 -> ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold
+*REMOVED*ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold.Low = 0 -> ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold
+*REMOVED*ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold.Medium = 1 -> ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold
+*REMOVED*ModularPipelines.Snyk.Enums.SnykFailOn.Patchable = 2 -> ModularPipelines.Snyk.Enums.SnykFailOn
+*REMOVED*ModularPipelines.Snyk.Enums.SnykFailOn.Upgradable = 1 -> ModularPipelines.Snyk.Enums.SnykFailOn
+*REMOVED*ModularPipelines.Snyk.Enums.SnykFilePathGroup.Code = 1 -> ModularPipelines.Snyk.Enums.SnykFilePathGroup
+*REMOVED*ModularPipelines.Snyk.Enums.SnykFilePathGroup.Global = 0 -> ModularPipelines.Snyk.Enums.SnykFilePathGroup
+*REMOVED*ModularPipelines.Snyk.Enums.SnykReachabilityFilter.NoInfo = 1 -> ModularPipelines.Snyk.Enums.SnykReachabilityFilter
+*REMOVED*ModularPipelines.Snyk.Enums.SnykReachabilityFilter.NotApplicable = 2 -> ModularPipelines.Snyk.Enums.SnykReachabilityFilter
+*REMOVED*ModularPipelines.Snyk.Enums.SnykReachabilityFilter.Reachable = 0 -> ModularPipelines.Snyk.Enums.SnykReachabilityFilter
+*REMOVED*ModularPipelines.Snyk.Enums.SnykSeverityThreshold.Critical = 3 -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold
+*REMOVED*ModularPipelines.Snyk.Enums.SnykSeverityThreshold.High = 2 -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold
+*REMOVED*ModularPipelines.Snyk.Enums.SnykSeverityThreshold.Low = 0 -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold
+*REMOVED*ModularPipelines.Snyk.Enums.SnykSeverityThreshold.Medium = 1 -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold
+*REMOVED*ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths.All = 2 -> ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths
+*REMOVED*ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths.None = 0 -> ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths
+*REMOVED*ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths.Some = 1 -> ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths
 *REMOVED*ModularPipelines.Snyk.Services.ISnyk.AibomAsync(ModularPipelines.Snyk.Options.SnykAibomOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Snyk.Services.ISnyk.AibomTestAsync(ModularPipelines.Snyk.Options.SnykAibomTestOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Snyk.Services.ISnyk.AuthAsync(ModularPipelines.Snyk.Options.SnykAuthOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
@@ -18,6 +35,23 @@
 *REMOVED*ModularPipelines.Snyk.Services.ISnyk.SbomTestAsync(ModularPipelines.Snyk.Options.SnykSbomTestOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Snyk.Services.ISnyk.TestAsync(ModularPipelines.Snyk.Options.SnykTestOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*static ModularPipelines.Snyk.Extensions.SnykExtensions.Snyk(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Snyk.Services.ISnyk!
+ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold.High = 0 -> ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold
+ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold.Low = 1 -> ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold
+ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold.Medium = 2 -> ModularPipelines.Snyk.Enums.SnykCodeTestSeverityThreshold
+ModularPipelines.Snyk.Enums.SnykFailOn.Patchable = 1 -> ModularPipelines.Snyk.Enums.SnykFailOn
+ModularPipelines.Snyk.Enums.SnykFailOn.Upgradable = 2 -> ModularPipelines.Snyk.Enums.SnykFailOn
+ModularPipelines.Snyk.Enums.SnykFilePathGroup.Code = 0 -> ModularPipelines.Snyk.Enums.SnykFilePathGroup
+ModularPipelines.Snyk.Enums.SnykFilePathGroup.Global = 1 -> ModularPipelines.Snyk.Enums.SnykFilePathGroup
+ModularPipelines.Snyk.Enums.SnykReachabilityFilter.NoInfo = 0 -> ModularPipelines.Snyk.Enums.SnykReachabilityFilter
+ModularPipelines.Snyk.Enums.SnykReachabilityFilter.NotApplicable = 1 -> ModularPipelines.Snyk.Enums.SnykReachabilityFilter
+ModularPipelines.Snyk.Enums.SnykReachabilityFilter.Reachable = 2 -> ModularPipelines.Snyk.Enums.SnykReachabilityFilter
+ModularPipelines.Snyk.Enums.SnykSeverityThreshold.Critical = 0 -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold
+ModularPipelines.Snyk.Enums.SnykSeverityThreshold.High = 1 -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold
+ModularPipelines.Snyk.Enums.SnykSeverityThreshold.Low = 2 -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold
+ModularPipelines.Snyk.Enums.SnykSeverityThreshold.Medium = 3 -> ModularPipelines.Snyk.Enums.SnykSeverityThreshold
+ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths.All = 0 -> ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths
+ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths.None = 1 -> ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths
+ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths.Some = 2 -> ModularPipelines.Snyk.Enums.SnykShowVulnerablePaths
 ModularPipelines.Snyk.Services.ISnyk.AibomAsync(ModularPipelines.Snyk.Options.SnykAibomOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Snyk.Services.ISnyk.AibomTestAsync(ModularPipelines.Snyk.Options.SnykAibomTestOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Snyk.Services.ISnyk.AuthAsync(ModularPipelines.Snyk.Options.SnykAuthOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
