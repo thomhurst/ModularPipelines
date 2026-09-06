@@ -75,6 +75,23 @@ public class ContinuationLineTests
     }
 
     [Test]
+    public async Task Repeatable_Lookahead_Stops_A_Descriptionless_Option_At_Its_Sibling_Row()
+    {
+        // No prose, no wrapped line: the next row at the same indentation is the next option, not
+        // the start of --env's description.
+        const string helpText = """
+              --env  stringArray
+              --env-file=PATH   Read variables from a file; may be specified multiple times
+            """;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env-file", string.Empty)).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Repeatable_Lookahead_Treats_A_TitleCase_Value_Hint_As_A_Hint()
     {
         // "String" is a metavariable, not prose: the column is Set's, so the nested row between

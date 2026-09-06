@@ -1180,20 +1180,28 @@ public abstract partial class CliScraperBase : ICliScraper
             // repeatability notes at the flag column, and column-0 headers rely on blank
             // separation as before. The shared rule keeps wrapped prose that starts with a switch.
             var descriptionColumn = GetInlineDescriptionColumn(declaration);
+            var declarationIndentation = GetIndentation(declaration);
             var start = index;
-            while (index + 1 < lines.Length
-                   && IsContinuationLine(
-                       lines[index + 1],
-                       declarationIndentation: null,
-                       descriptionColumn,
-                       OptionLinePattern().IsMatch(lines[index + 1])))
+            while (index + 1 < lines.Length)
             {
+                var candidate = lines[index + 1];
+                var looksLikeOptionRow = OptionLinePattern().IsMatch(candidate);
+
+                // Until a column is known, an option-looking line must at least sit deeper than
+                // the declaration: a sibling row at the same indentation starts the next option,
+                // while wrapped switch text is indented beneath the row that wraps it.
+                int? floor = descriptionColumn is null && looksLikeOptionRow ? declarationIndentation : null;
+                if (!IsContinuationLine(candidate, floor, descriptionColumn, looksLikeOptionRow))
+                {
+                    break;
+                }
+
                 index++;
 
                 // A row without inline prose takes its column from the first wrapped line, as
                 // AccumulateWrappedDescription does; otherwise every later option row would be
                 // absorbed until the next blank line.
-                descriptionColumn ??= GetIndentation(lines[index]);
+                descriptionColumn ??= GetIndentation(candidate);
             }
 
             if (RepeatableValuePattern().IsMatch(string.Join('\n', lines, start, index - start + 1)))
