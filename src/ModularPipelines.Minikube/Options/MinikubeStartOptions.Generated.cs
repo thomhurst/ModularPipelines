@@ -64,7 +64,7 @@ public record MinikubeStartOptions : MinikubeOptions
     public bool? AutoUpdateDrivers { get; set; }
 
     /// <summary>
-    /// v0.0.51@sha256:4a1c825b61479e6c898851ea66f13c620aaeab6002746e95067fc2c4b38a0b24':
+    /// v0.0.51@sha256:4a1c825b61479e6c898851ea66f13c620aaeab6002746e95067fc2c4b38a0b24': The base image to use for docker/podman drivers. Intended for local development.
     /// </summary>
     [CliOption("--base-image", Format = OptionFormat.EqualsSeparated)]
     public string? BaseImage { get; set; }
@@ -322,7 +322,7 @@ public record MinikubeStartOptions : MinikubeOptions
     public bool? Interactive { get; set; }
 
     /// <summary>
-    /// //storage.googleapis.com/minikube/iso/minikube-v1.39.0-amd64.iso,https://github.com/kubernetes/minikube/releases/download/v1.39.0/minikube-v1.39.0-amd64.iso,https://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/iso/minikube-v1.39.0-amd64.iso]:
+    /// //storage.googleapis.com/minikube/iso/minikube-v1.39.0-amd64.iso,https://github.com/kubernetes/minikube/releases/download/v1.39.0/minikube-v1.39.0-amd64.iso,https://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/iso/minikube-v1.39.0-amd64.iso]: Locations to fetch the minikube ISO from.
     /// </summary>
     [CliOption("--iso-url", Format = OptionFormat.EqualsSeparated)]
     public string? IsoUrl { get; set; }
@@ -364,7 +364,7 @@ public record MinikubeStartOptions : MinikubeOptions
     public int? KvmNumaCount { get; set; }
 
     /// <summary>
-    /// ///system':
+    /// ///system': The KVM QEMU connection URI. (kvm2 driver only)
     /// </summary>
     [CliOption("--kvm-qemu-uri", Format = OptionFormat.EqualsSeparated)]
     public string? KvmQemuUri { get; set; }
