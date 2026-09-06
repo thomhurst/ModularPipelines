@@ -291,6 +291,33 @@ public class BrewCliScraperTests
     }
 
     [Test]
+    public async Task Keeps_Option_Like_Wrapped_Line_After_Flags_Only_Option()
+    {
+        const string helpText = """
+            Usage: brew example [options]
+
+            Example command whose first option has no inline description.
+
+                  --foo
+                                               Shortcut for
+                                               --bar=baz.
+                  --bar                        Some real description.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(["brew", "example"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(static option => option.SwitchName))
+                .IsEquivalentTo(["--foo", "--bar"]);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--foo").Description)
+                .IsEqualTo("Shortcut for --bar=baz.");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--bar").Description)
+                .IsEqualTo("Some real description.");
+        }
+    }
+
+    [Test]
     public async Task Discovers_Colon_Delimited_Bundle_Subcommands()
     {
         const string helpText = """

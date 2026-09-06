@@ -640,7 +640,8 @@ public partial class BrewCliScraper : CliScraperBase
                 continue;
             }
 
-            var flagsPart = match.Groups["flags"].Value.Trim();
+            var flagsGroup = match.Groups["flags"];
+            var flagsPart = flagsGroup.Value.Trim();
             var descriptionParts = new List<string>();
             var descriptionGroup = match.Groups["description"];
             var inlineDescription = descriptionGroup.Value.Trim();
@@ -650,9 +651,14 @@ public partial class BrewCliScraper : CliScraperBase
                 descriptionColumn = descriptionGroup.Index;
             }
 
+            // Without a known description column (a flags-only option opening the block), a
+            // wrapped line still starts well past the end of the current option's own flags,
+            // whereas a genuine option row starts at the flags column.
+            var continuationColumn = descriptionColumn ?? (flagsGroup.Index + flagsGroup.Length);
+
             while (lineIndex + 1 < lines.Length
                    && !string.IsNullOrWhiteSpace(lines[lineIndex + 1])
-                   && IsWrappedDescriptionLine(lines[lineIndex + 1], descriptionColumn))
+                   && IsWrappedDescriptionLine(lines[lineIndex + 1], continuationColumn))
             {
                 descriptionParts.Add(lines[++lineIndex].Trim());
             }
@@ -739,11 +745,10 @@ public partial class BrewCliScraper : CliScraperBase
     /// "--fix-type=released." ending the <c>brew vulns --fix-available</c> description).
     /// Only a line whose flags start before the block's description column begins a new option.
     /// </summary>
-    private static bool IsWrappedDescriptionLine(string line, int? descriptionColumn)
+    private static bool IsWrappedDescriptionLine(string line, int continuationColumn)
     {
         var match = BrewOptionPattern().Match(line);
-        return !match.Success
-               || (descriptionColumn is { } column && match.Groups["flags"].Index >= column);
+        return !match.Success || match.Groups["flags"].Index >= continuationColumn;
     }
 
     private static IReadOnlyDictionary<string, string> ParseOptionTypes(IEnumerable<string> lines) =>
