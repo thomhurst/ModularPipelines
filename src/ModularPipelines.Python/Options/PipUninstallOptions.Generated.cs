@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Python.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Python.Options;
 
@@ -18,7 +19,9 @@ namespace ModularPipelines.Python.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("uninstall")]
-public record PipUninstallOptions : PipOptions
+public record PipUninstallOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Package
+) : PipOptions, IValidatableObject
 {
     /// <summary>
     /// Uninstall all the packages listed in the given requirements file.  This option can be used multiple times.
@@ -170,10 +173,13 @@ public record PipUninstallOptions : PipOptions
     [CliOption("--use-deprecated")]
     public string? UseDeprecated { get; set; }
 
-    /// <summary>
-    /// The package operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? Package { get; set; }
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(Package?.Any() == true || Requirement?.Any() == true))
+        {
+            yield return new ValidationResult("At least one of Package or Requirement must be specified.", [nameof(Package), nameof(Requirement)]);
+        }
+    }
 
 }

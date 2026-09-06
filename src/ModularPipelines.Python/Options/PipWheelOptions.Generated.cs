@@ -18,7 +18,9 @@ namespace ModularPipelines.Python.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wheel")]
-public record PipWheelOptions : PipOptions
+public record PipWheelOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> RequirementSpecifier
+) : PipOptions
 {
     /// <summary>
     /// Build wheels into &lt;dir&gt;, where the default is the current working directory.
@@ -129,7 +131,7 @@ public record PipWheelOptions : PipOptions
     public string? IndexUrl { get; set; }
 
     /// <summary>
-    /// Extra URLs of package indexes to use in addition to --index-url. Should follow the same rules as
+    /// Extra URLs of package indexes to use in addition to --index-url. Should follow the same rules as --index-url.
     /// </summary>
     [CliOption("--extra-index-url")]
     public string? ExtraIndexUrl { get; set; }
@@ -277,11 +279,5 @@ public record PipWheelOptions : PipOptions
     /// </summary>
     [CliOption("--use-deprecated")]
     public string? UseDeprecated { get; set; }
-
-    /// <summary>
-    /// The requirement specifier operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? RequirementSpecifier { get; set; }
 
 }
