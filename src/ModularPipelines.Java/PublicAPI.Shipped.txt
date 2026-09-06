@@ -29,8 +29,6 @@ ModularPipelines.Java.Enums.GradleWarningMode.Fail = 1 -> ModularPipelines.Java.
 ModularPipelines.Java.Enums.GradleWarningMode.None = 3 -> ModularPipelines.Java.Enums.GradleWarningMode
 ModularPipelines.Java.Enums.GradleWarningMode.Summary = 2 -> ModularPipelines.Java.Enums.GradleWarningMode
 ModularPipelines.Java.Enums.MavenColor
-ModularPipelines.Java.Enums.MavenColor.Always = 1 -> ModularPipelines.Java.Enums.MavenColor
-ModularPipelines.Java.Enums.MavenColor.Auto = 0 -> ModularPipelines.Java.Enums.MavenColor
 ModularPipelines.Java.Enums.MavenColor.Never = 2 -> ModularPipelines.Java.Enums.MavenColor
 ModularPipelines.Java.Extensions.GradleExtensions
 ModularPipelines.Java.Extensions.MavenExtensions
