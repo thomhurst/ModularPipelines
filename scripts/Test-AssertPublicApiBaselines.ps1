@@ -45,6 +45,13 @@ try {
         throw "Expected successful coverage output, got: $successOutput"
     }
 
+    # Whitespace-only lines are blank, as the merge script treats them, not entries.
+    Add-File 'src/ModularPipelines.Cmd/PublicAPI.Unshipped.txt' "#nullable enable`n*REMOVED*Api.Retired`n `nApi.Added"
+    $whitespaceLineMessage = Get-AssertFailureMessage
+    if ($whitespaceLineMessage) {
+        throw "Whitespace-only baseline line was treated as an entry: $whitespaceLineMessage"
+    }
+
     Add-File 'src/ModularPipelines.Cmd/PublicAPI.Unshipped.txt' "#nullable enable`n*REMOVED*Api.Retired`n*REMOVED*Api.Orphaned"
     $orphanOutput = & pwsh -NoProfile -File $scriptPath -RepositoryRoot $testRoot 2>&1
     if ($LASTEXITCODE -eq 0) {
@@ -106,3 +113,7 @@ finally {
         Remove-Item -LiteralPath $testRoot -Recurse -Force
     }
 }
+
+# The negative cases above leave the last child pwsh exit code at 1, which the Actions
+# pwsh shell would otherwise report as this step failing.
+exit 0
