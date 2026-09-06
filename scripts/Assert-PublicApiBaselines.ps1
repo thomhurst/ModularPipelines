@@ -71,6 +71,15 @@ foreach ($project in $packageProjects) {
     Add-DuplicateEntries $shippedPath $shippedLines
     Add-DuplicateEntries $unshippedPath $unshippedLines
 
+    # Markers belong in PublicAPI.Unshipped.txt only; one in PublicAPI.Shipped.txt is a stray
+    # edit that the analyzer would read as a shipped symbol.
+    $shippedRelativePath = [System.IO.Path]::GetRelativePath($repositoryRootPath, $shippedPath)
+    foreach ($line in $shippedLines) {
+        if ((Test-ApiEntry $line) -and (Test-RemovedMarker $line)) {
+            $orphanedMarkers.Add("${shippedRelativePath}: $line (marker in PublicAPI.Shipped.txt)")
+        }
+    }
+
     # A *REMOVED* marker retires a shipped entry until a release ships the unshipped
     # baseline, so every marker must still have its entry in PublicAPI.Shipped.txt. A
     # plain entry that is also still shipped is the RS0025 duplicate-symbol case.
