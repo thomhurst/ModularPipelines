@@ -57,6 +57,7 @@ public class DistributedCoordinatorRegistrationTests
             {
                 options.TotalInstances = 2;
                 options.InstanceIndex = 0;
+                options.RunId = "coordinator-test-run";
             });
 
     public sealed class TestCoordinatorFactory : IDistributedCoordinatorFactory
