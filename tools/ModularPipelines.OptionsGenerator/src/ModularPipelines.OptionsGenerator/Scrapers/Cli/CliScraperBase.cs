@@ -761,7 +761,9 @@ public abstract partial class CliScraperBase : ICliScraper
         Logger.LogWarning(
             "Help for {Command} is unavailable in this scrape ({Reason})",
             string.Join(' ', commandPath),
-            result.TimedOut ? "timed out after all retries" : "rejected by the circuit breaker");
+            result.TimedOut ? "timed out after all retries"
+                : result.CircuitOpen ? "rejected by the circuit breaker"
+                : "the process could not be executed");
         return new CliCommandResult
         {
             StandardOutput = string.Empty,
@@ -769,6 +771,7 @@ public abstract partial class CliScraperBase : ICliScraper
             ExitCode = result.ExitCode,
             TimedOut = result.TimedOut,
             CircuitOpen = result.CircuitOpen,
+            ExecutionFailed = result.ExecutionFailed,
         };
     }
 

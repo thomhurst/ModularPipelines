@@ -73,10 +73,17 @@ public class CliCommandResult
     public bool CircuitOpen { get; init; }
 
     /// <summary>
-    /// Whether the output is not the command's real response: it timed out or was rejected by
-    /// the circuit breaker. Callers treat such output as unavailable rather than as a result.
+    /// Whether the process could not be executed at all (for example a permission or
+    /// executable-format error), so the output is the exception text rather than a response.
     /// </summary>
-    public bool Unavailable => TimedOut || CircuitOpen;
+    public bool ExecutionFailed { get; init; }
+
+    /// <summary>
+    /// Whether the output is not the command's real response: it timed out, was rejected by the
+    /// circuit breaker, or the process could not run. Callers treat such output as unavailable
+    /// rather than as a result.
+    /// </summary>
+    public bool Unavailable => TimedOut || CircuitOpen || ExecutionFailed;
 
     /// <summary>
     /// Whether the command executed successfully (exit code 0).

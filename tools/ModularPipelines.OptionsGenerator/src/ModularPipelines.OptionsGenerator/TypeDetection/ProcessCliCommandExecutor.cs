@@ -91,7 +91,8 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             {
                 StandardOutput = string.Empty,
                 StandardError = ex.Message,
-                ExitCode = -1
+                ExitCode = -1,
+                ExecutionFailed = true,
             };
         }
     }
