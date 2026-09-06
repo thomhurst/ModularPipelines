@@ -1197,7 +1197,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// <summary>
     /// Returns whether help describes an option as repeatable.
     /// </summary>
-    protected static bool HelpDeclaresRepeatableOption(
+    protected internal static bool HelpDeclaresRepeatableOption(
         string helpText,
         string switchName,
         string description)
@@ -1212,21 +1212,31 @@ public abstract partial class CliScraperBase : ICliScraper
 
         for (var index = 0; index < lines.Length; index++)
         {
-            if (!OptionLinePattern().IsMatch(lines[index])
-                || !Regex.IsMatch(lines[index], optionPattern, RegexOptions.IgnoreCase))
+            var declaration = lines[index];
+            if (!OptionLinePattern().IsMatch(declaration)
+                || !Regex.IsMatch(declaration, optionPattern, RegexOptions.IgnoreCase))
             {
                 continue;
             }
 
-            var end = index + 1;
-            while (end < lines.Length
-                   && !string.IsNullOrWhiteSpace(lines[end])
-                   && !OptionLinePattern().IsMatch(lines[end]))
+            // Blank lines and option rows bound the block, never indentation: gcloud puts
+            // repeatability notes at the flag column, and column-0 headers rely on blank
+            // separation as before. The shared rule keeps wrapped prose that starts with a switch.
+            var descriptionColumn = GetDescriptionColumn(
+                declaration,
+                InlineDescriptionPattern().Match(declaration).Groups["description"]);
+            var start = index;
+            while (index + 1 < lines.Length
+                   && IsContinuationLine(
+                       lines[index + 1],
+                       declarationIndentation: null,
+                       descriptionColumn,
+                       OptionLinePattern().IsMatch(lines[index + 1])))
             {
-                end++;
+                index++;
             }
 
-            if (RepeatableValuePattern().IsMatch(string.Join('\n', lines[index..end])))
+            if (RepeatableValuePattern().IsMatch(string.Join('\n', lines, start, index - start + 1)))
             {
                 return true;
             }
@@ -1294,7 +1304,10 @@ public abstract partial class CliScraperBase : ICliScraper
     /// still wrapped prose (for example a wrapped mention of <c>--flag=value</c>).
     /// </summary>
     /// <param name="line">The candidate continuation line.</param>
-    /// <param name="declarationIndentation">Column where the option declaration starts.</param>
+    /// <param name="declarationIndentation">
+    /// Column where the option declaration starts, or <see langword="null"/> when only blank
+    /// lines and option rows bound the block.
+    /// </param>
     /// <param name="descriptionColumn">
     /// Column where the declaration's inline description starts, or <see langword="null"/>
     /// when the description only begins on a following line. Until that column is known any
@@ -1304,7 +1317,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// <param name="looksLikeOptionRow">Whether the scraper's option pattern matches <paramref name="line"/>.</param>
     protected internal static bool IsContinuationLine(
         string line,
-        int declarationIndentation,
+        int? declarationIndentation,
         int? descriptionColumn,
         bool looksLikeOptionRow)
     {
@@ -1316,7 +1329,22 @@ public abstract partial class CliScraperBase : ICliScraper
         var indentation = GetIndentation(line);
         var wrappedAtDescriptionColumn = descriptionColumn is null || indentation >= descriptionColumn;
         return (!looksLikeOptionRow || wrappedAtDescriptionColumn)
-               && indentation > declarationIndentation;
+               && (declarationIndentation is not { } floor || indentation > floor);
+    }
+
+    /// <summary>
+    /// Returns the column where an option row's inline description starts, or
+    /// <see langword="null"/> when the row carries no description.
+    /// </summary>
+    private static int? GetDescriptionColumn(string declaration, Group? inlineDescription)
+    {
+        if (inlineDescription is not { } group || string.IsNullOrWhiteSpace(group.Value))
+        {
+            return null;
+        }
+
+        var leadingWhitespace = group.Value.Length - group.Value.TrimStart().Length;
+        return GetColumn(declaration, group.Index + leadingWhitespace);
     }
 
     /// <summary>
@@ -1339,13 +1367,11 @@ public abstract partial class CliScraperBase : ICliScraper
     {
         var declaration = lines[declarationIndex];
         var declarationIndentation = GetIndentation(declaration);
+        var descriptionColumn = GetDescriptionColumn(declaration, inlineDescription);
         var parts = new List<string>();
-        int? descriptionColumn = null;
-        if (inlineDescription is { } group && !string.IsNullOrWhiteSpace(group.Value))
+        if (descriptionColumn is not null && inlineDescription is { } group)
         {
             parts.Add(group.Value.Trim());
-            var leadingWhitespace = group.Value.Length - group.Value.TrimStart().Length;
-            descriptionColumn = GetColumn(declaration, group.Index + leadingWhitespace);
         }
 
         while (declarationIndex + 1 < lines.Count)
@@ -1455,6 +1481,13 @@ public abstract partial class CliScraperBase : ICliScraper
         @"^[ \t]*(?:-\w(?:[ \t]+[^,\s]+)?[ \t]*,[ \t]*)?--[\w-]+(?:[ \t]|,|=|$)",
         RegexOptions.Multiline)]
     protected static partial Regex OptionLinePattern();
+
+    /// <summary>
+    /// Captures the inline description of a generic option row: the text after the first
+    /// run of two or more blanks that follows the switches and any value hint.
+    /// </summary>
+    [GeneratedRegex(@"^[ \t]*\S.*?[ \t]{2,}(?<description>\S.*)$")]
+    private static partial Regex InlineDescriptionPattern();
 
     [GeneratedRegex(
         @"^[ \t]*Usage:?[ \t]*(?:[^\r\n]*\r?\n[ \t]*){0,2}[^\r\n]*(?:<command>|\[command\])[^\r\n]*\r?$",
