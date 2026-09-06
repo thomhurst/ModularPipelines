@@ -16,12 +16,12 @@ namespace ModularPipelines.Java.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GradleDependencyVerification
 {
-    [EnumValue("strict")]
-    Strict,
-
     [EnumValue("lenient")]
     Lenient,
 
     [EnumValue("off")]
-    Off
+    Off,
+
+    [EnumValue("strict")]
+    Strict
 }
