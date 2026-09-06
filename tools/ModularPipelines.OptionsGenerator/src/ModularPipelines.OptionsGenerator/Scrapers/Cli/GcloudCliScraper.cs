@@ -420,7 +420,8 @@ public partial class GcloudCliScraper : CliScraperBase
             SwitchName = name,
             ValueHint = match.Groups["value"].Value,
             IsNegatable = negatable,
-            Indentation = match.Groups["indent"].Value.Length,
+            // Same tab-aware units as the CliArgumentGroupParser comparisons.
+            Indentation = GetIndentation(match.Groups["indent"].Value),
         };
     }
 

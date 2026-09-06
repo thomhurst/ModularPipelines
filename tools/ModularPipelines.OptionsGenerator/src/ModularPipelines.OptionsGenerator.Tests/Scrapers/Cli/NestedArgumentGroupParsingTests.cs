@@ -199,6 +199,50 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_Measures_Declaration_Indentation_With_Tab_Stops()
+    {
+        // Declarations must use the same tab-aware column units as the parser's line
+        // comparisons; a raw character count makes a tab-indented sibling look nested.
+        var helpText = """
+            NAME
+                gcloud example deploy - deploy an example
+
+            SYNOPSIS
+                gcloud example deploy
+
+            FLAGS
+                 --mode=MODE
+                    Select the operating mode.
+
+                 At most one of these can be specified:
+
+            {TAB}--token=TOKEN
+            {TAB}   Authenticate with a token.
+
+            {TAB}--profile=PROFILE
+            {TAB}   Select a saved profile.
+
+            GCLOUD WIDE FLAGS
+                 --project=PROJECT_ID
+            """.Replace("{TAB}", "\t", StringComparison.Ordinal);
+
+        var command = await CreateGcloudScraper().Parse(["gcloud", "example", "deploy"], helpText);
+
+        var root = command!.ArgumentGroups.Single();
+        var nested = root.Groups.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(command.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo(["--mode", "--token", "--profile"]);
+            await Assert.That(root.Arguments.Select(argument => argument.SwitchName))
+                .IsEquivalentTo(["--mode"]);
+            await Assert.That(nested.Kind).IsEqualTo(CliArgumentGroupKind.AtMostOne);
+            await Assert.That(nested.Arguments.Select(argument => argument.SwitchName))
+                .IsEquivalentTo(["--token", "--profile"]);
+        }
+    }
+
+    [Test]
     public async Task Gcloud_Does_Not_Leak_Named_Flag_Sections()
     {
         const string helpText = """
@@ -1106,7 +1150,7 @@ public partial class NestedArgumentGroupParsingTests
                     : match.Groups["long"].Value,
                 ValueHint = match.Groups["value"].Value,
                 IsNegatable = negatable,
-                Indentation = match.Groups["indent"].Value.Length,
+                Indentation = GetIndentation(match.Groups["indent"].Value),
             };
         }
     }
@@ -1169,7 +1213,7 @@ public partial class NestedArgumentGroupParsingTests
                 {
                     SwitchName = match.Groups["long"].Value,
                     ValueHint = match.Groups["value"].Value,
-                    Indentation = match.Groups["indent"].Value.Length,
+                    Indentation = GetIndentation(match.Groups["indent"].Value),
                 };
         }
     }
