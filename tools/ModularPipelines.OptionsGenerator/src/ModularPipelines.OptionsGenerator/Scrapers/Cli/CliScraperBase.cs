@@ -1346,14 +1346,13 @@ public abstract partial class CliScraperBase : ICliScraper
     }
 
     /// <summary>
-    /// Returns whether a row segment is a value hint (<c>stringArray</c>, <c>&lt;value&gt;</c>,
-    /// <c>PATH</c>, <c>CODE1,CODE2..</c>) rather than prose. Prose contains blanks or starts as a
-    /// sentence-case word; a hint is one token that does not, which also covers a terminal hint
-    /// whose description only begins on the next line.
+    /// Returns whether a row segment is a value hint rather than prose. Prose contains blanks; a
+    /// single token (<c>stringArray</c>, <c>String</c>, <c>&lt;value&gt;</c>, <c>PATH</c>) is a
+    /// hint wherever it sits, so a row whose description starts on the next line leaves the
+    /// column unknown until that line establishes it. A one-word description is only misread
+    /// when something wraps beneath it, and then the wrapped line sets the column instead.
     /// </summary>
-    private static bool LooksLikeValueHint(string text) =>
-        !text.Any(char.IsWhiteSpace)
-        && !(char.IsUpper(text[0]) && text.Length > 1 && char.IsLower(text[1]));
+    private static bool LooksLikeValueHint(string text) => !text.Any(char.IsWhiteSpace);
 
     /// <summary>
     /// Joins an option row's inline description with the prose wrapped beneath it, advancing
