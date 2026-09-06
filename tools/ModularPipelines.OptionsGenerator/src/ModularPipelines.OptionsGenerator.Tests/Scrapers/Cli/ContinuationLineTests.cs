@@ -49,7 +49,7 @@ public class ContinuationLineTests
     [Arguments("  --env  stringArray   Set environment variables", "Set")]
     [Arguments("-i CODE1,CODE2..    --include=CODE1,CODE2..    Consider only given types", "Consider")]
     [Arguments("\t--env stringArray\tSet environment variables", "Set")]
-    [Arguments("  --verbose    Verbose", "Verbose")]
+    [Arguments("  --env  String   Set environment variables", "Set")]
     [Arguments("  --tls  Use TLS  (implies --tlsverify)", "Use")]
     public async Task Inline_Description_Column_Skips_Switches_And_Value_Hints(string line, string descriptionStart)
     {
@@ -62,12 +62,33 @@ public class ContinuationLineTests
     [Arguments("  --quiet")]
     [Arguments("  -f, --file string")]
     [Arguments("  --env  stringArray")]
+    [Arguments("  --env  String")]
     [Arguments("  --output  <path>")]
     [Arguments("  --level  DEBUG")]
+    [Arguments("  --verbose    Verbose")]
     [Arguments("   ")]
     public async Task Rows_Without_Prose_Have_No_Inline_Description_Column(string line)
     {
+        // A lone token is a hint, or a one-word description that nothing wraps beneath; either
+        // way the lookahead takes its column from the first wrapped line instead.
         await Assert.That(CliScraperBase.GetInlineDescriptionColumn(line)).IsNull();
+    }
+
+    [Test]
+    public async Task Repeatable_Lookahead_Treats_A_TitleCase_Value_Hint_As_A_Hint()
+    {
+        // "String" is a metavariable, not prose: the column is Set's, so the nested row between
+        // the hint and the prose column ends the --env block.
+        const string helpText = """
+              --env  String   Set environment variables
+                        --env-file=PATH   Read variables from a file; may be specified multiple times
+            """;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env-file", string.Empty)).IsTrue();
+        }
     }
 
     [Test]
