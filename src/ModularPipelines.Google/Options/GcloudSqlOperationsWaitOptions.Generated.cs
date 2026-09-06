@@ -23,7 +23,10 @@ public record GcloudSqlOperationsWaitOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Operation
 ) : GcloudOptions
 {
-    [Obsolete("Timeout is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Maximum number of seconds to wait for an operation to complete. By default, wait for 300s. Set to unlimited to wait indefinitely.
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
     public int? Timeout { get; set; }
 
 }

@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerBinauthzAttestationsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Attestor resource - The Attestor whose Container Analysis Note will be queried for attestations. Note that the caller must have the containeranalysis.notes.listOccurrences permission on the note being queried. The arguments in this group can be used to specify the attributes of this resource. Container URL. May be in the gcr.io/repository/image format, or may optionally contain the http or https scheme
+    /// Container URL. May be in the gcr.io/repository/image format, or may optionally contain the http or https scheme
     /// </summary>
     [CliOption("--artifact-url", Format = OptionFormat.EqualsSeparated)]
     public string? ArtifactUrl { get; set; }

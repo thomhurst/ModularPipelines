@@ -76,10 +76,6 @@ public interface IArgoCdProj
     public Task<CommandResult> AddOrphanedIgnoreAsync(ArgoCdProjAddOrphanedIgnoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> AddSignatureKeyAsync(ArgoCdProjAddSignatureKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
     /// <summary>
     /// Add source namespace to the AppProject
     /// </summary>
@@ -218,10 +214,6 @@ public interface IArgoCdProj
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> RemoveOrphanedIgnoreAsync(ArgoCdProjRemoveOrphanedIgnoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    [Obsolete("This command is no longer supported by the installed CLI and is retained only for compatibility.")]
-    public Task<CommandResult> RemoveSignatureKeyAsync(ArgoCdProjRemoveSignatureKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

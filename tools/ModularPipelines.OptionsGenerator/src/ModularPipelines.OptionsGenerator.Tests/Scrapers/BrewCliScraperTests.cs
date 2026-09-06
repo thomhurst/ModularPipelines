@@ -252,6 +252,72 @@ public class BrewCliScraperTests
     }
 
     [Test]
+    public async Task Keeps_Wrapped_Description_Lines_That_Look_Like_Option_Rows()
+    {
+        const string helpText = """
+            Usage: brew vulns [options] [formula ...]
+
+            Check formula for known security vulnerabilities using the OSV.dev database.
+            With no arguments, all installed formulae are checked.
+
+              -d, --deps                       Also check the dependencies of named
+                                               formulae.
+                  --fix-available              Only report vulnerabilities that have a
+                                               released version fix available. Shortcut for
+                                               --fix-type=released.
+                  --no-fix-available           Only report vulnerabilities that do not have
+                                               a released version fix available (includes
+                                               unreleased commit SHA patches). Shortcut for
+                                               --fix-type=unreleased.
+                  --fix-type                   Filter findings by fix type: released
+                                               (official version release), patch (unreleased
+                                               commit SHA), any (either), none (neither),
+                                               unreleased (no released version fix).
+                  --list-skipped               List packages skipped due to missing or
+                                               unsupported source URL.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(["brew", "vulns"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(static option => option.SwitchName))
+                .IsEquivalentTo(["--deps", "--fix-available", "--no-fix-available", "--fix-type", "--list-skipped"]);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--fix-available").Description)
+                .IsEqualTo("Only report vulnerabilities that have a released version fix available. Shortcut for --fix-type=released.");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--fix-type").Description)
+                .IsEqualTo("Filter findings by fix type: released (official version release), patch (unreleased commit SHA), any (either), none (neither), unreleased (no released version fix).");
+        }
+    }
+
+    [Test]
+    public async Task Keeps_Option_Like_Wrapped_Line_After_Flags_Only_Option()
+    {
+        const string helpText = """
+            Usage: brew example [options]
+
+            Example command whose first option has no inline description.
+
+                  --foo
+                                               Shortcut for
+                                               --bar=baz.
+                  --bar                        Some real description.
+            """;
+
+        var command = await new TestBrewCliScraper().Parse(["brew", "example"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(static option => option.SwitchName))
+                .IsEquivalentTo(["--foo", "--bar"]);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--foo").Description)
+                .IsEqualTo("Shortcut for --bar=baz.");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--bar").Description)
+                .IsEqualTo("Some real description.");
+        }
+    }
+
+    [Test]
     public async Task Discovers_Colon_Delimited_Bundle_Subcommands()
     {
         const string helpText = """

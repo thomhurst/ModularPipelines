@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudNetworkDdosProtection
 {
     [EnumValue("STANDARD")]
-    Standard = 0,
+    Standard,
 
     [EnumValue("ADVANCED")]
-    Advanced = 1,
+    Advanced,
 
     [EnumValue("ADVANCED_PREVIEW")]
-    AdvancedPreview = 2
+    AdvancedPreview
 }

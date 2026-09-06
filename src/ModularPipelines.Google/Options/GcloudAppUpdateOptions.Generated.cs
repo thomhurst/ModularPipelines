@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -25,7 +26,7 @@ public record GcloudAppUpdateOptions : GcloudOptions
     /// The app-level default service account to update the app with.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public string? ServiceAccountValue { get; set; }
+    public string? ServiceAccount { get; set; }
 
     /// <summary>
     /// Enables/disables split health checks by default on new deployments. Use --split-health-checks to enable and --no-split-health-checks to disable.
@@ -43,13 +44,6 @@ public record GcloudAppUpdateOptions : GcloudOptions
     /// The app-level SSL policy to update the app with. SSL_POLICY must be one of: TLS_VERSION_1_0, TLS_VERSION_1_2.
     /// </summary>
     [CliOption("--ssl-policy", Format = OptionFormat.EqualsSeparated)]
-    public string? SslPolicy { get; set; }
-
-    [Obsolete("Use ServiceAccountValue instead.")]
-    public int? ServiceAccount
-    {
-        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public GcloudSslPolicy? SslPolicy { get; set; }
 
 }

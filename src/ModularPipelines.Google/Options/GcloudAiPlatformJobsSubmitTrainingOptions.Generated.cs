@@ -15,7 +15,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// submit an AI Platform training      job
+/// submit an AI Platform training     job
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -52,7 +52,7 @@ public record GcloudAiPlatformJobsSubmitTrainingOptions(
     /// Hardware accelerator config for the master worker. Must specify both the accelerator type (TYPE) for each server and the number of accelerators to attach to each server (COUNT). type Type of the accelerator. Choices are nvidia-tesla-a100,nvidia-tesla-k80,nvidia-tesla-p100,nvidia-tesla-p4,nvidia-tesla-t4,nvidia-tesla-v100,tpu-v2,tpu-v2-pod,tpu-v3,tpu-v3-pod,tpu-v4-pod count Number of accelerators to attach to each machine running the job. Must be greater than 0.
     /// </summary>
     [CliOption("--master-accelerator", Format = OptionFormat.EqualsSeparated)]
-    public string? MasterAcceleratorValue { get; set; }
+    public string? MasterAccelerator { get; set; }
 
     /// <summary>
     /// Docker image to run on each master worker. This image must be in Container Registry. Only one of --master-image-uri and --runtime-version must be specified.
@@ -88,7 +88,7 @@ public record GcloudAiPlatformJobsSubmitTrainingOptions(
     /// Hardware accelerator config for the parameter servers. Must specify both the accelerator type (TYPE) for each server and the number of accelerators to attach to each server (COUNT). type Type of the accelerator. Choices are nvidia-tesla-a100,nvidia-tesla-k80,nvidia-tesla-p100,nvidia-tesla-p4,nvidia-tesla-t4,nvidia-tesla-v100,tpu-v2,tpu-v2-pod,tpu-v3,tpu-v3-pod,tpu-v4-pod count Number of accelerators to attach to each machine running the job. Must be greater than 0.
     /// </summary>
     [CliOption("--parameter-server-accelerator", Format = OptionFormat.EqualsSeparated)]
-    public string? ParameterServerAcceleratorValue { get; set; }
+    public string? ParameterServerAccelerator { get; set; }
 
     /// <summary>
     /// Docker image to run on each parameter server. This image must be in Container Registry. If not specified, the value of --master-image-uri is used.
@@ -97,7 +97,7 @@ public record GcloudAiPlatformJobsSubmitTrainingOptions(
     public string? ParameterServerImageUri { get; set; }
 
     /// <summary>
-    /// Version of Python used during training. Choices are 3.7, 3.5, and 2.7. However, this value must be compatible with the chosen runtime version for the job. Must be used with a compatible runtime version: * 3.7 is compatible with runtime versions 1.15 and later. * 3.5 is compatible with runtime versions 1.4 through 1.14. * 2.7 is compatible with runtime versions 1.15 and earlier.
+    /// Version of Python used during training. Choices are 3.7, 3.5, and 2.7. However, this value must be compatible with the chosen runtime version for the job. Must be used with a compatible runtime version: ◆ 3.7 is compatible with runtime versions 1.15 and later. ◆ 3.5 is compatible with runtime versions 1.4 through 1.14. ◆ 2.7 is compatible with runtime versions 1.15 and earlier.
     /// </summary>
     [CliOption("--python-version", Format = OptionFormat.EqualsSeparated)]
     public string? PythonVersion { get; set; }
@@ -115,16 +115,16 @@ public record GcloudAiPlatformJobsSubmitTrainingOptions(
     public string? RuntimeVersion { get; set; }
 
     /// <summary>
-    /// Specify the machine types, the number of replicas for workers, and parameter servers. SCALE_TIER must be one of: basic Single worker instance. This tier is suitable for learning how to use AI Platform, and for experimenting with new models using small datasets. basic-gpu Single worker instance with a GPU. basic-tpu Single worker instance with a Cloud TPU. custom CUSTOM tier is not a set tier, but rather enables you to use your own cluster specification. When you use this tier, set values to configure your processing cluster according to these guidelines (using the --config flag): + You must set TrainingInput.masterType to specify the type of machine to use for your master node. This is the only required setting. + You may set TrainingInput.workerCount to specify the number of workers to use. If you specify one or more workers, you must also set TrainingInput.workerType to specify the type of machine to use for your worker nodes. + You may set TrainingInput.parameterServerCount to specify the number of parameter servers to use. If you specify one or more parameter servers, you must also set TrainingInput.parameterServerType to specify the type of machine to use for your parameter servers. Note that all of your workers must use the same machine type, which can be different from your parameter server type and master type. Your parameter servers must likewise use the same machine type, which can be different from your worker type and master type. premium-1 Large number of workers with many parameter servers. standard-1 Many workers and a few parameter servers.
+    /// Specify the machine types, the number of replicas for workers, and parameter servers. SCALE_TIER must be one of: basic Single worker instance. This tier is suitable for learning how to use AI Platform, and for experimenting with new models using small datasets. basic-gpu Single worker instance with a GPU. basic-tpu Single worker instance with a Cloud TPU. custom CUSTOM tier is not a set tier, but rather enables you to use your own cluster specification. When you use this tier, set values to configure your processing cluster according to these guidelines (using the --config flag): ▸ You must set TrainingInput.masterType to specify the type of machine to use for your master node. This is the only required setting. ▸ You may set TrainingInput.workerCount to specify the number of workers to use. If you specify one or more workers, you must also set TrainingInput.workerType to specify the type of machine to use for your worker nodes. ▸ You may set TrainingInput.parameterServerCount to specify the number of parameter servers to use. If you specify one or more parameter servers, you must also set TrainingInput.parameterServerType to specify the type of machine to use for your parameter servers. Note that all of your workers must use the same machine type, which can be different from your parameter server type and master type. Your parameter servers must likewise use the same machine type, which can be different from your worker type and master type. premium-1 Large number of workers with many parameter servers. standard-1 Many workers and a few parameter servers.
     /// </summary>
     [CliOption("--scale-tier", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ScaleTierValues { get; set; }
+    public IEnumerable<string>? ScaleTier { get; set; }
 
     /// <summary>
     /// The email address of a service account to use when running the training appplication. You must have the iam.serviceAccounts.actAs permission for the specified service account. In addition, the AI Platform Training Google-managed service account must have the roles/iam.serviceAccountAdmin role for the specified service account. Learn more about configuring a service account. (https://cloud.google.com/ai-platform/training/docs/custom-service-account) If not specified, the AI Platform Training Google-managed service account is used by default.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public string? ServiceAccountValue { get; set; }
+    public string? ServiceAccount { get; set; }
 
     /// <summary>
     /// Bucket in which to stage training archives. Required only if a file upload is necessary (that is, other flags include local paths) and no other flags implicitly specify an upload path.
@@ -142,7 +142,7 @@ public record GcloudAiPlatformJobsSubmitTrainingOptions(
     /// Hardware accelerator config for the worker nodes. Must specify both the accelerator type (TYPE) for each server and the number of accelerators to attach to each server (COUNT). type Type of the accelerator. Choices are nvidia-tesla-a100,nvidia-tesla-k80,nvidia-tesla-p100,nvidia-tesla-p4,nvidia-tesla-t4,nvidia-tesla-v100,tpu-v2,tpu-v2-pod,tpu-v3,tpu-v3-pod,tpu-v4-pod count Number of accelerators to attach to each machine running the job. Must be greater than 0.
     /// </summary>
     [CliOption("--worker-accelerator", Format = OptionFormat.EqualsSeparated)]
-    public string? WorkerAcceleratorValue { get; set; }
+    public string? WorkerAccelerator { get; set; }
 
     /// <summary>
     /// Docker image to run on each worker node. This image must be in Container Registry. If not specified, the value of --master-image-uri is used.
@@ -163,86 +163,51 @@ public record GcloudAiPlatformJobsSubmitTrainingOptions(
     public bool? StreamLogs { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: + provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: + provide the argument --kms-key on the command line with a fully specified name; + provide the argument --kms-keyring on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
     /// </summary>
     [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
     public string? KmsKeyring { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: + provide the argument --kms-key on the command line with a fully specified name; + provide the argument --kms-location on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
     /// </summary>
     [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
     public string? KmsLocation { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: + provide the argument --kms-key on the command line with a fully specified name; + provide the argument --kms-project on the command line; + set the property core/project.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
     /// </summary>
     [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
     public string? KmsProject { get; set; }
 
     /// <summary>
-    /// Configure parameter server machine type settings. Number of parameter servers to use for the training job. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Number of parameter servers to use for the training job. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--parameter-server-count", Format = OptionFormat.EqualsSeparated)]
     public int? ParameterServerCount { get; set; }
 
     /// <summary>
-    /// Configure parameter server machine type settings. Type of virtual machine to use for training job's parameter servers. This flag must be specified if any of the other arguments in this group are specified machine to use for training job's parameter servers. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Type of virtual machine to use for training job's parameter servers. This flag must be specified if any of the other arguments in this group are specified machine to use for training job's parameter servers. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--parameter-server-machine-type", Format = OptionFormat.EqualsSeparated)]
     public string? ParameterServerMachineType { get; set; }
 
     /// <summary>
-    /// Configure worker node machine type settings. Number of worker nodes to use for the training job. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Number of worker nodes to use for the training job. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--worker-count", Format = OptionFormat.EqualsSeparated)]
     public int? WorkerCount { get; set; }
 
     /// <summary>
-    /// Configure worker node machine type settings. Type of virtual machine to use for training job's worker nodes. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the job. The 'AI Platform Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Configure parameter server machine type settings. Configure worker node machine type settings. Type of virtual machine to use for training job's worker nodes. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--worker-machine-type", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerMachineType { get; set; }
-
-    [Obsolete("Use ScaleTierValues instead.")]
-    public string? ScaleTier
-    {
-        get => ScaleTierValues?.FirstOrDefault();
-        set => ScaleTierValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use MasterAcceleratorValue instead.")]
-    public int? MasterAccelerator
-    {
-        get => int.TryParse(MasterAcceleratorValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => MasterAcceleratorValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ParameterServerAcceleratorValue instead.")]
-    public int? ParameterServerAccelerator
-    {
-        get => int.TryParse(ParameterServerAcceleratorValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => ParameterServerAcceleratorValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ServiceAccountValue instead.")]
-    public int? ServiceAccount
-    {
-        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use WorkerAcceleratorValue instead.")]
-    public int? WorkerAccelerator
-    {
-        get => int.TryParse(WorkerAcceleratorValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => WorkerAcceleratorValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

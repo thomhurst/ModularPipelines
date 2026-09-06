@@ -41,13 +41,25 @@ public record GcloudActiveDirectoryDomainsUpdateOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: --add-authorized-networks=[AUTH_NET1, AUTH_NET2, ...,...] A list of URLs of additional networks to peer this domain to in the form projects/{project}/global/networks/{network}. Networks must belong to the project. --remove-authorized-networks=[AUTH_NET1, AUTH_NET2, ...,...] A list of URLs of additional networks to unpeer this domain from in the form projects/{project}/global/networks/{network}. Networks must belong to the project. At most one of these can be specified: An additional region to provision this domain in. If domain is already provisioned in region, nothing will be done in that region. Supported regions are: asia-east1, asia-northeast1, asia-south1, asia-southeast1, australia-southeast1, europe-north1, europe-west1, europe-west2, europe-west3, europe-west4, northamerica-northeast1, southamerica-east1, us-central1, us-east1, us-east4, us-west1, us-west2.
+    /// At most one of these can be specified: A list of URLs of additional networks to peer this domain to in the form projects/{project}/global/networks/{network}. Networks must belong to the project.
+    /// </summary>
+    [CliOption("--add-authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddAuthorizedNetworks { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: A list of URLs of additional networks to unpeer this domain from in the form projects/{project}/global/networks/{network}. Networks must belong to the project.
+    /// </summary>
+    [CliOption("--remove-authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveAuthorizedNetworks { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: An additional region to provision this domain in. If domain is already provisioned in region, nothing will be done in that region. Supported regions are: asia-east1, asia-northeast1, asia-south1, asia-southeast1, australia-southeast1, europe-north1, europe-west1, europe-west2, europe-west3, europe-west4, northamerica-northeast1, southamerica-east1, us-central1, us-east1, us-east4, us-west1, us-west2.
     /// </summary>
     [CliOption("--add-region", Format = OptionFormat.EqualsSeparated)]
     public string? AddRegion { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: --add-authorized-networks=[AUTH_NET1, AUTH_NET2, ...,...] A list of URLs of additional networks to peer this domain to in the form projects/{project}/global/networks/{network}. Networks must belong to the project. --remove-authorized-networks=[AUTH_NET1, AUTH_NET2, ...,...] A list of URLs of additional networks to unpeer this domain from in the form projects/{project}/global/networks/{network}. Networks must belong to the project. At most one of these can be specified: A region to de-provision this domain from. If domain is already not provisioned in a region, nothing will be done in that region. Domains must be left provisioned in at least one region. Supported regions are: asia-east1, asia-northeast1, asia-south1, asia-southeast1, australia-southeast1, europe-north1, europe-west1, europe-west2, europe-west3, europe-west4, northamerica-northeast1, southamerica-east1, us-central1, us-east1, us-east4, us-west1, us-west2.
+    /// At most one of these can be specified: A region to de-provision this domain from. If domain is already not provisioned in a region, nothing will be done in that region. Domains must be left provisioned in at least one region. Supported regions are: asia-east1, asia-northeast1, asia-south1, asia-southeast1, australia-southeast1, europe-north1, europe-west1, europe-west2, europe-west3, europe-west4, northamerica-northeast1, southamerica-east1, us-central1, us-east1, us-east4, us-west1, us-west2.
     /// </summary>
     [CliOption("--remove-region", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveRegion { get; set; }

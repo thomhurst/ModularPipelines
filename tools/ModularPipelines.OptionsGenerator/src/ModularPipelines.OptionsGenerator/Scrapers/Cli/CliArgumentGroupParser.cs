@@ -25,9 +25,12 @@ internal static partial class CliArgumentGroupParser
             };
         }
 
+        var firstPreludeLines = lines[..declarations[0].LineIndex];
+        var firstPrelude = NormalizeDocumentation(firstPreludeLines);
+        var firstPreludeStartsGroup = StartsArgumentGroup(firstPreludeLines, firstPrelude);
         var root = new ArgumentGroupBuilder(
             declarations.Min(declaration => declaration.Argument.Indentation),
-            NormalizeDocumentation(lines[..declarations[0].LineIndex]));
+            firstPreludeStartsGroup ? null : firstPrelude);
         var stack = new Stack<ArgumentGroupBuilder>();
         stack.Push(root);
         var previousDescriptionEnd = 0;
@@ -49,6 +52,7 @@ internal static partial class CliArgumentGroupParser
             var preludeLines = lines[preludeStart..declaration.LineIndex];
             var prelude = NormalizeDocumentation(preludeLines);
             var preludeIndentation = GetMinimumContentIndentation(preludeLines);
+            var preludeStartsGroup = StartsArgumentGroup(preludeLines, prelude);
             previousDescriptionEnd = descriptionEnd;
 
             MoveToContainingGroup(
@@ -62,7 +66,8 @@ internal static partial class CliArgumentGroupParser
                     Description = description,
                     SourceOrder = declaration.LineIndex,
                 },
-                prelude);
+                index == 0 && !preludeStartsGroup ? null : prelude,
+                preludeStartsGroup);
         }
 
         return root.Build();
@@ -108,7 +113,7 @@ internal static partial class CliArgumentGroupParser
             .Skip(previousDeclaration.LineIndex + 1)
             .Take(candidateIndex - previousDeclaration.LineIndex - 1)
             .Where(line => !string.IsNullOrWhiteSpace(line))
-            .All(line => GetIndentation(line) > declarationIndentation);
+            .All(line => CliScraperBase.GetIndentation(line) > declarationIndentation);
     }
 
     private static void MoveToContainingGroup(
@@ -127,7 +132,8 @@ internal static partial class CliArgumentGroupParser
     private static void AddArgument(
         Stack<ArgumentGroupBuilder> stack,
         CliArgumentDefinition argument,
-        string? prelude)
+        string? prelude,
+        bool preludeStartsGroup)
     {
         var current = stack.Peek();
         if (argument.Indentation > current.Indentation)
@@ -136,11 +142,13 @@ internal static partial class CliArgumentGroupParser
             current.Groups.Add(child);
             stack.Push(child);
         }
-        else if (stack.Count > 1
-                 && !string.IsNullOrWhiteSpace(prelude)
-                 && Classify(prelude) != CliArgumentGroupKind.None)
+        else if (preludeStartsGroup)
         {
-            stack.Pop();
+            if (stack.Count > 1)
+            {
+                stack.Pop();
+            }
+
             var sibling = new ArgumentGroupBuilder(argument.Indentation, prelude);
             stack.Peek().Groups.Add(sibling);
             stack.Push(sibling);
@@ -162,7 +170,7 @@ internal static partial class CliArgumentGroupParser
         for (var index = start; index < end; index++)
         {
             if (!string.IsNullOrWhiteSpace(lines[index])
-                && GetIndentation(lines[index]) <= declarationIndentation)
+                && CliScraperBase.GetIndentation(lines[index]) <= declarationIndentation)
             {
                 return index;
             }
@@ -171,32 +179,11 @@ internal static partial class CliArgumentGroupParser
         return end;
     }
 
-    private static int GetIndentation(string line)
-    {
-        var indentation = 0;
-        foreach (var character in line)
-        {
-            switch (character)
-            {
-                case ' ':
-                    indentation++;
-                    break;
-                case '\t':
-                    indentation += 4;
-                    break;
-                default:
-                    return indentation;
-            }
-        }
-
-        return indentation;
-    }
-
     private static int GetMinimumContentIndentation(IEnumerable<string> lines)
     {
         var indentations = lines
             .Where(line => !string.IsNullOrWhiteSpace(line))
-            .Select(GetIndentation)
+            .Select(CliScraperBase.GetIndentation)
             .ToArray();
 
         return indentations.Length == 0 ? int.MaxValue : indentations.Min();
@@ -251,6 +238,12 @@ internal static partial class CliArgumentGroupParser
         return kind;
     }
 
+    private static bool StartsArgumentGroup(
+        IEnumerable<string> lines,
+        string? description) =>
+        Classify(description) != CliArgumentGroupKind.None
+        || lines.Any(line => SectionHeadingPattern().IsMatch(line.Trim()));
+
     private sealed class ArgumentGroupBuilder(int indentation, string? description)
     {
         public int Indentation { get; } = indentation;
@@ -295,4 +288,7 @@ internal static partial class CliArgumentGroupParser
 
     [GeneratedRegex(@"\b(?:resource|arguments? for)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex ResourcePattern();
+
+    [GeneratedRegex(@"^[\p{L}\p{N}].* Flags:?$", RegexOptions.CultureInvariant)]
+    private static partial Regex SectionHeadingPattern();
 }

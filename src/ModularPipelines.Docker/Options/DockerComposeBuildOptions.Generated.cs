@@ -101,10 +101,4 @@ public record DockerComposeBuildOptions : DockerOptions
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Service { get; set; }
 
-    [Obsolete("Provenance is no longer supported by the installed CLI and has no effect.")]
-    public string? Provenance { get; set; }
-
-    [Obsolete("Sbom is no longer supported by the installed CLI and has no effect.")]
-    public string? Sbom { get; set; }
-
 }

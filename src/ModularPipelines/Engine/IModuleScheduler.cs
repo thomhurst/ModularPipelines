@@ -20,6 +20,13 @@ internal interface IModuleScheduler : IDisposable
     void InitializeModules(IEnumerable<IModule> modules);
 
     /// <summary>
+    /// Initializes module states with duration estimates already calculated during planning.
+    /// </summary>
+    void InitializeModules(
+        IEnumerable<IModule> modules,
+        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations) => InitializeModules(modules);
+
+    /// <summary>
     /// Starts the scheduler loop that continuously queues ready modules.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>

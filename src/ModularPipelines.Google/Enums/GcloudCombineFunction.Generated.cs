@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudCombineFunction
 {
     [EnumValue("and")]
-    And = 0,
+    And,
 
     [EnumValue("or")]
-    Or = 1
+    Or
 }

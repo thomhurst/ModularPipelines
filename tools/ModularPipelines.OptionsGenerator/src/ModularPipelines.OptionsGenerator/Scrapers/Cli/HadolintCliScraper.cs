@@ -147,7 +147,7 @@ public partial class HadolintCliScraper : CliScraperBase
                 continue;
             }
 
-            var description = AccumulateDescription(lines, ref lineIndex, match);
+            var description = AccumulateWrappedDescription(lines, ref lineIndex, match.Groups["desc"], IsOptionRow);
             var option = CreateOption(match, description, formatEnum, thresholdEnum);
             if (option is not null && seenOptions.Add(option.SwitchName))
             {
@@ -164,33 +164,7 @@ public partial class HadolintCliScraper : CliScraperBase
         return match.Success ? helpText[(match.Index + match.Length)..] : helpText;
     }
 
-    private static string AccumulateDescription(string[] lines, ref int lineIndex, Match match)
-    {
-        var descriptionParts = new List<string>();
-        var inlineDescription = match.Groups["desc"].Value.Trim();
-        if (!string.IsNullOrEmpty(inlineDescription))
-        {
-            descriptionParts.Add(inlineDescription);
-        }
-
-        var optionIndentation = GetIndentation(lines[lineIndex]);
-        while (lineIndex + 1 < lines.Length)
-        {
-            var nextLine = lines[lineIndex + 1];
-            var continuation = nextLine.Trim();
-            if (string.IsNullOrEmpty(continuation)
-                || continuation.StartsWith('-')
-                || GetIndentation(nextLine) <= optionIndentation)
-            {
-                break;
-            }
-
-            descriptionParts.Add(continuation);
-            lineIndex++;
-        }
-
-        return string.Join(' ', descriptionParts);
-    }
+    private static bool IsOptionRow(string line) => HadolintOptionPattern().IsMatch(line);
 
     private CliOptionDefinition? CreateOption(
         Match match,
@@ -251,8 +225,6 @@ public partial class HadolintCliScraper : CliScraperBase
     private static bool IsRepeatableOption(string longForm) => longForm is
         "--error" or "--warning" or "--info" or "--style" or "--ignore" or
         "--trusted-registry" or "--require-label";
-
-    private static int GetIndentation(string line) => line.Length - line.TrimStart().Length;
 
     /// <summary>
     /// Checks if help text indicates the command has options.

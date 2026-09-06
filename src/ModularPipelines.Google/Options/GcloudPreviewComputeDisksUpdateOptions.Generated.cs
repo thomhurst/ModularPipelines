@@ -71,7 +71,7 @@ public record GcloudPreviewComputeDisksUpdateOptions(
     /// A list of license URIs or license codes. The first license is the license to be replaced and the second license is the replacement license. Provided licenses can be either license URIs or license codes but not a mix of both.
     /// </summary>
     [CliOption("--replace-license", Format = OptionFormat.EqualsSeparated)]
-    public GcloudReplaceLicense? ReplaceLicense { get; set; }
+    public string? ReplaceLicense { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Removes the architecture or processor type annotation from the disk.

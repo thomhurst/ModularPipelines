@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudFields
 {
     [EnumValue("disabled")]
-    Disabled = 0,
+    Disabled,
 
     [EnumValue("notificationChannels")]
-    NotificationChannels = 1
+    NotificationChannels
 }

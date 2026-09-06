@@ -139,6 +139,16 @@ internal class ModuleState
     public ModulePriority Priority { get; set; } = ModulePriority.Normal;
 
     /// <summary>
+    /// Gets or sets the historical duration estimate used for scheduling.
+    /// </summary>
+    public TimeSpan EstimatedDuration { get; set; }
+
+    /// <summary>
+    /// Gets or sets the estimated duration of this module's longest downstream path.
+    /// </summary>
+    public TimeSpan CriticalPathWeight { get; set; }
+
+    /// <summary>
     /// Gets or sets the resource-usage hint for throttling.
     /// </summary>
     public ExecutionHint ExecutionHint { get; set; } = ExecutionHint.Default;

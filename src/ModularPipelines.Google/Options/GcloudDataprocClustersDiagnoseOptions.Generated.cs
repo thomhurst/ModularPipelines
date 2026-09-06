@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -43,7 +44,7 @@ public record GcloudDataprocClustersDiagnoseOptions : GcloudOptions
     /// Target access privileges for diagnostic tarball. TARBALL_ACCESS must be one of: GOOGLE_CLOUD_SUPPORT, GOOGLE_DATAPROC_DIAGNOSE.
     /// </summary>
     [CliOption("--tarball-access", Format = OptionFormat.EqualsSeparated)]
-    public string? TarballAccess { get; set; }
+    public GcloudTarballAccess? TarballAccess { get; set; }
 
     /// <summary>
     /// The output Cloud Storage directory for the diagnostic tarball. If not specified, a task-specific directory in the cluster's staging bucket will be used.

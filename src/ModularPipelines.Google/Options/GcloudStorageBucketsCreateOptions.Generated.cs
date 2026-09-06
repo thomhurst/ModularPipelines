@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -24,90 +25,93 @@ public record GcloudStorageBucketsCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
+    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
     /// </summary>
     [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
     public string? AdditionalHeaders { get; set; }
 
     /// <summary>
-    /// Set the default KMS key using the full path to the key, which has the following form: projects/[project-id]/locations/[location]/keyRings/[key-ring]/cryptoKeys/[my-key].
+    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Set the default KMS key using the full path to the key, which has the following form: projects/[project-id]/locations/[location]/keyRings/[key-ring]/cryptoKeys/[my-key].
     /// </summary>
     [CliOption("--default-encryption-key", Format = OptionFormat.EqualsSeparated)]
     public string? DefaultEncryptionKey { get; set; }
 
     /// <summary>
-    /// Enable hierarchical namespace for the bucket. To use this flag, you must also use --uniform-bucket-level-access
+    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Default storage class (https://cloud.google.com/storage/docs/storage-classes) for the bucket. If not specified, the default storage class used by Cloud Storage is "Standard".
+    /// </summary>
+    [CliOption("--default-storage-class", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultStorageClass { get; set; }
+
+    /// <summary>
+    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Enable hierarchical namespace for the bucket. To use this flag, you must also use --uniform-bucket-level-access
     /// </summary>
     [CliFlag("--enable-hierarchical-namespace")]
     public bool? EnableHierarchicalNamespace { get; set; }
 
     /// <summary>
-    /// Enables each object in the bucket to have its own retention settings, which prevents deletion until stored for a specific length of time.
+    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Enables each object in the bucket to have its own retention settings, which prevents deletion until stored for a specific length of time.
     /// </summary>
     [CliFlag("--enable-per-object-retention")]
     public bool? EnablePerObjectRetention { get; set; }
 
     /// <summary>
-    /// Sets the encryption enforcement configuration for the bucket from a JSON file. This configuration determines restrictions on the types of encryption (GMEK, CMEK, CSEK) allowed for new objects created in the bucket. The JSON file should contain an object with keys among "gmekEnforcement", "cmekEnforcement", and "csekEnforcement". Each of these keys, if present, should have a "restrictionMode" key, determining whether the corresponding encryption type should be allowed or restricted for new objects. Valid values for "restrictionMode" are: * "NotRestricted": The encryption type is allowed for new objects. * "FullyRestricted": The encryption type is not allowed for new objects. Example JSON file content, to enforce only CMEK for new objects: { "gmekEnforcement": { "restrictionMode": "FullyRestricted" }, "cmekEnforcement": { "restrictionMode": "NotRestricted" }, "csekEnforcement": { "restrictionMode": "FullyRestricted" } } Omitted keys will not be sent in the API request. To clear restrictions for a specific encryption-type during an update, set its "restrictionMode" to "NotRestricted". For example, to clear any restrictions on GMEK: { "gmekEnforcement": { "restrictionMode": "NotRestricted" } }
+    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Sets the encryption enforcement configuration for the bucket from a JSON file. This configuration determines restrictions on the types of encryption (GMEK, CMEK, CSEK) allowed for new objects created in the bucket. The JSON file should contain an object with keys among "gmekEnforcement", "cmekEnforcement", and "csekEnforcement". Each of these keys, if present, should have a "restrictionMode" key, determining whether the corresponding encryption type should be allowed or restricted for new objects. Valid values for "restrictionMode" are: ◆ "NotRestricted": The encryption type is allowed for new objects. ◆ "FullyRestricted": The encryption type is not allowed for new objects. Example JSON file content, to enforce only CMEK for new objects: { "gmekEnforcement": { "restrictionMode": "FullyRestricted" }, "cmekEnforcement": { "restrictionMode": "NotRestricted" }, "csekEnforcement": { "restrictionMode": "FullyRestricted" } } Omitted keys will not be sent in the API request. To clear restrictions for a specific encryption-type during an update, set its "restrictionMode" to "NotRestricted". For example, to clear any restrictions on GMEK: { "gmekEnforcement": { "restrictionMode": "NotRestricted" } }
     /// </summary>
     [CliOption("--encryption-enforcement-file", Format = OptionFormat.EqualsSeparated)]
     public string? EncryptionEnforcementFile { get; set; }
 
     /// <summary>
-    /// Sets the IP filter for the bucket. The IP filter is a list of ip ranges that are allowed to access the bucket. For example, The following JSON document shows the IP filter configuration with mode enabled and list of public network sources and vpc network sources: { "mode": "Enabled", "publicNetworkSource": { "allowedIpCidrRanges": ["0.0.0.0/0"] }, "vpcNetworkSources": [ { "network": "projects/PROJECT_NAME/global/networks/NETWORK_NAME", "allowedIpCidrRanges": ["0.0.0.0/0"] }, ] } For more information about supported configurations, see Cloud Storage bucket IP filtering configurations (https://cloud.google.com/storage/docs/create-ip-filter#ip-filtering-configurations)
+    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Sets the IP filter for the bucket. The IP filter is a list of ip ranges that are allowed to access the bucket. For example, The following JSON document shows the IP filter configuration with mode enabled and list of public network sources and vpc network sources: { "mode": "Enabled", "publicNetworkSource": { "allowedIpCidrRanges": ["0.0.0.0/0"] }, "vpcNetworkSources": [ { "network": "projects/PROJECT_NAME/global/networks/NETWORK_NAME", "allowedIpCidrRanges": ["0.0.0.0/0"] }, ] } For more information about supported configurations, see Cloud Storage bucket IP filtering configurations (https://cloud.google.com/storage/docs/create-ip-filter#ip-filtering-configurations)
     /// </summary>
     [CliOption("--ip-filter-file", Format = OptionFormat.EqualsSeparated)]
     public string? IpFilterFile { get; set; }
 
     /// <summary>
-    /// Sets the lifecycle management configuration on a bucket. For example, The following lifecycle management configuration JSON document specifies that all objects in this bucket that are more than 365 days old are deleted automatically: { "rule": [ { "action": {"type": "Delete"}, "condition": {"age": 365} } ] }
+    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Sets the lifecycle management configuration on a bucket. For example, The following lifecycle management configuration JSON document specifies that all objects in this bucket that are more than 365 days old are deleted automatically: { "rule": [ { "action": {"type": "Delete"}, "condition": {"age": 365} } ] }
     /// </summary>
     [CliOption("--lifecycle-file", Format = OptionFormat.EqualsSeparated)]
     public string? LifecycleFile { get; set; }
 
     /// <summary>
-    /// Location (https://cloud.google.com/storage/docs/locations) for the bucket. If not specified, the location used by Cloud Storage is us. A bucket's location cannot be changed after creation.
+    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Location (https://cloud.google.com/storage/docs/locations) for the bucket. If not specified, the location used by Cloud Storage is us. A bucket's location cannot be changed after creation.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// A comma-separated list of regions that form the custom dual-region (https://cloud.google.com/storage/docs/locations#location-dr). Only regions within the same continent are or will ever be valid. Invalid location pairs (such as mixed-continent, or with unsupported regions) will return an error.
+    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. A comma-separated list of regions that form the custom dual-region (https://cloud.google.com/storage/docs/locations#location-dr). Only regions within the same continent are or will ever be valid. Invalid location pairs (such as mixed-continent, or with unsupported regions) will return an error.
     /// </summary>
     [CliOption("--placement", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Placement { get; set; }
 
     /// <summary>
-    /// Sets the recovery point objective (https://cloud.google.com/architecture/dr-scenarios-planning-guide#basics_of_dr_planning) of a bucket. This flag can only be used with multi-region and dual-region buckets. DEFAULT option is valid for multi-region and dual-regions buckets. ASYNC_TURBO option is only valid for dual-region buckets. If unspecified when the bucket is created, it defaults to DEFAULT for dual-region and multi-region buckets. For more information, see replication in Cloud Storage (https://cloud.google.com/storage/docs/availability-durability#cross-region-redundancy). SETTING must be one of: ASYNC_TURBO, DEFAULT.
+    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Sets the recovery point objective (https://cloud.google.com/architecture/dr-scenarios-planning-guide#basics_of_dr_planning) of a bucket. This flag can only be used with multi-region and dual-region buckets. DEFAULT option is valid for multi-region and dual-regions buckets. ASYNC_TURBO option is only valid for dual-region buckets. If unspecified when the bucket is created, it defaults to DEFAULT for dual-region and multi-region buckets. For more information, see replication in Cloud Storage (https://cloud.google.com/storage/docs/availability-durability#cross-region-redundancy). SETTING must be one of: ASYNC_TURBO, DEFAULT.
     /// </summary>
     [CliOption("--recovery-point-objective", Format = OptionFormat.EqualsSeparated)]
-    public string? RecoveryPointObjective { get; set; }
+    public GcloudRecoveryPointObjective? RecoveryPointObjective { get; set; }
 
     /// <summary>
-    /// Minimum retention period (https://cloud.google.com/storage/docs/bucket-lock#retention-periods) for objects stored in the bucket, for example --retention-period=P1Y1M1DT5S. Objects added to the bucket cannot be deleted until they've been stored for the specified length of time. Default is no retention period. Only available for Cloud Storage using the JSON API.
+    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Minimum retention period (https://cloud.google.com/storage/docs/bucket-lock#retention-periods) for objects stored in the bucket, for example --retention-period=P1Y1M1DT5S. Objects added to the bucket cannot be deleted until they've been stored for the specified length of time. Default is no retention period. Only available for Cloud Storage using the JSON API.
     /// </summary>
     [CliOption("--retention-period", Format = OptionFormat.EqualsSeparated)]
     public string? RetentionPeriod { get; set; }
 
     /// <summary>
-    /// Duration to retain soft-deleted objects. For example, "2w1d" is two weeks and one day. See gcloud topic datetimes for more information on the duration format. Setting 0 will disable soft delete policy on the bucket. Default is 7 days.
+    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Duration to retain soft-deleted objects. For example, "2w1d" is two weeks and one day. See gcloud topic datetimes for more information on the duration format. Setting 0 will disable soft delete policy on the bucket. Default is 7 days.
     /// </summary>
     [CliOption("--soft-delete-duration", Format = OptionFormat.EqualsSeparated)]
     public string? SoftDeleteDuration { get; set; }
 
     /// <summary>
-    /// Turns on uniform bucket-level access setting. Default is False. Use --uniform-bucket-level-access to enable and --no-uniform-bucket-level-access to disable.
+    /// --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Turns on uniform bucket-level access setting. Default is False. Use --uniform-bucket-level-access to enable and --no-uniform-bucket-level-access to disable.
     /// </summary>
     [CliFlag("--uniform-bucket-level-access")]
     public bool? UniformBucketLevelAccess { get; set; }
 
     /// <summary>
-    /// Turns on uniform bucket-level access setting. Default is False. Use --uniform-bucket-level-access to enable and --no-uniform-bucket-level-access to disable.
+    /// Negates --uniform-bucket-level-access. --[no-]pap, --[no-]public-access-prevention Sets public access prevention to "enforced". For details on how exactly public access is blocked, see: http://cloud.google.com/storage/docs/public-access-prevention. Use --public-access-prevention to enable and --no-public-access-prevention to disable. Turns on uniform bucket-level access setting. Default is False. Use --uniform-bucket-level-access to enable and --no-uniform-bucket-level-access to disable.
     /// </summary>
     [CliFlag("--no-uniform-bucket-level-access")]
     public bool? NoUniformBucketLevelAccess { get; set; }
-
-    [Obsolete("DefaultStorageClass is no longer supported by the installed CLI and has no effect.")]
-    public string? DefaultStorageClass { get; set; }
 
 }

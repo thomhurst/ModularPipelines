@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivityHubsRouteTablesRoutesListOptions : GcloudOptions
 {
     /// <summary>
-    /// Route table resource - Parent route table of the routes to display. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --route_table on the command line with a fully specified name; ◆ if route table is empty, will use wildcard '-' to list all route tables with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The effective location/region to limit the list of routes. The effective location must be a valid region name. To list valid region names, use 'gcloud compute regions list'.
+    /// The effective location/region to limit the list of routes. The effective location must be a valid region name. To list valid region names, use 'gcloud compute regions list'.
     /// </summary>
     [CliOption("--effective-location", Format = OptionFormat.EqualsSeparated)]
     public string? EffectiveLocation { get; set; }

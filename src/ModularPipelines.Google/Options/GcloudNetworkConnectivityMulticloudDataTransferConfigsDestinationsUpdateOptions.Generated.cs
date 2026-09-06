@@ -49,13 +49,13 @@ public record GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinations
     /// Update endpoints. At most one of these can be specified: Set endpoints to new value. The list of DestinationEndpoint resources configured for the IP prefix. asn The ASN of the remote IP prefix. csp The CSP of the remote IP prefix. Shorthand Example: --endpoints=asn=int,csp=string --endpoints=asn=int,csp=string JSON Example: --endpoints='[{"asn": int, "csp": "string"}]' File Example: --endpoints=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--endpoints", Format = OptionFormat.EqualsSeparated)]
-    public string? Endpoints { get; set; }
+    public IEnumerable<string>? Endpoints { get; set; }
 
     /// <summary>
     /// Update endpoints. At most one of these can be specified: Or at least one of these can be specified: Add new value to endpoints list. The list of DestinationEndpoint resources configured for the IP prefix. asn The ASN of the remote IP prefix. csp The CSP of the remote IP prefix. Shorthand Example: --add-endpoints=asn=int,csp=string --add-endpoints=asn=int,csp=string JSON Example: --add-endpoints='[{"asn": int, "csp": "string"}]' File Example: --add-endpoints=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-endpoints", Format = OptionFormat.EqualsSeparated)]
-    public string? AddEndpoints { get; set; }
+    public IEnumerable<string>? AddEndpoints { get; set; }
 
     /// <summary>
     /// Update endpoints. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear endpoints value and set to empty list.
@@ -67,7 +67,7 @@ public record GcloudNetworkConnectivityMulticloudDataTransferConfigsDestinations
     /// Update endpoints. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from endpoints list. The list of DestinationEndpoint resources configured for the IP prefix. asn The ASN of the remote IP prefix. csp The CSP of the remote IP prefix. Shorthand Example: --remove-endpoints=asn=int,csp=string --remove-endpoints=asn=int,csp=string JSON Example: --remove-endpoints='[{"asn": int, "csp": "string"}]' File Example: --remove-endpoints=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-endpoints", Format = OptionFormat.EqualsSeparated)]
-    public string? RemoveEndpoints { get; set; }
+    public IEnumerable<string>? RemoveEndpoints { get; set; }
 
     /// <summary>
     /// Update labels. At most one of these can be specified: Set labels to new value. User-defined labels. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)

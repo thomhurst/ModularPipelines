@@ -28,15 +28,15 @@ public record GcloudAiHpTuningJobsStreamLogsOptions : GcloudOptions
     public bool? AllowMultilineLogs { get; set; }
 
     /// <summary>
-    /// If set, display only the logs for this particular task.
-    /// </summary>
-    [CliOption("--task-name", Format = OptionFormat.EqualsSeparated)]
-    public string? TaskName { get; set; }
-
-    /// <summary>
     /// Number of seconds to wait between efforts to fetch the latest log messages.
     /// </summary>
     [CliOption("--polling-interval", Format = OptionFormat.EqualsSeparated)]
     public string? PollingInterval { get; set; }
+
+    /// <summary>
+    /// If set, display only the logs for this particular task.
+    /// </summary>
+    [CliOption("--task-name", Format = OptionFormat.EqualsSeparated)]
+    public string? TaskName { get; set; }
 
 }

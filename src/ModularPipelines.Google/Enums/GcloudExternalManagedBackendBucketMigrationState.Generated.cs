@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudExternalManagedBackendBucketMigrationState
 {
     [EnumValue("PREPARE")]
-    Prepare = 0,
+    Prepare,
 
     [EnumValue("TEST_BY_PERCENTAGE")]
-    TestByPercentage = 1,
+    TestByPercentage,
 
     [EnumValue("TEST_ALL_TRAFFIC")]
-    TestAllTraffic = 2
+    TestAllTraffic
 }

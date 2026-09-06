@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudEndpointType
 {
     [EnumValue("VM")]
-    Vm = 0,
+    Vm,
 
     [EnumValue("NETLB")]
-    Netlb = 1
+    Netlb
 }

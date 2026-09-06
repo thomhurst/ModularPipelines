@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudLocationPolicy
 {
     [EnumValue("BALANCED")]
-    Balanced = 0,
+    Balanced,
 
     [EnumValue("ANY")]
-    Any = 1
+    Any
 }

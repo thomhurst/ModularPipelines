@@ -634,8 +634,6 @@ ModularPipelines.Homebrew.Options.BrewBundleInstallOptions.Global.get -> bool?
 ModularPipelines.Homebrew.Options.BrewBundleInstallOptions.Global.set -> void
 ModularPipelines.Homebrew.Options.BrewBundleInstallOptions.Help.get -> bool?
 ModularPipelines.Homebrew.Options.BrewBundleInstallOptions.Help.set -> void
-ModularPipelines.Homebrew.Options.BrewBundleInstallOptions.Jobs.get -> string?
-ModularPipelines.Homebrew.Options.BrewBundleInstallOptions.Jobs.set -> void
 ModularPipelines.Homebrew.Options.BrewBundleInstallOptions.NoUpgrade.get -> bool?
 ModularPipelines.Homebrew.Options.BrewBundleInstallOptions.NoUpgrade.set -> void
 ModularPipelines.Homebrew.Options.BrewBundleInstallOptions.Quiet.get -> bool?

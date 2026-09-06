@@ -84,7 +84,7 @@ public record GcloudDnsManagedZonesUpdateOptions : GcloudOptions
     public bool? LogDnsQueries { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable query logging. Defaults to False. Use --log-dns-queries to enable and --no-log-dns-queries to disable.
+    /// Negates --log-dns-queries. Specifies whether to enable query logging. Defaults to False. Use --log-dns-queries to enable and --no-log-dns-queries to disable.
     /// </summary>
     [CliFlag("--no-log-dns-queries")]
     public bool? NoLogDnsQueries { get; set; }
@@ -126,13 +126,13 @@ public record GcloudDnsManagedZonesUpdateOptions : GcloudOptions
     public string? ZskKeyLength { get; set; }
 
     /// <summary>
-    /// Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud dns managed-zones update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud dns managed-zones update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud dns managed-zones update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud dns managed-zones update --clear-labels \ --update-labels foo=bar,baz=qux
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveLabels { get; set; }

@@ -200,7 +200,4 @@ public record DockerComposeUpOptions : DockerOptions
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Service { get; set; }
 
-    [Obsolete("QuietBuild is no longer supported by the installed CLI and has no effect.")]
-    public bool? QuietBuild { get; set; }
-
 }

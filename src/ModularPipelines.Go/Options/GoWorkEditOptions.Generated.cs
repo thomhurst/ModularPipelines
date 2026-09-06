@@ -21,6 +21,78 @@ namespace ModularPipelines.Go.Options;
 public record GoWorkEditOptions : GoOptions
 {
     /// <summary>
+    /// The -fmt flag reformats the go.work file without making other changes. This reformatting is also implied by any other modifications that use or rewrite the go.work file. The only time this flag is needed is if no other flags are specified, as in 'go work edit -fmt'.
+    /// </summary>
+    [CliFlag("-fmt")]
+    public bool? Fmt { get; set; }
+
+    /// <summary>
+    /// The -godebug=key=value flag adds a godebug key=value line, replacing any existing godebug lines with the given key.
+    /// </summary>
+    [CliOption("-godebug", Format = OptionFormat.EqualsSeparated)]
+    public string? Godebug { get; set; }
+
+    /// <summary>
+    /// The -dropgodebug=key flag drops any existing godebug lines with the given key.
+    /// </summary>
+    [CliOption("-dropgodebug", Format = OptionFormat.EqualsSeparated)]
+    public string? Dropgodebug { get; set; }
+
+    /// <summary>
+    /// The -use=path and -dropuse=path flags add and drop a use directive from the go.work file's set of module directories.
+    /// </summary>
+    [CliOption("-use", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Use { get; set; }
+
+    /// <summary>
+    /// The -use=path and -dropuse=path flags add and drop a use directive from the go.work file's set of module directories.
+    /// </summary>
+    [CliOption("-dropuse", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Dropuse { get; set; }
+
+    /// <summary>
+    /// The -replace=old[@v]=new[@v] flag adds a replacement of the given module path and version pair. If the @v in old@v is omitted, a replacement without a version on the left side is added, which applies to all versions of the old module path. If the @v in new@v is omitted, the new path should be a local module root directory, not a module path. Note that -replace overrides any redundant replacements for old[@v], so omitting @v will drop existing replacements for specific versions.
+    /// </summary>
+    [CliOption("-replace", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Replace { get; set; }
+
+    /// <summary>
+    /// The -dropreplace=old[@v] flag drops a replacement of the given module path and version pair. If the @v is omitted, a replacement without a version on the left side is dropped.
+    /// </summary>
+    [CliOption("-dropreplace", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Dropreplace { get; set; }
+
+    /// <summary>
+    /// The -go=version flag sets the expected Go language version. It takes a version like "1.26" or "1.26.2". Using "none" as the version removes the go directive.
+    /// </summary>
+    [CliOption("-go", Format = OptionFormat.EqualsSeparated)]
+    public string? Go { get; set; }
+
+    /// <summary>
+    /// The -toolchain=name flag sets the Go toolchain to use. It takes a toolchain name like "go1.26" or "go1.26.2". Using "none" as the name removes the toolchain directive.
+    /// </summary>
+    [CliOption("-toolchain", Format = OptionFormat.EqualsSeparated)]
+    public string? Toolchain { get; set; }
+
+    /// <summary>
+    /// The -print flag prints the final go.work in its text format instead of writing it back to go.work.
+    /// </summary>
+    [CliFlag("-print")]
+    public bool? Print { get; set; }
+
+    /// <summary>
+    /// The -json flag prints the final go.work file in JSON format instead of writing it back to go.work. The JSON output corresponds to these Go types:
+    /// </summary>
+    [CliFlag("-json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// Editing operations rendered in the order supplied. Use this sequence when order across different edit switches matters.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Normal)]
+    public IEnumerable<GoEditOperation>? OrderedEdits { get; set; }
+
+    /// <summary>
     /// The go.work operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]

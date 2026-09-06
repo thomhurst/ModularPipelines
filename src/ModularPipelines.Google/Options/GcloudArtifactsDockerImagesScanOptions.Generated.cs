@@ -36,6 +36,12 @@ public record GcloudArtifactsDockerImagesScanOptions(
     public bool? Async { get; set; }
 
     /// <summary>
+    /// The API location in which to perform package analysis. Consider choosing a location closest to where you are located. Proximity to the container image does not affect response time. LOCATION must be one of: asia Perform analysis in Asia europe Perform analysis in Europe us Perform analysis in the US
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Whether the container image is located remotely or on your local machine.
     /// </summary>
     [CliFlag("--remote")]
@@ -46,11 +52,5 @@ public record GcloudArtifactsDockerImagesScanOptions(
     /// </summary>
     [CliOption("--skip-package-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SkipPackageTypes { get; set; }
-
-    /// <summary>
-    /// The API location in which to perform package analysis. Consider choosing a location closest to where you are located. Proximity to the container image does not affect response time. LOCATION must be one of: asia Perform analysis in Asia europe Perform analysis in Europe us Perform analysis in the US
-    /// </summary>
-    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
-    public string? Location { get; set; }
 
 }

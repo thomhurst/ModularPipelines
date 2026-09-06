@@ -32,7 +32,7 @@ public record GcloudBmsNfsSharesUpdateOptions : GcloudOptions
     /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
-    public global::ModularPipelines.Google.Enums.GcloudUpdateLabels? UpdateLabels { get; set; }
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Adds an allowed client to the NFS share. This flag can be repeated to specify multiple allowed clients. network The name of the network to allow. network-project-id The project ID of the allowed client network. If not present, the project ID of the NFS share will be used. cidr The subnet of IP addresses permitted to access the NFS share. mount-permissions The mount permissions for the allowed client. MOUNT_PERMISSIONS must be one of: READ_ONLY, READ_WRITE. allow-dev If yes, allows creation of devices. allow-suid If yes, allows SUID. enable-root-squash If yes, enables root squashing which is a special mapping of the remote superuser (root) identity when using identity authentication .

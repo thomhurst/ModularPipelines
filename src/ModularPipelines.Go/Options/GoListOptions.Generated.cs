@@ -22,22 +22,268 @@ namespace ModularPipelines.Go.Options;
 public record GoListOptions : GoOptions
 {
     /// <summary>
-    /// The -f option.
+    /// The -f flag specifies an alternate format for the list, using the syntax of package template. The default output is equivalent to -f '{{.ImportPath}}'. The struct being passed to the template is:
     /// </summary>
     [CliOption("-f")]
     public string? F { get; set; }
 
     /// <summary>
-    /// The -json option.
+    /// The -json flag causes the package data to be printed in JSON format instead of using the template format. The JSON flag can optionally be provided with a set of comma-separated required field names to be output. If so, those required fields will always appear in JSON output, but others may be omitted to save work in computing the JSON struct.
     /// </summary>
     [CliOption("-json", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? Json { get; set; }
 
     /// <summary>
-    /// The -m option.
+    /// The -m flag causes list to list modules instead of packages.
     /// </summary>
     [CliFlag("-m")]
     public bool? M { get; set; }
+
+    /// <summary>
+    /// Change to dir before running the command. Any files named on the command line are interpreted after changing directories. If used, this flag must be the first one in the command line.
+    /// </summary>
+    [CliOption("-C", Phase = CommandLinePhase.EarlyOperand)]
+    public string? C { get; set; }
+
+    /// <summary>
+    /// force rebuilding of packages that are already up-to-date.
+    /// </summary>
+    [CliFlag("-a")]
+    public bool? A { get; set; }
+
+    /// <summary>
+    /// print the commands but do not run them.
+    /// </summary>
+    [CliFlag("-n")]
+    public bool? N { get; set; }
+
+    /// <summary>
+    /// the number of programs, such as build commands or test binaries, that can be run in parallel. The default is GOMAXPROCS, normally the number of CPUs available.
+    /// </summary>
+    [CliOption("-p")]
+    public string? P { get; set; }
+
+    /// <summary>
+    /// enable data race detection. Supported only on darwin/amd64, darwin/arm64, freebsd/amd64, linux/amd64, linux/arm64 (only for 48-bit VMA), linux/ppc64le, linux/riscv64 and windows/amd64.
+    /// </summary>
+    [CliFlag("-race")]
+    public bool? Race { get; set; }
+
+    /// <summary>
+    /// enable interoperation with memory sanitizer. Supported only on linux/amd64, linux/arm64, linux/loong64, freebsd/amd64 and only with Clang/LLVM as the host C compiler. PIE build mode will be used on all platforms except linux/amd64.
+    /// </summary>
+    [CliFlag("-msan")]
+    public bool? Msan { get; set; }
+
+    /// <summary>
+    /// enable interoperation with address sanitizer. Supported only on linux/arm64, linux/amd64, linux/loong64. Supported on linux/amd64 or linux/arm64 and only with GCC 7 and higher or Clang/LLVM 9 and higher. And supported on linux/loong64 only with Clang/LLVM 16 and higher.
+    /// </summary>
+    [CliFlag("-asan")]
+    public bool? Asan { get; set; }
+
+    /// <summary>
+    /// enable code coverage instrumentation.
+    /// </summary>
+    [CliFlag("-cover")]
+    public bool? Cover { get; set; }
+
+    /// <summary>
+    /// set the mode for coverage analysis. The default is "set" unless -race is enabled, in which case it is "atomic".
+    /// </summary>
+    [CliOption("-covermode")]
+    public string? Covermode { get; set; }
+
+    /// <summary>
+    /// For a build that targets package 'main' (e.g. building a Go executable), apply coverage analysis to each package whose import path matches the patterns. The default is to apply coverage analysis to packages in the main Go module. See 'go help packages' for a description of package patterns. Sets -cover.
+    /// </summary>
+    [CliOption("-coverpkg")]
+    public string? Coverpkg { get; set; }
+
+    /// <summary>
+    /// print the names of packages as they are compiled.
+    /// </summary>
+    [CliFlag("-v")]
+    public bool? V { get; set; }
+
+    /// <summary>
+    /// print the name of the temporary work directory and do not delete it when exiting.
+    /// </summary>
+    [CliFlag("-work")]
+    public bool? Work { get; set; }
+
+    /// <summary>
+    /// print the commands.
+    /// </summary>
+    [CliFlag("-x")]
+    public bool? X { get; set; }
+
+    /// <summary>
+    /// arguments to pass on each go tool asm invocation.
+    /// </summary>
+    [CliOption("-asmflags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Asmflags { get; set; }
+
+    /// <summary>
+    /// build mode to use. See 'go help buildmode' for more.
+    /// </summary>
+    [CliOption("-buildmode")]
+    public string? Buildmode { get; set; }
+
+    /// <summary>
+    /// Whether to stamp binaries with version control information ("true", "false", or "auto"). By default ("auto"), version control information is stamped into a binary if the main package, the main module containing it, and the current directory are all in the same repository. Use -buildvcs=false to always omit version control information, or -buildvcs=true to error out if version control information is available but cannot be included due to a missing tool or ambiguous directory structure.
+    /// </summary>
+    [CliOption("-buildvcs", Format = OptionFormat.EqualsSeparated)]
+    public string? Buildvcs { get; set; }
+
+    /// <summary>
+    /// name of compiler to use, as in runtime.Compiler (gccgo or gc).
+    /// </summary>
+    [CliOption("-compiler")]
+    public string? Compiler { get; set; }
+
+    /// <summary>
+    /// arguments to pass on each gccgo compiler/linker invocation.
+    /// </summary>
+    [CliOption("-gccgoflags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Gccgoflags { get; set; }
+
+    /// <summary>
+    /// arguments to pass on each go tool compile invocation.
+    /// </summary>
+    [CliOption("-gcflags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Gcflags { get; set; }
+
+    /// <summary>
+    /// a suffix to use in the name of the package installation directory, in order to keep output separate from default builds. If using the -race flag, the install suffix is automatically set to race or, if set explicitly, has _race appended to it. Likewise for the -msan and -asan flags. Using a -buildmode option that requires non-default compile flags has a similar effect.
+    /// </summary>
+    [CliOption("-installsuffix")]
+    public string? Installsuffix { get; set; }
+
+    /// <summary>
+    /// arguments to pass on each go tool link invocation.
+    /// </summary>
+    [CliOption("-ldflags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Ldflags { get; set; }
+
+    /// <summary>
+    /// build code that will be linked against shared libraries previously created with -buildmode=shared.
+    /// </summary>
+    [CliFlag("-linkshared")]
+    public bool? Linkshared { get; set; }
+
+    /// <summary>
+    /// module download mode to use: readonly, vendor, or mod. By default, if a vendor directory is present and the go version in go.mod is 1.14 or higher, the go command acts as if -mod=vendor were set. Otherwise, the go command acts as if -mod=readonly were set. See https://go.dev/ref/mod#build-commands for details.
+    /// </summary>
+    [CliOption("-mod", Format = OptionFormat.EqualsSeparated)]
+    public string? Mod { get; set; }
+
+    /// <summary>
+    /// leave newly-created directories in the module cache read-write instead of making them read-only.
+    /// </summary>
+    [CliFlag("-modcacherw")]
+    public bool? Modcacherw { get; set; }
+
+    /// <summary>
+    /// in module aware mode, read (and possibly write) an alternate go.mod file instead of the one in the module root directory. A file named "go.mod" must still be present in order to determine the module root directory, but it is not accessed. When -modfile is specified, an alternate go.sum file is also used: its path is derived from the -modfile flag by trimming the ".mod" extension and appending ".sum".
+    /// </summary>
+    [CliOption("-modfile")]
+    public string? Modfile { get; set; }
+
+    /// <summary>
+    /// read a JSON config file that provides an overlay for build operations. The file is a JSON object with a single field, named 'Replace', that maps each disk file path (a string) to its backing file path, so that a build will run as if the disk file path exists with the contents given by the backing file paths, or as if the disk file path does not exist if its backing file path is empty. Support for the -overlay flag has some limitations: importantly, cgo files included from outside the include path must be in the same directory as the Go package they are included from, overlays will not appear when binaries and tests are run through go run and go test respectively, and files beneath GOMODCACHE may not be replaced.
+    /// </summary>
+    [CliOption("-overlay")]
+    public string? Overlay { get; set; }
+
+    /// <summary>
+    /// specify the file path of a profile for profile-guided optimization (PGO). When the special name "auto" is specified, for each main package in the build, the go command selects a file named "default.pgo" in the package's directory if that file exists, and applies it to the (transitive) dependencies of the main package (other packages are not affected). Special name "off" turns off PGO. The default is "auto".
+    /// </summary>
+    [CliOption("-pgo")]
+    public string? Pgo { get; set; }
+
+    /// <summary>
+    /// install and load all packages from dir instead of the usual locations. For example, when building with a non-standard configuration, use -pkgdir to keep generated packages in a separate location.
+    /// </summary>
+    [CliOption("-pkgdir")]
+    public string? Pkgdir { get; set; }
+
+    /// <summary>
+    /// a comma-separated list of additional build tags to consider satisfied during the build. For more information about build tags, see 'go help buildconstraint'. (Earlier versions of Go used a space-separated list, and that form is deprecated but still recognized.)
+    /// </summary>
+    [CliOption("-tags")]
+    public string? Tags { get; set; }
+
+    /// <summary>
+    /// remove all file system paths from the resulting executable. Instead of absolute file system paths, the recorded file names will begin either a module path@version (when using modules), or a plain import path (when using the standard library, or GOPATH).
+    /// </summary>
+    [CliFlag("-trimpath")]
+    public bool? Trimpath { get; set; }
+
+    /// <summary>
+    /// a program to use to invoke toolchain programs like vet and asm. For example, instead of running asm, the go command will run 'cmd args /path/to/asm &lt;arguments for asm&gt;'. The TOOLEXEC_IMPORTPATH environment variable will be set, matching 'go list -f {{.ImportPath}}' for the package being built.
+    /// </summary>
+    [CliOption("-toolexec")]
+    public string? Toolexec { get; set; }
+
+    /// <summary>
+    /// The -compiled flag causes list to set CompiledGoFiles to the Go source files presented to the compiler. Typically this means that it repeats the files listed in GoFiles and then also adds the Go code generated by processing CgoFiles and SwigFiles. The Imports list contains the union of all imports from both GoFiles and CompiledGoFiles.
+    /// </summary>
+    [CliFlag("-compiled")]
+    public bool? Compiled { get; set; }
+
+    /// <summary>
+    /// The -deps flag causes list to iterate over not just the named packages but also all their dependencies. It visits them in a depth-first post-order traversal, so that a package is listed only after all its dependencies. Packages not explicitly listed on the command line will have the DepOnly field set to true.
+    /// </summary>
+    [CliFlag("-deps")]
+    public bool? Deps { get; set; }
+
+    /// <summary>
+    /// The -e flag changes the handling of erroneous packages, those that cannot be found or are malformed. By default, the list command prints an error to standard error for each erroneous package and omits the packages from consideration during the usual printing. With the -e flag, the list command never prints errors to standard error and instead processes the erroneous packages with the usual printing. Erroneous packages will have a non-empty ImportPath and a non-nil Error field; other information may or may not be missing (zeroed).
+    /// </summary>
+    [CliFlag("-e")]
+    public bool? E { get; set; }
+
+    /// <summary>
+    /// The -export flag causes list to set the Export field to the name of a file containing up-to-date export information for the given package, and the BuildID field to the build ID of the compiled package.
+    /// </summary>
+    [CliFlag("-export")]
+    public bool? Export { get; set; }
+
+    /// <summary>
+    /// The -find flag causes list to identify the named packages but not resolve their dependencies: the Imports and Deps lists will be empty. With the -find flag, the -deps, -test and -export commands cannot be used.
+    /// </summary>
+    [CliFlag("-find")]
+    public bool? Find { get; set; }
+
+    /// <summary>
+    /// The -test flag causes list to report not only the named packages but also their test binaries (for packages with tests), to convey to source code analysis tools exactly how test binaries are constructed. The reported import path for a test binary is the import path of the package followed by a ".test" suffix, as in "math/rand.test". When building a test, it is sometimes necessary to rebuild certain dependencies specially for that test (most commonly the tested package itself). The reported import path of a package recompiled for a particular test binary is followed by a space and the name of the test binary in brackets, as in "math/rand [math/rand.test]" or "regexp [sort.test]". The ForTest field is also set to the name of the package being tested ("math/rand" or "sort" in the previous examples).
+    /// </summary>
+    [CliFlag("-test")]
+    public bool? Test { get; set; }
+
+    /// <summary>
+    /// The -u flag adds information about available upgrades. When the latest version of a given module is newer than the current one, list -u sets the Module's Update field to information about the newer module. list -u will also set the module's Retracted field if the current version is retracted. The Module's String method indicates an available upgrade by formatting the newer version in brackets after the current version. If a version is retracted, the string "(retracted)" will follow it. For example, 'go list -m -u all' might print:
+    /// </summary>
+    [CliFlag("-u")]
+    public bool? U { get; set; }
+
+    /// <summary>
+    /// The -versions flag causes list to set the Module's Versions field to a list of all known versions of that module, ordered according to semantic versioning, earliest to latest. The flag also changes the default output format to display the module path followed by the space-separated version list.
+    /// </summary>
+    [CliFlag("-versions")]
+    public bool? Versions { get; set; }
+
+    /// <summary>
+    /// The -retracted flag may be used with or without -m.
+    /// </summary>
+    [CliFlag("-retracted")]
+    public bool? Retracted { get; set; }
+
+    /// <summary>
+    /// When using -m, the -reuse=old.json flag accepts the name of file containing the JSON output of a previous 'go list -m -json' invocation with the same set of modifier flags (such as -u, -retracted, and -versions). The go command may use this file to determine that a module is unchanged since the previous invocation and avoid redownloading information about it. Modules that are not redownloaded will be marked in the new output by setting the Reuse field to true. Normally the module cache provides this kind of reuse automatically; the -reuse flag can be useful on systems that do not preserve the module cache.
+    /// </summary>
+    [CliOption("-reuse", Format = OptionFormat.EqualsSeparated)]
+    public string? Reuse { get; set; }
 
     /// <summary>
     /// The packages operand.

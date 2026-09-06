@@ -17,17 +17,17 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudCopyKnownExtensions
 {
     [EnumValue("base-key-usage")]
-    BaseKeyUsage = 0,
+    BaseKeyUsage,
 
     [EnumValue("extended-key-usage")]
-    ExtendedKeyUsage = 1,
+    ExtendedKeyUsage,
 
     [EnumValue("ca-options")]
-    CaOptions = 2,
+    CaOptions,
 
     [EnumValue("policy-ids")]
-    PolicyIds = 3,
+    PolicyIds,
 
     [EnumValue("aia-ocsp-servers")]
-    AiaOcspServers = 4
+    AiaOcspServers
 }

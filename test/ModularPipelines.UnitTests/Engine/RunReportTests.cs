@@ -10,6 +10,7 @@ using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Configuration;
 using ModularPipelines.Console;
 using ModularPipelines.Context.Domains.Shell;
@@ -1642,7 +1643,7 @@ public class RunReportTests
             Mock.Of<IBuildSystemDetector>(),
             OptionsFactory.Create(CreateReportingOptions(reportPath)),
             distributedOptions,
-            new RoleDetector(distributedOptions),
+            CreateExecutionLocationContext(distributedOptions),
             Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             new StringLogger<RunReportService>(log));
@@ -1674,7 +1675,7 @@ public class RunReportTests
             new KnownBuildSystemDetector(),
             OptionsFactory.Create(CreateReportingOptions(Path.Combine(directory, "report.json"))),
             distributedOptions,
-            new RoleDetector(distributedOptions),
+            CreateExecutionLocationContext(distributedOptions),
             Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
@@ -1738,7 +1739,7 @@ public class RunReportTests
             Mock.Of<IBuildSystemDetector>(),
             OptionsFactory.Create(CreateReportingOptions(reportPath)),
             distributedOptions,
-            new RoleDetector(distributedOptions),
+            CreateExecutionLocationContext(distributedOptions),
             Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
@@ -1934,7 +1935,7 @@ public class RunReportTests
             Mock.Of<IBuildSystemDetector>(),
             OptionsFactory.Create(CreateReportingOptions(reportPath)),
             distributedOptions,
-            new RoleDetector(distributedOptions),
+            CreateExecutionLocationContext(distributedOptions),
             Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
@@ -2024,7 +2025,7 @@ public class RunReportTests
                 },
             }),
             distributedOptions,
-            new RoleDetector(distributedOptions),
+            CreateExecutionLocationContext(distributedOptions),
             Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance);
@@ -2079,7 +2080,7 @@ public class RunReportTests
                 },
             }),
             distributedOptions,
-            new RoleDetector(distributedOptions),
+            CreateExecutionLocationContext(distributedOptions),
             Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
@@ -2107,7 +2108,7 @@ public class RunReportTests
             Mock.Of<IBuildSystemDetector>(),
             OptionsFactory.Create(new PipelineOptions()),
             distributedOptions,
-            new RoleDetector(distributedOptions),
+            CreateExecutionLocationContext(distributedOptions),
             Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance);
@@ -2139,7 +2140,7 @@ public class RunReportTests
             Mock.Of<IBuildSystemDetector>(),
             OptionsFactory.Create(CreateReportingOptions(reportPath)),
             distributedOptions,
-            new RoleDetector(distributedOptions),
+            CreateExecutionLocationContext(distributedOptions),
             Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
@@ -2210,7 +2211,7 @@ public class RunReportTests
                 },
             }),
             distributedOptions,
-            new RoleDetector(distributedOptions),
+            CreateExecutionLocationContext(distributedOptions),
             Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
@@ -2266,7 +2267,7 @@ public class RunReportTests
             Mock.Of<IBuildSystemDetector>(),
             OptionsFactory.Create(CreateReportingOptions(Path.Combine(directory, "report.json"))),
             distributedOptions,
-            new RoleDetector(distributedOptions),
+            CreateExecutionLocationContext(distributedOptions),
             Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
@@ -2418,7 +2419,7 @@ public class RunReportTests
                 new KnownBuildSystemDetector(),
                 options,
                 OptionsFactory.Create(new DistributedOptions()),
-                new RoleDetector(OptionsFactory.Create(new DistributedOptions())),
+                Mock.Of<IExecutionLocationContext>(),
                 Mock.Of<IDistributedMasterCoordinator>(),
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance,
@@ -2454,7 +2455,7 @@ public class RunReportTests
                     RunReport = new RunReportOptions { ReportPath = reportPath },
                 }),
                 distributedOptions,
-                new RoleDetector(distributedOptions),
+                CreateExecutionLocationContext(distributedOptions),
                 Mock.Of<IDistributedMasterCoordinator>(),
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance,
@@ -2517,7 +2518,7 @@ public class RunReportTests
                     },
                 }),
                 distributedOptions,
-                new RoleDetector(distributedOptions),
+                CreateExecutionLocationContext(distributedOptions),
                 coordinator.Object,
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance);
@@ -2576,7 +2577,7 @@ public class RunReportTests
                 RunReport = new RunReportOptions { ReportPath = reportPath },
             }),
             distributedOptions,
-            new RoleDetector(distributedOptions),
+            CreateExecutionLocationContext(distributedOptions),
             Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance);
@@ -2614,7 +2615,7 @@ public class RunReportTests
             Mock.Of<IBuildSystemDetector>(),
             OptionsFactory.Create(new PipelineOptions()),
             distributedOptions,
-            new RoleDetector(distributedOptions),
+            CreateExecutionLocationContext(distributedOptions),
             Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance);
@@ -2670,7 +2671,7 @@ public class RunReportTests
                 },
             }),
             distributedOptions,
-            new RoleDetector(distributedOptions),
+            CreateExecutionLocationContext(distributedOptions),
             Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance);
@@ -2722,7 +2723,7 @@ public class RunReportTests
                 },
             }),
             distributedOptions,
-            new RoleDetector(distributedOptions),
+            CreateExecutionLocationContext(distributedOptions),
             Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
@@ -2785,7 +2786,7 @@ public class RunReportTests
                 Mock.Of<IBuildSystemDetector>(),
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
-                new RoleDetector(distributedOptions),
+                CreateExecutionLocationContext(distributedOptions),
                 coordinator.Object,
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance,
@@ -2840,7 +2841,7 @@ public class RunReportTests
                 },
             }),
             distributedOptions,
-            new RoleDetector(distributedOptions),
+            CreateExecutionLocationContext(distributedOptions),
             Mock.Of<IDistributedMasterCoordinator>(),
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
@@ -3056,7 +3057,7 @@ public class RunReportTests
                 Mock.Of<IBuildSystemDetector>(),
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
-                new RoleDetector(distributedOptions),
+                CreateExecutionLocationContext(distributedOptions),
                 Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance,
@@ -3269,7 +3270,7 @@ public class RunReportTests
                 Mock.Of<IBuildSystemDetector>(),
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
-                new RoleDetector(distributedOptions),
+                CreateExecutionLocationContext(distributedOptions),
                 Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance,
@@ -3354,7 +3355,7 @@ public class RunReportTests
                     Mock.Of<IBuildSystemDetector>(),
                     OptionsFactory.Create(new PipelineOptions()),
                     distributedOptions,
-                    new RoleDetector(distributedOptions),
+                    CreateExecutionLocationContext(distributedOptions),
                     Mock.Of<IDistributedWorkerCoordinator>(),
                     commandExecutionCounter,
                     NullLogger<RunReportService>.Instance,
@@ -3432,7 +3433,7 @@ public class RunReportTests
                 Mock.Of<IBuildSystemDetector>(),
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
-                new RoleDetector(distributedOptions),
+                CreateExecutionLocationContext(distributedOptions),
                 Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance,
@@ -3484,7 +3485,7 @@ public class RunReportTests
                 Mock.Of<IBuildSystemDetector>(),
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
-                new RoleDetector(distributedOptions),
+                CreateExecutionLocationContext(distributedOptions),
                 Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance,
@@ -3539,7 +3540,7 @@ public class RunReportTests
                 Mock.Of<IBuildSystemDetector>(),
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
-                new RoleDetector(distributedOptions),
+                CreateExecutionLocationContext(distributedOptions),
                 Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance,
@@ -3600,7 +3601,7 @@ public class RunReportTests
                 Mock.Of<IBuildSystemDetector>(),
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
-                new RoleDetector(distributedOptions),
+                CreateExecutionLocationContext(distributedOptions),
                 Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance,
@@ -4152,6 +4153,10 @@ public class RunReportTests
         await Task.CompletedTask;
         yield break;
     }
+
+    private static IExecutionLocationContext CreateExecutionLocationContext(
+        IOptions<DistributedOptions> options) =>
+        new DistributedConditionRouting(options, new RoleDetector(options));
 
     private static async IAsyncEnumerable<PipelineRunReport> ReportsAfterAsync(Task completion)
     {

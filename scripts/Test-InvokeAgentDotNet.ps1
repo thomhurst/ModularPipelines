@@ -64,19 +64,87 @@ function Invoke-Guard(
     [int]$TimeoutSeconds,
     [int]$MemoryLimitMb,
     [int]$PollIntervalMilliseconds,
-    [string[]]$Arguments) {
+    [string[]]$Arguments,
+    [string]$DotNetPath = $pwshPath,
+    [switch]$SingleNode,
+    [string]$Location) {
     $argumentLiterals = ($Arguments | ForEach-Object { ConvertTo-PowerShellLiteral $_ }) -join ', '
-    $command = "& $(ConvertTo-PowerShellLiteral $guardScript) " +
-        "-DotNetPath $(ConvertTo-PowerShellLiteral $pwshPath) " +
+    $command = ''
+    if ($Location) {
+        # Only the PowerShell location changes; the process working directory stays
+        # where the test runner started, which is exactly the agent-worktree scenario.
+        $command += "Set-Location -LiteralPath $(ConvertTo-PowerShellLiteral $Location); "
+    }
+
+    $command += "& $(ConvertTo-PowerShellLiteral $guardScript) " +
+        "-DotNetPath $(ConvertTo-PowerShellLiteral $DotNetPath) " +
         "-TimeoutSeconds $TimeoutSeconds " +
         "-MemoryLimitMb $MemoryLimitMb " +
-        "-PollIntervalMilliseconds $PollIntervalMilliseconds " +
-        "-DotNetArguments @($argumentLiterals)"
+        "-PollIntervalMilliseconds $PollIntervalMilliseconds "
+    if ($SingleNode) {
+        $command += '-SingleNode '
+    }
+
+    $command += "-DotNetArguments @($argumentLiterals)"
     $command += '; exit $LASTEXITCODE'
     $encodedCommand = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($command))
 
     & $pwshPath -NoProfile -OutputFormat Text -EncodedCommand $encodedCommand
     return $LASTEXITCODE
+}
+
+function Write-DotNetShim([string]$Directory, [string]$CapturePath) {
+    # A native shim stands in for dotnet so the recorded working directory and arguments
+    # reflect exactly what the guard launched, without a second PowerShell parameter
+    # binder in the way. It writes its working directory, then one argument per line.
+    if ($IsWindows) {
+        $shimPath = Join-Path $Directory 'dotnet-shim.cmd'
+        $shimScript = @'
+@echo off
+> "{{CAPTURE}}" echo %CD%
+:loop
+if "%~1"=="" exit /b 0
+>> "{{CAPTURE}}" echo %~1
+shift
+goto loop
+'@
+    }
+    else {
+        $shimPath = Join-Path $Directory 'dotnet-shim.sh'
+        $shimScript = @'
+#!/bin/sh
+pwd > '{{CAPTURE}}'
+for a in "$@"; do printf '%s\n' "$a" >> '{{CAPTURE}}'; done
+'@
+    }
+
+    [System.IO.File]::WriteAllText(
+        $shimPath,
+        ($shimScript.Replace('{{CAPTURE}}', $CapturePath) -replace "`r`n", "`n") + "`n",
+        [System.Text.UTF8Encoding]::new($false))
+    if (-not $IsWindows) {
+        & chmod +x $shimPath
+    }
+
+    return $shimPath
+}
+
+function Assert-ShimCapture(
+    [string]$CapturePath,
+    [string]$ExpectedWorkingDirectory,
+    [string[]]$ExpectedArguments,
+    [string]$Scenario) {
+    $lines = @(Get-Content -LiteralPath $CapturePath)
+    $actualWorkingDirectory = [System.IO.Path]::GetFullPath($lines[0])
+    $expectedWorkingDirectory = [System.IO.Path]::GetFullPath($ExpectedWorkingDirectory)
+    if ($actualWorkingDirectory -ne $expectedWorkingDirectory) {
+        throw "$Scenario ran dotnet in '$actualWorkingDirectory' instead of '$expectedWorkingDirectory'."
+    }
+
+    $actualArguments = @($lines | Select-Object -Skip 1)
+    if (($actualArguments -join '|') -ne ($ExpectedArguments -join '|')) {
+        throw "$Scenario forwarded '$($actualArguments -join '|')' instead of '$($ExpectedArguments -join '|')'."
+    }
 }
 
 New-Item -ItemType Directory -Path $testRoot | Out-Null
@@ -128,6 +196,52 @@ param(
         ((-not $IsWindows) -and [int]$capture.Priority -le 0)) {
         throw "Guarded child priority was not lowered: $($capture.Priority)"
     }
+
+    # Agents run the guard after Set-Location into an isolated worktree. That changes only
+    # the PowerShell location, so the launched dotnet must be pinned to it explicitly, and
+    # MSBuild-style '-name:value' tokens must reach dotnet unsplit.
+    $shimDirectory = Join-Path $testRoot 'shim'
+    $probeDirectory = Join-Path $testRoot 'worktree-probe'
+    New-Item -ItemType Directory -Path $shimDirectory, $probeDirectory | Out-Null
+    $shimCapturePath = Join-Path $testRoot 'shim-capture.txt'
+    $shimPath = Write-DotNetShim -Directory $shimDirectory -CapturePath $shimCapturePath
+
+    $guardExitCode = Invoke-Guard `
+        -TimeoutSeconds 30 `
+        -MemoryLimitMb 512 `
+        -PollIntervalMilliseconds 100 `
+        -DotNetPath $shimPath `
+        -Location $probeDirectory `
+        -SingleNode `
+        -Arguments @('build', 'Project.slnx', '-c', 'Release', '-v:q', 'two words', '--', '-t:Build')
+
+    if ($guardExitCode -ne 0) {
+        throw "Single-node worktree build command failed with exit code $guardExitCode."
+    }
+
+    Assert-ShimCapture `
+        -CapturePath $shimCapturePath `
+        -ExpectedWorkingDirectory $probeDirectory `
+        -ExpectedArguments @('build', 'Project.slnx', '-c', 'Release', '-v:q', 'two words', '-m:1', '--', '-t:Build') `
+        -Scenario 'Single-node worktree build'
+
+    $guardExitCode = Invoke-Guard `
+        -TimeoutSeconds 30 `
+        -MemoryLimitMb 512 `
+        -PollIntervalMilliseconds 100 `
+        -DotNetPath $shimPath `
+        -SingleNode `
+        -Arguments @('build', 'Project.slnx', '/m:2', '-v:q')
+
+    if ($guardExitCode -ne 0) {
+        throw "Explicit node-count build command failed with exit code $guardExitCode."
+    }
+
+    Assert-ShimCapture `
+        -CapturePath $shimCapturePath `
+        -ExpectedWorkingDirectory ([System.Environment]::CurrentDirectory) `
+        -ExpectedArguments @('build', 'Project.slnx', '/m:2', '-v:q') `
+        -Scenario 'Explicit node-count build'
 
     @'
 param(
@@ -279,7 +393,7 @@ Start-Sleep -Seconds 60
         throw "Memory limit returned $guardExitCode instead of 137."
     }
 
-    Write-Output 'OK forwarding, normal-exit cleanup, bounded timeout, timeout cleanup, and memory limit passed.'
+    Write-Output 'OK forwarding, worktree working directory, single-node arguments, normal-exit cleanup, bounded timeout, timeout cleanup, and memory limit passed.'
 }
 finally {
     foreach ($pidPath in @($childPidPath, $normalExitChildPidPath, $orphanPidPath)) {

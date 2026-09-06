@@ -22,121 +22,121 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerHubPolicycontrollerEnableOptions : GcloudOptions
 {
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: At most one of these can be specified: Membership flags. At most one of these can be specified: If supplied, apply to all Policy Controllers memberships in the fleet.
+    /// At most one of these can be specified: Membership flags. At most one of these can be specified: If supplied, apply to all Policy Controllers memberships in the fleet.
     /// </summary>
     [CliFlag("--all-memberships")]
     public bool? AllMemberships { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: At most one of these can be specified: Membership flags. At most one of these can be specified: Or at least one of these can be specified: Membership resource - The group of arguments defining one or more memberships. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◇ provide the argument --memberships on the command line with a fully specified name; ◇ provide the argument --project on the command line; ◇ set the property core/project. IDs of the memberships or fully qualified identifiers for the memberships. To set the memberships attribute: ◇ provide the argument --memberships on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// At most one of these can be specified: Membership flags. At most one of these can be specified: Or at least one of these can be specified: Membership resource - The group of arguments defining one or more memberships. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◇ provide the argument --memberships on the command line with a fully specified name; ◇ provide the argument --project on the command line; ◇ set the property core/project. IDs of the memberships or fully qualified identifiers for the memberships. To set the memberships attribute: ◇ provide the argument --memberships on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--memberships", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Memberships { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: At most one of these can be specified: Membership flags. At most one of these can be specified: Or at least one of these can be specified: Membership resource - The group of arguments defining one or more memberships. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◇ provide the argument --memberships on the command line with a fully specified name; ◇ provide the argument --project on the command line; ◇ set the property core/project. Location for the memberships. To set the location attribute: ◇ provide the argument --memberships on the command line with a fully specified name; ◇ provide the argument --location on the command line; ◇ set the property gkehub/location.
+    /// At most one of these can be specified: Membership flags. At most one of these can be specified: Or at least one of these can be specified: Membership resource - The group of arguments defining one or more memberships. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◇ provide the argument --memberships on the command line with a fully specified name; ◇ provide the argument --project on the command line; ◇ set the property core/project. Location for the memberships. To set the location attribute: ◇ provide the argument --memberships on the command line with a fully specified name; ◇ provide the argument --location on the command line; ◇ set the property gkehub/location.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: How often Policy Controller will audit resources, in seconds.
+    /// How often Policy Controller will audit resources, in seconds.
     /// </summary>
     [CliOption("--audit-interval", Format = OptionFormat.EqualsSeparated)]
     public string? AuditInterval { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: The number of violations stored on the constraint resource. Must be greater than 0.
+    /// The number of violations stored on the constraint resource. Must be greater than 0.
     /// </summary>
     [CliOption("--constraint-violation-limit", Format = OptionFormat.EqualsSeparated)]
     public string? ConstraintViolationLimit { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: If set, Policy content, including the template library and policy bundles, will not be installed.
+    /// If set, Policy content, including the template library and policy bundles, will not be installed.
     /// </summary>
     [CliFlag("--no-content")]
     public bool? NoContent { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: If set, skip installing the default bundle of policy-essentials.
+    /// If set, skip installing the default bundle of policy-essentials.
     /// </summary>
     [CliFlag("--no-default-bundles")]
     public bool? NoDefaultBundles { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: The version of Policy Controller to install; defaults to latest version.
+    /// The version of Policy Controller to install; defaults to latest version.
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: Exemptable Namespace flags. At most one of these can be specified: Removes any namespace exemptions, enabling Policy Controller on all namespaces. Setting this flag will overwrite currently exempted namespaces, not append.
+    /// Exemptable Namespace flags. At most one of these can be specified: Removes any namespace exemptions, enabling Policy Controller on all namespaces. Setting this flag will overwrite currently exempted namespaces, not append.
     /// </summary>
     [CliFlag("--clear-exemptable-namespaces")]
     public bool? ClearExemptableNamespaces { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: Exemptable Namespace flags. At most one of these can be specified: Namespaces that Policy Controller should ignore, separated by commas if multiple are supplied.
+    /// Exemptable Namespace flags. At most one of these can be specified: Namespaces that Policy Controller should ignore, separated by commas if multiple are supplied.
     /// </summary>
     [CliOption("--exemptable-namespaces", Format = OptionFormat.EqualsSeparated)]
     public string? ExemptableNamespaces { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: Log Denies flags. At most one of these can be specified: If set, log all denies and dry run failures. (To disable, use --no-log-denies)
+    /// Log Denies flags. At most one of these can be specified: If set, log all denies and dry run failures. (To disable, use --no-log-denies)
     /// </summary>
     [CliFlag("--log-denies")]
     public bool? LogDenies { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: Log Denies flags. At most one of these can be specified: If set, disable all log denies.
+    /// Negates --log-denies. Log Denies flags. At most one of these can be specified: If set, log all denies and dry run failures. (To disable, use --no-log-denies)
     /// </summary>
     [CliFlag("--no-log-denies")]
     public bool? NoLogDenies { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: Monitoring flags. At most one of these can be specified: Monitoring backend options Policy Controller should export metrics to, separated by commas if multiple are supplied. Setting this flag will overwrite currently enabled backends, not append. Options: prometheus, cloudmonitoring
+    /// Monitoring flags. At most one of these can be specified: Monitoring backend options Policy Controller should export metrics to, separated by commas if multiple are supplied. Setting this flag will overwrite currently enabled backends, not append. Options: prometheus, cloudmonitoring
     /// </summary>
     [CliOption("--monitoring", Format = OptionFormat.EqualsSeparated)]
     public string? Monitoring { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: Monitoring flags. At most one of these can be specified: Include this flag to disable the monitoring configuration of Policy Controller.
+    /// Monitoring flags. At most one of these can be specified: Include this flag to disable the monitoring configuration of Policy Controller.
     /// </summary>
     [CliFlag("--no-monitoring")]
     public bool? NoMonitoring { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: Mutation flags. At most one of these can be specified: If set, enable support for mutation. (To disable, use --no-mutation)
+    /// Mutation flags. At most one of these can be specified: If set, enable support for mutation. (To disable, use --no-mutation)
     /// </summary>
     [CliFlag("--mutation")]
     public bool? Mutation { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: Mutation flags. At most one of these can be specified: Disables mutation support.
+    /// Negates --mutation. Mutation flags. At most one of these can be specified: If set, enable support for mutation. (To disable, use --no-mutation)
     /// </summary>
     [CliFlag("--no-mutation")]
     public bool? NoMutation { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: Referential Rules flags. At most one of these can be specified: If set, enable support for referential constraints. (To disable, use --no-referential-rules)
+    /// Referential Rules flags. At most one of these can be specified: If set, enable support for referential constraints. (To disable, use --no-referential-rules)
     /// </summary>
     [CliFlag("--referential-rules")]
     public bool? ReferentialRules { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: Referential Rules flags. At most one of these can be specified: Disables referential rules support.
+    /// Negates --referential-rules. Referential Rules flags. At most one of these can be specified: If set, enable support for referential constraints. (To disable, use --no-referential-rules)
     /// </summary>
     [CliFlag("--no-referential-rules")]
     public bool? NoReferentialRules { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: Flags for setting Fleet Default Configuration files. At most one of these can be specified: The path to a policy-controller.yaml configuration file. If specified, this configuration will become the default Policy Controller configuration for all memberships in your fleet. It can be overridden with a membership-specific configuration by using the the Update command. To enable the Policy Controller Feature with a fleet-level default membership configuration, run: $ gcloud container hub policycontroller enable \ --fleet-default-member-config=/path/to/policy-controller.yaml
+    /// Flags for setting Fleet Default Configuration files. At most one of these can be specified: The path to a policy-controller.yaml configuration file. If specified, this configuration will become the default Policy Controller configuration for all memberships in your fleet. It can be overridden with a membership-specific configuration by using the the Update command. To enable the Policy Controller Feature with a fleet-level default membership configuration, run: $ gcloud container hub policycontroller enable \ --fleet-default-member-config=/path/to/policy-controller.yaml
     /// </summary>
     [CliOption("--fleet-default-member-config", Format = OptionFormat.EqualsSeparated)]
     public string? FleetDefaultMemberConfig { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Membership flags. At most one of these can be specified: Flags for setting Fleet Default Configuration files. At most one of these can be specified: Removes the fleet default configuration for policy controller. Memberships configured with the fleet default will maintain their current configuration. $ gcloud container hub policycontroller enable \ --no-fleet-default-member-config
+    /// Flags for setting Fleet Default Configuration files. At most one of these can be specified: Removes the fleet default configuration for policy controller. Memberships configured with the fleet default will maintain their current configuration. $ gcloud container hub policycontroller enable \ --no-fleet-default-member-config
     /// </summary>
     [CliFlag("--no-fleet-default-member-config")]
     public bool? NoFleetDefaultMemberConfig { get; set; }

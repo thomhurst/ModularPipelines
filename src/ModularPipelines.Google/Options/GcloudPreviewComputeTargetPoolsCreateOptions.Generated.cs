@@ -59,7 +59,10 @@ public record GcloudPreviewComputeTargetPoolsCreateOptions(
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
-    [Obsolete("SessionAffinity is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The type of session affinity to use. Supports both TCP and UDP. SESSION_AFFINITY must be one of: CLIENT_IP Route requests to instances based on the hash of the client's IP address. CLIENT_IP_PROTO Connections from the same client IP with the same IP protocol will go to the same VM in the pool while that VM remains healthy. NONE Session affinity is disabled.
+    /// </summary>
+    [CliOption("--session-affinity", Format = OptionFormat.EqualsSeparated)]
     public string? SessionAffinity { get; set; }
 
 }

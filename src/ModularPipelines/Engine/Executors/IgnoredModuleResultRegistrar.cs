@@ -2,11 +2,8 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Distributed;
-using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
@@ -28,8 +25,7 @@ internal class IgnoredModuleResultRegistrar(
     IPipelineContextProvider pipelineContextProvider,
     IModuleDependencyRegistry dependencyRegistry,
     IModuleMetadataRegistry metadataRegistry,
-    IOptions<DistributedOptions> distributedOptions,
-    RoleDetector roleDetector,
+    IExecutionLocationContext executionLocationContext,
     ILogger<IgnoredModuleResultRegistrar> logger,
     ModulePlanningSkipEvaluator modulePlanningSkipEvaluator) : IIgnoredModuleResultRegistrar
 {
@@ -38,8 +34,7 @@ internal class IgnoredModuleResultRegistrar(
     private readonly IPipelineContextProvider _pipelineContextProvider = pipelineContextProvider;
     private readonly IModuleDependencyRegistry _dependencyRegistry = dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry = metadataRegistry;
-    private readonly IOptions<DistributedOptions> _distributedOptions = distributedOptions;
-    private readonly RoleDetector _roleDetector = roleDetector;
+    private readonly IExecutionLocationContext _executionLocationContext = executionLocationContext;
     private readonly ILogger<IgnoredModuleResultRegistrar> _logger = logger;
     private readonly ModulePlanningSkipEvaluator _modulePlanningSkipEvaluator = modulePlanningSkipEvaluator;
 
@@ -79,7 +74,7 @@ internal class IgnoredModuleResultRegistrar(
         CancellationToken cancellationToken)
     {
         var usedHistoryModuleTypes = new HashSet<Type>();
-        if (IsDistributedWorker())
+        if (_executionLocationContext.IsWorker)
         {
             return usedHistoryModuleTypes;
         }
@@ -109,7 +104,7 @@ internal class IgnoredModuleResultRegistrar(
         IReadOnlyDictionary<IModule, IModule>? historyModules,
         CancellationToken cancellationToken)
     {
-        if (IsDistributedWorker())
+        if (_executionLocationContext.IsWorker)
         {
             return new IgnoredModuleResolution(organizedModules, new HashSet<Type>());
         }
@@ -509,13 +504,6 @@ internal class IgnoredModuleResultRegistrar(
         IModule module,
         IReadOnlyDictionary<IModule, IModule>? historyModules) =>
         historyModules is null ? module : historyModules[module];
-
-    private bool IsDistributedWorker()
-    {
-        var options = _distributedOptions.Value;
-        return options.Enabled
-               && _roleDetector.DetectRole() == DistributedRole.Worker;
-    }
 
     private IModuleResult CreateIgnoredModuleResult(
         IgnoredModule ignoredModule,

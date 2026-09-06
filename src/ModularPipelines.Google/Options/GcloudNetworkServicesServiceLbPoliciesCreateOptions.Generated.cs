@@ -45,13 +45,22 @@ public record GcloudNetworkServicesServiceLbPoliciesCreateOptions : GcloudOption
     [CliOption("--failover-health-threshold", Format = OptionFormat.EqualsSeparated)]
     public string? FailoverHealthThreshold { get; set; }
 
-    [Obsolete("IsolationConfigGranularity is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The granularity of the isolation. ISOLATION_CONFIG_GRANULARITY must be one of: region Traffic for this service will be isolated at the nearest cloud region. unspecified No isolation is configured for the backend service. Traffic can overflow based on the load balancing algorithm.
+    /// </summary>
+    [CliOption("--isolation-config-granularity", Format = OptionFormat.EqualsSeparated)]
     public string? IsolationConfigGranularity { get; set; }
 
-    [Obsolete("IsolationConfigMode is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The granularity of the isolation. ISOLATION_CONFIG_MODE must be one of: nearest Traffic will be sent to the nearest location. strict Traffic will fail if no serving backends are available in the same region as the load balancer. unspecified No isolation mode is configured for the backend service.
+    /// </summary>
+    [CliOption("--isolation-config-mode", Format = OptionFormat.EqualsSeparated)]
     public string? IsolationConfigMode { get; set; }
 
-    [Obsolete("LoadBalancingAlgorithm is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The global load balancing algorithm to be used. LOAD_BALANCING_ALGORITHM must be one of: spray-to-region Spread the traffic from each client to all the MIGs/NEGs in a region. spray-to-world Balance traffic across all backends across the world proportionally based on capacity. waterfall-by-region Direct traffic to the nearest region with endpoints and capacity before spilling over to other regions. waterfall-by-zone Attempt to keep traffic in a single zone closest to the client, before spilling over to other zones.
+    /// </summary>
+    [CliOption("--load-balancing-algorithm", Format = OptionFormat.EqualsSeparated)]
     public string? LoadBalancingAlgorithm { get; set; }
 
 }

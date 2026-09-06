@@ -43,6 +43,12 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     public string? Concurrency { get; set; }
 
     /// <summary>
+    /// Specify which of the outbound traffic to send through Direct VPC egress. Configuring Direct VPC network is required to use this flag. DIRECT_VPC_EGRESS must be one of: private-ranges-only, all, all-traffic.
+    /// </summary>
+    [CliOption("--direct-vpc-egress", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDirectVpcEgress? DirectVpcEgress { get; set; }
+
+    /// <summary>
     /// (DEPRECATED) Docker Registry to use for storing the function's Docker images. The option artifact-registry is used by default. With the general transition from Container Registry to Artifact Registry, the option to specify docker registry is deprecated. All container image storage and management will automatically transition to Artifact Registry. For more information, see https://cloud.google.com/artifact-registry/docs/transition/transition-from-gcr DOCKER_REGISTRY must be one of: artifact-registry, container-registry.
     /// </summary>
     [CliOption("--docker-registry", Format = OptionFormat.EqualsSeparated)]
@@ -94,7 +100,7 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     /// The email address of the IAM service account associated with the Cloud Run service for the function. The service account represents the identity of the running function, and determines what permissions the function has. If not provided, the function will use the project's default service account for Compute Engine.
     /// </summary>
     [CliOption("--run-service-account", Format = OptionFormat.EqualsSeparated)]
-    public string? RunServiceAccountValue { get; set; }
+    public string? RunServiceAccount { get; set; }
 
     /// <summary>
     /// Runtime in which to run the function. Required when deploying a new function; optional when updating an existing function. For a list of available runtimes, run gcloud functions runtimes list.
@@ -112,7 +118,7 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     /// Security level controls whether a function's URL supports HTTPS only or both HTTP and HTTPS. By default, secure-always will be used, meaning only HTTPS is supported. SECURITY_LEVEL must be one of: secure-always, secure-optional.
     /// </summary>
     [CliOption("--security-level", Format = OptionFormat.EqualsSeparated)]
-    public string? SecurityLevel { get; set; }
+    public GcloudSecurityLevel? SecurityLevel { get; set; }
 
     /// <summary>
     /// If specified, latest function revision will be served all traffic.
@@ -124,10 +130,10 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     /// The email address of the IAM service account associated with the function at runtime. The service account represents the identity of the running function, and determines what permissions the function has. If not provided, the function will use the project's default service account for Compute Engine.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public string? ServiceAccountValue { get; set; }
+    public string? ServiceAccount { get; set; }
 
     /// <summary>
-    /// Location of source code to deploy. Location of the source can be one of the following three options: * Source code in Google Cloud Storage (must be a .zip archive), * Reference to source repository or, * Local filesystem path (root directory of function source). Note that, depending on your runtime type, Cloud Functions will look for files with specific names for deployable functions. For Node.js, these filenames are index.js or function.js. For Python, this is main.py. If you do not specify the --source flag: * The current directory will be used for new function deployments. * If the function was previously deployed using a local filesystem path, then the function's source code will be updated using the current directory. * If the function was previously deployed using a Google Cloud Storage location or a source repository, then the function's source code will not be updated. The value of the flag will be interpreted as a Cloud Storage location, if it starts with gs://. The value will be interpreted as a reference to a source repository, if it starts with https://. Otherwise, it will be interpreted as the local filesystem path. When deploying source from the local filesystem, this command skips files specified in the .gcloudignore file (see gcloud topic gcloudignore for more information). If the .gcloudignore file doesn't exist, the command will try to create it. The minimal source repository URL is: https://source.developers.google.com/projects/${PROJECT}/repos/${REPO} By using the URL above, sources from the root directory of the repository on the revision tagged master will be used. If you want to deploy from a revision different from master, append one of the following three sources to the URL: * /revisions/${REVISION}, * /moveable-aliases/${MOVEABLE_ALIAS}, * /fixed-aliases/${FIXED_ALIAS}. If you'd like to deploy sources from a directory different from the root, you must specify a revision, a moveable alias, or a fixed alias, as above, and append /paths/${PATH_TO_SOURCES_DIRECTORY} to the URL. Overall, the URL should match the following regular expression: ^https://source\.developers\.google\.com/projects/ (?&lt;accountId&gt;[^/]+)/repos/(?&lt;repoName&gt;[^/]+) (((/revisions/(?&lt;commit&gt;[^/]+))|(/moveable-aliases/(?&lt;branch&gt;[^/]+))| (/fixed-aliases/(?&lt;tag&gt;[^/]+)))(/paths/(?&lt;path&gt;.*))?)?$ An example of a validly formatted source repository URL is: https://source.developers.google.com/projects/123456789/repos/testrepo/ moveable-aliases/alternate-branch/paths/path-to=source
+    /// Location of source code to deploy. Location of the source can be one of the following three options: ◆ Source code in Google Cloud Storage (must be a .zip archive), ◆ Reference to source repository or, ◆ Local filesystem path (root directory of function source). Note that, depending on your runtime type, Cloud Functions will look for files with specific names for deployable functions. For Node.js, these filenames are index.js or function.js. For Python, this is main.py. If you do not specify the --source flag: ◆ The current directory will be used for new function deployments. ◆ If the function was previously deployed using a local filesystem path, then the function's source code will be updated using the current directory. ◆ If the function was previously deployed using a Google Cloud Storage location or a source repository, then the function's source code will not be updated. The value of the flag will be interpreted as a Cloud Storage location, if it starts with gs://. The value will be interpreted as a reference to a source repository, if it starts with https://. Otherwise, it will be interpreted as the local filesystem path. When deploying source from the local filesystem, this command skips files specified in the .gcloudignore file (see gcloud topic gcloudignore for more information). If the .gcloudignore file doesn't exist, the command will try to create it. The minimal source repository URL is: https://source.developers.google.com/projects/${PROJECT}/repos/${REPO} By using the URL above, sources from the root directory of the repository on the revision tagged master will be used. If you want to deploy from a revision different from master, append one of the following three sources to the URL: ◆ /revisions/${REVISION}, ◆ /moveable-aliases/${MOVEABLE_ALIAS}, ◆ /fixed-aliases/${FIXED_ALIAS}. If you'd like to deploy sources from a directory different from the root, you must specify a revision, a moveable alias, or a fixed alias, as above, and append /paths/${PATH_TO_SOURCES_DIRECTORY} to the URL. Overall, the URL should match the following regular expression: ^https://source\.developers\.google\.com/projects/ (?&lt;accountId&gt;[^/]+)/repos/(?&lt;repoName&gt;[^/]+) (((/revisions/(?&lt;commit&gt;[^/]+))|(/moveable-aliases/(?&lt;branch&gt;[^/]+))| (/fixed-aliases/(?&lt;tag&gt;[^/]+)))(/paths/(?&lt;path&gt;.*))?)?$ An example of a validly formatted source repository URL is: https://source.developers.google.com/projects/123456789/repos/testrepo/ moveable-aliases/alternate-branch/paths/path-to=source
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }
@@ -190,19 +196,19 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     /// At most one of these can be specified: List of key-value pairs to set as build environment variables. All existing build environment variables will be removed first.
     /// </summary>
     [CliOption("--set-build-env-vars", Format = OptionFormat.EqualsSeparated)]
-    public string? SetBuildEnvVars { get; set; }
+    public IReadOnlyList<KeyValue>? SetBuildEnvVars { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Only --update-build-env-vars and --remove-build-env-vars can be used together. If both are specified, --remove-build-env-vars will be applied first. List of build environment variables to be removed.
+    /// At most one of these can be specified: Or at least one of these can be specified: Only --update-build-env-vars and --remove-build-env-vars can be used together. If both are specified, --remove-build-env-vars will be applied first. List of build environment variables to be removed.
     /// </summary>
     [CliOption("--remove-build-env-vars", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveBuildEnvVarsValues { get; set; }
+    public IEnumerable<string>? RemoveBuildEnvVars { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Only --update-build-env-vars and --remove-build-env-vars can be used together. If both are specified, --remove-build-env-vars will be applied first. List of key-value pairs to set as build environment variables.
+    /// At most one of these can be specified: Or at least one of these can be specified: Only --update-build-env-vars and --remove-build-env-vars can be used together. If both are specified, --remove-build-env-vars will be applied first. List of key-value pairs to set as build environment variables.
     /// </summary>
     [CliOption("--update-build-env-vars", Format = OptionFormat.EqualsSeparated)]
-    public string? UpdateBuildEnvVars { get; set; }
+    public IReadOnlyList<KeyValue>? UpdateBuildEnvVars { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: IAM service account whose credentials will be used for the build step. Must be of the format projects/${PROJECT_ID}/serviceAccounts/${ACCOUNT_EMAIL_ADDRESS}. If not provided, the function will use the project's default service account for Cloud Build.
@@ -235,7 +241,7 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     public bool? ClearDockerRepository { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Sets the Docker repository to be used for storing the Cloud Function's Docker images while the function is being deployed. DOCKER_REPOSITORY must be an Artifact Registry Docker repository present in the same project and location as the Cloud Function. **Preview:** for 2nd gen functions, a Docker Artifact registry repository in a different project and/or location may be used. Additional requirements apply, see https://cloud.google.com/functions/docs/building#image_registry The repository name should match one of these patterns: + projects/${PROJECT}/locations/${LOCATION}/repositories/${REPOSITORY}, + {LOCATION}-docker.pkg.dev/{PROJECT}/{REPOSITORY}. where ${PROJECT} is the project, ${LOCATION} is the location of the repository and ${REPOSITORY} is a valid repository ID.
+    /// At most one of these can be specified: Sets the Docker repository to be used for storing the Cloud Function's Docker images while the function is being deployed. DOCKER_REPOSITORY must be an Artifact Registry Docker repository present in the same project and location as the Cloud Function. **Preview:** for 2nd gen functions, a Docker Artifact registry repository in a different project and/or location may be used. Additional requirements apply, see https://cloud.google.com/functions/docs/building#image_registry The repository name should match one of these patterns: ▸ projects/${PROJECT}/locations/${LOCATION}/repositories/${REPOSITORY}, ▸ {LOCATION}-docker.pkg.dev/{PROJECT}/{REPOSITORY}. where ${PROJECT} is the project, ${LOCATION} is the location of the repository and ${REPOSITORY} is a valid repository ID.
     /// </summary>
     [CliOption("--docker-repository", Format = OptionFormat.EqualsSeparated)]
     public string? DockerRepository { get; set; }
@@ -256,19 +262,19 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     /// At most one of these can be specified: List of key-value pairs to set as environment variables. All existing environment variables will be removed first.
     /// </summary>
     [CliOption("--set-env-vars", Format = OptionFormat.EqualsSeparated)]
-    public string? SetEnvVars { get; set; }
+    public IReadOnlyList<KeyValue>? SetEnvVars { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of environment variables to be removed.
+    /// At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of environment variables to be removed.
     /// </summary>
     [CliOption("--remove-env-vars", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveEnvVarsValues { get; set; }
+    public IEnumerable<string>? RemoveEnvVars { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of key-value pairs to set as environment variables.
+    /// At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of key-value pairs to set as environment variables.
     /// </summary>
     [CliOption("--update-env-vars", Format = OptionFormat.EqualsSeparated)]
-    public string? UpdateEnvVars { get; set; }
+    public IReadOnlyList<KeyValue>? UpdateEnvVars { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Clears the KMS crypto key used to encrypt the function.
@@ -292,7 +298,7 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.Label keys starting with deployment are reserved for use by deployment tools and cannot be specified manually.
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveLabelsValues { get; set; }
+    public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Clears the maximum instances setting for the function. If it's any 2nd gen function or a 1st gen HTTP function, this flag sets maximum instances to 0, which means there is no limit to maximum instances. If it's an event-driven 1st gen function, this flag sets maximum instances to 3000, which is the default value for 1st gen functions.
@@ -319,27 +325,57 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     public string? MinInstances { get; set; }
 
     /// <summary>
+    /// At most one of these can be specified: Disconnect this Cloud Function from the Direct VPC network it is connected to.
+    /// </summary>
+    [CliFlag("--clear-network")]
+    public bool? ClearNetwork { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. The VPC network that the Cloud Function will be able to send traffic to. If --subnet is also specified, subnet must be a subnetwork of the network specified by this --network flag. To clear existing VPC network settings, use --clear-network.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. The VPC subnetwork that the Cloud Function will get IPs from. The subnetwork must be /26 or larger. If --network is also specified, subnet must be a subnetwork of the network specified by the --network flag. If --network is not specified, network will be looked up from this subnetwork. To clear existing VPC network settings, use --clear-network.
+    /// </summary>
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Clears all existing network tags from the Cloud Function.
+    /// </summary>
+    [CliFlag("--clear-network-tags")]
+    public bool? ClearNetworkTags { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Applies the given network tags (comma separated) to the Cloud Function. To clear existing tags, use --clear-network-tags.
+    /// </summary>
+    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NetworkTags { get; set; }
+
+    /// <summary>
     /// At most one of these can be specified: Remove all secret environment variables and volumes.
     /// </summary>
     [CliFlag("--clear-secrets")]
     public bool? ClearSecrets { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of secret environment variables and secret volumes to configure. Existing secrets configuration will be overwritten. You can reference a secret value referred to as SECRET_VALUE_REF in the help text in the following ways. + Use ${SECRET}:${VERSION} if you are referencing a secret in the same project, where ${SECRET} is the name of the secret in secret manager (not the full resource name) and ${VERSION} is the version of the secret which is either a positive integer or the label latest. For example, use SECRET_FOO:1 to reference version 1 of the secret SECRET_FOO which exists in the same project as the function. + Use projects/${PROJECT}/secrets/${SECRET}/versions/${VERSION} or projects/${PROJECT}/secrets/${SECRET}:${VERSION} to reference a secret version using the full resource name, where ${PROJECT} is either the project number (preferred) or the project ID of the project which contains the secret, ${SECRET} is the name of the secret in secret manager (not the full resource name) and ${VERSION} is the version of the secret which is either a positive integer or the label latest. For example, use projects/1234567890/secrets/SECRET_FOO/versions/1 or projects/project_id/secrets/SECRET_FOO/versions/1 to reference version 1 of the secret SECRET_FOO that exists in the project 1234567890 or project_id respectively. This format is useful when the secret exists in a different project. To configure the secret as an environment variable, use SECRET_ENV_VAR=SECRET_VALUE_REF. To use the value of the secret, read the environment variable SECRET_ENV_VAR as you would normally do in the function's programming language. We recommend using a numeric version for secret environment variables as any updates to the secret value are not reflected until new clones start. To mount the secret within a volume use /secret_path=SECRET_VALUE_REF or /mount_path:/secret_file_path=SECRET_VALUE_REF. To use the value of the secret, read the file at /secret_path as you would normally do in the function's programming language. For example, /etc/secrets/secret_foo=SECRET_FOO:latest or /etc/secrets:/secret_foo=SECRET_FOO:latest will make the value of the latest version of the secret SECRET_FOO available in a file secret_foo under the directory /etc/secrets. /etc/secrets will be considered as the mount path and will not be available for any other volume. We recommend referencing the latest version when using secret volumes so that the secret's value changes are reflected immediately.
+    /// At most one of these can be specified: List of secret environment variables and secret volumes to configure. Existing secrets configuration will be overwritten. You can reference a secret value referred to as SECRET_VALUE_REF in the help text in the following ways. ▸ Use ${SECRET}:${VERSION} if you are referencing a secret in the same project, where ${SECRET} is the name of the secret in secret manager (not the full resource name) and ${VERSION} is the version of the secret which is either a positive integer or the label latest. For example, use SECRET_FOO:1 to reference version 1 of the secret SECRET_FOO which exists in the same project as the function. ▸ Use projects/${PROJECT}/secrets/${SECRET}/versions/${VERSION} or projects/${PROJECT}/secrets/${SECRET}:${VERSION} to reference a secret version using the full resource name, where ${PROJECT} is either the project number (preferred) or the project ID of the project which contains the secret, ${SECRET} is the name of the secret in secret manager (not the full resource name) and ${VERSION} is the version of the secret which is either a positive integer or the label latest. For example, use projects/1234567890/secrets/SECRET_FOO/versions/1 or projects/project_id/secrets/SECRET_FOO/versions/1 to reference version 1 of the secret SECRET_FOO that exists in the project 1234567890 or project_id respectively. This format is useful when the secret exists in a different project. To configure the secret as an environment variable, use SECRET_ENV_VAR=SECRET_VALUE_REF. To use the value of the secret, read the environment variable SECRET_ENV_VAR as you would normally do in the function's programming language. We recommend using a numeric version for secret environment variables as any updates to the secret value are not reflected until new clones start. To mount the secret within a volume use /secret_path=SECRET_VALUE_REF or /mount_path:/secret_file_path=SECRET_VALUE_REF. To use the value of the secret, read the file at /secret_path as you would normally do in the function's programming language. For example, /etc/secrets/secret_foo=SECRET_FOO:latest or /etc/secrets:/secret_foo=SECRET_FOO:latest will make the value of the latest version of the secret SECRET_FOO available in a file secret_foo under the directory /etc/secrets. /etc/secrets will be considered as the mount path and will not be available for any other volume. We recommend referencing the latest version when using secret volumes so that the secret's value changes are reflected immediately.
     /// </summary>
     [SecretValue]
     [CliOption("--set-secrets", Format = OptionFormat.EqualsSeparated)]
     public string? SetSecrets { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, then --remove-secrets will be applied first. List of secret environment variable names and secret paths to remove. Existing secrets configuration of secret environment variable names and secret paths not specified in this list will be preserved. To remove a secret environment variable, use the name of the environment variable SECRET_ENV_VAR. To remove a file within a secret volume or the volume itself, use the secret path as the key (either /secret_path or /mount_path:/secret_file_path).
+    /// At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, then --remove-secrets will be applied first. List of secret environment variable names and secret paths to remove. Existing secrets configuration of secret environment variable names and secret paths not specified in this list will be preserved. To remove a secret environment variable, use the name of the environment variable SECRET_ENV_VAR. To remove a file within a secret volume or the volume itself, use the secret path as the key (either /secret_path or /mount_path:/secret_file_path).
     /// </summary>
     [SecretValue]
     [CliOption("--remove-secrets", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? RemoveSecretsValues { get; set; }
+    public IEnumerable<string>? RemoveSecrets { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, then --remove-secrets will be applied first. List of secret environment variables and secret volumes to update. Existing secrets configuration not specified in this list will be preserved.
+    /// At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, then --remove-secrets will be applied first. List of secret environment variables and secret volumes to update. Existing secrets configuration not specified in this list will be preserved.
     /// </summary>
     [SecretValue]
     [CliOption("--update-secrets", Format = OptionFormat.EqualsSeparated)]
@@ -352,7 +388,7 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     public bool? ClearVpcConnector { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Connector resource - The VPC Access connector that the function can connect to. It can be either the fully-qualified URI, or the short name of the VPC Access connector resource. If the short name is used, the connector must belong to the same project. The format of this field is either projects/${PROJECT}/locations/${LOCATION}/connectors/${CONNECTOR} or ${CONNECTOR}, where ${CONNECTOR} is the short name of the VPC Access connector. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: + provide the argument --vpc-connector on the command line with a fully specified name; + provide the argument --project on the command line; + set the property core/project. To set the region attribute: + provide the argument --vpc-connector on the command line with a fully specified name; + provide the argument --region on the command line; + set the property functions/region. ID of the connector or fully qualified identifier for the connector. To set the connector attribute: - provide the argument --vpc-connector on the command line.
+    /// At most one of these can be specified: Or at least one of these can be specified: Connector resource - The VPC Access connector that the function can connect to. It can be either the fully-qualified URI, or the short name of the VPC Access connector resource. If the short name is used, the connector must belong to the same project. The format of this field is either projects/${PROJECT}/locations/${LOCATION}/connectors/${CONNECTOR} or ${CONNECTOR}, where ${CONNECTOR} is the short name of the VPC Access connector. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --vpc-connector on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. To set the region attribute: ▫ provide the argument --vpc-connector on the command line with a fully specified name; ▫ provide the argument --region on the command line; ▫ set the property functions/region. ID of the connector or fully qualified identifier for the connector. To set the connector attribute: ▫ provide the argument --vpc-connector on the command line.
     /// </summary>
     [CliOption("--vpc-connector", Format = OptionFormat.EqualsSeparated)]
     public string? VpcConnector { get; set; }
@@ -370,105 +406,45 @@ public record GcloudFunctionsDeployOptions : GcloudOptions
     public string? Cpu { get; set; }
 
     /// <summary>
-    /// If you don't specify a trigger when deploying an update to an existing function it will keep its current trigger. You must specify one of the following when deploying a new function: * --trigger-topic, * --trigger-bucket, * --trigger-http, * --trigger-event AND --trigger-resource, * --trigger-event-filters and optionally --trigger-event-filters-path-pattern. At most one of these can be specified: Google Cloud Storage bucket name. Trigger the function when an object is created or overwritten in the specified Cloud Storage bucket.
+    /// If you don't specify a trigger when deploying an update to an existing function it will keep its current trigger. You must specify one of the following when deploying a new function: ◆ --trigger-topic, ◆ --trigger-bucket, ◆ --trigger-http, ◆ --trigger-event AND --trigger-resource, ◆ --trigger-event-filters and optionally --trigger-event-filters-path-pattern. At most one of these can be specified: Google Cloud Storage bucket name. Trigger the function when an object is created or overwritten in the specified Cloud Storage bucket.
     /// </summary>
     [CliOption("--trigger-bucket", Format = OptionFormat.EqualsSeparated)]
     public string? TriggerBucket { get; set; }
 
     /// <summary>
-    /// If you don't specify a trigger when deploying an update to an existing function it will keep its current trigger. You must specify one of the following when deploying a new function: * --trigger-topic, * --trigger-bucket, * --trigger-http, * --trigger-event AND --trigger-resource, * --trigger-event-filters and optionally --trigger-event-filters-path-pattern. At most one of these can be specified: Function will be assigned an endpoint, which you can view by using the describe command. Any HTTP request (of a supported type) to the endpoint will trigger function execution. Supported HTTP request types are: POST, PUT, GET, DELETE, and OPTIONS.
+    /// If you don't specify a trigger when deploying an update to an existing function it will keep its current trigger. You must specify one of the following when deploying a new function: ◆ --trigger-topic, ◆ --trigger-bucket, ◆ --trigger-http, ◆ --trigger-event AND --trigger-resource, ◆ --trigger-event-filters and optionally --trigger-event-filters-path-pattern. At most one of these can be specified: Function will be assigned an endpoint, which you can view by using the describe command. Any HTTP request (of a supported type) to the endpoint will trigger function execution. Supported HTTP request types are: POST, PUT, GET, DELETE, and OPTIONS.
     /// </summary>
     [CliFlag("--trigger-http")]
     public bool? TriggerHttp { get; set; }
 
     /// <summary>
-    /// If you don't specify a trigger when deploying an update to an existing function it will keep its current trigger. You must specify one of the following when deploying a new function: * --trigger-topic, * --trigger-bucket, * --trigger-http, * --trigger-event AND --trigger-resource, * --trigger-event-filters and optionally --trigger-event-filters-path-pattern. At most one of these can be specified: Name of Pub/Sub topic. Every message published in this topic will trigger function execution with message contents passed as input data. Note that this flag does not accept the format of projects/PROJECT_ID/topics/TOPIC_ID. Use this flag to specify the final element TOPIC_ID. The PROJECT_ID will be read from the active configuration.
+    /// If you don't specify a trigger when deploying an update to an existing function it will keep its current trigger. You must specify one of the following when deploying a new function: ◆ --trigger-topic, ◆ --trigger-bucket, ◆ --trigger-http, ◆ --trigger-event AND --trigger-resource, ◆ --trigger-event-filters and optionally --trigger-event-filters-path-pattern. At most one of these can be specified: Name of Pub/Sub topic. Every message published in this topic will trigger function execution with message contents passed as input data. Note that this flag does not accept the format of projects/PROJECT_ID/topics/TOPIC_ID. Use this flag to specify the final element TOPIC_ID. The PROJECT_ID will be read from the active configuration.
     /// </summary>
     [CliOption("--trigger-topic", Format = OptionFormat.EqualsSeparated)]
     public string? TriggerTopic { get; set; }
 
     /// <summary>
-    /// If you don't specify a trigger when deploying an update to an existing function it will keep its current trigger. You must specify one of the following when deploying a new function: * --trigger-topic, * --trigger-bucket, * --trigger-http, * --trigger-event AND --trigger-resource, * --trigger-event-filters and optionally --trigger-event-filters-path-pattern. At most one of these can be specified: Specifies which action should trigger the function. For a list of acceptable values, call gcloud functions event-types list.
+    /// If you don't specify a trigger when deploying an update to an existing function it will keep its current trigger. You must specify one of the following when deploying a new function: ◆ --trigger-topic, ◆ --trigger-bucket, ◆ --trigger-http, ◆ --trigger-event AND --trigger-resource, ◆ --trigger-event-filters and optionally --trigger-event-filters-path-pattern. At most one of these can be specified: Or at least one of these can be specified: Specifies which action should trigger the function. For a list of acceptable values, call gcloud functions event-types list.
     /// </summary>
     [CliOption("--trigger-event", Format = OptionFormat.EqualsSeparated)]
     public string? TriggerEvent { get; set; }
 
     /// <summary>
-    /// If you don't specify a trigger when deploying an update to an existing function it will keep its current trigger. You must specify one of the following when deploying a new function: * --trigger-topic, * --trigger-bucket, * --trigger-http, * --trigger-event AND --trigger-resource, * --trigger-event-filters and optionally --trigger-event-filters-path-pattern. At most one of these can be specified: Specifies which resource from --trigger-event is being observed. E.g. if --trigger-event is providers/cloud.storage/eventTypes/object.change, --trigger-resource must be a bucket name. For a list of expected resources, call gcloud functions event-types list.
+    /// If you don't specify a trigger when deploying an update to an existing function it will keep its current trigger. You must specify one of the following when deploying a new function: ◆ --trigger-topic, ◆ --trigger-bucket, ◆ --trigger-http, ◆ --trigger-event AND --trigger-resource, ◆ --trigger-event-filters and optionally --trigger-event-filters-path-pattern. At most one of these can be specified: Or at least one of these can be specified: Specifies which resource from --trigger-event is being observed. E.g. if --trigger-event is providers/cloud.storage/eventTypes/object.change, --trigger-resource must be a bucket name. For a list of expected resources, call gcloud functions event-types list.
     /// </summary>
     [CliOption("--trigger-resource", Format = OptionFormat.EqualsSeparated)]
     public string? TriggerResource { get; set; }
 
     /// <summary>
-    /// If you don't specify a trigger when deploying an update to an existing function it will keep its current trigger. You must specify one of the following when deploying a new function: * --trigger-topic, * --trigger-bucket, * --trigger-http, * --trigger-event AND --trigger-resource, * --trigger-event-filters and optionally --trigger-event-filters-path-pattern. At most one of these can be specified: The Eventarc matching criteria for the trigger. The criteria can be specified either as a single comma-separated argument or as multiple arguments. The filters must include the type attribute, as well as any other attributes that are expected for the chosen type.
+    /// If you don't specify a trigger when deploying an update to an existing function it will keep its current trigger. You must specify one of the following when deploying a new function: ◆ --trigger-topic, ◆ --trigger-bucket, ◆ --trigger-http, ◆ --trigger-event AND --trigger-resource, ◆ --trigger-event-filters and optionally --trigger-event-filters-path-pattern. At most one of these can be specified: Or at least one of these can be specified: The Eventarc matching criteria for the trigger. The criteria can be specified either as a single comma-separated argument or as multiple arguments. The filters must include the type attribute, as well as any other attributes that are expected for the chosen type.
     /// </summary>
     [CliOption("--trigger-event-filters", Format = OptionFormat.EqualsSeparated)]
     public string? TriggerEventFilters { get; set; }
 
     /// <summary>
-    /// If you don't specify a trigger when deploying an update to an existing function it will keep its current trigger. You must specify one of the following when deploying a new function: * --trigger-topic, * --trigger-bucket, * --trigger-http, * --trigger-event AND --trigger-resource, * --trigger-event-filters and optionally --trigger-event-filters-path-pattern. At most one of these can be specified: The Eventarc matching criteria for the trigger in path pattern format. The criteria can be specified as a single comma-separated argument or as multiple arguments. The provided attribute/value pair will be used with the match-path-pattern operator to configure the trigger, see https://cloud.google.com/eventarc/docs/reference/rest/v1/projects.locations.triggers#eventfilter and https://cloud.google.com/eventarc/docs/path-patterns for more details about on how to construct path patterns. For example, to filter on events for Compute Engine VMs in a given zone: --trigger-event-filters-path-pattern=resourceName='/projects/*/zones/us-central1-a/instances/*'
+    /// If you don't specify a trigger when deploying an update to an existing function it will keep its current trigger. You must specify one of the following when deploying a new function: ◆ --trigger-topic, ◆ --trigger-bucket, ◆ --trigger-http, ◆ --trigger-event AND --trigger-resource, ◆ --trigger-event-filters and optionally --trigger-event-filters-path-pattern. At most one of these can be specified: Or at least one of these can be specified: The Eventarc matching criteria for the trigger in path pattern format. The criteria can be specified as a single comma-separated argument or as multiple arguments. The provided attribute/value pair will be used with the match-path-pattern operator to configure the trigger, see https://cloud.google.com/eventarc/docs/reference/rest/v1/projects.locations.triggers#eventfilter and https://cloud.google.com/eventarc/docs/path-patterns for more details about on how to construct path patterns. For example, to filter on events for Compute Engine VMs in a given zone: --trigger-event-filters-path-pattern=resourceName='/projects/*/zones/us-central1-a/instances/*'
     /// </summary>
     [CliOption("--trigger-event-filters-path-pattern", Format = OptionFormat.EqualsSeparated)]
     public string? TriggerEventFiltersPathPattern { get; set; }
-
-    [Obsolete("Use RemoveBuildEnvVarsValues instead.")]
-    public string? RemoveBuildEnvVars
-    {
-        get => RemoveBuildEnvVarsValues?.FirstOrDefault();
-        set => RemoveBuildEnvVarsValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use RemoveEnvVarsValues instead.")]
-    public string? RemoveEnvVars
-    {
-        get => RemoveEnvVarsValues?.FirstOrDefault();
-        set => RemoveEnvVarsValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use RemoveLabelsValues instead.")]
-    public string? RemoveLabels
-    {
-        get => RemoveLabelsValues?.FirstOrDefault();
-        set => RemoveLabelsValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use RemoveSecretsValues instead.")]
-    public string? RemoveSecrets
-    {
-        get => RemoveSecretsValues?.FirstOrDefault();
-        set => RemoveSecretsValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use RunServiceAccountValue instead.")]
-    public int? RunServiceAccount
-    {
-        get => int.TryParse(RunServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => RunServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ServiceAccountValue instead.")]
-    public int? ServiceAccount
-    {
-        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("DirectVpcEgress is no longer supported by the installed CLI and has no effect.")]
-    public GcloudDirectVpcEgress? DirectVpcEgress { get; set; }
-
-    [Obsolete("ClearNetwork is no longer supported by the installed CLI and has no effect.")]
-    public bool? ClearNetwork { get; set; }
-
-    [Obsolete("Network is no longer supported by the installed CLI and has no effect.")]
-    public string? Network { get; set; }
-
-    [Obsolete("Subnet is no longer supported by the installed CLI and has no effect.")]
-    public string? Subnet { get; set; }
-
-    [Obsolete("ClearNetworkTags is no longer supported by the installed CLI and has no effect.")]
-    public bool? ClearNetworkTags { get; set; }
-
-    [Obsolete("NetworkTags is no longer supported by the installed CLI and has no effect.")]
-    public string? NetworkTags { get; set; }
 
 }

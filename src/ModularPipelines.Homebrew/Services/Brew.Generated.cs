@@ -69,6 +69,15 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> BenchmarkAsync(
+        BrewBenchmarkOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> BottleAsync(
         BrewBottleOptions options,
         CommandExecutionOptions? executionOptions = null,

@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudArtifactsAttachmentsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Repository resource - Parent repository for the list of attachments. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Target for the list of attachments.
+    /// Target for the list of attachments.
     /// </summary>
     [CliOption("--target", Format = OptionFormat.EqualsSeparated)]
     public string? Target { get; set; }

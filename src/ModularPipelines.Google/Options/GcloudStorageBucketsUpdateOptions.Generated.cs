@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -46,7 +47,7 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions
     public bool? DefaultEventBasedHold { get; set; }
 
     /// <summary>
-    /// Sets the default value for an event-based hold on the bucket. By setting the default event-based hold on a bucket, newly-created objects inherit that value as their event-based hold (it is not applied retroactively). Use --default-event-based-hold to enable and --no-default-event-based-hold to disable.
+    /// Negates --default-event-based-hold. Sets the default value for an event-based hold on the bucket. By setting the default event-based hold on a bucket, newly-created objects inherit that value as their event-based hold (it is not applied retroactively). Use --default-event-based-hold to enable and --no-default-event-based-hold to disable.
     /// </summary>
     [CliFlag("--no-default-event-based-hold")]
     public bool? NoDefaultEventBasedHold { get; set; }
@@ -58,7 +59,7 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions
     public string? DefaultStorageClass { get; set; }
 
     /// <summary>
-    /// Sets the encryption enforcement configuration for the bucket from a JSON file. This configuration determines restrictions on the types of encryption (GMEK, CMEK, CSEK) allowed for new objects created in the bucket. The JSON file should contain an object with keys among "gmekEnforcement", "cmekEnforcement", and "csekEnforcement". Each of these keys, if present, should have a "restrictionMode" key, determining whether the corresponding encryption type should be allowed or restricted for new objects. Valid values for "restrictionMode" are: * "NotRestricted": The encryption type is allowed for new objects. * "FullyRestricted": The encryption type is not allowed for new objects. Example JSON file content, to enforce only CMEK for new objects: { "gmekEnforcement": { "restrictionMode": "FullyRestricted" }, "cmekEnforcement": { "restrictionMode": "NotRestricted" }, "csekEnforcement": { "restrictionMode": "FullyRestricted" } } Omitted keys will not be sent in the API request. To clear restrictions for a specific encryption-type during an update, set its "restrictionMode" to "NotRestricted". For example, to clear any restrictions on GMEK: { "gmekEnforcement": { "restrictionMode": "NotRestricted" } }
+    /// Sets the encryption enforcement configuration for the bucket from a JSON file. This configuration determines restrictions on the types of encryption (GMEK, CMEK, CSEK) allowed for new objects created in the bucket. The JSON file should contain an object with keys among "gmekEnforcement", "cmekEnforcement", and "csekEnforcement". Each of these keys, if present, should have a "restrictionMode" key, determining whether the corresponding encryption type should be allowed or restricted for new objects. Valid values for "restrictionMode" are: ◆ "NotRestricted": The encryption type is allowed for new objects. ◆ "FullyRestricted": The encryption type is not allowed for new objects. Example JSON file content, to enforce only CMEK for new objects: { "gmekEnforcement": { "restrictionMode": "FullyRestricted" }, "cmekEnforcement": { "restrictionMode": "NotRestricted" }, "csekEnforcement": { "restrictionMode": "FullyRestricted" } } Omitted keys will not be sent in the API request. To clear restrictions for a specific encryption-type during an update, set its "restrictionMode" to "NotRestricted". For example, to clear any restrictions on GMEK: { "gmekEnforcement": { "restrictionMode": "NotRestricted" } }
     /// </summary>
     [CliOption("--encryption-enforcement-file", Format = OptionFormat.EqualsSeparated)]
     public string? EncryptionEnforcementFile { get; set; }
@@ -79,7 +80,7 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions
     /// Sets the recovery point objective (https://cloud.google.com/architecture/dr-scenarios-planning-guide#basics_of_dr_planning) of a bucket. This flag can only be used with multi-region and dual-region buckets. DEFAULT option is valid for multi-region and dual-regions buckets. ASYNC_TURBO option is only valid for dual-region buckets. If unspecified when the bucket is created, it defaults to DEFAULT for dual-region and multi-region buckets. For more information, see replication in Cloud Storage (https://cloud.google.com/storage/docs/availability-durability#cross-region-redundancy). SETTING must be one of: ASYNC_TURBO, DEFAULT.
     /// </summary>
     [CliOption("--recovery-point-objective", Format = OptionFormat.EqualsSeparated)]
-    public string? RecoveryPointObjective { get; set; }
+    public GcloudRecoveryPointObjective? RecoveryPointObjective { get; set; }
 
     /// <summary>
     /// Allows you to configure a Cloud Storage bucket so that the requester pays all costs related to accessing the bucket and its objects. Use --requester-pays to enable and --no-requester-pays to disable.
@@ -88,7 +89,7 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions
     public bool? RequesterPays { get; set; }
 
     /// <summary>
-    /// Allows you to configure a Cloud Storage bucket so that the requester pays all costs related to accessing the bucket and its objects. Use --requester-pays to enable and --no-requester-pays to disable.
+    /// Negates --requester-pays. Allows you to configure a Cloud Storage bucket so that the requester pays all costs related to accessing the bucket and its objects. Use --requester-pays to enable and --no-requester-pays to disable.
     /// </summary>
     [CliFlag("--no-requester-pays")]
     public bool? NoRequesterPays { get; set; }
@@ -106,7 +107,7 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions
     public bool? UniformBucketLevelAccess { get; set; }
 
     /// <summary>
-    /// Enables or disables uniform bucket-level access (https://cloud.google.com/storage/docs/bucket-policy-only) for the buckets. Use --uniform-bucket-level-access to enable and --no-uniform-bucket-level-access to disable.
+    /// Negates --uniform-bucket-level-access. Enables or disables uniform bucket-level access (https://cloud.google.com/storage/docs/bucket-policy-only) for the buckets. Use --uniform-bucket-level-access to enable and --no-uniform-bucket-level-access to disable.
     /// </summary>
     [CliFlag("--no-uniform-bucket-level-access")]
     public bool? NoUniformBucketLevelAccess { get; set; }
@@ -118,7 +119,7 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions
     public bool? Versioning { get; set; }
 
     /// <summary>
-    /// Allows you to configure a Cloud Storage bucket to keep old versions of objects. Use --versioning to enable and --no-versioning to disable.
+    /// Negates --versioning. Allows you to configure a Cloud Storage bucket to keep old versions of objects. Use --versioning to enable and --no-versioning to disable.
     /// </summary>
     [CliFlag("--no-versioning")]
     public bool? NoVersioning { get; set; }
@@ -134,6 +135,12 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions
     /// </summary>
     [CliOption("--add-acl-grant", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddAclGrant { get; set; }
+
+    /// <summary>
+    /// Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl
+    /// </summary>
+    [CliOption("--canned-acl", Format = OptionFormat.EqualsSeparated)]
+    public string? CannedAcl { get; set; }
 
     /// <summary>
     /// Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage, --remove-acl-grant=ENTITY, where ENTITY has a valid ACL entity format, such as user-tim@gmail.com, group-admins, allUsers, etc.
@@ -166,144 +173,141 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions
     public string? RemoveDefaultObjectAclGrant { get; set; }
 
     /// <summary>
-    /// Clears the bucket's CORS settings.
+    /// At most one of these can be specified: Clears the bucket's CORS settings.
     /// </summary>
     [CliFlag("--clear-cors")]
     public bool? ClearCors { get; set; }
 
     /// <summary>
-    /// Sets the Cross-Origin Resource Sharing (CORS) configuration on a bucket. An example CORS JSON document looks like the following: [ { "origin": ["http://origin1.example.com"], "responseHeader": ["Content-Type"], "method": ["GET"], "maxAgeSeconds": 3600 } ] For more information about supported endpoints for CORS, see Cloud Storage CORS support (https://cloud.google.com/storage/docs/cross-origin#server-side-support).
+    /// At most one of these can be specified: Sets the Cross-Origin Resource Sharing (CORS) configuration on a bucket. An example CORS JSON document looks like the following: [ { "origin": ["http://origin1.example.com"], "responseHeader": ["Content-Type"], "method": ["GET"], "maxAgeSeconds": 3600 } ] For more information about supported endpoints for CORS, see Cloud Storage CORS support (https://cloud.google.com/storage/docs/cross-origin#server-side-support).
     /// </summary>
     [CliOption("--cors-file", Format = OptionFormat.EqualsSeparated)]
     public string? CorsFile { get; set; }
 
     /// <summary>
-    /// Clears the bucket's default encryption key.
+    /// At most one of these can be specified: Clears the bucket's default encryption key.
     /// </summary>
     [CliFlag("--clear-default-encryption-key")]
     public bool? ClearDefaultEncryptionKey { get; set; }
 
     /// <summary>
-    /// Set the default KMS key for the bucket.
+    /// At most one of these can be specified: Set the default KMS key for the bucket.
     /// </summary>
     [CliOption("--default-encryption-key", Format = OptionFormat.EqualsSeparated)]
     public string? DefaultEncryptionKey { get; set; }
 
     /// <summary>
-    /// Disables and clears IP filter configuration of the bucket.
+    /// At most one of these can be specified: Disables and clears IP filter configuration of the bucket.
     /// </summary>
     [CliFlag("--clear-ip-filter")]
     public bool? ClearIpFilter { get; set; }
 
     /// <summary>
-    /// Sets the IP filter for the bucket. The IP filter is a list of ip ranges that are allowed to access the bucket. For example, The following JSON document shows the IP filter configuration with mode enabled and list of public network sources and vpc network sources: { "mode": "Enabled", "publicNetworkSource": { "allowedIpCidrRanges": ["0.0.0.0/0"] }, "vpcNetworkSources": [ { "network": "projects/PROJECT_NAME/global/networks/NETWORK_NAME", "allowedIpCidrRanges": ["0.0.0.0/0"] }, ] } For more information about supported configurations, see Cloud Storage bucket IP filtering configurations (https://cloud.google.com/storage/docs/create-ip-filter#ip-filtering-configurations)
+    /// At most one of these can be specified: Sets the IP filter for the bucket. The IP filter is a list of ip ranges that are allowed to access the bucket. For example, The following JSON document shows the IP filter configuration with mode enabled and list of public network sources and vpc network sources: { "mode": "Enabled", "publicNetworkSource": { "allowedIpCidrRanges": ["0.0.0.0/0"] }, "vpcNetworkSources": [ { "network": "projects/PROJECT_NAME/global/networks/NETWORK_NAME", "allowedIpCidrRanges": ["0.0.0.0/0"] }, ] } For more information about supported configurations, see Cloud Storage bucket IP filtering configurations (https://cloud.google.com/storage/docs/create-ip-filter#ip-filtering-configurations)
     /// </summary>
     [CliOption("--ip-filter-file", Format = OptionFormat.EqualsSeparated)]
     public string? IpFilterFile { get; set; }
 
     /// <summary>
-    /// Clear all labels associated with a bucket.
+    /// At most one of these can be specified: Clear all labels associated with a bucket.
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Sets the label configuration for the bucket. An example label JSON document looks like the following: { "your_label_key": "your_label_value", "your_other_label_key": "your_other_label_value" }
+    /// At most one of these can be specified: Sets the label configuration for the bucket. An example label JSON document looks like the following: { "your_label_key": "your_label_value", "your_other_label_key": "your_other_label_value" }
     /// </summary>
     [CliOption("--labels-file", Format = OptionFormat.EqualsSeparated)]
     public string? LabelsFile { get; set; }
 
     /// <summary>
-    /// Remove labels by their key names.
+    /// At most one of these can be specified: Or at least one of these can be specified: Remove labels by their key names.
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
-    /// Add or update labels. Example: --update-labels=key1=value1,key2=value2
+    /// At most one of these can be specified: Or at least one of these can be specified: Add or update labels. Example: --update-labels=key1=value1,key2=value2
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Removes all lifecycle configuration for the bucket.
+    /// At most one of these can be specified: Removes all lifecycle configuration for the bucket.
     /// </summary>
     [CliFlag("--clear-lifecycle")]
     public bool? ClearLifecycle { get; set; }
 
     /// <summary>
-    /// Sets the lifecycle management configuration on a bucket. For example, The following lifecycle management configuration JSON document specifies that all objects in this bucket that are more than 365 days old are deleted automatically: { "rule": [ { "action": {"type": "Delete"}, "condition": {"age": 365} } ] }
+    /// At most one of these can be specified: Sets the lifecycle management configuration on a bucket. For example, The following lifecycle management configuration JSON document specifies that all objects in this bucket that are more than 365 days old are deleted automatically: { "rule": [ { "action": {"type": "Delete"}, "condition": {"age": 365} } ] }
     /// </summary>
     [CliOption("--lifecycle-file", Format = OptionFormat.EqualsSeparated)]
     public string? LifecycleFile { get; set; }
 
     /// <summary>
-    /// Disables usage and storage logging for the bucket specified in the overall update command.
+    /// At most one of these can be specified: Disables usage and storage logging for the bucket specified in the overall update command.
     /// </summary>
     [CliFlag("--clear-log-bucket")]
     public bool? ClearLogBucket { get; set; }
 
     /// <summary>
-    /// Enables usage and storage logging for the bucket specified in the overall update command, outputting log files to the bucket specified in this flag. Cloud Storage does not validate the existence of the bucket receiving logs. In addition to enabling logging on your bucket, you also need to grant cloud-storage-analytics@google.com write access to the log bucket.
+    /// At most one of these can be specified: Enables usage and storage logging for the bucket specified in the overall update command, outputting log files to the bucket specified in this flag. Cloud Storage does not validate the existence of the bucket receiving logs. In addition to enabling logging on your bucket, you also need to grant cloud-storage-analytics@google.com write access to the log bucket.
     /// </summary>
     [CliOption("--log-bucket", Format = OptionFormat.EqualsSeparated)]
     public string? LogBucket { get; set; }
 
     /// <summary>
-    /// Clears the prefix used to determine the naming of log objects in the logging bucket.
+    /// At most one of these can be specified: Clears the prefix used to determine the naming of log objects in the logging bucket.
     /// </summary>
     [CliFlag("--clear-log-object-prefix")]
     public bool? ClearLogObjectPrefix { get; set; }
 
     /// <summary>
-    /// Specifies a prefix for the names of logs generated in the log bucket. The default prefix is the bucket name. If logging is not enabled, this flag has no effect.
+    /// At most one of these can be specified: Specifies a prefix for the names of logs generated in the log bucket. The default prefix is the bucket name. If logging is not enabled, this flag has no effect.
     /// </summary>
     [CliOption("--log-object-prefix", Format = OptionFormat.EqualsSeparated)]
     public string? LogObjectPrefix { get; set; }
 
     /// <summary>
-    /// Unsets the public access prevention setting on a bucket.
+    /// At most one of these can be specified: Unsets the public access prevention setting on a bucket.
     /// </summary>
     [CliFlag("--clear-pap")]
     public bool? ClearPap { get; set; }
 
     /// <summary>
-    /// Clears the object retention period for a bucket.
+    /// --[no-]pap, --[no-]public-access-prevention If True, sets public access prevention (https://cloud.google.com/storage/docs/public-access-prevention) to "enforced". If False, sets public access prevention to "inherited". Use --public-access-prevention to enable and --no-public-access-prevention to disable. At most one of these can be specified: Clears the object retention period for a bucket.
     /// </summary>
     [CliFlag("--clear-retention-period")]
     public bool? ClearRetentionPeriod { get; set; }
 
     /// <summary>
-    /// Minimum retention period (https://cloud.google.com/storage/docs/bucket-lock#retention-periods) for objects stored in the bucket, for example --retention-period=P1Y1M1DT5S. Objects added to the bucket cannot be deleted until they've been stored for the specified length of time. Default is no retention period. Only available for Cloud Storage using the JSON API.
+    /// --[no-]pap, --[no-]public-access-prevention If True, sets public access prevention (https://cloud.google.com/storage/docs/public-access-prevention) to "enforced". If False, sets public access prevention to "inherited". Use --public-access-prevention to enable and --no-public-access-prevention to disable. At most one of these can be specified: Minimum retention period (https://cloud.google.com/storage/docs/bucket-lock#retention-periods) for objects stored in the bucket, for example --retention-period=P1Y1M1DT5S. Objects added to the bucket cannot be deleted until they've been stored for the specified length of time. Default is no retention period. Only available for Cloud Storage using the JSON API.
     /// </summary>
     [CliOption("--retention-period", Format = OptionFormat.EqualsSeparated)]
     public string? RetentionPeriod { get; set; }
 
     /// <summary>
-    /// Clear website error page if bucket is hosting website.
+    /// At most one of these can be specified: Clear website error page if bucket is hosting website.
     /// </summary>
     [CliFlag("--clear-web-error-page")]
     public bool? ClearWebErrorPage { get; set; }
 
     /// <summary>
-    /// Cloud Storage allows you to configure a bucket to behave like a static website. A subsequent GET bucket request through a custom domain for a non-existent object serves the specified error page instead of the standard Cloud Storage error.
+    /// At most one of these can be specified: Cloud Storage allows you to configure a bucket to behave like a static website. A subsequent GET bucket request through a custom domain for a non-existent object serves the specified error page instead of the standard Cloud Storage error.
     /// </summary>
     [CliOption("--web-error-page", Format = OptionFormat.EqualsSeparated)]
     public string? WebErrorPage { get; set; }
 
     /// <summary>
-    /// Clear website main page suffix if bucket is hosting website.
+    /// At most one of these can be specified: Clear website main page suffix if bucket is hosting website.
     /// </summary>
     [CliFlag("--clear-web-main-page-suffix")]
     public bool? ClearWebMainPageSuffix { get; set; }
 
     /// <summary>
-    /// Cloud Storage allows you to configure a bucket to behave like a static website. A subsequent GET bucket request through a custom domain serves the specified "main" page instead of performing the usual bucket listing.
+    /// At most one of these can be specified: Cloud Storage allows you to configure a bucket to behave like a static website. A subsequent GET bucket request through a custom domain serves the specified "main" page instead of performing the usual bucket listing.
     /// </summary>
     [CliOption("--web-main-page-suffix", Format = OptionFormat.EqualsSeparated)]
     public string? WebMainPageSuffix { get; set; }
-
-    [Obsolete("CannedAcl is no longer supported by the installed CLI and has no effect.")]
-    public string? CannedAcl { get; set; }
 
 }

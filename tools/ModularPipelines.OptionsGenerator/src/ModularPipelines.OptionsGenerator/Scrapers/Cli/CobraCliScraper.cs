@@ -245,6 +245,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
     private static string? ExtractDescription(string helpText)
     {
         var lines = helpText.Split('\n');
+        var insideUsageSection = false;
 
         // Skip empty lines and look for the first non-usage, non-section line
         foreach (var line in lines)
@@ -252,6 +253,18 @@ public abstract partial class CobraCliScraper : CliScraperBase
             var trimmed = line.Trim();
 
             if (string.IsNullOrEmpty(trimmed))
+            {
+                insideUsageSection = false;
+                continue;
+            }
+
+            if (trimmed.StartsWith("Usage:", StringComparison.OrdinalIgnoreCase))
+            {
+                insideUsageSection = true;
+                continue;
+            }
+
+            if (insideUsageSection)
             {
                 continue;
             }
@@ -262,8 +275,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
             }
 
             // Skip section headers
-            if (trimmed.EndsWith(':') ||
-                trimmed.StartsWith("Usage:", StringComparison.OrdinalIgnoreCase))
+            if (trimmed.EndsWith(':'))
             {
                 continue;
             }
@@ -278,10 +290,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
             }
 
             // Found a description line
-            if (trimmed.Length > 10)
-            {
-                return trimmed;
-            }
+            return trimmed;
         }
 
         return null;
@@ -308,17 +317,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
             var lines = section.Split('\n');
             for (var i = 0; i < lines.Length; i++)
             {
-                var line = lines[i];
-
-                // Try standard Cobra pattern first (Docker, Helm)
-                var match = CobraOptionPattern().Match(line);
-
-                // If not matched, try kubectl pattern: "-s, --long=default:"
-                if (!match.Success)
-                {
-                    match = KubectlOptionPattern().Match(line);
-                }
-
+                var match = MatchOptionRow(lines[i]);
                 if (!match.Success)
                 {
                     continue;
@@ -329,12 +328,10 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 var typeHint = match.Groups["type"].Value.Trim();
                 var hasOptionalValue = TryNormalizeOptionalValueTypeHint(ref typeHint);
                 var hasDefaultValue = match.Groups["default"].Success;
-                var description = match.Groups["desc"].Value.Trim();
 
-                // Accumulate multi-line descriptions
-                // Look ahead for continuation lines that are indented but don't start with a dash
-                i = AccumulateMultiLineDescription(lines, i, ref description);
-                description = NormalizeOptionDescription(description);
+                // Consumes the description wrapped beneath the declaration so it is not re-read as a row.
+                var description = NormalizeOptionDescription(
+                    AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow));
 
                 if (string.IsNullOrEmpty(longForm))
                 {
@@ -577,73 +574,15 @@ public abstract partial class CobraCliScraper : CliScraperBase
     }
 
     /// <summary>
-    /// Accumulates multi-line descriptions by looking ahead for continuation lines.
-    /// Continuation lines are identified as:
-    /// - Indented lines that don't start with a dash (not a new option)
-    /// - Not empty lines (stop at blank lines)
-    /// - Not section headers (lines ending with ':')
+    /// Matches a standard Cobra row (Docker, Helm) or a kubectl <c>-s, --long=default:</c> row.
     /// </summary>
-    /// <param name="lines">All lines in the section.</param>
-    /// <param name="currentIndex">Current line index.</param>
-    /// <param name="description">Description to accumulate into (ref).</param>
-    /// <returns>The new line index after consuming continuation lines.</returns>
-    private static int AccumulateMultiLineDescription(string[] lines, int currentIndex, ref string description)
+    private static Match MatchOptionRow(string line)
     {
-        var descriptionParts = new List<string>();
-        if (!string.IsNullOrEmpty(description))
-        {
-            descriptionParts.Add(description);
-        }
-
-        // Look ahead for continuation lines
-        var nextIndex = currentIndex + 1;
-        while (nextIndex < lines.Length)
-        {
-            var nextLine = lines[nextIndex];
-            var trimmedNext = nextLine.Trim();
-
-            // Stop conditions:
-            // 1. Empty line (paragraph break)
-            if (string.IsNullOrWhiteSpace(trimmedNext))
-            {
-                break;
-            }
-
-            // 2. New option line. A single dash can instead be an allowed-value bullet.
-            if (CobraOptionPattern().IsMatch(nextLine) || KubectlOptionPattern().IsMatch(nextLine))
-            {
-                break;
-            }
-
-            // 3. Section header (ends with ':' and is relatively short)
-            if (trimmedNext.EndsWith(':') &&
-                trimmedNext.Length < 50 &&
-                !trimmedNext.Equals("Allowed values:", StringComparison.OrdinalIgnoreCase))
-            {
-                break;
-            }
-
-            // 4. Line is not indented enough (less than ~20 spaces means it's likely a new element)
-            // Continuation lines in Cobra help are typically deeply indented
-            var leadingSpaces = nextLine.Length - nextLine.TrimStart().Length;
-            if (leadingSpaces < 20 && !string.IsNullOrEmpty(description))
-            {
-                // If we already have a description and this line is not deeply indented,
-                // it might be a new option without dashes or something else
-                break;
-            }
-
-            // This is a continuation line - add it to the description
-            descriptionParts.Add(trimmedNext);
-            nextIndex++;
-        }
-
-        // Join all parts with space
-        description = string.Join(" ", descriptionParts);
-
-        // Return the last consumed index (loop will increment by 1)
-        return nextIndex - 1;
+        var match = CobraOptionPattern().Match(line);
+        return match.Success ? match : KubectlOptionPattern().Match(line);
     }
+
+    private static bool IsOptionRow(string line) => MatchOptionRow(line).Success;
 
     /// <summary>
     /// Tries to detect enum values from description.

@@ -24,15 +24,15 @@ public record GcloudWorkstationsStartTcpTunnelOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// If set, automatically starts the workstation if it is currently stopped.
-    /// </summary>
-    [CliFlag("--start-workstation")]
-    public bool? StartWorkstation { get; set; }
-
-    /// <summary>
     /// LOCAL_HOST:LOCAL_PORT on which gcloud should bind and listen for connections that should be tunneled. LOCAL_PORT may be omitted, in which case it is treated as 0 and an arbitrary unused local port is chosen. The colon also may be omitted in that case. If LOCAL_PORT is 0, an arbitrary unused local port is chosen.
     /// </summary>
     [CliOption("--local-host-port", Format = OptionFormat.EqualsSeparated)]
     public string? LocalHostPort { get; set; }
+
+    /// <summary>
+    /// If set, automatically starts the workstation if it is currently stopped.
+    /// </summary>
+    [CliFlag("--start-workstation")]
+    public bool? StartWorkstation { get; set; }
 
 }

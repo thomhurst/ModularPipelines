@@ -42,8 +42,6 @@ internal sealed partial class CloudflaredTunnel : IAsyncDisposable
 
         // cloudflared writes the tunnel URL to stderr
         var urlTcs = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
-        var timeout = TimeSpan.FromSeconds(options.TunnelStartupTimeoutSeconds);
-
         _process.ErrorDataReceived += (_, e) =>
         {
             if (e.Data is null)
@@ -74,7 +72,7 @@ internal sealed partial class CloudflaredTunnel : IAsyncDisposable
         _process.BeginOutputReadLine();
 
         using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        timeoutCts.CancelAfter(timeout);
+        timeoutCts.CancelAfter(options.TunnelStartupTimeout);
 
         await using var reg = timeoutCts.Token.Register(() =>
             urlTcs.TrySetCanceled(timeoutCts.Token));
@@ -87,12 +85,12 @@ internal sealed partial class CloudflaredTunnel : IAsyncDisposable
         catch (OperationCanceledException)
         {
             logger.LogWarning(
-                "Cloudflared tunnel URL was not detected within {Timeout}s. " +
+                "Cloudflared tunnel URL was not detected within {Timeout}. " +
                 "If using a named tunnel with a custom domain, the URL regex may need updating.",
-                options.TunnelStartupTimeoutSeconds);
+                options.TunnelStartupTimeout);
             await DisposeAsync();
             throw new TimeoutException(
-                $"Cloudflared did not provide a tunnel URL within {options.TunnelStartupTimeoutSeconds}s. " +
+                $"Cloudflared did not provide a tunnel URL within {options.TunnelStartupTimeout}. " +
                 "Ensure 'cloudflared' is installed and accessible on PATH.");
         }
     }

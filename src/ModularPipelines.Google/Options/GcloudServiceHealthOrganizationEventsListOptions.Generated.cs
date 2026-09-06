@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudServiceHealthOrganizationEventsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Location resource - Parent value using the form organizations/{organization_id}/locations/{location}/organizationEvents. organization_id - ID (number) of the organization that contains the event. To get your organization_id, see Getting your organization resource ID (https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id).&lt;br&gt; location - The location to get the organization events from. Set this field to global. The arguments in this group can be used to specify the attributes of this resource. OrganizationEvent fields to include in response. VIEW must be one of: organization-event-view-basic Includes all organization event fields except updates. This view is the default for ListOrganizationEvents API. organization-event-view-full Includes all organization event fields.
+    /// OrganizationEvent fields to include in response. VIEW must be one of: organization-event-view-basic Includes all organization event fields except updates. This view is the default for ListOrganizationEvents API. organization-event-view-full Includes all organization event fields.
     /// </summary>
     [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public string? View { get; set; }

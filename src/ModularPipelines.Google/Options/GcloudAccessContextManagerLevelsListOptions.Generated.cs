@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAccessContextManagerLevelsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Policy resource - The access policy you want to list the access levels for. This represents a Cloud resource. Policy resource - The access policy you want to list the access levels for. This represents a Cloud resource. ID of the policy or fully qualified identifier for the policy. To set the policy attribute: ◆ provide the argument --policy on the command line; ◆ set the property access_context_manager/policy; ◆ automatically, if the current account belongs to an organization with exactly one access policy..
+    /// Policy resource - The access policy you want to list the access levels for. This represents a Cloud resource. ID of the policy or fully qualified identifier for the policy. To set the policy attribute: ◆ provide the argument --policy on the command line; ◆ set the property access_context_manager/policy; ◆ automatically, if the current account belongs to an organization with exactly one access policy..
     /// </summary>
     [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
     public string? Policy { get; set; }

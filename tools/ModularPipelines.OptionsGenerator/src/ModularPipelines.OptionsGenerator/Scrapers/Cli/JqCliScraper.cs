@@ -186,8 +186,11 @@ public partial class JqCliScraper : CliScraperBase
 
             var shortForm = match.Groups["short"].Value.Trim();
             var operandCount = OptionOperandCounts.GetValueOrDefault(longForm);
-            var description = RemoveDisplayedOperands(longForm, match.Groups["tail"].Value);
-            i = AccumulateMultiLineDescription(lines, i, ref description);
+            // The tail shows the displayed operands ahead of the prose; strip them after the
+            // wrapped lines are joined so the operand prefix is removed exactly once.
+            var description = RemoveDisplayedOperands(
+                longForm,
+                AccumulateWrappedDescription(lines, ref i, match.Groups["tail"], IsOptionRow));
 
             var propertyName = NormalizeJqPropertyName(longForm);
             if (propertyName is null)
@@ -311,32 +314,7 @@ public partial class JqCliScraper : CliScraperBase
         return acceptsMultipleValues ? "IEnumerable<string>?" : "string?";
     }
 
-    private static int AccumulateMultiLineDescription(string[] lines, int currentIndex, ref string description)
-    {
-        var descriptionParts = new List<string> { description };
-        var nextIndex = currentIndex + 1;
-
-        while (nextIndex < lines.Length)
-        {
-            var nextLine = lines[nextIndex];
-            if (string.IsNullOrWhiteSpace(nextLine) || JqOptionPattern().IsMatch(nextLine))
-            {
-                break;
-            }
-
-            var leadingSpaces = nextLine.Length - nextLine.TrimStart().Length;
-            if (leadingSpaces < 20)
-            {
-                break;
-            }
-
-            descriptionParts.Add(nextLine.Trim());
-            nextIndex++;
-        }
-
-        description = string.Join(" ", descriptionParts.Where(x => !string.IsNullOrWhiteSpace(x)));
-        return nextIndex - 1;
-    }
+    private static bool IsOptionRow(string line) => JqOptionPattern().IsMatch(line);
 
     /// <summary>
     /// Checks if help text indicates the command has options.
