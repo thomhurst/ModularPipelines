@@ -51,7 +51,9 @@ function Test-GeneratedIntegrationPath {
     }
 
     $packagePath = $Path.Substring($PackagePrefix.Length)
-    if ($packagePath.Equals('PublicAPI.Unshipped.txt', [StringComparison]::OrdinalIgnoreCase) -or
+    # Generation stages both assembly-wide API baselines, including for shared tool packages.
+    if ($packagePath.Equals('PublicAPI.Shipped.txt', [StringComparison]::OrdinalIgnoreCase) -or
+        $packagePath.Equals('PublicAPI.Unshipped.txt', [StringComparison]::OrdinalIgnoreCase) -or
         $packagePath.Equals(
             "Generated/$NamespacePrefix.CommandCoverage.json",
             [StringComparison]::OrdinalIgnoreCase) -or

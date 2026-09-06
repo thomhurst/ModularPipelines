@@ -1,4 +1,7 @@
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'Resolve-GeneratedIntegrationValidation.ps1') `
+    -HeadRef ignored `
+    -ChangedPath @()
 
 function Invoke-Git {
     param(
@@ -10,6 +13,28 @@ function Invoke-Git {
     if ($LASTEXITCODE -ne 0) {
         throw "git $($ArgumentList -join ' ') failed."
     }
+}
+
+function Assert-GeneratedBaselineFreshness {
+    param([Parameter(Mandatory)][string]$RepositoryRoot)
+
+    $route = Resolve-GeneratedIntegrationValidation `
+        -HeadRef 'automated/update-cli-options-fake' `
+        -HeadRepository 'owner/repo' `
+        -PullRequestAuthor 'owner' `
+        -Repository 'owner/repo' `
+        -ChangedPath @('src/ModularPipelines.Fake/PublicAPI.Shipped.txt') `
+        -RepositoryRoot $RepositoryRoot
+    if (-not $route.IsGeneratedIntegration) {
+        throw "Shipped baseline changes bypassed the freshness gate: $($route.Reason)"
+    }
+
+    & (Join-Path $PSScriptRoot 'Assert-GeneratedOptionsFreshness.ps1') `
+        -RepositoryRoot $RepositoryRoot `
+        -Tool $route.Tool `
+        -Package $route.Package `
+        -NamespacePrefix $route.NamespacePrefix `
+        -CurrentBase HEAD
 }
 
 $repositoryRoot = Split-Path $PSScriptRoot -Parent
@@ -113,6 +138,12 @@ try {
     New-Item -ItemType Directory -Path (Join-Path $tempRoot '.github/workflows') | Out-Null
     New-Item -ItemType Directory -Path (Join-Path $tempRoot 'tools/ModularPipelines.OptionsGenerator') | Out-Null
     New-Item -ItemType Directory -Path (Join-Path $tempRoot 'src/ModularPipelines.Fake/Generated') | Out-Null
+    Set-Content `
+        -LiteralPath (Join-Path $tempRoot 'src/ModularPipelines.Fake/ModularPipelines.Fake.slnx') `
+        -Value '<Solution />'
+    Set-Content `
+        -LiteralPath (Join-Path $tempRoot 'src/ModularPipelines.Fake/PublicAPI.Shipped.txt') `
+        -Value '#nullable enable'
 
     foreach ($sourcePath in Get-GeneratedOptionsSourcePath) {
         if ($sourcePath -eq 'tools/ModularPipelines.OptionsGenerator') {
@@ -180,12 +211,7 @@ try {
     Invoke-Git $tempRoot add .
     Invoke-Git $tempRoot commit -m generated
 
-    & $assertScript `
-        -RepositoryRoot $tempRoot `
-        -Tool fake `
-        -Package ModularPipelines.Fake `
-        -NamespacePrefix Fake `
-        -CurrentBase HEAD
+    Assert-GeneratedBaselineFreshness -RepositoryRoot $tempRoot
 
     Set-Content -LiteralPath (Join-Path $tempRoot 'README.md') -Value 'unrelated change'
     Invoke-Git $tempRoot add README.md
@@ -205,12 +231,7 @@ try {
 
     $centralPackageError = $null
     try {
-        & $assertScript `
-            -RepositoryRoot $tempRoot `
-            -Tool fake `
-            -Package ModularPipelines.Fake `
-            -NamespacePrefix Fake `
-            -CurrentBase HEAD
+        Assert-GeneratedBaselineFreshness -RepositoryRoot $tempRoot
     }
     catch {
         $centralPackageError = $_.Exception.Message
