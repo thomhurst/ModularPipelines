@@ -27,7 +27,7 @@ public record CosignInitializeOptions : CosignOptions
     public bool? Help { get; set; }
 
     /// <summary>
-    /// //tuf-repo-cdn.sigstore.dev':
+    /// //tuf-repo-cdn.sigstore.dev': GCS bucket to a SigStore TUF repository, or HTTP(S) base URL, or file:/// for local filestore remote (air-gap)
     /// </summary>
     [CliOption("--mirror", Format = OptionFormat.EqualsSeparated)]
     public string? Mirror { get; set; }

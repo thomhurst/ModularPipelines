@@ -35,7 +35,7 @@ public record CosignBundleUpgradeOptions(
     public string? Out { get; set; }
 
     /// <summary>
-    /// //rekor.sigstore.dev':
+    /// //rekor.sigstore.dev': URL of the transparency log
     /// </summary>
     [CliOption("--rekor-url", Format = OptionFormat.EqualsSeparated)]
     public string? RekorUrl { get; set; }
