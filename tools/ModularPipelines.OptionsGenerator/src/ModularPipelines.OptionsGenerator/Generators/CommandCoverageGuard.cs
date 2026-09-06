@@ -44,45 +44,9 @@ internal static class CommandCoverageGuard
             fallbackManifestPath,
             pathComparer ?? StringComparer.OrdinalIgnoreCase,
             allowMissingManifest);
-        var exclusions = ValidateExclusions(tool.CommandCoverage.Exclusions);
-        var excludedCommands = exclusions
-            .Select(exclusion => NormalizeCommand(exclusion.Command))
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var conditionallyAvailableCommands = ValidateConditionallyAvailableCommands(
-                tool.CommandCoverage.ConditionallyAvailableCommands)
-            .Select(command => NormalizeCommand(command.Command))
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var conflictingCommands = excludedCommands
-            .Intersect(conditionallyAvailableCommands, StringComparer.OrdinalIgnoreCase)
-            .Order(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
-        if (conflictingCommands.Length > 0)
-        {
-            throw new InvalidOperationException(
-                "Commands cannot be both excluded and conditionally available: "
-                + string.Join(", ", conflictingCommands));
-        }
-
-        var allowedMissingCommands = excludedCommands
-            .Concat(conditionallyAvailableCommands)
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
-        // Commands whose help never came back are unavailable, not removed: keep them (and, for a
-        // group or root path, everything beneath them that the traversal never reached) out of
-        // the removal arithmetic and its approval budget, and report them on their own.
-        var unavailableCommands = (unavailableHelpPaths ?? [])
-            .Select(NormalizeCommand)
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .Order(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
-        var addedCommands = previous is null
-            ? []
-            : commands.Except(previous.Commands, StringComparer.OrdinalIgnoreCase).ToArray();
-        var removedCommands = previous is null
-            ? []
-            : previous.Commands
-                .Except(commands, StringComparer.OrdinalIgnoreCase)
-                .Where(command => !unavailableCommands.Any(unavailable => IsSameOrChildOf(unavailable, command)))
-                .ToArray();
+        var (exclusions, allowedMissingCommands) = ValidateCoveragePolicy(tool.CommandCoverage);
+        var unavailableCommands = GetUnavailableCommands(unavailableHelpPaths);
+        var (addedCommands, removedCommands) = GetCommandDiff(previous, commands, unavailableCommands);
         var unapprovedRemovedCommands = removedCommands
             .Where(command => !allowedMissingCommands.Contains(command))
             .ToArray();
@@ -90,7 +54,7 @@ internal static class CommandCoverageGuard
                 previous,
                 commands,
                 allowedMissingCommands)
-            .Where(group => !unavailableCommands.Any(unavailable => IsSameOrChildOf(unavailable, group)))
+            .Where(group => !IsUnavailable(group, unavailableCommands))
             .ToArray();
         var missingSentinels = GetMissingSentinels(tool.CommandCoverage, commands, allowedMissingCommands);
         var hasSameVersionCommandSetDrift = previous is not null
@@ -128,6 +92,67 @@ internal static class CommandCoverageGuard
             ChangesApproved = approveShrinkage
                               && unapprovedRemovedCommands.Length <= MaximumBlanketApprovedRemovals,
         };
+    }
+
+    private static (IReadOnlyList<CliCommandCoverageExclusion> Exclusions, HashSet<string> AllowedMissingCommands)
+        ValidateCoveragePolicy(CliCommandCoveragePolicy policy)
+    {
+        var exclusions = ValidateExclusions(policy.Exclusions);
+        var excludedCommands = exclusions
+            .Select(exclusion => NormalizeCommand(exclusion.Command))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var conditionallyAvailableCommands = ValidateConditionallyAvailableCommands(
+                policy.ConditionallyAvailableCommands)
+            .Select(command => NormalizeCommand(command.Command))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var conflictingCommands = excludedCommands
+            .Intersect(conditionallyAvailableCommands, StringComparer.OrdinalIgnoreCase)
+            .Order(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        if (conflictingCommands.Length > 0)
+        {
+            throw new InvalidOperationException(
+                "Commands cannot be both excluded and conditionally available: "
+                + string.Join(", ", conflictingCommands));
+        }
+
+        var allowedMissingCommands = excludedCommands
+            .Concat(conditionallyAvailableCommands)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        return (exclusions, allowedMissingCommands);
+    }
+
+    /// <summary>
+    /// Commands whose help never came back are unavailable, not removed: they (and, for a group
+    /// or root path, everything beneath them that the traversal never reached) stay out of the
+    /// removal arithmetic and its approval budget and are reported on their own.
+    /// </summary>
+    private static string[] GetUnavailableCommands(IReadOnlyList<string>? unavailableHelpPaths) =>
+        (unavailableHelpPaths ?? [])
+            .Select(NormalizeCommand)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .Order(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
+    private static bool IsUnavailable(string command, IReadOnlyList<string> unavailableCommands) =>
+        unavailableCommands.Any(unavailable => IsSameOrChildOf(unavailable, command));
+
+    private static (string[] Added, string[] Removed) GetCommandDiff(
+        CommandCoverageManifest? previous,
+        IReadOnlyList<string> commands,
+        IReadOnlyList<string> unavailableCommands)
+    {
+        if (previous is null)
+        {
+            return ([], []);
+        }
+
+        var added = commands.Except(previous.Commands, StringComparer.OrdinalIgnoreCase).ToArray();
+        var removed = previous.Commands
+            .Except(commands, StringComparer.OrdinalIgnoreCase)
+            .Where(command => !IsUnavailable(command, unavailableCommands))
+            .ToArray();
+        return (added, removed);
     }
 
     private static CommandCoverageManifest? ReadBaseline(
