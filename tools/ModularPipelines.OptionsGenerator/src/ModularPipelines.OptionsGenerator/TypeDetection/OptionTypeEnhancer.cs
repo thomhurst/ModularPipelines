@@ -260,15 +260,16 @@ public class OptionTypeEnhancer
         var commandPrefix = command.ClassName.Replace("Options", "");
         var enumName = GeneratorUtils.ToEnumName(option.SwitchName, commandPrefix);
 
-        // Create enum values
-        var values = enumValues
-            .Where(v => !string.IsNullOrWhiteSpace(v))
-            .Select(cliValue => new CliEnumValue
-            {
-                MemberName = GeneratorUtils.ToEnumMemberName(cliValue),
-                CliValue = cliValue,
-                Description = null
-            })
+        // Create enum values in the shared order first, so which of two colliding member
+        // names survives does not depend on the order the tool printed its values.
+        var values = CliEnumDefinition.OrderValues(enumValues
+                .Where(v => !string.IsNullOrWhiteSpace(v))
+                .Select(cliValue => new CliEnumValue
+                {
+                    MemberName = GeneratorUtils.ToEnumMemberName(cliValue),
+                    CliValue = cliValue,
+                    Description = null
+                }))
             .DistinctBy(v => v.MemberName) // Avoid duplicate member names
             .ToList();
 

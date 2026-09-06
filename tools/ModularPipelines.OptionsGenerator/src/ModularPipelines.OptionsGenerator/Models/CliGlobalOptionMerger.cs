@@ -138,7 +138,7 @@ public static class CliGlobalOptionMerger
                && right is not null
                && left.EnumName.Equals(right.EnumName, StringComparison.Ordinal)
                && string.Equals(left.Description, right.Description, StringComparison.Ordinal)
-               && left.Values.SequenceEqual(right.Values);
+               && CliEnumDefinition.OrderValues(left.Values).SequenceEqual(CliEnumDefinition.OrderValues(right.Values));
     }
 
     private static bool StringEquals(string? left, string? right)

@@ -19,6 +19,22 @@ public record CliEnumDefinition
     /// Description for XML documentation.
     /// </summary>
     public string? Description { get; init; }
+
+    /// <summary>
+    /// Orders values by their CLI string rather than by scrape order, so anything that emits or
+    /// compares enum values sees the same sequence no matter how a tool happened to print its
+    /// allowed values. Case-insensitive alphabetical order keeps case variants adjacent; among
+    /// case variants the lowercase spelling sorts first so it claims the plain member name and
+    /// the uppercase alias receives the casing suffix. Entries that repeat the same CLI string
+    /// are ordered by member name, then description, so the one that survives deduplication
+    /// does not depend on scrape order either.
+    /// </summary>
+    public static IEnumerable<CliEnumValue> OrderValues(IEnumerable<CliEnumValue> values) =>
+        values
+            .OrderBy(value => value.CliValue, StringComparer.OrdinalIgnoreCase)
+            .ThenByDescending(value => value.CliValue, StringComparer.Ordinal)
+            .ThenBy(value => value.MemberName, StringComparer.Ordinal)
+            .ThenBy(value => value.Description, StringComparer.Ordinal);
 }
 
 /// <summary>
