@@ -1386,11 +1386,8 @@ ModularPipelines.Pulumi.Options.PulumiDestroyOptions.Yes.set -> void
 ModularPipelines.Pulumi.Options.PulumiDoOptions
 ModularPipelines.Pulumi.Options.PulumiDoOptions.Color.get -> string?
 ModularPipelines.Pulumi.Options.PulumiDoOptions.Color.set -> void
-ModularPipelines.Pulumi.Options.PulumiDoOptions.Command.get -> string?
-ModularPipelines.Pulumi.Options.PulumiDoOptions.Command.set -> void
 ModularPipelines.Pulumi.Options.PulumiDoOptions.Cwd.get -> string?
 ModularPipelines.Pulumi.Options.PulumiDoOptions.Cwd.set -> void
-ModularPipelines.Pulumi.Options.PulumiDoOptions.Deconstruct(out string! PkgModTyp) -> void
 ModularPipelines.Pulumi.Options.PulumiDoOptions.DisableIntegrityChecking.get -> bool?
 ModularPipelines.Pulumi.Options.PulumiDoOptions.DisableIntegrityChecking.set -> void
 ModularPipelines.Pulumi.Options.PulumiDoOptions.DryRun.get -> bool?
@@ -1415,12 +1412,9 @@ ModularPipelines.Pulumi.Options.PulumiDoOptions.Output.get -> string?
 ModularPipelines.Pulumi.Options.PulumiDoOptions.Output.set -> void
 ModularPipelines.Pulumi.Options.PulumiDoOptions.Package.get -> string?
 ModularPipelines.Pulumi.Options.PulumiDoOptions.Package.set -> void
-ModularPipelines.Pulumi.Options.PulumiDoOptions.PkgModTyp.get -> string!
-ModularPipelines.Pulumi.Options.PulumiDoOptions.PkgModTyp.init -> void
 ModularPipelines.Pulumi.Options.PulumiDoOptions.Profiling.get -> string?
 ModularPipelines.Pulumi.Options.PulumiDoOptions.Profiling.set -> void
 ModularPipelines.Pulumi.Options.PulumiDoOptions.PulumiDoOptions(ModularPipelines.Pulumi.Options.PulumiDoOptions! original) -> void
-ModularPipelines.Pulumi.Options.PulumiDoOptions.PulumiDoOptions(string! PkgModTyp) -> void
 ModularPipelines.Pulumi.Options.PulumiDoOptions.ShowSecrets.get -> bool?
 ModularPipelines.Pulumi.Options.PulumiDoOptions.ShowSecrets.set -> void
 ModularPipelines.Pulumi.Options.PulumiDoOptions.Stateless.get -> bool?
@@ -2417,7 +2411,6 @@ ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.Color.get -> string?
 ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.Color.set -> void
 ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.Cwd.get -> string?
 ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.Cwd.set -> void
-ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.Deconstruct(out string! EnvironmentName) -> void
 ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.DisableIntegrityChecking.get -> bool?
 ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.DisableIntegrityChecking.set -> void
 ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.Draft.get -> string?
@@ -2449,7 +2442,6 @@ ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.OtelTraces.set -> void
 ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.Profiling.get -> string?
 ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.Profiling.set -> void
 ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.PulumiEnvRunOptions(ModularPipelines.Pulumi.Options.PulumiEnvRunOptions! original) -> void
-ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.PulumiEnvRunOptions(string! EnvironmentName) -> void
 ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.Tracing.get -> string?
 ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.Tracing.set -> void
 ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.Verbose.get -> int?
@@ -4129,7 +4121,6 @@ ModularPipelines.Pulumi.Options.PulumiLogoutOptions.FullyQualifyStackNames.get -
 ModularPipelines.Pulumi.Options.PulumiLogoutOptions.FullyQualifyStackNames.set -> void
 ModularPipelines.Pulumi.Options.PulumiLogoutOptions.Help.get -> bool?
 ModularPipelines.Pulumi.Options.PulumiLogoutOptions.Help.set -> void
-ModularPipelines.Pulumi.Options.PulumiLogoutOptions.Local.get -> bool?
 ModularPipelines.Pulumi.Options.PulumiLogoutOptions.Local.set -> void
 ModularPipelines.Pulumi.Options.PulumiLogoutOptions.Logflow.get -> bool?
 ModularPipelines.Pulumi.Options.PulumiLogoutOptions.Logflow.set -> void
@@ -4470,8 +4461,6 @@ ModularPipelines.Pulumi.Options.PulumiNeoResumeOptions.Tracing.set -> void
 ModularPipelines.Pulumi.Options.PulumiNeoResumeOptions.Verbose.get -> int?
 ModularPipelines.Pulumi.Options.PulumiNeoResumeOptions.Verbose.set -> void
 ModularPipelines.Pulumi.Options.PulumiNewOptions
-ModularPipelines.Pulumi.Options.PulumiNewOptions.Ai.get -> string?
-ModularPipelines.Pulumi.Options.PulumiNewOptions.Ai.set -> void
 ModularPipelines.Pulumi.Options.PulumiNewOptions.Color.get -> string?
 ModularPipelines.Pulumi.Options.PulumiNewOptions.Color.set -> void
 ModularPipelines.Pulumi.Options.PulumiNewOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -4496,8 +4485,6 @@ ModularPipelines.Pulumi.Options.PulumiNewOptions.GenerateOnly.get -> bool?
 ModularPipelines.Pulumi.Options.PulumiNewOptions.GenerateOnly.set -> void
 ModularPipelines.Pulumi.Options.PulumiNewOptions.Help.get -> bool?
 ModularPipelines.Pulumi.Options.PulumiNewOptions.Help.set -> void
-ModularPipelines.Pulumi.Options.PulumiNewOptions.Language.get -> string?
-ModularPipelines.Pulumi.Options.PulumiNewOptions.Language.set -> void
 ModularPipelines.Pulumi.Options.PulumiNewOptions.ListTemplates.get -> bool?
 ModularPipelines.Pulumi.Options.PulumiNewOptions.ListTemplates.set -> void
 ModularPipelines.Pulumi.Options.PulumiNewOptions.Logflow.get -> bool?
@@ -4526,8 +4513,6 @@ ModularPipelines.Pulumi.Options.PulumiNewOptions.Stack.get -> string?
 ModularPipelines.Pulumi.Options.PulumiNewOptions.Stack.set -> void
 ModularPipelines.Pulumi.Options.PulumiNewOptions.Template.get -> string?
 ModularPipelines.Pulumi.Options.PulumiNewOptions.Template.set -> void
-ModularPipelines.Pulumi.Options.PulumiNewOptions.TemplateMode.get -> bool?
-ModularPipelines.Pulumi.Options.PulumiNewOptions.TemplateMode.set -> void
 ModularPipelines.Pulumi.Options.PulumiNewOptions.Tracing.get -> string?
 ModularPipelines.Pulumi.Options.PulumiNewOptions.Tracing.set -> void
 ModularPipelines.Pulumi.Options.PulumiNewOptions.Verbose.get -> int?
@@ -6392,7 +6377,6 @@ ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Color.get -> string
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Color.set -> void
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Cwd.get -> string?
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Cwd.set -> void
-ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Deconstruct(out string! Name) -> void
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.DisableIntegrityChecking.get -> bool?
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.DisableIntegrityChecking.set -> void
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Emoji.get -> bool?
@@ -6407,8 +6391,6 @@ ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Logtostderr.get -> 
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Logtostderr.set -> void
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Memprofilerate.get -> int?
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Memprofilerate.set -> void
-ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Name.get -> string!
-ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Name.init -> void
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.NonInteractive.get -> bool?
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.NonInteractive.set -> void
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Org.get -> string?
@@ -6420,7 +6402,6 @@ ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Output.set -> void
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Profiling.get -> string?
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Profiling.set -> void
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.PulumiPolicyGroupEditOptions(ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions! original) -> void
-ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.PulumiPolicyGroupEditOptions(string! Name) -> void
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.RemoveInsightsAccount.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.RemoveInsightsAccount.set -> void
 ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.RemovePolicyPack.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -7125,8 +7106,6 @@ ModularPipelines.Pulumi.Options.PulumiProjectListOptions.Tracing.set -> void
 ModularPipelines.Pulumi.Options.PulumiProjectListOptions.Verbose.get -> int?
 ModularPipelines.Pulumi.Options.PulumiProjectListOptions.Verbose.set -> void
 ModularPipelines.Pulumi.Options.PulumiProjectNewOptions
-ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Ai.get -> string?
-ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Ai.set -> void
 ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Color.get -> string?
 ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Color.set -> void
 ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Config.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -7151,8 +7130,6 @@ ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.GenerateOnly.get -> bool
 ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.GenerateOnly.set -> void
 ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Help.get -> bool?
 ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Help.set -> void
-ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Language.get -> string?
-ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Language.set -> void
 ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.ListTemplates.get -> bool?
 ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.ListTemplates.set -> void
 ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Logflow.get -> bool?
@@ -7181,8 +7158,6 @@ ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Stack.get -> string?
 ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Stack.set -> void
 ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Template.get -> string?
 ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Template.set -> void
-ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.TemplateMode.get -> bool?
-ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.TemplateMode.set -> void
 ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Tracing.get -> string?
 ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Tracing.set -> void
 ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Verbose.get -> int?

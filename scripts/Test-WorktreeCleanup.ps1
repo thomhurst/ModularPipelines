@@ -25,8 +25,15 @@ else {
     New-Item -ItemType SymbolicLink -Path $aliasRoot -Target $primaryRoot | Out-Null
 }
 
+$script:ancestors = @()
+
 function global:git {
     $script:gitCalled = $true
+    if ($args -contains 'merge-base') {
+        # merge-base --is-ancestor <ancestor> <descendant>: exit 0 only for known ancestors.
+        $global:LASTEXITCODE = if ($script:ancestors -ccontains $args[-2]) { 0 } else { 1 }
+        return
+    }
     if ($args -contains 'remove') {
         $target = $args[-1]
         if ($target -eq $aliasRoot) {
@@ -77,6 +84,53 @@ try {
     if (-not (Test-IsDescendantPath -Path (Join-Path $primaryRoot '.claude/worktrees/test') -Parent $primaryRoot)) {
         throw 'Harness-managed descendant worktree was not recognized.'
     }
+
+    # origin/main's tip is the squash commit of #4512; a fresh issue branch sitting on it
+    # is not #4512's worktree.
+    $squashAssociation = @([pscustomobject]@{
+        number = 4512; merged_at = '2026-09-05T23:00:00Z'; head = @{ ref = 'issue-4377-run-id'; sha = 'aaa111' }
+    })
+    $containsOldHead = { param($sha) $sha -ceq 'aaa111' }
+    if ($null -ne (Get-MergedAssociationReason -Associations $squashAssociation -Branch 'issue-4638-publicapi-removed-markers' -IsAncestor $containsOldHead)) {
+        throw 'Fresh issue branch on the merged squash commit was treated as merged.'
+    }
+    if (-not (Get-MergedAssociationReason -Associations $squashAssociation -Branch 'issue-4377-run-id' -IsAncestor $containsOldHead)) {
+        throw 'Merged PR head branch was not recognized through commit association.'
+    }
+    if ($null -ne (Get-MergedAssociationReason -Associations $squashAssociation -Branch 'issue-4377-run-id' -IsAncestor { $false })) {
+        throw 'Branch recreated under its old name on the squash commit was treated as merged.'
+    }
+    if ($null -ne (Get-MergedAssociationReason -Associations $squashAssociation -Branch 'Issue-4377-Run-Id' -IsAncestor $containsOldHead)) {
+        throw 'Branch name differing only by case was matched.'
+    }
+    if (-not (Get-MergedAssociationReason -Associations $squashAssociation)) {
+        throw 'Detached checkout of a merged commit was not recognized.'
+    }
+    $unmergedAssociation = @([pscustomobject]@{ number = 4600; merged_at = $null; head = @{ ref = 'issue-4377-run-id'; sha = 'aaa111' } })
+    if ($null -ne (Get-MergedAssociationReason -Associations $unmergedAssociation -Branch 'issue-4377-run-id' -IsAncestor $containsOldHead)) {
+        throw 'Closed-unmerged PR association was treated as merge evidence.'
+    }
+
+    # Two merged PRs reused the branch name; the worktree descends from the older head only.
+    $containsOlderHead = { param($sha) $sha -ceq 'aaa111' }
+    if (-not (Get-MergedNameReason -Branch 'issue-4377-run-id' -MergedHeadShas @('bbb222', 'aaa111') -IsAncestor $containsOlderHead)) {
+        throw 'Worktree descending from an earlier merged head of a reused branch name was not recognized.'
+    }
+    if ($null -ne (Get-MergedNameReason -Branch 'issue-4377-run-id' -MergedHeadShas @('bbb222', 'ccc333') -IsAncestor $containsOlderHead)) {
+        throw 'Branch name reuse without ancestry was treated as merged.'
+    }
+    if ($null -ne (Get-MergedNameReason -Branch 'issue-4377-run-id' -MergedHeadShas @() -IsAncestor $containsOlderHead)) {
+        throw 'Empty merged head list was treated as merge evidence.'
+    }
+
+    $script:ancestors = @('aaa111')
+    if (-not (Test-IsAncestorCommit -RepoPath $isolatedRoot -Ancestor 'aaa111' -Descendant 'zzz999')) {
+        throw 'Known ancestor commit was not recognized.'
+    }
+    if (Test-IsAncestorCommit -RepoPath $isolatedRoot -Ancestor 'bbb222' -Descendant 'zzz999') {
+        throw 'Unknown commit was treated as an ancestor.'
+    }
+    $script:gitCalled = $false
 
     $explicitSelection = Select-MergeCleanupWorktree `
         -ValidatedWorktree $isolatedRoot `

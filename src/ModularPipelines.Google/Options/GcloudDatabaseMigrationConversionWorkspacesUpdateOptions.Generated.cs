@@ -34,7 +34,7 @@ public record GcloudDatabaseMigrationConversionWorkspacesUpdateOptions : GcloudO
     public bool? AutoConversion { get; set; }
 
     /// <summary>
-    /// Whether to enable Gemini auto-conversion. Use --auto-conversion to enable and --no-auto-conversion to disable.
+    /// Negates --auto-conversion. Whether to enable Gemini auto-conversion. Use --auto-conversion to enable and --no-auto-conversion to disable.
     /// </summary>
     [CliFlag("--no-auto-conversion")]
     public bool? NoAutoConversion { get; set; }
@@ -46,7 +46,7 @@ public record GcloudDatabaseMigrationConversionWorkspacesUpdateOptions : GcloudO
     public bool? ConversionAssistance { get; set; }
 
     /// <summary>
-    /// Whether to enable Gemini conversion assistance. Use --conversion-assistance to enable and --no-conversion-assistance to disable.
+    /// Negates --conversion-assistance. Whether to enable Gemini conversion assistance. Use --conversion-assistance to enable and --no-conversion-assistance to disable.
     /// </summary>
     [CliFlag("--no-conversion-assistance")]
     public bool? NoConversionAssistance { get; set; }
@@ -76,7 +76,7 @@ public record GcloudDatabaseMigrationConversionWorkspacesUpdateOptions : GcloudO
     public bool? PatternMatching { get; set; }
 
     /// <summary>
-    /// Whether to enable Gemini pattern matching. Use --pattern-matching to enable and --no-pattern-matching to disable.
+    /// Negates --pattern-matching. Whether to enable Gemini pattern matching. Use --pattern-matching to enable and --no-pattern-matching to disable.
     /// </summary>
     [CliFlag("--no-pattern-matching")]
     public bool? NoPatternMatching { get; set; }
@@ -88,7 +88,7 @@ public record GcloudDatabaseMigrationConversionWorkspacesUpdateOptions : GcloudO
     public bool? QualityAssessment { get; set; }
 
     /// <summary>
-    /// Whether to enable Gemini quality assessment. Use --quality-assessment to enable and --no-quality-assessment to disable.
+    /// Negates --quality-assessment. Whether to enable Gemini quality assessment. Use --quality-assessment to enable and --no-quality-assessment to disable.
     /// </summary>
     [CliFlag("--no-quality-assessment")]
     public bool? NoQualityAssessment { get; set; }

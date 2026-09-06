@@ -53,8 +53,8 @@ internal class MasterServerHost : IAsyncDisposable
             // 30s default. KeepAliveInterval = how often the server pings workers;
             // ClientTimeoutInterval = how long without a message before a worker is
             // considered gone.
-            hubOptions.KeepAliveInterval = TimeSpan.FromSeconds(options.KeepAliveIntervalSeconds);
-            hubOptions.ClientTimeoutInterval = TimeSpan.FromSeconds(options.PeerTimeoutSeconds);
+            hubOptions.KeepAliveInterval = options.KeepAliveInterval;
+            hubOptions.ClientTimeoutInterval = options.PeerTimeout;
         }).AddJsonProtocol(jsonOptions =>
         {
             // Match the client's default STJ options: PascalCase, case-insensitive
@@ -105,6 +105,7 @@ internal class MasterServerHost : IAsyncDisposable
     private class ForwardingLoggerProvider(ILoggerFactory factory) : ILoggerProvider
     {
         public ILogger CreateLogger(string categoryName) => factory.CreateLogger(categoryName);
+
         public void Dispose()
         {
         }

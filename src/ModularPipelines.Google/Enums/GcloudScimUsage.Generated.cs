@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudScimUsage
 {
     [EnumValue("enabled-for-groups")]
-    EnabledForGroups = 0,
+    EnabledForGroups,
 
     [EnumValue("scim-usage-unspecified")]
-    ScimUsageUnspecified = 1
+    ScimUsageUnspecified
 }

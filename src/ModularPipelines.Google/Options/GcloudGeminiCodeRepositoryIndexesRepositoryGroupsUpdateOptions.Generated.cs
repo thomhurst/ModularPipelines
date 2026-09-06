@@ -61,13 +61,13 @@ public record GcloudGeminiCodeRepositoryIndexesRepositoryGroupsUpdateOptions : G
     /// Update repositories. At most one of these can be specified: Set repositories to new value. List of repositories to group. branchPattern The Git branch pattern used for indexing in RE2 syntax. See https://github.com/google/re2/wiki/syntax for syntax. resource The DeveloperConnect repository full resource name, relative resource name or resource URL to be indexed. Shorthand Example: --repositories=branchPattern=string,resource=string --repositories=branchPattern=string,resource=string JSON Example: --repositories='[{"branchPattern": "string", "resource": "string"}]' File Example: --repositories=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--repositories", Format = OptionFormat.EqualsSeparated)]
-    public string? Repositories { get; set; }
+    public IEnumerable<string>? Repositories { get; set; }
 
     /// <summary>
     /// Update repositories. At most one of these can be specified: Or at least one of these can be specified: Add new value to repositories list. List of repositories to group. branchPattern The Git branch pattern used for indexing in RE2 syntax. See https://github.com/google/re2/wiki/syntax for syntax. resource The DeveloperConnect repository full resource name, relative resource name or resource URL to be indexed. Shorthand Example: --add-repositories=branchPattern=string,resource=string --add-repositories=branchPattern=string,resource=string JSON Example: --add-repositories='[{"branchPattern": "string", "resource": "string"}]' File Example: --add-repositories=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-repositories", Format = OptionFormat.EqualsSeparated)]
-    public string? AddRepositories { get; set; }
+    public IEnumerable<string>? AddRepositories { get; set; }
 
     /// <summary>
     /// Update repositories. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear repositories value and set to empty list.
@@ -79,19 +79,19 @@ public record GcloudGeminiCodeRepositoryIndexesRepositoryGroupsUpdateOptions : G
     /// Update repositories. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from repositories list. List of repositories to group. branchPattern The Git branch pattern used for indexing in RE2 syntax. See https://github.com/google/re2/wiki/syntax for syntax. resource The DeveloperConnect repository full resource name, relative resource name or resource URL to be indexed. Shorthand Example: --remove-repositories=branchPattern=string,resource=string --remove-repositories=branchPattern=string,resource=string JSON Example: --remove-repositories='[{"branchPattern": "string", "resource": "string"}]' File Example: --remove-repositories=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-repositories", Format = OptionFormat.EqualsSeparated)]
-    public string? RemoveRepositories { get; set; }
+    public IEnumerable<string>? RemoveRepositories { get; set; }
 
     /// <summary>
     /// Update resources. At most one of these can be specified: Set resources to new value. List of third party connection resources. authConfig The authentication configuration for the resource. apiToken API Token based authentication. tokenSecretResource The secret key for the API token. Example: projects/&lt;project&gt;/secrets/&lt;secret&gt;/versions/&lt;version&gt;. username The username for the API token. connection The DeveloperConnect connection full resource name, relative resource name or resource URL to be indexed. sourceConfig The source configuration for the resource. confluenceConfig Confluence source configuration. pageId The optional page ID of the Confluence page. spaceKey The space key of the Confluence space. uri The host address of the Confluence instance. type The type of the 3p resource. Shorthand Example: --resources=authConfig={apiToken={tokenSecretResource=string,username=string}},connection=string,sourceConfig={confluenceConfig={pageId=string,spaceKey=string,uri=string}},type=string --resources=authConfig={apiToken={tokenSecretResource=string,username=string}},connection=string,sourceConfig={confluenceConfig={pageId=string,spaceKey=string,uri=string}},type=string JSON Example: --resources='[{"authConfig": {"apiToken": {"tokenSecretResource": "string", "username": "string"}}, "connection": "string", "sourceConfig": {"confluenceConfig": {"pageId": "string", "spaceKey": "string", "uri": "string"}}, "type": "string"}]' File Example: --resources=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--resources", Format = OptionFormat.EqualsSeparated)]
-    public string? Resources { get; set; }
+    public IEnumerable<string>? Resources { get; set; }
 
     /// <summary>
     /// Update resources. At most one of these can be specified: Or at least one of these can be specified: Add new value to resources list. List of third party connection resources. authConfig The authentication configuration for the resource. apiToken API Token based authentication. tokenSecretResource The secret key for the API token. Example: projects/&lt;project&gt;/secrets/&lt;secret&gt;/versions/&lt;version&gt;. username The username for the API token. connection The DeveloperConnect connection full resource name, relative resource name or resource URL to be indexed. sourceConfig The source configuration for the resource. confluenceConfig Confluence source configuration. pageId The optional page ID of the Confluence page. spaceKey The space key of the Confluence space. uri The host address of the Confluence instance. type The type of the 3p resource. Shorthand Example: --add-resources=authConfig={apiToken={tokenSecretResource=string,username=string}},connection=string,sourceConfig={confluenceConfig={pageId=string,spaceKey=string,uri=string}},type=string --add-resources=authConfig={apiToken={tokenSecretResource=string,username=string}},connection=string,sourceConfig={confluenceConfig={pageId=string,spaceKey=string,uri=string}},type=string JSON Example: --add-resources='[{"authConfig": {"apiToken": {"tokenSecretResource": "string", "username": "string"}}, "connection": "string", "sourceConfig": {"confluenceConfig": {"pageId": "string", "spaceKey": "string", "uri": "string"}}, "type": "string"}]' File Example: --add-resources=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-resources", Format = OptionFormat.EqualsSeparated)]
-    public string? AddResources { get; set; }
+    public IEnumerable<string>? AddResources { get; set; }
 
     /// <summary>
     /// Update resources. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear resources value and set to empty list.
@@ -103,6 +103,6 @@ public record GcloudGeminiCodeRepositoryIndexesRepositoryGroupsUpdateOptions : G
     /// Update resources. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from resources list. List of third party connection resources. authConfig The authentication configuration for the resource. apiToken API Token based authentication. tokenSecretResource The secret key for the API token. Example: projects/&lt;project&gt;/secrets/&lt;secret&gt;/versions/&lt;version&gt;. username The username for the API token. connection The DeveloperConnect connection full resource name, relative resource name or resource URL to be indexed. sourceConfig The source configuration for the resource. confluenceConfig Confluence source configuration. pageId The optional page ID of the Confluence page. spaceKey The space key of the Confluence space. uri The host address of the Confluence instance. type The type of the 3p resource. Shorthand Example: --remove-resources=authConfig={apiToken={tokenSecretResource=string,username=string}},connection=string,sourceConfig={confluenceConfig={pageId=string,spaceKey=string,uri=string}},type=string --remove-resources=authConfig={apiToken={tokenSecretResource=string,username=string}},connection=string,sourceConfig={confluenceConfig={pageId=string,spaceKey=string,uri=string}},type=string JSON Example: --remove-resources='[{"authConfig": {"apiToken": {"tokenSecretResource": "string", "username": "string"}}, "connection": "string", "sourceConfig": {"confluenceConfig": {"pageId": "string", "spaceKey": "string", "uri": "string"}}, "type": "string"}]' File Example: --remove-resources=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-resources", Format = OptionFormat.EqualsSeparated)]
-    public string? RemoveResources { get; set; }
+    public IEnumerable<string>? RemoveResources { get; set; }
 
 }

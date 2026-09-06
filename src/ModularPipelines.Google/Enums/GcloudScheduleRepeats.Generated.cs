@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudScheduleRepeats
 {
     [EnumValue("daily")]
-    Daily = 0,
+    Daily,
 
     [EnumValue("weekly")]
-    Weekly = 1
+    Weekly
 }

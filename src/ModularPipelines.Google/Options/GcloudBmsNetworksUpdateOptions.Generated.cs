@@ -38,7 +38,7 @@ public record GcloudBmsNetworksUpdateOptions : GcloudOptions
     /// At most one of these can be specified: Add a reservation of a range of IP addresses in the network. start_address The first address of this reservation block. Must be specified as a single IPv4 address, e.g. 10.1.2.2. end_address The last address of this reservation block, inclusive. I.e., for cases when reservations are only single addresses, end_address and start_address will be the same. Must be specified as a single IPv4 address, e.g. 10.1.2.2. note A note about this reservation, intended for human consumption.
     /// </summary>
     [CliOption("--add-ip-range-reservation", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? AddIpRangeReservation { get; set; }
+    public string? AddIpRangeReservation { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Removes all IP range reservations in the network.
@@ -50,7 +50,7 @@ public record GcloudBmsNetworksUpdateOptions : GcloudOptions
     /// At most one of these can be specified: Remove a reservation of a range of IP addresses in the network. start_address The first address of the reservation block to remove. end_address The last address of the reservation block to remove.
     /// </summary>
     [CliOption("--remove-ip-range-reservation", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? RemoveIpRangeReservation { get; set; }
+    public string? RemoveIpRangeReservation { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud bms networks update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud bms networks update --clear-labels \ --update-labels foo=bar,baz=qux

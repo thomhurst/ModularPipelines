@@ -25,174 +25,107 @@ public record GcloudTasksQueuesCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. If provided, the specified HTTP method type override is used for all tasks in the queue, no matter what is set at the task-level.
+    /// If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden.
     /// </summary>
-    [CliOption("--http-method-override", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? HttpMethodOverrideValues { get; set; }
+    [CliOption("--http-header-override", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? HttpHeaderOverride { get; set; }
 
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. If provided, the specified HTTP target URI override is used for all tasks in the queue depending on what is set as the mode. Allowed values for mode are: ALWAYS, IF_NOT_EXISTS. If not set, mode defaults to ALWAYS. KEY must be at least one of: [scheme, host, port, path, query, mode]. Any missing keys will use the default.
+    /// If provided, the specified HTTP method type override is used for all tasks in the queue, no matter what is set at the task-level.
+    /// </summary>
+    [CliOption("--http-method-override", Format = OptionFormat.EqualsSeparated)]
+    public string? HttpMethodOverride { get; set; }
+
+    /// <summary>
+    /// If provided, the specified HTTP target URI override is used for all tasks in the queue depending on what is set as the mode. Allowed values for mode are: ALWAYS, IF_NOT_EXISTS. If not set, mode defaults to ALWAYS. KEY must be at least one of: [scheme, host, port, path, query, mode]. Any missing keys will use the default.
     /// </summary>
     [CliOption("--http-uri-override", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HttpUriOverride { get; set; }
 
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. The location where we want to manage the queue or task. If not specified, uses the location of the current project's App Engine app if there is an associated app.
+    /// The location where we want to manage the queue or task. If not specified, uses the location of the current project's App Engine app if there is an associated app.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? LocationValues { get; set; }
+    public string? Location { get; set; }
 
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. Specifies the fraction of operations to write to Cloud Logging. This field may contain any value between 0.0 and 1.0, inclusive. 0.0 is the default and means that no operations are logged.
+    /// Specifies the fraction of operations to write to Cloud Logging. This field may contain any value between 0.0 and 1.0, inclusive. 0.0 is the default and means that no operations are logged.
     /// </summary>
     [CliOption("--log-sampling-ratio", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? LogSamplingRatioValues { get; set; }
+    public string? LogSamplingRatio { get; set; }
 
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. The maximum number of attempts per task in the queue.
+    /// The maximum number of attempts per task in the queue.
     /// </summary>
     [CliOption("--max-attempts", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MaxAttemptsValues { get; set; }
+    public string? MaxAttempts { get; set; }
 
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. The maximum amount of time to wait before retrying a task after it fails. Must be a string that ends in 's', such as "5s".
+    /// The maximum amount of time to wait before retrying a task after it fails. Must be a string that ends in 's', such as "5s".
     /// </summary>
     [CliOption("--max-backoff", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MaxBackoffValues { get; set; }
+    public string? MaxBackoff { get; set; }
 
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. The maximum number of concurrent tasks that Cloud Tasks allows to be dispatched for this queue. After this threshold has been reached, Cloud Tasks stops dispatching tasks until the number of outstanding requests decreases.
+    /// The maximum number of concurrent tasks that Cloud Tasks allows to be dispatched for this queue. After this threshold has been reached, Cloud Tasks stops dispatching tasks until the number of outstanding requests decreases.
     /// </summary>
     [CliOption("--max-concurrent-dispatches", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MaxConcurrentDispatchesValues { get; set; }
+    public string? MaxConcurrentDispatches { get; set; }
 
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. The maximum rate at which tasks are dispatched from this queue.
+    /// The maximum rate at which tasks are dispatched from this queue.
     /// </summary>
     [CliOption("--max-dispatches-per-second", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MaxDispatchesPerSecondValues { get; set; }
+    public string? MaxDispatchesPerSecond { get; set; }
 
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. The time between retries will double maxDoublings times. A tasks retry interval starts at minBackoff, then doubles maxDoublings times, then increases linearly, and finally retries retries at intervals of maxBackoff up to maxAttempts times. For example, if minBackoff is 10s, maxBackoff is 300s, and maxDoublings is 3, then the a task will first be retried in 10s. The retry interval will double three times, and then increase linearly by 2^3 * 10s. Finally, the task will retry at intervals of maxBackoff until the task has been attempted maxAttempts times. Thus, the requests will retry at 10s, 20s, 40s, 80s, 160s, 240s, 300s, 300s.
+    /// The time between retries will double maxDoublings times. A tasks retry interval starts at minBackoff, then doubles maxDoublings times, then increases linearly, and finally retries retries at intervals of maxBackoff up to maxAttempts times. For example, if minBackoff is 10s, maxBackoff is 300s, and maxDoublings is 3, then the a task will first be retried in 10s. The retry interval will double three times, and then increase linearly by 2^3 * 10s. Finally, the task will retry at intervals of maxBackoff until the task has been attempted maxAttempts times. Thus, the requests will retry at 10s, 20s, 40s, 80s, 160s, 240s, 300s, 300s.
     /// </summary>
     [CliOption("--max-doublings", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MaxDoublingsValues { get; set; }
+    public string? MaxDoublings { get; set; }
 
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. The time limit for retrying a failed task, measured from when the task was first run. Once the --max-retry-duration time has passed and the task has been attempted --max-attempts times, no further attempts will be made and the task will be deleted. Must be a string that ends in 's', such as "5s".
+    /// The time limit for retrying a failed task, measured from when the task was first run. Once the --max-retry-duration time has passed and the task has been attempted --max-attempts times, no further attempts will be made and the task will be deleted. Must be a string that ends in 's', such as "5s".
     /// </summary>
     [CliOption("--max-retry-duration", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MaxRetryDurationValues { get; set; }
+    public string? MaxRetryDuration { get; set; }
 
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. The minimum amount of time to wait before retrying a task after it fails. Must be a string that ends in 's', such as "5s".
+    /// The minimum amount of time to wait before retrying a task after it fails. Must be a string that ends in 's', such as "5s".
     /// </summary>
     [CliOption("--min-backoff", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MinBackoffValues { get; set; }
+    public string? MinBackoff { get; set; }
 
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. If provided, the specified App Engine route is used for all tasks in the queue, no matter what is set is at the task-level. KEY must be at least one of: [service, version, instance]. Any missing keys will use the default.
+    /// If provided, the specified App Engine route is used for all tasks in the queue, no matter what is set is at the task-level. KEY must be at least one of: [service, version, instance]. Any missing keys will use the default.
     /// </summary>
     [CliOption("--routing-override", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RoutingOverride { get; set; }
 
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. If specified, all Authorization headers in the HttpRequest.headers field will be overridden for any tasks executed on this queue. At most one of these can be specified: OAuth2 OpenId Connect The service account email to be used for generating an OAuth2 access token to be included in the request sent to the target when executing the task. The service account must be within the same project as the queue. The caller must have 'iam.serviceAccounts.actAs' permission for the service account. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// If specified, all Authorization headers in the HttpRequest.headers field will be overridden for any tasks executed on this queue. At most one of these can be specified: OAuth2 OpenId Connect The service account email to be used for generating an OAuth2 access token to be included in the request sent to the target when executing the task. The service account must be within the same project as the queue. The caller must have 'iam.serviceAccounts.actAs' permission for the service account. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--http-oauth-service-account-email-override", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<int>? HttpOauthServiceAccountEmailOverride { get; set; }
+    public string? HttpOauthServiceAccountEmailOverride { get; set; }
 
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. If specified, all Authorization headers in the HttpRequest.headers field will be overridden for any tasks executed on this queue. At most one of these can be specified: OAuth2 OpenId Connect The scope to be used when generating an OAuth2 access token to be included in the request sent to the target when executing the task. If not specified, 'https://www.googleapis.com/auth/cloud-platform' will be used.
+    /// If specified, all Authorization headers in the HttpRequest.headers field will be overridden for any tasks executed on this queue. At most one of these can be specified: OAuth2 OpenId Connect The scope to be used when generating an OAuth2 access token to be included in the request sent to the target when executing the task. If not specified, 'https://www.googleapis.com/auth/cloud-platform' will be used.
     /// </summary>
     [SecretValue]
     [CliOption("--http-oauth-token-scope-override", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? HttpOauthTokenScopeOverride { get; set; }
+    public string? HttpOauthTokenScopeOverride { get; set; }
 
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. If specified, all Authorization headers in the HttpRequest.headers field will be overridden for any tasks executed on this queue. At most one of these can be specified: OAuth2 OpenId Connect The service account email to be used for generating an OpenID Connect token to be included in the request sent to the target when executing the task. The service account must be within the same project as the queue. The caller must have 'iam.serviceAccounts.actAs' permission for the service account. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// If specified, all Authorization headers in the HttpRequest.headers field will be overridden for any tasks executed on this queue. At most one of these can be specified: OAuth2 OpenId Connect The service account email to be used for generating an OpenID Connect token to be included in the request sent to the target when executing the task. The service account must be within the same project as the queue. The caller must have 'iam.serviceAccounts.actAs' permission for the service account. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--http-oidc-service-account-email-override", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<int>? HttpOidcServiceAccountEmailOverride { get; set; }
+    public string? HttpOidcServiceAccountEmailOverride { get; set; }
 
     /// <summary>
-    /// --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. --http-header-override=HEADER_FIELD: HEADER_VALUE If provided, the specified HTTP headers override the existing headers for all tasks in the queue. If a task has a header with the same Key as a queue-level header override, then the value of the task header will be overriden with the value of the queue-level header. Otherwise, the queue-level header will be added to the task headers. Header values can contain commas. This flag can be repeated. Repeated header fields will have their values overridden. If specified, all Authorization headers in the HttpRequest.headers field will be overridden for any tasks executed on this queue. At most one of these can be specified: OAuth2 OpenId Connect The audience to be used when generating an OpenID Connect token to be included in the request sent to the target when executing the task. If not specified, the URI specified in the target will be used.
+    /// If specified, all Authorization headers in the HttpRequest.headers field will be overridden for any tasks executed on this queue. At most one of these can be specified: OAuth2 OpenId Connect The audience to be used when generating an OpenID Connect token to be included in the request sent to the target when executing the task. If not specified, the URI specified in the target will be used.
     /// </summary>
     [SecretValue]
     [CliOption("--http-oidc-token-audience-override", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? HttpOidcTokenAudienceOverride { get; set; }
-
-    [Obsolete("Use HttpMethodOverrideValues instead.")]
-    public string? HttpMethodOverride
-    {
-        get => HttpMethodOverrideValues?.FirstOrDefault();
-        set => HttpMethodOverrideValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use LocationValues instead.")]
-    public string? Location
-    {
-        get => LocationValues?.FirstOrDefault();
-        set => LocationValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use LogSamplingRatioValues instead.")]
-    public string? LogSamplingRatio
-    {
-        get => LogSamplingRatioValues?.FirstOrDefault();
-        set => LogSamplingRatioValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use MaxAttemptsValues instead.")]
-    public string? MaxAttempts
-    {
-        get => MaxAttemptsValues?.FirstOrDefault();
-        set => MaxAttemptsValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use MaxBackoffValues instead.")]
-    public string? MaxBackoff
-    {
-        get => MaxBackoffValues?.FirstOrDefault();
-        set => MaxBackoffValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use MaxConcurrentDispatchesValues instead.")]
-    public string? MaxConcurrentDispatches
-    {
-        get => MaxConcurrentDispatchesValues?.FirstOrDefault();
-        set => MaxConcurrentDispatchesValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use MaxDispatchesPerSecondValues instead.")]
-    public string? MaxDispatchesPerSecond
-    {
-        get => MaxDispatchesPerSecondValues?.FirstOrDefault();
-        set => MaxDispatchesPerSecondValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use MaxDoublingsValues instead.")]
-    public string? MaxDoublings
-    {
-        get => MaxDoublingsValues?.FirstOrDefault();
-        set => MaxDoublingsValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use MaxRetryDurationValues instead.")]
-    public string? MaxRetryDuration
-    {
-        get => MaxRetryDurationValues?.FirstOrDefault();
-        set => MaxRetryDurationValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use MinBackoffValues instead.")]
-    public string? MinBackoff
-    {
-        get => MinBackoffValues?.FirstOrDefault();
-        set => MinBackoffValues = value is null ? null : [value];
-    }
-
-    [Obsolete("HttpHeaderOverride is no longer supported by the installed CLI and has no effect.")]
-    public string? HttpHeaderOverride { get; set; }
+    public string? HttpOidcTokenAudienceOverride { get; set; }
 
 }

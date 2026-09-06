@@ -99,6 +99,30 @@ public class JqCliScraperTests
         await Assert.That(binary.PreferShortForm).IsTrue();
     }
 
+    [Test]
+    public async Task Wrapped_Descriptions_That_Look_Like_Option_Rows_Stay_Prose()
+    {
+        const string helpText = """
+            Usage: jq [options] <jq filter> [file...]
+
+            Command options:
+              -s, --slurp               read all inputs into an array; combine with
+                                        --null-input to run the filter once;
+              -f, --from-file           load the filter from a file;
+            """;
+
+        var command = await new TestJqCliScraper().Parse(helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command.Options.Select(option => option.SwitchName))
+                .Contains("--from-file")
+                .And.DoesNotContain("--null-input");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--slurp").Description)
+                .IsEqualTo("read all inputs into an array; combine with --null-input to run the filter once");
+        }
+    }
+
     private sealed class TestJqCliScraper : JqCliScraper
     {
         public TestJqCliScraper()

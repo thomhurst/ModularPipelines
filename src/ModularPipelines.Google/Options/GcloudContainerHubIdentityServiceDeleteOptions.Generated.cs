@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerHubIdentityServiceDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Membership resource - The group of arguments defining a membership. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --membership on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. If specified, deletes the default membership configuration present in your fleet. To delete the default membership configuration present in your fleet, run: $ gcloud container hub identity-service delete \ --fleet-default-member-config
+    /// If specified, deletes the default membership configuration present in your fleet. To delete the default membership configuration present in your fleet, run: $ gcloud container hub identity-service delete \ --fleet-default-member-config
     /// </summary>
     [CliFlag("--fleet-default-member-config")]
     public bool? FleetDefaultMemberConfig { get; set; }

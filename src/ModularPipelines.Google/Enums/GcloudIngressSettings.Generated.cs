@@ -17,12 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudIngressSettings
 {
     [EnumValue("all")]
-    All = 0,
+    All,
 
     [EnumValue("internal-only")]
-    InternalOnly = 1,
+    InternalOnly,
 
     [EnumValue("internal-and-gclb")]
-    InternalAndGclb = 2,
-
+    InternalAndGclb
 }

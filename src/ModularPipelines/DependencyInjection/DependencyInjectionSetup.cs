@@ -272,6 +272,8 @@ internal static class DependencyInjectionSetup
             .AddSingleton<EngineCancellationToken>()
             .AddSingleton<IOptionsProvider, OptionsProvider>()
             .AddSingleton<DistributedConditionRouting>()
+            .AddSingleton<IExecutionLocationContext>(serviceProvider =>
+                serviceProvider.GetRequiredService<DistributedConditionRouting>())
             .AddSingleton<DistributedCacheHitTracker>()
             .AddSingleton<IModuleConditionHandler, ModuleConditionHandler>()
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()

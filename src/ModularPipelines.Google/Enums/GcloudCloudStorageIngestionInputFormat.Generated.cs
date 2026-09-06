@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudCloudStorageIngestionInputFormat
 {
     [EnumValue("text")]
-    Text = 0,
+    Text,
 
     [EnumValue("avro")]
-    Avro = 1,
+    Avro,
 
     [EnumValue("pubsub_avro")]
-    PubsubAvro = 2
+    PubsubAvro
 }

@@ -39,17 +39,15 @@ internal class RedisMasterDiscovery : IMasterDiscovery
 
     public async Task AdvertiseMasterEndpointAsync(string masterEndpoint, CancellationToken cancellationToken)
     {
-        var ttl = TimeSpan.FromSeconds(_options.TtlSeconds);
-
-        await _store.SetAsync(_masterEndpointKey, masterEndpoint, ttl, cancellationToken);
-        _logger.LogInformation("Advertised master endpoint '{Endpoint}' to Redis key '{Key}' (TTL: {Ttl}s)",
-            masterEndpoint, _masterEndpointKey, _options.TtlSeconds);
+        await _store.SetAsync(_masterEndpointKey, masterEndpoint, _options.Ttl, cancellationToken);
+        _logger.LogInformation("Advertised master endpoint '{Endpoint}' to Redis key '{Key}' (TTL: {Ttl})",
+            masterEndpoint, _masterEndpointKey, _options.Ttl);
     }
 
     public async Task<string> DiscoverMasterEndpointAsync(CancellationToken cancellationToken)
     {
         using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        timeoutCts.CancelAfter(TimeSpan.FromSeconds(_options.DiscoveryTimeoutSeconds));
+        timeoutCts.CancelAfter(_options.DiscoveryTimeout);
 
         _logger.LogInformation("Waiting for master endpoint at Redis key '{Key}'...", _masterEndpointKey);
 
@@ -64,14 +62,14 @@ internal class RedisMasterDiscovery : IMasterDiscovery
                     return masterEndpoint;
                 }
 
-                await Task.Delay(_options.PollIntervalMs, timeoutCts.Token);
+                await Task.Delay(_options.PollInterval, timeoutCts.Token);
             }
         }
         catch (OperationCanceledException exception) when (!cancellationToken.IsCancellationRequested)
         {
             // Only the discovery timeout cancelled the linked token; caller cancellation propagates as-is.
             throw new TimeoutException(
-                $"Failed to discover master endpoint within {_options.DiscoveryTimeoutSeconds} seconds. " +
+                $"Failed to discover master endpoint within {_options.DiscoveryTimeout}. " +
                 $"Redis key: {_masterEndpointKey}",
                 exception);
         }

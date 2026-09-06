@@ -20,8 +20,8 @@ ModularPipelines.Distributed.Redis.RedisDistributedExtensions
 ModularPipelines.Distributed.Redis.RedisDistributedOptions
 ModularPipelines.Distributed.Redis.RedisDistributedOptions.ConnectionString.get -> string!
 ModularPipelines.Distributed.Redis.RedisDistributedOptions.ConnectionString.set -> void
-ModularPipelines.Distributed.Redis.RedisDistributedOptions.KeyExpirationSeconds.get -> int
-ModularPipelines.Distributed.Redis.RedisDistributedOptions.KeyExpirationSeconds.set -> void
+ModularPipelines.Distributed.Redis.RedisDistributedOptions.KeyExpiration.get -> System.TimeSpan
+ModularPipelines.Distributed.Redis.RedisDistributedOptions.KeyExpiration.set -> void
 ModularPipelines.Distributed.Redis.RedisDistributedOptions.KeyPrefix.get -> string!
 ModularPipelines.Distributed.Redis.RedisDistributedOptions.KeyPrefix.set -> void
 ModularPipelines.Distributed.Redis.RedisDistributedOptions.RedisDistributedOptions() -> void

@@ -38,19 +38,13 @@ public record GcloudEventarcTriggersUpdateOptions : GcloudOptions
     /// The trigger's list of filters that apply to CloudEvents attributes. This flag can be repeated to add more filters to the list. Only events that match all these filters will be sent to the destination. The filters must include the type attribute, as well as any other attributes that are expected for the chosen type.
     /// </summary>
     [CliOption("--event-filters", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? EventFilters { get; set; }
+    public IEnumerable<string>? EventFilters { get; set; }
 
     /// <summary>
     /// The trigger's list of filters in path pattern format that apply to CloudEvent attributes. This flag can be repeated to add more filters to the list. Only events that match all these filters will be sent to the destination. Currently, path pattern format is only available for the resourceName attribute for Cloud Audit Log events.
     /// </summary>
     [CliOption("--event-filters-path-pattern", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EventFiltersPathPattern { get; set; }
-
-    /// <summary>
-    /// The retry policy configuration for the trigger. Can only be set for Cloud Run destinations. The maximum number of delivery attempts. The only valid value is 1.
-    /// </summary>
-    [CliOption("--max-retry-attempts", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxRetryAttempts { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
@@ -71,6 +65,18 @@ public record GcloudEventarcTriggersUpdateOptions : GcloudOptions
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
+    /// The retry policy configuration for the trigger. Can only be set for Cloud Run destinations. At most one of these can be specified: Clear the maximum number of delivery attempts for the trigger.
+    /// </summary>
+    [CliFlag("--clear-max-retry-attempts")]
+    public bool? ClearMaxRetryAttempts { get; set; }
+
+    /// <summary>
+    /// The retry policy configuration for the trigger. Can only be set for Cloud Run destinations. At most one of these can be specified: The maximum number of delivery attempts. The only valid value is 1.
+    /// </summary>
+    [CliOption("--max-retry-attempts", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRetryAttempts { get; set; }
+
+    /// <summary>
     /// At most one of these can be specified: Clear the IAM service account associated with the trigger.
     /// </summary>
     [CliFlag("--clear-service-account")]
@@ -80,7 +86,7 @@ public record GcloudEventarcTriggersUpdateOptions : GcloudOptions
     /// At most one of these can be specified: The IAM service account email associated with the trigger.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public string? ServiceAccountValue { get; set; }
+    public string? ServiceAccount { get; set; }
 
     /// <summary>
     /// Flags for updating the destination to which events should be sent. At most one of these can be specified: Flags for updating a GKE service destination. Namespace that the destination GKE service is running in. If not specified, the default namespace is used.
@@ -107,49 +113,39 @@ public record GcloudEventarcTriggersUpdateOptions : GcloudOptions
     public string? DestinationGkePath { get; set; }
 
     /// <summary>
-    /// Flags for updating a Cloud Run fully-managed resource destination. Region in which the destination Cloud Run service can be found. If not specified, it is assumed that the service is in the same region as the trigger.
+    /// Flags for updating a Cloud Run fully-managed resource destination. Flags for updating a Cloud Workflows destination. Region in which the destination Cloud Run service can be found. If not specified, it is assumed that the service is in the same region as the trigger.
     /// </summary>
     [CliOption("--destination-run-region", Format = OptionFormat.EqualsSeparated)]
     public string? DestinationRunRegion { get; set; }
 
     /// <summary>
-    /// Flags for updating a Cloud Run fully-managed resource destination. Name of the Cloud Run fully-managed service that receives the events for the trigger. The service must be in the same project as the trigger.
+    /// Flags for updating a Cloud Run fully-managed resource destination. Flags for updating a Cloud Workflows destination. Name of the Cloud Run fully-managed service that receives the events for the trigger. The service must be in the same project as the trigger.
     /// </summary>
     [CliOption("--destination-run-service", Format = OptionFormat.EqualsSeparated)]
     public string? DestinationRunService { get; set; }
 
     /// <summary>
-    /// Flags for updating a Cloud Run fully-managed resource destination. At most one of these can be specified: Clear the relative path on the destination Cloud Run service to which the events for the trigger should be sent.
+    /// Flags for updating a Cloud Run fully-managed resource destination. Flags for updating a Cloud Workflows destination. At most one of these can be specified: Clear the relative path on the destination Cloud Run service to which the events for the trigger should be sent.
     /// </summary>
     [CliFlag("--clear-destination-run-path")]
     public bool? ClearDestinationRunPath { get; set; }
 
     /// <summary>
-    /// Flags for updating a Cloud Run fully-managed resource destination. At most one of these can be specified: Relative path on the destination Cloud Run service to which the events for the trigger should be sent. Examples: /route, route, route/subroute.
+    /// Flags for updating a Cloud Run fully-managed resource destination. Flags for updating a Cloud Workflows destination. At most one of these can be specified: Relative path on the destination Cloud Run service to which the events for the trigger should be sent. Examples: /route, route, route/subroute.
     /// </summary>
     [CliOption("--destination-run-path", Format = OptionFormat.EqualsSeparated)]
     public string? DestinationRunPath { get; set; }
 
     /// <summary>
-    /// Flags for updating a Cloud Workflows destination. ID of the workflow that receives the events for the trigger. The workflow must be in the same project as the trigger.
+    /// Flags for updating a Cloud Run fully-managed resource destination. Flags for updating a Cloud Workflows destination. ID of the workflow that receives the events for the trigger. The workflow must be in the same project as the trigger.
     /// </summary>
     [CliOption("--destination-workflow", Format = OptionFormat.EqualsSeparated)]
     public string? DestinationWorkflow { get; set; }
 
     /// <summary>
-    /// Flags for updating a Cloud Workflows destination. Location that the destination workflow is running in. If not specified, it is assumed that the workflow is in the same location as the trigger.
+    /// Flags for updating a Cloud Run fully-managed resource destination. Flags for updating a Cloud Workflows destination. Location that the destination workflow is running in. If not specified, it is assumed that the workflow is in the same location as the trigger.
     /// </summary>
     [CliOption("--destination-workflow-location", Format = OptionFormat.EqualsSeparated)]
     public string? DestinationWorkflowLocation { get; set; }
-
-    [Obsolete("Use ServiceAccountValue instead.")]
-    public int? ServiceAccount
-    {
-        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("ClearMaxRetryAttempts is no longer supported by the installed CLI and has no effect.")]
-    public bool? ClearMaxRetryAttempts { get; set; }
 
 }

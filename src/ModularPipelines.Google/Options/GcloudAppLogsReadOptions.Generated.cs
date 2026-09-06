@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -22,22 +23,10 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAppLogsReadOptions : GcloudOptions
 {
     /// <summary>
-    /// Limit to specific service.
-    /// </summary>
-    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
-    public string? Service { get; set; }
-
-    /// <summary>
-    /// Limit to specific version.
-    /// </summary>
-    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
-    public string? Version { get; set; }
-
-    /// <summary>
     /// Filter entries with severity equal to or higher than a given level. LEVEL must be one of: critical, error, warning, info, debug, any.
     /// </summary>
     [CliOption("--level", Format = OptionFormat.EqualsSeparated)]
-    public string? Level { get; set; }
+    public GcloudLevel? Level { get; set; }
 
     /// <summary>
     /// Number of log entries to show.
@@ -50,5 +39,17 @@ public record GcloudAppLogsReadOptions : GcloudOptions
     /// </summary>
     [CliOption("--logs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Logs { get; set; }
+
+    /// <summary>
+    /// Limit to specific service.
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string? Service { get; set; }
+
+    /// <summary>
+    /// Limit to specific version.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string? Version { get; set; }
 
 }

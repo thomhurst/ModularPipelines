@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -28,7 +29,7 @@ public record GcloudVmwarePrivateConnectionsUpdateOptions : GcloudOptions
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
@@ -43,6 +44,6 @@ public record GcloudVmwarePrivateConnectionsUpdateOptions : GcloudOptions
     /// Updated routing mode for this Private Connection. ROUTING_MODE must be one of: GLOBAL, REGIONAL.
     /// </summary>
     [CliOption("--routing-mode", Format = OptionFormat.EqualsSeparated)]
-    public string? RoutingMode { get; set; }
+    public GcloudRoutingMode? RoutingMode { get; set; }
 
 }

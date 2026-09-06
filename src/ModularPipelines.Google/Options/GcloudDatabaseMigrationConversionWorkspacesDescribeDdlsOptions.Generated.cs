@@ -35,15 +35,15 @@ public record GcloudDatabaseMigrationConversionWorkspacesDescribeDdlsOptions : G
     public string? EndpointMode { get; set; }
 
     /// <summary>
+    /// Tree type for database entities. TREE_TYPE must be one of: SOURCE, DRAFT.
+    /// </summary>
+    [CliOption("--tree-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudTreeType? TreeType { get; set; }
+
+    /// <summary>
     /// Whether to retrieve the latest committed version of the entities or the latest version. This field is ignored if a specific commit_id is specified.
     /// </summary>
     [CliFlag("--uncommitted")]
     public bool? Uncommitted { get; set; }
-
-    /// <summary>
-    /// Tree type for database entities. TREE_TYPE must be one of: SOURCE, DRAFT.
-    /// </summary>
-    [CliOption("--tree-type", Format = OptionFormat.EqualsSeparated)]
-    public string? TreeType { get; set; }
 
 }

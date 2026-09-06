@@ -35,37 +35,37 @@ public record GcloudFirestoreDatabasesUpdateOptions : GcloudOptions
     public GcloudConcurrencyMode? ConcurrencyMode { get; set; }
 
     /// <summary>
-    /// ID of the database or fully qualified identifier for the database. To set the database attribute: * provide the argument --database on the command line; * the default value of argument [--database] is (default).
+    /// Database resource - Cloud Firestore database to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --database on the command line with a fully specified name; ◆ the default value of argument [--database] is (default) with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the database or fully qualified identifier for the database. To set the database attribute: ◆ provide the argument --database on the command line; ◆ the default value of argument [--database] is (default).
     /// </summary>
     [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
     public string? Database { get; set; }
 
     /// <summary>
-    /// If set to true, the Firestore database will be updated to have database delete protection enabled. A database with delete protection enabled cannot be deleted. You can disable the delete protection via --no-delete-protection.
+    /// Database resource - Cloud Firestore database to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --database on the command line with a fully specified name; ◆ the default value of argument [--database] is (default) with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. If set to true, the Firestore database will be updated to have database delete protection enabled. A database with delete protection enabled cannot be deleted. You can disable the delete protection via --no-delete-protection.
     /// </summary>
     [CliFlag("--delete-protection")]
     public bool? DeleteProtection { get; set; }
 
     /// <summary>
-    /// If set to true, the Firestore database will be updated to have database delete protection enabled. A database with delete protection enabled cannot be deleted. You can disable the delete protection via --no-delete-protection.
+    /// Negates --delete-protection. Database resource - Cloud Firestore database to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --database on the command line with a fully specified name; ◆ the default value of argument [--database] is (default) with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. If set to true, the Firestore database will be updated to have database delete protection enabled. A database with delete protection enabled cannot be deleted. You can disable the delete protection via --no-delete-protection.
     /// </summary>
     [CliFlag("--no-delete-protection")]
     public bool? NoDeleteProtection { get; set; }
 
     /// <summary>
-    /// If set to true, the Firestore database will be updated to enable Point In Time Recovery. You can disable the this feature via --no-enable-pitr.
+    /// Database resource - Cloud Firestore database to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --database on the command line with a fully specified name; ◆ the default value of argument [--database] is (default) with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. If set to true, the Firestore database will be updated to enable Point In Time Recovery. You can disable the this feature via --no-enable-pitr.
     /// </summary>
     [CliFlag("--enable-pitr")]
     public bool? EnablePitr { get; set; }
 
     /// <summary>
-    /// If set to true, the Firestore database will be updated to enable Point In Time Recovery. You can disable the this feature via --no-enable-pitr.
+    /// Negates --enable-pitr. Database resource - Cloud Firestore database to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --database on the command line with a fully specified name; ◆ the default value of argument [--database] is (default) with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. If set to true, the Firestore database will be updated to enable Point In Time Recovery. You can disable the this feature via --no-enable-pitr.
     /// </summary>
     [CliFlag("--no-enable-pitr")]
     public bool? NoEnablePitr { get; set; }
 
     /// <summary>
-    /// The database type. TYPE must be one of: datastore-mode, firestore-native.
+    /// Database resource - Cloud Firestore database to update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --database on the command line with a fully specified name; ◆ the default value of argument [--database] is (default) with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The database type. TYPE must be one of: datastore-mode, firestore-native.
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
     public GcloudType? Type { get; set; }

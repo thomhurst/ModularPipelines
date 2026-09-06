@@ -58,7 +58,9 @@ public class PipelineExecutorTests
     {
         var moduleExecutor = new Mock<IModuleExecutor>();
         moduleExecutor
-            .Setup(x => x.ExecuteAsync(It.IsAny<IReadOnlyList<IModule>>()))
+            .Setup(x => x.ExecuteAsync(
+                It.IsAny<IReadOnlyList<IModule>>(),
+                It.IsAny<IReadOnlyDictionary<Type, TimeSpan>>()))
             .ReturnsAsync([]);
 
         var pipelineSetupExecutor = new Mock<IPipelineSetupExecutor>();

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -26,6 +27,12 @@ public record GcloudTransferJobsListOptions : GcloudOptions
     /// </summary>
     [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
     public string? Limit { get; set; }
+
+    /// <summary>
+    /// Retrieve batches of this many items from the API.
+    /// </summary>
+    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PageSize { get; set; }
 
     /// <summary>
     /// The names of the jobs you want to list. Separate multiple job names with commas (e.g., --job-names=foo,bar). If not specified, all jobs will be listed.
@@ -46,15 +53,9 @@ public record GcloudTransferJobsListOptions : GcloudOptions
     public bool? ExpandTable { get; set; }
 
     /// <summary>
-    /// Retrieve batches of this many items from the API.
-    /// </summary>
-    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
-    public int? PageSize { get; set; }
-
-    /// <summary>
     /// The type of the job you want to list. JOB_TYPE must be one of: transfer, replication.
     /// </summary>
     [CliOption("--job-type", Format = OptionFormat.EqualsSeparated)]
-    public string? JobType { get; set; }
+    public GcloudJobType? JobType { get; set; }
 
 }

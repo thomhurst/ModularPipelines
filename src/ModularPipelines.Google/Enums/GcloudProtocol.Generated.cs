@@ -17,20 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudProtocol
 {
     [EnumValue("TCP")]
-    Tcp = 0,
+    Tcp,
 
     [EnumValue("UDP")]
-    Udp = 1,
+    Udp,
 
     [EnumValue("UNSPECIFIED")]
-    Unspecified = 2,
-
-    [EnumValue("TLS")]
-    Tls = 3,
-
-    [EnumValue("RELP")]
-    Relp = 4,
-
-    [EnumValue("SSL")]
-    Ssl = 5
+    Unspecified
 }

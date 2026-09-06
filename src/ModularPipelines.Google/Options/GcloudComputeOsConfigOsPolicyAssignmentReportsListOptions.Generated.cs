@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeOsConfigOsPolicyAssignmentReportsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Location of the OS policy assignment reports to list, will default to the user's compute/zone property if not specified.
+    /// Location resource - Location of the OS policy assignment reports to list. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property compute/zone with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ set the property compute/zone.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// Specify which instance or OS policy assignment to list reports for. At most one of these can be specified: An OSPolicyAssignment ID. If not provided, OSPolicyAssignmentReports for all instances in the project and location will be listed.
+    /// Location resource - Location of the OS policy assignment reports to list. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property compute/zone with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Specify which instance or OS policy assignment to list reports for. At most one of these can be specified: An OSPolicyAssignment ID. If not provided, OSPolicyAssignmentReports for all instances in the project and location will be listed.
     /// </summary>
     [CliOption("--assignment-id", Format = OptionFormat.EqualsSeparated)]
     public string? AssignmentId { get; set; }
 
     /// <summary>
-    /// Specify which instance or OS policy assignment to list reports for. At most one of these can be specified: Either instance name or instance ID. If not provided, OSPolicyAssignmentReports for all instances in the project and location will be listed.
+    /// Location resource - Location of the OS policy assignment reports to list. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property compute/zone with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Specify which instance or OS policy assignment to list reports for. At most one of these can be specified: Either instance name or instance ID. If not provided, OSPolicyAssignmentReports for all instances in the project and location will be listed.
     /// </summary>
     [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
     public string? Instance { get; set; }

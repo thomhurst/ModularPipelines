@@ -164,9 +164,6 @@ public partial class FlywayCliScraper : CliScraperBase
         return subcommands;
     }
 
-    private static int GetIndentation(string line) =>
-        line.TakeWhile(character => character is ' ' or '\t').Count();
-
     /// <summary>
     /// Parses a Flyway command from its help text.
     /// </summary>

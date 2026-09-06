@@ -57,6 +57,12 @@ public record BrewTestsOptions : BrewOptions
     public bool? FailFast { get; set; }
 
     /// <summary>
+    /// Load each test file independently without running its examples.
+    /// </summary>
+    [CliFlag("--load-only")]
+    public bool? LoadOnly { get; set; }
+
+    /// <summary>
     /// Run tests serially.
     /// </summary>
     [CliFlag("--no-parallel")]

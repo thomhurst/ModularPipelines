@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamOauthClientsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// A list of OAuth grant types that are allowed for the OAuth client. The following grant types are currently supported: * authorization-code-grant * refresh-token-grant
+    /// A list of OAuth grant types that are allowed for the OAuth client. The following grant types are currently supported: ◆ authorization-code-grant ◆ refresh-token-grant
     /// </summary>
     [CliOption("--allowed-grant-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowedGrantTypes { get; set; }
@@ -34,7 +34,7 @@ public record GcloudIamOauthClientsUpdateOptions : GcloudOptions
     public IEnumerable<string>? AllowedRedirectUris { get; set; }
 
     /// <summary>
-    /// A list of scopes that the OAuth client is allowed to request during OAuth flows. The following scopes are currently supported: * https://www.googleapis.com/auth/cloud-platform: View, edit, configure, and delete your Google Cloud data, and view the email address for your Google Account. * openid: Associate you with your personal info on Google Cloud. * email: The OAuth client can read a federated identity's email address. * groups: The OAuth client can read a federated identity's groups.
+    /// A list of scopes that the OAuth client is allowed to request during OAuth flows. The following scopes are currently supported: ◆ https://www.googleapis.com/auth/cloud-platform: View, edit, configure, and delete your Google Cloud data, and view the email address for your Google Account. ◆ openid: Associate you with your personal info on Google Cloud. ◆ email: The OAuth client can read a federated identity's email address. ◆ groups: The OAuth client can read a federated identity's groups.
     /// </summary>
     [CliOption("--allowed-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowedScopes { get; set; }
@@ -52,7 +52,7 @@ public record GcloudIamOauthClientsUpdateOptions : GcloudOptions
     public bool? Disabled { get; set; }
 
     /// <summary>
-    /// Disables the OAuth client. You cannot use a disabled OAuth client for login. Include --no-disabled to enable a disabled OAuth client.
+    /// Negates --disabled. Disables the OAuth client. You cannot use a disabled OAuth client for login. Include --no-disabled to enable a disabled OAuth client.
     /// </summary>
     [CliFlag("--no-disabled")]
     public bool? NoDisabled { get; set; }

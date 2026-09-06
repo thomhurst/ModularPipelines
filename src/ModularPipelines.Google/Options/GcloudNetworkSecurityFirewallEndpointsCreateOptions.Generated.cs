@@ -29,7 +29,7 @@ public record GcloudNetworkSecurityFirewallEndpointsCreateOptions : GcloudOption
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
     [CliFlag("--no-async")]
     public bool? NoAsync { get; set; }
@@ -53,7 +53,7 @@ public record GcloudNetworkSecurityFirewallEndpointsCreateOptions : GcloudOption
     public bool? EnableJumboFrames { get; set; }
 
     /// <summary>
-    /// Enable jumbo frames for the firewall endpoint. To disable jumbo frames, use --no-enable-jumbo-frames.
+    /// Negates --enable-jumbo-frames. Enable jumbo frames for the firewall endpoint. To disable jumbo frames, use --no-enable-jumbo-frames.
     /// </summary>
     [CliFlag("--no-enable-jumbo-frames")]
     public bool? NoEnableJumboFrames { get; set; }

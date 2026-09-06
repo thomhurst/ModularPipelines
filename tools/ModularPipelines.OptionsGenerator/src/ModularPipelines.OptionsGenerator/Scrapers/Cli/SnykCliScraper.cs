@@ -635,11 +635,6 @@ public partial class SnykCliScraper : CliScraperBase
         return line.TrimStart().TrimStart('[').StartsWith("--", StringComparison.Ordinal);
     }
 
-    private static int GetIndentation(string line)
-    {
-        return line.Length - line.TrimStart().Length;
-    }
-
     private static bool HasOptionHeadingIndentation(string[] lines, int index, int standardIndentation)
     {
         var indentation = GetIndentation(lines[index]);

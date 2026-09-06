@@ -9,6 +9,10 @@ namespace ModularPipelines.Distributed.Redis.UnitTests.Coordination;
 
 public class RedisDistributedCoordinatorTests
 {
+    private const long ServerTimeSeconds = 1_700_000_000;
+    private const long ServerTimeMicroseconds = 456_000;
+    private const long ServerTimeMilliseconds = 1_700_000_000_456;
+
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         Converters = { new ReadOnlySetJsonConverter() },
@@ -28,22 +32,32 @@ public class RedisDistributedCoordinatorTests
         _keys = new RedisKeyBuilder("modpipe", "test-run");
         _options = new RedisDistributedOptions
         {
-            KeyExpirationSeconds = 3600,
+            KeyExpiration = TimeSpan.FromHours(1),
         };
+        _dbMock.Setup(db => db.ExecuteAsync(
+                "TIME",
+                It.IsAny<ICollection<object>?>(),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync(RedisResult.Create(
+            [
+                RedisResult.Create((RedisValue) ServerTimeSeconds),
+                RedisResult.Create((RedisValue) ServerTimeMicroseconds),
+            ]));
         _coordinator = new RedisDistributedCoordinator(_dbMock.Object, _subscriberMock.Object, _keys, _options);
     }
 
     [Test]
-    public async Task EnqueueModuleAsync_PushesToListAndSetsExpiry()
+    public async Task EnqueueModuleAsync_AddsToSortedSetAndSetsExpiry()
     {
         var assignment = CreateAssignment("Test.Module");
 
         await _coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
 
-        _dbMock.Verify(db => db.ListLeftPushAsync(
+        _dbMock.Verify(db => db.SortedSetAddAsync(
             _keys.WorkQueue,
             It.Is<RedisValue>(v => v.ToString().Contains("Test.Module")),
-            It.IsAny<When>(),
+            It.IsAny<double>(),
+            It.IsAny<SortedSetWhen>(),
             It.IsAny<CommandFlags>()), Times.Once);
 
         _dbMock.Verify(db => db.KeyExpireAsync(
@@ -57,6 +71,53 @@ public class RedisDistributedCoordinatorTests
             It.Is<RedisChannel>(c => c.ToString() == _keys.WorkAvailableChannel),
             It.IsAny<RedisValue>(),
             It.IsAny<CommandFlags>()), Times.Once);
+    }
+
+    [Test]
+    public async Task EnqueueModuleAsync_Preserves_Identical_Assignments()
+    {
+        var members = new List<RedisValue>();
+        _dbMock.Setup(db => db.SortedSetAddAsync(
+                _keys.WorkQueue,
+                It.IsAny<RedisValue>(),
+                It.IsAny<double>(),
+                It.IsAny<SortedSetWhen>(),
+                It.IsAny<CommandFlags>()))
+            .Callback<RedisKey, RedisValue, double, SortedSetWhen, CommandFlags>(
+                (_, member, _, _, _) => members.Add(member));
+        var assignment = CreateAssignment("Test.Module");
+
+        await _coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
+        await _coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
+
+        await Assert.That(members.Count).IsEqualTo(2);
+        await Assert.That(members[0]).IsNotEqualTo(members[1]);
+        await Assert.That(members.All(member => member.ToString().Contains("Test.Module"))).IsTrue();
+    }
+
+    [Test]
+    public async Task QueueScore_Prefers_UserPriority_Then_CriticalPathWeight()
+    {
+        var highPriority = CreateAssignment("High") with
+        {
+            Priority = ModulePriority.High,
+            CriticalPathWeight = TimeSpan.FromSeconds(1),
+        };
+        var longNormalPath = CreateAssignment("Normal") with
+        {
+            Priority = ModulePriority.Normal,
+            CriticalPathWeight = TimeSpan.MaxValue,
+        };
+        var shortNormalPath = CreateAssignment("Short") with
+        {
+            Priority = ModulePriority.Normal,
+            CriticalPathWeight = TimeSpan.FromSeconds(1),
+        };
+
+        await Assert.That(RedisDistributedCoordinator.GetQueueScore(highPriority))
+            .IsGreaterThan(RedisDistributedCoordinator.GetQueueScore(longNormalPath));
+        await Assert.That(RedisDistributedCoordinator.GetQueueScore(longNormalPath))
+            .IsGreaterThan(RedisDistributedCoordinator.GetQueueScore(shortNormalPath));
     }
 
     [Test]
@@ -77,6 +138,56 @@ public class RedisDistributedCoordinatorTests
 
         await Assert.That(result).IsNotNull();
         await Assert.That(result!.ModuleTypeName).IsEqualTo("Test.Module");
+
+        _dbMock.Verify(db => db.ScriptEvaluateAsync(
+            It.Is<string>(script =>
+                script.Contains("redis.call('TIME')", StringComparison.Ordinal)
+                && script.Contains("/ 1000", StringComparison.Ordinal)
+                && !script.Contains("redis.call('EXISTS'", StringComparison.Ordinal)),
+            It.Is<RedisKey[]?>(keys => keys!.Length == 2
+                && keys[0] == _keys.WorkQueue
+                && keys[1] == _keys.Workers),
+            It.Is<RedisValue[]?>(values => values != null
+                && (double) values[1] == TimeSpan.FromSeconds(30).TotalMilliseconds),
+            It.IsAny<CommandFlags>()), Times.Once);
+    }
+
+    [Test]
+    public async Task DequeueModuleAsync_Deserializes_Unique_Queue_Member()
+    {
+        var assignment = CreateAssignment("Test.Module");
+        var json = JsonSerializer.Serialize(assignment, JsonOptions);
+        _dbMock.Setup(db => db.ScriptEvaluateAsync(
+                It.IsAny<string>(),
+                It.IsAny<RedisKey[]?>(),
+                It.IsAny<RedisValue[]?>(),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync(RedisResult.Create((RedisValue) $"{Guid.NewGuid():N}|{json}"));
+
+        var result = await _coordinator.DequeueModuleAsync(
+            new HashSet<Capability>(), CancellationToken.None);
+
+        await Assert.That(result).IsNotNull();
+        await Assert.That(result!.ModuleTypeName).IsEqualTo("Test.Module");
+    }
+
+    [Test]
+    public async Task DequeueModuleAsync_Preserves_Pipe_In_Legacy_Queue_Member()
+    {
+        var assignment = CreateAssignment("Test|Module");
+        var json = JsonSerializer.Serialize(assignment, JsonOptions);
+        _dbMock.Setup(db => db.ScriptEvaluateAsync(
+                It.IsAny<string>(),
+                It.IsAny<RedisKey[]?>(),
+                It.IsAny<RedisValue[]?>(),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync(RedisResult.Create((RedisValue) json));
+
+        var result = await _coordinator.DequeueModuleAsync(
+            new HashSet<Capability>(), CancellationToken.None);
+
+        await Assert.That(result).IsNotNull();
+        await Assert.That(result!.ModuleTypeName).IsEqualTo("Test|Module");
     }
 
     [Test]
@@ -172,6 +283,19 @@ public class RedisDistributedCoordinatorTests
     }
 
     [Test]
+    public async Task SendHeartbeatAsync_StoresTimestampInWorkersHash()
+    {
+        await _coordinator.SendHeartbeatAsync(7, CancellationToken.None);
+
+        _dbMock.Verify(db => db.HashSetAsync(
+            _keys.Workers,
+            (RedisValue) "heartbeat:7",
+            It.Is<RedisValue>(value => (long) value == ServerTimeMilliseconds),
+            It.IsAny<When>(),
+            It.IsAny<CommandFlags>()), Times.Once);
+    }
+
+    [Test]
     public async Task GetRegisteredWorkersAsync_ReturnsAllWorkers()
     {
         var worker1 = CreateWorkerRegistration(1);
@@ -182,9 +306,9 @@ public class RedisDistributedCoordinatorTests
             [
                 new HashEntry("1", JsonSerializer.Serialize(worker1, JsonOptions)),
                 new HashEntry("2", JsonSerializer.Serialize(worker2, JsonOptions)),
+                new HashEntry("heartbeat:1", ServerTimeMilliseconds),
+                new HashEntry("heartbeat:2", ServerTimeMilliseconds),
             ]);
-        _dbMock.Setup(db => db.KeyExistsAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
-            .ReturnsAsync(true);
 
         var workers = await _coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
 

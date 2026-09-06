@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudSortOrder
 {
     [EnumValue("ascending")]
-    Ascending = 0,
+    Ascending,
 
     [EnumValue("descending")]
-    Descending = 1
+    Descending
 }

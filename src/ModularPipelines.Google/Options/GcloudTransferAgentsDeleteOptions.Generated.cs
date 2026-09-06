@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Options;
 public record GcloudTransferAgentsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: The IDs of the agents you want to delete. Separate multiple agent IDs with commas, with no spaces following the commas.
+    /// At most one of these can be specified: The IDs of the agents you want to delete. Separate multiple agent IDs with commas, with no spaces following the commas.
     /// </summary>
     [CliOption("--ids", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Delete all agents running on your machine.
+    /// At most one of these can be specified: Delete all agents running on your machine.
     /// </summary>
     [CliFlag("--all")]
     public bool? All { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Fully uninstall the agent container image in addition to deleting the agents. Uninstalling the container image will free up space, but you'll need to reinstall it to run agents on this machine in the future.
+    /// At most one of these can be specified: Fully uninstall the agent container image in addition to deleting the agents. Uninstalling the container image will free up space, but you'll need to reinstall it to run agents on this machine in the future.
     /// </summary>
     [CliFlag("--uninstall")]
     public bool? Uninstall { get; set; }

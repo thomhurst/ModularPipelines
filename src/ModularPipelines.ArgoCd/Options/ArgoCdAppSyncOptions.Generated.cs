@@ -383,11 +383,4 @@ public record ArgoCdAppSyncOptions : ArgoCdOptions
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? ApplicationNames { get; set; }
 
-    [Obsolete("Use AssumeYes instead.")]
-    public bool? Assumeyes
-    {
-        get => AssumeYes;
-        set => AssumeYes = value;
-    }
-
 }

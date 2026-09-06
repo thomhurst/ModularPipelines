@@ -17,7 +17,7 @@ internal interface IModuleConditionHandler
 
     Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnore(IModule module, CancellationToken cancellationToken = default);
 
-    Task PrepareDistributedRoutingAsync(
+    Task PrepareExecutionRoutingAsync(
         IModule module,
         CancellationToken cancellationToken = default);
 

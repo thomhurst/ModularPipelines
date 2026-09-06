@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudLogging
 {
     [EnumValue("NONE")]
-    None = 0,
+    None,
 
     [EnumValue("SYSTEM")]
-    System = 1,
+    System,
 
     [EnumValue("WORKLOAD")]
-    Workload = 2
+    Workload
 }

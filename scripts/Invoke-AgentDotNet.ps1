@@ -8,8 +8,10 @@ uses below-normal priority, and kills the full process tree when time or memory
 limits are exceeded. Exit 124 means timeout; exit 137 means memory limit.
 
 .EXAMPLE
-pwsh scripts/Invoke-AgentDotNet.ps1 -SingleNode `
+& scripts/Invoke-AgentDotNet.ps1 -SingleNode `
     -DotNetArguments @('build', 'ModularPipelines.slnx', '-c', 'Release')
+
+Invoke in-process so -DotNetArguments receives the array intact; see CLAUDE.md.
 #>
 
 [CmdletBinding(PositionalBinding = $false)]
@@ -572,7 +574,7 @@ function Add-SingleNodeArgument([string[]]$Arguments) {
     $verb = $Arguments[0]
     $supportsMaxCpuCount = $verb -in @('build', 'test', 'pack', 'publish', 'msbuild')
     $alreadyConfigured = $Arguments |
-        Where-Object { $_ -match '^(?:-m|--maxcpucount)(?::|$)' } |
+        Where-Object { $_ -match '^[-/]{1,2}(?:m|maxcpucount)(?::|$)' } |
         Select-Object -First 1
     if (-not $supportsMaxCpuCount -or $alreadyConfigured) {
         return $Arguments
@@ -589,8 +591,26 @@ function Add-SingleNodeArgument([string[]]$Arguments) {
 }
 
 $effectiveArguments = Add-SingleNodeArgument $DotNetArguments
+
+# Set-Location only moves the PowerShell provider location; a child process inherits
+# the process working directory instead. Pin the wrapper to the caller's location so a
+# guard run inside an isolated worktree builds that worktree; dotnet inherits it.
+$workingDirectory = (Get-Location).ProviderPath
+
+function ConvertTo-PowerShellLiteral([string]$Value) {
+    return "'" + $Value.Replace("'", "''") + "'"
+}
+
+# The wrapper receives dotnet's arguments as embedded literals rather than through
+# `$args`: PowerShell's parameter binder would otherwise split MSBuild-style
+# '-name:value' tokens such as '-m:1' or '-p:Configuration=Release' in two.
+$argumentLiterals = ($effectiveArguments | ForEach-Object { ConvertTo-PowerShellLiteral $_ }) -join ', '
+$wrapperPrologue = "`$dotnetPath = $(ConvertTo-PowerShellLiteral $DotNetPath)`n" +
+    "`$dotnetArguments = @($argumentLiterals)`n"
+
 $startInfo = [System.Diagnostics.ProcessStartInfo]::new()
 $startInfo.UseShellExecute = $false
+$startInfo.WorkingDirectory = $workingDirectory
 $startInfo.Environment['BuildInParallel'] = 'false'
 $startInfo.Environment['DOTNET_CLI_TELEMETRY_OPTOUT'] = '1'
 $startInfo.Environment['DOTNET_CLI_USE_MSBUILD_SERVER'] = '0'
@@ -602,25 +622,11 @@ $wrapperPath = [System.IO.Path]::Combine(
     "agent-dotnet-wrapper-$([guid]::NewGuid()).ps1"
 )
 
-if ($IsWindows) {
-    # The wrapper waits on a gate, allowing the guard to assign it to the Job Object
-    # and lower its priority before it can launch dotnet or any descendants.
-    $wrapperScript = @'
-$startGate = [Threading.EventWaitHandle]::OpenExisting($args[0])
-try {
-    if (-not $startGate.WaitOne([TimeSpan]::FromSeconds(30))) {
-        [Console]::Error.WriteLine('Agent dotnet guard launch gate timed out.')
-        exit 126
-    }
-}
-finally {
-    $startGate.Dispose()
-}
-
+$childLaunchScript = @'
 $startInfo = [Diagnostics.ProcessStartInfo]::new()
 $startInfo.UseShellExecute = $false
-$startInfo.FileName = $args[1]
-foreach ($argument in $args[2..($args.Count - 1)]) {
+$startInfo.FileName = $dotnetPath
+foreach ($argument in $dotnetArguments) {
     $startInfo.ArgumentList.Add($argument)
 }
 
@@ -635,21 +641,30 @@ finally {
 
 exit $exitCode
 '@
-    $startInfo.FileName = $pwshPath
-    $startInfo.ArgumentList.Add('-NoProfile')
-    $startInfo.ArgumentList.Add('-NonInteractive')
-    $startInfo.ArgumentList.Add('-File')
-    $startInfo.ArgumentList.Add($wrapperPath)
-    $startInfo.ArgumentList.Add('{WINDOWS_START_GATE}')
-    $startInfo.ArgumentList.Add($DotNetPath)
-    foreach ($argument in $effectiveArguments) {
-        $startInfo.ArgumentList.Add($argument)
+
+if ($IsWindows) {
+    # The wrapper waits on a gate, allowing the guard to assign it to the Job Object
+    # and lower its priority before it can launch dotnet or any descendants.
+    $windowsStartGateName = "agent-dotnet-guard-$([guid]::NewGuid())"
+    $wrapperScript = $wrapperPrologue +
+        "`$startGateName = $(ConvertTo-PowerShellLiteral $windowsStartGateName)`n" + @'
+$startGate = [Threading.EventWaitHandle]::OpenExisting($startGateName)
+try {
+    if (-not $startGate.WaitOne([TimeSpan]::FromSeconds(30))) {
+        [Console]::Error.WriteLine('Agent dotnet guard launch gate timed out.')
+        exit 126
     }
+}
+finally {
+    $startGate.Dispose()
+}
+
+'@ + $childLaunchScript
 }
 else {
     # PowerShell is already a guard prerequisite, so libc calls provide portable
     # process-group containment without requiring setsid(1) or Python on macOS.
-    $wrapperScript = @'
+    $wrapperScript = $wrapperPrologue + @'
 Add-Type -TypeDefinition @"
 using System.Runtime.InteropServices;
 
@@ -674,34 +689,14 @@ if ([AgentDotNetUnixChildNative]::setpriority(0, 0, 10) -ne 0) {
     [Console]::Error.WriteLine("Agent dotnet guard could not lower Unix priority (errno $errorCode).")
 }
 
-$startInfo = [Diagnostics.ProcessStartInfo]::new()
-$startInfo.UseShellExecute = $false
-$startInfo.FileName = $args[0]
-foreach ($argument in $args[1..($args.Count - 1)]) {
-    $startInfo.ArgumentList.Add($argument)
+'@ + $childLaunchScript
 }
 
-$child = [Diagnostics.Process]::Start($startInfo)
-try {
-    $child.WaitForExit()
-    $exitCode = $child.ExitCode
-}
-finally {
-    $child.Dispose()
-}
-
-exit $exitCode
-'@
-    $startInfo.FileName = $pwshPath
-    $startInfo.ArgumentList.Add('-NoProfile')
-    $startInfo.ArgumentList.Add('-NonInteractive')
-    $startInfo.ArgumentList.Add('-File')
-    $startInfo.ArgumentList.Add($wrapperPath)
-    $startInfo.ArgumentList.Add($DotNetPath)
-    foreach ($argument in $effectiveArguments) {
-        $startInfo.ArgumentList.Add($argument)
-    }
-}
+$startInfo.FileName = $pwshPath
+$startInfo.ArgumentList.Add('-NoProfile')
+$startInfo.ArgumentList.Add('-NonInteractive')
+$startInfo.ArgumentList.Add('-File')
+$startInfo.ArgumentList.Add($wrapperPath)
 
 $process = [System.Diagnostics.Process]::new()
 $process.StartInfo = $startInfo
@@ -725,13 +720,10 @@ try {
 
     if ($IsWindows) {
         $windowsJobHandle = [AgentDotNetWindowsJob]::CreateKillOnClose()
-        $windowsStartGateName = "agent-dotnet-guard-$([guid]::NewGuid())"
         $windowsStartGate = [Threading.EventWaitHandle]::new(
             $false,
             [Threading.EventResetMode]::ManualReset,
             $windowsStartGateName)
-        $gateArgumentIndex = $startInfo.ArgumentList.IndexOf('{WINDOWS_START_GATE}')
-        $startInfo.ArgumentList[$gateArgumentIndex] = $windowsStartGateName
     }
 
     if (-not $process.Start()) {

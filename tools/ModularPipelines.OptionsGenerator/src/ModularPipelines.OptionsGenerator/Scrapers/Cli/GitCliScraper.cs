@@ -472,17 +472,24 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         for (var index = 0; index < lines.Length; index++)
         {
             var line = lines[index];
-            if (!TryParseOption(line, out var option, out var negatedLongFlag)
+            var match = OptionLineRegex().Match(line);
+            if (!match.Success
+                || !TryParseOption(match, line, out var option, out var negatedLongFlag)
                 || !seenOptions.Add(option.SwitchName))
             {
                 continue;
             }
 
-            if (string.IsNullOrEmpty(option.Description)
-                && TryGetWrappedDescription(lines, index, out var description))
+            // Consumes prose wrapped beneath the declaration so it is not re-read as a row.
+            var declarationIndex = index;
+            var description = AccumulateWrappedDescription(
+                lines,
+                ref index,
+                GetDescriptionGroup(match),
+                IsOptionRow);
+            if (index > declarationIndex)
             {
                 option = AddDescription(option, description);
-                index++;
             }
 
             options.Add(option);
@@ -495,27 +502,12 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         return options;
     }
 
-    private static bool TryGetWrappedDescription(
-        IReadOnlyList<string> lines,
-        int declarationIndex,
-        out string description)
-    {
-        description = "";
-        if (declarationIndex + 1 >= lines.Count)
-        {
-            return false;
-        }
+    private static bool IsOptionRow(string line) => OptionLineRegex().IsMatch(line);
 
-        var declaration = lines[declarationIndex];
-        var candidate = lines[declarationIndex + 1];
-        description = candidate.Trim();
-        return description.Length > 0
-               && !description.StartsWith('-')
-               && GetIndentation(candidate) > GetIndentation(declaration);
-    }
-
-    private static int GetIndentation(string value) =>
-        value.TakeWhile(char.IsWhiteSpace).Count();
+    private static Group GetDescriptionGroup(Match match) =>
+        match.Groups["description"] is { Success: true, Value.Length: > 0 } description
+            ? description
+            : match.Groups["shortDescription"];
 
     private static CliOptionDefinition AddDescription(
         CliOptionDefinition option,
@@ -529,18 +521,13 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
     }
 
     private static bool TryParseOption(
+        Match match,
         string line,
         out CliOptionDefinition option,
         out string? negatedLongFlag)
     {
         option = null!;
         negatedLongFlag = null;
-        var match = OptionLineRegex().Match(line);
-        if (!match.Success)
-        {
-            return false;
-        }
-
         var identity = GetOptionIdentity(match);
         if (identity is null)
         {

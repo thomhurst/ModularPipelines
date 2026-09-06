@@ -22,25 +22,25 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDatabaseMigrationMigrationJobsRestartOptions : GcloudOptions
 {
     /// <summary>
-    /// The migration job objects config. At most one of these can be specified: The migration job objects config. At most one of these can be specified: A list of databases to be migrated to the destination instance. Provide databases as a comma separated list. This flag is used only for SQL Server to Cloud SQL SQL Server migrations.
+    /// The migration job objects config. At most one of these can be specified: A list of databases to be migrated to the destination instance. Provide databases as a comma separated list. This flag is used only for SQL Server to Cloud SQL SQL Server migrations.
     /// </summary>
     [CliOption("--databases-filter", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DatabasesFilter { get; set; }
 
     /// <summary>
-    /// The migration job objects config. At most one of these can be specified: Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
     /// </summary>
     [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointMode { get; set; }
 
     /// <summary>
-    /// The migration job objects config. At most one of these can be specified: Restart the failed objects in the migration job. This flag is used only for Postgres to AlloyDB, and Postgres to Cloud SQL Postgres and MySQL to Cloud SQL MySQL migrations.
+    /// Restart the failed objects in the migration job. This flag is used only for Postgres to AlloyDB, and Postgres to Cloud SQL Postgres and MySQL to Cloud SQL MySQL migrations.
     /// </summary>
     [CliFlag("--restart-failed-objects")]
     public bool? RestartFailedObjects { get; set; }
 
     /// <summary>
-    /// The migration job objects config. At most one of these can be specified: Restart the migration job without running prior configuration verification.
+    /// Restart the migration job without running prior configuration verification.
     /// </summary>
     [CliFlag("--skip-validation")]
     public bool? SkipValidation { get; set; }

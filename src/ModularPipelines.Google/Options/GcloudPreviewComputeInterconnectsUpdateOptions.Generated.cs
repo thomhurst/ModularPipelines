@@ -30,7 +30,7 @@ public record GcloudPreviewComputeInterconnectsUpdateOptions(
     public bool? AdminEnabled { get; set; }
 
     /// <summary>
-    /// Administrative status of the interconnect. When this is enabled, the interconnect is operational and will carry traffic across any functioning linked interconnect attachments. Use --no-admin-enabled to disable it.
+    /// Negates --admin-enabled. Administrative status of the interconnect. When this is enabled, the interconnect is operational and will carry traffic across any functioning linked interconnect attachments. Use --no-admin-enabled to disable it.
     /// </summary>
     [CliFlag("--no-admin-enabled")]
     public bool? NoAdminEnabled { get; set; }

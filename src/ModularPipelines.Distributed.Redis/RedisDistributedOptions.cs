@@ -16,7 +16,7 @@ public class RedisDistributedOptions
     public string KeyPrefix { get; set; } = "modpipe";
 
     /// <summary>
-    /// Gets or sets the TTL in seconds for Redis keys. Default: 3600 (1 hour).
+    /// Gets or sets the TTL for Redis keys. Default: 1 hour.
     /// </summary>
-    public int KeyExpirationSeconds { get; set; } = 3600;
+    public TimeSpan KeyExpiration { get; set; } = TimeSpan.FromHours(1);
 }

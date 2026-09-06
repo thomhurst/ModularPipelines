@@ -69,8 +69,16 @@ internal class DistributedModuleExecutor(
     private readonly IOptions<PipelineOptions>? _pipelineOptions = pipelineOptions;
     private readonly DistributedCacheHitTracker _cacheHitTracker = cacheHitTracker ?? new();
 
-    public async Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules)
+    public Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules) =>
+        ExecuteAsync(modules, new Dictionary<Type, TimeSpan>());
+
+    public async Task<IEnumerable<IModule>> ExecuteAsync(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations)
     {
+        ArgumentNullException.ThrowIfNull(modules);
+        ArgumentNullException.ThrowIfNull(estimatedDurations);
+
         if (modules.Count == 0)
         {
             return modules;
@@ -112,7 +120,7 @@ internal class DistributedModuleExecutor(
             var masterCapabilities = BuildCapabilities(options);
 
             scheduler = _schedulerFactory.Create();
-            scheduler.InitializeModules(modules);
+            scheduler.InitializeModules(modules, estimatedDurations);
             UsedHistoryModuleSchedulerInitializer.Precomplete(
                 modules,
                 scheduler,
@@ -239,8 +247,7 @@ internal class DistributedModuleExecutor(
 
         var module = moduleState.Module;
         var collectTask = await TryStartDistributedExecutionAsync(
-                module,
-                module.GetType(),
+                moduleState,
                 scheduler,
                 pipelineCts,
                 requestFailureCancellation,
@@ -334,17 +341,22 @@ internal class DistributedModuleExecutor(
     }
 
     private async Task<Task?> TryStartDistributedExecutionAsync(
-        IModule module,
-        Type moduleType,
+        ModuleState moduleState,
         IModuleScheduler scheduler,
         CancellationTokenSource cts,
         Action requestFailureCancellation,
         IReadOnlySet<Capability> masterCapabilities)
     {
+        var module = moduleState.Module;
+        var moduleType = moduleState.ModuleType;
         var cleanupDeferredToResultTask = false;
         try
         {
-            var assignment = await _publisher.CreateAssignmentAsync(module, cts.Token)
+            var assignment = await _publisher.CreateAssignmentAsync(
+                    module,
+                    cts.Token,
+                    moduleState.Priority,
+                    moduleState.CriticalPathWeight)
                 .ConfigureAwait(false);
             if (!scheduler.MarkModuleStarted(moduleType))
             {
@@ -557,7 +569,9 @@ internal class DistributedModuleExecutor(
         var moduleType = moduleState.ModuleType;
         var assignment = await _publisher.CreateAssignmentAsync(
                 module,
-                _lifetime.ApplicationStopping)
+                _lifetime.ApplicationStopping,
+                moduleState.Priority,
+                moduleState.CriticalPathWeight)
             .ConfigureAwait(false);
         if (!scheduler.MarkModuleStarted(moduleType))
         {

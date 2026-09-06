@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -27,7 +28,10 @@ public record GcloudIamServiceAccountsKeysListOptions : GcloudOptions
     [CliOption("--created-before", Format = OptionFormat.EqualsSeparated)]
     public string? CreatedBefore { get; set; }
 
-    [Obsolete("ManagedBy is no longer supported by the installed CLI and has no effect.")]
-    public string? ManagedBy { get; set; }
+    /// <summary>
+    /// The types of keys to list. MANAGED_BY must be one of: user, system, any.
+    /// </summary>
+    [CliOption("--managed-by", Format = OptionFormat.EqualsSeparated)]
+    public GcloudManagedBy? ManagedBy { get; set; }
 
 }
