@@ -1,5 +1,8 @@
 using EnumerableAsyncProcessor.Extensions;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Helpers;
+using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
@@ -9,32 +12,38 @@ namespace ModularPipelines.Build.Modules;
 
 [RunIf<ModularPipelines.OnLinux>]
 [ProducesArtifact("build-output", "../../_build-staging")]
-public class BuildSolutionsModule : Module<CommandResult[]>
+public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) : Module<CommandResult[]>
 {
     protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync().ConfigureAwait(false)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
         var gitRoot = repositoryInfo.Root.Path;
-        var solutions = File.ReadLines(Path.Combine(gitRoot, "BuildSolutions.txt"))
-            .Select(line => line.Trim())
-            .Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith('#'))
-            .ToArray();
+        // CI builds before starting this executable. Even an incremental pass evaluates
+        // every project again, so reuse that build while still completing this dependency.
+        CommandResult[] results = [];
+        if (!pipelineSettings.Value.BuildAlreadyCompleted)
+        {
+            var solutions = File.ReadLines(Path.Combine(gitRoot, "BuildSolutions.txt"))
+                .Select(line => line.Trim())
+                .Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith('#'))
+                .ToArray();
 
-        // Build all solutions with --no-restore (the workflow already restored and, in CI,
-        // natively built them, so this is a fast MSBuild-incremental pass). Default
-        // parallelism: the runner reclaim in #3179 came from a single test project that
-        // referenced every integration at once, pulling the huge AWS/Azure/Google SDK metadata
-        // into one compilation unit; that test was removed, not MSBuild parallelism changed.
-        var results = await solutions
-            .ToAsyncProcessorBuilder()
-            .SelectAsync(async solution => await context.Tools.DotNet.BuildAsync(new DotNetBuildOptions
-            {
-                ProjectSolution = Path.Combine(gitRoot, solution),
-                Configuration = "Release",
-                NoRestore = true,
-            }, cancellationToken: cancellationToken))
-            .ProcessOneAtATime();
+            results = await solutions
+                .ToAsyncProcessorBuilder()
+                .SelectAsync(async solution => await context.Tools.DotNet.BuildAsync(new DotNetBuildOptions
+                {
+                    ProjectSolution = Path.Combine(gitRoot, solution),
+                    Configuration = "Release",
+                    NoRestore = true,
+                }, cancellationToken: cancellationToken))
+                .ProcessOneAtATime();
+        }
+
+        if (!context.Services.GetRequiredService<BuildOutputSharing>().IsEnabled)
+        {
+            return results;
+        }
 
         // Stage bin/Release/ output for artifact sharing
         var stagingDir = Path.Combine(gitRoot, "_build-staging");
