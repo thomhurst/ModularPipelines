@@ -1,4 +1,26 @@
 #nullable enable
+*REMOVED*ModularPipelines.Helm.Enums.HelmGetMetadataOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmGetMetadataOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmGetMetadataOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmGetMetadataOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmGetValuesOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmGetValuesOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmGetValuesOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmGetValuesOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmHistoryOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmHistoryOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmHistoryOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmHistoryOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmInstallOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmInstallOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmInstallOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmInstallOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmListOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmListOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmListOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmListOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmRepoListOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmRepoListOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmRepoListOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmRepoListOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmSearchHubOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmSearchHubOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmSearchHubOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmSearchHubOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmSearchRepoOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmSearchRepoOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmSearchRepoOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmSearchRepoOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmStatusOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmStatusOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmStatusOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmStatusOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmUninstallCascade.Foreground = 2 -> ModularPipelines.Helm.Enums.HelmUninstallCascade
+*REMOVED*ModularPipelines.Helm.Enums.HelmUninstallCascade.Orphan = 1 -> ModularPipelines.Helm.Enums.HelmUninstallCascade
+*REMOVED*ModularPipelines.Helm.Enums.HelmUpgradeOutput.Json = 1 -> ModularPipelines.Helm.Enums.HelmUpgradeOutput
+*REMOVED*ModularPipelines.Helm.Enums.HelmUpgradeOutput.Table = 0 -> ModularPipelines.Helm.Enums.HelmUpgradeOutput
 *REMOVED*ModularPipelines.Helm.Services.HelmDependency.HelmDependency(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.Helm.Services.HelmGet.HelmGet(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.Helm.Services.HelmPlugin.HelmPlugin(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
@@ -91,6 +113,28 @@
 *REMOVED*virtual ModularPipelines.Helm.Services.HelmShow.ExecuteAsync(ModularPipelines.Helm.Options.HelmShowOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Helm.Services.HelmShow.ReadmeAsync(ModularPipelines.Helm.Options.HelmShowReadmeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Helm.Services.HelmShow.ValuesAsync(ModularPipelines.Helm.Options.HelmShowValuesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Helm.Enums.HelmGetMetadataOutput.Json = 0 -> ModularPipelines.Helm.Enums.HelmGetMetadataOutput
+ModularPipelines.Helm.Enums.HelmGetMetadataOutput.Table = 1 -> ModularPipelines.Helm.Enums.HelmGetMetadataOutput
+ModularPipelines.Helm.Enums.HelmGetValuesOutput.Json = 0 -> ModularPipelines.Helm.Enums.HelmGetValuesOutput
+ModularPipelines.Helm.Enums.HelmGetValuesOutput.Table = 1 -> ModularPipelines.Helm.Enums.HelmGetValuesOutput
+ModularPipelines.Helm.Enums.HelmHistoryOutput.Json = 0 -> ModularPipelines.Helm.Enums.HelmHistoryOutput
+ModularPipelines.Helm.Enums.HelmHistoryOutput.Table = 1 -> ModularPipelines.Helm.Enums.HelmHistoryOutput
+ModularPipelines.Helm.Enums.HelmInstallOutput.Json = 0 -> ModularPipelines.Helm.Enums.HelmInstallOutput
+ModularPipelines.Helm.Enums.HelmInstallOutput.Table = 1 -> ModularPipelines.Helm.Enums.HelmInstallOutput
+ModularPipelines.Helm.Enums.HelmListOutput.Json = 0 -> ModularPipelines.Helm.Enums.HelmListOutput
+ModularPipelines.Helm.Enums.HelmListOutput.Table = 1 -> ModularPipelines.Helm.Enums.HelmListOutput
+ModularPipelines.Helm.Enums.HelmRepoListOutput.Json = 0 -> ModularPipelines.Helm.Enums.HelmRepoListOutput
+ModularPipelines.Helm.Enums.HelmRepoListOutput.Table = 1 -> ModularPipelines.Helm.Enums.HelmRepoListOutput
+ModularPipelines.Helm.Enums.HelmSearchHubOutput.Json = 0 -> ModularPipelines.Helm.Enums.HelmSearchHubOutput
+ModularPipelines.Helm.Enums.HelmSearchHubOutput.Table = 1 -> ModularPipelines.Helm.Enums.HelmSearchHubOutput
+ModularPipelines.Helm.Enums.HelmSearchRepoOutput.Json = 0 -> ModularPipelines.Helm.Enums.HelmSearchRepoOutput
+ModularPipelines.Helm.Enums.HelmSearchRepoOutput.Table = 1 -> ModularPipelines.Helm.Enums.HelmSearchRepoOutput
+ModularPipelines.Helm.Enums.HelmStatusOutput.Json = 0 -> ModularPipelines.Helm.Enums.HelmStatusOutput
+ModularPipelines.Helm.Enums.HelmStatusOutput.Table = 1 -> ModularPipelines.Helm.Enums.HelmStatusOutput
+ModularPipelines.Helm.Enums.HelmUninstallCascade.Foreground = 1 -> ModularPipelines.Helm.Enums.HelmUninstallCascade
+ModularPipelines.Helm.Enums.HelmUninstallCascade.Orphan = 2 -> ModularPipelines.Helm.Enums.HelmUninstallCascade
+ModularPipelines.Helm.Enums.HelmUpgradeOutput.Json = 0 -> ModularPipelines.Helm.Enums.HelmUpgradeOutput
+ModularPipelines.Helm.Enums.HelmUpgradeOutput.Table = 1 -> ModularPipelines.Helm.Enums.HelmUpgradeOutput
 ModularPipelines.Helm.Services.HelmDependency.HelmDependency(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Helm.Services.HelmGet.HelmGet(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Helm.Services.HelmPlugin.HelmPlugin(ModularPipelines.Context.ICommandContext! command) -> void
