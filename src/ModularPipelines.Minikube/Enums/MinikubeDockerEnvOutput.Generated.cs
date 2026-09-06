@@ -16,12 +16,12 @@ namespace ModularPipelines.Minikube.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum MinikubeDockerEnvOutput
 {
+    [EnumValue("json")]
+    Json,
+
     [EnumValue("text")]
     Text,
 
     [EnumValue("yaml")]
-    Yaml,
-
-    [EnumValue("json")]
-    Json
+    Yaml
 }

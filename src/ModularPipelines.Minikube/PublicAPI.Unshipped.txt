@@ -1,4 +1,18 @@
 #nullable enable
+*REMOVED*ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput.Json = 2 -> ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput
+*REMOVED*ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput.Text = 0 -> ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput
+*REMOVED*ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput.Yaml = 1 -> ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput
+*REMOVED*ModularPipelines.Minikube.Enums.MinikubeImageLsFormat.Json = 2 -> ModularPipelines.Minikube.Enums.MinikubeImageLsFormat
+*REMOVED*ModularPipelines.Minikube.Enums.MinikubeImageLsFormat.Short = 0 -> ModularPipelines.Minikube.Enums.MinikubeImageLsFormat
+*REMOVED*ModularPipelines.Minikube.Enums.MinikubeImageLsFormat.Table = 1 -> ModularPipelines.Minikube.Enums.MinikubeImageLsFormat
+*REMOVED*ModularPipelines.Minikube.Enums.MinikubeStartDriver.Docker = 6 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+*REMOVED*ModularPipelines.Minikube.Enums.MinikubeStartDriver.None = 5 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+*REMOVED*ModularPipelines.Minikube.Enums.MinikubeStartDriver.Podman = 7 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+*REMOVED*ModularPipelines.Minikube.Enums.MinikubeStartDriver.Qemu = 3 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+*REMOVED*ModularPipelines.Minikube.Enums.MinikubeStartDriver.Qemu2 = 2 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+*REMOVED*ModularPipelines.Minikube.Enums.MinikubeStartDriver.Ssh = 8 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+*REMOVED*ModularPipelines.Minikube.Enums.MinikubeStartDriver.Virtualbox = 0 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+*REMOVED*ModularPipelines.Minikube.Enums.MinikubeStartDriver.Vmware = 4 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
 *REMOVED*ModularPipelines.Minikube.Options.MinikubeNodeStartOptions.MinikubeNodeStartOptions() -> void
 *REMOVED*ModularPipelines.Minikube.Services.IMinikube.CpAsync(ModularPipelines.Minikube.Options.MinikubeCpOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Minikube.Services.IMinikube.DashboardAsync(ModularPipelines.Minikube.Options.MinikubeDashboardOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
@@ -81,6 +95,20 @@
 *REMOVED*virtual ModularPipelines.Minikube.Services.MinikubeProfile.ListAsync(ModularPipelines.Minikube.Options.MinikubeProfileListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Minikube.Services.MinikubeService.ExecuteAsync(ModularPipelines.Minikube.Options.MinikubeServiceOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Minikube.Services.MinikubeService.ListAsync(ModularPipelines.Minikube.Options.MinikubeServiceListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput.Json = 0 -> ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput
+ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput.Text = 1 -> ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput
+ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput.Yaml = 2 -> ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput
+ModularPipelines.Minikube.Enums.MinikubeImageLsFormat.Json = 0 -> ModularPipelines.Minikube.Enums.MinikubeImageLsFormat
+ModularPipelines.Minikube.Enums.MinikubeImageLsFormat.Short = 1 -> ModularPipelines.Minikube.Enums.MinikubeImageLsFormat
+ModularPipelines.Minikube.Enums.MinikubeImageLsFormat.Table = 2 -> ModularPipelines.Minikube.Enums.MinikubeImageLsFormat
+ModularPipelines.Minikube.Enums.MinikubeStartDriver.Docker = 0 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+ModularPipelines.Minikube.Enums.MinikubeStartDriver.None = 2 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+ModularPipelines.Minikube.Enums.MinikubeStartDriver.Podman = 3 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+ModularPipelines.Minikube.Enums.MinikubeStartDriver.Qemu = 4 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+ModularPipelines.Minikube.Enums.MinikubeStartDriver.Qemu2 = 5 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+ModularPipelines.Minikube.Enums.MinikubeStartDriver.Ssh = 6 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+ModularPipelines.Minikube.Enums.MinikubeStartDriver.Virtualbox = 7 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
+ModularPipelines.Minikube.Enums.MinikubeStartDriver.Vmware = 8 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
 ModularPipelines.Minikube.Options.MinikubeNodeDeleteOptions
 ModularPipelines.Minikube.Options.MinikubeNodeDeleteOptions.Deconstruct(out string! NodeName) -> void
 ModularPipelines.Minikube.Options.MinikubeNodeDeleteOptions.MinikubeNodeDeleteOptions(ModularPipelines.Minikube.Options.MinikubeNodeDeleteOptions! original) -> void
