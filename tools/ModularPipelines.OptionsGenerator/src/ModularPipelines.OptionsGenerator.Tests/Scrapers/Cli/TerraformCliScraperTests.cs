@@ -140,6 +140,31 @@ public class TerraformCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Wrapped_Descriptions_That_Look_Like_Option_Rows_Stay_Prose()
+    {
+        // The wrapped "-lock=false  to ..." line deliberately keeps two spaces so it satisfies
+        // the option-row pattern; only its column keeps it inside the description.
+        const string helpText = """
+            Usage: terraform plan [options]
+
+            Options:
+              -input=false        Ask for input for variables if not directly set. Combine with
+                                  -lock=false  to skip state locking as well.
+              -lock=false         Don't hold a state lock during the operation.
+            """;
+
+        var definition = await _scraper.Parse(["terraform", "plan"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(definition!.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo(["-input", "-lock"]);
+            await Assert.That(definition.Options.Single(option => option.SwitchName == "-input").Description)
+                .IsEqualTo("Ask for input for variables if not directly set. Combine with -lock=false  to skip state locking as well.");
+        }
+    }
+
     private sealed class TestTerraformCliScraper()
         : TerraformCliScraper(
             new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),

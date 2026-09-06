@@ -157,6 +157,33 @@ public class DotNetCliScraperTests
         IsFlag = true,
     };
 
+    [Test]
+    public async Task Wrapped_Descriptions_That_Look_Like_Option_Rows_Stay_Prose()
+    {
+        // The wrapped "--no-restore  to ..." line deliberately keeps two spaces so it satisfies
+        // the option-row pattern; only its column keeps it inside the description.
+        const string helpText = """
+            Usage:
+              dotnet build [options] <PROJECT | SOLUTION>
+
+            Options:
+              -c, --configuration <CONFIGURATION>  The configuration to use for building the project. Pair with
+                                                   --no-restore  to skip restoring first.
+              -o, --output <OUTPUT_DIR>            The output directory to place built artifacts in.
+            """;
+
+        var command = await new TestDotNetCliScraper().Parse(["dotnet", "build"], helpText);
+
+        using (Assert.Multiple())
+        {
+            // "-p" is the synthesized MSBuild property switch every build command receives.
+            await Assert.That(command!.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo(["--configuration", "--output", "-p"]);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--configuration").Description)
+                .IsEqualTo("The configuration to use for building the project. Pair with --no-restore  to skip restoring first.");
+        }
+    }
+
     private sealed class TestDotNetCliScraper : DotNetCliScraper
     {
         public TestDotNetCliScraper()

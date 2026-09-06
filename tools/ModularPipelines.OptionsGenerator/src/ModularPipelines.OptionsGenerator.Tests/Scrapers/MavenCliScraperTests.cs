@@ -66,6 +66,31 @@ public class MavenCliScraperTests
         await Assert.That(version).IsEqualTo("3.9.16");
     }
 
+    [Test]
+    public async Task Wrapped_Descriptions_That_Look_Like_Option_Rows_Stay_Prose()
+    {
+        // The wrapped "--quiet  to ..." line deliberately keeps two spaces so it satisfies the
+        // option-row pattern; only its column keeps it inside the description.
+        const string helpText = """
+            usage: mvn [options] [<goal(s)>] [<phase(s)>]
+
+            Options:
+             -B,--batch-mode                         Run in non-interactive mode. Combine with
+                                                     --quiet  to reduce output further.
+             -q,--quiet                              Quiet output - only show errors
+            """;
+
+        var command = await new TestMavenCliScraper().Parse(helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo(["--batch-mode", "--quiet"]);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--batch-mode").Description)
+                .IsEqualTo("Run in non-interactive mode. Combine with --quiet  to reduce output further.");
+        }
+    }
+
     private sealed class TestMavenCliScraper : MavenCliScraper
     {
         public TestMavenCliScraper()

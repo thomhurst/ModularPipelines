@@ -1,4 +1,7 @@
 #nullable enable
+ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility.Internal = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility
+ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility.Private = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility
+ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility.Public = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility
 ModularPipelines.Flux.Services.FluxBootstrap.FluxBootstrap(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxBuild.FluxBuild(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxCreate.FluxCreate(ModularPipelines.Context.ICommandContext! command) -> void

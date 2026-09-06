@@ -426,7 +426,6 @@ public partial class WinGetCliScraper : CliScraperBase
 
         var shortForm = match.Groups["short"].Value.Trim();
         var longForm = match.Groups["long"].Value.Trim();
-        var description = match.Groups["desc"].Value.Trim();
 
         if (string.IsNullOrEmpty(longForm))
         {
@@ -441,8 +440,7 @@ public partial class WinGetCliScraper : CliScraperBase
 
         seenOptions.Add(longForm);
 
-        // Accumulate multi-line descriptions
-        lineIndex = AccumulateMultiLineDescription(allLines, lineIndex, ref description);
+        var description = AccumulateWrappedDescription(allLines, ref lineIndex, match.Groups["desc"], IsOptionRow);
 
         var propertyName = NormalizePropertyName(longForm);
         if (propertyName is null)
@@ -511,55 +509,7 @@ public partial class WinGetCliScraper : CliScraperBase
         || (className.Equals("WingetSourceAddOptions", StringComparison.Ordinal)
             && longForm.Equals("--explicit", StringComparison.OrdinalIgnoreCase));
 
-    /// <summary>
-    /// Accumulates multi-line descriptions.
-    /// </summary>
-    private static int AccumulateMultiLineDescription(string[] lines, int currentIndex, ref string description)
-    {
-        var descriptionParts = new List<string>();
-        if (!string.IsNullOrEmpty(description))
-        {
-            descriptionParts.Add(description);
-        }
-
-        var nextIndex = currentIndex + 1;
-        while (nextIndex < lines.Length)
-        {
-            var nextLine = lines[nextIndex];
-            var trimmedNext = nextLine.Trim();
-
-            // Stop conditions
-            if (string.IsNullOrWhiteSpace(trimmedNext))
-            {
-                break;
-            }
-
-            // New option line (starts with dash)
-            if (trimmedNext.StartsWith('-'))
-            {
-                break;
-            }
-
-            // Section header
-            if (trimmedNext.StartsWith("The following"))
-            {
-                break;
-            }
-
-            // Line must be indented to be a continuation
-            var leadingSpaces = nextLine.Length - nextLine.TrimStart().Length;
-            if (leadingSpaces < 20)
-            {
-                break;
-            }
-
-            descriptionParts.Add(trimmedNext);
-            nextIndex++;
-        }
-
-        description = string.Join(" ", descriptionParts);
-        return nextIndex - 1;
-    }
+    private static bool IsOptionRow(string line) => WinGetOptionPattern().IsMatch(line);
 
     /// <summary>
     /// Checks if help text indicates the command has options.
