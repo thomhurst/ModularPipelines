@@ -1,4 +1,16 @@
 #nullable enable
+*REMOVED*ModularPipelines.Distributed.Capabilities.CapabilityMatcher
+*REMOVED*ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions
+*REMOVED*static ModularPipelines.Distributed.Capabilities.CapabilityMatcher.CanExecute(ModularPipelines.Distributed.ModuleAssignment! assignment, ModularPipelines.Distributed.WorkerRegistration! worker) -> bool
+*REMOVED*static ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions.AddDistributedCoordinator<TCoordinator>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
+*REMOVED*static ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions.AddDistributedCoordinatorFactory<TFactory>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
+*REMOVED*static ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions.AddDistributedMode(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!
+*REMOVED*static ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions.AddDistributedMode(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.DistributedOptions!>! configure) -> ModularPipelines.PipelineBuilder!
+ModularPipelines.Distributed.CapabilityMatcher
+ModularPipelines.Distributed.DistributedPipelineBuilderExtensions
+ModularPipelines.Distributed.IMasterDiscovery
+ModularPipelines.Distributed.IMasterDiscovery.AdvertiseMasterEndpointAsync(string! masterEndpoint, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+ModularPipelines.Distributed.IMasterDiscovery.DiscoverMasterEndpointAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<string!>!
 *REMOVED*ModularPipelines.Attributes.CommandLinePhase.EndOfOptions = 2 -> ModularPipelines.Attributes.CommandLinePhase
 ModularPipelines.Attributes.CommandLinePhase.LateOperand = 5 -> ModularPipelines.Attributes.CommandLinePhase
 *REMOVED*ModularPipelines.Attributes.RequiresCapabilityAttribute.Capability.get -> string!
@@ -1463,7 +1475,8 @@ static ModularPipelines.Context.ContextExtensions.GetRequiredConfigValue(this Mo
 static ModularPipelines.Context.ContextExtensions.IsRunningIn(this ModularPipelines.IPipelineContext! context, ModularPipelines.Enums.BuildSystem buildSystem) -> bool
 static ModularPipelines.Context.ContextExtensions.IsRunningInCI(this ModularPipelines.IPipelineContext! context) -> bool
 static ModularPipelines.Context.ContextExtensions.IsRunningLocally(this ModularPipelines.IPipelineContext! context) -> bool
-static ModularPipelines.Distributed.Capabilities.CapabilityMatcher.CanExecute(ModularPipelines.Distributed.ModuleAssignment! assignment, System.Collections.Generic.IReadOnlySet<ModularPipelines.Distributed.Capability>! workerCapabilities) -> bool
+static ModularPipelines.Distributed.CapabilityMatcher.CanExecute(ModularPipelines.Distributed.ModuleAssignment! assignment, ModularPipelines.Distributed.WorkerRegistration! worker) -> bool
+static ModularPipelines.Distributed.CapabilityMatcher.CanExecute(ModularPipelines.Distributed.ModuleAssignment! assignment, System.Collections.Generic.IReadOnlySet<ModularPipelines.Distributed.Capability>! workerCapabilities) -> bool
 static ModularPipelines.Distributed.Capability.Docker.get -> ModularPipelines.Distributed.Capability
 static ModularPipelines.Distributed.Capability.FreeBSD.get -> ModularPipelines.Distributed.Capability
 static ModularPipelines.Distributed.Capability.Gpu.get -> ModularPipelines.Distributed.Capability
@@ -1474,11 +1487,16 @@ static ModularPipelines.Distributed.Capability.MacOS.get -> ModularPipelines.Dis
 static ModularPipelines.Distributed.Capability.operator !=(ModularPipelines.Distributed.Capability left, ModularPipelines.Distributed.Capability right) -> bool
 static ModularPipelines.Distributed.Capability.operator ==(ModularPipelines.Distributed.Capability left, ModularPipelines.Distributed.Capability right) -> bool
 static ModularPipelines.Distributed.Capability.Windows.get -> ModularPipelines.Distributed.Capability
+static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.AddDistributedArtifactStore<TStore>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.AddDistributedArtifactStoreFactory<TFactory>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.AddDistributedCoordinator<TCoordinator>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.AddDistributedCoordinatorFactory<TFactory>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.AddDistributedMode(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.AddDistributedMode(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.AddDistributedMode(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.DistributedOptions!>! configure) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.RequireExplicitRunId(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.DependencyResultReference.operator !=(ModularPipelines.Distributed.DependencyResultReference? left, ModularPipelines.Distributed.DependencyResultReference? right) -> bool
 static ModularPipelines.Distributed.DependencyResultReference.operator ==(ModularPipelines.Distributed.DependencyResultReference? left, ModularPipelines.Distributed.DependencyResultReference? right) -> bool
-static ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions.AddDistributedArtifactStore<TStore>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
-static ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions.AddDistributedArtifactStoreFactory<TFactory>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
-static ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions.AddDistributedMode(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.ModuleAssignmentConfiguration.operator !=(ModularPipelines.Distributed.ModuleAssignmentConfiguration? left, ModularPipelines.Distributed.ModuleAssignmentConfiguration? right) -> bool
 static ModularPipelines.Distributed.ModuleAssignmentConfiguration.operator ==(ModularPipelines.Distributed.ModuleAssignmentConfiguration? left, ModularPipelines.Distributed.ModuleAssignmentConfiguration? right) -> bool
 static ModularPipelines.Extensions.CommandExtensions.WithArguments<TOptions>(this TOptions! options, System.Collections.Generic.IEnumerable<string!>? arguments) -> TOptions!

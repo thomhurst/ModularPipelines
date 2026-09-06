@@ -1368,14 +1368,94 @@ public class GeneratorHardeningTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(generated).Contains("    Friday,");
             await Assert.That(generated).Contains("    Fri,");
-            await Assert.That(generated).Contains("    FridayUppercase,");
-            await Assert.That(generated).Contains("    FriUppercase");
+            await Assert.That(generated).Contains("    FriUppercase,");
+            await Assert.That(generated).Contains("    Friday,");
+            await Assert.That(generated).Contains("    FridayUppercase");
             await Assert.That(generated.Split("[EnumValue(\"fri\")]", StringSplitOptions.None).Length)
                 .IsEqualTo(2);
         }
     }
+
+    [Test]
+    public async Task EnumGenerator_Emits_The_Same_Members_Regardless_Of_Scrape_Order()
+    {
+        CliEnumValue[] values =
+        [
+            new() { MemberName = "Public", CliValue = "PUBLIC" },
+            new() { MemberName = "Public", CliValue = "public" },
+            new() { MemberName = "Internal", CliValue = "internal" },
+            new() { MemberName = "Private", CliValue = "private" },
+        ];
+
+        var generated = await GenerateVisibilityEnum(values);
+        var generatedFromReorderedScrape = await GenerateVisibilityEnum([values[2], values[1], values[3], values[0]]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generatedFromReorderedScrape).IsEqualTo(generated);
+
+            // Alphabetical by CLI value; the lowercase alias keeps the plain member name even
+            // though the uppercase one was scraped first.
+            await Assert.That(EnumBodyLines(generated)).IsEquivalentTo(
+                [
+                    "[EnumValue(\"internal\")]",
+                    "Internal,",
+                    "[EnumValue(\"private\")]",
+                    "Private,",
+                    "[EnumValue(\"public\")]",
+                    "Public,",
+                    "[EnumValue(\"PUBLIC\")]",
+                    "PublicUppercase",
+                ],
+                TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        }
+    }
+
+    [Test]
+    public async Task EnumGenerator_Keeps_The_Same_Duplicate_Regardless_Of_Scrape_Order()
+    {
+        CliEnumValue[] values =
+        [
+            new() { MemberName = "JsonOutput", CliValue = "json", Description = "Alias." },
+            new() { MemberName = "Json", CliValue = "json", Description = "JSON output." },
+        ];
+
+        var generated = await GenerateVisibilityEnum(values);
+        var generatedFromReorderedScrape = await GenerateVisibilityEnum([values[1], values[0]]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generatedFromReorderedScrape).IsEqualTo(generated);
+            await Assert.That(EnumBodyLines(generated)).IsEquivalentTo(
+                [
+                    "/// <summary>",
+                    "/// JSON output.",
+                    "/// </summary>",
+                    "[EnumValue(\"json\")]",
+                    "Json",
+                ],
+                TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        }
+    }
+
+    private static async Task<string> GenerateVisibilityEnum(IReadOnlyList<CliEnumValue> values)
+    {
+        var tool = Tool(Command(
+            "ToolGetOptions",
+            "ToolOptions",
+            ["get"],
+            enums: [new CliEnumDefinition { EnumName = "ToolVisibility", Values = values }]));
+
+        return (await new EnumGenerator().GenerateAsync(tool)).Single().Content;
+    }
+
+    private static string[] EnumBodyLines(string generated) =>
+        generated
+            .Split(Environment.NewLine)
+            .Where(line => line.StartsWith("    ", StringComparison.Ordinal))
+            .Select(line => line.Trim())
+            .ToArray();
 
     [Test]
     public async Task Case_Variant_Enum_Names_Fail_The_Duplicate_Path_Check()

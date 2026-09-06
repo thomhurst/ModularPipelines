@@ -17,8 +17,8 @@ dotnet add package ModularPipelines.Distributed.Artifacts.S3
 Register the artifact store after enabling distributed mode:
 
 ```csharp
-using ModularPipelines.Distributed.Artifacts.S3.Extensions;
-using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Artifacts.S3;
 
 var builder = Pipeline.CreateBuilder(args);
 

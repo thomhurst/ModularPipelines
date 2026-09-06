@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed.Serialization;
-using ModularPipelines.Distributed.SignalR.Configuration;
+using ModularPipelines.Distributed.SignalR;
 using ModularPipelines.Distributed.SignalR.Hub;
 
 namespace ModularPipelines.Distributed.SignalR.Server;

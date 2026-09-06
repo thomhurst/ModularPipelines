@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Redis-based master URL discovery for the SignalR distributed coordinator. Enables cross-network pipeline distribution by advertising the master URL via Redis.</Description>
+    <Description>Redis-based master endpoint discovery for distributed coordinators. Enables cross-network pipeline distribution by advertising the master endpoint via Redis.</Description>
     <VersionSuffix>beta</VersionSuffix>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ModularPipelines.Distributed.SignalR\ModularPipelines.Distributed.SignalR.csproj" />
+    <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
   </ItemGroup>
 
   <ItemGroup>

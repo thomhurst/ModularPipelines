@@ -4,7 +4,6 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Discovery.Redis;
-using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 
@@ -59,7 +58,7 @@ public class RedisDiscoveryOptionsTests
             .Build();
         var builder = Pipeline.CreateBuilder();
 
-        builder.AddRedisSignalRDiscovery(configuration.GetSection("Discovery"));
+        builder.AddRedisMasterDiscovery(configuration.GetSection("Discovery"));
         using var services = builder.Services.BuildServiceProvider();
         var options = services.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value;
 
@@ -77,8 +76,8 @@ public class RedisDiscoveryOptionsTests
     public async Task HostBuildRejectsIncompleteRestConfiguration()
     {
         var builder = Pipeline.CreateBuilder();
+        builder.AddRedisMasterDiscovery(options => options.RestUrl = "https://redis.example");
         builder.Services.Configure<DistributedOptions>(options => options.RunId = "test-run");
-        builder.AddRedisSignalRDiscovery(options => options.RestUrl = "https://redis.example");
 
         var exception = await Assert.ThrowsAsync<OptionsValidationException>(
             () => builder.BuildAsync());
@@ -96,7 +95,7 @@ public class RedisDiscoveryOptionsTests
             Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", null);
             var builder = Pipeline.CreateBuilder();
             builder.AddModule<NoOpModule>();
-            builder.AddRedisSignalRDiscovery(_ => { });
+            builder.AddRedisMasterDiscovery(_ => { });
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
                 () => builder.BuildAsync());
@@ -114,7 +113,7 @@ public class RedisDiscoveryOptionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddRedisSignalRDiscovery(_ => { });
+        builder.AddRedisMasterDiscovery(_ => { });
         builder.AddDistributedMode(options => options.RunId = "configured-after-discovery");
 
         await using var pipeline = await builder.BuildAsync();

@@ -1,7 +1,7 @@
 namespace ModularPipelines.Distributed.Discovery.Redis;
 
 /// <summary>
-/// Configuration options for Redis-based master URL discovery.
+/// Configuration options for Redis-based master endpoint discovery.
 /// </summary>
 public class RedisDiscoveryOptions
 {
@@ -27,17 +27,17 @@ public class RedisDiscoveryOptions
     public string KeyPrefix { get; set; } = "modular-pipelines";
 
     /// <summary>
-    /// TTL for the master URL key. Prevents stale URLs from persisting. Default: 1 hour.
+    /// TTL for the master endpoint key. Prevents stale endpoints from persisting. Default: 1 hour.
     /// </summary>
     public TimeSpan Ttl { get; set; } = TimeSpan.FromHours(1);
 
     /// <summary>
-    /// Timeout for workers waiting to discover the master URL. Default: 2 minutes.
+    /// Timeout for workers waiting to discover the master endpoint. Default: 2 minutes.
     /// </summary>
     public TimeSpan DiscoveryTimeout { get; set; } = TimeSpan.FromMinutes(2);
 
     /// <summary>
-    /// Poll interval for workers checking for master URL availability. Default: 500 milliseconds.
+    /// Poll interval for workers checking for master endpoint availability. Default: 500 milliseconds.
     /// </summary>
     public TimeSpan PollInterval { get; set; } = TimeSpan.FromMilliseconds(500);
 }

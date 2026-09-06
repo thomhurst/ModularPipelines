@@ -5,7 +5,6 @@
     <Platform Name="x86" />
   </Configurations>
   <Project Path="../../test/ModularPipelines.Distributed.Discovery.Redis.UnitTests/ModularPipelines.Distributed.Discovery.Redis.UnitTests.csproj" />
-  <Project Path="../ModularPipelines.Distributed.SignalR/ModularPipelines.Distributed.SignalR.csproj" />
   <Project Path="../ModularPipelines/ModularPipelines.csproj" />
   <Project Path="ModularPipelines.Distributed.Discovery.Redis.csproj" />
 </Solution>

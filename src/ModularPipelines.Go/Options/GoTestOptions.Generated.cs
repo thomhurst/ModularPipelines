@@ -81,7 +81,7 @@ public record GoTestOptions : GoOptions
     public bool? Cover { get; set; }
 
     /// <summary>
-    /// set the mode for coverage analysis. The default is "set" unless -race is enabled, in which case it is "atomic".
+    /// set the mode for coverage analysis. The default is "set" unless -race is enabled, in which case it is "atomic". The values: set: bool: does this statement run? count: int: how many times does this statement run? atomic: int: count, but correct in multithreaded tests; significantly more expensive. Sets -cover.
     /// </summary>
     [CliOption("-covermode")]
     public string? Covermode { get; set; }

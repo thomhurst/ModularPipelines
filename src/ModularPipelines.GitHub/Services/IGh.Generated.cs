@@ -165,7 +165,7 @@ public partial interface IGh
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// - Pull requests
+    /// - Issues
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

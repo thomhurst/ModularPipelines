@@ -115,7 +115,7 @@ public partial interface IDocker
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// docker cp [OPTIONS] SRC_PATH|- CONTAINER:DEST_PATH
+    /// Copy files/folders between a container and the local filesystem
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

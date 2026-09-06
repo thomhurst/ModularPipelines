@@ -6,7 +6,7 @@ using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Discovery.Redis.UnitTests;
 
-public class RedisSignalRMasterDiscoveryTests
+public class RedisMasterDiscoveryTests
 {
     [Test]
     public async Task AdvertiseMasterUrl_Writes_To_Redis()
@@ -31,12 +31,13 @@ public class RedisSignalRMasterDiscoveryTests
             Ttl = TimeSpan.FromMinutes(10),
         };
 
-        var discovery = new RedisSignalRMasterDiscovery(
-            connection.Object, options, RunOptions(), NullLogger<RedisSignalRMasterDiscovery>.Instance);
+        var discovery = new RedisMasterDiscovery(
+            connection.Object, options, RunOptions(), NullLogger<RedisMasterDiscovery>.Instance);
 
-        // Act — should not throw
-        await discovery.AdvertiseMasterUrlAsync("http://master:5099", CancellationToken.None);
+        // Act
+        await discovery.AdvertiseMasterEndpointAsync("http://master:5099", CancellationToken.None);
 
+        // Assert
         db.Verify(d => d.StringSetAsync(
                 It.IsAny<RedisKey>(),
                 It.IsAny<RedisValue>(),
@@ -63,11 +64,11 @@ public class RedisSignalRMasterDiscoveryTests
             KeyPrefix = "test-prefix",
         };
 
-        var discovery = new RedisSignalRMasterDiscovery(
-            connection.Object, options, RunOptions(), NullLogger<RedisSignalRMasterDiscovery>.Instance);
+        var discovery = new RedisMasterDiscovery(
+            connection.Object, options, RunOptions(), NullLogger<RedisMasterDiscovery>.Instance);
 
         // Act
-        var result = await discovery.DiscoverMasterUrlAsync(CancellationToken.None);
+        var result = await discovery.DiscoverMasterEndpointAsync(CancellationToken.None);
 
         // Assert
         await Assert.That(result).IsEqualTo("http://master:5099");
@@ -95,11 +96,11 @@ public class RedisSignalRMasterDiscoveryTests
             PollInterval = TimeSpan.FromMilliseconds(50),
         };
 
-        var discovery = new RedisSignalRMasterDiscovery(
-            connection.Object, options, RunOptions(), NullLogger<RedisSignalRMasterDiscovery>.Instance);
+        var discovery = new RedisMasterDiscovery(
+            connection.Object, options, RunOptions(), NullLogger<RedisMasterDiscovery>.Instance);
 
         // Act
-        var result = await discovery.DiscoverMasterUrlAsync(CancellationToken.None);
+        var result = await discovery.DiscoverMasterEndpointAsync(CancellationToken.None);
 
         // Assert
         await Assert.That(result).IsEqualTo("http://master:5099");
@@ -124,21 +125,64 @@ public class RedisSignalRMasterDiscoveryTests
             PollInterval = TimeSpan.FromMilliseconds(100),
         };
 
-        var discovery = new RedisSignalRMasterDiscovery(
-            connection.Object, options, RunOptions(), NullLogger<RedisSignalRMasterDiscovery>.Instance);
+        var discovery = new RedisMasterDiscovery(
+            connection.Object, options, RunOptions(), NullLogger<RedisMasterDiscovery>.Instance);
 
         // Act & Assert
-        var threw = false;
-        try
-        {
-            await discovery.DiscoverMasterUrlAsync(CancellationToken.None);
-        }
-        catch (Exception ex) when (ex is TimeoutException or OperationCanceledException)
-        {
-            threw = true;
-        }
+        await Assert.That(async () => await discovery.DiscoverMasterEndpointAsync(CancellationToken.None))
+            .Throws<TimeoutException>();
+    }
 
-        await Assert.That(threw).IsTrue();
+    [Test]
+    public async Task DiscoverMasterUrl_Propagates_Caller_Cancellation()
+    {
+        // Arrange
+        var db = new Mock<IDatabase>();
+        db.Setup(d => d.StringGetAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+            .ReturnsAsync(RedisValue.Null);
+
+        var connection = new Mock<IConnectionMultiplexer>();
+        connection.Setup(c => c.GetDatabase(It.IsAny<int>(), It.IsAny<object>())).Returns(db.Object);
+
+        var options = new RedisDiscoveryOptions
+        {
+            KeyPrefix = "test-prefix",
+            DiscoveryTimeout = TimeSpan.FromSeconds(30),
+            PollInterval = TimeSpan.FromMilliseconds(50),
+        };
+
+        var discovery = new RedisMasterDiscovery(
+            connection.Object, options, RunOptions(), NullLogger<RedisMasterDiscovery>.Instance);
+        using var cancellation = new CancellationTokenSource(TimeSpan.FromMilliseconds(200));
+
+        // Act & Assert
+        await Assert.That(async () => await discovery.DiscoverMasterEndpointAsync(cancellation.Token))
+            .Throws<OperationCanceledException>();
+    }
+
+    [Test]
+    public async Task DiscoverMasterUrl_Does_Not_Translate_A_Store_Cancellation_Into_A_Timeout()
+    {
+        // Arrange: the store cancels on its own before either token is cancelled.
+        var db = new Mock<IDatabase>();
+        db.Setup(d => d.StringGetAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+            .ThrowsAsync(new OperationCanceledException("store cancelled"));
+
+        var connection = new Mock<IConnectionMultiplexer>();
+        connection.Setup(c => c.GetDatabase(It.IsAny<int>(), It.IsAny<object>())).Returns(db.Object);
+
+        var options = new RedisDiscoveryOptions
+        {
+            KeyPrefix = "test-prefix",
+            DiscoveryTimeout = TimeSpan.FromSeconds(30),
+        };
+
+        var discovery = new RedisMasterDiscovery(
+            connection.Object, options, RunOptions(), NullLogger<RedisMasterDiscovery>.Instance);
+
+        // Act & Assert
+        await Assert.That(async () => await discovery.DiscoverMasterEndpointAsync(CancellationToken.None))
+            .ThrowsExactly<OperationCanceledException>();
     }
 
     private static DistributedOptions RunOptions() => new() { RunId = "test-run" };

@@ -866,6 +866,61 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
+    public async Task External_Metadata_Accepts_Same_Name_Enums_Whose_Values_Differ_Only_In_Order()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var metadataPath = Path.Combine(workspace, "private-widget.json");
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            await File.WriteAllTextAsync(metadataPath, ValidMetadata("generated"));
+            var tool = await ExternalToolDefinitionLoader.LoadAsync(
+                metadataPath,
+                outputDirectory);
+            var deploy = tool.Commands.Single();
+            var production = new CliEnumValue { MemberName = "Production", CliValue = "production" };
+            var staging = new CliEnumValue { MemberName = "Staging", CliValue = "staging" };
+            var environment = new CliEnumDefinition
+            {
+                EnumName = "PrivateWidgetEnvironment",
+                Values = [production, staging],
+            };
+            tool = tool with
+            {
+                Commands =
+                [
+                    deploy with
+                    {
+                        Enums = [environment],
+                    },
+                    deploy with
+                    {
+                        FullCommand = "private-widget destroy",
+                        CommandParts = ["destroy"],
+                        ClassName = "PrivateWidgetDestroyOptions",
+                        Enums = [environment with { Values = [staging, production] }],
+                    },
+                ],
+            };
+
+            await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory);
+
+            var generatedEnum = await File.ReadAllTextAsync(Path.Combine(
+                outputDirectory,
+                "generated",
+                "Enums",
+                "PrivateWidgetEnvironment.Generated.cs"));
+            await Assert.That(generatedEnum).Contains("Production,");
+            await Assert.That(generatedEnum).Contains("    Staging");
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task External_Generation_Includes_Option_Local_Enum()
     {
         var workspace = CreateTemporaryDirectory();
@@ -1516,7 +1571,7 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
-    public async Task External_Metadata_Uses_Current_Enum_Order_When_Output_Moves()
+    public async Task External_Metadata_Sorts_Enum_Members_From_Current_Values_When_Output_Moves()
     {
         var workspace = CreateTemporaryDirectory();
         var metadataPath = Path.Combine(workspace, "private-widget.json");
@@ -1592,13 +1647,15 @@ public class ExternalToolDefinitionTests
                 "generated-b",
                 "Enums",
                 "PrivateWidgetEnvironment.Generated.cs"));
-            await Assert.That(generatedEnum).Contains("Staging,");
+            // Neither the previous output's order nor the current scrape order matters: members
+            // follow their CLI values so ordinals stay stable across regenerations.
             await Assert.That(generatedEnum).Contains("Development,");
-            await Assert.That(generatedEnum).Contains("    Production");
-            await Assert.That(generatedEnum.IndexOf("Staging,", StringComparison.Ordinal))
-                .IsLessThan(generatedEnum.IndexOf("Development,", StringComparison.Ordinal));
+            await Assert.That(generatedEnum).Contains("Production,");
+            await Assert.That(generatedEnum).Contains("    Staging");
             await Assert.That(generatedEnum.IndexOf("Development,", StringComparison.Ordinal))
-                .IsLessThan(generatedEnum.IndexOf("    Production", StringComparison.Ordinal));
+                .IsLessThan(generatedEnum.IndexOf("Production,", StringComparison.Ordinal));
+            await Assert.That(generatedEnum.IndexOf("Production,", StringComparison.Ordinal))
+                .IsLessThan(generatedEnum.IndexOf("    Staging", StringComparison.Ordinal));
             await Assert.That(generatedEnum).DoesNotContain(" = ");
         }
         finally
