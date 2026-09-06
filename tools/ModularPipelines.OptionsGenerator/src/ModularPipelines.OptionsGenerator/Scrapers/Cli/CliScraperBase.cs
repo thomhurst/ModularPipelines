@@ -1329,6 +1329,208 @@ public abstract partial class CliScraperBase : ICliScraper
     }
 
     /// <summary>
+    /// Returns the paragraph clap-style help prints above its <c>Usage:</c> line, or
+    /// <see langword="null"/> when the help opens with the usage block.
+    /// </summary>
+    protected static string? ExtractSummaryAboveUsage(IReadOnlyList<string> lines)
+    {
+        var summary = new List<string>();
+        foreach (var line in lines)
+        {
+            var trimmed = line.Trim();
+            if (trimmed.StartsWith("Usage:", StringComparison.OrdinalIgnoreCase))
+            {
+                return summary.Count > 0 ? string.Join(' ', summary) : null;
+            }
+
+            if (trimmed.Length > 0)
+            {
+                summary.Add(trimmed);
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Reads the block clap prints beneath an option declaration: the description paragraph,
+    /// then bracketed trailers such as <c>[possible values: a, b]</c> or <c>[default: x]</c>,
+    /// or a <c>Possible values:</c> list whose <c>- value: text</c> entries document each value.
+    /// The first line after the declaration fixes the description column and the block runs
+    /// while lines stay at or beyond it, blank lines included, so it ends at the next
+    /// declaration or heading. Advances <paramref name="index"/> to the last consumed line.
+    /// </summary>
+    /// <param name="lines">The help text lines.</param>
+    /// <param name="index">Index of the declaration row; advanced to the last consumed line.</param>
+    /// <param name="switchColumn">Column where the declaration's long switch starts.</param>
+    protected static ClapOptionBlock ReadClapOptionBlock(
+        IReadOnlyList<string> lines,
+        ref int index,
+        int switchColumn)
+    {
+        var prose = new List<string>();
+        var possibleValues = new List<ClapPossibleValue>();
+        int? descriptionColumn = null;
+        var listingValues = false;
+        var pendingTrailer = string.Empty;
+        while (index + 1 < lines.Count)
+        {
+            var line = lines[index + 1];
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                index++;
+                listingValues = false;
+                continue;
+            }
+
+            var indentation = GetIndentation(line);
+            if (indentation <= switchColumn || indentation < descriptionColumn)
+            {
+                break;
+            }
+
+            descriptionColumn ??= indentation;
+            index++;
+            var text = line.Trim();
+            if (pendingTrailer.Length > 0 || text.StartsWith('['))
+            {
+                // A trailer wrapped at the terminal width continues until its closing bracket.
+                pendingTrailer = pendingTrailer.Length > 0 ? $"{pendingTrailer} {text}" : text;
+                if (!text.EndsWith(']'))
+                {
+                    continue;
+                }
+
+                var trailer = ClapTrailerPattern().Match(pendingTrailer);
+                pendingTrailer = string.Empty;
+                if (trailer.Success && IsPossibleValuesTrailer(trailer.Groups["name"].Value))
+                {
+                    possibleValues.AddRange(ParsePossibleValuesList(trailer.Groups["value"].Value));
+                }
+
+                continue;
+            }
+
+            if (text.Equals("Possible values:", StringComparison.OrdinalIgnoreCase))
+            {
+                listingValues = true;
+                continue;
+            }
+
+            if (!listingValues)
+            {
+                prose.Add(text);
+                continue;
+            }
+
+            var entry = ClapPossibleValueEntryPattern().Match(text);
+            if (entry.Success)
+            {
+                var documentation = entry.Groups["doc"].Value.Trim();
+                possibleValues.Add(new ClapPossibleValue(
+                    entry.Groups["value"].Value,
+                    documentation.Length > 0 ? documentation : null));
+            }
+            else if (possibleValues.Count > 0)
+            {
+                // Wrapped documentation of the previous value.
+                var previous = possibleValues[^1];
+                possibleValues[^1] = previous with { Description = $"{previous.Description} {text}".Trim() };
+            }
+        }
+
+        return new ClapOptionBlock(string.Join(' ', prose), possibleValues);
+    }
+
+    /// <summary>
+    /// Splits a trailing <c>[possible values: a, b]</c> from an inline description, where
+    /// clap's aligned layout appends it to the description text.
+    /// </summary>
+    protected static ClapOptionBlock SplitPossibleValuesTrailer(string description)
+    {
+        var match = InlinePossibleValuesPattern().Match(description);
+        if (!match.Success)
+        {
+            return new ClapOptionBlock(description, []);
+        }
+
+        var prose = string.Concat(description[..match.Index], description[(match.Index + match.Length)..]).Trim();
+        return new ClapOptionBlock(prose, ParsePossibleValuesList(match.Groups["value"].Value).ToArray());
+    }
+
+    /// <summary>
+    /// Builds an enum for an option whose help enumerates its values. Returns
+    /// <see langword="null"/> unless two to twenty distinct members remain; longer lists read
+    /// as prose rather than a closed set.
+    /// </summary>
+    protected static CliEnumDefinition? TryCreateOptionEnum(
+        string className,
+        string propertyName,
+        string switchName,
+        IReadOnlyList<ClapPossibleValue> values)
+    {
+        var members = values
+            .Select(value => new CliEnumValue
+            {
+                MemberName = GeneratorUtils.ToEnumMemberName(value.Value),
+                CliValue = value.Value,
+                Description = value.Description,
+            })
+            .DistinctBy(member => member.MemberName, StringComparer.Ordinal)
+            .ToList();
+        if (members.Count is < 2 or > 20)
+        {
+            return null;
+        }
+
+        var prefix = className.EndsWith("Options", StringComparison.Ordinal)
+            ? className[..^"Options".Length]
+            : className;
+        return new CliEnumDefinition
+        {
+            EnumName = $"{prefix}{propertyName}",
+            Values = members,
+            Description = $"Allowed values for {switchName}.",
+        };
+    }
+
+    private static bool IsPossibleValuesTrailer(string trailerName) =>
+        trailerName.Equals("possible values", StringComparison.OrdinalIgnoreCase);
+
+    private static IEnumerable<ClapPossibleValue> ParsePossibleValuesList(string list) =>
+        list.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+            .Select(value => new ClapPossibleValue(value, null));
+
+    /// <summary>
+    /// An option's description and enumerated values as printed beneath a clap declaration.
+    /// </summary>
+    protected sealed record ClapOptionBlock(string Description, IReadOnlyList<ClapPossibleValue> PossibleValues);
+
+    /// <summary>
+    /// One value from a clap <c>[possible values: ...]</c> trailer or <c>Possible values:</c> list.
+    /// </summary>
+    protected sealed record ClapPossibleValue(string Value, string? Description);
+
+    /// <summary>
+    /// Matches a clap trailer beneath an option description, such as
+    /// <c>[possible values: cyclonedx, spdx]</c>, <c>[default: library]</c> or <c>[aliases: x]</c>.
+    /// </summary>
+    [GeneratedRegex(@"^\[(?<name>[a-z ]+):\s*(?<value>.*)\]$", RegexOptions.IgnoreCase)]
+    private static partial Regex ClapTrailerPattern();
+
+    /// <summary>
+    /// Matches one entry of a clap <c>Possible values:</c> list: <c>- value: documentation</c>.
+    /// </summary>
+    [GeneratedRegex(@"^-\s+(?<value>[^\s:]+):?(?:\s+(?<doc>.*))?$")]
+    private static partial Regex ClapPossibleValueEntryPattern();
+
+    /// <summary>
+    /// Matches a <c>[possible values: ...]</c> trailer embedded in inline description text.
+    /// </summary>
+    [GeneratedRegex(@"\s*\[possible values:\s*(?<value>[^\]]+)\]", RegexOptions.IgnoreCase)]
+    private static partial Regex InlinePossibleValuesPattern();
+
+    /// <summary>
     /// Parses indentation-based argument declarations into a reusable nested group model.
     /// The adapter only recognizes one tool-specific declaration line; traversal,
     /// documentation boundaries, group classification, and flattening stay shared.
