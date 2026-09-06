@@ -84,6 +84,30 @@ try {
         throw "Cross-file duplicate was not reported: $pairMessage"
     }
 
+    # Every populated category is reported in one run, not just the first one hit.
+    Add-File 'src/ModularPipelines.Cmd/PublicAPI.Unshipped.txt' "#nullable enable`n*REMOVED*Api.Retired`n*REMOVED*Api.Orphaned`nApi.Added`nApi.Added"
+    $combinedMessage = Get-AssertFailureMessage
+    if (-not $combinedMessage) {
+        throw 'Orphaned marker plus duplicate entry unexpectedly passed.'
+    }
+
+    if ($combinedMessage -notmatch 'markers without a shipped entry' -or $combinedMessage -notmatch 'more than once') {
+        throw "Combined failure did not report both categories: $combinedMessage"
+    }
+
+    # An entry that repeats within the file and is also shipped is one intra-file duplicate
+    # plus one cross-file duplicate, not a finding per occurrence.
+    Add-File 'src/ModularPipelines.Cmd/PublicAPI.Unshipped.txt' "#nullable enable`n*REMOVED*Api.Retired`nApi.Kept`nApi.Kept"
+    $repeatedShippedMessage = Get-AssertFailureMessage
+    if (-not $repeatedShippedMessage) {
+        throw 'Repeated shipped entry unexpectedly passed.'
+    }
+
+    $keptFindings = [regex]::Matches($repeatedShippedMessage, 'PublicAPI\.Unshipped\.txt: Api\.Kept').Count
+    if ($keptFindings -ne 2) {
+        throw "Repeated shipped entry was reported $keptFindings times instead of 2: $repeatedShippedMessage"
+    }
+
     # Markers compare exactly, as the merge script does; trailing whitespace is an orphan.
     Add-File 'src/ModularPipelines.Cmd/PublicAPI.Unshipped.txt' "#nullable enable`n*REMOVED*Api.Retired "
     $whitespaceMessage = Get-AssertFailureMessage
@@ -106,6 +130,10 @@ try {
         throw "Missing baseline path was not reported: $($failureOutput -join "`n")"
     }
 
+    # The negative cases leave the last child pwsh exit code at 1, which the Actions pwsh
+    # shell would report as the step failing. Reset it rather than exit, so scripts that run
+    # after this one in the same step still execute.
+    $global:LASTEXITCODE = 0
     Write-Output 'Assert-PublicApiBaselines tests passed.'
 }
 finally {
@@ -113,7 +141,3 @@ finally {
         Remove-Item -LiteralPath $testRoot -Recurse -Force
     }
 }
-
-# The negative cases above leave the last child pwsh exit code at 1, which the Actions
-# pwsh shell would otherwise report as this step failing.
-exit 0

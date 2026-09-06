@@ -76,8 +76,11 @@ foreach ($project in $packageProjects) {
     # plain entry that is also still shipped is the RS0025 duplicate-symbol case.
     $shipped = [System.Collections.Generic.HashSet[string]]::new($shippedLines, [System.StringComparer]::Ordinal)
     $relativePath = [System.IO.Path]::GetRelativePath($repositoryRootPath, $unshippedPath)
+    $inspected = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
     foreach ($line in $unshippedLines) {
-        if (-not (Test-ApiEntry $line)) {
+        # Repeats within the file are already reported above; inspect each entry once so a
+        # duplicated entry that is also shipped does not surface as several findings.
+        if (-not (Test-ApiEntry $line) -or -not $inspected.Add($line)) {
             continue
         }
 
@@ -92,19 +95,23 @@ foreach ($project in $packageProjects) {
     }
 }
 
+# Report every populated category at once so one CI run shows every problem to fix.
+$newLine = [Environment]::NewLine
+$problems = [System.Collections.Generic.List[string]]::new()
 if ($missingBaselines.Count -gt 0) {
-    $missingList = $missingBaselines -join [Environment]::NewLine
-    throw "Public API baseline coverage is incomplete:$([Environment]::NewLine)$missingList"
+    $problems.Add("Public API baseline coverage is incomplete:$newLine$($missingBaselines -join $newLine)")
 }
 
 if ($orphanedMarkers.Count -gt 0) {
-    $orphanList = $orphanedMarkers -join [Environment]::NewLine
-    throw "Public API baselines contain *REMOVED* markers without a shipped entry:$([Environment]::NewLine)$orphanList"
+    $problems.Add("Public API baselines contain *REMOVED* markers without a shipped entry:$newLine$($orphanedMarkers -join $newLine)")
 }
 
 if ($duplicateEntries.Count -gt 0) {
-    $duplicateList = $duplicateEntries -join [Environment]::NewLine
-    throw "Public API baselines list the same entry more than once:$([Environment]::NewLine)$duplicateList"
+    $problems.Add("Public API baselines list the same entry more than once:$newLine$($duplicateEntries -join $newLine)")
+}
+
+if ($problems.Count -gt 0) {
+    throw ($problems -join ($newLine + $newLine))
 }
 
 Write-Output "Verified public API baselines for $($packageProjects.Count) package projects."
