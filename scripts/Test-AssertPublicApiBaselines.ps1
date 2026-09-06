@@ -108,6 +108,20 @@ try {
         throw "Repeated shipped entry was reported $keptFindings times instead of 2: $repeatedShippedMessage"
     }
 
+    # A marker that strayed into PublicAPI.Shipped.txt is reported too.
+    Add-File 'src/ModularPipelines.Cmd/PublicAPI.Unshipped.txt' "#nullable enable`n*REMOVED*Api.Retired"
+    Add-File 'src/ModularPipelines.Cmd/PublicAPI.Shipped.txt' "#nullable enable`nApi.Retired`n*REMOVED*Api.Stray"
+    $strayMessage = Get-AssertFailureMessage
+    if (-not $strayMessage) {
+        throw 'Marker in the shipped baseline unexpectedly passed.'
+    }
+
+    if ($strayMessage -notmatch 'ModularPipelines.Cmd[\\/]PublicAPI.Shipped.txt: \*REMOVED\*Api.Stray \(marker in PublicAPI.Shipped.txt\)') {
+        throw "Stray shipped marker was not reported: $strayMessage"
+    }
+
+    Add-File 'src/ModularPipelines.Cmd/PublicAPI.Shipped.txt' "#nullable enable`nApi.Retired`nApi.Kept"
+
     # Markers compare exactly, as the merge script does; trailing whitespace is an orphan.
     Add-File 'src/ModularPipelines.Cmd/PublicAPI.Unshipped.txt' "#nullable enable`n*REMOVED*Api.Retired "
     $whitespaceMessage = Get-AssertFailureMessage
