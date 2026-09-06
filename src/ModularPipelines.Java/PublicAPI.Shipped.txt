@@ -4,12 +4,8 @@ ModularPipelines.Context.ModularPipelines_Java_04d0dc30f3fd7e8eToolsExtensions.e
 ModularPipelines.Context.ModularPipelines_Java_04d0dc30f3fd7e8eToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Gradle.get -> ModularPipelines.Java.Services.IGradle!
 ModularPipelines.Context.ModularPipelines_Java_04d0dc30f3fd7e8eToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Maven.get -> ModularPipelines.Java.Services.IMaven!
 ModularPipelines.Java.Enums.GradleConfigurationCacheProblems
-ModularPipelines.Java.Enums.GradleConfigurationCacheProblems.Fail = 1 -> ModularPipelines.Java.Enums.GradleConfigurationCacheProblems
-ModularPipelines.Java.Enums.GradleConfigurationCacheProblems.Warn = 0 -> ModularPipelines.Java.Enums.GradleConfigurationCacheProblems
 ModularPipelines.Java.Enums.GradleConsole
-ModularPipelines.Java.Enums.GradleConsole.Auto = 2 -> ModularPipelines.Java.Enums.GradleConsole
 ModularPipelines.Java.Enums.GradleConsole.Colored = 1 -> ModularPipelines.Java.Enums.GradleConsole
-ModularPipelines.Java.Enums.GradleConsole.Plain = 0 -> ModularPipelines.Java.Enums.GradleConsole
 ModularPipelines.Java.Enums.GradleConsole.Rich = 3 -> ModularPipelines.Java.Enums.GradleConsole
 ModularPipelines.Java.Enums.GradleConsole.Verbose = 4 -> ModularPipelines.Java.Enums.GradleConsole
 ModularPipelines.Java.Enums.GradleConsoleUnicode
@@ -17,17 +13,10 @@ ModularPipelines.Java.Enums.GradleConsoleUnicode.Auto = 0 -> ModularPipelines.Ja
 ModularPipelines.Java.Enums.GradleConsoleUnicode.Disable = 1 -> ModularPipelines.Java.Enums.GradleConsoleUnicode
 ModularPipelines.Java.Enums.GradleConsoleUnicode.Enable = 2 -> ModularPipelines.Java.Enums.GradleConsoleUnicode
 ModularPipelines.Java.Enums.GradleDependencyVerification
-ModularPipelines.Java.Enums.GradleDependencyVerification.Lenient = 1 -> ModularPipelines.Java.Enums.GradleDependencyVerification
-ModularPipelines.Java.Enums.GradleDependencyVerification.Off = 2 -> ModularPipelines.Java.Enums.GradleDependencyVerification
-ModularPipelines.Java.Enums.GradleDependencyVerification.Strict = 0 -> ModularPipelines.Java.Enums.GradleDependencyVerification
 ModularPipelines.Java.Enums.GradlePriority
-ModularPipelines.Java.Enums.GradlePriority.Low = 1 -> ModularPipelines.Java.Enums.GradlePriority
-ModularPipelines.Java.Enums.GradlePriority.Normal = 0 -> ModularPipelines.Java.Enums.GradlePriority
 ModularPipelines.Java.Enums.GradleWarningMode
 ModularPipelines.Java.Enums.GradleWarningMode.All = 0 -> ModularPipelines.Java.Enums.GradleWarningMode
 ModularPipelines.Java.Enums.GradleWarningMode.Fail = 1 -> ModularPipelines.Java.Enums.GradleWarningMode
-ModularPipelines.Java.Enums.GradleWarningMode.None = 3 -> ModularPipelines.Java.Enums.GradleWarningMode
-ModularPipelines.Java.Enums.GradleWarningMode.Summary = 2 -> ModularPipelines.Java.Enums.GradleWarningMode
 ModularPipelines.Java.Enums.MavenColor
 ModularPipelines.Java.Enums.MavenColor.Always = 1 -> ModularPipelines.Java.Enums.MavenColor
 ModularPipelines.Java.Enums.MavenColor.Auto = 0 -> ModularPipelines.Java.Enums.MavenColor

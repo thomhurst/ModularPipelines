@@ -1,7 +1,29 @@
 #nullable enable
+*REMOVED*ModularPipelines.Java.Enums.GradleConfigurationCacheProblems.Fail = 1 -> ModularPipelines.Java.Enums.GradleConfigurationCacheProblems
+*REMOVED*ModularPipelines.Java.Enums.GradleConfigurationCacheProblems.Warn = 0 -> ModularPipelines.Java.Enums.GradleConfigurationCacheProblems
+*REMOVED*ModularPipelines.Java.Enums.GradleConsole.Auto = 2 -> ModularPipelines.Java.Enums.GradleConsole
+*REMOVED*ModularPipelines.Java.Enums.GradleConsole.Plain = 0 -> ModularPipelines.Java.Enums.GradleConsole
+*REMOVED*ModularPipelines.Java.Enums.GradleDependencyVerification.Lenient = 1 -> ModularPipelines.Java.Enums.GradleDependencyVerification
+*REMOVED*ModularPipelines.Java.Enums.GradleDependencyVerification.Off = 2 -> ModularPipelines.Java.Enums.GradleDependencyVerification
+*REMOVED*ModularPipelines.Java.Enums.GradleDependencyVerification.Strict = 0 -> ModularPipelines.Java.Enums.GradleDependencyVerification
+*REMOVED*ModularPipelines.Java.Enums.GradlePriority.Low = 1 -> ModularPipelines.Java.Enums.GradlePriority
+*REMOVED*ModularPipelines.Java.Enums.GradlePriority.Normal = 0 -> ModularPipelines.Java.Enums.GradlePriority
+*REMOVED*ModularPipelines.Java.Enums.GradleWarningMode.None = 3 -> ModularPipelines.Java.Enums.GradleWarningMode
+*REMOVED*ModularPipelines.Java.Enums.GradleWarningMode.Summary = 2 -> ModularPipelines.Java.Enums.GradleWarningMode
 *REMOVED*ModularPipelines.Java.Services.IGradle.ExecuteAsync(ModularPipelines.Java.Options.GradleExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Java.Services.IMaven.ExecuteAsync(ModularPipelines.Java.Options.MavenExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*static ModularPipelines.Java.Extensions.GradleExtensions.Gradle(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Java.Services.IGradle!
 *REMOVED*static ModularPipelines.Java.Extensions.MavenExtensions.Maven(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Java.Services.IMaven!
+ModularPipelines.Java.Enums.GradleConfigurationCacheProblems.Fail = 0 -> ModularPipelines.Java.Enums.GradleConfigurationCacheProblems
+ModularPipelines.Java.Enums.GradleConfigurationCacheProblems.Warn = 1 -> ModularPipelines.Java.Enums.GradleConfigurationCacheProblems
+ModularPipelines.Java.Enums.GradleConsole.Auto = 0 -> ModularPipelines.Java.Enums.GradleConsole
+ModularPipelines.Java.Enums.GradleConsole.Plain = 2 -> ModularPipelines.Java.Enums.GradleConsole
+ModularPipelines.Java.Enums.GradleDependencyVerification.Lenient = 0 -> ModularPipelines.Java.Enums.GradleDependencyVerification
+ModularPipelines.Java.Enums.GradleDependencyVerification.Off = 1 -> ModularPipelines.Java.Enums.GradleDependencyVerification
+ModularPipelines.Java.Enums.GradleDependencyVerification.Strict = 2 -> ModularPipelines.Java.Enums.GradleDependencyVerification
+ModularPipelines.Java.Enums.GradlePriority.Low = 0 -> ModularPipelines.Java.Enums.GradlePriority
+ModularPipelines.Java.Enums.GradlePriority.Normal = 1 -> ModularPipelines.Java.Enums.GradlePriority
+ModularPipelines.Java.Enums.GradleWarningMode.None = 2 -> ModularPipelines.Java.Enums.GradleWarningMode
+ModularPipelines.Java.Enums.GradleWarningMode.Summary = 3 -> ModularPipelines.Java.Enums.GradleWarningMode
 ModularPipelines.Java.Services.IGradle.ExecuteAsync(ModularPipelines.Java.Options.GradleExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Java.Services.IMaven.ExecuteAsync(ModularPipelines.Java.Options.MavenExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
