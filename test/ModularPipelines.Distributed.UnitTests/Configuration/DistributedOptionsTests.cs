@@ -130,6 +130,23 @@ public class DistributedOptionsTests
     }
 
     [Test]
+    public async Task RequireExplicitRunId_Turns_On_The_Requirement_And_Startup_Validation()
+    {
+        var builder = TestPipelineBuilder.Create();
+        builder.AddDistributedMode(options => options.RunId = "explicit-run");
+
+        builder.RequireExplicitRunId();
+
+        using var provider = builder.Services.BuildServiceProvider();
+        using (Assert.Multiple())
+        {
+            await Assert.That(provider.GetRequiredService<IOptions<DistributedOptions>>().Value.RequireExplicitRunId)
+                .IsTrue();
+            await Assert.That(provider.GetService<IStartupValidator>()).IsNotNull();
+        }
+    }
+
+    [Test]
     public async Task DependencyBasedPostConfigure_Selects_Worker_Executor()
     {
         var builder = TestPipelineBuilder.Create();

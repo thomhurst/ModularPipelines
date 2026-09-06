@@ -176,16 +176,10 @@ public static class RedisDistributedExtensions
 
     private static PipelineBuilder AddRedisDistributedCoordinatorServices(PipelineBuilder builder)
     {
-        AddExplicitRunIdRequirement(builder);
+        builder.RequireExplicitRunId();
         builder.Services.AddSingleton<IDistributedCoordinatorFactory, RedisDistributedCoordinatorFactory>();
 
         return builder;
-    }
-
-    private static void AddExplicitRunIdRequirement(PipelineBuilder builder)
-    {
-        builder.Services.Configure<DistributedOptions>(options => options.RequireExplicitRunId = true);
-        builder.Services.AddOptions<DistributedOptions>().ValidateOnStart();
     }
 
     private static PipelineBuilder AddRedisModuleCacheServices(
@@ -212,7 +206,7 @@ public static class RedisDistributedExtensions
         PipelineBuilder builder,
         Action<ArtifactOptions>? configureArtifacts)
     {
-        AddExplicitRunIdRequirement(builder);
+        builder.RequireExplicitRunId();
         if (configureArtifacts is not null)
         {
             builder.Services.Configure(configureArtifacts);

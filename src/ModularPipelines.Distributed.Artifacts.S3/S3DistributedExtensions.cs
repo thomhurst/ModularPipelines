@@ -101,12 +101,10 @@ public static class S3DistributedExtensions
         return AddS3DistributedArtifactStoreFactory(builder);
     }
 
-    private static PipelineBuilder AddS3DistributedArtifactStoreFactory(PipelineBuilder builder)
-    {
-        builder.Services.Configure<DistributedOptions>(options => options.RequireExplicitRunId = true);
-        builder.Services.AddOptions<DistributedOptions>().ValidateOnStart();
-        return builder.AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
-    }
+    private static PipelineBuilder AddS3DistributedArtifactStoreFactory(PipelineBuilder builder) =>
+        builder
+            .RequireExplicitRunId()
+            .AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
 
     private static PipelineBuilder AddS3ModuleCacheServices(
         PipelineBuilder builder,

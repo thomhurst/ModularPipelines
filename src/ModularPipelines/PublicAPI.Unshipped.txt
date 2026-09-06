@@ -2672,6 +2672,7 @@ static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.AddDist
 static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.AddDistributedMode(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.AddDistributedMode(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.AddDistributedMode(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.DistributedOptions!>! configure) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.RequireExplicitRunId(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.DependencyResultReference.operator !=(ModularPipelines.Distributed.DependencyResultReference? left, ModularPipelines.Distributed.DependencyResultReference? right) -> bool
 static ModularPipelines.Distributed.DependencyResultReference.operator ==(ModularPipelines.Distributed.DependencyResultReference? left, ModularPipelines.Distributed.DependencyResultReference? right) -> bool
 static ModularPipelines.Distributed.ModuleAssignmentConfiguration.operator !=(ModularPipelines.Distributed.ModuleAssignmentConfiguration? left, ModularPipelines.Distributed.ModuleAssignmentConfiguration? right) -> bool

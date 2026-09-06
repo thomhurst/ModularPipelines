@@ -169,6 +169,20 @@ public static class DistributedPipelineBuilderExtensions
         return builder;
     }
 
+    /// <summary>
+    /// Requires one explicit shared <see cref="DistributedOptions.RunId"/> for the run and
+    /// validates it at startup, rejecting the generated single-instance fallback. Backends that
+    /// key shared state by run identifier call this so a missing identifier fails fast instead
+    /// of silently isolating each process.
+    /// </summary>
+    /// <returns>The pipeline builder.</returns>
+    public static PipelineBuilder RequireExplicitRunId(this PipelineBuilder builder)
+    {
+        builder.Services.Configure<DistributedOptions>(options => options.RequireExplicitRunId = true);
+        builder.Services.AddOptions<DistributedOptions>().ValidateOnStart();
+        return builder;
+    }
+
     private static void EnableDistributedMode(DistributedOptions options)
     {
         options.Enabled = true;
