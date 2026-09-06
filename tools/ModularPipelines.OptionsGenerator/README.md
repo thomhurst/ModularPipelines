@@ -61,7 +61,7 @@ Run commands from the repository root. The executable for a CLI-first scraper mu
 installed and resolvable through `PATH`.
 
 ```powershell
-pwsh scripts/Invoke-AgentDotNet.ps1 `
+& scripts/Invoke-AgentDotNet.ps1 `
   -DotNetArguments @(
     'run',
     '--project',
@@ -192,7 +192,7 @@ can distinguish an upstream removal from a partial scrape.
 Run the generator test project:
 
 ```powershell
-pwsh scripts/Invoke-AgentDotNet.ps1 `
+& scripts/Invoke-AgentDotNet.ps1 `
   -DotNetArguments @(
     'run',
     '--project',
@@ -206,7 +206,7 @@ pwsh scripts/Invoke-AgentDotNet.ps1 `
 After regeneration, build only the affected integration's solution. For example:
 
 ```powershell
-pwsh scripts/Invoke-AgentDotNet.ps1 `
+& scripts/Invoke-AgentDotNet.ps1 `
   -DotNetArguments @(
     'build',
     'src/ModularPipelines.Docker/ModularPipelines.Docker.slnx',
