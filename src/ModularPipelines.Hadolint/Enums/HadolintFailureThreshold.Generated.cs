@@ -19,18 +19,18 @@ public enum HadolintFailureThreshold
     [EnumValue("error")]
     Error,
 
-    [EnumValue("warning")]
-    Warning,
+    [EnumValue("ignore")]
+    Ignore,
 
     [EnumValue("info")]
     Info,
 
+    [EnumValue("none")]
+    None,
+
     [EnumValue("style")]
     Style,
 
-    [EnumValue("ignore")]
-    Ignore,
-
-    [EnumValue("none")]
-    None
+    [EnumValue("warning")]
+    Warning
 }
