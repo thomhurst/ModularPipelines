@@ -20,10 +20,11 @@ internal static class CommandCoverageGuard
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
     };
 
-    /// <param name="timedOutHelpPaths">
-    /// Commands whose help invocation timed out after every retry. They are unavailable in this
-    /// scrape rather than removed from the tool, so they always fail validation and are never
-    /// covered by <paramref name="approveShrinkage"/>.
+    /// <param name="unavailableHelpPaths">
+    /// Command paths whose help invocation never produced a real response (timed out after every
+    /// retry, or rejected by the circuit breaker). They and every baseline command beneath them
+    /// are unavailable in this scrape rather than removed from the tool, so they always fail
+    /// validation and are never covered by <paramref name="approveShrinkage"/>.
     /// </param>
     public static CommandCoverageEvaluation Evaluate(
         CliToolDefinition tool,
@@ -32,7 +33,7 @@ internal static class CommandCoverageGuard
         string? fallbackManifestPath = null,
         StringComparer? pathComparer = null,
         bool allowMissingManifest = false,
-        IReadOnlyList<string>? timedOutHelpPaths = null)
+        IReadOnlyList<string>? unavailableHelpPaths = null)
     {
         var commands = GetCoverageCommands(tool);
         var manifestPath = GetManifestPath(tool, outputDirectory);
@@ -65,9 +66,10 @@ internal static class CommandCoverageGuard
         var allowedMissingCommands = excludedCommands
             .Concat(conditionallyAvailableCommands)
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
-        // Commands whose help never came back are unavailable, not removed: keep them out of the
-        // removal arithmetic (and its approval budget) and report them on their own.
-        var timedOutCommands = (timedOutHelpPaths ?? [])
+        // Commands whose help never came back are unavailable, not removed: keep them (and, for a
+        // group or root path, everything beneath them that the traversal never reached) out of
+        // the removal arithmetic and its approval budget, and report them on their own.
+        var unavailableCommands = (unavailableHelpPaths ?? [])
             .Select(NormalizeCommand)
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .Order(StringComparer.OrdinalIgnoreCase)
@@ -79,15 +81,17 @@ internal static class CommandCoverageGuard
             ? []
             : previous.Commands
                 .Except(commands, StringComparer.OrdinalIgnoreCase)
-                .Except(timedOutCommands, StringComparer.OrdinalIgnoreCase)
+                .Where(command => !unavailableCommands.Any(unavailable => IsSameOrChildOf(unavailable, command)))
                 .ToArray();
         var unapprovedRemovedCommands = removedCommands
             .Where(command => !allowedMissingCommands.Contains(command))
             .ToArray();
         var knownGroupsWithoutChildren = GetKnownGroupsWithoutChildren(
-            previous,
-            commands,
-            allowedMissingCommands);
+                previous,
+                commands,
+                allowedMissingCommands)
+            .Where(group => !unavailableCommands.Any(unavailable => IsSameOrChildOf(unavailable, group)))
+            .ToArray();
         var missingSentinels = GetMissingSentinels(tool.CommandCoverage, commands, allowedMissingCommands);
         var hasSameVersionCommandSetDrift = previous is not null
             && HasSameResolvedVersion(previous.ToolVersion, tool.ToolVersion)
@@ -105,7 +109,7 @@ internal static class CommandCoverageGuard
             approveShrinkage,
             previous?.ToolVersion,
             tool.ToolVersion,
-            timedOutCommands);
+            unavailableCommands);
 
         var manifest = CreateManifest(tool.ToolName, tool.ToolVersion, commands, exclusions);
 
@@ -118,7 +122,7 @@ internal static class CommandCoverageGuard
             PreviousToolVersion = previous?.ToolVersion,
             AddedCommands = addedCommands,
             RemovedCommands = removedCommands,
-            TimedOutCommands = timedOutCommands,
+            UnavailableCommands = unavailableCommands,
             KnownGroupsWithoutChildren = knownGroupsWithoutChildren,
             Violations = violations,
             ChangesApproved = approveShrinkage
@@ -196,15 +200,15 @@ internal static class CommandCoverageGuard
         bool approveShrinkage,
         string? previousToolVersion,
         string? currentToolVersion,
-        IReadOnlyList<string> timedOutCommands)
+        IReadOnlyList<string> unavailableCommands)
     {
         var violations = new List<string>();
 
         // Never subject to shrinkage approval: the scrape is incomplete, not the tool smaller.
         AddViolation(
             violations,
-            "Help timed out after all retries; rerun the generation instead of approving these as removals",
-            timedOutCommands);
+            "Help was unavailable after all retries (timed out or rejected by the circuit breaker); rerun the generation instead of approving these as removals",
+            unavailableCommands);
 
         if (policy.MinimumCommandCount is < 1)
         {
@@ -463,6 +467,10 @@ internal static class CommandCoverageGuard
     private static IReadOnlyList<string> GetCoverageCommands(CliToolDefinition tool)
         => NormalizeCommands(tool.Commands.Select(command => command.FullCommand));
 
+    private static bool IsSameOrChildOf(string ancestor, string command) =>
+        string.Equals(ancestor, command, StringComparison.OrdinalIgnoreCase)
+        || command.StartsWith(ancestor + " ", StringComparison.OrdinalIgnoreCase);
+
     private static string NormalizeCommand(string command) =>
         string.Join(' ', command.Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries));
 
@@ -548,10 +556,11 @@ internal sealed record CommandCoverageEvaluation
     public required IReadOnlyList<string> RemovedCommands { get; init; }
 
     /// <summary>
-    /// Commands whose help invocation timed out after every retry. They are excluded from
-    /// <see cref="RemovedCommands"/> because the scrape, not the tool, is missing them.
+    /// Command paths whose help invocation never produced a real response (timed out after every
+    /// retry, or rejected by the circuit breaker). They and the baseline commands beneath them are
+    /// excluded from <see cref="RemovedCommands"/> because the scrape, not the tool, is missing them.
     /// </summary>
-    public IReadOnlyList<string> TimedOutCommands { get; init; } = [];
+    public IReadOnlyList<string> UnavailableCommands { get; init; } = [];
 
     public required IReadOnlyList<string> KnownGroupsWithoutChildren { get; init; }
 

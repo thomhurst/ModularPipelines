@@ -755,23 +755,25 @@ public abstract partial class CliScraperBase : ICliScraper
             cancellationToken,
             workingDirectory);
         _scrapeProvenance.Record(commandPath, arguments, result, preserveRawHelp);
-        if (!result.TimedOut)
+        if (!result.Unavailable)
         {
             return result;
         }
 
         // Every scraper's help parsing treats blank output as "no help", so hand back an empty
         // result instead of the executor's placeholder text. The provenance keeps the path as
-        // timed out, and coverage validation fails the run instead of reporting a removal.
+        // unavailable, and coverage validation fails the run instead of reporting a removal.
         Logger.LogWarning(
-            "Help timed out for {Command}; the command is unavailable in this scrape",
-            string.Join(' ', commandPath));
+            "Help for {Command} is unavailable in this scrape ({Reason})",
+            string.Join(' ', commandPath),
+            result.TimedOut ? "timed out after all retries" : "rejected by the circuit breaker");
         return new CliCommandResult
         {
             StandardOutput = string.Empty,
             StandardError = string.Empty,
             ExitCode = result.ExitCode,
-            TimedOut = true,
+            TimedOut = result.TimedOut,
+            CircuitOpen = result.CircuitOpen,
         };
     }
 
@@ -785,9 +787,10 @@ public abstract partial class CliScraperBase : ICliScraper
             cancellationToken);
 
     /// <summary>
-    /// Help paths whose invocation timed out after every retry during this scrape.
+    /// Help paths whose invocation timed out after every retry or was rejected by the circuit
+    /// breaker during this scrape.
     /// </summary>
-    internal IReadOnlyList<string> TimedOutHelpPaths => _scrapeProvenance.TimedOutHelpPaths;
+    internal IReadOnlyList<string> UnavailableHelpPaths => _scrapeProvenance.UnavailableHelpPaths;
 
     internal void PreserveRawHelpForCommandGroups(IEnumerable<string> commandGroups)
     {
