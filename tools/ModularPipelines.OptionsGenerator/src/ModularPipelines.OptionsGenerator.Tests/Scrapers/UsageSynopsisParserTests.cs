@@ -786,6 +786,30 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Relaxes_Operands_Absent_From_Alternate_Forms_With_Option_Placeholders_And_Ellipses()
+    {
+        // cargo 1.98 prints the three forms with [OPTIONS] and a trailing " ..." each.
+        const string helpText = """
+            Usage: cargo add [OPTIONS] <DEP>[@<VERSION>] ...
+                   cargo add [OPTIONS] --path <PATH> ...
+                   cargo add [OPTIONS] --git <URL> ...
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["cargo", "add"]);
+        var dependency = result.PositionalArguments.Single();
+        var requiredSources = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.MatchedSynopsisCount).IsEqualTo(3);
+            await Assert.That(dependency.IsRequired).IsFalse();
+            await Assert.That(dependency.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(requiredSources).IsEquivalentTo(["Dep", "--path", "--git"]);
+        }
+    }
+
+    [Test]
     public async Task Keeps_Required_Operand_Positions_Across_Renamed_Alternate_Forms()
     {
         const string helpText = """
