@@ -19,9 +19,9 @@ public enum FluxBootstrapGitlabLogLevel
     [EnumValue("debug")]
     Debug,
 
-    [EnumValue("info")]
-    Info,
-
     [EnumValue("error")]
-    Error
+    Error,
+
+    [EnumValue("info")]
+    Info
 }

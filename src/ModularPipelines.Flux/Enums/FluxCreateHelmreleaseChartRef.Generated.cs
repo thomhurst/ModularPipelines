@@ -16,9 +16,9 @@ namespace ModularPipelines.Flux.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum FluxCreateHelmreleaseChartRef
 {
-    [EnumValue("OCIRepository")]
-    OciRepository,
-
     [EnumValue("HelmChart")]
-    HelmChart
+    HelmChart,
+
+    [EnumValue("OCIRepository")]
+    OciRepository
 }

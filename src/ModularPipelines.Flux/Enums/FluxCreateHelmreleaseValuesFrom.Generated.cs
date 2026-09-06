@@ -16,9 +16,9 @@ namespace ModularPipelines.Flux.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum FluxCreateHelmreleaseValuesFrom
 {
-    [EnumValue("Secret")]
-    Secret,
-
     [EnumValue("ConfigMap")]
-    ConfigMap
+    ConfigMap,
+
+    [EnumValue("Secret")]
+    Secret
 }

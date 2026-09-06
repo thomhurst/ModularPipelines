@@ -16,6 +16,21 @@ namespace ModularPipelines.Flux.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum FluxCreateSecretReceiverType
 {
+    [EnumValue("acr")]
+    Acr,
+
+    [EnumValue("bitbucket")]
+    Bitbucket,
+
+    [EnumValue("cdevents")]
+    Cdevents,
+
+    [EnumValue("dockerhub")]
+    Dockerhub,
+
+    [EnumValue("gcr")]
+    Gcr,
+
     [EnumValue("generic")]
     Generic,
 
@@ -28,27 +43,12 @@ public enum FluxCreateSecretReceiverType
     [EnumValue("gitlab")]
     Gitlab,
 
-    [EnumValue("bitbucket")]
-    Bitbucket,
-
     [EnumValue("harbor")]
     Harbor,
-
-    [EnumValue("dockerhub")]
-    Dockerhub,
-
-    [EnumValue("quay")]
-    Quay,
-
-    [EnumValue("gcr")]
-    Gcr,
 
     [EnumValue("nexus")]
     Nexus,
 
-    [EnumValue("acr")]
-    Acr,
-
-    [EnumValue("cdevents")]
-    Cdevents
+    [EnumValue("quay")]
+    Quay
 }

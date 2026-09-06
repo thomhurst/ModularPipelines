@@ -16,12 +16,12 @@ namespace ModularPipelines.Flux.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum FluxCreateSecretGitSshKeyAlgorithm
 {
-    [EnumValue("rsa")]
-    Rsa,
-
     [EnumValue("ecdsa")]
     Ecdsa,
 
     [EnumValue("ed25519")]
-    Ed25519
+    Ed25519,
+
+    [EnumValue("rsa")]
+    Rsa
 }

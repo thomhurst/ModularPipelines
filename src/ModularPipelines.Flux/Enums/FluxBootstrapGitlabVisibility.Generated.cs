@@ -16,12 +16,12 @@ namespace ModularPipelines.Flux.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum FluxBootstrapGitlabVisibility
 {
+    [EnumValue("internal")]
+    Internal,
+
     [EnumValue("private")]
     Private,
 
     [EnumValue("public")]
-    Public,
-
-    [EnumValue("internal")]
-    Internal
+    Public
 }
