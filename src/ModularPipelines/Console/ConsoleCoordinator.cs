@@ -484,6 +484,12 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     {
         await using var session = await BeginProgressAsync(organizedModules, cancellationToken).ConfigureAwait(false);
 
+        if (session is NoOpProgressSession)
+        {
+            // There is no display to keep alive when progress is disabled.
+            return;
+        }
+
         // Wait for cancellation - the session runs until disposed
         try
         {
