@@ -621,10 +621,17 @@ public partial class BrewCliScraper : CliScraperBase
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var lines = NormalizeLines(helpText);
+        int? descriptionColumn = null;
 
         for (var lineIndex = 0; lineIndex < lines.Length; lineIndex++)
         {
             var line = lines[lineIndex];
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                // The description column is only consistent within one option block.
+                descriptionColumn = null;
+                continue;
+            }
 
             // Match option lines
             var match = BrewOptionPattern().Match(line);
@@ -633,17 +640,25 @@ public partial class BrewCliScraper : CliScraperBase
                 continue;
             }
 
-            var flagsPart = match.Groups["flags"].Value.Trim();
+            var flagsGroup = match.Groups["flags"];
+            var flagsPart = flagsGroup.Value.Trim();
             var descriptionParts = new List<string>();
-            var inlineDescription = match.Groups["description"].Value.Trim();
+            var descriptionGroup = match.Groups["description"];
+            var inlineDescription = descriptionGroup.Value.Trim();
             if (!string.IsNullOrEmpty(inlineDescription))
             {
                 descriptionParts.Add(inlineDescription);
+                descriptionColumn = descriptionGroup.Index;
             }
+
+            // Without a known description column (a flags-only option opening the block), a
+            // wrapped line still starts well past the end of the current option's own flags,
+            // whereas a genuine option row starts at the flags column.
+            var continuationColumn = descriptionColumn ?? (flagsGroup.Index + flagsGroup.Length);
 
             while (lineIndex + 1 < lines.Length
                    && !string.IsNullOrWhiteSpace(lines[lineIndex + 1])
-                   && !BrewOptionPattern().IsMatch(lines[lineIndex + 1]))
+                   && IsWrappedDescriptionLine(lines[lineIndex + 1], continuationColumn))
             {
                 descriptionParts.Add(lines[++lineIndex].Trim());
             }
@@ -722,6 +737,18 @@ public partial class BrewCliScraper : CliScraperBase
         }
 
         return options;
+    }
+
+    /// <summary>
+    /// Homebrew wraps long option descriptions onto lines aligned to the description
+    /// column, and a wrapped fragment can itself look like an option row (for example
+    /// "--fix-type=released." ending the <c>brew vulns --fix-available</c> description).
+    /// Only a line whose flags start before the block's description column begins a new option.
+    /// </summary>
+    private static bool IsWrappedDescriptionLine(string line, int continuationColumn)
+    {
+        var match = BrewOptionPattern().Match(line);
+        return !match.Success || match.Groups["flags"].Index >= continuationColumn;
     }
 
     private static IReadOnlyDictionary<string, string> ParseOptionTypes(IEnumerable<string> lines) =>
