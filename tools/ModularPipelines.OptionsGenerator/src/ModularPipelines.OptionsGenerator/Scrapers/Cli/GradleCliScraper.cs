@@ -159,7 +159,6 @@ public partial class GradleCliScraper : CliScraperBase
 
             var shortForms = match.Groups["shorts"].Value.Trim();
             var longForm = match.Groups["long"].Value.Trim();
-            var description = match.Groups["desc"].Value.Trim();
 
             if (string.IsNullOrEmpty(longForm))
             {
@@ -174,7 +173,7 @@ public partial class GradleCliScraper : CliScraperBase
 
             seenOptions.Add(longForm);
 
-            i = AccumulateMultiLineDescription(lines, i, ref description);
+            var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow);
 
             // Skip deprecated options
             if (description.Contains("[deprecated]", StringComparison.OrdinalIgnoreCase))
@@ -254,32 +253,7 @@ public partial class GradleCliScraper : CliScraperBase
         return isNumeric ? "int?" : "string?";
     }
 
-    private static int AccumulateMultiLineDescription(string[] lines, int currentIndex, ref string description)
-    {
-        var descriptionParts = new List<string> { description };
-        var nextIndex = currentIndex + 1;
-
-        while (nextIndex < lines.Length)
-        {
-            var nextLine = lines[nextIndex];
-            if (string.IsNullOrWhiteSpace(nextLine) || GradleOptionPattern().IsMatch(nextLine))
-            {
-                break;
-            }
-
-            var leadingSpaces = nextLine.Length - nextLine.TrimStart().Length;
-            if (leadingSpaces < 4)
-            {
-                break;
-            }
-
-            descriptionParts.Add(nextLine.Trim());
-            nextIndex++;
-        }
-
-        description = string.Join(" ", descriptionParts.Where(x => !string.IsNullOrWhiteSpace(x)));
-        return nextIndex - 1;
-    }
+    private static bool IsOptionRow(string line) => GradleOptionPattern().IsMatch(line);
 
     private static CliEnumDefinition? TryCreateEnumDefinition(string longForm, string propertyName, string description)
     {
