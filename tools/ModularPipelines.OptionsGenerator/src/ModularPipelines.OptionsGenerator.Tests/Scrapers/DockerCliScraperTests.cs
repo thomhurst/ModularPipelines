@@ -103,6 +103,33 @@ public class DockerCliScraperTests
             .And.HasMessageContaining("maps both '--current' and '--CURRENT'");
     }
 
+    [Test]
+    public async Task Wrapped_Descriptions_That_Mention_Flags_Stay_Prose()
+    {
+        const string helpText = """
+            Usage:  docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+
+            Create and run a new container from an image
+
+            Options:
+                  --tls                Use TLS; implied by
+                                       --tlsverify
+                  --tlsverify          Use TLS and verify the remote
+            """;
+
+        var command = await new TestDockerCliScraper().Parse(["docker", "run"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo(["--tls", "--tlsverify"]);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--tls").Description)
+                .IsEqualTo("Use TLS; implied by --tlsverify");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--tlsverify").Description)
+                .IsEqualTo("Use TLS and verify the remote");
+        }
+    }
+
     private sealed class TestDockerCliScraper : DockerCliScraper
     {
         public TestDockerCliScraper()
