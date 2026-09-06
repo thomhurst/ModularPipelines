@@ -80,7 +80,8 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             {
                 StandardOutput = string.Empty,
                 StandardError = "Command timed out or cancelled",
-                ExitCode = -1
+                ExitCode = -1,
+                TimedOut = true,
             };
         }
         catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
