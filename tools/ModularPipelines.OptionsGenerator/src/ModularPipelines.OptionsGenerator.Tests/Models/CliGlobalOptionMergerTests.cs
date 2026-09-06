@@ -60,6 +60,26 @@ public class CliGlobalOptionMergerTests
     }
 
     [Test]
+    public async Task Merge_Deduplicates_Enum_Definitions_Whose_Values_Were_Scraped_In_A_Different_Order()
+    {
+        var json = new CliEnumValue { MemberName = "Json", CliValue = "json" };
+        var yaml = new CliEnumValue { MemberName = "Yaml", CliValue = "yaml" };
+        var scraped = Option("--format", "Format") with
+        {
+            CSharpType = "OutputFormat?",
+            EnumDefinition = EnumDefinition() with { Values = [yaml, json] },
+        };
+        var supplemental = scraped with
+        {
+            EnumDefinition = EnumDefinition() with { Values = [json, yaml] },
+        };
+
+        var merged = CliGlobalOptionMerger.Merge([scraped], [supplemental]);
+
+        await Assert.That(merged).Count().IsEqualTo(1);
+    }
+
+    [Test]
     public async Task Merge_Rejects_Conflicting_Definitions_For_The_Same_Switch()
     {
         await Assert.That(() => CliGlobalOptionMerger.Merge(
