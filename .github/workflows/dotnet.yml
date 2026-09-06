@@ -79,6 +79,7 @@ jobs:
             -RepositoryRoot $env:GITHUB_WORKSPACE `
             -GitHubOutput $env:GITHUB_OUTPUT
       - name: Reject stale generated snapshots
+        # Generated routing includes both shipped and unshipped API baseline updates.
         if: steps.generated_integration.outputs.is_generated_integration == 'true'
         shell: pwsh
         env:
@@ -705,6 +706,7 @@ jobs:
             --no-restore
 
   required-pipeline:
+    # Stable branch-protection check for either validation route; runs after that route finishes.
     name: pipeline (ubuntu-latest)
     needs: [fast-fail, pipeline, generated-integration]
     if: always()

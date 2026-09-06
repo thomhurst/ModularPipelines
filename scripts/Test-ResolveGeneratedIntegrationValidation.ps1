@@ -49,6 +49,49 @@ if ($aws.Solution -match 'Azure|Google') {
     throw "AWS validation selected an unrelated integration: $($aws.Solution)."
 }
 
+foreach ($case in @(
+        @{ Tool = 'dotnet'; Package = 'ModularPipelines.DotNet'; Prefix = 'DotNet' },
+        @{ Tool = 'mvn'; Package = 'ModularPipelines.Java'; Prefix = 'Maven' },
+        @{ Tool = 'gradle'; Package = 'ModularPipelines.Java'; Prefix = 'Gradle' },
+        @{ Tool = 'kubectl'; Package = 'ModularPipelines.Kubernetes'; Prefix = 'Kubernetes' },
+        @{ Tool = 'kustomize'; Package = 'ModularPipelines.Kubernetes'; Prefix = 'Kustomize' }
+    )) {
+    $parameters = @{
+        HeadRef = "automated/update-cli-options-$($case.Tool)"
+        HeadRepository = $repository
+        PullRequestAuthor = $automationAuthor
+        Repository = $repository
+        RepositoryRoot = $repositoryRoot
+    }
+    $shippedPath = "src/$($case.Package)/PublicAPI.Shipped.txt"
+    foreach ($paths in @(
+            @{ Values = @($shippedPath) },
+            @{ Values = @(
+                    $shippedPath,
+                    "src/$($case.Package)/PublicAPI.Unshipped.txt",
+                    "src/$($case.Package)/Generated/$($case.Prefix).Generation.json"
+                ) }
+        )) {
+        $result = Resolve-GeneratedIntegrationValidation @parameters -ChangedPath $paths.Values
+        Assert-Equal $result.IsGeneratedIntegration $true "$($case.Tool) baseline updates should use generated validation."
+        Assert-Equal $result.NamespacePrefix $case.Prefix 'Shared packages must select the branch tool manifest.'
+        Assert-Equal $result.Solution "src/$($case.Package)/$($case.Package).slnx" 'Baseline updates selected the wrong solution.'
+    }
+
+    foreach ($unexpectedPath in @(
+            '.github/workflows/dotnet.yml',
+            'scripts/Resolve-GeneratedIntegrationValidation.ps1',
+            'src/ModularPipelines/Engine/ModuleScheduler.cs',
+            'src/ModularPipelines.Pulumi/PublicAPI.Shipped.txt',
+            "src/$($case.Package)/Handwritten.cs",
+            "src/$($case.Package)/Generated/Other.Generation.json"
+        )) {
+        $result = Resolve-GeneratedIntegrationValidation @parameters `
+            -ChangedPath @($shippedPath, $unexpectedPath)
+        Assert-Equal $result.IsGeneratedIntegration $false "A shipped baseline must not hide unrelated changes: $unexpectedPath."
+    }
+}
+
 $unrelatedManifest = Resolve-GeneratedIntegrationValidation `
     -HeadRef 'automated/update-cli-options-aws' `
     -HeadRepository $repository `
