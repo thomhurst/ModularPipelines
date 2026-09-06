@@ -19,13 +19,14 @@ internal sealed class CliScrapeProvenance
         new(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
-    /// Help paths whose latest invocation timed out after every retry. Those commands are
-    /// unavailable in this scrape rather than absent from the tool, so coverage validation
-    /// must not report them as removals.
+    /// Help paths whose latest invocation never produced a real response: it timed out after
+    /// every retry or was rejected by the circuit breaker. Those commands are unavailable in this
+    /// scrape rather than absent from the tool, so coverage validation must not report them as
+    /// removals.
     /// </summary>
-    public IReadOnlyList<string> TimedOutHelpPaths =>
+    public IReadOnlyList<string> UnavailableHelpPaths =>
         _helpInvocations.Values
-            .Where(static invocation => invocation.TimedOut)
+            .Where(static invocation => invocation.Unavailable)
             .Select(static invocation => invocation.CommandPath)
             .Order(StringComparer.OrdinalIgnoreCase)
             .ToArray();
@@ -47,7 +48,7 @@ internal sealed class CliScrapeProvenance
             OutputSha256 = Fingerprint(result.CombinedOutput),
             RawHelp = result.CombinedOutput,
             PreserveRawHelp = preserveRawHelp || commandPath.Count == 1 || result.ExitCode != 0,
-            TimedOut = result.TimedOut,
+            Unavailable = result.Unavailable,
         };
     }
 
@@ -95,10 +96,10 @@ internal sealed class CliScrapeProvenance
         CancellationToken cancellationToken)
     {
         var toolName = coverage.Manifest.ToolName;
-        var timedOutHelpPaths = coverage.TimedOutCommands;
+        var unavailableHelpPaths = coverage.UnavailableCommands;
         var requestedHelpPaths = coverage.RemovedCommands
             .SelectMany(GetAncestorCommands)
-            .Concat(timedOutHelpPaths)
+            .Concat(unavailableHelpPaths)
             .Append(toolName)
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .Order(StringComparer.OrdinalIgnoreCase)
@@ -121,7 +122,7 @@ internal sealed class CliScrapeProvenance
             RemovedCommands = coverage.RemovedCommands,
             RequestedHelpPaths = requestedHelpPaths,
             MissingHelpPaths = missingHelpPaths,
-            TimedOutHelpPaths = timedOutHelpPaths,
+            UnavailableHelpPaths = unavailableHelpPaths,
             HelpInvocations = invocations,
         };
 
@@ -183,10 +184,10 @@ internal sealed record CliHelpInvocation
     internal bool PreserveRawHelp { get; init; }
 
     /// <summary>
-    /// Whether this invocation was abandoned by the executor's timeout, so the command is
-    /// unavailable in this scrape rather than absent from the tool.
+    /// Whether this invocation never produced a real response (executor timeout or circuit
+    /// breaker rejection), so the command is unavailable in this scrape rather than absent.
     /// </summary>
-    internal bool TimedOut { get; init; }
+    internal bool Unavailable { get; init; }
 }
 
 internal sealed record CliCoverageFailureDiagnostics
@@ -207,7 +208,7 @@ internal sealed record CliCoverageFailureDiagnostics
 
     public required IReadOnlyList<string> MissingHelpPaths { get; init; }
 
-    public required IReadOnlyList<string> TimedOutHelpPaths { get; init; }
+    public required IReadOnlyList<string> UnavailableHelpPaths { get; init; }
 
     public required IReadOnlyList<CliHelpInvocation> HelpInvocations { get; init; }
 }

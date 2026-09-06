@@ -282,10 +282,10 @@ public class CodeGeneratorOrchestratorTests
             using (Assert.Multiple())
             {
                 await Assert.That(result.HasErrors).IsTrue();
-                await Assert.That(result.Errors[0].Message).Contains("Help timed out after all retries");
+                await Assert.That(result.Errors[0].Message).Contains("Help was unavailable after all retries");
                 await Assert.That(result.Errors[0].Message).Contains("fake run");
                 await Assert.That(File.Exists(diagnosticsPath)).IsTrue();
-                await Assert.That(await File.ReadAllTextAsync(diagnosticsPath)).Contains("\"timedOutHelpPaths\"");
+                await Assert.That(await File.ReadAllTextAsync(diagnosticsPath)).Contains("\"unavailableHelpPaths\"");
             }
         }
         finally

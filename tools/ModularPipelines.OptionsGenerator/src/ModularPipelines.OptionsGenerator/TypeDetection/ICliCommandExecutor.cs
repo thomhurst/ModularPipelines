@@ -63,10 +63,20 @@ public class CliCommandResult
     public required int ExitCode { get; init; }
 
     /// <summary>
-    /// Whether the command was abandoned because the executor's timeout elapsed. Callers treat
-    /// such output as unavailable rather than as the command's real response.
+    /// Whether the command was abandoned because the executor's timeout elapsed.
     /// </summary>
     public bool TimedOut { get; init; }
+
+    /// <summary>
+    /// Whether the command was never attempted because the executor's circuit breaker was open.
+    /// </summary>
+    public bool CircuitOpen { get; init; }
+
+    /// <summary>
+    /// Whether the output is not the command's real response: it timed out or was rejected by
+    /// the circuit breaker. Callers treat such output as unavailable rather than as a result.
+    /// </summary>
+    public bool Unavailable => TimedOut || CircuitOpen;
 
     /// <summary>
     /// Whether the command executed successfully (exit code 0).
