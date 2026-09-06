@@ -82,7 +82,7 @@ public class RedisDistributedCoordinatorContractTests
         var options = new RedisDistributedOptions
         {
             ConnectionString = connectionString,
-            KeyExpirationSeconds = 60,
+            KeyExpiration = TimeSpan.FromMinutes(1),
             KeyPrefix = "modpipe-contract",
         };
         var keys = new RedisKeyBuilder(options.KeyPrefix, runId);
