@@ -11875,7 +11875,7 @@ var argoCd = context.Tools.ArgoCd;
 | `argocd admin app get-reconcile-results`                           | `ArgoCdAdminAppGetReconcileResultsOptions`                         |
 | `argocd admin cluster`                                             | `ArgoCdAdminClusterOptions`                                        |
 | `argocd admin cluster generate-spec`                               | `ArgoCdAdminClusterGenerateSpecOptions`                            |
-| `argocd admin cluster kubeconfig`                                  | `ArgoCdAdminClusterKubeconfigOptions`                              |
+| `argocd admin cluster kubeconfig`                                  | `ArgoCdAdminClusterKubeConfigOptions`                              |
 | `argocd admin cluster namespaces`                                  | `ArgoCdAdminClusterNamespacesOptions`                              |
 | `argocd admin cluster namespaces disable-namespaced-mode`          | `ArgoCdAdminClusterNamespacesDisableNamespacedModeOptions`         |
 | `argocd admin cluster namespaces enable-namespaced-mode`           | `ArgoCdAdminClusterNamespacesEnableNamespacedModeOptions`          |
