@@ -8,57 +8,26 @@ using ModularPipelines.OptionsGenerator.TypeDetection;
 namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 
 /// <summary>
-/// CLI-first scraper for pnpm package manager CLI.
-/// pnpm uses a Commander.js-style help format.
+/// CLI-first scraper for the pnpm package manager. pnpm 12 prints clap-style help:
 ///
-/// pnpm help format (pnpm --help):
-/// Usage: pnpm [command] [flags]
-///       pnpm [ -h | --help | -v | --version ]
+/// Add a package
 ///
-/// Manage your dependencies:
-///       add                  Installs a package and any packages that it depends on.
-///       import               Generates a pnpm-lock.yaml from an npm package-lock.json
-///       install              Installs all dependencies of the project
-///       ...
-///
-/// Subcommand help (pnpm add --help):
-/// pnpm add &lt;pkg&gt;
-///
-/// Installs a package and any packages that it depends on.
+/// Usage: pnpm add [OPTIONS] &lt;PACKAGE_NAMES&gt;...
 ///
 /// Options:
-///   -D, --save-dev                    Save package to your `devDependencies`
-///   -O, --save-optional               Save package to your `optionalDependencies`
-///   ...
+///   -D, --save-dev
+///           Install the specified packages as devDependencies
+///
+///       --sbom-format &lt;FORMAT&gt;
+///           The SBOM output format (required)
+///
+///           [possible values: cyclonedx, spdx]
+///
+/// The root help lists commands under a Commands: section; nested groups such as
+/// audit signatures repeat their parent's catalog.
 /// </summary>
 public partial class PnpmCliScraper : CliScraperBase
 {
-    private static readonly HashSet<string> PlaceholderFreeValueOptions = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "--allow-build",
-        "--edit-dir",
-        "--global-dir",
-        "--otp",
-        "--package",
-        "--patches-dir",
-        "--publish-branch",
-        "--resume-from",
-        "--sort-by",
-    };
-
-    private static readonly HashSet<string> PlaceholderFreeFlagOptions = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "--config",
-        "--reporter-hide-prefix",
-    };
-
-    private static readonly string[] ValueOptionNameIndicators =
-    [
-        "filter", "dir", "registry", "store", "config", "reporter", "loglevel",
-    ];
-
-    private static readonly string[] ValueDescriptionIndicators = ["path", "name", "url", "file"];
-
     public PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PnpmCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -81,31 +50,14 @@ public partial class PnpmCliScraper : CliScraperBase
     };
 
     /// <summary>
-    /// Extracts subcommand names from pnpm help text.
-    /// Most pnpm commands are flat, but newer releases also expose nested commands
-    /// through an explicit Commands section (for example, audit signatures).
+    /// Extracts subcommand names from the Commands section of pnpm help text.
     /// </summary>
     protected override IEnumerable<string> ExtractSubcommands(string helpText)
     {
         var subcommands = new List<string>();
         var seenCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        var isRootHelp = helpText.Contains("Usage: pnpm [command]", StringComparison.OrdinalIgnoreCase)
-                         || helpText.Contains("pnpm [command]", StringComparison.OrdinalIgnoreCase);
-        if (isRootHelp)
-        {
-            // pnpm root help uses sections with headers followed by command lines:
-            // Manage your dependencies:
-            //       add                  Installs a package...
-            //       install              Installs all dependencies...
-            var commandLineMatches = CommandLinePattern().Matches(helpText);
-            foreach (Match match in commandLineMatches)
-            {
-                AddSubcommand(match.Groups["command"].Value);
-            }
-        }
-
-        // Also try to find commands in "Commands:" section
+        // Commands are listed in the "Commands:" section
         var commandsSectionMatch = CommandsSectionPattern().Match(helpText);
         if (commandsSectionMatch.Success)
         {
@@ -204,8 +156,10 @@ public partial class PnpmCliScraper : CliScraperBase
         // Parse description from help text
         var description = ExtractDescription(helpText);
 
-        // Parse options from the help text
-        var options = ParseOptions(helpText, commandParts);
+        var className = GenerateClassName(commandPath);
+
+        // Parse options from the help text; clap lists required ones in the usage line
+        var options = ApplyUsageRequiredOptions(ParseOptions(helpText, className), usage);
 
         // Extract enums from options
         var enums = options
@@ -213,8 +167,6 @@ public partial class PnpmCliScraper : CliScraperBase
             .Select(o => o.EnumDefinition!)
             .ToList();
         var positionalArguments = GetPositionalArguments(usage);
-
-        var className = GenerateClassName(commandPath);
 
         var command = new CliCommandDefinition
         {
@@ -263,64 +215,17 @@ public partial class PnpmCliScraper : CliScraperBase
         NormalizeParentGroupUsage(command.CommandParts, usage);
 
     /// <summary>
-    /// Extracts description from help text.
+    /// Extracts the summary pnpm prints above the usage line.
     /// </summary>
-    private static string? ExtractDescription(string helpText)
-    {
-        var lines = helpText.Split('\n');
-
-        // Skip the usage line and look for the first descriptive line
-        var foundUsage = false;
-        foreach (var line in lines)
-        {
-            var trimmed = line.Trim();
-
-            if (trimmed.StartsWith("pnpm", StringComparison.OrdinalIgnoreCase) ||
-                trimmed.StartsWith("Usage:", StringComparison.OrdinalIgnoreCase))
-            {
-                foundUsage = true;
-                continue;
-            }
-
-            if (!foundUsage)
-            {
-                continue;
-            }
-
-            // Skip empty lines
-            if (string.IsNullOrWhiteSpace(trimmed))
-            {
-                continue;
-            }
-
-            // Skip option lines
-            if (trimmed.StartsWith('-'))
-            {
-                continue;
-            }
-
-            // Skip section headers
-            if (trimmed.EndsWith(':'))
-            {
-                continue;
-            }
-
-            // This looks like a description
-            if (trimmed.Length > 10)
-            {
-                return trimmed;
-            }
-        }
-
-        return null;
-    }
+    private static string? ExtractDescription(string helpText) =>
+        ExtractSummaryAboveUsage(helpText.Split('\n'));
 
     /// <summary>
-    /// Parses options from pnpm help text.
-    /// Format: -D, --save-dev                    Description
-    ///         --filter &lt;pattern&gt;              Description
+    /// Parses the Options section. A row either carries its description inline after two or
+    /// more spaces, or ends at the declaration and is described on the lines beneath it,
+    /// followed by [possible values] and other trailers, as clap prints for pnpm 12.
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
+    private List<CliOptionDefinition> ParseOptions(string helpText, string className)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -348,8 +253,6 @@ public partial class PnpmCliScraper : CliScraperBase
         for (var i = 0; i < lines.Length; i++)
         {
             var line = lines[i];
-
-            // Match pnpm option patterns
             var match = PnpmOptionPattern().Match(line);
             if (!match.Success)
             {
@@ -360,85 +263,48 @@ public partial class PnpmCliScraper : CliScraperBase
             var longForm = match.Groups["long"].Value.Trim();
             var valueHint = match.Groups["value"].Value.Trim();
 
-            if (string.IsNullOrEmpty(longForm))
-            {
-                if (!string.IsNullOrEmpty(shortForm))
-                {
-                    longForm = shortForm;
-                    shortForm = string.Empty;
-                }
-                else
-                {
-                    continue;
-                }
-            }
-
-            // Skip duplicates
-            if (seenOptions.Contains(longForm))
-            {
-                continue;
-            }
-
-            seenOptions.Add(longForm);
-
-            var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow);
+            // Consume the row's block before deciding whether to keep the row, so the prose of
+            // a skipped or duplicate option is never re-read as declarations.
+            var block = string.IsNullOrWhiteSpace(match.Groups["desc"].Value)
+                ? ReadClapOptionBlock(lines, ref i, GetColumn(line, match.Groups["long"].Index))
+                : SplitPossibleValuesTrailer(
+                    AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow));
 
             var propertyName = NormalizePropertyName(longForm);
-            if (propertyName is null)
+            if (longForm.Equals("--help", StringComparison.OrdinalIgnoreCase)
+                || propertyName is null
+                || !seenOptions.Add(longForm))
             {
                 continue;
             }
 
-            // pnpm normally represents value-taking options with an explicit placeholder,
-            // but some options omit it from their rendered help text.
-            var isFlag = string.IsNullOrEmpty(valueHint)
-                         && !IsPlaceholderFreeValueOption(longForm, description);
-            var csharpType = isFlag ? "bool?" : "string?";
+            var isFlag = string.IsNullOrEmpty(valueHint);
+            var acceptsMultipleValues = match.Groups["multi"].Success;
+            var attachedOptionalValue = valueHint.StartsWith("[=", StringComparison.Ordinal);
+            var enumDefinition = TryCreateOptionEnum(className, propertyName, longForm, block.PossibleValues);
 
             options.Add(new CliOptionDefinition
             {
                 SwitchName = longForm,
                 ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
                 PropertyName = propertyName,
-                CSharpType = csharpType,
-                Description = description,
+                CSharpType = isFlag
+                    ? "bool?"
+                    : AsCSharpType($"{enumDefinition?.EnumName ?? "string"}?", acceptsMultipleValues),
+                Description = block.Description,
                 IsFlag = isFlag,
+                ValueArity = attachedOptionalValue ? CliOptionValueArity.Optional : CliOptionValueArity.Required,
                 IsRequired = false,
-                AcceptsMultipleValues = false,
+                AcceptsMultipleValues = acceptsMultipleValues,
                 IsKeyValue = false,
                 IsNumeric = false,
-                ValueSeparator = " ",
-                EnumDefinition = null,
+                ValueSeparator = attachedOptionalValue ? "=" : " ",
+                EnumDefinition = enumDefinition,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
         }
 
         return options;
-    }
-
-    private static bool IsPlaceholderFreeValueOption(string optionName, string description)
-    {
-        if (PlaceholderFreeFlagOptions.Contains(optionName))
-        {
-            return false;
-        }
-
-        if (PlaceholderFreeValueOptions.Contains(optionName))
-        {
-            return true;
-        }
-
-        var normalizedName = optionName.TrimStart('-');
-        if (normalizedName.StartsWith("no-", StringComparison.OrdinalIgnoreCase)
-            || normalizedName.StartsWith("ignore-", StringComparison.OrdinalIgnoreCase))
-        {
-            return false;
-        }
-
-        return ValueOptionNameIndicators.Any(part =>
-                   normalizedName.Contains(part, StringComparison.OrdinalIgnoreCase))
-               || ValueDescriptionIndicators.Any(part =>
-                   description.Contains(part, StringComparison.OrdinalIgnoreCase));
     }
 
     private static bool IsOptionRow(string line) => PnpmOptionPattern().IsMatch(line);
@@ -453,13 +319,6 @@ public partial class PnpmCliScraper : CliScraperBase
     }
 
     #region Regex Patterns
-
-    /// <summary>
-    /// Matches command lines in pnpm help output.
-    /// Format: "      add                  Installs a package..."
-    /// </summary>
-    [GeneratedRegex(@"^\s{4,}(?<command>[\w-]+)\s{2,}", RegexOptions.Multiline)]
-    private static partial Regex CommandLinePattern();
 
     /// <summary>
     /// Matches "Commands:" section header.
@@ -486,11 +345,11 @@ public partial class PnpmCliScraper : CliScraperBase
     private static partial Regex SubcommandLinePattern();
 
     /// <summary>
-    /// Matches pnpm-style option lines:
-    /// -D, --save-dev                    Description
-    /// --filter &lt;pattern&gt;              Description
+    /// Matches an option declaration row: the switches, an optional value hint such as
+    /// <c>&lt;CPU&gt;...</c> or <c>[=&lt;COLOR&gt;]</c>, and an inline description when the
+    /// layout carries one after two or more spaces.
     /// </summary>
-    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:\s+(?<value><[^>]+>|\[[^\]]+\]))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:\s*(?<value><[^>]+>|\[[^\]]+\]))?(?<multi>\.\.\.)?(?:\s{2,}(?<desc>.*))?\s*$", RegexOptions.Multiline)]
     private static partial Regex PnpmOptionPattern();
 
     #endregion

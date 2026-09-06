@@ -212,6 +212,11 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
 
         sb.AppendLine("```csharp");
         sb.AppendLine("using ModularPipelines;");
+        if (GeneratorUtils.UsesGeneratedEnums(tool, command))
+        {
+            sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
+        }
+
         sb.AppendLine($"using {tool.TargetNamespace}.Options;");
         sb.AppendLine();
         sb.AppendLine("public class RunCommandModule : Module<CommandResult>");

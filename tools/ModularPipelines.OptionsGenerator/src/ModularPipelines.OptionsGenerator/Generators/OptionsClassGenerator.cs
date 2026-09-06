@@ -91,11 +91,7 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         // Include enums namespace if any options use enum types
-        var generatedEnumNames = tool.AllEnums
-            .Select(static definition => definition.EnumName)
-            .ToHashSet(StringComparer.Ordinal);
-        if (command.Options.Any(option => option.EnumDefinition is not null
-                || generatedEnumNames.Contains(GeneratorUtils.GetEnumTypeName(option.PropertyType))))
+        if (GeneratorUtils.UsesGeneratedEnums(tool, command))
         {
             sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
         }

@@ -1085,28 +1085,36 @@ public class CliScraperTraversalTests
     [Test]
     public async Task PnpmTraversal_Does_Not_Recurse_Into_Repeated_Parent_Help()
     {
+        // pnpm prints the parent group's help for its leaf commands.
         const string stageHelp = """
-            Usage: pnpm stage publish [<tarball>|<dir>] [options]
-                   pnpm stage download <stage-id>
+            Stage packages for publishing
 
-            Subcommands:
-                  download    Download a staged package
-                  publish     Stage a package for publishing
+            Usage: pnpm stage [OPTIONS] <COMMAND>
+
+            Commands:
+              download    Download a staged package
+              publish     Stage a package for publishing
 
             Options:
-                  --dry-run   Do everything except upload
-                  --json      Show information in JSON format
+                  --dry-run
+                      Do everything except upload
+
+                  --json
+                      Show information in JSON format
             """;
         var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
             ["--help"] = """
-                Usage: pnpm [command] [flags]
+                Experimental package manager for node.js
 
-                Other:
-                      stage    Stage packages for publishing
+                Usage: pnpm [OPTIONS] <COMMAND>
+
+                Commands:
+                  stage    Stage packages for publishing
 
                 Options:
-                  -r, --recursive    Run recursively
+                  -r, --recursive
+                          Run recursively
                 """,
             ["stage --help"] = stageHelp,
             ["stage download --help"] = stageHelp,
@@ -1130,84 +1138,71 @@ public class CliScraperTraversalTests
     }
 
     [Test]
-    public async Task PnpmTraversal_Classifies_Placeholder_Free_Options()
+    public async Task PnpmTraversal_Classifies_Options_By_Their_Value_Placeholder()
     {
+        // clap prints a placeholder for every value-taking option, so a bare switch is a flag.
         var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
             ["--help"] = """
-                Usage: pnpm [command] [flags]
+                Experimental package manager for node.js
 
-                Security:
-                      audit    Checks for known security issues
-                """,
-            ["audit --help"] = """
-                Usage: pnpm audit [options]
+                Usage: pnpm [OPTIONS] <COMMAND>
 
                 Commands:
-                  signatures    Verify package signatures
+                  audit    Checks for known security issues
                 """,
-            ["audit signatures --help"] = """
-                Usage: pnpm audit signatures [options]
+            ["audit --help"] = """
+                Checks for known security issues with the installed packages
+
+                Usage: pnpm audit [OPTIONS] [PARAMS]...
 
                 Options:
-                  --dev                       Only inspect development dependencies
-                  --prod                      Only inspect production dependencies
-                  --config                    Save dependency to configDependencies
-                  --interactive               Prompt before applying changes
-                  --ignore-registry-errors    Continue when a registry is unavailable
-                  --ignore-unfixable          Ignore vulnerabilities without a fix
-                  --reporter-hide-prefix      Hide workspace package prefixes
-                  --allow-build               A list of package names allowed to run postinstall scripts
-                  --cache-location            Path to the package cache directory
-                  --edit-dir                  The directory in which to edit the package
-                  --global-dir                Specify a custom directory to store global packages
-                  --otp                       One-time password for two-factor authentication
-                  --package                   The package to install before running the command
-                  --patches-dir               The directory in which to store patches
-                  --publish-branch            Sets branch name to publish
-                  --resume-from               Command executed from given package
-                  --sort-by                   Sort the output by the specified field
-                  --registry <url>            Use the specified registry
-                  --filter <pattern>          Restrict packages by selector
+                  -D, --dev
+                          Only inspect development dependencies
+
+                  -P, --prod
+                          Only inspect production dependencies
+
+                      --ignore-registry-errors
+                          Continue when a registry is unavailable
+
+                      --audit-level <AUDIT_LEVEL>
+                          Only print advisories at or above this level
+
+                      --registry <REGISTRY>
+                          Use the specified registry
+
+                  -F, --filter <FILTER>...
+                          Restrict packages by selector
+
+                  -h, --help
+                          Print help
                 """,
         });
         var scraper = new TestPnpmCliScraper(executor);
 
         var commands = await ScrapeAsync(scraper);
-        var options = commands.Single(command => command.FullCommand == "pnpm audit signatures")
+        var options = commands.Single(command => command.FullCommand == "pnpm audit")
             .Options.ToDictionary(option => option.SwitchName, StringComparer.Ordinal);
 
         using (Assert.Multiple())
         {
-            foreach (var switchName in new[]
-                     {
-                         "--dev",
-                         "--prod",
-                         "--config",
-                         "--interactive",
-                         "--ignore-registry-errors",
-                         "--ignore-unfixable",
-                         "--reporter-hide-prefix",
-                     })
+            await Assert.That(options.Keys).IsEquivalentTo(
+                ["--dev", "--prod", "--ignore-registry-errors", "--audit-level", "--registry", "--filter"]);
+            foreach (var switchName in new[] { "--dev", "--prod", "--ignore-registry-errors" })
             {
                 await Assert.That(options[switchName].IsFlag).IsTrue();
                 await Assert.That(options[switchName].CSharpType).IsEqualTo("bool?");
             }
 
-            foreach (var switchName in new[]
-                     {
-                         "--allow-build", "--cache-location", "--edit-dir", "--filter", "--global-dir",
-                         "--package", "--patches-dir", "--publish-branch", "--registry", "--resume-from",
-                         "--sort-by",
-                     })
+            foreach (var switchName in new[] { "--audit-level", "--registry" })
             {
                 await Assert.That(options[switchName].IsFlag).IsFalse();
                 await Assert.That(options[switchName].CSharpType).IsEqualTo("string?");
             }
 
-            await Assert.That(options["--otp"].IsFlag).IsFalse();
-            await Assert.That(options["--otp"].CSharpType).IsEqualTo("string?");
-            await Assert.That(options["--otp"].IsSecret).IsTrue();
+            await Assert.That(options["--filter"].CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(options["--filter"].ShortForm).IsEqualTo("-F");
         }
     }
 
