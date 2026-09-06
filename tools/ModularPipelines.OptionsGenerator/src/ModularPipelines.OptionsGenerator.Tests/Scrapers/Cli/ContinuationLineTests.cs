@@ -64,11 +64,41 @@ public class ContinuationLineTests
     }
 
     [Test]
-    public async Task Option_Looking_Rows_Without_A_Known_Description_Column_Start_The_Next_Option()
+    public async Task Option_Looking_Rows_Deeper_Than_The_Declaration_Continue_Until_A_Column_Is_Known()
     {
-        const string wrapped = "                           --tlsverify";
+        const string wrapped = "        --tlsverify is implied by this flag.";
 
-        await Assert.That(CliScraperBase.IsContinuationLine(wrapped, 6, null, looksLikeOptionRow: true)).IsFalse();
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.IsContinuationLine(wrapped, 6, null, looksLikeOptionRow: true)).IsTrue();
+            await Assert.That(CliScraperBase.IsContinuationLine(wrapped, 8, null, looksLikeOptionRow: true)).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task First_Wrapped_Line_That_Looks_Like_An_Option_Row_Still_Establishes_The_Column()
+    {
+        string[] lines =
+        [
+            "    --all-namespaces",
+            "        --namespace is ignored when this flag is set. Lists the requested",
+            "        objects across every namespace instead.",
+            "      --namespace  Scope the listing to one namespace.",
+        ];
+        var index = 0;
+
+        var description = CliScraperBase.AccumulateWrappedDescription(
+            lines,
+            ref index,
+            inlineDescription: null,
+            static line => line.TrimStart().StartsWith("--", StringComparison.Ordinal));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(description)
+                .IsEqualTo("--namespace is ignored when this flag is set. Lists the requested objects across every namespace instead.");
+            await Assert.That(index).IsEqualTo(2);
+        }
     }
 
     [Test]

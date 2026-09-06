@@ -1254,7 +1254,9 @@ public abstract partial class CliScraperBase : ICliScraper
     /// <param name="declarationIndentation">Column where the option declaration starts.</param>
     /// <param name="descriptionColumn">
     /// Column where the declaration's inline description starts, or <see langword="null"/>
-    /// when the description only begins on a following line.
+    /// when the description only begins on a following line. Until that column is known any
+    /// line deeper than the declaration is accepted, because the first wrapped line is what
+    /// establishes the column.
     /// </param>
     /// <param name="looksLikeOptionRow">Whether the scraper's option pattern matches <paramref name="line"/>.</param>
     protected internal static bool IsContinuationLine(
@@ -1269,7 +1271,7 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         var indentation = GetIndentation(line);
-        var wrappedAtDescriptionColumn = indentation >= descriptionColumn;
+        var wrappedAtDescriptionColumn = descriptionColumn is null || indentation >= descriptionColumn;
         return (!looksLikeOptionRow || wrappedAtDescriptionColumn)
                && indentation > declarationIndentation;
     }
