@@ -4,6 +4,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'PublicApiRemovedMarker.ps1')
 $repositoryRootPath = (Resolve-Path -LiteralPath $RepositoryRoot).Path
 $sourceRoot = Join-Path $repositoryRootPath 'src'
 
@@ -25,46 +26,46 @@ $packageProjects = @(
     Join-Path $repositoryRootPath 'tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.csproj'
 ) | Sort-Object -Unique
 
-$missingBaselines = foreach ($project in $packageProjects) {
+$missingBaselines = [System.Collections.Generic.List[string]]::new()
+$orphanedMarkers = [System.Collections.Generic.List[string]]::new()
+foreach ($project in $packageProjects) {
     $projectDirectory = Split-Path $project -Parent
-
-    foreach ($fileName in 'PublicAPI.Shipped.txt', 'PublicAPI.Unshipped.txt') {
-        $baselinePath = Join-Path $projectDirectory $fileName
-
-        if (-not (Test-Path -LiteralPath $baselinePath -PathType Leaf)) {
-            [System.IO.Path]::GetRelativePath($repositoryRootPath, $baselinePath)
-        }
-    }
-}
-
-if ($missingBaselines) {
-    $missingList = $missingBaselines -join [Environment]::NewLine
-    throw "Public API baseline coverage is incomplete:$([Environment]::NewLine)$missingList"
-}
-
-# A *REMOVED* marker retires a shipped entry until a release ships the unshipped
-# baseline, so every marker must still have its entry in PublicAPI.Shipped.txt.
-$removedPrefix = '*REMOVED*'
-$orphanedMarkers = foreach ($project in $packageProjects) {
-    $projectDirectory = Split-Path $project -Parent
+    $shippedPath = Join-Path $projectDirectory 'PublicAPI.Shipped.txt'
     $unshippedPath = Join-Path $projectDirectory 'PublicAPI.Unshipped.txt'
-    $markers = @([System.IO.File]::ReadAllLines($unshippedPath) |
-        Where-Object { $_.StartsWith($removedPrefix, [System.StringComparison]::Ordinal) })
+    $missing = @($shippedPath, $unshippedPath | Where-Object { -not (Test-Path -LiteralPath $_ -PathType Leaf) })
+    if ($missing.Count -gt 0) {
+        foreach ($path in $missing) {
+            $missingBaselines.Add([System.IO.Path]::GetRelativePath($repositoryRootPath, $path))
+        }
+
+        continue
+    }
+
+    # A *REMOVED* marker retires a shipped entry until a release ships the unshipped
+    # baseline, so every marker must still have its entry in PublicAPI.Shipped.txt.
+    $markers = @([System.IO.File]::ReadAllLines($unshippedPath) | Where-Object { Test-RemovedMarker $_ })
     if ($markers.Count -eq 0) {
         continue
     }
 
     # Shipped baselines run to 100k+ lines, so only read them when a marker needs checking.
     $shipped = [System.Collections.Generic.HashSet[string]]::new(
-        [System.IO.File]::ReadAllLines((Join-Path $projectDirectory 'PublicAPI.Shipped.txt')),
+        [System.IO.File]::ReadAllLines($shippedPath),
         [System.StringComparer]::Ordinal)
     $relativePath = [System.IO.Path]::GetRelativePath($repositoryRootPath, $unshippedPath)
-    $markers |
-        Where-Object { -not $shipped.Contains($_.Substring($removedPrefix.Length).Trim()) } |
-        ForEach-Object { "${relativePath}: $($_.Trim())" }
+    foreach ($marker in $markers) {
+        if (-not $shipped.Contains((Get-RemovedMarkerEntry $marker).Trim())) {
+            $orphanedMarkers.Add("${relativePath}: $($marker.Trim())")
+        }
+    }
 }
 
-if ($orphanedMarkers) {
+if ($missingBaselines.Count -gt 0) {
+    $missingList = $missingBaselines -join [Environment]::NewLine
+    throw "Public API baseline coverage is incomplete:$([Environment]::NewLine)$missingList"
+}
+
+if ($orphanedMarkers.Count -gt 0) {
     $orphanList = $orphanedMarkers -join [Environment]::NewLine
     throw "Public API baselines contain *REMOVED* markers without a shipped entry:$([Environment]::NewLine)$orphanList"
 }

@@ -9,7 +9,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$removedPrefix = '*REMOVED*'
+. (Join-Path $PSScriptRoot '../../../scripts/PublicApiRemovedMarker.ps1')
 $comparer = [System.StringComparer]::Ordinal
 
 function Read-Baseline([string] $Path) {
@@ -59,7 +59,7 @@ foreach ($entry in Get-ApiEntries (Read-Baseline $ConfirmedRemovedApiPath)) {
 
 $currentApis = [System.Collections.Generic.HashSet[string]]::new($comparer)
 foreach ($entry in Get-ApiEntries $currentSnapshot) {
-    if (-not $entry.StartsWith($removedPrefix, [System.StringComparison]::Ordinal)) {
+    if (-not (Test-RemovedMarker $entry)) {
         $null = $currentApis.Add($entry)
     }
 }
@@ -79,17 +79,17 @@ foreach ($entry in $currentApis) {
 
 foreach ($entry in $shippedApis) {
     if (-not $currentApis.Contains($entry) -and $confirmedRemovedApis.Contains($entry)) {
-        $null = $unshippedApis.Add("$removedPrefix$entry")
+        $null = $unshippedApis.Add((New-RemovedMarker $entry))
     }
 }
 
 # A marker only means something while its entry is still shipped and still absent.
 foreach ($entry in Get-ApiEntries $originalUnshipped) {
-    if (-not $entry.StartsWith($removedPrefix, [System.StringComparison]::Ordinal)) {
+    if (-not (Test-RemovedMarker $entry)) {
         continue
     }
 
-    $removedApi = $entry.Substring($removedPrefix.Length)
+    $removedApi = Get-RemovedMarkerEntry $entry
     if ($shippedApis.Contains($removedApi) -and -not $currentApis.Contains($removedApi)) {
         $null = $unshippedApis.Add($entry)
     }
