@@ -16,8 +16,8 @@ namespace ModularPipelines.Trivy.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum TrivyConvertScanners
 {
-    [EnumValue("vuln")]
-    Vuln,
+    [EnumValue("license")]
+    License,
 
     [EnumValue("misconfig")]
     Misconfig,
@@ -25,6 +25,6 @@ public enum TrivyConvertScanners
     [EnumValue("secret")]
     Secret,
 
-    [EnumValue("license")]
-    License
+    [EnumValue("vuln")]
+    Vuln
 }

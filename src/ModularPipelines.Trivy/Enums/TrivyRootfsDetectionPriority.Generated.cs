@@ -16,9 +16,9 @@ namespace ModularPipelines.Trivy.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum TrivyRootfsDetectionPriority
 {
-    [EnumValue("precise")]
-    Precise,
-
     [EnumValue("comprehensive")]
-    Comprehensive
+    Comprehensive,
+
+    [EnumValue("precise")]
+    Precise
 }

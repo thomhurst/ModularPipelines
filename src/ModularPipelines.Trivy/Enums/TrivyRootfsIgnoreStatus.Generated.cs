@@ -16,27 +16,27 @@ namespace ModularPipelines.Trivy.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum TrivyRootfsIgnoreStatus
 {
-    [EnumValue("unknown")]
-    Unknown,
-
-    [EnumValue("not_affected")]
-    NotAffected,
-
     [EnumValue("affected")]
     Affected,
+
+    [EnumValue("end_of_life")]
+    EndOfLife,
 
     [EnumValue("fixed")]
     Fixed,
 
-    [EnumValue("under_investigation")]
-    UnderInvestigation,
-
-    [EnumValue("will_not_fix")]
-    WillNotFix,
-
     [EnumValue("fix_deferred")]
     FixDeferred,
 
-    [EnumValue("end_of_life")]
-    EndOfLife
+    [EnumValue("not_affected")]
+    NotAffected,
+
+    [EnumValue("under_investigation")]
+    UnderInvestigation,
+
+    [EnumValue("unknown")]
+    Unknown,
+
+    [EnumValue("will_not_fix")]
+    WillNotFix
 }

@@ -16,18 +16,18 @@ namespace ModularPipelines.Trivy.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum TrivySbomPkgRelationships
 {
-    [EnumValue("unknown")]
-    Unknown,
-
-    [EnumValue("root")]
-    Root,
-
-    [EnumValue("workspace")]
-    Workspace,
-
     [EnumValue("direct")]
     Direct,
 
     [EnumValue("indirect")]
-    Indirect
+    Indirect,
+
+    [EnumValue("root")]
+    Root,
+
+    [EnumValue("unknown")]
+    Unknown,
+
+    [EnumValue("workspace")]
+    Workspace
 }

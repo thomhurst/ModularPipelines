@@ -16,15 +16,15 @@ namespace ModularPipelines.Trivy.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum TrivyKubernetesScanners
 {
-    [EnumValue("vuln")]
-    Vuln,
-
     [EnumValue("misconfig")]
     Misconfig,
+
+    [EnumValue("rbac")]
+    Rbac,
 
     [EnumValue("secret")]
     Secret,
 
-    [EnumValue("rbac")]
-    Rbac
+    [EnumValue("vuln")]
+    Vuln
 }

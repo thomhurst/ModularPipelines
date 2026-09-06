@@ -16,20 +16,20 @@ namespace ModularPipelines.Trivy.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum TrivyFilesystemFormat
 {
-    [EnumValue("table")]
-    Table,
+    [EnumValue("cosign-vuln")]
+    CosignVuln,
+
+    [EnumValue("cyclonedx")]
+    Cyclonedx,
+
+    [EnumValue("github")]
+    Github,
 
     [EnumValue("json")]
     Json,
 
-    [EnumValue("template")]
-    Template,
-
     [EnumValue("sarif")]
     Sarif,
-
-    [EnumValue("cyclonedx")]
-    Cyclonedx,
 
     [EnumValue("spdx")]
     Spdx,
@@ -37,9 +37,9 @@ public enum TrivyFilesystemFormat
     [EnumValue("spdx-json")]
     SpdxJson,
 
-    [EnumValue("github")]
-    Github,
+    [EnumValue("table")]
+    Table,
 
-    [EnumValue("cosign-vuln")]
-    CosignVuln
+    [EnumValue("template")]
+    Template
 }

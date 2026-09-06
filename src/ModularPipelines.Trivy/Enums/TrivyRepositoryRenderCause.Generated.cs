@@ -16,9 +16,9 @@ namespace ModularPipelines.Trivy.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum TrivyRepositoryRenderCause
 {
-    [EnumValue("terraform")]
-    Terraform,
-
     [EnumValue("ansible")]
-    Ansible
+    Ansible,
+
+    [EnumValue("terraform")]
+    Terraform
 }

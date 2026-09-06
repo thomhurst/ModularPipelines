@@ -347,7 +347,7 @@ public record TrivyKubernetesOptions : TrivyOptions
     public bool? TraceRego { get; set; }
 
     /// <summary>
-    /// compliance report to generate
+    /// compliance report to generate Built-in compliance's: - k8s-nsa-1.0 - k8s-cis-1.23 - eks-cis-1.4 - rke2-cis-1.24 - k8s-pss-baseline-0.1 - k8s-pss-restricted-0.1
     /// </summary>
     [CliOption("--compliance", Format = OptionFormat.EqualsSeparated)]
     public string? Compliance { get; set; }
