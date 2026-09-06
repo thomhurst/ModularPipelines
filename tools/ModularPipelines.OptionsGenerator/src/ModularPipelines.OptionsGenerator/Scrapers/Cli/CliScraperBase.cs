@@ -1394,13 +1394,21 @@ public abstract partial class CliScraperBase : ICliScraper
     }
 
     /// <summary>
-    /// Returns whether a row segment is a value hint rather than prose. Prose contains blanks; a
-    /// single token (<c>stringArray</c>, <c>String</c>, <c>&lt;value&gt;</c>, <c>PATH</c>) is a
-    /// hint wherever it sits, so a row whose description starts on the next line leaves the
-    /// column unknown until that line establishes it. A one-word description is only misread
-    /// when something wraps beneath it, and then the wrapped line sets the column instead.
+    /// Returns whether a row segment is a value hint rather than prose. A single token
+    /// (<c>stringArray</c>, <c>String</c>, <c>&lt;value&gt;</c>, <c>PATH</c>) is a hint wherever
+    /// it sits, so a row whose description starts on the next line leaves the column unknown
+    /// until that line establishes it; a one-word description is only misread when something
+    /// wraps beneath it, and then the wrapped line sets the column instead. A run of placeholder
+    /// tokens (<c>KEY VALUE</c>, <c>&lt;key&gt; &lt;value&gt;</c>, <c>PATH...</c>) is a hint
+    /// too; prose has lowercase words.
     /// </summary>
-    private static bool LooksLikeValueHint(string text) => !text.Any(char.IsWhiteSpace);
+    private static bool LooksLikeValueHint(string text) =>
+        !text.Any(char.IsWhiteSpace)
+        || text.Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries)
+            .All(static token => PlaceholderTokenPattern().IsMatch(token));
+
+    [GeneratedRegex(@"^(?:<[^>]+>|\[[^\]]+\]|\{[^}]+\}|[A-Z][A-Z0-9_:.=/|,-]*|\.\.\.|…)(?:\.\.\.|…)?$")]
+    private static partial Regex PlaceholderTokenPattern();
 
     /// <summary>
     /// Joins an option row's inline description with the prose wrapped beneath it, advancing
