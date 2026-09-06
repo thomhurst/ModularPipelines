@@ -16,14 +16,14 @@ namespace ModularPipelines.Java.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GradleConsole
 {
-    [EnumValue("plain")]
-    Plain,
+    [EnumValue("auto")]
+    Auto,
 
     [EnumValue("colored")]
     Colored,
 
-    [EnumValue("auto")]
-    Auto,
+    [EnumValue("plain")]
+    Plain,
 
     [EnumValue("rich")]
     Rich,

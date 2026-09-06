@@ -22,9 +22,9 @@ public enum GradleWarningMode
     [EnumValue("fail")]
     Fail,
 
-    [EnumValue("summary")]
-    Summary,
-
     [EnumValue("none")]
-    None
+    None,
+
+    [EnumValue("summary")]
+    Summary
 }
