@@ -102,6 +102,11 @@ jobs:
       - name: Test generated options provenance
         shell: pwsh
         run: ./scripts/Test-GeneratedOptionsProvenance.ps1
+      - name: Test public API baseline checks
+        shell: pwsh
+        run: |
+          ./scripts/Test-PublicApiRemovedMarker.ps1
+          ./scripts/Test-AssertPublicApiBaselines.ps1
       - name: Verify public API baseline coverage
         shell: pwsh
         run: ./scripts/Assert-PublicApiBaselines.ps1

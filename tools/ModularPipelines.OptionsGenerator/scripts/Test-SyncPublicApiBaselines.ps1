@@ -72,7 +72,7 @@ $global:LASTEXITCODE = 0
 
     $actualShipped = @(Get-Content -LiteralPath (Join-Path $packageDirectory 'PublicAPI.Shipped.txt'))
     $actualUnshipped = @(Get-Content -LiteralPath (Join-Path $packageDirectory 'PublicAPI.Unshipped.txt'))
-    $expectedShipped = @('#nullable enable', 'Api.Existing')
+    $expectedShipped = @('#nullable enable', 'Api.Existing', 'Api.Removed')
     $expectedUnshipped = @('#nullable enable', '*REMOVED*Api.Removed', 'Api.Added')
     if (-not [Linq.Enumerable]::SequenceEqual(
             [string[]] $actualShipped,

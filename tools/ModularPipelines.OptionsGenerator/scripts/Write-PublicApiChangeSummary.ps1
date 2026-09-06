@@ -26,19 +26,29 @@ if (-not (Test-Path -LiteralPath $PackageDirectory -PathType Container)) {
     throw "Package directory does not exist: $PackageDirectory"
 }
 
+. (Join-Path $PSScriptRoot '../../../scripts/PublicApiRemovedMarker.ps1')
+
 function Read-ActiveApi([string[]] $Paths) {
+    # A shipped entry stays in PublicAPI.Shipped.txt after removal; the matching
+    # *REMOVED* marker in PublicAPI.Unshipped.txt is what takes it out of the active surface.
     $entries = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+    $retired = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
     foreach ($path in $Paths) {
         foreach ($line in Get-Content -LiteralPath $path) {
             $entry = $line.Trim()
-            if (($entry.Length -gt 0) -and
-                (-not $entry.StartsWith('#', [StringComparison]::Ordinal)) -and
-                (-not $entry.StartsWith('*REMOVED*', [StringComparison]::Ordinal))) {
+            if (($entry.Length -eq 0) -or $entry.StartsWith('#', [StringComparison]::Ordinal)) {
+                continue
+            }
+
+            if (Test-RemovedMarker $entry) {
+                [void] $retired.Add((Get-RemovedMarkerEntry $entry))
+            } else {
                 [void] $entries.Add($entry)
             }
         }
     }
 
+    $entries.ExceptWith($retired)
     return ,$entries
 }
 

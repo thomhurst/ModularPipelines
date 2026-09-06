@@ -1,3 +1,2 @@
 #nullable enable
-*REMOVED*static ModularPipelines.Azure.Pipelines.Extensions.AzurePipelineExtensions.AzurePipeline(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Azure.Pipelines.IAzurePipeline!
 static ModularPipelines.Azure.Pipelines.Extensions.AzurePipelineExtensions.AzurePipeline(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Azure.Pipelines.IAzurePipeline!
