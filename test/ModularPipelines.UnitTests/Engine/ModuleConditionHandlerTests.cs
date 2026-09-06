@@ -475,7 +475,7 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
-    public async Task Distributed_Assignment_Execution_Does_Not_Report_A_Distributed_Role()
+    public async Task Distributed_Assignment_Execution_Keeps_Master_Role_But_Stops_Deferring_Conditions()
     {
         var executionLocation = CreateExecutionLocationContext(new DistributedOptions
         {
@@ -488,8 +488,28 @@ public class ModuleConditionHandlerTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(executionLocation.IsMaster).IsFalse();
+            await Assert.That(executionLocation.IsMaster).IsTrue();
             await Assert.That(executionLocation.IsWorker).IsFalse();
+            await Assert.That(executionLocation.ShouldDeferOperatingSystemConditions).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Distributed_Assignment_Execution_Keeps_Worker_Role()
+    {
+        var executionLocation = CreateExecutionLocationContext(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 1,
+            TotalInstances = 3,
+        });
+
+        using var assignmentExecution = DistributedAssignmentExecutionScope.Enter();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(executionLocation.IsWorker).IsTrue();
+            await Assert.That(executionLocation.IsMaster).IsFalse();
             await Assert.That(executionLocation.ShouldDeferOperatingSystemConditions).IsFalse();
         }
     }

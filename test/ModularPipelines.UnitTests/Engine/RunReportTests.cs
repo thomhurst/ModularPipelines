@@ -2552,62 +2552,6 @@ public class RunReportTests
     }
 
     [Test]
-    [TUnit.Core.NotInParallel("ProcessEnvironment")]
-    [Arguments(0)]
-    [Arguments(1)]
-    public async Task DistributedAssignmentExecutionDoesNotSynchronizeRoleMetrics(int instanceIndex)
-    {
-        var coordinator = new Mock<IDistributedMasterCoordinator>(MockBehavior.Strict);
-        var distributedOptions = OptionsFactory.Create(new DistributedOptions
-        {
-            Enabled = true,
-            InstanceIndex = instanceIndex,
-            TotalInstances = 2,
-        });
-        var commandExecutionCounter = new CommandExecutionCounter();
-        var previousInstance = Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
-        Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", instanceIndex.ToString());
-
-        try
-        {
-            var service = new RunReportService(
-                Mock.Of<IRunHistoryStore>(),
-                new PipelineRunReportFactory(
-                    commandExecutionCounter,
-                    new PassthroughSecretObfuscator()),
-                Mock.Of<IBuildSystemDetector>(),
-                OptionsFactory.Create(new PipelineOptions
-                {
-                    RunReport = new RunReportOptions
-                    {
-                        AutoWriteInCi = false,
-                        HistoryRetention = 0,
-                    },
-                }),
-                distributedOptions,
-                CreateExecutionLocationContext(distributedOptions),
-                coordinator.Object,
-                commandExecutionCounter,
-                NullLogger<RunReportService>.Instance,
-                masterCoordinator: coordinator.Object);
-
-            using var assignmentExecution = DistributedAssignmentExecutionScope.Enter();
-            var report = await service.CompleteAsync(CreateEmptySummary());
-
-            await Assert.That(report).IsNotNull();
-            coordinator.Verify(x => x.RegisterWorkerAsync(
-                It.IsAny<WorkerRegistration>(),
-                It.IsAny<CancellationToken>()), Times.Never);
-            coordinator.Verify(x => x.GetRegisteredWorkersAsync(
-                It.IsAny<CancellationToken>()), Times.Never);
-        }
-        finally
-        {
-            Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", previousInstance);
-        }
-    }
-
-    [Test]
     public async Task ReportFactoryFailureReturnsFallbackReport()
     {
         var directory = CreateTemporaryDirectory();

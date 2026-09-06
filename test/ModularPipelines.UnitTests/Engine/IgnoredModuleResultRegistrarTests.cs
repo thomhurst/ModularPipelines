@@ -59,41 +59,6 @@ public class IgnoredModuleResultRegistrarTests
         }
     }
 
-    [Test]
-    public async Task Distributed_Assignment_Execution_Processes_Ignored_Results_Locally()
-    {
-        var options = Microsoft.Extensions.Options.Options.Create(new DistributedOptions
-        {
-            Enabled = true,
-            InstanceIndex = 1,
-            TotalInstances = 2,
-        });
-        var dependency = new ForeignOperatingSystemModule();
-        var dependent = new CrossPlatformDependentModule();
-        var organizedModules = new OrganizedModules(
-            [new RunnableModule(dependent, TimeSpan.Zero)],
-            [new IgnoredModule(dependency, SkipDecision.Skip("Unavailable on this worker"))]);
-        var contextProvider = new Mock<IPipelineContextProvider>();
-        contextProvider
-            .Setup(provider => provider.GetModuleContext())
-            .Returns(Mock.Of<IPipelineContext>());
-        var resultRegistry = new ModuleResultRegistry();
-        var registrar = CreateRegistrar(options, contextProvider.Object, resultRegistry);
-
-        using var assignmentExecution = DistributedAssignmentExecutionScope.Enter();
-        var result = await registrar.RegisterIgnoredModuleResultsAsync(organizedModules);
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(result.RunnableModules.Select(module => module.Module))
-                .DoesNotContain(dependent);
-            await Assert.That(result.IgnoredModules.Select(module => module.Module))
-                .Contains(dependent);
-            await Assert.That(resultRegistry.GetResult(dependency.GetType())).IsNotNull();
-            await Assert.That(((IInternalModule) dependency).ResultTask.IsCompleted).IsTrue();
-        }
-    }
-
     private static IgnoredModuleResultRegistrar CreateRegistrar(
         Microsoft.Extensions.Options.IOptions<DistributedOptions> options,
         IPipelineContextProvider contextProvider,
