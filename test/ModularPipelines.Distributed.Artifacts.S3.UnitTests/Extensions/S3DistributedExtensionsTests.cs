@@ -1,6 +1,6 @@
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
-using ModularPipelines.Distributed.Artifacts.S3.Extensions;
+using ModularPipelines.Distributed.Artifacts.S3;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 

@@ -1,10 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ModularPipelines.Distributed.SignalR.Configuration;
 using ModularPipelines.Distributed.SignalR.Coordination;
 
-namespace ModularPipelines.Distributed.SignalR.Extensions;
+namespace ModularPipelines.Distributed.SignalR;
 
 /// <summary>
 /// Extension methods for registering the SignalR distributed coordinator.

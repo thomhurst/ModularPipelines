@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Distributed.Capabilities;
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.SignalR.Hub;
 
 namespace ModularPipelines.Distributed.SignalR.Coordination;

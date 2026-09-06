@@ -1,6 +1,6 @@
 using System.Globalization;
 using ModularPipelines.Caching;
-using ModularPipelines.Distributed.Redis.Configuration;
+using ModularPipelines.Distributed.Redis;
 using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Redis.Caching;

@@ -1,9 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
-using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Distributed.Redis;
 using ModularPipelines.Distributed.Redis.Caching;
-using ModularPipelines.Distributed.Redis.Configuration;
 using Moq;
 using StackExchange.Redis;
 

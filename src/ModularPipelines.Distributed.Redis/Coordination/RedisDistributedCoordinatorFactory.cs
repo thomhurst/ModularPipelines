@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Options;
-using ModularPipelines.Distributed.Redis.Configuration;
 using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Redis.Coordination;

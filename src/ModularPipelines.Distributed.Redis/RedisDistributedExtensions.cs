@@ -4,16 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
-using ModularPipelines.Distributed;
-using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Redis.Artifacts;
 using ModularPipelines.Distributed.Redis.Caching;
-using ModularPipelines.Distributed.Redis.Configuration;
 using ModularPipelines.Distributed.Redis.Coordination;
 using ModularPipelines.Extensions;
 using StackExchange.Redis;
 
-namespace ModularPipelines.Distributed.Redis.Extensions;
+namespace ModularPipelines.Distributed.Redis;
 
 /// <summary>
 /// Extension methods for registering the Redis distributed coordinator and artifact store.
@@ -179,16 +176,10 @@ public static class RedisDistributedExtensions
 
     private static PipelineBuilder AddRedisDistributedCoordinatorServices(PipelineBuilder builder)
     {
-        AddExplicitRunIdRequirement(builder);
+        builder.RequireExplicitRunId();
         builder.Services.AddSingleton<IDistributedCoordinatorFactory, RedisDistributedCoordinatorFactory>();
 
         return builder;
-    }
-
-    private static void AddExplicitRunIdRequirement(PipelineBuilder builder)
-    {
-        builder.Services.Configure<DistributedOptions>(options => options.RequireExplicitRunId = true);
-        builder.Services.AddOptions<DistributedOptions>().ValidateOnStart();
     }
 
     private static PipelineBuilder AddRedisModuleCacheServices(
@@ -215,7 +206,7 @@ public static class RedisDistributedExtensions
         PipelineBuilder builder,
         Action<ArtifactOptions>? configureArtifacts)
     {
-        AddExplicitRunIdRequirement(builder);
+        builder.RequireExplicitRunId();
         if (configureArtifacts is not null)
         {
             builder.Services.Configure(configureArtifacts);
