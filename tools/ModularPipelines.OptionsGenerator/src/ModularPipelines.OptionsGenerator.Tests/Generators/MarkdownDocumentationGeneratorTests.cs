@@ -685,6 +685,15 @@ public class MarkdownDocumentationGeneratorTests
     [Test]
     public async Task GenerateAsync_UsesCuratedExamplesForPopularTools()
     {
+        var auditLevel = new CliEnumDefinition
+        {
+            EnumName = "PnpmAuditAuditLevel",
+            Values =
+            [
+                new CliEnumValue { MemberName = "Low", CliValue = "low" },
+                new CliEnumValue { MemberName = "High", CliValue = "high" },
+            ],
+        };
         var testCases = new[]
         {
             (Tool("az", Command("az account list", "AzAccountListOptions", ["account", "list"], "account")),
@@ -720,7 +729,14 @@ public class MarkdownDocumentationGeneratorTests
                 "context.Tools.Fake.FreezeAsync("),
             (Tool("pnpm", Command("pnpm audit", "PnpmAuditOptions", ["audit"]) with
                 {
-                    Options = [Option("--audit-level", "AuditLevel", "string?")],
+                    Options =
+                    [
+                        Option("--audit-level", "AuditLevel", "PnpmAuditAuditLevel?") with
+                        {
+                            EnumDefinition = auditLevel,
+                        },
+                    ],
+                    Enums = [auditLevel],
                 }),
                 "context.Tools.Fake.AuditAsync("),
             (Tool("terraform", Command("terraform validate", "TerraformValidateOptions", ["validate"])),
@@ -814,6 +830,10 @@ public class MarkdownDocumentationGeneratorTests
             Environment.NewLine,
             properties.Select(property =>
                 $"        public {property.CSharpType} {property.PropertyName} {{ get; set; }}"));
+        var enumDeclarations = string.Join(
+            Environment.NewLine,
+            command.Enums.Select(definition =>
+                $"    public enum {definition.EnumName} {{ {string.Join(", ", definition.Values.Select(value => value.MemberName))} }}"));
         var navigationSegments = GetNavigationSegments(tool, command);
         var methodName = navigationSegments[^1];
         var serviceMembers = GenerateServiceMembers(
@@ -844,8 +864,13 @@ public class MarkdownDocumentationGeneratorTests
                 }
             }
 
+            namespace {{tool.TargetNamespace}}.Enums
+            {
+            {{enumDeclarations}}
+            }
             namespace {{tool.TargetNamespace}}.Options
             {
+                using {{tool.TargetNamespace}}.Enums;
                 public record {{command.ClassName}}{{constructor}}
                 {
             {{propertyDeclarations}}
