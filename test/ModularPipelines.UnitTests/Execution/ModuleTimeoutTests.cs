@@ -10,6 +10,11 @@ namespace ModularPipelines.UnitTests.Execution;
 
 public class ModuleTimeoutTests : TestBase
 {
+    // A deadline the helper arms but that can never elapse, for tests that decide the outcome
+    // themselves. A 10 ms deadline fired before the already-faulted task was published on a
+    // starved runner and claimed the outcome (#4714).
+    private static readonly TimeSpan UnreachableDeadline = Timeout.InfiniteTimeSpan;
+
     private class Module_UsingCancellationToken : Module<string>
     {
         private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
@@ -233,7 +238,7 @@ public class ModuleTimeoutTests : TestBase
                 externalCancellation.Cancel();
                 return Task.FromResult(true);
             },
-            TimeSpan.FromSeconds(10),
+            UnreachableDeadline,
             externalCancellation.Token);
 
         await Assert.That(result.Value).IsTrue();
@@ -249,7 +254,7 @@ public class ModuleTimeoutTests : TestBase
         var exception = await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
                 _ => Task.FromCanceled<bool>(unrelatedCancellation.Token),
-                TimeSpan.FromSeconds(1),
+                UnreachableDeadline,
                 CancellationToken.None));
 
         await Assert.That(exception!.CancellationToken).IsEqualTo(unrelatedCancellation.Token);
@@ -285,7 +290,7 @@ public class ModuleTimeoutTests : TestBase
         var exception = await Assert.ThrowsAsync<TimeoutException>(async () =>
             await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
                 _ => Task.FromException<bool>(new TimeoutException("Inner operation timed out.")),
-                TimeSpan.FromMilliseconds(10),
+                UnreachableDeadline,
                 CancellationToken.None));
 
         await Assert.That(exception!.Message).IsEqualTo("Inner operation timed out.");
@@ -304,7 +309,7 @@ public class ModuleTimeoutTests : TestBase
         var exception = await Assert.ThrowsAsync<FactoryCancellationException>(() =>
             TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync<bool>(
                 _ => throw expectedException,
-                TimeSpan.FromSeconds(1),
+                UnreachableDeadline,
                 CancellationToken.None));
 
         using (Assert.Multiple())
@@ -323,7 +328,7 @@ public class ModuleTimeoutTests : TestBase
 
         var execution = TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
             _ => completion.Task,
-            TimeSpan.FromSeconds(1),
+            UnreachableDeadline,
             CancellationToken.None);
 
         completion.SetResult(true);
@@ -402,6 +407,24 @@ public class ModuleTimeoutTests : TestBase
         cancellationSignals.PublishExecutionTask(Task.FromCanceled<bool>(attemptCancellation.Token));
 
         await Assert.That(await signalState.Signal.Task).IsFalse();
+    }
+
+    [Test]
+    public async Task Faulted_Execution_Published_After_Deadline_Signal_Belongs_To_Deadline()
+    {
+        // The state #4714 reproduced on a starved runner: the deadline fired before the
+        // already-faulted task was published, and a fault carries no token that could
+        // prove it happened independently of the cancelled attempt.
+        using var attemptCancellation = new CancellationTokenSource();
+        var cancellationSignals = new TimeoutHelper.CancellationSignals<bool>(attemptCancellation);
+        var signalState = cancellationSignals.Deadline;
+        var executionTask = Task.FromException<bool>(new TimeoutException("Inner operation timed out."));
+
+        signalState.SignalCancellation();
+        cancellationSignals.PublishExecutionTask(executionTask);
+
+        await Assert.That(await signalState.Signal.Task).IsFalse();
+        await Assert.ThrowsAsync<TimeoutException>(() => executionTask);
     }
 
     [Test]
