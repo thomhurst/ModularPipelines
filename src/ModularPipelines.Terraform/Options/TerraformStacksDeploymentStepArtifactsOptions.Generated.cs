@@ -27,7 +27,7 @@ public record TerraformStacksDeploymentStepArtifactsOptions : TerraformOptions
     public string? DeploymentStepId { get; set; }
 
     /// <summary>
-    /// The artifact type to retrieve. (required)
+    /// The artifact type to retrieve. (required) One of: plan-description   Plan details apply-description  Apply details (outputs + resource changes) plan-debug-log     Plan execution logs apply-debug-log    Apply execution logs
     /// </summary>
     [CliOption("-artifact-name", Format = OptionFormat.EqualsSeparated)]
     public string? ArtifactName { get; set; }
