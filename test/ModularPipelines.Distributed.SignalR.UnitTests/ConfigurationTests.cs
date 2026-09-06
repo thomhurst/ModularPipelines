@@ -1,8 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using ModularPipelines.Distributed.SignalR.Configuration;
-using ModularPipelines.Distributed.SignalR.Extensions;
+using ModularPipelines.Distributed.SignalR;
 
 namespace ModularPipelines.Distributed.SignalR.UnitTests;
 

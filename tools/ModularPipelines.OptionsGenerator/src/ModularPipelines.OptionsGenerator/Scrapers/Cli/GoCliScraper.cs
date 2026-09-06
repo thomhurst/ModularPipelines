@@ -774,8 +774,9 @@ public partial class GoCliScraper : CliScraperBase
 
             var optionKey = flagName.TrimStart('-');
 
-            // Accumulate multi-line descriptions
-            i = AccumulateMultiLineDescription(lines, i, ref description);
+            // go help puts the prose beneath the flag line, so the description column is
+            // inferred from the first wrapped line rather than taken from the declaration.
+            description = $"{description} {AccumulateWrappedDescription(lines, ref i, inlineDescription: null, IsOptionRow)}".Trim();
 
             var propertyName = NormalizePropertyName(optionKey);
             if (propertyName is null)
@@ -979,69 +980,7 @@ public partial class GoCliScraper : CliScraperBase
             : existing.Description;
     }
 
-    /// <summary>
-    /// Accumulates multi-line descriptions.
-    /// </summary>
-    private static int AccumulateMultiLineDescription(string[] lines, int currentIndex, ref string description)
-    {
-        var descriptionParts = new List<string>();
-        var declarationIndentation = GetIndentationWidth(lines[currentIndex]);
-        if (!string.IsNullOrEmpty(description))
-        {
-            descriptionParts.Add(description);
-        }
-
-        var nextIndex = currentIndex + 1;
-        while (nextIndex < lines.Length)
-        {
-            var nextLine = lines[nextIndex];
-            var trimmedNext = nextLine.Trim();
-
-            if (string.IsNullOrWhiteSpace(trimmedNext))
-            {
-                break;
-            }
-
-            if (trimmedNext.EndsWith(':') && trimmedNext.Length < 30)
-            {
-                break;
-            }
-
-            var continuationIndentation = GetIndentationWidth(nextLine);
-            if (continuationIndentation <= declarationIndentation)
-            {
-                break;
-            }
-
-            descriptionParts.Add(trimmedNext);
-            nextIndex++;
-        }
-
-        description = string.Join(" ", descriptionParts);
-        return nextIndex - 1;
-    }
-
-    private static int GetIndentationWidth(string line)
-    {
-        var width = 0;
-        foreach (var character in line)
-        {
-            if (character == ' ')
-            {
-                width++;
-            }
-            else if (character == '\t')
-            {
-                width += 8 - (width % 8);
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        return width;
-    }
+    private static bool IsOptionRow(string line) => GoOptionLinePattern().IsMatch(line);
 
     /// <summary>
     /// Checks if help text indicates the command has options.

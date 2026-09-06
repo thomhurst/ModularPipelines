@@ -1,6 +1,4 @@
-using ModularPipelines.Distributed;
-
-namespace ModularPipelines.Distributed.Capabilities;
+namespace ModularPipelines.Distributed;
 
 public static class CapabilityMatcher
 {

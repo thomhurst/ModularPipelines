@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed.Configuration;
-using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
@@ -127,6 +127,55 @@ public class DistributedOptionsTests
 
         await Assert.That(pipeline.Services.GetRequiredService<IExecutionBackend>())
             .IsTypeOf<DistributedModuleExecutor>();
+    }
+
+    [Test]
+    public async Task RequireExplicitRunId_Turns_On_The_Requirement_And_Startup_Validation()
+    {
+        var builder = TestPipelineBuilder.Create();
+        builder.AddDistributedMode(options => options.RunId = "explicit-run");
+
+        builder.RequireExplicitRunId();
+
+        using var provider = builder.Services.BuildServiceProvider();
+        using (Assert.Multiple())
+        {
+            await Assert.That(provider.GetRequiredService<IOptions<DistributedOptions>>().Value.RequireExplicitRunId)
+                .IsTrue();
+            await Assert.That(provider.GetService<IStartupValidator>()).IsNotNull();
+        }
+    }
+
+    [Test]
+    public async Task RequireExplicitRunId_Survives_A_Later_Binding_That_Turns_It_Off()
+    {
+        var previousRunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
+
+        try
+        {
+            Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", null);
+            var configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection(new Dictionary<string, string?>
+                {
+                    ["Distributed:TotalInstances"] = "1",
+                    ["Distributed:RequireExplicitRunId"] = "false",
+                })
+                .Build();
+            var builder = TestPipelineBuilder.Create();
+            builder.RequireExplicitRunId();
+            builder.AddDistributedMode(configuration.GetSection("Distributed"));
+            builder.AddModule<NoOpModule>();
+
+            // The backend's requirement was registered first, so the binding above would have
+            // reset the flag; run identifier resolution must still refuse the generated fallback.
+            await Assert.That(async () => await builder.BuildAsync())
+                .Throws<InvalidOperationException>()
+                .And.HasMessageContaining("requires one shared RunId");
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", previousRunId);
+        }
     }
 
     [Test]

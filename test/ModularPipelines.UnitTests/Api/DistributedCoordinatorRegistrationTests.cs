@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Coordination;
-using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 

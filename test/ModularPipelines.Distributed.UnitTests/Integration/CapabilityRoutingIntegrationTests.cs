@@ -1,4 +1,4 @@
-using ModularPipelines.Distributed.Capabilities;
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Coordination;
 
 namespace ModularPipelines.Distributed.UnitTests.Integration;

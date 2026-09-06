@@ -1,4 +1,7 @@
 #nullable enable
+*REMOVED*static ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryExtensions.AddRedisSignalRDiscovery(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions!>! configure) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryExtensions.AddRedisMasterDiscovery(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryExtensions.AddRedisMasterDiscovery(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions!>! configure) -> ModularPipelines.PipelineBuilder!
 *REMOVED*ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.DiscoveryTimeoutSeconds.get -> int
 *REMOVED*ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.DiscoveryTimeoutSeconds.set -> void
 *REMOVED*ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.PollIntervalMs.get -> int
@@ -13,4 +16,3 @@ ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.Ttl.get -> Sy
 ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.Ttl.set -> void
 *REMOVED*ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.RunIdentifier.get -> string?
 *REMOVED*ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryOptions.RunIdentifier.set -> void
-static ModularPipelines.Distributed.Discovery.Redis.RedisDiscoveryExtensions.AddRedisSignalRDiscovery(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!

@@ -1,4 +1,4 @@
-namespace ModularPipelines.Distributed.Artifacts.S3.Configuration;
+namespace ModularPipelines.Distributed.Artifacts.S3;
 
 /// <summary>
 /// Configuration options for the S3-compatible distributed artifact store.

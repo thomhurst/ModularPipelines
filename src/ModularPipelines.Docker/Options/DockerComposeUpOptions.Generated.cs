@@ -69,7 +69,7 @@ public record DockerComposeUpOptions : DockerOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Return the exit code of the selected service container. Implies
+    /// Return the exit code of the selected service container. Implies --abort-on-container-exit
     /// </summary>
     [CliOption("--exit-code-from", Format = OptionFormat.EqualsSeparated)]
     public string? ExitCodeFrom { get; set; }

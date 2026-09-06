@@ -1,4 +1,4 @@
-namespace ModularPipelines.Distributed.Redis.Configuration;
+namespace ModularPipelines.Distributed.Redis;
 
 /// <summary>
 /// Configuration options for the Redis distributed coordinator.

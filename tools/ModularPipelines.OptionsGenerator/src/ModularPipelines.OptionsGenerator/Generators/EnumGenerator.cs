@@ -4,7 +4,10 @@ using ModularPipelines.OptionsGenerator.Models;
 namespace ModularPipelines.OptionsGenerator.Generators;
 
 /// <summary>
-/// Generates enum types for CLI options with constrained values.
+/// Generates enum types for CLI options with constrained values. Members are emitted in a
+/// deterministic order derived from their CLI values, so regenerating from the same allowed
+/// value set never reorders members (or their ordinals) when a tool prints its values in an
+/// unstable order.
 /// </summary>
 public class EnumGenerator : ICodeGenerator
 {
@@ -103,7 +106,7 @@ public class EnumGenerator : ICodeGenerator
         var usedMemberNames = new HashSet<string>(StringComparer.Ordinal);
         var uniqueValues = new List<CliEnumValue>();
 
-        foreach (var value in values)
+        foreach (var value in CliEnumDefinition.OrderValues(values))
         {
             if (!usedCliValues.Add(value.CliValue))
             {

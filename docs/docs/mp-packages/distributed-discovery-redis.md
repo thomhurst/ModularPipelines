@@ -4,7 +4,7 @@ title: Distributed Redis Discovery Package
 
 # Distributed Redis Discovery Package
 
-`ModularPipelines.Distributed.Discovery.Redis` lets distributed SignalR workers discover the current master through Redis.
+`ModularPipelines.Distributed.Discovery.Redis` advertises and discovers a distributed master's endpoint through Redis. It implements the transport-neutral `IMasterDiscovery` contract; SignalR can consume that contract when workers need to locate the current master.
 
 ## Installation
 
@@ -14,18 +14,18 @@ dotnet add package ModularPipelines.Distributed.Discovery.Redis
 
 ## Configuration
 
-Register discovery after the SignalR coordinator:
+Register Redis discovery with a coordinator that supports `IMasterDiscovery`. For SignalR:
 
 ```csharp
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Discovery.Redis;
-using ModularPipelines.Distributed.Extensions;
-using ModularPipelines.Distributed.SignalR.Extensions;
+using ModularPipelines.Distributed.SignalR;
 
 var builder = Pipeline.CreateBuilder(args);
 
 builder.AddDistributedMode(options => options.TotalInstances = 2);
 builder.AddSignalRDistributedCoordinator();
-builder.AddRedisSignalRDiscovery(options =>
+builder.AddRedisMasterDiscovery(options =>
 {
     options.ConnectionString = "localhost:6379";
 });

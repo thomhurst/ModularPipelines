@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Distributed;
-using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;

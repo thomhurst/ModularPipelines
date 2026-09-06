@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Distributed.SignalR.Configuration;
+using ModularPipelines.Distributed.SignalR;
 
 namespace ModularPipelines.Distributed.SignalR.Server;
 
