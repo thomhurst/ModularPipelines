@@ -43734,8 +43734,10 @@ public class RunCommandModule : Module<CommandResult>
 
 | CLI command       | Options record         |
 | ----------------- | ---------------------- |
+| `go bug`          | `GoBugOptions`         |
 | `go build`        | `GoBuildOptions`       |
 | `go clean`        | `GoCleanOptions`       |
+| `go doc`          | `GoDocOptions`         |
 | `go env`          | `GoEnvOptions`         |
 | `go fix`          | `GoFixOptions`         |
 | `go fmt`          | `GoFmtOptions`         |
@@ -43746,17 +43748,24 @@ public class RunCommandModule : Module<CommandResult>
 | `go mod`          | `GoModOptions`         |
 | `go mod download` | `GoModDownloadOptions` |
 | `go mod edit`     | `GoModEditOptions`     |
+| `go mod graph`    | `GoModGraphOptions`    |
 | `go mod init`     | `GoModInitOptions`     |
+| `go mod tidy`     | `GoModTidyOptions`     |
+| `go mod vendor`   | `GoModVendorOptions`   |
+| `go mod verify`   | `GoModVerifyOptions`   |
 | `go mod why`      | `GoModWhyOptions`      |
 | `go run`          | `GoRunOptions`         |
 | `go telemetry`    | `GoTelemetryOptions`   |
 | `go test`         | `GoTestOptions`        |
 | `go tool`         | `GoToolOptions`        |
+| `go version`      | `GoVersionOptions`     |
 | `go vet`          | `GoVetOptions`         |
 | `go work`         | `GoWorkOptions`        |
 | `go work edit`    | `GoWorkEditOptions`    |
 | `go work init`    | `GoWorkInitOptions`    |
+| `go work sync`    | `GoWorkSyncOptions`    |
 | `go work use`     | `GoWorkUseOptions`     |
+| `go work vendor`  | `GoWorkVendorOptions`  |
 
 
 ---
