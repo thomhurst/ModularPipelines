@@ -46,7 +46,7 @@ public record GcloudBigtableAuthorizedViewsUpdateOptions : GcloudOptions
     public bool? Interactive { get; set; }
 
     /// <summary>
-    /// If provided, a diff is displayed with a prompt to proceed or cancel the update. Enabled by default, use --no-interactive to disable.
+    /// Negates --interactive. If provided, a diff is displayed with a prompt to proceed or cancel the update. Enabled by default, use --no-interactive to disable.
     /// </summary>
     [CliFlag("--no-interactive")]
     public bool? NoInteractive { get; set; }

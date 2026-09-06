@@ -23,7 +23,10 @@ public record GcloudFirestoreOperationsCancelOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
-    [Obsolete("Database is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The database to operate on. The default value is (default). For example, to operate on database foo: $ gcloud firestore operations cancel --database='foo'
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
     public string? Database { get; set; }
 
 }

@@ -92,7 +92,7 @@ public interface IDockerBuildx
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// --builder string     Override the configured builder instance
+    /// Disk usage
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

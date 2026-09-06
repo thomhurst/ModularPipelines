@@ -17,9 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudDockerRegistry
 {
     [EnumValue("artifact-registry")]
-    ArtifactRegistry = 0,
+    ArtifactRegistry,
 
     [EnumValue("container-registry")]
-    ContainerRegistry = 1,
-
+    ContainerRegistry
 }

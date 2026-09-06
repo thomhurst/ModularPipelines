@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudProvider
 {
     [EnumValue("RDS")]
-    Rds = 0,
+    Rds,
 
     [EnumValue("CLOUDSQL")]
-    Cloudsql = 1
+    Cloudsql
 }

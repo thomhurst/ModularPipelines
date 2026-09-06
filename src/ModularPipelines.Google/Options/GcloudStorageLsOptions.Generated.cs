@@ -113,7 +113,4 @@ public record GcloudStorageLsOptions : GcloudOptions
     [CliFlag("--long")]
     public bool? Long { get; set; }
 
-    [Obsolete("Recursive is no longer supported by the installed CLI and has no effect.")]
-    public bool? Recursive { get; set; }
-
 }

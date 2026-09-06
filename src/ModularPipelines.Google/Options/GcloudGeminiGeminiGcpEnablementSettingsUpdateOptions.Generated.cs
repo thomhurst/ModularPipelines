@@ -34,7 +34,7 @@ public record GcloudGeminiGeminiGcpEnablementSettingsUpdateOptions : GcloudOptio
     public bool? DisableWebGrounding { get; set; }
 
     /// <summary>
-    /// Whether web grounding should be disabled. DEPRECATED: Use web_grounding_type instead. Use --disable-web-grounding to enable and --no-disable-web-grounding to disable.
+    /// Negates --disable-web-grounding. Whether web grounding should be disabled. DEPRECATED: Use web_grounding_type instead. Use --disable-web-grounding to enable and --no-disable-web-grounding to disable.
     /// </summary>
     [CliFlag("--no-disable-web-grounding")]
     public bool? NoDisableWebGrounding { get; set; }
@@ -46,7 +46,7 @@ public record GcloudGeminiGeminiGcpEnablementSettingsUpdateOptions : GcloudOptio
     public bool? EnableCustomerDataSharing { get; set; }
 
     /// <summary>
-    /// Not implemented. Use --enable-customer-data-sharing to enable and --no-enable-customer-data-sharing to disable.
+    /// Negates --enable-customer-data-sharing. Not implemented. Use --enable-customer-data-sharing to enable and --no-enable-customer-data-sharing to disable.
     /// </summary>
     [CliFlag("--no-enable-customer-data-sharing")]
     public bool? NoEnableCustomerDataSharing { get; set; }
@@ -64,7 +64,7 @@ public record GcloudGeminiGeminiGcpEnablementSettingsUpdateOptions : GcloudOptio
     public bool? MutationsEnabled { get; set; }
 
     /// <summary>
-    /// Indicates whether resource mutations are enabled. If not set, resource mutations are disabled. Use --mutations-enabled to enable and --no-mutations-enabled to disable.
+    /// Negates --mutations-enabled. Indicates whether resource mutations are enabled. If not set, resource mutations are disabled. Use --mutations-enabled to enable and --no-mutations-enabled to disable.
     /// </summary>
     [CliFlag("--no-mutations-enabled")]
     public bool? NoMutationsEnabled { get; set; }
@@ -76,7 +76,7 @@ public record GcloudGeminiGeminiGcpEnablementSettingsUpdateOptions : GcloudOptio
     public bool? ProactiveAgentsEnabled { get; set; }
 
     /// <summary>
-    /// Indicates whether proactive agents are enabled. If not set, proactive agents are disabled. Use --proactive-agents-enabled to enable and --no-proactive-agents-enabled to disable.
+    /// Negates --proactive-agents-enabled. Indicates whether proactive agents are enabled. If not set, proactive agents are disabled. Use --proactive-agents-enabled to enable and --no-proactive-agents-enabled to disable.
     /// </summary>
     [CliFlag("--no-proactive-agents-enabled")]
     public bool? NoProactiveAgentsEnabled { get; set; }
@@ -100,25 +100,25 @@ public record GcloudGeminiGeminiGcpEnablementSettingsUpdateOptions : GcloudOptio
     public string? WebGroundingType { get; set; }
 
     /// <summary>
-    /// Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// Update labels. At most one of these can be specified: Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Clear labels value and set to empty map.
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveLabels { get; set; }

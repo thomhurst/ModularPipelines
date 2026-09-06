@@ -26,10 +26,16 @@ public record GcloudComputeNetworksSubnetsUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Adds secondary IP ranges that are associated with internal range resources. For example, --add-secondary-ranges-with-reserved-internal-range range1=//networkconnectivity.googleapis.com/projects/PROJECT/locations/global/internalRanges/RANGE adds a secondary range with the reserved internal range resource. * RANGE_NAME - Name of the secondary range. * INTERNAL_RANGE_URL - URL of an internal range resource.
+    /// Adds secondary IP ranges that are associated with internal range resources. For example, --add-secondary-ranges-with-reserved-internal-range range1=//networkconnectivity.googleapis.com/projects/PROJECT/locations/global/internalRanges/RANGE adds a secondary range with the reserved internal range resource. ◆ RANGE_NAME - Name of the secondary range. ◆ INTERNAL_RANGE_URL - URL of an internal range resource.
     /// </summary>
     [CliOption("--add-secondary-ranges-with-reserved-internal-range", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddSecondaryRangesWithReservedInternalRange { get; set; }
+
+    /// <summary>
+    /// The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used.
+    /// </summary>
+    [CliOption("--drain-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? DrainTimeout { get; set; }
 
     /// <summary>
     /// The /64 external IPv6 CIDR range to assign to this subnet. The range must be associated with an IPv6 BYOIP sub-prefix that is defined by the --ip-collection flag. If you specify --ip-collection but not --external-ipv6-prefix, a random /64 range is allocated from the sub-prefix. For example, --external-ipv6-prefix=2600:1901:0:0:0:0:0:0/64
@@ -77,7 +83,7 @@ public record GcloudComputeNetworksSubnetsUpdateOptions(
     /// Can only be specified if VPC Flow Logs for this subnetwork is enabled. Configures whether metadata fields should be added to the reported logs. Default is to exclude all metadata. LOGGING_METADATA must be one of: custom, exclude-all, include-all.
     /// </summary>
     [CliOption("--logging-metadata", Format = OptionFormat.EqualsSeparated)]
-    public string? LoggingMetadata { get; set; }
+    public GcloudLoggingMetadata? LoggingMetadata { get; set; }
 
     /// <summary>
     /// Can only be specified if VPC Flow Logs for this subnetwork is enabled and "metadata" is set to CUSTOM_METADATA. The comma-separated list of metadata fields that should be added to reported logs.
@@ -98,75 +104,69 @@ public record GcloudComputeNetworksSubnetsUpdateOptions(
     public string? StackType { get; set; }
 
     /// <summary>
-    /// Adds secondary IP ranges to the subnetwork for use in IP aliasing. For example, --add-secondary-ranges range1=192.168.64.0/24 adds a secondary range 192.168.64.0/24 with name range1. + RANGE_NAME - Name of the secondary range. + RANGE - IP range in CIDR format.
+    /// At most one of these can be specified: Adds secondary IP ranges to the subnetwork for use in IP aliasing. For example, --add-secondary-ranges range1=192.168.64.0/24 adds a secondary range 192.168.64.0/24 with name range1. ▸ RANGE_NAME - Name of the secondary range. ▸ RANGE - IP range in CIDR format.
     /// </summary>
     [CliOption("--add-secondary-ranges", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? AddSecondaryRanges { get; set; }
 
     /// <summary>
-    /// Allow/disallow this subnetwork's IP address ranges to conflict with existing custom routes. Use --allow-cidr-routes-overlap to enable and --no-allow-cidr-routes-overlap to disable.
+    /// At most one of these can be specified: Allow/disallow this subnetwork's IP address ranges to conflict with existing custom routes. Use --allow-cidr-routes-overlap to enable and --no-allow-cidr-routes-overlap to disable.
     /// </summary>
     [CliFlag("--allow-cidr-routes-overlap")]
     public bool? AllowCidrRoutesOverlap { get; set; }
 
     /// <summary>
-    /// Allow/disallow this subnetwork's IP address ranges to conflict with existing custom routes. Use --allow-cidr-routes-overlap to enable and --no-allow-cidr-routes-overlap to disable.
+    /// Negates --allow-cidr-routes-overlap. At most one of these can be specified: Allow/disallow this subnetwork's IP address ranges to conflict with existing custom routes. Use --allow-cidr-routes-overlap to enable and --no-allow-cidr-routes-overlap to disable.
     /// </summary>
     [CliFlag("--no-allow-cidr-routes-overlap")]
     public bool? NoAllowCidrRoutesOverlap { get; set; }
 
     /// <summary>
-    /// Enable/disable VPC Flow Logs for this subnet. If the subnet does not support VPC Flow Logs, this flag has no effect. For more information, see https://cloud.google.com/vpc/docs/using-flow-logs. Use --enable-flow-logs to enable and --no-enable-flow-logs to disable.
+    /// At most one of these can be specified: Enable/disable VPC Flow Logs for this subnet. If the subnet does not support VPC Flow Logs, this flag has no effect. For more information, see https://cloud.google.com/vpc/docs/using-flow-logs. Use --enable-flow-logs to enable and --no-enable-flow-logs to disable.
     /// </summary>
     [CliFlag("--enable-flow-logs")]
     public bool? EnableFlowLogs { get; set; }
 
     /// <summary>
-    /// Enable/disable VPC Flow Logs for this subnet. If the subnet does not support VPC Flow Logs, this flag has no effect. For more information, see https://cloud.google.com/vpc/docs/using-flow-logs. Use --enable-flow-logs to enable and --no-enable-flow-logs to disable.
+    /// Negates --enable-flow-logs. At most one of these can be specified: Enable/disable VPC Flow Logs for this subnet. If the subnet does not support VPC Flow Logs, this flag has no effect. For more information, see https://cloud.google.com/vpc/docs/using-flow-logs. Use --enable-flow-logs to enable and --no-enable-flow-logs to disable.
     /// </summary>
     [CliFlag("--no-enable-flow-logs")]
     public bool? NoEnableFlowLogs { get; set; }
 
     /// <summary>
-    /// Enable/disable access to Google Cloud APIs from this subnet for instances without a public ip address. Use --enable-private-ip-google-access to enable and --no-enable-private-ip-google-access to disable.
+    /// At most one of these can be specified: Enable/disable access to Google Cloud APIs from this subnet for instances without a public ip address. Use --enable-private-ip-google-access to enable and --no-enable-private-ip-google-access to disable.
     /// </summary>
     [CliFlag("--enable-private-ip-google-access")]
     public bool? EnablePrivateIpGoogleAccess { get; set; }
 
     /// <summary>
-    /// Enable/disable access to Google Cloud APIs from this subnet for instances without a public ip address. Use --enable-private-ip-google-access to enable and --no-enable-private-ip-google-access to disable.
+    /// Negates --enable-private-ip-google-access. At most one of these can be specified: Enable/disable access to Google Cloud APIs from this subnet for instances without a public ip address. Use --enable-private-ip-google-access to enable and --no-enable-private-ip-google-access to disable.
     /// </summary>
     [CliFlag("--no-enable-private-ip-google-access")]
     public bool? NoEnablePrivateIpGoogleAccess { get; set; }
 
     /// <summary>
-    /// The private IPv6 google access type for the VMs in this subnet. PRIVATE_IPV6_GOOGLE_ACCESS_TYPE must be one of: disable, enable-bidirectional-access, enable-outbound-vm-access.
+    /// At most one of these can be specified: The private IPv6 google access type for the VMs in this subnet. PRIVATE_IPV6_GOOGLE_ACCESS_TYPE must be one of: disable, enable-bidirectional-access, enable-outbound-vm-access.
     /// </summary>
     [CliOption("--private-ipv6-google-access-type", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateIpv6GoogleAccessType { get; set; }
 
     /// <summary>
-    /// The purpose of the subnetwork can be changed in a few scenarios. PURPOSE must be one of: PRIVATE The default subnet type. Only PEER_MIGRATION subnets can be changed to PRIVATE. REGIONAL_MANAGED_PROXY The proxy-only subnet for regional HTTP(S) load balancers. Only INTERNAL_HTTPS_LOAD_BALANCER subnets can be changed to REGIONAL_MANAGED_PROXY.
+    /// At most one of these can be specified: The purpose of the subnetwork can be changed in a few scenarios. PURPOSE must be one of: PRIVATE The default subnet type. Only PEER_MIGRATION subnets can be changed to PRIVATE. REGIONAL_MANAGED_PROXY The proxy-only subnet for regional HTTP(S) load balancers. Only INTERNAL_HTTPS_LOAD_BALANCER subnets can be changed to REGIONAL_MANAGED_PROXY.
     /// </summary>
     [CliOption("--purpose", Format = OptionFormat.EqualsSeparated)]
     public string? Purpose { get; set; }
 
     /// <summary>
-    /// Removes secondary ranges from the subnetwork. For example, --remove-secondary-ranges range2,range3 removes the secondary ranges with names range2 and range3.
+    /// At most one of these can be specified: Removes secondary ranges from the subnetwork. For example, --remove-secondary-ranges range2,range3 removes the secondary ranges with names range2 and range3.
     /// </summary>
     [CliOption("--remove-secondary-ranges", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveSecondaryRanges { get; set; }
 
     /// <summary>
-    /// The role is set to ACTIVE to update a BACKUP reserved address range to be the new ACTIVE address range. Note that the only supported value for this flag is ACTIVE since setting an address range to BACKUP is not supported. This field is only valid when updating a reserved IP address range used for the purpose of Internal HTTP(S) Load Balancer. ROLE must be (only one value is supported): ACTIVE The ACTIVE subnet that is currently used.
+    /// At most one of these can be specified: The role is set to ACTIVE to update a BACKUP reserved address range to be the new ACTIVE address range. Note that the only supported value for this flag is ACTIVE since setting an address range to BACKUP is not supported. This field is only valid when updating a reserved IP address range used for the purpose of Internal HTTP(S) Load Balancer. ROLE must be (only one value is supported): ACTIVE The ACTIVE subnet that is currently used.
     /// </summary>
     [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
     public string? Role { get; set; }
-
-    /// <summary>
-    /// The time period for draining traffic from Internal HTTP(S) Load Balancer proxies that are assigned addresses in the current ACTIVE subnetwork. For example, 1h, 60m and 3600s each specify a duration of 1 hour for draining the traffic. Longer times reduce the number of proxies that are draining traffic at any one time, and so improve the availability of proxies for load balancing. The drain timeout is only applicable when the [--role=ACTIVE] flag is being used.
-    /// </summary>
-    [CliOption("--drain-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? DrainTimeout { get; set; }
 
 }

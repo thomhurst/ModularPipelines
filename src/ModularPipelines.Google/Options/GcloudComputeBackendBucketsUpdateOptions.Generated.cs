@@ -67,7 +67,7 @@ public record GcloudComputeBackendBucketsUpdateOptions(
     public bool? EnableCdn { get; set; }
 
     /// <summary>
-    /// Enable Cloud CDN for the backend bucket. Cloud CDN can cache HTTP responses from a backend bucket at the edge of the network, close to users. Use --enable-cdn to enable and --no-enable-cdn to disable.
+    /// Negates --enable-cdn. Enable Cloud CDN for the backend bucket. Cloud CDN can cache HTTP responses from a backend bucket at the edge of the network, close to users. Use --enable-cdn to enable and --no-enable-cdn to disable.
     /// </summary>
     [CliFlag("--no-enable-cdn")]
     public bool? NoEnableCdn { get; set; }
@@ -85,7 +85,7 @@ public record GcloudComputeBackendBucketsUpdateOptions(
     public bool? RequestCoalescing { get; set; }
 
     /// <summary>
-    /// Enables request coalescing to the backend (recommended). Request coalescing (or collapsing) combines multiple concurrent cache fill requests into a small number of requests to the origin. This can improve performance by putting less load on the origin and backend infrastructure. However, coalescing adds a small amount of latency when multiple requests to the same URL are processed, so for latency-critical applications it may not be desirable. Defaults to true. Use --request-coalescing to enable and --no-request-coalescing to disable.
+    /// Negates --request-coalescing. Enables request coalescing to the backend (recommended). Request coalescing (or collapsing) combines multiple concurrent cache fill requests into a small number of requests to the origin. This can improve performance by putting less load on the origin and backend infrastructure. However, coalescing adds a small amount of latency when multiple requests to the same URL are processed, so for latency-critical applications it may not be desirable. Defaults to true. Use --request-coalescing to enable and --no-request-coalescing to disable.
     /// </summary>
     [CliFlag("--no-request-coalescing")]
     public bool? NoRequestCoalescing { get; set; }
@@ -97,109 +97,109 @@ public record GcloudComputeBackendBucketsUpdateOptions(
     public string? SignedUrlCacheMaxAge { get; set; }
 
     /// <summary>
-    /// Bypass the cache when the specified request headers are matched - e.g. Pragma or Authorization headers. Up to 5 headers can be specified. The cache is bypassed for all cdnPolicy.cacheMode settings. Note that requests that include these headers will always fill from origin, and may result in a large number of cache misses if the specified headers are common to many requests. Values are case-insensitive. The header name must be a valid HTTP header field token (per RFC 7230). For the list of restricted headers, see the list of required header name properties in How custom headers work (https://cloud.google.com/load-balancing/docs/custom-headers#how_custom_headers_work). A header name must not appear more than once in the list of added headers.
+    /// At most one of these can be specified: Bypass the cache when the specified request headers are matched - e.g. Pragma or Authorization headers. Up to 5 headers can be specified. The cache is bypassed for all cdnPolicy.cacheMode settings. Note that requests that include these headers will always fill from origin, and may result in a large number of cache misses if the specified headers are common to many requests. Values are case-insensitive. The header name must be a valid HTTP header field token (per RFC 7230). For the list of restricted headers, see the list of required header name properties in How custom headers work (https://cloud.google.com/load-balancing/docs/custom-headers#how_custom_headers_work). A header name must not appear more than once in the list of added headers.
     /// </summary>
     [CliOption("--bypass-cache-on-request-headers", Format = OptionFormat.EqualsSeparated)]
     public string? BypassCacheOnRequestHeaders { get; set; }
 
     /// <summary>
-    /// Remove all bypass cache on request headers for the backend bucket.
+    /// At most one of these can be specified: Remove all bypass cache on request headers for the backend bucket.
     /// </summary>
     [CliFlag("--no-bypass-cache-on-request-headers")]
     public bool? NoBypassCacheOnRequestHeaders { get; set; }
 
     /// <summary>
-    /// Specifies a separate client (for example, browser client) TTL, separate from the TTL for Cloud CDN's edge caches. This allows you to set a shorter TTL for browsers/clients, and to have those clients revalidate content against Cloud CDN on a more regular basis, without requiring revalidation at the origin. The value of clientTtl cannot be set to a value greater than that of maxTtl, but can be equal. Any cacheable response has its max-age/s-maxage directives adjusted down to the client TTL value if necessary; an Expires header will be replaced with a suitable max-age directive. The maximum allowed value is 31,622,400s (1 year). When creating a new backend with CACHE_ALL_STATIC and the field is unset, or when switching to that mode and the field is unset, a default value of 3600 is used. When the cache mode is set to "USE_ORIGIN_HEADERS", you must omit this field.
+    /// At most one of these can be specified: Specifies a separate client (for example, browser client) TTL, separate from the TTL for Cloud CDN's edge caches. This allows you to set a shorter TTL for browsers/clients, and to have those clients revalidate content against Cloud CDN on a more regular basis, without requiring revalidation at the origin. The value of clientTtl cannot be set to a value greater than that of maxTtl, but can be equal. Any cacheable response has its max-age/s-maxage directives adjusted down to the client TTL value if necessary; an Expires header will be replaced with a suitable max-age directive. The maximum allowed value is 31,622,400s (1 year). When creating a new backend with CACHE_ALL_STATIC and the field is unset, or when switching to that mode and the field is unset, a default value of 3600 is used. When the cache mode is set to "USE_ORIGIN_HEADERS", you must omit this field.
     /// </summary>
     [CliOption("--client-ttl", Format = OptionFormat.EqualsSeparated)]
     public string? ClientTtl { get; set; }
 
     /// <summary>
-    /// (DEPRECATED) Clears client TTL value. The --no-client-ttl option is deprecated and will be removed in an upcoming release. If you're currently using this argument, you should remove it from your workflows.
+    /// At most one of these can be specified: (DEPRECATED) Clears client TTL value. The --no-client-ttl option is deprecated and will be removed in an upcoming release. If you're currently using this argument, you should remove it from your workflows.
     /// </summary>
     [CliFlag("--no-client-ttl")]
     public bool? NoClientTtl { get; set; }
 
     /// <summary>
-    /// Custom headers that the external Application Load Balancer adds to proxied responses. For the list of headers, see Creating custom headers (https://cloud.google.com/load-balancing/docs/custom-headers). Variables are not case-sensitive.
+    /// At most one of these can be specified: Custom headers that the external Application Load Balancer adds to proxied responses. For the list of headers, see Creating custom headers (https://cloud.google.com/load-balancing/docs/custom-headers). Variables are not case-sensitive.
     /// </summary>
     [CliOption("--custom-response-header", Format = OptionFormat.EqualsSeparated)]
     public string? CustomResponseHeader { get; set; }
 
     /// <summary>
-    /// Remove all custom response headers for the backend bucket.
+    /// At most one of these can be specified: Remove all custom response headers for the backend bucket.
     /// </summary>
     [CliFlag("--no-custom-response-headers")]
     public bool? NoCustomResponseHeaders { get; set; }
 
     /// <summary>
-    /// Specifies the default TTL for cached content served by this origin for responses that do not have an existing valid TTL (max-age or s-maxage). The default value is 3600s for cache modes that allow a default TTL to be defined. The value of defaultTtl cannot be set to a value greater than that of maxTtl, but can be equal. When the cacheMode is set to FORCE_CACHE_ALL, the defaultTtl overwrites the TTL set in all responses. A TTL of "0" means Always revalidate. The maximum allowed value is 31,622,400s (1 year). Infrequently accessed objects may be evicted from the cache before the defined TTL. When creating a new backend with CACHE_ALL_STATIC or FORCE_CACHE_ALL and the field is unset, or when updating an existing backend to use these modes and the field is unset, a default value of 3600 is used. When the cache mode is set to "USE_ORIGIN_HEADERS", you must omit this field.
+    /// At most one of these can be specified: Specifies the default TTL for cached content served by this origin for responses that do not have an existing valid TTL (max-age or s-maxage). The default value is 3600s for cache modes that allow a default TTL to be defined. The value of defaultTtl cannot be set to a value greater than that of maxTtl, but can be equal. When the cacheMode is set to FORCE_CACHE_ALL, the defaultTtl overwrites the TTL set in all responses. A TTL of "0" means Always revalidate. The maximum allowed value is 31,622,400s (1 year). Infrequently accessed objects may be evicted from the cache before the defined TTL. When creating a new backend with CACHE_ALL_STATIC or FORCE_CACHE_ALL and the field is unset, or when updating an existing backend to use these modes and the field is unset, a default value of 3600 is used. When the cache mode is set to "USE_ORIGIN_HEADERS", you must omit this field.
     /// </summary>
     [CliOption("--default-ttl", Format = OptionFormat.EqualsSeparated)]
     public string? DefaultTtl { get; set; }
 
     /// <summary>
-    /// Clears default TTL value.
+    /// At most one of these can be specified: Clears default TTL value.
     /// </summary>
     [CliFlag("--no-default-ttl")]
     public bool? NoDefaultTtl { get; set; }
 
     /// <summary>
-    /// If set, the backend bucket is global.
+    /// At most one of these can be specified: If set, the backend bucket is global.
     /// </summary>
     [CliFlag("--global")]
     public bool? Global { get; set; }
 
     /// <summary>
-    /// Region of the backend bucket to update. Overrides the default compute/region property value for this command invocation.
+    /// At most one of these can be specified: Region of the backend bucket to update. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Specifies the maximum allowed TTL for cached content served by this origin. The default value is 86400 for cache modes that support a max TTL. Cache directives that attempt to set a max-age or s-maxage higher than this, or an Expires header more than maxTtl seconds in the future, are capped at the value of maxTtl, as if it were the value of an s-maxage Cache-Control directive. A TTL of "0" means Always revalidate. The maximum allowed value is 31,622,400s (1 year). Infrequently accessed objects may be evicted from the cache before the defined TTL. When creating a new backend with CACHE_ALL_STATIC and the field is unset, or when updating an existing backend to use these modes and the field is unset, a default value of 86400 is used. When the cache mode is set to "USE_ORIGIN_HEADERS" or "FORCE_CACHE_ALL", you must omit this field.
+    /// At most one of these can be specified: Specifies the maximum allowed TTL for cached content served by this origin. The default value is 86400 for cache modes that support a max TTL. Cache directives that attempt to set a max-age or s-maxage higher than this, or an Expires header more than maxTtl seconds in the future, are capped at the value of maxTtl, as if it were the value of an s-maxage Cache-Control directive. A TTL of "0" means Always revalidate. The maximum allowed value is 31,622,400s (1 year). Infrequently accessed objects may be evicted from the cache before the defined TTL. When creating a new backend with CACHE_ALL_STATIC and the field is unset, or when updating an existing backend to use these modes and the field is unset, a default value of 86400 is used. When the cache mode is set to "USE_ORIGIN_HEADERS" or "FORCE_CACHE_ALL", you must omit this field.
     /// </summary>
     [CliOption("--max-ttl", Format = OptionFormat.EqualsSeparated)]
     public string? MaxTtl { get; set; }
 
     /// <summary>
-    /// (DEPRECATED) Clears max TTL value. The --no-max-ttl option is deprecated and will be removed in an upcoming release. If you're currently using this argument, you should remove it from your workflows.
+    /// At most one of these can be specified: (DEPRECATED) Clears max TTL value. The --no-max-ttl option is deprecated and will be removed in an upcoming release. If you're currently using this argument, you should remove it from your workflows.
     /// </summary>
     [CliFlag("--no-max-ttl")]
     public bool? NoMaxTtl { get; set; }
 
     /// <summary>
-    /// Negative caching allows per-status code cache TTLs to be set, in order to apply fine-grained caching for common errors or redirects. This can reduce the load on your origin and improve the end-user experience by reducing response latency. Negative caching applies to a set of 3xx, 4xx, and 5xx status codes that are typically useful to cache. Status codes not listed here cannot have their TTL explicitly set and aren't cached, in order to avoid cache poisoning attacks. HTTP success codes (HTTP 2xx) are handled by the values of defaultTtl and maxTtl. When the cache mode is set to CACHE_ALL_STATIC or USE_ORIGIN_HEADERS, these values apply to responses with the specified response code that lack any cache-control or expires headers. When the cache mode is set to FORCE_CACHE_ALL, these values apply to all responses with the specified response code, and override any caching headers. Cloud CDN applies the following default TTLs to these status codes: + HTTP 300 (Multiple Choice), 301, 308 (Permanent Redirects): 10m + HTTP 404 (Not Found), 410 (Gone), 451 (Unavailable For Legal Reasons): 120s + HTTP 405 (Method Not Found), 421 (Misdirected Request), 501 (Not Implemented): 60s These defaults can be overridden in cdnPolicy.negativeCachingPolicy. Use --negative-caching to enable and --no-negative-caching to disable.
+    /// At most one of these can be specified: Negative caching allows per-status code cache TTLs to be set, in order to apply fine-grained caching for common errors or redirects. This can reduce the load on your origin and improve the end-user experience by reducing response latency. Negative caching applies to a set of 3xx, 4xx, and 5xx status codes that are typically useful to cache. Status codes not listed here cannot have their TTL explicitly set and aren't cached, in order to avoid cache poisoning attacks. HTTP success codes (HTTP 2xx) are handled by the values of defaultTtl and maxTtl. When the cache mode is set to CACHE_ALL_STATIC or USE_ORIGIN_HEADERS, these values apply to responses with the specified response code that lack any cache-control or expires headers. When the cache mode is set to FORCE_CACHE_ALL, these values apply to all responses with the specified response code, and override any caching headers. Cloud CDN applies the following default TTLs to these status codes: ▸ HTTP 300 (Multiple Choice), 301, 308 (Permanent Redirects): 10m ▸ HTTP 404 (Not Found), 410 (Gone), 451 (Unavailable For Legal Reasons): 120s ▸ HTTP 405 (Method Not Found), 421 (Misdirected Request), 501 (Not Implemented): 60s These defaults can be overridden in cdnPolicy.negativeCachingPolicy. Use --negative-caching to enable and --no-negative-caching to disable.
     /// </summary>
     [CliFlag("--negative-caching")]
     public bool? NegativeCaching { get; set; }
 
     /// <summary>
-    /// Negative caching allows per-status code cache TTLs to be set, in order to apply fine-grained caching for common errors or redirects. This can reduce the load on your origin and improve the end-user experience by reducing response latency. Negative caching applies to a set of 3xx, 4xx, and 5xx status codes that are typically useful to cache. Status codes not listed here cannot have their TTL explicitly set and aren't cached, in order to avoid cache poisoning attacks. HTTP success codes (HTTP 2xx) are handled by the values of defaultTtl and maxTtl. When the cache mode is set to CACHE_ALL_STATIC or USE_ORIGIN_HEADERS, these values apply to responses with the specified response code that lack any cache-control or expires headers. When the cache mode is set to FORCE_CACHE_ALL, these values apply to all responses with the specified response code, and override any caching headers. Cloud CDN applies the following default TTLs to these status codes: + HTTP 300 (Multiple Choice), 301, 308 (Permanent Redirects): 10m + HTTP 404 (Not Found), 410 (Gone), 451 (Unavailable For Legal Reasons): 120s + HTTP 405 (Method Not Found), 421 (Misdirected Request), 501 (Not Implemented): 60s These defaults can be overridden in cdnPolicy.negativeCachingPolicy. Use --negative-caching to enable and --no-negative-caching to disable.
+    /// Negates --negative-caching. At most one of these can be specified: Negative caching allows per-status code cache TTLs to be set, in order to apply fine-grained caching for common errors or redirects. This can reduce the load on your origin and improve the end-user experience by reducing response latency. Negative caching applies to a set of 3xx, 4xx, and 5xx status codes that are typically useful to cache. Status codes not listed here cannot have their TTL explicitly set and aren't cached, in order to avoid cache poisoning attacks. HTTP success codes (HTTP 2xx) are handled by the values of defaultTtl and maxTtl. When the cache mode is set to CACHE_ALL_STATIC or USE_ORIGIN_HEADERS, these values apply to responses with the specified response code that lack any cache-control or expires headers. When the cache mode is set to FORCE_CACHE_ALL, these values apply to all responses with the specified response code, and override any caching headers. Cloud CDN applies the following default TTLs to these status codes: ▸ HTTP 300 (Multiple Choice), 301, 308 (Permanent Redirects): 10m ▸ HTTP 404 (Not Found), 410 (Gone), 451 (Unavailable For Legal Reasons): 120s ▸ HTTP 405 (Method Not Found), 421 (Misdirected Request), 501 (Not Implemented): 60s These defaults can be overridden in cdnPolicy.negativeCachingPolicy. Use --negative-caching to enable and --no-negative-caching to disable.
     /// </summary>
     [CliFlag("--no-negative-caching")]
     public bool? NoNegativeCaching { get; set; }
 
     /// <summary>
-    /// Remove all negative caching policies for the backend bucket.
+    /// At most one of these can be specified: Remove all negative caching policies for the backend bucket.
     /// </summary>
     [CliFlag("--no-negative-caching-policies")]
     public bool? NoNegativeCachingPolicies { get; set; }
 
     /// <summary>
-    /// Sets a cache TTL for the specified HTTP status code. NegativeCaching must be enabled to config the negativeCachingPolicy. If you omit the policy and leave negativeCaching enabled, Cloud CDN's default cache TTLs are used. Note that when specifying an explicit negative caching policy, make sure that you specify a cache TTL for all response codes that you want to cache. Cloud CDN doesn't apply any default negative caching when a policy exists. CODE is the HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 308, 404, 405, 410, 421, 451, and 501 can be specified as values, and you cannot specify a status code more than once. TTL is the time to live (in seconds) for which to cache responses for the specified CODE. The maximum allowed value is 1800s (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
+    /// At most one of these can be specified: Sets a cache TTL for the specified HTTP status code. NegativeCaching must be enabled to config the negativeCachingPolicy. If you omit the policy and leave negativeCaching enabled, Cloud CDN's default cache TTLs are used. Note that when specifying an explicit negative caching policy, make sure that you specify a cache TTL for all response codes that you want to cache. Cloud CDN doesn't apply any default negative caching when a policy exists. CODE is the HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 308, 404, 405, 410, 421, 451, and 501 can be specified as values, and you cannot specify a status code more than once. TTL is the time to live (in seconds) for which to cache responses for the specified CODE. The maximum allowed value is 1800s (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
     /// </summary>
     [CliOption("--negative-caching-policy", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? NegativeCachingPolicy { get; set; }
+    public string? NegativeCachingPolicy { get; set; }
 
     /// <summary>
-    /// Serve existing content from the cache (if available) when revalidating content with the origin; this allows content to be served more quickly, and also allows content to continue to be served if the backend is down or reporting errors. This setting defines the default serve-stale duration for any cached responses that do not specify a stale-while-revalidate directive. Stale responses that exceed the TTL configured here will not be served without first being revalidated with the origin. The default limit is 86400s (1 day), which will allow stale content to be served up to this limit beyond the max-age (or s-max-age) of a cached response. The maximum allowed value is 604800 (1 week). Set this to zero (0) to disable serve-while-stale.
+    /// At most one of these can be specified: Serve existing content from the cache (if available) when revalidating content with the origin; this allows content to be served more quickly, and also allows content to continue to be served if the backend is down or reporting errors. This setting defines the default serve-stale duration for any cached responses that do not specify a stale-while-revalidate directive. Stale responses that exceed the TTL configured here will not be served without first being revalidated with the origin. The default limit is 86400s (1 day), which will allow stale content to be served up to this limit beyond the max-age (or s-max-age) of a cached response. The maximum allowed value is 604800 (1 week). Set this to zero (0) to disable serve-while-stale.
     /// </summary>
     [CliOption("--serve-while-stale", Format = OptionFormat.EqualsSeparated)]
     public string? ServeWhileStale { get; set; }
 
     /// <summary>
-    /// (DEPRECATED) Clears serve while stale value. The --no-serve-while-stale option is deprecated and will be removed in an upcoming release. If you're currently using this argument, you should remove it from your workflows.
+    /// At most one of these can be specified: (DEPRECATED) Clears serve while stale value. The --no-serve-while-stale option is deprecated and will be removed in an upcoming release. If you're currently using this argument, you should remove it from your workflows.
     /// </summary>
     [CliFlag("--no-serve-while-stale")]
     public bool? NoServeWhileStale { get; set; }

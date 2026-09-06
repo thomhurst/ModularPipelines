@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPreviewComputeProjectInfoRemoveMetadataOptions : GcloudOptions
 {
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: If provided, all metadata entries are removed.
+    /// At most one of these can be specified: If provided, all metadata entries are removed.
     /// </summary>
     [CliFlag("--all")]
     public bool? All { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: The keys of the entries to remove.
+    /// At most one of these can be specified: The keys of the entries to remove.
     /// </summary>
     [CliOption("--keys", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Keys { get; set; }

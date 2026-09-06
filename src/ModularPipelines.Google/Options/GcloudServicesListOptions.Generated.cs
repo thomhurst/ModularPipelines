@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudServicesListOptions : GcloudOptions
 {
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Return the services available to the project to enable. This list will include any services that the project has already enabled.
+    /// At most one of these can be specified: Return the services available to the project to enable. This list will include any services that the project has already enabled.
     /// </summary>
     [CliFlag("--available")]
     public bool? Available { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: (DEFAULT) Return the services which the project has enabled.
+    /// At most one of these can be specified: (DEFAULT) Return the services which the project has enabled.
     /// </summary>
     [CliFlag("--enabled")]
     public bool? Enabled { get; set; }

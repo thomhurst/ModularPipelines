@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudCalendarPeriod
 {
     [EnumValue("month")]
-    Month = 0,
+    Month,
 
     [EnumValue("quarter")]
-    Quarter = 1,
+    Quarter,
 
     [EnumValue("year")]
-    Year = 2
+    Year
 }

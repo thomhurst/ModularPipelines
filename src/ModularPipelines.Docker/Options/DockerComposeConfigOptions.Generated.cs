@@ -140,7 +140,4 @@ public record DockerComposeConfigOptions : DockerOptions
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Service { get; set; }
 
-    [Obsolete("Models is no longer supported by the installed CLI and has no effect.")]
-    public bool? Models { get; set; }
-
 }

@@ -36,7 +36,7 @@ public record GcloudComputeInstancesSetSchedulingOptions(
     public bool? GracefulShutdown { get; set; }
 
     /// <summary>
-    /// Enables or disables graceful shutdown for the instance. Use --graceful-shutdown to enable and --no-graceful-shutdown to disable.
+    /// Negates --graceful-shutdown. Enables or disables graceful shutdown for the instance. Use --graceful-shutdown to enable and --no-graceful-shutdown to disable.
     /// </summary>
     [CliFlag("--no-graceful-shutdown")]
     public bool? NoGracefulShutdown { get; set; }
@@ -78,7 +78,7 @@ public record GcloudComputeInstancesSetSchedulingOptions(
     public bool? Preemptible { get; set; }
 
     /// <summary>
-    /// If provided, instances will be preemptible and time-limited. Instances might be preempted to free up resources for standard VM instances, and will only be able to run for a limited amount of time. Preemptible instances can not be restarted and will not migrate. Use --preemptible to enable and --no-preemptible to disable.
+    /// Negates --preemptible. If provided, instances will be preemptible and time-limited. Instances might be preempted to free up resources for standard VM instances, and will only be able to run for a limited amount of time. Preemptible instances can not be restarted and will not migrate. Use --preemptible to enable and --no-preemptible to disable.
     /// </summary>
     [CliFlag("--no-preemptible")]
     public bool? NoPreemptible { get; set; }
@@ -96,7 +96,7 @@ public record GcloudComputeInstancesSetSchedulingOptions(
     public bool? RestartOnFailure { get; set; }
 
     /// <summary>
-    /// The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. This option is mutually exclusive with --preemptible. Use --restart-on-failure to enable and --no-restart-on-failure to disable.
+    /// Negates --restart-on-failure. The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. This option is mutually exclusive with --preemptible. Use --restart-on-failure to enable and --no-restart-on-failure to disable.
     /// </summary>
     [CliFlag("--no-restart-on-failure")]
     public bool? NoRestartOnFailure { get; set; }
@@ -108,7 +108,7 @@ public record GcloudComputeInstancesSetSchedulingOptions(
     public bool? SkipGuestOsShutdown { get; set; }
 
     /// <summary>
-    /// If enabled, then, when the instance is stopped or deleted, the instance is immediately stopped without giving time to the guest OS to cleanly shut down. Use --skip-guest-os-shutdown to enable and --no-skip-guest-os-shutdown to disable.
+    /// Negates --skip-guest-os-shutdown. If enabled, then, when the instance is stopped or deleted, the instance is immediately stopped without giving time to the guest OS to cleanly shut down. Use --skip-guest-os-shutdown to enable and --no-skip-guest-os-shutdown to disable.
     /// </summary>
     [CliFlag("--no-skip-guest-os-shutdown")]
     public bool? NoSkipGuestOsShutdown { get; set; }
@@ -120,73 +120,73 @@ public record GcloudComputeInstancesSetSchedulingOptions(
     public string? Zone { get; set; }
 
     /// <summary>
-    /// Removes the discard-local-ssds-at-termination-timestamp field from the scheduling options.
+    /// Discard Local SSDs At Termination Timestamp At most one of these can be specified: Removes the discard-local-ssds-at-termination-timestamp field from the scheduling options.
     /// </summary>
     [CliFlag("--clear-discard-local-ssds-at-termination-timestamp")]
     public bool? ClearDiscardLocalSsdsAtTerminationTimestamp { get; set; }
 
     /// <summary>
-    /// Required to be set to true and only allowed for VMs that have one or more local SSDs, use --instance-termination-action=STOP, and use either --max-run-duration or --termination-time. This flag indicates the value that you want Compute Engine to use for the --discard-local-ssd flag in the automatic gcloud compute instances stop command. This flag only supports the true value, which discards local SSD data when automatically stopping this VM during its terminationTimestamp. For more information about the --discard-local-ssd flag, see https://cloud.google.com/compute/docs/disks/local-ssd#stop_instance.
+    /// Discard Local SSDs At Termination Timestamp At most one of these can be specified: Required to be set to true and only allowed for VMs that have one or more local SSDs, use --instance-termination-action=STOP, and use either --max-run-duration or --termination-time. This flag indicates the value that you want Compute Engine to use for the --discard-local-ssd flag in the automatic gcloud compute instances stop command. This flag only supports the true value, which discards local SSD data when automatically stopping this VM during its terminationTimestamp. For more information about the --discard-local-ssd flag, see https://cloud.google.com/compute/docs/disks/local-ssd#stop_instance.
     /// </summary>
     [CliOption("--discard-local-ssds-at-termination-timestamp", Format = OptionFormat.EqualsSeparated)]
     public string? DiscardLocalSsdsAtTerminationTimestamp { get; set; }
 
     /// <summary>
-    /// Disables the termination action for this VM if allowed OR sets termination action to the default value. Depending on a VM's availability settings, a termination action is either required or not allowed. This flag is required when you are updating a VM such that it's previously specified termination action is no longer allowed. If you use this flag when a VM requires a termination action, it's termination action is just set to the default value (stop).
+    /// Instance Termination Action At most one of these can be specified: Disables the termination action for this VM if allowed OR sets termination action to the default value. Depending on a VM's availability settings, a termination action is either required or not allowed. This flag is required when you are updating a VM such that it's previously specified termination action is no longer allowed. If you use this flag when a VM requires a termination action, it's termination action is just set to the default value (stop).
     /// </summary>
     [CliFlag("--clear-instance-termination-action")]
     public bool? ClearInstanceTerminationAction { get; set; }
 
     /// <summary>
-    /// Specifies the termination action that will be taken upon VM preemption (--provisioning-model=SPOT) or automatic instance termination (--max-run-duration or --termination-time). INSTANCE_TERMINATION_ACTION must be one of: DELETE Permanently delete the VM. STOP Default only for Spot VMs. Stop the VM without preserving memory. The VM can be restarted later.
+    /// Instance Termination Action At most one of these can be specified: Specifies the termination action that will be taken upon VM preemption (--provisioning-model=SPOT) or automatic instance termination (--max-run-duration or --termination-time). INSTANCE_TERMINATION_ACTION must be one of: DELETE Permanently delete the VM. STOP Default only for Spot VMs. Stop the VM without preserving memory. The VM can be restarted later.
     /// </summary>
     [CliOption("--instance-termination-action", Format = OptionFormat.EqualsSeparated)]
     public string? InstanceTerminationAction { get; set; }
 
     /// <summary>
-    /// Removes the max-run-duration field from the scheduling options.
+    /// Max Run Duration At most one of these can be specified: Removes the max-run-duration field from the scheduling options.
     /// </summary>
     [CliFlag("--clear-max-run-duration")]
     public bool? ClearMaxRunDuration { get; set; }
 
     /// <summary>
-    /// Limits how long this VM instance can run, specified as a duration relative to the last time when the VM began running. Format the duration, MAX_RUN_DURATION, as the number of days, hours, minutes, and seconds followed by d, h, m, and s respectively. For example, specify 30m for a duration of 30 minutes or specify 1d2h3m4s for a duration of 1 day, 2 hours, 3 minutes, and 4 seconds. Alternatively, to specify a timestamp, use --termination-time instead. If neither --max-run-duration nor --termination-time is specified (default), the VM instance runs until prompted by a user action or system event. If either is specified, the VM instance is scheduled to be automatically terminated at the VM's termination timestamp (terminationTimestamp) using the action specified by --instance-termination-action. Note: The terminationTimestamp is removed whenever the VM is stopped or suspended and redefined whenever the VM is rerun. For --max-run-duration specifically, the terminationTimestamp is the sum of MAX_RUN_DURATION and the time when the VM last entered the RUNNING state, which changes whenever the VM is rerun.
+    /// Max Run Duration At most one of these can be specified: Limits how long this VM instance can run, specified as a duration relative to the last time when the VM began running. Format the duration, MAX_RUN_DURATION, as the number of days, hours, minutes, and seconds followed by d, h, m, and s respectively. For example, specify 30m for a duration of 30 minutes or specify 1d2h3m4s for a duration of 1 day, 2 hours, 3 minutes, and 4 seconds. Alternatively, to specify a timestamp, use --termination-time instead. If neither --max-run-duration nor --termination-time is specified (default), the VM instance runs until prompted by a user action or system event. If either is specified, the VM instance is scheduled to be automatically terminated at the VM's termination timestamp (terminationTimestamp) using the action specified by --instance-termination-action. Note: The terminationTimestamp is removed whenever the VM is stopped or suspended and redefined whenever the VM is rerun. For --max-run-duration specifically, the terminationTimestamp is the sum of MAX_RUN_DURATION and the time when the VM last entered the RUNNING state, which changes whenever the VM is rerun.
     /// </summary>
     [CliOption("--max-run-duration", Format = OptionFormat.EqualsSeparated)]
     public string? MaxRunDuration { get; set; }
 
     /// <summary>
-    /// Removes the node affinities field from the instance. If specified, the instance node settings will be cleared. The instance will not be scheduled onto a sole-tenant node.
+    /// Sole Tenancy. At most one of these can be specified: Removes the node affinities field from the instance. If specified, the instance node settings will be cleared. The instance will not be scheduled onto a sole-tenant node.
     /// </summary>
     [CliFlag("--clear-node-affinities")]
     public bool? ClearNodeAffinities { get; set; }
 
     /// <summary>
-    /// The name of the node to schedule this instance on.
+    /// Sole Tenancy. At most one of these can be specified: The name of the node to schedule this instance on.
     /// </summary>
     [CliOption("--node", Format = OptionFormat.EqualsSeparated)]
     public string? Node { get; set; }
 
     /// <summary>
-    /// The JSON/YAML file containing the configuration of desired nodes onto which this instance could be scheduled. These rules filter the nodes according to their node affinity labels. A node's affinity labels come from the node template of the group the node is in. The file should contain a list of a JSON/YAML objects. For an example, see https://cloud.google.com/compute/docs/nodes/provisioning-sole-tenant-vms#configure_node_affinity_labels. The following list describes the fields: key Corresponds to the node affinity label keys of the Node resource. operator Specifies the node selection type. Must be one of: IN: Requires Compute Engine to seek for matched nodes. NOT_IN: Requires Compute Engine to avoid certain nodes. values Optional. A list of values which correspond to the node affinity label values of the Node resource. Use a full or relative path to a local file containing the value of node_affinity_file.
+    /// Sole Tenancy. At most one of these can be specified: The JSON/YAML file containing the configuration of desired nodes onto which this instance could be scheduled. These rules filter the nodes according to their node affinity labels. A node's affinity labels come from the node template of the group the node is in. The file should contain a list of a JSON/YAML objects. For an example, see https://cloud.google.com/compute/docs/nodes/provisioning-sole-tenant-vms#configure_node_affinity_labels. The following list describes the fields: key Corresponds to the node affinity label keys of the Node resource. operator Specifies the node selection type. Must be one of: IN: Requires Compute Engine to seek for matched nodes. NOT_IN: Requires Compute Engine to avoid certain nodes. values Optional. A list of values which correspond to the node affinity label values of the Node resource. Use a full or relative path to a local file containing the value of node_affinity_file.
     /// </summary>
     [CliOption("--node-affinity-file", Format = OptionFormat.EqualsSeparated)]
     public string? NodeAffinityFile { get; set; }
 
     /// <summary>
-    /// The name of the node group to schedule this instance on.
+    /// Sole Tenancy. At most one of these can be specified: The name of the node group to schedule this instance on.
     /// </summary>
     [CliOption("--node-group", Format = OptionFormat.EqualsSeparated)]
     public string? NodeGroup { get; set; }
 
     /// <summary>
-    /// Removes the termination-time field from the scheduling options.
+    /// Termination Time At most one of these can be specified: Removes the termination-time field from the scheduling options.
     /// </summary>
     [CliFlag("--clear-termination-time")]
     public bool? ClearTerminationTime { get; set; }
 
     /// <summary>
-    /// Limits how long this VM instance can run, specified as a time. Format the time, TERMINATION_TIME, as a RFC 3339 timestamp. For more information, see https://tools.ietf.org/html/rfc3339. Alternatively, to specify a duration, use --max-run-duration instead. If neither --termination-time nor --max-run-duration is specified (default), the VM instance runs until prompted by a user action or system event. If either is specified, the VM instance is scheduled to be automatically terminated at the VM's termination timestamp (terminationTimestamp) using the action specified by --instance-termination-action. Note: The terminationTimestamp is removed whenever the VM is stopped or suspended and redefined whenever the VM is rerun. For --termination-time specifically, the terminationTimestamp remains the same whenever the VM is rerun, but any requests to rerun the VM fail if the specified timestamp is in the past.
+    /// Termination Time At most one of these can be specified: Limits how long this VM instance can run, specified as a time. Format the time, TERMINATION_TIME, as a RFC 3339 timestamp. For more information, see https://tools.ietf.org/html/rfc3339. Alternatively, to specify a duration, use --max-run-duration instead. If neither --termination-time nor --max-run-duration is specified (default), the VM instance runs until prompted by a user action or system event. If either is specified, the VM instance is scheduled to be automatically terminated at the VM's termination timestamp (terminationTimestamp) using the action specified by --instance-termination-action. Note: The terminationTimestamp is removed whenever the VM is stopped or suspended and redefined whenever the VM is rerun. For --termination-time specifically, the terminationTimestamp remains the same whenever the VM is rerun, but any requests to rerun the VM fail if the specified timestamp is in the past.
     /// </summary>
     [CliOption("--termination-time", Format = OptionFormat.EqualsSeparated)]
     public string? TerminationTime { get; set; }

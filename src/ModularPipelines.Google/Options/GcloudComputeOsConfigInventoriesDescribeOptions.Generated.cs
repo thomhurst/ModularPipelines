@@ -19,16 +19,8 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "os-config", "inventories", "describe")]
-public record GcloudComputeOsConfigInventoriesDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
-) : GcloudOptions
+public record GcloudComputeOsConfigInventoriesDescribeOptions : GcloudOptions
 {
-    /// <summary>
-    /// Location of the Compute Engine VM instance to describe. If not specified, the property compute/zone is used. For details on setting properties, see: https://cloud.google.com/sdk/docs/properties
-    /// </summary>
-    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
-    public string? Location { get; set; }
-
     /// <summary>
     /// Specifies what information should be included in the output. If unspecified, the default view is basic. VIEW must be one of: basic Output is limited to operating system details. full Output includes operating system details and package information.
     /// </summary>

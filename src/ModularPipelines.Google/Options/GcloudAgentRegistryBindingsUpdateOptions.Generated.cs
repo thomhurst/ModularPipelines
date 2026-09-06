@@ -22,91 +22,91 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAgentRegistryBindingsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Arguments for the source type. The target of the Binding. Arguments for the target type. Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Arguments for the source type. The target of the Binding. Arguments for the target type. User-defined description of a Binding. Can have a maximum length of 2048 characters.
+    /// User-defined description of a Binding. Can have a maximum length of 2048 characters.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Arguments for the source type. The target of the Binding. Arguments for the target type. User-defined display name for the Binding. Can have a maximum length of 63 characters.
+    /// User-defined display name for the Binding. Can have a maximum length of 63 characters.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Arguments for the source type. The target of the Binding. Arguments for the target type. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Arguments for the source type. The target of the Binding. Arguments for the target type. The resource name of the target AuthProvider. Format: ◆ projects/{project}/locations/{location}/authProviders/{auth_provider}
+    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. The resource name of the target AuthProvider. Format: ◆ projects/{project}/locations/{location}/authProviders/{auth_provider}
     /// </summary>
     [CliOption("--auth-provider-binding", Format = OptionFormat.EqualsSeparated)]
     public string? AuthProviderBinding { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Arguments for the source type. The target of the Binding. Arguments for the target type. The continue URI of the AuthProvider. The URI is used to reauthenticate the user and finalize the managed OAuth flow.
+    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. The continue URI of the AuthProvider. The URI is used to reauthenticate the user and finalize the managed OAuth flow.
     /// </summary>
     [CliOption("--auth-provider-binding-continue-uri", Format = OptionFormat.EqualsSeparated)]
     public string? AuthProviderBindingContinueUri { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Arguments for the source type. The target of the Binding. Arguments for the target type. Set binding.authProviderBinding back to default value.
+    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Set binding.authProviderBinding back to default value.
     /// </summary>
     [CliFlag("--clear-auth-provider-binding")]
     public bool? ClearAuthProviderBinding { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Arguments for the source type. The target of the Binding. Arguments for the target type. Update auth_provider_binding_scopes. At most one of these can be specified: Set auth_provider_binding_scopes to new value.
+    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Set auth_provider_binding_scopes to new value.
     /// </summary>
     [CliOption("--auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AuthProviderBindingScopes { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Arguments for the source type. The target of the Binding. Arguments for the target type. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to auth_provider_binding_scopes list.
+    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to auth_provider_binding_scopes list.
     /// </summary>
     [CliOption("--add-auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddAuthProviderBindingScopes { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Arguments for the source type. The target of the Binding. Arguments for the target type. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear auth_provider_binding_scopes value and set to empty list.
+    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear auth_provider_binding_scopes value and set to empty list.
     /// </summary>
     [CliFlag("--clear-auth-provider-binding-scopes")]
     public bool? ClearAuthProviderBindingScopes { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Arguments for the source type. The target of the Binding. Arguments for the target type. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from auth_provider_binding_scopes list.
+    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from auth_provider_binding_scopes list.
     /// </summary>
     [CliOption("--remove-auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveAuthProviderBindingScopes { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Arguments for the source type. The target of the Binding. Arguments for the target type. Set binding.source back to default value.
+    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Set binding.source back to default value.
     /// </summary>
     [CliFlag("--clear-source")]
     public bool? ClearSource { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Arguments for the source type. The target of the Binding. Arguments for the target type. The identifier of the source Agent. Format: ◆ urn:agent:{publisher}:{namespace}:{name}
+    /// Arguments for the source type. The target of the Binding. The identifier of the source Agent. Format: ◆ urn:agent:{publisher}:{namespace}:{name}
     /// </summary>
     [CliOption("--source-identifier", Format = OptionFormat.EqualsSeparated)]
     public string? SourceIdentifier { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Arguments for the source type. The target of the Binding. Arguments for the target type. Set binding.target back to default value.
+    /// Arguments for the source type. The target of the Binding. Set binding.target back to default value.
     /// </summary>
     [CliFlag("--clear-target")]
     public bool? ClearTarget { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Arguments for the source type. The target of the Binding. Arguments for the target type. The identifier of the target Agent, MCP Server, or Endpoint. Format: ◆ urn:agent:{publisher}:{namespace}:{name} ◆ urn:mcp:{publisher}:{namespace}:{name} ◆ urn:endpoint:{publisher}:{namespace}:{name}
+    /// Arguments for the target type. The identifier of the target Agent, MCP Server, or Endpoint. Format: ◆ urn:agent:{publisher}:{namespace}:{name} ◆ urn:mcp:{publisher}:{namespace}:{name} ◆ urn:endpoint:{publisher}:{namespace}:{name}
     /// </summary>
     [CliOption("--target-identifier", Format = OptionFormat.EqualsSeparated)]
     public string? TargetIdentifier { get; set; }

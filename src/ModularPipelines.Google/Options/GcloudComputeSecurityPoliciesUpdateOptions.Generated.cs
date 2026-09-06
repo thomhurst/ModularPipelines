@@ -46,7 +46,7 @@ public record GcloudComputeSecurityPoliciesUpdateOptions(
     /// The JSON parsing behavior for this rule. Must be one of the following values: [DISABLED, STANDARD, STANDARD_WITH_GRAPHQL]. JSON_PARSING must be one of: DISABLED, STANDARD, STANDARD_WITH_GRAPHQL.
     /// </summary>
     [CliOption("--json-parsing", Format = OptionFormat.EqualsSeparated)]
-    public string? JsonParsing { get; set; }
+    public GcloudJsonParsing? JsonParsing { get; set; }
 
     /// <summary>
     /// The visibility type indicates whether the rules are opaque or transparent. VISIBILITY_TYPE must be one of: STANDARD, PREMIUM.
@@ -58,7 +58,7 @@ public record GcloudComputeSecurityPoliciesUpdateOptions(
     /// The level of detail to display for WAF logging. LOG_LEVEL must be one of: NORMAL, VERBOSE.
     /// </summary>
     [CliOption("--log-level", Format = OptionFormat.EqualsSeparated)]
-    public string? LogLevel { get; set; }
+    public GcloudLogLevel? LogLevel { get; set; }
 
     /// <summary>
     /// The DDoS protection level for network load balancing and instances with external IPs. NETWORK_DDOS_PROTECTION must be one of: STANDARD, ADVANCED, ADVANCED_PREVIEW.

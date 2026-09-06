@@ -22,12 +22,21 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBigtableOperationsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Instance resource - The instance to list operations for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Instance resource - The instance to list operations for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ◆ provide the argument --instance on the command line.
+    /// Instance resource - The instance to list operations for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ◆ provide the argument --instance on the command line.
     /// </summary>
     [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
     public string? Instance { get; set; }
 
-    [Obsolete("ReturnPartialSuccess is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// Instance resource - The instance to list operations for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. If true, operations that are reachable are returned as normal, and those that are unreachable are returned in the unreachable field of the response. If false, the command will fail if any location is unreachable. Enabled by default, use --no-return-partial-success to disable.
+    /// </summary>
+    [CliOption("--return-partial-success", Format = OptionFormat.EqualsSeparated)]
     public string? ReturnPartialSuccess { get; set; }
+
+    /// <summary>
+    /// Negates --return-partial-success. Instance resource - The instance to list operations for. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. If true, operations that are reachable are returned as normal, and those that are unreachable are returned in the unreachable field of the response. If false, the command will fail if any location is unreachable. Enabled by default, use --no-return-partial-success to disable.
+    /// </summary>
+    [CliFlag("--no-return-partial-success")]
+    public bool? NoReturnPartialSuccess { get; set; }
 
 }

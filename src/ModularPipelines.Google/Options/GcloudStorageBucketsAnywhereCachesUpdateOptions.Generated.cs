@@ -37,7 +37,7 @@ public record GcloudStorageBucketsAnywhereCachesUpdateOptions(
     public bool? EnableIngestOnWrite { get; set; }
 
     /// <summary>
-    /// Enables the Ingest-on-Write feature on the bucket. Use --enable-ingest-on-write to enable and --no-enable-ingest-on-write to disable.
+    /// Negates --enable-ingest-on-write. Enables the Ingest-on-Write feature on the bucket. Use --enable-ingest-on-write to enable and --no-enable-ingest-on-write to disable.
     /// </summary>
     [CliFlag("--no-enable-ingest-on-write")]
     public bool? NoEnableIngestOnWrite { get; set; }

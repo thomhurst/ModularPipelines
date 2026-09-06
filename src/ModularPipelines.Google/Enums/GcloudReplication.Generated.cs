@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudReplication
 {
     [EnumValue("synchronous")]
-    Synchronous = 0,
+    Synchronous,
 
     [EnumValue("asynchronous")]
-    Asynchronous = 1
+    Asynchronous
 }

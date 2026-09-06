@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudRootVolumeType
 {
     [EnumValue("gp2")]
-    Gp2 = 0,
+    Gp2,
 
     [EnumValue("gp3")]
-    Gp3 = 1
+    Gp3
 }

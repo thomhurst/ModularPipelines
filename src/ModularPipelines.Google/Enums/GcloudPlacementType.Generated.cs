@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudPlacementType
 {
     [EnumValue("UNSPECIFIED")]
-    Unspecified = 0,
+    Unspecified,
 
     [EnumValue("COMPACT")]
-    Compact = 1
+    Compact
 }

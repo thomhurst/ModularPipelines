@@ -21,7 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("pubsub", "schemas", "list")]
 public record GcloudPubsubSchemasListOptions : GcloudOptions
 {
-    [Obsolete("View is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// There are two possible views, 'basic' and 'full', default is 'basic'. VIEW must be one of: basic Include the name and type of the schema, but not the definition. full Include all Schema object fields.
+    /// </summary>
+    [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
     public string? View { get; set; }
 
 }

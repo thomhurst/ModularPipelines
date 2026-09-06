@@ -62,7 +62,7 @@ public record GcloudAiEndpointsUpdateOptions : GcloudOptions
     /// At most one of these can be specified: List of pairs of deployed model id and value to set as traffic split.
     /// </summary>
     [CliOption("--traffic-split", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? TrafficSplit { get; set; }
+    public string? TrafficSplit { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Disable prediction request &amp; response logging.

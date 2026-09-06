@@ -75,7 +75,7 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     public bool? AssignIp { get; set; }
 
     /// <summary>
-    /// Assign a public IP address to the instance. This is a public, externally available IPv4 address that you can use to connect to your instance when properly authorized. Use --assign-ip to enable and --no-assign-ip to disable.
+    /// Negates --assign-ip. Assign a public IP address to the instance. This is a public, externally available IPv4 address that you can use to connect to your instance when properly authorized. Use --assign-ip to enable and --no-assign-ip to disable.
     /// </summary>
     [CliFlag("--no-assign-ip")]
     public bool? NoAssignIp { get; set; }
@@ -123,7 +123,7 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     public bool? Backup { get; set; }
 
     /// <summary>
-    /// Enables daily backup. Enabled by default, use --no-backup to disable.
+    /// Negates --backup. Enables daily backup. Enabled by default, use --no-backup to disable.
     /// </summary>
     [CliFlag("--no-backup")]
     public bool? NoBackup { get; set; }
@@ -195,7 +195,7 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// Enable deletion protection on a Cloud SQL instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
+    /// Negates --deletion-protection. Enable deletion protection on a Cloud SQL instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
     /// </summary>
     [CliFlag("--no-deletion-protection")]
     public bool? NoDeletionProtection { get; set; }
@@ -249,7 +249,7 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     public bool? FinalBackup { get; set; }
 
     /// <summary>
-    /// Enables the final backup to be taken at the time of instance deletion. Use --final-backup to enable and --no-final-backup to disable.
+    /// Negates --final-backup. Enables the final backup to be taken at the time of instance deletion. Use --final-backup to enable and --no-final-backup to disable.
     /// </summary>
     [CliFlag("--no-final-backup")]
     public bool? NoFinalBackup { get; set; }
@@ -381,7 +381,7 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     public bool? StorageAutoIncrease { get; set; }
 
     /// <summary>
-    /// Storage size can be increased, but it cannot be decreased; storage increases are permanent for the life of the instance. With this setting enabled, a spike in storage requirements can result in permanently increased storage costs for your instance. However, if an instance runs out of available space, it can result in the instance going offline, dropping existing connections. This setting is enabled by default. Use --storage-auto-increase to enable and --no-storage-auto-increase to disable.
+    /// Negates --storage-auto-increase. Storage size can be increased, but it cannot be decreased; storage increases are permanent for the life of the instance. With this setting enabled, a spike in storage requirements can result in permanently increased storage costs for your instance. However, if an instance runs out of available space, it can result in the instance going offline, dropping existing connections. This setting is enabled by default. Use --storage-auto-increase to enable and --no-storage-auto-increase to disable.
     /// </summary>
     [CliFlag("--no-storage-auto-increase")]
     public bool? NoStorageAutoIncrease { get; set; }
@@ -411,7 +411,7 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     public GcloudStorageType? StorageType { get; set; }
 
     /// <summary>
-    /// Specifies the machine type for the instance. The usage of this flag depends on the selected --edition. Enterprise Edition: Use --tier for shared-core instances (e.g., db-f1-micro, db-g1-small). For dedicated-core instances, do not use --tier; instead, customize your instance by specifying its CPU and memory with the --cpu and --memory flags. Enterprise Plus Edition: --tier is required to specify the predefined machine type. The --cpu and --memory flags are not supported for Enterprise Plus. Examples include db-perf-optimized-N-2 (N2 series) or db-c4a-highmem-2 (C4A series). For a detailed list of available machine types and series, refer to the documentation for your database engine: * MySQL: https://cloud.google.com/sql/docs/mysql/machine-series-overview * PostgreSQL: https://cloud.google.com/sql/docs/postgres/machine-series-overview * SQL Server: https://cloud.google.com/sql/docs/sqlserver/machine-series-overview Learn more about how machine types, CPU, and memory affect pricing: https://cloud.google.com/sql/pricing
+    /// Specifies the machine type for the instance. The usage of this flag depends on the selected --edition. Enterprise Edition: Use --tier for shared-core instances (e.g., db-f1-micro, db-g1-small). For dedicated-core instances, do not use --tier; instead, customize your instance by specifying its CPU and memory with the --cpu and --memory flags. Enterprise Plus Edition: --tier is required to specify the predefined machine type. The --cpu and --memory flags are not supported for Enterprise Plus. Examples include db-perf-optimized-N-2 (N2 series) or db-c4a-highmem-2 (C4A series). For a detailed list of available machine types and series, refer to the documentation for your database engine: ◆ MySQL: https://cloud.google.com/sql/docs/mysql/machine-series-overview ◆ PostgreSQL: https://cloud.google.com/sql/docs/postgres/machine-series-overview ◆ SQL Server: https://cloud.google.com/sql/docs/sqlserver/machine-series-overview Learn more about how machine types, CPU, and memory affect pricing: https://cloud.google.com/sql/pricing
     /// </summary>
     [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
     public string? Tier { get; set; }
@@ -421,6 +421,12 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     /// </summary>
     [CliOption("--time-zone", Format = OptionFormat.EqualsSeparated)]
     public string? TimeZone { get; set; }
+
+    /// <summary>
+    /// Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --async flag is specified. By default, set to 3600s. To wait indefinitely, set to unlimited.
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? Timeout { get; set; }
 
     /// <summary>
     /// A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects.
@@ -435,57 +441,51 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     public bool? EnablePrivateServiceConnect { get; set; }
 
     /// <summary>
-    /// ID of the key or fully qualified identifier for the key. To set the kms-key attribute: * provide the argument --disk-encryption-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --disk-encryption-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--disk-encryption-key", Format = OptionFormat.EqualsSeparated)]
     public string? DiskEncryptionKey { get; set; }
 
     /// <summary>
-    /// The KMS keyring of the key. To set the kms-keyring attribute: * provide the argument --disk-encryption-key on the command line with a fully specified name; * provide the argument --disk-encryption-key-keyring on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-keyring on the command line.
     /// </summary>
     [CliOption("--disk-encryption-key-keyring", Format = OptionFormat.EqualsSeparated)]
     public string? DiskEncryptionKeyKeyring { get; set; }
 
     /// <summary>
-    /// The Google Cloud location for the key. To set the kms-location attribute: * provide the argument --disk-encryption-key on the command line with a fully specified name; * provide the argument --disk-encryption-key-location on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-location on the command line.
     /// </summary>
     [CliOption("--disk-encryption-key-location", Format = OptionFormat.EqualsSeparated)]
     public string? DiskEncryptionKeyLocation { get; set; }
 
     /// <summary>
-    /// The Google Cloud project for the key. To set the kms-project attribute: * provide the argument --disk-encryption-key on the command line with a fully specified name; * provide the argument --disk-encryption-key-project on the command line; * set the property core/project.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --disk-encryption-key on the command line with a fully specified name; ◆ provide the argument --disk-encryption-key-project on the command line; ◆ set the property core/project.
     /// </summary>
     [CliOption("--disk-encryption-key-project", Format = OptionFormat.EqualsSeparated)]
     public string? DiskEncryptionKeyProject { get; set; }
 
     /// <summary>
-    /// Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// (DEPRECATED) Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.). Flag --gce-zone is deprecated and will be removed by release 255.0.0. Use --zone instead.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Or at most one of these can be specified: (DEPRECATED) Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.). Flag --gce-zone is deprecated and will be removed by release 255.0.0. Use --zone instead.
     /// </summary>
     [CliOption("--gce-zone", Format = OptionFormat.EqualsSeparated)]
     public string? GceZone { get; set; }
 
     /// <summary>
-    /// Preferred secondary Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred secondary Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
     /// </summary>
     [CliOption("--secondary-zone", Format = OptionFormat.EqualsSeparated)]
     public string? SecondaryZone { get; set; }
 
     /// <summary>
-    /// Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the instance. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Or at most one of these can be specified: Or at least one of these can be specified: Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b, etc.).
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
-
-    /// <summary>
-    /// Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --async flag is specified. By default, set to 3600s. To wait indefinitely, set to unlimited.
-    /// </summary>
-    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? Timeout { get; set; }
 
 }

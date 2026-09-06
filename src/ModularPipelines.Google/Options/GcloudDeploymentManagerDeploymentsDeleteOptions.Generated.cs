@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -29,7 +30,10 @@ public record GcloudDeploymentManagerDeploymentsDeleteOptions(
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [Obsolete("DeletePolicy is no longer supported by the installed CLI and has no effect.")]
-    public string? DeletePolicy { get; set; }
+    /// <summary>
+    /// Delete policy for resources that will change as part of an update or delete. delete deletes the resource while abandon just removes the resource reference from the deployment. DELETE_POLICY must be one of: abandon, delete.
+    /// </summary>
+    [CliOption("--delete-policy", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDeletePolicy? DeletePolicy { get; set; }
 
 }

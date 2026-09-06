@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudOracleDatabaseAutonomousDatabasesSwitchoverOptions : GcloudOptions
 {
     /// <summary>
-    /// AutonomousDatabase resource - The peer database name to switch over to. Required for cross-region standby, and must be omitted for in-region Data Guard. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --peer-autonomous-database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --peer-autonomous-database on the command line with a fully specified name; ◆ provide the argument --location on the command line. Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// AutonomousDatabase resource - The peer database name to switch over to. Required for cross-region standby, and must be omitted for in-region Data Guard. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --peer-autonomous-database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --peer-autonomous-database on the command line with a fully specified name; ◆ provide the argument --location on the command line. For resources [autonomous_database, peer-autonomous-database], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// For resources [autonomous_database, peer-autonomous-database], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }

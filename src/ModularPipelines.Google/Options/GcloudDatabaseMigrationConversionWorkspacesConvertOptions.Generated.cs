@@ -34,7 +34,7 @@ public record GcloudDatabaseMigrationConversionWorkspacesConvertOptions : Gcloud
     public bool? AutoCommit { get; set; }
 
     /// <summary>
-    /// Auto-commit the conversion workspace (default: True). Use --auto-commit to enable and --no-auto-commit to disable.
+    /// Negates --auto-commit. Auto-commit the conversion workspace (default: True). Use --auto-commit to enable and --no-auto-commit to disable.
     /// </summary>
     [CliFlag("--no-auto-commit")]
     public bool? NoAutoCommit { get; set; }

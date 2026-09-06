@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudOwnershipScope
 {
     [EnumValue("all-users")]
-    AllUsers = 0,
+    AllUsers,
 
     [EnumValue("billing-account")]
-    BillingAccount = 1
+    BillingAccount
 }

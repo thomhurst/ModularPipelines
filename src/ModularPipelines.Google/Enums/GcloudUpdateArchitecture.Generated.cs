@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudUpdateArchitecture
 {
     [EnumValue("ARM64")]
-    Arm64 = 0,
+    Arm64,
 
     [EnumValue("X86_64")]
-    X86_64 = 1
+    X86_64
 }

@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// deploy the local code and/or configuration of your app      to App Engine
+/// deploy the local code and/or configuration of your app     to App Engine
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -73,7 +73,7 @@ public record GcloudAppDeployOptions : GcloudOptions
     /// The service account that this deployed version will run as. If this argument is not specified, the App Engine default service account will be used for your current deployed version.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public string? ServiceAccountValue { get; set; }
+    public string? ServiceAccount { get; set; }
 
     /// <summary>
     /// Stop the previously running version when deploying a new version that receives all traffic. Note that if the version is running on an instance of an auto-scaled service in the App Engine Standard environment, using --stop-previous-version will not work and the previous version will continue to run because auto-scaled service instances are always running. Overrides the default app/stop_previous_version property value for this command invocation. Use --no-stop-previous-version to disable.
@@ -92,12 +92,5 @@ public record GcloudAppDeployOptions : GcloudOptions
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
-
-    [Obsolete("Use ServiceAccountValue instead.")]
-    public int? ServiceAccount
-    {
-        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

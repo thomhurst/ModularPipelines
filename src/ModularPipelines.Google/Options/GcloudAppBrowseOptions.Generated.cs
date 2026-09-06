@@ -28,7 +28,7 @@ public record GcloudAppBrowseOptions : GcloudOptions
     public bool? LaunchBrowser { get; set; }
 
     /// <summary>
-    /// Launch a browser if possible. When disabled, only displays the URL. Enabled by default, use --no-launch-browser to disable.
+    /// Negates --launch-browser. Launch a browser if possible. When disabled, only displays the URL. Enabled by default, use --no-launch-browser to disable.
     /// </summary>
     [CliFlag("--no-launch-browser")]
     public bool? NoLaunchBrowser { get; set; }

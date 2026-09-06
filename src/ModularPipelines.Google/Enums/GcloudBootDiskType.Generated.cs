@@ -17,20 +17,14 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudBootDiskType
 {
     [EnumValue("PD_STANDARD")]
-    PdStandard = 0,
+    PdStandard,
 
     [EnumValue("PD_SSD")]
-    PdSsd = 1,
+    PdSsd,
 
     [EnumValue("PD_BALANCED")]
-    PdBalanced = 2,
+    PdBalanced,
 
     [EnumValue("PD_EXTREME")]
-    PdExtreme = 3,
-
-    [EnumValue("HYPERDISK_BALANCED")]
-    HyperdiskBalanced = 4,
-
-    [EnumValue("HYPERDISK_ML")]
-    HyperdiskMl = 5
+    PdExtreme
 }

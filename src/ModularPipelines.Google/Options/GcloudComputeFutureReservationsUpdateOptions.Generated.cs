@@ -25,193 +25,193 @@ public record GcloudComputeFutureReservationsUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// If specified, the auto-created reservations for a future reservation are deleted at the end time (default) or at a specified delete time. Use --auto-delete-auto-created-reservations to enable and --no-auto-delete-auto-created-reservations to disable.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity If specified, the auto-created reservations for a future reservation are deleted at the end time (default) or at a specified delete time. Use --auto-delete-auto-created-reservations to enable and --no-auto-delete-auto-created-reservations to disable.
     /// </summary>
     [CliFlag("--auto-delete-auto-created-reservations")]
     public bool? AutoDeleteAutoCreatedReservations { get; set; }
 
     /// <summary>
-    /// If specified, the auto-created reservations for a future reservation are deleted at the end time (default) or at a specified delete time. Use --auto-delete-auto-created-reservations to enable and --no-auto-delete-auto-created-reservations to disable.
+    /// Negates --auto-delete-auto-created-reservations. Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity If specified, the auto-created reservations for a future reservation are deleted at the end time (default) or at a specified delete time. Use --auto-delete-auto-created-reservations to enable and --no-auto-delete-auto-created-reservations to disable.
     /// </summary>
     [CliFlag("--no-auto-delete-auto-created-reservations")]
     public bool? NoAutoDeleteAutoCreatedReservations { get; set; }
 
     /// <summary>
-    /// The deployment type for the reserved capacity. DEPLOYMENT_TYPE must be one of: DENSE DENSE mode is for densely deployed reservation blocks. FLEXIBLE FLEXIBLE mode is for highly flexible, logical reservation blocks.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity The deployment type for the reserved capacity. DEPLOYMENT_TYPE must be one of: DENSE DENSE mode is for densely deployed reservation blocks. FLEXIBLE FLEXIBLE mode is for highly flexible, logical reservation blocks.
     /// </summary>
     [CliOption("--deployment-type", Format = OptionFormat.EqualsSeparated)]
     public string? DeploymentType { get; set; }
 
     /// <summary>
-    /// An optional description of the future reservation to create.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity An optional description of the future reservation to create.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Emergent maintenance flag for the reservation, which enrolls all the underlying vms, hosts and SB infrastructure to receive emergent maintenance notifications in advance. Use --enable-emergent-maintenance to enable and --no-enable-emergent-maintenance to disable.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Emergent maintenance flag for the reservation, which enrolls all the underlying vms, hosts and SB infrastructure to receive emergent maintenance notifications in advance. Use --enable-emergent-maintenance to enable and --no-enable-emergent-maintenance to disable.
     /// </summary>
     [CliFlag("--enable-emergent-maintenance")]
     public bool? EnableEmergentMaintenance { get; set; }
 
     /// <summary>
-    /// Emergent maintenance flag for the reservation, which enrolls all the underlying vms, hosts and SB infrastructure to receive emergent maintenance notifications in advance. Use --enable-emergent-maintenance to enable and --no-enable-emergent-maintenance to disable.
+    /// Negates --enable-emergent-maintenance. Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Emergent maintenance flag for the reservation, which enrolls all the underlying vms, hosts and SB infrastructure to receive emergent maintenance notifications in advance. Use --enable-emergent-maintenance to enable and --no-enable-emergent-maintenance to disable.
     /// </summary>
     [CliFlag("--no-enable-emergent-maintenance")]
     public bool? NoEnableEmergentMaintenance { get; set; }
 
     /// <summary>
-    /// The planning status of the future reservation. The default value is DRAFT. While in DRAFT, any changes to the future reservation's properties will be allowed. If set to SUBMITTED, the future reservation will submit and its procurementStatus will change to PENDING_APPROVAL. Once the future reservation is pending approval, changes to the future reservation's properties will not be allowed. PLANNING_STATUS must be one of: DRAFT Default planning status value. SUBMITTED Planning status value to immediately submit the future reservation.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity The planning status of the future reservation. The default value is DRAFT. While in DRAFT, any changes to the future reservation's properties will be allowed. If set to SUBMITTED, the future reservation will submit and its procurementStatus will change to PENDING_APPROVAL. Once the future reservation is pending approval, changes to the future reservation's properties will not be allowed. PLANNING_STATUS must be one of: DRAFT Default planning status value. SUBMITTED Planning status value to immediately submit the future reservation.
     /// </summary>
     [CliOption("--planning-status", Format = OptionFormat.EqualsSeparated)]
     public string? PlanningStatus { get; set; }
 
     /// <summary>
-    /// Indicate whether the auto-created reservations can be consumed by VMs with "any reservation" defined. If enabled, then only VMs that target the auto-created reservation by name using --reservation-affinity=specific can consume from this reservation. Auto-created reservations delivered with this flag enabled will inherit the name of the future reservation. Use --require-specific-reservation to enable and --no-require-specific-reservation to disable.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Indicate whether the auto-created reservations can be consumed by VMs with "any reservation" defined. If enabled, then only VMs that target the auto-created reservation by name using --reservation-affinity=specific can consume from this reservation. Auto-created reservations delivered with this flag enabled will inherit the name of the future reservation. Use --require-specific-reservation to enable and --no-require-specific-reservation to disable.
     /// </summary>
     [CliFlag("--require-specific-reservation")]
     public bool? RequireSpecificReservation { get; set; }
 
     /// <summary>
-    /// Indicate whether the auto-created reservations can be consumed by VMs with "any reservation" defined. If enabled, then only VMs that target the auto-created reservation by name using --reservation-affinity=specific can consume from this reservation. Auto-created reservations delivered with this flag enabled will inherit the name of the future reservation. Use --require-specific-reservation to enable and --no-require-specific-reservation to disable.
+    /// Negates --require-specific-reservation. Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Indicate whether the auto-created reservations can be consumed by VMs with "any reservation" defined. If enabled, then only VMs that target the auto-created reservation by name using --reservation-affinity=specific can consume from this reservation. Auto-created reservations delivered with this flag enabled will inherit the name of the future reservation. Use --require-specific-reservation to enable and --no-require-specific-reservation to disable.
     /// </summary>
     [CliFlag("--no-require-specific-reservation")]
     public bool? NoRequireSpecificReservation { get; set; }
 
     /// <summary>
-    /// Name of reservations where the capacity is provisioned at the time of delivery of future reservations. If the reservation with the given name does not exist already, it is created automatically at the time of Approval with INACTIVE state till specified start-time. Either provide the reservation_name or a name_prefix.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Name of reservations where the capacity is provisioned at the time of delivery of future reservations. If the reservation with the given name does not exist already, it is created automatically at the time of Approval with INACTIVE state till specified start-time. Either provide the reservation_name or a name_prefix.
     /// </summary>
     [CliOption("--reservation-name", Format = OptionFormat.EqualsSeparated)]
     public string? ReservationName { get; set; }
 
     /// <summary>
-    /// Maintenance for the reserved capacity. SCHEDULING_TYPE must be one of: GROUPED In GROUPED mode, maintenance on all reserved instances is synchronized. INDEPENDENT In INDEPENDENT mode, maintenance is not synchronized for this reservation, and each instance has its own maintenance window.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Maintenance for the reserved capacity. SCHEDULING_TYPE must be one of: GROUPED In GROUPED mode, maintenance on all reserved instances is synchronized. INDEPENDENT In INDEPENDENT mode, maintenance is not synchronized for this reservation, and each instance has its own maintenance window.
     /// </summary>
     [CliOption("--scheduling-type", Format = OptionFormat.EqualsSeparated)]
     public string? SchedulingType { get; set; }
 
     /// <summary>
-    /// The total number of instances for which capacity assurance is requested at a future time period.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity The total number of instances for which capacity assurance is requested at a future time period.
     /// </summary>
     [CliOption("--total-count", Format = OptionFormat.EqualsSeparated)]
     public int? TotalCount { get; set; }
 
     /// <summary>
-    /// Zone of the future reservation to update. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Zone of the future reservation to update. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
 
     /// <summary>
-    /// Automatically deletes an auto-created reservations at a specific time. The specified time must be an RFC3339 timestamp, which must be formatted as "YYYY-MM-DDTHH:MM:SSZ" where YYYY = year, MM = month, DD = day, HH = hours, MM = minutes, SS = seconds, and Z = time zone in Coordinated Universal Time (UTC). For example, specify 2021-11-20T07:00:00Z.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Manage the auto-delete time properties. At most one of these can be specified: Automatically deletes an auto-created reservations at a specific time. The specified time must be an RFC3339 timestamp, which must be formatted as "YYYY-MM-DDTHH:MM:SSZ" where YYYY = year, MM = month, DD = day, HH = hours, MM = minutes, SS = seconds, and Z = time zone in Coordinated Universal Time (UTC). For example, specify 2021-11-20T07:00:00Z.
     /// </summary>
     [CliOption("--auto-created-reservations-delete-time", Format = OptionFormat.EqualsSeparated)]
     public string? AutoCreatedReservationsDeleteTime { get; set; }
 
     /// <summary>
-    /// Automatically deletes an auto-created reservations after a specified number of days, hours, minutes, or seconds. For example, specify 30m for 30 minutes, or 1d2h3m4s for 1 day, 2 hours, 3 minutes, and 4 seconds. For more information, see $ gcloud topic datetimes.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Manage the auto-delete time properties. At most one of these can be specified: Automatically deletes an auto-created reservations after a specified number of days, hours, minutes, or seconds. For example, specify 30m for 30 minutes, or 1d2h3m4s for 1 day, 2 hours, 3 minutes, and 4 seconds. For more information, see $ gcloud topic datetimes.
     /// </summary>
     [CliOption("--auto-created-reservations-duration", Format = OptionFormat.EqualsSeparated)]
     public string? AutoCreatedReservationsDuration { get; set; }
 
     /// <summary>
-    /// Clears the name prefix for the system generated reservations.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Manage the name-prefix of a future reservation. At most one of these can be specified: Clears the name prefix for the system generated reservations.
     /// </summary>
     [CliFlag("--clear-name-prefix")]
     public bool? ClearNamePrefix { get; set; }
 
     /// <summary>
-    /// A name prefix for the auto-created reservations when capacity is delivered at the start time. Each auto-created reservation name starts with the name prefix.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Manage the name-prefix of a future reservation. At most one of these can be specified: A name prefix for the auto-created reservations when capacity is delivered at the start time. Each auto-created reservation name starts with the name prefix.
     /// </summary>
     [CliOption("--name-prefix", Format = OptionFormat.EqualsSeparated)]
     public string? NamePrefix { get; set; }
 
     /// <summary>
-    /// Clear share settings on future reservation. This will result in non-shared future reservation.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Manage the properties of a shared future reservation. At most one of these can be specified: Clear share settings on future reservation. This will result in non-shared future reservation.
     /// </summary>
     [CliFlag("--clear-share-settings")]
     public bool? ClearShareSettings { get; set; }
 
     /// <summary>
-    /// Specify if this future reservation is shared, and if so, the type of sharing. If you omit this flag, this value is local by default. SHARE_SETTING must be one of: local, projects.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Manage the properties of a shared future reservation. At most one of these can be specified: Or at least one of these can be specified: Manage the share settings of a future reservation. Specify if this future reservation is shared, and if so, the type of sharing. If you omit this flag, this value is local by default. SHARE_SETTING must be one of: local, projects.
     /// </summary>
     [CliOption("--share-setting", Format = OptionFormat.EqualsSeparated)]
     public GcloudShareSetting? ShareSetting { get; set; }
 
     /// <summary>
-    /// If this future reservation is shared, provide a comma-separated list of projects that this future reservation is shared with. The list must contain project IDs or project numbers.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Manage the properties of a shared future reservation. At most one of these can be specified: Or at least one of these can be specified: Manage the share settings of a future reservation. If this future reservation is shared, provide a comma-separated list of projects that this future reservation is shared with. The list must contain project IDs or project numbers.
     /// </summary>
     [CliOption("--share-with", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ShareWith { get; set; }
 
     /// <summary>
-    /// Name of commitment covering the delivered reservation at the time of delivery of future reservations. If not specified, it takes the name of the future reservation.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Name of commitment covering the delivered reservation at the time of delivery of future reservations. If not specified, it takes the name of the future reservation.
     /// </summary>
     [CliOption("--commitment-name", Format = OptionFormat.EqualsSeparated)]
     public string? CommitmentName { get; set; }
 
     /// <summary>
-    /// The plan for this commitment to be created, which determines duration and discount rate. The currently supported plans are TWELVE_MONTH (1 year), and THIRTY_SIX_MONTH (3 years). COMMITMENT_PLAN must be one of: TWELVE_MONTH, THIRTY_SIX_MONTH.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity The plan for this commitment to be created, which determines duration and discount rate. The currently supported plans are TWELVE_MONTH (1 year), and THIRTY_SIX_MONTH (3 years). COMMITMENT_PLAN must be one of: TWELVE_MONTH, THIRTY_SIX_MONTH.
     /// </summary>
     [CliOption("--commitment-plan", Format = OptionFormat.EqualsSeparated)]
     public GcloudCommitmentPlan? CommitmentPlan { get; set; }
 
     /// <summary>
-    /// Applicable only if future reservation will deliver to an existing reservation with a ramp plan. When set to EXTEND, all associated parent Committed Used Discount's end-date/term will be extended to the end-time of this future reservation. Default is to extend previous commitment's time to the end_time of the reservation. PREVIOUS_COMMITMENT_TERMS must be (only one value is supported): EXTEND.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Applicable only if future reservation will deliver to an existing reservation with a ramp plan. When set to EXTEND, all associated parent Committed Used Discount's end-date/term will be extended to the end-time of this future reservation. Default is to extend previous commitment's time to the end_time of the reservation. PREVIOUS_COMMITMENT_TERMS must be (only one value is supported): EXTEND.
     /// </summary>
     [CliOption("--previous-commitment-terms", Format = OptionFormat.EqualsSeparated)]
     public string? PreviousCommitmentTerms { get; set; }
 
     /// <summary>
-    /// The type of machine (name only) that has a fixed number of vCPUs and a fixed amount of memory. You can also specify a custom machine type by using the pattern custom-number_of_CPUs-amount_of_memory-for example, custom-32-29440.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity The type of machine (name only) that has a fixed number of vCPUs and a fixed amount of memory. You can also specify a custom machine type by using the pattern custom-number_of_CPUs-amount_of_memory-for example, custom-32-29440.
     /// </summary>
     [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
     public string? MachineType { get; set; }
 
     /// <summary>
-    /// Optional minimum CPU platform of the reservation to create.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Optional minimum CPU platform of the reservation to create.
     /// </summary>
     [CliOption("--min-cpu-platform", Format = OptionFormat.EqualsSeparated)]
     public string? MinCpuPlatform { get; set; }
 
     /// <summary>
-    /// Manage the configuration of the type and number of accelerator cards attached. count The number of accelerators to attach to each instance in the reservation. type The specific type (e.g. nvidia-tesla-k80 for nVidia Tesla K80) of accelerator to attach to instances in the reservation. Use gcloud compute accelerator-types list to learn about all available accelerator types.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Manage the accelerators of a future reservation. At most one of these can be specified: Manage the configuration of the type and number of accelerator cards attached. count The number of accelerators to attach to each instance in the reservation. type The specific type (e.g. nvidia-tesla-k80 for nVidia Tesla K80) of accelerator to attach to instances in the reservation. Use gcloud compute accelerator-types list to learn about all available accelerator types.
     /// </summary>
     [CliOption("--accelerator", Format = OptionFormat.EqualsSeparated)]
-    public int? Accelerator { get; set; }
+    public string? Accelerator { get; set; }
 
     /// <summary>
-    /// Remove all accelerators from the future reservation.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Manage the accelerators of a future reservation. At most one of these can be specified: Remove all accelerators from the future reservation.
     /// </summary>
     [CliFlag("--clear-accelerator")]
     public bool? ClearAccelerator { get; set; }
 
     /// <summary>
-    /// Remove all local ssd information on the future reservation.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Manage the local ssd of a future reservation. At most one of these can be specified: Remove all local ssd information on the future reservation.
     /// </summary>
     [CliFlag("--clear-local-ssd")]
     public bool? ClearLocalSsd { get; set; }
 
     /// <summary>
-    /// Manage the size and the interface of local SSD to use. See https://cloud.google.com/compute/docs/disks/local-ssd for more information. interface The kind of disk interface exposed to the VM for this SSD. Valid values are scsi and nvme. SCSI is the default and is supported by more guest operating systems. NVME may provide higher performance. size The size of the local SSD in base-2 GB. count The number of local SSD to use per VM. If you don't specify this argument, then the default value is 1.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Manage the local ssd of a future reservation. At most one of these can be specified: Manage the size and the interface of local SSD to use. See https://cloud.google.com/compute/docs/disks/local-ssd for more information. interface The kind of disk interface exposed to the VM for this SSD. Valid values are scsi and nvme. SCSI is the default and is supported by more guest operating systems. NVME may provide higher performance. size The size of the local SSD in base-2 GB. count The number of local SSD to use per VM. If you don't specify this argument, then the default value is 1.
     /// </summary>
     [CliOption("--local-ssd", Format = OptionFormat.EqualsSeparated)]
-    public int? LocalSsd { get; set; }
+    public string? LocalSsd { get; set; }
 
     /// <summary>
-    /// Start time of the Future Reservation. The start time must be an RFC3339 valid string formatted by date, time, and timezone or "YYYY-MM-DDTHH:MM:SSZ"; where YYYY = year, MM = month, DD = day, HH = hours, MM = minutes, SS = seconds, and Z = timezone (i.e. 2021-11-20T07:00:00Z).
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity Start time of the Future Reservation. The start time must be an RFC3339 valid string formatted by date, time, and timezone or "YYYY-MM-DDTHH:MM:SSZ"; where YYYY = year, MM = month, DD = day, HH = hours, MM = minutes, SS = seconds, and Z = timezone (i.e. 2021-11-20T07:00:00Z).
     /// </summary>
     [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
     public string? StartTime { get; set; }
 
     /// <summary>
-    /// Alternate way of specifying time in the number of seconds to terminate capacity request relative to the start time of a request.
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity At most one of these can be specified: Alternate way of specifying time in the number of seconds to terminate capacity request relative to the start time of a request.
     /// </summary>
     [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
     public string? Duration { get; set; }
 
     /// <summary>
-    /// End time of the Future Reservation. The end time must be an RFC3339 valid string formatted by date, time, and timezone or "YYYY-MM-DDTHH:MM:SSZ"; where YYYY = year, MM = month, DD = day, HH = hours, MM = minutes, SS = seconds, and Z = timezone (i.e. 2021-11-20T07:00:00Z).
+    /// Manage the commitment info properties Manage the specific SKU reservation properties. Manage the time specific properties for requesting future capacity At most one of these can be specified: End time of the Future Reservation. The end time must be an RFC3339 valid string formatted by date, time, and timezone or "YYYY-MM-DDTHH:MM:SSZ"; where YYYY = year, MM = month, DD = day, HH = hours, MM = minutes, SS = seconds, and Z = timezone (i.e. 2021-11-20T07:00:00Z).
     /// </summary>
     [CliOption("--end-time", Format = OptionFormat.EqualsSeparated)]
     public string? EndTime { get; set; }

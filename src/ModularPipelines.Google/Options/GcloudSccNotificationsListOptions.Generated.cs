@@ -22,27 +22,27 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSccNotificationsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Folder where the notification config resides. Formatted as folders/456 or just 456.
+    /// Required if either data residency is enabled or the notificationConfig resources were created by using the API v2. If data residency is enabled, specify the Security Command Center location in which the notifications are stored. If data residency is not enabled, including /locations/``LOCATION'' in the name or the --location flag in the command lists only the notificationConfig resources that were created by using the Security Command Center API v2 and the only valid location is global.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Folder where the notification config resides. Formatted as folders/456 or just 456.
     /// </summary>
     [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
     public string? Folder { get; set; }
 
     /// <summary>
-    /// Organization where the notification config resides. Formatted as organizations/123 or just 123.
+    /// At most one of these can be specified: Organization where the notification config resides. Formatted as organizations/123 or just 123.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
 
     /// <summary>
-    /// Project (ID or number) where the notification config resides. Formatted as projects/789 or just 789.
+    /// At most one of these can be specified: Project (ID or number) where the notification config resides. Formatted as projects/789 or just 789.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }
-
-    /// <summary>
-    /// Required if either data residency is enabled or the notificationConfig resources were created by using the API v2. If data residency is enabled, specify the Security Command Center location in which the notifications are stored. If data residency is not enabled, including /locations/``LOCATION'' in the name or the --location flag in the command lists only the notificationConfig resources that were created by using the Security Command Center API v2 and the only valid location is global.
-    /// </summary>
-    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
-    public string? Location { get; set; }
 
 }

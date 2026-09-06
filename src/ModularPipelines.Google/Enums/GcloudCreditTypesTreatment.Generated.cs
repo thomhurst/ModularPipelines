@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudCreditTypesTreatment
 {
     [EnumValue("exclude-all-credits")]
-    ExcludeAllCredits = 0,
+    ExcludeAllCredits,
 
     [EnumValue("include-all-credits")]
-    IncludeAllCredits = 1
+    IncludeAllCredits
 }

@@ -19,6 +19,7 @@ internal class ModuleSchedulerFactory : IModuleSchedulerFactory
     private readonly IMetricsCollector _metricsCollector;
     private readonly IModuleConstraintEvaluator _constraintEvaluator;
     private readonly ILoggerFactory _loggerFactory;
+    private readonly ISafeModuleEstimatedTimeProvider _estimatedTimeProvider;
 
     public ModuleSchedulerFactory(
         ILogger<ModuleScheduler> logger,
@@ -28,7 +29,8 @@ internal class ModuleSchedulerFactory : IModuleSchedulerFactory
         IModuleMetadataRegistry metadataRegistry,
         IMetricsCollector metricsCollector,
         IModuleConstraintEvaluator constraintEvaluator,
-        ILoggerFactory loggerFactory)
+        ILoggerFactory loggerFactory,
+        ISafeModuleEstimatedTimeProvider estimatedTimeProvider)
     {
         _logger = logger;
         _timeProvider = timeProvider;
@@ -38,6 +40,7 @@ internal class ModuleSchedulerFactory : IModuleSchedulerFactory
         _metricsCollector = metricsCollector;
         _constraintEvaluator = constraintEvaluator;
         _loggerFactory = loggerFactory;
+        _estimatedTimeProvider = estimatedTimeProvider;
     }
 
     public IModuleScheduler Create()
@@ -54,6 +57,7 @@ internal class ModuleSchedulerFactory : IModuleSchedulerFactory
             _metadataRegistry,
             _metricsCollector,
             _constraintEvaluator,
-            statusReporter);
+            statusReporter,
+            _estimatedTimeProvider);
     }
 }

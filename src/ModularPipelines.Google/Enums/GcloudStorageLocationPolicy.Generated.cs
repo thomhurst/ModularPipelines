@@ -17,11 +17,11 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudStorageLocationPolicy
 {
     [EnumValue("local-region")]
-    LocalRegion = 0,
+    LocalRegion,
 
     [EnumValue("nearest-multi-region")]
-    NearestMultiRegion = 1,
+    NearestMultiRegion,
 
     [EnumValue("specific-locations")]
-    SpecificLocations = 2
+    SpecificLocations
 }

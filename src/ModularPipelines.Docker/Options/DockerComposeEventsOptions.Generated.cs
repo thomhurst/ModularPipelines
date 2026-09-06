@@ -38,10 +38,4 @@ public record DockerComposeEventsOptions : DockerOptions
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Service { get; set; }
 
-    [Obsolete("Since is no longer supported by the installed CLI and has no effect.")]
-    public string? Since { get; set; }
-
-    [Obsolete("Until is no longer supported by the installed CLI and has no effect.")]
-    public string? Until { get; set; }
-
 }

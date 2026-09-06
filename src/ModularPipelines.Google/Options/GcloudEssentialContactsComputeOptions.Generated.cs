@@ -22,19 +22,19 @@ namespace ModularPipelines.Google.Options;
 public record GcloudEssentialContactsComputeOptions : GcloudOptions
 {
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: folder number where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.
+    /// At most one of these can be specified: folder number where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.
     /// </summary>
     [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
     public string? Folder { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: organization number where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.
+    /// At most one of these can be specified: organization number where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: project number or id where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.
+    /// At most one of these can be specified: project number or id where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }

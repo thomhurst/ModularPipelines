@@ -22,85 +22,85 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkManagementVpcFlowLogsConfigsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Arguments for the aggregation interval. Arguments for the aggregation interval. Arguments for the cross project metadata. Arguments for the description. Arguments for the filter expr. Arguments for the flow sampling. Arguments for the metadata. Arguments for the state. The aggregation interval for the logs. Default value is INTERVAL_5_SEC. AGGREGATION_INTERVAL must be one of: interval-1-min Aggregate logs in 1m intervals. interval-10-min Aggregate logs in 10m intervals. interval-15-min Aggregate logs in 15m intervals. interval-30-sec Aggregate logs in 30s intervals. interval-5-min Aggregate logs in 5m intervals. interval-5-sec Aggregate logs in 5s intervals.
+    /// Arguments for the aggregation interval. The aggregation interval for the logs. Default value is INTERVAL_5_SEC. AGGREGATION_INTERVAL must be one of: interval-1-min Aggregate logs in 1m intervals. interval-10-min Aggregate logs in 10m intervals. interval-15-min Aggregate logs in 15m intervals. interval-30-sec Aggregate logs in 30s intervals. interval-5-min Aggregate logs in 5m intervals. interval-5-sec Aggregate logs in 5s intervals.
     /// </summary>
     [CliOption("--aggregation-interval", Format = OptionFormat.EqualsSeparated)]
     public string? AggregationInterval { get; set; }
 
     /// <summary>
-    /// Arguments for the aggregation interval. Arguments for the aggregation interval. Arguments for the cross project metadata. Arguments for the description. Arguments for the filter expr. Arguments for the flow sampling. Arguments for the metadata. Arguments for the state. Return immediately, without waiting for the operation in progress to complete.
+    /// Arguments for the aggregation interval. Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Arguments for the aggregation interval. Arguments for the aggregation interval. Arguments for the cross project metadata. Arguments for the description. Arguments for the filter expr. Arguments for the flow sampling. Arguments for the metadata. Arguments for the state. Determines whether to include cross project annotations in the logs. This field is available only for organization configurations. If not specified in org configs will be set to CROSS_PROJECT_METADATA_ENABLED. CROSS_PROJECT_METADATA must be one of: cross-project-metadata-disabled When CROSS_PROJECT_METADATA_DISABLED, metadata from other projects will not be included in the logs. cross-project-metadata-enabled When CROSS_PROJECT_METADATA_ENABLED, metadata from other projects will be included in the logs.
+    /// Arguments for the cross project metadata. Determines whether to include cross project annotations in the logs. This field is available only for organization configurations. If not specified in org configs will be set to CROSS_PROJECT_METADATA_ENABLED. CROSS_PROJECT_METADATA must be one of: cross-project-metadata-disabled When CROSS_PROJECT_METADATA_DISABLED, metadata from other projects will not be included in the logs. cross-project-metadata-enabled When CROSS_PROJECT_METADATA_ENABLED, metadata from other projects will be included in the logs.
     /// </summary>
     [CliOption("--cross-project-metadata", Format = OptionFormat.EqualsSeparated)]
     public string? CrossProjectMetadata { get; set; }
 
     /// <summary>
-    /// Arguments for the aggregation interval. Arguments for the aggregation interval. Arguments for the cross project metadata. Arguments for the description. Arguments for the filter expr. Arguments for the flow sampling. Arguments for the metadata. Arguments for the state. The user-supplied description of the VPC Flow Logs configuration. Maximum of 512 characters.
+    /// Arguments for the description. The user-supplied description of the VPC Flow Logs configuration. Maximum of 512 characters.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Arguments for the aggregation interval. Arguments for the aggregation interval. Arguments for the cross project metadata. Arguments for the description. Arguments for the filter expr. Arguments for the flow sampling. Arguments for the metadata. Arguments for the state. Export filter used to define which VPC Flow Logs should be logged.
+    /// Arguments for the filter expr. Export filter used to define which VPC Flow Logs should be logged.
     /// </summary>
     [CliOption("--filter-expr", Format = OptionFormat.EqualsSeparated)]
     public string? FilterExpr { get; set; }
 
     /// <summary>
-    /// Arguments for the aggregation interval. Arguments for the aggregation interval. Arguments for the cross project metadata. Arguments for the description. Arguments for the filter expr. Arguments for the flow sampling. Arguments for the metadata. Arguments for the state. The value of the field must be in (0, 1]. The sampling rate of VPC Flow Logs where 1.0 means all collected logs are reported. Setting the sampling rate to 0.0 is not allowed. If you want to disable VPC Flow Logs, use the state field instead. Default value is 1.0.
+    /// Arguments for the flow sampling. The value of the field must be in (0, 1]. The sampling rate of VPC Flow Logs where 1.0 means all collected logs are reported. Setting the sampling rate to 0.0 is not allowed. If you want to disable VPC Flow Logs, use the state field instead. Default value is 1.0.
     /// </summary>
     [CliOption("--flow-sampling", Format = OptionFormat.EqualsSeparated)]
     public string? FlowSampling { get; set; }
 
     /// <summary>
-    /// Arguments for the aggregation interval. Arguments for the aggregation interval. Arguments for the cross project metadata. Arguments for the description. Arguments for the filter expr. Arguments for the flow sampling. Arguments for the metadata. Arguments for the state. Resource labels to represent user-provided metadata. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// Arguments for the flow sampling. Resource labels to represent user-provided metadata. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// Arguments for the aggregation interval. Arguments for the aggregation interval. Arguments for the cross project metadata. Arguments for the description. Arguments for the filter expr. Arguments for the flow sampling. Arguments for the metadata. Arguments for the state. Configures whether all, none or a subset of metadata fields should be added to the reported VPC flow logs. Default value is INCLUDE_ALL_METADATA. METADATA must be one of: custom-metadata Include only custom fields (specified in metadata_fields). exclude-all-metadata Exclude all metadata fields. include-all-metadata Include all metadata fields.
+    /// Arguments for the metadata. Configures whether all, none or a subset of metadata fields should be added to the reported VPC flow logs. Default value is INCLUDE_ALL_METADATA. METADATA must be one of: custom-metadata Include only custom fields (specified in metadata_fields). exclude-all-metadata Exclude all metadata fields. include-all-metadata Include all metadata fields.
     /// </summary>
     [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
     public string? Metadata { get; set; }
 
     /// <summary>
-    /// Arguments for the aggregation interval. Arguments for the aggregation interval. Arguments for the cross project metadata. Arguments for the description. Arguments for the filter expr. Arguments for the flow sampling. Arguments for the metadata. Arguments for the state. Custom metadata fields to include in the reported VPC flow logs. Can only be specified if "metadata" was set to CUSTOM_METADATA.
+    /// Arguments for the metadata. Custom metadata fields to include in the reported VPC flow logs. Can only be specified if "metadata" was set to CUSTOM_METADATA.
     /// </summary>
     [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MetadataFields { get; set; }
 
     /// <summary>
-    /// Arguments for the aggregation interval. Arguments for the aggregation interval. Arguments for the cross project metadata. Arguments for the description. Arguments for the filter expr. Arguments for the flow sampling. Arguments for the metadata. Arguments for the state. The state of the VPC Flow Log configuration. Default value is ENABLED. When creating a new configuration, it must be enabled. Setting state=DISABLED will pause the log generation for this config. STATE must be one of: disabled When DISABLED, this configuration will not generate logs. enabled When ENABLED, this configuration will generate logs.
+    /// Arguments for the state. The state of the VPC Flow Log configuration. Default value is ENABLED. When creating a new configuration, it must be enabled. Setting state=DISABLED will pause the log generation for this config. STATE must be one of: disabled When DISABLED, this configuration will not generate logs. enabled When ENABLED, this configuration will generate logs.
     /// </summary>
     [CliOption("--state", Format = OptionFormat.EqualsSeparated)]
     public string? State { get; set; }
 
     /// <summary>
-    /// Arguments for the aggregation interval. Arguments for the aggregation interval. Arguments for the cross project metadata. Arguments for the description. Arguments for the filter expr. Arguments for the flow sampling. Arguments for the metadata. Arguments for the state. Arguments for the target resource. At most one of these can be specified: Traffic will be logged from the Interconnect Attachment. Format: projects/{project_id}/regions/{region}/interconnectAttachments/{name}
+    /// Arguments for the state. Arguments for the target resource. At most one of these can be specified: Traffic will be logged from the Interconnect Attachment. Format: projects/{project_id}/regions/{region}/interconnectAttachments/{name}
     /// </summary>
     [CliOption("--interconnect-attachment", Format = OptionFormat.EqualsSeparated)]
     public string? InterconnectAttachment { get; set; }
 
     /// <summary>
-    /// Arguments for the aggregation interval. Arguments for the aggregation interval. Arguments for the cross project metadata. Arguments for the description. Arguments for the filter expr. Arguments for the flow sampling. Arguments for the metadata. Arguments for the state. Arguments for the target resource. At most one of these can be specified: Traffic will be logged from VMs, VPN tunnels and Interconnect Attachments within the network. Format: projects/{project_id}/global/networks/{name}
+    /// Arguments for the state. Arguments for the target resource. At most one of these can be specified: Traffic will be logged from VMs, VPN tunnels and Interconnect Attachments within the network. Format: projects/{project_id}/global/networks/{name}
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
 
     /// <summary>
-    /// Arguments for the aggregation interval. Arguments for the aggregation interval. Arguments for the cross project metadata. Arguments for the description. Arguments for the filter expr. Arguments for the flow sampling. Arguments for the metadata. Arguments for the state. Arguments for the target resource. At most one of these can be specified: Traffic will be logged from VMs within the subnetwork. Format: projects/{project_id}/regions/{region}/subnetworks/{name}
+    /// Arguments for the state. Arguments for the target resource. At most one of these can be specified: Traffic will be logged from VMs within the subnetwork. Format: projects/{project_id}/regions/{region}/subnetworks/{name}
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// Arguments for the aggregation interval. Arguments for the aggregation interval. Arguments for the cross project metadata. Arguments for the description. Arguments for the filter expr. Arguments for the flow sampling. Arguments for the metadata. Arguments for the state. Arguments for the target resource. At most one of these can be specified: Traffic will be logged from the VPN Tunnel. Format: projects/{project_id}/regions/{region}/vpnTunnels/{name}
+    /// Arguments for the state. Arguments for the target resource. At most one of these can be specified: Traffic will be logged from the VPN Tunnel. Format: projects/{project_id}/regions/{region}/vpnTunnels/{name}
     /// </summary>
     [CliOption("--vpn-tunnel", Format = OptionFormat.EqualsSeparated)]
     public string? VpnTunnel { get; set; }

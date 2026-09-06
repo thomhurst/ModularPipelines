@@ -17,20 +17,20 @@ namespace ModularPipelines.Docker.Enums;
 public enum DockerBuildxDapBuildProgress
 {
     [EnumValue("auto")]
-    Auto = 0,
+    Auto,
 
     [EnumValue("none")]
-    None = 1,
+    None,
 
     [EnumValue("plain")]
-    Plain = 2,
+    Plain,
 
     [EnumValue("quiet")]
-    Quiet = 3,
+    Quiet,
 
     [EnumValue("rawjson")]
-    Rawjson = 4,
+    Rawjson,
 
     [EnumValue("tty")]
-    Tty = 5
+    Tty
 }
