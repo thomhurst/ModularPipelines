@@ -1166,6 +1166,7 @@ public abstract partial class CliScraperBase : ICliScraper
 
         var optionPattern = $@"(?<![\w-]){Regex.Escape(switchName)}(?![\w-])";
         var lines = helpText.ReplaceLineEndings("\n").Split('\n');
+        var layoutColumn = GetLayoutDescriptionColumn(lines);
 
         for (var index = 0; index < lines.Length; index++)
         {
@@ -1178,12 +1179,12 @@ public abstract partial class CliScraperBase : ICliScraper
 
             // Blank lines and option rows bound the block, never indentation: gcloud puts
             // repeatability notes at the flag column, and column-0 headers rely on blank
-            // separation as before. Wrapped prose that starts with a switch is kept only once the
-            // row's inline prose has fixed the description column; this lookahead does not know
-            // the tool's layout, so while the column is unknown any option-looking line ends the
-            // block (a sibling row, a nested row, or a one-word description's neighbour alike),
-            // and plain prose beneath a descriptionless row establishes the column instead.
-            var descriptionColumn = GetInlineDescriptionColumn(declaration);
+            // separation as before. Wrapped prose that starts with a switch is kept only when it
+            // sits at the description column: the row's own inline prose fixes that column, and a
+            // descriptionless row borrows the column the rest of the help lays its descriptions
+            // out at. While the column is still unknown any option-looking line ends the block (a
+            // sibling row, a nested row, or a one-word description's neighbour alike).
+            var descriptionColumn = GetInlineDescriptionColumn(declaration) ?? layoutColumn;
             var start = index;
             while (index + 1 < lines.Length)
             {
@@ -1293,6 +1294,50 @@ public abstract partial class CliScraperBase : ICliScraper
         var wrappedAtDescriptionColumn = descriptionColumn is null || indentation >= descriptionColumn;
         return (!looksLikeOptionRow || wrappedAtDescriptionColumn)
                && (declarationIndentation is not { } floor || indentation > floor);
+    }
+
+    /// <summary>
+    /// Returns the column the help text lays option descriptions out at: the most common column
+    /// across its option rows, taking each row's inline prose column or, for a row without inline
+    /// prose, the indentation of the plain prose line beneath it. <see langword="null"/> when no
+    /// row establishes one.
+    /// </summary>
+    protected internal static int? GetLayoutDescriptionColumn(IReadOnlyList<string> lines)
+    {
+        var columns = new List<int>();
+        for (var index = 0; index < lines.Count; index++)
+        {
+            var line = lines[index];
+            if (!OptionLinePattern().IsMatch(line))
+            {
+                continue;
+            }
+
+            var column = GetInlineDescriptionColumn(line);
+            if (column is null
+                && index + 1 < lines.Count
+                && lines[index + 1] is var next
+                && !string.IsNullOrWhiteSpace(next)
+                && !OptionLinePattern().IsMatch(next)
+                && GetIndentation(next) > GetIndentation(line))
+            {
+                column = GetIndentation(next);
+            }
+
+            if (column is { } known)
+            {
+                columns.Add(known);
+            }
+        }
+
+        return columns.Count == 0
+            ? null
+            : columns
+                .GroupBy(column => column)
+                .OrderByDescending(group => group.Count())
+                .ThenBy(group => group.Key)
+                .First()
+                .Key;
     }
 
     /// <summary>

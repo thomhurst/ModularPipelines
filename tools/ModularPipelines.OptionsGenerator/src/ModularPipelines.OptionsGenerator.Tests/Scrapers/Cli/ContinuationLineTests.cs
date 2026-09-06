@@ -109,6 +109,38 @@ public class ContinuationLineTests
     }
 
     [Test]
+    public async Task Repeatable_Lookahead_Borrows_The_Layout_Column_For_A_Descriptionless_Row()
+    {
+        // Go-style help: descriptions start on the next line at a shared column. --env's
+        // description happens to open with a switch mention, so the column learnt from the other
+        // rows is what keeps it in the block.
+        const string helpText = """
+              --format string
+                    Output format.
+              --env stringArray
+                    --env-file=PATH values are merged first; may be specified multiple times
+              --quiet
+                    Suppress output.
+            """;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsTrue();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--format", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--quiet", string.Empty)).IsFalse();
+        }
+    }
+
+    [Test]
+    [Arguments("  --env  stringArray   Set environment variables\n  --quiet              Suppress output\n  --env-file=PATH   Read variables", 23)]
+    [Arguments("  --env stringArray\n        Set environment variables\n  --quiet\n        Suppress output", 8)]
+    [Arguments("  --env stringArray\n  --quiet", null)]
+    public async Task Layout_Description_Column_Is_The_Most_Common_Row_Column(string helpText, int? expected)
+    {
+        await Assert.That(CliScraperBase.GetLayoutDescriptionColumn(helpText.Split('\n'))).IsEqualTo(expected);
+    }
+
+    [Test]
     public async Task Repeatable_Lookahead_Treats_A_TitleCase_Value_Hint_As_A_Hint()
     {
         // "String" is a metavariable, not prose: the column is Set's, so the nested row between
