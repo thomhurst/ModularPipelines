@@ -130,6 +130,25 @@ try {
     Assert-Lines $shippedOutput @()
     Assert-Lines $unshippedOutput @()
 
+    # Empty inputs must still create output files that do not exist yet.
+    $freshShippedOutput = Join-Path $testRoot 'PublicAPI.Shipped.fresh.txt'
+    $freshUnshippedOutput = Join-Path $testRoot 'PublicAPI.Unshipped.fresh.txt'
+    & $mergeScript `
+        -OriginalShippedPath $originalShipped `
+        -OriginalUnshippedPath $originalUnshipped `
+        -CurrentApiSnapshotPath $currentSnapshot `
+        -ConfirmedRemovedApiPath $confirmedRemovals `
+        -ShippedOutputPath $freshShippedOutput `
+        -UnshippedOutputPath $freshUnshippedOutput
+
+    foreach ($path in @($freshShippedOutput, $freshUnshippedOutput)) {
+        if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+            throw "Empty inputs did not create the output baseline: $path"
+        }
+    }
+    Assert-Lines $freshShippedOutput @()
+    Assert-Lines $freshUnshippedOutput @()
+
     Write-Output 'OK public API additions, removals, signature changes, empty inputs, and idempotency passed.'
 }
 finally {

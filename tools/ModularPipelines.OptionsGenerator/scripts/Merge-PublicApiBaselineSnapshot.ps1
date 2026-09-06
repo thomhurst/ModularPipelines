@@ -54,15 +54,17 @@ function Write-Baseline([string] $Path, [string[]] $Headers, [string[]] $Entries
     }
     $lines.AddRange($sortedEntries)
 
-    $existing = [System.Collections.Generic.List[string]]::new()
+    # Skip the write only when the file already holds exactly this content; a target
+    # that does not exist yet is always created, even when there is nothing to list.
     if (Test-Path -LiteralPath $Path -PathType Leaf) {
+        $existing = [System.Collections.Generic.List[string]]::new()
         foreach ($line in Get-Content -LiteralPath $Path) {
             $existing.Add($line)
         }
-    }
 
-    if ([System.Linq.Enumerable]::SequenceEqual($existing, $lines, $comparer)) {
-        return
+        if ([System.Linq.Enumerable]::SequenceEqual($existing, $lines, $comparer)) {
+            return
+        }
     }
 
     [System.IO.File]::WriteAllLines(
