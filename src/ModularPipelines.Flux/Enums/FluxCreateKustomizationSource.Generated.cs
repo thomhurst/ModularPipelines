@@ -16,12 +16,12 @@ namespace ModularPipelines.Flux.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum FluxCreateKustomizationSource
 {
-    [EnumValue("OCIRepository")]
-    OciRepository,
+    [EnumValue("Bucket")]
+    Bucket,
 
     [EnumValue("GitRepository")]
     GitRepository,
 
-    [EnumValue("Bucket")]
-    Bucket
+    [EnumValue("OCIRepository")]
+    OciRepository
 }

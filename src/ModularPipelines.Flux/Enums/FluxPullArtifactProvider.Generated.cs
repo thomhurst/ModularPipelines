@@ -16,9 +16,6 @@ namespace ModularPipelines.Flux.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum FluxPullArtifactProvider
 {
-    [EnumValue("generic")]
-    Generic,
-
     [EnumValue("aws")]
     Aws,
 
@@ -26,5 +23,8 @@ public enum FluxPullArtifactProvider
     Azure,
 
     [EnumValue("gcp")]
-    Gcp
+    Gcp,
+
+    [EnumValue("generic")]
+    Generic
 }

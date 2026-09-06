@@ -19,9 +19,9 @@ public enum FluxBootstrapLogLevel
     [EnumValue("debug")]
     Debug,
 
-    [EnumValue("info")]
-    Info,
-
     [EnumValue("error")]
-    Error
+    Error,
+
+    [EnumValue("info")]
+    Info
 }
