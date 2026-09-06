@@ -21,6 +21,396 @@ namespace ModularPipelines.Go.Options;
 public record GoTestOptions : GoOptions
 {
     /// <summary>
+    /// Pass the remainder of the command line (everything after -args) to the test binary, uninterpreted and unchanged. Because this flag consumes the remainder of the command line, the package list (if present) must appear before this flag.
+    /// </summary>
+    [CliOption("-args", GroupValues = true, Phase = CommandLinePhase.Terminal)]
+    public IEnumerable<string>? Args { get; set; }
+
+    /// <summary>
+    /// Compile the test binary to pkg.test in the current directory but do not run it (where pkg is the last element of the package's import path). The file name or target directory can be changed with the -o flag.
+    /// </summary>
+    [CliFlag("-c")]
+    public bool? LowerC { get; set; }
+
+    /// <summary>
+    /// Run the test binary using xprog. The behavior is the same as in 'go run'. See 'go help run' for details.
+    /// </summary>
+    [CliOption("-exec")]
+    public string? Exec { get; set; }
+
+    /// <summary>
+    /// Emit build output in JSON suitable for automated processing. See 'go help buildjson' for the encoding details.
+    /// </summary>
+    [CliFlag("-json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// Save a copy of the test binary to the named file. The test still runs (unless -c is specified). If file ends in a slash or names an existing directory, the test is written to pkg.test in that directory.
+    /// </summary>
+    [CliOption("-o")]
+    public string? O { get; set; }
+
+    /// <summary>
+    /// Save test artifacts in the directory specified by -outputdir. See 'go doc testing.T.ArtifactDir'.
+    /// </summary>
+    [CliFlag("-artifacts")]
+    public bool? Artifacts { get; set; }
+
+    /// <summary>
+    /// Run only those benchmarks matching a regular expression. By default, no benchmarks are run. To run all benchmarks, use '-bench .' or '-bench=.'. The regular expression is split by unbracketed slash (/) characters into a sequence of regular expressions, and each part of a benchmark's identifier must match the corresponding element in the sequence, if any. Possible parents of matches are run with b.N=1 to identify sub-benchmarks. For example, given -bench=X/Y, top-level benchmarks matching X are run with b.N=1 to find any sub-benchmarks matching Y, which are then run in full.
+    /// </summary>
+    [CliOption("-bench", Format = OptionFormat.EqualsSeparated)]
+    public string? Bench { get; set; }
+
+    /// <summary>
+    /// Run enough iterations of each benchmark to take t, specified as a time.Duration (for example, -benchtime 1h30s). The default is 1 second (1s). The special syntax Nx means to run the benchmark N times (for example, -benchtime 100x).
+    /// </summary>
+    [CliOption("-benchtime")]
+    public string? Benchtime { get; set; }
+
+    /// <summary>
+    /// Run each test, benchmark, and fuzz seed n times (default 1). If -cpu is set, run n times for each GOMAXPROCS value. Examples are always run once. -count does not apply to fuzz tests matched by -fuzz.
+    /// </summary>
+    [CliOption("-count")]
+    public string? Count { get; set; }
+
+    /// <summary>
+    /// enable code coverage instrumentation.
+    /// </summary>
+    [CliFlag("-cover")]
+    public bool? Cover { get; set; }
+
+    /// <summary>
+    /// set the mode for coverage analysis. The default is "set" unless -race is enabled, in which case it is "atomic".
+    /// </summary>
+    [CliOption("-covermode")]
+    public string? Covermode { get; set; }
+
+    /// <summary>
+    /// For a build that targets package 'main' (e.g. building a Go executable), apply coverage analysis to each package whose import path matches the patterns. The default is to apply coverage analysis to packages in the main Go module. See 'go help packages' for a description of package patterns. Sets -cover.
+    /// </summary>
+    [CliOption("-coverpkg")]
+    public string? Coverpkg { get; set; }
+
+    /// <summary>
+    /// Specify a list of GOMAXPROCS values for which the tests, benchmarks or fuzz tests should be executed. The default is the current value of GOMAXPROCS. -cpu does not apply to fuzz tests matched by -fuzz.
+    /// </summary>
+    [CliOption("-cpu")]
+    public string? Cpu { get; set; }
+
+    /// <summary>
+    /// Do not start new tests after the first test failure.
+    /// </summary>
+    [CliFlag("-failfast")]
+    public bool? Failfast { get; set; }
+
+    /// <summary>
+    /// Show full file names in the error messages.
+    /// </summary>
+    [CliFlag("-fullpath")]
+    public bool? Fullpath { get; set; }
+
+    /// <summary>
+    /// Run the fuzz test matching the regular expression. When specified, the command line argument must match exactly one package within the main module, and regexp must match exactly one fuzz test within that package. Fuzzing will occur after tests, benchmarks, seed corpora of other fuzz tests, and examples have completed. See the Fuzzing section of the testing package documentation for details.
+    /// </summary>
+    [CliOption("-fuzz")]
+    public string? Fuzz { get; set; }
+
+    /// <summary>
+    /// Run enough iterations of the fuzz target during fuzzing to take t, specified as a time.Duration (for example, -fuzztime 1h30s). The default is to run forever. The special syntax Nx means to run the fuzz target N times (for example, -fuzztime 1000x).
+    /// </summary>
+    [CliOption("-fuzztime")]
+    public string? Fuzztime { get; set; }
+
+    /// <summary>
+    /// Run enough iterations of the fuzz target during each minimization attempt to take t, as specified as a time.Duration (for example, -fuzzminimizetime 30s). The default is 60s. The special syntax Nx means to run the fuzz target N times (for example, -fuzzminimizetime 100x).
+    /// </summary>
+    [CliOption("-fuzzminimizetime")]
+    public string? Fuzzminimizetime { get; set; }
+
+    /// <summary>
+    /// List tests, benchmarks, fuzz tests, or examples matching the regular expression. No tests, benchmarks, fuzz tests, or examples will be run. This will only list top-level tests. No subtest or subbenchmarks will be shown.
+    /// </summary>
+    [CliOption("-list")]
+    public string? List { get; set; }
+
+    /// <summary>
+    /// Place output files from profiling and test artifacts in the specified directory, by default the directory in which "go test" is running.
+    /// </summary>
+    [CliOption("-outputdir")]
+    public string? Outputdir { get; set; }
+
+    /// <summary>
+    /// Allow parallel execution of test functions that call t.Parallel, and fuzz targets that call t.Parallel when running the seed corpus. The value of this flag is the maximum number of tests to run simultaneously. While fuzzing, the value of this flag is the maximum number of subprocesses that may call the fuzz function simultaneously, regardless of whether T.Parallel is called. By default, -parallel is set to the value of GOMAXPROCS. Setting -parallel to values higher than GOMAXPROCS may cause degraded performance due to CPU contention, especially when fuzzing. Note that -parallel only applies within a single test binary. The 'go test' command may run tests for different packages in parallel as well, according to the setting of the -p flag (see 'go help build').
+    /// </summary>
+    [CliOption("-parallel")]
+    public string? Parallel { get; set; }
+
+    /// <summary>
+    /// Run only those tests, examples, and fuzz tests matching the regular expression. For tests, the regular expression is split by unbracketed slash (/) characters into a sequence of regular expressions, and each part of a test's identifier must match the corresponding element in the sequence, if any. Note that possible parents of matches are run too, so that -run=X/Y matches and runs and reports the result of all tests matching X, even those without sub-tests matching Y, because it must run them to look for those sub-tests. See also -skip.
+    /// </summary>
+    [CliOption("-run", Format = OptionFormat.EqualsSeparated)]
+    public string? Run { get; set; }
+
+    /// <summary>
+    /// Tell long-running tests to shorten their run time. It is off by default but set during all.bash so that installing the Go tree can run a sanity check but not spend time running exhaustive tests.
+    /// </summary>
+    [CliFlag("-short")]
+    public bool? Short { get; set; }
+
+    /// <summary>
+    /// Randomize the execution order of tests and benchmarks. It is off by default. If -shuffle is set to on, then it will seed the randomizer using the system clock. If -shuffle is set to an integer N, then N will be used as the seed value. In both cases, the seed will be reported for reproducibility.
+    /// </summary>
+    [CliOption("-shuffle")]
+    public string? Shuffle { get; set; }
+
+    /// <summary>
+    /// Run only those tests, examples, fuzz tests, and benchmarks that do not match the regular expression. Like for -run and -bench, for tests and benchmarks, the regular expression is split by unbracketed slash (/) characters into a sequence of regular expressions, and each part of a test's identifier must match the corresponding element in the sequence, if any.
+    /// </summary>
+    [CliOption("-skip")]
+    public string? Skip { get; set; }
+
+    /// <summary>
+    /// If a test binary runs longer than duration d, panic. If d is 0, the timeout is disabled. The default is 10 minutes (10m).
+    /// </summary>
+    [CliOption("-timeout")]
+    public string? Timeout { get; set; }
+
+    /// <summary>
+    /// print the names of packages as they are compiled.
+    /// </summary>
+    [CliFlag("-v")]
+    public bool? V { get; set; }
+
+    /// <summary>
+    /// Configure the invocation of "go vet" during "go test" to use the comma-separated list of vet checks. If list is empty, "go test" runs "go vet" with a curated list of checks believed to be always worth addressing. If list is "off", "go test" does not run "go vet" at all.
+    /// </summary>
+    [CliOption("-vet")]
+    public string? Vet { get; set; }
+
+    /// <summary>
+    /// Print memory allocation statistics for benchmarks. Allocations made in C or using C.malloc are not counted.
+    /// </summary>
+    [CliFlag("-benchmem")]
+    public bool? Benchmem { get; set; }
+
+    /// <summary>
+    /// Write a goroutine blocking profile to the specified file when all tests are complete. Writes test binary as -c would.
+    /// </summary>
+    [CliOption("-blockprofile")]
+    public string? Blockprofile { get; set; }
+
+    /// <summary>
+    /// Control the detail provided in goroutine blocking profiles by calling runtime.SetBlockProfileRate with n. See 'go doc runtime.SetBlockProfileRate'. The profiler aims to sample, on average, one blocking event every n nanoseconds the program spends blocked. By default, if -test.blockprofile is set without this flag, all blocking events are recorded, equivalent to -test.blockprofilerate=1.
+    /// </summary>
+    [CliOption("-blockprofilerate")]
+    public string? Blockprofilerate { get; set; }
+
+    /// <summary>
+    /// Write a coverage profile to the file after all tests have passed. Sets -cover.
+    /// </summary>
+    [CliOption("-coverprofile")]
+    public string? Coverprofile { get; set; }
+
+    /// <summary>
+    /// Write a CPU profile to the specified file before exiting. Writes test binary as -c would.
+    /// </summary>
+    [CliOption("-cpuprofile")]
+    public string? Cpuprofile { get; set; }
+
+    /// <summary>
+    /// Write an allocation profile to the file after all tests have passed. Writes test binary as -c would.
+    /// </summary>
+    [CliOption("-memprofile")]
+    public string? Memprofile { get; set; }
+
+    /// <summary>
+    /// Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate. See 'go doc runtime.MemProfileRate'. To profile all memory allocations, use -test.memprofilerate=1.
+    /// </summary>
+    [CliOption("-memprofilerate")]
+    public string? Memprofilerate { get; set; }
+
+    /// <summary>
+    /// Write a mutex contention profile to the specified file when all tests are complete. Writes test binary as -c would.
+    /// </summary>
+    [CliOption("-mutexprofile")]
+    public string? Mutexprofile { get; set; }
+
+    /// <summary>
+    /// Sample 1 in n stack traces of goroutines holding a contended mutex.
+    /// </summary>
+    [CliOption("-mutexprofilefraction")]
+    public string? Mutexprofilefraction { get; set; }
+
+    /// <summary>
+    /// Write an execution trace to the specified file before exiting.
+    /// </summary>
+    [CliOption("-trace")]
+    public string? Trace { get; set; }
+
+    /// <summary>
+    /// Change to dir before running the command. Any files named on the command line are interpreted after changing directories. If used, this flag must be the first one in the command line.
+    /// </summary>
+    [CliOption("-C", Phase = CommandLinePhase.EarlyOperand)]
+    public string? UpperC { get; set; }
+
+    /// <summary>
+    /// force rebuilding of packages that are already up-to-date.
+    /// </summary>
+    [CliFlag("-a")]
+    public bool? A { get; set; }
+
+    /// <summary>
+    /// print the commands but do not run them.
+    /// </summary>
+    [CliFlag("-n")]
+    public bool? N { get; set; }
+
+    /// <summary>
+    /// the number of programs, such as build commands or test binaries, that can be run in parallel. The default is GOMAXPROCS, normally the number of CPUs available.
+    /// </summary>
+    [CliOption("-p")]
+    public string? P { get; set; }
+
+    /// <summary>
+    /// enable data race detection. Supported only on darwin/amd64, darwin/arm64, freebsd/amd64, linux/amd64, linux/arm64 (only for 48-bit VMA), linux/ppc64le, linux/riscv64 and windows/amd64.
+    /// </summary>
+    [CliFlag("-race")]
+    public bool? Race { get; set; }
+
+    /// <summary>
+    /// enable interoperation with memory sanitizer. Supported only on linux/amd64, linux/arm64, linux/loong64, freebsd/amd64 and only with Clang/LLVM as the host C compiler. PIE build mode will be used on all platforms except linux/amd64.
+    /// </summary>
+    [CliFlag("-msan")]
+    public bool? Msan { get; set; }
+
+    /// <summary>
+    /// enable interoperation with address sanitizer. Supported only on linux/arm64, linux/amd64, linux/loong64. Supported on linux/amd64 or linux/arm64 and only with GCC 7 and higher or Clang/LLVM 9 and higher. And supported on linux/loong64 only with Clang/LLVM 16 and higher.
+    /// </summary>
+    [CliFlag("-asan")]
+    public bool? Asan { get; set; }
+
+    /// <summary>
+    /// print the name of the temporary work directory and do not delete it when exiting.
+    /// </summary>
+    [CliFlag("-work")]
+    public bool? Work { get; set; }
+
+    /// <summary>
+    /// print the commands.
+    /// </summary>
+    [CliFlag("-x")]
+    public bool? X { get; set; }
+
+    /// <summary>
+    /// arguments to pass on each go tool asm invocation.
+    /// </summary>
+    [CliOption("-asmflags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Asmflags { get; set; }
+
+    /// <summary>
+    /// build mode to use. See 'go help buildmode' for more.
+    /// </summary>
+    [CliOption("-buildmode")]
+    public string? Buildmode { get; set; }
+
+    /// <summary>
+    /// Whether to stamp binaries with version control information ("true", "false", or "auto"). By default ("auto"), version control information is stamped into a binary if the main package, the main module containing it, and the current directory are all in the same repository. Use -buildvcs=false to always omit version control information, or -buildvcs=true to error out if version control information is available but cannot be included due to a missing tool or ambiguous directory structure.
+    /// </summary>
+    [CliOption("-buildvcs", Format = OptionFormat.EqualsSeparated)]
+    public string? Buildvcs { get; set; }
+
+    /// <summary>
+    /// name of compiler to use, as in runtime.Compiler (gccgo or gc).
+    /// </summary>
+    [CliOption("-compiler")]
+    public string? Compiler { get; set; }
+
+    /// <summary>
+    /// arguments to pass on each gccgo compiler/linker invocation.
+    /// </summary>
+    [CliOption("-gccgoflags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Gccgoflags { get; set; }
+
+    /// <summary>
+    /// arguments to pass on each go tool compile invocation.
+    /// </summary>
+    [CliOption("-gcflags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Gcflags { get; set; }
+
+    /// <summary>
+    /// a suffix to use in the name of the package installation directory, in order to keep output separate from default builds. If using the -race flag, the install suffix is automatically set to race or, if set explicitly, has _race appended to it. Likewise for the -msan and -asan flags. Using a -buildmode option that requires non-default compile flags has a similar effect.
+    /// </summary>
+    [CliOption("-installsuffix")]
+    public string? Installsuffix { get; set; }
+
+    /// <summary>
+    /// arguments to pass on each go tool link invocation.
+    /// </summary>
+    [CliOption("-ldflags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Ldflags { get; set; }
+
+    /// <summary>
+    /// build code that will be linked against shared libraries previously created with -buildmode=shared.
+    /// </summary>
+    [CliFlag("-linkshared")]
+    public bool? Linkshared { get; set; }
+
+    /// <summary>
+    /// module download mode to use: readonly, vendor, or mod. By default, if a vendor directory is present and the go version in go.mod is 1.14 or higher, the go command acts as if -mod=vendor were set. Otherwise, the go command acts as if -mod=readonly were set. See https://go.dev/ref/mod#build-commands for details.
+    /// </summary>
+    [CliOption("-mod", Format = OptionFormat.EqualsSeparated)]
+    public string? Mod { get; set; }
+
+    /// <summary>
+    /// leave newly-created directories in the module cache read-write instead of making them read-only.
+    /// </summary>
+    [CliFlag("-modcacherw")]
+    public bool? Modcacherw { get; set; }
+
+    /// <summary>
+    /// in module aware mode, read (and possibly write) an alternate go.mod file instead of the one in the module root directory. A file named "go.mod" must still be present in order to determine the module root directory, but it is not accessed. When -modfile is specified, an alternate go.sum file is also used: its path is derived from the -modfile flag by trimming the ".mod" extension and appending ".sum".
+    /// </summary>
+    [CliOption("-modfile")]
+    public string? Modfile { get; set; }
+
+    /// <summary>
+    /// read a JSON config file that provides an overlay for build operations. The file is a JSON object with a single field, named 'Replace', that maps each disk file path (a string) to its backing file path, so that a build will run as if the disk file path exists with the contents given by the backing file paths, or as if the disk file path does not exist if its backing file path is empty. Support for the -overlay flag has some limitations: importantly, cgo files included from outside the include path must be in the same directory as the Go package they are included from, overlays will not appear when binaries and tests are run through go run and go test respectively, and files beneath GOMODCACHE may not be replaced.
+    /// </summary>
+    [CliOption("-overlay")]
+    public string? Overlay { get; set; }
+
+    /// <summary>
+    /// specify the file path of a profile for profile-guided optimization (PGO). When the special name "auto" is specified, for each main package in the build, the go command selects a file named "default.pgo" in the package's directory if that file exists, and applies it to the (transitive) dependencies of the main package (other packages are not affected). Special name "off" turns off PGO. The default is "auto".
+    /// </summary>
+    [CliOption("-pgo")]
+    public string? Pgo { get; set; }
+
+    /// <summary>
+    /// install and load all packages from dir instead of the usual locations. For example, when building with a non-standard configuration, use -pkgdir to keep generated packages in a separate location.
+    /// </summary>
+    [CliOption("-pkgdir")]
+    public string? Pkgdir { get; set; }
+
+    /// <summary>
+    /// a comma-separated list of additional build tags to consider satisfied during the build. For more information about build tags, see 'go help buildconstraint'. (Earlier versions of Go used a space-separated list, and that form is deprecated but still recognized.)
+    /// </summary>
+    [CliOption("-tags")]
+    public string? Tags { get; set; }
+
+    /// <summary>
+    /// remove all file system paths from the resulting executable. Instead of absolute file system paths, the recorded file names will begin either a module path@version (when using modules), or a plain import path (when using the standard library, or GOPATH).
+    /// </summary>
+    [CliFlag("-trimpath")]
+    public bool? Trimpath { get; set; }
+
+    /// <summary>
+    /// a program to use to invoke toolchain programs like vet and asm. For example, instead of running asm, the go command will run 'cmd args /path/to/asm &lt;arguments for asm&gt;'. The TOOLEXEC_IMPORTPATH environment variable will be set, matching 'go list -f {{.ImportPath}}' for the package being built.
+    /// </summary>
+    [CliOption("-toolexec")]
+    public string? Toolexec { get; set; }
+
+    /// <summary>
     /// The packages operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]

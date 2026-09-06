@@ -59,6 +59,15 @@ public class GeneratedOptionsSmokeTestHarnessTests
         }
     }
 
+    [Test]
+    public async Task Supports_Validated_Multi_String_Value_Objects()
+    {
+        var result = GeneratedOptionsSmokeTestHarness.ValidateOptionsType(
+            typeof(MultiStringValueOptions));
+
+        await Assert.That(result.PropertiesTested).IsEqualTo(1);
+    }
+
     internal sealed record RepresentativeOptions : CommandLineToolOptions
     {
         [CliArgument(0, PrependOptionTerminator = true, Required = true)]
@@ -87,5 +96,31 @@ public class GeneratedOptionsSmokeTestHarnessTests
     {
         [CliOption("--value")]
         public string? Value => null;
+    }
+
+    internal sealed record MultiStringValueOptions : CommandLineToolOptions
+    {
+        [CliOption("--operation")]
+        public IEnumerable<ValidatedOperation>? Operations { get; init; }
+    }
+
+    internal sealed record ValidatedOperation
+    {
+        public ValidatedOperation(string option, string value)
+        {
+            if (option.Length == 0 || option[0] != '-')
+            {
+                throw new ArgumentException("Option must start with a hyphen.", nameof(option));
+            }
+
+            Option = option;
+            Value = value;
+        }
+
+        public string Option { get; }
+
+        public string Value { get; }
+
+        public override string ToString() => $"{Option}={Value}";
     }
 }

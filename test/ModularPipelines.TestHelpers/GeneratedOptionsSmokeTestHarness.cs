@@ -374,9 +374,20 @@ public static class GeneratedOptionsSmokeTestHarness
 
     private static object CreateConstructedSample(Type type)
     {
-        if (type.GetConstructor([typeof(string)]) is { } stringConstructor)
+        var stringConstructor = type.GetConstructors()
+            .Where(static constructor => constructor.GetParameters() is { Length: > 0 } parameters
+                && parameters.All(static parameter => parameter.ParameterType == typeof(string)))
+            .MinBy(static constructor => constructor.GetParameters().Length);
+        if (stringConstructor is not null)
         {
-            return stringConstructor.Invoke(["smoke-value"]);
+            var arguments = stringConstructor.GetParameters()
+                .Select(static parameter => parameter.Name?.Contains(
+                    "option",
+                    StringComparison.OrdinalIgnoreCase) == true
+                    ? "-smoke-option"
+                    : "smoke-value")
+                .ToArray();
+            return stringConstructor.Invoke(arguments);
         }
 
         if (Activator.CreateInstance(type) is { } instance)
