@@ -370,6 +370,43 @@ public class CommandCoverageGuardTests
     }
 
     [Test]
+    public async Task Evaluate_Does_Not_Report_A_Group_Emptied_Only_By_Unavailable_Leaves()
+    {
+        var outputDirectory = CreateOutputDirectory();
+
+        try
+        {
+            var baseline = CommandCoverageGuard.Evaluate(
+                Tool(
+                    Command("aws ec2 describe-instances"),
+                    Command("aws fsx describe-backups")) with { ToolName = "aws" },
+                outputDirectory,
+                approveShrinkage: false);
+            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
+
+            // The group's help was fine; its only leaf timed out. The unavailable-help
+            // violation already explains why the group is empty, so it is not also a lost group.
+            var current = CommandCoverageGuard.Evaluate(
+                Tool(Command("aws ec2 describe-instances")) with { ToolName = "aws" },
+                outputDirectory,
+                approveShrinkage: false,
+                unavailableHelpPaths: ["aws fsx describe-backups"]);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(current.RemovedCommands).IsEmpty();
+                await Assert.That(current.KnownGroupsWithoutChildren).IsEmpty();
+                await Assert.That(current.Violations).HasSingleItem();
+                await Assert.That(current.Violations[0]).Contains("Help was unavailable");
+            }
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task CoverageFailureDiagnostics_DiscardUnpreservedLeafRawHelp()
     {
         var outputDirectory = CreateOutputDirectory();

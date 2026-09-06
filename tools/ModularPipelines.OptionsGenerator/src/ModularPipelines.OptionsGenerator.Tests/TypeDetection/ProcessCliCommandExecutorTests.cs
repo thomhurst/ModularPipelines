@@ -14,6 +14,22 @@ public class ProcessCliCommandExecutorTests
     }
 
     [Test]
+    public async Task Unresolved_Executable_Is_Reported_As_Unavailable()
+    {
+        var executor = new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
+
+        var result = await executor.ExecuteAsync("modularpipelines-missing-executable-4688", "--help");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ExitCode).IsEqualTo(-1);
+            await Assert.That(result.ExecutionFailed).IsTrue();
+            await Assert.That(result.Unavailable).IsTrue();
+            await Assert.That(result.StandardError).Contains("Command not found");
+        }
+    }
+
+    [Test]
     public async Task DescendantIdentity_Rejects_Process_Older_Than_Root()
     {
         var rootStart = new DateTime(2026, 8, 3, 12, 0, 0, DateTimeKind.Utc);
