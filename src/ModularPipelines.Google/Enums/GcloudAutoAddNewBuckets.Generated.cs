@@ -16,9 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudAutoAddNewBuckets
 {
-    [EnumValue("true")]
-    True,
-
     [EnumValue("false")]
-    False
+    False,
+
+    [EnumValue("true")]
+    True
 }

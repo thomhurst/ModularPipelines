@@ -16,12 +16,12 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudStorageType
 {
-    [EnumValue("SSD")]
-    Ssd,
-
     [EnumValue("HDD")]
     Hdd,
 
     [EnumValue("HYPERDISK_BALANCED")]
-    HyperdiskBalanced
+    HyperdiskBalanced,
+
+    [EnumValue("SSD")]
+    Ssd
 }

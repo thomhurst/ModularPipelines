@@ -16,9 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudJobType
 {
-    [EnumValue("transfer")]
-    Transfer,
-
     [EnumValue("replication")]
-    Replication
+    Replication,
+
+    [EnumValue("transfer")]
+    Transfer
 }

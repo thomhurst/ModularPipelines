@@ -16,9 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudBootDiskEncryption
 {
-    [EnumValue("GMEK")]
-    Gmek,
-
     [EnumValue("CMEK")]
-    Cmek
+    Cmek,
+
+    [EnumValue("GMEK")]
+    Gmek
 }

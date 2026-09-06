@@ -16,12 +16,12 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudAccessRestriction
 {
-    [EnumValue("within-project")]
-    WithinProject,
+    [EnumValue("unrestricted")]
+    Unrestricted,
 
     [EnumValue("within-org")]
     WithinOrg,
 
-    [EnumValue("unrestricted")]
-    Unrestricted
+    [EnumValue("within-project")]
+    WithinProject
 }

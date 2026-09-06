@@ -16,12 +16,12 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudManagedBy
 {
-    [EnumValue("user")]
-    User,
+    [EnumValue("any")]
+    Any,
 
     [EnumValue("system")]
     System,
 
-    [EnumValue("any")]
-    Any
+    [EnumValue("user")]
+    User
 }

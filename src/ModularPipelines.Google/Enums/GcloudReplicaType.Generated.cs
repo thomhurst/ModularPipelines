@@ -16,9 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudReplicaType
 {
-    [EnumValue("READ")]
-    Read,
-
     [EnumValue("FAILOVER")]
-    Failover
+    Failover,
+
+    [EnumValue("READ")]
+    Read
 }

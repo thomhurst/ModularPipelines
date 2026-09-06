@@ -117,6 +117,7 @@ public record GcloudApihubPluginsInstancesUpdateOptions : GcloudOptions
     /// <summary>
     /// AuthConfig represents the authentication information. Arguments for the config. At most one of these can be specified: Config for authentication with API key. Secret provides a reference to entries in Secret Manager. Parameters to support Oauth 2.0 client credentials grant authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. Secret provides a reference to entries in Secret Manager. Parameters to support Username and Password Authentication. Secret provides a reference to entries in Secret Manager. The client identifier.
     /// </summary>
+    [SecretValue]
     [CliOption("--oauth2-client-credentials-config-id", Format = OptionFormat.EqualsSeparated)]
     public string? Oauth2ClientCredentialsConfigId { get; set; }
 

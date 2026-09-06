@@ -19,24 +19,24 @@ public enum GcloudResourceType
     [EnumValue("app-engine")]
     AppEngine,
 
-    [EnumValue("iap_web")]
-    IapWeb,
+    [EnumValue("backend-services")]
+    BackendServices,
+
+    [EnumValue("cloud-run")]
+    CloudRun,
 
     [EnumValue("compute")]
     Compute,
 
-    [EnumValue("organization")]
-    Organization,
-
     [EnumValue("folder")]
     Folder,
-
-    [EnumValue("backend-services")]
-    BackendServices,
 
     [EnumValue("forwarding-rule")]
     ForwardingRule,
 
-    [EnumValue("cloud-run")]
-    CloudRun
+    [EnumValue("iap_web")]
+    IapWeb,
+
+    [EnumValue("organization")]
+    Organization
 }

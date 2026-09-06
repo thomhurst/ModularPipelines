@@ -16,9 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudCommitmentPlan
 {
-    [EnumValue("TWELVE_MONTH")]
-    TwelveMonth,
-
     [EnumValue("THIRTY_SIX_MONTH")]
-    ThirtySixMonth
+    ThirtySixMonth,
+
+    [EnumValue("TWELVE_MONTH")]
+    TwelveMonth
 }

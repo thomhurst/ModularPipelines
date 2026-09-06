@@ -171,6 +171,7 @@ public record GcloudContainerAwsNodePoolsUpdateOptions : GcloudOptions
     /// <summary>
     /// Node pool autoscaling Proxy config At most one of these can be specified: Or at least one of these can be specified: Update existing proxy config parameters Version ID string of the AWS Secrets Manager secret that contains a proxy configuration.
     /// </summary>
+    [SecretValue]
     [CliOption("--proxy-secret-version-id", Format = OptionFormat.EqualsSeparated)]
     public string? ProxySecretVersionId { get; set; }
 

@@ -19,9 +19,9 @@ public enum GcloudIngressSettings
     [EnumValue("all")]
     All,
 
-    [EnumValue("internal-only")]
-    InternalOnly,
-
     [EnumValue("internal-and-gclb")]
-    InternalAndGclb
+    InternalAndGclb,
+
+    [EnumValue("internal-only")]
+    InternalOnly
 }

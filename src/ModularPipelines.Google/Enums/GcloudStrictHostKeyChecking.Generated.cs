@@ -16,12 +16,12 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudStrictHostKeyChecking
 {
-    [EnumValue("yes")]
-    Yes,
+    [EnumValue("ask")]
+    Ask,
 
     [EnumValue("no")]
     No,
 
-    [EnumValue("ask")]
-    Ask
+    [EnumValue("yes")]
+    Yes
 }

@@ -16,24 +16,24 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudWeeklySchedule
 {
-    [EnumValue("monday")]
-    Monday,
-
-    [EnumValue("tuesday")]
-    Tuesday,
-
-    [EnumValue("wednesday")]
-    Wednesday,
-
-    [EnumValue("thursday")]
-    Thursday,
-
     [EnumValue("friday")]
     Friday,
+
+    [EnumValue("monday")]
+    Monday,
 
     [EnumValue("saturday")]
     Saturday,
 
     [EnumValue("sunday")]
-    Sunday
+    Sunday,
+
+    [EnumValue("thursday")]
+    Thursday,
+
+    [EnumValue("tuesday")]
+    Tuesday,
+
+    [EnumValue("wednesday")]
+    Wednesday
 }

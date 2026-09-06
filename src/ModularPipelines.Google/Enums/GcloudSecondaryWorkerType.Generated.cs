@@ -16,11 +16,11 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudSecondaryWorkerType
 {
-    [EnumValue("preemptible")]
-    Preemptible,
-
     [EnumValue("non-preemptible")]
     NonPreemptible,
+
+    [EnumValue("preemptible")]
+    Preemptible,
 
     [EnumValue("spot")]
     Spot

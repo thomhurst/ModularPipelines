@@ -16,9 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudTreeType
 {
-    [EnumValue("SOURCE")]
-    Source,
-
     [EnumValue("DRAFT")]
-    Draft
+    Draft,
+
+    [EnumValue("SOURCE")]
+    Source
 }
