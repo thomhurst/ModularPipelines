@@ -13,9 +13,9 @@ dotnet add package ModularPipelines.Distributed.Redis
 Use the combined helper when Redis should provide both services:
 
 ```
-using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Distributed;
 
-using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed.Redis;
 
 
 

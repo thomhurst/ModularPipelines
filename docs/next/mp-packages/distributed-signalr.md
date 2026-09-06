@@ -13,9 +13,9 @@ dotnet add package ModularPipelines.Distributed.SignalR
 Register the coordinator after enabling distributed mode:
 
 ```
-using ModularPipelines.Distributed.SignalR.Extensions;
+using ModularPipelines.Distributed;
 
-using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed.SignalR;
 
 
 

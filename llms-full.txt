@@ -145,7 +145,7 @@
 - [Command Prompt Package](/docs/next/mp-packages/cmd.md): Helpers for executing Windows Command Prompt commands.
 - [Cosign Package](/docs/next/mp-packages/cosign.md): ModularPipelines.Cosign provides strongly typed access to the Sigstore Cosign CLI for
 - [Distributed S3 Artifacts Package](/docs/next/mp-packages/distributed-artifacts-s3.md): ModularPipelines.Distributed.Artifacts.S3 stores distributed pipeline artifacts in AWS S3 or an S3-compatible service such as Cloudflare R2, Backblaze B2, or MinIO.
-- [Distributed Redis Discovery Package](/docs/next/mp-packages/distributed-discovery-redis.md): ModularPipelines.Distributed.Discovery.Redis lets distributed SignalR workers discover the current master through Redis.
+- [Distributed Redis Discovery Package](/docs/next/mp-packages/distributed-discovery-redis.md): ModularPipelines.Distributed.Discovery.Redis advertises and discovers a distributed master's endpoint through Redis. It implements the transport-neutral IMasterDiscovery contract; SignalR can consume that contract when workers need to locate the current master.
 - [Distributed Redis Package](/docs/next/mp-packages/distributed-redis.md): ModularPipelines.Distributed.Redis provides Redis-backed coordination and artifact storage for distributed pipelines.
 - [Distributed SignalR Package](/docs/next/mp-packages/distributed-signalr.md): ModularPipelines.Distributed.SignalR provides SignalR-based coordination between distributed pipeline workers.
 - [Docker Package](/docs/next/mp-packages/docker.md): Strongly typed Docker container, image, network, volume, and Buildx commands.
@@ -1582,8 +1582,6 @@ using System.Threading.Tasks;
 
 using ModularPipelines.Distributed;
 
-using ModularPipelines.Distributed.Extensions;
-
 
 
 public sealed class MyCustomCoordinator : IDistributedCoordinator
@@ -1907,18 +1905,18 @@ builder.AddDistributedMode(o =>
 });
 ```
 
-| Property                 | Type                        | Default                                                 | Description                                                                                                                                                                                                   |
-| ------------------------ | --------------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Role`                   | `DistributedRole`           | `Auto`                                                  | Explicit `Master` or `Worker` role. `Auto` derives the role from `InstanceIndex`.                                                                                                                             |
-| `InstanceIndex`          | `int`                       | `0`                                                     | This instance's unique index. With `Role == Auto`, `0` selects master and values above `0` select worker.                                                                                                     |
-| `TotalInstances`         | `int`                       | `1`                                                     | Total number of instances (master + workers).                                                                                                                                                                 |
-| `Capabilities`           | `IReadOnlyList<Capability>` | `[]`                                                    | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values.                                                                           |
-| `RunId`                  | `string`                    | `MODULARPIPELINES_RUN_ID` or generated for one instance | Identifier shared by every process in this pipeline run. Multi-instance runs fail fast when neither source is configured.                                                                                     |
-| `RequireExplicitRunId`   | `bool`                      | `false`                                                 | Reject generated single-instance IDs. Shared Redis backends enable this automatically. S3 artifact-store registrations also require an explicit shared `RunId`, including for single-instance configurations. |
-| `CapabilityTimeout`      | `TimeSpan`                  | `TimeSpan.FromMinutes(5)`                               | Registration grace period before an assignment with no capable worker fails with an explicit routing error.                                                                                                   |
-| `MinimumWorkerCount`     | `int`                       | `0`                                                     | Number of external workers required before dispatch starts. Keep zero for immediate dispatch; set `TotalInstances - 1` for the former full-worker barrier.                                                    |
-| `ModuleResultTimeout`    | `TimeSpan`                  | `TimeSpan.FromMinutes(45)`                              | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely.                                                                                                       |
-| `AutoDetectOsCapability` | `bool`                      | `true`                                                  | Automatically add the current OS as a capability (`"windows"`, `"linux"`, `"macos"`, or `"freebsd"`).                                                                                                         |
+| Property                 | Type                        | Default                                                 | Description                                                                                                                                                                                                                                                                 |
+| ------------------------ | --------------------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Role`                   | `DistributedRole`           | `Auto`                                                  | Explicit `Master` or `Worker` role. `Auto` derives the role from `InstanceIndex`.                                                                                                                                                                                           |
+| `InstanceIndex`          | `int`                       | `0`                                                     | This instance's unique index. With `Role == Auto`, `0` selects master and values above `0` select worker.                                                                                                                                                                   |
+| `TotalInstances`         | `int`                       | `1`                                                     | Total number of instances (master + workers).                                                                                                                                                                                                                               |
+| `Capabilities`           | `IReadOnlyList<Capability>` | `[]`                                                    | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values.                                                                                                                                         |
+| `RunId`                  | `string`                    | `MODULARPIPELINES_RUN_ID` or generated for one instance | Identifier shared by every process in this pipeline run. Multi-instance runs fail fast when neither source is configured.                                                                                                                                                   |
+| `RequireExplicitRunId`   | `bool`                      | `false`                                                 | Reject generated single-instance IDs. Shared Redis backends enable this automatically. S3 artifact-store registrations also require an explicit shared `RunId`, including for single-instance configurations. Custom backends opt in with `builder.RequireExplicitRunId()`. |
+| `CapabilityTimeout`      | `TimeSpan`                  | `TimeSpan.FromMinutes(5)`                               | Registration grace period before an assignment with no capable worker fails with an explicit routing error.                                                                                                                                                                 |
+| `MinimumWorkerCount`     | `int`                       | `0`                                                     | Number of external workers required before dispatch starts. Keep zero for immediate dispatch; set `TotalInstances - 1` for the former full-worker barrier.                                                                                                                  |
+| `ModuleResultTimeout`    | `TimeSpan`                  | `TimeSpan.FromMinutes(45)`                              | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely.                                                                                                                                                                     |
+| `AutoDetectOsCapability` | `bool`                      | `true`                                                  | Automatically add the current OS as a capability (`"windows"`, `"linux"`, `"macos"`, or `"freebsd"`).                                                                                                                                                                       |
 
 ### Configuration from appsettings.json[​](#configuration-from-appsettingsjson "Direct link to Configuration from appsettings.json")
 
@@ -1968,10 +1966,12 @@ builder.AddRedisDistributedCoordinator(builder.Configuration.GetSection("Redis")
 
 builder.AddSignalRDistributedCoordinator(builder.Configuration.GetSection("SignalR"));
 
-builder.AddRedisSignalRDiscovery(builder.Configuration.GetSection("RedisDiscovery"));
+builder.AddRedisMasterDiscovery(builder.Configuration.GetSection("RedisDiscovery"));
 
 builder.AddS3DistributedArtifactStore(builder.Configuration.GetSection("S3"));
 ```
+
+`AddRedisMasterDiscovery` keys the advertised master endpoint by `DistributedOptions.RunId` and enables `RequireExplicitRunId`, so every process in the run must share one explicit `RunId`: set it in the `Distributed` section, assign `options.RunId`, or export `MODULARPIPELINES_RUN_ID` for each master and worker. See [Run Identifier Resolution](#run-identifier-resolution).
 
 ## RedisDistributedOptions[​](#redisdistributedoptions "Direct link to RedisDistributedOptions")
 
@@ -2138,9 +2138,9 @@ This brings in `ModularPipelines.Distributed` (core distributed abstractions) an
 In your `Program.cs`, enable distributed mode and register the Redis coordinator:
 
 ```
-using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed;
 
-using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Distributed.Redis;
 
 
 
@@ -2246,9 +2246,9 @@ using ModularPipelines.Attributes;
 
 using ModularPipelines.Context;
 
-using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed;
 
-using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Distributed.Redis;
 
 using ModularPipelines.Extensions;
 
@@ -2553,9 +2553,7 @@ using ModularPipelines.Context;
 
 using ModularPipelines.Distributed;
 
-using ModularPipelines.Distributed.Extensions;
-
-using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Distributed.Redis;
 
 using ModularPipelines.Extensions;
 
@@ -46412,9 +46410,9 @@ dotnet add package ModularPipelines.Distributed.Artifacts.S3
 Register the artifact store after enabling distributed mode:
 
 ```
-using ModularPipelines.Distributed.Artifacts.S3.Extensions;
+using ModularPipelines.Distributed;
 
-using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed.Artifacts.S3;
 
 
 
@@ -46472,7 +46470,7 @@ See [Cache Module Results](/ModularPipelines/docs/next/how-to/module-caching.md)
 
 # Distributed Redis Discovery Package
 
-`ModularPipelines.Distributed.Discovery.Redis` lets distributed SignalR workers discover the current master through Redis.
+`ModularPipelines.Distributed.Discovery.Redis` advertises and discovers a distributed master's endpoint through Redis. It implements the transport-neutral `IMasterDiscovery` contract; SignalR can consume that contract when workers need to locate the current master.
 
 ## Installation[​](#installation "Direct link to Installation")
 
@@ -46482,14 +46480,14 @@ dotnet add package ModularPipelines.Distributed.Discovery.Redis
 
 ## Configuration[​](#configuration "Direct link to Configuration")
 
-Register discovery after the SignalR coordinator:
+Register Redis discovery with a coordinator that supports `IMasterDiscovery`. For SignalR:
 
 ```
+using ModularPipelines.Distributed;
+
 using ModularPipelines.Distributed.Discovery.Redis;
 
-using ModularPipelines.Distributed.Extensions;
-
-using ModularPipelines.Distributed.SignalR.Extensions;
+using ModularPipelines.Distributed.SignalR;
 
 
 
@@ -46501,7 +46499,7 @@ builder.AddDistributedMode(options => options.TotalInstances = 2);
 
 builder.AddSignalRDistributedCoordinator();
 
-builder.AddRedisSignalRDiscovery(options =>
+builder.AddRedisMasterDiscovery(options =>
 
 {
 
@@ -46530,9 +46528,9 @@ dotnet add package ModularPipelines.Distributed.Redis
 Use the combined helper when Redis should provide both services:
 
 ```
-using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Distributed;
 
-using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed.Redis;
 
 
 
@@ -46585,9 +46583,9 @@ dotnet add package ModularPipelines.Distributed.SignalR
 Register the coordinator after enabling distributed mode:
 
 ```
-using ModularPipelines.Distributed.SignalR.Extensions;
+using ModularPipelines.Distributed;
 
-using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed.SignalR;
 
 
 

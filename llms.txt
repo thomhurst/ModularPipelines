@@ -145,7 +145,7 @@
 - [Command Prompt Package](/docs/next/mp-packages/cmd.md): Helpers for executing Windows Command Prompt commands.
 - [Cosign Package](/docs/next/mp-packages/cosign.md): ModularPipelines.Cosign provides strongly typed access to the Sigstore Cosign CLI for
 - [Distributed S3 Artifacts Package](/docs/next/mp-packages/distributed-artifacts-s3.md): ModularPipelines.Distributed.Artifacts.S3 stores distributed pipeline artifacts in AWS S3 or an S3-compatible service such as Cloudflare R2, Backblaze B2, or MinIO.
-- [Distributed Redis Discovery Package](/docs/next/mp-packages/distributed-discovery-redis.md): ModularPipelines.Distributed.Discovery.Redis lets distributed SignalR workers discover the current master through Redis.
+- [Distributed Redis Discovery Package](/docs/next/mp-packages/distributed-discovery-redis.md): ModularPipelines.Distributed.Discovery.Redis advertises and discovers a distributed master's endpoint through Redis. It implements the transport-neutral IMasterDiscovery contract; SignalR can consume that contract when workers need to locate the current master.
 - [Distributed Redis Package](/docs/next/mp-packages/distributed-redis.md): ModularPipelines.Distributed.Redis provides Redis-backed coordination and artifact storage for distributed pipelines.
 - [Distributed SignalR Package](/docs/next/mp-packages/distributed-signalr.md): ModularPipelines.Distributed.SignalR provides SignalR-based coordination between distributed pipeline workers.
 - [Docker Package](/docs/next/mp-packages/docker.md): Strongly typed Docker container, image, network, volume, and Buildx commands.

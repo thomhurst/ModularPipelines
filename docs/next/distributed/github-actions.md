@@ -195,9 +195,7 @@ using ModularPipelines.Context;
 
 using ModularPipelines.Distributed;
 
-using ModularPipelines.Distributed.Extensions;
-
-using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Distributed.Redis;
 
 using ModularPipelines.Extensions;
 

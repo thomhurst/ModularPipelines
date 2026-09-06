@@ -29,9 +29,9 @@ This brings in `ModularPipelines.Distributed` (core distributed abstractions) an
 In your `Program.cs`, enable distributed mode and register the Redis coordinator:
 
 ```
-using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed;
 
-using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Distributed.Redis;
 
 
 
@@ -137,9 +137,9 @@ using ModularPipelines.Attributes;
 
 using ModularPipelines.Context;
 
-using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed;
 
-using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Distributed.Redis;
 
 using ModularPipelines.Extensions;
 

@@ -191,8 +191,6 @@ using System.Threading.Tasks;
 
 using ModularPipelines.Distributed;
 
-using ModularPipelines.Distributed.Extensions;
-
 
 
 public sealed class MyCustomCoordinator : IDistributedCoordinator
