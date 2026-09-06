@@ -16,12 +16,12 @@ namespace ModularPipelines.Pulumi.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum PulumiInsightsAccountNewScanSchedule
 {
-    [EnumValue("none")]
-    None,
-
     [EnumValue("12h")]
     Value12H,
 
     [EnumValue("daily")]
-    Daily
+    Daily,
+
+    [EnumValue("none")]
+    None
 }

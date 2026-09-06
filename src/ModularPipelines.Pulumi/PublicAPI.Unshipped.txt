@@ -1,4 +1,21 @@
 #nullable enable
+*REMOVED*ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider.AzureNative = 2 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider
+*REMOVED*ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider.Gcp = 1 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider
+*REMOVED*ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider.Kubernetes = 4 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider
+*REMOVED*ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider.Oci = 3 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider
+*REMOVED*ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule.Daily = 2 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule
+*REMOVED*ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule.None = 0 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule
+*REMOVED*ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule.Value12H = 1 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule
+*REMOVED*ModularPipelines.Pulumi.Enums.PulumiOrgAuditLogExportFormat.Cef = 1 -> ModularPipelines.Pulumi.Enums.PulumiOrgAuditLogExportFormat
+*REMOVED*ModularPipelines.Pulumi.Enums.PulumiOrgAuditLogExportFormat.Csv = 0 -> ModularPipelines.Pulumi.Enums.PulumiOrgAuditLogExportFormat
+*REMOVED*ModularPipelines.Pulumi.Enums.PulumiOrgUsageGetGranularity.Daily = 1 -> ModularPipelines.Pulumi.Enums.PulumiOrgUsageGetGranularity
+*REMOVED*ModularPipelines.Pulumi.Enums.PulumiOrgUsageGetGranularity.Hourly = 0 -> ModularPipelines.Pulumi.Enums.PulumiOrgUsageGetGranularity
+*REMOVED*ModularPipelines.Pulumi.Enums.PulumiStackScheduleEditOperation.Destroy = 3 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleEditOperation
+*REMOVED*ModularPipelines.Pulumi.Enums.PulumiStackScheduleEditOperation.Update = 0 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleEditOperation
+*REMOVED*ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewKind.Drift = 1 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewKind
+*REMOVED*ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewKind.Raw = 0 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewKind
+*REMOVED*ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation.Destroy = 3 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation
+*REMOVED*ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation.Update = 0 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation
 *REMOVED*ModularPipelines.Pulumi.Options.PulumiDoOptions.Command.get -> string?
 *REMOVED*ModularPipelines.Pulumi.Options.PulumiDoOptions.Command.set -> void
 *REMOVED*ModularPipelines.Pulumi.Options.PulumiDoOptions.Deconstruct(out string! PkgModTyp) -> void
@@ -392,6 +409,23 @@
 *REMOVED*virtual ModularPipelines.Pulumi.Services.PulumiTemplate.ExecuteAsync(ModularPipelines.Pulumi.Options.PulumiTemplateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Pulumi.Services.PulumiTemplate.ListAsync(ModularPipelines.Pulumi.Options.PulumiTemplateListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Pulumi.Services.PulumiTemplate.PublishAsync(ModularPipelines.Pulumi.Options.PulumiTemplatePublishOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider.AzureNative = 1 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider
+ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider.Gcp = 2 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider
+ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider.Kubernetes = 3 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider
+ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider.Oci = 4 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider
+ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule.Daily = 1 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule
+ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule.None = 2 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule
+ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule.Value12H = 0 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule
+ModularPipelines.Pulumi.Enums.PulumiOrgAuditLogExportFormat.Cef = 0 -> ModularPipelines.Pulumi.Enums.PulumiOrgAuditLogExportFormat
+ModularPipelines.Pulumi.Enums.PulumiOrgAuditLogExportFormat.Csv = 1 -> ModularPipelines.Pulumi.Enums.PulumiOrgAuditLogExportFormat
+ModularPipelines.Pulumi.Enums.PulumiOrgUsageGetGranularity.Daily = 0 -> ModularPipelines.Pulumi.Enums.PulumiOrgUsageGetGranularity
+ModularPipelines.Pulumi.Enums.PulumiOrgUsageGetGranularity.Hourly = 1 -> ModularPipelines.Pulumi.Enums.PulumiOrgUsageGetGranularity
+ModularPipelines.Pulumi.Enums.PulumiStackScheduleEditOperation.Destroy = 0 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleEditOperation
+ModularPipelines.Pulumi.Enums.PulumiStackScheduleEditOperation.Update = 3 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleEditOperation
+ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewKind.Drift = 0 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewKind
+ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewKind.Raw = 1 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewKind
+ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation.Destroy = 0 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation
+ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation.Update = 3 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation
 ModularPipelines.Pulumi.Options.PulumiDoOptions.PkgModTyp.get -> string?
 ModularPipelines.Pulumi.Options.PulumiDoOptions.PkgModTyp.set -> void
 ModularPipelines.Pulumi.Options.PulumiDoOptions.PulumiDoOptions() -> void

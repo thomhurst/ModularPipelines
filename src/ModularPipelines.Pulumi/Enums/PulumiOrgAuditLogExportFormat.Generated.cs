@@ -16,9 +16,9 @@ namespace ModularPipelines.Pulumi.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum PulumiOrgAuditLogExportFormat
 {
-    [EnumValue("csv")]
-    Csv,
-
     [EnumValue("cef")]
-    Cef
+    Cef,
+
+    [EnumValue("csv")]
+    Csv
 }
