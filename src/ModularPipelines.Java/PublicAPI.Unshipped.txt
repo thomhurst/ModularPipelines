@@ -10,6 +10,8 @@
 *REMOVED*ModularPipelines.Java.Enums.GradlePriority.Normal = 0 -> ModularPipelines.Java.Enums.GradlePriority
 *REMOVED*ModularPipelines.Java.Enums.GradleWarningMode.None = 3 -> ModularPipelines.Java.Enums.GradleWarningMode
 *REMOVED*ModularPipelines.Java.Enums.GradleWarningMode.Summary = 2 -> ModularPipelines.Java.Enums.GradleWarningMode
+*REMOVED*ModularPipelines.Java.Enums.MavenColor.Always = 1 -> ModularPipelines.Java.Enums.MavenColor
+*REMOVED*ModularPipelines.Java.Enums.MavenColor.Auto = 0 -> ModularPipelines.Java.Enums.MavenColor
 *REMOVED*ModularPipelines.Java.Services.IGradle.ExecuteAsync(ModularPipelines.Java.Options.GradleExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Java.Services.IMaven.ExecuteAsync(ModularPipelines.Java.Options.MavenExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*static ModularPipelines.Java.Extensions.GradleExtensions.Gradle(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Java.Services.IGradle!
@@ -25,5 +27,7 @@ ModularPipelines.Java.Enums.GradlePriority.Low = 0 -> ModularPipelines.Java.Enum
 ModularPipelines.Java.Enums.GradlePriority.Normal = 1 -> ModularPipelines.Java.Enums.GradlePriority
 ModularPipelines.Java.Enums.GradleWarningMode.None = 2 -> ModularPipelines.Java.Enums.GradleWarningMode
 ModularPipelines.Java.Enums.GradleWarningMode.Summary = 3 -> ModularPipelines.Java.Enums.GradleWarningMode
+ModularPipelines.Java.Enums.MavenColor.Always = 0 -> ModularPipelines.Java.Enums.MavenColor
+ModularPipelines.Java.Enums.MavenColor.Auto = 1 -> ModularPipelines.Java.Enums.MavenColor
 ModularPipelines.Java.Services.IGradle.ExecuteAsync(ModularPipelines.Java.Options.GradleExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Java.Services.IMaven.ExecuteAsync(ModularPipelines.Java.Options.MavenExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
