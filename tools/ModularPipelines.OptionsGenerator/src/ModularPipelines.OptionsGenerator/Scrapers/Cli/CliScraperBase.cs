@@ -1179,9 +1179,7 @@ public abstract partial class CliScraperBase : ICliScraper
             // Blank lines and option rows bound the block, never indentation: gcloud puts
             // repeatability notes at the flag column, and column-0 headers rely on blank
             // separation as before. The shared rule keeps wrapped prose that starts with a switch.
-            var descriptionColumn = GetDescriptionColumn(
-                declaration,
-                InlineDescriptionPattern().Match(declaration).Groups["description"]);
+            var descriptionColumn = GetInlineDescriptionColumn(declaration);
             var start = index;
             while (index + 1 < lines.Length
                    && IsContinuationLine(
@@ -1303,6 +1301,46 @@ public abstract partial class CliScraperBase : ICliScraper
     }
 
     /// <summary>
+    /// Returns the column where a generic option row's inline description starts, or
+    /// <see langword="null"/> when the row carries no prose. The row is split into segments at
+    /// runs of two or more blanks or at a single tab; switch segments and single-token value
+    /// hints that are followed by more text are skipped, so a padded hint
+    /// (<c>--env  stringArray   Set …</c>), a second switch form
+    /// (<c>-i CODES    --include=CODES    Consider …</c>) and a tab-aligned row
+    /// (<c>\t--env stringArray\tSet …</c>) all resolve to the prose column.
+    /// </summary>
+    protected internal static int? GetInlineDescriptionColumn(string line)
+    {
+        var position = line.Length - line.TrimStart().Length;
+        if (position == line.Length)
+        {
+            return null;
+        }
+
+        var segments = new List<(int Start, string Text)>();
+        foreach (Match separator in InlineSegmentSeparatorPattern().Matches(line, position))
+        {
+            segments.Add((position, line[position..separator.Index]));
+            position = separator.Index + separator.Length;
+        }
+
+        segments.Add((position, line[position..].TrimEnd()));
+
+        for (var i = 0; i < segments.Count; i++)
+        {
+            var (start, text) = segments[i];
+            var isSwitch = text.Length == 0 || text[0] == '-';
+            var isValueHint = i < segments.Count - 1 && !text.Any(char.IsWhiteSpace);
+            if (!isSwitch && !isValueHint)
+            {
+                return GetColumn(line, start);
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
     /// Joins an option row's inline description with the prose wrapped beneath it, advancing
     /// <paramref name="declarationIndex"/> past every consumed line so callers never re-read
     /// wrapped prose as a declaration. Returns an empty string when the row has no description.
@@ -1418,11 +1456,11 @@ public abstract partial class CliScraperBase : ICliScraper
     protected static partial Regex OptionLinePattern();
 
     /// <summary>
-    /// Captures the inline description of a generic option row: the text after the first
-    /// run of two or more blanks that follows the switches and any value hint.
+    /// Separates the segments of a generic option row: a run of two or more blanks, or a
+    /// single tab, which tab-aligned help uses as its column separator.
     /// </summary>
-    [GeneratedRegex(@"^[ \t]*\S.*?[ \t]{2,}(?<description>\S.*)$")]
-    private static partial Regex InlineDescriptionPattern();
+    [GeneratedRegex(@"[ \t]{2,}|\t")]
+    private static partial Regex InlineSegmentSeparatorPattern();
 
     [GeneratedRegex(
         @"^[ \t]*Usage:?[ \t]*(?:[^\r\n]*\r?\n[ \t]*){0,2}[^\r\n]*(?:<command>|\[command\])[^\r\n]*\r?$",
