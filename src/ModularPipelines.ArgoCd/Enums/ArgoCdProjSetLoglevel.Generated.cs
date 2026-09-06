@@ -19,12 +19,12 @@ public enum ArgoCdProjSetLoglevel
     [EnumValue("debug")]
     Debug,
 
+    [EnumValue("error")]
+    Error,
+
     [EnumValue("info")]
     Info,
 
     [EnumValue("warn")]
-    Warn,
-
-    [EnumValue("error")]
-    Error
+    Warn
 }

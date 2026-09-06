@@ -16,9 +16,9 @@ namespace ModularPipelines.ArgoCd.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum ArgoCdAppHistoryOutput
 {
-    [EnumValue("wide")]
-    Wide,
-
     [EnumValue("id")]
-    Id
+    Id,
+
+    [EnumValue("wide")]
+    Wide
 }

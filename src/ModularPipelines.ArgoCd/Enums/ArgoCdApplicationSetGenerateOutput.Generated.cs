@@ -19,9 +19,9 @@ public enum ArgoCdApplicationSetGenerateOutput
     [EnumValue("json")]
     Json,
 
-    [EnumValue("yaml")]
-    Yaml,
-
     [EnumValue("wide")]
-    Wide
+    Wide,
+
+    [EnumValue("yaml")]
+    Yaml
 }

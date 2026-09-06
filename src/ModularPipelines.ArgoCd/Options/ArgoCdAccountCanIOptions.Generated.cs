@@ -14,6 +14,9 @@ using ModularPipelines.ArgoCd.Enums;
 
 namespace ModularPipelines.ArgoCd.Options;
 
+/// <summary>
+/// Can I
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "can-i")]

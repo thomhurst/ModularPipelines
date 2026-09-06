@@ -16,9 +16,9 @@ namespace ModularPipelines.ArgoCd.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum ArgoCdAppManifestsSource
 {
-    [EnumValue("live")]
-    Live,
-
     [EnumValue("git")]
-    Git
+    Git,
+
+    [EnumValue("live")]
+    Live
 }
