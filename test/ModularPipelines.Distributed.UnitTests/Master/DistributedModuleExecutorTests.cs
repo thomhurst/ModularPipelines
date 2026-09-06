@@ -1911,14 +1911,17 @@ public class DistributedModuleExecutorTests
         typeRegistry.Register(typeof(MixedGroupedOperatingSystemModule));
         var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
-        var conditionRouting = new DistributedConditionRouting();
+        var routingOptions = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
+        var conditionRouting = new DistributedConditionRouting(
+            routingOptions,
+            new ModularPipelines.Distributed.Configuration.RoleDetector(routingOptions));
         var module = new MixedGroupedOperatingSystemModule();
         var conditionHandler = new Mock<IModuleConditionHandler>();
         conditionHandler
-            .Setup(handler => handler.PrepareDistributedRoutingAsync(
+            .Setup(handler => handler.PrepareExecutionRoutingAsync(
                 module,
                 It.IsAny<CancellationToken>()))
-            .Callback(() => conditionRouting.MarkLocallySatisfied(
+            .Callback(() => conditionRouting.MarkConditionGroupSatisfied(
                 module,
                 typeof(GroupedOperatingSystemAttribute<>)))
             .Returns(Task.CompletedTask);
@@ -1926,7 +1929,7 @@ public class DistributedModuleExecutorTests
             coordinator,
             typeRegistry,
             resultRegistry,
-            conditionRouting: conditionRouting,
+            executionLocationContext: conditionRouting,
             conditionHandler: conditionHandler.Object);
 
         var assignment = await publisher.CreateAssignmentAsync(
@@ -1935,7 +1938,7 @@ public class DistributedModuleExecutorTests
 
         await Assert.That(assignment.RequiredCapabilities)
             .DoesNotContain(OperatingSystemConditions.Linux);
-        conditionHandler.Verify(handler => handler.PrepareDistributedRoutingAsync(
+        conditionHandler.Verify(handler => handler.PrepareExecutionRoutingAsync(
             module,
             CancellationToken.None));
     }
@@ -2014,7 +2017,7 @@ public class DistributedModuleExecutorTests
     {
         var failure = new InvalidOperationException("Routing failed");
         var conditionHandler = new Mock<IModuleConditionHandler>();
-        conditionHandler.Setup(handler => handler.PrepareDistributedRoutingAsync(
+        conditionHandler.Setup(handler => handler.PrepareExecutionRoutingAsync(
                 It.IsAny<IModule>(),
                 It.IsAny<CancellationToken>()))
             .ThrowsAsync(failure);
@@ -2045,7 +2048,7 @@ public class DistributedModuleExecutorTests
 
         await Assert.That(resultRegistry.GetResult(typeof(DistributedModule))?.ExceptionOrDefault)
             .IsSameReferenceAs(failure);
-        conditionHandler.Verify(handler => handler.PrepareDistributedRoutingAsync(
+        conditionHandler.Verify(handler => handler.PrepareExecutionRoutingAsync(
             It.IsAny<IModule>(),
             It.IsAny<CancellationToken>()), Times.Once());
         coordinator.Verify(instance => instance.EnqueueModuleAsync(
@@ -2840,7 +2843,7 @@ public class DistributedModuleExecutorTests
             .ReturnsAsync(serializedResult);
 
         var conditionHandler = new Mock<IModuleConditionHandler>();
-        conditionHandler.Setup(handler => handler.PrepareDistributedRoutingAsync(
+        conditionHandler.Setup(handler => handler.PrepareExecutionRoutingAsync(
                 It.IsAny<IModule>(),
                 It.IsAny<CancellationToken>()))
             .Returns(async () => await Task.Delay(
@@ -2881,7 +2884,7 @@ public class DistributedModuleExecutorTests
         var releaseFirst = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var conditionHandler = new Mock<IModuleConditionHandler>();
         conditionHandler
-            .Setup(handler => handler.PrepareDistributedRoutingAsync(
+            .Setup(handler => handler.PrepareExecutionRoutingAsync(
                 It.IsAny<IModule>(),
                 It.IsAny<CancellationToken>()))
             .Returns<IModule, CancellationToken>(async (module, token) =>
@@ -2924,7 +2927,7 @@ public class DistributedModuleExecutorTests
         await applicationStopping.CancelAsync();
         await executionTask;
 
-        conditionHandler.Verify(handler => handler.PrepareDistributedRoutingAsync(
+        conditionHandler.Verify(handler => handler.PrepareExecutionRoutingAsync(
             It.IsAny<IModule>(),
             It.IsAny<CancellationToken>()), Times.Exactly(2));
     }

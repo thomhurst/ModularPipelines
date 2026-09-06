@@ -211,7 +211,10 @@ public class PipelineWorkingDirectoryTests
         }
     }
 
+    // Pointing MODULAR_PIPELINES_DIRECTORY at a missing path makes every inferring
+    // Pipeline.CreateBuilder() in the process throw, so run alone, not just in the group.
     [Test]
+    [TUnit.Core.NotInParallel]
     public async Task ExplicitWorkingDirectorySkipsProjectInference()
     {
         var variableName = "MODULAR_PIPELINES_DIRECTORY";
@@ -238,6 +241,7 @@ public class PipelineWorkingDirectoryTests
     }
 
     [Test]
+    [TUnit.Core.NotInParallel]
     public async Task NonInferringBuilderIgnoresPipelineDirectoryEnvironmentVariable()
     {
         var variableName = "MODULAR_PIPELINES_DIRECTORY";

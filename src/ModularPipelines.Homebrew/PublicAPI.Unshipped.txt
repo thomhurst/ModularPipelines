@@ -6,6 +6,24 @@ ModularPipelines.Homebrew.Options.BrewAuditOptions.Only.get -> string?
 ModularPipelines.Homebrew.Options.BrewAuditOptions.OnlyCops.get -> string?
 ModularPipelines.Homebrew.Options.BrewAuditOptions.Os.get -> string?
 ModularPipelines.Homebrew.Options.BrewAuditOptions.Tap.get -> string?
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.BrewBenchmarkOptions(ModularPipelines.Homebrew.Options.BrewBenchmarkOptions! original) -> void
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.BrewBenchmarkOptions(System.Collections.Generic.IEnumerable<string!>! Formula) -> void
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Debug.get -> bool?
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Debug.set -> void
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Formula) -> void
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Exec.get -> bool?
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Exec.set -> void
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Formula.get -> System.Collections.Generic.IEnumerable<string!>!
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Formula.init -> void
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Help.get -> bool?
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Help.set -> void
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Quiet.get -> bool?
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Quiet.set -> void
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Runs.get -> string?
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Runs.set -> void
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Verbose.get -> bool?
+ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Verbose.set -> void
 ModularPipelines.Homebrew.Options.BrewBottleOptions.RootUrl.get -> string?
 ModularPipelines.Homebrew.Options.BrewBottleOptions.RootUrlUsing.get -> string?
 ModularPipelines.Homebrew.Options.BrewBumpCaskPrOptions.ForkOrg.get -> string?
@@ -75,6 +93,8 @@ ModularPipelines.Homebrew.Options.BrewTestBotOptions.RootUrl.get -> string?
 ModularPipelines.Homebrew.Options.BrewTestBotOptions.Tap.get -> string?
 ModularPipelines.Homebrew.Options.BrewTestBotOptions.TestedFormulae.get -> string?
 ModularPipelines.Homebrew.Options.BrewTestBotOptions.TestingFormulae.get -> string?
+ModularPipelines.Homebrew.Options.BrewTestsOptions.LoadOnly.get -> bool?
+ModularPipelines.Homebrew.Options.BrewTestsOptions.LoadOnly.set -> void
 ModularPipelines.Homebrew.Options.BrewTestsOptions.Only.get -> string?
 ModularPipelines.Homebrew.Options.BrewTestsOptions.Profile.get -> string?
 ModularPipelines.Homebrew.Options.BrewTestsOptions.Seed.get -> string?
@@ -90,11 +110,16 @@ ModularPipelines.Homebrew.Options.BrewVendorGemsOptions.Update.get -> string?
 ModularPipelines.Homebrew.Options.BrewVerifyOptions.Arch.get -> string?
 ModularPipelines.Homebrew.Options.BrewVerifyOptions.BottleTag.get -> string?
 ModularPipelines.Homebrew.Options.BrewVerifyOptions.Os.get -> string?
+ModularPipelines.Homebrew.Options.BrewVulnsOptions.FixType.get -> string?
+ModularPipelines.Homebrew.Options.BrewVulnsOptions.FixType.set -> void
+ModularPipelines.Homebrew.Options.BrewVulnsOptions.ListSkipped.get -> bool?
+ModularPipelines.Homebrew.Options.BrewVulnsOptions.ListSkipped.set -> void
 ModularPipelines.Homebrew.Options.BrewWhichUpdateOptions.SummaryFile.get -> string?
 ModularPipelines.Homebrew.Services.IBrew.AliasAsync(ModularPipelines.Homebrew.Options.BrewAliasOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Homebrew.Services.IBrew.AsConsoleUserAsync(ModularPipelines.Homebrew.Options.BrewAsConsoleUserOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Homebrew.Services.IBrew.AuditAsync(ModularPipelines.Homebrew.Options.BrewAuditOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Homebrew.Services.IBrew.AutoremoveAsync(ModularPipelines.Homebrew.Options.BrewAutoremoveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Homebrew.Services.IBrew.BenchmarkAsync(ModularPipelines.Homebrew.Options.BrewBenchmarkOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Homebrew.Services.IBrew.BottleAsync(ModularPipelines.Homebrew.Options.BrewBottleOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Homebrew.Services.IBrew.BumpAsync(ModularPipelines.Homebrew.Options.BrewBumpOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Homebrew.Services.IBrew.BumpCaskPrAsync(ModularPipelines.Homebrew.Options.BrewBumpCaskPrOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -212,3 +237,13 @@ ModularPipelines.Homebrew.Services.IBrew.VersionInstallAsync(ModularPipelines.Ho
 ModularPipelines.Homebrew.Services.IBrew.VulnsAsync(ModularPipelines.Homebrew.Options.BrewVulnsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Homebrew.Services.IBrew.WhichFormulaAsync(ModularPipelines.Homebrew.Options.BrewWhichFormulaOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Homebrew.Services.IBrew.WhichUpdateAsync(ModularPipelines.Homebrew.Options.BrewWhichUpdateOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+override ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.<Clone>$() -> ModularPipelines.Homebrew.Options.BrewBenchmarkOptions!
+override ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Equals(object? obj) -> bool
+override ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.GetHashCode() -> int
+override ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.ToString() -> string!
+override sealed ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Equals(ModularPipelines.Homebrew.Options.BrewOptions? other) -> bool
+static ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.operator !=(ModularPipelines.Homebrew.Options.BrewBenchmarkOptions? left, ModularPipelines.Homebrew.Options.BrewBenchmarkOptions? right) -> bool
+static ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.operator ==(ModularPipelines.Homebrew.Options.BrewBenchmarkOptions? left, ModularPipelines.Homebrew.Options.BrewBenchmarkOptions? right) -> bool
+virtual ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Equals(ModularPipelines.Homebrew.Options.BrewBenchmarkOptions? other) -> bool

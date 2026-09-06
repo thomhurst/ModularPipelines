@@ -110,18 +110,17 @@ public partial class AnsibleCliScraper : CliScraperBase
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        var lines = GetOptionsSection(helpText).Split('\n');
+        var lines = GetOptionsSection(helpText).ReplaceLineEndings("\n").Split('\n');
 
         for (var i = 0; i < lines.Length; i++)
         {
-            var match = AnsibleOptionPattern().Match(lines[i].TrimEnd('\r'));
+            var match = AnsibleOptionPattern().Match(lines[i]);
             if (!match.Success)
             {
                 continue;
             }
 
-            var description = match.Groups["desc"].Value.Trim();
-            i = AccumulateMultiLineDescription(lines, i, ref description);
+            var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow);
             var option = ParseOption(match.Groups["spec"].Value, description);
             if (option is not null && seenOptions.Add(option.SwitchName))
             {
@@ -247,36 +246,7 @@ public partial class AnsibleCliScraper : CliScraperBase
         return isNumeric ? "int?" : "string?";
     }
 
-    private static int AccumulateMultiLineDescription(
-        string[] lines,
-        int currentIndex,
-        ref string description)
-    {
-        var descriptionParts = new List<string>();
-        if (!string.IsNullOrEmpty(description))
-        {
-            descriptionParts.Add(description);
-        }
-
-        var nextIndex = currentIndex + 1;
-        while (nextIndex < lines.Length)
-        {
-            var nextLine = lines[nextIndex].TrimEnd('\r');
-            var trimmedLine = nextLine.Trim();
-            if (trimmedLine.Length == 0 ||
-                AnsibleOptionPattern().IsMatch(nextLine) ||
-                nextLine.Length == nextLine.TrimStart().Length)
-            {
-                break;
-            }
-
-            descriptionParts.Add(trimmedLine);
-            nextIndex++;
-        }
-
-        description = string.Join(" ", descriptionParts);
-        return nextIndex - 1;
-    }
+    private static bool IsOptionRow(string line) => AnsibleOptionPattern().IsMatch(line);
 
     /// <summary>
     /// Checks if help text indicates the command has options.

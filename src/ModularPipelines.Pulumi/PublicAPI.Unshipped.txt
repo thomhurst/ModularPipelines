@@ -1,9 +1,317 @@
 #nullable enable
+ModularPipelines.Pulumi.Options.PulumiDoOptions.PkgModTyp.get -> string?
+ModularPipelines.Pulumi.Options.PulumiDoOptions.PkgModTyp.set -> void
+ModularPipelines.Pulumi.Options.PulumiDoOptions.PulumiDoOptions() -> void
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Color.get -> string?
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Color.set -> void
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Cwd.get -> string?
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Cwd.set -> void
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.DisableIntegrityChecking.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.DisableIntegrityChecking.set -> void
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Emoji.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Emoji.set -> void
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.FullyQualifyStackNames.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.FullyQualifyStackNames.set -> void
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Help.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Help.set -> void
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Logflow.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Logflow.set -> void
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Logtostderr.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Logtostderr.set -> void
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Memprofilerate.get -> int?
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Memprofilerate.set -> void
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.NonInteractive.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.NonInteractive.set -> void
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.OtelTraces.get -> string?
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.OtelTraces.set -> void
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Output.get -> string?
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Output.set -> void
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Profiling.get -> string?
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Profiling.set -> void
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.PulumiDoShowResourcesOptions() -> void
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.PulumiDoShowResourcesOptions(ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions! original) -> void
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Tracing.get -> string?
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Tracing.set -> void
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Verbose.get -> int?
+ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Verbose.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.Args.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.Args.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.Command.get -> string!
+ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.Command.init -> void
+ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.Deconstruct(out string! EnvironmentName, out string! Command) -> void
+ModularPipelines.Pulumi.Options.PulumiEnvRunOptions.PulumiEnvRunOptions(string! EnvironmentName, string! Command) -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Account.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Account.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Color.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Color.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Cwd.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Cwd.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.DisableIntegrityChecking.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.DisableIntegrityChecking.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Duration.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Duration.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Emoji.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Emoji.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Env.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Env.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.FullyQualifyStackNames.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.FullyQualifyStackNames.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Help.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Help.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Logflow.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Logflow.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Logtostderr.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Logtostderr.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Memprofilerate.get -> int?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Memprofilerate.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.NonInteractive.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.NonInteractive.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Org.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Org.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.OtelTraces.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.OtelTraces.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Policy.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Policy.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Profiling.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Profiling.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Project.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Project.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.PulumiEnvSetupAwsOptions() -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.PulumiEnvSetupAwsOptions(ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions! original) -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.SessionName.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.SessionName.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Sso.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Sso.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.SsoRegion.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.SsoRegion.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.SsoRole.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.SsoRole.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.SsoStartUrl.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.SsoStartUrl.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Tracing.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Tracing.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Verbose.get -> int?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Verbose.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Yes.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Yes.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Browser.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Browser.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Color.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Color.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Cwd.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Cwd.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.DisableIntegrityChecking.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.DisableIntegrityChecking.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Emoji.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Emoji.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Env.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Env.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.FullyQualifyStackNames.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.FullyQualifyStackNames.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Help.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Help.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Logflow.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Logflow.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Logtostderr.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Logtostderr.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Memprofilerate.get -> int?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Memprofilerate.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.NonInteractive.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.NonInteractive.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Org.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Org.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.OtelTraces.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.OtelTraces.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Policy.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Policy.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Profiling.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Profiling.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Project.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Project.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.PulumiEnvSetupAzureOptions() -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.PulumiEnvSetupAzureOptions(ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions! original) -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Subscription.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Subscription.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Tenant.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Tenant.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Tracing.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Tracing.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Verbose.get -> int?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Verbose.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Yes.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Yes.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Color.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Color.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Cwd.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Cwd.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.DisableIntegrityChecking.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.DisableIntegrityChecking.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Emoji.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Emoji.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Env.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Env.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.FullyQualifyStackNames.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.FullyQualifyStackNames.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Help.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Help.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Logflow.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Logflow.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Logtostderr.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Logtostderr.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Memprofilerate.get -> int?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Memprofilerate.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.NonInteractive.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.NonInteractive.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Org.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Org.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.OtelTraces.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.OtelTraces.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Policy.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Policy.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Profiling.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Profiling.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Project.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Project.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.ProjectId.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.ProjectId.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.PulumiEnvSetupGcpOptions() -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.PulumiEnvSetupGcpOptions(ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions! original) -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Tracing.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Tracing.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Verbose.get -> int?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Verbose.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Yes.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Yes.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Color.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Color.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Cwd.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Cwd.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.DisableIntegrityChecking.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.DisableIntegrityChecking.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Emoji.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Emoji.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Env.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Env.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.FullyQualifyStackNames.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.FullyQualifyStackNames.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Help.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Help.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Logflow.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Logflow.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Logtostderr.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Logtostderr.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Memprofilerate.get -> int?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Memprofilerate.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.NonInteractive.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.NonInteractive.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.OtelTraces.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.OtelTraces.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Profiling.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Profiling.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.PulumiEnvSetupOptions() -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.PulumiEnvSetupOptions(ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions! original) -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Tracing.get -> string?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Tracing.set -> void
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Verbose.get -> int?
+ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Verbose.set -> void
+ModularPipelines.Pulumi.Options.PulumiLogoutOptions.Local.get -> string?
+ModularPipelines.Pulumi.Options.PulumiPluginInstallOptions.Parallel.get -> int?
+ModularPipelines.Pulumi.Options.PulumiPluginInstallOptions.Parallel.set -> void
+ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Deconstruct(out string! NameArgument) -> void
+ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Name.get -> string?
+ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.Name.set -> void
+ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.NameArgument.get -> string!
+ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.NameArgument.init -> void
+ModularPipelines.Pulumi.Options.PulumiPolicyGroupEditOptions.PulumiPolicyGroupEditOptions(string! NameArgument) -> void
+ModularPipelines.Pulumi.Options.PulumiStackSelectOptions.StackArgument.get -> string?
+ModularPipelines.Pulumi.Options.PulumiStackSelectOptions.StackArgument.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Color.get -> string?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Color.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Cwd.get -> string?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Cwd.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.DisableIntegrityChecking.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.DisableIntegrityChecking.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Emoji.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Emoji.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.FullyQualifyStackNames.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.FullyQualifyStackNames.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Help.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Help.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Logflow.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Logflow.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Logtostderr.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Logtostderr.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Memprofilerate.get -> int?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Memprofilerate.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.NonInteractive.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.NonInteractive.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.OtelTraces.get -> string?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.OtelTraces.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Output.get -> string?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Output.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Profiling.get -> string?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Profiling.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.PulumiStateGetOptions() -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.PulumiStateGetOptions(ModularPipelines.Pulumi.Options.PulumiStateGetOptions! original) -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Resource.get -> string?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Resource.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.ShowSecrets.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.ShowSecrets.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Stack.get -> string?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Stack.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Tracing.get -> string?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Tracing.set -> void
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Verbose.get -> int?
+ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Verbose.set -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Color.get -> string?
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Color.set -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Cwd.get -> string?
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Cwd.set -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Deconstruct(out string! SnippetName) -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.DisableIntegrityChecking.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.DisableIntegrityChecking.set -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Emoji.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Emoji.set -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.FullyQualifyStackNames.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.FullyQualifyStackNames.set -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Help.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Help.set -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Logflow.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Logflow.set -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Logtostderr.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Logtostderr.set -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Memprofilerate.get -> int?
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Memprofilerate.set -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.NonInteractive.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.NonInteractive.set -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.OtelTraces.get -> string?
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.OtelTraces.set -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Profiling.get -> string?
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Profiling.set -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.PulumiStatePromoteOptions(ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions! original) -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.PulumiStatePromoteOptions(string! SnippetName) -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.SnippetName.get -> string!
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.SnippetName.init -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Stack.get -> string?
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Stack.set -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Tracing.get -> string?
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Tracing.set -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Verbose.get -> int?
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Verbose.set -> void
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Yes.get -> bool?
+ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Yes.set -> void
 ModularPipelines.Pulumi.Services.IPulumi.CancelAsync(ModularPipelines.Pulumi.Options.PulumiCancelOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumi.ConsoleAsync(ModularPipelines.Pulumi.Options.PulumiConsoleOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumi.ConvertAsync(ModularPipelines.Pulumi.Options.PulumiConvertOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumi.DestroyAsync(ModularPipelines.Pulumi.Options.PulumiDestroyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-ModularPipelines.Pulumi.Services.IPulumi.DoAsync(ModularPipelines.Pulumi.Options.PulumiDoOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Pulumi.Services.IPulumi.Do.get -> ModularPipelines.Pulumi.Services.IPulumiDo!
 ModularPipelines.Pulumi.Services.IPulumi.ImportAsync(ModularPipelines.Pulumi.Options.PulumiImportOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumi.InstallAsync(ModularPipelines.Pulumi.Options.PulumiInstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumi.LoginAsync(ModularPipelines.Pulumi.Options.PulumiLoginOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -31,6 +339,9 @@ ModularPipelines.Pulumi.Services.IPulumiDeployment.GetAsync(ModularPipelines.Pul
 ModularPipelines.Pulumi.Services.IPulumiDeployment.ListAsync(ModularPipelines.Pulumi.Options.PulumiDeploymentListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumiDeployment.LogAsync(ModularPipelines.Pulumi.Options.PulumiDeploymentLogOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumiDeployment.RunAsync(ModularPipelines.Pulumi.Options.PulumiDeploymentRunOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Pulumi.Services.IPulumiDo
+ModularPipelines.Pulumi.Services.IPulumiDo.ExecuteAsync(ModularPipelines.Pulumi.Options.PulumiDoOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Pulumi.Services.IPulumiDo.ShowResourcesAsync(ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumiEnv.CloneAsync(ModularPipelines.Pulumi.Options.PulumiEnvCloneOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumiEnv.DiffAsync(ModularPipelines.Pulumi.Options.PulumiEnvDiffOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumiEnv.EditAsync(ModularPipelines.Pulumi.Options.PulumiEnvEditOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -44,6 +355,7 @@ ModularPipelines.Pulumi.Services.IPulumiEnv.RemoveAsync(ModularPipelines.Pulumi.
 ModularPipelines.Pulumi.Services.IPulumiEnv.RotateAsync(ModularPipelines.Pulumi.Options.PulumiEnvRotateOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumiEnv.RunAsync(ModularPipelines.Pulumi.Options.PulumiEnvRunOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumiEnv.SetAsync(ModularPipelines.Pulumi.Options.PulumiEnvSetOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Pulumi.Services.IPulumiEnv.Setup.get -> ModularPipelines.Pulumi.Services.PulumiEnvSetup!
 ModularPipelines.Pulumi.Services.IPulumiInsights.ExecuteAsync(ModularPipelines.Pulumi.Options.PulumiInsightsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumiLogs.DecryptAsync(ModularPipelines.Pulumi.Options.PulumiLogsDecryptOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumiLogs.ExecuteAsync(ModularPipelines.Pulumi.Options.PulumiLogsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -97,7 +409,9 @@ ModularPipelines.Pulumi.Services.IPulumiStack.RenameAsync(ModularPipelines.Pulum
 ModularPipelines.Pulumi.Services.IPulumiStack.SelectAsync(ModularPipelines.Pulumi.Options.PulumiStackSelectOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumiStack.UnselectAsync(ModularPipelines.Pulumi.Options.PulumiStackUnselectOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumiState.ExecuteAsync(ModularPipelines.Pulumi.Options.PulumiStateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Pulumi.Services.IPulumiState.GetAsync(ModularPipelines.Pulumi.Options.PulumiStateGetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumiState.MoveAsync(ModularPipelines.Pulumi.Options.PulumiStateMoveOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Pulumi.Services.IPulumiState.PromoteAsync(ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumiState.ProtectAsync(ModularPipelines.Pulumi.Options.PulumiStateProtectOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumiState.RemoveAsync(ModularPipelines.Pulumi.Options.PulumiStateRemoveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Pulumi.Services.IPulumiState.RenameAsync(ModularPipelines.Pulumi.Options.PulumiStateRenameOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -114,7 +428,10 @@ ModularPipelines.Pulumi.Services.PulumiConfig.PulumiConfig(ModularPipelines.Cont
 ModularPipelines.Pulumi.Services.PulumiConfigEnv.PulumiConfigEnv(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Pulumi.Services.PulumiDeployment.PulumiDeployment(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Pulumi.Services.PulumiDeploymentSettings.PulumiDeploymentSettings(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.Pulumi.Services.PulumiDo
+ModularPipelines.Pulumi.Services.PulumiDo.PulumiDo(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Pulumi.Services.PulumiEnv.PulumiEnv(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.Pulumi.Services.PulumiEnv.Setup.get -> ModularPipelines.Pulumi.Services.PulumiEnvSetup!
 ModularPipelines.Pulumi.Services.PulumiEnvProvider.PulumiEnvProvider(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Pulumi.Services.PulumiEnvProviderAwsLogin.PulumiEnvProviderAwsLogin(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Pulumi.Services.PulumiEnvProviderAzureLogin.PulumiEnvProviderAzureLogin(ModularPipelines.Context.ICommandContext! command) -> void
@@ -122,6 +439,8 @@ ModularPipelines.Pulumi.Services.PulumiEnvProviderGcpLogin.PulumiEnvProviderGcpL
 ModularPipelines.Pulumi.Services.PulumiEnvReferrer.PulumiEnvReferrer(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Pulumi.Services.PulumiEnvSchedule.PulumiEnvSchedule(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Pulumi.Services.PulumiEnvSettings.PulumiEnvSettings(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.Pulumi.Services.PulumiEnvSetup
+ModularPipelines.Pulumi.Services.PulumiEnvSetup.PulumiEnvSetup(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Pulumi.Services.PulumiEnvTag.PulumiEnvTag(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Pulumi.Services.PulumiEnvWebhook.PulumiEnvWebhook(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Pulumi.Services.PulumiEnvWebhookDelivery.PulumiEnvWebhookDelivery(ModularPipelines.Context.ICommandContext! command) -> void
@@ -155,7 +474,76 @@ ModularPipelines.Pulumi.Services.PulumiStackWebhook.PulumiStackWebhook(ModularPi
 ModularPipelines.Pulumi.Services.PulumiStackWebhookDelivery.PulumiStackWebhookDelivery(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Pulumi.Services.PulumiState.PulumiState(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Pulumi.Services.PulumiTemplate.PulumiTemplate(ModularPipelines.Context.ICommandContext! command) -> void
-static ModularPipelines.Pulumi.Extensions.PulumiExtensions.Pulumi(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Pulumi.Services.IPulumi!
+override ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.<Clone>$() -> ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions!
+override ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Equals(object? obj) -> bool
+override ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.GetHashCode() -> int
+override ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.ToString() -> string!
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.<Clone>$() -> ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions!
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Equals(object? obj) -> bool
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.GetHashCode() -> int
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.ToString() -> string!
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.<Clone>$() -> ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions!
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Equals(object? obj) -> bool
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.GetHashCode() -> int
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.ToString() -> string!
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.<Clone>$() -> ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions!
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Equals(object? obj) -> bool
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.GetHashCode() -> int
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.ToString() -> string!
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.<Clone>$() -> ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions!
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Equals(object? obj) -> bool
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.GetHashCode() -> int
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.ToString() -> string!
+override ModularPipelines.Pulumi.Options.PulumiStateGetOptions.<Clone>$() -> ModularPipelines.Pulumi.Options.PulumiStateGetOptions!
+override ModularPipelines.Pulumi.Options.PulumiStateGetOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Equals(object? obj) -> bool
+override ModularPipelines.Pulumi.Options.PulumiStateGetOptions.GetHashCode() -> int
+override ModularPipelines.Pulumi.Options.PulumiStateGetOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Pulumi.Options.PulumiStateGetOptions.ToString() -> string!
+override ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.<Clone>$() -> ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions!
+override ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Equals(object? obj) -> bool
+override ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.GetHashCode() -> int
+override ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.ToString() -> string!
+override sealed ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Equals(ModularPipelines.Pulumi.Options.PulumiOptions? other) -> bool
+override sealed ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Equals(ModularPipelines.Pulumi.Options.PulumiOptions? other) -> bool
+override sealed ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Equals(ModularPipelines.Pulumi.Options.PulumiOptions? other) -> bool
+override sealed ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Equals(ModularPipelines.Pulumi.Options.PulumiOptions? other) -> bool
+override sealed ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Equals(ModularPipelines.Pulumi.Options.PulumiOptions? other) -> bool
+override sealed ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Equals(ModularPipelines.Pulumi.Options.PulumiOptions? other) -> bool
+override sealed ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Equals(ModularPipelines.Pulumi.Options.PulumiOptions? other) -> bool
+static ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.operator !=(ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions? left, ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions? right) -> bool
+static ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.operator ==(ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions? left, ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions? right) -> bool
+static ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.operator !=(ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions? left, ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions? right) -> bool
+static ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.operator ==(ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions? left, ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions? right) -> bool
+static ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.operator !=(ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions? left, ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions? right) -> bool
+static ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.operator ==(ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions? left, ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions? right) -> bool
+static ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.operator !=(ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions? left, ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions? right) -> bool
+static ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.operator ==(ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions? left, ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions? right) -> bool
+static ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.operator !=(ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions? left, ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions? right) -> bool
+static ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.operator ==(ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions? left, ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions? right) -> bool
+static ModularPipelines.Pulumi.Options.PulumiStateGetOptions.operator !=(ModularPipelines.Pulumi.Options.PulumiStateGetOptions? left, ModularPipelines.Pulumi.Options.PulumiStateGetOptions? right) -> bool
+static ModularPipelines.Pulumi.Options.PulumiStateGetOptions.operator ==(ModularPipelines.Pulumi.Options.PulumiStateGetOptions? left, ModularPipelines.Pulumi.Options.PulumiStateGetOptions? right) -> bool
+static ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.operator !=(ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions? left, ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions? right) -> bool
+static ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.operator ==(ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions? left, ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions? right) -> bool
+virtual ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions.Equals(ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions? other) -> bool
+virtual ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions.Equals(ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions? other) -> bool
+virtual ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions.Equals(ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions? other) -> bool
+virtual ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions.Equals(ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions? other) -> bool
+virtual ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions.Equals(ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions? other) -> bool
+virtual ModularPipelines.Pulumi.Options.PulumiStateGetOptions.Equals(ModularPipelines.Pulumi.Options.PulumiStateGetOptions? other) -> bool
+virtual ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions.Equals(ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions? other) -> bool
 virtual ModularPipelines.Pulumi.Services.PulumiApi.DescribeAsync(ModularPipelines.Pulumi.Options.PulumiApiDescribeOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiApi.ExecuteAsync(ModularPipelines.Pulumi.Options.PulumiApiOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiApi.ListAsync(ModularPipelines.Pulumi.Options.PulumiApiListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -181,6 +569,8 @@ virtual ModularPipelines.Pulumi.Services.PulumiDeployment.RunAsync(ModularPipeli
 virtual ModularPipelines.Pulumi.Services.PulumiDeploymentSettings.EditAsync(ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiDeploymentSettings.ExecuteAsync(ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiDeploymentSettings.GetAsync(ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsGetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Pulumi.Services.PulumiDo.ExecuteAsync(ModularPipelines.Pulumi.Options.PulumiDoOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Pulumi.Services.PulumiDo.ShowResourcesAsync(ModularPipelines.Pulumi.Options.PulumiDoShowResourcesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiEnv.CloneAsync(ModularPipelines.Pulumi.Options.PulumiEnvCloneOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiEnv.DiffAsync(ModularPipelines.Pulumi.Options.PulumiEnvDiffOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiEnv.EditAsync(ModularPipelines.Pulumi.Options.PulumiEnvEditOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -216,6 +606,10 @@ virtual ModularPipelines.Pulumi.Services.PulumiEnvSchedule.RemoveAsync(ModularPi
 virtual ModularPipelines.Pulumi.Services.PulumiEnvSettings.ExecuteAsync(ModularPipelines.Pulumi.Options.PulumiEnvSettingsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiEnvSettings.GetAsync(ModularPipelines.Pulumi.Options.PulumiEnvSettingsGetOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiEnvSettings.SetAsync(ModularPipelines.Pulumi.Options.PulumiEnvSettingsSetOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Pulumi.Services.PulumiEnvSetup.AwsAsync(ModularPipelines.Pulumi.Options.PulumiEnvSetupAwsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Pulumi.Services.PulumiEnvSetup.AzureAsync(ModularPipelines.Pulumi.Options.PulumiEnvSetupAzureOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Pulumi.Services.PulumiEnvSetup.ExecuteAsync(ModularPipelines.Pulumi.Options.PulumiEnvSetupOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Pulumi.Services.PulumiEnvSetup.GcpAsync(ModularPipelines.Pulumi.Options.PulumiEnvSetupGcpOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiEnvTag.ExecuteAsync(ModularPipelines.Pulumi.Options.PulumiEnvTagOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiEnvTag.GetAsync(ModularPipelines.Pulumi.Options.PulumiEnvTagGetOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiEnvTag.ListAsync(ModularPipelines.Pulumi.Options.PulumiEnvTagListOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -355,7 +749,9 @@ virtual ModularPipelines.Pulumi.Services.PulumiStackWebhookDelivery.ExecuteAsync
 virtual ModularPipelines.Pulumi.Services.PulumiStackWebhookDelivery.ListAsync(ModularPipelines.Pulumi.Options.PulumiStackWebhookDeliveryListOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiStackWebhookDelivery.RedeliverAsync(ModularPipelines.Pulumi.Options.PulumiStackWebhookDeliveryRedeliverOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiState.ExecuteAsync(ModularPipelines.Pulumi.Options.PulumiStateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Pulumi.Services.PulumiState.GetAsync(ModularPipelines.Pulumi.Options.PulumiStateGetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiState.MoveAsync(ModularPipelines.Pulumi.Options.PulumiStateMoveOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Pulumi.Services.PulumiState.PromoteAsync(ModularPipelines.Pulumi.Options.PulumiStatePromoteOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiState.ProtectAsync(ModularPipelines.Pulumi.Options.PulumiStateProtectOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiState.RemoveAsync(ModularPipelines.Pulumi.Options.PulumiStateRemoveOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Pulumi.Services.PulumiState.RenameAsync(ModularPipelines.Pulumi.Options.PulumiStateRenameOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!

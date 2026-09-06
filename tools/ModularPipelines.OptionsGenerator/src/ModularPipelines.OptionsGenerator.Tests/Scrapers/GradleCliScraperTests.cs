@@ -88,6 +88,31 @@ public class GradleCliScraperTests
         await Assert.That(version).IsEqualTo("9.7.1");
     }
 
+    [Test]
+    public async Task Wrapped_Descriptions_That_Look_Like_Option_Rows_Stay_Prose()
+    {
+        // The wrapped "--continue  to ..." line deliberately keeps two spaces so it satisfies
+        // the option-row pattern; only its column keeps it inside the description.
+        const string helpText = """
+            USAGE: gradle [option...] [task...]
+
+            Execution:
+            --console                          Specifies which type of console output to generate. Combine with
+                                               --continue  to keep going after a failure.
+            --offline                          Execute the build without accessing network resources.
+            """;
+
+        var command = await new TestGradleCliScraper().Parse(helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo(["--console", "--offline"]);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--console").Description)
+                .IsEqualTo("Specifies which type of console output to generate. Combine with --continue  to keep going after a failure.");
+        }
+    }
+
     private sealed class TestGradleCliScraper : GradleCliScraper
     {
         public TestGradleCliScraper()
