@@ -1317,6 +1317,10 @@ public abstract partial class CliScraperBase : ICliScraper
 
             parts.Add(candidate.Trim());
             declarationIndex++;
+
+            // A row whose prose only starts on the next line (picocli, argparse, git) reveals its
+            // description column there, so later wrapped lines get the same column-aware rule.
+            descriptionColumn ??= GetIndentation(candidate);
         }
 
         return string.Join(' ', parts);
