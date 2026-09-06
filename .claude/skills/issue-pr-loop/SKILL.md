@@ -1,115 +1,115 @@
 ---
 name: issue-pr-loop
-description: "Use for /issue-pr-loop or requests to autonomously work the GitHub queue: maintain and merge PRs, then claim issues and ship fixes until stopped or no actionable work remains."
+description: "Run the GitHub issue/PR queue when the user invokes /issue-pr-loop or requests continuous queue work: maintain PRs, claim issues, implement in isolated worktrees, and ship until stopped."
 ---
 
 # Issue/PR Loop
 
-Follow [CLAUDE.md](../../../CLAUDE.md) for build limits, tests, formatting, and generated-code constraints.
+Read the root agent instructions and [repository guidance](references/repository.md). Keep this workflow identical across repositories; local requirements belong in that reference or their maintained source. Reviewing or editing the skill does not start the loop. Stay within the user's authorized scope.
 
 ## Loop and completion
 
-Run unattended until the user stops/pauses you or no actionable work remains. Defer ambiguous or unsafe items with a concise GitHub comment or issue; release their locks and continue without waiting for user input.
-
-At each iteration, run `pwsh scripts/Remove-MergedWorktrees.ps1`, survey open PRs, and complete one unit in this order:
+Run unattended. At each iteration, run `pwsh scripts/Remove-MergedWorktrees.ps1` from the shared checkout, survey the queue, then complete one unit in priority order:
 
 1. Merge an eligible PR.
-2. Fix conflicts, CI failures, or review feedback on an open PR and push.
-3. Recover valuable tracked changes from a dirty merged-PR worktree into a follow-up PR.
+2. Fix conflicts, failed CI, or review findings on an open PR and push.
+3. Recover valuable changes from a preserved merged-PR worktree, following [recovery guidance](references/recovery.md).
 4. Claim an available issue, implement its full scope, and open a PR.
 
-After pushing or deferring an item, start the next iteration. Pending CI/review is a reason to work another item. Do not watch, poll, sleep, or schedule monitors while other work is queueable. Before stopping, survey PRs, dirty recovery candidates, and unclaimed issues again.
+After pushing or deferring, survey again. Pending CI/review means work another item; do not watch, sleep, poll one item, or schedule monitors while work is queueable. When only CI/review remains, periodically survey the whole queue and stay responsive.
 
-Code work completes only after validation, commit, successful `git push --force-with-lease`, and confirmation that the PR's `headRefOid` matches local `git rev-parse HEAD`. If pushing fails, report failure and the blocker; never report unpushed work as complete. Keep progress in commentary while the loop is active.
+Stop on the user's stop/pause, or when a fresh survey finds no queueable issue, recovery candidate, or actionable PR and remaining work requires an external decision/dependency. Pending CI alone is not completion. Defer unsafe/blocked items, record the blocker once when authorized, release ownership, and continue without blocking questions. Revisit only when evidence changes.
 
-Use non-interactive commits (`-m`, `--file`, or `--amend --no-edit`) and rebases (`git -c core.editor=true -c sequence.editor=true rebase ...`). Never use bare `--force`.
+Use commentary while active. Preserve item IDs, worktree, lock identity/script, owned services, and unresolved validation across compaction.
 
-Only dispatch iterations to subagents when the user explicitly authorizes them. Each subagent follows this skill, completes one unit, and returns the PR number and outcome; the parent continues the loop.
+Delegate only when the user explicitly authorizes subagents: one item/iteration, this skill, shared checkout, and canonical lock script. Require a confirmed `merged #N`, `pushed fixes to #N`, `opened #N closing #M`, or `failed #N: reason`; then continue surveying.
 
-## Ownership and worktrees
+## Isolation and ownership
 
-Use the shared checkout only for queue inspection and worktree creation. All edits, branch checkouts, rebases, validation, commits, and pushes run in an isolated worktree.
-
-Capture these paths from the shared checkout:
+Use the shared checkout for surveys/setup. All implementation, validation, checkouts, commits, and pushes run in an isolated worktree. Capture from the shared checkout:
 
 ```powershell
 $repo = git rev-parse --show-toplevel
+$repoSlug = gh repo view --json nameWithOwner --jq .nameWithOwner
+$repoName = ($repoSlug -split '/')[-1]
 $agentLocks = Join-Path $repo 'scripts/AgentLocks.ps1'
-$worktreeRoot = Join-Path (Split-Path $repo -Parent) 'ModularPipelines-worktrees'
+$worktreeRoot = Join-Path (Split-Path $repo -Parent) ($repoName + '-worktrees')
 ```
 
-Use `C:\tmp\ModularPipelines-worktrees` if the sibling directory is unavailable. If a worktree path exists, choose a unique path; existing checkout state does not prove ownership.
+Verify the repository and intended base; examples use `origin/main`. Use a writable temporary `<repoName>-worktrees` root if needed. Choose a unique worktree path when one already exists.
 
-Acquire a Redis lock through the absolute shared-checkout `$agentLocks` path before acting on any item: `pwsh $agentLocks acquire -LockName $lockName`. Use `pr-<N>` for PR work and dirty recovery, or `issue-<N>` for new issues. Exit `0` grants ownership; `3` means held; other errors mean skip. Always use this same script path: old worktrees may have incompatible token-cache formats.
+Acquire the Redis lock before acting on an item: `pr-<N>` for PR work or recovery, `issue-<N>` for new implementation. Always invoke the absolute shared-checkout `$agentLocks` path for every verb; older branch copies can have incompatible token caches.
 
-- Redis is the ownership authority. Never steal locks based on PIDs, local files, or apparent inactivity.
-- Locks expire after two hours; no periodic heartbeat is needed. Renew only for work approaching expiry or to record a worktree: `pwsh $agentLocks renew -LockName $lockName -Worktree $worktree`. Exit `4` means ownership lost: stop work and do not push.
-- Codex uses `CODEX_THREAD_ID`. Other automation needs one stable, unique `MODULARPIPELINES_AGENT_LOCK_OWNER_ID` or `-OwnerId` across commands. The script privately caches tokens; do not print or manage them yourself.
-- Release in cleanup for every outcome: `pwsh $agentLocks release -LockName $lockName`. Exit `5` means stale ownership; do not delete or overwrite another owner's key.
-- Only stop services/containers started for this worktree. Never remove the shared `modularpipelines-agent-locks-redis` container.
+| Command | Result |
+| --- | --- |
+| `pwsh $agentLocks acquire -LockName $lockName` | Exit 0 grants ownership; 3 means held, skip; other failures mean defer, never bypass Redis. |
+| `pwsh $agentLocks renew -LockName $lockName` | Renew work approaching the two-hour TTL; exit 4 means ownership lost, stop this item and do not push. |
+| `pwsh $agentLocks status -LockName $lockName` | Read-only `FREE` / `HELD` / `HELD-BY-ME`; verify ownership before pushing or merging. |
+| `pwsh $agentLocks release -LockName $lockName` | Release in cleanup/finally; exit 0 confirms release, 5 means stale ownership, leave the key alone. |
 
-After claiming a new issue, fetch `origin/main` and create branch/worktree `issue-<N>-<short-desc>` from it. For PR fixes, create a detached worktree from `origin/main`, then run `gh pr checkout <N>` there.
+Redis is authoritative: never steal locks based on PIDs/files/inactivity or add another backend. Do not print/manage cached tokens. Codex supplies `CODEX_THREAD_ID`; other automation needs the same stable unique `-OwnerId` on every verb. Renew when needed, without periodic heartbeats. Optional `renew -Worktree $worktree` records metadata; keep explicit lock names. The issue's `in-progress` label persists independently.
 
-Name PR worktree directories `pr-<N>-<description>`; retain that identity and never reuse them for another PR. If using a separate local review branch, include the same `pr-<N>` identity in its name so cleanup can recognize it.
+After claiming an issue, create branch/worktree `issue-<N>-<short-desc>` from freshly fetched `origin/main`. For PR fixes, create a detached worktree from `origin/main`, then run `gh pr checkout <N>` with that worktree as `workdir`. PR directories use `pr-<N>-<description>`; never rename or reuse them for another PR. A separate local review/rebase branch must retain the same `pr-<N>` identity.
 
-Set every tool call's `workdir` explicitly; `Set-Location` does not persist across calls. Before the first mutable operation, verify the checkout from that workdir:
+Set every mutating tool call's `workdir` explicitly; shell directory changes do not persist. Before the first edit and after checkout changes, compare `git rev-parse --show-toplevel` with the intended worktree's resolved absolute path and inspect `git status --short --branch`. Abort on a mismatch.
 
-```powershell
-$actualRoot = [System.IO.Path]::GetFullPath((git rev-parse --show-toplevel))
-$expectedRoot = [System.IO.Path]::GetFullPath($worktree)
-if (-not [string]::Equals($actualRoot, $expectedRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
-    throw "Refusing to edit outside isolated worktree: $actualRoot"
-}
-git status --short --branch
-```
+Use repository scripts for merged-worktree cleanup; `[gone]` or ancestry alone is insufficient. Preserve dirty, locked, open-PR, harness-managed, and locally divergent worktrees. Inspect untracked source before cleanup: scripts may clear build artifacts. Manually remove abandoned worktrees only after verifying repository/path, ownership, and absence of valuable unpublished work. Do not enable stale/scratch cleanup during surveys.
 
-Let the merge and cleanup scripts remove merged worktrees. Manually remove an abandoned issue worktree only when it has no uncommitted work.
+Stop only services/processes/containers started for this worktree. Never blanket-delete containers/volumes or stop shared lock Redis. Follow local lifecycle guidance; use Aspire only where an AppHost exists.
 
 ## Maintain PRs
 
-Survey with `gh pr list --author @me --state open --json number,title,headRefName,mergeable,mergeStateStatus,reviewDecision,statusCheckRollup,isDraft`.
+Survey with `gh pr list --author @me --state open --json number,title,headRefName,headRefOid,mergeable,mergeStateStatus,reviewDecision,statusCheckRollup,isDraft`. Include other authors only when the user's queue scope includes them. Paginate or increase limits so an incomplete first page cannot make the queue appear empty.
 
-For each PR, inspect all review surfaces, including paginated results: REST `pulls/<N>/reviews`, `pulls/<N>/comments`, `issues/<N>/comments`, and GraphQL `reviewThreads`. Review bodies can contain blocking findings even with state `COMMENTED` and zero unresolved threads. Treat uncertain concerns as blocking; empty or boilerplate acknowledgments are not findings.
+Inspect all review surfaces, including pagination and replies: REST `pulls/<N>/reviews`, `pulls/<N>/comments`, `issues/<N>/comments` under `repos/{owner}/{repo}`, and GraphQL `reviewThreads` with IDs, resolution state, bodies, authors, and timestamps.
+
+A `COMMENTED` review body can block with zero unresolved threads. Address outstanding concerns, `CHANGES_REQUESTED`, current inline findings, and unresolved threads. Empty acknowledgments are non-blocking. Assess older findings against the current head and later discussion; uncertain concerns block merging.
 
 | State | Action |
 | --- | --- |
-| Conflicts | Rebase on fresh `origin/main` with editors disabled; inspect the diff for dropped changes, validate, and push. Abort and defer conflicts you cannot resolve confidently. |
-| CI failure | Inspect failed logs and fix the cause. Rerun only a confirmed infrastructure failure or flake, at most once; investigate flaky tests rather than repeatedly rerunning for green. |
-| Feedback | Address useful minor and blocking suggestions; reply to each thread and blocking review body with the fix or technical disposition. Push back once if warranted; implement if reaffirmed. |
-| Pending CI/review | Move to another item. A fix push needs a subsequent bot review/CI cycle before merge. |
-| Merge candidate | Verify all conditions below, then use the merge wrapper. |
+| Conflicts | Rebase onto fresh `origin/main`, inspect the diff for lost changes at shared insertion points, validate, and push. Abort and defer conflicts that cannot be resolved confidently. |
+| CI failure | Read failed logs and fix the cause. Investigate timing/synchronization failures. At most one rerun for a demonstrated infrastructure problem or diagnosed flake when local rules permit; never rerun for green, skip/delete failing tests, or mask a failure. |
+| Feedback | Verify the finding against code, address useful minor and blocking suggestions, and reply to each finding with the fix or technical disposition. Discuss disagreement once; implement reaffirmed feedback unless it violates repository contracts or performance requirements, in which case document and defer the conflict. |
+| Pending | Take another item. After a fix push, allow a subsequent bot review/CI cycle before considering merge in a later iteration. |
+| Merge candidate | Confirm every condition below, then invoke the wrapper. |
 
-Resolve a bot-opened thread under the PR lock only when you replied with a fix commit or concrete disposition, the current head contains any promised fix, and a subsequent bot review/CI cycle completed without rebuttal. A current-head `REVIEW_VERDICT: CLEAR` is strongest evidence. Do not resolve unaddressed findings, newer rebuttals, or human threads awaiting a response. Use GraphQL `resolveReviewThread`, then re-fetch review and check state.
+Resolve a bot-opened thread under the PR lock only after replying with a fix commit or concrete disposition, confirming any promised fix is in the current head, and a subsequent bot review/CI cycle completes without rebuttal. A current-head `REVIEW_VERDICT: CLEAR` is strongest evidence. Do not resolve newer rebuttals, unaddressed findings, or human threads awaiting response. Use GraphQL `resolveReviewThread`, then re-fetch reviews, threads, checks, and head SHA.
 
-Merge requires: OPEN, `MERGEABLE`, `CLEAN`, every check terminal and passing (`SUCCESS`/`SKIPPED`/`NEUTRAL`), no unresolved threads or unaddressed comments/review concerns, approval when required, and a bot cycle since the last fix push. Check repository approval requirements; recent merged PRs can provide supporting evidence.
+### Merge gate
 
-Merge only through `pwsh scripts/Merge-Pr.ps1 -Pr <N> -Worktree $worktree`; omit `-Worktree` only when none exists. It re-fetches state through `Assert-PrGreen.ps1`, squash-merges, and cleans up the validated worktree and branches. You still assess review dispositions, approval, and the bot cycle.
+Merge requires an open, ready-for-review PR; `MERGEABLE` and `CLEAN`; every applicable check present, terminal, and passing (`SUCCESS`, `SKIPPED`, or `NEUTRAL`, with successful legacy commit statuses); no unresolved threads, unaddressed comments, or outstanding review-body concerns; approval when required; and a bot review/CI cycle after the last fix push. Missing expected checks and nonterminal checks block merging. Reassess if the head changes.
 
-Never bypass a denied gate with direct `gh pr merge` or `--auto`. Nonzero exit means defer. Successful merge with cleanup warnings is still merged; do not retry it. The cleanup scripts preserve dirty, locked, open-PR, and harness-managed worktrees; a missing remote branch alone does not prove a merge.
+Use current repository rules/instructions for approval requirements. Historical merges without approval do not prove approval is optional; inaccessible protection APIs do not prove no protection exists.
 
-## Recover dirty merged worktrees
+```powershell
+pwsh scripts/Merge-Pr.ps1 -Pr <N> -Worktree $worktree
+```
 
-Treat `Preserving dirty worktree` output as a recovery candidate after actionable PRs:
+Omit `-Worktree` only when none exists. The wrapper calls `Assert-PrGreen.ps1`, merges on a passing mechanical gate, and cleans up. Judge review dispositions and approval yourself; the script is necessary but insufficient.
 
-1. Verify the original merged PR identity and acquire `pr-<original-N>`. If either fails, leave the worktree untouched.
-2. Compare the full tracked diff with the original PR and fresh `origin/main`. Recover coherent, unique, valuable changes. Remove obsolete or generated churn only after proving no unique source/test change would be lost.
-3. Preserve mixed, unclear, sensitive, or untestable changes. Search for an existing recovery issue before filing one with the path, branch, original PR, and non-sensitive summary.
-4. Before any destructive operation, snapshot the exact edits on a local branch/commit. Transplant only that diff into a separate worktree from current `origin/main`; publishing the old squash-merged branch may replay merged commits.
-5. Remove already-merged changes, split unrelated edits, and regenerate options from generator/source changes. Validate and simplify; publish only an explainable semantic diff.
-6. Open a ready-for-review PR with `Follow-up to #<original-N>`, explaining recovered intent. Confirm the remote head before removing the old worktree and snapshot branch. Release the lock in every outcome.
+Never bypass with direct `gh pr merge` or `--auto`. Nonzero exit means inspect/defer, not retry blindly. Cleanup warnings after a successful merge do not justify retrying; reconcile ambiguous results with GitHub state. Never delete fork branches through the base repository's `origin`.
 
-## Pick up issues
+## Pick an issue
 
-Ensure `in-progress` exists, then list candidates with `gh issue list --state open --search 'no:assignee -label:in-progress' --json number,title,labels,body,comments --limit 50`; paginate when needed.
+Ensure `in-progress` exists, then list open, unassigned candidates without that label. Skip `wontfix`, `duplicate`, `question`, claimed items, and external blockers. Prefer clear, smaller tasks with fewer discussion comments; size alone is not a reason to stop when larger coherent work remains.
 
-Prefer clear, small, unblocked issues. Skip assigned, claimed, externally blocked, `wontfix`, `duplicate`, or `question` items. Size alone is not a blocker: take a coherent feature whole, including missing APIs needed to satisfy the issue.
+Under the issue lock, re-fetch state, assignees, labels, native dependencies, and linked PRs. Skip closed, assigned, already claimed, blocked, or already implemented items. Add `in-progress` and verify the claim before branching. Keep it while the PR is open. Remove only your own claim if abandoning before PR creation; after lost ownership, leave shared claim state untouched and report the loss.
 
-Under the issue lock, re-fetch state/assignees/labels, add `in-progress`, then verify it is open, unassigned, and claimed before branching. Keep the label while its PR is open; remove it if abandoning the issue before opening a PR.
+Establish full scope from source, tests, and docs; a missing API may be the requested work. Deliver coherent issues in one PR.
 
-If an issue contains multiple independent deliverables too large for one PR, inspect existing children (including closed ones) before splitting. Use native GitHub sub-issues and `blocked_by` dependencies, keep the parent open, remove its claim, and implement the first unclaimed child whose prerequisites are closed. Native relationship writes need the numeric REST issue `.id`, not the GraphQL node ID or issue number.
+For independent deliverables, inspect existing children (including closed ones) before splitting into native sub-issues and `blocked_by` relationships. Avoid checklist-only tracking and `blocked` labels. Give children acceptance criteria, leave the parent open, remove your parent claim, and implement the first unclaimed child whose prerequisites are closed this iteration. If native links are unavailable, document the blocker.
 
-Implement the complete acceptance criteria. Use TDD where feasible, documenting exceptions; run relevant validation and formatting from `CLAUDE.md`, plus broader tests where affected. After 2–3 unsuccessful local debugging iterations on one test, push with the limitation documented for CI. Report unavailable Docker or guard resource limits in the PR.
+Relationship writes require numeric REST issue `.id`, not issue numbers or `gh issue view --json id` (GraphQL ID). Retrieve with `gh api "repos/$repoSlug/issues/$childNumber" --jq .id`; link via `POST issues/<parent>/sub_issues -F sub_issue_id=<id>` or `POST issues/<blocked>/dependencies/blocked_by -F issue_id=<prerequisite-id>` under `repos/$repoSlug/`. Verify each write before proceeding.
 
-Run `/simplify` before code PRs (or an equivalent simplification review if unavailable), respecting generated-code boundaries. Commit referencing `#<N>` and open a ready-for-review PR with `Closes #<N>` on its own line, using `--body-file` for multiline text. Only use `Closes` when the full scope is delivered; link any separately worked dependency.
+## Implement and ship
 
-If an unrelated bug needs cross-cutting investigation, file and link a separate issue, then finish the original scope. For other blockers, document the reason, release ownership, and advance.
+Follow local validation, resource limits, target frameworks, generated-code boundaries, and performance requirements. Use TDD for bugs/behavior changes where feasible; explain exceptions. Run focused and relevant broader checks, including docs/frontend checks when affected. Document unavailable validation; never silently raise guard limits or claim unrun tests passed.
+
+Review the full diff for correctness, reuse, and efficiency (`/simplify` when available, otherwise equivalent review). Preserve performance/contracts and batch related fixes into one push. Use CI for environment-specific validation with limitations documented; avoid arbitrary local debugging retry counts.
+
+- Use non-interactive commit messages (`-m`, `--file`, or `--amend --no-edit`) and disable editors for rebases and continuation: `git -c core.editor=true -c sequence.editor=true rebase ...`.
+- Reference the issue in commits. Create normal ready-for-review PRs unless the user explicitly requests a draft. Follow the repository PR template and use `--body-file` for multiline descriptions. Put `Closes #<N>` on its own line only when the full issue is delivered.
+- Use ordinary pushes for new commits and `git push --force-with-lease` when rewriting an owned PR branch. Never use bare `--force` or rewrite main. Confirm ownership and the remote PR head before reporting completion.
+- Completion requires commit, successful push, PR creation/update, and `gh pr view <N> --json headRefOid` matching local `git rev-parse HEAD`. Push/ownership failure means preserve work, report failure, release ownership, and continue. Release locks in every outcome and stop owned services when no longer needed.
+
+Record unrelated bugs as linked issues only within authorization; finish the original scope.
