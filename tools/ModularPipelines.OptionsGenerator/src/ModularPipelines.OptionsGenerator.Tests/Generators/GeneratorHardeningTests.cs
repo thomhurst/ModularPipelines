@@ -1398,16 +1398,44 @@ public class GeneratorHardeningTests
             // Alphabetical by CLI value; the lowercase alias keeps the plain member name even
             // though the uppercase one was scraped first.
             await Assert.That(EnumBodyLines(generated)).IsEquivalentTo(
-            [
-                "[EnumValue(\"internal\")]",
-                "Internal,",
-                "[EnumValue(\"private\")]",
-                "Private,",
-                "[EnumValue(\"public\")]",
-                "Public,",
-                "[EnumValue(\"PUBLIC\")]",
-                "PublicUppercase",
-            ]);
+                [
+                    "[EnumValue(\"internal\")]",
+                    "Internal,",
+                    "[EnumValue(\"private\")]",
+                    "Private,",
+                    "[EnumValue(\"public\")]",
+                    "Public,",
+                    "[EnumValue(\"PUBLIC\")]",
+                    "PublicUppercase",
+                ],
+                TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        }
+    }
+
+    [Test]
+    public async Task EnumGenerator_Keeps_The_Same_Duplicate_Regardless_Of_Scrape_Order()
+    {
+        CliEnumValue[] values =
+        [
+            new() { MemberName = "JsonOutput", CliValue = "json", Description = "Alias." },
+            new() { MemberName = "Json", CliValue = "json", Description = "JSON output." },
+        ];
+
+        var generated = await GenerateVisibilityEnum(values);
+        var generatedFromReorderedScrape = await GenerateVisibilityEnum([values[1], values[0]]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generatedFromReorderedScrape).IsEqualTo(generated);
+            await Assert.That(EnumBodyLines(generated)).IsEquivalentTo(
+                [
+                    "/// <summary>",
+                    "/// JSON output.",
+                    "/// </summary>",
+                    "[EnumValue(\"json\")]",
+                    "Json",
+                ],
+                TUnit.Assertions.Enums.CollectionOrdering.Matching);
         }
     }
 
