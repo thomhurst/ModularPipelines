@@ -32,7 +32,7 @@ public class RedisDistributedCoordinatorTests
         _keys = new RedisKeyBuilder("modpipe", "test-run");
         _options = new RedisDistributedOptions
         {
-            KeyExpirationSeconds = 3600,
+            KeyExpiration = TimeSpan.FromHours(1),
         };
         _dbMock.Setup(db => db.ExecuteAsync(
                 "TIME",

@@ -335,14 +335,4 @@ public record ArgoCdAdminNotificationsTemplateNotifyOptions(
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
 
-    [Obsolete("ArgocdRepoServerStrictTls is no longer supported by the installed CLI and has no effect.")]
-    public bool? ArgocdRepoServerStrictTls { get; set; }
-
-    [Obsolete("Use KubeConfig instead.")]
-    public string? Kubeconfig
-    {
-        get => KubeConfig;
-        set => KubeConfig = value;
-    }
-
 }

@@ -252,10 +252,10 @@ public class ArgoCdOptionsTests
     }
 
     [Test]
-    public async Task AdminClusterKubeconfig_Renders_Optional_Operands()
+    public async Task AdminClusterKubeConfig_Renders_Optional_Operands()
     {
-        var listArguments = BuildArguments(new ArgoCdAdminClusterKubeconfigOptions());
-        var generateArguments = BuildArguments(new ArgoCdAdminClusterKubeconfigOptions
+        var listArguments = BuildArguments(new ArgoCdAdminClusterKubeConfigOptions());
+        var generateArguments = BuildArguments(new ArgoCdAdminClusterKubeConfigOptions
         {
             ClusterUrl = "production",
             OutputPath = "cluster.yaml",

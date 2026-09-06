@@ -17,14 +17,14 @@ namespace ModularPipelines.ArgoCd.Enums;
 public enum ArgoCdClusterGetOutput
 {
     [EnumValue("json")]
-    Json = 0,
+    Json,
 
     [EnumValue("yaml")]
-    Yaml = 1,
+    Yaml,
 
     [EnumValue("wide")]
-    Wide = 2,
+    Wide,
 
     [EnumValue("server")]
-    Server = 3
+    Server
 }

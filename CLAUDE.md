@@ -21,7 +21,7 @@ and analyzers only). Each tool/CLI integration has its **own** solution next to 
 
 > [!IMPORTANT]
 > **Agents: run every local `dotnet` command through
-> `scripts/Invoke-AgentDotNet.ps1`; never invoke `dotnet` directly.** The guard
+> `scripts/Invoke-AgentDotNet.ps1`; never invoke `dotnet` directly.** Call it in-process (`& scripts/Invoke-AgentDotNet.ps1 ...`), or as `pwsh -Command "& scripts/Invoke-AgentDotNet.ps1 ..."` from a non-PowerShell shell; `pwsh scripts/Invoke-AgentDotNet.ps1 ...` flattens the argument array into tokens the guard cannot bind. The guard
 > disables reusable MSBuild/Roslyn servers, uses below-normal priority, and kills
 > the entire process tree if it exceeds 10 minutes or 2 GB by default. Exit code
 > `124` means timeout; `137` means memory limit. Do not raise either limit and retry
@@ -31,15 +31,15 @@ and analyzers only). Each tool/CLI integration has its **own** solution next to 
 
 ```powershell
 # Core build
-pwsh scripts/Invoke-AgentDotNet.ps1 -SingleNode `
+& scripts/Invoke-AgentDotNet.ps1 -SingleNode `
   -DotNetArguments @('build', 'ModularPipelines.slnx', '-c', 'Release')
 
 # Core build including ModularPipelines.UnitTests
-pwsh scripts/Invoke-AgentDotNet.ps1 -SingleNode `
+& scripts/Invoke-AgentDotNet.ps1 -SingleNode `
   -DotNetArguments @('build', 'ModularPipelines.Tests.slnf', '-c', 'Release')
 
 # Tool-specific build
-pwsh scripts/Invoke-AgentDotNet.ps1 -SingleNode `
+& scripts/Invoke-AgentDotNet.ps1 -SingleNode `
   -DotNetArguments @(
     'build',
     'src/ModularPipelines.Docker/ModularPipelines.Docker.slnx',
@@ -90,7 +90,7 @@ the caution above; agents should not build it.
 ```powershell
 # PREFER: run only the test project relevant to your change. This avoids
 # building the whole solution and every tool integration.
-pwsh scripts/Invoke-AgentDotNet.ps1 `
+& scripts/Invoke-AgentDotNet.ps1 `
   -DotNetArguments @(
     'run',
     '--project',
@@ -113,13 +113,13 @@ pwsh scripts/Invoke-AgentDotNet.ps1 `
 ```powershell
 # Format code (automatically done in CI). Target the solution you built - the
 # core solution (ModularPipelines.slnx) for core changes, or the relevant tool solution.
-pwsh scripts/Invoke-AgentDotNet.ps1 `
+& scripts/Invoke-AgentDotNet.ps1 `
   -DotNetArguments @('format', 'ModularPipelines.slnx')
-pwsh scripts/Invoke-AgentDotNet.ps1 `
+& scripts/Invoke-AgentDotNet.ps1 `
   -DotNetArguments @('format', 'ModularPipelines.slnx', 'whitespace')
 
 # Verify formatting without changes
-pwsh scripts/Invoke-AgentDotNet.ps1 `
+& scripts/Invoke-AgentDotNet.ps1 `
   -DotNetArguments @(
     'format',
     'ModularPipelines.slnx',

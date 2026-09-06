@@ -21,16 +21,22 @@ namespace ModularPipelines.Go.Options;
 public record GoFmtOptions : GoOptions
 {
     /// <summary>
-    /// The -n option.
+    /// The -n flag prints commands that would be executed
     /// </summary>
     [CliFlag("-n")]
     public bool? N { get; set; }
 
     /// <summary>
-    /// The -x option.
+    /// The -x flag prints commands as they are executed.
     /// </summary>
     [CliFlag("-x")]
     public bool? X { get; set; }
+
+    /// <summary>
+    /// The -mod flag's value sets which module download mode to use: readonly or vendor. See 'go help modules' for more.
+    /// </summary>
+    [CliOption("-mod")]
+    public string? Mod { get; set; }
 
     /// <summary>
     /// The packages operand.

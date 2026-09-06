@@ -10,18 +10,15 @@ using ModularPipelines.Attributes;
 
 namespace ModularPipelines.ArgoCd.Enums;
 
+/// <summary>
+/// Allowed values for the --rediscompress option.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public enum ArgoCdProjRemoveSignatureKeyLoglevel
+public enum ArgoCdAdminClusterKubeConfigRedisCompress
 {
-    [EnumValue("debug")]
-    Debug = 0,
+    [EnumValue("gzip")]
+    Gzip,
 
-    [EnumValue("info")]
-    Info = 1,
-
-    [EnumValue("warn")]
-    Warn = 2,
-
-    [EnumValue("error")]
-    Error = 3
+    [EnumValue("none")]
+    None
 }

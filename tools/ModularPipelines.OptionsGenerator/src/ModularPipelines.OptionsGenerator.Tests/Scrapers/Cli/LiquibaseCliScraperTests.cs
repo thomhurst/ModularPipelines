@@ -354,6 +354,47 @@ public class LiquibaseCliScraperTests
         await Assert.That(version).IsEqualTo("5.0.3");
     }
 
+    [Test]
+    public async Task ParseOptions_Keeps_Wrapped_Option_Looking_Prose()
+    {
+        const string helpText = """
+                  --show-summary=PARAM     Values can be 'off', 'summary', or 'verbose'. Pair with
+                                           --show-summary-output=PARAM to choose the target
+                  --log-level=PARAM        Log level
+            """;
+
+        var options = _scraper.ParseLiquibaseOptions(helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options.Select(option => option.SwitchName))
+                .IsEquivalentTo(["--show-summary", "--log-level"]);
+            await Assert.That(options.Single(option => option.SwitchName == "--show-summary").Description)
+                .IsEqualTo("Values can be 'off', 'summary', or 'verbose'. Pair with --show-summary-output=PARAM to choose the target");
+        }
+    }
+
+    [Test]
+    public async Task ParseOptions_Infers_The_Description_Column_From_The_First_Wrapped_Line()
+    {
+        const string helpText = """
+                  --show-summary=PARAM
+                                           Values can be 'off', 'summary', or 'verbose'. Pair with
+                                           --show-summary-output=PARAM to choose the target
+                  --log-level=PARAM        Log level
+            """;
+
+        var options = _scraper.ParseLiquibaseOptions(helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options.Select(option => option.SwitchName))
+                .IsEquivalentTo(["--show-summary", "--log-level"]);
+            await Assert.That(options.Single(option => option.SwitchName == "--show-summary").Description)
+                .IsEqualTo("Values can be 'off', 'summary', or 'verbose'. Pair with --show-summary-output=PARAM to choose the target");
+        }
+    }
+
     private sealed class TestLiquibaseCliScraper(ICliCommandExecutor? executor = null)
         : LiquibaseCliScraper(executor ?? new StubExecutor(), new StubHelpTextCache(), NullLogger<LiquibaseCliScraper>.Instance)
     {

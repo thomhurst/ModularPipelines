@@ -98,6 +98,31 @@ public class AnsibleCliScraperTests
         await Assert.That(GetOption(ansible, "--extra-vars").AcceptsMultipleValues).IsTrue();
     }
 
+    [Test]
+    public async Task Wrapped_Descriptions_That_Mention_Flags_Stay_Prose()
+    {
+        const string helpText = """
+            usage: ansible [-h] [-C] pattern
+
+            options:
+              -C, --check           don't make any changes; instead, try to predict
+                                    --diff output for the changes that would be made
+              -D, --diff            when changing files, show the differences
+            """;
+
+        var command = await new TestAnsibleCliScraper().Parse(helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo(["--check", "--diff"]);
+            await Assert.That(GetOption(command, "--check").Description)
+                .IsEqualTo("don't make any changes; instead, try to predict --diff output for the changes that would be made");
+            await Assert.That(GetOption(command, "--diff").Description)
+                .IsEqualTo("when changing files, show the differences");
+        }
+    }
+
     private static CliOptionDefinition GetOption(CliCommandDefinition command, string switchName) =>
         command.Options.Single(option => option.SwitchName == switchName);
 

@@ -6,19 +6,18 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Go.Options;
 
-namespace ModularPipelines.ArgoCd.Enums;
+namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Allowed values for the --logformat option.
+/// Sync syncs the workspace's build list back to the
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public enum ArgoCdAdminClusterKubeconfigLogformat
+[ExcludeFromCodeCoverage]
+[CliSubCommand("work", "sync")]
+public record GoWorkSyncOptions : GoOptions
 {
-    [EnumValue("json")]
-    Json = 0,
-
-    [EnumValue("text")]
-    Text = 1
 }

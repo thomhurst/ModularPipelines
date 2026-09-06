@@ -44,6 +44,16 @@ public class DistributedWorkPublisherTests
             => Task.FromResult(42);
     }
 
+    private sealed class TimedModule : Module<int>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithTimeout(TimeSpan.FromMilliseconds(1500));
+
+        protected internal override Task<int> ExecuteAsync(
+            ModularPipelines.IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult(42);
+    }
+
     [Test]
     public async Task CreateAssignment_Includes_Scheduling_Metadata()
     {
@@ -230,6 +240,21 @@ public class DistributedWorkPublisherTests
     }
 
     [Test]
+    public async Task CreateAssignment_Preserves_Module_Timeout()
+    {
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(TimedModule));
+        var publisher = new DistributedWorkPublisher(
+            new InMemoryDistributedCoordinator(),
+            typeRegistry,
+            new ModuleResultRegistry());
+
+        var assignment = publisher.CreateAssignment(new TimedModule());
+
+        await Assert.That(assignment.Configuration.Timeout).IsEqualTo(TimeSpan.FromMilliseconds(1500));
+    }
+
+    [Test]
     public async Task CreateAssignment_Includes_Available_Dependency_Result_Reference()
     {
         // Arrange
@@ -384,14 +409,17 @@ public class DistributedWorkPublisherTests
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(IndependentModule));
         var resultRegistry = new ModuleResultRegistry();
-        var conditionRouting = new DistributedConditionRouting();
+        var routingOptions = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
+        var conditionRouting = new DistributedConditionRouting(
+            routingOptions,
+            new ModularPipelines.Distributed.Configuration.RoleDetector(routingOptions));
         var module = new IndependentModule();
-        conditionRouting.MarkLocallySatisfied(module, typeof(DistributedWorkPublisherTests));
+        conditionRouting.MarkConditionGroupSatisfied(module, typeof(DistributedWorkPublisherTests));
         var publisher = new DistributedWorkPublisher(
             coordinator,
             typeRegistry,
             resultRegistry,
-            conditionRouting: conditionRouting);
+            executionLocationContext: conditionRouting);
 
         var assignment = publisher.CreateAssignment(module);
 

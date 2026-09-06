@@ -307,6 +307,36 @@ public class KubectlCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Tab_Indented_Descriptions_Are_Joined_Across_Lines()
+    {
+        var helpText = string.Join(
+            "\n",
+            "Usage:",
+            "  kubectl get TYPE [flags] [options]",
+            "",
+            "Options:",
+            "    -A, --all-namespaces=false:",
+            "\tIf present, list the requested object(s) across all namespaces. Namespace in current context is ignored even",
+            "\tif specified with --namespace.",
+            "",
+            "    --allow-missing-template-keys=true:",
+            "\tIf true, ignore any errors in templates when a field or map key is missing in the template.");
+
+        var command = await new TestKubectlCliScraper().Parse(["kubectl", "get"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo(["--all-namespaces", "--allow-missing-template-keys"]);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--all-namespaces").Description)
+                .IsEqualTo(
+                    "If present, list the requested object(s) across all namespaces. Namespace in current context is ignored even if specified with --namespace.");
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--allow-missing-template-keys").Description)
+                .IsEqualTo("If true, ignore any errors in templates when a field or map key is missing in the template.");
+        }
+    }
+
     private sealed class TestKubectlCliScraper()
         : KubectlCliScraper(
             new RecordingExecutor(),

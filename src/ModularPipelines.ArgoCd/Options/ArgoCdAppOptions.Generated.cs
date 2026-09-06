@@ -253,35 +253,4 @@ public record ArgoCdAppOptions : ArgoCdOptions
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
 
-    [Obsolete("As is no longer supported by the installed CLI and has no effect.")]
-    public string? As { get; set; }
-
-    [Obsolete("AsGroup is no longer supported by the installed CLI and has no effect.")]
-    public IEnumerable<string>? AsGroup { get; set; }
-
-    [Obsolete("AsUid is no longer supported by the installed CLI and has no effect.")]
-    public string? AsUid { get; set; }
-
-    [Obsolete("CertificateAuthority is no longer supported by the installed CLI and has no effect.")]
-    public string? CertificateAuthority { get; set; }
-
-    [Obsolete("ClientCertificate is no longer supported by the installed CLI and has no effect.")]
-    public string? ClientCertificate { get; set; }
-
-    [Obsolete("ClientKey is no longer supported by the installed CLI and has no effect.")]
-    public string? ClientKey { get; set; }
-
-    [Obsolete("DisableCompression is no longer supported by the installed CLI and has no effect.")]
-    public bool? DisableCompression { get; set; }
-
-    [Obsolete("Use KubeConfig instead.")]
-    public string? Kubeconfig
-    {
-        get => KubeConfig;
-        set => KubeConfig = value;
-    }
-
-    [Obsolete("TlsServerName is no longer supported by the installed CLI and has no effect.")]
-    public string? TlsServerName { get; set; }
-
 }

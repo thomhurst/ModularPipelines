@@ -6,25 +6,18 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Go.Options;
 
-namespace ModularPipelines.ArgoCd.Enums;
+namespace ModularPipelines.Go.Options;
 
 /// <summary>
-/// Allowed values for the --loglevel option.
+/// Verify checks that the dependencies of the current module,
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public enum ArgoCdAdminClusterKubeconfigLoglevel
+[ExcludeFromCodeCoverage]
+[CliSubCommand("mod", "verify")]
+public record GoModVerifyOptions : GoOptions
 {
-    [EnumValue("debug")]
-    Debug = 0,
-
-    [EnumValue("info")]
-    Info = 1,
-
-    [EnumValue("warn")]
-    Warn = 2,
-
-    [EnumValue("error")]
-    Error = 3
 }

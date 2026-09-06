@@ -337,7 +337,8 @@ public class GitCliScraperTests
             usage: git add [<options>]
 
                 -N, --[no-]intent-to-add
-                                    record only the fact that the path will be added later
+                                    record only the fact that the path will be added
+                                    later
                 -W, --[no-]function-context
                                     generate diffs with <n> lines context
             """;

@@ -29,7 +29,7 @@ internal class WorkerModuleExecutor(
     IServiceScopeFactory serviceScopeFactory,
     ArtifactLifecycleManager? artifactLifecycleManager,
     ILogger<WorkerModuleExecutor> logger,
-    DistributedConditionRouting? conditionRouting = null) : IExecutionBackend
+    IExecutionLocationContext? executionLocationContext = null) : IExecutionBackend
 {
     private readonly IHostApplicationLifetime _lifetime = lifetime;
     private readonly IDistributedWorkerCoordinator _coordinator = coordinator;
@@ -47,7 +47,7 @@ internal class WorkerModuleExecutor(
     private readonly IServiceScopeFactory _serviceScopeFactory = serviceScopeFactory;
     private readonly ArtifactLifecycleManager? _artifactLifecycleManager = artifactLifecycleManager;
     private readonly ILogger<WorkerModuleExecutor> _logger = logger;
-    private readonly DistributedConditionRouting? _conditionRouting = conditionRouting;
+    private readonly IExecutionLocationContext? _executionLocationContext = executionLocationContext;
 
     public bool OwnsEntirePlan => false;
 
@@ -308,7 +308,7 @@ internal class WorkerModuleExecutor(
             }
 
             var moduleState = new ModuleState(module, moduleType);
-            _conditionRouting?.RestoreLocallySatisfiedGroups(
+            _executionLocationContext?.RestoreSatisfiedConditionGroups(
                 module,
                 assignment.SatisfiedConditionGroups);
             ModuleStateDependencyInitializer.Populate(

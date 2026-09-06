@@ -6,16 +6,18 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Go.Options;
 
-namespace ModularPipelines.ArgoCd.Enums;
+namespace ModularPipelines.Go.Options;
 
+/// <summary>
+/// Bug opens the default browser and starts a new bug report.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public enum ArgoCdProjAddSignatureKeyLogformat
+[ExcludeFromCodeCoverage]
+[CliSubCommand("bug")]
+public record GoBugOptions : GoOptions
 {
-    [EnumValue("json")]
-    Json = 0,
-
-    [EnumValue("text")]
-    Text = 1
 }

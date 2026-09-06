@@ -16,6 +16,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 public abstract partial class CliScraperBase : ICliScraper
 {
     private static readonly string[] DefaultUsageSynopsisHeadings = ["usage"];
+    private const int TabWidth = 8;
     private readonly CliScrapeProvenance _scrapeProvenance = new();
     private readonly HashSet<string> _knownCommandGroups = new(StringComparer.OrdinalIgnoreCase);
 
@@ -1213,6 +1214,117 @@ public abstract partial class CliScraperBase : ICliScraper
         acceptsMultipleValues
             ? $"IEnumerable<{scalarType.TrimEnd('?')}>?"
             : scalarType;
+
+    /// <summary>
+    /// Counts the leading whitespace columns of a help line. A tab advances to the next
+    /// eight-column stop, matching how the terminal rendered the aligned help text.
+    /// </summary>
+    protected internal static int GetIndentation(string line)
+    {
+        var contentIndex = line.AsSpan().IndexOfAnyExcept(' ', '\t');
+        return GetColumn(line, contentIndex < 0 ? line.Length : contentIndex);
+    }
+
+    /// <summary>
+    /// Returns the rendered column at which character <paramref name="index"/> of
+    /// <paramref name="line"/> starts, expanding tabs to eight-column stops.
+    /// </summary>
+    protected internal static int GetColumn(string line, int index)
+    {
+        var column = 0;
+        var end = Math.Min(index, line.Length);
+        for (var position = 0; position < end; position++)
+        {
+            column = line[position] == '\t'
+                ? column + TabWidth - (column % TabWidth)
+                : column + 1;
+        }
+
+        return column;
+    }
+
+    /// <summary>
+    /// Returns whether <paramref name="line"/> continues the description of the option
+    /// declared at <paramref name="declarationIndentation"/> instead of starting the next
+    /// help row. Formatters wrap prose at or beyond the block's description column, so a
+    /// row that looks like an option declaration but starts at or after that column is
+    /// still wrapped prose (for example a wrapped mention of <c>--flag=value</c>).
+    /// </summary>
+    /// <param name="line">The candidate continuation line.</param>
+    /// <param name="declarationIndentation">Column where the option declaration starts.</param>
+    /// <param name="descriptionColumn">
+    /// Column where the declaration's inline description starts, or <see langword="null"/>
+    /// when the description only begins on a following line.
+    /// </param>
+    /// <param name="looksLikeOptionRow">Whether the scraper's option pattern matches <paramref name="line"/>.</param>
+    protected internal static bool IsContinuationLine(
+        string line,
+        int declarationIndentation,
+        int? descriptionColumn,
+        bool looksLikeOptionRow)
+    {
+        if (string.IsNullOrWhiteSpace(line))
+        {
+            return false;
+        }
+
+        var indentation = GetIndentation(line);
+        var wrappedAtDescriptionColumn = indentation >= descriptionColumn;
+        return (!looksLikeOptionRow || wrappedAtDescriptionColumn)
+               && indentation > declarationIndentation;
+    }
+
+    /// <summary>
+    /// Joins an option row's inline description with the prose wrapped beneath it, advancing
+    /// <paramref name="declarationIndex"/> past every consumed line so callers never re-read
+    /// wrapped prose as a declaration. Returns an empty string when the row has no description.
+    /// </summary>
+    /// <param name="lines">The help text lines.</param>
+    /// <param name="declarationIndex">Index of the option row; advanced to the last consumed line.</param>
+    /// <param name="inlineDescription">
+    /// Regex group holding the row's inline description, or <see langword="null"/> when the
+    /// scraper did not capture one.
+    /// </param>
+    /// <param name="looksLikeOptionRow">Returns whether a line matches the scraper's option pattern.</param>
+    protected static string AccumulateWrappedDescription(
+        IReadOnlyList<string> lines,
+        ref int declarationIndex,
+        Group? inlineDescription,
+        Func<string, bool> looksLikeOptionRow)
+    {
+        var declaration = lines[declarationIndex];
+        var declarationIndentation = GetIndentation(declaration);
+        var parts = new List<string>();
+        int? descriptionColumn = null;
+        if (inlineDescription is { } group && !string.IsNullOrWhiteSpace(group.Value))
+        {
+            parts.Add(group.Value.Trim());
+            var leadingWhitespace = group.Value.Length - group.Value.TrimStart().Length;
+            descriptionColumn = GetColumn(declaration, group.Index + leadingWhitespace);
+        }
+
+        while (declarationIndex + 1 < lines.Count)
+        {
+            var candidate = lines[declarationIndex + 1];
+            if (!IsContinuationLine(
+                    candidate,
+                    declarationIndentation,
+                    descriptionColumn,
+                    looksLikeOptionRow(candidate)))
+            {
+                break;
+            }
+
+            parts.Add(candidate.Trim());
+            declarationIndex++;
+
+            // A row whose prose only starts on the next line (picocli, argparse, git) reveals its
+            // description column there, so later wrapped lines get the same column-aware rule.
+            descriptionColumn ??= GetIndentation(candidate);
+        }
+
+        return string.Join(' ', parts);
+    }
 
     /// <summary>
     /// Parses indentation-based argument declarations into a reusable nested group model.
