@@ -311,8 +311,7 @@ public partial class AzCliScraper : CliScraperBase
 
         var alias = match.Groups["alias"].Value.Trim();
         var valueHint = match.Groups["value"].Value.Trim();
-        var description = match.Groups["desc"].Value.Trim();
-        lineIndex = AccumulateMultiLineDescription(lines, lineIndex, ref description);
+        var description = AccumulateWrappedDescription(lines, ref lineIndex, match.Groups["desc"], IsOptionRow);
 
         var propertyName = NormalizePropertyName(longFlag);
         if (propertyName is null)
@@ -504,59 +503,7 @@ public partial class AzCliScraper : CliScraperBase
         return globalOptions.Contains(optionName);
     }
 
-    /// <summary>
-    /// Accumulates multi-line descriptions.
-    /// </summary>
-    private static int AccumulateMultiLineDescription(string[] lines, int currentIndex, ref string description)
-    {
-        var descriptionParts = new List<string>();
-        if (!string.IsNullOrEmpty(description))
-        {
-            descriptionParts.Add(description);
-        }
-
-        var nextIndex = currentIndex + 1;
-        while (nextIndex < lines.Length)
-        {
-            var nextLine = lines[nextIndex];
-            var trimmedNext = nextLine.Trim();
-
-            // Stop conditions
-            if (string.IsNullOrWhiteSpace(trimmedNext))
-            {
-                break;
-            }
-
-            // New option line (starts with dash)
-            if (trimmedNext.StartsWith('-'))
-            {
-                break;
-            }
-
-            // Section header (ends with colon and is short)
-            if (trimmedNext.Length < 50 && (trimmedNext.EndsWith(':') || char.IsUpper(trimmedNext[0])))
-            {
-                var words = trimmedNext.Split(' ');
-                if (words.Length <= 3)
-                {
-                    break;
-                }
-            }
-
-            // Line must be indented to be a continuation
-            var leadingSpaces = nextLine.Length - nextLine.TrimStart().Length;
-            if (leadingSpaces < 20) // Azure CLI uses heavy indentation for descriptions
-            {
-                break;
-            }
-
-            descriptionParts.Add(trimmedNext);
-            nextIndex++;
-        }
-
-        description = string.Join(" ", descriptionParts);
-        return nextIndex - 1;
-    }
+    private static bool IsOptionRow(string line) => AzOptionPattern().IsMatch(line);
 
     /// <summary>
     /// Checks if help text indicates the command has options.

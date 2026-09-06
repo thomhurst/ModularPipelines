@@ -315,7 +315,6 @@ public partial class TerraformCliScraper : CliScraperBase
 
             var flagName = match.Groups["flag"].Value.Trim();
             var valueHint = match.Groups["value"].Value.Trim();
-            var description = match.Groups["desc"].Value.Trim();
 
             if (string.IsNullOrEmpty(flagName))
             {
@@ -330,8 +329,7 @@ public partial class TerraformCliScraper : CliScraperBase
 
             seenOptions.Add(flagName);
 
-            // Accumulate multi-line descriptions
-            i = AccumulateMultiLineDescription(lines, i, ref description);
+            var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow);
 
             var propertyName = NormalizePropertyName(flagName);
             if (propertyName is null)
@@ -408,55 +406,7 @@ public partial class TerraformCliScraper : CliScraperBase
         return numericHints.Contains(hint, StringComparer.OrdinalIgnoreCase);
     }
 
-    /// <summary>
-    /// Accumulates multi-line descriptions.
-    /// </summary>
-    private static int AccumulateMultiLineDescription(string[] lines, int currentIndex, ref string description)
-    {
-        var descriptionParts = new List<string>();
-        if (!string.IsNullOrEmpty(description))
-        {
-            descriptionParts.Add(description);
-        }
-
-        var nextIndex = currentIndex + 1;
-        while (nextIndex < lines.Length)
-        {
-            var nextLine = lines[nextIndex];
-            var trimmedNext = nextLine.Trim();
-
-            // Stop conditions
-            if (string.IsNullOrWhiteSpace(trimmedNext))
-            {
-                break;
-            }
-
-            // New option line (starts with dash)
-            if (trimmedNext.StartsWith('-'))
-            {
-                break;
-            }
-
-            // Section header
-            if (trimmedNext.EndsWith(':') && trimmedNext.Length < 50)
-            {
-                break;
-            }
-
-            // Line must be indented to be a continuation
-            var leadingSpaces = nextLine.Length - nextLine.TrimStart().Length;
-            if (leadingSpaces < 10)
-            {
-                break;
-            }
-
-            descriptionParts.Add(trimmedNext);
-            nextIndex++;
-        }
-
-        description = string.Join(" ", descriptionParts);
-        return nextIndex - 1;
-    }
+    private static bool IsOptionRow(string line) => TerraformOptionPattern().IsMatch(line);
 
     /// <summary>
     /// Checks if help text indicates the command has options.

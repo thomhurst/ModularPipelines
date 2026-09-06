@@ -359,7 +359,6 @@ public partial class PnpmCliScraper : CliScraperBase
             var shortForm = match.Groups["short"].Value.Trim();
             var longForm = match.Groups["long"].Value.Trim();
             var valueHint = match.Groups["value"].Value.Trim();
-            var description = match.Groups["desc"].Value.Trim();
 
             if (string.IsNullOrEmpty(longForm))
             {
@@ -382,8 +381,7 @@ public partial class PnpmCliScraper : CliScraperBase
 
             seenOptions.Add(longForm);
 
-            // Accumulate multi-line descriptions
-            i = AccumulateMultiLineDescription(lines, i, ref description);
+            var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow);
 
             var propertyName = NormalizePropertyName(longForm);
             if (propertyName is null)
@@ -443,51 +441,7 @@ public partial class PnpmCliScraper : CliScraperBase
                    description.Contains(part, StringComparison.OrdinalIgnoreCase));
     }
 
-    /// <summary>
-    /// Accumulates multi-line descriptions.
-    /// </summary>
-    private static int AccumulateMultiLineDescription(string[] lines, int currentIndex, ref string description)
-    {
-        var descriptionParts = new List<string>();
-        if (!string.IsNullOrEmpty(description))
-        {
-            descriptionParts.Add(description);
-        }
-
-        var nextIndex = currentIndex + 1;
-        while (nextIndex < lines.Length)
-        {
-            var nextLine = lines[nextIndex];
-            var trimmedNext = nextLine.Trim();
-
-            if (string.IsNullOrWhiteSpace(trimmedNext))
-            {
-                break;
-            }
-
-            if (trimmedNext.StartsWith('-'))
-            {
-                break;
-            }
-
-            if (trimmedNext.EndsWith(':') && trimmedNext.Length < 30)
-            {
-                break;
-            }
-
-            var leadingSpaces = nextLine.Length - nextLine.TrimStart().Length;
-            if (leadingSpaces < 20)
-            {
-                break;
-            }
-
-            descriptionParts.Add(trimmedNext);
-            nextIndex++;
-        }
-
-        description = string.Join(" ", descriptionParts);
-        return nextIndex - 1;
-    }
+    private static bool IsOptionRow(string line) => PnpmOptionPattern().IsMatch(line);
 
     /// <summary>
     /// Checks if help text indicates the command has options.
