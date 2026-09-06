@@ -27,6 +27,24 @@ public class ContinuationLineTests
     }
 
     [Test]
+    public async Task Repeatable_Phrase_On_A_Wrapped_Option_Looking_Line_Is_Found()
+    {
+        // --quiet sits above --env so its block must stop at the --env row.
+        const string helpText = """
+                  --quiet             Suppress output
+                  --env stringArray   Set environment variables. Values from
+                                      --env-file=PATH are merged; may be specified
+                                      multiple times
+            """;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsTrue();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--quiet", string.Empty)).IsFalse();
+        }
+    }
+
+    [Test]
     public async Task Blank_Lines_Never_Continue_A_Description()
     {
         await Assert.That(CliScraperBase.IsContinuationLine("   ", 2, 20, looksLikeOptionRow: false)).IsFalse();
