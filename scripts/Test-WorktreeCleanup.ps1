@@ -111,6 +111,18 @@ try {
         throw 'Closed-unmerged PR association was treated as merge evidence.'
     }
 
+    # Two merged PRs reused the branch name; the worktree descends from the older head only.
+    $containsOlderHead = { param($sha) $sha -ceq 'aaa111' }
+    if (-not (Get-MergedNameReason -Branch 'issue-4377-run-id' -MergedHeadShas @('bbb222', 'aaa111') -IsAncestor $containsOlderHead)) {
+        throw 'Worktree descending from an earlier merged head of a reused branch name was not recognized.'
+    }
+    if ($null -ne (Get-MergedNameReason -Branch 'issue-4377-run-id' -MergedHeadShas @('bbb222', 'ccc333') -IsAncestor $containsOlderHead)) {
+        throw 'Branch name reuse without ancestry was treated as merged.'
+    }
+    if ($null -ne (Get-MergedNameReason -Branch 'issue-4377-run-id' -MergedHeadShas @() -IsAncestor $containsOlderHead)) {
+        throw 'Empty merged head list was treated as merge evidence.'
+    }
+
     $script:ancestors = @('aaa111')
     if (-not (Test-IsAncestorCommit -RepoPath $isolatedRoot -Ancestor 'aaa111' -Descendant 'zzz999')) {
         throw 'Known ancestor commit was not recognized.'

@@ -180,10 +180,13 @@ try {
         # also contain that PR's head commit: a fresh branch that reuses the name after
         # a squash merge is cut from main, which never contains the old head.
         $why = $null
-        if ($w.Branch -and $sha -and $mergedNames.ContainsKey($w.Branch) -and
-            @($mergedNames[$w.Branch] | Where-Object {
-                Test-IsAncestorCommit -RepoPath $w.Path -Ancestor $_ -Descendant $sha }).Count -gt 0) {
-            $why = "merged PR head branch '$($w.Branch)'"
+        $worktreePath = $w.Path; $worktreeSha = $sha
+        $containsCommit = {
+            param($headSha)
+            Test-IsAncestorCommit -RepoPath $worktreePath -Ancestor $headSha -Descendant $worktreeSha
+        }.GetNewClosure()
+        if ($w.Branch -and $sha -and $mergedNames.ContainsKey($w.Branch)) {
+            $why = Get-MergedNameReason -Branch $w.Branch -MergedHeadShas $mergedNames[$w.Branch] -IsAncestor $containsCommit
         }
 
         if (-not $why) {
@@ -219,11 +222,7 @@ try {
                 $associationChecked = $true
                 $assoc = if ($assocRaw) { @(($assocRaw -join "`n") | ConvertFrom-Json) } else { @() }
                 if (@($assoc | Where-Object { $_.state -eq 'open' }).Count -gt 0) { continue }   # commit belongs to an open PR — keep
-                $worktreePath = $w.Path; $worktreeSha = $sha
-                $why = Get-MergedAssociationReason -Associations $assoc -Branch $w.Branch -IsAncestor {
-                    param($headSha)
-                    Test-IsAncestorCommit -RepoPath $worktreePath -Ancestor $headSha -Descendant $worktreeSha
-                }.GetNewClosure()
+                $why = Get-MergedAssociationReason -Associations $assoc -Branch $w.Branch -IsAncestor $containsCommit
             }
         }
 

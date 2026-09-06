@@ -75,6 +75,24 @@ function Test-IsAncestorCommit {
     return $LASTEXITCODE -eq 0
 }
 
+function Get-MergedNameReason {
+    param(
+        [Parameter(Mandatory)][string]$Branch,
+        [AllowEmptyCollection()][string[]]$MergedHeadShas = @(),
+        [scriptblock]$IsAncestor = { param($sha) $false }
+    )
+
+    # A branch name can belong to several merged PRs. The worktree is one of their
+    # leftovers only if its HEAD still contains one of those head commits; a fresh branch
+    # that reuses the name after a squash merge is cut from main, which never does.
+    foreach ($headSha in $MergedHeadShas) {
+        if ($headSha -and (& $IsAncestor $headSha)) {
+            return "merged PR head branch '$Branch'"
+        }
+    }
+    return $null
+}
+
 function Get-MergedAssociationReason {
     param(
         [AllowEmptyCollection()][object[]]$Associations = @(),
