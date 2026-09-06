@@ -24,7 +24,7 @@ public record DockerTrustSignerRemoveOptions(
 ) : DockerOptions
 {
     /// <summary>
-    /// Do not prompt for confirmation before removing the most
+    /// Do not prompt for confirmation before removing the most recent signer
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }

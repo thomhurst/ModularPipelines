@@ -13,7 +13,7 @@ using ModularPipelines.Docker.Options;
 namespace ModularPipelines.Docker.Options;
 
 /// <summary>
-/// docker compose cp [OPTIONS] SRC_PATH|- SERVICE:DEST_PATH
+/// Copy files/folders between a service container and the local filesystem
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

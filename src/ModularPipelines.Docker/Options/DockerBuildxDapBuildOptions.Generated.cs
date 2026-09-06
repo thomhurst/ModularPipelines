@@ -213,7 +213,7 @@ public record DockerBuildxDapBuildOptions(
     public string? Sbom { get; set; }
 
     /// <summary>
-    /// Secret to expose to the build
+    /// Secret to expose to the build (format: "id=mysecret[,src=/local/secret]")
     /// </summary>
     [SecretValue]
     [CliOption("--secret", Format = OptionFormat.EqualsSeparated)]
@@ -226,7 +226,7 @@ public record DockerBuildxDapBuildOptions(
     public string? ShmSize { get; set; }
 
     /// <summary>
-    /// SSH agent socket or keys to expose
+    /// SSH agent socket or keys to expose to the build (format: "default|&lt;id&gt;[=&lt;socket&gt;|&lt;key&gt;[,&lt;key&gt;]]")
     /// </summary>
     [CliOption("--ssh", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Ssh { get; set; }
