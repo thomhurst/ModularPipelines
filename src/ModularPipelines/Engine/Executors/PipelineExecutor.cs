@@ -12,7 +12,9 @@ namespace ModularPipelines.Engine.Executors;
 internal class PipelineExecutor : IPipelineExecutor
 {
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
-    private readonly IModuleExecutor _moduleExecutor;
+    private readonly IExecutionBackend _executionBackend;
+    private readonly IExecutionBackendContext _executionBackendContext;
+    private readonly EngineCancellationToken _engineCancellationToken;
     private readonly ILogger<PipelineExecutor> _logger;
     private readonly IExceptionRethrowService _exceptionRethrowService;
     private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
@@ -21,7 +23,9 @@ internal class PipelineExecutor : IPipelineExecutor
 
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
-        IModuleExecutor moduleExecutor,
+        IExecutionBackend executionBackend,
+        IExecutionBackendContext executionBackendContext,
+        EngineCancellationToken engineCancellationToken,
         ILogger<PipelineExecutor> logger,
         IExceptionRethrowService exceptionRethrowService,
         ISecondaryExceptionContainer secondaryExceptionContainer,
@@ -29,7 +33,9 @@ internal class PipelineExecutor : IPipelineExecutor
         IOptions<PipelineOptions> options)
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
-        _moduleExecutor = moduleExecutor;
+        _executionBackend = executionBackend;
+        _executionBackendContext = executionBackendContext;
+        _engineCancellationToken = engineCancellationToken;
         _logger = logger;
         _exceptionRethrowService = exceptionRethrowService;
         _secondaryExceptionContainer = secondaryExceptionContainer;
@@ -46,11 +52,16 @@ internal class PipelineExecutor : IPipelineExecutor
         PipelineSummary pipelineSummary;
         try
         {
-            // ModuleExecutor handles waiting for AlwaysRun modules internally
             var estimatedDurations = organizedModules.RunnableModules.ToDictionary(
                 runnable => runnable.Module.GetType(),
                 runnable => runnable.EstimatedDuration);
-            await _moduleExecutor.ExecuteAsync(runnableModules, estimatedDurations).ConfigureAwait(false);
+            var results = await _executionBackend.ExecuteAsync(
+                    runnableModules,
+                    estimatedDurations,
+                    _executionBackendContext,
+                    _engineCancellationToken.Token)
+                .ConfigureAwait(false);
+            ApplyBackendResults(runnableModules, results);
         }
         finally
         {
@@ -75,5 +86,86 @@ internal class PipelineExecutor : IPipelineExecutor
         }
 
         return pipelineSummary;
+    }
+
+    private void ApplyBackendResults(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyList<IModuleResult> results)
+    {
+        foreach (var result in results)
+        {
+            var matchingModule = FindModuleOwningResult(modules, result)
+                                 ?? FindModuleByTypeName(modules, result);
+            if (_executionBackendContext.TryApplyResult(matchingModule, result))
+            {
+                continue;
+            }
+
+            var resultTask = matchingModule.AsInternal().ResultTask;
+            if (!resultTask.IsCompletedSuccessfully
+                || !ReferenceEquals(resultTask.Result, result))
+            {
+                throw new InvalidOperationException(
+                    $"Execution backend returned a conflicting result for module '{matchingModule.GetType().FullName}'.");
+            }
+        }
+
+        if (!_executionBackend.OwnsEntirePlan)
+        {
+            return;
+        }
+
+        var incompleteModules = modules
+            .Where(module => !module.AsInternal().ResultTask.IsCompleted)
+            .Select(module => module.GetType().FullName ?? module.GetType().Name)
+            .ToArray();
+        if (incompleteModules.Length > 0)
+        {
+            throw new InvalidOperationException(
+                "Execution backend completed without results for: "
+                + string.Join(", ", incompleteModules));
+        }
+    }
+
+    /// <summary>
+    /// Finds the planned module whose own result instance the backend handed back. In-process
+    /// backends return the modules' result objects, so identity resolves the module even when
+    /// several planned modules share a type name across assemblies.
+    /// </summary>
+    private static IModule? FindModuleOwningResult(
+        IReadOnlyList<IModule> modules,
+        IModuleResult result) =>
+        modules.FirstOrDefault(module =>
+            module.AsInternal().ResultTask is { IsCompletedSuccessfully: true } resultTask
+            && ReferenceEquals(resultTask.Result, result));
+
+    /// <summary>
+    /// Resolves a foreign (for example deserialized) backend result to the single planned
+    /// module declaring its fully qualified type name.
+    /// </summary>
+    private static IModule FindModuleByTypeName(
+        IReadOnlyList<IModule> modules,
+        IModuleResult result)
+    {
+        if (string.IsNullOrWhiteSpace(result.TypeName))
+        {
+            throw new InvalidOperationException(
+                $"Execution backend result '{result.Name}' must provide a fully qualified TypeName.");
+        }
+
+        var matchingModules = modules
+            .Where(module => string.Equals(
+                module.GetType().FullName,
+                result.TypeName,
+                StringComparison.Ordinal))
+            .ToArray();
+        if (matchingModules.Length != 1)
+        {
+            throw new InvalidOperationException(
+                $"Execution backend returned result '{result.Name}' with type '{result.TypeName}', "
+                + $"which matched {matchingModules.Length} planned modules.");
+        }
+
+        return matchingModules[0];
     }
 }
