@@ -31,7 +31,8 @@ $orphanedMarkers = [System.Collections.Generic.List[string]]::new()
 $duplicateEntries = [System.Collections.Generic.List[string]]::new()
 
 function Test-ApiEntry([string] $Line) {
-    return $Line.Length -gt 0 -and -not $Line.StartsWith('#', [System.StringComparison]::Ordinal)
+    # Whitespace-only lines are blank, matching Read-Baseline in the merge script.
+    return -not [string]::IsNullOrWhiteSpace($Line) -and -not $Line.StartsWith('#', [System.StringComparison]::Ordinal)
 }
 
 function Add-DuplicateEntries([string] $Path, [string[]] $Lines) {
