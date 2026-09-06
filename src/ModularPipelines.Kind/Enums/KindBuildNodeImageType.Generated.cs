@@ -16,8 +16,8 @@ namespace ModularPipelines.Kind.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum KindBuildNodeImageType
 {
-    [EnumValue("url")]
-    Url,
+    [EnumValue("ci")]
+    Ci,
 
     [EnumValue("file")]
     File,
@@ -25,9 +25,9 @@ public enum KindBuildNodeImageType
     [EnumValue("release")]
     Release,
 
-    [EnumValue("ci")]
-    Ci,
-
     [EnumValue("source")]
-    Source
+    Source,
+
+    [EnumValue("url")]
+    Url
 }
