@@ -47,10 +47,7 @@ ModularPipelines.Docker.Enums.DockerBuildxImageToolsCreateProgress.Rawjson = 3 -
 ModularPipelines.Docker.Enums.DockerBuildxImageToolsCreateProgress.Tty = 4 -> ModularPipelines.Docker.Enums.DockerBuildxImageToolsCreateProgress
 ModularPipelines.Docker.Enums.DockerComposeProgress
 ModularPipelines.Docker.Enums.DockerComposeProgress.Auto = 0 -> ModularPipelines.Docker.Enums.DockerComposeProgress
-ModularPipelines.Docker.Enums.DockerComposeProgress.Json = 3 -> ModularPipelines.Docker.Enums.DockerComposeProgress
 ModularPipelines.Docker.Enums.DockerComposeProgress.Plain = 2 -> ModularPipelines.Docker.Enums.DockerComposeProgress
-ModularPipelines.Docker.Enums.DockerComposeProgress.Quiet = 4 -> ModularPipelines.Docker.Enums.DockerComposeProgress
-ModularPipelines.Docker.Enums.DockerComposeProgress.Tty = 1 -> ModularPipelines.Docker.Enums.DockerComposeProgress
 ModularPipelines.Docker.Enums.DockerImageBuildProgress
 ModularPipelines.Docker.Enums.DockerImageBuildProgress.Auto = 0 -> ModularPipelines.Docker.Enums.DockerImageBuildProgress
 ModularPipelines.Docker.Enums.DockerImageBuildProgress.None = 1 -> ModularPipelines.Docker.Enums.DockerImageBuildProgress
