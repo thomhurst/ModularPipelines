@@ -74,11 +74,12 @@ public class ContinuationLineTests
     public async Task Repeatable_Lookahead_Does_Not_Anchor_On_A_Terminal_Value_Hint()
     {
         // --env's description starts on the next line; the padded hint must not become the
-        // continuation threshold, or the nested --env-file row at that column would be absorbed.
+        // continuation threshold, and the prose column inferred from that line must end the
+        // block at the shallower nested --env-file row.
         const string helpText = """
               --env  stringArray
-                     Set environment variables
-                     --env-file=PATH   Read variables from a file; may be specified multiple times
+                                 Set environment variables
+                  --env-file=PATH   Read variables from a file; may be specified multiple times
             """;
 
         using (Assert.Multiple())

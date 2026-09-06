@@ -1189,6 +1189,11 @@ public abstract partial class CliScraperBase : ICliScraper
                        OptionLinePattern().IsMatch(lines[index + 1])))
             {
                 index++;
+
+                // A row without inline prose takes its column from the first wrapped line, as
+                // AccumulateWrappedDescription does; otherwise every later option row would be
+                // absorbed until the next blank line.
+                descriptionColumn ??= GetIndentation(lines[index]);
             }
 
             if (RepeatableValuePattern().IsMatch(string.Join('\n', lines, start, index - start + 1)))
