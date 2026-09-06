@@ -70,4 +70,55 @@ public class ContinuationLineTests
 
         await Assert.That(CliScraperBase.IsContinuationLine(wrapped, 6, null, looksLikeOptionRow: true)).IsFalse();
     }
+
+    [Test]
+    public async Task Rows_Without_Inline_Prose_Infer_The_Description_Column_From_The_First_Wrapped_Line()
+    {
+        string[] lines =
+        [
+            "    --all-namespaces",
+            "        If present, list the requested objects across all namespaces. Pair with",
+            "        --namespace to scope the listing instead.",
+            "    --allow-missing-template-keys",
+            "        If true, ignore any errors in templates.",
+        ];
+        var index = 0;
+
+        var description = CliScraperBase.AccumulateWrappedDescription(
+            lines,
+            ref index,
+            inlineDescription: null,
+            static line => line.TrimStart().StartsWith("--", StringComparison.Ordinal));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(description)
+                .IsEqualTo("If present, list the requested objects across all namespaces. Pair with --namespace to scope the listing instead.");
+            await Assert.That(index).IsEqualTo(2);
+        }
+    }
+
+    [Test]
+    public async Task Option_Rows_Shallower_Than_The_Inferred_Column_Still_Start_The_Next_Option()
+    {
+        string[] lines =
+        [
+            "    --all-namespaces",
+            "        If present, list the requested objects across all namespaces.",
+            "      --namespace  Scope the listing to one namespace.",
+        ];
+        var index = 0;
+
+        var description = CliScraperBase.AccumulateWrappedDescription(
+            lines,
+            ref index,
+            inlineDescription: null,
+            static line => line.TrimStart().StartsWith("--", StringComparison.Ordinal));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(description).IsEqualTo("If present, list the requested objects across all namespaces.");
+            await Assert.That(index).IsEqualTo(1);
+        }
+    }
 }

@@ -1286,7 +1286,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// scraper did not capture one.
     /// </param>
     /// <param name="looksLikeOptionRow">Returns whether a line matches the scraper's option pattern.</param>
-    protected static string AccumulateWrappedDescription(
+    protected internal static string AccumulateWrappedDescription(
         IReadOnlyList<string> lines,
         ref int declarationIndex,
         Group? inlineDescription,
@@ -1317,6 +1317,10 @@ public abstract partial class CliScraperBase : ICliScraper
 
             parts.Add(candidate.Trim());
             declarationIndex++;
+
+            // A row whose prose only starts on the next line (picocli, argparse, git) reveals its
+            // description column there, so later wrapped lines get the same column-aware rule.
+            descriptionColumn ??= GetIndentation(candidate);
         }
 
         return string.Join(' ', parts);

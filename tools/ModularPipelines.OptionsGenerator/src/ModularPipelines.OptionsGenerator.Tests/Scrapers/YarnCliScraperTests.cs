@@ -226,6 +226,34 @@ public class YarnCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Wrapped_Descriptions_That_Look_Like_Option_Rows_Stay_Prose()
+    {
+        // The wrapped "--exact  to ..." line deliberately keeps two spaces so it satisfies the
+        // option-row pattern; only its column keeps it inside the description.
+        const string helpText = """
+            ━━━ Usage ━━━
+
+            $ yarn add [--json] [-E,--exact] ...
+
+            ━━━ Options ━━━
+
+              --json                     Format the output as an NDJSON stream. Combine with
+                                         --exact  to pin the resolved versions.
+              -E,--exact                 Don't use any semver modifier on the resolved range
+            """;
+
+        var command = await new TestYarnCliScraper().Parse(["yarn", "add"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo(["--json", "--exact"]);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--json").Description)
+                .IsEqualTo("Format the output as an NDJSON stream. Combine with --exact  to pin the resolved versions.");
+        }
+    }
+
     private sealed class TestYarnCliScraper : YarnCliScraper
     {
         public TestYarnCliScraper()
