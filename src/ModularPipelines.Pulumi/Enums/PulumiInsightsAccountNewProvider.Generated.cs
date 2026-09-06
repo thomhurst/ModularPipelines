@@ -19,15 +19,15 @@ public enum PulumiInsightsAccountNewProvider
     [EnumValue("aws")]
     Aws,
 
-    [EnumValue("gcp")]
-    Gcp,
-
     [EnumValue("azure-native")]
     AzureNative,
 
-    [EnumValue("oci")]
-    Oci,
+    [EnumValue("gcp")]
+    Gcp,
 
     [EnumValue("kubernetes")]
-    Kubernetes
+    Kubernetes,
+
+    [EnumValue("oci")]
+    Oci
 }
