@@ -16,12 +16,12 @@ namespace ModularPipelines.Liquibase.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum LiquibaseSupportsMethodValidationLevel
 {
+    [EnumValue("fail")]
+    Fail,
+
     [EnumValue("off")]
     Off,
 
     [EnumValue("warn")]
-    Warn,
-
-    [EnumValue("fail")]
-    Fail
+    Warn
 }

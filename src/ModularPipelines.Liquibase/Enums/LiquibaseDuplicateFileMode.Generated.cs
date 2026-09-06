@@ -16,18 +16,18 @@ namespace ModularPipelines.Liquibase.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum LiquibaseDuplicateFileMode
 {
-    [EnumValue("silent")]
-    Silent,
-
     [EnumValue("debug")]
     Debug,
+
+    [EnumValue("error")]
+    Error,
 
     [EnumValue("info")]
     Info,
 
-    [EnumValue("warn")]
-    Warn,
+    [EnumValue("silent")]
+    Silent,
 
-    [EnumValue("error")]
-    Error
+    [EnumValue("warn")]
+    Warn
 }

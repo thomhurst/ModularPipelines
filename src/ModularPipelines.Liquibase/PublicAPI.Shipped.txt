@@ -1,62 +1,39 @@
 #nullable enable
+ModularPipelines.Context.ModularPipelines_Liquibase_7a01d7edb4c5f94bToolsExtensions
+ModularPipelines.Context.ModularPipelines_Liquibase_7a01d7edb4c5f94bToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+ModularPipelines.Context.ModularPipelines_Liquibase_7a01d7edb4c5f94bToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Liquibase.get -> ModularPipelines.Liquibase.Services.ILiquibase!
 ModularPipelines.Liquibase.Enums.LiquibaseChangelogParseMode
-ModularPipelines.Liquibase.Enums.LiquibaseChangelogParseMode.Lax = 1 -> ModularPipelines.Liquibase.Enums.LiquibaseChangelogParseMode
-ModularPipelines.Liquibase.Enums.LiquibaseChangelogParseMode.Strict = 0 -> ModularPipelines.Liquibase.Enums.LiquibaseChangelogParseMode
 ModularPipelines.Liquibase.Enums.LiquibaseDuplicateFileMode
-ModularPipelines.Liquibase.Enums.LiquibaseDuplicateFileMode.Debug = 1 -> ModularPipelines.Liquibase.Enums.LiquibaseDuplicateFileMode
-ModularPipelines.Liquibase.Enums.LiquibaseDuplicateFileMode.Error = 4 -> ModularPipelines.Liquibase.Enums.LiquibaseDuplicateFileMode
 ModularPipelines.Liquibase.Enums.LiquibaseDuplicateFileMode.Info = 2 -> ModularPipelines.Liquibase.Enums.LiquibaseDuplicateFileMode
-ModularPipelines.Liquibase.Enums.LiquibaseDuplicateFileMode.Silent = 0 -> ModularPipelines.Liquibase.Enums.LiquibaseDuplicateFileMode
-ModularPipelines.Liquibase.Enums.LiquibaseDuplicateFileMode.Warn = 3 -> ModularPipelines.Liquibase.Enums.LiquibaseDuplicateFileMode
 ModularPipelines.Liquibase.Enums.LiquibaseLogFormat
-ModularPipelines.Liquibase.Enums.LiquibaseLogFormat.Json = 1 -> ModularPipelines.Liquibase.Enums.LiquibaseLogFormat
-ModularPipelines.Liquibase.Enums.LiquibaseLogFormat.JsonPretty = 2 -> ModularPipelines.Liquibase.Enums.LiquibaseLogFormat
-ModularPipelines.Liquibase.Enums.LiquibaseLogFormat.Text = 0 -> ModularPipelines.Liquibase.Enums.LiquibaseLogFormat
 ModularPipelines.Liquibase.Enums.LiquibaseLogLevel
-ModularPipelines.Liquibase.Enums.LiquibaseLogLevel.Fine = 4 -> ModularPipelines.Liquibase.Enums.LiquibaseLogLevel
-ModularPipelines.Liquibase.Enums.LiquibaseLogLevel.Info = 3 -> ModularPipelines.Liquibase.Enums.LiquibaseLogLevel
-ModularPipelines.Liquibase.Enums.LiquibaseLogLevel.Off = 0 -> ModularPipelines.Liquibase.Enums.LiquibaseLogLevel
-ModularPipelines.Liquibase.Enums.LiquibaseLogLevel.Severe = 1 -> ModularPipelines.Liquibase.Enums.LiquibaseLogLevel
-ModularPipelines.Liquibase.Enums.LiquibaseLogLevel.Warning = 2 -> ModularPipelines.Liquibase.Enums.LiquibaseLogLevel
 ModularPipelines.Liquibase.Enums.LiquibaseMissingPropertyMode
-ModularPipelines.Liquibase.Enums.LiquibaseMissingPropertyMode.Empty = 1 -> ModularPipelines.Liquibase.Enums.LiquibaseMissingPropertyMode
-ModularPipelines.Liquibase.Enums.LiquibaseMissingPropertyMode.Error = 2 -> ModularPipelines.Liquibase.Enums.LiquibaseMissingPropertyMode
-ModularPipelines.Liquibase.Enums.LiquibaseMissingPropertyMode.Preserve = 0 -> ModularPipelines.Liquibase.Enums.LiquibaseMissingPropertyMode
 ModularPipelines.Liquibase.Enums.LiquibaseOnMissingIncludeChangelog
-ModularPipelines.Liquibase.Enums.LiquibaseOnMissingIncludeChangelog.Fail = 1 -> ModularPipelines.Liquibase.Enums.LiquibaseOnMissingIncludeChangelog
-ModularPipelines.Liquibase.Enums.LiquibaseOnMissingIncludeChangelog.Warn = 0 -> ModularPipelines.Liquibase.Enums.LiquibaseOnMissingIncludeChangelog
 ModularPipelines.Liquibase.Enums.LiquibaseShowSummary
 ModularPipelines.Liquibase.Enums.LiquibaseShowSummary.Off = 0 -> ModularPipelines.Liquibase.Enums.LiquibaseShowSummary
 ModularPipelines.Liquibase.Enums.LiquibaseShowSummary.Summary = 1 -> ModularPipelines.Liquibase.Enums.LiquibaseShowSummary
 ModularPipelines.Liquibase.Enums.LiquibaseShowSummary.Verbose = 2 -> ModularPipelines.Liquibase.Enums.LiquibaseShowSummary
 ModularPipelines.Liquibase.Enums.LiquibaseShowSummaryOutput
-ModularPipelines.Liquibase.Enums.LiquibaseShowSummaryOutput.All = 2 -> ModularPipelines.Liquibase.Enums.LiquibaseShowSummaryOutput
 ModularPipelines.Liquibase.Enums.LiquibaseShowSummaryOutput.Console = 1 -> ModularPipelines.Liquibase.Enums.LiquibaseShowSummaryOutput
-ModularPipelines.Liquibase.Enums.LiquibaseShowSummaryOutput.Log = 0 -> ModularPipelines.Liquibase.Enums.LiquibaseShowSummaryOutput
 ModularPipelines.Liquibase.Enums.LiquibaseSupportsMethodValidationLevel
-ModularPipelines.Liquibase.Enums.LiquibaseSupportsMethodValidationLevel.Fail = 2 -> ModularPipelines.Liquibase.Enums.LiquibaseSupportsMethodValidationLevel
-ModularPipelines.Liquibase.Enums.LiquibaseSupportsMethodValidationLevel.Off = 0 -> ModularPipelines.Liquibase.Enums.LiquibaseSupportsMethodValidationLevel
-ModularPipelines.Liquibase.Enums.LiquibaseSupportsMethodValidationLevel.Warn = 1 -> ModularPipelines.Liquibase.Enums.LiquibaseSupportsMethodValidationLevel
 ModularPipelines.Liquibase.Enums.LiquibaseTagVersion
-ModularPipelines.Liquibase.Enums.LiquibaseTagVersion.Newest = 1 -> ModularPipelines.Liquibase.Enums.LiquibaseTagVersion
-ModularPipelines.Liquibase.Enums.LiquibaseTagVersion.Oldest = 0 -> ModularPipelines.Liquibase.Enums.LiquibaseTagVersion
 ModularPipelines.Liquibase.Enums.LiquibaseUiService
 ModularPipelines.Liquibase.Enums.LiquibaseUiService.Console = 0 -> ModularPipelines.Liquibase.Enums.LiquibaseUiService
 ModularPipelines.Liquibase.Enums.LiquibaseUiService.Logger = 1 -> ModularPipelines.Liquibase.Enums.LiquibaseUiService
 ModularPipelines.Liquibase.Extensions.LiquibaseExtensions
 ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions
+ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetAuthor.get -> string?
+ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetAuthor.set -> void
+ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetId.get -> string?
+ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetId.set -> void
+ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetIdentifier.get -> string?
+ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetIdentifier.set -> void
+ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetPath.get -> string?
+ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetPath.set -> void
 ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangelogFile.get -> string?
 ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangelogFile.set -> void
 ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangelogProperty.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
 ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangelogProperty.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetAuthor.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangesetAuthor.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetId.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetId.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangesetIdentifier.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangesetIdentifier.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangesetPath.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetPath.set -> void
 ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.DefaultCatalogName.get -> string?
 ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.DefaultCatalogName.set -> void
 ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.DefaultSchemaName.get -> string?
@@ -578,48 +555,6 @@ ModularPipelines.Liquibase.Options.LiquibaseListLocksOptions.Url.get -> string?
 ModularPipelines.Liquibase.Options.LiquibaseListLocksOptions.Url.set -> void
 ModularPipelines.Liquibase.Options.LiquibaseListLocksOptions.Username.get -> string?
 ModularPipelines.Liquibase.Options.LiquibaseListLocksOptions.Username.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.ChangelogFile.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.ChangelogFile.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.ChangelogProperty.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.ChangelogProperty.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.ContextFilter.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.ContextFilter.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.DefaultCatalogName.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.DefaultCatalogName.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.DefaultSchemaName.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.DefaultSchemaName.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.LabelFilter.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.LabelFilter.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.LiquibaseMarkNextChangesetRanOptions() -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.LiquibaseMarkNextChangesetRanOptions(ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions! original) -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.Password.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.Password.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.Url.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.Url.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.Username.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.Username.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.ChangelogFile.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.ChangelogFile.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.ChangelogProperty.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.ChangelogProperty.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.ContextFilter.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.ContextFilter.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.DefaultCatalogName.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.DefaultCatalogName.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.DefaultSchemaName.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.DefaultSchemaName.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.LabelFilter.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.LabelFilter.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.LiquibaseMarkNextChangesetRanSqlOptions() -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.LiquibaseMarkNextChangesetRanSqlOptions(ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions! original) -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.Password.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.Password.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.Url.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.Url.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.Username.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.Username.set -> void
 ModularPipelines.Liquibase.Options.LiquibaseOptions
 ModularPipelines.Liquibase.Options.LiquibaseOptions.LiquibaseOptions() -> void
 ModularPipelines.Liquibase.Options.LiquibaseOptions.LiquibaseOptions(ModularPipelines.Liquibase.Options.LiquibaseOptions! original) -> void
@@ -1173,7 +1108,6 @@ ModularPipelines.Liquibase.Options.LiquibaseValidateOptions.Url.set -> void
 ModularPipelines.Liquibase.Options.LiquibaseValidateOptions.Username.get -> string?
 ModularPipelines.Liquibase.Options.LiquibaseValidateOptions.Username.set -> void
 ModularPipelines.Liquibase.Services.ILiquibase
-override abstract ModularPipelines.Liquibase.Options.LiquibaseOptions.<Clone>$() -> ModularPipelines.Liquibase.Options.LiquibaseOptions!
 override ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.<Clone>$() -> ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions!
 override ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.Equals(object? obj) -> bool
@@ -1294,18 +1228,6 @@ override ModularPipelines.Liquibase.Options.LiquibaseListLocksOptions.Equals(obj
 override ModularPipelines.Liquibase.Options.LiquibaseListLocksOptions.GetHashCode() -> int
 override ModularPipelines.Liquibase.Options.LiquibaseListLocksOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Liquibase.Options.LiquibaseListLocksOptions.ToString() -> string!
-override ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.<Clone>$() -> ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions!
-override ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.Equals(object? obj) -> bool
-override ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.GetHashCode() -> int
-override ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.ToString() -> string!
-override ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.<Clone>$() -> ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions!
-override ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.Equals(object? obj) -> bool
-override ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.GetHashCode() -> int
-override ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.ToString() -> string!
 override ModularPipelines.Liquibase.Options.LiquibaseOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Liquibase.Options.LiquibaseOptions.Equals(object? obj) -> bool
 override ModularPipelines.Liquibase.Options.LiquibaseOptions.GetHashCode() -> int
@@ -1437,6 +1359,7 @@ override ModularPipelines.Liquibase.Options.LiquibaseValidateOptions.Equals(obje
 override ModularPipelines.Liquibase.Options.LiquibaseValidateOptions.GetHashCode() -> int
 override ModularPipelines.Liquibase.Options.LiquibaseValidateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Liquibase.Options.LiquibaseValidateOptions.ToString() -> string!
+override abstract ModularPipelines.Liquibase.Options.LiquibaseOptions.<Clone>$() -> ModularPipelines.Liquibase.Options.LiquibaseOptions!
 override sealed ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseOptions? other) -> bool
 override sealed ModularPipelines.Liquibase.Options.LiquibaseChangelogSyncOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseOptions? other) -> bool
 override sealed ModularPipelines.Liquibase.Options.LiquibaseChangelogSyncSqlOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseOptions? other) -> bool
@@ -1457,8 +1380,6 @@ override sealed ModularPipelines.Liquibase.Options.LiquibaseInitOptions.Equals(M
 override sealed ModularPipelines.Liquibase.Options.LiquibaseInitProjectOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseOptions? other) -> bool
 override sealed ModularPipelines.Liquibase.Options.LiquibaseInitStartH2Options.Equals(ModularPipelines.Liquibase.Options.LiquibaseOptions? other) -> bool
 override sealed ModularPipelines.Liquibase.Options.LiquibaseListLocksOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseOptions? other) -> bool
-override sealed ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseOptions? other) -> bool
-override sealed ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseOptions? other) -> bool
 override sealed ModularPipelines.Liquibase.Options.LiquibaseOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 override sealed ModularPipelines.Liquibase.Options.LiquibaseReleaseLocksOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseOptions? other) -> bool
 override sealed ModularPipelines.Liquibase.Options.LiquibaseRollbackCountOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseOptions? other) -> bool
@@ -1481,6 +1402,7 @@ override sealed ModularPipelines.Liquibase.Options.LiquibaseUpdateTestingRollbac
 override sealed ModularPipelines.Liquibase.Options.LiquibaseUpdateToTagOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseOptions? other) -> bool
 override sealed ModularPipelines.Liquibase.Options.LiquibaseUpdateToTagSqlOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseOptions? other) -> bool
 override sealed ModularPipelines.Liquibase.Options.LiquibaseValidateOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseOptions? other) -> bool
+static ModularPipelines.Context.ModularPipelines_Liquibase_7a01d7edb4c5f94bToolsExtensions.get_Liquibase(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Liquibase.Services.ILiquibase!
 static ModularPipelines.Liquibase.Extensions.LiquibaseExtensions.RegisterLiquibaseContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.operator !=(ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions? left, ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions? right) -> bool
 static ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.operator ==(ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions? left, ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions? right) -> bool
@@ -1522,10 +1444,6 @@ static ModularPipelines.Liquibase.Options.LiquibaseInitStartH2Options.operator !
 static ModularPipelines.Liquibase.Options.LiquibaseInitStartH2Options.operator ==(ModularPipelines.Liquibase.Options.LiquibaseInitStartH2Options? left, ModularPipelines.Liquibase.Options.LiquibaseInitStartH2Options? right) -> bool
 static ModularPipelines.Liquibase.Options.LiquibaseListLocksOptions.operator !=(ModularPipelines.Liquibase.Options.LiquibaseListLocksOptions? left, ModularPipelines.Liquibase.Options.LiquibaseListLocksOptions? right) -> bool
 static ModularPipelines.Liquibase.Options.LiquibaseListLocksOptions.operator ==(ModularPipelines.Liquibase.Options.LiquibaseListLocksOptions? left, ModularPipelines.Liquibase.Options.LiquibaseListLocksOptions? right) -> bool
-static ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.operator !=(ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions? left, ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions? right) -> bool
-static ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.operator ==(ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions? left, ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions? right) -> bool
-static ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.operator !=(ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions? left, ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions? right) -> bool
-static ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.operator ==(ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions? left, ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions? right) -> bool
 static ModularPipelines.Liquibase.Options.LiquibaseOptions.operator !=(ModularPipelines.Liquibase.Options.LiquibaseOptions? left, ModularPipelines.Liquibase.Options.LiquibaseOptions? right) -> bool
 static ModularPipelines.Liquibase.Options.LiquibaseOptions.operator ==(ModularPipelines.Liquibase.Options.LiquibaseOptions? left, ModularPipelines.Liquibase.Options.LiquibaseOptions? right) -> bool
 static ModularPipelines.Liquibase.Options.LiquibaseReleaseLocksOptions.operator !=(ModularPipelines.Liquibase.Options.LiquibaseReleaseLocksOptions? left, ModularPipelines.Liquibase.Options.LiquibaseReleaseLocksOptions? right) -> bool
@@ -1590,10 +1508,8 @@ virtual ModularPipelines.Liquibase.Options.LiquibaseInitOptions.Equals(ModularPi
 virtual ModularPipelines.Liquibase.Options.LiquibaseInitProjectOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseInitProjectOptions? other) -> bool
 virtual ModularPipelines.Liquibase.Options.LiquibaseInitStartH2Options.Equals(ModularPipelines.Liquibase.Options.LiquibaseInitStartH2Options? other) -> bool
 virtual ModularPipelines.Liquibase.Options.LiquibaseListLocksOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseListLocksOptions? other) -> bool
-virtual ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanOptions? other) -> bool
-virtual ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseMarkNextChangesetRanSqlOptions? other) -> bool
 virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.AllowDuplicatedChangeSetIdentifiers.get -> bool?
-virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.AllowDuplicatedChangesetIdentifiers.set -> void
+virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.AllowDuplicatedChangeSetIdentifiers.set -> void
 virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.AllowInheritLogicalFilePath.get -> bool?
 virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.AllowInheritLogicalFilePath.set -> void
 virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.AlwaysDropInsteadOfReplace.get -> bool?
@@ -1647,8 +1563,8 @@ virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.FileEncoding.get -> 
 virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.FileEncoding.set -> void
 virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.FilterLogMessages.get -> string?
 virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.FilterLogMessages.set -> void
-virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.GenerateChangesetCreatedValues.get -> bool?
-virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.GenerateChangesetCreatedValues.set -> void
+virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.GenerateChangeSetCreatedValues.get -> bool?
+virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.GenerateChangeSetCreatedValues.set -> void
 virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.GeneratedChangeSetIdsContainsDescription.get -> bool?
 virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.GeneratedChangeSetIdsContainsDescription.set -> void
 virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.Headless.get -> bool?
@@ -1756,21 +1672,3 @@ virtual ModularPipelines.Liquibase.Options.LiquibaseUpdateTestingRollbackOptions
 virtual ModularPipelines.Liquibase.Options.LiquibaseUpdateToTagOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseUpdateToTagOptions? other) -> bool
 virtual ModularPipelines.Liquibase.Options.LiquibaseUpdateToTagSqlOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseUpdateToTagSqlOptions? other) -> bool
 virtual ModularPipelines.Liquibase.Options.LiquibaseValidateOptions.Equals(ModularPipelines.Liquibase.Options.LiquibaseValidateOptions? other) -> bool
-ModularPipelines.Context.ModularPipelines_Liquibase_7a01d7edb4c5f94bToolsExtensions
-ModularPipelines.Context.ModularPipelines_Liquibase_7a01d7edb4c5f94bToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
-ModularPipelines.Context.ModularPipelines_Liquibase_7a01d7edb4c5f94bToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Liquibase.get -> ModularPipelines.Liquibase.Services.ILiquibase!
-ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetAuthor.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetIdentifier.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetIdentifier.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangeSetPath.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangesetAuthor.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangesetId.get -> string?
-ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangesetId.set -> void
-ModularPipelines.Liquibase.Options.LiquibaseCalculateChecksumOptions.ChangesetPath.set -> void
-static ModularPipelines.Context.ModularPipelines_Liquibase_7a01d7edb4c5f94bToolsExtensions.get_Liquibase(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Liquibase.Services.ILiquibase!
-virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.AllowDuplicatedChangeSetIdentifiers.set -> void
-virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.AllowDuplicatedChangesetIdentifiers.get -> bool?
-virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.GenerateChangeSetCreatedValues.get -> bool?
-virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.GenerateChangeSetCreatedValues.set -> void
-virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.GeneratedChangesetIdsContainsDescription.get -> bool?
-virtual ModularPipelines.Liquibase.Options.LiquibaseOptions.GeneratedChangesetIdsContainsDescription.set -> void
