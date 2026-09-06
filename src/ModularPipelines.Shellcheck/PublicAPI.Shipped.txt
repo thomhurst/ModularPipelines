@@ -3,8 +3,6 @@ ModularPipelines.Context.ModularPipelines_Shellcheck_74437ba6b640cfd0ToolsExtens
 ModularPipelines.Context.ModularPipelines_Shellcheck_74437ba6b640cfd0ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
 ModularPipelines.Context.ModularPipelines_Shellcheck_74437ba6b640cfd0ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Shellcheck.get -> ModularPipelines.Shellcheck.Services.IShellcheck!
 ModularPipelines.Shellcheck.Enums.ShellcheckColor
-ModularPipelines.Shellcheck.Enums.ShellcheckColor.Always = 1 -> ModularPipelines.Shellcheck.Enums.ShellcheckColor
-ModularPipelines.Shellcheck.Enums.ShellcheckColor.Auto = 0 -> ModularPipelines.Shellcheck.Enums.ShellcheckColor
 ModularPipelines.Shellcheck.Enums.ShellcheckColor.Never = 2 -> ModularPipelines.Shellcheck.Enums.ShellcheckColor
 ModularPipelines.Shellcheck.Enums.ShellcheckFormat
 ModularPipelines.Shellcheck.Enums.ShellcheckFormat.Checkstyle = 0 -> ModularPipelines.Shellcheck.Enums.ShellcheckFormat
@@ -16,15 +14,9 @@ ModularPipelines.Shellcheck.Enums.ShellcheckFormat.Quiet = 5 -> ModularPipelines
 ModularPipelines.Shellcheck.Enums.ShellcheckFormat.Tty = 6 -> ModularPipelines.Shellcheck.Enums.ShellcheckFormat
 ModularPipelines.Shellcheck.Enums.ShellcheckSeverity
 ModularPipelines.Shellcheck.Enums.ShellcheckSeverity.Error = 0 -> ModularPipelines.Shellcheck.Enums.ShellcheckSeverity
-ModularPipelines.Shellcheck.Enums.ShellcheckSeverity.Info = 2 -> ModularPipelines.Shellcheck.Enums.ShellcheckSeverity
-ModularPipelines.Shellcheck.Enums.ShellcheckSeverity.Style = 3 -> ModularPipelines.Shellcheck.Enums.ShellcheckSeverity
-ModularPipelines.Shellcheck.Enums.ShellcheckSeverity.Warning = 1 -> ModularPipelines.Shellcheck.Enums.ShellcheckSeverity
 ModularPipelines.Shellcheck.Enums.ShellcheckShell
-ModularPipelines.Shellcheck.Enums.ShellcheckShell.Bash = 1 -> ModularPipelines.Shellcheck.Enums.ShellcheckShell
-ModularPipelines.Shellcheck.Enums.ShellcheckShell.Busybox = 4 -> ModularPipelines.Shellcheck.Enums.ShellcheckShell
 ModularPipelines.Shellcheck.Enums.ShellcheckShell.Dash = 2 -> ModularPipelines.Shellcheck.Enums.ShellcheckShell
 ModularPipelines.Shellcheck.Enums.ShellcheckShell.Ksh = 3 -> ModularPipelines.Shellcheck.Enums.ShellcheckShell
-ModularPipelines.Shellcheck.Enums.ShellcheckShell.Sh = 0 -> ModularPipelines.Shellcheck.Enums.ShellcheckShell
 ModularPipelines.Shellcheck.Extensions.ShellcheckExtensions
 ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions
 ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions.CheckSourced.get -> bool?
