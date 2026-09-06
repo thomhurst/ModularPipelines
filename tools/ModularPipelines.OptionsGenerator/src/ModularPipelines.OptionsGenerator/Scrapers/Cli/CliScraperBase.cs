@@ -1178,29 +1178,24 @@ public abstract partial class CliScraperBase : ICliScraper
 
             // Blank lines and option rows bound the block, never indentation: gcloud puts
             // repeatability notes at the flag column, and column-0 headers rely on blank
-            // separation as before. The shared rule keeps wrapped prose that starts with a switch.
+            // separation as before. Wrapped prose that starts with a switch is kept only once the
+            // row's inline prose has fixed the description column; this lookahead does not know
+            // the tool's layout, so while the column is unknown any option-looking line ends the
+            // block (a sibling row, a nested row, or a one-word description's neighbour alike),
+            // and plain prose beneath a descriptionless row establishes the column instead.
             var descriptionColumn = GetInlineDescriptionColumn(declaration);
-            var declarationIndentation = GetIndentation(declaration);
             var start = index;
             while (index + 1 < lines.Length)
             {
                 var candidate = lines[index + 1];
                 var looksLikeOptionRow = OptionLinePattern().IsMatch(candidate);
-
-                // Until a column is known, an option-looking line must at least sit deeper than
-                // the declaration: a sibling row at the same indentation starts the next option,
-                // while wrapped switch text is indented beneath the row that wraps it.
-                int? floor = descriptionColumn is null && looksLikeOptionRow ? declarationIndentation : null;
-                if (!IsContinuationLine(candidate, floor, descriptionColumn, looksLikeOptionRow))
+                if ((looksLikeOptionRow && descriptionColumn is null)
+                    || !IsContinuationLine(candidate, declarationIndentation: null, descriptionColumn, looksLikeOptionRow))
                 {
                     break;
                 }
 
                 index++;
-
-                // A row without inline prose takes its column from the first wrapped line, as
-                // AccumulateWrappedDescription does; otherwise every later option row would be
-                // absorbed until the next blank line.
                 descriptionColumn ??= GetIndentation(candidate);
             }
 

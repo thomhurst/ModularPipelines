@@ -92,6 +92,23 @@ public class ContinuationLineTests
     }
 
     [Test]
+    public async Task Repeatable_Lookahead_Never_Absorbs_An_Option_Row_While_The_Column_Is_Unknown()
+    {
+        // "Configure" is a one-word description that the generic rule cannot tell from a hint, so
+        // the column stays unknown; the deeper --child row must still start the next option.
+        const string helpText = """
+              --parent  Configure
+                  --child value   May be specified multiple times
+            """;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--parent", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--child", string.Empty)).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Repeatable_Lookahead_Treats_A_TitleCase_Value_Hint_As_A_Hint()
     {
         // "String" is a metavariable, not prose: the column is Set's, so the nested row between
