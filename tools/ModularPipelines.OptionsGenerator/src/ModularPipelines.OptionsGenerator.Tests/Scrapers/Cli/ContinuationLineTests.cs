@@ -51,6 +51,9 @@ public class ContinuationLineTests
     [Arguments("\t--env stringArray\tSet environment variables", "Set")]
     [Arguments("  --env  String   Set environment variables", "Set")]
     [Arguments("  --tls  Use TLS  (implies --tlsverify)", "Use")]
+    [Arguments("  --config  KEY VALUE   Set a config value", "Set")]
+    [Arguments("  --env  <key> <value>   Set environment variables", "Set")]
+    [Arguments("  --add  PATH...   Paths to add", "Paths")]
     public async Task Inline_Description_Column_Skips_Switches_And_Value_Hints(string line, string descriptionStart)
     {
         var expected = CliScraperBase.GetColumn(line, line.IndexOf(descriptionStart, StringComparison.Ordinal));
@@ -66,6 +69,7 @@ public class ContinuationLineTests
     [Arguments("  --output  <path>")]
     [Arguments("  --level  DEBUG")]
     [Arguments("  --verbose    Verbose")]
+    [Arguments("  --config  KEY VALUE")]
     [Arguments("   ")]
     public async Task Rows_Without_Prose_Have_No_Inline_Description_Column(string line)
     {
@@ -138,6 +142,23 @@ public class ContinuationLineTests
     public async Task Layout_Description_Column_Is_The_Most_Common_Row_Column(string helpText, int? expected)
     {
         await Assert.That(CliScraperBase.GetLayoutDescriptionColumn(helpText.Split('\n'))).IsEqualTo(expected);
+    }
+
+    [Test]
+    public async Task Repeatable_Lookahead_Anchors_On_The_Prose_Column_Not_A_Multi_Token_Value_Hint()
+    {
+        // "KEY VALUE" is a hint, so --config's column is the prose column and the shallower
+        // --other row ends its block instead of donating its repeatability note.
+        const string helpText = """
+              --config  KEY VALUE   Set a config value
+                             --other TYPE   Can be repeated to set multiple types
+            """;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--config", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--other", string.Empty)).IsTrue();
+        }
     }
 
     [Test]
