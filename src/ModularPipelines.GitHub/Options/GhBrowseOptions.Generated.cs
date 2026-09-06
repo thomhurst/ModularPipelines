@@ -14,7 +14,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// - Pull requests
+/// - Issues
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
