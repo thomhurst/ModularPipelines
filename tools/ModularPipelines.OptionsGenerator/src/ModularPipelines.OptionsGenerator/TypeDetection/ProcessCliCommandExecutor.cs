@@ -49,7 +49,8 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             {
                 StandardOutput = string.Empty,
                 StandardError = $"Command not found: {command}",
-                ExitCode = -1
+                ExitCode = -1,
+                ExecutionFailed = true,
             };
         }
 

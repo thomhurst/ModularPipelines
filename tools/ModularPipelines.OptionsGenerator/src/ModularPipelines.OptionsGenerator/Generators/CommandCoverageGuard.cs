@@ -51,11 +51,10 @@ internal static class CommandCoverageGuard
             .Where(command => !allowedMissingCommands.Contains(command))
             .ToArray();
         var knownGroupsWithoutChildren = GetKnownGroupsWithoutChildren(
-                previous,
-                commands,
-                allowedMissingCommands)
-            .Where(group => !IsUnavailable(group, unavailableCommands))
-            .ToArray();
+            previous,
+            commands,
+            allowedMissingCommands,
+            unavailableCommands);
         var missingSentinels = GetMissingSentinels(tool.CommandCoverage, commands, allowedMissingCommands);
         var hasSameVersionCommandSetDrift = previous is not null
             && HasSameResolvedVersion(previous.ToolVersion, tool.ToolVersion)
@@ -189,15 +188,21 @@ internal static class CommandCoverageGuard
         return null;
     }
 
+    /// <summary>
+    /// Baseline groups that no longer have any child command, unless every missing child is
+    /// either excluded by policy or unavailable (its help, or an ancestor's, could not be
+    /// scraped), in which case the unavailable-help violation already explains the gap.
+    /// </summary>
     private static IReadOnlyList<string> GetKnownGroupsWithoutChildren(
         CommandCoverageManifest? previous,
         IReadOnlyList<string> commands,
-        IReadOnlySet<string> excludedCommands) =>
+        IReadOnlySet<string> excludedCommands,
+        IReadOnlyList<string> unavailableCommands) =>
         previous?.CommandGroups
             .Where(group => HasChildren(group, previous.Commands) && !HasChildren(group, commands))
             .Where(group => !previous.Commands
                 .Where(command => IsChildOf(group, command))
-                .All(excludedCommands.Contains))
+                .All(command => excludedCommands.Contains(command) || IsUnavailable(command, unavailableCommands)))
             .ToArray()
         ?? [];
 

@@ -73,8 +73,9 @@ public class CliCommandResult
     public bool CircuitOpen { get; init; }
 
     /// <summary>
-    /// Whether the process could not be executed at all (for example a permission or
-    /// executable-format error), so the output is the exception text rather than a response.
+    /// Whether the process could not be executed at all (the executable could not be resolved,
+    /// or launching it failed with, for example, a permission or executable-format error), so
+    /// the output describes that failure rather than a response.
     /// </summary>
     public bool ExecutionFailed { get; init; }
 
