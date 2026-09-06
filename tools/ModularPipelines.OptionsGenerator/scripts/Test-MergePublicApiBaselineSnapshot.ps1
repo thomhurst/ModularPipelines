@@ -16,14 +16,17 @@ New-Item -ItemType Directory -Path $testRoot | Out-Null
 
 function Assert-Lines([string] $Path, [string[]] $Expected) {
     $actual = @(Get-Content -LiteralPath $Path)
-    if (-not [System.Linq.Enumerable]::SequenceEqual(
-            [string[]] $actual,
-            [string[]] $Expected,
-            [System.StringComparer]::Ordinal)) {
+    $expectedLines = @($Expected)
+    $isMatch = $actual.Count -eq $expectedLines.Count
+    for ($index = 0; $isMatch -and $index -lt $actual.Count; $index++) {
+        $isMatch = $actual[$index] -ceq $expectedLines[$index]
+    }
+
+    if (-not $isMatch) {
         throw @"
 Unexpected contents in $Path.
 Expected:
-$($Expected -join [Environment]::NewLine)
+$($expectedLines -join [Environment]::NewLine)
 Actual:
 $($actual -join [Environment]::NewLine)
 "@
@@ -135,7 +138,46 @@ try {
         'Api.Reintroduced'
     )
 
-    Write-Output 'OK public API additions, removals, signature changes, empty removals, and idempotency passed.'
+    # Truly empty inputs (no header at all) must still produce empty baselines.
+    foreach ($path in @(
+            $originalShipped,
+            $originalUnshipped,
+            $currentSnapshot,
+            $confirmedRemovals)) {
+        [System.IO.File]::WriteAllText($path, '')
+    }
+
+    & $mergeScript `
+        -OriginalShippedPath $originalShipped `
+        -OriginalUnshippedPath $originalUnshipped `
+        -CurrentApiSnapshotPath $currentSnapshot `
+        -ConfirmedRemovedApiPath $confirmedRemovals `
+        -ShippedOutputPath $shippedOutput `
+        -UnshippedOutputPath $unshippedOutput
+
+    Assert-Lines $shippedOutput @()
+    Assert-Lines $unshippedOutput @()
+
+    # Empty inputs must still create output files that do not exist yet.
+    $freshShippedOutput = Join-Path $testRoot 'PublicAPI.Shipped.fresh.txt'
+    $freshUnshippedOutput = Join-Path $testRoot 'PublicAPI.Unshipped.fresh.txt'
+    & $mergeScript `
+        -OriginalShippedPath $originalShipped `
+        -OriginalUnshippedPath $originalUnshipped `
+        -CurrentApiSnapshotPath $currentSnapshot `
+        -ConfirmedRemovedApiPath $confirmedRemovals `
+        -ShippedOutputPath $freshShippedOutput `
+        -UnshippedOutputPath $freshUnshippedOutput
+
+    foreach ($path in @($freshShippedOutput, $freshUnshippedOutput)) {
+        if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+            throw "Empty inputs did not create the output baseline: $path"
+        }
+    }
+    Assert-Lines $freshShippedOutput @()
+    Assert-Lines $freshUnshippedOutput @()
+
+    Write-Output 'OK public API additions, removals, signature changes, empty removals, empty inputs, and idempotency passed.'
 }
 finally {
     if (Test-Path -LiteralPath $resolvedTestRoot) {
