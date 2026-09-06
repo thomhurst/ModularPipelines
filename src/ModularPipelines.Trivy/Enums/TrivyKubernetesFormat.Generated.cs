@@ -16,12 +16,12 @@ namespace ModularPipelines.Trivy.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum TrivyKubernetesFormat
 {
-    [EnumValue("table")]
-    Table,
+    [EnumValue("cyclonedx")]
+    Cyclonedx,
 
     [EnumValue("json")]
     Json,
 
-    [EnumValue("cyclonedx")]
-    Cyclonedx
+    [EnumValue("table")]
+    Table
 }

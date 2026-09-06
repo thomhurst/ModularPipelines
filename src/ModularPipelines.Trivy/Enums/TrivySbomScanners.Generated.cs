@@ -16,9 +16,9 @@ namespace ModularPipelines.Trivy.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum TrivySbomScanners
 {
-    [EnumValue("vuln")]
-    Vuln,
-
     [EnumValue("license")]
-    License
+    License,
+
+    [EnumValue("vuln")]
+    Vuln
 }

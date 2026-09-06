@@ -16,11 +16,11 @@ namespace ModularPipelines.Trivy.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum TrivyImageImageSrc
 {
-    [EnumValue("docker")]
-    Docker,
-
     [EnumValue("containerd")]
     Containerd,
+
+    [EnumValue("docker")]
+    Docker,
 
     [EnumValue("podman")]
     Podman,

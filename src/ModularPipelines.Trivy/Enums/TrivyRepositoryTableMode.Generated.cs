@@ -16,9 +16,9 @@ namespace ModularPipelines.Trivy.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum TrivyRepositoryTableMode
 {
-    [EnumValue("summary")]
-    Summary,
-
     [EnumValue("detailed")]
-    Detailed
+    Detailed,
+
+    [EnumValue("summary")]
+    Summary
 }

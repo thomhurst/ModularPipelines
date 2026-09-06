@@ -16,8 +16,11 @@ namespace ModularPipelines.Trivy.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum TrivyFilesystemSeverity
 {
-    [EnumValue("UNKNOWN")]
-    Unknown,
+    [EnumValue("CRITICAL")]
+    Critical,
+
+    [EnumValue("HIGH")]
+    High,
 
     [EnumValue("LOW")]
     Low,
@@ -25,9 +28,6 @@ public enum TrivyFilesystemSeverity
     [EnumValue("MEDIUM")]
     Medium,
 
-    [EnumValue("HIGH")]
-    High,
-
-    [EnumValue("CRITICAL")]
-    Critical
+    [EnumValue("UNKNOWN")]
+    Unknown
 }

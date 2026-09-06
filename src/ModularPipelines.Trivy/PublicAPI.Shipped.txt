@@ -3,91 +3,33 @@ ModularPipelines.Context.ModularPipelines_Trivy_49ba5708098b68a6ToolsExtensions
 ModularPipelines.Context.ModularPipelines_Trivy_49ba5708098b68a6ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
 ModularPipelines.Context.ModularPipelines_Trivy_49ba5708098b68a6ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Trivy.get -> ModularPipelines.Trivy.Services.ITrivy!
 ModularPipelines.Trivy.Enums.TrivyConfigFormat
-ModularPipelines.Trivy.Enums.TrivyConfigFormat.CosignVuln = 8 -> ModularPipelines.Trivy.Enums.TrivyConfigFormat
-ModularPipelines.Trivy.Enums.TrivyConfigFormat.Cyclonedx = 4 -> ModularPipelines.Trivy.Enums.TrivyConfigFormat
-ModularPipelines.Trivy.Enums.TrivyConfigFormat.Github = 7 -> ModularPipelines.Trivy.Enums.TrivyConfigFormat
-ModularPipelines.Trivy.Enums.TrivyConfigFormat.Json = 1 -> ModularPipelines.Trivy.Enums.TrivyConfigFormat
-ModularPipelines.Trivy.Enums.TrivyConfigFormat.Sarif = 3 -> ModularPipelines.Trivy.Enums.TrivyConfigFormat
 ModularPipelines.Trivy.Enums.TrivyConfigFormat.Spdx = 5 -> ModularPipelines.Trivy.Enums.TrivyConfigFormat
 ModularPipelines.Trivy.Enums.TrivyConfigFormat.SpdxJson = 6 -> ModularPipelines.Trivy.Enums.TrivyConfigFormat
-ModularPipelines.Trivy.Enums.TrivyConfigFormat.Table = 0 -> ModularPipelines.Trivy.Enums.TrivyConfigFormat
-ModularPipelines.Trivy.Enums.TrivyConfigFormat.Template = 2 -> ModularPipelines.Trivy.Enums.TrivyConfigFormat
 ModularPipelines.Trivy.Enums.TrivyConfigRenderCause
-ModularPipelines.Trivy.Enums.TrivyConfigRenderCause.Ansible = 1 -> ModularPipelines.Trivy.Enums.TrivyConfigRenderCause
-ModularPipelines.Trivy.Enums.TrivyConfigRenderCause.Terraform = 0 -> ModularPipelines.Trivy.Enums.TrivyConfigRenderCause
 ModularPipelines.Trivy.Enums.TrivyConfigReport
 ModularPipelines.Trivy.Enums.TrivyConfigReport.All = 0 -> ModularPipelines.Trivy.Enums.TrivyConfigReport
 ModularPipelines.Trivy.Enums.TrivyConfigReport.Summary = 1 -> ModularPipelines.Trivy.Enums.TrivyConfigReport
 ModularPipelines.Trivy.Enums.TrivyConfigSeverity
-ModularPipelines.Trivy.Enums.TrivyConfigSeverity.Critical = 4 -> ModularPipelines.Trivy.Enums.TrivyConfigSeverity
-ModularPipelines.Trivy.Enums.TrivyConfigSeverity.High = 3 -> ModularPipelines.Trivy.Enums.TrivyConfigSeverity
-ModularPipelines.Trivy.Enums.TrivyConfigSeverity.Low = 1 -> ModularPipelines.Trivy.Enums.TrivyConfigSeverity
-ModularPipelines.Trivy.Enums.TrivyConfigSeverity.Medium = 2 -> ModularPipelines.Trivy.Enums.TrivyConfigSeverity
-ModularPipelines.Trivy.Enums.TrivyConfigSeverity.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyConfigSeverity
 ModularPipelines.Trivy.Enums.TrivyConfigTableMode
-ModularPipelines.Trivy.Enums.TrivyConfigTableMode.Detailed = 1 -> ModularPipelines.Trivy.Enums.TrivyConfigTableMode
-ModularPipelines.Trivy.Enums.TrivyConfigTableMode.Summary = 0 -> ModularPipelines.Trivy.Enums.TrivyConfigTableMode
 ModularPipelines.Trivy.Enums.TrivyConvertFormat
-ModularPipelines.Trivy.Enums.TrivyConvertFormat.CosignVuln = 8 -> ModularPipelines.Trivy.Enums.TrivyConvertFormat
-ModularPipelines.Trivy.Enums.TrivyConvertFormat.Cyclonedx = 4 -> ModularPipelines.Trivy.Enums.TrivyConvertFormat
-ModularPipelines.Trivy.Enums.TrivyConvertFormat.Github = 7 -> ModularPipelines.Trivy.Enums.TrivyConvertFormat
-ModularPipelines.Trivy.Enums.TrivyConvertFormat.Json = 1 -> ModularPipelines.Trivy.Enums.TrivyConvertFormat
-ModularPipelines.Trivy.Enums.TrivyConvertFormat.Sarif = 3 -> ModularPipelines.Trivy.Enums.TrivyConvertFormat
 ModularPipelines.Trivy.Enums.TrivyConvertFormat.Spdx = 5 -> ModularPipelines.Trivy.Enums.TrivyConvertFormat
 ModularPipelines.Trivy.Enums.TrivyConvertFormat.SpdxJson = 6 -> ModularPipelines.Trivy.Enums.TrivyConvertFormat
-ModularPipelines.Trivy.Enums.TrivyConvertFormat.Table = 0 -> ModularPipelines.Trivy.Enums.TrivyConvertFormat
-ModularPipelines.Trivy.Enums.TrivyConvertFormat.Template = 2 -> ModularPipelines.Trivy.Enums.TrivyConvertFormat
 ModularPipelines.Trivy.Enums.TrivyConvertReport
 ModularPipelines.Trivy.Enums.TrivyConvertReport.All = 0 -> ModularPipelines.Trivy.Enums.TrivyConvertReport
 ModularPipelines.Trivy.Enums.TrivyConvertReport.Summary = 1 -> ModularPipelines.Trivy.Enums.TrivyConvertReport
 ModularPipelines.Trivy.Enums.TrivyConvertScanners
-ModularPipelines.Trivy.Enums.TrivyConvertScanners.License = 3 -> ModularPipelines.Trivy.Enums.TrivyConvertScanners
 ModularPipelines.Trivy.Enums.TrivyConvertScanners.Misconfig = 1 -> ModularPipelines.Trivy.Enums.TrivyConvertScanners
 ModularPipelines.Trivy.Enums.TrivyConvertScanners.Secret = 2 -> ModularPipelines.Trivy.Enums.TrivyConvertScanners
-ModularPipelines.Trivy.Enums.TrivyConvertScanners.Vuln = 0 -> ModularPipelines.Trivy.Enums.TrivyConvertScanners
 ModularPipelines.Trivy.Enums.TrivyConvertSeverity
-ModularPipelines.Trivy.Enums.TrivyConvertSeverity.Critical = 4 -> ModularPipelines.Trivy.Enums.TrivyConvertSeverity
-ModularPipelines.Trivy.Enums.TrivyConvertSeverity.High = 3 -> ModularPipelines.Trivy.Enums.TrivyConvertSeverity
-ModularPipelines.Trivy.Enums.TrivyConvertSeverity.Low = 1 -> ModularPipelines.Trivy.Enums.TrivyConvertSeverity
-ModularPipelines.Trivy.Enums.TrivyConvertSeverity.Medium = 2 -> ModularPipelines.Trivy.Enums.TrivyConvertSeverity
-ModularPipelines.Trivy.Enums.TrivyConvertSeverity.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyConvertSeverity
 ModularPipelines.Trivy.Enums.TrivyConvertTableMode
-ModularPipelines.Trivy.Enums.TrivyConvertTableMode.Detailed = 1 -> ModularPipelines.Trivy.Enums.TrivyConvertTableMode
-ModularPipelines.Trivy.Enums.TrivyConvertTableMode.Summary = 0 -> ModularPipelines.Trivy.Enums.TrivyConvertTableMode
 ModularPipelines.Trivy.Enums.TrivyFilesystemDetectionPriority
-ModularPipelines.Trivy.Enums.TrivyFilesystemDetectionPriority.Comprehensive = 1 -> ModularPipelines.Trivy.Enums.TrivyFilesystemDetectionPriority
-ModularPipelines.Trivy.Enums.TrivyFilesystemDetectionPriority.Precise = 0 -> ModularPipelines.Trivy.Enums.TrivyFilesystemDetectionPriority
 ModularPipelines.Trivy.Enums.TrivyFilesystemFormat
-ModularPipelines.Trivy.Enums.TrivyFilesystemFormat.CosignVuln = 8 -> ModularPipelines.Trivy.Enums.TrivyFilesystemFormat
-ModularPipelines.Trivy.Enums.TrivyFilesystemFormat.Cyclonedx = 4 -> ModularPipelines.Trivy.Enums.TrivyFilesystemFormat
-ModularPipelines.Trivy.Enums.TrivyFilesystemFormat.Github = 7 -> ModularPipelines.Trivy.Enums.TrivyFilesystemFormat
-ModularPipelines.Trivy.Enums.TrivyFilesystemFormat.Json = 1 -> ModularPipelines.Trivy.Enums.TrivyFilesystemFormat
-ModularPipelines.Trivy.Enums.TrivyFilesystemFormat.Sarif = 3 -> ModularPipelines.Trivy.Enums.TrivyFilesystemFormat
 ModularPipelines.Trivy.Enums.TrivyFilesystemFormat.Spdx = 5 -> ModularPipelines.Trivy.Enums.TrivyFilesystemFormat
 ModularPipelines.Trivy.Enums.TrivyFilesystemFormat.SpdxJson = 6 -> ModularPipelines.Trivy.Enums.TrivyFilesystemFormat
-ModularPipelines.Trivy.Enums.TrivyFilesystemFormat.Table = 0 -> ModularPipelines.Trivy.Enums.TrivyFilesystemFormat
-ModularPipelines.Trivy.Enums.TrivyFilesystemFormat.Template = 2 -> ModularPipelines.Trivy.Enums.TrivyFilesystemFormat
 ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus.Affected = 2 -> ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus.EndOfLife = 7 -> ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus.FixDeferred = 6 -> ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus.Fixed = 3 -> ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus.NotAffected = 1 -> ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus.UnderInvestigation = 4 -> ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus.WillNotFix = 5 -> ModularPipelines.Trivy.Enums.TrivyFilesystemIgnoreStatus
 ModularPipelines.Trivy.Enums.TrivyFilesystemPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyFilesystemPkgRelationships.Direct = 3 -> ModularPipelines.Trivy.Enums.TrivyFilesystemPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyFilesystemPkgRelationships.Indirect = 4 -> ModularPipelines.Trivy.Enums.TrivyFilesystemPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyFilesystemPkgRelationships.Root = 1 -> ModularPipelines.Trivy.Enums.TrivyFilesystemPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyFilesystemPkgRelationships.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyFilesystemPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyFilesystemPkgRelationships.Workspace = 2 -> ModularPipelines.Trivy.Enums.TrivyFilesystemPkgRelationships
 ModularPipelines.Trivy.Enums.TrivyFilesystemPkgTypes
-ModularPipelines.Trivy.Enums.TrivyFilesystemPkgTypes.Library = 1 -> ModularPipelines.Trivy.Enums.TrivyFilesystemPkgTypes
-ModularPipelines.Trivy.Enums.TrivyFilesystemPkgTypes.Os = 0 -> ModularPipelines.Trivy.Enums.TrivyFilesystemPkgTypes
 ModularPipelines.Trivy.Enums.TrivyFilesystemRenderCause
-ModularPipelines.Trivy.Enums.TrivyFilesystemRenderCause.Ansible = 1 -> ModularPipelines.Trivy.Enums.TrivyFilesystemRenderCause
-ModularPipelines.Trivy.Enums.TrivyFilesystemRenderCause.Terraform = 0 -> ModularPipelines.Trivy.Enums.TrivyFilesystemRenderCause
 ModularPipelines.Trivy.Enums.TrivyFilesystemReport
 ModularPipelines.Trivy.Enums.TrivyFilesystemReport.All = 0 -> ModularPipelines.Trivy.Enums.TrivyFilesystemReport
 ModularPipelines.Trivy.Enums.TrivyFilesystemReport.Summary = 1 -> ModularPipelines.Trivy.Enums.TrivyFilesystemReport
@@ -95,61 +37,24 @@ ModularPipelines.Trivy.Enums.TrivyFilesystemSbomSources
 ModularPipelines.Trivy.Enums.TrivyFilesystemSbomSources.Oci = 0 -> ModularPipelines.Trivy.Enums.TrivyFilesystemSbomSources
 ModularPipelines.Trivy.Enums.TrivyFilesystemSbomSources.Rekor = 1 -> ModularPipelines.Trivy.Enums.TrivyFilesystemSbomSources
 ModularPipelines.Trivy.Enums.TrivyFilesystemScanners
-ModularPipelines.Trivy.Enums.TrivyFilesystemScanners.License = 3 -> ModularPipelines.Trivy.Enums.TrivyFilesystemScanners
 ModularPipelines.Trivy.Enums.TrivyFilesystemScanners.Misconfig = 1 -> ModularPipelines.Trivy.Enums.TrivyFilesystemScanners
 ModularPipelines.Trivy.Enums.TrivyFilesystemScanners.Secret = 2 -> ModularPipelines.Trivy.Enums.TrivyFilesystemScanners
-ModularPipelines.Trivy.Enums.TrivyFilesystemScanners.Vuln = 0 -> ModularPipelines.Trivy.Enums.TrivyFilesystemScanners
 ModularPipelines.Trivy.Enums.TrivyFilesystemSeverity
-ModularPipelines.Trivy.Enums.TrivyFilesystemSeverity.Critical = 4 -> ModularPipelines.Trivy.Enums.TrivyFilesystemSeverity
-ModularPipelines.Trivy.Enums.TrivyFilesystemSeverity.High = 3 -> ModularPipelines.Trivy.Enums.TrivyFilesystemSeverity
-ModularPipelines.Trivy.Enums.TrivyFilesystemSeverity.Low = 1 -> ModularPipelines.Trivy.Enums.TrivyFilesystemSeverity
-ModularPipelines.Trivy.Enums.TrivyFilesystemSeverity.Medium = 2 -> ModularPipelines.Trivy.Enums.TrivyFilesystemSeverity
-ModularPipelines.Trivy.Enums.TrivyFilesystemSeverity.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyFilesystemSeverity
 ModularPipelines.Trivy.Enums.TrivyFilesystemTableMode
-ModularPipelines.Trivy.Enums.TrivyFilesystemTableMode.Detailed = 1 -> ModularPipelines.Trivy.Enums.TrivyFilesystemTableMode
-ModularPipelines.Trivy.Enums.TrivyFilesystemTableMode.Summary = 0 -> ModularPipelines.Trivy.Enums.TrivyFilesystemTableMode
 ModularPipelines.Trivy.Enums.TrivyImageDetectionPriority
-ModularPipelines.Trivy.Enums.TrivyImageDetectionPriority.Comprehensive = 1 -> ModularPipelines.Trivy.Enums.TrivyImageDetectionPriority
-ModularPipelines.Trivy.Enums.TrivyImageDetectionPriority.Precise = 0 -> ModularPipelines.Trivy.Enums.TrivyImageDetectionPriority
 ModularPipelines.Trivy.Enums.TrivyImageFormat
-ModularPipelines.Trivy.Enums.TrivyImageFormat.CosignVuln = 8 -> ModularPipelines.Trivy.Enums.TrivyImageFormat
-ModularPipelines.Trivy.Enums.TrivyImageFormat.Cyclonedx = 4 -> ModularPipelines.Trivy.Enums.TrivyImageFormat
-ModularPipelines.Trivy.Enums.TrivyImageFormat.Github = 7 -> ModularPipelines.Trivy.Enums.TrivyImageFormat
-ModularPipelines.Trivy.Enums.TrivyImageFormat.Json = 1 -> ModularPipelines.Trivy.Enums.TrivyImageFormat
-ModularPipelines.Trivy.Enums.TrivyImageFormat.Sarif = 3 -> ModularPipelines.Trivy.Enums.TrivyImageFormat
 ModularPipelines.Trivy.Enums.TrivyImageFormat.Spdx = 5 -> ModularPipelines.Trivy.Enums.TrivyImageFormat
 ModularPipelines.Trivy.Enums.TrivyImageFormat.SpdxJson = 6 -> ModularPipelines.Trivy.Enums.TrivyImageFormat
-ModularPipelines.Trivy.Enums.TrivyImageFormat.Table = 0 -> ModularPipelines.Trivy.Enums.TrivyImageFormat
-ModularPipelines.Trivy.Enums.TrivyImageFormat.Template = 2 -> ModularPipelines.Trivy.Enums.TrivyImageFormat
 ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus.Affected = 2 -> ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus.EndOfLife = 7 -> ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus.FixDeferred = 6 -> ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus.Fixed = 3 -> ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus.NotAffected = 1 -> ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus.UnderInvestigation = 4 -> ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus.WillNotFix = 5 -> ModularPipelines.Trivy.Enums.TrivyImageIgnoreStatus
 ModularPipelines.Trivy.Enums.TrivyImageImageConfigScanners
 ModularPipelines.Trivy.Enums.TrivyImageImageConfigScanners.Misconfig = 0 -> ModularPipelines.Trivy.Enums.TrivyImageImageConfigScanners
 ModularPipelines.Trivy.Enums.TrivyImageImageConfigScanners.Secret = 1 -> ModularPipelines.Trivy.Enums.TrivyImageImageConfigScanners
 ModularPipelines.Trivy.Enums.TrivyImageImageSrc
-ModularPipelines.Trivy.Enums.TrivyImageImageSrc.Containerd = 1 -> ModularPipelines.Trivy.Enums.TrivyImageImageSrc
-ModularPipelines.Trivy.Enums.TrivyImageImageSrc.Docker = 0 -> ModularPipelines.Trivy.Enums.TrivyImageImageSrc
 ModularPipelines.Trivy.Enums.TrivyImageImageSrc.Podman = 2 -> ModularPipelines.Trivy.Enums.TrivyImageImageSrc
 ModularPipelines.Trivy.Enums.TrivyImageImageSrc.Remote = 3 -> ModularPipelines.Trivy.Enums.TrivyImageImageSrc
 ModularPipelines.Trivy.Enums.TrivyImagePkgRelationships
-ModularPipelines.Trivy.Enums.TrivyImagePkgRelationships.Direct = 3 -> ModularPipelines.Trivy.Enums.TrivyImagePkgRelationships
-ModularPipelines.Trivy.Enums.TrivyImagePkgRelationships.Indirect = 4 -> ModularPipelines.Trivy.Enums.TrivyImagePkgRelationships
-ModularPipelines.Trivy.Enums.TrivyImagePkgRelationships.Root = 1 -> ModularPipelines.Trivy.Enums.TrivyImagePkgRelationships
-ModularPipelines.Trivy.Enums.TrivyImagePkgRelationships.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyImagePkgRelationships
-ModularPipelines.Trivy.Enums.TrivyImagePkgRelationships.Workspace = 2 -> ModularPipelines.Trivy.Enums.TrivyImagePkgRelationships
 ModularPipelines.Trivy.Enums.TrivyImagePkgTypes
-ModularPipelines.Trivy.Enums.TrivyImagePkgTypes.Library = 1 -> ModularPipelines.Trivy.Enums.TrivyImagePkgTypes
-ModularPipelines.Trivy.Enums.TrivyImagePkgTypes.Os = 0 -> ModularPipelines.Trivy.Enums.TrivyImagePkgTypes
 ModularPipelines.Trivy.Enums.TrivyImageRenderCause
-ModularPipelines.Trivy.Enums.TrivyImageRenderCause.Ansible = 1 -> ModularPipelines.Trivy.Enums.TrivyImageRenderCause
-ModularPipelines.Trivy.Enums.TrivyImageRenderCause.Terraform = 0 -> ModularPipelines.Trivy.Enums.TrivyImageRenderCause
 ModularPipelines.Trivy.Enums.TrivyImageReport
 ModularPipelines.Trivy.Enums.TrivyImageReport.All = 0 -> ModularPipelines.Trivy.Enums.TrivyImageReport
 ModularPipelines.Trivy.Enums.TrivyImageReport.Summary = 1 -> ModularPipelines.Trivy.Enums.TrivyImageReport
@@ -157,52 +62,20 @@ ModularPipelines.Trivy.Enums.TrivyImageSbomSources
 ModularPipelines.Trivy.Enums.TrivyImageSbomSources.Oci = 0 -> ModularPipelines.Trivy.Enums.TrivyImageSbomSources
 ModularPipelines.Trivy.Enums.TrivyImageSbomSources.Rekor = 1 -> ModularPipelines.Trivy.Enums.TrivyImageSbomSources
 ModularPipelines.Trivy.Enums.TrivyImageScanners
-ModularPipelines.Trivy.Enums.TrivyImageScanners.License = 3 -> ModularPipelines.Trivy.Enums.TrivyImageScanners
 ModularPipelines.Trivy.Enums.TrivyImageScanners.Misconfig = 1 -> ModularPipelines.Trivy.Enums.TrivyImageScanners
 ModularPipelines.Trivy.Enums.TrivyImageScanners.Secret = 2 -> ModularPipelines.Trivy.Enums.TrivyImageScanners
-ModularPipelines.Trivy.Enums.TrivyImageScanners.Vuln = 0 -> ModularPipelines.Trivy.Enums.TrivyImageScanners
 ModularPipelines.Trivy.Enums.TrivyImageSeverity
-ModularPipelines.Trivy.Enums.TrivyImageSeverity.Critical = 4 -> ModularPipelines.Trivy.Enums.TrivyImageSeverity
-ModularPipelines.Trivy.Enums.TrivyImageSeverity.High = 3 -> ModularPipelines.Trivy.Enums.TrivyImageSeverity
-ModularPipelines.Trivy.Enums.TrivyImageSeverity.Low = 1 -> ModularPipelines.Trivy.Enums.TrivyImageSeverity
-ModularPipelines.Trivy.Enums.TrivyImageSeverity.Medium = 2 -> ModularPipelines.Trivy.Enums.TrivyImageSeverity
-ModularPipelines.Trivy.Enums.TrivyImageSeverity.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyImageSeverity
 ModularPipelines.Trivy.Enums.TrivyImageTableMode
-ModularPipelines.Trivy.Enums.TrivyImageTableMode.Detailed = 1 -> ModularPipelines.Trivy.Enums.TrivyImageTableMode
-ModularPipelines.Trivy.Enums.TrivyImageTableMode.Summary = 0 -> ModularPipelines.Trivy.Enums.TrivyImageTableMode
 ModularPipelines.Trivy.Enums.TrivyKubernetesDetectionPriority
-ModularPipelines.Trivy.Enums.TrivyKubernetesDetectionPriority.Comprehensive = 1 -> ModularPipelines.Trivy.Enums.TrivyKubernetesDetectionPriority
-ModularPipelines.Trivy.Enums.TrivyKubernetesDetectionPriority.Precise = 0 -> ModularPipelines.Trivy.Enums.TrivyKubernetesDetectionPriority
 ModularPipelines.Trivy.Enums.TrivyKubernetesFormat
-ModularPipelines.Trivy.Enums.TrivyKubernetesFormat.Cyclonedx = 2 -> ModularPipelines.Trivy.Enums.TrivyKubernetesFormat
 ModularPipelines.Trivy.Enums.TrivyKubernetesFormat.Json = 1 -> ModularPipelines.Trivy.Enums.TrivyKubernetesFormat
-ModularPipelines.Trivy.Enums.TrivyKubernetesFormat.Table = 0 -> ModularPipelines.Trivy.Enums.TrivyKubernetesFormat
 ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus.Affected = 2 -> ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus.EndOfLife = 7 -> ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus.FixDeferred = 6 -> ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus.Fixed = 3 -> ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus.NotAffected = 1 -> ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus.UnderInvestigation = 4 -> ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus.WillNotFix = 5 -> ModularPipelines.Trivy.Enums.TrivyKubernetesIgnoreStatus
 ModularPipelines.Trivy.Enums.TrivyKubernetesImageSrc
-ModularPipelines.Trivy.Enums.TrivyKubernetesImageSrc.Containerd = 1 -> ModularPipelines.Trivy.Enums.TrivyKubernetesImageSrc
-ModularPipelines.Trivy.Enums.TrivyKubernetesImageSrc.Docker = 0 -> ModularPipelines.Trivy.Enums.TrivyKubernetesImageSrc
 ModularPipelines.Trivy.Enums.TrivyKubernetesImageSrc.Podman = 2 -> ModularPipelines.Trivy.Enums.TrivyKubernetesImageSrc
 ModularPipelines.Trivy.Enums.TrivyKubernetesImageSrc.Remote = 3 -> ModularPipelines.Trivy.Enums.TrivyKubernetesImageSrc
 ModularPipelines.Trivy.Enums.TrivyKubernetesPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyKubernetesPkgRelationships.Direct = 3 -> ModularPipelines.Trivy.Enums.TrivyKubernetesPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyKubernetesPkgRelationships.Indirect = 4 -> ModularPipelines.Trivy.Enums.TrivyKubernetesPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyKubernetesPkgRelationships.Root = 1 -> ModularPipelines.Trivy.Enums.TrivyKubernetesPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyKubernetesPkgRelationships.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyKubernetesPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyKubernetesPkgRelationships.Workspace = 2 -> ModularPipelines.Trivy.Enums.TrivyKubernetesPkgRelationships
 ModularPipelines.Trivy.Enums.TrivyKubernetesPkgTypes
-ModularPipelines.Trivy.Enums.TrivyKubernetesPkgTypes.Library = 1 -> ModularPipelines.Trivy.Enums.TrivyKubernetesPkgTypes
-ModularPipelines.Trivy.Enums.TrivyKubernetesPkgTypes.Os = 0 -> ModularPipelines.Trivy.Enums.TrivyKubernetesPkgTypes
 ModularPipelines.Trivy.Enums.TrivyKubernetesRenderCause
-ModularPipelines.Trivy.Enums.TrivyKubernetesRenderCause.Ansible = 1 -> ModularPipelines.Trivy.Enums.TrivyKubernetesRenderCause
-ModularPipelines.Trivy.Enums.TrivyKubernetesRenderCause.Terraform = 0 -> ModularPipelines.Trivy.Enums.TrivyKubernetesRenderCause
 ModularPipelines.Trivy.Enums.TrivyKubernetesReport
 ModularPipelines.Trivy.Enums.TrivyKubernetesReport.All = 0 -> ModularPipelines.Trivy.Enums.TrivyKubernetesReport
 ModularPipelines.Trivy.Enums.TrivyKubernetesReport.Summary = 1 -> ModularPipelines.Trivy.Enums.TrivyKubernetesReport
@@ -210,215 +83,69 @@ ModularPipelines.Trivy.Enums.TrivyKubernetesSbomSources
 ModularPipelines.Trivy.Enums.TrivyKubernetesSbomSources.Oci = 0 -> ModularPipelines.Trivy.Enums.TrivyKubernetesSbomSources
 ModularPipelines.Trivy.Enums.TrivyKubernetesSbomSources.Rekor = 1 -> ModularPipelines.Trivy.Enums.TrivyKubernetesSbomSources
 ModularPipelines.Trivy.Enums.TrivyKubernetesScanners
-ModularPipelines.Trivy.Enums.TrivyKubernetesScanners.Misconfig = 1 -> ModularPipelines.Trivy.Enums.TrivyKubernetesScanners
-ModularPipelines.Trivy.Enums.TrivyKubernetesScanners.Rbac = 3 -> ModularPipelines.Trivy.Enums.TrivyKubernetesScanners
 ModularPipelines.Trivy.Enums.TrivyKubernetesScanners.Secret = 2 -> ModularPipelines.Trivy.Enums.TrivyKubernetesScanners
-ModularPipelines.Trivy.Enums.TrivyKubernetesScanners.Vuln = 0 -> ModularPipelines.Trivy.Enums.TrivyKubernetesScanners
 ModularPipelines.Trivy.Enums.TrivyKubernetesSeverity
-ModularPipelines.Trivy.Enums.TrivyKubernetesSeverity.Critical = 4 -> ModularPipelines.Trivy.Enums.TrivyKubernetesSeverity
-ModularPipelines.Trivy.Enums.TrivyKubernetesSeverity.High = 3 -> ModularPipelines.Trivy.Enums.TrivyKubernetesSeverity
-ModularPipelines.Trivy.Enums.TrivyKubernetesSeverity.Low = 1 -> ModularPipelines.Trivy.Enums.TrivyKubernetesSeverity
-ModularPipelines.Trivy.Enums.TrivyKubernetesSeverity.Medium = 2 -> ModularPipelines.Trivy.Enums.TrivyKubernetesSeverity
-ModularPipelines.Trivy.Enums.TrivyKubernetesSeverity.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyKubernetesSeverity
 ModularPipelines.Trivy.Enums.TrivyRepositoryDetectionPriority
-ModularPipelines.Trivy.Enums.TrivyRepositoryDetectionPriority.Comprehensive = 1 -> ModularPipelines.Trivy.Enums.TrivyRepositoryDetectionPriority
-ModularPipelines.Trivy.Enums.TrivyRepositoryDetectionPriority.Precise = 0 -> ModularPipelines.Trivy.Enums.TrivyRepositoryDetectionPriority
 ModularPipelines.Trivy.Enums.TrivyRepositoryFormat
-ModularPipelines.Trivy.Enums.TrivyRepositoryFormat.CosignVuln = 8 -> ModularPipelines.Trivy.Enums.TrivyRepositoryFormat
-ModularPipelines.Trivy.Enums.TrivyRepositoryFormat.Cyclonedx = 4 -> ModularPipelines.Trivy.Enums.TrivyRepositoryFormat
-ModularPipelines.Trivy.Enums.TrivyRepositoryFormat.Github = 7 -> ModularPipelines.Trivy.Enums.TrivyRepositoryFormat
-ModularPipelines.Trivy.Enums.TrivyRepositoryFormat.Json = 1 -> ModularPipelines.Trivy.Enums.TrivyRepositoryFormat
-ModularPipelines.Trivy.Enums.TrivyRepositoryFormat.Sarif = 3 -> ModularPipelines.Trivy.Enums.TrivyRepositoryFormat
 ModularPipelines.Trivy.Enums.TrivyRepositoryFormat.Spdx = 5 -> ModularPipelines.Trivy.Enums.TrivyRepositoryFormat
 ModularPipelines.Trivy.Enums.TrivyRepositoryFormat.SpdxJson = 6 -> ModularPipelines.Trivy.Enums.TrivyRepositoryFormat
-ModularPipelines.Trivy.Enums.TrivyRepositoryFormat.Table = 0 -> ModularPipelines.Trivy.Enums.TrivyRepositoryFormat
-ModularPipelines.Trivy.Enums.TrivyRepositoryFormat.Template = 2 -> ModularPipelines.Trivy.Enums.TrivyRepositoryFormat
 ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus.Affected = 2 -> ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus.EndOfLife = 7 -> ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus.FixDeferred = 6 -> ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus.Fixed = 3 -> ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus.NotAffected = 1 -> ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus.UnderInvestigation = 4 -> ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus.WillNotFix = 5 -> ModularPipelines.Trivy.Enums.TrivyRepositoryIgnoreStatus
 ModularPipelines.Trivy.Enums.TrivyRepositoryPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyRepositoryPkgRelationships.Direct = 3 -> ModularPipelines.Trivy.Enums.TrivyRepositoryPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyRepositoryPkgRelationships.Indirect = 4 -> ModularPipelines.Trivy.Enums.TrivyRepositoryPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyRepositoryPkgRelationships.Root = 1 -> ModularPipelines.Trivy.Enums.TrivyRepositoryPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyRepositoryPkgRelationships.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyRepositoryPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyRepositoryPkgRelationships.Workspace = 2 -> ModularPipelines.Trivy.Enums.TrivyRepositoryPkgRelationships
 ModularPipelines.Trivy.Enums.TrivyRepositoryPkgTypes
-ModularPipelines.Trivy.Enums.TrivyRepositoryPkgTypes.Library = 1 -> ModularPipelines.Trivy.Enums.TrivyRepositoryPkgTypes
-ModularPipelines.Trivy.Enums.TrivyRepositoryPkgTypes.Os = 0 -> ModularPipelines.Trivy.Enums.TrivyRepositoryPkgTypes
 ModularPipelines.Trivy.Enums.TrivyRepositoryRenderCause
-ModularPipelines.Trivy.Enums.TrivyRepositoryRenderCause.Ansible = 1 -> ModularPipelines.Trivy.Enums.TrivyRepositoryRenderCause
-ModularPipelines.Trivy.Enums.TrivyRepositoryRenderCause.Terraform = 0 -> ModularPipelines.Trivy.Enums.TrivyRepositoryRenderCause
 ModularPipelines.Trivy.Enums.TrivyRepositorySbomSources
 ModularPipelines.Trivy.Enums.TrivyRepositorySbomSources.Oci = 0 -> ModularPipelines.Trivy.Enums.TrivyRepositorySbomSources
 ModularPipelines.Trivy.Enums.TrivyRepositorySbomSources.Rekor = 1 -> ModularPipelines.Trivy.Enums.TrivyRepositorySbomSources
 ModularPipelines.Trivy.Enums.TrivyRepositoryScanners
-ModularPipelines.Trivy.Enums.TrivyRepositoryScanners.License = 3 -> ModularPipelines.Trivy.Enums.TrivyRepositoryScanners
 ModularPipelines.Trivy.Enums.TrivyRepositoryScanners.Misconfig = 1 -> ModularPipelines.Trivy.Enums.TrivyRepositoryScanners
 ModularPipelines.Trivy.Enums.TrivyRepositoryScanners.Secret = 2 -> ModularPipelines.Trivy.Enums.TrivyRepositoryScanners
-ModularPipelines.Trivy.Enums.TrivyRepositoryScanners.Vuln = 0 -> ModularPipelines.Trivy.Enums.TrivyRepositoryScanners
 ModularPipelines.Trivy.Enums.TrivyRepositorySeverity
-ModularPipelines.Trivy.Enums.TrivyRepositorySeverity.Critical = 4 -> ModularPipelines.Trivy.Enums.TrivyRepositorySeverity
-ModularPipelines.Trivy.Enums.TrivyRepositorySeverity.High = 3 -> ModularPipelines.Trivy.Enums.TrivyRepositorySeverity
-ModularPipelines.Trivy.Enums.TrivyRepositorySeverity.Low = 1 -> ModularPipelines.Trivy.Enums.TrivyRepositorySeverity
-ModularPipelines.Trivy.Enums.TrivyRepositorySeverity.Medium = 2 -> ModularPipelines.Trivy.Enums.TrivyRepositorySeverity
-ModularPipelines.Trivy.Enums.TrivyRepositorySeverity.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyRepositorySeverity
 ModularPipelines.Trivy.Enums.TrivyRepositoryTableMode
-ModularPipelines.Trivy.Enums.TrivyRepositoryTableMode.Detailed = 1 -> ModularPipelines.Trivy.Enums.TrivyRepositoryTableMode
-ModularPipelines.Trivy.Enums.TrivyRepositoryTableMode.Summary = 0 -> ModularPipelines.Trivy.Enums.TrivyRepositoryTableMode
 ModularPipelines.Trivy.Enums.TrivyRootfsDetectionPriority
-ModularPipelines.Trivy.Enums.TrivyRootfsDetectionPriority.Comprehensive = 1 -> ModularPipelines.Trivy.Enums.TrivyRootfsDetectionPriority
-ModularPipelines.Trivy.Enums.TrivyRootfsDetectionPriority.Precise = 0 -> ModularPipelines.Trivy.Enums.TrivyRootfsDetectionPriority
 ModularPipelines.Trivy.Enums.TrivyRootfsFormat
-ModularPipelines.Trivy.Enums.TrivyRootfsFormat.CosignVuln = 8 -> ModularPipelines.Trivy.Enums.TrivyRootfsFormat
-ModularPipelines.Trivy.Enums.TrivyRootfsFormat.Cyclonedx = 4 -> ModularPipelines.Trivy.Enums.TrivyRootfsFormat
-ModularPipelines.Trivy.Enums.TrivyRootfsFormat.Github = 7 -> ModularPipelines.Trivy.Enums.TrivyRootfsFormat
-ModularPipelines.Trivy.Enums.TrivyRootfsFormat.Json = 1 -> ModularPipelines.Trivy.Enums.TrivyRootfsFormat
-ModularPipelines.Trivy.Enums.TrivyRootfsFormat.Sarif = 3 -> ModularPipelines.Trivy.Enums.TrivyRootfsFormat
 ModularPipelines.Trivy.Enums.TrivyRootfsFormat.Spdx = 5 -> ModularPipelines.Trivy.Enums.TrivyRootfsFormat
 ModularPipelines.Trivy.Enums.TrivyRootfsFormat.SpdxJson = 6 -> ModularPipelines.Trivy.Enums.TrivyRootfsFormat
-ModularPipelines.Trivy.Enums.TrivyRootfsFormat.Table = 0 -> ModularPipelines.Trivy.Enums.TrivyRootfsFormat
-ModularPipelines.Trivy.Enums.TrivyRootfsFormat.Template = 2 -> ModularPipelines.Trivy.Enums.TrivyRootfsFormat
 ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus.Affected = 2 -> ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus.EndOfLife = 7 -> ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus.FixDeferred = 6 -> ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus.Fixed = 3 -> ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus.NotAffected = 1 -> ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus.UnderInvestigation = 4 -> ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus.WillNotFix = 5 -> ModularPipelines.Trivy.Enums.TrivyRootfsIgnoreStatus
 ModularPipelines.Trivy.Enums.TrivyRootfsPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyRootfsPkgRelationships.Direct = 3 -> ModularPipelines.Trivy.Enums.TrivyRootfsPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyRootfsPkgRelationships.Indirect = 4 -> ModularPipelines.Trivy.Enums.TrivyRootfsPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyRootfsPkgRelationships.Root = 1 -> ModularPipelines.Trivy.Enums.TrivyRootfsPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyRootfsPkgRelationships.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyRootfsPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyRootfsPkgRelationships.Workspace = 2 -> ModularPipelines.Trivy.Enums.TrivyRootfsPkgRelationships
 ModularPipelines.Trivy.Enums.TrivyRootfsPkgTypes
-ModularPipelines.Trivy.Enums.TrivyRootfsPkgTypes.Library = 1 -> ModularPipelines.Trivy.Enums.TrivyRootfsPkgTypes
-ModularPipelines.Trivy.Enums.TrivyRootfsPkgTypes.Os = 0 -> ModularPipelines.Trivy.Enums.TrivyRootfsPkgTypes
 ModularPipelines.Trivy.Enums.TrivyRootfsRenderCause
-ModularPipelines.Trivy.Enums.TrivyRootfsRenderCause.Ansible = 1 -> ModularPipelines.Trivy.Enums.TrivyRootfsRenderCause
-ModularPipelines.Trivy.Enums.TrivyRootfsRenderCause.Terraform = 0 -> ModularPipelines.Trivy.Enums.TrivyRootfsRenderCause
 ModularPipelines.Trivy.Enums.TrivyRootfsSbomSources
 ModularPipelines.Trivy.Enums.TrivyRootfsSbomSources.Oci = 0 -> ModularPipelines.Trivy.Enums.TrivyRootfsSbomSources
 ModularPipelines.Trivy.Enums.TrivyRootfsSbomSources.Rekor = 1 -> ModularPipelines.Trivy.Enums.TrivyRootfsSbomSources
 ModularPipelines.Trivy.Enums.TrivyRootfsScanners
-ModularPipelines.Trivy.Enums.TrivyRootfsScanners.License = 3 -> ModularPipelines.Trivy.Enums.TrivyRootfsScanners
 ModularPipelines.Trivy.Enums.TrivyRootfsScanners.Misconfig = 1 -> ModularPipelines.Trivy.Enums.TrivyRootfsScanners
 ModularPipelines.Trivy.Enums.TrivyRootfsScanners.Secret = 2 -> ModularPipelines.Trivy.Enums.TrivyRootfsScanners
-ModularPipelines.Trivy.Enums.TrivyRootfsScanners.Vuln = 0 -> ModularPipelines.Trivy.Enums.TrivyRootfsScanners
 ModularPipelines.Trivy.Enums.TrivyRootfsSeverity
-ModularPipelines.Trivy.Enums.TrivyRootfsSeverity.Critical = 4 -> ModularPipelines.Trivy.Enums.TrivyRootfsSeverity
-ModularPipelines.Trivy.Enums.TrivyRootfsSeverity.High = 3 -> ModularPipelines.Trivy.Enums.TrivyRootfsSeverity
-ModularPipelines.Trivy.Enums.TrivyRootfsSeverity.Low = 1 -> ModularPipelines.Trivy.Enums.TrivyRootfsSeverity
-ModularPipelines.Trivy.Enums.TrivyRootfsSeverity.Medium = 2 -> ModularPipelines.Trivy.Enums.TrivyRootfsSeverity
-ModularPipelines.Trivy.Enums.TrivyRootfsSeverity.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyRootfsSeverity
 ModularPipelines.Trivy.Enums.TrivyRootfsTableMode
-ModularPipelines.Trivy.Enums.TrivyRootfsTableMode.Detailed = 1 -> ModularPipelines.Trivy.Enums.TrivyRootfsTableMode
-ModularPipelines.Trivy.Enums.TrivyRootfsTableMode.Summary = 0 -> ModularPipelines.Trivy.Enums.TrivyRootfsTableMode
 ModularPipelines.Trivy.Enums.TrivySbomDetectionPriority
-ModularPipelines.Trivy.Enums.TrivySbomDetectionPriority.Comprehensive = 1 -> ModularPipelines.Trivy.Enums.TrivySbomDetectionPriority
-ModularPipelines.Trivy.Enums.TrivySbomDetectionPriority.Precise = 0 -> ModularPipelines.Trivy.Enums.TrivySbomDetectionPriority
 ModularPipelines.Trivy.Enums.TrivySbomFormat
-ModularPipelines.Trivy.Enums.TrivySbomFormat.CosignVuln = 8 -> ModularPipelines.Trivy.Enums.TrivySbomFormat
-ModularPipelines.Trivy.Enums.TrivySbomFormat.Cyclonedx = 4 -> ModularPipelines.Trivy.Enums.TrivySbomFormat
-ModularPipelines.Trivy.Enums.TrivySbomFormat.Github = 7 -> ModularPipelines.Trivy.Enums.TrivySbomFormat
-ModularPipelines.Trivy.Enums.TrivySbomFormat.Json = 1 -> ModularPipelines.Trivy.Enums.TrivySbomFormat
-ModularPipelines.Trivy.Enums.TrivySbomFormat.Sarif = 3 -> ModularPipelines.Trivy.Enums.TrivySbomFormat
 ModularPipelines.Trivy.Enums.TrivySbomFormat.Spdx = 5 -> ModularPipelines.Trivy.Enums.TrivySbomFormat
 ModularPipelines.Trivy.Enums.TrivySbomFormat.SpdxJson = 6 -> ModularPipelines.Trivy.Enums.TrivySbomFormat
-ModularPipelines.Trivy.Enums.TrivySbomFormat.Table = 0 -> ModularPipelines.Trivy.Enums.TrivySbomFormat
-ModularPipelines.Trivy.Enums.TrivySbomFormat.Template = 2 -> ModularPipelines.Trivy.Enums.TrivySbomFormat
 ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus.Affected = 2 -> ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus.EndOfLife = 7 -> ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus.FixDeferred = 6 -> ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus.Fixed = 3 -> ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus.NotAffected = 1 -> ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus.UnderInvestigation = 4 -> ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus.WillNotFix = 5 -> ModularPipelines.Trivy.Enums.TrivySbomIgnoreStatus
 ModularPipelines.Trivy.Enums.TrivySbomPkgRelationships
-ModularPipelines.Trivy.Enums.TrivySbomPkgRelationships.Direct = 3 -> ModularPipelines.Trivy.Enums.TrivySbomPkgRelationships
-ModularPipelines.Trivy.Enums.TrivySbomPkgRelationships.Indirect = 4 -> ModularPipelines.Trivy.Enums.TrivySbomPkgRelationships
-ModularPipelines.Trivy.Enums.TrivySbomPkgRelationships.Root = 1 -> ModularPipelines.Trivy.Enums.TrivySbomPkgRelationships
-ModularPipelines.Trivy.Enums.TrivySbomPkgRelationships.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivySbomPkgRelationships
-ModularPipelines.Trivy.Enums.TrivySbomPkgRelationships.Workspace = 2 -> ModularPipelines.Trivy.Enums.TrivySbomPkgRelationships
 ModularPipelines.Trivy.Enums.TrivySbomPkgTypes
-ModularPipelines.Trivy.Enums.TrivySbomPkgTypes.Library = 1 -> ModularPipelines.Trivy.Enums.TrivySbomPkgTypes
-ModularPipelines.Trivy.Enums.TrivySbomPkgTypes.Os = 0 -> ModularPipelines.Trivy.Enums.TrivySbomPkgTypes
 ModularPipelines.Trivy.Enums.TrivySbomSbomSources
 ModularPipelines.Trivy.Enums.TrivySbomSbomSources.Oci = 0 -> ModularPipelines.Trivy.Enums.TrivySbomSbomSources
 ModularPipelines.Trivy.Enums.TrivySbomSbomSources.Rekor = 1 -> ModularPipelines.Trivy.Enums.TrivySbomSbomSources
 ModularPipelines.Trivy.Enums.TrivySbomScanners
-ModularPipelines.Trivy.Enums.TrivySbomScanners.License = 1 -> ModularPipelines.Trivy.Enums.TrivySbomScanners
-ModularPipelines.Trivy.Enums.TrivySbomScanners.Vuln = 0 -> ModularPipelines.Trivy.Enums.TrivySbomScanners
 ModularPipelines.Trivy.Enums.TrivySbomSeverity
-ModularPipelines.Trivy.Enums.TrivySbomSeverity.Critical = 4 -> ModularPipelines.Trivy.Enums.TrivySbomSeverity
-ModularPipelines.Trivy.Enums.TrivySbomSeverity.High = 3 -> ModularPipelines.Trivy.Enums.TrivySbomSeverity
-ModularPipelines.Trivy.Enums.TrivySbomSeverity.Low = 1 -> ModularPipelines.Trivy.Enums.TrivySbomSeverity
-ModularPipelines.Trivy.Enums.TrivySbomSeverity.Medium = 2 -> ModularPipelines.Trivy.Enums.TrivySbomSeverity
-ModularPipelines.Trivy.Enums.TrivySbomSeverity.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivySbomSeverity
 ModularPipelines.Trivy.Enums.TrivySbomTableMode
-ModularPipelines.Trivy.Enums.TrivySbomTableMode.Detailed = 1 -> ModularPipelines.Trivy.Enums.TrivySbomTableMode
-ModularPipelines.Trivy.Enums.TrivySbomTableMode.Summary = 0 -> ModularPipelines.Trivy.Enums.TrivySbomTableMode
 ModularPipelines.Trivy.Enums.TrivyVmDetectionPriority
-ModularPipelines.Trivy.Enums.TrivyVmDetectionPriority.Comprehensive = 1 -> ModularPipelines.Trivy.Enums.TrivyVmDetectionPriority
-ModularPipelines.Trivy.Enums.TrivyVmDetectionPriority.Precise = 0 -> ModularPipelines.Trivy.Enums.TrivyVmDetectionPriority
 ModularPipelines.Trivy.Enums.TrivyVmFormat
-ModularPipelines.Trivy.Enums.TrivyVmFormat.CosignVuln = 8 -> ModularPipelines.Trivy.Enums.TrivyVmFormat
-ModularPipelines.Trivy.Enums.TrivyVmFormat.Cyclonedx = 4 -> ModularPipelines.Trivy.Enums.TrivyVmFormat
-ModularPipelines.Trivy.Enums.TrivyVmFormat.Github = 7 -> ModularPipelines.Trivy.Enums.TrivyVmFormat
-ModularPipelines.Trivy.Enums.TrivyVmFormat.Json = 1 -> ModularPipelines.Trivy.Enums.TrivyVmFormat
-ModularPipelines.Trivy.Enums.TrivyVmFormat.Sarif = 3 -> ModularPipelines.Trivy.Enums.TrivyVmFormat
 ModularPipelines.Trivy.Enums.TrivyVmFormat.Spdx = 5 -> ModularPipelines.Trivy.Enums.TrivyVmFormat
 ModularPipelines.Trivy.Enums.TrivyVmFormat.SpdxJson = 6 -> ModularPipelines.Trivy.Enums.TrivyVmFormat
-ModularPipelines.Trivy.Enums.TrivyVmFormat.Table = 0 -> ModularPipelines.Trivy.Enums.TrivyVmFormat
-ModularPipelines.Trivy.Enums.TrivyVmFormat.Template = 2 -> ModularPipelines.Trivy.Enums.TrivyVmFormat
 ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus.Affected = 2 -> ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus.EndOfLife = 7 -> ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus.FixDeferred = 6 -> ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus.Fixed = 3 -> ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus.NotAffected = 1 -> ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus.UnderInvestigation = 4 -> ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus
-ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus.WillNotFix = 5 -> ModularPipelines.Trivy.Enums.TrivyVmIgnoreStatus
 ModularPipelines.Trivy.Enums.TrivyVmPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyVmPkgRelationships.Direct = 3 -> ModularPipelines.Trivy.Enums.TrivyVmPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyVmPkgRelationships.Indirect = 4 -> ModularPipelines.Trivy.Enums.TrivyVmPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyVmPkgRelationships.Root = 1 -> ModularPipelines.Trivy.Enums.TrivyVmPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyVmPkgRelationships.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyVmPkgRelationships
-ModularPipelines.Trivy.Enums.TrivyVmPkgRelationships.Workspace = 2 -> ModularPipelines.Trivy.Enums.TrivyVmPkgRelationships
 ModularPipelines.Trivy.Enums.TrivyVmPkgTypes
-ModularPipelines.Trivy.Enums.TrivyVmPkgTypes.Library = 1 -> ModularPipelines.Trivy.Enums.TrivyVmPkgTypes
-ModularPipelines.Trivy.Enums.TrivyVmPkgTypes.Os = 0 -> ModularPipelines.Trivy.Enums.TrivyVmPkgTypes
 ModularPipelines.Trivy.Enums.TrivyVmRenderCause
-ModularPipelines.Trivy.Enums.TrivyVmRenderCause.Ansible = 1 -> ModularPipelines.Trivy.Enums.TrivyVmRenderCause
-ModularPipelines.Trivy.Enums.TrivyVmRenderCause.Terraform = 0 -> ModularPipelines.Trivy.Enums.TrivyVmRenderCause
 ModularPipelines.Trivy.Enums.TrivyVmSbomSources
 ModularPipelines.Trivy.Enums.TrivyVmSbomSources.Oci = 0 -> ModularPipelines.Trivy.Enums.TrivyVmSbomSources
 ModularPipelines.Trivy.Enums.TrivyVmSbomSources.Rekor = 1 -> ModularPipelines.Trivy.Enums.TrivyVmSbomSources
 ModularPipelines.Trivy.Enums.TrivyVmScanners
-ModularPipelines.Trivy.Enums.TrivyVmScanners.License = 3 -> ModularPipelines.Trivy.Enums.TrivyVmScanners
 ModularPipelines.Trivy.Enums.TrivyVmScanners.Misconfig = 1 -> ModularPipelines.Trivy.Enums.TrivyVmScanners
 ModularPipelines.Trivy.Enums.TrivyVmScanners.Secret = 2 -> ModularPipelines.Trivy.Enums.TrivyVmScanners
-ModularPipelines.Trivy.Enums.TrivyVmScanners.Vuln = 0 -> ModularPipelines.Trivy.Enums.TrivyVmScanners
 ModularPipelines.Trivy.Enums.TrivyVmSeverity
-ModularPipelines.Trivy.Enums.TrivyVmSeverity.Critical = 4 -> ModularPipelines.Trivy.Enums.TrivyVmSeverity
-ModularPipelines.Trivy.Enums.TrivyVmSeverity.High = 3 -> ModularPipelines.Trivy.Enums.TrivyVmSeverity
-ModularPipelines.Trivy.Enums.TrivyVmSeverity.Low = 1 -> ModularPipelines.Trivy.Enums.TrivyVmSeverity
-ModularPipelines.Trivy.Enums.TrivyVmSeverity.Medium = 2 -> ModularPipelines.Trivy.Enums.TrivyVmSeverity
-ModularPipelines.Trivy.Enums.TrivyVmSeverity.Unknown = 0 -> ModularPipelines.Trivy.Enums.TrivyVmSeverity
 ModularPipelines.Trivy.Enums.TrivyVmTableMode
-ModularPipelines.Trivy.Enums.TrivyVmTableMode.Detailed = 1 -> ModularPipelines.Trivy.Enums.TrivyVmTableMode
-ModularPipelines.Trivy.Enums.TrivyVmTableMode.Summary = 0 -> ModularPipelines.Trivy.Enums.TrivyVmTableMode
 ModularPipelines.Trivy.Extensions.TrivyExtensions
 ModularPipelines.Trivy.Options.TrivyCleanOptions
 ModularPipelines.Trivy.Options.TrivyCleanOptions.All.get -> bool?
