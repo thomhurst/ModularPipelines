@@ -8,6 +8,7 @@ using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
+using ModularPipelines.Models;
 using ModularPipelines.Options;
 using Moq;
 using Spectre.Console;
@@ -17,6 +18,34 @@ namespace ModularPipelines.UnitTests.Console;
 [TUnit.Core.NotInParallel]
 public class ConsoleCoordinatorTests
 {
+    [Test]
+    public async Task DisabledProgress_CompletesWithoutWaitingForCancellation()
+    {
+        var outputCoordinator = new Mock<IOutputCoordinator>();
+        await using var coordinator = CreateCoordinator(
+            outputCoordinator.Object,
+            new PipelineOptions
+            {
+                Console = new PipelineConsoleOptions { ShowProgress = false },
+            });
+        using var cancellation = new CancellationTokenSource();
+        var progress = ((IProgressDisplay) coordinator).RunAsync(
+            new OrganizedModules([], []),
+            cancellation.Token);
+
+        try
+        {
+            // A no-op display must not make pipeline shutdown wait for the five-second grace period.
+            await Assert.That(progress.IsCompletedSuccessfully).IsTrue();
+            outputCoordinator.Verify(output => output.SetProgressActive(false), Times.Once);
+        }
+        finally
+        {
+            await cancellation.CancelAsync();
+            await progress;
+        }
+    }
+
     [Test]
     public async Task PeriodicFlush_SchedulesCompletedBufferPopulatedByRetainedWrite()
     {
