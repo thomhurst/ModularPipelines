@@ -26,7 +26,7 @@ if (-not (Test-Path -LiteralPath $PackageDirectory -PathType Container)) {
     throw "Package directory does not exist: $PackageDirectory"
 }
 
-$removedPrefix = '*REMOVED*'
+. (Join-Path $PSScriptRoot '../../../scripts/PublicApiRemovedMarker.ps1')
 
 function Read-ActiveApi([string[]] $Paths) {
     # A shipped entry stays in PublicAPI.Shipped.txt after removal; the matching
@@ -40,8 +40,8 @@ function Read-ActiveApi([string[]] $Paths) {
                 continue
             }
 
-            if ($entry.StartsWith($removedPrefix, [StringComparison]::Ordinal)) {
-                [void] $retired.Add($entry.Substring($removedPrefix.Length))
+            if (Test-RemovedMarker $entry) {
+                [void] $retired.Add((Get-RemovedMarkerEntry $entry))
             } else {
                 [void] $entries.Add($entry)
             }
