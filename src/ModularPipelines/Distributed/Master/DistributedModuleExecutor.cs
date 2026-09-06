@@ -693,6 +693,8 @@ internal class DistributedModuleExecutor(
         var dependencyResultCache = new DependencyResultCache(_workerCoordinator, workerCancellationToken);
         while (!workerCancellationToken.IsCancellationRequested)
         {
+            // Once the pipeline is cancelled, dequeue on the worker lifetime alone so late
+            // AlwaysRun assignments can still be serviced.
             var observePipelineCancellation = !pipelineCancellationToken.IsCancellationRequested;
             var dequeueCancellationToken = observePipelineCancellation
                 ? dequeueCancellationCts.Token
@@ -704,9 +706,7 @@ internal class DistributedModuleExecutor(
                     .ConfigureAwait(false);
                 if (assignment is null)
                 {
-                    if (observePipelineCancellation
-                        && pipelineCancellationToken.IsCancellationRequested
-                        && !workerCancellationToken.IsCancellationRequested)
+                    if (PipelineCancelledDuringDequeue(observePipelineCancellation, pipelineCancellationToken, workerCancellationToken))
                     {
                         continue;
                     }
@@ -714,33 +714,17 @@ internal class DistributedModuleExecutor(
                     break;
                 }
 
-                if (pipelineCancellationToken.IsCancellationRequested && !assignment.Configuration.AlwaysRun)
-                {
-                    _logger.LogInformation(
-                        "Master skipping cancelled module {Module}",
-                        assignment.ModuleTypeName);
-                    continue;
-                }
-
-                _logger.LogInformation("Master executing module {Module} locally",
-                    assignment.ModuleTypeName);
-
-                var executionCancellationToken = assignment.Configuration.AlwaysRun
-                    ? workerCancellationToken
-                    : pipelineCancellationToken;
-                await ExecuteAssignmentAsync(
+                await ExecuteMasterAssignmentAsync(
                     assignment,
                     modules,
                     moduleLookup,
                     dependencyResultCache,
-                    executionCancellationToken).ConfigureAwait(false);
+                    pipelineCancellationToken,
+                    workerCancellationToken).ConfigureAwait(false);
             }
-            catch (OperationCanceledException) when (observePipelineCancellation
-                                                       && pipelineCancellationToken.IsCancellationRequested
-                                                       && !workerCancellationToken.IsCancellationRequested)
+            catch (OperationCanceledException) when (PipelineCancelledDuringDequeue(observePipelineCancellation, pipelineCancellationToken, workerCancellationToken))
             {
-                // Pipeline cancellation interrupts the current dequeue. Retry with the
-                // worker lifetime so late AlwaysRun assignments can still be serviced.
+                // Pipeline cancellation interrupted the current dequeue; retry with the worker lifetime.
             }
             catch (OperationCanceledException)
             {
@@ -751,6 +735,44 @@ internal class DistributedModuleExecutor(
                 _logger.LogError(ex, "Master worker loop encountered an error");
             }
         }
+    }
+
+    private static bool PipelineCancelledDuringDequeue(
+        bool observePipelineCancellation,
+        CancellationToken pipelineCancellationToken,
+        CancellationToken workerCancellationToken) =>
+        observePipelineCancellation
+        && pipelineCancellationToken.IsCancellationRequested
+        && !workerCancellationToken.IsCancellationRequested;
+
+    private async Task ExecuteMasterAssignmentAsync(
+        ModuleAssignment assignment,
+        IReadOnlyList<IModule> modules,
+        Dictionary<string, IModule> moduleLookup,
+        DependencyResultCache dependencyResultCache,
+        CancellationToken pipelineCancellationToken,
+        CancellationToken workerCancellationToken)
+    {
+        if (pipelineCancellationToken.IsCancellationRequested && !assignment.Configuration.AlwaysRun)
+        {
+            _logger.LogInformation(
+                "Master skipping cancelled module {Module}",
+                assignment.ModuleTypeName);
+            return;
+        }
+
+        _logger.LogInformation("Master executing module {Module} locally",
+            assignment.ModuleTypeName);
+
+        var executionCancellationToken = assignment.Configuration.AlwaysRun
+            ? workerCancellationToken
+            : pipelineCancellationToken;
+        await ExecuteAssignmentAsync(
+            assignment,
+            modules,
+            moduleLookup,
+            dependencyResultCache,
+            executionCancellationToken).ConfigureAwait(false);
     }
 
     private async Task ExecuteAssignmentAsync(
