@@ -66,7 +66,7 @@ public class AlwaysRunHandlerTests
         var ranConcurrently = true;
         try
         {
-            await bothStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+            await bothStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         }
         catch (TimeoutException)
         {
@@ -159,7 +159,7 @@ public class AlwaysRunHandlerTests
         var handler = CreateHandler(moduleRunner.Object);
 
         var handlerTask = handler.WaitForAlwaysRunModulesAsync(scheduler.Object, [module, blocker]);
-        await blockerWaitObserved.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await blockerWaitObserved.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         var attemptsBeforeProgress = attempts;
 
         blockerState.State = ModuleExecutionState.Completed;
@@ -215,7 +215,7 @@ public class AlwaysRunHandlerTests
         var handler = CreateHandler(moduleRunner.Object);
 
         var handlerTask = handler.WaitForAlwaysRunModulesAsync(scheduler.Object, [module, blocker]);
-        await blockerWaitObserved.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await blockerWaitObserved.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         var attemptsBeforeProgress = attempts;
 
         blockerState.State = ModuleExecutionState.Completed;
@@ -375,7 +375,7 @@ public class AlwaysRunHandlerTests
         var handler = CreateHandler(moduleRunner.Object, pipelineOptions, timeProvider);
         var handlerTask = handler.WaitForAlwaysRunModulesAsync(scheduler.Object, [module, blocker]);
 
-        await progressWaitObserved.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await progressWaitObserved.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         timeProvider.Advance(TimeSpan.FromSeconds(30));
         var exception = await Assert.ThrowsAsync<AggregateException>(() => handlerTask);
 
@@ -438,11 +438,11 @@ public class AlwaysRunHandlerTests
             scheduler.Object,
             [module, firstBlocker, secondBlocker]);
 
-        await firstWaitObserved.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await firstWaitObserved.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         timeProvider.Advance(TimeSpan.FromMilliseconds(150));
         firstBlockerState.State = ModuleExecutionState.Completed;
         firstBlockerState.CompletionSource.TrySetResult(firstBlocker);
-        await secondWaitObserved.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await secondWaitObserved.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
 
         timeProvider.Advance(TimeSpan.FromMilliseconds(50));
         var exception = await Assert.ThrowsAsync<AggregateException>(() => handlerTask);

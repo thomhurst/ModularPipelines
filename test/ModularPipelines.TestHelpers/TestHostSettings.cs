@@ -25,6 +25,9 @@ public record TestHostSettings
 {
     /// <summary>
     /// Default timeout for test pipeline execution to prevent tests from hanging indefinitely.
+    /// Also the budget for awaiting signals a test releases itself; shorter literal budgets
+    /// lost to CI scheduling jitter (#4666). Tests under a shorter <c>[Timeout]</c> keep
+    /// literal budgets below that attribute instead.
     /// </summary>
     public static readonly TimeSpan DefaultTestTimeout = TimeSpan.FromSeconds(30);
 
