@@ -1326,12 +1326,10 @@ public abstract partial class CliScraperBase : ICliScraper
 
         segments.Add((position, line[position..].TrimEnd()));
 
-        for (var i = 0; i < segments.Count; i++)
+        foreach (var (start, text) in segments)
         {
-            var (start, text) = segments[i];
             var isSwitch = text.Length == 0 || text[0] == '-';
-            var isValueHint = i < segments.Count - 1 && !text.Any(char.IsWhiteSpace);
-            if (!isSwitch && !isValueHint)
+            if (!isSwitch && !LooksLikeValueHint(text))
             {
                 return GetColumn(line, start);
             }
@@ -1339,6 +1337,16 @@ public abstract partial class CliScraperBase : ICliScraper
 
         return null;
     }
+
+    /// <summary>
+    /// Returns whether a row segment is a value hint (<c>stringArray</c>, <c>&lt;value&gt;</c>,
+    /// <c>PATH</c>, <c>CODE1,CODE2..</c>) rather than prose. Prose contains blanks or starts as a
+    /// sentence-case word; a hint is one token that does not, which also covers a terminal hint
+    /// whose description only begins on the next line.
+    /// </summary>
+    private static bool LooksLikeValueHint(string text) =>
+        !text.Any(char.IsWhiteSpace)
+        && !(char.IsUpper(text[0]) && text.Length > 1 && char.IsLower(text[1]));
 
     /// <summary>
     /// Joins an option row's inline description with the prose wrapped beneath it, advancing
