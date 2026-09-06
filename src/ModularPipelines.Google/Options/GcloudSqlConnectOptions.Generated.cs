@@ -36,6 +36,12 @@ public record GcloudSqlConnectOptions(
     public bool? DebugLogs { get; set; }
 
     /// <summary>
+    /// Port number that gcloud will use to connect to the Cloud SQL Proxy through localhost.
+    /// </summary>
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
+    public string? Port { get; set; }
+
+    /// <summary>
     /// Run connection test for Cloud SQL Proxy.
     /// </summary>
     [CliFlag("--run-connection-test")]
@@ -48,39 +54,33 @@ public record GcloudSqlConnectOptions(
     public bool? SkipSsl { get; set; }
 
     /// <summary>
-    /// Enables IAM database authentication for connections to MySQL and Postgres instances.
+    /// User selection settings for Cloud SQL Proxy connection. At most one of these can be specified: Enables IAM database authentication for connections to MySQL and Postgres instances.
     /// </summary>
     [CliFlag("--auto-iam-authn")]
     public bool? AutoIamAuthn { get; set; }
 
     /// <summary>
-    /// Cloud SQL instance user to connect as.
+    /// User selection settings for Cloud SQL Proxy connection. At most one of these can be specified: Cloud SQL instance user to connect as.
     /// </summary>
     [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
     public string? User { get; set; }
 
     /// <summary>
-    /// Connect to the Cloud SQL instance with auto IP detection.
+    /// IP address selection settings for Cloud SQL Proxy connection. At most one of these can be specified: Connect to the Cloud SQL instance with auto IP detection.
     /// </summary>
     [CliFlag("--auto-ip")]
     public bool? AutoIp { get; set; }
 
     /// <summary>
-    /// Connect to the Cloud SQL instance using private IP.
+    /// IP address selection settings for Cloud SQL Proxy connection. At most one of these can be specified: Connect to the Cloud SQL instance using private IP.
     /// </summary>
     [CliFlag("--private-ip")]
     public bool? PrivateIp { get; set; }
 
     /// <summary>
-    /// Connect to the Cloud SQL instance using Private Service Connect.
+    /// IP address selection settings for Cloud SQL Proxy connection. At most one of these can be specified: Connect to the Cloud SQL instance using Private Service Connect.
     /// </summary>
     [CliFlag("--psc")]
     public bool? Psc { get; set; }
-
-    /// <summary>
-    /// Port number that gcloud will use to connect to the Cloud SQL Proxy through localhost.
-    /// </summary>
-    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
-    public string? Port { get; set; }
 
 }

@@ -41,7 +41,7 @@ public record GcloudNetworkServicesMulticastGroupRangeActivationsUpdateOptions :
     public bool? EnableLogging { get; set; }
 
     /// <summary>
-    /// Whether to enable logging for this multicast group range activation. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// Negates --enable-logging. Whether to enable logging for this multicast group range activation. Use --enable-logging to enable and --no-enable-logging to disable.
     /// </summary>
     [CliFlag("--no-enable-logging")]
     public bool? NoEnableLogging { get; set; }
@@ -53,13 +53,13 @@ public record GcloudNetworkServicesMulticastGroupRangeActivationsUpdateOptions :
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud network-services multicast-group-range-activations update \ --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud network-services multicast-group-range-activations update \ --clear-labels --update-labels foo=bar,baz=qux
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud network-services multicast-group-range-activations update \ --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud network-services multicast-group-range-activations update \ --clear-labels --update-labels foo=bar,baz=qux
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveLabels { get; set; }

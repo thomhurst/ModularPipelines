@@ -28,16 +28,16 @@ public record GcloudArtifactsDockerImagesListOptions : GcloudOptions
     public bool? IncludeTags { get; set; }
 
     /// <summary>
-    /// Show summaries of the various occurrence types.
-    /// </summary>
-    [CliFlag("--show-occurrences")]
-    public bool? ShowOccurrences { get; set; }
-
-    /// <summary>
     /// A filter for the occurrences which will be summarized.
     /// </summary>
     [CliOption("--occurrence-filter", Format = OptionFormat.EqualsSeparated)]
     public string? OccurrenceFilter { get; set; }
+
+    /// <summary>
+    /// Show summaries of the various occurrence types.
+    /// </summary>
+    [CliFlag("--show-occurrences")]
+    public bool? ShowOccurrences { get; set; }
 
     /// <summary>
     /// The number of the most recent images for which to summarize occurrences.

@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudSourceListApi
 {
     [EnumValue("LIST_OBJECTS")]
-    ListObjects = 0,
+    ListObjects,
 
     [EnumValue("LIST_OBJECTS_V2")]
-    ListObjectsV2 = 1
+    ListObjectsV2
 }

@@ -27,7 +27,10 @@ public record GcloudNotebooksInstancesMigrateOptions : GcloudOptions
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [Obsolete("PostStartupScriptOption is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// // Specifies the behavior of post startup script during migration. POST_STARTUP_SCRIPT_OPTION must be one of: POST_STARTUP_SCRIPT_OPTION_UNSPECIFIED, POST_STARTUP_SCRIPT_OPTION_SKIP, POST_STARTUP_SCRIPT_OPTION_RERUN.
+    /// </summary>
+    [CliOption("--post-startup-script-option", Format = OptionFormat.EqualsSeparated)]
     public string? PostStartupScriptOption { get; set; }
 
 }

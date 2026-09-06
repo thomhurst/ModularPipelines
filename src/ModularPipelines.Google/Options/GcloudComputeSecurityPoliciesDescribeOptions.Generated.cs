@@ -24,13 +24,13 @@ public record GcloudComputeSecurityPoliciesDescribeOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: If set, the security policy is global.
+    /// At most one of these can be specified: If set, the security policy is global.
     /// </summary>
     [CliFlag("--global")]
     public bool? Global { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Region of the security policy to describe. Overrides the default compute/region property value for this command invocation.
+    /// At most one of these can be specified: Region of the security policy to describe. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

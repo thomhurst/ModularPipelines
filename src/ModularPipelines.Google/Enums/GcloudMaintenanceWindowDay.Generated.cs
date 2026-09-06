@@ -17,86 +17,23 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudMaintenanceWindowDay
 {
     [EnumValue("friday")]
-    Friday = 0,
+    Friday,
 
     [EnumValue("monday")]
-    Monday = 1,
+    Monday,
 
     [EnumValue("saturday")]
-    Saturday = 2,
+    Saturday,
 
     [EnumValue("sunday")]
-    Sunday = 3,
+    Sunday,
 
     [EnumValue("thursday")]
-    Thursday = 4,
+    Thursday,
 
     [EnumValue("tuesday")]
-    Tuesday = 5,
+    Tuesday,
 
     [EnumValue("wednesday")]
-    Wednesday = 6,
-
-    [EnumValue("fri")]
-    Fri = 7,
-
-    [EnumValue("mon")]
-    Mon = 8,
-
-    [EnumValue("sat")]
-    Sat = 9,
-
-    [EnumValue("sun")]
-    Sun = 10,
-
-    [EnumValue("thu")]
-    Thu = 11,
-
-    [EnumValue("tue")]
-    Tue = 12,
-
-    [EnumValue("wed")]
-    Wed = 13,
-
-    [EnumValue("SUNDAY")]
-    SundayUppercase = 14,
-
-    [EnumValue("MONDAY")]
-    MondayUppercase = 15,
-
-    [EnumValue("TUESDAY")]
-    TuesdayUppercase = 16,
-
-    [EnumValue("WEDNESDAY")]
-    WednesdayUppercase = 17,
-
-    [EnumValue("THURSDAY")]
-    ThursdayUppercase = 18,
-
-    [EnumValue("FRIDAY")]
-    FridayUppercase = 19,
-
-    [EnumValue("SATURDAY")]
-    SaturdayUppercase = 20,
-
-    [EnumValue("SUN")]
-    SunUppercase = 21,
-
-    [EnumValue("MON")]
-    MonUppercase = 22,
-
-    [EnumValue("TUE")]
-    TueUppercase = 23,
-
-    [EnumValue("WED")]
-    WedUppercase = 24,
-
-    [EnumValue("THU")]
-    ThuUppercase = 25,
-
-    [EnumValue("FRI")]
-    FriUppercase = 26,
-
-    [EnumValue("SAT")]
-    SatUppercase = 27
+    Wednesday
 }

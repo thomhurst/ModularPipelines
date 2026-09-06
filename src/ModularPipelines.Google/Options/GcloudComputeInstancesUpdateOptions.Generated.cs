@@ -32,7 +32,7 @@ public record GcloudComputeInstancesUpdateOptions(
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// Enables deletion protection for the instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
+    /// Negates --deletion-protection. Enables deletion protection for the instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
     /// </summary>
     [CliFlag("--no-deletion-protection")]
     public bool? NoDeletionProtection { get; set; }
@@ -44,7 +44,7 @@ public record GcloudComputeInstancesUpdateOptions(
     public bool? EnableDisplayDevice { get; set; }
 
     /// <summary>
-    /// Enable a display device on VM instances. Use --enable-display-device to enable and --no-enable-display-device to disable.
+    /// Negates --enable-display-device. Enable a display device on VM instances. Use --enable-display-device to enable and --no-enable-display-device to disable.
     /// </summary>
     [CliFlag("--no-enable-display-device")]
     public bool? NoEnableDisplayDevice { get; set; }
@@ -56,7 +56,7 @@ public record GcloudComputeInstancesUpdateOptions(
     public bool? GracefulShutdown { get; set; }
 
     /// <summary>
-    /// Enables or disables graceful shutdown for the instance. Use --graceful-shutdown to enable and --no-graceful-shutdown to disable.
+    /// Negates --graceful-shutdown. Enables or disables graceful shutdown for the instance. Use --graceful-shutdown to enable and --no-graceful-shutdown to disable.
     /// </summary>
     [CliFlag("--no-graceful-shutdown")]
     public bool? NoGracefulShutdown { get; set; }
@@ -80,7 +80,7 @@ public record GcloudComputeInstancesUpdateOptions(
     public bool? IdentityCertificate { get; set; }
 
     /// <summary>
-    /// Enables or disables managed workload identity certificates on a VM. Use --identity-certificate to enable and --no-identity-certificate to disable.
+    /// Negates --identity-certificate. Enables or disables managed workload identity certificates on a VM. Use --identity-certificate to enable and --no-identity-certificate to disable.
     /// </summary>
     [CliFlag("--no-identity-certificate")]
     public bool? NoIdentityCertificate { get; set; }
@@ -104,7 +104,7 @@ public record GcloudComputeInstancesUpdateOptions(
     public bool? ShieldedIntegrityMonitoring { get; set; }
 
     /// <summary>
-    /// Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. This baseline can be updated by using gcloud compute instances update --shielded-learn-integrity-policy. On Shielded VM instances, integrity monitoring is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. For information about monitoring integrity on Shielded VM instances, see https://cloud.google.com/compute/docs/instances/integrity-monitoring." Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-integrity-monitoring to enable and --no-shielded-integrity-monitoring to disable.
+    /// Negates --shielded-integrity-monitoring. Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. This baseline can be updated by using gcloud compute instances update --shielded-learn-integrity-policy. On Shielded VM instances, integrity monitoring is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. For information about monitoring integrity on Shielded VM instances, see https://cloud.google.com/compute/docs/instances/integrity-monitoring." Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-integrity-monitoring to enable and --no-shielded-integrity-monitoring to disable.
     /// </summary>
     [CliFlag("--no-shielded-integrity-monitoring")]
     public bool? NoShieldedIntegrityMonitoring { get; set; }
@@ -122,7 +122,7 @@ public record GcloudComputeInstancesUpdateOptions(
     public bool? ShieldedSecureBoot { get; set; }
 
     /// <summary>
-    /// The instance boots with secure boot enabled. On Shielded VM instances, Secure Boot is not enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-secure-boot to enable and --no-shielded-secure-boot to disable.
+    /// Negates --shielded-secure-boot. The instance boots with secure boot enabled. On Shielded VM instances, Secure Boot is not enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-secure-boot to enable and --no-shielded-secure-boot to disable.
     /// </summary>
     [CliFlag("--no-shielded-secure-boot")]
     public bool? NoShieldedSecureBoot { get; set; }
@@ -134,7 +134,7 @@ public record GcloudComputeInstancesUpdateOptions(
     public bool? ShieldedVtpm { get; set; }
 
     /// <summary>
-    /// The instance boots with the TPM (Trusted Platform Module) enabled. A TPM is a hardware module that can be used for different security operations such as remote attestation, encryption, and sealing of keys. On Shielded VM instances, vTPM is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-vtpm to enable and --no-shielded-vtpm to disable.
+    /// Negates --shielded-vtpm. The instance boots with the TPM (Trusted Platform Module) enabled. A TPM is a hardware module that can be used for different security operations such as remote attestation, encryption, and sealing of keys. On Shielded VM instances, vTPM is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-vtpm to enable and --no-shielded-vtpm to disable.
     /// </summary>
     [CliFlag("--no-shielded-vtpm")]
     public bool? NoShieldedVtpm { get; set; }
@@ -152,37 +152,37 @@ public record GcloudComputeInstancesUpdateOptions(
     public string? Zone { get; set; }
 
     /// <summary>
-    /// Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud compute instances update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud compute instances update --clear-labels \ --update-labels foo=bar,baz=qux
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud compute instances update --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud compute instances update --clear-labels \ --update-labels foo=bar,baz=qux
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
-    /// Removes the node affinities field from the instance. If specified, the instance node settings will be cleared. The instance will not be scheduled onto a sole-tenant node.
+    /// Sole Tenancy. At most one of these can be specified: Removes the node affinities field from the instance. If specified, the instance node settings will be cleared. The instance will not be scheduled onto a sole-tenant node.
     /// </summary>
     [CliFlag("--clear-node-affinities")]
     public bool? ClearNodeAffinities { get; set; }
 
     /// <summary>
-    /// The name of the node to schedule this instance on.
+    /// Sole Tenancy. At most one of these can be specified: The name of the node to schedule this instance on.
     /// </summary>
     [CliOption("--node", Format = OptionFormat.EqualsSeparated)]
     public string? Node { get; set; }
 
     /// <summary>
-    /// The JSON/YAML file containing the configuration of desired nodes onto which this instance could be scheduled. These rules filter the nodes according to their node affinity labels. A node's affinity labels come from the node template of the group the node is in. The file should contain a list of a JSON/YAML objects. For an example, see https://cloud.google.com/compute/docs/nodes/provisioning-sole-tenant-vms#configure_node_affinity_labels. The following list describes the fields: key Corresponds to the node affinity label keys of the Node resource. operator Specifies the node selection type. Must be one of: IN: Requires Compute Engine to seek for matched nodes. NOT_IN: Requires Compute Engine to avoid certain nodes. values Optional. A list of values which correspond to the node affinity label values of the Node resource. Use a full or relative path to a local file containing the value of node_affinity_file.
+    /// Sole Tenancy. At most one of these can be specified: The JSON/YAML file containing the configuration of desired nodes onto which this instance could be scheduled. These rules filter the nodes according to their node affinity labels. A node's affinity labels come from the node template of the group the node is in. The file should contain a list of a JSON/YAML objects. For an example, see https://cloud.google.com/compute/docs/nodes/provisioning-sole-tenant-vms#configure_node_affinity_labels. The following list describes the fields: key Corresponds to the node affinity label keys of the Node resource. operator Specifies the node selection type. Must be one of: IN: Requires Compute Engine to seek for matched nodes. NOT_IN: Requires Compute Engine to avoid certain nodes. values Optional. A list of values which correspond to the node affinity label values of the Node resource. Use a full or relative path to a local file containing the value of node_affinity_file.
     /// </summary>
     [CliOption("--node-affinity-file", Format = OptionFormat.EqualsSeparated)]
     public string? NodeAffinityFile { get; set; }
 
     /// <summary>
-    /// The name of the node group to schedule this instance on.
+    /// Sole Tenancy. At most one of these can be specified: The name of the node group to schedule this instance on.
     /// </summary>
     [CliOption("--node-group", Format = OptionFormat.EqualsSeparated)]
     public string? NodeGroup { get; set; }

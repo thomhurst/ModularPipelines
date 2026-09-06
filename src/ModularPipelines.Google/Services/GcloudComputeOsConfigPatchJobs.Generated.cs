@@ -92,15 +92,6 @@ public class GcloudComputeOsConfigPatchJobs
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeOsConfigPatchJobsExecuteOptions(), executionOptions, cancellationToken);
     }
 
-    [Obsolete("Use ExecuteCommandAsync instead.")]
-    public virtual async Task<CommandResult> ExecuteAsync(
-        GcloudComputeOsConfigPatchJobsExecuteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await ExecuteCommandAsync(options, executionOptions, cancellationToken);
-    }
-
     /// <summary>
     /// list the     instance details for an OS patch job
     /// </summary>

@@ -37,13 +37,13 @@ public record GcloudRedisAclPoliciesUpdateOptions : GcloudOptions
     /// Update rules. At most one of these can be specified: Set rules to new value. The ACL rules within the ACL policy. rule The rule to be applied to the username. Ex: "on &gt;password123 ~ +@all" The format of the rule is defined by Redis OSS: https://redis.io/docs/latest/operate/oss_and_stack/management/security/acl/. username Specifies the IAM user or service account to be added to the ACL policy. This username will be directly set on the Redis OSS. Shorthand Example: --rules=rule=string,username=string --rules=rule=string,username=string JSON Example: --rules='[{"rule": "string", "username": "string"}]' File Example: --rules=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--rules", Format = OptionFormat.EqualsSeparated)]
-    public string? Rules { get; set; }
+    public IEnumerable<string>? Rules { get; set; }
 
     /// <summary>
     /// Update rules. At most one of these can be specified: Or at least one of these can be specified: Add new value to rules list. The ACL rules within the ACL policy. rule The rule to be applied to the username. Ex: "on &gt;password123 ~ +@all" The format of the rule is defined by Redis OSS: https://redis.io/docs/latest/operate/oss_and_stack/management/security/acl/. username Specifies the IAM user or service account to be added to the ACL policy. This username will be directly set on the Redis OSS. Shorthand Example: --add-rules=rule=string,username=string --add-rules=rule=string,username=string JSON Example: --add-rules='[{"rule": "string", "username": "string"}]' File Example: --add-rules=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-rules", Format = OptionFormat.EqualsSeparated)]
-    public string? AddRules { get; set; }
+    public IEnumerable<string>? AddRules { get; set; }
 
     /// <summary>
     /// Update rules. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear rules value and set to empty list.
@@ -55,6 +55,6 @@ public record GcloudRedisAclPoliciesUpdateOptions : GcloudOptions
     /// Update rules. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from rules list. The ACL rules within the ACL policy. rule The rule to be applied to the username. Ex: "on &gt;password123 ~ +@all" The format of the rule is defined by Redis OSS: https://redis.io/docs/latest/operate/oss_and_stack/management/security/acl/. username Specifies the IAM user or service account to be added to the ACL policy. This username will be directly set on the Redis OSS. Shorthand Example: --remove-rules=rule=string,username=string --remove-rules=rule=string,username=string JSON Example: --remove-rules='[{"rule": "string", "username": "string"}]' File Example: --remove-rules=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-rules", Format = OptionFormat.EqualsSeparated)]
-    public string? RemoveRules { get; set; }
+    public IEnumerable<string>? RemoveRules { get; set; }
 
 }

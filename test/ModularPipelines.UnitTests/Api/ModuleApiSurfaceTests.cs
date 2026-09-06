@@ -55,6 +55,7 @@ public class ModuleApiSurfaceTests
             await Assert.That(executeMethod.GetParameters().Select(parameter => parameter.ParameterType))
                 .IsEquivalentTo([
                     typeof(IReadOnlyList<IModule>),
+                    typeof(IReadOnlyDictionary<Type, TimeSpan>),
                     typeof(IExecutionBackendContext),
                     typeof(CancellationToken),
                 ]);

@@ -72,7 +72,7 @@ public record GcloudStorageMvOptions(
     public bool? IncludeManagedFolders { get; set; }
 
     /// <summary>
-    /// Outputs a manifest log file with detailed information about each item that was copied. This manifest contains the following information for each item: * Source path. * Destination path. * Source size. * Bytes transferred. * MD5 hash. * Transfer start time and date in UTC and ISO 8601 format. * Transfer completion time and date in UTC and ISO 8601 format. * Final result of the attempted transfer: OK, error, or skipped. * Details, if any. If the manifest file already exists, gcloud storage appends log items to the existing file. Objects that are marked as "OK" or "skipped" in the existing manifest file are not retried by future commands. Objects marked as "error" are retried.
+    /// Outputs a manifest log file with detailed information about each item that was copied. This manifest contains the following information for each item: ◆ Source path. ◆ Destination path. ◆ Source size. ◆ Bytes transferred. ◆ MD5 hash. ◆ Transfer start time and date in UTC and ISO 8601 format. ◆ Transfer completion time and date in UTC and ISO 8601 format. ◆ Final result of the attempted transfer: OK, error, or skipped. ◆ Details, if any. If the manifest file already exists, gcloud storage appends log items to the existing file. Objects that are marked as "OK" or "skipped" in the existing manifest file are not retried by future commands. Objects marked as "error" are retried.
     /// </summary>
     [CliOption("--manifest-path", Format = OptionFormat.EqualsSeparated)]
     public string? ManifestPath { get; set; }
@@ -108,54 +108,57 @@ public record GcloudStorageMvOptions(
     public string? StorageClass { get; set; }
 
     /// <summary>
+    /// Applies predefined, or "canned," ACLs to a resource. See docs for a list of predefined ACL constants: https://cloud.google.com/storage/docs/access-control/lists#predefined-acl
+    /// </summary>
+    [CliOption("--canned-acl", Format = OptionFormat.EqualsSeparated)]
+    public string? CannedAcl { get; set; }
+
+    /// <summary>
     /// Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
     /// </summary>
     [CliFlag("--preserve-acl")]
     public bool? PreserveAcl { get; set; }
 
     /// <summary>
-    /// Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
+    /// Negates --preserve-acl. Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
     /// </summary>
     [CliFlag("--no-preserve-acl")]
     public bool? NoPreserveAcl { get; set; }
 
     /// <summary>
-    /// Applies gzip transport encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This also saves network bandwidth while leaving the data uncompressed in Cloud Storage. When you specify the --gzip-in-flight option, files being uploaded are compressed in-memory and on-the-wire only. Both the local files and Cloud Storage objects remain uncompressed. The uploaded objects retain the Content-Type and name of the original files.
+    /// At most one of these can be specified: Applies gzip transport encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This also saves network bandwidth while leaving the data uncompressed in Cloud Storage. When you specify the --gzip-in-flight option, files being uploaded are compressed in-memory and on-the-wire only. Both the local files and Cloud Storage objects remain uncompressed. The uploaded objects retain the Content-Type and name of the original files.
     /// </summary>
     [CliOption("--gzip-in-flight", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? GzipInFlight { get; set; }
 
     /// <summary>
-    /// Applies gzip transport encoding to file uploads. This option works like the --gzip-in-flight option described above, but it applies to all uploaded files, regardless of extension. CAUTION: If some of the source files don't compress well, such as binary data, using this option may result in longer uploads.
+    /// At most one of these can be specified: Applies gzip transport encoding to file uploads. This option works like the --gzip-in-flight option described above, but it applies to all uploaded files, regardless of extension. CAUTION: If some of the source files don't compress well, such as binary data, using this option may result in longer uploads.
     /// </summary>
     [CliFlag("--gzip-in-flight-all")]
     public bool? GzipInFlightAll { get; set; }
 
     /// <summary>
-    /// Applies gzip content encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This saves network bandwidth and space in Cloud Storage. When you specify the --gzip-local option, the data from files is compressed before it is uploaded, but the original files are left uncompressed on the local disk. The uploaded objects retain the Content-Type and name of the original files. However, the Content-Encoding metadata is set to gzip and the Cache-Control metadata set to no-transform. The data remains compressed on Cloud Storage servers and will not be decompressed on download by gcloud storage because of the no-transform field. Since the local gzip option compresses data prior to upload, it is not subject to the same compression buffer bottleneck of the in-flight gzip option.
+    /// At most one of these can be specified: Applies gzip content encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This saves network bandwidth and space in Cloud Storage. When you specify the --gzip-local option, the data from files is compressed before it is uploaded, but the original files are left uncompressed on the local disk. The uploaded objects retain the Content-Type and name of the original files. However, the Content-Encoding metadata is set to gzip and the Cache-Control metadata set to no-transform. The data remains compressed on Cloud Storage servers and will not be decompressed on download by gcloud storage because of the no-transform field. Since the local gzip option compresses data prior to upload, it is not subject to the same compression buffer bottleneck of the in-flight gzip option.
     /// </summary>
     [CliOption("--gzip-local", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? GzipLocal { get; set; }
 
     /// <summary>
-    /// Applies gzip content encoding to file uploads. This option works like the --gzip-local option described above, but it applies to all uploaded files, regardless of extension. CAUTION: If some of the source files don't compress well, such as binary data, using this option may result in files taking up more space in the cloud than they would if left uncompressed.
+    /// At most one of these can be specified: Applies gzip content encoding to file uploads. This option works like the --gzip-local option described above, but it applies to all uploaded files, regardless of extension. CAUTION: If some of the source files don't compress well, such as binary data, using this option may result in files taking up more space in the cloud than they would if left uncompressed.
     /// </summary>
     [CliFlag("--gzip-local-all")]
     public bool? GzipLocalAll { get; set; }
 
     /// <summary>
-    /// Ignore file symlinks instead of copying what they point to.
+    /// Flags to influence behavior when handling symlinks. Only one value may be set. At most one of these can be specified: Ignore file symlinks instead of copying what they point to.
     /// </summary>
     [CliFlag("--ignore-symlinks")]
     public bool? IgnoreSymlinks { get; set; }
 
     /// <summary>
-    /// Preserve symlinks instead of copying what they point to. With this feature enabled, uploaded symlinks will be represented as placeholders in the cloud whose content consists of the linked path. Inversely, such placeholders will be converted to symlinks when downloaded while this feature is enabled, as described at https://cloud.google.com/storage-transfer/docs/metadata-preservation#posix_to. Directory symlinks are only followed if this flag is specified. CAUTION: No validation is applied to the symlink target paths. Once downloaded, preserved symlinks will point to whatever path was specified by the placeholder, regardless of the location or permissions of the path, or whether it actually exists. This feature is not supported on Windows.
+    /// Flags to influence behavior when handling symlinks. Only one value may be set. At most one of these can be specified: Preserve symlinks instead of copying what they point to. With this feature enabled, uploaded symlinks will be represented as placeholders in the cloud whose content consists of the linked path. Inversely, such placeholders will be converted to symlinks when downloaded while this feature is enabled, as described at https://cloud.google.com/storage-transfer/docs/metadata-preservation#posix_to. Directory symlinks are only followed if this flag is specified. CAUTION: No validation is applied to the symlink target paths. Once downloaded, preserved symlinks will point to whatever path was specified by the placeholder, regardless of the location or permissions of the path, or whether it actually exists. This feature is not supported on Windows.
     /// </summary>
     [CliFlag("--preserve-symlinks")]
     public bool? PreserveSymlinks { get; set; }
-
-    [Obsolete("CannedAcl is no longer supported by the installed CLI and has no effect.")]
-    public string? CannedAcl { get; set; }
 
 }

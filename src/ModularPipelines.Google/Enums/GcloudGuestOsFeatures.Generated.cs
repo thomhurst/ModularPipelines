@@ -17,38 +17,38 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudGuestOsFeatures
 {
     [EnumValue("GVNIC")]
-    Gvnic = 0,
+    Gvnic,
 
     [EnumValue("IDPF")]
-    Idpf = 1,
+    Idpf,
 
     [EnumValue("MULTI_IP_SUBNET")]
-    MultiIpSubnet = 2,
+    MultiIpSubnet,
 
     [EnumValue("SEV_CAPABLE")]
-    SevCapable = 3,
+    SevCapable,
 
     [EnumValue("SEV_LIVE_MIGRATABLE")]
-    SevLiveMigratable = 4,
+    SevLiveMigratable,
 
     [EnumValue("SEV_LIVE_MIGRATABLE_V2")]
-    SevLiveMigratableV2 = 5,
+    SevLiveMigratableV2,
 
     [EnumValue("SEV_SNP_CAPABLE")]
-    SevSnpCapable = 6,
+    SevSnpCapable,
 
     [EnumValue("SNP_SVSM_CAPABLE")]
-    SnpSvsmCapable = 7,
+    SnpSvsmCapable,
 
     [EnumValue("TDX_CAPABLE")]
-    TdxCapable = 8,
+    TdxCapable,
 
     [EnumValue("UEFI_COMPATIBLE")]
-    UefiCompatible = 9,
+    UefiCompatible,
 
     [EnumValue("VIRTIO_SCSI_MULTIQUEUE")]
-    VirtioScsiMultiqueue = 10,
+    VirtioScsiMultiqueue,
 
     [EnumValue("WINDOWS")]
-    Windows = 11
+    Windows
 }

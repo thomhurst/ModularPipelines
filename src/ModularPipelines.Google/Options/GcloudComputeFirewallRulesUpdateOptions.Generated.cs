@@ -49,7 +49,7 @@ public record GcloudComputeFirewallRulesUpdateOptions(
     public bool? Disabled { get; set; }
 
     /// <summary>
-    /// Disable a firewall rule and stop it from being enforced in the network. If a firewall rule is disabled, the associated network behaves as if the rule did not exist. To enable a disabled rule, use: $ gcloud compute firewall-rules update MY-RULE --no-disabled
+    /// Negates --disabled. Disable a firewall rule and stop it from being enforced in the network. If a firewall rule is disabled, the associated network behaves as if the rule did not exist. To enable a disabled rule, use: $ gcloud compute firewall-rules update MY-RULE --no-disabled
     /// </summary>
     [CliFlag("--no-disabled")]
     public bool? NoDisabled { get; set; }
@@ -61,7 +61,7 @@ public record GcloudComputeFirewallRulesUpdateOptions(
     public bool? EnableLogging { get; set; }
 
     /// <summary>
-    /// Enable logging for the firewall rule. Logs will be exported to StackDriver. Firewall logging is disabled by default. To enable logging for an existing rule, run: $ gcloud compute firewall-rules update MY-RULE --enable-logging To disable logging on an existing rule, run: $ gcloud compute firewall-rules update MY-RULE --no-enable-logging Use --enable-logging to enable and --no-enable-logging to disable.
+    /// Negates --enable-logging. Enable logging for the firewall rule. Logs will be exported to StackDriver. Firewall logging is disabled by default. To enable logging for an existing rule, run: $ gcloud compute firewall-rules update MY-RULE --enable-logging To disable logging on an existing rule, run: $ gcloud compute firewall-rules update MY-RULE --no-enable-logging Use --enable-logging to enable and --no-enable-logging to disable.
     /// </summary>
     [CliFlag("--no-enable-logging")]
     public bool? NoEnableLogging { get; set; }

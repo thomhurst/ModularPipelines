@@ -10,8 +10,8 @@ public class GcloudServiceAccountTests
     {
         var arguments = BuildArguments(new GcloudRunDeployOptions
         {
-            ServiceAccountValue = "runtime@project.iam.gserviceaccount.com",
-            BuildServiceAccountValue =
+            ServiceAccount = "runtime@project.iam.gserviceaccount.com",
+            BuildServiceAccount =
                 "projects/project/serviceAccounts/build@project.iam.gserviceaccount.com",
         });
 

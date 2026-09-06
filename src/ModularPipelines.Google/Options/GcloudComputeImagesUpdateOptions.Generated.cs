@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -28,7 +29,7 @@ public record GcloudComputeImagesUpdateOptions(
     /// Specifies the architecture or processor type that this image can support. For available processor types on Compute Engine, see https://cloud.google.com/compute/docs/cpu-platforms. ARCHITECTURE must be one of: ARM64, X86_64.
     /// </summary>
     [CliOption("--architecture", Format = OptionFormat.EqualsSeparated)]
-    public string? Architecture { get; set; }
+    public GcloudArchitecture? Architecture { get; set; }
 
     /// <summary>
     /// An optional text description for the image.

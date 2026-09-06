@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeInstantSnapshotGroupsListOptions : GcloudOptions
 {
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: If provided, only regional resources are shown. If arguments are provided, only resources from the given regions are shown.
+    /// At most one of these can be specified: If provided, only regional resources are shown. If arguments are provided, only resources from the given regions are shown.
     /// </summary>
     [CliOption("--regions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Regions { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: If provided, only zonal resources are shown. If arguments are provided, only resources from the given zones are shown.
+    /// At most one of these can be specified: If provided, only zonal resources are shown. If arguments are provided, only resources from the given zones are shown.
     /// </summary>
     [CliOption("--zones", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Zones { get; set; }

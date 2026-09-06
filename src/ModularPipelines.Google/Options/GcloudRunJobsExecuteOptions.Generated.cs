@@ -23,25 +23,25 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunJobsExecuteOptions : GcloudOptions
 {
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Specifies a container by name. Flags following --container will apply to the specified container. Flags that are not container-specific must be specified before --container.
+    /// Specifies a container by name. Flags following --container will apply to the specified container. Flags that are not container-specific must be specified before --container.
     /// </summary>
     [CliOption("--container", Format = OptionFormat.EqualsSeparated)]
     public string? Container { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Region in which the resource can be found. Alternatively, set the property [run/region].
+    /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. The existing maximum time (deadline) a job task attempt can run for. If provided, an execution will be created with this value. Otherwise existing maximum time of the job is used. In the case of retries, this deadline applies to each attempt of a task. If the task attempt does not complete within this time, it will be killed. It is specified as a duration; for example, "10m5s" is ten minutes, and five seconds. If you don't specify a unit, seconds is assumed. For example, "10" is 10 seconds.
+    /// The existing maximum time (deadline) a job task attempt can run for. If provided, an execution will be created with this value. Otherwise existing maximum time of the job is used. In the case of retries, this deadline applies to each attempt of a task. If the task attempt does not complete within this time, it will be killed. It is specified as a duration; for example, "10m5s" is ten minutes, and five seconds. If you don't specify a unit, seconds is assumed. For example, "10" is 10 seconds.
     /// </summary>
     [CliOption("--task-timeout", Format = OptionFormat.EqualsSeparated)]
     public int? TaskTimeout { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Number of tasks that must run to completion for the execution to be considered done. If provided, an execution will be created with this value. Otherwise the existing task count of the job is used.
+    /// Number of tasks that must run to completion for the execution to be considered done. If provided, an execution will be created with this value. Otherwise the existing task count of the job is used.
     /// </summary>
     [CliOption("--tasks", Format = OptionFormat.EqualsSeparated)]
     public string? Tasks { get; set; }

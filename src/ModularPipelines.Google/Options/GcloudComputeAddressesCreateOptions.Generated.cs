@@ -62,7 +62,7 @@ public record GcloudComputeAddressesCreateOptions : GcloudOptions
     /// If specified, the subnet name in which the address(es) should be reserved. The subnet must be in the same region as the address. The address will represent an internal IP reservation from within the subnet. If --address is specified, it must be within the subnet's IP range. May not be specified with --global.
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
-    public GcloudSubnet? Subnet { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Ephemeral IP addresses to promote to reserved status. Only addresses that are being used by resources in the project can be promoted. When providing this flag, a parallel list of names for the addresses can be provided. For example, $ gcloud compute addresses create ADDRESS-1 ADDRESS-2 \ --addresses 162.222.181.197,162.222.181.198 \ --region us-central1 will result in 162.222.181.197 being reserved as 'ADDRESS-1' and 162.222.181.198 as 'ADDRESS-2'. If no names are given, server-generated names will be assigned to the IP addresses.

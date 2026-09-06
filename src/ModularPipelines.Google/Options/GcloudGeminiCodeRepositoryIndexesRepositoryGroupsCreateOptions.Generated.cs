@@ -37,7 +37,7 @@ public record GcloudGeminiCodeRepositoryIndexesRepositoryGroupsCreateOptions : G
     /// List of repositories to group. branchPattern The Git branch pattern used for indexing in RE2 syntax. See https://github.com/google/re2/wiki/syntax for syntax. resource The DeveloperConnect repository full resource name, relative resource name or resource URL to be indexed. Shorthand Example: --repositories=branchPattern=string,resource=string --repositories=branchPattern=string,resource=string JSON Example: --repositories='[{"branchPattern": "string", "resource": "string"}]' File Example: --repositories=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--repositories", Format = OptionFormat.EqualsSeparated)]
-    public string? Repositories { get; set; }
+    public IEnumerable<string>? Repositories { get; set; }
 
     /// <summary>
     /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
@@ -49,6 +49,6 @@ public record GcloudGeminiCodeRepositoryIndexesRepositoryGroupsCreateOptions : G
     /// List of third party connection resources. authConfig The authentication configuration for the resource. apiToken API Token based authentication. tokenSecretResource The secret key for the API token. Example: projects/&lt;project&gt;/secrets/&lt;secret&gt;/versions/&lt;version&gt;. username The username for the API token. connection The DeveloperConnect connection full resource name, relative resource name or resource URL to be indexed. sourceConfig The source configuration for the resource. confluenceConfig Confluence source configuration. pageId The optional page ID of the Confluence page. spaceKey The space key of the Confluence space. uri The host address of the Confluence instance. type The type of the 3p resource. Shorthand Example: --resources=authConfig={apiToken={tokenSecretResource=string,username=string}},connection=string,sourceConfig={confluenceConfig={pageId=string,spaceKey=string,uri=string}},type=string --resources=authConfig={apiToken={tokenSecretResource=string,username=string}},connection=string,sourceConfig={confluenceConfig={pageId=string,spaceKey=string,uri=string}},type=string JSON Example: --resources='[{"authConfig": {"apiToken": {"tokenSecretResource": "string", "username": "string"}}, "connection": "string", "sourceConfig": {"confluenceConfig": {"pageId": "string", "spaceKey": "string", "uri": "string"}}, "type": "string"}]' File Example: --resources=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--resources", Format = OptionFormat.EqualsSeparated)]
-    public string? Resources { get; set; }
+    public IEnumerable<string>? Resources { get; set; }
 
 }

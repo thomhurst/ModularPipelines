@@ -21,7 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("scc", "bqexports", "list")]
 public record GcloudSccBqexportsListOptions : GcloudOptions
 {
-    [Obsolete("Location is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// When data residency controls are enabled, this attribute specifies the location in which the resource is located and applicable. The location attribute can be provided as part of the fully specified resource name or with the --location argument on the command line. The default location is global. NOTE: If you override the endpoint to a regional endpoint (https://cloud.google.com/security-command-center/docs/reference/rest/index.html?rep_location=global#regional-service-endpoint) you must specify the correct data location (https://cloud.google.com/security-command-center/docs/data-residency-support#locations) using this flag. The default location on this command is unrelated to the default location that is specified when data residency controls are enabled for Security Command Center. NOTE: If no location is specified, the default location is global AND the request will be routed to the SCC V1 API. To use the SCC V2 API - please explicitly specify the flag.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
 }

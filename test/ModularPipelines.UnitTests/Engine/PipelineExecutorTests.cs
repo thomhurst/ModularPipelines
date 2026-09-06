@@ -208,6 +208,7 @@ public class PipelineExecutorTests
         executionBackend
             .Setup(x => x.ExecuteAsync(
                 It.IsAny<IReadOnlyList<IModule>>(),
+                It.IsAny<IReadOnlyDictionary<Type, TimeSpan>>(),
                 It.IsAny<IExecutionBackendContext>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(backendResults ?? []);

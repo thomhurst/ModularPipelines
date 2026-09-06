@@ -17,20 +17,20 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudContentType
 {
     [EnumValue("resource")]
-    Resource = 0,
+    Resource,
 
     [EnumValue("iam-policy")]
-    IamPolicy = 1,
+    IamPolicy,
 
     [EnumValue("org-policy")]
-    OrgPolicy = 2,
+    OrgPolicy,
 
     [EnumValue("access-policy")]
-    AccessPolicy = 3,
+    AccessPolicy,
 
     [EnumValue("os-inventory")]
-    OsInventory = 4,
+    OsInventory,
 
     [EnumValue("relationship")]
-    Relationship = 5
+    Relationship
 }

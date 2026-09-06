@@ -21,7 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("firestore", "databases", "describe")]
 public record GcloudFirestoreDatabasesDescribeOptions : GcloudOptions
 {
-    [Obsolete("Database is no longer supported by the installed CLI and has no effect.")]
+    /// <summary>
+    /// The database to operate on. The default value is (default). For example, to operate on database foo: $ gcloud firestore databases describe --database='foo'
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
     public string? Database { get; set; }
 
 }

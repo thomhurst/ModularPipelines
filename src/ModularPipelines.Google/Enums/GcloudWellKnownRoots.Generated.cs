@@ -17,8 +17,8 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudWellKnownRoots
 {
     [EnumValue("none")]
-    None = 0,
+    None,
 
     [EnumValue("public-roots")]
-    PublicRoots = 1
+    PublicRoots
 }

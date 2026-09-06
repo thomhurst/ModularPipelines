@@ -17,17 +17,17 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudAllowedAccessReasons
 {
     [EnumValue("google-initiated-review")]
-    GoogleInitiatedReview = 0,
+    GoogleInitiatedReview,
 
     [EnumValue("google-initiated-service")]
-    GoogleInitiatedService = 1,
+    GoogleInitiatedService,
 
     [EnumValue("reason-not-expected")]
-    ReasonNotExpected = 2,
+    ReasonNotExpected,
 
     [EnumValue("reason-unspecified")]
-    ReasonUnspecified = 3,
+    ReasonUnspecified,
 
     [EnumValue("third-party-data-request")]
-    ThirdPartyDataRequest = 4
+    ThirdPartyDataRequest
 }

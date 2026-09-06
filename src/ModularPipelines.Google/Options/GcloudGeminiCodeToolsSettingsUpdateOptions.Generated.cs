@@ -34,19 +34,19 @@ public record GcloudGeminiCodeToolsSettingsUpdateOptions : GcloudOptions
     public IEnumerable<string>? EnabledTool { get; set; }
 
     /// <summary>
-    /// Update enabled_tool. At most one of these can be specified: Add new value to enabled_tool list. Represents the full set of enabled tools. accountConnector Link to the Dev Connect Account Connector that holds the user credentials. projects/{project}/locations/{location}/accountConnectors/{account_connector_id}. config Configuration parameters for the tool. key Key of the configuration item. value Value of the configuration item. handle Handle used to invoke the tool. tool Link to the Tool. uriOverride Overridden URI, if allowed by Tool. Shorthand Example: --add-enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string,tool=string,uriOverride=string --add-enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string,tool=string,uriOverride=string JSON Example: --add-enabled-tool='[{"accountConnector": "string", "config": [{"key": "string", "value": "string"}], "handle": "string", "tool": "string", "uriOverride": "string"}]' File Example: --add-enabled-tool=path_to_file.(yaml|json)
+    /// Update enabled_tool. At most one of these can be specified: Or at least one of these can be specified: Add new value to enabled_tool list. Represents the full set of enabled tools. accountConnector Link to the Dev Connect Account Connector that holds the user credentials. projects/{project}/locations/{location}/accountConnectors/{account_connector_id}. config Configuration parameters for the tool. key Key of the configuration item. value Value of the configuration item. handle Handle used to invoke the tool. tool Link to the Tool. uriOverride Overridden URI, if allowed by Tool. Shorthand Example: --add-enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string,tool=string,uriOverride=string --add-enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string,tool=string,uriOverride=string JSON Example: --add-enabled-tool='[{"accountConnector": "string", "config": [{"key": "string", "value": "string"}], "handle": "string", "tool": "string", "uriOverride": "string"}]' File Example: --add-enabled-tool=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-enabled-tool", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddEnabledTool { get; set; }
 
     /// <summary>
-    /// Update enabled_tool. At most one of these can be specified: At most one of these can be specified: Clear enabled_tool value and set to empty list.
+    /// Update enabled_tool. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear enabled_tool value and set to empty list.
     /// </summary>
     [CliFlag("--clear-enabled-tool")]
     public bool? ClearEnabledTool { get; set; }
 
     /// <summary>
-    /// Update enabled_tool. At most one of these can be specified: At most one of these can be specified: Remove existing value from enabled_tool list. Represents the full set of enabled tools. accountConnector Link to the Dev Connect Account Connector that holds the user credentials. projects/{project}/locations/{location}/accountConnectors/{account_connector_id}. config Configuration parameters for the tool. key Key of the configuration item. value Value of the configuration item. handle Handle used to invoke the tool. tool Link to the Tool. uriOverride Overridden URI, if allowed by Tool. Shorthand Example: --remove-enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string,tool=string,uriOverride=string --remove-enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string,tool=string,uriOverride=string JSON Example: --remove-enabled-tool='[{"accountConnector": "string", "config": [{"key": "string", "value": "string"}], "handle": "string", "tool": "string", "uriOverride": "string"}]' File Example: --remove-enabled-tool=path_to_file.(yaml|json)
+    /// Update enabled_tool. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from enabled_tool list. Represents the full set of enabled tools. accountConnector Link to the Dev Connect Account Connector that holds the user credentials. projects/{project}/locations/{location}/accountConnectors/{account_connector_id}. config Configuration parameters for the tool. key Key of the configuration item. value Value of the configuration item. handle Handle used to invoke the tool. tool Link to the Tool. uriOverride Overridden URI, if allowed by Tool. Shorthand Example: --remove-enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string,tool=string,uriOverride=string --remove-enabled-tool=accountConnector=string,config=[{key=string,value=string}],handle=string,tool=string,uriOverride=string JSON Example: --remove-enabled-tool='[{"accountConnector": "string", "config": [{"key": "string", "value": "string"}], "handle": "string", "tool": "string", "uriOverride": "string"}]' File Example: --remove-enabled-tool=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-enabled-tool", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveEnabledTool { get; set; }
@@ -58,19 +58,19 @@ public record GcloudGeminiCodeToolsSettingsUpdateOptions : GcloudOptions
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// Update labels. At most one of these can be specified: Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: Update labels value or add key value pair. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --update-labels=string=string JSON Example: --update-labels='{"string": "string"}' File Example: --update-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Update labels. At most one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear labels value and set to empty map.
     /// </summary>
     [CliFlag("--clear-labels")]
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Update labels. At most one of these can be specified: At most one of these can be specified: Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
+    /// Update labels. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map labels. Sets remove_labels value. Shorthand Example: --remove-labels=string,string JSON Example: --remove-labels=["string"] File Example: --remove-labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveLabels { get; set; }

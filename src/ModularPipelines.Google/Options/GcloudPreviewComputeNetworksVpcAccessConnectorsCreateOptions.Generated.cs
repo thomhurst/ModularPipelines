@@ -34,51 +34,51 @@ public record GcloudPreviewComputeNetworksVpcAccessConnectorsCreateOptions : Gcl
     public string? MachineType { get; set; }
 
     /// <summary>
-    /// Maximum throughput of the connector in Mbps. Refers to the expected throughput when using an e2-micro machine type. Value must be a multiple of 100 from 300 through 1000. Must be higher than the value specified by --min-throughput. If both max-throughput and max-instances are provided, max-instances takes precedence over max-throughput. The use of max-throughput is discouraged in favor of max-instances.
-    /// </summary>
-    [CliOption("--max-throughput", Format = OptionFormat.EqualsSeparated)]
-    public string? MaxThroughput { get; set; }
-
-    /// <summary>
-    /// Minimum throughput of the connector in Mbps. Refers to the expected throughput when using an e2-micro machine type. Value must be a multiple of 100 from 200 through 900. Must be lower than the value specified by --max-throughput. If both min-throughput and min-instances are provided, min-instances takes precedence over min-throughput. The use of min-throughput is discouraged in favor of min-instances.
-    /// </summary>
-    [CliOption("--min-throughput", Format = OptionFormat.EqualsSeparated)]
-    public string? MinThroughput { get; set; }
-
-    /// <summary>
-    /// CIDR range of internal addresses that are reserved for this connector. For example, 10.132.0.0/28. Range must be unique and non-overlapping with existing ranges in the network.
-    /// </summary>
-    [CliOption("--range", Format = OptionFormat.EqualsSeparated)]
-    public string? Range { get; set; }
-
-    /// <summary>
-    /// User-provided subnet to house the connector. This field can be used in favor of specifying the network and range fields. e.g. "my-subnet"
-    /// </summary>
-    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
-    public string? Subnet { get; set; }
-
-    /// <summary>
-    /// Project ID of the provided subnet. The default is the project of the connector.
-    /// </summary>
-    [CliOption("--subnet-project", Format = OptionFormat.EqualsSeparated)]
-    public string? SubnetProject { get; set; }
-
-    /// <summary>
-    /// Maximum number of instances within an autoscaling group underlying the connector. Value must be between 3 and 10, inclusive. Must be higher than the value specified by --min-instances.
+    /// At most one of these can be specified: Scaling settings of a VPC Access Connector can be specified in terms of number of Google Compute Engine VM instances underlying the connector autoscaling group. Scaling settings of a VPC Access Connector can be specified in terms of throughput. Maximum number of instances within an autoscaling group underlying the connector. Value must be between 3 and 10, inclusive. Must be higher than the value specified by --min-instances.
     /// </summary>
     [CliOption("--max-instances", Format = OptionFormat.EqualsSeparated)]
     public string? MaxInstances { get; set; }
 
     /// <summary>
-    /// Minimum number of instances within an autoscaling group underlying the connector. Value must be between 2 and 9, inclusive. Must be lower than the value specified by --max-instances.
+    /// At most one of these can be specified: Scaling settings of a VPC Access Connector can be specified in terms of number of Google Compute Engine VM instances underlying the connector autoscaling group. Scaling settings of a VPC Access Connector can be specified in terms of throughput. Minimum number of instances within an autoscaling group underlying the connector. Value must be between 2 and 9, inclusive. Must be lower than the value specified by --max-instances.
     /// </summary>
     [CliOption("--min-instances", Format = OptionFormat.EqualsSeparated)]
     public string? MinInstances { get; set; }
 
     /// <summary>
-    /// Name of the Compute Engine network to which the connector will be connected. If left unspecified, the default network will be used.
+    /// At most one of these can be specified: Scaling settings of a VPC Access Connector can be specified in terms of number of Google Compute Engine VM instances underlying the connector autoscaling group. Scaling settings of a VPC Access Connector can be specified in terms of throughput. Maximum throughput of the connector in Mbps. Refers to the expected throughput when using an e2-micro machine type. Value must be a multiple of 100 from 300 through 1000. Must be higher than the value specified by --min-throughput. If both max-throughput and max-instances are provided, max-instances takes precedence over max-throughput. The use of max-throughput is discouraged in favor of max-instances.
+    /// </summary>
+    [CliOption("--max-throughput", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxThroughput { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Scaling settings of a VPC Access Connector can be specified in terms of number of Google Compute Engine VM instances underlying the connector autoscaling group. Scaling settings of a VPC Access Connector can be specified in terms of throughput. Minimum throughput of the connector in Mbps. Refers to the expected throughput when using an e2-micro machine type. Value must be a multiple of 100 from 200 through 900. Must be lower than the value specified by --max-throughput. If both min-throughput and min-instances are provided, min-instances takes precedence over min-throughput. The use of min-throughput is discouraged in favor of min-instances.
+    /// </summary>
+    [CliOption("--min-throughput", Format = OptionFormat.EqualsSeparated)]
+    public string? MinThroughput { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The Serverless VPC Access API can internally manage the creation of a subnet to house the VPC connector. To create this subnet, the network ID (--network) and an IP CIDR range (--range) for the subnet must be provided. You can specify a subnet in which to place the connector rather than using an internally managed subnet. If you wish to use this connector to attach your Serverless application to a Shared VPC, first share a subnet to the project to which you are deploying your connector. Then, supply the name of the subnet (--subnet) and the project ID (--subnet-project) from which the subnet is hosted to connect to this VPC. Name of the Compute Engine network to which the connector will be connected. If left unspecified, the default network will be used.
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The Serverless VPC Access API can internally manage the creation of a subnet to house the VPC connector. To create this subnet, the network ID (--network) and an IP CIDR range (--range) for the subnet must be provided. You can specify a subnet in which to place the connector rather than using an internally managed subnet. If you wish to use this connector to attach your Serverless application to a Shared VPC, first share a subnet to the project to which you are deploying your connector. Then, supply the name of the subnet (--subnet) and the project ID (--subnet-project) from which the subnet is hosted to connect to this VPC. CIDR range of internal addresses that are reserved for this connector. For example, 10.132.0.0/28. Range must be unique and non-overlapping with existing ranges in the network.
+    /// </summary>
+    [CliOption("--range", Format = OptionFormat.EqualsSeparated)]
+    public string? Range { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The Serverless VPC Access API can internally manage the creation of a subnet to house the VPC connector. To create this subnet, the network ID (--network) and an IP CIDR range (--range) for the subnet must be provided. You can specify a subnet in which to place the connector rather than using an internally managed subnet. If you wish to use this connector to attach your Serverless application to a Shared VPC, first share a subnet to the project to which you are deploying your connector. Then, supply the name of the subnet (--subnet) and the project ID (--subnet-project) from which the subnet is hosted to connect to this VPC. User-provided subnet to house the connector. This field can be used in favor of specifying the network and range fields. e.g. "my-subnet"
+    /// </summary>
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The Serverless VPC Access API can internally manage the creation of a subnet to house the VPC connector. To create this subnet, the network ID (--network) and an IP CIDR range (--range) for the subnet must be provided. You can specify a subnet in which to place the connector rather than using an internally managed subnet. If you wish to use this connector to attach your Serverless application to a Shared VPC, first share a subnet to the project to which you are deploying your connector. Then, supply the name of the subnet (--subnet) and the project ID (--subnet-project) from which the subnet is hosted to connect to this VPC. Project ID of the provided subnet. The default is the project of the connector.
+    /// </summary>
+    [CliOption("--subnet-project", Format = OptionFormat.EqualsSeparated)]
+    public string? SubnetProject { get; set; }
 
 }

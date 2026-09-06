@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -25,7 +26,7 @@ public record GcloudArtifactsRulesUpdateOptions : GcloudOptions
     /// The action the rule would make, can only be DENY or ALLOW. ACTION must be one of: allow, deny.
     /// </summary>
     [CliOption("--action", Format = OptionFormat.EqualsSeparated)]
-    public string? Action { get; set; }
+    public GcloudAction? Action { get; set; }
 
     /// <summary>
     /// The CEL expression for the rule.

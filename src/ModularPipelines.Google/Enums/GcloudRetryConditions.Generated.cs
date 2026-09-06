@@ -17,20 +17,20 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudRetryConditions
 {
     [EnumValue("connect-failure")]
-    ConnectFailure = 0,
+    ConnectFailure,
 
     [EnumValue("forbidden")]
-    Forbidden = 1,
+    Forbidden,
 
     [EnumValue("gateway-error")]
-    GatewayError = 2,
+    GatewayError,
 
     [EnumValue("http-5xx")]
-    Http_5xx = 3,
+    Http_5xx,
 
     [EnumValue("not-found")]
-    NotFound = 4,
+    NotFound,
 
     [EnumValue("retriable-4xx")]
-    Retriable_4xx = 5
+    Retriable_4xx
 }

@@ -143,6 +143,7 @@ public class ExecutionBackendTests
 
         public Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
             IReadOnlyList<IModule> modules,
+            IReadOnlyDictionary<Type, TimeSpan> estimatedDurations,
             IExecutionBackendContext context,
             CancellationToken cancellationToken)
         {

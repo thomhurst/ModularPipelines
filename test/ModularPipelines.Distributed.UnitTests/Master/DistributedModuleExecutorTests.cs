@@ -558,7 +558,7 @@ public class DistributedModuleExecutorTests
             cacheResultRepository: cache.Object,
             cacheHitTracker: cacheHitTracker);
 
-        await executor.ExecuteAsync([module], executionContext.Object, CancellationToken.None);
+        await executor.ExecuteAsync([module], new Dictionary<Type, TimeSpan>(), executionContext.Object, CancellationToken.None);
 
         var result = await ((IInternalModule) module).ResultTask;
         await Assert.That(result.Status).IsEqualTo(ModuleStatus.RestoredFromCache);
@@ -1157,7 +1157,7 @@ public class DistributedModuleExecutorTests
             coordinator: coordinator,
             distributedOptions: options);
 
-        await executor.ExecuteAsync([module]).WaitAsync(TimeSpan.FromSeconds(2), testCancellation);
+        await executor.ExecuteAsync([module]).WaitAsync(testCancellation);
 
         var registeredResult = resultRegistry.GetResult(typeof(ShortTimeoutDistributedModule));
         await Assert.That(registeredResult).IsNotNull();
@@ -1421,7 +1421,7 @@ public class DistributedModuleExecutorTests
 
         var executionTask = executor.ExecuteAsync([failedModule, alwaysRunModule]);
         await trackingCoordinator.WaitForResultStartedAsync(typeof(DistributedModule))
-            .WaitAsync(TimeSpan.FromSeconds(2));
+            .WaitAsync(TestHostSettings.DefaultTestTimeout);
         var failedAssignment = await coordinator.DequeueModuleAsync(
             new HashSet<Capability>(),
             CancellationToken.None);
@@ -1429,8 +1429,8 @@ public class DistributedModuleExecutorTests
         await coordinator.PublishResultAsync(serializedFailure, CancellationToken.None);
 
         await trackingCoordinator.WaitForResultPublishedAsync(typeof(AlwaysRunDistributedModule))
-            .WaitAsync(TimeSpan.FromSeconds(2));
-        await executionTask.WaitAsync(TimeSpan.FromSeconds(2));
+            .WaitAsync(TestHostSettings.DefaultTestTimeout);
+        await executionTask.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await Assert.That(resultRegistry.GetResult(typeof(AlwaysRunDistributedModule))?.Status)
             .IsEqualTo(ModuleStatus.Succeeded);
         moduleRunner.VerifyAll();
@@ -2044,6 +2044,7 @@ public class DistributedModuleExecutorTests
             });
         var execution = executor.ExecuteAsync(
             [new DistributedModule()],
+            new Dictionary<Type, TimeSpan>(),
             new ExecutionBackendContext(resultRegistry),
             executionCancellation.Token);
 
@@ -2099,6 +2100,7 @@ public class DistributedModuleExecutorTests
 
         var execution = executor.ExecuteAsync(
             [module],
+            new Dictionary<Type, TimeSpan>(),
             new ExecutionBackendContext(resultRegistry),
             executionCancellation.Token);
         await dequeueStarted.Task.WaitAsync(testCancellation);
@@ -2191,6 +2193,7 @@ public class DistributedModuleExecutorTests
 
         var execution = executor.ExecuteAsync(
             [module],
+            new Dictionary<Type, TimeSpan>(),
             new ExecutionBackendContext(resultRegistry),
             executionCancellation.Token);
         await runnerStarted.Task.WaitAsync(testCancellation);

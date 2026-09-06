@@ -17,20 +17,20 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudUsePresetProfile
 {
     [EnumValue("leaf_client_tls")]
-    LeafClientTls = 0,
+    LeafClientTls,
 
     [EnumValue("leaf_code_signing")]
-    LeafCodeSigning = 1,
+    LeafCodeSigning,
 
     [EnumValue("leaf_mtls")]
-    LeafMtls = 2,
+    LeafMtls,
 
     [EnumValue("leaf_server_tls")]
-    LeafServerTls = 3,
+    LeafServerTls,
 
     [EnumValue("leaf_smime")]
-    LeafSmime = 4,
+    LeafSmime,
 
     [EnumValue("root_unconstrained")]
-    RootUnconstrained = 5
+    RootUnconstrained
 }

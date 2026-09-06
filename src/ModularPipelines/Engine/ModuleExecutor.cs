@@ -79,10 +79,12 @@ internal class ModuleExecutor : IExecutionBackend
     /// </summary>
     public async Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
         IReadOnlyList<IModule> modules,
+        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations,
         IExecutionBackendContext context,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(modules);
+        ArgumentNullException.ThrowIfNull(estimatedDurations);
         ArgumentNullException.ThrowIfNull(context);
 
         if (modules.Count == 0)
@@ -95,7 +97,7 @@ internal class ModuleExecutor : IExecutionBackend
 
         try
         {
-            scheduler = await InitializeSchedulerAsync(modules).ConfigureAwait(false);
+            scheduler = await InitializeSchedulerAsync(modules, estimatedDurations).ConfigureAwait(false);
             await ExecuteWithSchedulerAsync(modules, scheduler, cancellationToken).ConfigureAwait(false);
             return _resultRegistry.GetCompletedResults(modules);
         }
@@ -135,10 +137,16 @@ internal class ModuleExecutor : IExecutionBackend
         }
     }
 
-    internal Task<IReadOnlyList<IModuleResult>> ExecuteAsync(IReadOnlyList<IModule> modules)
+    internal Task<IReadOnlyList<IModuleResult>> ExecuteAsync(IReadOnlyList<IModule> modules) =>
+        ExecuteAsync(modules, new Dictionary<Type, TimeSpan>());
+
+    internal Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations)
     {
         return ExecuteAsync(
             modules,
+            estimatedDurations,
             new ExecutionBackendContext(_resultRegistry),
             CancellationToken.None);
     }
@@ -155,7 +163,9 @@ internal class ModuleExecutor : IExecutionBackend
             ? aggregateException.InnerExceptions.SelectMany(FlattenException)
             : [exception];
 
-    private async Task<IModuleScheduler> InitializeSchedulerAsync(IReadOnlyList<IModule> modules)
+    private async Task<IModuleScheduler> InitializeSchedulerAsync(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations)
     {
         _logger.LogDebug("Initializing unified scheduler for {Count} modules", modules.Count);
 
@@ -179,7 +189,7 @@ internal class ModuleExecutor : IExecutionBackend
             UsedHistoryModuleSchedulerInitializer.GetPrecompletedModuleTypes(modules, _resultRegistry));
 
         var scheduler = _schedulerFactory.Create();
-        scheduler.InitializeModules(modules);
+        scheduler.InitializeModules(modules, estimatedDurations);
         UsedHistoryModuleSchedulerInitializer.Precomplete(
             modules,
             scheduler,

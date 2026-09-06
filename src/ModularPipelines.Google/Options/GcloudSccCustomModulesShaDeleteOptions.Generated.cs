@@ -24,19 +24,19 @@ public record GcloudSccCustomModulesShaDeleteOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Folder where the Security Health Analytics custom module resides. Formatted as folders/456 or just 456.
+    /// At most one of these can be specified: Folder where the Security Health Analytics custom module resides. Formatted as folders/456 or just 456.
     /// </summary>
     [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
     public string? Folder { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: Organization where the Security Health Analytics custom module resides. Formatted as organizations/123 or just 123.
+    /// At most one of these can be specified: Organization where the Security Health Analytics custom module resides. Formatted as organizations/123 or just 123.
     /// </summary>
     [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
     public string? Organization { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: At most one of these can be specified: ID or number of the project where the Security Health Analytics custom module resides. Formatted as projects/789 or just 789.
+    /// At most one of these can be specified: ID or number of the project where the Security Health Analytics custom module resides. Formatted as projects/789 or just 789.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public string? Project { get; set; }

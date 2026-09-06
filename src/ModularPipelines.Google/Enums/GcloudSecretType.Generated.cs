@@ -17,20 +17,20 @@ namespace ModularPipelines.Google.Enums;
 public enum GcloudSecretType
 {
     [EnumValue("access-key")]
-    AccessKey = 0,
+    AccessKey,
 
     [EnumValue("certificate")]
-    Certificate = 1,
+    Certificate,
 
     [EnumValue("cloud-sql-db-credentials")]
-    CloudSqlDbCredentials = 2,
+    CloudSqlDbCredentials,
 
     [EnumValue("other")]
-    Other = 3,
+    Other,
 
     [EnumValue("other-db-credentials")]
-    OtherDbCredentials = 4,
+    OtherDbCredentials,
 
     [EnumValue("secret-type-unspecified")]
-    SecretTypeUnspecified = 5
+    SecretTypeUnspecified
 }

@@ -52,8 +52,12 @@ internal class PipelineExecutor : IPipelineExecutor
         PipelineSummary pipelineSummary;
         try
         {
+            var estimatedDurations = organizedModules.RunnableModules.ToDictionary(
+                runnable => runnable.Module.GetType(),
+                runnable => runnable.EstimatedDuration);
             var results = await _executionBackend.ExecuteAsync(
                     runnableModules,
+                    estimatedDurations,
                     _executionBackendContext,
                     _engineCancellationToken.Token)
                 .ConfigureAwait(false);

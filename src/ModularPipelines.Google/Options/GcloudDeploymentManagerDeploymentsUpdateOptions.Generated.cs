@@ -32,6 +32,18 @@ public record GcloudDeploymentManagerDeploymentsUpdateOptions(
     public bool? Async { get; set; }
 
     /// <summary>
+    /// Create policy for resources that have changed in the update. CREATE_POLICY must be one of: acquire, create-or-acquire.
+    /// </summary>
+    [CliOption("--create-policy", Format = OptionFormat.EqualsSeparated)]
+    public GcloudCreatePolicy? CreatePolicy { get; set; }
+
+    /// <summary>
+    /// Delete policy for resources that will change as part of an update or delete. delete deletes the resource while abandon just removes the resource reference from the deployment. DELETE_POLICY must be one of: abandon, delete.
+    /// </summary>
+    [CliOption("--delete-policy", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDeletePolicy? DeletePolicy { get; set; }
+
+    /// <summary>
     /// The new description of the deployment.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
@@ -68,33 +80,21 @@ public record GcloudDeploymentManagerDeploymentsUpdateOptions(
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Name of a composite type to deploy. For an example of creating and deploying a composite type, see: https://cloud.google.com/deployment-manager/docs/configuration/templates/create-composite-types#examplecompositetype
+    /// At most one of these can be specified: Name of a composite type to deploy. For an example of creating and deploying a composite type, see: https://cloud.google.com/deployment-manager/docs/configuration/templates/create-composite-types#examplecompositetype
     /// </summary>
     [CliOption("--composite-type", Format = OptionFormat.EqualsSeparated)]
     public string? CompositeType { get; set; }
 
     /// <summary>
-    /// Filename of a top-level yaml config that specifies resources to deploy. For a guide to creating a configuration, refer to https://cloud.google.com/deployment-manager/docs/configuration/create-basic-configuration
+    /// At most one of these can be specified: Filename of a top-level yaml config that specifies resources to deploy. For a guide to creating a configuration, refer to https://cloud.google.com/deployment-manager/docs/configuration/create-basic-configuration
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
     public string? Config { get; set; }
 
     /// <summary>
-    /// Filename of a top-level jinja or python config template.
+    /// At most one of these can be specified: Filename of a top-level jinja or python config template.
     /// </summary>
     [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
     public string? Template { get; set; }
-
-    /// <summary>
-    /// Create policy for resources that have changed in the update. CREATE_POLICY must be one of: acquire, create-or-acquire.
-    /// </summary>
-    [CliOption("--create-policy", Format = OptionFormat.EqualsSeparated)]
-    public string? CreatePolicy { get; set; }
-
-    /// <summary>
-    /// Delete policy for resources that will change as part of an update or delete. delete deletes the resource while abandon just removes the resource reference from the deployment. DELETE_POLICY must be one of: abandon, delete.
-    /// </summary>
-    [CliOption("--delete-policy", Format = OptionFormat.EqualsSeparated)]
-    public string? DeletePolicy { get; set; }
 
 }

@@ -25,10 +25,22 @@ public record GcloudPreviewComputeInstancesAddAccessConfigOptions(
 ) : GcloudOptions
 {
     /// <summary>
+    /// Specifies the name of the new access configuration. external-nat is used as the default if this flag is not provided. Since ONE_TO_ONE_NAT is currently the only access-config type, it is not recommended that you change this value.
+    /// </summary>
+    [CliOption("--access-config-name", Format = OptionFormat.EqualsSeparated)]
+    public string? AccessConfigName { get; set; }
+
+    /// <summary>
     /// Specifies the external IP address of the new access configuration. If this is not specified, then the service will choose an available ephemeral IP address. If an explicit IP address is given, then that IP address must be reserved by the project and not be in use by another resource.
     /// </summary>
     [CliOption("--address", Format = OptionFormat.EqualsSeparated)]
     public string? Address { get; set; }
+
+    /// <summary>
+    /// Specifies the name of the network interface which contains the access configuration. If this is not provided, then "nic0" is used as the default.
+    /// </summary>
+    [CliOption("--network-interface", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkInterface { get; set; }
 
     /// <summary>
     /// Specifies the network tier of the access configuration. NETWORK_TIER must be one of: PREMIUM, STANDARD. The default value is PREMIUM.
@@ -43,39 +55,27 @@ public record GcloudPreviewComputeInstancesAddAccessConfigOptions(
     public string? Zone { get; set; }
 
     /// <summary>
-    /// Creates a DNS PTR record for the external IP in the access configuration. This option can only be specified for the default network-interface, "nic0".
+    /// At most one of these can be specified: Creates a DNS PTR record for the external IP in the access configuration. This option can only be specified for the default network-interface, "nic0".
     /// </summary>
     [CliFlag("--public-ptr")]
     public bool? PublicPtr { get; set; }
 
     /// <summary>
-    /// If provided, no DNS PTR record is created for the external IP in the access configuration. Mutually exclusive with public-ptr-domain.
+    /// At most one of these can be specified: If provided, no DNS PTR record is created for the external IP in the access configuration. Mutually exclusive with public-ptr-domain.
     /// </summary>
     [CliFlag("--no-public-ptr")]
     public bool? NoPublicPtr { get; set; }
 
     /// <summary>
-    /// Assigns a custom PTR domain for the external IP in the access configuration. Mutually exclusive with no-public-ptr. This option can only be specified for the default network-interface, "nic0".
+    /// At most one of these can be specified: Assigns a custom PTR domain for the external IP in the access configuration. Mutually exclusive with no-public-ptr. This option can only be specified for the default network-interface, "nic0".
     /// </summary>
     [CliOption("--public-ptr-domain", Format = OptionFormat.EqualsSeparated)]
     public string? PublicPtrDomain { get; set; }
 
     /// <summary>
-    /// If both this flag and --public-ptr are specified, creates a DNS PTR record for the external IP in the access configuration with the PTR domain name being the DNS name of the instance.
+    /// At most one of these can be specified: If both this flag and --public-ptr are specified, creates a DNS PTR record for the external IP in the access configuration with the PTR domain name being the DNS name of the instance.
     /// </summary>
     [CliFlag("--no-public-ptr-domain")]
     public bool? NoPublicPtrDomain { get; set; }
-
-    /// <summary>
-    /// Specifies the name of the new access configuration. external-nat is used as the default if this flag is not provided. Since ONE_TO_ONE_NAT is currently the only access-config type, it is not recommended that you change this value.
-    /// </summary>
-    [CliOption("--access-config-name", Format = OptionFormat.EqualsSeparated)]
-    public string? AccessConfigName { get; set; }
-
-    /// <summary>
-    /// Specifies the name of the network interface which contains the access configuration. If this is not provided, then "nic0" is used as the default.
-    /// </summary>
-    [CliOption("--network-interface", Format = OptionFormat.EqualsSeparated)]
-    public string? NetworkInterface { get; set; }
 
 }

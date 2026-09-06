@@ -32,7 +32,7 @@ public record GcloudAccessContextManagerLevelsUpdateOptions : GcloudOptions
     /// Short human-readable title of the access level.
     /// </summary>
     [CliOption("--title", Format = OptionFormat.EqualsSeparated)]
-    public GcloudTitle? Title { get; set; }
+    public string? Title { get; set; }
 
     /// <summary>
     /// Level specification. At most one of these can be specified: Custom level specification. Basic level specification. Path to a file representing an expression for an access level. The expression is in the Common Expression Langague (CEL) format.For example: expression: "origin.region_code in ['US', 'CA']"

@@ -79,13 +79,13 @@ public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOpt
     public string? EndpointMode { get; set; }
 
     /// <summary>
-    /// IP or hostname of the database. For PostgreSQL destination profiles with Cloud SQL or AlloyDB, this flag is optional if the instance or cluster is provided. When `--psc-service-attachment` is also specified, this field value should be: 1. For Cloud SQL PSC enabled instance - the dns_name field (e.g &lt;uid&gt;.&lt;region&gt;.sql.goog.). 2. For Cloud SQL PSA instance (vpc peering) - the private ip of the instance. 3. For AlloyDB PSC enabled cluster - the dns_name field of the primary instance (e.g &lt;uid&gt;.&lt;region&gt;.alloydb-psc.goog.). 4. For AlloyDB PSA cluster - the private ip of the primary instance.
+    /// IP or hostname of the database. For PostgreSQL or MySQL destination profiles with Cloud SQL or AlloyDB, this flag is optional if the instance or cluster is provided. When `--psc-service-attachment` is also specified, this field value should be: 1. For Cloud SQL PSC enabled instance - the dns_name field (e.g &lt;uid&gt;.&lt;region&gt;.sql.goog.). 2. For Cloud SQL PSA instance (vpc peering) - the private ip of the instance. 3. For AlloyDB PSC enabled cluster - the dns_name field of the primary instance (e.g &lt;uid&gt;.&lt;region&gt;.alloydb-psc.goog.). 4. For AlloyDB PSA cluster - the private ip of the primary instance.
     /// </summary>
     [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
     public string? Host { get; set; }
 
     /// <summary>
-    /// Network port of the database. For PostgreSQL destination profiles with Cloud SQL or AlloyDB, this flag is optional if the instance or cluster is provided.
+    /// Network port of the database. For PostgreSQL or MySQL destination profiles with Cloud SQL or AlloyDB, this flag is optional if the instance or cluster is provided.
     /// </summary>
     [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
     public string? Port { get; set; }
@@ -162,5 +162,23 @@ public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOpt
     /// </summary>
     [CliFlag("--prompt-for-password")]
     public bool? PromptForPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Private connection resource - Resource ID of the private connection. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --private-connection on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the region attribute: ▸ provide the argument --private-connection on the command line with a fully specified name; ▸ provide the argument --region on the command line. ID of the private_connection or fully qualified identifier for the private_connection. To set the private_connection attribute:
+    /// </summary>
+    [CliOption("--private-connection", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateConnection { get; set; }
+
+    /// <summary>
+    /// ▸ provide the argument --private-connection on the command line. Or at least one of these can be specified: Service attachment resource - Resource ID of the service attachment. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --psc-service-attachment on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the region attribute: ▸ provide the argument --psc-service-attachment on the command line with a fully specified name; ▸ provide the argument --region on the command line. ID of the service_attachment or fully qualified identifier for the service_attachment. To set the service_attachment attribute:
+    /// </summary>
+    [CliOption("--psc-service-attachment", Format = OptionFormat.EqualsSeparated)]
+    public string? PscServiceAttachment { get; set; }
+
+    /// <summary>
+    /// ▸ provide the argument --psc-service-attachment on the command line. use static ip connectivity
+    /// </summary>
+    [CliFlag("--static-ip-connectivity")]
+    public bool? StaticIpConnectivity { get; set; }
 
 }

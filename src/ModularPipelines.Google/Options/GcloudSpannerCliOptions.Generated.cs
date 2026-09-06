@@ -29,6 +29,12 @@ public record GcloudSpannerCliOptions : GcloudOptions
     public string? DatabaseRole { get; set; }
 
     /// <summary>
+    /// Set the statement delimiter.
+    /// </summary>
+    [CliOption("--delimiter", Format = OptionFormat.EqualsSeparated)]
+    public string? Delimiter { get; set; }
+
+    /// <summary>
     /// Enables directed reads to provide the flexibility to route read-only transactions and single reads to a specific replica type or region (replica_location:replica_type). The replica_type is optional and can be either READ_ONLY or READ_WRITE.
     /// </summary>
     [CliOption("--directed-read", Format = OptionFormat.EqualsSeparated)]
@@ -41,10 +47,22 @@ public record GcloudSpannerCliOptions : GcloudOptions
     public string? Execute { get; set; }
 
     /// <summary>
+    /// Host on which Spanner server is located.
+    /// </summary>
+    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
+    public string? Host { get; set; }
+
+    /// <summary>
     /// Show output in HTML format.
     /// </summary>
     [CliFlag("--html")]
     public bool? Html { get; set; }
+
+    /// <summary>
+    /// Set the idle transaction timeout. The default timeout is 60 seconds.
+    /// </summary>
+    [CliOption("--idle-transaction-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? IdleTransactionTimeout { get; set; }
 
     /// <summary>
     /// SQL statement to execute after startup.
@@ -63,6 +81,12 @@ public record GcloudSpannerCliOptions : GcloudOptions
     /// </summary>
     [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
     public string? Port { get; set; }
+
+    /// <summary>
+    /// Set the prompt to the specified format.
+    /// </summary>
+    [CliOption("--prompt", Format = OptionFormat.EqualsSeparated)]
+    public string? Prompt { get; set; }
 
     /// <summary>
     /// Path of a file that contains a protobuf-serialized google.protobuf.FileDescriptorSet message to use in this invocation.
@@ -89,6 +113,12 @@ public record GcloudSpannerCliOptions : GcloudOptions
     public string? Source { get; set; }
 
     /// <summary>
+    /// Enable or disable system commands. Default: ON. SYSTEM_COMMAND must be one of: ON, OFF.
+    /// </summary>
+    [CliOption("--system-command", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSystemCommand? SystemCommand { get; set; }
+
+    /// <summary>
     /// Show output in table format.
     /// </summary>
     [CliFlag("--table")]
@@ -105,35 +135,5 @@ public record GcloudSpannerCliOptions : GcloudOptions
     /// </summary>
     [CliFlag("--xml")]
     public bool? Xml { get; set; }
-
-    /// <summary>
-    /// Set the statement delimiter.
-    /// </summary>
-    [CliOption("--delimiter", Format = OptionFormat.EqualsSeparated)]
-    public string? Delimiter { get; set; }
-
-    /// <summary>
-    /// Host on which Spanner server is located.
-    /// </summary>
-    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
-    public string? Host { get; set; }
-
-    /// <summary>
-    /// Set the idle transaction timeout. The default timeout is 60 seconds.
-    /// </summary>
-    [CliOption("--idle-transaction-timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? IdleTransactionTimeout { get; set; }
-
-    /// <summary>
-    /// Set the prompt to the specified format.
-    /// </summary>
-    [CliOption("--prompt", Format = OptionFormat.EqualsSeparated)]
-    public string? Prompt { get; set; }
-
-    /// <summary>
-    /// Enable or disable system commands. Default: ON. SYSTEM_COMMAND must be one of: ON, OFF.
-    /// </summary>
-    [CliOption("--system-command", Format = OptionFormat.EqualsSeparated)]
-    public string? SystemCommand { get; set; }
 
 }

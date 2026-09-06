@@ -16,12 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudPolicyType
 {
-    [EnumValue("VPC_POLICY")]
-    VpcPolicy = 0,
+    [EnumValue("backend-service-policy")]
+    BackendServicePolicy,
 
-    [EnumValue("RDMA_ROCE_POLICY")]
-    RdmaRocePolicy = 1,
-
-    [EnumValue("ULL_POLICY")]
-    UllPolicy = 2
+    [EnumValue("dns-public-ip-policy")]
+    DnsPublicIpPolicy
 }

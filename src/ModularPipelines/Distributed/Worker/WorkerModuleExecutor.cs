@@ -51,12 +51,16 @@ internal class WorkerModuleExecutor(
 
     public bool OwnsEntirePlan => false;
 
+    // Workers execute whatever the master assigns, so the plan's duration estimates only
+    // influence the master's scheduling and are not consulted here.
     public async Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
         IReadOnlyList<IModule> modules,
+        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations,
         IExecutionBackendContext context,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(modules);
+        ArgumentNullException.ThrowIfNull(estimatedDurations);
         ArgumentNullException.ThrowIfNull(context);
 
         var options = _options.Value;
@@ -134,6 +138,7 @@ internal class WorkerModuleExecutor(
     {
         return ExecuteAsync(
             modules,
+            new Dictionary<Type, TimeSpan>(),
             new ExecutionBackendContext(_resultRegistry),
             CancellationToken.None);
     }

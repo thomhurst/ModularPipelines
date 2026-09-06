@@ -99,6 +99,7 @@ is canceled.
 ## Custom Execution Backends
 
 `IExecutionBackend` is the public orchestration seam. It receives the planned modules,
+their historical duration estimates keyed by module type (used to prioritise scheduling),
 an `IExecutionBackendContext`, and the pipeline cancellation token. A backend may execute
 modules in-process, submit them to an external scheduler, or use another orchestration
 model. Set `OwnsEntirePlan` to `true` when the backend is responsible for completing every

@@ -81,11 +81,4 @@ public record GcloudAnthosAuthLoginOptions : GcloudOptions
     [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
     public string? User { get; set; }
 
-    [Obsolete("Use KubeConfig instead.")]
-    public string? Kubeconfig
-    {
-        get => KubeConfig;
-        set => KubeConfig = value;
-    }
-
 }

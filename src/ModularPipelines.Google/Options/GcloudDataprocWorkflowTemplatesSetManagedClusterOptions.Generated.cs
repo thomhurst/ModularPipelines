@@ -17,7 +17,7 @@ using ModularPipelines.Google.Enums;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// set a managed      cluster for the workflow template
+/// set a managed     cluster for the workflow template
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOptions
 {
     /// <summary>
-    /// ID of the autoscaling policy or fully qualified identifier for the autoscaling policy. To set the autoscaling_policy attribute: * provide the argument --autoscaling-policy on the command line.
+    /// ID of the autoscaling policy or fully qualified identifier for the autoscaling policy. To set the autoscaling_policy attribute: ◆ provide the argument --autoscaling-policy on the command line.
     /// </summary>
     [CliOption("--autoscaling-policy", Format = OptionFormat.EqualsSeparated)]
     public string? AutoscalingPolicy { get; set; }
@@ -49,12 +49,6 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     public GcloudClusterType? ClusterType { get; set; }
 
     /// <summary>
-    /// Enables Confidential VM. See https://cloud.google.com/compute/confidential-vm/docs for more information. Note that Confidential VM can only be enabled when the machine types are N2D (https://cloud.google.com/compute/docs/machine-types#n2d_machine_types) and the image is SEV Compatible.
-    /// </summary>
-    [CliFlag("--confidential-compute")]
-    public bool? ConfidentialCompute { get; set; }
-
-    /// <summary>
     /// Specify the name of a Dataproc Metastore service to be used as an external metastore in the format: "projects/{project-id}/locations/{region}/services/{service-name}".
     /// </summary>
     [CliOption("--dataproc-metastore", Format = OptionFormat.EqualsSeparated)]
@@ -65,6 +59,24 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// </summary>
     [CliFlag("--enable-component-gateway")]
     public bool? EnableComponentGateway { get; set; }
+
+    /// <summary>
+    /// Enable SSH access for the cluster. This is supported for Dataproc image version 2.3.30 and later. SSH is enabled by default for image versions earlier than 3.1, and will be disabled by default starting from image version 3.1. Use --enable-ssh to enable and --no-enable-ssh to disable.
+    /// </summary>
+    [CliFlag("--enable-ssh")]
+    public bool? EnableSsh { get; set; }
+
+    /// <summary>
+    /// Negates --enable-ssh. Enable SSH access for the cluster. This is supported for Dataproc image version 2.3.30 and later. SSH is enabled by default for image versions earlier than 3.1, and will be disabled by default starting from image version 3.1. Use --enable-ssh to enable and --no-enable-ssh to disable.
+    /// </summary>
+    [CliFlag("--no-enable-ssh")]
+    public bool? NoEnableSsh { get; set; }
+
+    /// <summary>
+    /// Cluster engine. ENGINE must be one of: default, lightning.
+    /// </summary>
+    [CliOption("--engine", Format = OptionFormat.EqualsSeparated)]
+    public GcloudEngine? Engine { get; set; }
 
     /// <summary>
     /// The maximum duration of each initialization action. See $ gcloud topic datetimes for information on duration formats.
@@ -88,7 +100,13 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// Attaches accelerators, such as GPUs, to the master instance(s). type The specific type of accelerator to attach to the instances, such as nvidia-tesla-t4 for NVIDIA T4. Use gcloud compute accelerator-types list to display available accelerator types. count The number of accelerators to attach to each instance. The default value is 1.
     /// </summary>
     [CliOption("--master-accelerator", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MasterAccelerator { get; set; }
+    public string? MasterAccelerator { get; set; }
+
+    /// <summary>
+    /// A list of disk configurations to attach to each instance in this group. Disk configurations are separated by semicolons. Each disk configuration is a comma-separated list of the following parameters. type - required The type of disk to attach to the instances (https://cloud.google.com/compute/docs/disks/hyperdisks). Allowed disk types are: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput. size - optional The size of the disk. The value must be a whole number followed by a size unit GB for gigabyte, or TB for terabyte. For example, 10GB produces a 10 gigabyte disk. iops - optional Indicates the IOPS (https://cloud.google.com/compute/docs/disks/hyperdisks#iops) to provision for the attached hyperdisk. This parameter sets the limit for disk I/O operations per second. throughput - optional Indicates the throughput (https://cloud.google.com/compute/docs/disks/hyperdisks#throughput) to provision for the attached hyperdisk. This parameter sets the limit for throughput in MiB per second. Example: type='hyperdisk-balanced,iops=5000,throughput=200,size=100G;type=hyperdisk-throughput,size=9000G' Attaches two disks to the instances. The first disk is a hyperdisk-balanced disk with 5000 IOPS, 200 MiB/s throughput, and 100 GiB size. The second disk is a hyperdisk-throughput disk with 9000 GiB size.
+    /// </summary>
+    [CliOption("--master-attached-disks", Format = OptionFormat.EqualsSeparated)]
+    public string? MasterAttachedDisks { get; set; }
 
     /// <summary>
     /// Indicates the IOPS (https://cloud.google.com/compute/docs/disks/hyperdisks#iops) to provision for the disk. This sets the limit for disk I/O operations per second. This is only supported if the bootdisk type is hyperdisk-balanced (https://cloud.google.com/compute/docs/disks/hyperdisks).
@@ -119,12 +137,6 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// </summary>
     [CliOption("--master-local-ssd-interface", Format = OptionFormat.EqualsSeparated)]
     public string? MasterLocalSsdInterface { get; set; }
-
-    /// <summary>
-    /// The type of machine to use for the master. Defaults to server-specified.
-    /// </summary>
-    [CliOption("--master-machine-type", Format = OptionFormat.EqualsSeparated)]
-    public string? MasterMachineType { get; set; }
 
     /// <summary>
     /// When specified, the VM is scheduled on the host with a specified CPU architecture or a more recent CPU platform that's available in that zone. To list available CPU platforms in a zone, run: $ gcloud compute zones describe ZONE CPU platform selection may not be available in a zone. Zones that support CPU platform selection provide an availableCpuPlatforms field, which contains the list of available CPU platforms in the zone (see Availability of CPU platforms for more information).
@@ -184,13 +196,19 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// Specifies configuration properties for installed packages, such as Hadoop and Spark. Properties are mapped to configuration files by specifying a prefix, such as "core:io.serializations". The following are supported prefixes and their mappings: Prefix File Purpose of file capacity-scheduler capacity-scheduler.xml Hadoop YARN Capacity Scheduler configuration core core-site.xml Hadoop general configuration distcp distcp-default.xml Hadoop Distributed Copy configuration hadoop-env hadoop-env.sh Hadoop specific environment variables hdfs hdfs-site.xml Hadoop HDFS configuration hive hive-site.xml Hive configuration mapred mapred-site.xml Hadoop MapReduce configuration mapred-env mapred-env.sh Hadoop MapReduce specific environment variables pig pig.properties Pig configuration spark spark-defaults.conf Spark configuration spark-env spark-env.sh Spark specific environment variables yarn yarn-site.xml Hadoop YARN configuration yarn-env yarn-env.sh Hadoop YARN specific environment variables See https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/cluster-properties for more information.
     /// </summary>
     [CliOption("--properties", Format = OptionFormat.EqualsSeparated)]
-    public IReadOnlyList<KeyValue>? Properties { get; set; }
+    public string? Properties { get; set; }
 
     /// <summary>
     /// Attaches accelerators, such as GPUs, to the secondary-worker instance(s). type The specific type of accelerator to attach to the instances, such as nvidia-tesla-t4 for NVIDIA T4. Use gcloud compute accelerator-types list to display available accelerator types. count The number of accelerators to attach to each instance. The default value is 1.
     /// </summary>
     [CliOption("--secondary-worker-accelerator", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SecondaryWorkerAccelerator { get; set; }
+    public string? SecondaryWorkerAccelerator { get; set; }
+
+    /// <summary>
+    /// A list of disk configurations to attach to each instance in this group. Disk configurations are separated by semicolons. Each disk configuration is a comma-separated list of the following parameters. type - required The type of disk to attach to the instances (https://cloud.google.com/compute/docs/disks/hyperdisks). Allowed disk types are: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput. size - optional The size of the disk. The value must be a whole number followed by a size unit GB for gigabyte, or TB for terabyte. For example, 10GB produces a 10 gigabyte disk. iops - optional Indicates the IOPS (https://cloud.google.com/compute/docs/disks/hyperdisks#iops) to provision for the attached hyperdisk. This parameter sets the limit for disk I/O operations per second. throughput - optional Indicates the throughput (https://cloud.google.com/compute/docs/disks/hyperdisks#throughput) to provision for the attached hyperdisk. This parameter sets the limit for throughput in MiB per second. Example: type='hyperdisk-balanced,iops=5000,throughput=200,size=100G;type=hyperdisk-throughput,size=9000G' Attaches two disks to the instances. The first disk is a hyperdisk-balanced disk with 5000 IOPS, 200 MiB/s throughput, and 100 GiB size. The second disk is a hyperdisk-throughput disk with 9000 GiB size.
+    /// </summary>
+    [CliOption("--secondary-worker-attached-disks", Format = OptionFormat.EqualsSeparated)]
+    public string? SecondaryWorkerAttachedDisks { get; set; }
 
     /// <summary>
     /// The size of the boot disk. The value must be a whole number followed by a size unit of KB for kilobyte, MB for megabyte, GB for gigabyte, or TB for terabyte. For example, 10GB will produce a 10 gigabyte disk. The minimum boot disk size is 10 GB. Boot disk size must be a multiple of 1 GB.
@@ -209,12 +227,6 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// </summary>
     [CliOption("--secondary-worker-local-ssd-interface", Format = OptionFormat.EqualsSeparated)]
     public string? SecondaryWorkerLocalSsdInterface { get; set; }
-
-    /// <summary>
-    /// Types of machines with optional rank for secondary workers to use. Defaults to server-specified.eg. --secondary-worker-machine-types="type=e2-standard-8,type=t2d-standard-8,rank=0"
-    /// </summary>
-    [CliOption("--secondary-worker-machine-types", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SecondaryWorkerMachineTypes { get; set; }
 
     /// <summary>
     /// This flag sets the base number of Standard VMs to use for secondary workers (https://cloud.google.com/dataproc/docs/concepts/compute/secondary-vms#preemptible_and_non-preemptible_secondary_workers). Dataproc will create only standard VMs until it reaches this number, then it will mix Spot and Standard VMs according to SECONDARY_WORKER_STANDARD_CAPACITY_PERCENT_ABOVE_BASE.
@@ -253,16 +265,16 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     public string? TempBucket { get; set; }
 
     /// <summary>
-    /// Cluster tier. TIER must be one of: premium, standard.
-    /// </summary>
-    [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
-    public GcloudTier? Tier { get; set; }
-
-    /// <summary>
     /// Attaches accelerators, such as GPUs, to the worker instance(s). type The specific type of accelerator to attach to the instances, such as nvidia-tesla-t4 for NVIDIA T4. Use gcloud compute accelerator-types list to display available accelerator types. count The number of accelerators to attach to each instance. The default value is 1.
     /// </summary>
     [CliOption("--worker-accelerator", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? WorkerAccelerator { get; set; }
+    public string? WorkerAccelerator { get; set; }
+
+    /// <summary>
+    /// A list of disk configurations to attach to each instance in this group. Disk configurations are separated by semicolons. Each disk configuration is a comma-separated list of the following parameters. type - required The type of disk to attach to the instances (https://cloud.google.com/compute/docs/disks/hyperdisks). Allowed disk types are: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput. size - optional The size of the disk. The value must be a whole number followed by a size unit GB for gigabyte, or TB for terabyte. For example, 10GB produces a 10 gigabyte disk. iops - optional Indicates the IOPS (https://cloud.google.com/compute/docs/disks/hyperdisks#iops) to provision for the attached hyperdisk. This parameter sets the limit for disk I/O operations per second. throughput - optional Indicates the throughput (https://cloud.google.com/compute/docs/disks/hyperdisks#throughput) to provision for the attached hyperdisk. This parameter sets the limit for throughput in MiB per second. Example: type='hyperdisk-balanced,iops=5000,throughput=200,size=100G;type=hyperdisk-throughput,size=9000G' Attaches two disks to the instances. The first disk is a hyperdisk-balanced disk with 5000 IOPS, 200 MiB/s throughput, and 100 GiB size. The second disk is a hyperdisk-throughput disk with 9000 GiB size.
+    /// </summary>
+    [CliOption("--worker-attached-disks", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerAttachedDisks { get; set; }
 
     /// <summary>
     /// Indicates the IOPS (https://cloud.google.com/compute/docs/disks/hyperdisks#iops) to provision for the disk. This sets the limit for disk I/O operations per second. This is only supported if the bootdisk type is hyperdisk-balanced (https://cloud.google.com/compute/docs/disks/hyperdisks).
@@ -301,10 +313,28 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     public string? WorkerMinCpuPlatform { get; set; }
 
     /// <summary>
-    /// The compute zone (e.g. us-central1-a) for the cluster. If empty and --region is set to a value other than global, the server will pick a zone in the region. Overrides the default compute/zone property value for this command invocation.
+    /// At most one of these can be specified: A comma-separated list of compute zones (such as us-central1-a) to exclude when Dataproc Auto Zone placement (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone) picks the zone for the cluster.
+    /// </summary>
+    [CliOption("--auto-zone-exclude-zones", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AutoZoneExcludeZones { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The compute zone (such as us-central1-a) for the cluster. If empty and --region is set to a value other than global, Dataproc Auto Zone placement (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone) will pick a zone in the region. Overrides the default compute/zone property value for this command invocation.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: (DEPRECATED) Enables Confidential VM. See https://cloud.google.com/confidential-computing/confidential-vm/docs/ for more information. This flag uses AMD SEV confidential compute technology, which is only supported on N2D, C2D, C3D, and C4D machine types (https://cloud.google.com/compute/docs/machine-types). The --confidential-compute flag is deprecated. Please use --confidential-compute-type=SEV instead.
+    /// </summary>
+    [CliFlag("--confidential-compute")]
+    public bool? ConfidentialCompute { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Enables Confidential VM. See https://cloud.google.com/confidential-computing/confidential-vm/docs/ for more information. This flag specifies the type of Confidential Compute technology. See https://cloud.google.com/confidential-computing/confidential-vm/docs/supported-configurations#machine-type-cpu-zone for each machine type supported by Confidential Compute technology. CONFIDENTIAL_COMPUTE_TYPE must be one of: SEV, SEV_SNP, TDX.
+    /// </summary>
+    [CliOption("--confidential-compute-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudConfidentialComputeType? ConfidentialComputeType { get; set; }
 
     /// <summary>
     /// Specifying these flags will enable Secure Multi-Tenancy for the cluster. At most one of these can be specified: Path to a YAML (or JSON) file containing the configuration for Secure Multi-Tenancy on the cluster. The path can be a Cloud Storage URL (Example: 'gs://path/to/file') or a local file system path. If you pass "-" as the value of the flag the file content will be read from stdin. The YAML file is formatted as follows: # Required. The mapping from user accounts to service accounts. user_service_account_mapping: bob@company.com: service-account-bob@project.iam.gserviceaccount.com alice@company.com: service-account-alice@project.iam.gserviceaccount.com
@@ -337,249 +367,244 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     public string? KerberosConfigFile { get; set; }
 
     /// <summary>
-    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Enable Kerberos on the cluster.
+    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Or at least one of these can be specified: Enable Kerberos on the cluster.
     /// </summary>
     [CliFlag("--enable-kerberos")]
     public bool? EnableKerberos { get; set; }
 
     /// <summary>
-    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Google Cloud Storage URI of a KMS encrypted file containing the root principal password. Must be a Cloud Storage URL beginning with 'gs://'.
+    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Or at least one of these can be specified: Google Cloud Storage URI of a KMS encrypted file containing the root principal password. Must be a Cloud Storage URL beginning with 'gs://'.
     /// </summary>
     [SecretValue]
     [CliOption("--kerberos-root-principal-password-uri", Format = OptionFormat.EqualsSeparated)]
     public string? KerberosRootPrincipalPasswordUri { get; set; }
 
     /// <summary>
-    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the password. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: - provide the argument --kerberos-kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the password. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ▫ provide the argument --kerberos-kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kerberos-kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? KerberosKmsKey { get; set; }
 
     /// <summary>
-    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the password. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: - provide the argument --kerberos-kms-key on the command line with a fully specified name; - provide the argument --kerberos-kms-key-keyring on the command line.
+    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the password. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ▫ provide the argument --kerberos-kms-key on the command line with a fully specified name; ▫ provide the argument --kerberos-kms-key-keyring on the command line.
     /// </summary>
     [CliOption("--kerberos-kms-key-keyring", Format = OptionFormat.EqualsSeparated)]
     public string? KerberosKmsKeyKeyring { get; set; }
 
     /// <summary>
-    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the password. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: - provide the argument --kerberos-kms-key on the command line with a fully specified name; - provide the argument --kerberos-kms-key-location on the command line.
+    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the password. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ▫ provide the argument --kerberos-kms-key on the command line with a fully specified name; ▫ provide the argument --kerberos-kms-key-location on the command line.
     /// </summary>
     [CliOption("--kerberos-kms-key-location", Format = OptionFormat.EqualsSeparated)]
     public string? KerberosKmsKeyLocation { get; set; }
 
     /// <summary>
-    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the password. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: - provide the argument --kerberos-kms-key on the command line with a fully specified name; - provide the argument --kerberos-kms-key-project on the command line; - set the property core/project.
+    /// Specifying these flags will enable Kerberos for the cluster. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the password. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ▫ provide the argument --kerberos-kms-key on the command line with a fully specified name; ▫ provide the argument --kerberos-kms-key-project on the command line; ▫ set the property core/project.
     /// </summary>
     [CliOption("--kerberos-kms-key-project", Format = OptionFormat.EqualsSeparated)]
     public string? KerberosKmsKeyProject { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: + provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: + provide the argument --kms-key on the command line with a fully specified name; + provide the argument --kms-keyring on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
     /// </summary>
     [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
     public string? KmsKeyring { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: + provide the argument --kms-key on the command line with a fully specified name; + provide the argument --kms-location on the command line.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
     /// </summary>
     [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
     public string? KmsLocation { get; set; }
 
     /// <summary>
-    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: + provide the argument --kms-key on the command line with a fully specified name; + provide the argument --kms-project on the command line; + set the property core/project.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
     /// </summary>
     [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
     public string? KmsProject { get; set; }
 
     /// <summary>
-    /// Compute Engine options for Dataproc clusters. Metadata to be made available to the guest operating system running on the instances
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: Path to a YAML or JSON file containing the instance flexibility policy for the master node group.
+    /// </summary>
+    [CliOption("--master-instance-flexibility-policy-file", Format = OptionFormat.EqualsSeparated)]
+    public string? MasterInstanceFlexibilityPolicyFile { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: Instance selection configurations for the master node group.
+    /// </summary>
+    [CliOption("--master-instance-selection", Format = OptionFormat.EqualsSeparated)]
+    public string? MasterInstanceSelection { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: The type of machine to use for the master. Defaults to server-specified.
+    /// </summary>
+    [CliOption("--master-machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MasterMachineType { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: Types of machines with optional rank for master nodes to use. Defaults to server-specified.eg. --master-machine-types="type=e2-standard-8,type=t2d-standard-8,rank=0"
+    /// </summary>
+    [CliOption("--master-machine-types", Format = OptionFormat.EqualsSeparated)]
+    public string? MasterMachineTypes { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. Metadata to be made available to the guest operating system running on the instances
     /// </summary>
     [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// Compute Engine options for Dataproc clusters. Specifies a list of resource manager tags to apply to each cluster node (master and worker nodes).
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. Specifies a list of resource manager tags to apply to each cluster node (master and worker nodes).
     /// </summary>
     [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
-    /// Compute Engine options for Dataproc clusters. Specifies scopes for the node instances. Multiple SCOPEs can be specified, separated by commas. Examples: $ gcloud dataproc workflow-templates set-managed-cluster \ example-cluster \ --scopes https://www.googleapis.com/auth/bigtable.admin $ gcloud dataproc workflow-templates set-managed-cluster \ example-cluster --scopes sqlservice,bigquery The following minimum scopes are necessary for the cluster to function properly and are always added, even if not explicitly specified: https://www.googleapis.com/auth/devstorage.read_write https://www.googleapis.com/auth/logging.write If the --scopes flag is not specified, the following default scopes are also included: https://www.googleapis.com/auth/bigquery https://www.googleapis.com/auth/bigtable.admin.table https://www.googleapis.com/auth/bigtable.data https://www.googleapis.com/auth/devstorage.full_control If you want to enable all scopes use the 'cloud-platform' scope. SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. Specifies scopes for the node instances. Multiple SCOPEs can be specified, separated by commas. Examples: $ gcloud dataproc workflow-templates set-managed-cluster \ example-cluster \ --scopes https://www.googleapis.com/auth/bigtable.admin $ gcloud dataproc workflow-templates set-managed-cluster \ example-cluster --scopes sqlservice,bigquery The following minimum scopes are necessary for the cluster to function properly and are always added, even if not explicitly specified: https://www.googleapis.com/auth/devstorage.read_write https://www.googleapis.com/auth/logging.write If the --scopes flag is not specified, the following default scopes are also included: https://www.googleapis.com/auth/bigquery https://www.googleapis.com/auth/bigtable.admin.table https://www.googleapis.com/auth/bigtable.data https://www.googleapis.com/auth/devstorage.full_control If you want to enable all scopes use the 'cloud-platform' scope. SCOPE can be either the full URI of the scope or an alias. Default scopes are assigned to all instances. Available aliases are: Alias URI bigquery https://www.googleapis.com/auth/bigquery cloud-platform https://www.googleapis.com/auth/cloud-platform cloud-source-repos https://www.googleapis.com/auth/source.full_control cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only compute-ro https://www.googleapis.com/auth/compute.readonly compute-rw https://www.googleapis.com/auth/compute datastore https://www.googleapis.com/auth/datastore default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring.write https://www.googleapis.com/auth/pubsub https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append gke-default https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/logging.write https://www.googleapis.com/auth/monitoring https://www.googleapis.com/auth/service.management.readonly https://www.googleapis.com/auth/servicecontrol https://www.googleapis.com/auth/trace.append logging-write https://www.googleapis.com/auth/logging.write monitoring https://www.googleapis.com/auth/monitoring monitoring-read https://www.googleapis.com/auth/monitoring.read monitoring-write https://www.googleapis.com/auth/monitoring.write pubsub https://www.googleapis.com/auth/pubsub service-control https://www.googleapis.com/auth/servicecontrol service-management https://www.googleapis.com/auth/service.management.readonly sql (deprecated) https://www.googleapis.com/auth/sqlservice sql-admin https://www.googleapis.com/auth/sqlservice.admin storage-full https://www.googleapis.com/auth/devstorage.full_control storage-ro https://www.googleapis.com/auth/devstorage.read_only storage-rw https://www.googleapis.com/auth/devstorage.read_write taskqueue https://www.googleapis.com/auth/taskqueue trace https://www.googleapis.com/auth/trace.append userinfo-email https://www.googleapis.com/auth/userinfo.email DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account scope and sql alias do not provide SQL instance management capabilities and have been deprecated. Please, use https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage your Google SQL Service instances.
     /// </summary>
     [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>
-    /// Compute Engine options for Dataproc clusters. The Google Cloud IAM service account to be authenticated as.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. The Google Cloud IAM service account to be authenticated as.
     /// </summary>
     [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
-    public string? ServiceAccountValue { get; set; }
+    public string? ServiceAccount { get; set; }
 
     /// <summary>
-    /// Compute Engine options for Dataproc clusters. Specifies a list of tags to apply to the instance. These tags allow network firewall rules and routes to be applied to specified VM instances. See gcloud compute firewall-rules create(1) for more details. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags To list instances with their respective status and tags, run: $ gcloud compute instances list \ --format='table(name,status,tags.list())' To list instances tagged with a specific tag, tag1, run: $ gcloud compute instances list --filter='tags:tag1'
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. Specifies a list of tags to apply to the instance. These tags allow network firewall rules and routes to be applied to specified VM instances. See gcloud compute firewall-rules create(1) for more details. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags To list instances with their respective status and tags, run: $ gcloud compute instances list \ --format='table(name,status,tags.list())' To list instances tagged with a specific tag, tag1, run: $ gcloud compute instances list --filter='tags:tag1'
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Compute Engine options for Dataproc clusters. At most one of these can be specified: The Compute Engine network that the VM instances of the cluster will be part of. This is mutually exclusive with --subnet. If neither is specified, this defaults to the "default" network.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: The Compute Engine network that the VM instances of the cluster will be part of. This is mutually exclusive with --subnet. If neither is specified, this defaults to the "default" network.
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
 
     /// <summary>
-    /// Compute Engine options for Dataproc clusters. At most one of these can be specified: Specifies the subnet that the cluster will be part of. This is mutally exclusive with --network.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: Specifies the subnet that the cluster will be part of. This is mutally exclusive with --network.
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. The name of the reservation, required when --reservation-affinity=specific.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. The name of the reservation, required when --reservation-affinity=specific.
     /// </summary>
     [CliOption("--reservation", Format = OptionFormat.EqualsSeparated)]
     public string? Reservation { get; set; }
 
     /// <summary>
-    /// Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. The type of reservation for the instance. RESERVATION_AFFINITY must be one of: any, none, specific.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. The type of reservation for the instance. RESERVATION_AFFINITY must be one of: any, none, specific.
     /// </summary>
     [CliOption("--reservation-affinity", Format = OptionFormat.EqualsSeparated)]
-    public string? ReservationAffinity { get; set; }
+    public GcloudReservationAffinity? ReservationAffinity { get; set; }
 
     /// <summary>
-    /// Specifies a list of cluster Metric Sources (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics) to collect custom metrics. METRIC_SOURCE must be one of: FLINK, HDFS, HIVEMETASTORE, HIVESERVER2, MONITORING_AGENT_DEFAULTS, SPARK, SPARK_HISTORY_SERVER, YARN.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. Specifies a list of cluster Metric Sources (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics) to collect custom metrics. METRIC_SOURCE must be one of: FLINK, HDFS, HIVEMETASTORE, HIVESERVER2, MONITORING_AGENT_DEFAULTS, SPARK, SPARK_HISTORY_SERVER, YARN.
     /// </summary>
     [CliOption("--metric-sources", Format = OptionFormat.EqualsSeparated)]
     public GcloudMetricSources? MetricSources { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of metrics that override the default metrics enabled for the metric sources. Any of the available OSS metrics (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics) and all Spark metrics, can be listed for collection as a metric override. Override metric values are case sensitive, and must be provided, if appropriate, in CamelCase format, for example: sparkHistoryServer:JVM:Memory:NonHeapMemoryUsage.committed hiveserver2:JVM:Memory:NonHeapMemoryUsage.used Only the specified overridden metrics will be collected from a given metric source. For example, if one or more spark:executive metrics are listed as metric overrides, other SPARK metrics will not be collected. The collection of default OSS metrics from other metric sources is unaffected. For example, if both SPARK and YARN metric sources are enabled, and overrides are provided for Spark metrics only, all default YARN metrics will be collected. The source of the specified metric override must be enabled. For example, if one or more spark:driver metrics are provided as metric overrides, the spark metric source must be enabled (--metric-sources=spark).
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: List of metrics that override the default metrics enabled for the metric sources. Any of the available OSS metrics (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics) and all Spark metrics, can be listed for collection as a metric override. Override metric values are case sensitive, and must be provided, if appropriate, in CamelCase format, for example: sparkHistoryServer:JVM:Memory:NonHeapMemoryUsage.committed hiveserver2:JVM:Memory:NonHeapMemoryUsage.used Only the specified overridden metrics will be collected from a given metric source. For example, if one or more spark:executive metrics are listed as metric overrides, other SPARK metrics will not be collected. The collection of default OSS metrics from other metric sources is unaffected. For example, if both SPARK and YARN metric sources are enabled, and overrides are provided for Spark metrics only, all default YARN metrics will be collected. The source of the specified metric override must be enabled. For example, if one or more spark:driver metrics are provided as metric overrides, the spark metric source must be enabled (--metric-sources=spark).
     /// </summary>
     [CliOption("--metric-overrides", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? MetricOverridesValues { get; set; }
+    public IEnumerable<string>? MetricOverrides { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Path to a file containing list of Metrics that override the default metrics enabled for the metric sources. The path can be a Cloud Storage URL (example: gs://path/to/file) or a local file system path.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: Path to a file containing list of Metrics that override the default metrics enabled for the metric sources. The path can be a Cloud Storage URL (example: gs://path/to/file) or a local file system path.
     /// </summary>
     [CliOption("--metric-overrides-file", Format = OptionFormat.EqualsSeparated)]
     public string? MetricOverridesFile { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: If provided, the instances in the cluster will not be assigned external IP addresses. If omitted, then the Dataproc service will apply a default policy to determine if each instance in the cluster gets an external IP address or not. Note: Dataproc VMs need access to the Dataproc API. This can be achieved without external IP addresses using Private Google Access (https://cloud.google.com/compute/docs/private-google-access).
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: If provided, the instances in the cluster will not be assigned external IP addresses. If omitted, then the Dataproc service will apply a default policy to determine if each instance in the cluster gets an external IP address or not. Note: Dataproc VMs need access to the Dataproc API. This can be achieved without external IP addresses using Private Google Access (https://cloud.google.com/compute/docs/private-google-access).
     /// </summary>
     [CliFlag("--no-address")]
     public bool? NoAddress { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: If provided, cluster instances are assigned external IP addresses. If omitted, the Dataproc service applies a default policy to determine whether or not each instance in the cluster gets an external IP address. Note: Dataproc VMs need access to the Dataproc API. This can be achieved without external IP addresses using Private Google Access (https://cloud.google.com/compute/docs/private-google-access).
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: If provided, cluster instances are assigned external IP addresses. If omitted, the Dataproc service applies a default policy to determine whether or not each instance in the cluster gets an external IP address. Note: Dataproc VMs need access to the Dataproc API. This can be achieved without external IP addresses using Private Google Access (https://cloud.google.com/compute/docs/private-google-access).
     /// </summary>
     [CliFlag("--public-ip-address")]
     public bool? PublicIpAddress { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Create a single node cluster. A single node cluster has all master and worker components. It cannot have any separate worker nodes. If this flag is not specified, a cluster with separate workers is created.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: Path to a YAML or JSON file containing the instance flexibility policy for the secondary worker node group.
+    /// </summary>
+    [CliOption("--secondary-worker-instance-flexibility-policy-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SecondaryWorkerInstanceFlexibilityPolicyFile { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: Instance selection configurations for the secondary worker node group.
+    /// </summary>
+    [CliOption("--secondary-worker-instance-selection", Format = OptionFormat.EqualsSeparated)]
+    public string? SecondaryWorkerInstanceSelection { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: Types of machines with optional rank for secondary workers to use. Defaults to server-specified.eg. --secondary-worker-machine-types="type=e2-standard-8,type=t2d-standard-8,rank=0"
+    /// </summary>
+    [CliOption("--secondary-worker-machine-types", Format = OptionFormat.EqualsSeparated)]
+    public string? SecondaryWorkerMachineTypes { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: Create a single node cluster. A single node cluster has all master and worker components. It cannot have any separate worker nodes. If this flag is not specified, a cluster with separate workers is created.
     /// </summary>
     [CliFlag("--single-node")]
     public bool? SingleNode { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Multi-node cluster flags Minimum number of primary worker nodes to provision for cluster creation to succeed.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: Or at least one of these can be specified: Multi-node cluster flags Minimum number of primary worker nodes to provision for cluster creation to succeed.
     /// </summary>
     [CliOption("--min-num-workers", Format = OptionFormat.EqualsSeparated)]
     public string? MinNumWorkers { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Multi-node cluster flags The number of secondary worker nodes in the cluster.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: Or at least one of these can be specified: Multi-node cluster flags The number of secondary worker nodes in the cluster.
     /// </summary>
     [CliOption("--num-secondary-workers", Format = OptionFormat.EqualsSeparated)]
     public string? NumSecondaryWorkers { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Multi-node cluster flags The number of worker nodes in the cluster. Defaults to server-specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: Or at least one of these can be specified: Multi-node cluster flags The number of worker nodes in the cluster. Defaults to server-specified.
     /// </summary>
     [CliOption("--num-workers", Format = OptionFormat.EqualsSeparated)]
     public string? NumWorkers { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Multi-node cluster flags The type of the secondary worker group. TYPE must be one of: preemptible, non-preemptible, spot.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: Or at least one of these can be specified: Multi-node cluster flags The type of the secondary worker group. TYPE must be one of: preemptible, non-preemptible, spot.
     /// </summary>
     [CliOption("--secondary-worker-type", Format = OptionFormat.EqualsSeparated)]
-    public string? SecondaryWorkerType { get; set; }
+    public GcloudSecondaryWorkerType? SecondaryWorkerType { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: The type of machine to use for primary workers. Defaults to server-specified.
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: Path to a YAML or JSON file containing the instance flexibility policy for the primary worker node group.
+    /// </summary>
+    [CliOption("--worker-instance-flexibility-policy-file", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerInstanceFlexibilityPolicyFile { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: Instance selection configurations for the primary worker node group.
+    /// </summary>
+    [CliOption("--worker-instance-selection", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerInstanceSelection { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: The type of machine to use for primary workers. Defaults to server-specified.
     /// </summary>
     [CliOption("--worker-machine-type", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerMachineType { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Machine types (https://cloud.google.com/dataproc/docs/concepts/compute/supported-machine-types) for primary worker nodes to use with optional rank. A lower rank number is given higher preference. Based on availablilty, Dataproc tries to create primary worker VMs using the worker machine type with the lowest rank, and then tries to use machine types with higher ranks as necessary. Machine types with the same rank are given the same preference. Example use: --worker-machine-types="type=e2-standard-8,type=n2-standard-8,rank=0". For more information, see Dataproc Flexible VMs (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/flexible-vms)
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Compute Engine options for Dataproc clusters. Specifies the reservation for the instance. At most one of these can be specified: Machine types (https://cloud.google.com/dataproc/docs/concepts/compute/supported-machine-types) for primary worker nodes to use with optional rank. A lower rank number is given higher preference. Based on availablilty, Dataproc tries to create primary worker VMs using the worker machine type with the lowest rank, and then tries to use machine types with higher ranks as necessary. Machine types with the same rank are given the same preference. Example use: --worker-machine-types="type=e2-standard-8,type=n2-standard-8,rank=0". For more information, see Dataproc Flexible VMs (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/flexible-vms)
     /// </summary>
     [CliOption("--worker-machine-types", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerMachineTypes { get; set; }
-
-    [Obsolete("Use MetricOverridesValues instead.")]
-    public string? MetricOverrides
-    {
-        get => MetricOverridesValues?.FirstOrDefault();
-        set => MetricOverridesValues = value is null ? null : [value];
-    }
-
-    [Obsolete("Use ServiceAccountValue instead.")]
-    public int? ServiceAccount
-    {
-        get => int.TryParse(ServiceAccountValue, global::System.Globalization.NumberStyles.Integer, global::System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : null;
-        set => ServiceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("EnableSsh is no longer supported by the installed CLI and has no effect.")]
-    public bool? EnableSsh { get; set; }
-
-    [Obsolete("NoEnableSsh is no longer supported by the installed CLI and has no effect.")]
-    public bool? NoEnableSsh { get; set; }
-
-    [Obsolete("Engine is no longer supported by the installed CLI and has no effect.")]
-    public GcloudEngine? Engine { get; set; }
-
-    [Obsolete("MasterAttachedDisks is no longer supported by the installed CLI and has no effect.")]
-    public string? MasterAttachedDisks { get; set; }
-
-    [Obsolete("SecondaryWorkerAttachedDisks is no longer supported by the installed CLI and has no effect.")]
-    public string? SecondaryWorkerAttachedDisks { get; set; }
-
-    [Obsolete("WorkerAttachedDisks is no longer supported by the installed CLI and has no effect.")]
-    public string? WorkerAttachedDisks { get; set; }
-
-    [Obsolete("AutoZoneExcludeZones is no longer supported by the installed CLI and has no effect.")]
-    public string? AutoZoneExcludeZones { get; set; }
-
-    [Obsolete("ConfidentialComputeType is no longer supported by the installed CLI and has no effect.")]
-    public GcloudConfidentialComputeType? ConfidentialComputeType { get; set; }
-
-    [Obsolete("MasterInstanceFlexibilityPolicyFile is no longer supported by the installed CLI and has no effect.")]
-    public string? MasterInstanceFlexibilityPolicyFile { get; set; }
-
-    [Obsolete("MasterInstanceSelection is no longer supported by the installed CLI and has no effect.")]
-    public string? MasterInstanceSelection { get; set; }
-
-    [Obsolete("MasterMachineTypes is no longer supported by the installed CLI and has no effect.")]
-    public string? MasterMachineTypes { get; set; }
-
-    [Obsolete("SecondaryWorkerInstanceFlexibilityPolicyFile is no longer supported by the installed CLI and has no effect.")]
-    public string? SecondaryWorkerInstanceFlexibilityPolicyFile { get; set; }
-
-    [Obsolete("SecondaryWorkerInstanceSelection is no longer supported by the installed CLI and has no effect.")]
-    public string? SecondaryWorkerInstanceSelection { get; set; }
-
-    [Obsolete("WorkerInstanceFlexibilityPolicyFile is no longer supported by the installed CLI and has no effect.")]
-    public string? WorkerInstanceFlexibilityPolicyFile { get; set; }
-
-    [Obsolete("WorkerInstanceSelection is no longer supported by the installed CLI and has no effect.")]
-    public string? WorkerInstanceSelection { get; set; }
 
 }

@@ -107,15 +107,6 @@ public class GcloudNetappStoragePools
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
-    [Obsolete("Use ExecuteCommandAsync instead.")]
-    public virtual async Task<CommandResult> ExecuteAsync(
-        GcloudNetappStoragePoolsExecuteOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await ExecuteCommandAsync(options, executionOptions, cancellationToken);
-    }
-
     /// <summary>
     /// list backup     configurations for all volumes in an ONTAP-mode Storage Pool
     /// </summary>
