@@ -25,11 +25,14 @@ public enum GcloudAcceleratorType
     [EnumValue("NVIDIA_TESLA_P100")]
     NvidiaTeslaP100,
 
-    [EnumValue("NVIDIA_TESLA_V100")]
-    NvidiaTeslaV100,
+    [EnumValue("NVIDIA_TESLA_P100_VWS")]
+    NvidiaTeslaP100Vws,
 
     [EnumValue("NVIDIA_TESLA_P4")]
     NvidiaTeslaP4,
+
+    [EnumValue("NVIDIA_TESLA_P4_VWS")]
+    NvidiaTeslaP4Vws,
 
     [EnumValue("NVIDIA_TESLA_T4")]
     NvidiaTeslaT4,
@@ -37,11 +40,8 @@ public enum GcloudAcceleratorType
     [EnumValue("NVIDIA_TESLA_T4_VWS")]
     NvidiaTeslaT4Vws,
 
-    [EnumValue("NVIDIA_TESLA_P100_VWS")]
-    NvidiaTeslaP100Vws,
-
-    [EnumValue("NVIDIA_TESLA_P4_VWS")]
-    NvidiaTeslaP4Vws,
+    [EnumValue("NVIDIA_TESLA_V100")]
+    NvidiaTeslaV100,
 
     [EnumValue("TPU_V2")]
     TpuV2,

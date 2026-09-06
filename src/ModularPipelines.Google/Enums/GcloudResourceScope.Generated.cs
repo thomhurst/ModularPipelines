@@ -16,9 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudResourceScope
 {
-    [EnumValue("PROJECT")]
-    Project,
-
     [EnumValue("PARENT")]
-    Parent
+    Parent,
+
+    [EnumValue("PROJECT")]
+    Project
 }

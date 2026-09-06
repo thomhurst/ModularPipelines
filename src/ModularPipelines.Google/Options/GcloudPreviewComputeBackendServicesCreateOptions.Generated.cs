@@ -564,6 +564,7 @@ public record GcloudPreviewComputeBackendServicesCreateOptions(
     /// <summary>
     /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. The identifier of an access key used for AWS Signature Version 4 s3 bucket authentication.
     /// </summary>
+    [SecretValue]
     [CliOption("--security-settings-aws-v4-access-key-id", Format = OptionFormat.EqualsSeparated)]
     public string? SecuritySettingsAwsV4AccessKeyId { get; set; }
 

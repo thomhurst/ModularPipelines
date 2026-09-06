@@ -16,18 +16,18 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudCopyKnownExtensions
 {
+    [EnumValue("aia-ocsp-servers")]
+    AiaOcspServers,
+
     [EnumValue("base-key-usage")]
     BaseKeyUsage,
-
-    [EnumValue("extended-key-usage")]
-    ExtendedKeyUsage,
 
     [EnumValue("ca-options")]
     CaOptions,
 
-    [EnumValue("policy-ids")]
-    PolicyIds,
+    [EnumValue("extended-key-usage")]
+    ExtendedKeyUsage,
 
-    [EnumValue("aia-ocsp-servers")]
-    AiaOcspServers
+    [EnumValue("policy-ids")]
+    PolicyIds
 }

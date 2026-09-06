@@ -32,7 +32,7 @@ public record GcloudSccAssetsGroupOptions : GcloudOptions
     /// Expression is a list of one or more restrictions combined via logical operators 'AND' and 'OR'. Parentheses are not supported, and 'OR' has higher precedence than 'AND'. For example, 'update_time &gt; 100 AND security_center_properties.resource_type=\"google.cloud.resourcemanager.Organization\"' is a valid filter string.
     /// </summary>
     [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
-    public string? Filter { get; set; }
+    public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>
     /// Expression that defines what asset fields to use for grouping (including 'state'). String value should follow SQL syntax: comma separated list of fields. For example: "parent,resource_name". The following fields are supported: ◆ security_center_properties.resource_project ◆ security_center_properties.resource_type ◆ security_center_properties.resource_parent ◆ state_change

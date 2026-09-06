@@ -16,30 +16,30 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudKeyUsages
 {
-    [EnumValue("digital_signature")]
-    DigitalSignature,
+    [EnumValue("cert_sign")]
+    CertSign,
 
     [EnumValue("content_commitment")]
     ContentCommitment,
 
-    [EnumValue("key_encipherment")]
-    KeyEncipherment,
+    [EnumValue("crl_sign")]
+    CrlSign,
 
     [EnumValue("data_encipherment")]
     DataEncipherment,
 
-    [EnumValue("key_agreement")]
-    KeyAgreement,
+    [EnumValue("decipher_only")]
+    DecipherOnly,
 
-    [EnumValue("cert_sign")]
-    CertSign,
-
-    [EnumValue("crl_sign")]
-    CrlSign,
+    [EnumValue("digital_signature")]
+    DigitalSignature,
 
     [EnumValue("encipher_only")]
     EncipherOnly,
 
-    [EnumValue("decipher_only")]
-    DecipherOnly
+    [EnumValue("key_agreement")]
+    KeyAgreement,
+
+    [EnumValue("key_encipherment")]
+    KeyEncipherment
 }

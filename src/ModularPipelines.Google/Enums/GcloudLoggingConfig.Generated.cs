@@ -16,30 +16,30 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudLoggingConfig
 {
-    [EnumValue("NONE")]
-    None,
+    [EnumValue("ALERT")]
+    Alert,
+
+    [EnumValue("CRITICAL")]
+    Critical,
 
     [EnumValue("DEBUG")]
     Debug,
 
+    [EnumValue("EMERGENCY")]
+    Emergency,
+
+    [EnumValue("ERROR")]
+    Error,
+
     [EnumValue("INFO")]
     Info,
+
+    [EnumValue("NONE")]
+    None,
 
     [EnumValue("NOTICE")]
     Notice,
 
     [EnumValue("WARNING")]
-    Warning,
-
-    [EnumValue("ERROR")]
-    Error,
-
-    [EnumValue("CRITICAL")]
-    Critical,
-
-    [EnumValue("ALERT")]
-    Alert,
-
-    [EnumValue("EMERGENCY")]
-    Emergency
+    Warning
 }

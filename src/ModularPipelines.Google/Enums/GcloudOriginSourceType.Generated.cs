@@ -25,14 +25,14 @@ public enum GcloudOriginSourceType
     [EnumValue("custom")]
     Custom,
 
+    [EnumValue("data-fusion")]
+    DataFusion,
+
     [EnumValue("dataflow")]
     Dataflow,
 
     [EnumValue("dataproc")]
     Dataproc,
-
-    [EnumValue("data-fusion")]
-    DataFusion,
 
     [EnumValue("looker-core")]
     LookerCore,

@@ -16,11 +16,11 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudReservationType
 {
-    [EnumValue("none")]
-    None,
-
     [EnumValue("any")]
     Any,
+
+    [EnumValue("none")]
+    None,
 
     [EnumValue("specific")]
     Specific

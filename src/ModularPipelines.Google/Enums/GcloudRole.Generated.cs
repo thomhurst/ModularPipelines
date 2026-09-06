@@ -16,9 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudRole
 {
-    [EnumValue("SOURCE")]
-    Source,
-
     [EnumValue("DESTINATION")]
-    Destination
+    Destination,
+
+    [EnumValue("SOURCE")]
+    Source
 }

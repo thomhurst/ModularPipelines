@@ -16,9 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudPayloadType
 {
-    [EnumValue("text")]
-    Text,
-
     [EnumValue("json")]
-    Json
+    Json,
+
+    [EnumValue("text")]
+    Text
 }

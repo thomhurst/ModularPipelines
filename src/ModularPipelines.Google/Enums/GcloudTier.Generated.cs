@@ -16,9 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudTier
 {
-    [EnumValue("standard")]
-    Standard,
-
     [EnumValue("enterprise")]
-    Enterprise
+    Enterprise,
+
+    [EnumValue("standard")]
+    Standard
 }
