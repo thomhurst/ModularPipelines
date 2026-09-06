@@ -90,26 +90,8 @@ internal class PipelineExecutor : IPipelineExecutor
     {
         foreach (var result in results)
         {
-            if (string.IsNullOrWhiteSpace(result.TypeName))
-            {
-                throw new InvalidOperationException(
-                    $"Execution backend result '{result.Name}' must provide a fully qualified TypeName.");
-            }
-
-            var matchingModules = modules
-                .Where(module => string.Equals(
-                    module.GetType().FullName,
-                    result.TypeName,
-                    StringComparison.Ordinal))
-                .ToArray();
-            if (matchingModules.Length != 1)
-            {
-                throw new InvalidOperationException(
-                    $"Execution backend returned result '{result.Name}' with type '{result.TypeName}', "
-                    + $"which matched {matchingModules.Length} planned modules.");
-            }
-
-            var matchingModule = matchingModules[0];
+            var matchingModule = FindModuleOwningResult(modules, result)
+                                 ?? FindModuleByTypeName(modules, result);
             if (_executionBackendContext.TryApplyResult(matchingModule, result))
             {
                 continue;
@@ -139,5 +121,47 @@ internal class PipelineExecutor : IPipelineExecutor
                 "Execution backend completed without results for: "
                 + string.Join(", ", incompleteModules));
         }
+    }
+
+    /// <summary>
+    /// Finds the planned module whose own result instance the backend handed back. In-process
+    /// backends return the modules' result objects, so identity resolves the module even when
+    /// several planned modules share a type name across assemblies.
+    /// </summary>
+    private static IModule? FindModuleOwningResult(
+        IReadOnlyList<IModule> modules,
+        IModuleResult result) =>
+        modules.FirstOrDefault(module =>
+            module.AsInternal().ResultTask is { IsCompletedSuccessfully: true } resultTask
+            && ReferenceEquals(resultTask.Result, result));
+
+    /// <summary>
+    /// Resolves a foreign (for example deserialized) backend result to the single planned
+    /// module declaring its fully qualified type name.
+    /// </summary>
+    private static IModule FindModuleByTypeName(
+        IReadOnlyList<IModule> modules,
+        IModuleResult result)
+    {
+        if (string.IsNullOrWhiteSpace(result.TypeName))
+        {
+            throw new InvalidOperationException(
+                $"Execution backend result '{result.Name}' must provide a fully qualified TypeName.");
+        }
+
+        var matchingModules = modules
+            .Where(module => string.Equals(
+                module.GetType().FullName,
+                result.TypeName,
+                StringComparison.Ordinal))
+            .ToArray();
+        if (matchingModules.Length != 1)
+        {
+            throw new InvalidOperationException(
+                $"Execution backend returned result '{result.Name}' with type '{result.TypeName}', "
+                + $"which matched {matchingModules.Length} planned modules.");
+        }
+
+        return matchingModules[0];
     }
 }

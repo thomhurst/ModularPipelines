@@ -145,6 +145,56 @@ public class PipelineExecutorTests
         await Assert.That(exception!.Message).Contains("fully qualified TypeName");
     }
 
+    [Test]
+    public async Task Backend_Results_Resolve_Their_Owning_Module_When_Type_Names_Collide()
+    {
+        var first = new UnexecutedModule();
+        var second = new UnexecutedModule();
+        var firstResult = CreateResult(first, "first");
+        var secondResult = CreateResult(second, "second");
+        ModuleCompletionSourceApplicator.TryApply(first, firstResult);
+        ModuleCompletionSourceApplicator.TryApply(second, secondResult);
+        var context = new Mock<IExecutionBackendContext>();
+        context
+            .Setup(x => x.TryApplyResult(It.IsAny<IModule>(), It.IsAny<IModuleResult>()))
+            .Returns(false);
+        var executor = CreateExecutor(
+            Mock.Of<ISecondaryExceptionContainer>(),
+            Mock.Of<IExceptionRethrowService>(),
+            new PipelineOptions { FailureMode = FailureMode.ContinueOnFailure },
+            backendResults: [firstResult, secondResult],
+            executionBackendContext: context.Object);
+
+        await executor.ExecuteAsync([first, second], new OrganizedModules([], []));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(await first).IsSameReferenceAs(firstResult);
+            await Assert.That(await second).IsSameReferenceAs(secondResult);
+        }
+
+        context.Verify(x => x.TryApplyResult(first, firstResult), Times.Once);
+        context.Verify(x => x.TryApplyResult(second, secondResult), Times.Once);
+    }
+
+    [Test]
+    public async Task Foreign_Backend_Result_With_Ambiguous_Type_Name_Is_Rejected()
+    {
+        var first = new UnexecutedModule();
+        var second = new UnexecutedModule();
+        var foreignResult = CreateResult(first, "foreign");
+        var executor = CreateExecutor(
+            Mock.Of<ISecondaryExceptionContainer>(),
+            Mock.Of<IExceptionRethrowService>(),
+            new PipelineOptions { FailureMode = FailureMode.ContinueOnFailure },
+            backendResults: [foreignResult]);
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            executor.ExecuteAsync([first, second], new OrganizedModules([], [])));
+
+        await Assert.That(exception!.Message).Contains("matched 2 planned modules");
+    }
+
     private static PipelineExecutor CreateExecutor(
         ISecondaryExceptionContainer secondaryExceptions,
         IExceptionRethrowService exceptionRethrowService,

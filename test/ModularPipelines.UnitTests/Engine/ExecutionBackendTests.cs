@@ -16,7 +16,11 @@ public class ExecutionBackendTests
     {
         var builder = TestPipelineBuilder.Create()
             .AddModule<BackendTestModule>()
-            .AddDistributedMode(options => options.TotalInstances = 2)
+            .AddDistributedMode(options =>
+            {
+                options.TotalInstances = 2;
+                options.RunId = "backend-test-run";
+            })
             .AddExecutionBackend<RecordingExecutionBackend>();
         await using var pipeline = await builder.BuildAsync();
 
