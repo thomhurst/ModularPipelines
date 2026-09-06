@@ -51,6 +51,48 @@ public class OptionTypeEnhancerTests
     }
 
     [Test]
+    public async Task EnhanceAsync_Builds_The_Same_Enum_Regardless_Of_Detected_Value_Order()
+    {
+        // "PUBLIC" and "public" collide on the member name; the lowercase spelling must win
+        // whichever the detector listed first.
+        var first = await EnhanceWithDetectedEnum(["PUBLIC", "public", "internal"]);
+        var second = await EnhanceWithDetectedEnum(["internal", "public", "PUBLIC"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(first.Values.Select(value => value.CliValue))
+                .IsEquivalentTo(["internal", "public"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+            await Assert.That(second.Values)
+                .IsEquivalentTo(first.Values, TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        }
+    }
+
+    private static async Task<CliEnumDefinition> EnhanceWithDetectedEnum(string[] enumValues)
+    {
+        var result = new OptionTypeDetectionResult
+        {
+            Type = CliOptionType.Enum,
+            Confidence = 100,
+            Source = "ManualOverride",
+            EnumValues = enumValues,
+        };
+        var pipeline = new OptionTypeDetectorPipeline(
+            [new FixedDetector(result)],
+            NullLogger<OptionTypeDetectorPipeline>.Instance);
+        var enhancer = new OptionTypeEnhancer(pipeline, NullLogger<OptionTypeEnhancer>.Instance);
+        var tool = CreateTool(new CliOptionDefinition
+        {
+            SwitchName = "--visibility",
+            PropertyName = "Visibility",
+            CSharpType = "string?",
+        });
+
+        var enhanced = await enhancer.EnhanceAsync(tool);
+
+        return enhanced.Commands.Single().Options.Single().EnumDefinition!;
+    }
+
+    [Test]
     public async Task EnhanceAsync_Applies_Key_Filtered_Secret_Metadata()
     {
         var result = new OptionTypeDetectionResult
