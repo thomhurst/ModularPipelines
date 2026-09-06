@@ -989,6 +989,32 @@ public abstract partial class CliScraperBase : ICliScraper
             .ToArray();
 
     /// <summary>
+    /// Marks the options a usage synopsis lists outside every optional group with a required
+    /// value, such as clap's <c>--sbom-format &lt;FORMAT&gt;</c> beside <c>[OPTIONS]</c>, as
+    /// required, so the generated constructor demands them.
+    /// </summary>
+    protected static List<CliOptionDefinition> ApplyUsageRequiredOptions(
+        List<CliOptionDefinition> options,
+        UsageSynopsisParseResult usage)
+    {
+        var requiredSwitches = usage.PositionalArguments
+            .Where(argument => argument.IsRequired && argument.AssociatedOptionSwitch is not null)
+            .Select(argument => argument.AssociatedOptionSwitch!)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        if (requiredSwitches.Count == 0)
+        {
+            return options;
+        }
+
+        return options
+            .Select(option => requiredSwitches.Contains(option.SwitchName)
+                              || (option.ShortForm is not null && requiredSwitches.Contains(option.ShortForm))
+                ? option with { IsRequired = true }
+                : option)
+            .ToList();
+    }
+
+    /// <summary>
     /// Checks if help text indicates the command has options/flags.
     /// Override if the CLI has a different pattern for leaf commands.
     /// </summary>

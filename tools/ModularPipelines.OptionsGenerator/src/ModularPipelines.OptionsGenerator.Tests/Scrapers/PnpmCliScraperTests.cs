@@ -73,6 +73,9 @@ public class PnpmCliScraperTests
             var format = command.Options.Single(option => option.SwitchName == "--sbom-format");
             await Assert.That(format.Description).IsEqualTo("The SBOM output format (required)");
             await Assert.That(format.IsFlag).IsFalse();
+
+            // Usage lists --sbom-format outside [OPTIONS], so it is required.
+            await Assert.That(format.IsRequired).IsTrue();
             await Assert.That(format.CSharpType).IsEqualTo("PnpmSbomSbomFormat?");
             await Assert.That(format.EnumDefinition!.Values.Select(value => value.CliValue))
                 .IsEquivalentTo(["cyclonedx", "spdx"]);
@@ -81,6 +84,7 @@ public class PnpmCliScraperTests
             await Assert.That(type.Description)
                 .IsEqualTo("The component type for the root package (default: library)");
             await Assert.That(type.EnumDefinition).IsNull();
+            await Assert.That(type.IsRequired).IsFalse();
 
             var dev = command.Options.Single(option => option.SwitchName == "--dev");
             await Assert.That(dev.IsFlag).IsTrue();
