@@ -795,7 +795,9 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         throw exception;
     }
 
-    private ModuleStatus ClassifyException(
+    // Internal so tests can pin that classification depends only on the exception and the
+    // module configuration, never on how long the attempt took.
+    internal ModuleStatus ClassifyException(
         ModuleConfiguration config,
         Exception exception)
     {

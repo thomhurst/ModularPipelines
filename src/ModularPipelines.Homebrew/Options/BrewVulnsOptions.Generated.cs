@@ -39,16 +39,28 @@ public record BrewVulnsOptions : BrewOptions
     public string? Brewfile { get; set; }
 
     /// <summary>
-    /// Only report vulnerabilities that have a fix available. Note that this may exclude vulnerabilities with fixes available if we cannot determine that the fix is included in the version under consideration.
+    /// Only report vulnerabilities that have a released version fix available. Shortcut for --fix-type=released.
     /// </summary>
     [CliFlag("--fix-available")]
     public bool? FixAvailable { get; set; }
 
     /// <summary>
-    /// Only report vulnerabilities that do not have a fix available. Note that this may include vulnerabilities with fixes available if we cannot determine that the fix is included in the version under consideration.
+    /// Only report vulnerabilities that do not have a released version fix available (includes unreleased commit SHA patches). Shortcut for --fix-type=unreleased.
     /// </summary>
     [CliFlag("--no-fix-available")]
     public bool? NoFixAvailable { get; set; }
+
+    /// <summary>
+    /// Filter findings by fix type: released (official version release), patch (unreleased commit SHA), any (either), none (neither), unreleased (no released version fix).
+    /// </summary>
+    [CliOption("--fix-type", Format = OptionFormat.EqualsSeparated)]
+    public string? FixType { get; set; }
+
+    /// <summary>
+    /// List packages skipped due to missing or unsupported source URL.
+    /// </summary>
+    [CliFlag("--list-skipped")]
+    public bool? ListSkipped { get; set; }
 
     /// <summary>
     /// Only report findings at or above: low, medium, high, critical.

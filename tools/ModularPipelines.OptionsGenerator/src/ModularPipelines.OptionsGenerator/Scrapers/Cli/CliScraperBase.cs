@@ -1265,7 +1265,9 @@ public abstract partial class CliScraperBase : ICliScraper
     /// </param>
     /// <param name="descriptionColumn">
     /// Column where the declaration's inline description starts, or <see langword="null"/>
-    /// when the description only begins on a following line.
+    /// when the description only begins on a following line. Until that column is known any
+    /// line deeper than the declaration is accepted, because the first wrapped line is what
+    /// establishes the column.
     /// </param>
     /// <param name="looksLikeOptionRow">Whether the scraper's option pattern matches <paramref name="line"/>.</param>
     protected internal static bool IsContinuationLine(
@@ -1280,7 +1282,7 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         var indentation = GetIndentation(line);
-        var wrappedAtDescriptionColumn = indentation >= descriptionColumn;
+        var wrappedAtDescriptionColumn = descriptionColumn is null || indentation >= descriptionColumn;
         return (!looksLikeOptionRow || wrappedAtDescriptionColumn)
                && (declarationIndentation is not { } floor || indentation > floor);
     }
@@ -1360,7 +1362,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// scraper did not capture one.
     /// </param>
     /// <param name="looksLikeOptionRow">Returns whether a line matches the scraper's option pattern.</param>
-    protected static string AccumulateWrappedDescription(
+    protected internal static string AccumulateWrappedDescription(
         IReadOnlyList<string> lines,
         ref int declarationIndex,
         Group? inlineDescription,
@@ -1389,6 +1391,10 @@ public abstract partial class CliScraperBase : ICliScraper
 
             parts.Add(candidate.Trim());
             declarationIndex++;
+
+            // A row whose prose only starts on the next line (picocli, argparse, git) reveals its
+            // description column there, so later wrapped lines get the same column-aware rule.
+            descriptionColumn ??= GetIndentation(candidate);
         }
 
         return string.Join(' ', parts);

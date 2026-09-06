@@ -75,12 +75,6 @@ public record BrewBundleInstallOptions : BrewOptions
     public string? UpgradeFormulae { get; set; }
 
     /// <summary>
-    /// Run up to this many formula installations in parallel. Defaults to 1 (sequential). Use auto for the number of CPU cores (max 4).
-    /// </summary>
-    [CliOption("--jobs", Format = OptionFormat.EqualsSeparated)]
-    public string? Jobs { get; set; }
-
-    /// <summary>
     /// Run with --force/--overwrite.
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]

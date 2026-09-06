@@ -13,7 +13,7 @@ internal class DistributedWorkPublisher(
     IModuleResultRegistry resultRegistry,
     IModuleDependencyRegistry? dependencyRegistry = null,
     IModuleMetadataRegistry? metadataRegistry = null,
-    DistributedConditionRouting? conditionRouting = null,
+    IExecutionLocationContext? executionLocationContext = null,
     IModuleConditionHandler? conditionHandler = null)
 {
     private readonly IDistributedMasterCoordinator _coordinator = coordinator;
@@ -21,7 +21,7 @@ internal class DistributedWorkPublisher(
     private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
     private readonly IModuleDependencyRegistry? _dependencyRegistry = dependencyRegistry;
     private readonly IModuleMetadataRegistry? _metadataRegistry = metadataRegistry;
-    private readonly DistributedConditionRouting? _conditionRouting = conditionRouting;
+    private readonly IExecutionLocationContext? _executionLocationContext = executionLocationContext;
     private readonly IModuleConditionHandler? _conditionHandler = conditionHandler;
 
     public async Task<ModuleAssignment> CreateAssignmentAsync(
@@ -32,7 +32,7 @@ internal class DistributedWorkPublisher(
     {
         if (_conditionHandler is not null)
         {
-            await _conditionHandler.PrepareDistributedRoutingAsync(module, cancellationToken)
+            await _conditionHandler.PrepareExecutionRoutingAsync(module, cancellationToken)
                 .ConfigureAwait(false);
         }
 
@@ -69,7 +69,7 @@ internal class DistributedWorkPublisher(
             RequiredCapabilities: requiredCapabilities,
             AssignedAt: DateTimeOffset.UtcNow,
             Configuration: new ModuleAssignmentConfiguration(
-                TimeoutSeconds: config.Timeout is not null ? (int?) config.Timeout.Value.TotalSeconds : null,
+                Timeout: config.Timeout,
                 AlwaysRun: config.AlwaysRun
             ),
             DependencyResultReferences: dependencyResultReferences)
@@ -79,7 +79,7 @@ internal class DistributedWorkPublisher(
                        ?? moduleType.GetCustomAttribute<PriorityAttribute>(inherit: true)?.Priority
                        ?? ModulePriority.Normal,
             CriticalPathWeight = criticalPathWeight,
-            SatisfiedConditionGroups = _conditionRouting?.GetLocallySatisfiedGroupNames(module) ?? [],
+            SatisfiedConditionGroups = _executionLocationContext?.GetSatisfiedConditionGroupNames(module) ?? [],
         };
     }
 
@@ -101,7 +101,7 @@ internal class DistributedWorkPublisher(
         foreach (var osCondition in conditionAttributes.Where(static attribute =>
                      attribute is not IGroupedConditionAttribute))
         {
-            if (_conditionRouting?.IsLocallySatisfied(module, osCondition.GetType()) == true)
+            if (_executionLocationContext?.IsConditionGroupSatisfied(module, osCondition.GetType()) == true)
             {
                 continue;
             }
@@ -122,7 +122,7 @@ internal class DistributedWorkPublisher(
                      .OfType<IGroupedConditionAttribute>()
                      .GroupBy(static attribute => attribute.ConditionGroupType))
         {
-            if (_conditionRouting?.IsLocallySatisfied(module, alternatives.Key) == true)
+            if (_executionLocationContext?.IsConditionGroupSatisfied(module, alternatives.Key) == true)
             {
                 continue;
             }

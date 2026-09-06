@@ -335,8 +335,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
             return true;
         }
 
-        var description = match.Groups["desc"].Value.Trim();
-        index = AccumulateMultiLineDescription(lines, index, ref description);
+        var description = AccumulateWrappedDescription(lines, ref index, match.Groups["desc"], IsOptionRow);
         option = CreateDefineOption(CleanDescription(description));
         return true;
     }
@@ -355,8 +354,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
         var shortForm = match.Groups["short"].Value.Trim();
         var longForm = match.Groups["long"].Value.Trim();
         var valueHint = match.Groups["value"].Value.Trim();
-        var description = match.Groups["desc"].Value.Trim();
-        index = AccumulateMultiLineDescription(lines, index, ref description);
+        var description = AccumulateWrappedDescription(lines, ref index, match.Groups["desc"], IsOptionRow);
 
         if (!seenOptions.Add(longForm))
         {
@@ -501,34 +499,8 @@ public partial class LiquibaseCliScraper : CliScraperBase
         };
     }
 
-    private static int AccumulateMultiLineDescription(string[] lines, int currentIndex, ref string description)
-    {
-        var descriptionParts = new List<string> { description };
-        var nextIndex = currentIndex + 1;
-
-        while (nextIndex < lines.Length)
-        {
-            var nextLine = lines[nextIndex];
-            if (string.IsNullOrWhiteSpace(nextLine) ||
-                LiquibaseOptionPattern().IsMatch(nextLine) ||
-                LiquibaseDefinePattern().IsMatch(nextLine))
-            {
-                break;
-            }
-
-            var leadingSpaces = nextLine.Length - nextLine.TrimStart().Length;
-            if (leadingSpaces < 20)
-            {
-                break;
-            }
-
-            descriptionParts.Add(nextLine.Trim());
-            nextIndex++;
-        }
-
-        description = string.Join(" ", descriptionParts.Where(x => !string.IsNullOrWhiteSpace(x)));
-        return nextIndex - 1;
-    }
+    private static bool IsOptionRow(string line) =>
+        LiquibaseOptionPattern().IsMatch(line) || LiquibaseDefinePattern().IsMatch(line);
 
     private static string? CleanDescription(string description)
     {

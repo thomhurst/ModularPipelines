@@ -661,6 +661,35 @@ public class AzCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Wrapped_Descriptions_That_Mention_Flags_Stay_Prose()
+    {
+        const string helpText = """
+            Command
+                az vm create : Create an Azure Virtual Machine.
+
+            Arguments
+                --name -n [Required] : Name of the virtual machine. The operation returns immediately when
+                                       --no-wait is also set.
+                --size               : The VM size to be created.
+                    Argument '--size' is in preview and under development.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(["az", "vm", "create"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo(["--name", "--size"]);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--name").Description)
+                .IsEqualTo("Name of the virtual machine. The operation returns immediately when --no-wait is also set.");
+
+            // knack prints preview notices four columns under the row; they now join the description.
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--size").Description)
+                .IsEqualTo("The VM size to be created. Argument '--size' is in preview and under development.");
+        }
+    }
+
     private sealed class TestAzCliScraper()
         : AzCliScraper(
             new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),

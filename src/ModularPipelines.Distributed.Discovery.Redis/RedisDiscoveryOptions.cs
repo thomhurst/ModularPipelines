@@ -27,17 +27,17 @@ public class RedisDiscoveryOptions
     public string KeyPrefix { get; set; } = "modular-pipelines";
 
     /// <summary>
-    /// TTL in seconds for the master URL key. Prevents stale URLs from persisting.
+    /// TTL for the master URL key. Prevents stale URLs from persisting. Default: 1 hour.
     /// </summary>
-    public int TtlSeconds { get; set; } = 3600;
+    public TimeSpan Ttl { get; set; } = TimeSpan.FromHours(1);
 
     /// <summary>
-    /// Timeout in seconds for workers waiting to discover the master URL.
+    /// Timeout for workers waiting to discover the master URL. Default: 2 minutes.
     /// </summary>
-    public int DiscoveryTimeoutSeconds { get; set; } = 120;
+    public TimeSpan DiscoveryTimeout { get; set; } = TimeSpan.FromMinutes(2);
 
     /// <summary>
-    /// Poll interval in milliseconds for workers checking for master URL availability.
+    /// Poll interval for workers checking for master URL availability. Default: 500 milliseconds.
     /// </summary>
-    public int PollIntervalMs { get; set; } = 500;
+    public TimeSpan PollInterval { get; set; } = TimeSpan.FromMilliseconds(500);
 }

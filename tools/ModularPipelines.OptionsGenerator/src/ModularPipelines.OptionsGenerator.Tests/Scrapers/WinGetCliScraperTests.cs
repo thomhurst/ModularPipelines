@@ -322,6 +322,31 @@ public class WinGetCliScraperTests
         await Assert.That(new TestWinGetCliScraper().Parallelism).IsEqualTo(1);
     }
 
+    [Test]
+    public async Task Wrapped_Descriptions_That_Look_Like_Option_Rows_Stay_Prose()
+    {
+        // The wrapped "--exact  to ..." line deliberately keeps two spaces so it satisfies the
+        // option-row pattern; only its column keeps it inside the description.
+        const string helpText = """
+            usage: winget install [[-q] <query>] [<options>]
+
+            The following options are available:
+              -q,--query                    The query used to search for a package. Combine with
+                                            --exact  to match the query exactly.
+              -e,--exact                    Find package using exact match
+            """;
+
+        var command = await new TestWinGetCliScraper().Parse(["winget", "install"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo(["--query", "--exact"]);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--query").Description)
+                .IsEqualTo("The query used to search for a package. Combine with --exact  to match the query exactly.");
+        }
+    }
+
     private sealed class TestWinGetCliScraper : WinGetCliScraper
     {
         public TestWinGetCliScraper(ICliCommandExecutor? executor = null)

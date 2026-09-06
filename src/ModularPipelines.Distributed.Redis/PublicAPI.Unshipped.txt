@@ -1,4 +1,8 @@
 #nullable enable
+*REMOVED*ModularPipelines.Distributed.Redis.Configuration.RedisDistributedOptions.KeyExpirationSeconds.get -> int
+*REMOVED*ModularPipelines.Distributed.Redis.Configuration.RedisDistributedOptions.KeyExpirationSeconds.set -> void
+ModularPipelines.Distributed.Redis.Configuration.RedisDistributedOptions.KeyExpiration.get -> System.TimeSpan
+ModularPipelines.Distributed.Redis.Configuration.RedisDistributedOptions.KeyExpiration.set -> void
 *REMOVED*ModularPipelines.Distributed.Redis.Configuration.RedisDistributedOptions.RunIdentifier.get -> string?
 *REMOVED*ModularPipelines.Distributed.Redis.Configuration.RedisDistributedOptions.RunIdentifier.set -> void
 static ModularPipelines.Distributed.Redis.Extensions.RedisDistributedExtensions.AddRedisDistributed(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! redisSection, System.Action<ModularPipelines.Distributed.ArtifactOptions!>? configureArtifacts = null) -> ModularPipelines.PipelineBuilder!
