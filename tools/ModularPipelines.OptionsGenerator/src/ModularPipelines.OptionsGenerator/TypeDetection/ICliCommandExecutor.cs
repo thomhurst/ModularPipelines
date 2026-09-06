@@ -63,6 +63,30 @@ public class CliCommandResult
     public required int ExitCode { get; init; }
 
     /// <summary>
+    /// Whether the command was abandoned because the executor's timeout elapsed.
+    /// </summary>
+    public bool TimedOut { get; init; }
+
+    /// <summary>
+    /// Whether the command was never attempted because the executor's circuit breaker was open.
+    /// </summary>
+    public bool CircuitOpen { get; init; }
+
+    /// <summary>
+    /// Whether the process could not be executed at all (the executable could not be resolved,
+    /// or launching it failed with, for example, a permission or executable-format error), so
+    /// the output describes that failure rather than a response.
+    /// </summary>
+    public bool ExecutionFailed { get; init; }
+
+    /// <summary>
+    /// Whether the output is not the command's real response: it timed out, was rejected by the
+    /// circuit breaker, or the process could not run. Callers treat such output as unavailable
+    /// rather than as a result.
+    /// </summary>
+    public bool Unavailable => TimedOut || CircuitOpen || ExecutionFailed;
+
+    /// <summary>
     /// Whether the command executed successfully (exit code 0).
     /// </summary>
     public bool Success => ExitCode == 0;

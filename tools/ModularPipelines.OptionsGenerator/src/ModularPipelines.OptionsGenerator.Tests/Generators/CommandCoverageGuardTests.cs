@@ -257,6 +257,156 @@ public class CommandCoverageGuardTests
     }
 
     [Test]
+    public async Task CoverageFailureDiagnostics_ListTimedOutHelpPaths()
+    {
+        var outputDirectory = CreateOutputDirectory();
+
+        try
+        {
+            var baseline = CommandCoverageGuard.Evaluate(
+                Tool(
+                    Command("aws ec2 describe-instances"),
+                    Command("aws fsx describe-backups")) with { ToolName = "aws" },
+                outputDirectory,
+                approveShrinkage: false);
+            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
+            var provenance = new CliScrapeProvenance();
+            provenance.Record(["aws"], "help", Result("RAW ROOT HELP"));
+            provenance.Record(["aws", "fsx"], "fsx help", TimedOutResult());
+            provenance.Record(["aws", "fsx"], "fsx help", Result("RAW FSX HELP"));
+            provenance.Record(["aws", "fsx", "describe-backups"], "fsx describe-backups help", TimedOutResult());
+            provenance.Record(["aws", "s3api", "create-bucket"], "s3api create-bucket help", new CliCommandResult
+            {
+                StandardOutput = string.Empty,
+                StandardError = "Permission denied",
+                ExitCode = -1,
+                ExecutionFailed = true,
+            });
+
+            static CliCommandResult TimedOutResult() =>
+                Result(string.Empty, standardError: "Command timed out or cancelled", exitCode: -1, timedOut: true);
+
+            // Approval must not absorb the timed-out command, and it is not a removal.
+            var current = CommandCoverageGuard.Evaluate(
+                Tool(Command("aws ec2 describe-instances")) with { ToolName = "aws" },
+                outputDirectory,
+                approveShrinkage: true,
+                unavailableHelpPaths: provenance.UnavailableHelpPaths);
+
+            var path = await provenance.WriteCoverageFailureDiagnosticsAsync(
+                outputDirectory,
+                current,
+                CancellationToken.None);
+            using var diagnostics = JsonDocument.Parse(await File.ReadAllTextAsync(path!));
+            var unavailableHelpPaths = diagnostics.RootElement
+                .GetProperty("unavailableHelpPaths")
+                .EnumerateArray()
+                .Select(static element => element.GetString())
+                .ToArray();
+            var invocationPaths = diagnostics.RootElement
+                .GetProperty("helpInvocations")
+                .EnumerateArray()
+                .Select(static element => element.GetProperty("commandPath").GetString())
+                .ToArray();
+
+            using (Assert.Multiple())
+            {
+                // A later successful invocation clears the path; the leaf that never answered and
+                // the one whose process could not run both stay.
+                await Assert.That(provenance.UnavailableHelpPaths)
+                    .IsEquivalentTo(["aws fsx describe-backups", "aws s3api create-bucket"]);
+                await Assert.That(current.UnavailableCommands)
+                    .IsEquivalentTo(["aws fsx describe-backups", "aws s3api create-bucket"]);
+                await Assert.That(current.RemovedCommands).IsEmpty();
+                await Assert.That(current.Violations).HasSingleItem();
+                await Assert.That(current.Violations[0]).Contains("Help was unavailable after all retries");
+                await Assert.That(unavailableHelpPaths)
+                    .IsEquivalentTo(["aws fsx describe-backups", "aws s3api create-bucket"]);
+                await Assert.That(invocationPaths).Contains("aws fsx describe-backups");
+            }
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Evaluate_Treats_Commands_Beneath_An_Unavailable_Group_As_Unavailable()
+    {
+        var outputDirectory = CreateOutputDirectory();
+
+        try
+        {
+            var baseline = CommandCoverageGuard.Evaluate(
+                Tool(
+                    Command("aws ec2 describe-instances"),
+                    Command("aws fsx create-backup"),
+                    Command("aws fsx describe-backups")) with { ToolName = "aws" },
+                outputDirectory,
+                approveShrinkage: false);
+            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
+
+            // The traversal never reached the fsx leaves because the group's own help was
+            // rejected by the circuit breaker; none of them is a removal.
+            var current = CommandCoverageGuard.Evaluate(
+                Tool(Command("aws ec2 describe-instances")) with { ToolName = "aws" },
+                outputDirectory,
+                approveShrinkage: true,
+                unavailableHelpPaths: ["aws fsx"]);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(current.RemovedCommands).IsEmpty();
+                await Assert.That(current.UnavailableCommands).IsEquivalentTo(["aws fsx"]);
+                await Assert.That(current.Violations).HasSingleItem();
+                await Assert.That(current.Violations[0]).Contains("aws fsx");
+            }
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Evaluate_Does_Not_Report_A_Group_Emptied_Only_By_Unavailable_Leaves()
+    {
+        var outputDirectory = CreateOutputDirectory();
+
+        try
+        {
+            var baseline = CommandCoverageGuard.Evaluate(
+                Tool(
+                    Command("aws ec2 describe-instances"),
+                    Command("aws fsx describe-backups")) with { ToolName = "aws" },
+                outputDirectory,
+                approveShrinkage: false);
+            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
+
+            // The group's help was fine; its only leaf timed out. The unavailable-help
+            // violation already explains why the group is empty, so it is not also a lost group.
+            var current = CommandCoverageGuard.Evaluate(
+                Tool(Command("aws ec2 describe-instances")) with { ToolName = "aws" },
+                outputDirectory,
+                approveShrinkage: false,
+                unavailableHelpPaths: ["aws fsx describe-backups"]);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(current.RemovedCommands).IsEmpty();
+                await Assert.That(current.KnownGroupsWithoutChildren).IsEmpty();
+                await Assert.That(current.Violations).HasSingleItem();
+                await Assert.That(current.Violations[0]).Contains("Help was unavailable");
+            }
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task CoverageFailureDiagnostics_DiscardUnpreservedLeafRawHelp()
     {
         var outputDirectory = CreateOutputDirectory();
@@ -682,10 +832,15 @@ public class CommandCoverageGuardTests
         Options = [],
     };
 
-    private static CliCommandResult Result(string standardOutput) => new()
+    private static CliCommandResult Result(
+        string standardOutput,
+        string standardError = "",
+        int exitCode = 0,
+        bool timedOut = false) => new()
     {
         StandardOutput = standardOutput,
-        StandardError = string.Empty,
-        ExitCode = 0,
+        StandardError = standardError,
+        ExitCode = exitCode,
+        TimedOut = timedOut,
     };
 }

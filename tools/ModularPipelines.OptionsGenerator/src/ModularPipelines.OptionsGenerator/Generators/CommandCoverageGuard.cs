@@ -20,13 +20,20 @@ internal static class CommandCoverageGuard
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
     };
 
+    /// <param name="unavailableHelpPaths">
+    /// Command paths whose help invocation never produced a real response (timed out after every
+    /// retry, or rejected by the circuit breaker). They and every baseline command beneath them
+    /// are unavailable in this scrape rather than removed from the tool, so they always fail
+    /// validation and are never covered by <paramref name="approveShrinkage"/>.
+    /// </param>
     public static CommandCoverageEvaluation Evaluate(
         CliToolDefinition tool,
         string outputDirectory,
         bool approveShrinkage,
         string? fallbackManifestPath = null,
         StringComparer? pathComparer = null,
-        bool allowMissingManifest = false)
+        bool allowMissingManifest = false,
+        IReadOnlyList<string>? unavailableHelpPaths = null)
     {
         var commands = GetCoverageCommands(tool);
         var manifestPath = GetManifestPath(tool, outputDirectory);
@@ -37,41 +44,17 @@ internal static class CommandCoverageGuard
             fallbackManifestPath,
             pathComparer ?? StringComparer.OrdinalIgnoreCase,
             allowMissingManifest);
-        var exclusions = ValidateExclusions(tool.CommandCoverage.Exclusions);
-        var excludedCommands = exclusions
-            .Select(exclusion => NormalizeCommand(exclusion.Command))
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var conditionallyAvailableCommands = ValidateConditionallyAvailableCommands(
-                tool.CommandCoverage.ConditionallyAvailableCommands)
-            .Select(command => NormalizeCommand(command.Command))
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var conflictingCommands = excludedCommands
-            .Intersect(conditionallyAvailableCommands, StringComparer.OrdinalIgnoreCase)
-            .Order(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
-        if (conflictingCommands.Length > 0)
-        {
-            throw new InvalidOperationException(
-                "Commands cannot be both excluded and conditionally available: "
-                + string.Join(", ", conflictingCommands));
-        }
-
-        var allowedMissingCommands = excludedCommands
-            .Concat(conditionallyAvailableCommands)
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var addedCommands = previous is null
-            ? []
-            : commands.Except(previous.Commands, StringComparer.OrdinalIgnoreCase).ToArray();
-        var removedCommands = previous is null
-            ? []
-            : previous.Commands.Except(commands, StringComparer.OrdinalIgnoreCase).ToArray();
+        var (exclusions, allowedMissingCommands) = ValidateCoveragePolicy(tool.CommandCoverage);
+        var unavailableCommands = GetUnavailableCommands(unavailableHelpPaths);
+        var (addedCommands, removedCommands) = GetCommandDiff(previous, commands, unavailableCommands);
         var unapprovedRemovedCommands = removedCommands
             .Where(command => !allowedMissingCommands.Contains(command))
             .ToArray();
         var knownGroupsWithoutChildren = GetKnownGroupsWithoutChildren(
             previous,
             commands,
-            allowedMissingCommands);
+            allowedMissingCommands,
+            unavailableCommands);
         var missingSentinels = GetMissingSentinels(tool.CommandCoverage, commands, allowedMissingCommands);
         var hasSameVersionCommandSetDrift = previous is not null
             && HasSameResolvedVersion(previous.ToolVersion, tool.ToolVersion)
@@ -88,7 +71,8 @@ internal static class CommandCoverageGuard
             tool.ToolVersion,
             approveShrinkage,
             previous?.ToolVersion,
-            tool.ToolVersion);
+            tool.ToolVersion,
+            unavailableCommands);
 
         var manifest = CreateManifest(tool.ToolName, tool.ToolVersion, commands, exclusions);
 
@@ -101,11 +85,73 @@ internal static class CommandCoverageGuard
             PreviousToolVersion = previous?.ToolVersion,
             AddedCommands = addedCommands,
             RemovedCommands = removedCommands,
+            UnavailableCommands = unavailableCommands,
             KnownGroupsWithoutChildren = knownGroupsWithoutChildren,
             Violations = violations,
             ChangesApproved = approveShrinkage
                               && unapprovedRemovedCommands.Length <= MaximumBlanketApprovedRemovals,
         };
+    }
+
+    private static (IReadOnlyList<CliCommandCoverageExclusion> Exclusions, HashSet<string> AllowedMissingCommands)
+        ValidateCoveragePolicy(CliCommandCoveragePolicy policy)
+    {
+        var exclusions = ValidateExclusions(policy.Exclusions);
+        var excludedCommands = exclusions
+            .Select(exclusion => NormalizeCommand(exclusion.Command))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var conditionallyAvailableCommands = ValidateConditionallyAvailableCommands(
+                policy.ConditionallyAvailableCommands)
+            .Select(command => NormalizeCommand(command.Command))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var conflictingCommands = excludedCommands
+            .Intersect(conditionallyAvailableCommands, StringComparer.OrdinalIgnoreCase)
+            .Order(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        if (conflictingCommands.Length > 0)
+        {
+            throw new InvalidOperationException(
+                "Commands cannot be both excluded and conditionally available: "
+                + string.Join(", ", conflictingCommands));
+        }
+
+        var allowedMissingCommands = excludedCommands
+            .Concat(conditionallyAvailableCommands)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        return (exclusions, allowedMissingCommands);
+    }
+
+    /// <summary>
+    /// Commands whose help never came back are unavailable, not removed: they (and, for a group
+    /// or root path, everything beneath them that the traversal never reached) stay out of the
+    /// removal arithmetic and its approval budget and are reported on their own.
+    /// </summary>
+    private static string[] GetUnavailableCommands(IReadOnlyList<string>? unavailableHelpPaths) =>
+        (unavailableHelpPaths ?? [])
+            .Select(NormalizeCommand)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .Order(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
+    private static bool IsUnavailable(string command, IReadOnlyList<string> unavailableCommands) =>
+        unavailableCommands.Any(unavailable => IsSameOrChildOf(unavailable, command));
+
+    private static (string[] Added, string[] Removed) GetCommandDiff(
+        CommandCoverageManifest? previous,
+        IReadOnlyList<string> commands,
+        IReadOnlyList<string> unavailableCommands)
+    {
+        if (previous is null)
+        {
+            return ([], []);
+        }
+
+        var added = commands.Except(previous.Commands, StringComparer.OrdinalIgnoreCase).ToArray();
+        var removed = previous.Commands
+            .Except(commands, StringComparer.OrdinalIgnoreCase)
+            .Where(command => !IsUnavailable(command, unavailableCommands))
+            .ToArray();
+        return (added, removed);
     }
 
     private static CommandCoverageManifest? ReadBaseline(
@@ -142,15 +188,21 @@ internal static class CommandCoverageGuard
         return null;
     }
 
+    /// <summary>
+    /// Baseline groups that no longer have any child command, unless every missing child is
+    /// either excluded by policy or unavailable (its help, or an ancestor's, could not be
+    /// scraped), in which case the unavailable-help violation already explains the gap.
+    /// </summary>
     private static IReadOnlyList<string> GetKnownGroupsWithoutChildren(
         CommandCoverageManifest? previous,
         IReadOnlyList<string> commands,
-        IReadOnlySet<string> excludedCommands) =>
+        IReadOnlySet<string> excludedCommands,
+        IReadOnlyList<string> unavailableCommands) =>
         previous?.CommandGroups
             .Where(group => HasChildren(group, previous.Commands) && !HasChildren(group, commands))
             .Where(group => !previous.Commands
                 .Where(command => IsChildOf(group, command))
-                .All(excludedCommands.Contains))
+                .All(command => excludedCommands.Contains(command) || IsUnavailable(command, unavailableCommands)))
             .ToArray()
         ?? [];
 
@@ -177,9 +229,16 @@ internal static class CommandCoverageGuard
         string? toolVersion,
         bool approveShrinkage,
         string? previousToolVersion,
-        string? currentToolVersion)
+        string? currentToolVersion,
+        IReadOnlyList<string> unavailableCommands)
     {
         var violations = new List<string>();
+
+        // Never subject to shrinkage approval: the scrape is incomplete, not the tool smaller.
+        AddViolation(
+            violations,
+            "Help was unavailable after all retries (timed out, rejected by the circuit breaker, or the process could not run); rerun the generation instead of approving these as removals",
+            unavailableCommands);
 
         if (policy.MinimumCommandCount is < 1)
         {
@@ -438,6 +497,10 @@ internal static class CommandCoverageGuard
     private static IReadOnlyList<string> GetCoverageCommands(CliToolDefinition tool)
         => NormalizeCommands(tool.Commands.Select(command => command.FullCommand));
 
+    private static bool IsSameOrChildOf(string ancestor, string command) =>
+        string.Equals(ancestor, command, StringComparison.OrdinalIgnoreCase)
+        || command.StartsWith(ancestor + " ", StringComparison.OrdinalIgnoreCase);
+
     private static string NormalizeCommand(string command) =>
         string.Join(' ', command.Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries));
 
@@ -521,6 +584,13 @@ internal sealed record CommandCoverageEvaluation
     public required IReadOnlyList<string> AddedCommands { get; init; }
 
     public required IReadOnlyList<string> RemovedCommands { get; init; }
+
+    /// <summary>
+    /// Command paths whose help invocation never produced a real response (timed out after every
+    /// retry, or rejected by the circuit breaker). They and the baseline commands beneath them are
+    /// excluded from <see cref="RemovedCommands"/> because the scrape, not the tool, is missing them.
+    /// </summary>
+    public IReadOnlyList<string> UnavailableCommands { get; init; } = [];
 
     public required IReadOnlyList<string> KnownGroupsWithoutChildren { get; init; }
 

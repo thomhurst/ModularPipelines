@@ -755,7 +755,29 @@ public abstract partial class CliScraperBase : ICliScraper
             cancellationToken,
             workingDirectory);
         _scrapeProvenance.Record(commandPath, arguments, result, preserveRawHelp);
-        return result;
+        if (!result.Unavailable)
+        {
+            return result;
+        }
+
+        // Every scraper's help parsing treats blank output as "no help", so hand back an empty
+        // result instead of the executor's placeholder text. The provenance keeps the path as
+        // unavailable, and coverage validation fails the run instead of reporting a removal.
+        Logger.LogWarning(
+            "Help for {Command} is unavailable in this scrape ({Reason})",
+            string.Join(' ', commandPath),
+            result.TimedOut ? "timed out after all retries"
+                : result.CircuitOpen ? "rejected by the circuit breaker"
+                : "the process could not be executed");
+        return new CliCommandResult
+        {
+            StandardOutput = string.Empty,
+            StandardError = string.Empty,
+            ExitCode = result.ExitCode,
+            TimedOut = result.TimedOut,
+            CircuitOpen = result.CircuitOpen,
+            ExecutionFailed = result.ExecutionFailed,
+        };
     }
 
     internal Task<string?> WriteCoverageFailureDiagnosticsAsync(
@@ -766,6 +788,12 @@ public abstract partial class CliScraperBase : ICliScraper
             outputDirectory,
             coverage,
             cancellationToken);
+
+    /// <summary>
+    /// Help paths whose invocation timed out after every retry or was rejected by the circuit
+    /// breaker during this scrape.
+    /// </summary>
+    internal IReadOnlyList<string> UnavailableHelpPaths => _scrapeProvenance.UnavailableHelpPaths;
 
     internal void PreserveRawHelpForCommandGroups(IEnumerable<string> commandGroups)
     {

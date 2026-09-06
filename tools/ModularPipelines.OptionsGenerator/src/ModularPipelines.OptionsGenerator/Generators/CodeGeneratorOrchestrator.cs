@@ -1057,7 +1057,8 @@ public class CodeGeneratorOrchestrator
             approveCommandCoverageShrinkage,
             commandCoverageBaselinePath,
             commandCoveragePathComparer,
-            allowMissingCommandCoverageManifest);
+            allowMissingCommandCoverageManifest,
+            scrapeProvenanceProvider?.UnavailableHelpPaths);
         var diagnosticsPath = coverage.Violations.Count == 0
             ? null
             : await TryWriteCoverageFailureDiagnosticsAsync(
