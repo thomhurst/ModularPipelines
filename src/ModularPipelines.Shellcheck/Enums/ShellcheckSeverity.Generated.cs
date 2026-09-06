@@ -19,12 +19,12 @@ public enum ShellcheckSeverity
     [EnumValue("error")]
     Error,
 
-    [EnumValue("warning")]
-    Warning,
-
     [EnumValue("info")]
     Info,
 
     [EnumValue("style")]
-    Style
+    Style,
+
+    [EnumValue("warning")]
+    Warning
 }

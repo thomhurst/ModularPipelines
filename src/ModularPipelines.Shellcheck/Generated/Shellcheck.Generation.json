@@ -3,5 +3,5 @@
   "toolName": "shellcheck",
   "toolVersion": "ShellCheck - shell script analysis tool version: 0.11.0 license: GNU General Public License, version 3 website: https://www.shellcheck.net",
   "commandTreeSha256": "e0feeff705f2c41109aa86a93c5d59e3b3bcad2e39dc7621ab911897e22c7bc4",
-  "generatorSourceSha256": "3c4a4b7d77c9c486eefb33c6d9f0e900bd1623eade9ce8de1537082c1d5cebeb"
+  "generatorSourceSha256": "bdf2981af64a9665cc6851ff1c5ed256989395d930ae8345ca28cd09d755e620"
 }
