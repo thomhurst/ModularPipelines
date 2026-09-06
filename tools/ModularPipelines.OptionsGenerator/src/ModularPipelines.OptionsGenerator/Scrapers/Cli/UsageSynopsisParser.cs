@@ -677,11 +677,12 @@ public static class UsageSynopsisParser
             return selectedArguments;
         }
 
+        var selectedPositionalCount = selectedArguments.Count(IsPositionalSlot);
         return selectedArguments
             .Select(argument => alternatives.All(alternative =>
                 IsRequiredInAlternative(
                     argument,
-                    selectedArguments.Count,
+                    selectedPositionalCount,
                     alternative.PositionalArguments))
                     ? argument
                     : argument with
@@ -706,12 +707,18 @@ public static class UsageSynopsisParser
             return true;
         }
 
-        return alternativeArguments.Count == selectedArgumentCount
-               && alternativeArguments.Any(candidate =>
+        // An operand attached to an option ("--path <PATH>") is that option's value, not a
+        // positional slot, so it cannot stand in for a positional at the same index.
+        var positionalCandidates = alternativeArguments.Where(IsPositionalSlot).ToArray();
+        return positionalCandidates.Length == selectedArgumentCount
+               && positionalCandidates.Any(candidate =>
                    candidate.IsRequired
                    && candidate.PositionIndex == selectedArgument.PositionIndex
                    && candidate.Phase == selectedArgument.Phase);
     }
+
+    private static bool IsPositionalSlot(CliPositionalArgument argument) =>
+        argument.AssociatedOptionSwitch is null;
 
     private static IReadOnlyList<string> ExtractSynopses(
         string helpText,
