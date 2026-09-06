@@ -43,6 +43,16 @@ try {
         throw "Orphaned marker was not reported: $($orphanOutput -join "`n")"
     }
 
+    Add-File 'src/ModularPipelines.Cmd/PublicAPI.Unshipped.txt' "#nullable enable`n*REMOVED*Api.Retired`nApi.Added`nApi.Added"
+    $duplicateOutput = & pwsh -NoProfile -File $scriptPath -RepositoryRoot $testRoot 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        throw 'Duplicate baseline entry unexpectedly passed.'
+    }
+
+    if (($duplicateOutput -join "`n") -notmatch 'ModularPipelines.Cmd[\\/]PublicAPI.Unshipped.txt: Api.Added') {
+        throw "Duplicate entry was not reported: $($duplicateOutput -join "`n")"
+    }
+
     Add-BaselinePair 'src/ModularPipelines.Cmd'
     Remove-Item -LiteralPath (Join-Path $testRoot 'src/ModularPipelines.Example/PublicAPI.Unshipped.txt')
     $failureOutput = & pwsh -NoProfile -File $scriptPath -RepositoryRoot $testRoot 2>&1

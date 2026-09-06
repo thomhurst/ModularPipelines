@@ -28,6 +28,27 @@ $packageProjects = @(
 
 $missingBaselines = [System.Collections.Generic.List[string]]::new()
 $orphanedMarkers = [System.Collections.Generic.List[string]]::new()
+$duplicateEntries = [System.Collections.Generic.List[string]]::new()
+
+function Add-DuplicateEntries([string] $Path) {
+    # PublicApiAnalyzers rejects a baseline that lists the same entry twice (RS0024).
+    # Bulk-constructing the set is cheap even for 100k-line files; only walk line by line
+    # when the counts prove something repeats.
+    $lines = [System.IO.File]::ReadAllLines($Path)
+    $distinct = [System.Collections.Generic.HashSet[string]]::new($lines, [System.StringComparer]::Ordinal)
+    if ($distinct.Count -eq $lines.Length) {
+        return
+    }
+
+    $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+    foreach ($line in $lines) {
+        $entry = $line.Trim()
+        if ($entry.Length -gt 0 -and -not $entry.StartsWith('#', [System.StringComparison]::Ordinal) -and -not $seen.Add($entry)) {
+            $duplicateEntries.Add("$([System.IO.Path]::GetRelativePath($repositoryRootPath, $Path)): $entry")
+        }
+    }
+}
+
 foreach ($project in $packageProjects) {
     $projectDirectory = Split-Path $project -Parent
     $shippedPath = Join-Path $projectDirectory 'PublicAPI.Shipped.txt'
@@ -40,6 +61,9 @@ foreach ($project in $packageProjects) {
 
         continue
     }
+
+    Add-DuplicateEntries $shippedPath
+    Add-DuplicateEntries $unshippedPath
 
     # A *REMOVED* marker retires a shipped entry until a release ships the unshipped
     # baseline, so every marker must still have its entry in PublicAPI.Shipped.txt.
@@ -68,6 +92,11 @@ if ($missingBaselines.Count -gt 0) {
 if ($orphanedMarkers.Count -gt 0) {
     $orphanList = $orphanedMarkers -join [Environment]::NewLine
     throw "Public API baselines contain *REMOVED* markers without a shipped entry:$([Environment]::NewLine)$orphanList"
+}
+
+if ($duplicateEntries.Count -gt 0) {
+    $duplicateList = $duplicateEntries -join [Environment]::NewLine
+    throw "Public API baselines list the same entry more than once:$([Environment]::NewLine)$duplicateList"
 }
 
 Write-Output "Verified public API baselines for $($packageProjects.Count) package projects."
