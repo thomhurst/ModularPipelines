@@ -65,9 +65,11 @@ internal class RedisMasterDiscovery : IMasterDiscovery
                 await Task.Delay(_options.PollInterval, timeoutCts.Token);
             }
         }
-        catch (OperationCanceledException exception) when (!cancellationToken.IsCancellationRequested)
+        catch (OperationCanceledException exception)
+            when (timeoutCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
         {
-            // Only the discovery timeout cancelled the linked token; caller cancellation propagates as-is.
+            // Only an elapsed discovery timeout is translated; caller cancellation and a store
+            // that cancels on its own propagate as-is.
             throw new TimeoutException(
                 $"Failed to discover master endpoint within {_options.DiscoveryTimeout}. " +
                 $"Redis key: {_masterEndpointKey}",

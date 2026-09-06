@@ -147,6 +147,38 @@ public class DistributedOptionsTests
     }
 
     [Test]
+    public async Task RequireExplicitRunId_Survives_A_Later_Binding_That_Turns_It_Off()
+    {
+        var previousRunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID");
+
+        try
+        {
+            Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", null);
+            var configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection(new Dictionary<string, string?>
+                {
+                    ["Distributed:TotalInstances"] = "1",
+                    ["Distributed:RequireExplicitRunId"] = "false",
+                })
+                .Build();
+            var builder = TestPipelineBuilder.Create();
+            builder.RequireExplicitRunId();
+            builder.AddDistributedMode(configuration.GetSection("Distributed"));
+            builder.AddModule<NoOpModule>();
+
+            // The backend's requirement was registered first, so the binding above would have
+            // reset the flag; run identifier resolution must still refuse the generated fallback.
+            await Assert.That(async () => await builder.BuildAsync())
+                .Throws<InvalidOperationException>()
+                .And.HasMessageContaining("requires one shared RunId");
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("MODULARPIPELINES_RUN_ID", previousRunId);
+        }
+    }
+
+    [Test]
     public async Task DependencyBasedPostConfigure_Selects_Worker_Executor()
     {
         var builder = TestPipelineBuilder.Create();

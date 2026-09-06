@@ -160,5 +160,30 @@ public class RedisMasterDiscoveryTests
             .Throws<OperationCanceledException>();
     }
 
+    [Test]
+    public async Task DiscoverMasterUrl_Does_Not_Translate_A_Store_Cancellation_Into_A_Timeout()
+    {
+        // Arrange: the store cancels on its own before either token is cancelled.
+        var db = new Mock<IDatabase>();
+        db.Setup(d => d.StringGetAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+            .ThrowsAsync(new OperationCanceledException("store cancelled"));
+
+        var connection = new Mock<IConnectionMultiplexer>();
+        connection.Setup(c => c.GetDatabase(It.IsAny<int>(), It.IsAny<object>())).Returns(db.Object);
+
+        var options = new RedisDiscoveryOptions
+        {
+            KeyPrefix = "test-prefix",
+            DiscoveryTimeout = TimeSpan.FromSeconds(30),
+        };
+
+        var discovery = new RedisMasterDiscovery(
+            connection.Object, options, RunOptions(), NullLogger<RedisMasterDiscovery>.Instance);
+
+        // Act & Assert
+        await Assert.That(async () => await discovery.DiscoverMasterEndpointAsync(CancellationToken.None))
+            .ThrowsExactly<OperationCanceledException>();
+    }
+
     private static DistributedOptions RunOptions() => new() { RunId = "test-run" };
 }
