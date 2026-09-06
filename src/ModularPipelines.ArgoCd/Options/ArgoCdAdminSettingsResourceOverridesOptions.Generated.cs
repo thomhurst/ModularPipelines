@@ -319,11 +319,4 @@ public record ArgoCdAdminSettingsResourceOverridesOptions : ArgoCdOptions
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
 
-    [Obsolete("Use KubeConfig instead.")]
-    public string? Kubeconfig
-    {
-        get => KubeConfig;
-        set => KubeConfig = value;
-    }
-
 }

@@ -21,7 +21,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("login")]
 public record ArgoCdLoginOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Server
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServerArgument
 ) : ArgoCdOptions
 {
     /// <summary>
@@ -222,7 +222,7 @@ public record ArgoCdLoginOptions(
     /// Argo CD server address
     /// </summary>
     [CliOption("--server", Format = OptionFormat.EqualsSeparated)]
-    public string? ServerOption { get; set; }
+    public string? Server { get; set; }
 
     /// <summary>
     /// Server certificate file

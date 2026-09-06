@@ -17,8 +17,8 @@ namespace ModularPipelines.ArgoCd.Enums;
 public enum ArgoCdAppActionsRedisCompress
 {
     [EnumValue("gzip")]
-    Gzip = 0,
+    Gzip,
 
     [EnumValue("none")]
-    None = 1
+    None
 }

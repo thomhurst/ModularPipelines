@@ -149,6 +149,16 @@ public class CodeGeneratorOrchestrator
             .ToArray();
         var replaceableExistingPaths = previouslyOwnedFullPaths
             .ToHashSet(fileSystemPathComparer);
+        var replaceableManifestPaths = new HashSet<string>(fileSystemPathComparer);
+        if (previousOwnership.Exists)
+        {
+            replaceableManifestPaths.Add(Path.GetFullPath(
+                ExternalToolDefinitionLoader.ValidateRelativeOutputPath(
+                    previousOwnership.RelativePath,
+                    outputDirectory,
+                    "previous external ownership manifest")));
+        }
+
         var result = new GenerationResult
         {
             ToolsProcessed = { tool.ToolName },
@@ -181,6 +191,7 @@ public class CodeGeneratorOrchestrator
                     ownershipRelativePath,
                     tool.OwnershipId!,
                     journalOwnedPaths,
+                    replaceableManifestPaths,
                     token);
             });
 
@@ -205,6 +216,7 @@ public class CodeGeneratorOrchestrator
             ownershipRelativePath,
             tool.OwnershipId!,
             manifestOwnedPaths,
+            replaceableManifestPaths,
             cancellationToken);
         result.FilesGenerated.Add(ownershipRelativePath);
         if (!fileSystemPathComparer.Equals(
@@ -443,6 +455,7 @@ public class CodeGeneratorOrchestrator
         string relativePath,
         string ownershipId,
         IReadOnlyCollection<string> ownedPaths,
+        HashSet<string> replaceableManifestPaths,
         CancellationToken cancellationToken)
     {
         var manifestPath = ExternalToolDefinitionLoader.ValidateRelativeOutputPath(
@@ -462,6 +475,26 @@ public class CodeGeneratorOrchestrator
         var temporaryPath = $"{manifestPath}.{Guid.NewGuid():N}.tmp";
         try
         {
+            RejectUnownedExistingPath(
+                manifestPath,
+                outputDirectory,
+                replaceableManifestPaths);
+            var manifestDirectory = Path.GetDirectoryName(manifestPath)!;
+            Directory.CreateDirectory(manifestDirectory);
+            var fileNames = GetFileNames(manifestDirectory, fileNamesByDirectory: null);
+            RejectUnownedCasingVariants(
+                manifestPath,
+                manifestDirectory,
+                fileNames,
+                outputDirectory,
+                replaceableManifestPaths);
+            EnsureExactFileNameCasing(
+                manifestPath,
+                manifestDirectory,
+                fileNames,
+                outputDirectory,
+                replaceableManifestPaths);
+
             await WriteFileAsync(
                 temporaryPath,
                 content,
@@ -473,6 +506,7 @@ public class CodeGeneratorOrchestrator
                 manifestPath,
                 "external ownership manifest");
             File.Move(temporaryPath, manifestPath, overwrite: true);
+            replaceableManifestPaths.Add(Path.GetFullPath(manifestPath));
         }
         finally
         {
@@ -897,6 +931,7 @@ public class CodeGeneratorOrchestrator
                 toolDefinition,
                 generatedFiles,
                 outputDirectory,
+                fileSystemPathComparer,
                 replaceableExistingPaths);
         }
 
@@ -921,6 +956,7 @@ public class CodeGeneratorOrchestrator
         }
 
         var writtenFullPaths = new HashSet<string>(fileSystemPathComparer);
+        var fileNamesByDirectory = new Dictionary<string, HashSet<string>>(fileSystemPathComparer);
 
         foreach (var file in generatedFiles)
         {
@@ -930,7 +966,9 @@ public class CodeGeneratorOrchestrator
                 file.Content,
                 cancellationToken,
                 enforceOutputContainment ? outputDirectory : null,
-                "generated file path");
+                "generated file path",
+                fileNamesByDirectory,
+                replaceableExistingPaths);
             writtenFullPaths.Add(Path.GetFullPath(fullPath));
             result.FilesGenerated.Add(file.RelativePath);
             emittedPaths.Add(file.RelativePath.Replace('\\', '/'));
@@ -1094,22 +1132,52 @@ public class CodeGeneratorOrchestrator
         CliToolDefinition toolDefinition,
         IReadOnlyCollection<GeneratedFile> generatedFiles,
         string outputDirectory,
+        StringComparer fileSystemPathComparer,
         IReadOnlySet<string>? replaceableExistingPaths)
     {
+        var fileNamesByDirectory = new Dictionary<string, HashSet<string>>(fileSystemPathComparer);
         foreach (var file in generatedFiles)
         {
             var fullPath = ValidateContainedPath(
                 outputDirectory,
                 file.RelativePath,
                 "generated file path");
-            RejectUnownedExistingPath(fullPath, replaceableExistingPaths);
+            ValidateExistingOutputPath(
+                fullPath,
+                outputDirectory,
+                fileNamesByDirectory,
+                replaceableExistingPaths);
         }
 
-        RejectUnownedExistingPath(
+        ValidateExistingOutputPath(
             ValidateContainedPath(
                 outputDirectory,
                 CommandCoverageGuard.GetManifestPath(toolDefinition, outputDirectory),
                 "command coverage manifest"),
+            outputDirectory,
+            fileNamesByDirectory,
+            replaceableExistingPaths);
+    }
+
+    private static void ValidateExistingOutputPath(
+        string fullPath,
+        string ownershipRoot,
+        IDictionary<string, HashSet<string>> fileNamesByDirectory,
+        IReadOnlySet<string>? replaceableExistingPaths)
+    {
+        RejectUnownedExistingPath(fullPath, ownershipRoot, replaceableExistingPaths);
+
+        var directory = Path.GetDirectoryName(fullPath);
+        if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
+        {
+            return;
+        }
+
+        RejectUnownedCasingVariants(
+            fullPath,
+            directory,
+            GetFileNames(directory, fileNamesByDirectory),
+            ownershipRoot,
             replaceableExistingPaths);
     }
 
@@ -1154,7 +1222,9 @@ public class CodeGeneratorOrchestrator
         string content,
         CancellationToken cancellationToken,
         string? containmentRoot = null,
-        string propertyName = "generated path")
+        string propertyName = "generated path",
+        IDictionary<string, HashSet<string>>? fileNamesByDirectory = null,
+        IReadOnlySet<string>? replaceableExistingPaths = null)
     {
         if (containmentRoot is not null)
         {
@@ -1165,6 +1235,13 @@ public class CodeGeneratorOrchestrator
         if (!string.IsNullOrEmpty(directory))
         {
             Directory.CreateDirectory(directory);
+            var fileNames = GetFileNames(directory, fileNamesByDirectory);
+            EnsureExactFileNameCasing(
+                path,
+                directory,
+                fileNames,
+                containmentRoot,
+                replaceableExistingPaths);
         }
 
         if (containmentRoot is not null)
@@ -1173,6 +1250,95 @@ public class CodeGeneratorOrchestrator
         }
 
         await File.WriteAllTextAsync(path, content, cancellationToken);
+
+        if (!string.IsNullOrEmpty(directory))
+        {
+            GetFileNames(directory, fileNamesByDirectory).Add(Path.GetFileName(path));
+        }
+    }
+
+    private static HashSet<string> GetFileNames(
+        string directory,
+        IDictionary<string, HashSet<string>>? fileNamesByDirectory)
+    {
+        if (fileNamesByDirectory?.TryGetValue(directory, out var cachedNames) == true)
+        {
+            return cachedNames;
+        }
+
+        var names = Directory.EnumerateFiles(directory)
+            .Select(Path.GetFileName)
+            .OfType<string>()
+            .ToHashSet(StringComparer.Ordinal);
+        fileNamesByDirectory?.Add(directory, names);
+        return names;
+    }
+
+    private static void EnsureExactFileNameCasing(
+        string path,
+        string directory,
+        ISet<string> names,
+        string? containmentRoot,
+        IReadOnlySet<string>? replaceableExistingPaths)
+    {
+        var expectedName = Path.GetFileName(path);
+        if (names.Contains(expectedName))
+        {
+            return;
+        }
+
+        var casingVariant = names.FirstOrDefault(name =>
+            string.Equals(name, expectedName, StringComparison.OrdinalIgnoreCase));
+        if (casingVariant is null)
+        {
+            return;
+        }
+
+        var existingPath = Path.Combine(directory, casingVariant);
+        var ownershipRoot = containmentRoot ?? directory;
+        if (!IsOwnedExistingPath(existingPath, ownershipRoot, replaceableExistingPaths))
+        {
+            throw new InvalidDataException(
+                $"Refusing to rename existing path '{existingPath}' because it is not owned by this generation.");
+        }
+
+        var temporaryPath = Path.Combine(directory, $".{Guid.NewGuid():N}.casing.tmp");
+        File.Move(existingPath, temporaryPath);
+        try
+        {
+            File.Move(temporaryPath, path);
+        }
+        catch (Exception moveException)
+        {
+            Exception? recoveryException = null;
+            try
+            {
+                if (File.Exists(temporaryPath) && !File.Exists(existingPath))
+                {
+                    File.Move(temporaryPath, existingPath);
+                }
+            }
+            catch (Exception exception)
+            {
+                recoveryException = exception;
+            }
+
+            if (File.Exists(temporaryPath))
+            {
+                var innerException = recoveryException is null
+                    ? moveException
+                    : new AggregateException(moveException, recoveryException);
+                throw new IOException(
+                    $"Failed to apply exact casing for '{path}'. "
+                    + $"The recoverable original remains at '{temporaryPath}'.",
+                    innerException);
+            }
+
+            throw;
+        }
+
+        names.Remove(casingVariant);
+        names.Add(expectedName);
     }
 
     private static string ValidateContainedPath(
@@ -1189,18 +1355,44 @@ public class CodeGeneratorOrchestrator
             propertyName);
     }
 
+    private static void RejectUnownedCasingVariants(
+        string path,
+        string directory,
+        IEnumerable<string> names,
+        string ownershipRoot,
+        IReadOnlySet<string>? replaceableExistingPaths)
+    {
+        var expectedName = Path.GetFileName(path);
+        foreach (var casingVariant in names.Where(name =>
+                     !string.Equals(name, expectedName, StringComparison.Ordinal)
+                     && string.Equals(name, expectedName, StringComparison.OrdinalIgnoreCase)))
+        {
+            RejectUnownedExistingPath(
+                Path.Combine(directory, casingVariant),
+                ownershipRoot,
+                replaceableExistingPaths);
+        }
+    }
+
     private static void RejectUnownedExistingPath(
         string fullPath,
+        string ownershipRoot,
         IReadOnlySet<string>? replaceableExistingPaths)
     {
         if (File.Exists(fullPath)
-            && (replaceableExistingPaths is null
-                || !replaceableExistingPaths.Contains(Path.GetFullPath(fullPath))))
+            && !IsOwnedExistingPath(fullPath, ownershipRoot, replaceableExistingPaths))
         {
             throw new InvalidDataException(
                 $"Refusing to overwrite existing path '{fullPath}' because it is not owned by this external definition.");
         }
     }
+
+    private static bool IsOwnedExistingPath(
+        string fullPath,
+        string ownershipRoot,
+        IReadOnlySet<string>? replaceableExistingPaths) =>
+        replaceableExistingPaths?.Contains(Path.GetFullPath(fullPath))
+        ?? IsExternallyOwnedGeneratedFile(ownershipRoot, fullPath);
 
     private void CleanupReconciledGeneratedFiles(
         string outputDirectory,

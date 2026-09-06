@@ -17,8 +17,8 @@ namespace ModularPipelines.ArgoCd.Enums;
 public enum ArgoCdAccountListLogformat
 {
     [EnumValue("json")]
-    Json = 0,
+    Json,
 
     [EnumValue("text")]
-    Text = 1
+    Text
 }

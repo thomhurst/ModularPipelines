@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "cluster", "kubeconfig")]
-public record ArgoCdAdminClusterKubeconfigOptions : ArgoCdOptions
+public record ArgoCdAdminClusterKubeConfigOptions : ArgoCdOptions
 {
     /// <summary>
     /// Username to impersonate for the operation
@@ -233,13 +233,13 @@ public record ArgoCdAdminClusterKubeconfigOptions : ArgoCdOptions
     /// Set the logging format. One of: json|text (default "json")
     /// </summary>
     [CliOption("--logformat", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdAdminClusterKubeconfigLogformat? Logformat { get; set; }
+    public ArgoCdAdminClusterKubeConfigLogformat? Logformat { get; set; }
 
     /// <summary>
     /// Set the logging level. One of: debug|info|warn|error (default "info")
     /// </summary>
     [CliOption("--loglevel", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdAdminClusterKubeconfigLoglevel? Loglevel { get; set; }
+    public ArgoCdAdminClusterKubeConfigLoglevel? Loglevel { get; set; }
 
     /// <summary>
     /// Disable TLS
@@ -269,7 +269,7 @@ public record ArgoCdAdminClusterKubeconfigOptions : ArgoCdOptions
     /// Enable this if the application controller is configured with redis compression enabled. (possible values: gzip, none) (default "gzip")
     /// </summary>
     [CliOption("--redis-compress", Format = OptionFormat.EqualsSeparated)]
-    public ArgoCdAdminClusterKubeconfigRedisCompress? RedisCompress { get; set; }
+    public ArgoCdAdminClusterKubeConfigRedisCompress? RedisCompress { get; set; }
 
     /// <summary>
     /// Name of the Redis HA Proxy; set this or the ARGOCD_REDIS_HAPROXY_NAME environment variable when the HA Proxy's name label differs from the default, for example when installing via the Helm chart (default "argocd-redis-ha-haproxy")
@@ -312,12 +312,5 @@ public record ArgoCdAdminClusterKubeconfigOptions : ArgoCdOptions
     /// </summary>
     [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? OutputPath { get; set; }
-
-    [Obsolete("Use KubeConfig instead.")]
-    public string? Kubeconfig
-    {
-        get => KubeConfig;
-        set => KubeConfig = value;
-    }
 
 }
