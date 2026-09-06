@@ -275,6 +275,13 @@ public class CommandCoverageGuardTests
             provenance.Record(["aws", "fsx"], "fsx help", TimedOutResult());
             provenance.Record(["aws", "fsx"], "fsx help", Result("RAW FSX HELP"));
             provenance.Record(["aws", "fsx", "describe-backups"], "fsx describe-backups help", TimedOutResult());
+            provenance.Record(["aws", "s3api", "create-bucket"], "s3api create-bucket help", new CliCommandResult
+            {
+                StandardOutput = string.Empty,
+                StandardError = "Permission denied",
+                ExitCode = -1,
+                ExecutionFailed = true,
+            });
 
             static CliCommandResult TimedOutResult() =>
                 Result(string.Empty, standardError: "Command timed out or cancelled", exitCode: -1, timedOut: true);
@@ -304,13 +311,17 @@ public class CommandCoverageGuardTests
 
             using (Assert.Multiple())
             {
-                // A later successful invocation clears the path; the leaf that never answered stays.
-                await Assert.That(provenance.UnavailableHelpPaths).IsEquivalentTo(["aws fsx describe-backups"]);
-                await Assert.That(current.UnavailableCommands).IsEquivalentTo(["aws fsx describe-backups"]);
+                // A later successful invocation clears the path; the leaf that never answered and
+                // the one whose process could not run both stay.
+                await Assert.That(provenance.UnavailableHelpPaths)
+                    .IsEquivalentTo(["aws fsx describe-backups", "aws s3api create-bucket"]);
+                await Assert.That(current.UnavailableCommands)
+                    .IsEquivalentTo(["aws fsx describe-backups", "aws s3api create-bucket"]);
                 await Assert.That(current.RemovedCommands).IsEmpty();
                 await Assert.That(current.Violations).HasSingleItem();
                 await Assert.That(current.Violations[0]).Contains("Help was unavailable after all retries");
-                await Assert.That(unavailableHelpPaths).IsEquivalentTo(["aws fsx describe-backups"]);
+                await Assert.That(unavailableHelpPaths)
+                    .IsEquivalentTo(["aws fsx describe-backups", "aws s3api create-bucket"]);
                 await Assert.That(invocationPaths).Contains("aws fsx describe-backups");
             }
         }

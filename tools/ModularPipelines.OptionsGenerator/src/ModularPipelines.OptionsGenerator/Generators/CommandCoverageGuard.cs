@@ -232,7 +232,7 @@ internal static class CommandCoverageGuard
         // Never subject to shrinkage approval: the scrape is incomplete, not the tool smaller.
         AddViolation(
             violations,
-            "Help was unavailable after all retries (timed out or rejected by the circuit breaker); rerun the generation instead of approving these as removals",
+            "Help was unavailable after all retries (timed out, rejected by the circuit breaker, or the process could not run); rerun the generation instead of approving these as removals",
             unavailableCommands);
 
         if (policy.MinimumCommandCount is < 1)
