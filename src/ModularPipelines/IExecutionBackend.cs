@@ -7,9 +7,12 @@ namespace ModularPipelines;
 /// Executes the modules selected by the pipeline planner.
 /// </summary>
 /// <remarks>
-/// Implement this interface to provide a custom orchestration backend, such as a cloud task queue
-/// or one isolated process per module. A backend that <see cref="OwnsEntirePlan"/> must either return
-/// or apply a result for every planned module before completing.
+/// Implement this interface to provide a custom orchestration backend that supplies module results,
+/// for example by submitting modules to a cloud task queue or to remote processes and returning the
+/// results they produce. The engine's module runner is not public, so a custom backend cannot drive a
+/// module through the in-process lifecycle itself; the built-in local and distributed backends do that.
+/// A backend that <see cref="OwnsEntirePlan"/> must either return or apply a result for every planned
+/// module before completing.
 /// </remarks>
 public interface IExecutionBackend
 {
