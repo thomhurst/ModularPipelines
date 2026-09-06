@@ -53,6 +53,29 @@ try {
         throw "Duplicate entry was not reported: $($duplicateOutput -join "`n")"
     }
 
+    # The same plain symbol in both files is the RS0025 shape; a shipped entry plus its
+    # marker is not.
+    Add-File 'src/ModularPipelines.Cmd/PublicAPI.Unshipped.txt' "#nullable enable`n*REMOVED*Api.Retired`nApi.Kept"
+    $pairOutput = & pwsh -NoProfile -File $scriptPath -RepositoryRoot $testRoot 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        throw 'Symbol listed in both baselines unexpectedly passed.'
+    }
+
+    if (($pairOutput -join "`n") -notmatch 'ModularPipelines.Cmd[\\/]PublicAPI.Unshipped.txt: Api.Kept \(also in PublicAPI.Shipped.txt\)') {
+        throw "Cross-file duplicate was not reported: $($pairOutput -join "`n")"
+    }
+
+    # Markers compare exactly, as the merge script does; trailing whitespace is an orphan.
+    Add-File 'src/ModularPipelines.Cmd/PublicAPI.Unshipped.txt' "#nullable enable`n*REMOVED*Api.Retired "
+    $whitespaceOutput = & pwsh -NoProfile -File $scriptPath -RepositoryRoot $testRoot 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        throw 'Marker with trailing whitespace unexpectedly passed.'
+    }
+
+    if (($whitespaceOutput -join "`n") -notmatch 'ModularPipelines.Cmd[\\/]PublicAPI.Unshipped.txt: \*REMOVED\*Api.Retired ') {
+        throw "Whitespace marker was not reported: $($whitespaceOutput -join "`n")"
+    }
+
     Add-BaselinePair 'src/ModularPipelines.Cmd'
     Remove-Item -LiteralPath (Join-Path $testRoot 'src/ModularPipelines.Example/PublicAPI.Unshipped.txt')
     $failureOutput = & pwsh -NoProfile -File $scriptPath -RepositoryRoot $testRoot 2>&1

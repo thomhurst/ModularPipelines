@@ -30,21 +30,24 @@ $missingBaselines = [System.Collections.Generic.List[string]]::new()
 $orphanedMarkers = [System.Collections.Generic.List[string]]::new()
 $duplicateEntries = [System.Collections.Generic.List[string]]::new()
 
-function Add-DuplicateEntries([string] $Path) {
+function Test-ApiEntry([string] $Line) {
+    return $Line.Length -gt 0 -and -not $Line.StartsWith('#', [System.StringComparison]::Ordinal)
+}
+
+function Add-DuplicateEntries([string] $Path, [string[]] $Lines) {
     # PublicApiAnalyzers rejects a baseline that lists the same entry twice (RS0024).
-    # Bulk-constructing the set is cheap even for 100k-line files; only walk line by line
-    # when the counts prove something repeats.
-    $lines = [System.IO.File]::ReadAllLines($Path)
-    $distinct = [System.Collections.Generic.HashSet[string]]::new($lines, [System.StringComparer]::Ordinal)
-    if ($distinct.Count -eq $lines.Length) {
+    # Entries compare exactly, as the merge script and the analyzer do. Bulk-constructing
+    # the set is cheap even for 100k-line files; only walk line by line when the counts
+    # prove something repeats.
+    $distinct = [System.Collections.Generic.HashSet[string]]::new($Lines, [System.StringComparer]::Ordinal)
+    if ($distinct.Count -eq $Lines.Length) {
         return
     }
 
     $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
-    foreach ($line in $lines) {
-        $entry = $line.Trim()
-        if ($entry.Length -gt 0 -and -not $entry.StartsWith('#', [System.StringComparison]::Ordinal) -and -not $seen.Add($entry)) {
-            $duplicateEntries.Add("$([System.IO.Path]::GetRelativePath($repositoryRootPath, $Path)): $entry")
+    foreach ($line in $Lines) {
+        if ((Test-ApiEntry $line) -and -not $seen.Add($line)) {
+            $duplicateEntries.Add("$([System.IO.Path]::GetRelativePath($repositoryRootPath, $Path)): $line")
         }
     }
 }
@@ -62,24 +65,28 @@ foreach ($project in $packageProjects) {
         continue
     }
 
-    Add-DuplicateEntries $shippedPath
-    Add-DuplicateEntries $unshippedPath
+    $shippedLines = [System.IO.File]::ReadAllLines($shippedPath)
+    $unshippedLines = [System.IO.File]::ReadAllLines($unshippedPath)
+    Add-DuplicateEntries $shippedPath $shippedLines
+    Add-DuplicateEntries $unshippedPath $unshippedLines
 
     # A *REMOVED* marker retires a shipped entry until a release ships the unshipped
-    # baseline, so every marker must still have its entry in PublicAPI.Shipped.txt.
-    $markers = @([System.IO.File]::ReadAllLines($unshippedPath) | Where-Object { Test-RemovedMarker $_ })
-    if ($markers.Count -eq 0) {
-        continue
-    }
-
-    # Shipped baselines run to 100k+ lines, so only read them when a marker needs checking.
-    $shipped = [System.Collections.Generic.HashSet[string]]::new(
-        [System.IO.File]::ReadAllLines($shippedPath),
-        [System.StringComparer]::Ordinal)
+    # baseline, so every marker must still have its entry in PublicAPI.Shipped.txt. A
+    # plain entry that is also still shipped is the RS0025 duplicate-symbol case.
+    $shipped = [System.Collections.Generic.HashSet[string]]::new($shippedLines, [System.StringComparer]::Ordinal)
     $relativePath = [System.IO.Path]::GetRelativePath($repositoryRootPath, $unshippedPath)
-    foreach ($marker in $markers) {
-        if (-not $shipped.Contains((Get-RemovedMarkerEntry $marker).Trim())) {
-            $orphanedMarkers.Add("${relativePath}: $($marker.Trim())")
+    foreach ($line in $unshippedLines) {
+        if (-not (Test-ApiEntry $line)) {
+            continue
+        }
+
+        if (Test-RemovedMarker $line) {
+            if (-not $shipped.Contains((Get-RemovedMarkerEntry $line))) {
+                $orphanedMarkers.Add("${relativePath}: $line")
+            }
+        }
+        elseif ($shipped.Contains($line)) {
+            $duplicateEntries.Add("${relativePath}: $line (also in PublicAPI.Shipped.txt)")
         }
     }
 }
