@@ -19,9 +19,9 @@ public enum KubernetesReplaceCascade
     [EnumValue("background")]
     Background,
 
-    [EnumValue("orphan")]
-    Orphan,
-
     [EnumValue("foreground")]
-    Foreground
+    Foreground,
+
+    [EnumValue("orphan")]
+    Orphan
 }
