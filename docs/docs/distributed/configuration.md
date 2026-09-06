@@ -80,6 +80,11 @@ builder.AddRedisMasterDiscovery(builder.Configuration.GetSection("RedisDiscovery
 builder.AddS3DistributedArtifactStore(builder.Configuration.GetSection("S3"));
 ```
 
+`AddRedisMasterDiscovery` keys the advertised master endpoint by `DistributedOptions.RunId` and enables
+`RequireExplicitRunId`, so every process in the run must share one explicit `RunId`: set it in the
+`Distributed` section, assign `options.RunId`, or export `MODULARPIPELINES_RUN_ID` for each master and
+worker. See [Run Identifier Resolution](#run-identifier-resolution).
+
 ## RedisDistributedOptions
 
 Passed to `AddRedisDistributedCoordinator()`. Controls how the Redis coordinator connects and manages keys.

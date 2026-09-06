@@ -53,20 +53,27 @@ internal class RedisMasterDiscovery : IMasterDiscovery
 
         _logger.LogInformation("Waiting for master endpoint at Redis key '{Key}'...", _masterEndpointKey);
 
-        while (!timeoutCts.IsCancellationRequested)
+        try
         {
-            var masterEndpoint = await _store.GetAsync(_masterEndpointKey, timeoutCts.Token);
-            if (masterEndpoint is not null)
+            while (true)
             {
-                _logger.LogInformation("Discovered master endpoint: {Endpoint}", masterEndpoint);
-                return masterEndpoint;
+                var masterEndpoint = await _store.GetAsync(_masterEndpointKey, timeoutCts.Token);
+                if (masterEndpoint is not null)
+                {
+                    _logger.LogInformation("Discovered master endpoint: {Endpoint}", masterEndpoint);
+                    return masterEndpoint;
+                }
+
+                await Task.Delay(_options.PollIntervalMs, timeoutCts.Token);
             }
-
-            await Task.Delay(_options.PollIntervalMs, timeoutCts.Token);
         }
-
-        throw new TimeoutException(
-            $"Failed to discover master endpoint within {_options.DiscoveryTimeoutSeconds} seconds. " +
-            $"Redis key: {_masterEndpointKey}");
+        catch (OperationCanceledException exception) when (!cancellationToken.IsCancellationRequested)
+        {
+            // Only the discovery timeout cancelled the linked token; caller cancellation propagates as-is.
+            throw new TimeoutException(
+                $"Failed to discover master endpoint within {_options.DiscoveryTimeoutSeconds} seconds. " +
+                $"Redis key: {_masterEndpointKey}",
+                exception);
+        }
     }
 }

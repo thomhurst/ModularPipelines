@@ -118,17 +118,35 @@ public class RedisMasterDiscoveryTests
             connection.Object, options, RunOptions(), NullLogger<RedisMasterDiscovery>.Instance);
 
         // Act & Assert
-        var threw = false;
-        try
-        {
-            await discovery.DiscoverMasterEndpointAsync(CancellationToken.None);
-        }
-        catch (Exception ex) when (ex is TimeoutException or OperationCanceledException)
-        {
-            threw = true;
-        }
+        await Assert.That(async () => await discovery.DiscoverMasterEndpointAsync(CancellationToken.None))
+            .Throws<TimeoutException>();
+    }
 
-        await Assert.That(threw).IsTrue();
+    [Test]
+    public async Task DiscoverMasterUrl_Propagates_Caller_Cancellation()
+    {
+        // Arrange
+        var db = new Mock<IDatabase>();
+        db.Setup(d => d.StringGetAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+            .ReturnsAsync(RedisValue.Null);
+
+        var connection = new Mock<IConnectionMultiplexer>();
+        connection.Setup(c => c.GetDatabase(It.IsAny<int>(), It.IsAny<object>())).Returns(db.Object);
+
+        var options = new RedisDiscoveryOptions
+        {
+            KeyPrefix = "test-prefix",
+            DiscoveryTimeoutSeconds = 30,
+            PollIntervalMs = 50,
+        };
+
+        var discovery = new RedisMasterDiscovery(
+            connection.Object, options, RunOptions(), NullLogger<RedisMasterDiscovery>.Instance);
+        using var cancellation = new CancellationTokenSource(TimeSpan.FromMilliseconds(200));
+
+        // Act & Assert
+        await Assert.That(async () => await discovery.DiscoverMasterEndpointAsync(cancellation.Token))
+            .Throws<OperationCanceledException>();
     }
 
     private static DistributedOptions RunOptions() => new() { RunId = "test-run" };
