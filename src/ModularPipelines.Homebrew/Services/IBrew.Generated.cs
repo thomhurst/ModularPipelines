@@ -61,6 +61,16 @@ public partial interface IBrew
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Benchmark this brew with hyperfine, installing hyperfine first if it is missing. Each of the metadata-cold, archive-cold, archive-warm and fully-warm brew install workloads is measured separately, as are the metadata-cold, archive-cold and archive-warm brew fetch workloads for each of 1, 10, 50 and 100 formulae that are available: pass 100 formulae for full coverage and fewer for a shorter run.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> BenchmarkAsync(BrewBenchmarkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Generate a bottle (binary package) from a formula that was installed with --build-bottle. If the formula specifies a rebuild version, it will be incremented in the generated DSL. Passing --keep-old will attempt to keep it at its original value, while --no-rebuild will remove it.
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -21,7 +21,7 @@ namespace ModularPipelines.Homebrew.Options;
 public record BrewCleanupOptions : BrewOptions
 {
     /// <summary>
-    /// Remove all cache files older than specified days. If you want to remove everything, use
+    /// Remove all cache files older than specified days. If you want to remove everything, use --prune=all.
     /// </summary>
     [CliOption("--prune", Format = OptionFormat.EqualsSeparated)]
     public string? Prune { get; set; }
