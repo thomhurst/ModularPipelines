@@ -38,6 +38,7 @@ var brew = context.Tools.Brew;
 | `brew as-console-user` | `BrewAsConsoleUserOptions` |
 | `brew audit` | `BrewAuditOptions` |
 | `brew autoremove` | `BrewAutoremoveOptions` |
+| `brew benchmark` | `BrewBenchmarkOptions` |
 | `brew bottle` | `BrewBottleOptions` |
 | `brew bump` | `BrewBumpOptions` |
 | `brew bump-cask-pr` | `BrewBumpCaskPrOptions` |
