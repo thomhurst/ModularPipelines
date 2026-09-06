@@ -105,7 +105,7 @@ public record PipDownloadOptions : PipOptions
     public IEnumerable<string>? Platform { get; set; }
 
     /// <summary>
-    /// Only use wheels compatible with Python abi &lt;abi&gt;, e.g. 'pypy_41'. If not specified, then the current interpreter abi tag is used. Use this option multiple times to specify multiple abis supported by the target interpreter. Generally you will need to specify
+    /// Only use wheels compatible with Python abi &lt;abi&gt;, e.g. 'pypy_41'. If not specified, then the current interpreter abi tag is used. Use this option multiple times to specify multiple abis supported by the target interpreter. Generally you will need to specify --implementation, --platform, and --python- version when using this option.
     /// </summary>
     [CliOption("--abi")]
     public IEnumerable<string>? Abi { get; set; }
@@ -123,7 +123,7 @@ public record PipDownloadOptions : PipOptions
     public string? IndexUrl { get; set; }
 
     /// <summary>
-    /// Extra URLs of package indexes to use in addition to --index-url. Should follow the same rules as
+    /// Extra URLs of package indexes to use in addition to --index-url. Should follow the same rules as --index-url.
     /// </summary>
     [CliOption("--extra-index-url")]
     public string? ExtraIndexUrl { get; set; }
@@ -273,7 +273,7 @@ public record PipDownloadOptions : PipOptions
     public string? UseDeprecated { get; set; }
 
     /// <summary>
-    /// The requirement specifier operand.
+    /// The &lt;requirement specifier&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? RequirementSpecifier { get; set; }

@@ -99,7 +99,7 @@ public record PipListOptions : PipOptions
     public string? IndexUrl { get; set; }
 
     /// <summary>
-    /// Extra URLs of package indexes to use in addition to --index-url. Should follow the same rules as
+    /// Extra URLs of package indexes to use in addition to --index-url. Should follow the same rules as --index-url.
     /// </summary>
     [CliOption("--extra-index-url")]
     public string? ExtraIndexUrl { get; set; }

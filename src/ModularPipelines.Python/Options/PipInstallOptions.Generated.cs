@@ -51,7 +51,7 @@ public record PipInstallOptions : PipOptions
     public string? Editable { get; set; }
 
     /// <summary>
-    /// Don't actually install anything, just print what would be. Can be used in combination with
+    /// Don't actually install anything, just print what would be. Can be used in combination with --ignore-installed to 'resolve' the requirements.
     /// </summary>
     [CliOption("--dry-run")]
     public string? DryRun { get; set; }
@@ -69,7 +69,7 @@ public record PipInstallOptions : PipOptions
     public IEnumerable<string>? Platform { get; set; }
 
     /// <summary>
-    /// Only use wheels compatible with Python abi &lt;abi&gt;, e.g. 'pypy_41'. If not specified, then the current interpreter abi tag is used. Use this option multiple times to specify multiple abis supported by the target interpreter. Generally you will need to specify
+    /// Only use wheels compatible with Python abi &lt;abi&gt;, e.g. 'pypy_41'. If not specified, then the current interpreter abi tag is used. Use this option multiple times to specify multiple abis supported by the target interpreter. Generally you will need to specify --implementation, --platform, and --python- version when using this option.
     /// </summary>
     [CliOption("--abi")]
     public IEnumerable<string>? Abi { get; set; }
@@ -189,7 +189,7 @@ public record PipInstallOptions : PipOptions
     public bool? RequireHashes { get; set; }
 
     /// <summary>
-    /// Generate a JSON file describing what pip did to install the provided requirements. Can be used in combination with --dry-run and --ignore- installed to 'resolve' the requirements. When - is used as file name it writes to stdout. When writing to stdout, please combine with the
+    /// Generate a JSON file describing what pip did to install the provided requirements. Can be used in combination with --dry-run and --ignore- installed to 'resolve' the requirements. When - is used as file name it writes to stdout. When writing to stdout, please combine with the --quiet option to avoid mixing pip logging output with JSON output.
     /// </summary>
     [CliOption("--report")]
     public string? Report { get; set; }
@@ -207,7 +207,7 @@ public record PipInstallOptions : PipOptions
     public string? IndexUrl { get; set; }
 
     /// <summary>
-    /// Extra URLs of package indexes to use in addition to --index-url. Should follow the same rules as
+    /// Extra URLs of package indexes to use in addition to --index-url. Should follow the same rules as --index-url.
     /// </summary>
     [CliOption("--extra-index-url")]
     public string? ExtraIndexUrl { get; set; }
@@ -357,7 +357,7 @@ public record PipInstallOptions : PipOptions
     public string? UseDeprecated { get; set; }
 
     /// <summary>
-    /// The requirement specifier operand.
+    /// The &lt;requirement specifier&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? RequirementSpecifier { get; set; }
