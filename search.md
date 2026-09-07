@@ -1,6 +1,6 @@
 [Skip to main content](#__docusaurus_skipToContent_fallback)
 
-[![Modular Pipelines Logo](/ModularPipelines/img/modular-pipelines-logo.png)![Modular Pipelines Logo](/ModularPipelines/img/modular-pipelines-logo.png)](/ModularPipelines/)
+[![Modular Pipelines — connected modules forming an M](/ModularPipelines/img/modular-pipelines-logo.png)![Modular Pipelines — connected modules forming an M](/ModularPipelines/img/modular-pipelines-logo.png)](/ModularPipelines/)
 
 [**Modular Pipelines**](/ModularPipelines/)[Documentation](/ModularPipelines/docs/.md)
 
