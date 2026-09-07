@@ -23,7 +23,7 @@ const pipelineCodeTheme: PrismTheme = {
 const config: Config = {
   title: 'Modular Pipelines',
   tagline: 'Strongly typed pipelines, orchestrated automatically.',
-  favicon: 'img/modular-pipelines-favicon.png',
+  favicon: 'img/favicon.ico',
 
   plugins: [
     [
@@ -91,8 +91,10 @@ const config: Config = {
     navbar: {
       title: 'Modular Pipelines',
       logo: {
-        alt: 'Modular Pipelines Logo',
+        alt: 'Modular Pipelines — connected modules forming an M',
         src: 'img/modular-pipelines-logo.png',
+        width: 31,
+        height: 31,
       },
       items: [
         {
