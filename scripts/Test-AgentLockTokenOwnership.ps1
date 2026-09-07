@@ -194,7 +194,10 @@ try {
     Assert-ExitZero (Invoke-AgentLocks $prWorktree (@('acquire', '-LockName', $prWorktreeLock, '-Worktree', $prWorktree) + $parameterArgs) -EnvironmentOwnerId $ownerA -CodexThreadId $ownerB) 'parameter owner PR acquire'
     Assert-Result (Invoke-AgentLocks $prWorktree (@('status') + $parameterArgs) -EnvironmentOwnerId $ownerA -CodexThreadId $ownerB) 0 'HELD-BY-ME' 'parameter owner PR status'
     Assert-Result (Invoke-AgentLocks $prWorktree (@('renew') + $parameterArgs) -EnvironmentOwnerId $ownerA -CodexThreadId $ownerB) 0 '' 'parameter owner PR renew'
-    Assert-Result (Invoke-AgentLocks $prWorktree (@('release') + $parameterArgs) -EnvironmentOwnerId $ownerA -CodexThreadId $ownerB) 0 '' 'parameter owner PR release'
+    $release = Invoke-AgentLocks $prWorktree (@('release') + $parameterArgs) -EnvironmentOwnerId $ownerA -CodexThreadId $ownerB
+    if ($release.ExitCode -ne 0 -or $release.Output -notlike 'Preserving dirty worktree:*') {
+        throw "Expected release to preserve the untracked stale script: $($release.Output)"
+    }
 
     # Non-Codex callers must provide stable identity instead of falling back machine-wide.
     $missingIdentity = Invoke-AgentLocks $repo @('status', '-LockName', $missingIdentityLock)

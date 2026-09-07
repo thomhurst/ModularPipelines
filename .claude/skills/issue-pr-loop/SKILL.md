@@ -47,7 +47,7 @@ Acquire the Redis lock before acting on an item: `pr-<N>` for PR work or recover
 | `pwsh $agentLocks status -LockName $lockName` | Read-only `FREE` / `HELD` / `HELD-BY-ME`; verify ownership before pushing or merging. |
 | `pwsh $agentLocks release -LockName $lockName` | Release in cleanup/finally; exit 0 confirms release, 5 means stale ownership, leave the key alone. |
 
-Redis is authoritative: never steal locks based on PIDs/files/inactivity or add another backend. Do not print/manage cached tokens. Codex supplies `CODEX_THREAD_ID`; other automation needs the same stable unique `-OwnerId` on every verb. Renew when needed, without periodic heartbeats. Optional `renew -Worktree $worktree` records metadata; keep explicit lock names. The issue's `in-progress` label persists independently.
+Redis is authoritative: never steal locks based on PIDs/files/inactivity or add another backend. Do not print/manage cached tokens. Codex supplies `CODEX_THREAD_ID`; other automation needs the same stable unique `-OwnerId` on every verb. Renew when needed, without periodic heartbeats. Required `renew -Worktree $worktree` after checkout records the path for release cleanup; keep explicit lock names. The issue's `in-progress` label persists independently.
 
 After claiming an issue, create branch/worktree `issue-<N>-<short-desc>` from freshly fetched `origin/main`. For PR fixes, create a detached worktree from `origin/main`, then run `gh pr checkout <N>` with that worktree as `workdir`. PR directories use `pr-<N>-<description>`; never rename or reuse them for another PR. A separate local review/rebase branch must retain the same `pr-<N>` identity.
 
@@ -56,6 +56,8 @@ Set every mutating tool call's `workdir` explicitly; shell directory changes do 
 Use repository scripts for merged-worktree cleanup; `[gone]` or ancestry alone is insufficient. Preserve dirty, locked, open-PR, harness-managed, and locally divergent worktrees. Inspect untracked source before cleanup: scripts may clear build artifacts. Manually remove abandoned worktrees only after verifying repository/path, ownership, and absence of valuable unpublished work. Do not enable stale/scratch cleanup during surveys.
 
 Stop only services/processes/containers started for this worktree. Never blanket-delete containers/volumes or stop shared lock Redis. Follow local lifecycle guidance; use Aspire only where an AppHost exists.
+
+Immediately after checkout, run `pwsh $agentLocks renew -LockName $lockName -Worktree $worktree` once to register its path. Stop owned processes, archive needed evidence outside the worktree, then release from the shared checkout in `finally`. Release removes clean checkouts even for open PRs; branches and detached commits remain available for re-checkout. See [local worktree lifecycle](../../../scripts/WorktreeLifecycle.md) for preservation rules and crash behavior.
 
 ## Maintain PRs
 

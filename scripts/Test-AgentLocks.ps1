@@ -100,6 +100,9 @@ try {
     Invoke-Git -C $repo worktree add -b marker-a $worktreeA HEAD
     Invoke-Git -C $repo worktree add -b marker-b $worktreeB HEAD
 
+    Set-Content -LiteralPath (Join-Path $worktreeA 'uncommitted.txt') -Value 'preserve marker fixture'
+    Set-Content -LiteralPath (Join-Path $worktreeB 'uncommitted.txt') -Value 'preserve marker fixture'
+
     # Simulate marker left by the pre-fix implementation in shared local config.
     Invoke-Git -C $repo config --local agent.lockName $staleLock
 

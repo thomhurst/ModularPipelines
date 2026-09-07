@@ -1,10 +1,9 @@
 # AgentLocks.ps1
 # Reusable Redis work-item locks for the issue-pr-loop skill (concurrent agents).
 #
-# Replaces the ~100 lines of inline PowerShell the skill used to redefine on every
-# acquire. Each verb emits ONE line (or nothing) so a loop iteration spends a
-# handful of tokens on locking instead of dumping function bodies + heartbeat noise
-# into the transcript.
+# Release removes its recorded clean worktree before dropping the Redis lock.
+# Local branches and detached commits survive for later checkout. Dirty or Git-locked
+# worktrees remain on disk with an explicit diagnostic.
 #
 # The lock is a machine-level mutex that AUTO-EXPIRES after TTL (see $lockTtlSeconds,
 # 2h). Agents do NOT heartbeat it periodically — they just `release` when done, or let
@@ -25,7 +24,7 @@
 #              stdout = token, exit 0    -> acquired (auto-expires after TTL)
 #              stderr = "HELD", exit 3   -> already locked by someone; skip
 #   release  [-LockName pr-1234]
-#              exit 0 (silent)           -> released
+#              exit 0                    -> released; reports checkout removal/preservation
 #              stderr = "STALE", exit 5  -> token mismatch/expired; do NOT delete or
 #                                           overwrite; just skip
 #   renew    -LockName pr-1234 [-Worktree <path>]   (OPTIONAL — NOT periodic)
@@ -71,6 +70,9 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+
+# Store absolute paths so release works from any checkout of this repository.
+if ($Worktree) { $Worktree = [IO.Path]::GetFullPath($Worktree) }
 
 $redisContainer = 'modularpipelines-agent-locks-redis'
 $lockTtlSeconds = 7200 # 2 hours: the dead-man's switch. Longer than nearly every
@@ -201,7 +203,7 @@ switch ($Verb) {
         $token = Read-Token
         if (-not $token) { Die 1 "no cached token for $LockName" }
         # Re-arm TTL on lock + meta only if we still own the token.
-        $script = "if redis.call('GET', KEYS[1]) == ARGV[1] then redis.call('EXPIRE', KEYS[1], ARGV[2]); redis.call('SET', KEYS[2], ARGV[3], 'EX', ARGV[2]); return 1; else return 0; end"
+        $script = "if redis.call('GET', KEYS[1]) == ARGV[1] then local meta = cjson.decode(ARGV[3]); local previous = redis.call('GET', KEYS[2]); if meta.worktree == '' and previous then meta.worktree = cjson.decode(previous).worktree; end; redis.call('EXPIRE', KEYS[1], ARGV[2]); redis.call('SET', KEYS[2], cjson.encode(meta), 'EX', ARGV[2]); return 1; else return 0; end"
         if ((Redis EVAL $script 2 $lockKey $metaKey $token $lockTtlSeconds (New-Meta $token)) -ne '1') {
             Die 4 'LOST'
         }
@@ -212,6 +214,24 @@ switch ($Verb) {
     'release' {
         $token = Read-Token
         if (-not $token) { Die 1 "no cached token for $LockName" }
+        # Verify ownership and renew the lease before touching the checkout. Keep the
+        # lock held through removal so a new owner cannot reuse its path midway.
+        $prepare = "if redis.call('GET', KEYS[1]) == ARGV[1] then redis.call('EXPIRE', KEYS[1], ARGV[2]); redis.call('EXPIRE', KEYS[2], ARGV[2]); return redis.call('GET', KEYS[2]) or '{}'; else return ''; end"
+        $metadata = Redis EVAL $prepare 2 $lockKey $metaKey $token $lockTtlSeconds
+        if (-not $metadata) {
+            Remove-Item -LiteralPath $tokenFile -ErrorAction SilentlyContinue
+            Die 5 'STALE'
+        }
+        try {
+            $recordedWorktree = ($metadata | ConvertFrom-Json).worktree
+            if ($recordedWorktree) {
+                . (Join-Path $PSScriptRoot 'Remove-ReleasedWorktree.ps1')
+                Remove-ReleasedWorktree -Worktree $recordedWorktree -LockName $LockName
+            }
+        } catch {
+            # File locks, dirty trees and inspection failures must not strand ownership.
+            [Console]::Error.WriteLine("Worktree retained: $($_.Exception.Message)")
+        }
         # Delete lock + meta only if we still own the token; never clobber otherwise.
         $script = "if redis.call('GET', KEYS[1]) == ARGV[1] then redis.call('DEL', KEYS[2]); return redis.call('DEL', KEYS[1]); else return 0; end"
         $released = Redis EVAL $script 2 $lockKey $metaKey $token
