@@ -247,8 +247,8 @@ try {
 
         if (-not $why) { $unmatched += $w; continue }
 
-        if ($WhatIf) { Write-Host "sweep: WOULD remove $($w.Path) -- $why"; continue }
-        Remove-MergedWorktree -Repo $mainRepo -Worktree $w.Path -Label "($why)"
+        Remove-MergedWorktree -Repo $mainRepo -Worktree $w.Path -Label "($why)" -WhatIf:$WhatIf
+        if ($WhatIf) { continue }
         if (-not (Test-Path -LiteralPath $w.Path)) {
             $removed++
             # Once the PR is merged the local branch has served its purpose; drop it so
@@ -319,7 +319,7 @@ try {
         }
     }
 
-    git -C $mainRepo worktree prune
+    if (-not $WhatIf) { git -C $mainRepo worktree prune }
     Write-Host "sweep: removed $removed merged worktree(s), $orphansRemoved orphaned dir(s)."
 }
 catch {

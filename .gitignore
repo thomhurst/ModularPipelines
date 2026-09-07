@@ -419,3 +419,20 @@ _build-staging/
 /*.tgz
 /*.tar.xz
 /cli-tools/
+
+# Root-level agent workflow output; source-tree fixtures remain visible.
+/.artifacts/
+/*.log
+/*.nettrace
+/pr-body.md
+/*-pr-body.md
+/review-disposition.md
+/*-review-disposition.md
+/review-validation.md
+/*-review-validation.md
+/rebase-validation.md
+/*-rebase-validation.md
+/comment.md
+/*-comment.md
+/issue.md
+/*-issue.md

@@ -28,6 +28,7 @@ else {
 $script:ancestors = @()
 
 function global:git {
+    $global:LASTEXITCODE = 0
     $script:gitCalled = $true
     if ($args -contains 'merge-base') {
         # merge-base --is-ancestor <ancestor> <descendant>: exit 0 only for known ancestors.
