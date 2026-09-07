@@ -1,7 +1,24 @@
-import { themes as prismThemes } from 'prism-react-renderer';
+import type { PrismTheme } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import type { PluginOptions } from '@signalwire/docusaurus-plugin-llms-txt';
+
+const pipelineCodeTheme: PrismTheme = {
+  plain: {
+    color: 'var(--mp-code-ink)',
+    backgroundColor: 'var(--mp-code-surface)',
+  },
+  styles: [
+    { types: ['comment', 'prolog', 'doctype', 'cdata'], style: { color: 'var(--mp-code-comment)' } },
+    { types: ['keyword', 'selector', 'tag', 'atrule'], style: { color: 'var(--mp-code-keyword)' } },
+    { types: ['class-name', 'function', 'builtin', 'attr-name'], style: { color: 'var(--mp-code-type)' } },
+    { types: ['string', 'char', 'number', 'boolean', 'constant', 'regex', 'attr-value'], style: { color: 'var(--mp-code-literal)' } },
+    { types: ['deleted'], style: { color: 'var(--ifm-color-danger-dark)' } },
+    { types: ['inserted'], style: { color: 'var(--mp-code-type)' } },
+    { types: ['bold'], style: { fontWeight: 'bold' } },
+    { types: ['italic'], style: { fontStyle: 'italic' } },
+  ],
+};
 
 const config: Config = {
   title: 'Modular Pipelines',
@@ -152,8 +169,8 @@ const config: Config = {
     },
     prism: {
       additionalLanguages: ['csharp', 'powershell', 'fsharp'],
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
+      theme: pipelineCodeTheme,
+      darkTheme: pipelineCodeTheme,
     },
   } satisfies Preset.ThemeConfig,
 };

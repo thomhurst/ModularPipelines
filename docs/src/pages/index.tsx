@@ -1,189 +1,140 @@
+import {useState, type JSX} from 'react';
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 
 import styles from './index.module.css';
 
-function ArrowIcon(): JSX.Element {
-  return (
-    <svg viewBox="0 0 16 16" aria-hidden="true">
-      <path d="M2.5 8h10M8.5 4l4 4-4 4" />
-    </svg>
-  );
-}
+const modules = {
+  restore: {
+    name: 'Restore', dependencies: [],
+    description: 'Start with the packages. Restore has no dependencies, so it can run as soon as the pipeline starts.',
+  },
+  build: {
+    name: 'Build', dependencies: ['Restore'],
+    description: 'Compile once the packages are ready. Build waits for Restore to finish successfully.',
+  },
+  test: {
+    name: 'Test', dependencies: ['Build'],
+    description: 'Check the build. Test can run alongside Pack because neither module depends on the other.',
+  },
+  pack: {
+    name: 'Pack', dependencies: ['Build'],
+    description: 'Prepare the package. Pack can run alongside Test as soon as their shared Build dependency succeeds.',
+  },
+  publish: {
+    name: 'Publish', dependencies: ['Test', 'Pack'],
+    description: 'Ship when both branches are ready. Publish waits for Test and Pack to finish successfully.',
+  },
+} satisfies Record<string, {name: string; dependencies: string[]; description: string}>;
 
-function GithubIcon(): JSX.Element {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.86c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.64-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.57 9.57 0 0 1 12 6.84a9.6 9.6 0 0 1 2.5.34c1.9-1.29 2.74-1.02 2.74-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z" />
-    </svg>
-  );
-}
+type ModuleId = keyof typeof modules;
+const moduleIds = Object.keys(modules) as ModuleId[];
 
-function PipelineVisual(): JSX.Element {
+function DependencyMap(): JSX.Element {
+  const [selected, setSelected] = useState<ModuleId>('pack');
+  const module = modules[selected];
+
   return (
-    <div className={styles.visualWrap} aria-label="A build pipeline dependency graph running tasks in parallel">
-      <div className={styles.visualLabel}>LIVE ORCHESTRATION</div>
-      <div className={styles.pipelineWindow}>
-        <div className={styles.windowBar}>
-          <div className={styles.windowDots} aria-hidden="true"><i /><i /><i /></div>
-          <span>release-pipeline</span>
-          <span className={styles.running}><i /> running</span>
+    <section className={styles.workbench} aria-labelledby="map-title">
+      <div className={styles.mapPanel}>
+        <div className={styles.mapHeading}>
+          <h2 id="map-title">A release, connected.</h2>
+          <span>Explore the modules</span>
         </div>
-        <div className={styles.pipelineBody}>
-          <div className={styles.pipelineMeta}>
-            <span>STATUS <strong>active</strong></span>
-            <span>BRANCH <strong>main</strong></span>
-            <span>MODE <strong>parallel</strong></span>
-          </div>
-          <div className={styles.graph}>
-            <div className={`${styles.node} ${styles.nodeRestore}`}>
-              <span className={styles.nodeIcon}>✓</span>
-              <span><small>complete</small>Restore</span>
-            </div>
-            <div className={`${styles.connector} ${styles.connectorFirst}`}><i /></div>
-            <div className={styles.branchLines} aria-hidden="true"><i /><i /><i /></div>
-            <div className={`${styles.node} ${styles.nodeTest}`}>
-              <span className={styles.nodeIcon}>✓</span>
-              <span><small>complete</small>Test</span>
-            </div>
-            <div className={`${styles.node} ${styles.nodeAnalyse}`}>
-              <span className={styles.nodeSpinner} />
-              <span><small>running</small>Analyse</span>
-            </div>
-            <div className={`${styles.node} ${styles.nodePackage}`}>
-              <span className={styles.nodeSpinner} />
-              <span><small>running</small>Package</span>
-            </div>
-            <div className={styles.mergeLines} aria-hidden="true"><i /><i /><i /></div>
-            <div className={`${styles.connector} ${styles.connectorLast}`}><i /></div>
-            <div className={`${styles.node} ${styles.nodePublish}`}>
-              <span className={styles.waitingDot} />
-              <span><small>waiting</small>Publish</span>
-            </div>
-          </div>
-          <div className={styles.consoleLine}>
-            <span>&gt;</span> independent modules executing <b>concurrently</b><i />
-          </div>
+        <div className={styles.graph} role="group" aria-label="Release pipeline modules">
+          <svg className={styles.desktopRoutes} viewBox="0 0 720 300" preserveAspectRatio="none" aria-hidden="true">
+            <path className={styles.sharedRoute} d="M86 150 H259" />
+            <path className={styles.testRoute} d="M259 150 H307 Q329 150 329 128 V97 Q329 75 351 75 H447" />
+            <path className={styles.packRoute} d="M259 150 H307 Q329 150 329 172 V203 Q329 225 351 225 H447" />
+            <path className={styles.testRoute} d="M447 75 H524 Q546 75 546 97 V128 Q546 150 568 150 H641" />
+            <path className={styles.packRoute} d="M447 225 H524 Q546 225 546 203 V172 Q546 150 568 150 H641" />
+          </svg>
+          <svg className={styles.mobileRoutes} viewBox="0 0 320 360" preserveAspectRatio="none" aria-hidden="true">
+            <path className={styles.sharedRoute} d="M160 36 V119" />
+            <path className={styles.testRoute} d="M160 119 V145 Q160 163 142 163 H98 Q80 163 80 181 V212" />
+            <path className={styles.packRoute} d="M160 119 V145 Q160 163 178 163 H222 Q240 163 240 181 V212" />
+            <path className={styles.testRoute} d="M80 212 V250 Q80 268 98 268 H142 Q160 268 160 286 V310" />
+            <path className={styles.packRoute} d="M240 212 V250 Q240 268 222 268 H178 Q160 268 160 286 V310" />
+          </svg>
+          {moduleIds.map(id => (
+            <button key={id} type="button"
+              className={`${styles.module} ${styles[id]}`}
+              aria-pressed={selected === id} aria-controls="module-detail"
+              onClick={() => setSelected(id)}>
+              <span className={styles.socket} aria-hidden="true"><span /></span>
+              <span className={styles.moduleName}>{modules[id].name}</span>
+            </button>
+          ))}
+          <span className={styles.parallelNote}>Independent work</span>
+        </div>
+        <p className={styles.mapCaption}>Follow the dependencies. The parallelism follows.</p>
+      </div>
+      <div id="module-detail" className={styles.moduleDetail} aria-live="polite" aria-atomic="true">
+        <div className={styles.fileName}><span aria-hidden="true">{'{ }'}</span> {module.name}Module.cs</div>
+        <div className={styles.detailBody}>
+          <span className={styles.detailLabel}>Configuration excerpt</span>
+          <pre aria-label={`${module.name} module configuration`}><code>
+            <span className={styles.keyword}>protected override void</span>{'\n'}
+            Configure({'\n'}
+            {'    '}<span className={styles.codeType}>ModuleConfigurationBuilder</span> module){'\n'}
+            {module.dependencies.length > 0 ? <>
+              {'    => module'}
+              {module.dependencies.map((dependency, index) => (
+                <span key={dependency}>{'\n        '}.DependsOn&lt;<span className={styles.codeType}>{dependency}Module</span>&gt;(){index === module.dependencies.length - 1 ? ';' : ''}</span>
+              ))}
+            </> : <>{'{'}{'\n    '}<span className={styles.codeComment}>// No dependencies to configure.</span>{'\n'}{'}'}</>}
+          </code></pre>
+          <h3>{module.dependencies.length === 0 ? 'Ready from the start.' : `After ${module.dependencies.join(' and ')}.`}</h3>
+          <p>{module.description}</p>
+          <Link to="/docs/next/how-to/execution-and-dependencies">Read about dependencies</Link>
         </div>
       </div>
-    </div>
+    </section>
   );
-}
-
-function FeatureIcon({name}: {name: 'nodes' | 'code' | 'terminal'}): JSX.Element {
-  if (name === 'nodes') {
-    return <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="7" cy="7" r="3" /><circle cx="25" cy="16" r="3" /><circle cx="7" cy="25" r="3" /><path d="M10 8.5 22 14M10 23.5 22 18" /></svg>;
-  }
-  if (name === 'code') {
-    return <svg viewBox="0 0 32 32" aria-hidden="true"><path d="m11 8-7 8 7 8M21 8l7 8-7 8M19 5l-6 22" /></svg>;
-  }
-  return <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="3" /><path d="m8 12 5 4-5 4M16 21h7" /></svg>;
 }
 
 export default function Home(): JSX.Element {
   return (
-    <Layout
-      title="Build pipelines that think in parallel"
-      description="Modular Pipelines is a C# framework for building strongly typed, modular and automatically orchestrated CI/CD pipelines.">
-      <header className={styles.hero}>
-        <div className={styles.heroGrid} />
-        <div className={`container ${styles.heroInner}`}>
-          <div className={styles.heroCopy}>
-            <div className={styles.eyebrow}><span>C# NATIVE</span> CI/CD ORCHESTRATION</div>
-            <h1>Build pipelines<br />that <em>think in parallel.</em></h1>
-            <p className={styles.heroDescription}>
-              Break delivery work into focused C# modules. Declare what depends on what. Modular Pipelines works out what can run now and what needs to wait.
-            </p>
-            <div className={styles.heroActions}>
-              <Link className={styles.primaryButton} to="/docs/next/getting-started">
-                Start building <ArrowIcon />
+    <Layout title="Your pipeline. Piece by piece."
+      description="Build your delivery pipeline from focused C# modules. Declare dependencies and let ModularPipelines run independent work in parallel.">
+      <main className={styles.home}>
+        <div className={styles.pageWidth}>
+          <header className={styles.intro}>
+            <h1>Your pipeline.<br />Piece by piece.</h1>
+            <div className={styles.introCopy}>
+              <p>Build, test, and ship with focused C# modules. You declare the dependencies. ModularPipelines connects the work and runs it in parallel.</p>
+              <div className={styles.actions}>
+                <Link className={styles.primaryButton} to="/docs/next/getting-started">Build your first pipeline</Link>
+                <Link className={styles.sourceLink} href="https://github.com/thomhurst/ModularPipelines">View source on GitHub</Link>
+              </div>
+            </div>
+          </header>
+          <DependencyMap />
+          <section className={styles.handbook} aria-labelledby="handbook-title">
+            <div className={styles.handbookIntro}>
+              <h2 id="handbook-title">Small modules.<br />Room to build.</h2>
+              <p>Keep the tools you know.<br />Give delivery its own structure.</p>
+            </div>
+            <div className={styles.readingList}>
+              <Link className={styles.readingLink} to="/docs/next/how-to/defining-modules">
+                <span className={`${styles.readingSymbol} ${styles.csharpSymbol}`} aria-hidden="true">{'{ }'}</span>
+                <div><h3>C# all the way down</h3><p>Types, dependency injection, and your favourite .NET libraries. Each module is an ordinary C# class.</p><span>Write a module</span></div>
               </Link>
-              <Link className={styles.secondaryButton} href="https://github.com/thomhurst/ModularPipelines">
-                <GithubIcon /> Explore the source
+              <Link className={styles.readingLink} to="/docs/next/how-to/parallelization">
+                <span className={`${styles.readingSymbol} ${styles.parallelSymbol}`} aria-hidden="true">Ⅱ</span>
+                <div><h3>Let independent work overlap</h3><p>Dependencies set the order. The framework schedules modules as their prerequisites complete.</p><span>Understand parallel execution</span></div>
+              </Link>
+              <Link className={styles.readingLink} to="/docs/next/getting-started">
+                <span className={`${styles.readingSymbol} ${styles.runSymbol}`} aria-hidden="true">&gt;_</span>
+                <div><h3>From your laptop to CI</h3><p>Your pipeline is a .NET application. Run the same code locally and on your build server.</p><span>Set up your pipeline</span></div>
               </Link>
             </div>
-            <div className={styles.proofRow}>
-              <span><i /> Strongly typed</span>
-              <span><i /> CI agnostic</span>
-              <span><i /> Built on .NET</span>
-            </div>
-          </div>
-          <PipelineVisual />
+          </section>
+          <section className={styles.quickstart} aria-labelledby="start-title">
+            <div><h2 id="start-title">Start with one module.</h2><p>The project template gives you the pieces for your first pipeline.</p></div>
+            <div className={styles.install}><span>Install the project template</span><code>dotnet new install ModularPipelines.Templates</code><Link to="/docs/next/getting-started">Continue with the quickstart</Link></div>
+          </section>
         </div>
-      </header>
-
-      <main>
-        <section className={styles.manifesto}>
-          <div className="container">
-            <div className={styles.sectionIntro}>
-              <div>
-                <span className={styles.kicker}>YOUR CODE. YOUR RULES.</span>
-                <h2>Stop scripting.<br /><em>Start engineering.</em></h2>
-              </div>
-              <p>
-                Your delivery logic deserves the same structure, tooling, and confidence as the software it ships. Write ordinary C# and let the dependency graph handle the choreography.
-              </p>
-            </div>
-            <div className={styles.featureGrid}>
-              <article className={`${styles.feature} ${styles.featureWide}`}>
-                <span className={styles.featureIcon}><FeatureIcon name="nodes" /></span>
-                <div>
-                  <span className={styles.featureTag}>ORCHESTRATION</span>
-                  <h3>Declare dependencies.<br />Unlock concurrency.</h3>
-                  <p>Modules run the moment their dependencies are ready. Independent work fans out automatically—no hand-built job graph required.</p>
-                </div>
-                <div className={styles.miniGraph} aria-hidden="true">
-                  <span>A</span><i /><span>B</span><i /><span>C</span>
-                  <b /><span>D</span>
-                </div>
-              </article>
-              <article className={`${styles.feature} ${styles.featureAccent}`}>
-                <span className={styles.featureIcon}><FeatureIcon name="code" /></span>
-                <span className={styles.featureTag}>FAMILIAR</span>
-                <h3>Real C#. Real tooling.</h3>
-                <p>Use generics, dependency injection, configuration, testing, and every library in the .NET ecosystem.</p>
-                <code>Module&lt;TResult&gt;</code>
-              </article>
-              <article className={styles.feature}>
-                <span className={styles.featureIcon}><FeatureIcon name="terminal" /></span>
-                <span className={styles.featureTag}>PORTABLE</span>
-                <h3>One pipeline.<br />Run it anywhere.</h3>
-                <p>GitHub Actions, Azure Pipelines, TeamCity, or your laptop. If it runs .NET, it runs your pipeline.</p>
-                <div className={styles.providerList}><span>GH</span><span>AZ</span><span>TC</span><span>_</span></div>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section className={styles.codeSection}>
-          <div className={`container ${styles.codeSectionInner}`}>
-            <div className={styles.codeCopy}>
-              <span className={styles.kicker}>FROM ZERO TO ORCHESTRATED</span>
-              <h2>Dependencies are<br /><em>part of the type system.</em></h2>
-              <p>Make the relationship explicit and Modular Pipelines takes care of ordering, parallelization, results, and cancellation.</p>
-              <Link className={styles.textLink} to="/docs/how-to/defining-modules">Learn how modules work <ArrowIcon /></Link>
-            </div>
-            <div className={styles.codeWindow}>
-              <div className={styles.codeToolbar}>
-                <div><i /><i /><i /></div>
-                <span>RunTestsModule.cs</span>
-                <b>C#</b>
-              </div>
-              <pre><code><span className={styles.keyword}>[DependsOn</span>&lt;RestoreModule&gt;<span className={styles.keyword}>]</span>{'\n'}<span className={styles.keyword}>public sealed class</span> <span className={styles.type}>RunTestsModule</span>{'\n'}    : Module&lt;TestResult&gt;{'\n'}{'{'}{'\n'}    <span className={styles.keyword}>protected override async Task</span>&lt;TestResult&gt;{'\n'}        ExecuteAsync(ModuleContext context,{'\n'}            CancellationToken cancellationToken){'\n'}    {'{'}{'\n'}        <span className={styles.comment}>// Your pipeline is just C#.</span>{'\n'}        <span className={styles.keyword}>return await</span> context.Tools.DotNet.TestAsync(..., cancellationToken);{'\n'}    {'}'}{'\n'}{'}'}</code></pre>
-              <div className={styles.codeFooter}><span><i /> build succeeded</span><span>UTF-8</span></div>
-            </div>
-          </div>
-        </section>
-
-        <section className={styles.finalCta}>
-          <div className="container">
-            <div className={styles.ctaPanel}>
-              <div className={styles.ctaSignal} aria-hidden="true"><span /><span /><span /></div>
-              <div><span className={styles.kicker}>READY WHEN YOU ARE</span><h2>Give your pipeline a proper architecture.</h2></div>
-              <Link className={styles.primaryButton} to="/docs/next/getting-started">Read the quickstart <ArrowIcon /></Link>
-            </div>
-          </div>
-        </section>
       </main>
     </Layout>
   );
