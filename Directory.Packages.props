@@ -35,7 +35,7 @@
     <PackageVersion Include="CliWrap" Version="3.10.5" />
     <PackageVersion Include="coverlet.collector" Version="10.0.1" />
     <PackageVersion Include="EnumerableAsyncProcessor" Version="4.0.0" />
-    <PackageVersion Include="FluentFTP" Version="54.2.0" />
+    <PackageVersion Include="FluentFTP" Version="54.2.1" />
     <PackageVersion Include="FSharp.Core" Version="10.1.400" />
     <PackageVersion Include="Initialization.Microsoft.Extensions.DependencyInjection" Version="1.1.44" />
     <PackageVersion Include="Kevlar" Version="1.1.0" />
