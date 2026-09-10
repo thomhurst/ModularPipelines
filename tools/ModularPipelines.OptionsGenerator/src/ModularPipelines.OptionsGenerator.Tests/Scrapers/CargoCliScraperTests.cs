@@ -40,6 +40,68 @@ public class CargoCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Options_Under_Custom_Clap_Headings_Are_Parsed()
+    {
+        // cargo add groups its dependency-source and section switches under "Source:" and
+        // "Section:" rather than an "Options" heading; only Arguments/Commands are skipped.
+        // (-p, --package [<SPEC>] uses clap's optional-value form, which this scraper does not
+        // read yet; see #4712.)
+        const string helpText = """
+            Add dependencies to a Cargo.toml manifest file
+
+            Usage: cargo add [OPTIONS] <DEP>[@<VERSION>] ...
+                   cargo add [OPTIONS] --path <PATH> ...
+                   cargo add [OPTIONS] --git <URL> ...
+
+            Arguments:
+              [DEP_ID]...
+                      Reference to a package to add as a dependency
+
+            Options:
+                  --no-default-features
+                      Disable the default features
+              -h, --help
+                      Print help (see a summary with '-h')
+
+            Manifest Options:
+                  --manifest-path <PATH>
+                      Path to Cargo.toml
+
+            Package Selection:
+              -p, --package [<SPEC>]
+                      Package to modify
+
+            Source:
+                  --path <PATH>
+                      Filesystem path to local crate to add
+                  --git <URI>
+                      Git repository location
+                  --branch <BRANCH>
+                      Git branch to download the crate from
+
+            Section:
+                  --dev
+                      Add as development dependency
+                  --target <TARGET>
+                      Add as dependency to the given target platform
+            """;
+
+        var command = await new TestCargoCliScraper().Parse(["cargo", "add"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.Options.Select(option => option.SwitchName))
+                .IsEquivalentTo([
+                    "--no-default-features", "--help", "--manifest-path",
+                    "--path", "--git", "--branch", "--dev", "--target",
+                ]);
+            await Assert.That(GetOption(command, "--path").Description)
+                .IsEqualTo("Filesystem path to local crate to add");
+            await Assert.That(GetOption(command, "--dev").IsFlag).IsTrue();
+        }
+    }
+
     private static CliOptionDefinition GetOption(CliCommandDefinition command, string switchName) =>
         command.Options.Single(option => option.SwitchName == switchName);
 

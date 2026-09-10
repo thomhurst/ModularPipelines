@@ -762,6 +762,26 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Does_Not_Match_Selected_Option_Operand_To_Alternative_Positional()
+    {
+        const string helpText = """
+            Usage:
+              tool run [OPTIONS] --file <FILE> <TARGET>
+              tool run [OPTIONS] <OBJECT>
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["tool", "run"]);
+        var file = result.PositionalArguments.Single(argument => argument.PropertyName == "File");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(file.AssociatedOptionSwitch).IsEqualTo("--file");
+            await Assert.That(file.IsRequired).IsFalse();
+            await Assert.That(file.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
     public async Task Relaxes_Operands_Absent_From_Alternate_Invocation_Forms()
     {
         const string helpText = """
@@ -781,6 +801,30 @@ public class UsageSynopsisParserTests
             await Assert.That(result.MatchedSynopsisCount).IsEqualTo(3);
             await Assert.That(dependency.IsRequired).IsFalse();
             await Assert.That(dependency.CSharpType).IsEqualTo("string?");
+            await Assert.That(requiredSources).IsEquivalentTo(["Dep", "--path", "--git"]);
+        }
+    }
+
+    [Test]
+    public async Task Relaxes_Operands_Absent_From_Alternate_Forms_With_Option_Placeholders_And_Ellipses()
+    {
+        // cargo 1.98 prints the three forms with [OPTIONS] and a trailing " ..." each.
+        const string helpText = """
+            Usage: cargo add [OPTIONS] <DEP>[@<VERSION>] ...
+                   cargo add [OPTIONS] --path <PATH> ...
+                   cargo add [OPTIONS] --git <URL> ...
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["cargo", "add"]);
+        var dependency = result.PositionalArguments.Single();
+        var requiredSources = result.RequiredAlternativeGroups.Single().Members
+            .Select(member => (member.OptionSwitch ?? member.PositionalPropertyName)!);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.MatchedSynopsisCount).IsEqualTo(3);
+            await Assert.That(dependency.IsRequired).IsFalse();
+            await Assert.That(dependency.CSharpType).IsEqualTo("IEnumerable<string>?");
             await Assert.That(requiredSources).IsEquivalentTo(["Dep", "--path", "--git"]);
         }
     }
