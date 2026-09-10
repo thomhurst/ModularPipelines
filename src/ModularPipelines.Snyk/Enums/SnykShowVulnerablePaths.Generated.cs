@@ -16,12 +16,12 @@ namespace ModularPipelines.Snyk.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum SnykShowVulnerablePaths
 {
+    [EnumValue("all")]
+    All,
+
     [EnumValue("none")]
     None,
 
     [EnumValue("some")]
-    Some,
-
-    [EnumValue("all")]
-    All
+    Some
 }

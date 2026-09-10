@@ -16,11 +16,11 @@ namespace ModularPipelines.Snyk.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum SnykFilePathGroup
 {
-    [EnumValue("global")]
-    Global,
-
     [EnumValue("code")]
     Code,
+
+    [EnumValue("global")]
+    Global,
 
     [EnumValue("iac-drift")]
     IacDrift
