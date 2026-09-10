@@ -155,7 +155,7 @@ internal static class DocumentationExampleCatalog
                 [
                     Safe(
                         "pnpm audit",
-                        ("AuditLevel", "\"high\"")),
+                        ("AuditLevel", "PnpmAuditAuditLevel.High")),
                 ]),
             ["terraform"] = new(
                 "terraform validate",

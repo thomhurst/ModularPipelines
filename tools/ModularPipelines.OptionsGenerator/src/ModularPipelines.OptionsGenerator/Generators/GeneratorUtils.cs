@@ -274,6 +274,19 @@ public static partial class GeneratorUtils
     }
 
     /// <summary>
+    /// Returns whether generated code for <paramref name="command"/> refers to a generated enum,
+    /// so the file needs the tool's Enums namespace.
+    /// </summary>
+    public static bool UsesGeneratedEnums(CliToolDefinition tool, CliCommandDefinition command)
+    {
+        var generatedEnumNames = tool.AllEnums
+            .Select(static definition => definition.EnumName)
+            .ToHashSet(StringComparer.Ordinal);
+        return command.Options.Any(option => option.EnumDefinition is not null
+            || generatedEnumNames.Contains(GetEnumTypeName(option.PropertyType)));
+    }
+
+    /// <summary>
     /// Converts a CLI option name to a valid C# enum name.
     /// Example: "--verbosity" -> "Verbosity", "--dry-run" -> "DryRun"
     /// </summary>
