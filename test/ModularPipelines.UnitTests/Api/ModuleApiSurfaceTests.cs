@@ -1,4 +1,5 @@
 using ModularPipelines.Configuration;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.UnitTests.Api;
@@ -35,6 +36,30 @@ public class ModuleApiSurfaceTests
             .IsNotNull();
         await Assert.That(typeof(IModule).Assembly.GetType("ModularPipelines.Models.ModuleRunType"))
             .IsNull();
+    }
+
+    [Test]
+    public async Task ExecutionBackendContractIsPublicAndResultReturning()
+    {
+        var executeMethod = typeof(IExecutionBackend).GetMethod(nameof(IExecutionBackend.ExecuteAsync));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(typeof(IExecutionBackend).IsPublic).IsTrue();
+            await Assert.That(typeof(IExecutionBackendContext).IsPublic).IsTrue();
+            await Assert.That(typeof(IExecutionBackend).GetProperty(nameof(IExecutionBackend.OwnsEntirePlan)))
+                .IsNotNull();
+            await Assert.That(executeMethod).IsNotNull();
+            await Assert.That(executeMethod!.ReturnType)
+                .IsEqualTo(typeof(Task<IReadOnlyList<IModuleResult>>));
+            await Assert.That(executeMethod.GetParameters().Select(parameter => parameter.ParameterType))
+                .IsEquivalentTo([
+                    typeof(IReadOnlyList<IModule>),
+                    typeof(IReadOnlyDictionary<Type, TimeSpan>),
+                    typeof(IExecutionBackendContext),
+                    typeof(CancellationToken),
+                ]);
+        }
     }
 
     [Test]

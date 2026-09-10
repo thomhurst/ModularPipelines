@@ -196,6 +196,22 @@ public static class PipelineBuilderExtensions
     }
 
     /// <summary>
+    /// Replaces the built-in execution backend.
+    /// </summary>
+    /// <typeparam name="TBackend">The execution backend implementation.</typeparam>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddExecutionBackend<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TBackend>(
+        this PipelineBuilder builder)
+        where TBackend : class, IExecutionBackend
+    {
+        builder.Services.RemoveAll<IExecutionBackend>();
+        builder.Services.AddSingleton<IExecutionBackend, TBackend>();
+        return builder;
+    }
+
+    /// <summary>
     /// Registers every leaf value beneath a configuration section as a secret during pipeline startup.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
