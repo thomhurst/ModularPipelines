@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "dotnet",
-  "toolVersion": "10.0.400",
+  "toolVersion": "10.0.401",
   "commandCount": 97,
   "commandTreeSha256": "5a6ae5c35827884fff645cc37ecfe24e941dde2425778fae8feb055e1a0e1155",
   "commands": [
