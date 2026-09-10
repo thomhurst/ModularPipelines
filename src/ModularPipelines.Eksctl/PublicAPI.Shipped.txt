@@ -4,25 +4,13 @@ ModularPipelines.Context.ModularPipelines_Eksctl_13b7cdfb02b06c74ToolsExtensions
 ModularPipelines.Context.ModularPipelines_Eksctl_13b7cdfb02b06c74ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Eksctl.get -> ModularPipelines.Eksctl.Services.IEksctl!
 ModularPipelines.Eksctl.Enums.EksctlCreateCapabilityType
 ModularPipelines.Eksctl.Enums.EksctlCreateCapabilityType.Ack = 0 -> ModularPipelines.Eksctl.Enums.EksctlCreateCapabilityType
-ModularPipelines.Eksctl.Enums.EksctlCreateCapabilityType.Argocd = 2 -> ModularPipelines.Eksctl.Enums.EksctlCreateCapabilityType
-ModularPipelines.Eksctl.Enums.EksctlCreateCapabilityType.Kro = 1 -> ModularPipelines.Eksctl.Enums.EksctlCreateCapabilityType
 ModularPipelines.Eksctl.Enums.EksctlUpdateCapabilityType
 ModularPipelines.Eksctl.Enums.EksctlUpdateCapabilityType.Ack = 0 -> ModularPipelines.Eksctl.Enums.EksctlUpdateCapabilityType
-ModularPipelines.Eksctl.Enums.EksctlUpdateCapabilityType.Argocd = 2 -> ModularPipelines.Eksctl.Enums.EksctlUpdateCapabilityType
-ModularPipelines.Eksctl.Enums.EksctlUpdateCapabilityType.Kro = 1 -> ModularPipelines.Eksctl.Enums.EksctlUpdateCapabilityType
 ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
 ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.All = 0 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
-ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.Api = 2 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
-ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.Audit = 3 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
-ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.Authenticator = 4 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
-ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.None = 1 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
 ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes.Scheduler = 6 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingDisableTypes
 ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
 ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.All = 0 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
-ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.Api = 2 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
-ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.Audit = 3 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
-ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.Authenticator = 4 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
-ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.None = 1 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
 ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes.Scheduler = 6 -> ModularPipelines.Eksctl.Enums.EksctlUtilsUpdateClusterLoggingEnableTypes
 ModularPipelines.Eksctl.Extensions.EksctlExtensions
 ModularPipelines.Eksctl.Options.EksctlAssociateIdentityproviderOptions
