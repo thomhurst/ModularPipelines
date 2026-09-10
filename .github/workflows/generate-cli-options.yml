@@ -419,8 +419,13 @@ jobs:
           fi
           cp "$compose_plugin" "$CLI_TOOLS_ROOT/bin/docker-compose"
           chmod +x "$CLI_TOOLS_ROOT/bin/docker-compose"
-          sudo apt-get update
-          sudo apt-get install -y podman
+          # Ubuntu's apt package is podman 4.9, which predates `podman artifact` (5.4) and
+          # `podman quadlet` (5.6), so regenerating from it shrinks the command set. The
+          # runner image no longer ships a newer podman either, so install the current
+          # Homebrew bottle and put it ahead of /usr/bin for the remaining steps.
+          brew="/home/linuxbrew/.linuxbrew/bin/brew"
+          HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_INSTALL_CLEANUP=1 "$brew" install podman
+          echo "/home/linuxbrew/.linuxbrew/bin" >> "$GITHUB_PATH"
           echo "PODMAN_COMPOSE_PROVIDER=$CLI_TOOLS_ROOT/bin/docker-compose" >> "$GITHUB_ENV"
 
       - name: Install Buildah
@@ -579,7 +584,7 @@ jobs:
         run: echo "/home/linuxbrew/.linuxbrew/bin" >> "$GITHUB_PATH"
 
       - name: Verify affected tool installation
-        if: steps.should-run.outputs.run == 'true' && contains(fromJSON('["aws","gh","git","brew","snyk","yarn","cosign","eksctl","trivy","liquibase"]'), matrix.tool)
+        if: steps.should-run.outputs.run == 'true' && contains(fromJSON('["aws","gh","git","brew","podman","snyk","yarn","cosign","eksctl","trivy","liquibase"]'), matrix.tool)
         run: |
           command -v "${{ matrix.tool }}"
           case "${{ matrix.tool }}" in
