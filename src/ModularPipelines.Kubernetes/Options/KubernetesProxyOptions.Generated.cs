@@ -21,7 +21,7 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KubernetesProxyOptions : KubernetesOptions
 {
     /// <summary>
-    /// :1\]$':
+    /// :1\]$': Regular expression for hosts that the proxy should accept.
     /// </summary>
     [CliOption("--accept-hosts", Format = OptionFormat.EqualsSeparated)]
     public string? AcceptHosts { get; set; }

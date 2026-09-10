@@ -16,29 +16,14 @@ namespace ModularPipelines.Kubernetes.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum KubernetesReplaceOutput
 {
-    [EnumValue("json")]
-    Json,
-
-    [EnumValue("yaml")]
-    Yaml,
-
-    [EnumValue("kyaml")]
-    Kyaml,
-
-    [EnumValue("name")]
-    Name,
-
     [EnumValue("go-template")]
     GoTemplate,
 
     [EnumValue("go-template-file")]
     GoTemplateFile,
 
-    [EnumValue("template")]
-    Template,
-
-    [EnumValue("templatefile")]
-    Templatefile,
+    [EnumValue("json")]
+    Json,
 
     [EnumValue("jsonpath")]
     Jsonpath,
@@ -47,5 +32,20 @@ public enum KubernetesReplaceOutput
     JsonpathAsJson,
 
     [EnumValue("jsonpath-file")]
-    JsonpathFile
+    JsonpathFile,
+
+    [EnumValue("kyaml")]
+    Kyaml,
+
+    [EnumValue("name")]
+    Name,
+
+    [EnumValue("template")]
+    Template,
+
+    [EnumValue("templatefile")]
+    Templatefile,
+
+    [EnumValue("yaml")]
+    Yaml
 }
