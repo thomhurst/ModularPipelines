@@ -41,7 +41,7 @@ public record GcloudDeployTargetsDescribeOptions : GcloudOptions, IValidatableOb
     public bool? SkipPipelineLookup { get; set; }
 
     /// <inheritdoc />
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
         if (!(ListAllPipelines == true || SkipPipelineLookup == true))
         {

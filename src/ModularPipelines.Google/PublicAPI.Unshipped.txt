@@ -1,10 +1,58 @@
 #nullable enable
+*REMOVED*ModularPipelines.Google.Enums.GcloudAcceleratorType.NvidiaTeslaP100Vws = 7 -> ModularPipelines.Google.Enums.GcloudAcceleratorType
+*REMOVED*ModularPipelines.Google.Enums.GcloudAcceleratorType.NvidiaTeslaP4Vws = 8 -> ModularPipelines.Google.Enums.GcloudAcceleratorType
+*REMOVED*ModularPipelines.Google.Enums.GcloudAcceleratorType.NvidiaTeslaT4 = 5 -> ModularPipelines.Google.Enums.GcloudAcceleratorType
+*REMOVED*ModularPipelines.Google.Enums.GcloudAcceleratorType.NvidiaTeslaT4Vws = 6 -> ModularPipelines.Google.Enums.GcloudAcceleratorType
+*REMOVED*ModularPipelines.Google.Enums.GcloudAcceleratorType.NvidiaTeslaV100 = 3 -> ModularPipelines.Google.Enums.GcloudAcceleratorType
+*REMOVED*ModularPipelines.Google.Enums.GcloudAccessRestriction.Unrestricted = 2 -> ModularPipelines.Google.Enums.GcloudAccessRestriction
+*REMOVED*ModularPipelines.Google.Enums.GcloudAccessRestriction.WithinProject = 0 -> ModularPipelines.Google.Enums.GcloudAccessRestriction
 *REMOVED*ModularPipelines.Google.Enums.GcloudAdditionalNodeNetwork
 *REMOVED*ModularPipelines.Google.Enums.GcloudAdditionalNodeNetwork.Ipv4 = 0 -> ModularPipelines.Google.Enums.GcloudAdditionalNodeNetwork
 *REMOVED*ModularPipelines.Google.Enums.GcloudAdditionalNodeNetwork.Ipv4Ipv6 = 1 -> ModularPipelines.Google.Enums.GcloudAdditionalNodeNetwork
 *REMOVED*ModularPipelines.Google.Enums.GcloudAdditionalNodeNetwork.Ipv6 = 2 -> ModularPipelines.Google.Enums.GcloudAdditionalNodeNetwork
+*REMOVED*ModularPipelines.Google.Enums.GcloudApprovalPolicy.AccessApproval = 2 -> ModularPipelines.Google.Enums.GcloudApprovalPolicy
+*REMOVED*ModularPipelines.Google.Enums.GcloudApprovalPolicy.Transparency = 0 -> ModularPipelines.Google.Enums.GcloudApprovalPolicy
+*REMOVED*ModularPipelines.Google.Enums.GcloudAutoAddNewBuckets.False = 1 -> ModularPipelines.Google.Enums.GcloudAutoAddNewBuckets
+*REMOVED*ModularPipelines.Google.Enums.GcloudAutoAddNewBuckets.True = 0 -> ModularPipelines.Google.Enums.GcloudAutoAddNewBuckets
 *REMOVED*ModularPipelines.Google.Enums.GcloudBehavior.Behaviorunspecified = 0 -> ModularPipelines.Google.Enums.GcloudBehavior
 *REMOVED*ModularPipelines.Google.Enums.GcloudBehavior.Bypassresponsepolicy = 1 -> ModularPipelines.Google.Enums.GcloudBehavior
+*REMOVED*ModularPipelines.Google.Enums.GcloudBootDiskEncryption.Cmek = 1 -> ModularPipelines.Google.Enums.GcloudBootDiskEncryption
+*REMOVED*ModularPipelines.Google.Enums.GcloudBootDiskEncryption.Gmek = 0 -> ModularPipelines.Google.Enums.GcloudBootDiskEncryption
+*REMOVED*ModularPipelines.Google.Enums.GcloudBootDiskType.PdBalanced = 2 -> ModularPipelines.Google.Enums.GcloudBootDiskType
+*REMOVED*ModularPipelines.Google.Enums.GcloudBootDiskType.PdExtreme = 3 -> ModularPipelines.Google.Enums.GcloudBootDiskType
+*REMOVED*ModularPipelines.Google.Enums.GcloudBootDiskType.PdSsd = 1 -> ModularPipelines.Google.Enums.GcloudBootDiskType
+*REMOVED*ModularPipelines.Google.Enums.GcloudBootDiskType.PdStandard = 0 -> ModularPipelines.Google.Enums.GcloudBootDiskType
+*REMOVED*ModularPipelines.Google.Enums.GcloudClusterType.SingleNode = 1 -> ModularPipelines.Google.Enums.GcloudClusterType
+*REMOVED*ModularPipelines.Google.Enums.GcloudClusterType.Standard = 0 -> ModularPipelines.Google.Enums.GcloudClusterType
+*REMOVED*ModularPipelines.Google.Enums.GcloudCommitmentPlan.ThirtySixMonth = 1 -> ModularPipelines.Google.Enums.GcloudCommitmentPlan
+*REMOVED*ModularPipelines.Google.Enums.GcloudCommitmentPlan.TwelveMonth = 0 -> ModularPipelines.Google.Enums.GcloudCommitmentPlan
+*REMOVED*ModularPipelines.Google.Enums.GcloudCompressionMode.Automatic = 1 -> ModularPipelines.Google.Enums.GcloudCompressionMode
+*REMOVED*ModularPipelines.Google.Enums.GcloudCompressionMode.Disabled = 0 -> ModularPipelines.Google.Enums.GcloudCompressionMode
+*REMOVED*ModularPipelines.Google.Enums.GcloudConnectionPersistenceOnUnhealthyBackends.AlwaysPersist = 2 -> ModularPipelines.Google.Enums.GcloudConnectionPersistenceOnUnhealthyBackends
+*REMOVED*ModularPipelines.Google.Enums.GcloudConnectionPersistenceOnUnhealthyBackends.DefaultForProtocol = 0 -> ModularPipelines.Google.Enums.GcloudConnectionPersistenceOnUnhealthyBackends
+*REMOVED*ModularPipelines.Google.Enums.GcloudConnectionPersistenceOnUnhealthyBackends.NeverPersist = 1 -> ModularPipelines.Google.Enums.GcloudConnectionPersistenceOnUnhealthyBackends
+*REMOVED*ModularPipelines.Google.Enums.GcloudContentType.AccessPolicy = 3 -> ModularPipelines.Google.Enums.GcloudContentType
+*REMOVED*ModularPipelines.Google.Enums.GcloudContentType.OsInventory = 4 -> ModularPipelines.Google.Enums.GcloudContentType
+*REMOVED*ModularPipelines.Google.Enums.GcloudContentType.Relationship = 5 -> ModularPipelines.Google.Enums.GcloudContentType
+*REMOVED*ModularPipelines.Google.Enums.GcloudContentType.Resource = 0 -> ModularPipelines.Google.Enums.GcloudContentType
+*REMOVED*ModularPipelines.Google.Enums.GcloudDataDiskEncryption.Cmek = 1 -> ModularPipelines.Google.Enums.GcloudDataDiskEncryption
+*REMOVED*ModularPipelines.Google.Enums.GcloudDataDiskEncryption.Gmek = 0 -> ModularPipelines.Google.Enums.GcloudDataDiskEncryption
+*REMOVED*ModularPipelines.Google.Enums.GcloudDataDiskType.PdBalanced = 2 -> ModularPipelines.Google.Enums.GcloudDataDiskType
+*REMOVED*ModularPipelines.Google.Enums.GcloudDataDiskType.PdExtreme = 3 -> ModularPipelines.Google.Enums.GcloudDataDiskType
+*REMOVED*ModularPipelines.Google.Enums.GcloudDataDiskType.PdSsd = 1 -> ModularPipelines.Google.Enums.GcloudDataDiskType
+*REMOVED*ModularPipelines.Google.Enums.GcloudDataDiskType.PdStandard = 0 -> ModularPipelines.Google.Enums.GcloudDataDiskType
+*REMOVED*ModularPipelines.Google.Enums.GcloudDatabaseDialect.GoogleStandardSql = 1 -> ModularPipelines.Google.Enums.GcloudDatabaseDialect
+*REMOVED*ModularPipelines.Google.Enums.GcloudDatabaseDialect.Postgresql = 0 -> ModularPipelines.Google.Enums.GcloudDatabaseDialect
+*REMOVED*ModularPipelines.Google.Enums.GcloudDirectVpcEgress.All = 1 -> ModularPipelines.Google.Enums.GcloudDirectVpcEgress
+*REMOVED*ModularPipelines.Google.Enums.GcloudDirectVpcEgress.PrivateRangesOnly = 0 -> ModularPipelines.Google.Enums.GcloudDirectVpcEgress
+*REMOVED*ModularPipelines.Google.Enums.GcloudDiskEncryption.Cmek = 1 -> ModularPipelines.Google.Enums.GcloudDiskEncryption
+*REMOVED*ModularPipelines.Google.Enums.GcloudDiskEncryption.Gmek = 0 -> ModularPipelines.Google.Enums.GcloudDiskEncryption
+*REMOVED*ModularPipelines.Google.Enums.GcloudDiskType.HyperdiskBalanced = 3 -> ModularPipelines.Google.Enums.GcloudDiskType
+*REMOVED*ModularPipelines.Google.Enums.GcloudDiskType.HyperdiskExtreme = 4 -> ModularPipelines.Google.Enums.GcloudDiskType
+*REMOVED*ModularPipelines.Google.Enums.GcloudDiskType.HyperdiskThroughput = 5 -> ModularPipelines.Google.Enums.GcloudDiskType
+*REMOVED*ModularPipelines.Google.Enums.GcloudDiskType.PdBalanced = 2 -> ModularPipelines.Google.Enums.GcloudDiskType
+*REMOVED*ModularPipelines.Google.Enums.GcloudDiskType.PdSsd = 1 -> ModularPipelines.Google.Enums.GcloudDiskType
+*REMOVED*ModularPipelines.Google.Enums.GcloudDiskType.PdStandard = 0 -> ModularPipelines.Google.Enums.GcloudDiskType
 *REMOVED*ModularPipelines.Google.Enums.GcloudDisplayName
 *REMOVED*ModularPipelines.Google.Enums.GcloudDisplayName.Day = 2 -> ModularPipelines.Google.Enums.GcloudDisplayName
 *REMOVED*ModularPipelines.Google.Enums.GcloudDisplayName.Hour = 1 -> ModularPipelines.Google.Enums.GcloudDisplayName
@@ -13,9 +61,41 @@
 *REMOVED*ModularPipelines.Google.Enums.GcloudEffect.Noexecute = 2 -> ModularPipelines.Google.Enums.GcloudEffect
 *REMOVED*ModularPipelines.Google.Enums.GcloudEffect.Noschedule = 0 -> ModularPipelines.Google.Enums.GcloudEffect
 *REMOVED*ModularPipelines.Google.Enums.GcloudEffect.Prefernoschedule = 1 -> ModularPipelines.Google.Enums.GcloudEffect
+*REMOVED*ModularPipelines.Google.Enums.GcloudEgressSettings.All = 1 -> ModularPipelines.Google.Enums.GcloudEgressSettings
+*REMOVED*ModularPipelines.Google.Enums.GcloudEgressSettings.PrivateRangesOnly = 0 -> ModularPipelines.Google.Enums.GcloudEgressSettings
+*REMOVED*ModularPipelines.Google.Enums.GcloudEndpointType.Netlb = 1 -> ModularPipelines.Google.Enums.GcloudEndpointType
+*REMOVED*ModularPipelines.Google.Enums.GcloudEndpointType.Vm = 0 -> ModularPipelines.Google.Enums.GcloudEndpointType
+*REMOVED*ModularPipelines.Google.Enums.GcloudEnforceOnKey.All = 1 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+*REMOVED*ModularPipelines.Google.Enums.GcloudEnforceOnKey.HttpCookie = 4 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+*REMOVED*ModularPipelines.Google.Enums.GcloudEnforceOnKey.HttpHeader = 2 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+*REMOVED*ModularPipelines.Google.Enums.GcloudEnforceOnKey.HttpPath = 5 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+*REMOVED*ModularPipelines.Google.Enums.GcloudEnforceOnKey.Ip = 0 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+*REMOVED*ModularPipelines.Google.Enums.GcloudEnforceOnKey.RegionCode = 7 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+*REMOVED*ModularPipelines.Google.Enums.GcloudEnforceOnKey.Sni = 6 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+*REMOVED*ModularPipelines.Google.Enums.GcloudEnforceOnKey.TlsJa4Fingerprint = 10 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+*REMOVED*ModularPipelines.Google.Enums.GcloudEnforceOnKey.UserIp = 9 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+*REMOVED*ModularPipelines.Google.Enums.GcloudEnforceOnKey.XffIp = 3 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+*REMOVED*ModularPipelines.Google.Enums.GcloudExceedAction.Deny = 4 -> ModularPipelines.Google.Enums.GcloudExceedAction
+*REMOVED*ModularPipelines.Google.Enums.GcloudExceedAction.Deny_403 = 0 -> ModularPipelines.Google.Enums.GcloudExceedAction
+*REMOVED*ModularPipelines.Google.Enums.GcloudExceedAction.Deny_404 = 1 -> ModularPipelines.Google.Enums.GcloudExceedAction
+*REMOVED*ModularPipelines.Google.Enums.GcloudExceedAction.Deny_429 = 2 -> ModularPipelines.Google.Enums.GcloudExceedAction
+*REMOVED*ModularPipelines.Google.Enums.GcloudExceedAction.Deny_502 = 3 -> ModularPipelines.Google.Enums.GcloudExceedAction
+*REMOVED*ModularPipelines.Google.Enums.GcloudExceedRedirectType.External_302 = 1 -> ModularPipelines.Google.Enums.GcloudExceedRedirectType
+*REMOVED*ModularPipelines.Google.Enums.GcloudExceedRedirectType.GoogleRecaptcha = 0 -> ModularPipelines.Google.Enums.GcloudExceedRedirectType
 *REMOVED*ModularPipelines.Google.Enums.GcloudIdpMetadataPath
 *REMOVED*ModularPipelines.Google.Enums.GcloudIdpMetadataPath.AzureAdGroupsId = 0 -> ModularPipelines.Google.Enums.GcloudIdpMetadataPath
 *REMOVED*ModularPipelines.Google.Enums.GcloudIdpMetadataPath.AzureAdGroupsMail = 1 -> ModularPipelines.Google.Enums.GcloudIdpMetadataPath
+*REMOVED*ModularPipelines.Google.Enums.GcloudImageFamilyScope.Global = 1 -> ModularPipelines.Google.Enums.GcloudImageFamilyScope
+*REMOVED*ModularPipelines.Google.Enums.GcloudImageFamilyScope.Zonal = 0 -> ModularPipelines.Google.Enums.GcloudImageFamilyScope
+*REMOVED*ModularPipelines.Google.Enums.GcloudIngressSettings.InternalAndGclb = 2 -> ModularPipelines.Google.Enums.GcloudIngressSettings
+*REMOVED*ModularPipelines.Google.Enums.GcloudIngressSettings.InternalOnly = 1 -> ModularPipelines.Google.Enums.GcloudIngressSettings
+*REMOVED*ModularPipelines.Google.Enums.GcloudIpAddressSelectionPolicy.Ipv6Only = 2 -> ModularPipelines.Google.Enums.GcloudIpAddressSelectionPolicy
+*REMOVED*ModularPipelines.Google.Enums.GcloudIpAddressSelectionPolicy.PreferIpv6 = 1 -> ModularPipelines.Google.Enums.GcloudIpAddressSelectionPolicy
+*REMOVED*ModularPipelines.Google.Enums.GcloudIpProtocol.Icmp = 2 -> ModularPipelines.Google.Enums.GcloudIpProtocol
+*REMOVED*ModularPipelines.Google.Enums.GcloudIpProtocol.Tcp = 0 -> ModularPipelines.Google.Enums.GcloudIpProtocol
+*REMOVED*ModularPipelines.Google.Enums.GcloudIpProtocol.Udp = 1 -> ModularPipelines.Google.Enums.GcloudIpProtocol
+*REMOVED*ModularPipelines.Google.Enums.GcloudKeyManagementMode.CloudKms = 1 -> ModularPipelines.Google.Enums.GcloudKeyManagementMode
+*REMOVED*ModularPipelines.Google.Enums.GcloudKeyManagementMode.Manual = 0 -> ModularPipelines.Google.Enums.GcloudKeyManagementMode
 *REMOVED*ModularPipelines.Google.Enums.GcloudKmsKeyServiceAccount
 *REMOVED*ModularPipelines.Google.Enums.GcloudKmsKeyServiceAccount.HyperdiskBalancedHa = 3 -> ModularPipelines.Google.Enums.GcloudKmsKeyServiceAccount
 *REMOVED*ModularPipelines.Google.Enums.GcloudKmsKeyServiceAccount.PdBalanced = 1 -> ModularPipelines.Google.Enums.GcloudKmsKeyServiceAccount
@@ -25,17 +105,74 @@
 *REMOVED*ModularPipelines.Google.Enums.GcloudLabels.Balance = 0 -> ModularPipelines.Google.Enums.GcloudLabels
 *REMOVED*ModularPipelines.Google.Enums.GcloudLabels.Security = 1 -> ModularPipelines.Google.Enums.GcloudLabels
 *REMOVED*ModularPipelines.Google.Enums.GcloudLabels.Usability = 2 -> ModularPipelines.Google.Enums.GcloudLabels
-*REMOVED*ModularPipelines.Google.Enums.GcloudLoadBalancingScheme.External = 0 -> ModularPipelines.Google.Enums.GcloudLoadBalancingScheme
-*REMOVED*ModularPipelines.Google.Enums.GcloudLoadBalancingScheme.ExternalManaged = 1 -> ModularPipelines.Google.Enums.GcloudLoadBalancingScheme
+*REMOVED*ModularPipelines.Google.Enums.GcloudLayer7DdosDefenseRuleVisibility.Premium = 1 -> ModularPipelines.Google.Enums.GcloudLayer7DdosDefenseRuleVisibility
+*REMOVED*ModularPipelines.Google.Enums.GcloudLayer7DdosDefenseRuleVisibility.Standard = 0 -> ModularPipelines.Google.Enums.GcloudLayer7DdosDefenseRuleVisibility
+*REMOVED*ModularPipelines.Google.Enums.GcloudLocalityLbPolicy.LeastRequest = 2 -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy
+*REMOVED*ModularPipelines.Google.Enums.GcloudLocalityLbPolicy.Maglev = 6 -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy
+*REMOVED*ModularPipelines.Google.Enums.GcloudLocalityLbPolicy.OriginalDestination = 5 -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy
+*REMOVED*ModularPipelines.Google.Enums.GcloudLocalityLbPolicy.RingHash = 3 -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy
+*REMOVED*ModularPipelines.Google.Enums.GcloudLocalityLbPolicy.RoundRobin = 1 -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy
+*REMOVED*ModularPipelines.Google.Enums.GcloudLocalityLbPolicy.WeightedGcpRendezvous = 9 -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy
+*REMOVED*ModularPipelines.Google.Enums.GcloudLocalityLbPolicy.WeightedMaglev = 7 -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy
+*REMOVED*ModularPipelines.Google.Enums.GcloudLocalityLbPolicy.WeightedRoundRobin = 8 -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy
+*REMOVED*ModularPipelines.Google.Enums.GcloudLocationPolicy.Any = 1 -> ModularPipelines.Google.Enums.GcloudLocationPolicy
+*REMOVED*ModularPipelines.Google.Enums.GcloudLocationPolicy.Balanced = 0 -> ModularPipelines.Google.Enums.GcloudLocationPolicy
+*REMOVED*ModularPipelines.Google.Enums.GcloudLoggingAggregationInterval.Interval_10Min = 0 -> ModularPipelines.Google.Enums.GcloudLoggingAggregationInterval
+*REMOVED*ModularPipelines.Google.Enums.GcloudLoggingAggregationInterval.Interval_15Min = 1 -> ModularPipelines.Google.Enums.GcloudLoggingAggregationInterval
+*REMOVED*ModularPipelines.Google.Enums.GcloudLoggingAggregationInterval.Interval_1Min = 2 -> ModularPipelines.Google.Enums.GcloudLoggingAggregationInterval
+*REMOVED*ModularPipelines.Google.Enums.GcloudLoggingConfig.Alert = 7 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+*REMOVED*ModularPipelines.Google.Enums.GcloudLoggingConfig.Critical = 6 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+*REMOVED*ModularPipelines.Google.Enums.GcloudLoggingConfig.Debug = 1 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+*REMOVED*ModularPipelines.Google.Enums.GcloudLoggingConfig.Emergency = 8 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+*REMOVED*ModularPipelines.Google.Enums.GcloudLoggingConfig.Error = 5 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+*REMOVED*ModularPipelines.Google.Enums.GcloudLoggingConfig.Info = 2 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+*REMOVED*ModularPipelines.Google.Enums.GcloudLoggingConfig.None = 0 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+*REMOVED*ModularPipelines.Google.Enums.GcloudLoggingConfig.Notice = 3 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+*REMOVED*ModularPipelines.Google.Enums.GcloudLoggingConfig.Warning = 4 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+*REMOVED*ModularPipelines.Google.Enums.GcloudLoggingOptional.Custom = 2 -> ModularPipelines.Google.Enums.GcloudLoggingOptional
+*REMOVED*ModularPipelines.Google.Enums.GcloudLoggingOptional.ExcludeAllOptional = 0 -> ModularPipelines.Google.Enums.GcloudLoggingOptional
+*REMOVED*ModularPipelines.Google.Enums.GcloudLoggingOptional.IncludeAllOptional = 1 -> ModularPipelines.Google.Enums.GcloudLoggingOptional
+*REMOVED*ModularPipelines.Google.Enums.GcloudMinLogLevel.Error = 2 -> ModularPipelines.Google.Enums.GcloudMinLogLevel
+*REMOVED*ModularPipelines.Google.Enums.GcloudMinLogLevel.Info = 1 -> ModularPipelines.Google.Enums.GcloudMinLogLevel
+*REMOVED*ModularPipelines.Google.Enums.GcloudNetworkDdosProtection.Advanced = 1 -> ModularPipelines.Google.Enums.GcloudNetworkDdosProtection
+*REMOVED*ModularPipelines.Google.Enums.GcloudNetworkDdosProtection.AdvancedPreview = 2 -> ModularPipelines.Google.Enums.GcloudNetworkDdosProtection
+*REMOVED*ModularPipelines.Google.Enums.GcloudNetworkDdosProtection.Standard = 0 -> ModularPipelines.Google.Enums.GcloudNetworkDdosProtection
 *REMOVED*ModularPipelines.Google.Enums.GcloudNetworkInterface
 *REMOVED*ModularPipelines.Google.Enums.GcloudNetworkInterface.Gvnic = 0 -> ModularPipelines.Google.Enums.GcloudNetworkInterface
 *REMOVED*ModularPipelines.Google.Enums.GcloudNetworkInterface.VirtioNet = 1 -> ModularPipelines.Google.Enums.GcloudNetworkInterface
+*REMOVED*ModularPipelines.Google.Enums.GcloudNicType.Gvnic = 1 -> ModularPipelines.Google.Enums.GcloudNicType
+*REMOVED*ModularPipelines.Google.Enums.GcloudNicType.VirtigoNet = 0 -> ModularPipelines.Google.Enums.GcloudNicType
+*REMOVED*ModularPipelines.Google.Enums.GcloudNodeArchitectureTaintBehavior.Arm = 1 -> ModularPipelines.Google.Enums.GcloudNodeArchitectureTaintBehavior
+*REMOVED*ModularPipelines.Google.Enums.GcloudNodeArchitectureTaintBehavior.None = 2 -> ModularPipelines.Google.Enums.GcloudNodeArchitectureTaintBehavior
+*REMOVED*ModularPipelines.Google.Enums.GcloudNodeArchitectureTaintBehavior.Unspecified = 0 -> ModularPipelines.Google.Enums.GcloudNodeArchitectureTaintBehavior
+*REMOVED*ModularPipelines.Google.Enums.GcloudNotificationEventTypes.Aborted = 2 -> ModularPipelines.Google.Enums.GcloudNotificationEventTypes
+*REMOVED*ModularPipelines.Google.Enums.GcloudNotificationEventTypes.Success = 0 -> ModularPipelines.Google.Enums.GcloudNotificationEventTypes
+*REMOVED*ModularPipelines.Google.Enums.GcloudPlacementType.Compact = 1 -> ModularPipelines.Google.Enums.GcloudPlacementType
+*REMOVED*ModularPipelines.Google.Enums.GcloudPlacementType.Unspecified = 0 -> ModularPipelines.Google.Enums.GcloudPlacementType
 *REMOVED*ModularPipelines.Google.Enums.GcloudPolicyType.RdmaRocePolicy = 1 -> ModularPipelines.Google.Enums.GcloudPolicyType
 *REMOVED*ModularPipelines.Google.Enums.GcloudPolicyType.VpcPolicy = 0 -> ModularPipelines.Google.Enums.GcloudPolicyType
+*REMOVED*ModularPipelines.Google.Enums.GcloudProvider.Cloudsql = 1 -> ModularPipelines.Google.Enums.GcloudProvider
+*REMOVED*ModularPipelines.Google.Enums.GcloudProvider.Rds = 0 -> ModularPipelines.Google.Enums.GcloudProvider
+*REMOVED*ModularPipelines.Google.Enums.GcloudPurpose.GceEndpoint = 2 -> ModularPipelines.Google.Enums.GcloudPurpose
+*REMOVED*ModularPipelines.Google.Enums.GcloudPurpose.IpsecInterconnect = 3 -> ModularPipelines.Google.Enums.GcloudPurpose
+*REMOVED*ModularPipelines.Google.Enums.GcloudPurpose.PrivateServiceConnect = 4 -> ModularPipelines.Google.Enums.GcloudPurpose
+*REMOVED*ModularPipelines.Google.Enums.GcloudPurpose.SharedLoadbalancerVip = 1 -> ModularPipelines.Google.Enums.GcloudPurpose
+*REMOVED*ModularPipelines.Google.Enums.GcloudPurpose.VpcPeering = 0 -> ModularPipelines.Google.Enums.GcloudPurpose
+*REMOVED*ModularPipelines.Google.Enums.GcloudQuotaUnit.Day = 2 -> ModularPipelines.Google.Enums.GcloudQuotaUnit
+*REMOVED*ModularPipelines.Google.Enums.GcloudQuotaUnit.Minute = 0 -> ModularPipelines.Google.Enums.GcloudQuotaUnit
+*REMOVED*ModularPipelines.Google.Enums.GcloudRedirectType.External_302 = 1 -> ModularPipelines.Google.Enums.GcloudRedirectType
+*REMOVED*ModularPipelines.Google.Enums.GcloudRedirectType.GoogleRecaptcha = 0 -> ModularPipelines.Google.Enums.GcloudRedirectType
 *REMOVED*ModularPipelines.Google.Enums.GcloudReplaceLicense
 *REMOVED*ModularPipelines.Google.Enums.GcloudReplaceLicense.Arm64 = 0 -> ModularPipelines.Google.Enums.GcloudReplaceLicense
 *REMOVED*ModularPipelines.Google.Enums.GcloudReplaceLicense.X86_64 = 1 -> ModularPipelines.Google.Enums.GcloudReplaceLicense
-*REMOVED*ModularPipelines.Google.Enums.GcloudResourceType.BackendServices = 1 -> ModularPipelines.Google.Enums.GcloudResourceType
+*REMOVED*ModularPipelines.Google.Enums.GcloudReplicaType.Failover = 1 -> ModularPipelines.Google.Enums.GcloudReplicaType
+*REMOVED*ModularPipelines.Google.Enums.GcloudReplicaType.Read = 0 -> ModularPipelines.Google.Enums.GcloudReplicaType
+*REMOVED*ModularPipelines.Google.Enums.GcloudReplication.Asynchronous = 1 -> ModularPipelines.Google.Enums.GcloudReplication
+*REMOVED*ModularPipelines.Google.Enums.GcloudReplication.Synchronous = 0 -> ModularPipelines.Google.Enums.GcloudReplication
+*REMOVED*ModularPipelines.Google.Enums.GcloudRole.Destination = 1 -> ModularPipelines.Google.Enums.GcloudRole
+*REMOVED*ModularPipelines.Google.Enums.GcloudRole.Source = 0 -> ModularPipelines.Google.Enums.GcloudRole
+*REMOVED*ModularPipelines.Google.Enums.GcloudSecurityPosture.Enterprise = 2 -> ModularPipelines.Google.Enums.GcloudSecurityPosture
+*REMOVED*ModularPipelines.Google.Enums.GcloudSecurityPosture.Standard = 1 -> ModularPipelines.Google.Enums.GcloudSecurityPosture
 *REMOVED*ModularPipelines.Google.Enums.GcloudShareSetting.Local = 2 -> ModularPipelines.Google.Enums.GcloudShareSetting
 *REMOVED*ModularPipelines.Google.Enums.GcloudShareSetting.Organization = 1 -> ModularPipelines.Google.Enums.GcloudShareSetting
 *REMOVED*ModularPipelines.Google.Enums.GcloudShareSetting.Projects = 0 -> ModularPipelines.Google.Enums.GcloudShareSetting
@@ -47,6 +184,17 @@
 *REMOVED*ModularPipelines.Google.Enums.GcloudSnapshotLabels.Thursday = 3 -> ModularPipelines.Google.Enums.GcloudSnapshotLabels
 *REMOVED*ModularPipelines.Google.Enums.GcloudSnapshotLabels.Tuesday = 1 -> ModularPipelines.Google.Enums.GcloudSnapshotLabels
 *REMOVED*ModularPipelines.Google.Enums.GcloudSnapshotLabels.Wednesday = 2 -> ModularPipelines.Google.Enums.GcloudSnapshotLabels
+*REMOVED*ModularPipelines.Google.Enums.GcloudSourceType.Esxi = 1 -> ModularPipelines.Google.Enums.GcloudSourceType
+*REMOVED*ModularPipelines.Google.Enums.GcloudSourceType.Vcsa = 0 -> ModularPipelines.Google.Enums.GcloudSourceType
+*REMOVED*ModularPipelines.Google.Enums.GcloudSslType.None = 3 -> ModularPipelines.Google.Enums.GcloudSslType
+*REMOVED*ModularPipelines.Google.Enums.GcloudSslType.Required = 2 -> ModularPipelines.Google.Enums.GcloudSslType
+*REMOVED*ModularPipelines.Google.Enums.GcloudSslType.ServerClient = 1 -> ModularPipelines.Google.Enums.GcloudSslType
+*REMOVED*ModularPipelines.Google.Enums.GcloudSslType.ServerOnly = 0 -> ModularPipelines.Google.Enums.GcloudSslType
+*REMOVED*ModularPipelines.Google.Enums.GcloudStorageType.Hdd = 1 -> ModularPipelines.Google.Enums.GcloudStorageType
+*REMOVED*ModularPipelines.Google.Enums.GcloudStorageType.HyperdiskBalanced = 2 -> ModularPipelines.Google.Enums.GcloudStorageType
+*REMOVED*ModularPipelines.Google.Enums.GcloudStorageType.Ssd = 0 -> ModularPipelines.Google.Enums.GcloudStorageType
+*REMOVED*ModularPipelines.Google.Enums.GcloudStrictHostKeyChecking.Ask = 2 -> ModularPipelines.Google.Enums.GcloudStrictHostKeyChecking
+*REMOVED*ModularPipelines.Google.Enums.GcloudStrictHostKeyChecking.Yes = 0 -> ModularPipelines.Google.Enums.GcloudStrictHostKeyChecking
 *REMOVED*ModularPipelines.Google.Enums.GcloudSubnet
 *REMOVED*ModularPipelines.Google.Enums.GcloudSubnet.Ipv4 = 0 -> ModularPipelines.Google.Enums.GcloudSubnet
 *REMOVED*ModularPipelines.Google.Enums.GcloudSubnet.Ipv6 = 1 -> ModularPipelines.Google.Enums.GcloudSubnet
@@ -54,6 +202,8 @@
 *REMOVED*ModularPipelines.Google.Enums.GcloudTestType.DownloadThroughput = 1 -> ModularPipelines.Google.Enums.GcloudTestType
 *REMOVED*ModularPipelines.Google.Enums.GcloudTestType.Latency = 2 -> ModularPipelines.Google.Enums.GcloudTestType
 *REMOVED*ModularPipelines.Google.Enums.GcloudTestType.UploadThroughput = 3 -> ModularPipelines.Google.Enums.GcloudTestType
+*REMOVED*ModularPipelines.Google.Enums.GcloudTier.Enterprise = 1 -> ModularPipelines.Google.Enums.GcloudTier
+*REMOVED*ModularPipelines.Google.Enums.GcloudTier.Standard = 0 -> ModularPipelines.Google.Enums.GcloudTier
 *REMOVED*ModularPipelines.Google.Enums.GcloudTitle
 *REMOVED*ModularPipelines.Google.Enums.GcloudTitle.And = 0 -> ModularPipelines.Google.Enums.GcloudTitle
 *REMOVED*ModularPipelines.Google.Enums.GcloudTitle.Or = 1 -> ModularPipelines.Google.Enums.GcloudTitle
@@ -72,6 +222,8 @@
 *REMOVED*ModularPipelines.Google.Enums.GcloudWorkerMinCpuPlatform.Sev = 0 -> ModularPipelines.Google.Enums.GcloudWorkerMinCpuPlatform
 *REMOVED*ModularPipelines.Google.Enums.GcloudWorkerMinCpuPlatform.SevSnp = 1 -> ModularPipelines.Google.Enums.GcloudWorkerMinCpuPlatform
 *REMOVED*ModularPipelines.Google.Enums.GcloudWorkerMinCpuPlatform.Tdx = 2 -> ModularPipelines.Google.Enums.GcloudWorkerMinCpuPlatform
+*REMOVED*ModularPipelines.Google.Enums.GcloudWorkloadVulnerabilityScanning.Enterprise = 2 -> ModularPipelines.Google.Enums.GcloudWorkloadVulnerabilityScanning
+*REMOVED*ModularPipelines.Google.Enums.GcloudWorkloadVulnerabilityScanning.Standard = 1 -> ModularPipelines.Google.Enums.GcloudWorkloadVulnerabilityScanning
 *REMOVED*ModularPipelines.Google.Enums.GcloudZonalAffinitySpilloverRatio
 *REMOVED*ModularPipelines.Google.Enums.GcloudZonalAffinitySpilloverRatio.Prepare = 0 -> ModularPipelines.Google.Enums.GcloudZonalAffinitySpilloverRatio
 *REMOVED*ModularPipelines.Google.Enums.GcloudZonalAffinitySpilloverRatio.TestAllTraffic = 2 -> ModularPipelines.Google.Enums.GcloudZonalAffinitySpilloverRatio
@@ -510,9 +662,11 @@
 *REMOVED*ModularPipelines.Google.Options.GcloudRunWorkerPoolsLogsReadOptions.Order.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudRunWorkerPoolsUpdateOptions.AddVolumeMount.get -> System.Collections.Generic.IEnumerable<string!>?
 *REMOVED*ModularPipelines.Google.Options.GcloudRunWorkerPoolsUpdateOptions.ServiceAccount.get -> int?
+*REMOVED*ModularPipelines.Google.Options.GcloudSccAssetsGroupOptions.Filter.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudSccBqexportsUpdateOptions.Dataset.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudSccBqexportsUpdateOptions.Dataset.set -> void
 *REMOVED*ModularPipelines.Google.Options.GcloudSccCustomModulesShaUpdateOptions.EnablementState.get -> string?
+*REMOVED*ModularPipelines.Google.Options.GcloudSccFindingsGroupOptions.Filter.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudSccMuteconfigsCreateOptions.Type.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudSchedulerJobsUpdateAppEngineOptions.HttpMethod.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudSchedulerJobsUpdateHttpOptions.HttpMethod.get -> string?
@@ -9914,14 +10068,31 @@
 *REMOVED*virtual ModularPipelines.Google.Services.GcloudWorkstationsConfigs.ListAsync(ModularPipelines.Google.Options.GcloudWorkstationsConfigsListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Google.Services.GcloudWorkstationsConfigs.SetIamPolicyAsync(ModularPipelines.Google.Options.GcloudWorkstationsConfigsSetIamPolicyOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Google.Services.GcloudWorkstationsConfigs.UpdateAsync(ModularPipelines.Google.Options.GcloudWorkstationsConfigsUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Google.Enums.GcloudAcceleratorType.NvidiaTeslaP100Vws = 3 -> ModularPipelines.Google.Enums.GcloudAcceleratorType
+ModularPipelines.Google.Enums.GcloudAcceleratorType.NvidiaTeslaP4Vws = 5 -> ModularPipelines.Google.Enums.GcloudAcceleratorType
+ModularPipelines.Google.Enums.GcloudAcceleratorType.NvidiaTeslaT4 = 6 -> ModularPipelines.Google.Enums.GcloudAcceleratorType
+ModularPipelines.Google.Enums.GcloudAcceleratorType.NvidiaTeslaT4Vws = 7 -> ModularPipelines.Google.Enums.GcloudAcceleratorType
+ModularPipelines.Google.Enums.GcloudAcceleratorType.NvidiaTeslaV100 = 8 -> ModularPipelines.Google.Enums.GcloudAcceleratorType
+ModularPipelines.Google.Enums.GcloudAccessRestriction.Unrestricted = 0 -> ModularPipelines.Google.Enums.GcloudAccessRestriction
+ModularPipelines.Google.Enums.GcloudAccessRestriction.WithinProject = 2 -> ModularPipelines.Google.Enums.GcloudAccessRestriction
+ModularPipelines.Google.Enums.GcloudApprovalPolicy.AccessApproval = 0 -> ModularPipelines.Google.Enums.GcloudApprovalPolicy
+ModularPipelines.Google.Enums.GcloudApprovalPolicy.Transparency = 2 -> ModularPipelines.Google.Enums.GcloudApprovalPolicy
 ModularPipelines.Google.Enums.GcloudArchitecture
 ModularPipelines.Google.Enums.GcloudArchitecture.Arm64 = 0 -> ModularPipelines.Google.Enums.GcloudArchitecture
 ModularPipelines.Google.Enums.GcloudArchitecture.X86_64 = 1 -> ModularPipelines.Google.Enums.GcloudArchitecture
+ModularPipelines.Google.Enums.GcloudAutoAddNewBuckets.False = 0 -> ModularPipelines.Google.Enums.GcloudAutoAddNewBuckets
+ModularPipelines.Google.Enums.GcloudAutoAddNewBuckets.True = 1 -> ModularPipelines.Google.Enums.GcloudAutoAddNewBuckets
 ModularPipelines.Google.Enums.GcloudAutopilotGeneralProfile
-ModularPipelines.Google.Enums.GcloudAutopilotGeneralProfile.NoPerformance = 1 -> ModularPipelines.Google.Enums.GcloudAutopilotGeneralProfile
-ModularPipelines.Google.Enums.GcloudAutopilotGeneralProfile.None = 0 -> ModularPipelines.Google.Enums.GcloudAutopilotGeneralProfile
+ModularPipelines.Google.Enums.GcloudAutopilotGeneralProfile.NoPerformance = 0 -> ModularPipelines.Google.Enums.GcloudAutopilotGeneralProfile
+ModularPipelines.Google.Enums.GcloudAutopilotGeneralProfile.None = 1 -> ModularPipelines.Google.Enums.GcloudAutopilotGeneralProfile
 ModularPipelines.Google.Enums.GcloudBehavior.BehaviorUnspecified = 0 -> ModularPipelines.Google.Enums.GcloudBehavior
 ModularPipelines.Google.Enums.GcloudBehavior.BypassResponsePolicy = 1 -> ModularPipelines.Google.Enums.GcloudBehavior
+ModularPipelines.Google.Enums.GcloudBootDiskEncryption.Cmek = 0 -> ModularPipelines.Google.Enums.GcloudBootDiskEncryption
+ModularPipelines.Google.Enums.GcloudBootDiskEncryption.Gmek = 1 -> ModularPipelines.Google.Enums.GcloudBootDiskEncryption
+ModularPipelines.Google.Enums.GcloudBootDiskType.PdBalanced = 0 -> ModularPipelines.Google.Enums.GcloudBootDiskType
+ModularPipelines.Google.Enums.GcloudBootDiskType.PdExtreme = 1 -> ModularPipelines.Google.Enums.GcloudBootDiskType
+ModularPipelines.Google.Enums.GcloudBootDiskType.PdSsd = 2 -> ModularPipelines.Google.Enums.GcloudBootDiskType
+ModularPipelines.Google.Enums.GcloudBootDiskType.PdStandard = 3 -> ModularPipelines.Google.Enums.GcloudBootDiskType
 ModularPipelines.Google.Enums.GcloudCalendarPeriod
 ModularPipelines.Google.Enums.GcloudCalendarPeriod.Month = 0 -> ModularPipelines.Google.Enums.GcloudCalendarPeriod
 ModularPipelines.Google.Enums.GcloudCalendarPeriod.Quarter = 1 -> ModularPipelines.Google.Enums.GcloudCalendarPeriod
@@ -9932,77 +10103,132 @@ ModularPipelines.Google.Enums.GcloudCertificateChainType.Cavium = 1 -> ModularPi
 ModularPipelines.Google.Enums.GcloudCertificateChainType.GoogleCard = 2 -> ModularPipelines.Google.Enums.GcloudCertificateChainType
 ModularPipelines.Google.Enums.GcloudCertificateChainType.GooglePartition = 3 -> ModularPipelines.Google.Enums.GcloudCertificateChainType
 ModularPipelines.Google.Enums.GcloudCloudArmorTier
-ModularPipelines.Google.Enums.GcloudCloudArmorTier.CaEnterpriseAnnual = 2 -> ModularPipelines.Google.Enums.GcloudCloudArmorTier
+ModularPipelines.Google.Enums.GcloudCloudArmorTier.CaEnterpriseAnnual = 0 -> ModularPipelines.Google.Enums.GcloudCloudArmorTier
 ModularPipelines.Google.Enums.GcloudCloudArmorTier.CaEnterprisePaygo = 1 -> ModularPipelines.Google.Enums.GcloudCloudArmorTier
-ModularPipelines.Google.Enums.GcloudCloudArmorTier.CaStandard = 0 -> ModularPipelines.Google.Enums.GcloudCloudArmorTier
+ModularPipelines.Google.Enums.GcloudCloudArmorTier.CaStandard = 2 -> ModularPipelines.Google.Enums.GcloudCloudArmorTier
 ModularPipelines.Google.Enums.GcloudCloudStorageIngestionInputFormat
-ModularPipelines.Google.Enums.GcloudCloudStorageIngestionInputFormat.Avro = 1 -> ModularPipelines.Google.Enums.GcloudCloudStorageIngestionInputFormat
-ModularPipelines.Google.Enums.GcloudCloudStorageIngestionInputFormat.PubsubAvro = 2 -> ModularPipelines.Google.Enums.GcloudCloudStorageIngestionInputFormat
-ModularPipelines.Google.Enums.GcloudCloudStorageIngestionInputFormat.Text = 0 -> ModularPipelines.Google.Enums.GcloudCloudStorageIngestionInputFormat
+ModularPipelines.Google.Enums.GcloudCloudStorageIngestionInputFormat.Avro = 0 -> ModularPipelines.Google.Enums.GcloudCloudStorageIngestionInputFormat
+ModularPipelines.Google.Enums.GcloudCloudStorageIngestionInputFormat.PubsubAvro = 1 -> ModularPipelines.Google.Enums.GcloudCloudStorageIngestionInputFormat
+ModularPipelines.Google.Enums.GcloudCloudStorageIngestionInputFormat.Text = 2 -> ModularPipelines.Google.Enums.GcloudCloudStorageIngestionInputFormat
 ModularPipelines.Google.Enums.GcloudCloudStorageOutputFormat
-ModularPipelines.Google.Enums.GcloudCloudStorageOutputFormat.Avro = 1 -> ModularPipelines.Google.Enums.GcloudCloudStorageOutputFormat
-ModularPipelines.Google.Enums.GcloudCloudStorageOutputFormat.Text = 0 -> ModularPipelines.Google.Enums.GcloudCloudStorageOutputFormat
+ModularPipelines.Google.Enums.GcloudCloudStorageOutputFormat.Avro = 0 -> ModularPipelines.Google.Enums.GcloudCloudStorageOutputFormat
+ModularPipelines.Google.Enums.GcloudCloudStorageOutputFormat.Text = 1 -> ModularPipelines.Google.Enums.GcloudCloudStorageOutputFormat
+ModularPipelines.Google.Enums.GcloudClusterType.SingleNode = 0 -> ModularPipelines.Google.Enums.GcloudClusterType
+ModularPipelines.Google.Enums.GcloudClusterType.Standard = 1 -> ModularPipelines.Google.Enums.GcloudClusterType
 ModularPipelines.Google.Enums.GcloudCombineFunction
 ModularPipelines.Google.Enums.GcloudCombineFunction.And = 0 -> ModularPipelines.Google.Enums.GcloudCombineFunction
 ModularPipelines.Google.Enums.GcloudCombineFunction.Or = 1 -> ModularPipelines.Google.Enums.GcloudCombineFunction
+ModularPipelines.Google.Enums.GcloudCommitmentPlan.ThirtySixMonth = 0 -> ModularPipelines.Google.Enums.GcloudCommitmentPlan
+ModularPipelines.Google.Enums.GcloudCommitmentPlan.TwelveMonth = 1 -> ModularPipelines.Google.Enums.GcloudCommitmentPlan
+ModularPipelines.Google.Enums.GcloudCompressionMode.Automatic = 0 -> ModularPipelines.Google.Enums.GcloudCompressionMode
+ModularPipelines.Google.Enums.GcloudCompressionMode.Disabled = 1 -> ModularPipelines.Google.Enums.GcloudCompressionMode
 ModularPipelines.Google.Enums.GcloudConfidentialComputeType
 ModularPipelines.Google.Enums.GcloudConfidentialComputeType.Sev = 0 -> ModularPipelines.Google.Enums.GcloudConfidentialComputeType
 ModularPipelines.Google.Enums.GcloudConfidentialComputeType.SevSnp = 1 -> ModularPipelines.Google.Enums.GcloudConfidentialComputeType
 ModularPipelines.Google.Enums.GcloudConfidentialComputeType.Tdx = 2 -> ModularPipelines.Google.Enums.GcloudConfidentialComputeType
+ModularPipelines.Google.Enums.GcloudConnectionPersistenceOnUnhealthyBackends.AlwaysPersist = 0 -> ModularPipelines.Google.Enums.GcloudConnectionPersistenceOnUnhealthyBackends
+ModularPipelines.Google.Enums.GcloudConnectionPersistenceOnUnhealthyBackends.DefaultForProtocol = 1 -> ModularPipelines.Google.Enums.GcloudConnectionPersistenceOnUnhealthyBackends
+ModularPipelines.Google.Enums.GcloudConnectionPersistenceOnUnhealthyBackends.NeverPersist = 2 -> ModularPipelines.Google.Enums.GcloudConnectionPersistenceOnUnhealthyBackends
 ModularPipelines.Google.Enums.GcloudContainerRestartPolicy
-ModularPipelines.Google.Enums.GcloudContainerRestartPolicy.Always = 2 -> ModularPipelines.Google.Enums.GcloudContainerRestartPolicy
-ModularPipelines.Google.Enums.GcloudContainerRestartPolicy.Never = 0 -> ModularPipelines.Google.Enums.GcloudContainerRestartPolicy
-ModularPipelines.Google.Enums.GcloudContainerRestartPolicy.OnFailure = 1 -> ModularPipelines.Google.Enums.GcloudContainerRestartPolicy
+ModularPipelines.Google.Enums.GcloudContainerRestartPolicy.Always = 0 -> ModularPipelines.Google.Enums.GcloudContainerRestartPolicy
+ModularPipelines.Google.Enums.GcloudContainerRestartPolicy.Never = 1 -> ModularPipelines.Google.Enums.GcloudContainerRestartPolicy
+ModularPipelines.Google.Enums.GcloudContainerRestartPolicy.OnFailure = 2 -> ModularPipelines.Google.Enums.GcloudContainerRestartPolicy
+ModularPipelines.Google.Enums.GcloudContentType.AccessPolicy = 0 -> ModularPipelines.Google.Enums.GcloudContentType
+ModularPipelines.Google.Enums.GcloudContentType.OsInventory = 3 -> ModularPipelines.Google.Enums.GcloudContentType
+ModularPipelines.Google.Enums.GcloudContentType.Relationship = 4 -> ModularPipelines.Google.Enums.GcloudContentType
+ModularPipelines.Google.Enums.GcloudContentType.Resource = 5 -> ModularPipelines.Google.Enums.GcloudContentType
 ModularPipelines.Google.Enums.GcloudCopyKnownExtensions
-ModularPipelines.Google.Enums.GcloudCopyKnownExtensions.AiaOcspServers = 4 -> ModularPipelines.Google.Enums.GcloudCopyKnownExtensions
-ModularPipelines.Google.Enums.GcloudCopyKnownExtensions.BaseKeyUsage = 0 -> ModularPipelines.Google.Enums.GcloudCopyKnownExtensions
+ModularPipelines.Google.Enums.GcloudCopyKnownExtensions.AiaOcspServers = 0 -> ModularPipelines.Google.Enums.GcloudCopyKnownExtensions
+ModularPipelines.Google.Enums.GcloudCopyKnownExtensions.BaseKeyUsage = 1 -> ModularPipelines.Google.Enums.GcloudCopyKnownExtensions
 ModularPipelines.Google.Enums.GcloudCopyKnownExtensions.CaOptions = 2 -> ModularPipelines.Google.Enums.GcloudCopyKnownExtensions
-ModularPipelines.Google.Enums.GcloudCopyKnownExtensions.ExtendedKeyUsage = 1 -> ModularPipelines.Google.Enums.GcloudCopyKnownExtensions
-ModularPipelines.Google.Enums.GcloudCopyKnownExtensions.PolicyIds = 3 -> ModularPipelines.Google.Enums.GcloudCopyKnownExtensions
+ModularPipelines.Google.Enums.GcloudCopyKnownExtensions.ExtendedKeyUsage = 3 -> ModularPipelines.Google.Enums.GcloudCopyKnownExtensions
+ModularPipelines.Google.Enums.GcloudCopyKnownExtensions.PolicyIds = 4 -> ModularPipelines.Google.Enums.GcloudCopyKnownExtensions
 ModularPipelines.Google.Enums.GcloudCreatePolicy
 ModularPipelines.Google.Enums.GcloudCreatePolicy.Acquire = 0 -> ModularPipelines.Google.Enums.GcloudCreatePolicy
 ModularPipelines.Google.Enums.GcloudCreatePolicy.CreateOrAcquire = 1 -> ModularPipelines.Google.Enums.GcloudCreatePolicy
+ModularPipelines.Google.Enums.GcloudCrossCloudCache
+ModularPipelines.Google.Enums.GcloudCrossCloudCache.Disabled = 0 -> ModularPipelines.Google.Enums.GcloudCrossCloudCache
+ModularPipelines.Google.Enums.GcloudCrossCloudCache.Enabled = 1 -> ModularPipelines.Google.Enums.GcloudCrossCloudCache
+ModularPipelines.Google.Enums.GcloudDataDiskEncryption.Cmek = 0 -> ModularPipelines.Google.Enums.GcloudDataDiskEncryption
+ModularPipelines.Google.Enums.GcloudDataDiskEncryption.Gmek = 1 -> ModularPipelines.Google.Enums.GcloudDataDiskEncryption
+ModularPipelines.Google.Enums.GcloudDataDiskType.PdBalanced = 0 -> ModularPipelines.Google.Enums.GcloudDataDiskType
+ModularPipelines.Google.Enums.GcloudDataDiskType.PdExtreme = 1 -> ModularPipelines.Google.Enums.GcloudDataDiskType
+ModularPipelines.Google.Enums.GcloudDataDiskType.PdSsd = 2 -> ModularPipelines.Google.Enums.GcloudDataDiskType
+ModularPipelines.Google.Enums.GcloudDataDiskType.PdStandard = 3 -> ModularPipelines.Google.Enums.GcloudDataDiskType
+ModularPipelines.Google.Enums.GcloudDatabaseDialect.GoogleStandardSql = 0 -> ModularPipelines.Google.Enums.GcloudDatabaseDialect
+ModularPipelines.Google.Enums.GcloudDatabaseDialect.Postgresql = 1 -> ModularPipelines.Google.Enums.GcloudDatabaseDialect
 ModularPipelines.Google.Enums.GcloudDestination
 ModularPipelines.Google.Enums.GcloudDestination.File = 0 -> ModularPipelines.Google.Enums.GcloudDestination
 ModularPipelines.Google.Enums.GcloudDestination.Sliced = 1 -> ModularPipelines.Google.Enums.GcloudDestination
 ModularPipelines.Google.Enums.GcloudDestination.Streaming = 2 -> ModularPipelines.Google.Enums.GcloudDestination
-ModularPipelines.Google.Enums.GcloudDirectVpcEgress.AllTraffic = 2 -> ModularPipelines.Google.Enums.GcloudDirectVpcEgress
+ModularPipelines.Google.Enums.GcloudDirectVpcEgress.All = 0 -> ModularPipelines.Google.Enums.GcloudDirectVpcEgress
+ModularPipelines.Google.Enums.GcloudDirectVpcEgress.AllTraffic = 1 -> ModularPipelines.Google.Enums.GcloudDirectVpcEgress
+ModularPipelines.Google.Enums.GcloudDirectVpcEgress.PrivateRangesOnly = 2 -> ModularPipelines.Google.Enums.GcloudDirectVpcEgress
+ModularPipelines.Google.Enums.GcloudDiskEncryption.Cmek = 0 -> ModularPipelines.Google.Enums.GcloudDiskEncryption
+ModularPipelines.Google.Enums.GcloudDiskEncryption.Gmek = 1 -> ModularPipelines.Google.Enums.GcloudDiskEncryption
+ModularPipelines.Google.Enums.GcloudDiskType.HyperdiskBalanced = 0 -> ModularPipelines.Google.Enums.GcloudDiskType
+ModularPipelines.Google.Enums.GcloudDiskType.HyperdiskExtreme = 1 -> ModularPipelines.Google.Enums.GcloudDiskType
+ModularPipelines.Google.Enums.GcloudDiskType.HyperdiskThroughput = 2 -> ModularPipelines.Google.Enums.GcloudDiskType
+ModularPipelines.Google.Enums.GcloudDiskType.PdBalanced = 3 -> ModularPipelines.Google.Enums.GcloudDiskType
+ModularPipelines.Google.Enums.GcloudDiskType.PdSsd = 4 -> ModularPipelines.Google.Enums.GcloudDiskType
+ModularPipelines.Google.Enums.GcloudDiskType.PdStandard = 5 -> ModularPipelines.Google.Enums.GcloudDiskType
 ModularPipelines.Google.Enums.GcloudDumpParallelLevel
-ModularPipelines.Google.Enums.GcloudDumpParallelLevel.Max = 2 -> ModularPipelines.Google.Enums.GcloudDumpParallelLevel
-ModularPipelines.Google.Enums.GcloudDumpParallelLevel.Min = 0 -> ModularPipelines.Google.Enums.GcloudDumpParallelLevel
-ModularPipelines.Google.Enums.GcloudDumpParallelLevel.Optimal = 1 -> ModularPipelines.Google.Enums.GcloudDumpParallelLevel
-ModularPipelines.Google.Enums.GcloudEffect.NoExecute = 2 -> ModularPipelines.Google.Enums.GcloudEffect
-ModularPipelines.Google.Enums.GcloudEffect.NoSchedule = 0 -> ModularPipelines.Google.Enums.GcloudEffect
-ModularPipelines.Google.Enums.GcloudEffect.PreferNoSchedule = 1 -> ModularPipelines.Google.Enums.GcloudEffect
+ModularPipelines.Google.Enums.GcloudDumpParallelLevel.Max = 0 -> ModularPipelines.Google.Enums.GcloudDumpParallelLevel
+ModularPipelines.Google.Enums.GcloudDumpParallelLevel.Min = 1 -> ModularPipelines.Google.Enums.GcloudDumpParallelLevel
+ModularPipelines.Google.Enums.GcloudDumpParallelLevel.Optimal = 2 -> ModularPipelines.Google.Enums.GcloudDumpParallelLevel
+ModularPipelines.Google.Enums.GcloudEffect.NoExecute = 0 -> ModularPipelines.Google.Enums.GcloudEffect
+ModularPipelines.Google.Enums.GcloudEffect.NoSchedule = 1 -> ModularPipelines.Google.Enums.GcloudEffect
+ModularPipelines.Google.Enums.GcloudEffect.PreferNoSchedule = 2 -> ModularPipelines.Google.Enums.GcloudEffect
+ModularPipelines.Google.Enums.GcloudEgressSettings.All = 0 -> ModularPipelines.Google.Enums.GcloudEgressSettings
+ModularPipelines.Google.Enums.GcloudEgressSettings.PrivateRangesOnly = 1 -> ModularPipelines.Google.Enums.GcloudEgressSettings
 ModularPipelines.Google.Enums.GcloudEnablementState
 ModularPipelines.Google.Enums.GcloudEnablementState.Disabled = 0 -> ModularPipelines.Google.Enums.GcloudEnablementState
 ModularPipelines.Google.Enums.GcloudEnablementState.Enabled = 1 -> ModularPipelines.Google.Enums.GcloudEnablementState
 ModularPipelines.Google.Enums.GcloudEnablementState.Inherited = 2 -> ModularPipelines.Google.Enums.GcloudEnablementState
-ModularPipelines.Google.Enums.GcloudEnforceOnKey.Asn = 11 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+ModularPipelines.Google.Enums.GcloudEndpointType.Netlb = 0 -> ModularPipelines.Google.Enums.GcloudEndpointType
+ModularPipelines.Google.Enums.GcloudEndpointType.Vm = 1 -> ModularPipelines.Google.Enums.GcloudEndpointType
+ModularPipelines.Google.Enums.GcloudEnforceOnKey.All = 0 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+ModularPipelines.Google.Enums.GcloudEnforceOnKey.Asn = 1 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+ModularPipelines.Google.Enums.GcloudEnforceOnKey.HttpCookie = 2 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+ModularPipelines.Google.Enums.GcloudEnforceOnKey.HttpHeader = 3 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+ModularPipelines.Google.Enums.GcloudEnforceOnKey.HttpPath = 4 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+ModularPipelines.Google.Enums.GcloudEnforceOnKey.Ip = 5 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+ModularPipelines.Google.Enums.GcloudEnforceOnKey.RegionCode = 6 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+ModularPipelines.Google.Enums.GcloudEnforceOnKey.Sni = 7 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+ModularPipelines.Google.Enums.GcloudEnforceOnKey.TlsJa4Fingerprint = 9 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+ModularPipelines.Google.Enums.GcloudEnforceOnKey.UserIp = 10 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
+ModularPipelines.Google.Enums.GcloudEnforceOnKey.XffIp = 11 -> ModularPipelines.Google.Enums.GcloudEnforceOnKey
 ModularPipelines.Google.Enums.GcloudEventTypes
 ModularPipelines.Google.Enums.GcloudEventTypes.ObjectArchive = 0 -> ModularPipelines.Google.Enums.GcloudEventTypes
 ModularPipelines.Google.Enums.GcloudEventTypes.ObjectDelete = 1 -> ModularPipelines.Google.Enums.GcloudEventTypes
 ModularPipelines.Google.Enums.GcloudEventTypes.ObjectFinalize = 2 -> ModularPipelines.Google.Enums.GcloudEventTypes
 ModularPipelines.Google.Enums.GcloudEventTypes.ObjectMetadataUpdate = 3 -> ModularPipelines.Google.Enums.GcloudEventTypes
+ModularPipelines.Google.Enums.GcloudExceedAction.Deny = 0 -> ModularPipelines.Google.Enums.GcloudExceedAction
+ModularPipelines.Google.Enums.GcloudExceedAction.Deny_403 = 1 -> ModularPipelines.Google.Enums.GcloudExceedAction
+ModularPipelines.Google.Enums.GcloudExceedAction.Deny_404 = 2 -> ModularPipelines.Google.Enums.GcloudExceedAction
+ModularPipelines.Google.Enums.GcloudExceedAction.Deny_429 = 3 -> ModularPipelines.Google.Enums.GcloudExceedAction
+ModularPipelines.Google.Enums.GcloudExceedAction.Deny_502 = 4 -> ModularPipelines.Google.Enums.GcloudExceedAction
+ModularPipelines.Google.Enums.GcloudExceedRedirectType.External_302 = 0 -> ModularPipelines.Google.Enums.GcloudExceedRedirectType
+ModularPipelines.Google.Enums.GcloudExceedRedirectType.GoogleRecaptcha = 1 -> ModularPipelines.Google.Enums.GcloudExceedRedirectType
 ModularPipelines.Google.Enums.GcloudExport
 ModularPipelines.Google.Enums.GcloudExport.File = 0 -> ModularPipelines.Google.Enums.GcloudExport
 ModularPipelines.Google.Enums.GcloudExport.Sliced = 1 -> ModularPipelines.Google.Enums.GcloudExport
 ModularPipelines.Google.Enums.GcloudExport.Streaming = 2 -> ModularPipelines.Google.Enums.GcloudExport
 ModularPipelines.Google.Enums.GcloudExtendedKeyUsages
-ModularPipelines.Google.Enums.GcloudExtendedKeyUsages.ClientAuth = 1 -> ModularPipelines.Google.Enums.GcloudExtendedKeyUsages
-ModularPipelines.Google.Enums.GcloudExtendedKeyUsages.CodeSigning = 2 -> ModularPipelines.Google.Enums.GcloudExtendedKeyUsages
-ModularPipelines.Google.Enums.GcloudExtendedKeyUsages.EmailProtection = 3 -> ModularPipelines.Google.Enums.GcloudExtendedKeyUsages
-ModularPipelines.Google.Enums.GcloudExtendedKeyUsages.OcspSigning = 5 -> ModularPipelines.Google.Enums.GcloudExtendedKeyUsages
-ModularPipelines.Google.Enums.GcloudExtendedKeyUsages.ServerAuth = 0 -> ModularPipelines.Google.Enums.GcloudExtendedKeyUsages
-ModularPipelines.Google.Enums.GcloudExtendedKeyUsages.TimeStamping = 4 -> ModularPipelines.Google.Enums.GcloudExtendedKeyUsages
+ModularPipelines.Google.Enums.GcloudExtendedKeyUsages.ClientAuth = 0 -> ModularPipelines.Google.Enums.GcloudExtendedKeyUsages
+ModularPipelines.Google.Enums.GcloudExtendedKeyUsages.CodeSigning = 1 -> ModularPipelines.Google.Enums.GcloudExtendedKeyUsages
+ModularPipelines.Google.Enums.GcloudExtendedKeyUsages.EmailProtection = 2 -> ModularPipelines.Google.Enums.GcloudExtendedKeyUsages
+ModularPipelines.Google.Enums.GcloudExtendedKeyUsages.OcspSigning = 3 -> ModularPipelines.Google.Enums.GcloudExtendedKeyUsages
+ModularPipelines.Google.Enums.GcloudExtendedKeyUsages.ServerAuth = 4 -> ModularPipelines.Google.Enums.GcloudExtendedKeyUsages
+ModularPipelines.Google.Enums.GcloudExtendedKeyUsages.TimeStamping = 5 -> ModularPipelines.Google.Enums.GcloudExtendedKeyUsages
 ModularPipelines.Google.Enums.GcloudExternalManagedBackendBucketMigrationState
 ModularPipelines.Google.Enums.GcloudExternalManagedBackendBucketMigrationState.Prepare = 0 -> ModularPipelines.Google.Enums.GcloudExternalManagedBackendBucketMigrationState
-ModularPipelines.Google.Enums.GcloudExternalManagedBackendBucketMigrationState.TestAllTraffic = 2 -> ModularPipelines.Google.Enums.GcloudExternalManagedBackendBucketMigrationState
-ModularPipelines.Google.Enums.GcloudExternalManagedBackendBucketMigrationState.TestByPercentage = 1 -> ModularPipelines.Google.Enums.GcloudExternalManagedBackendBucketMigrationState
+ModularPipelines.Google.Enums.GcloudExternalManagedBackendBucketMigrationState.TestAllTraffic = 1 -> ModularPipelines.Google.Enums.GcloudExternalManagedBackendBucketMigrationState
+ModularPipelines.Google.Enums.GcloudExternalManagedBackendBucketMigrationState.TestByPercentage = 2 -> ModularPipelines.Google.Enums.GcloudExternalManagedBackendBucketMigrationState
 ModularPipelines.Google.Enums.GcloudExternalManagedMigrationState
 ModularPipelines.Google.Enums.GcloudExternalManagedMigrationState.Prepare = 0 -> ModularPipelines.Google.Enums.GcloudExternalManagedMigrationState
-ModularPipelines.Google.Enums.GcloudExternalManagedMigrationState.TestAllTraffic = 2 -> ModularPipelines.Google.Enums.GcloudExternalManagedMigrationState
-ModularPipelines.Google.Enums.GcloudExternalManagedMigrationState.TestByPercentage = 1 -> ModularPipelines.Google.Enums.GcloudExternalManagedMigrationState
+ModularPipelines.Google.Enums.GcloudExternalManagedMigrationState.TestAllTraffic = 1 -> ModularPipelines.Google.Enums.GcloudExternalManagedMigrationState
+ModularPipelines.Google.Enums.GcloudExternalManagedMigrationState.TestByPercentage = 2 -> ModularPipelines.Google.Enums.GcloudExternalManagedMigrationState
 ModularPipelines.Google.Enums.GcloudExtraAttributesType
 ModularPipelines.Google.Enums.GcloudExtraAttributesType.AzureAdGroupsId = 0 -> ModularPipelines.Google.Enums.GcloudExtraAttributesType
 ModularPipelines.Google.Enums.GcloudExtraAttributesType.AzureAdGroupsMail = 1 -> ModularPipelines.Google.Enums.GcloudExtraAttributesType
@@ -10013,21 +10239,33 @@ ModularPipelines.Google.Enums.GcloudFilterDirection
 ModularPipelines.Google.Enums.GcloudFilterDirection.Both = 0 -> ModularPipelines.Google.Enums.GcloudFilterDirection
 ModularPipelines.Google.Enums.GcloudFilterDirection.Egress = 1 -> ModularPipelines.Google.Enums.GcloudFilterDirection
 ModularPipelines.Google.Enums.GcloudFilterDirection.Ingress = 2 -> ModularPipelines.Google.Enums.GcloudFilterDirection
+ModularPipelines.Google.Enums.GcloudHaPolicyFastIpMove
+ModularPipelines.Google.Enums.GcloudHaPolicyFastIpMove.Disabled = 0 -> ModularPipelines.Google.Enums.GcloudHaPolicyFastIpMove
+ModularPipelines.Google.Enums.GcloudHaPolicyFastIpMove.GarpRa = 1 -> ModularPipelines.Google.Enums.GcloudHaPolicyFastIpMove
 ModularPipelines.Google.Enums.GcloudHttpMethod
 ModularPipelines.Google.Enums.GcloudHttpMethod.Delete = 0 -> ModularPipelines.Google.Enums.GcloudHttpMethod
 ModularPipelines.Google.Enums.GcloudHttpMethod.Get = 1 -> ModularPipelines.Google.Enums.GcloudHttpMethod
 ModularPipelines.Google.Enums.GcloudHttpMethod.Head = 2 -> ModularPipelines.Google.Enums.GcloudHttpMethod
 ModularPipelines.Google.Enums.GcloudHttpMethod.Post = 3 -> ModularPipelines.Google.Enums.GcloudHttpMethod
 ModularPipelines.Google.Enums.GcloudHttpMethod.Put = 4 -> ModularPipelines.Google.Enums.GcloudHttpMethod
+ModularPipelines.Google.Enums.GcloudImageFamilyScope.Global = 0 -> ModularPipelines.Google.Enums.GcloudImageFamilyScope
+ModularPipelines.Google.Enums.GcloudImageFamilyScope.Zonal = 1 -> ModularPipelines.Google.Enums.GcloudImageFamilyScope
 ModularPipelines.Google.Enums.GcloudInTransitEncryption
 ModularPipelines.Google.Enums.GcloudInTransitEncryption.InterNodeTransparent = 0 -> ModularPipelines.Google.Enums.GcloudInTransitEncryption
 ModularPipelines.Google.Enums.GcloudInTransitEncryption.None = 1 -> ModularPipelines.Google.Enums.GcloudInTransitEncryption
+ModularPipelines.Google.Enums.GcloudIngressSettings.InternalAndGclb = 1 -> ModularPipelines.Google.Enums.GcloudIngressSettings
+ModularPipelines.Google.Enums.GcloudIngressSettings.InternalOnly = 2 -> ModularPipelines.Google.Enums.GcloudIngressSettings
+ModularPipelines.Google.Enums.GcloudIpAddressSelectionPolicy.Ipv6Only = 1 -> ModularPipelines.Google.Enums.GcloudIpAddressSelectionPolicy
+ModularPipelines.Google.Enums.GcloudIpAddressSelectionPolicy.PreferIpv6 = 2 -> ModularPipelines.Google.Enums.GcloudIpAddressSelectionPolicy
+ModularPipelines.Google.Enums.GcloudIpProtocol.Icmp = 0 -> ModularPipelines.Google.Enums.GcloudIpProtocol
+ModularPipelines.Google.Enums.GcloudIpProtocol.Tcp = 1 -> ModularPipelines.Google.Enums.GcloudIpProtocol
+ModularPipelines.Google.Enums.GcloudIpProtocol.Udp = 2 -> ModularPipelines.Google.Enums.GcloudIpProtocol
 ModularPipelines.Google.Enums.GcloudIpVersion
 ModularPipelines.Google.Enums.GcloudIpVersion.Ipv4 = 0 -> ModularPipelines.Google.Enums.GcloudIpVersion
 ModularPipelines.Google.Enums.GcloudIpVersion.Ipv6 = 1 -> ModularPipelines.Google.Enums.GcloudIpVersion
 ModularPipelines.Google.Enums.GcloudJobType
-ModularPipelines.Google.Enums.GcloudJobType.Replication = 1 -> ModularPipelines.Google.Enums.GcloudJobType
-ModularPipelines.Google.Enums.GcloudJobType.Transfer = 0 -> ModularPipelines.Google.Enums.GcloudJobType
+ModularPipelines.Google.Enums.GcloudJobType.Replication = 0 -> ModularPipelines.Google.Enums.GcloudJobType
+ModularPipelines.Google.Enums.GcloudJobType.Transfer = 1 -> ModularPipelines.Google.Enums.GcloudJobType
 ModularPipelines.Google.Enums.GcloudJsonParsing
 ModularPipelines.Google.Enums.GcloudJsonParsing.Disabled = 0 -> ModularPipelines.Google.Enums.GcloudJsonParsing
 ModularPipelines.Google.Enums.GcloudJsonParsing.Standard = 1 -> ModularPipelines.Google.Enums.GcloudJsonParsing
@@ -10038,51 +10276,92 @@ ModularPipelines.Google.Enums.GcloudKeyAlgorithm.EcdsaP384 = 1 -> ModularPipelin
 ModularPipelines.Google.Enums.GcloudKeyAlgorithm.Rsa_2048 = 2 -> ModularPipelines.Google.Enums.GcloudKeyAlgorithm
 ModularPipelines.Google.Enums.GcloudKeyAlgorithm.Rsa_3072 = 3 -> ModularPipelines.Google.Enums.GcloudKeyAlgorithm
 ModularPipelines.Google.Enums.GcloudKeyAlgorithm.Rsa_4096 = 4 -> ModularPipelines.Google.Enums.GcloudKeyAlgorithm
+ModularPipelines.Google.Enums.GcloudKeyManagementMode.CloudKms = 0 -> ModularPipelines.Google.Enums.GcloudKeyManagementMode
+ModularPipelines.Google.Enums.GcloudKeyManagementMode.Manual = 1 -> ModularPipelines.Google.Enums.GcloudKeyManagementMode
 ModularPipelines.Google.Enums.GcloudKeyUsages
-ModularPipelines.Google.Enums.GcloudKeyUsages.CertSign = 5 -> ModularPipelines.Google.Enums.GcloudKeyUsages
+ModularPipelines.Google.Enums.GcloudKeyUsages.CertSign = 0 -> ModularPipelines.Google.Enums.GcloudKeyUsages
 ModularPipelines.Google.Enums.GcloudKeyUsages.ContentCommitment = 1 -> ModularPipelines.Google.Enums.GcloudKeyUsages
-ModularPipelines.Google.Enums.GcloudKeyUsages.CrlSign = 6 -> ModularPipelines.Google.Enums.GcloudKeyUsages
+ModularPipelines.Google.Enums.GcloudKeyUsages.CrlSign = 2 -> ModularPipelines.Google.Enums.GcloudKeyUsages
 ModularPipelines.Google.Enums.GcloudKeyUsages.DataEncipherment = 3 -> ModularPipelines.Google.Enums.GcloudKeyUsages
-ModularPipelines.Google.Enums.GcloudKeyUsages.DecipherOnly = 8 -> ModularPipelines.Google.Enums.GcloudKeyUsages
-ModularPipelines.Google.Enums.GcloudKeyUsages.DigitalSignature = 0 -> ModularPipelines.Google.Enums.GcloudKeyUsages
-ModularPipelines.Google.Enums.GcloudKeyUsages.EncipherOnly = 7 -> ModularPipelines.Google.Enums.GcloudKeyUsages
-ModularPipelines.Google.Enums.GcloudKeyUsages.KeyAgreement = 4 -> ModularPipelines.Google.Enums.GcloudKeyUsages
-ModularPipelines.Google.Enums.GcloudKeyUsages.KeyEncipherment = 2 -> ModularPipelines.Google.Enums.GcloudKeyUsages
+ModularPipelines.Google.Enums.GcloudKeyUsages.DecipherOnly = 4 -> ModularPipelines.Google.Enums.GcloudKeyUsages
+ModularPipelines.Google.Enums.GcloudKeyUsages.DigitalSignature = 5 -> ModularPipelines.Google.Enums.GcloudKeyUsages
+ModularPipelines.Google.Enums.GcloudKeyUsages.EncipherOnly = 6 -> ModularPipelines.Google.Enums.GcloudKeyUsages
+ModularPipelines.Google.Enums.GcloudKeyUsages.KeyAgreement = 7 -> ModularPipelines.Google.Enums.GcloudKeyUsages
+ModularPipelines.Google.Enums.GcloudKeyUsages.KeyEncipherment = 8 -> ModularPipelines.Google.Enums.GcloudKeyUsages
+ModularPipelines.Google.Enums.GcloudLayer7DdosDefenseRuleVisibility.Premium = 0 -> ModularPipelines.Google.Enums.GcloudLayer7DdosDefenseRuleVisibility
+ModularPipelines.Google.Enums.GcloudLayer7DdosDefenseRuleVisibility.Standard = 1 -> ModularPipelines.Google.Enums.GcloudLayer7DdosDefenseRuleVisibility
 ModularPipelines.Google.Enums.GcloudLevel
-ModularPipelines.Google.Enums.GcloudLevel.Any = 5 -> ModularPipelines.Google.Enums.GcloudLevel
-ModularPipelines.Google.Enums.GcloudLevel.Critical = 0 -> ModularPipelines.Google.Enums.GcloudLevel
-ModularPipelines.Google.Enums.GcloudLevel.Debug = 4 -> ModularPipelines.Google.Enums.GcloudLevel
-ModularPipelines.Google.Enums.GcloudLevel.Error = 1 -> ModularPipelines.Google.Enums.GcloudLevel
-ModularPipelines.Google.Enums.GcloudLevel.Info = 3 -> ModularPipelines.Google.Enums.GcloudLevel
-ModularPipelines.Google.Enums.GcloudLevel.Warning = 2 -> ModularPipelines.Google.Enums.GcloudLevel
-ModularPipelines.Google.Enums.GcloudLoadBalancingScheme.External = 1 -> ModularPipelines.Google.Enums.GcloudLoadBalancingScheme
-ModularPipelines.Google.Enums.GcloudLoadBalancingScheme.ExternalManaged = 3 -> ModularPipelines.Google.Enums.GcloudLoadBalancingScheme
-ModularPipelines.Google.Enums.GcloudLoadBalancingScheme.Internal = 0 -> ModularPipelines.Google.Enums.GcloudLoadBalancingScheme
-ModularPipelines.Google.Enums.GcloudLoadBalancingScheme.InternalManaged = 4 -> ModularPipelines.Google.Enums.GcloudLoadBalancingScheme
-ModularPipelines.Google.Enums.GcloudLoadBalancingScheme.InternalSelfManaged = 2 -> ModularPipelines.Google.Enums.GcloudLoadBalancingScheme
+ModularPipelines.Google.Enums.GcloudLevel.Any = 0 -> ModularPipelines.Google.Enums.GcloudLevel
+ModularPipelines.Google.Enums.GcloudLevel.Critical = 1 -> ModularPipelines.Google.Enums.GcloudLevel
+ModularPipelines.Google.Enums.GcloudLevel.Debug = 2 -> ModularPipelines.Google.Enums.GcloudLevel
+ModularPipelines.Google.Enums.GcloudLevel.Error = 3 -> ModularPipelines.Google.Enums.GcloudLevel
+ModularPipelines.Google.Enums.GcloudLevel.Info = 4 -> ModularPipelines.Google.Enums.GcloudLevel
+ModularPipelines.Google.Enums.GcloudLevel.Warning = 5 -> ModularPipelines.Google.Enums.GcloudLevel
+ModularPipelines.Google.Enums.GcloudLoadBalancingScheme.External = 0 -> ModularPipelines.Google.Enums.GcloudLoadBalancingScheme
+ModularPipelines.Google.Enums.GcloudLoadBalancingScheme.ExternalManaged = 1 -> ModularPipelines.Google.Enums.GcloudLoadBalancingScheme
+ModularPipelines.Google.Enums.GcloudLoadBalancingScheme.Internal = 2 -> ModularPipelines.Google.Enums.GcloudLoadBalancingScheme
+ModularPipelines.Google.Enums.GcloudLoadBalancingScheme.InternalManaged = 3 -> ModularPipelines.Google.Enums.GcloudLoadBalancingScheme
+ModularPipelines.Google.Enums.GcloudLoadBalancingScheme.InternalSelfManaged = 4 -> ModularPipelines.Google.Enums.GcloudLoadBalancingScheme
+ModularPipelines.Google.Enums.GcloudLocalityLbPolicy.LeastRequest = 1 -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy
+ModularPipelines.Google.Enums.GcloudLocalityLbPolicy.Maglev = 2 -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy
+ModularPipelines.Google.Enums.GcloudLocalityLbPolicy.OriginalDestination = 3 -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy
+ModularPipelines.Google.Enums.GcloudLocalityLbPolicy.RingHash = 5 -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy
+ModularPipelines.Google.Enums.GcloudLocalityLbPolicy.RoundRobin = 6 -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy
+ModularPipelines.Google.Enums.GcloudLocalityLbPolicy.WeightedGcpRendezvous = 7 -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy
+ModularPipelines.Google.Enums.GcloudLocalityLbPolicy.WeightedMaglev = 8 -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy
+ModularPipelines.Google.Enums.GcloudLocalityLbPolicy.WeightedRoundRobin = 9 -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy
+ModularPipelines.Google.Enums.GcloudLocationPolicy.Any = 0 -> ModularPipelines.Google.Enums.GcloudLocationPolicy
+ModularPipelines.Google.Enums.GcloudLocationPolicy.Balanced = 1 -> ModularPipelines.Google.Enums.GcloudLocationPolicy
 ModularPipelines.Google.Enums.GcloudLogLevel
 ModularPipelines.Google.Enums.GcloudLogLevel.Normal = 0 -> ModularPipelines.Google.Enums.GcloudLogLevel
 ModularPipelines.Google.Enums.GcloudLogLevel.Verbose = 1 -> ModularPipelines.Google.Enums.GcloudLogLevel
+ModularPipelines.Google.Enums.GcloudLoggingAggregationInterval.Interval_10Min = 1 -> ModularPipelines.Google.Enums.GcloudLoggingAggregationInterval
+ModularPipelines.Google.Enums.GcloudLoggingAggregationInterval.Interval_15Min = 2 -> ModularPipelines.Google.Enums.GcloudLoggingAggregationInterval
+ModularPipelines.Google.Enums.GcloudLoggingAggregationInterval.Interval_1Min = 0 -> ModularPipelines.Google.Enums.GcloudLoggingAggregationInterval
+ModularPipelines.Google.Enums.GcloudLoggingConfig.Alert = 0 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+ModularPipelines.Google.Enums.GcloudLoggingConfig.Critical = 1 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+ModularPipelines.Google.Enums.GcloudLoggingConfig.Debug = 2 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+ModularPipelines.Google.Enums.GcloudLoggingConfig.Emergency = 3 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+ModularPipelines.Google.Enums.GcloudLoggingConfig.Error = 4 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+ModularPipelines.Google.Enums.GcloudLoggingConfig.Info = 5 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+ModularPipelines.Google.Enums.GcloudLoggingConfig.None = 6 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+ModularPipelines.Google.Enums.GcloudLoggingConfig.Notice = 7 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+ModularPipelines.Google.Enums.GcloudLoggingConfig.Warning = 8 -> ModularPipelines.Google.Enums.GcloudLoggingConfig
+ModularPipelines.Google.Enums.GcloudLoggingOptional.Custom = 0 -> ModularPipelines.Google.Enums.GcloudLoggingOptional
+ModularPipelines.Google.Enums.GcloudLoggingOptional.ExcludeAllOptional = 1 -> ModularPipelines.Google.Enums.GcloudLoggingOptional
+ModularPipelines.Google.Enums.GcloudLoggingOptional.IncludeAllOptional = 2 -> ModularPipelines.Google.Enums.GcloudLoggingOptional
 ModularPipelines.Google.Enums.GcloudLogsPath
 ModularPipelines.Google.Enums.GcloudLogsPath.File = 0 -> ModularPipelines.Google.Enums.GcloudLogsPath
 ModularPipelines.Google.Enums.GcloudLogsPath.Sliced = 1 -> ModularPipelines.Google.Enums.GcloudLogsPath
 ModularPipelines.Google.Enums.GcloudLogsPath.Streaming = 2 -> ModularPipelines.Google.Enums.GcloudLogsPath
 ModularPipelines.Google.Enums.GcloudManagedBy
-ModularPipelines.Google.Enums.GcloudManagedBy.Any = 2 -> ModularPipelines.Google.Enums.GcloudManagedBy
+ModularPipelines.Google.Enums.GcloudManagedBy.Any = 0 -> ModularPipelines.Google.Enums.GcloudManagedBy
 ModularPipelines.Google.Enums.GcloudManagedBy.System = 1 -> ModularPipelines.Google.Enums.GcloudManagedBy
-ModularPipelines.Google.Enums.GcloudManagedBy.User = 0 -> ModularPipelines.Google.Enums.GcloudManagedBy
+ModularPipelines.Google.Enums.GcloudManagedBy.User = 2 -> ModularPipelines.Google.Enums.GcloudManagedBy
 ModularPipelines.Google.Enums.GcloudMessageEncoding
-ModularPipelines.Google.Enums.GcloudMessageEncoding.Binary = 1 -> ModularPipelines.Google.Enums.GcloudMessageEncoding
-ModularPipelines.Google.Enums.GcloudMessageEncoding.Json = 0 -> ModularPipelines.Google.Enums.GcloudMessageEncoding
+ModularPipelines.Google.Enums.GcloudMessageEncoding.Binary = 0 -> ModularPipelines.Google.Enums.GcloudMessageEncoding
+ModularPipelines.Google.Enums.GcloudMessageEncoding.Json = 1 -> ModularPipelines.Google.Enums.GcloudMessageEncoding
+ModularPipelines.Google.Enums.GcloudMinLogLevel.Error = 1 -> ModularPipelines.Google.Enums.GcloudMinLogLevel
+ModularPipelines.Google.Enums.GcloudMinLogLevel.Info = 2 -> ModularPipelines.Google.Enums.GcloudMinLogLevel
+ModularPipelines.Google.Enums.GcloudNetworkDdosProtection.Advanced = 0 -> ModularPipelines.Google.Enums.GcloudNetworkDdosProtection
+ModularPipelines.Google.Enums.GcloudNetworkDdosProtection.AdvancedPreview = 1 -> ModularPipelines.Google.Enums.GcloudNetworkDdosProtection
+ModularPipelines.Google.Enums.GcloudNetworkDdosProtection.Standard = 2 -> ModularPipelines.Google.Enums.GcloudNetworkDdosProtection
 ModularPipelines.Google.Enums.GcloudNetworkEndpointType
-ModularPipelines.Google.Enums.GcloudNetworkEndpointType.GceVmIp = 5 -> ModularPipelines.Google.Enums.GcloudNetworkEndpointType
-ModularPipelines.Google.Enums.GcloudNetworkEndpointType.GceVmIpPort = 0 -> ModularPipelines.Google.Enums.GcloudNetworkEndpointType
-ModularPipelines.Google.Enums.GcloudNetworkEndpointType.GceVmIpPortmap = 7 -> ModularPipelines.Google.Enums.GcloudNetworkEndpointType
-ModularPipelines.Google.Enums.GcloudNetworkEndpointType.InternetFqdnPort = 2 -> ModularPipelines.Google.Enums.GcloudNetworkEndpointType
-ModularPipelines.Google.Enums.GcloudNetworkEndpointType.InternetIpPort = 1 -> ModularPipelines.Google.Enums.GcloudNetworkEndpointType
-ModularPipelines.Google.Enums.GcloudNetworkEndpointType.NonGcpPrivateIpPort = 3 -> ModularPipelines.Google.Enums.GcloudNetworkEndpointType
+ModularPipelines.Google.Enums.GcloudNetworkEndpointType.GceVmIp = 0 -> ModularPipelines.Google.Enums.GcloudNetworkEndpointType
+ModularPipelines.Google.Enums.GcloudNetworkEndpointType.GceVmIpPort = 1 -> ModularPipelines.Google.Enums.GcloudNetworkEndpointType
+ModularPipelines.Google.Enums.GcloudNetworkEndpointType.GceVmIpPortmap = 2 -> ModularPipelines.Google.Enums.GcloudNetworkEndpointType
+ModularPipelines.Google.Enums.GcloudNetworkEndpointType.InternetFqdnPort = 3 -> ModularPipelines.Google.Enums.GcloudNetworkEndpointType
+ModularPipelines.Google.Enums.GcloudNetworkEndpointType.InternetIpPort = 4 -> ModularPipelines.Google.Enums.GcloudNetworkEndpointType
+ModularPipelines.Google.Enums.GcloudNetworkEndpointType.NonGcpPrivateIpPort = 5 -> ModularPipelines.Google.Enums.GcloudNetworkEndpointType
 ModularPipelines.Google.Enums.GcloudNetworkEndpointType.PrivateServiceConnect = 6 -> ModularPipelines.Google.Enums.GcloudNetworkEndpointType
-ModularPipelines.Google.Enums.GcloudNetworkEndpointType.Serverless = 4 -> ModularPipelines.Google.Enums.GcloudNetworkEndpointType
+ModularPipelines.Google.Enums.GcloudNetworkEndpointType.Serverless = 7 -> ModularPipelines.Google.Enums.GcloudNetworkEndpointType
+ModularPipelines.Google.Enums.GcloudNicType.Gvnic = 0 -> ModularPipelines.Google.Enums.GcloudNicType
+ModularPipelines.Google.Enums.GcloudNicType.VirtigoNet = 1 -> ModularPipelines.Google.Enums.GcloudNicType
+ModularPipelines.Google.Enums.GcloudNodeArchitectureTaintBehavior.Arm = 0 -> ModularPipelines.Google.Enums.GcloudNodeArchitectureTaintBehavior
+ModularPipelines.Google.Enums.GcloudNodeArchitectureTaintBehavior.None = 1 -> ModularPipelines.Google.Enums.GcloudNodeArchitectureTaintBehavior
+ModularPipelines.Google.Enums.GcloudNodeArchitectureTaintBehavior.Unspecified = 2 -> ModularPipelines.Google.Enums.GcloudNodeArchitectureTaintBehavior
+ModularPipelines.Google.Enums.GcloudNotificationEventTypes.Aborted = 0 -> ModularPipelines.Google.Enums.GcloudNotificationEventTypes
+ModularPipelines.Google.Enums.GcloudNotificationEventTypes.Success = 2 -> ModularPipelines.Google.Enums.GcloudNotificationEventTypes
 ModularPipelines.Google.Enums.GcloudNotificationPayloadFormat
 ModularPipelines.Google.Enums.GcloudNotificationPayloadFormat.Json = 0 -> ModularPipelines.Google.Enums.GcloudNotificationPayloadFormat
 ModularPipelines.Google.Enums.GcloudNotificationPayloadFormat.None = 1 -> ModularPipelines.Google.Enums.GcloudNotificationPayloadFormat
@@ -10099,15 +10378,15 @@ ModularPipelines.Google.Enums.GcloudObjectSizes.File = 0 -> ModularPipelines.Goo
 ModularPipelines.Google.Enums.GcloudObjectSizes.Sliced = 1 -> ModularPipelines.Google.Enums.GcloudObjectSizes
 ModularPipelines.Google.Enums.GcloudObjectSizes.Streaming = 2 -> ModularPipelines.Google.Enums.GcloudObjectSizes
 ModularPipelines.Google.Enums.GcloudOrder
-ModularPipelines.Google.Enums.GcloudOrder.Asc = 1 -> ModularPipelines.Google.Enums.GcloudOrder
-ModularPipelines.Google.Enums.GcloudOrder.Desc = 0 -> ModularPipelines.Google.Enums.GcloudOrder
+ModularPipelines.Google.Enums.GcloudOrder.Asc = 0 -> ModularPipelines.Google.Enums.GcloudOrder
+ModularPipelines.Google.Enums.GcloudOrder.Desc = 1 -> ModularPipelines.Google.Enums.GcloudOrder
 ModularPipelines.Google.Enums.GcloudOriginSourceType
 ModularPipelines.Google.Enums.GcloudOriginSourceType.Bigquery = 0 -> ModularPipelines.Google.Enums.GcloudOriginSourceType
 ModularPipelines.Google.Enums.GcloudOriginSourceType.Composer = 1 -> ModularPipelines.Google.Enums.GcloudOriginSourceType
 ModularPipelines.Google.Enums.GcloudOriginSourceType.Custom = 2 -> ModularPipelines.Google.Enums.GcloudOriginSourceType
-ModularPipelines.Google.Enums.GcloudOriginSourceType.DataFusion = 5 -> ModularPipelines.Google.Enums.GcloudOriginSourceType
-ModularPipelines.Google.Enums.GcloudOriginSourceType.Dataflow = 3 -> ModularPipelines.Google.Enums.GcloudOriginSourceType
-ModularPipelines.Google.Enums.GcloudOriginSourceType.Dataproc = 4 -> ModularPipelines.Google.Enums.GcloudOriginSourceType
+ModularPipelines.Google.Enums.GcloudOriginSourceType.DataFusion = 3 -> ModularPipelines.Google.Enums.GcloudOriginSourceType
+ModularPipelines.Google.Enums.GcloudOriginSourceType.Dataflow = 4 -> ModularPipelines.Google.Enums.GcloudOriginSourceType
+ModularPipelines.Google.Enums.GcloudOriginSourceType.Dataproc = 5 -> ModularPipelines.Google.Enums.GcloudOriginSourceType
 ModularPipelines.Google.Enums.GcloudOriginSourceType.LookerCore = 6 -> ModularPipelines.Google.Enums.GcloudOriginSourceType
 ModularPipelines.Google.Enums.GcloudOriginSourceType.LookerStudio = 7 -> ModularPipelines.Google.Enums.GcloudOriginSourceType
 ModularPipelines.Google.Enums.GcloudOriginSourceType.SourceTypeUnspecified = 8 -> ModularPipelines.Google.Enums.GcloudOriginSourceType
@@ -10116,53 +10395,72 @@ ModularPipelines.Google.Enums.GcloudPayloadFormat
 ModularPipelines.Google.Enums.GcloudPayloadFormat.Json = 0 -> ModularPipelines.Google.Enums.GcloudPayloadFormat
 ModularPipelines.Google.Enums.GcloudPayloadFormat.None = 1 -> ModularPipelines.Google.Enums.GcloudPayloadFormat
 ModularPipelines.Google.Enums.GcloudPayloadType
-ModularPipelines.Google.Enums.GcloudPayloadType.Json = 1 -> ModularPipelines.Google.Enums.GcloudPayloadType
-ModularPipelines.Google.Enums.GcloudPayloadType.Text = 0 -> ModularPipelines.Google.Enums.GcloudPayloadType
+ModularPipelines.Google.Enums.GcloudPayloadType.Json = 0 -> ModularPipelines.Google.Enums.GcloudPayloadType
+ModularPipelines.Google.Enums.GcloudPayloadType.Text = 1 -> ModularPipelines.Google.Enums.GcloudPayloadType
 ModularPipelines.Google.Enums.GcloudPdDiskType
-ModularPipelines.Google.Enums.GcloudPdDiskType.PdBalanced = 1 -> ModularPipelines.Google.Enums.GcloudPdDiskType
-ModularPipelines.Google.Enums.GcloudPdDiskType.PdSsd = 2 -> ModularPipelines.Google.Enums.GcloudPdDiskType
-ModularPipelines.Google.Enums.GcloudPdDiskType.PdStandard = 0 -> ModularPipelines.Google.Enums.GcloudPdDiskType
+ModularPipelines.Google.Enums.GcloudPdDiskType.PdBalanced = 0 -> ModularPipelines.Google.Enums.GcloudPdDiskType
+ModularPipelines.Google.Enums.GcloudPdDiskType.PdSsd = 1 -> ModularPipelines.Google.Enums.GcloudPdDiskType
+ModularPipelines.Google.Enums.GcloudPdDiskType.PdStandard = 2 -> ModularPipelines.Google.Enums.GcloudPdDiskType
+ModularPipelines.Google.Enums.GcloudPlacementType.Compact = 0 -> ModularPipelines.Google.Enums.GcloudPlacementType
+ModularPipelines.Google.Enums.GcloudPlacementType.Unspecified = 1 -> ModularPipelines.Google.Enums.GcloudPlacementType
 ModularPipelines.Google.Enums.GcloudPolicyType.BackendServicePolicy = 0 -> ModularPipelines.Google.Enums.GcloudPolicyType
 ModularPipelines.Google.Enums.GcloudPolicyType.DnsPublicIpPolicy = 1 -> ModularPipelines.Google.Enums.GcloudPolicyType
 ModularPipelines.Google.Enums.GcloudPricingPlan
-ModularPipelines.Google.Enums.GcloudPricingPlan.Package = 1 -> ModularPipelines.Google.Enums.GcloudPricingPlan
-ModularPipelines.Google.Enums.GcloudPricingPlan.PerUse = 0 -> ModularPipelines.Google.Enums.GcloudPricingPlan
+ModularPipelines.Google.Enums.GcloudPricingPlan.Package = 0 -> ModularPipelines.Google.Enums.GcloudPricingPlan
+ModularPipelines.Google.Enums.GcloudPricingPlan.PerUse = 1 -> ModularPipelines.Google.Enums.GcloudPricingPlan
 ModularPipelines.Google.Enums.GcloudProcessCount
 ModularPipelines.Google.Enums.GcloudProcessCount.File = 0 -> ModularPipelines.Google.Enums.GcloudProcessCount
 ModularPipelines.Google.Enums.GcloudProcessCount.Sliced = 1 -> ModularPipelines.Google.Enums.GcloudProcessCount
 ModularPipelines.Google.Enums.GcloudProcessCount.Streaming = 2 -> ModularPipelines.Google.Enums.GcloudProcessCount
+ModularPipelines.Google.Enums.GcloudProvider.Cloudsql = 0 -> ModularPipelines.Google.Enums.GcloudProvider
+ModularPipelines.Google.Enums.GcloudProvider.Rds = 1 -> ModularPipelines.Google.Enums.GcloudProvider
 ModularPipelines.Google.Enums.GcloudPublishingEncodingFormat
 ModularPipelines.Google.Enums.GcloudPublishingEncodingFormat.Der = 0 -> ModularPipelines.Google.Enums.GcloudPublishingEncodingFormat
 ModularPipelines.Google.Enums.GcloudPublishingEncodingFormat.Pem = 1 -> ModularPipelines.Google.Enums.GcloudPublishingEncodingFormat
+ModularPipelines.Google.Enums.GcloudPurpose.GceEndpoint = 0 -> ModularPipelines.Google.Enums.GcloudPurpose
+ModularPipelines.Google.Enums.GcloudPurpose.IpsecInterconnect = 1 -> ModularPipelines.Google.Enums.GcloudPurpose
+ModularPipelines.Google.Enums.GcloudPurpose.PrivateServiceConnect = 2 -> ModularPipelines.Google.Enums.GcloudPurpose
+ModularPipelines.Google.Enums.GcloudPurpose.SharedLoadbalancerVip = 3 -> ModularPipelines.Google.Enums.GcloudPurpose
+ModularPipelines.Google.Enums.GcloudPurpose.VpcPeering = 4 -> ModularPipelines.Google.Enums.GcloudPurpose
 ModularPipelines.Google.Enums.GcloudQosType
 ModularPipelines.Google.Enums.GcloudQosType.Auto = 0 -> ModularPipelines.Google.Enums.GcloudQosType
 ModularPipelines.Google.Enums.GcloudQosType.Manual = 1 -> ModularPipelines.Google.Enums.GcloudQosType
 ModularPipelines.Google.Enums.GcloudQosType.QosTypeUnspecified = 2 -> ModularPipelines.Google.Enums.GcloudQosType
+ModularPipelines.Google.Enums.GcloudQuotaUnit.Day = 0 -> ModularPipelines.Google.Enums.GcloudQuotaUnit
+ModularPipelines.Google.Enums.GcloudQuotaUnit.Minute = 2 -> ModularPipelines.Google.Enums.GcloudQuotaUnit
 ModularPipelines.Google.Enums.GcloudRecoveryPointObjective
 ModularPipelines.Google.Enums.GcloudRecoveryPointObjective.AsyncTurbo = 0 -> ModularPipelines.Google.Enums.GcloudRecoveryPointObjective
 ModularPipelines.Google.Enums.GcloudRecoveryPointObjective.Default = 1 -> ModularPipelines.Google.Enums.GcloudRecoveryPointObjective
+ModularPipelines.Google.Enums.GcloudRedirectType.External_302 = 0 -> ModularPipelines.Google.Enums.GcloudRedirectType
+ModularPipelines.Google.Enums.GcloudRedirectType.GoogleRecaptcha = 1 -> ModularPipelines.Google.Enums.GcloudRedirectType
+ModularPipelines.Google.Enums.GcloudReplicaType.Failover = 0 -> ModularPipelines.Google.Enums.GcloudReplicaType
+ModularPipelines.Google.Enums.GcloudReplicaType.Read = 1 -> ModularPipelines.Google.Enums.GcloudReplicaType
+ModularPipelines.Google.Enums.GcloudReplication.Asynchronous = 0 -> ModularPipelines.Google.Enums.GcloudReplication
+ModularPipelines.Google.Enums.GcloudReplication.Synchronous = 1 -> ModularPipelines.Google.Enums.GcloudReplication
 ModularPipelines.Google.Enums.GcloudRequestScopeMaxWidthPreference
-ModularPipelines.Google.Enums.GcloudRequestScopeMaxWidthPreference.Folder = 1 -> ModularPipelines.Google.Enums.GcloudRequestScopeMaxWidthPreference
-ModularPipelines.Google.Enums.GcloudRequestScopeMaxWidthPreference.Organization = 0 -> ModularPipelines.Google.Enums.GcloudRequestScopeMaxWidthPreference
+ModularPipelines.Google.Enums.GcloudRequestScopeMaxWidthPreference.Folder = 0 -> ModularPipelines.Google.Enums.GcloudRequestScopeMaxWidthPreference
+ModularPipelines.Google.Enums.GcloudRequestScopeMaxWidthPreference.Organization = 1 -> ModularPipelines.Google.Enums.GcloudRequestScopeMaxWidthPreference
 ModularPipelines.Google.Enums.GcloudRequestScopeMaxWidthPreference.Project = 2 -> ModularPipelines.Google.Enums.GcloudRequestScopeMaxWidthPreference
 ModularPipelines.Google.Enums.GcloudReservationType
-ModularPipelines.Google.Enums.GcloudReservationType.Any = 1 -> ModularPipelines.Google.Enums.GcloudReservationType
-ModularPipelines.Google.Enums.GcloudReservationType.None = 0 -> ModularPipelines.Google.Enums.GcloudReservationType
+ModularPipelines.Google.Enums.GcloudReservationType.Any = 0 -> ModularPipelines.Google.Enums.GcloudReservationType
+ModularPipelines.Google.Enums.GcloudReservationType.None = 1 -> ModularPipelines.Google.Enums.GcloudReservationType
 ModularPipelines.Google.Enums.GcloudReservationType.Specific = 2 -> ModularPipelines.Google.Enums.GcloudReservationType
 ModularPipelines.Google.Enums.GcloudResourceScope
-ModularPipelines.Google.Enums.GcloudResourceScope.Parent = 1 -> ModularPipelines.Google.Enums.GcloudResourceScope
-ModularPipelines.Google.Enums.GcloudResourceScope.Project = 0 -> ModularPipelines.Google.Enums.GcloudResourceScope
-ModularPipelines.Google.Enums.GcloudResourceType.BackendServices = 5 -> ModularPipelines.Google.Enums.GcloudResourceType
-ModularPipelines.Google.Enums.GcloudResourceType.CloudRun = 7 -> ModularPipelines.Google.Enums.GcloudResourceType
-ModularPipelines.Google.Enums.GcloudResourceType.Compute = 2 -> ModularPipelines.Google.Enums.GcloudResourceType
+ModularPipelines.Google.Enums.GcloudResourceScope.Parent = 0 -> ModularPipelines.Google.Enums.GcloudResourceScope
+ModularPipelines.Google.Enums.GcloudResourceScope.Project = 1 -> ModularPipelines.Google.Enums.GcloudResourceScope
+ModularPipelines.Google.Enums.GcloudResourceType.BackendServices = 1 -> ModularPipelines.Google.Enums.GcloudResourceType
+ModularPipelines.Google.Enums.GcloudResourceType.CloudRun = 2 -> ModularPipelines.Google.Enums.GcloudResourceType
+ModularPipelines.Google.Enums.GcloudResourceType.Compute = 3 -> ModularPipelines.Google.Enums.GcloudResourceType
 ModularPipelines.Google.Enums.GcloudResourceType.Folder = 4 -> ModularPipelines.Google.Enums.GcloudResourceType
-ModularPipelines.Google.Enums.GcloudResourceType.ForwardingRule = 6 -> ModularPipelines.Google.Enums.GcloudResourceType
-ModularPipelines.Google.Enums.GcloudResourceType.IapWeb = 1 -> ModularPipelines.Google.Enums.GcloudResourceType
-ModularPipelines.Google.Enums.GcloudResourceType.Organization = 3 -> ModularPipelines.Google.Enums.GcloudResourceType
+ModularPipelines.Google.Enums.GcloudResourceType.ForwardingRule = 5 -> ModularPipelines.Google.Enums.GcloudResourceType
+ModularPipelines.Google.Enums.GcloudResourceType.IapWeb = 6 -> ModularPipelines.Google.Enums.GcloudResourceType
+ModularPipelines.Google.Enums.GcloudResourceType.Organization = 7 -> ModularPipelines.Google.Enums.GcloudResourceType
 ModularPipelines.Google.Enums.GcloudResponseView
 ModularPipelines.Google.Enums.GcloudResponseView.Basic = 0 -> ModularPipelines.Google.Enums.GcloudResponseView
 ModularPipelines.Google.Enums.GcloudResponseView.Full = 1 -> ModularPipelines.Google.Enums.GcloudResponseView
 ModularPipelines.Google.Enums.GcloudResponseView.ViewUnspecified = 2 -> ModularPipelines.Google.Enums.GcloudResponseView
+ModularPipelines.Google.Enums.GcloudRole.Destination = 0 -> ModularPipelines.Google.Enums.GcloudRole
+ModularPipelines.Google.Enums.GcloudRole.Source = 1 -> ModularPipelines.Google.Enums.GcloudRole
 ModularPipelines.Google.Enums.GcloudRoutingMode
 ModularPipelines.Google.Enums.GcloudRoutingMode.Global = 0 -> ModularPipelines.Google.Enums.GcloudRoutingMode
 ModularPipelines.Google.Enums.GcloudRoutingMode.Regional = 1 -> ModularPipelines.Google.Enums.GcloudRoutingMode
@@ -10170,8 +10468,8 @@ ModularPipelines.Google.Enums.GcloudScimUsage
 ModularPipelines.Google.Enums.GcloudScimUsage.EnabledForGroups = 0 -> ModularPipelines.Google.Enums.GcloudScimUsage
 ModularPipelines.Google.Enums.GcloudScimUsage.ScimUsageUnspecified = 1 -> ModularPipelines.Google.Enums.GcloudScimUsage
 ModularPipelines.Google.Enums.GcloudSecondaryWorkerType
-ModularPipelines.Google.Enums.GcloudSecondaryWorkerType.NonPreemptible = 1 -> ModularPipelines.Google.Enums.GcloudSecondaryWorkerType
-ModularPipelines.Google.Enums.GcloudSecondaryWorkerType.Preemptible = 0 -> ModularPipelines.Google.Enums.GcloudSecondaryWorkerType
+ModularPipelines.Google.Enums.GcloudSecondaryWorkerType.NonPreemptible = 0 -> ModularPipelines.Google.Enums.GcloudSecondaryWorkerType
+ModularPipelines.Google.Enums.GcloudSecondaryWorkerType.Preemptible = 1 -> ModularPipelines.Google.Enums.GcloudSecondaryWorkerType
 ModularPipelines.Google.Enums.GcloudSecondaryWorkerType.Spot = 2 -> ModularPipelines.Google.Enums.GcloudSecondaryWorkerType
 ModularPipelines.Google.Enums.GcloudSecretType
 ModularPipelines.Google.Enums.GcloudSecretType.AccessKey = 0 -> ModularPipelines.Google.Enums.GcloudSecretType
@@ -10183,28 +10481,41 @@ ModularPipelines.Google.Enums.GcloudSecretType.SecretTypeUnspecified = 5 -> Modu
 ModularPipelines.Google.Enums.GcloudSecurityLevel
 ModularPipelines.Google.Enums.GcloudSecurityLevel.SecureAlways = 0 -> ModularPipelines.Google.Enums.GcloudSecurityLevel
 ModularPipelines.Google.Enums.GcloudSecurityLevel.SecureOptional = 1 -> ModularPipelines.Google.Enums.GcloudSecurityLevel
+ModularPipelines.Google.Enums.GcloudSecurityPosture.Enterprise = 1 -> ModularPipelines.Google.Enums.GcloudSecurityPosture
+ModularPipelines.Google.Enums.GcloudSecurityPosture.Standard = 2 -> ModularPipelines.Google.Enums.GcloudSecurityPosture
 ModularPipelines.Google.Enums.GcloudSecurityPreference
 ModularPipelines.Google.Enums.GcloudSecurityPreference.Balance = 0 -> ModularPipelines.Google.Enums.GcloudSecurityPreference
 ModularPipelines.Google.Enums.GcloudSecurityPreference.Security = 1 -> ModularPipelines.Google.Enums.GcloudSecurityPreference
 ModularPipelines.Google.Enums.GcloudSecurityPreference.Usability = 2 -> ModularPipelines.Google.Enums.GcloudSecurityPreference
 ModularPipelines.Google.Enums.GcloudSeverity
-ModularPipelines.Google.Enums.GcloudSeverity.Alert = 7 -> ModularPipelines.Google.Enums.GcloudSeverity
-ModularPipelines.Google.Enums.GcloudSeverity.Critical = 6 -> ModularPipelines.Google.Enums.GcloudSeverity
-ModularPipelines.Google.Enums.GcloudSeverity.Debug = 1 -> ModularPipelines.Google.Enums.GcloudSeverity
-ModularPipelines.Google.Enums.GcloudSeverity.Default = 0 -> ModularPipelines.Google.Enums.GcloudSeverity
-ModularPipelines.Google.Enums.GcloudSeverity.Emergency = 8 -> ModularPipelines.Google.Enums.GcloudSeverity
+ModularPipelines.Google.Enums.GcloudSeverity.Alert = 0 -> ModularPipelines.Google.Enums.GcloudSeverity
+ModularPipelines.Google.Enums.GcloudSeverity.Critical = 1 -> ModularPipelines.Google.Enums.GcloudSeverity
+ModularPipelines.Google.Enums.GcloudSeverity.Debug = 2 -> ModularPipelines.Google.Enums.GcloudSeverity
+ModularPipelines.Google.Enums.GcloudSeverity.Default = 3 -> ModularPipelines.Google.Enums.GcloudSeverity
+ModularPipelines.Google.Enums.GcloudSeverity.Emergency = 4 -> ModularPipelines.Google.Enums.GcloudSeverity
 ModularPipelines.Google.Enums.GcloudSeverity.Error = 5 -> ModularPipelines.Google.Enums.GcloudSeverity
-ModularPipelines.Google.Enums.GcloudSeverity.Info = 2 -> ModularPipelines.Google.Enums.GcloudSeverity
-ModularPipelines.Google.Enums.GcloudSeverity.Notice = 3 -> ModularPipelines.Google.Enums.GcloudSeverity
-ModularPipelines.Google.Enums.GcloudSeverity.Warning = 4 -> ModularPipelines.Google.Enums.GcloudSeverity
+ModularPipelines.Google.Enums.GcloudSeverity.Info = 6 -> ModularPipelines.Google.Enums.GcloudSeverity
+ModularPipelines.Google.Enums.GcloudSeverity.Notice = 7 -> ModularPipelines.Google.Enums.GcloudSeverity
+ModularPipelines.Google.Enums.GcloudSeverity.Warning = 8 -> ModularPipelines.Google.Enums.GcloudSeverity
 ModularPipelines.Google.Enums.GcloudShareSetting.Local = 0 -> ModularPipelines.Google.Enums.GcloudShareSetting
 ModularPipelines.Google.Enums.GcloudShareSetting.Projects = 1 -> ModularPipelines.Google.Enums.GcloudShareSetting
+ModularPipelines.Google.Enums.GcloudSourceType.Esxi = 0 -> ModularPipelines.Google.Enums.GcloudSourceType
+ModularPipelines.Google.Enums.GcloudSourceType.Vcsa = 1 -> ModularPipelines.Google.Enums.GcloudSourceType
 ModularPipelines.Google.Enums.GcloudSslPolicy
 ModularPipelines.Google.Enums.GcloudSslPolicy.TlsVersion_1_0 = 0 -> ModularPipelines.Google.Enums.GcloudSslPolicy
 ModularPipelines.Google.Enums.GcloudSslPolicy.TlsVersion_1_2 = 1 -> ModularPipelines.Google.Enums.GcloudSslPolicy
+ModularPipelines.Google.Enums.GcloudSslType.None = 0 -> ModularPipelines.Google.Enums.GcloudSslType
+ModularPipelines.Google.Enums.GcloudSslType.Required = 1 -> ModularPipelines.Google.Enums.GcloudSslType
+ModularPipelines.Google.Enums.GcloudSslType.ServerClient = 2 -> ModularPipelines.Google.Enums.GcloudSslType
+ModularPipelines.Google.Enums.GcloudSslType.ServerOnly = 3 -> ModularPipelines.Google.Enums.GcloudSslType
+ModularPipelines.Google.Enums.GcloudStorageType.Hdd = 0 -> ModularPipelines.Google.Enums.GcloudStorageType
+ModularPipelines.Google.Enums.GcloudStorageType.HyperdiskBalanced = 1 -> ModularPipelines.Google.Enums.GcloudStorageType
+ModularPipelines.Google.Enums.GcloudStorageType.Ssd = 2 -> ModularPipelines.Google.Enums.GcloudStorageType
+ModularPipelines.Google.Enums.GcloudStrictHostKeyChecking.Ask = 0 -> ModularPipelines.Google.Enums.GcloudStrictHostKeyChecking
+ModularPipelines.Google.Enums.GcloudStrictHostKeyChecking.Yes = 2 -> ModularPipelines.Google.Enums.GcloudStrictHostKeyChecking
 ModularPipelines.Google.Enums.GcloudSystemCommand
-ModularPipelines.Google.Enums.GcloudSystemCommand.Off = 1 -> ModularPipelines.Google.Enums.GcloudSystemCommand
-ModularPipelines.Google.Enums.GcloudSystemCommand.On = 0 -> ModularPipelines.Google.Enums.GcloudSystemCommand
+ModularPipelines.Google.Enums.GcloudSystemCommand.Off = 0 -> ModularPipelines.Google.Enums.GcloudSystemCommand
+ModularPipelines.Google.Enums.GcloudSystemCommand.On = 1 -> ModularPipelines.Google.Enums.GcloudSystemCommand
 ModularPipelines.Google.Enums.GcloudTarballAccess
 ModularPipelines.Google.Enums.GcloudTarballAccess.GoogleCloudSupport = 0 -> ModularPipelines.Google.Enums.GcloudTarballAccess
 ModularPipelines.Google.Enums.GcloudTarballAccess.GoogleDataprocDiagnose = 1 -> ModularPipelines.Google.Enums.GcloudTarballAccess
@@ -10215,12 +10526,14 @@ ModularPipelines.Google.Enums.GcloudThreadCount
 ModularPipelines.Google.Enums.GcloudThreadCount.File = 0 -> ModularPipelines.Google.Enums.GcloudThreadCount
 ModularPipelines.Google.Enums.GcloudThreadCount.Sliced = 1 -> ModularPipelines.Google.Enums.GcloudThreadCount
 ModularPipelines.Google.Enums.GcloudThreadCount.Streaming = 2 -> ModularPipelines.Google.Enums.GcloudThreadCount
+ModularPipelines.Google.Enums.GcloudTier.Enterprise = 0 -> ModularPipelines.Google.Enums.GcloudTier
+ModularPipelines.Google.Enums.GcloudTier.Standard = 1 -> ModularPipelines.Google.Enums.GcloudTier
 ModularPipelines.Google.Enums.GcloudTokenFormat
-ModularPipelines.Google.Enums.GcloudTokenFormat.Full = 1 -> ModularPipelines.Google.Enums.GcloudTokenFormat
-ModularPipelines.Google.Enums.GcloudTokenFormat.Standard = 0 -> ModularPipelines.Google.Enums.GcloudTokenFormat
+ModularPipelines.Google.Enums.GcloudTokenFormat.Full = 0 -> ModularPipelines.Google.Enums.GcloudTokenFormat
+ModularPipelines.Google.Enums.GcloudTokenFormat.Standard = 1 -> ModularPipelines.Google.Enums.GcloudTokenFormat
 ModularPipelines.Google.Enums.GcloudTreeType
-ModularPipelines.Google.Enums.GcloudTreeType.Draft = 1 -> ModularPipelines.Google.Enums.GcloudTreeType
-ModularPipelines.Google.Enums.GcloudTreeType.Source = 0 -> ModularPipelines.Google.Enums.GcloudTreeType
+ModularPipelines.Google.Enums.GcloudTreeType.Draft = 0 -> ModularPipelines.Google.Enums.GcloudTreeType
+ModularPipelines.Google.Enums.GcloudTreeType.Source = 1 -> ModularPipelines.Google.Enums.GcloudTreeType
 ModularPipelines.Google.Enums.GcloudUpdateArchitecture
 ModularPipelines.Google.Enums.GcloudUpdateArchitecture.Arm64 = 0 -> ModularPipelines.Google.Enums.GcloudUpdateArchitecture
 ModularPipelines.Google.Enums.GcloudUpdateArchitecture.X86_64 = 1 -> ModularPipelines.Google.Enums.GcloudUpdateArchitecture
@@ -10232,13 +10545,15 @@ ModularPipelines.Google.Enums.GcloudUsePresetProfile.LeafServerTls = 3 -> Modula
 ModularPipelines.Google.Enums.GcloudUsePresetProfile.LeafSmime = 4 -> ModularPipelines.Google.Enums.GcloudUsePresetProfile
 ModularPipelines.Google.Enums.GcloudUsePresetProfile.RootUnconstrained = 5 -> ModularPipelines.Google.Enums.GcloudUsePresetProfile
 ModularPipelines.Google.Enums.GcloudWeeklySchedule
-ModularPipelines.Google.Enums.GcloudWeeklySchedule.Friday = 4 -> ModularPipelines.Google.Enums.GcloudWeeklySchedule
-ModularPipelines.Google.Enums.GcloudWeeklySchedule.Monday = 0 -> ModularPipelines.Google.Enums.GcloudWeeklySchedule
-ModularPipelines.Google.Enums.GcloudWeeklySchedule.Saturday = 5 -> ModularPipelines.Google.Enums.GcloudWeeklySchedule
-ModularPipelines.Google.Enums.GcloudWeeklySchedule.Sunday = 6 -> ModularPipelines.Google.Enums.GcloudWeeklySchedule
-ModularPipelines.Google.Enums.GcloudWeeklySchedule.Thursday = 3 -> ModularPipelines.Google.Enums.GcloudWeeklySchedule
-ModularPipelines.Google.Enums.GcloudWeeklySchedule.Tuesday = 1 -> ModularPipelines.Google.Enums.GcloudWeeklySchedule
-ModularPipelines.Google.Enums.GcloudWeeklySchedule.Wednesday = 2 -> ModularPipelines.Google.Enums.GcloudWeeklySchedule
+ModularPipelines.Google.Enums.GcloudWeeklySchedule.Friday = 0 -> ModularPipelines.Google.Enums.GcloudWeeklySchedule
+ModularPipelines.Google.Enums.GcloudWeeklySchedule.Monday = 1 -> ModularPipelines.Google.Enums.GcloudWeeklySchedule
+ModularPipelines.Google.Enums.GcloudWeeklySchedule.Saturday = 2 -> ModularPipelines.Google.Enums.GcloudWeeklySchedule
+ModularPipelines.Google.Enums.GcloudWeeklySchedule.Sunday = 3 -> ModularPipelines.Google.Enums.GcloudWeeklySchedule
+ModularPipelines.Google.Enums.GcloudWeeklySchedule.Thursday = 4 -> ModularPipelines.Google.Enums.GcloudWeeklySchedule
+ModularPipelines.Google.Enums.GcloudWeeklySchedule.Tuesday = 5 -> ModularPipelines.Google.Enums.GcloudWeeklySchedule
+ModularPipelines.Google.Enums.GcloudWeeklySchedule.Wednesday = 6 -> ModularPipelines.Google.Enums.GcloudWeeklySchedule
+ModularPipelines.Google.Enums.GcloudWorkloadVulnerabilityScanning.Enterprise = 1 -> ModularPipelines.Google.Enums.GcloudWorkloadVulnerabilityScanning
+ModularPipelines.Google.Enums.GcloudWorkloadVulnerabilityScanning.Standard = 2 -> ModularPipelines.Google.Enums.GcloudWorkloadVulnerabilityScanning
 ModularPipelines.Google.Options.GcloudAccessApprovalRequestsListOptions.Folder.get -> string?
 ModularPipelines.Google.Options.GcloudAccessApprovalRequestsListOptions.Folder.set -> void
 ModularPipelines.Google.Options.GcloudAccessApprovalRequestsListOptions.Organization.get -> string?
@@ -11201,6 +11516,9 @@ ModularPipelines.Google.Options.GcloudAppVersionsBrowseOptions.NoLaunchBrowser.g
 ModularPipelines.Google.Options.GcloudAppVersionsBrowseOptions.NoLaunchBrowser.set -> void
 ModularPipelines.Google.Options.GcloudArtifactsDockerUpgradeMigrateOptions.NoUseAnalyzeIam.get -> bool?
 ModularPipelines.Google.Options.GcloudArtifactsDockerUpgradeMigrateOptions.NoUseAnalyzeIam.set -> void
+ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions
+ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions.GcloudArtifactsFilesUploadOptions() -> void
+ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions.GcloudArtifactsFilesUploadOptions(ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions! original) -> void
 ModularPipelines.Google.Options.GcloudArtifactsProjectsUpdateOptions.ClearPlatformLogs.get -> bool?
 ModularPipelines.Google.Options.GcloudArtifactsProjectsUpdateOptions.ClearPlatformLogs.set -> void
 ModularPipelines.Google.Options.GcloudArtifactsProjectsUpdateOptions.DisablePlatformLogs.get -> bool?
@@ -11329,6 +11647,18 @@ ModularPipelines.Google.Options.GcloudBeyondcorpSecurityGatewaysUpdateOptions.Up
 ModularPipelines.Google.Options.GcloudBeyondcorpSecurityGatewaysUpdateOptions.UpdateHubs.set -> void
 ModularPipelines.Google.Options.GcloudBeyondcorpSecurityGatewaysUpdateOptions.UpdateProxyProtocolConfigMetadataHeaders.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudBeyondcorpSecurityGatewaysUpdateOptions.UpdateProxyProtocolConfigMetadataHeaders.set -> void
+ModularPipelines.Google.Options.GcloudBiglakeDeltaSharingCatalogsUpdateOptions.KmsKey.get -> string?
+ModularPipelines.Google.Options.GcloudBiglakeDeltaSharingCatalogsUpdateOptions.KmsKey.set -> void
+ModularPipelines.Google.Options.GcloudBiglakeIcebergCatalogsUpdateOptions.CrossCloudCache.get -> ModularPipelines.Google.Enums.GcloudCrossCloudCache?
+ModularPipelines.Google.Options.GcloudBiglakeIcebergCatalogsUpdateOptions.CrossCloudCache.set -> void
+ModularPipelines.Google.Options.GcloudBiglakeIcebergCatalogsUpdateOptions.KmsKey.get -> string?
+ModularPipelines.Google.Options.GcloudBiglakeIcebergCatalogsUpdateOptions.KmsKey.set -> void
+ModularPipelines.Google.Options.GcloudBiglakeIcebergCatalogsUpdateOptions.KmsKeyring.get -> string?
+ModularPipelines.Google.Options.GcloudBiglakeIcebergCatalogsUpdateOptions.KmsKeyring.set -> void
+ModularPipelines.Google.Options.GcloudBiglakeIcebergCatalogsUpdateOptions.KmsLocation.get -> string?
+ModularPipelines.Google.Options.GcloudBiglakeIcebergCatalogsUpdateOptions.KmsLocation.set -> void
+ModularPipelines.Google.Options.GcloudBiglakeIcebergCatalogsUpdateOptions.KmsProject.get -> string?
+ModularPipelines.Google.Options.GcloudBiglakeIcebergCatalogsUpdateOptions.KmsProject.set -> void
 ModularPipelines.Google.Options.GcloudBigtableAppProfilesUpdateOptions.DataBoost.get -> bool?
 ModularPipelines.Google.Options.GcloudBigtableAppProfilesUpdateOptions.DataBoost.set -> void
 ModularPipelines.Google.Options.GcloudBigtableAppProfilesUpdateOptions.DataBoostComputeBillingOwner.get -> string?
@@ -11679,6 +12009,10 @@ ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.Global
 ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.Global.set -> void
 ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.GlobalHealthChecks.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.GlobalHealthChecks.set -> void
+ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.GlobalNetworkEndpointGroup.get -> bool?
+ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.GlobalNetworkEndpointGroup.set -> void
+ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.HaPolicyFastIpMove.get -> ModularPipelines.Google.Enums.GcloudHaPolicyFastIpMove?
+ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.HaPolicyFastIpMove.set -> void
 ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.HealthChecksRegion.get -> string?
 ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.HealthChecksRegion.set -> void
 ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.Identity.get -> string?
@@ -11689,6 +12023,12 @@ ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.MaxStr
 ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.NegativeCaching.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.NegativeCaching.set -> void
 ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.NegativeCachingPolicy.get -> string?
+ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.NetworkEndpointGroup.get -> string?
+ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.NetworkEndpointGroup.set -> void
+ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.NetworkEndpointGroupRegion.get -> string?
+ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.NetworkEndpointGroupRegion.set -> void
+ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.NetworkEndpointGroupZone.get -> string?
+ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.NetworkEndpointGroupZone.set -> void
 ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.NoCacheKeyIncludeHost.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.NoCacheKeyIncludeHost.set -> void
 ModularPipelines.Google.Options.GcloudComputeBackendServicesCreateOptions.NoCacheKeyIncludeProtocol.get -> bool?
@@ -11829,6 +12169,10 @@ ModularPipelines.Google.Options.GcloudComputeBackendServicesUpdateOptions.Global
 ModularPipelines.Google.Options.GcloudComputeBackendServicesUpdateOptions.Global.set -> void
 ModularPipelines.Google.Options.GcloudComputeBackendServicesUpdateOptions.GlobalHealthChecks.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeBackendServicesUpdateOptions.GlobalHealthChecks.set -> void
+ModularPipelines.Google.Options.GcloudComputeBackendServicesUpdateOptions.HaPolicyLeaderBackendGroup.get -> string?
+ModularPipelines.Google.Options.GcloudComputeBackendServicesUpdateOptions.HaPolicyLeaderBackendGroup.set -> void
+ModularPipelines.Google.Options.GcloudComputeBackendServicesUpdateOptions.HaPolicyLeaderInstance.get -> string?
+ModularPipelines.Google.Options.GcloudComputeBackendServicesUpdateOptions.HaPolicyLeaderInstance.set -> void
 ModularPipelines.Google.Options.GcloudComputeBackendServicesUpdateOptions.HealthChecksRegion.get -> string?
 ModularPipelines.Google.Options.GcloudComputeBackendServicesUpdateOptions.HealthChecksRegion.set -> void
 ModularPipelines.Google.Options.GcloudComputeBackendServicesUpdateOptions.LocalityLbPolicy.get -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy?
@@ -12400,6 +12744,8 @@ ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.Enab
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.EnableNestedVirtualization.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.EnableUefiNetworking.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.EnableUefiNetworking.set -> void
+ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.ExposeHostTopology.get -> bool?
+ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.ExposeHostTopology.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.GracefulShutdown.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.GracefulShutdown.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.GracefulShutdownMaxDuration.get -> string?
@@ -12421,6 +12767,8 @@ ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.NoEn
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.NoEnableNestedVirtualization.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.NoEnableUefiNetworking.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.NoEnableUefiNetworking.set -> void
+ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.NoExposeHostTopology.get -> bool?
+ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.NoExposeHostTopology.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.NoIdentityCertificate.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.NoIdentityCertificate.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateOptions.NoRestartOnFailure.get -> bool?
@@ -12517,6 +12865,8 @@ ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.EnableNested
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.EnableNestedVirtualization.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.EnableUefiNetworking.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.EnableUefiNetworking.set -> void
+ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.ExposeHostTopology.get -> bool?
+ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.ExposeHostTopology.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.GracefulShutdown.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.GracefulShutdown.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.GracefulShutdownMaxDuration.get -> string?
@@ -12539,6 +12889,8 @@ ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.NoEnableNest
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.NoEnableNestedVirtualization.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.NoEnableUefiNetworking.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.NoEnableUefiNetworking.set -> void
+ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.NoExposeHostTopology.get -> bool?
+ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.NoExposeHostTopology.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.NoIdentityCertificate.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.NoIdentityCertificate.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.NoPublicPtr.get -> bool?
@@ -12586,6 +12938,8 @@ ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.CreateDisk.get -> string?
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.EnableNestedVirtualization.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.EnableNestedVirtualization.set -> void
+ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.ExposeHostTopology.get -> bool?
+ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.ExposeHostTopology.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.ExternalIpv6Address.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.GracefulShutdown.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.GracefulShutdown.set -> void
@@ -12611,6 +12965,8 @@ ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.NoContainerTty.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.NoEnableNestedVirtualization.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.NoEnableNestedVirtualization.set -> void
+ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.NoExposeHostTopology.get -> bool?
+ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.NoExposeHostTopology.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.NoIdentityCertificate.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.NoIdentityCertificate.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.NoPublicPtr.get -> bool?
@@ -12752,6 +13108,8 @@ ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.DeletionProt
 ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.DeletionProtection.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.EnableDisplayDevice.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.EnableDisplayDevice.set -> void
+ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.ExposeHostTopology.get -> bool?
+ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.ExposeHostTopology.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.GracefulShutdown.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.GracefulShutdown.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.GracefulShutdownMaxDuration.get -> string?
@@ -12762,6 +13120,8 @@ ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.NoDeletionPr
 ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.NoDeletionProtection.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.NoEnableDisplayDevice.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.NoEnableDisplayDevice.set -> void
+ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.NoExposeHostTopology.get -> bool?
+ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.NoExposeHostTopology.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.NoGracefulShutdown.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.NoGracefulShutdown.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesUpdateOptions.NoIdentityCertificate.get -> bool?
@@ -13090,6 +13450,12 @@ ModularPipelines.Google.Options.GcloudComputeProjectInfoRemoveMetadataOptions.Al
 ModularPipelines.Google.Options.GcloudComputeProjectInfoRemoveMetadataOptions.Keys.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudComputeProjectInfoRemoveMetadataOptions.Keys.set -> void
 ModularPipelines.Google.Options.GcloudComputeProjectInfoUpdateOptions.CloudArmorTier.get -> ModularPipelines.Google.Enums.GcloudCloudArmorTier?
+ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions
+ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions.GcloudComputeProjectViewsDescribeOptions() -> void
+ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions.GcloudComputeProjectViewsDescribeOptions(ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions! original) -> void
+ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions
+ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions.GcloudComputeProjectViewsOptions() -> void
+ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions.GcloudComputeProjectViewsOptions(ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions! original) -> void
 ModularPipelines.Google.Options.GcloudComputePublicDelegatedPrefixesDeleteOptions.Global.get -> bool?
 ModularPipelines.Google.Options.GcloudComputePublicDelegatedPrefixesDeleteOptions.Global.set -> void
 ModularPipelines.Google.Options.GcloudComputePublicDelegatedPrefixesDeleteOptions.Region.get -> string?
@@ -13145,6 +13511,8 @@ ModularPipelines.Google.Options.GcloudComputeReservationsUpdateOptions.EnableEme
 ModularPipelines.Google.Options.GcloudComputeReservationsUpdateOptions.EnableEmergentMaintenance.set -> void
 ModularPipelines.Google.Options.GcloudComputeReservationsUpdateOptions.NoEnableEmergentMaintenance.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeReservationsUpdateOptions.NoEnableEmergentMaintenance.set -> void
+ModularPipelines.Google.Options.GcloudComputeReservationsUpdateOptions.ShareSetting.get -> string?
+ModularPipelines.Google.Options.GcloudComputeReservationsUpdateOptions.ShareSetting.set -> void
 ModularPipelines.Google.Options.GcloudComputeResourcePoliciesTestIamPermissionsOptions
 ModularPipelines.Google.Options.GcloudComputeResourcePoliciesTestIamPermissionsOptions.GcloudComputeResourcePoliciesTestIamPermissionsOptions() -> void
 ModularPipelines.Google.Options.GcloudComputeResourcePoliciesTestIamPermissionsOptions.GcloudComputeResourcePoliciesTestIamPermissionsOptions(ModularPipelines.Google.Options.GcloudComputeResourcePoliciesTestIamPermissionsOptions! original) -> void
@@ -14563,6 +14931,16 @@ ModularPipelines.Google.Options.GcloudDatabaseMigrationConnectionProfilesUpdateO
 ModularPipelines.Google.Options.GcloudDatabaseMigrationConnectionProfilesUpdateOptions.DisableIamAuthentication.set -> void
 ModularPipelines.Google.Options.GcloudDatabaseMigrationConnectionProfilesUpdateOptions.EnableIamAuthentication.get -> bool?
 ModularPipelines.Google.Options.GcloudDatabaseMigrationConnectionProfilesUpdateOptions.EnableIamAuthentication.set -> void
+ModularPipelines.Google.Options.GcloudDatabaseMigrationConnectionProfilesUpdateOptions.ForwardSshHostname.get -> string?
+ModularPipelines.Google.Options.GcloudDatabaseMigrationConnectionProfilesUpdateOptions.ForwardSshHostname.set -> void
+ModularPipelines.Google.Options.GcloudDatabaseMigrationConnectionProfilesUpdateOptions.ForwardSshPassword.get -> string?
+ModularPipelines.Google.Options.GcloudDatabaseMigrationConnectionProfilesUpdateOptions.ForwardSshPassword.set -> void
+ModularPipelines.Google.Options.GcloudDatabaseMigrationConnectionProfilesUpdateOptions.ForwardSshPort.get -> string?
+ModularPipelines.Google.Options.GcloudDatabaseMigrationConnectionProfilesUpdateOptions.ForwardSshPort.set -> void
+ModularPipelines.Google.Options.GcloudDatabaseMigrationConnectionProfilesUpdateOptions.ForwardSshPrivateKey.get -> string?
+ModularPipelines.Google.Options.GcloudDatabaseMigrationConnectionProfilesUpdateOptions.ForwardSshPrivateKey.set -> void
+ModularPipelines.Google.Options.GcloudDatabaseMigrationConnectionProfilesUpdateOptions.ForwardSshUsername.get -> string?
+ModularPipelines.Google.Options.GcloudDatabaseMigrationConnectionProfilesUpdateOptions.ForwardSshUsername.set -> void
 ModularPipelines.Google.Options.GcloudDatabaseMigrationConnectionProfilesUpdateOptions.Password.get -> string?
 ModularPipelines.Google.Options.GcloudDatabaseMigrationConnectionProfilesUpdateOptions.Password.set -> void
 ModularPipelines.Google.Options.GcloudDatabaseMigrationConnectionProfilesUpdateOptions.PrivateConnection.get -> string?
@@ -15204,7 +15582,6 @@ ModularPipelines.Google.Options.GcloudDeployReleasesCreateOptions.SkaffoldFile.g
 ModularPipelines.Google.Options.GcloudDeployReleasesCreateOptions.SkaffoldFile.set -> void
 ModularPipelines.Google.Options.GcloudDeployReleasesCreateOptions.Source.get -> string?
 ModularPipelines.Google.Options.GcloudDeployReleasesCreateOptions.Source.set -> void
-ModularPipelines.Google.Options.GcloudDeployTargetsDescribeOptions.Validate(System.ComponentModel.DataAnnotations.ValidationContext! validationContext) -> System.Collections.Generic.IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult!>!
 ModularPipelines.Google.Options.GcloudDeploymentManagerDeploymentsDeleteOptions.DeletePolicy.get -> ModularPipelines.Google.Enums.GcloudDeletePolicy?
 ModularPipelines.Google.Options.GcloudDeploymentManagerDeploymentsUpdateOptions.CompositeType.get -> string?
 ModularPipelines.Google.Options.GcloudDeploymentManagerDeploymentsUpdateOptions.CompositeType.set -> void
@@ -15236,6 +15613,8 @@ ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComp
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.AddAttributesDeveloperOwners.set -> void
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.AddAttributesOperatorOwners.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.AddAttributesOperatorOwners.set -> void
+ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.AddInputVariableAliases.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.AddInputVariableAliases.set -> void
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.AddParameters.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.AddParameters.set -> void
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.AttributesBusinessOwners.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -15250,10 +15629,14 @@ ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComp
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.ClearAttributesDeveloperOwners.set -> void
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.ClearAttributesOperatorOwners.get -> bool?
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.ClearAttributesOperatorOwners.set -> void
+ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.ClearInputVariableAliases.get -> bool?
+ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.ClearInputVariableAliases.set -> void
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.ClearParameters.get -> bool?
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.ClearParameters.set -> void
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.CriticalityMissionCritical.get -> bool?
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.CriticalityMissionCritical.set -> void
+ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.InputVariableAliases.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.InputVariableAliases.set -> void
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.NoCriticalityMissionCritical.get -> bool?
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.NoCriticalityMissionCritical.set -> void
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.NoUseAsRootModule.get -> bool?
@@ -15266,6 +15649,8 @@ ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComp
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.RemoveAttributesDeveloperOwners.set -> void
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.RemoveAttributesOperatorOwners.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.RemoveAttributesOperatorOwners.set -> void
+ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.RemoveInputVariableAliases.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.RemoveInputVariableAliases.set -> void
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.RemoveParameters.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.RemoveParameters.set -> void
 ModularPipelines.Google.Options.GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions.UseAsRootModule.get -> bool?
@@ -16697,6 +17082,9 @@ ModularPipelines.Google.Options.GcloudKmsAutokeyConfigShowEffectiveConfigOptions
 ModularPipelines.Google.Options.GcloudKmsAutokeyConfigShowEffectiveConfigOptions.Folder.set -> void
 ModularPipelines.Google.Options.GcloudKmsAutokeyConfigShowEffectiveConfigOptions.Project.get -> string?
 ModularPipelines.Google.Options.GcloudKmsAutokeyConfigShowEffectiveConfigOptions.Project.set -> void
+ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions
+ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions.GcloudKmsKeyringsDeleteOptions() -> void
+ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions.GcloudKmsKeyringsDeleteOptions(ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions! original) -> void
 ModularPipelines.Google.Options.GcloudKmsKeysUpdateOptions.ClearLabels.get -> bool?
 ModularPipelines.Google.Options.GcloudKmsKeysUpdateOptions.ClearLabels.set -> void
 ModularPipelines.Google.Options.GcloudKmsKeysUpdateOptions.RemoveLabels.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -17092,6 +17480,43 @@ ModularPipelines.Google.Options.GcloudMetastoreServicesCreateOptions.ScheduledBa
 ModularPipelines.Google.Options.GcloudMetastoreServicesCreateOptions.ScheduledBackupLocation.set -> void
 ModularPipelines.Google.Options.GcloudMetastoreServicesCreateOptions.Tier.get -> string?
 ModularPipelines.Google.Options.GcloudMetastoreServicesCreateOptions.Tier.set -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions.Async.get -> bool?
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions.Async.set -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions.GcloudMetastoreServicesMigrationsDeleteOptions() -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions.GcloudMetastoreServicesMigrationsDeleteOptions(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions! original) -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions.GcloudMetastoreServicesMigrationsDescribeOptions() -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions.GcloudMetastoreServicesMigrationsDescribeOptions(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions! original) -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions.GcloudMetastoreServicesMigrationsListOptions() -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions.GcloudMetastoreServicesMigrationsListOptions(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions! original) -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions.GcloudMetastoreServicesMigrationsOptions() -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions.GcloudMetastoreServicesMigrationsOptions(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions! original) -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.Async.get -> bool?
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.Async.set -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.ConflictPolicy.get -> string?
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.ConflictPolicy.set -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.DryRun.get -> bool?
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.DryRun.set -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.GcloudMetastoreServicesMigrationsStartOptions() -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.GcloudMetastoreServicesMigrationsStartOptions(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions! original) -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.HiveCatalog.get -> string?
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.HiveCatalog.set -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.HiveDatabases.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.HiveDatabases.set -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.IcebergCatalog.get -> string?
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.IcebergCatalog.set -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.IcebergNamespaces.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.IcebergNamespaces.set -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.MigrationExecutionId.get -> string?
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.MigrationExecutionId.set -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.Mode.get -> string?
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.Mode.set -> void
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.ReportPath.get -> string?
+ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.ReportPath.set -> void
 ModularPipelines.Google.Options.GcloudMetastoreServicesUpdateOptions.AddAuxiliaryVersions.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudMetastoreServicesUpdateOptions.AddAuxiliaryVersions.set -> void
 ModularPipelines.Google.Options.GcloudMetastoreServicesUpdateOptions.ClearAuxiliaryVersions.get -> bool?
@@ -18041,6 +18466,10 @@ ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.Global.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.GlobalHealthChecks.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.GlobalHealthChecks.set -> void
+ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.GlobalNetworkEndpointGroup.get -> bool?
+ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.GlobalNetworkEndpointGroup.set -> void
+ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.HaPolicyFastIpMove.get -> ModularPipelines.Google.Enums.GcloudHaPolicyFastIpMove?
+ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.HaPolicyFastIpMove.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.HealthChecksRegion.get -> string?
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.HealthChecksRegion.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.Identity.get -> string?
@@ -18051,6 +18480,12 @@ ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.NegativeCaching.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.NegativeCaching.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.NegativeCachingPolicy.get -> string?
+ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.NetworkEndpointGroup.get -> string?
+ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.NetworkEndpointGroup.set -> void
+ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.NetworkEndpointGroupRegion.get -> string?
+ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.NetworkEndpointGroupRegion.set -> void
+ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.NetworkEndpointGroupZone.get -> string?
+ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.NetworkEndpointGroupZone.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.NoCacheKeyIncludeHost.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.NoCacheKeyIncludeHost.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesCreateOptions.NoCacheKeyIncludeProtocol.get -> bool?
@@ -18191,6 +18626,10 @@ ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesUpdateOptions
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesUpdateOptions.Global.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesUpdateOptions.GlobalHealthChecks.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesUpdateOptions.GlobalHealthChecks.set -> void
+ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesUpdateOptions.HaPolicyLeaderBackendGroup.get -> string?
+ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesUpdateOptions.HaPolicyLeaderBackendGroup.set -> void
+ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesUpdateOptions.HaPolicyLeaderInstance.get -> string?
+ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesUpdateOptions.HaPolicyLeaderInstance.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesUpdateOptions.HealthChecksRegion.get -> string?
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesUpdateOptions.HealthChecksRegion.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeBackendServicesUpdateOptions.LocalityLbPolicy.get -> ModularPipelines.Google.Enums.GcloudLocalityLbPolicy?
@@ -18721,6 +19160,8 @@ ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptio
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptions.EnableNestedVirtualization.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptions.EnableUefiNetworking.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptions.EnableUefiNetworking.set -> void
+ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptions.ExposeHostTopology.get -> bool?
+ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptions.ExposeHostTopology.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptions.GracefulShutdown.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptions.GracefulShutdown.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptions.GracefulShutdownMaxDuration.get -> string?
@@ -18742,6 +19183,8 @@ ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptio
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptions.NoEnableNestedVirtualization.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptions.NoEnableUefiNetworking.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptions.NoEnableUefiNetworking.set -> void
+ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptions.NoExposeHostTopology.get -> bool?
+ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptions.NoExposeHostTopology.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptions.NoIdentityCertificate.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptions.NoIdentityCertificate.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateOptions.NoRestartOnFailure.get -> bool?
@@ -18838,6 +19281,8 @@ ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.Enabl
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.EnableNestedVirtualization.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.EnableUefiNetworking.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.EnableUefiNetworking.set -> void
+ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.ExposeHostTopology.get -> bool?
+ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.ExposeHostTopology.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.GracefulShutdown.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.GracefulShutdown.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.GracefulShutdownMaxDuration.get -> string?
@@ -18860,6 +19305,8 @@ ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.NoEna
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.NoEnableNestedVirtualization.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.NoEnableUefiNetworking.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.NoEnableUefiNetworking.set -> void
+ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.NoExposeHostTopology.get -> bool?
+ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.NoExposeHostTopology.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.NoIdentityCertificate.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.NoIdentityCertificate.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.NoPublicPtr.get -> bool?
@@ -18907,6 +19354,8 @@ ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainer
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.CreateDisk.get -> string?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.EnableNestedVirtualization.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.EnableNestedVirtualization.set -> void
+ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.ExposeHostTopology.get -> bool?
+ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.ExposeHostTopology.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.ExternalIpv6Address.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.GracefulShutdown.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.GracefulShutdown.set -> void
@@ -18932,6 +19381,8 @@ ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainer
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.NoContainerTty.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.NoEnableNestedVirtualization.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.NoEnableNestedVirtualization.set -> void
+ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.NoExposeHostTopology.get -> bool?
+ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.NoExposeHostTopology.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.NoIdentityCertificate.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.NoIdentityCertificate.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.NoPublicPtr.get -> bool?
@@ -19073,6 +19524,8 @@ ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.Delet
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.DeletionProtection.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.EnableDisplayDevice.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.EnableDisplayDevice.set -> void
+ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.ExposeHostTopology.get -> bool?
+ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.ExposeHostTopology.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.GracefulShutdown.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.GracefulShutdown.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.GracefulShutdownMaxDuration.get -> string?
@@ -19083,6 +19536,8 @@ ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.NoDel
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.NoDeletionProtection.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.NoEnableDisplayDevice.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.NoEnableDisplayDevice.set -> void
+ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.NoExposeHostTopology.get -> bool?
+ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.NoExposeHostTopology.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.NoGracefulShutdown.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.NoGracefulShutdown.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesUpdateOptions.NoIdentityCertificate.get -> bool?
@@ -19383,6 +19838,8 @@ ModularPipelines.Google.Options.GcloudPreviewComputeReservationsUpdateOptions.En
 ModularPipelines.Google.Options.GcloudPreviewComputeReservationsUpdateOptions.EnableEmergentMaintenance.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeReservationsUpdateOptions.NoEnableEmergentMaintenance.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeReservationsUpdateOptions.NoEnableEmergentMaintenance.set -> void
+ModularPipelines.Google.Options.GcloudPreviewComputeReservationsUpdateOptions.ShareSetting.get -> string?
+ModularPipelines.Google.Options.GcloudPreviewComputeReservationsUpdateOptions.ShareSetting.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeResourcePoliciesTestIamPermissionsOptions
 ModularPipelines.Google.Options.GcloudPreviewComputeResourcePoliciesTestIamPermissionsOptions.GcloudPreviewComputeResourcePoliciesTestIamPermissionsOptions() -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeResourcePoliciesTestIamPermissionsOptions.GcloudPreviewComputeResourcePoliciesTestIamPermissionsOptions(ModularPipelines.Google.Options.GcloudPreviewComputeResourcePoliciesTestIamPermissionsOptions! original) -> void
@@ -20147,6 +20604,8 @@ ModularPipelines.Google.Options.GcloudRedisClustersUpdateOptions.NoDeletionProte
 ModularPipelines.Google.Options.GcloudRedisClustersUpdateOptions.RemoveLabels.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudRedisClustersUpdateOptions.RemoveLabels.set -> void
 ModularPipelines.Google.Options.GcloudRedisClustersUpdateOptions.UpdateRedisConfig.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
+ModularPipelines.Google.Options.GcloudRedisInstancesCreateOptions.Tags.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
+ModularPipelines.Google.Options.GcloudRedisInstancesCreateOptions.Tags.set -> void
 ModularPipelines.Google.Options.GcloudRedisInstancesUpdateOptions.ClearLabels.get -> bool?
 ModularPipelines.Google.Options.GcloudRedisInstancesUpdateOptions.ClearLabels.set -> void
 ModularPipelines.Google.Options.GcloudRedisInstancesUpdateOptions.MaintenanceWindowAny.get -> bool?
@@ -20835,6 +21294,7 @@ ModularPipelines.Google.Options.GcloudRunWorkerPoolsUpdateOptions.UpdateLabels.g
 ModularPipelines.Google.Options.GcloudRunWorkerPoolsUpdateOptions.UpdateLabels.set -> void
 ModularPipelines.Google.Options.GcloudRunWorkerPoolsUpdateOptions.UpdateSecrets.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
 ModularPipelines.Google.Options.GcloudRunWorkerPoolsUpdateOptions.UpdateSecrets.set -> void
+ModularPipelines.Google.Options.GcloudSccAssetsGroupOptions.Filter.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudSccBqexportsDeleteOptions.Folder.get -> string?
 ModularPipelines.Google.Options.GcloudSccBqexportsDeleteOptions.Folder.set -> void
 ModularPipelines.Google.Options.GcloudSccBqexportsDeleteOptions.Organization.get -> string?
@@ -20880,6 +21340,7 @@ ModularPipelines.Google.Options.GcloudSccCustomModulesShaUpdateOptions.Organizat
 ModularPipelines.Google.Options.GcloudSccCustomModulesShaUpdateOptions.Organization.set -> void
 ModularPipelines.Google.Options.GcloudSccCustomModulesShaUpdateOptions.Project.get -> string?
 ModularPipelines.Google.Options.GcloudSccCustomModulesShaUpdateOptions.Project.set -> void
+ModularPipelines.Google.Options.GcloudSccFindingsGroupOptions.Filter.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudSccFindingsListMarksOptions.Folder.get -> string?
 ModularPipelines.Google.Options.GcloudSccFindingsListMarksOptions.Folder.set -> void
 ModularPipelines.Google.Options.GcloudSccFindingsListMarksOptions.Organization.get -> string?
@@ -21218,6 +21679,10 @@ ModularPipelines.Google.Options.GcloudServicesApiKeysCreateOptions.AllowedIps.se
 ModularPipelines.Google.Options.GcloudServicesApiKeysCreateOptions.AllowedReferrers.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudServicesApiKeysCreateOptions.AllowedReferrers.set -> void
 ModularPipelines.Google.Options.GcloudServicesApiKeysCreateOptions.ServiceAccount.get -> string?
+ModularPipelines.Google.Options.GcloudServicesApiKeysDeleteOptions.CheckExistingUsage.get -> bool?
+ModularPipelines.Google.Options.GcloudServicesApiKeysDeleteOptions.CheckExistingUsage.set -> void
+ModularPipelines.Google.Options.GcloudServicesApiKeysDeleteOptions.NoCheckExistingUsage.get -> bool?
+ModularPipelines.Google.Options.GcloudServicesApiKeysDeleteOptions.NoCheckExistingUsage.set -> void
 ModularPipelines.Google.Options.GcloudServicesApiKeysUpdateOptions.AllowedApplication.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudServicesApiKeysUpdateOptions.AllowedApplication.set -> void
 ModularPipelines.Google.Options.GcloudServicesApiKeysUpdateOptions.AllowedBundleIds.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -21232,10 +21697,14 @@ ModularPipelines.Google.Options.GcloudServicesApiKeysUpdateOptions.ApiTarget.get
 ModularPipelines.Google.Options.GcloudServicesApiKeysUpdateOptions.ApiTarget.set -> void
 ModularPipelines.Google.Options.GcloudServicesApiKeysUpdateOptions.Append.get -> bool?
 ModularPipelines.Google.Options.GcloudServicesApiKeysUpdateOptions.Append.set -> void
+ModularPipelines.Google.Options.GcloudServicesApiKeysUpdateOptions.CheckExistingUsage.get -> bool?
+ModularPipelines.Google.Options.GcloudServicesApiKeysUpdateOptions.CheckExistingUsage.set -> void
 ModularPipelines.Google.Options.GcloudServicesApiKeysUpdateOptions.ClearAnnotations.get -> bool?
 ModularPipelines.Google.Options.GcloudServicesApiKeysUpdateOptions.ClearAnnotations.set -> void
 ModularPipelines.Google.Options.GcloudServicesApiKeysUpdateOptions.ClearRestrictions.get -> bool?
 ModularPipelines.Google.Options.GcloudServicesApiKeysUpdateOptions.ClearRestrictions.set -> void
+ModularPipelines.Google.Options.GcloudServicesApiKeysUpdateOptions.NoCheckExistingUsage.get -> bool?
+ModularPipelines.Google.Options.GcloudServicesApiKeysUpdateOptions.NoCheckExistingUsage.set -> void
 ModularPipelines.Google.Options.GcloudServicesListOptions.Available.get -> bool?
 ModularPipelines.Google.Options.GcloudServicesListOptions.Available.set -> void
 ModularPipelines.Google.Options.GcloudServicesListOptions.Enabled.get -> bool?
@@ -22631,6 +23100,7 @@ ModularPipelines.Google.Services.GcloudComposerEnvironmentsUserWorkloadsSecrets.
 ModularPipelines.Google.Services.GcloudComposerOperations.GcloudComposerOperations(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Google.Services.GcloudCompute.GcloudCompute(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Google.Services.GcloudCompute.Hosts.get -> ModularPipelines.Google.Services.GcloudComputeHosts!
+ModularPipelines.Google.Services.GcloudCompute.ProjectViews.get -> ModularPipelines.Google.Services.GcloudComputeProjectViews!
 ModularPipelines.Google.Services.GcloudComputeAcceleratorTypes.GcloudComputeAcceleratorTypes(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Google.Services.GcloudComputeAddresses.GcloudComputeAddresses(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Google.Services.GcloudComputeAdvice.GcloudComputeAdvice(ModularPipelines.Context.ICommandContext! command) -> void
@@ -22729,6 +23199,8 @@ ModularPipelines.Google.Services.GcloudComputeOsLoginSshKeys.GcloudComputeOsLogi
 ModularPipelines.Google.Services.GcloudComputePacketMirrorings.GcloudComputePacketMirrorings(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Google.Services.GcloudComputePreviewFeatures.GcloudComputePreviewFeatures(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Google.Services.GcloudComputeProjectInfo.GcloudComputeProjectInfo(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.Google.Services.GcloudComputeProjectViews
+ModularPipelines.Google.Services.GcloudComputeProjectViews.GcloudComputeProjectViews(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Google.Services.GcloudComputeProjectZonalMetadata.GcloudComputeProjectZonalMetadata(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Google.Services.GcloudComputePublicAdvertisedPrefixes.GcloudComputePublicAdvertisedPrefixes(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Google.Services.GcloudComputePublicDelegatedPrefixes.GcloudComputePublicDelegatedPrefixes(ModularPipelines.Context.ICommandContext! command) -> void
@@ -23445,9 +23917,12 @@ ModularPipelines.Google.Services.GcloudMetastoreFederations.GcloudMetastoreFeder
 ModularPipelines.Google.Services.GcloudMetastoreLocations.GcloudMetastoreLocations(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Google.Services.GcloudMetastoreOperations.GcloudMetastoreOperations(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Google.Services.GcloudMetastoreServices.GcloudMetastoreServices(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.Google.Services.GcloudMetastoreServices.Migrations.get -> ModularPipelines.Google.Services.GcloudMetastoreServicesMigrations!
 ModularPipelines.Google.Services.GcloudMetastoreServicesBackups.GcloudMetastoreServicesBackups(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Google.Services.GcloudMetastoreServicesExport.GcloudMetastoreServicesExport(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Google.Services.GcloudMetastoreServicesImport.GcloudMetastoreServicesImport(ModularPipelines.Context.ICommandContext! command) -> void
+ModularPipelines.Google.Services.GcloudMetastoreServicesMigrations
+ModularPipelines.Google.Services.GcloudMetastoreServicesMigrations.GcloudMetastoreServicesMigrations(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Google.Services.GcloudMigration.GcloudMigration(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Google.Services.GcloudMigrationVms.GcloudMigrationVms(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.Google.Services.GcloudMigrationVmsImageImports.GcloudMigrationVmsImageImports(ModularPipelines.Context.ICommandContext! command) -> void
@@ -24530,6 +25005,7 @@ ModularPipelines.Google.Services.IGcloudCompute.ConnectToSerialPortAsync(Modular
 ModularPipelines.Google.Services.IGcloudCompute.CopyFilesAsync(ModularPipelines.Google.Options.GcloudComputeCopyFilesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Google.Services.IGcloudCompute.ExecuteAsync(ModularPipelines.Google.Options.GcloudComputeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Google.Services.IGcloudCompute.Hosts.get -> ModularPipelines.Google.Services.GcloudComputeHosts!
+ModularPipelines.Google.Services.IGcloudCompute.ProjectViews.get -> ModularPipelines.Google.Services.GcloudComputeProjectViews!
 ModularPipelines.Google.Services.IGcloudCompute.ResetWindowsPasswordAsync(ModularPipelines.Google.Options.GcloudComputeResetWindowsPasswordOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Google.Services.IGcloudCompute.ScpAsync(ModularPipelines.Google.Options.GcloudComputeScpOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Google.Services.IGcloudCompute.SignUrlAsync(ModularPipelines.Google.Options.GcloudComputeSignUrlOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -25050,6 +25526,12 @@ override ModularPipelines.Google.Options.GcloudApihubLocationsOptions.Equals(obj
 override ModularPipelines.Google.Options.GcloudApihubLocationsOptions.GetHashCode() -> int
 override ModularPipelines.Google.Options.GcloudApihubLocationsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Google.Options.GcloudApihubLocationsOptions.ToString() -> string!
+override ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions.<Clone>$() -> ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions!
+override ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions.Equals(object? obj) -> bool
+override ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions.GetHashCode() -> int
+override ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions.ToString() -> string!
 override ModularPipelines.Google.Options.GcloudBuildsTriggersCreateBitbucketServerOptions.<Clone>$() -> ModularPipelines.Google.Options.GcloudBuildsTriggersCreateBitbucketServerOptions!
 override ModularPipelines.Google.Options.GcloudBuildsTriggersCreateBitbucketServerOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Google.Options.GcloudBuildsTriggersCreateBitbucketServerOptions.Equals(object? obj) -> bool
@@ -25236,6 +25718,18 @@ override ModularPipelines.Google.Options.GcloudComputePacketMirroringsTestIamPer
 override ModularPipelines.Google.Options.GcloudComputePacketMirroringsTestIamPermissionsOptions.GetHashCode() -> int
 override ModularPipelines.Google.Options.GcloudComputePacketMirroringsTestIamPermissionsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Google.Options.GcloudComputePacketMirroringsTestIamPermissionsOptions.ToString() -> string!
+override ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions.<Clone>$() -> ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions!
+override ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions.Equals(object? obj) -> bool
+override ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions.GetHashCode() -> int
+override ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions.ToString() -> string!
+override ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions.<Clone>$() -> ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions!
+override ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions.Equals(object? obj) -> bool
+override ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions.GetHashCode() -> int
+override ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions.ToString() -> string!
 override ModularPipelines.Google.Options.GcloudComputeReservationsHostsDescribeOptions.<Clone>$() -> ModularPipelines.Google.Options.GcloudComputeReservationsHostsDescribeOptions!
 override ModularPipelines.Google.Options.GcloudComputeReservationsHostsDescribeOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Google.Options.GcloudComputeReservationsHostsDescribeOptions.Equals(object? obj) -> bool
@@ -25572,6 +26066,12 @@ override ModularPipelines.Google.Options.GcloudIamAccessPoliciesUpdateOptions.Eq
 override ModularPipelines.Google.Options.GcloudIamAccessPoliciesUpdateOptions.GetHashCode() -> int
 override ModularPipelines.Google.Options.GcloudIamAccessPoliciesUpdateOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Google.Options.GcloudIamAccessPoliciesUpdateOptions.ToString() -> string!
+override ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions.<Clone>$() -> ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions!
+override ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions.Equals(object? obj) -> bool
+override ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions.GetHashCode() -> int
+override ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions.ToString() -> string!
 override ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsDescribeOptions.<Clone>$() -> ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsDescribeOptions!
 override ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsDescribeOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsDescribeOptions.Equals(object? obj) -> bool
@@ -25590,6 +26090,36 @@ override ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsOp
 override ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsOptions.GetHashCode() -> int
 override ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsOptions.ToString() -> string!
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions.<Clone>$() -> ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions!
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions.Equals(object? obj) -> bool
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions.GetHashCode() -> int
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions.ToString() -> string!
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions.<Clone>$() -> ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions!
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions.Equals(object? obj) -> bool
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions.GetHashCode() -> int
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions.ToString() -> string!
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions.<Clone>$() -> ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions!
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions.Equals(object? obj) -> bool
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions.GetHashCode() -> int
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions.ToString() -> string!
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions.<Clone>$() -> ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions!
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions.Equals(object? obj) -> bool
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions.GetHashCode() -> int
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions.ToString() -> string!
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.<Clone>$() -> ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions!
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.Equals(object? obj) -> bool
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.GetHashCode() -> int
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.ToString() -> string!
 override ModularPipelines.Google.Options.GcloudNetappVolumesGetSplitStatusOptions.<Clone>$() -> ModularPipelines.Google.Options.GcloudNetappVolumesGetSplitStatusOptions!
 override ModularPipelines.Google.Options.GcloudNetappVolumesGetSplitStatusOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Google.Options.GcloudNetappVolumesGetSplitStatusOptions.Equals(object? obj) -> bool
@@ -26053,6 +26583,7 @@ override sealed ModularPipelines.Google.Options.GcloudAiSemanticGovernancePolicy
 override sealed ModularPipelines.Google.Options.GcloudAiSemanticGovernancePolicyEngineUpdateOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudApihubLocationsConfigureAndDeployServerOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudApihubLocationsOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
+override sealed ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudBuildsTriggersCreateBitbucketServerOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudBuildsTriggersUpdateBitbucketServerOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudClusterDirectorClustersCreateOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
@@ -26084,6 +26615,8 @@ override sealed ModularPipelines.Google.Options.GcloudComputeInterconnectsGroups
 override sealed ModularPipelines.Google.Options.GcloudComputeNetworkFirewallPoliciesTestIamPermissionsOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudComputeNetworksSubnetsTestIamPermissionsOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudComputePacketMirroringsTestIamPermissionsOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
+override sealed ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
+override sealed ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudComputeReservationsHostsDescribeOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudComputeReservationsHostsGetVersionOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudComputeReservationsHostsListOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
@@ -26140,9 +26673,15 @@ override sealed ModularPipelines.Google.Options.GcloudIamAccessPoliciesListOptio
 override sealed ModularPipelines.Google.Options.GcloudIamAccessPoliciesOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudIamAccessPoliciesSearchPolicyBindingsOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudIamAccessPoliciesUpdateOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
+override sealed ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsDescribeOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsListOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
+override sealed ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
+override sealed ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
+override sealed ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
+override sealed ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
+override sealed ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudNetappVolumesGetSplitStatusOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudNetappVolumesStartSplitOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
 override sealed ModularPipelines.Google.Options.GcloudNetworkServicesAgentConnectivityTemplatesDeleteOptions.Equals(ModularPipelines.Google.Options.GcloudOptions? other) -> bool
@@ -26244,6 +26783,8 @@ static ModularPipelines.Google.Options.GcloudApihubLocationsConfigureAndDeploySe
 static ModularPipelines.Google.Options.GcloudApihubLocationsConfigureAndDeployServerOptions.operator ==(ModularPipelines.Google.Options.GcloudApihubLocationsConfigureAndDeployServerOptions? left, ModularPipelines.Google.Options.GcloudApihubLocationsConfigureAndDeployServerOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudApihubLocationsOptions.operator !=(ModularPipelines.Google.Options.GcloudApihubLocationsOptions? left, ModularPipelines.Google.Options.GcloudApihubLocationsOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudApihubLocationsOptions.operator ==(ModularPipelines.Google.Options.GcloudApihubLocationsOptions? left, ModularPipelines.Google.Options.GcloudApihubLocationsOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions.operator !=(ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions? left, ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions.operator ==(ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions? left, ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudBuildsTriggersCreateBitbucketServerOptions.operator !=(ModularPipelines.Google.Options.GcloudBuildsTriggersCreateBitbucketServerOptions? left, ModularPipelines.Google.Options.GcloudBuildsTriggersCreateBitbucketServerOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudBuildsTriggersCreateBitbucketServerOptions.operator ==(ModularPipelines.Google.Options.GcloudBuildsTriggersCreateBitbucketServerOptions? left, ModularPipelines.Google.Options.GcloudBuildsTriggersCreateBitbucketServerOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudBuildsTriggersUpdateBitbucketServerOptions.operator !=(ModularPipelines.Google.Options.GcloudBuildsTriggersUpdateBitbucketServerOptions? left, ModularPipelines.Google.Options.GcloudBuildsTriggersUpdateBitbucketServerOptions? right) -> bool
@@ -26306,6 +26847,10 @@ static ModularPipelines.Google.Options.GcloudComputeNetworksSubnetsTestIamPermis
 static ModularPipelines.Google.Options.GcloudComputeNetworksSubnetsTestIamPermissionsOptions.operator ==(ModularPipelines.Google.Options.GcloudComputeNetworksSubnetsTestIamPermissionsOptions? left, ModularPipelines.Google.Options.GcloudComputeNetworksSubnetsTestIamPermissionsOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudComputePacketMirroringsTestIamPermissionsOptions.operator !=(ModularPipelines.Google.Options.GcloudComputePacketMirroringsTestIamPermissionsOptions? left, ModularPipelines.Google.Options.GcloudComputePacketMirroringsTestIamPermissionsOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudComputePacketMirroringsTestIamPermissionsOptions.operator ==(ModularPipelines.Google.Options.GcloudComputePacketMirroringsTestIamPermissionsOptions? left, ModularPipelines.Google.Options.GcloudComputePacketMirroringsTestIamPermissionsOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions.operator !=(ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions? left, ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions.operator ==(ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions? left, ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions.operator !=(ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions? left, ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions.operator ==(ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions? left, ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudComputeReservationsHostsDescribeOptions.operator !=(ModularPipelines.Google.Options.GcloudComputeReservationsHostsDescribeOptions? left, ModularPipelines.Google.Options.GcloudComputeReservationsHostsDescribeOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudComputeReservationsHostsDescribeOptions.operator ==(ModularPipelines.Google.Options.GcloudComputeReservationsHostsDescribeOptions? left, ModularPipelines.Google.Options.GcloudComputeReservationsHostsDescribeOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudComputeReservationsHostsGetVersionOptions.operator !=(ModularPipelines.Google.Options.GcloudComputeReservationsHostsGetVersionOptions? left, ModularPipelines.Google.Options.GcloudComputeReservationsHostsGetVersionOptions? right) -> bool
@@ -26418,12 +26963,24 @@ static ModularPipelines.Google.Options.GcloudIamAccessPoliciesSearchPolicyBindin
 static ModularPipelines.Google.Options.GcloudIamAccessPoliciesSearchPolicyBindingsOptions.operator ==(ModularPipelines.Google.Options.GcloudIamAccessPoliciesSearchPolicyBindingsOptions? left, ModularPipelines.Google.Options.GcloudIamAccessPoliciesSearchPolicyBindingsOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudIamAccessPoliciesUpdateOptions.operator !=(ModularPipelines.Google.Options.GcloudIamAccessPoliciesUpdateOptions? left, ModularPipelines.Google.Options.GcloudIamAccessPoliciesUpdateOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudIamAccessPoliciesUpdateOptions.operator ==(ModularPipelines.Google.Options.GcloudIamAccessPoliciesUpdateOptions? left, ModularPipelines.Google.Options.GcloudIamAccessPoliciesUpdateOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions.operator !=(ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions? left, ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions.operator ==(ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions? left, ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsDescribeOptions.operator !=(ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsDescribeOptions? left, ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsDescribeOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsDescribeOptions.operator ==(ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsDescribeOptions? left, ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsDescribeOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsListOptions.operator !=(ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsListOptions? left, ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsListOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsListOptions.operator ==(ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsListOptions? left, ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsListOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsOptions.operator !=(ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsOptions? left, ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsOptions.operator ==(ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsOptions? left, ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions.operator !=(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions? left, ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions.operator ==(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions? left, ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions.operator !=(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions? left, ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions.operator ==(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions? left, ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions.operator !=(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions? left, ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions.operator ==(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions? left, ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions.operator !=(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions? left, ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions.operator ==(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions? left, ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.operator !=(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions? left, ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions? right) -> bool
+static ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.operator ==(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions? left, ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudNetappVolumesGetSplitStatusOptions.operator !=(ModularPipelines.Google.Options.GcloudNetappVolumesGetSplitStatusOptions? left, ModularPipelines.Google.Options.GcloudNetappVolumesGetSplitStatusOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudNetappVolumesGetSplitStatusOptions.operator ==(ModularPipelines.Google.Options.GcloudNetappVolumesGetSplitStatusOptions? left, ModularPipelines.Google.Options.GcloudNetappVolumesGetSplitStatusOptions? right) -> bool
 static ModularPipelines.Google.Options.GcloudNetappVolumesStartSplitOptions.operator !=(ModularPipelines.Google.Options.GcloudNetappVolumesStartSplitOptions? left, ModularPipelines.Google.Options.GcloudNetappVolumesStartSplitOptions? right) -> bool
@@ -26587,6 +27144,7 @@ virtual ModularPipelines.Google.Options.GcloudAiSemanticGovernancePolicyEngineOp
 virtual ModularPipelines.Google.Options.GcloudAiSemanticGovernancePolicyEngineUpdateOptions.Equals(ModularPipelines.Google.Options.GcloudAiSemanticGovernancePolicyEngineUpdateOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudApihubLocationsConfigureAndDeployServerOptions.Equals(ModularPipelines.Google.Options.GcloudApihubLocationsConfigureAndDeployServerOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudApihubLocationsOptions.Equals(ModularPipelines.Google.Options.GcloudApihubLocationsOptions? other) -> bool
+virtual ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions.Equals(ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudBuildsTriggersCreateBitbucketServerOptions.Equals(ModularPipelines.Google.Options.GcloudBuildsTriggersCreateBitbucketServerOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudBuildsTriggersUpdateBitbucketServerOptions.Equals(ModularPipelines.Google.Options.GcloudBuildsTriggersUpdateBitbucketServerOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudClusterDirectorClustersCreateOptions.Equals(ModularPipelines.Google.Options.GcloudClusterDirectorClustersCreateOptions? other) -> bool
@@ -26618,6 +27176,8 @@ virtual ModularPipelines.Google.Options.GcloudComputeInterconnectsGroupsSetIamPo
 virtual ModularPipelines.Google.Options.GcloudComputeNetworkFirewallPoliciesTestIamPermissionsOptions.Equals(ModularPipelines.Google.Options.GcloudComputeNetworkFirewallPoliciesTestIamPermissionsOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudComputeNetworksSubnetsTestIamPermissionsOptions.Equals(ModularPipelines.Google.Options.GcloudComputeNetworksSubnetsTestIamPermissionsOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudComputePacketMirroringsTestIamPermissionsOptions.Equals(ModularPipelines.Google.Options.GcloudComputePacketMirroringsTestIamPermissionsOptions? other) -> bool
+virtual ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions.Equals(ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions? other) -> bool
+virtual ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions.Equals(ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudComputeReservationsHostsDescribeOptions.Equals(ModularPipelines.Google.Options.GcloudComputeReservationsHostsDescribeOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudComputeReservationsHostsGetVersionOptions.Equals(ModularPipelines.Google.Options.GcloudComputeReservationsHostsGetVersionOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudComputeReservationsHostsListOptions.Equals(ModularPipelines.Google.Options.GcloudComputeReservationsHostsListOptions? other) -> bool
@@ -26674,9 +27234,15 @@ virtual ModularPipelines.Google.Options.GcloudIamAccessPoliciesListOptions.Equal
 virtual ModularPipelines.Google.Options.GcloudIamAccessPoliciesOptions.Equals(ModularPipelines.Google.Options.GcloudIamAccessPoliciesOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudIamAccessPoliciesSearchPolicyBindingsOptions.Equals(ModularPipelines.Google.Options.GcloudIamAccessPoliciesSearchPolicyBindingsOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudIamAccessPoliciesUpdateOptions.Equals(ModularPipelines.Google.Options.GcloudIamAccessPoliciesUpdateOptions? other) -> bool
+virtual ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions.Equals(ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsDescribeOptions.Equals(ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsDescribeOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsListOptions.Equals(ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsListOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsOptions.Equals(ModularPipelines.Google.Options.GcloudMemorystoreAclPoliciesRevisionsOptions? other) -> bool
+virtual ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions.Equals(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions? other) -> bool
+virtual ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions.Equals(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions? other) -> bool
+virtual ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions.Equals(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions? other) -> bool
+virtual ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions.Equals(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions? other) -> bool
+virtual ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions.Equals(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudNetappVolumesGetSplitStatusOptions.Equals(ModularPipelines.Google.Options.GcloudNetappVolumesGetSplitStatusOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudNetappVolumesStartSplitOptions.Equals(ModularPipelines.Google.Options.GcloudNetappVolumesStartSplitOptions? other) -> bool
 virtual ModularPipelines.Google.Options.GcloudNetworkServicesAgentConnectivityTemplatesDeleteOptions.Equals(ModularPipelines.Google.Options.GcloudNetworkServicesAgentConnectivityTemplatesDeleteOptions? other) -> bool
@@ -27397,6 +27963,7 @@ virtual ModularPipelines.Google.Services.GcloudArtifactsFiles.DownloadAsync(Modu
 virtual ModularPipelines.Google.Services.GcloudArtifactsFiles.ExecuteAsync(ModularPipelines.Google.Options.GcloudArtifactsFilesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudArtifactsFiles.ListAsync(ModularPipelines.Google.Options.GcloudArtifactsFilesListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudArtifactsFiles.UpdateAsync(ModularPipelines.Google.Options.GcloudArtifactsFilesUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Google.Services.GcloudArtifactsFiles.UploadAsync(ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudArtifactsGeneric.DownloadAsync(ModularPipelines.Google.Options.GcloudArtifactsGenericDownloadOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudArtifactsGeneric.ExecuteAsync(ModularPipelines.Google.Options.GcloudArtifactsGenericOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudArtifactsGeneric.UploadAsync(ModularPipelines.Google.Options.GcloudArtifactsGenericUploadOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -28763,6 +29330,8 @@ virtual ModularPipelines.Google.Services.GcloudComputeProjectInfo.DescribeAsync(
 virtual ModularPipelines.Google.Services.GcloudComputeProjectInfo.ExecuteAsync(ModularPipelines.Google.Options.GcloudComputeProjectInfoOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudComputeProjectInfo.RemoveMetadataAsync(ModularPipelines.Google.Options.GcloudComputeProjectInfoRemoveMetadataOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudComputeProjectInfo.UpdateAsync(ModularPipelines.Google.Options.GcloudComputeProjectInfoUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Google.Services.GcloudComputeProjectViews.DescribeAsync(ModularPipelines.Google.Options.GcloudComputeProjectViewsDescribeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Google.Services.GcloudComputeProjectViews.ExecuteAsync(ModularPipelines.Google.Options.GcloudComputeProjectViewsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudComputeProjectZonalMetadata.AddAsync(ModularPipelines.Google.Options.GcloudComputeProjectZonalMetadataAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudComputeProjectZonalMetadata.DescribeAsync(ModularPipelines.Google.Options.GcloudComputeProjectZonalMetadataDescribeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudComputeProjectZonalMetadata.ExecuteAsync(ModularPipelines.Google.Options.GcloudComputeProjectZonalMetadataOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -31290,6 +31859,7 @@ virtual ModularPipelines.Google.Services.GcloudKmsKeyHandles.ExecuteAsync(Modula
 virtual ModularPipelines.Google.Services.GcloudKmsKeyHandles.ListAsync(ModularPipelines.Google.Options.GcloudKmsKeyHandlesListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudKmsKeyrings.AddIamPolicyBindingAsync(ModularPipelines.Google.Options.GcloudKmsKeyringsAddIamPolicyBindingOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudKmsKeyrings.CreateAsync(ModularPipelines.Google.Options.GcloudKmsKeyringsCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Google.Services.GcloudKmsKeyrings.DeleteAsync(ModularPipelines.Google.Options.GcloudKmsKeyringsDeleteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudKmsKeyrings.DescribeAsync(ModularPipelines.Google.Options.GcloudKmsKeyringsDescribeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudKmsKeyrings.ExecuteAsync(ModularPipelines.Google.Options.GcloudKmsKeyringsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudKmsKeyrings.GetIamPolicyAsync(ModularPipelines.Google.Options.GcloudKmsKeyringsGetIamPolicyOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -31595,6 +32165,11 @@ virtual ModularPipelines.Google.Services.GcloudMetastoreServicesExport.ExecuteAs
 virtual ModularPipelines.Google.Services.GcloudMetastoreServicesExport.GcsAsync(ModularPipelines.Google.Options.GcloudMetastoreServicesExportGcsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudMetastoreServicesImport.ExecuteAsync(ModularPipelines.Google.Options.GcloudMetastoreServicesImportOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudMetastoreServicesImport.GcsAsync(ModularPipelines.Google.Options.GcloudMetastoreServicesImportGcsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Google.Services.GcloudMetastoreServicesMigrations.DeleteAsync(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDeleteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Google.Services.GcloudMetastoreServicesMigrations.DescribeAsync(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsDescribeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Google.Services.GcloudMetastoreServicesMigrations.ExecuteAsync(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Google.Services.GcloudMetastoreServicesMigrations.ListAsync(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Google.Services.GcloudMetastoreServicesMigrations.StartAsync(ModularPipelines.Google.Options.GcloudMetastoreServicesMigrationsStartOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudMigration.ExecuteAsync(ModularPipelines.Google.Options.GcloudMigrationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudMigrationVms.ExecuteAsync(ModularPipelines.Google.Options.GcloudMigrationVmsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Google.Services.GcloudMigrationVmsImageImports.CreateAsync(ModularPipelines.Google.Options.GcloudMigrationVmsImageImportsCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!

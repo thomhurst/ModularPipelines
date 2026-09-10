@@ -138,6 +138,12 @@ public record GcloudRedisInstancesCreateOptions : GcloudOptions
     public int? Size { get; set; }
 
     /// <summary>
+    /// List of tag KEY=VALUE pairs to add.
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
+    /// <summary>
     /// The service tier of the instance. TIER must be one of: basic Basic Redis instance with no replication standard Standard high-availability Redis instance with replication
     /// </summary>
     [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]

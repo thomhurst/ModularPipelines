@@ -24,6 +24,7 @@ public class GcloudMetastoreServices
     private GcloudMetastoreServicesBackups? _backups;
     private GcloudMetastoreServicesExport? _export;
     private GcloudMetastoreServicesImport? _import;
+    private GcloudMetastoreServicesMigrations? _migrations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMetastoreServices"/> class.
@@ -49,6 +50,11 @@ public class GcloudMetastoreServices
     /// gcloud import sub-commands.
     /// </summary>
     public GcloudMetastoreServicesImport Import => _import ??= new GcloudMetastoreServicesImport(_command);
+
+    /// <summary>
+    /// gcloud migrations sub-commands.
+    /// </summary>
+    public GcloudMetastoreServicesMigrations Migrations => _migrations ??= new GcloudMetastoreServicesMigrations(_command);
 
     #endregion
 

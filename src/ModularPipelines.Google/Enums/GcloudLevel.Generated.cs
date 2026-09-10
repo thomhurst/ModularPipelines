@@ -16,21 +16,21 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudLevel
 {
+    [EnumValue("any")]
+    Any,
+
     [EnumValue("critical")]
     Critical,
-
-    [EnumValue("error")]
-    Error,
-
-    [EnumValue("warning")]
-    Warning,
-
-    [EnumValue("info")]
-    Info,
 
     [EnumValue("debug")]
     Debug,
 
-    [EnumValue("any")]
-    Any
+    [EnumValue("error")]
+    Error,
+
+    [EnumValue("info")]
+    Info,
+
+    [EnumValue("warning")]
+    Warning
 }

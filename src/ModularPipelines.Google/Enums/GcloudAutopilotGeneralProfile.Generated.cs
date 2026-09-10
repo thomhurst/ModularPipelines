@@ -16,9 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudAutopilotGeneralProfile
 {
-    [EnumValue("none")]
-    None,
-
     [EnumValue("no-performance")]
-    NoPerformance
+    NoPerformance,
+
+    [EnumValue("none")]
+    None
 }

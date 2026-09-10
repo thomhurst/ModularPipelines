@@ -16,15 +16,15 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudDataDiskType
 {
-    [EnumValue("PD_STANDARD")]
-    PdStandard,
-
-    [EnumValue("PD_SSD")]
-    PdSsd,
-
     [EnumValue("PD_BALANCED")]
     PdBalanced,
 
     [EnumValue("PD_EXTREME")]
-    PdExtreme
+    PdExtreme,
+
+    [EnumValue("PD_SSD")]
+    PdSsd,
+
+    [EnumValue("PD_STANDARD")]
+    PdStandard
 }
