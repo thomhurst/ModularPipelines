@@ -119,7 +119,8 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
             {
                 StandardOutput = string.Empty,
                 StandardError = $"Circuit breaker open: {ex.Message}",
-                ExitCode = -2 // Special exit code for circuit breaker rejection
+                ExitCode = -2, // Special exit code for circuit breaker rejection
+                CircuitOpen = true,
             };
         }
     }
@@ -147,6 +148,11 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
     /// </summary>
     private static bool IsTransientFailure(CliCommandResult result)
     {
+        if (result.TimedOut)
+        {
+            return true;
+        }
+
         // Exit code -1 typically means timeout or execution failure
         if (result.ExitCode == -1)
         {
