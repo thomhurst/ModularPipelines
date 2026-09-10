@@ -27,6 +27,12 @@ public record GhIssueCreateOptions : GhOptions
     public string? Assignee { get; set; }
 
     /// <summary>
+    /// Attach an image or video file, in '&lt;file&gt;#&lt;image alt text&gt;' format
+    /// </summary>
+    [CliOption("--attach", Format = OptionFormat.EqualsSeparated)]
+    public string? Attach { get; set; }
+
+    /// <summary>
     /// Mark the new issue as blocked by these issue numbers or URLs
     /// </summary>
     [CliOption("--blocked-by", Format = OptionFormat.EqualsSeparated)]

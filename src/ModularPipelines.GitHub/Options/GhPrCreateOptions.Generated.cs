@@ -27,6 +27,12 @@ public record GhPrCreateOptions : GhOptions
     public string? Assignee { get; set; }
 
     /// <summary>
+    /// Attach an image or video file, in '&lt;file&gt;#&lt;image alt text&gt;' format
+    /// </summary>
+    [CliOption("--attach", Format = OptionFormat.EqualsSeparated)]
+    public string? Attach { get; set; }
+
+    /// <summary>
     /// The branch into which you want your code merged
     /// </summary>
     [CliOption("--base", ShortForm = "-B", Format = OptionFormat.EqualsSeparated)]

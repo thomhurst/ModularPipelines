@@ -635,6 +635,8 @@ ModularPipelines.GitHub.Options.GhIssueCloseOptions.Reason.set -> void
 ModularPipelines.GitHub.Options.GhIssueCloseOptions.Repo.get -> string?
 ModularPipelines.GitHub.Options.GhIssueCloseOptions.Repo.set -> void
 ModularPipelines.GitHub.Options.GhIssueCommentOptions
+ModularPipelines.GitHub.Options.GhIssueCommentOptions.Attach.get -> string?
+ModularPipelines.GitHub.Options.GhIssueCommentOptions.Attach.set -> void
 ModularPipelines.GitHub.Options.GhIssueCommentOptions.Body.get -> string?
 ModularPipelines.GitHub.Options.GhIssueCommentOptions.Body.set -> void
 ModularPipelines.GitHub.Options.GhIssueCommentOptions.BodyFile.get -> string?
@@ -663,6 +665,8 @@ ModularPipelines.GitHub.Options.GhIssueCommentOptions.Yes.set -> void
 ModularPipelines.GitHub.Options.GhIssueCreateOptions
 ModularPipelines.GitHub.Options.GhIssueCreateOptions.Assignee.get -> string?
 ModularPipelines.GitHub.Options.GhIssueCreateOptions.Assignee.set -> void
+ModularPipelines.GitHub.Options.GhIssueCreateOptions.Attach.get -> string?
+ModularPipelines.GitHub.Options.GhIssueCreateOptions.Attach.set -> void
 ModularPipelines.GitHub.Options.GhIssueCreateOptions.BlockedBy.get -> string?
 ModularPipelines.GitHub.Options.GhIssueCreateOptions.BlockedBy.set -> void
 ModularPipelines.GitHub.Options.GhIssueCreateOptions.Blocking.get -> string?
@@ -729,6 +733,8 @@ ModularPipelines.GitHub.Options.GhIssueDevelopOptions.NumberOrUrl.get -> string!
 ModularPipelines.GitHub.Options.GhIssueDevelopOptions.NumberOrUrl.init -> void
 ModularPipelines.GitHub.Options.GhIssueDevelopOptions.Repo.get -> string?
 ModularPipelines.GitHub.Options.GhIssueDevelopOptions.Repo.set -> void
+ModularPipelines.GitHub.Options.GhIssueDevelopOptions.Worktree.get -> string?
+ModularPipelines.GitHub.Options.GhIssueDevelopOptions.Worktree.set -> void
 ModularPipelines.GitHub.Options.GhIssueEditOptions
 ModularPipelines.GitHub.Options.GhIssueEditOptions.AddAssignee.get -> string?
 ModularPipelines.GitHub.Options.GhIssueEditOptions.AddAssignee.set -> void
@@ -742,6 +748,8 @@ ModularPipelines.GitHub.Options.GhIssueEditOptions.AddProject.get -> string?
 ModularPipelines.GitHub.Options.GhIssueEditOptions.AddProject.set -> void
 ModularPipelines.GitHub.Options.GhIssueEditOptions.AddSubIssue.get -> int?
 ModularPipelines.GitHub.Options.GhIssueEditOptions.AddSubIssue.set -> void
+ModularPipelines.GitHub.Options.GhIssueEditOptions.Attach.get -> string?
+ModularPipelines.GitHub.Options.GhIssueEditOptions.Attach.set -> void
 ModularPipelines.GitHub.Options.GhIssueEditOptions.Body.get -> string?
 ModularPipelines.GitHub.Options.GhIssueEditOptions.Body.set -> void
 ModularPipelines.GitHub.Options.GhIssueEditOptions.BodyFile.get -> string?
@@ -1001,6 +1009,8 @@ ModularPipelines.GitHub.Options.GhPrCloseOptions.NumberOrUrlOrBranch.init -> voi
 ModularPipelines.GitHub.Options.GhPrCloseOptions.Repo.get -> string?
 ModularPipelines.GitHub.Options.GhPrCloseOptions.Repo.set -> void
 ModularPipelines.GitHub.Options.GhPrCommentOptions
+ModularPipelines.GitHub.Options.GhPrCommentOptions.Attach.get -> string?
+ModularPipelines.GitHub.Options.GhPrCommentOptions.Attach.set -> void
 ModularPipelines.GitHub.Options.GhPrCommentOptions.Body.get -> string?
 ModularPipelines.GitHub.Options.GhPrCommentOptions.Body.set -> void
 ModularPipelines.GitHub.Options.GhPrCommentOptions.BodyFile.get -> string?
@@ -1028,6 +1038,8 @@ ModularPipelines.GitHub.Options.GhPrCommentOptions.Yes.set -> void
 ModularPipelines.GitHub.Options.GhPrCreateOptions
 ModularPipelines.GitHub.Options.GhPrCreateOptions.Assignee.get -> string?
 ModularPipelines.GitHub.Options.GhPrCreateOptions.Assignee.set -> void
+ModularPipelines.GitHub.Options.GhPrCreateOptions.Attach.get -> string?
+ModularPipelines.GitHub.Options.GhPrCreateOptions.Attach.set -> void
 ModularPipelines.GitHub.Options.GhPrCreateOptions.Base.get -> string?
 ModularPipelines.GitHub.Options.GhPrCreateOptions.Base.set -> void
 ModularPipelines.GitHub.Options.GhPrCreateOptions.Body.get -> string?
@@ -1102,6 +1114,8 @@ ModularPipelines.GitHub.Options.GhPrEditOptions.AddProject.get -> string?
 ModularPipelines.GitHub.Options.GhPrEditOptions.AddProject.set -> void
 ModularPipelines.GitHub.Options.GhPrEditOptions.AddReviewer.get -> string?
 ModularPipelines.GitHub.Options.GhPrEditOptions.AddReviewer.set -> void
+ModularPipelines.GitHub.Options.GhPrEditOptions.Attach.get -> string?
+ModularPipelines.GitHub.Options.GhPrEditOptions.Attach.set -> void
 ModularPipelines.GitHub.Options.GhPrEditOptions.Base.get -> string?
 ModularPipelines.GitHub.Options.GhPrEditOptions.Base.set -> void
 ModularPipelines.GitHub.Options.GhPrEditOptions.Body.get -> string?
