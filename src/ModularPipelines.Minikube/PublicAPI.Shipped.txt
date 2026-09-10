@@ -6,13 +6,7 @@ ModularPipelines.Minikube.Enums.MinikubeConfigDefaultsOutput
 ModularPipelines.Minikube.Enums.MinikubeConfigDefaultsOutput.Json = 0 -> ModularPipelines.Minikube.Enums.MinikubeConfigDefaultsOutput
 ModularPipelines.Minikube.Enums.MinikubeConfigDefaultsOutput.Yaml = 1 -> ModularPipelines.Minikube.Enums.MinikubeConfigDefaultsOutput
 ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput
-ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput.Json = 2 -> ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput
-ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput.Text = 0 -> ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput
-ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput.Yaml = 1 -> ModularPipelines.Minikube.Enums.MinikubeDockerEnvOutput
 ModularPipelines.Minikube.Enums.MinikubeImageLsFormat
-ModularPipelines.Minikube.Enums.MinikubeImageLsFormat.Json = 2 -> ModularPipelines.Minikube.Enums.MinikubeImageLsFormat
-ModularPipelines.Minikube.Enums.MinikubeImageLsFormat.Short = 0 -> ModularPipelines.Minikube.Enums.MinikubeImageLsFormat
-ModularPipelines.Minikube.Enums.MinikubeImageLsFormat.Table = 1 -> ModularPipelines.Minikube.Enums.MinikubeImageLsFormat
 ModularPipelines.Minikube.Enums.MinikubeImageLsFormat.Yaml = 3 -> ModularPipelines.Minikube.Enums.MinikubeImageLsFormat
 ModularPipelines.Minikube.Enums.MinikubeProfileListOutput
 ModularPipelines.Minikube.Enums.MinikubeProfileListOutput.Json = 0 -> ModularPipelines.Minikube.Enums.MinikubeProfileListOutput
@@ -21,15 +15,7 @@ ModularPipelines.Minikube.Enums.MinikubeServiceListOutput
 ModularPipelines.Minikube.Enums.MinikubeServiceListOutput.Json = 0 -> ModularPipelines.Minikube.Enums.MinikubeServiceListOutput
 ModularPipelines.Minikube.Enums.MinikubeServiceListOutput.Table = 1 -> ModularPipelines.Minikube.Enums.MinikubeServiceListOutput
 ModularPipelines.Minikube.Enums.MinikubeStartDriver
-ModularPipelines.Minikube.Enums.MinikubeStartDriver.Docker = 6 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
 ModularPipelines.Minikube.Enums.MinikubeStartDriver.Kvm2 = 1 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
-ModularPipelines.Minikube.Enums.MinikubeStartDriver.None = 5 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
-ModularPipelines.Minikube.Enums.MinikubeStartDriver.Podman = 7 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
-ModularPipelines.Minikube.Enums.MinikubeStartDriver.Qemu = 3 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
-ModularPipelines.Minikube.Enums.MinikubeStartDriver.Qemu2 = 2 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
-ModularPipelines.Minikube.Enums.MinikubeStartDriver.Ssh = 8 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
-ModularPipelines.Minikube.Enums.MinikubeStartDriver.Virtualbox = 0 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
-ModularPipelines.Minikube.Enums.MinikubeStartDriver.Vmware = 4 -> ModularPipelines.Minikube.Enums.MinikubeStartDriver
 ModularPipelines.Minikube.Extensions.MinikubeExtensions
 ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions
 ModularPipelines.Minikube.Options.MinikubeAddonsConfigureOptions.AddonName.get -> string!
