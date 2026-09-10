@@ -39,6 +39,12 @@ namespace ModularPipelines.UnitTests.Engine;
 [TUnit.Core.NotInParallel(nameof(RunReportTests))]
 public class RunReportTests
 {
+    // 2 s lost races with CI scheduling jitter (#4666). Kept tighter than
+    // TestHostSettings.DefaultTestTimeout (30 s) so a dropped injected timeout on the 30 s
+    // history-store, report-write or worker-metrics phases still fails instead of racing.
+    // The 5 s enricher default sits under it; those tests assert the timed-out outcome.
+    private static readonly TimeSpan HangGuard = TimeSpan.FromSeconds(10);
+
     [Test]
     public async Task RunReportRecordsMasterCacheDispatchAvoidance()
     {
@@ -1945,13 +1951,13 @@ public class RunReportTests
         try
         {
             var completion = service.CompleteAsync(summary);
-            await enricher.Started.WaitAsync(TimeSpan.FromSeconds(2));
-            var report = await completion.WaitAsync(TimeSpan.FromSeconds(2));
+            await enricher.Started.WaitAsync(HangGuard);
+            var report = await completion.WaitAsync(HangGuard);
             var persisted = RunReportJsonSerializer.Deserialize(
                 await File.ReadAllTextAsync(reportPath));
 
             enricher.Release();
-            await enricher.Completion.WaitAsync(TimeSpan.FromSeconds(2));
+            await enricher.Completion.WaitAsync(HangGuard);
 
             using (Assert.Multiple())
             {
@@ -2281,7 +2287,7 @@ public class RunReportTests
         try
         {
             var report = await service.CompleteAsync(CreateEmptySummary())
-                .WaitAsync(TimeSpan.FromSeconds(2));
+                .WaitAsync(HangGuard);
 
             await Assert.That(report.Correlation!.GitSha).IsEqualTo("secret-sha");
         }
@@ -2735,10 +2741,10 @@ public class RunReportTests
             var completion = service.CompleteAsync(
                 CreateEmptySummary(),
                 cancellationToken: cancellationTokenSource.Token);
-            await readStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+            await readStarted.Task.WaitAsync(HangGuard);
 
             cancellationTokenSource.Cancel();
-            var report = await completion.WaitAsync(TimeSpan.FromSeconds(2));
+            var report = await completion.WaitAsync(HangGuard);
 
             using (Assert.Multiple())
             {
@@ -2793,7 +2799,7 @@ public class RunReportTests
                 workerMetricsTimeout: TimeSpan.FromMilliseconds(50));
 
             var report = await service.CompleteAsync(CreateEmptySummary())
-                .WaitAsync(TimeSpan.FromSeconds(2));
+                .WaitAsync(HangGuard);
 
             await Assert.That(report).IsNotNull();
             coordinator.Verify(x => x.RegisterWorkerAsync(
@@ -2850,7 +2856,7 @@ public class RunReportTests
         try
         {
             var report = await service.CompleteAsync(CreateEmptySummary())
-                .WaitAsync(TimeSpan.FromSeconds(2));
+                .WaitAsync(HangGuard);
 
             await Assert.That(report).IsNotNull();
             historyStore.Verify(store => store.GetRunsAsync(
@@ -3073,7 +3079,7 @@ public class RunReportTests
                     [
                         CreateTimeline(typeof(SuccessfulModule), runStartedAt, TimeSpan.FromSeconds(1)),
                     ]))
-                .WaitAsync(TimeSpan.FromSeconds(2));
+                .WaitAsync(HangGuard);
 
             using (Assert.Multiple())
             {
@@ -3283,7 +3289,7 @@ public class RunReportTests
                     TimeSpan.FromSeconds(1),
                     runStartedAt,
                     runStartedAt.AddSeconds(1)))
-                .WaitAsync(TimeSpan.FromSeconds(2));
+                .WaitAsync(HangGuard);
 
             using (Assert.Multiple())
             {
@@ -3440,7 +3446,7 @@ public class RunReportTests
                 masterCoordinator: coordinator.Object);
 
             var report = await service.CompleteAsync(CreateEmptySummary(runStartedAt))
-                .WaitAsync(TimeSpan.FromSeconds(10));
+                .WaitAsync(HangGuard);
 
             using (Assert.Multiple())
             {
@@ -3493,7 +3499,7 @@ public class RunReportTests
                 masterCoordinator: coordinator.Object);
 
             var report = await service.CompleteAsync(CreateEmptySummary())
-                .WaitAsync(TimeSpan.FromSeconds(2));
+                .WaitAsync(HangGuard);
 
             await Assert.That(report).IsNotNull();
             coordinator.Verify(
@@ -3547,7 +3553,7 @@ public class RunReportTests
                 masterCoordinator: coordinator.Object);
 
             var report = await service.CompleteAsync(CreateEmptySummary(runStartedAt))
-                .WaitAsync(TimeSpan.FromSeconds(2));
+                .WaitAsync(HangGuard);
 
             await Assert.That(report.UnattributedCommandCount).IsEqualTo(3);
             coordinator.Verify(
@@ -3608,7 +3614,7 @@ public class RunReportTests
                 masterCoordinator: coordinator.Object);
 
             var report = await service.CompleteAsync(CreateEmptySummary(runStartedAt))
-                .WaitAsync(TimeSpan.FromSeconds(2));
+                .WaitAsync(HangGuard);
 
             await Assert.That(report.UnattributedCommandCount).IsEqualTo(3);
         }
