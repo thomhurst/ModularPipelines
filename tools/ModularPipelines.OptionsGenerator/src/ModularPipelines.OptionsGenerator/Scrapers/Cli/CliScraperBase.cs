@@ -1344,7 +1344,9 @@ public abstract partial class CliScraperBase : ICliScraper
         {
             var description = option.Description ?? string.Empty;
             var isBoolean = option.CSharpType is "bool" or "bool?";
-            if (HelpDeclaresExplicitBooleanValue(description) && option.IsFlag)
+            if (HelpDeclaresExplicitBooleanValue(description)
+                && option.IsFlag
+                && option.NegatedSwitchName is null)
             {
                 throw new InvalidOperationException(
                     $"{command.FullCommand} {option.SwitchName} declares explicit true/false values, "
@@ -1354,6 +1356,7 @@ public abstract partial class CliScraperBase : ICliScraper
             if (!option.IsFlag
                 && !isBoolean
                 && HelpDeclaresRepeatableOption(helpText, option.SwitchName, description)
+                && !option.IsStructuredValue
                 && !ShouldTreatOptionAsScalar(command.CommandParts, option.SwitchName)
                 && !option.AcceptsMultipleValues)
             {
@@ -1427,7 +1430,7 @@ public abstract partial class CliScraperBase : ICliScraper
         + @"|(?:can|may|must|should)\s+be\s+"
         + @"(?:specified|supplied|provided|used|passed|set|given)\s+"
         + @"(?:(?:one|zero)\s+or\s+more\s+times|multiple\s+times|more\s+than\s+once)"
-        + @"|(?:accepts?|specify|supply|provide|use|pass|set|give|supports?|takes?|contains?)\s+"
+        + @"|(?:accepts?|specify|supply|provide|use|pass|set|give|supports?|takes?)\s+"
         + @"(?:multiple\s+times|more\s+than\s+once|"
         + RepeatableItemCountPattern
         + @"|multiple\s+[\w-]+)"

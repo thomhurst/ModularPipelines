@@ -126,7 +126,7 @@ public class RepeatableOptionAdapterTests
     [Arguments("This option should be used more than once.", true)]
     [Arguments("Supports multiple values.", true)]
     [Arguments("Takes multiple values.", true)]
-    [Arguments("Value can contain multiple values.", true)]
+    [Arguments("Value can contain multiple values.", false)]
     public async Task Packer_Classifies_Explicit_Repeatability_Prose(
         string description,
         bool expected)

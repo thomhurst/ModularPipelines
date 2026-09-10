@@ -786,7 +786,8 @@ public class GeneratorHardeningTests
 
         var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
 
-        await Assert.That(generated).Contains("[property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Image");
+        await Assert.That(generated).Contains("[CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]");
+        await Assert.That(generated).Contains("public IEnumerable<string> Image { get; private init; }");
         await Assert.That(generated).DoesNotContain("public string? Image { get; set; }");
         await Assert.That(generated.Split("CliArgument(")).Count().IsEqualTo(2);
     }
@@ -880,6 +881,86 @@ public class GeneratorHardeningTests
             await Assert.That(generated).Contains("string Target");
             await Assert.That(generated).Contains("CliArgument(0, Phase = CommandLinePhase.EarlyOperand)");
             await Assert.That(generated).DoesNotContain("Required = true");
+        }
+    }
+
+    [Test]
+    public async Task OptionsClassGenerator_Rejects_Empty_Required_Option_Collections()
+    {
+        var command = Command("ToolDeleteOptions", "ToolOptions", ["delete"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--ids",
+                    PropertyName = "Ids",
+                    CSharpType = "IEnumerable<string>?",
+                    IsRequired = true,
+                    AcceptsMultipleValues = true,
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--count",
+                    PropertyName = "Count",
+                    CSharpType = "int?",
+                    IsRequired = true,
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--name",
+                    PropertyName = "Name",
+                    CSharpType = "string?",
+                    IsRequired = true,
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+        var references = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
+            .Split(Path.PathSeparator)
+            .Select(static path => MetadataReference.CreateFromFile(path));
+        var compilation = CSharpCompilation.Create(
+            "required-collection-options",
+            [
+                CSharpSyntaxTree.ParseText(
+                    "global using System.Collections.Generic; "
+                    + "namespace ModularPipelines.Attributes { "
+                    + "public sealed class CliOptionAttribute(string name) : System.Attribute { "
+                    + "public bool GroupValues { get; set; } } "
+                    + "public sealed class CliSubCommandAttribute(params string[] commandParts) : System.Attribute; } "
+                    + "namespace ModularPipelines.Tool.Options { public record ToolOptions; }"),
+                CSharpSyntaxTree.ParseText(generated),
+            ],
+            references,
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+                .WithNullableContextOptions(NullableContextOptions.Enable));
+        var compileFailures = compilation.GetDiagnostics()
+            .Where(static diagnostic => diagnostic.Severity == DiagnosticSeverity.Error
+                                        || diagnostic.Id is "CS8601" or "CS8629")
+            .Select(static diagnostic => diagnostic.ToString())
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("public ToolDeleteOptions(");
+            await Assert.That(generated).Contains("IEnumerable<string> Ids");
+            await Assert.That(generated)
+                .Contains("var materialized = global::System.Linq.Enumerable.ToArray(Ids);");
+            await Assert.That(generated).Contains("if (materialized.Length == 0)");
+            await Assert.That(generated).Contains("Ids = materialized;");
+            await Assert.That(generated)
+                .Contains("public IEnumerable<string> Ids { get; private init; }");
+            await Assert.That(generated)
+                .Contains("public int Count { get; private init; }");
+            await Assert.That(generated)
+                .Contains("public string Name { get; private init; }");
+            await Assert.That(generated)
+                .DoesNotContain("global::System.Linq.Enumerable.Any(Ids)");
+            await Assert.That(generated).Contains("nameof(Ids)");
+            await Assert.That(generated)
+                .Contains("public void Deconstruct(out IEnumerable<string> Ids, out int Count, out string Name)");
+            await Assert.That(compileFailures).IsEmpty();
         }
     }
 
