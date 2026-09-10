@@ -710,7 +710,8 @@ public static class UsageSynopsisParser
         // An operand attached to an option ("--path <PATH>") is that option's value, not a
         // positional slot, so it cannot stand in for a positional at the same index.
         var positionalCandidates = alternativeArguments.Where(IsPositionalSlot).ToArray();
-        return positionalCandidates.Length == selectedArgumentCount
+        return IsPositionalSlot(selectedArgument)
+               && positionalCandidates.Length == selectedArgumentCount
                && positionalCandidates.Any(candidate =>
                    candidate.IsRequired
                    && candidate.PositionIndex == selectedArgument.PositionIndex
