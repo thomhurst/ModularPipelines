@@ -19,12 +19,12 @@ public enum ArgoCdAdminNotificationsTriggerGetOutput
     [EnumValue("json")]
     Json,
 
-    [EnumValue("yaml")]
-    Yaml,
+    [EnumValue("name")]
+    Name,
 
     [EnumValue("wide")]
     Wide,
 
-    [EnumValue("name")]
-    Name
+    [EnumValue("yaml")]
+    Yaml
 }

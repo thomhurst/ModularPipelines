@@ -16,9 +16,9 @@ namespace ModularPipelines.ArgoCd.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum ArgoCdAppDeletePropagationPolicy
 {
-    [EnumValue("foreground")]
-    Foreground,
-
     [EnumValue("background")]
-    Background
+    Background,
+
+    [EnumValue("foreground")]
+    Foreground
 }

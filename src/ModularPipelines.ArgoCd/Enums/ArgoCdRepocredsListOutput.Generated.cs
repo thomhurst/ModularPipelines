@@ -19,12 +19,12 @@ public enum ArgoCdRepocredsListOutput
     [EnumValue("json")]
     Json,
 
-    [EnumValue("yaml")]
-    Yaml,
+    [EnumValue("url")]
+    Url,
 
     [EnumValue("wide")]
     Wide,
 
-    [EnumValue("url")]
-    Url
+    [EnumValue("yaml")]
+    Yaml
 }
