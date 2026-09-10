@@ -82,19 +82,13 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     public bool? Help { get; set; }
 
     /// <summary>
-    /// Remove the entire AWS OIDC configuration
-    /// </summary>
-    [CliFlag("--oidc-aws-clear")]
-    public bool? OidcAwsClear { get; set; }
-
-    /// <summary>
     /// AWS OIDC: assume-role session duration (e.g. 30m, 1h)
     /// </summary>
     [CliOption("--oidc-aws-duration", Format = OptionFormat.EqualsSeparated)]
     public string? OidcAwsDuration { get; set; }
 
     /// <summary>
-    /// AWS OIDC: replace the session policy ARN list (repeatable, comma-separated)
+    /// AWS OIDC: replace the session policy ARN list (repeatable or comma-separated)
     /// </summary>
     [CliOption("--oidc-aws-policy-arn", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OidcAwsPolicyArn { get; set; }
@@ -110,12 +104,6 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// </summary>
     [CliOption("--oidc-aws-session-name", Format = OptionFormat.EqualsSeparated)]
     public string? OidcAwsSessionName { get; set; }
-
-    /// <summary>
-    /// Remove the entire Azure OIDC configuration
-    /// </summary>
-    [CliFlag("--oidc-azure-clear")]
-    public bool? OidcAzureClear { get; set; }
 
     /// <summary>
     /// Azure OIDC: federated workload identity client ID
@@ -134,12 +122,6 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// </summary>
     [CliOption("--oidc-azure-tenant-id", Format = OptionFormat.EqualsSeparated)]
     public string? OidcAzureTenantId { get; set; }
-
-    /// <summary>
-    /// Remove the entire GCP OIDC configuration
-    /// </summary>
-    [CliFlag("--oidc-gcp-clear")]
-    public bool? OidcGcpClear { get; set; }
 
     /// <summary>
     /// GCP OIDC: numerical project number (e.g. 987654321)
@@ -197,7 +179,7 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     public bool? PrTemplate { get; set; }
 
     /// <summary>
-    /// Replace the pre-run command list (repeatable; pass once per command
+    /// Replace the pre-run command list (repeatable; pass once per command); empty string clears it
     /// </summary>
     [CliOption("--pre-run-command", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PreRunCommand { get; set; }
@@ -215,10 +197,34 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     public bool? PushToDeploy { get; set; }
 
     /// <summary>
-    /// Delete an environment variable by key (repeatable, comma-separated)
+    /// Remove every environment variable
+    /// </summary>
+    [CliFlag("--remove-all-env")]
+    public bool? RemoveAllEnv { get; set; }
+
+    /// <summary>
+    /// Delete an environment variable by key (repeatable or comma-separated)
     /// </summary>
     [CliOption("--remove-env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveEnv { get; set; }
+
+    /// <summary>
+    /// AWS OIDC: remove the entire configuration
+    /// </summary>
+    [CliFlag("--remove-oidc-aws")]
+    public bool? RemoveOidcAws { get; set; }
+
+    /// <summary>
+    /// Azure OIDC: remove the entire configuration
+    /// </summary>
+    [CliFlag("--remove-oidc-azure")]
+    public bool? RemoveOidcAzure { get; set; }
+
+    /// <summary>
+    /// GCP OIDC: remove the entire configuration
+    /// </summary>
+    [CliFlag("--remove-oidc-gcp")]
+    public bool? RemoveOidcGcp { get; set; }
 
     /// <summary>
     /// Deployment runner pool ID; empty string clears it to the Pulumi-hosted pool

@@ -21,6 +21,12 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiApiListOptions : PulumiOptions
 {
     /// <summary>
+    /// Show only operations whose ID, path, tag, summary, or description contains this text (case-insensitive)
+    /// </summary>
+    [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
+    public string? Filter { get; set; }
+
+    /// <summary>
     /// help for list
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
