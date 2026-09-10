@@ -494,6 +494,16 @@ public partial interface IBrew
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Find the appcast of the app bundle at app_path, for use in a cask livecheck block.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> FindAppcastAsync(BrewFindAppcastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Display the path where formula is located.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -501,6 +511,16 @@ public partial interface IBrew
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> FormulaAsync(BrewFormulaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Generate a cask token, filename and header line for an application, following the token conventions described in the Cask Cookbook.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GenerateCaskTokenAsync(BrewGenerateCaskTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -950,7 +970,7 @@ public partial interface IBrew
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Tap a formula repository. If no arguments are provided, list all installed taps.
+    /// Tap a repository containing formulae, casks, or external commands. If no arguments are provided, list all installed taps.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -82,7 +82,9 @@ var brew = context.Tools.Brew;
 | `brew exec` | `BrewExecOptions` |
 | `brew extract` | `BrewExtractOptions` |
 | `brew fetch` | `BrewFetchOptions` |
+| `brew find-appcast` | `BrewFindAppcastOptions` |
 | `brew formula` | `BrewFormulaOptions` |
+| `brew generate-cask-token` | `BrewGenerateCaskTokenOptions` |
 | `brew generate-man-completions` | `BrewGenerateManCompletionsOptions` |
 | `brew generate-zap` | `BrewGenerateZapOptions` |
 | `brew gist-logs` | `BrewGistLogsOptions` |
