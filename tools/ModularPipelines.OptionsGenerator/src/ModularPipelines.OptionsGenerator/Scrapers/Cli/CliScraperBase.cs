@@ -1423,7 +1423,10 @@ public abstract partial class CliScraperBase : ICliScraper
         + @"|(?:is|are)\s+repeated"
         + @"|multiples?\s+(?:are\s+)?supported\s+by\s+passing\s+--?[\w-]+\s+multiple\s+times"
         + @"|\A" + RepeatableItemCountPattern
-        + @"|(?:specifications?|lists?)\s+of\s+" + RepeatableItemCountPattern
+        // "Specifications of one or more endpoints" describes the option's values; "Expression is
+        // a list of one or more restrictions" describes the grammar of one value, so an
+        // article-led predicate keeps this alternative from matching.
+        + @"|(?<!\b(?:is|are|as|be|being)\s+(?:an?|the)\s+)(?:specifications?|lists?)\s+of\s+" + RepeatableItemCountPattern
         + @"|(?:can|may|must|should)\s+be\s+"
         + @"(?:specified|supplied|provided|used|passed|set|given)\s+"
         + @"(?:(?:one|zero)\s+or\s+more\s+times|multiple\s+times|more\s+than\s+once)"
