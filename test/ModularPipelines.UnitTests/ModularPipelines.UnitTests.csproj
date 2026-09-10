@@ -34,6 +34,8 @@
     <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <!-- Exercise build orchestration helpers without referencing the build executable. -->
+    <Compile Include="../../src/ModularPipelines.Build/Helpers/BuildOutputSharing.cs" Link="Build/BuildOutputSharing.cs" />
     <None Update="Data\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using ModularPipelines;
 using ModularPipelines.Build;
+using ModularPipelines.Build.Helpers;
 using ModularPipelines.Build.Modules;
 using ModularPipelines.Build.Modules.LocalMachine;
 using ModularPipelines.Build.Modules.UnitTests;
@@ -28,6 +29,7 @@ builder.Configuration
     .AddEnvironmentVariables();
 
 builder.Services.Configure<PipelineSettings>(builder.Configuration.GetSection("Pipeline"));
+builder.Services.AddSingleton<BuildOutputSharing>();
 builder.Services.Configure<NuGetSettings>(builder.Configuration.GetSection("NuGet"));
 builder.Services.Configure<LocalNuGetSettings>(builder.Configuration.GetSection("LocalNuGet"));
 builder.Services.Configure<GitHubSettings>(builder.Configuration.GetSection("GitHub"));

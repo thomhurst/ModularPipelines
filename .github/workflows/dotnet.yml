@@ -491,11 +491,9 @@ jobs:
       - name: Build solutions
         shell: bash
         # Compile every solution here, in a native build step, BEFORE the pipeline runs.
-        # Doing the heavy compile out-of-process means the pipeline's own
-        # BuildSolutionsModule finds everything already built (it runs with --no-restore and
-        # MSBuild incremental, so it becomes a fast no-op) instead of doing the large
-        # All.slnx compile inside the long-lived pipeline process (#3179). Default MSBuild
-        # parallelism is intentional: the runner reclaim came from a single test project that
+        # The pipeline reuses these outputs through Pipeline__BuildAlreadyCompleted rather
+        # than evaluating every solution a second time inside the long-lived process (#3179).
+        # Default MSBuild parallelism is intentional: the runner reclaim came from a test project that
         # referenced every integration at once (to snapshot all generated options), which pulled
         # the huge AWS/Azure/Google SDK metadata into one compilation unit. That test was removed,
         # so each integration now compiles with only its own SDK and the parallel build fits.
@@ -524,9 +522,11 @@ jobs:
             unset GitHub__StandardToken
           fi
 
-          dotnet run -c Release --framework net10.0
+          dotnet run -c Release --framework net10.0 --no-build
         working-directory: "src/ModularPipelines.Build"
         env:
+          # This step runs only after every Release solution build succeeds above.
+          Pipeline__BuildAlreadyCompleted: "true"
           GITHUB_TOKEN: ${{ github.token }}
           DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
           NuGet__ApiKey: ${{ steps.login.outputs.NUGET_API_KEY }}
@@ -718,6 +718,8 @@ jobs:
       - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
+          sparse-checkout: scripts/Assert-RequiredPipelineContext.ps1
+          sparse-checkout-cone-mode: false
       - name: Validate required pipeline result
         shell: pwsh
         run: |

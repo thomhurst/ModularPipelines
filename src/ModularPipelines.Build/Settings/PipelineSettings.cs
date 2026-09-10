@@ -6,6 +6,11 @@ namespace ModularPipelines.Build.Settings;
 public record PipelineSettings
 {
     /// <summary>
+    /// Whether this checkout was already built in Release by the CI build step.
+    /// </summary>
+    public bool BuildAlreadyCompleted { get; init; }
+
+    /// <summary>
     /// The target framework for running tests. Defaults to "net10.0".
     /// </summary>
     public string TestFramework { get; init; } = "net10.0";
