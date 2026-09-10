@@ -18,12 +18,45 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "virtual-network-appliance", "create")]
-public record AzNetworkVirtualNetworkApplianceCreateOptions : AzOptions
+public record AzNetworkVirtualNetworkApplianceCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Resource location.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Resource tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
+
+    /// <summary>
+    /// Bandwidth of the VirtualNetworkAppliance resource in Gbps.
+    /// </summary>
+    [CliFlag("--bandwidth-gbps", ShortForm = "--bandwidth-in-gbps")]
+    public bool? BandwidthGbps { get; set; }
+
+    /// <summary>
+    /// Whether the specific virtual network appliance is IPv4 or Dual Stack. Default is IPv4.  Allowed values: DualStack,
+    /// </summary>
+    [CliOption("--private-ip-address-version", ShortForm = "--private-ip-version")]
+    public string? PrivateIpAddressVersion { get; set; }
+
+    /// <summary>
+    /// The reference to the subnet resource. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--subnet")]
+    public bool? Subnet { get; set; }
 
 }

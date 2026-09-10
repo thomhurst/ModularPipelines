@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "cluster", "upgrade-type", "set")]
-public record AzSfClusterUpgradeTypeSetOptions : AzOptions
+public record AzSfClusterUpgradeTypeSetOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--upgrade-mode")] string UpgradeMode
+) : AzOptions
 {
     /// <summary>
     /// Cluster code version.

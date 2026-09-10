@@ -45,4 +45,23 @@ public class AzNetworkServiceEndpoint
     public AzNetworkServiceEndpointPolicyDefinition PolicyDefinition => _policyDefinition ??= new AzNetworkServiceEndpointPolicyDefinition(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// List what values of endpoint services are available for use.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzNetworkServiceEndpointListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

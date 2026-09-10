@@ -18,12 +18,27 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("disk-access", "create")]
-public record AzDiskAccessCreateOptions : AzOptions
+public record AzDiskAccessCreateOptions(
+    [property: CliOption("--disk-access-name", ShortForm = "-n")] string DiskAccessName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Resource location  When not specified, the location of the resource group will be used.
+    /// </summary>
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Resource tags  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
 
 }

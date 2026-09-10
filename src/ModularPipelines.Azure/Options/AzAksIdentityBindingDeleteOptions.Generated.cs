@@ -24,11 +24,6 @@ public record AzAksIdentityBindingDeleteOptions(
     [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
 ) : AzOptions
 {
-    public AzAksIdentityBindingDeleteOptions()
-        : this(default(string)!, default(string)!, default(string)!)
-    {
-    }
-
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>

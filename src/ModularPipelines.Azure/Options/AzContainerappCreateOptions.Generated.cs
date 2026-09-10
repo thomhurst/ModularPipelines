@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,7 +19,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "create")]
-public record AzContainerappCreateOptions : AzOptions
+public record AzContainerappCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Allow insecure connections for ingress traffic.
@@ -30,7 +34,7 @@ public record AzContainerappCreateOptions : AzOptions
     /// Name or resource ID of the container app's environment.
     /// </summary>
     [CliOption("--environment")]
-    public string? EnvironmentValue { get; set; }
+    public string? Environment { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -42,52 +46,241 @@ public record AzContainerappCreateOptions : AzOptions
     /// Path to mount all secrets e.g. mnt/secrets.
     /// </summary>
     [CliOption("--secret-volume-mount")]
-    public string? SecretVolumeMountValue { get; set; }
+    public string? SecretVolumeMount { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Duration in seconds a replica is given to gracefully shut down before it is forcefully
+    /// </summary>
+    [CliFlag("--termination-grace-period", ShortForm = "--tgp")]
+    public bool? TerminationGracePeriod { get; set; }
 
     /// <summary>
     /// Name of the workload profile to run the app on.
     /// </summary>
     [CliOption("--workload-profile-name", ShortForm = "-w")]
-    public string? WorkloadProfileNameValue { get; set; }
+    public string? WorkloadProfileName { get; set; }
 
     /// <summary>
     /// Path to a .yaml file with the configuration of a container app. All other parameters will be ignored. For an example, see  https:/ /learn.microsoft.com/ azure/container- apps/azure-resource- manager-api- spec#examples.
     /// </summary>
     [CliOption("--yaml")]
-    public string? YamlValue { get; set; }
+    public string? Yaml { get; set; }
 
-    [Obsolete("Use EnvironmentValue instead.")]
-    public bool? Environment
-    {
-        get => bool.TryParse(EnvironmentValue, out var value) ? value : null;
-        set => EnvironmentValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// A Managed Identity to authenticate with the registry server instead of username/password. Use a resource ID or 'system' for user- defined and system- defined identities, respectively. The registry must be an ACR. If possible, an 'acrpull' role assignment will be created for the identity automatically.
+    /// </summary>
+    [CliOption("--registry-identity")]
+    public string? RegistryIdentity { get; set; }
 
-    [Obsolete("Use SecretVolumeMountValue instead.")]
-    public bool? SecretVolumeMount
-    {
-        get => bool.TryParse(SecretVolumeMountValue, out var value) ? value : null;
-        set => SecretVolumeMountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The password to log in to container registry. If stored as a secret, value must start with 'secretref:' followed by the secret name.
+    /// </summary>
+    [CliFlag("--registry-password")]
+    public bool? RegistryPassword { get; set; }
 
-    [Obsolete("Use WorkloadProfileNameValue instead.")]
-    public bool? WorkloadProfileName
-    {
-        get => bool.TryParse(WorkloadProfileNameValue, out var value) ? value : null;
-        set => WorkloadProfileNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The container registry server hostname, e.g. myregi stry.azurecr.io.
+    /// </summary>
+    [CliFlag("--registry-server")]
+    public bool? RegistryServer { get; set; }
 
-    [Obsolete("Use YamlValue instead.")]
-    public bool? Yaml
-    {
-        get => bool.TryParse(YamlValue, out var value) ? value : null;
-        set => YamlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The username to log in to container registry.
+    /// </summary>
+    [CliFlag("--registry-username")]
+    public bool? RegistryUsername { get; set; }
+
+    /// <summary>
+    /// The active revisions mode for the container app.
+    /// </summary>
+    [CliFlag("--revisions-mode")]
+    public bool? RevisionsMode { get; set; }
+
+    /// <summary>
+    /// A list of secret(s) for the container app. Space-separated values in 'key=value' format.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secrets", ShortForm = "-s", GroupValues = true)]
+    public IEnumerable<string>? Secrets { get; set; }
+
+    /// <summary>
+    /// A list of container startup command argument(s). Space- separated values e.g. "-c" "mycommand". Empty string to clear existing values.
+    /// </summary>
+    [CliOption("--args", GroupValues = true)]
+    public IEnumerable<string>? Args { get; set; }
+
+    /// <summary>
+    /// A list of supported commands on the container that will executed during startup. Space- separated values e.g. "/bin/queue" "mycommand". Empty string to clear existing values.
+    /// </summary>
+    [CliOption("--command", GroupValues = true)]
+    public IEnumerable<string>? Command { get; set; }
+
+    /// <summary>
+    /// Name of the container.
+    /// </summary>
+    [CliOption("--container-name")]
+    public string? ContainerName { get; set; }
+
+    /// <summary>
+    /// Required CPU in cores from 0.25 - 2.0, e.g. 0.5.
+    /// </summary>
+    [CliFlag("--cpu")]
+    public bool? Cpu { get; set; }
+
+    /// <summary>
+    /// A list of environment variable(s) for the container. Space- separated values in 'key=value' format. Empty string to clear existing values.
+    /// </summary>
+    [CliOption("--env-vars", GroupValues = true)]
+    public IEnumerable<string>? EnvVars { get; set; }
+
+    /// <summary>
+    /// Container image, e.g. publisher/image- name:tag.
+    /// </summary>
+    [CliFlag("--image", ShortForm = "-i")]
+    public bool? Image { get; set; }
+
+    /// <summary>
+    /// Required memory from 0.5 - 4.0 ending with "Gi", e.g. 1.0Gi.
+    /// </summary>
+    [CliFlag("--memory")]
+    public bool? Memory { get; set; }
+
+    /// <summary>
+    /// User friendly suffix that is appended to the revision name.
+    /// </summary>
+    [CliFlag("--revision-suffix")]
+    public bool? RevisionSuffix { get; set; }
+
+    /// <summary>
+    /// Enable API logging for the Dapr sidecar.
+    /// </summary>
+    [CliFlag("--dal", ShortForm = "--dapr-enable-api-logging")]
+    public bool? Dal { get; set; }
+
+    /// <summary>
+    /// The Dapr application identifier.
+    /// </summary>
+    [CliFlag("--dapr-app-id")]
+    public bool? DaprAppId { get; set; }
+
+    /// <summary>
+    /// The port Dapr uses to talk to the application.
+    /// </summary>
+    [CliFlag("--dapr-app-port")]
+    public bool? DaprAppPort { get; set; }
+
+    /// <summary>
+    /// The protocol Dapr uses to talk to the application.  Allowed values: grpc, http.
+    /// </summary>
+    [CliOption("--dapr-app-protocol")]
+    public string? DaprAppProtocol { get; set; }
+
+    /// <summary>
+    /// Increase max size of request body http and grpc servers parameter in MB to handle uploading of big files.
+    /// </summary>
+    [CliFlag("--dapr-http-max-request-size", ShortForm = "--dhmrs")]
+    public bool? DaprHttpMaxRequestSize { get; set; }
+
+    /// <summary>
+    /// Dapr max size of http header read buffer in KB to handle when sending multi-KB headers..
+    /// </summary>
+    [CliFlag("--dapr-http-read-buffer-size", ShortForm = "--dhrbs")]
+    public bool? DaprHttpReadBufferSize { get; set; }
+
+    /// <summary>
+    /// Set the log level for the Dapr sidecar.
+    /// </summary>
+    [CliFlag("--dapr-log-level")]
+    public bool? DaprLogLevel { get; set; }
+
+    /// <summary>
+    /// Boolean indicating if the Dapr side car is enabled.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-dapr")]
+    public bool? EnableDapr { get; set; }
+
+    /// <summary>
+    /// Boolean indicating whether to assign system-assigned identity.
+    /// </summary>
+    [CliFlag("--system-assigned")]
+    public bool? SystemAssigned { get; set; }
+
+    /// <summary>
+    /// Space-separated user identities to be assigned.
+    /// </summary>
+    [CliOption("--user-assigned", GroupValues = true)]
+    public IEnumerable<string>? UserAssigned { get; set; }
+
+    /// <summary>
+    /// Additional exposed port. Only supported by tcp transport protocol. Must be unique per environment if the app ingress is external.
+    /// </summary>
+    [CliFlag("--exposed-port")]
+    public bool? ExposedPort { get; set; }
+
+    /// <summary>
+    /// The ingress type.
+    /// </summary>
+    [CliFlag("--ingress")]
+    public bool? Ingress { get; set; }
+
+    /// <summary>
+    /// The application port used for ingress traffic.
+    /// </summary>
+    [CliFlag("--target-port")]
+    public bool? TargetPort { get; set; }
+
+    /// <summary>
+    /// The transport protocol used for ingress traffic.
+    /// </summary>
+    [CliFlag("--transport")]
+    public bool? Transport { get; set; }
+
+    /// <summary>
+    /// The maximum number of replicas.
+    /// </summary>
+    [CliFlag("--max-replicas")]
+    public bool? MaxReplicas { get; set; }
+
+    /// <summary>
+    /// The minimum number of replicas.
+    /// </summary>
+    [CliFlag("--min-replicas")]
+    public bool? MinReplicas { get; set; }
+
+    /// <summary>
+    /// Scale rule auth parameters. Auth parameters must be in format "{triggerParam eter}={secretRef} {tr iggerParameter}={secr etRef} ...".
+    /// </summary>
+    [CliFlag("--scale-rule-auth", ShortForm = "--sra")]
+    public bool? ScaleRuleAuth { get; set; }
+
+    /// <summary>
+    /// The maximum number of concurrent requests before scale out.
+    /// </summary>
+    [CliFlag("--scale-rule-http-concurrency", ShortForm = "--srtc")]
+    public bool? ScaleRuleHttpConcurrency { get; set; }
+
+    /// <summary>
+    /// Scale rule metadata. Metadata must be in format "{key}={value} {key}={value} ...".
+    /// </summary>
+    [CliFlag("--scale-rule-metadata", ShortForm = "--srm")]
+    public bool? ScaleRuleMetadata { get; set; }
+
+    /// <summary>
+    /// The name of the scale rule.
+    /// </summary>
+    [CliOption("--scale-rule-name", ShortForm = "--srn")]
+    public string? ScaleRuleName { get; set; }
+
+    /// <summary>
+    /// The type of the scale rule. Default: http.
+    /// </summary>
+    [CliFlag("--scale-rule-type", ShortForm = "--srt")]
+    public bool? ScaleRuleType { get; set; }
 
 }

@@ -35,14 +35,14 @@ public record AzKeyvaultRoleAssignmentDeleteOptions : AzOptions
     /// <summary>
     /// Space-separated role assignment ids.
     /// </summary>
-    [CliFlag("--ids")]
-    public bool? Ids { get; set; }
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
     /// Name of the role assignment.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Role name or id.
@@ -53,14 +53,19 @@ public record AzKeyvaultRoleAssignmentDeleteOptions : AzOptions
     /// <summary>
     /// Scope at which the role assignment or definition applies to, e.g., "/" or "/keys" or "/keys/{keyname}".
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the HSM.
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string? HsmName { get; set; }
+
+    /// <summary>
+    /// Full URI of the HSM. If specified all other 'Id' arguments should be omitted.
+    /// </summary>
+    [CliFlag("--id")]
+    public bool? Id { get; set; }
 
 }

@@ -35,14 +35,14 @@ public record AzStorageAccountShowConnectionStringOptions : AzOptions
     /// <summary>
     /// The key to use.  Allowed values: key1, key2, primary, secondary.
     /// </summary>
-    [CliFlag("--key")]
-    public bool? Key { get; set; }
+    [CliOption("--key")]
+    public string? Key { get; set; }
 
     /// <summary>
     /// The default endpoint protocol.  Allowed values: http, https.  Default: https.
     /// </summary>
-    [CliFlag("--protocol")]
-    public bool? Protocol { get; set; }
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
 
     /// <summary>
     /// Custom endpoint for queues.
@@ -61,5 +61,23 @@ public record AzStorageAccountShowConnectionStringOptions : AzOptions
     /// </summary>
     [CliFlag("--table-endpoint")]
     public bool? TableEndpoint { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The storage account name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

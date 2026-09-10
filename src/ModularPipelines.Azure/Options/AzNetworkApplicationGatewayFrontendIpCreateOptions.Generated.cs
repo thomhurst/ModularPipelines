@@ -18,12 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "frontend-ip", "create")]
-public record AzNetworkApplicationGatewayFrontendIpCreateOptions : AzOptions
+public record AzNetworkApplicationGatewayFrontendIpCreateOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -36,39 +40,18 @@ public record AzNetworkApplicationGatewayFrontendIpCreateOptions : AzOptions
     /// Name or ID of the public IP address.
     /// </summary>
     [CliOption("--public-ip-address")]
-    public string? PublicIpAddressValue { get; set; }
+    public string? PublicIpAddress { get; set; }
 
     /// <summary>
     /// Name or ID of the subnet. If using Name, you need to provide `--vnet-name` as well.
     /// </summary>
     [CliOption("--subnet")]
-    public string? SubnetValue { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// Name of the virtual network corresponding to the subnet.
     /// </summary>
     [CliOption("--vnet-name")]
-    public string? VnetNameValue { get; set; }
-
-    [Obsolete("Use PublicIpAddressValue instead.")]
-    public bool? PublicIpAddress
-    {
-        get => bool.TryParse(PublicIpAddressValue, out var value) ? value : null;
-        set => PublicIpAddressValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SubnetValue instead.")]
-    public bool? Subnet
-    {
-        get => bool.TryParse(SubnetValue, out var value) ? value : null;
-        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VnetNameValue instead.")]
-    public bool? VnetName
-    {
-        get => bool.TryParse(VnetNameValue, out var value) ? value : null;
-        set => VnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? VnetName { get; set; }
 
 }

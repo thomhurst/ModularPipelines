@@ -18,8 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "topic", "event-subscription", "show")]
-public record AzEventgridPartnerTopicEventSubscriptionShowOptions : AzOptions
+public record AzEventgridPartnerTopicEventSubscriptionShowOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--partner-topic-name")] string PartnerTopicName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    /// <summary>
+    /// Indicate whether any static delivery attribute secrets should be returned. True if flag present.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--include-attrib-secret", ShortForm = "--include-static-delivery-attribute-secret")]
+    public bool? IncludeAttribSecret { get; set; }
+
     /// <summary>
     /// Specify to indicate whether the full endpoint URL should be returned. True if flag present.  Allowed values: false, true.
     /// </summary>

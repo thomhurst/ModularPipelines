@@ -18,12 +18,44 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "key", "download")]
-public record AzKeyvaultKeyDownloadOptions : AzOptions
+public record AzKeyvaultKeyDownloadOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File
+) : AzOptions
 {
     /// <summary>
     /// Encoding of the key, default: PEM.  Allowed values: DER, PEM.  Default:
     /// </summary>
-    [CliFlag("--encoding", ShortForm = "-e")]
-    public bool? Encoding { get; set; }
+    [CliOption("--encoding", ShortForm = "-e")]
+    public string? Encoding { get; set; }
+
+    /// <summary>
+    /// Name of the HSM. (--hsm-name and --vault-name are mutually exclusive, please specify just one of them).
+    /// </summary>
+    [CliOption("--hsm-name")]
+    public string? HsmName { get; set; }
+
+    /// <summary>
+    /// Id of the key. If specified all other 'Id' arguments should be omitted.
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Name of the key. Required if --id is not specified.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of the Vault.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string? VaultName { get; set; }
+
+    /// <summary>
+    /// The key version. If omitted, uses the latest version.
+    /// </summary>
+    [CliFlag("--version", ShortForm = "-v")]
+    public bool? Version { get; set; }
 
 }

@@ -25,6 +25,7 @@ public class AzPolicy : IAzPolicy
     private AzPolicyAttestation? _attestation;
     private AzPolicyDefinition? _definition;
     private AzPolicyEnrollment? _enrollment;
+    private AzPolicyEvent? _event;
     private AzPolicyExemption? _exemption;
     private AzPolicyMetadata? _metadata;
     private AzPolicyRemediation? _remediation;
@@ -60,6 +61,11 @@ public class AzPolicy : IAzPolicy
     /// az enrollment sub-commands.
     /// </summary>
     public AzPolicyEnrollment Enrollment => _enrollment ??= new AzPolicyEnrollment(_command);
+
+    /// <summary>
+    /// az event sub-commands.
+    /// </summary>
+    public AzPolicyEvent Event => _event ??= new AzPolicyEvent(_command);
 
     /// <summary>
     /// az exemption sub-commands.

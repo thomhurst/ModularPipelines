@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "mesh", "enable")]
-public record AzAksMeshEnableOptions : AzOptions
+public record AzAksMeshEnableOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Intermediate cert object name in the Azure Keyvault.
@@ -53,8 +56,8 @@ public record AzAksMeshEnableOptions : AzOptions
     /// <summary>
     /// Set the proxy redirection mechanism.  Allowed values:
     /// </summary>
-    [CliFlag("--proxy-redirection-mechanism")]
-    public bool? ProxyRedirectionMechanism { get; set; }
+    [CliOption("--proxy-redirection-mechanism")]
+    public string? ProxyRedirectionMechanism { get; set; }
 
     /// <summary>
     /// Azure Service Mesh revision to install.

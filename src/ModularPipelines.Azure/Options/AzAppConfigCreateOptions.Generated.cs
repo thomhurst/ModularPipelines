@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -18,25 +19,29 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "create")]
-public record AzAppConfigCreateOptions : AzOptions
+public record AzAppConfigCreateOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Resource ID of the Application Insights resource to link with this App Configuration store.
     /// </summary>
     [CliOption("--appinsights-resource")]
-    public string? AppinsightsResourceValue { get; set; }
+    public string? AppinsightsResource { get; set; }
 
     /// <summary>
     /// The authentication mode for accessing the App Configuration Store via ARM. 'pass-through' (Recommended) uses Microsoft Entra ID to access the store via ARM with proper authorization.'local' uses access keys for authentication. This requires access keys to be enabled.  Allowed values: local, pass- through.
     /// </summary>
-    [CliFlag("--arm-auth-mode")]
-    public bool? ArmAuthMode { get; set; }
+    [CliOption("--arm-auth-mode")]
+    public string? ArmAuthMode { get; set; }
 
     /// <summary>
     /// Space-separated list of managed identities to be assigned. Use "[system]" to refer to system-assigned managed identity or a resource ID to refer to user- assigned managed identity. If this argument is provided without any value, system-assigned managed identity will be assigned by default. If this argument is not provided, no managed identities will be assigned to this App Configuration store.
     /// </summary>
-    [CliFlag("--assign-identity")]
-    public bool? AssignIdentity { get; set; }
+    [CliOption("--assign-identity", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? AssignIdentity { get; set; }
 
     /// <summary>
     /// Disable all authentication methods other than AAD authentication.  Allowed values: false, true.
@@ -71,8 +76,8 @@ public record AzAppConfigCreateOptions : AzOptions
     /// <summary>
     /// Control permission for data plane traffic coming from public networks.  Allowed values: Disabled, Enabled,
     /// </summary>
-    [CliFlag("--public-network-access")]
-    public bool? PublicNetworkAccess { get; set; }
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// The location of the replica of the App Configuration store.
@@ -84,7 +89,7 @@ public record AzAppConfigCreateOptions : AzOptions
     /// Name of the replica of the App Configuration store.
     /// </summary>
     [CliOption("--replica-name")]
-    public string? ReplicaNameValue { get; set; }
+    public string? ReplicaName { get; set; }
 
     /// <summary>
     /// Number of days to retain the soft delete enabled App Configuration store after deleting. Must be a positive integer between 0 and 7.
@@ -95,27 +100,13 @@ public record AzAppConfigCreateOptions : AzOptions
     /// <summary>
     /// The sku of the App Configuration store.  Allowed values: Developer, Free, Premium, Standard.  Default:
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...].
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
-
-    [Obsolete("Use AppinsightsResourceValue instead.")]
-    public bool? AppinsightsResource
-    {
-        get => bool.TryParse(AppinsightsResourceValue, out var value) ? value : null;
-        set => AppinsightsResourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ReplicaNameValue instead.")]
-    public bool? ReplicaName
-    {
-        get => bool.TryParse(ReplicaNameValue, out var value) ? value : null;
-        set => ReplicaNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

@@ -33,6 +33,21 @@ public class AzBackupVaultEncryption
     #region Commands
 
     /// <summary>
+    /// Show details of encryption properties of a Recovery Services
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzBackupVaultEncryptionShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBackupVaultEncryptionShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update encryption properties of a Recovery Services Vault.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -40,11 +55,11 @@ public class AzBackupVaultEncryption
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAsync(
-        AzBackupVaultEncryptionUpdateOptions? options = null,
+        AzBackupVaultEncryptionUpdateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBackupVaultEncryptionUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

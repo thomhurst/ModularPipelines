@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "connected-registry", "delete")]
-public record AzAcrConnectedRegistryDeleteOptions : AzOptions
+public record AzAcrConnectedRegistryDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
     /// <summary>
     /// It will aslo delete the sync token and the scope map resources.
@@ -30,19 +33,12 @@ public record AzAcrConnectedRegistryDeleteOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

@@ -33,6 +33,21 @@ public class AzSqlMiServerConfigurationOption
     #region Commands
 
     /// <summary>
+    /// List a list of managed instance server
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzSqlMiServerConfigurationOptionListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Set managed instance server configuration option.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -45,6 +60,36 @@ public class AzSqlMiServerConfigurationOption
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlMiServerConfigurationOptionSetOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get managed instance server configuration option.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzSqlMiServerConfigurationOptionShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlMiServerConfigurationOptionShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzSqlMiServerConfigurationOptionWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlMiServerConfigurationOptionWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

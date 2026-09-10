@@ -18,7 +18,13 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "dns", "record-set", "mx", "add-record")]
-public record AzNetworkDnsRecordSetMxAddRecordOptions : AzOptions
+public record AzNetworkDnsRecordSetMxAddRecordOptions(
+    [property: CliOption("--exchange", ShortForm = "-e")] string Exchange,
+    [property: CliOption("--preference", ShortForm = "-p")] string Preference,
+    [property: CliOption("--record-set-name", ShortForm = "-n")] string RecordSetName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
+) : AzOptions
 {
     /// <summary>
     /// Create the record set only if it does not already exist.

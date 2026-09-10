@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzSignalrNetworkRule
 {
     private readonly ICommandContext _command;
+    private AzSignalrNetworkRuleIpRule? _ipRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSignalrNetworkRule"/> class.
@@ -30,7 +31,31 @@ public class AzSignalrNetworkRule
         _command = command;
     }
 
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az ip-rule sub-commands.
+    /// </summary>
+    public AzSignalrNetworkRuleIpRule IpRule => _ipRule ??= new AzSignalrNetworkRuleIpRule(_command);
+
+    #endregion
+
     #region Commands
+
+    /// <summary>
+    /// Get the Network access control of SignalR Service.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzSignalrNetworkRuleListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
 
     /// <summary>
     /// Update the Network access control of SignalR Service.

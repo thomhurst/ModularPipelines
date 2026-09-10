@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "publish")]
-public record AzBicepPublishOptions : AzOptions
+public record AzBicepPublishOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File,
+    [property: CliOption("--target", ShortForm = "-t")] string Target
+) : AzOptions
 {
     /// <summary>
     /// The documentation uri of the Bicep module.

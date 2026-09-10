@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "automation-action-event-hub", "create")]
-public record AzSecurityAutomationActionEventHubCreateOptions : AzOptions
+public record AzSecurityAutomationActionEventHubCreateOptions(
+    [property: CliOption("--connection-string")] string ConnectionString,
+    [property: CliOption("--event-hub-resource-id")] string EventHubResourceId
+) : AzOptions
 {
     /// <summary>
     /// The target Event Hub SAS policy name.

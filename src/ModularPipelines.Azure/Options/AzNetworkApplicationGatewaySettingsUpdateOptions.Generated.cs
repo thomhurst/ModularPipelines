@@ -18,12 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "settings", "update")]
-public record AzNetworkApplicationGatewaySettingsUpdateOptions : AzOptions
+public record AzNetworkApplicationGatewaySettingsUpdateOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Whether to use host name of the backend server as the host header.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--backend-pool-host-name")]
+    [CliOption("--backend-pool-host-name")]
     public bool? BackendPoolHostName { get; set; }
 
     /// <summary>
@@ -35,7 +39,7 @@ public record AzNetworkApplicationGatewaySettingsUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -48,19 +52,19 @@ public record AzNetworkApplicationGatewaySettingsUpdateOptions : AzOptions
     /// Name or ID of the probe to associate with the settings.
     /// </summary>
     [CliOption("--probe")]
-    public string? ProbeValue { get; set; }
+    public string? Probe { get; set; }
 
     /// <summary>
     /// Protocol used to communicate with the backend.  Allowed values: Http, Https, Tcp, Tls.
     /// </summary>
-    [CliFlag("--protocol")]
-    public bool? Protocol { get; set; }
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
 
     /// <summary>
     /// Space-separated list of trusted root certificates (Names and IDs) to associate with the HTTP settings. `--host-name` or `--backend-pool-host-name` is required when this field is set. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--root-certs")]
-    public bool? RootCerts { get; set; }
+    [CliOption("--root-certs", GroupValues = true)]
+    public IEnumerable<string>? RootCerts { get; set; }
 
     /// <summary>
     /// Request timeout in seconds.
@@ -68,11 +72,34 @@ public record AzNetworkApplicationGatewaySettingsUpdateOptions : AzOptions
     [CliFlag("--timeout")]
     public bool? Timeout { get; set; }
 
-    [Obsolete("Use ProbeValue instead.")]
-    public bool? Probe
-    {
-        get => bool.TryParse(ProbeValue, out var value) ? value : null;
-        set => ProbeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Whether to send Proxy Protocol header to backend servers over TCP or TLS protocols. Default value is false.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-l4-client-ip")]
+    public bool? EnableL4ClientIp { get; set; }
 
 }

@@ -48,6 +48,21 @@ public class AzVmssRollingUpgrade
     }
 
     /// <summary>
+    /// Get the status of the latest virtual machine scale set
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetLatestAsync(
+        AzVmssRollingUpgradeGetLatestOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmssRollingUpgradeGetLatestOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Start a rolling upgrade to move all virtual machine scale set
     /// </summary>
     /// <param name="options">The command options.</param>

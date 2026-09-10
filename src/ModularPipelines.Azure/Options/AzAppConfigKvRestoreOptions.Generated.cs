@@ -18,13 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "kv", "restore")]
-public record AzAppConfigKvRestoreOptions : AzOptions
+public record AzAppConfigKvRestoreOptions(
+    [property: CliOption("--datetime")] string Datetime
+) : AzOptions
 {
     /// <summary>
     /// This parameter can be used for indicating how a data operation is to be authorized. If the auth mode is "key", provide connection string or store name and your account access keys will be retrieved for authorization. If the auth mode is "login", provide the `--endpoint` or `--name` and your "az login" credentials will be used for authorization. If the auth mode is "anonymous", provide the --endpoint that will be used for authorization. Anonymous mode is intended for custom endpoints only, such as the App Configuration emulator. You can configure the default auth mode using `az configure --defaults appconfig_auth_mode=&lt;auth_mode&gt;`. For more information, see https://learn.microsoft.com/azure/azure-app-configuration/concept- enable-rbac.  Allowed values: anonymous, key, login.  Default: key.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// Combination of access key and endpoint of the App Configuration store. Can be found using 'az appconfig credential list'. Users can preset it using `az configure --defaults appconfig_connection_string=&lt;connection_string&gt;` or environment variable with the name AZURE_APPCONFIG_CONNECTION_STRING.
@@ -54,38 +56,24 @@ public record AzAppConfigKvRestoreOptions : AzOptions
     /// If no label specified, restore all key-value pairs with all labels. Support star sign as filters, for instance abc* means labels with abc as prefix. Use '\0' for null label.
     /// </summary>
     [CliOption("--label")]
-    public string? LabelValue { get; set; }
+    public string? Label { get; set; }
 
     /// <summary>
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// If no tags are specified, restore all key-values with any tags. Support space-separated tags: key[=value] [key[=value] ...].
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
-
-    [Obsolete("Use LabelValue instead.")]
-    public bool? Label
-    {
-        get => bool.TryParse(LabelValue, out var value) ? value : null;
-        set => LabelValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

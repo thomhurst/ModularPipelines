@@ -23,7 +23,13 @@ public record AzConnectionPreviewConfigurationAppInsightsOptions : AzOptions
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, go, java, nodejs, none, python.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
+
+    /// <summary>
+    /// The secret auth info.
+    /// </summary>
+    [CliFlag("--secret")]
+    public bool? Secret { get; set; }
 
 }

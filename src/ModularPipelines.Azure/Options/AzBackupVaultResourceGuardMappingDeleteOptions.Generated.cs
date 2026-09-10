@@ -24,7 +24,7 @@ public record AzBackupVaultResourceGuardMappingDeleteOptions : AzOptions
     /// ID of the tenant where the Resource Guard exists in Cross-Tenant scenarios.
     /// </summary>
     [CliOption("--tenant-id")]
-    public string? TenantIdValue { get; set; }
+    public string? TenantId { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -32,11 +32,22 @@ public record AzBackupVaultResourceGuardMappingDeleteOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use TenantIdValue instead.")]
-    public bool? TenantId
-    {
-        get => bool.TryParse(TenantIdValue, out var value) ? value : null;
-        set => TenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Recovery services vault.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

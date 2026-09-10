@@ -18,7 +18,14 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "backup")]
-public record AzApimBackupOptions : AzOptions
+public record AzApimBackupOptions(
+    [property: CliOption("--backup-name")] string BackupName,
+    [property: CliOption("--container-name", ShortForm = "--storage-account-container")] string ContainerName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--storage-account-key")] string StorageAccountKey,
+    [property: CliOption("--storage-account-name")] string StorageAccountName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

@@ -18,12 +18,45 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ppg", "update")]
-public record AzPpgUpdateOptions : AzOptions
+public record AzPpgUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Specifies possible sizes of virtual machines that can be created in the proximity placement group.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
     [CliFlag("--intent-vm-sizes")]
     public bool? IntentVmSizes { get; set; }
+
+    /// <summary>
+    /// The type of the proximity placement group. Allowed values: Standard. Allowed values: Standard, Ultra.
+    /// </summary>
+    [CliOption("--ppg-type", ShortForm = "-t")]
+    public string? PpgType { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
 
 }

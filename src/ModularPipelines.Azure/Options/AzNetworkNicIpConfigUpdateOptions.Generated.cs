@@ -18,12 +18,124 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nic", "ip-config", "update")]
-public record AzNetworkNicIpConfigUpdateOptions : AzOptions
+public record AzNetworkNicIpConfigUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--nic-name")] string NicName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Space-separated list of names or IDs of application gateway backend address pools to associate with the NIC. If names are used, `--gateway- name` must be specified.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--ag-address-pools", ShortForm = "--app-gateway-address-pools", GroupValues = true)]
+    public IEnumerable<string>? AgAddressPools { get; set; }
+
+    /// <summary>
+    /// Name of the application gateway.
+    /// </summary>
+    [CliOption("--gateway-name")]
+    public string? GatewayName { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Space-separated list of application security groups.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--application-security-groups", ShortForm = "--asgs", GroupValues = true)]
+    public IEnumerable<string>? ApplicationSecurityGroups { get; set; }
+
+    /// <summary>
+    /// ID of gateway load balancer frontend IP. If you want to delete it, input null.
+    /// </summary>
+    [CliOption("--gateway-lb")]
+    public string? GatewayLb { get; set; }
+
+    /// <summary>
+    /// Set to make this configuration the primary one for the NIC.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--make-primary")]
+    public bool? MakePrimary { get; set; }
+
+    /// <summary>
+    /// Static IP address to use or ""('""' in PowerShell) to use a dynamic address.
+    /// </summary>
+    [CliFlag("--private-ip-address")]
+    public bool? PrivateIpAddress { get; set; }
+
+    /// <summary>
+    /// The private IP address prefix length. If specified and the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP address.
+    /// </summary>
+    [CliFlag("--private-ip-address-prefix-length", ShortForm = "--private-ip-prefix-len")]
+    public bool? PrivateIpAddressPrefixLength { get; set; }
+
+    /// <summary>
+    /// Version of private IP address to use.  Allowed values: IPv4, IPv6.
+    /// </summary>
+    [CliOption("--private-ip-address-version")]
+    public string? PrivateIpAddressVersion { get; set; }
+
+    /// <summary>
+    /// Name or ID of an existing public IP address.
+    /// </summary>
+    [CliOption("--public-ip-address")]
+    public string? PublicIpAddress { get; set; }
+
+    /// <summary>
+    /// Name or ID of an existing subnet. If name specified, please also specify `--vnet-name`.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Name of the virtual network.
+    /// </summary>
+    [CliOption("--vnet-name")]
+    public string? VnetName { get; set; }
+
+    /// <summary>
+    /// Space-separated list of names or IDs of load balancer address pools to associate with the NIC. If names are used, `--lb-name` must be specified.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--lb-address-pools", GroupValues = true)]
+    public IEnumerable<string>? LbAddressPools { get; set; }
+
+    /// <summary>
+    /// Space-separated list of names or IDs of load balancer inbound NAT rules to associate with the NIC. If names are used, `--lb-name` must be specified.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--lb-inbound-nat-rules", GroupValues = true)]
+    public IEnumerable<string>? LbInboundNatRules { get; set; }
+
+    /// <summary>
+    /// Name of the load balancer.
+    /// </summary>
+    [CliOption("--lb-name")]
+    public string? LbName { get; set; }
 
 }

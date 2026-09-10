@@ -24,13 +24,6 @@ public record AzBatchAccountListOptions : AzOptions
     /// Name of the resource group.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

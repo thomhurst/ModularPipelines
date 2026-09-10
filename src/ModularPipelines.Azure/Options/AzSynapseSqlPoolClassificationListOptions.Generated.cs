@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "classification", "list")]
-public record AzSynapseSqlPoolClassificationListOptions : AzOptions
+public record AzSynapseSqlPoolClassificationListOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// An OData filter expression that filters elements in the collection. Default value is None.

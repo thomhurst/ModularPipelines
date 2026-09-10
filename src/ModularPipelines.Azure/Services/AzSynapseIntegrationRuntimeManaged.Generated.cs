@@ -40,11 +40,11 @@ public class AzSynapseIntegrationRuntimeManaged
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzSynapseIntegrationRuntimeManagedCreateOptions? options = null,
+        AzSynapseIntegrationRuntimeManagedCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSynapseIntegrationRuntimeManagedCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

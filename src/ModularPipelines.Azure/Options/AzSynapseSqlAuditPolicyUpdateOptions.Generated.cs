@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "audit-policy", "update")]
-public record AzSynapseSqlAuditPolicyUpdateOptions : AzOptions
+public record AzSynapseSqlAuditPolicyUpdateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// Default: default.
@@ -37,5 +40,119 @@ public record AzSynapseSqlAuditPolicyUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// The amount of time in milliseconds that can elapse before audit actions are forced to be processed.
+    /// </summary>
+    [CliFlag("--queue-delay-milliseconds", ShortForm = "--queue-delay-time")]
+    public bool? QueueDelayMilliseconds { get; set; }
+
+    /// <summary>
+    /// The name of the event hub. If none is specified when providing event_hub_authorization_rule_id, the default event hub will be selected.
+    /// </summary>
+    [CliOption("--eh", ShortForm = "--event-hub")]
+    public string? Eh { get; set; }
+
+    /// <summary>
+    /// The resource Id for the event hub authorization rule.
+    /// </summary>
+    [CliOption("--ehari", ShortForm = "--event-hub-authorization-rule-id")]
+    public string? Ehari { get; set; }
+
+    /// <summary>
+    /// Indicate whether event hub is a destination for audit records.  Allowed values: Disabled,
+    /// </summary>
+    [CliOption("--ehts", ShortForm = "--event-hub-target-state")]
+    public string? Ehts { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Indicate whether log analytics is a destination for audit records.  Allowed values: Disabled,
+    /// </summary>
+    [CliOption("--lats", ShortForm = "--log-analytics-target-state")]
+    public string? Lats { get; set; }
+
+    /// <summary>
+    /// The workspace ID (resource ID of a Log Analytics workspace) for a Log Analytics workspace to which you would like to send Audit Logs.
+    /// </summary>
+    [CliOption("--lawri", ShortForm = "--log-analytics-workspace-resource-id")]
+    public string? Lawri { get; set; }
+
+    /// <summary>
+    /// List of actions and action groups to audit.
+    /// </summary>
+    [CliOption("--actions", GroupValues = true)]
+    public IEnumerable<string>? Actions { get; set; }
+
+    /// <summary>
+    /// The number of days to retain audit logs.
+    /// </summary>
+    [CliFlag("--retention-days")]
+    public bool? RetentionDays { get; set; }
+
+    /// <summary>
+    /// Auditing policy state.  Allowed values:
+    /// </summary>
+    [CliOption("--state")]
+    public string? State { get; set; }
+
+    /// <summary>
+    /// Indicate whether blob storage is a destination for audit records.  Allowed values: Disabled,
+    /// </summary>
+    [CliOption("--blob-storage-target-state", ShortForm = "--bsts")]
+    public string? BlobStorageTargetState { get; set; }
+
+    /// <summary>
+    /// Name of the storage account.
+    /// </summary>
+    [CliOption("--storage-account")]
+    public string? StorageAccount { get; set; }
+
+    /// <summary>
+    /// The storage account endpoint.
+    /// </summary>
+    [CliFlag("--storage-endpoint")]
+    public bool? StorageEndpoint { get; set; }
+
+    /// <summary>
+    /// Access key for the storage account.
+    /// </summary>
+    [CliFlag("--storage-key")]
+    public bool? StorageKey { get; set; }
+
+    /// <summary>
+    /// The subscription id of storage account.
+    /// </summary>
+    [CliFlag("--storage-subscription")]
+    public bool? StorageSubscription { get; set; }
+
+    /// <summary>
+    /// Indicates whether using the secondary storeage key or not.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--use-secondary-key")]
+    public bool? UseSecondaryKey { get; set; }
 
 }

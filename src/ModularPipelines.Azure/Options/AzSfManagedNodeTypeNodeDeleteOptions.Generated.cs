@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-node-type", "node", "delete")]
-public record AzSfManagedNodeTypeNodeDeleteOptions : AzOptions
+public record AzSfManagedNodeTypeNodeDeleteOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--node-name", GroupValues = true)] IEnumerable<string> NodeName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Using this flag will force the operation even if service fabric is unable to disable the nodes. Use with caution as this might cause data loss if stateful workloads are running on the node.  Allowed values: false, true.

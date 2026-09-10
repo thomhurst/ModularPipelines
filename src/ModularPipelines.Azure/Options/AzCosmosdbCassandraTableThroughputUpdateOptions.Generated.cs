@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "cassandra", "table", "throughput", "update")]
-public record AzCosmosdbCassandraTableThroughputUpdateOptions : AzOptions
+public record AzCosmosdbCassandraTableThroughputUpdateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--keyspace-name", ShortForm = "-k")] string KeyspaceName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The maximum throughput resource can scale to (RU/s). Provided when the resource is autoscale enabled. The minimum value can be 4000 (RU/s).

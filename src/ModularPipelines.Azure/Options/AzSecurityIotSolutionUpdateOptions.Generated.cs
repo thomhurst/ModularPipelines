@@ -18,25 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "iot-solution", "update")]
-public record AzSecurityIotSolutionUpdateOptions : AzOptions
+public record AzSecurityIotSolutionUpdateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--solution-name")] string SolutionName
+) : AzOptions
 {
     /// <summary>
     /// Resource display name.
     /// </summary>
     [CliOption("--display-name")]
-    public string? DisplayNameValue { get; set; }
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// IoT Hub resource IDs.
     /// </summary>
     [CliFlag("--iot-hubs")]
     public bool? IotHubs { get; set; }
-
-    [Obsolete("Use DisplayNameValue instead.")]
-    public bool? DisplayName
-    {
-        get => bool.TryParse(DisplayNameValue, out var value) ? value : null;
-        set => DisplayNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

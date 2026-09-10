@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("feature", "registration", "delete")]
-public record AzFeatureRegistrationDeleteOptions : AzOptions
+public record AzFeatureRegistrationDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--namespace")] string Namespace
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.

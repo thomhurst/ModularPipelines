@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-dns", "record-set", "a", "create")]
-public record AzNetworkPrivateDnsRecordSetACreateOptions : AzOptions
+public record AzNetworkPrivateDnsRecordSetACreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
+) : AzOptions
 {
     /// <summary>
     /// Metadata attached to the record set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

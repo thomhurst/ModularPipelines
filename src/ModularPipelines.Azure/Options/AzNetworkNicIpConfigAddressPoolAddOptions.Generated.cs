@@ -18,32 +18,23 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nic", "ip-config", "address-pool", "add")]
-public record AzNetworkNicIpConfigAddressPoolAddOptions : AzOptions
+public record AzNetworkNicIpConfigAddressPoolAddOptions(
+    [property: CliOption("--address-pool")] string AddressPool,
+    [property: CliOption("--ip-config-name", ShortForm = "-n")] string IpConfigName,
+    [property: CliOption("--nic-name")] string NicName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The name of an application gateway containing the address pool (Omit if supplying an address pool ID).
     /// </summary>
     [CliOption("--gateway-name")]
-    public string? GatewayNameValue { get; set; }
+    public string? GatewayName { get; set; }
 
     /// <summary>
     /// The name of the load balancer containing the address pool (Omit if supplying an address pool ID).
     /// </summary>
     [CliOption("--lb-name")]
-    public string? LbNameValue { get; set; }
-
-    [Obsolete("Use GatewayNameValue instead.")]
-    public bool? GatewayName
-    {
-        get => bool.TryParse(GatewayNameValue, out var value) ? value : null;
-        set => GatewayNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use LbNameValue instead.")]
-    public bool? LbName
-    {
-        get => bool.TryParse(LbNameValue, out var value) ? value : null;
-        set => LbNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? LbName { get; set; }
 
 }

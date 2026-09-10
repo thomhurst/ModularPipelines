@@ -33,6 +33,21 @@ public class AzContainerappAuthApple
     #region Commands
 
     /// <summary>
+    /// Show the authentication settings for the Apple identity
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzContainerappAuthAppleShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappAuthAppleShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update the client id and client secret for the Apple
     /// </summary>
     /// <param name="options">The command options.</param>

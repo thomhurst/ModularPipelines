@@ -45,4 +45,68 @@ public class AzServicebusNamespaceNetworkRuleSet
     public AzServicebusNamespaceNetworkRuleSetVirtualNetworkRule VirtualNetworkRule => _virtualNetworkRule ??= new AzServicebusNamespaceNetworkRuleSetVirtualNetworkRule(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// Create NetworkRuleSet for a Namespace.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateAsync(
+        AzServicebusNamespaceNetworkRuleSetCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List list of NetworkRuleSet for a Namespace.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzServicebusNamespaceNetworkRuleSetListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get NetworkRuleSet for a Namespace.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzServicebusNamespaceNetworkRuleSetShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusNamespaceNetworkRuleSetShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Update NetworkRuleSet for a Namespace.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAsync(
+        AzServicebusNamespaceNetworkRuleSetUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzServicebusNamespaceNetworkRuleSetUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

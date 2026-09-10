@@ -18,12 +18,27 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "account", "identity", "remove")]
-public record AzBatchAccountIdentityRemoveOptions : AzOptions
+public record AzBatchAccountIdentityRemoveOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// Provide this flag to use system assigned identity for batch accounts. Check out help for more examples.
+    /// </summary>
+    [CliFlag("--system-assigned")]
+    public bool? SystemAssigned { get; set; }
+
+    /// <summary>
+    /// User Assigned Identity ids to be used for batch account. Check out help for more examples.
+    /// </summary>
+    [CliFlag("--user-assigned")]
+    public bool? UserAssigned { get; set; }
 
 }

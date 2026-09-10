@@ -55,13 +55,27 @@ public class AzureCommandTests : TestBase
     [Test]
     public async Task Spark_Job_Arguments_Are_Valued_Options()
     {
-        var arguments = BuildArguments(new AzSynapseSparkJobSubmitOptions
+        var arguments = BuildArguments(new AzSynapseSparkJobSubmitOptions(
+            ExecutorSize: "Small",
+            Executors: "1",
+            MainDefinitionFile: "main.py",
+            Name: "job",
+            SparkPoolName: "pool",
+            WorkspaceName: "workspace")
         {
             JobArguments = ["first=value", "second=value"],
         });
 
         await Assert.That(arguments).IsEquivalentTo(
-            ["--arguments", "first=value", "second=value"],
+            [
+                "--executor-size", "Small",
+                "--executors", "1",
+                "--main-definition-file", "main.py",
+                "--name", "job",
+                "--spark-pool-name", "pool",
+                "--workspace-name", "workspace",
+                "--arguments", "first=value", "second=value",
+            ],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
         await Assert.That(typeof(AzSynapseSparkJobSubmitOptions).GetProperty(nameof(CommandLineToolOptions.Arguments))!.DeclaringType)
             .IsEqualTo(typeof(CommandLineToolOptions));
@@ -70,13 +84,23 @@ public class AzureCommandTests : TestBase
     [Test]
     public async Task Cassandra_Command_Arguments_Are_Valued_Options()
     {
-        var arguments = BuildArguments(new AzManagedCassandraClusterInvokeCommandOptions
+        var arguments = BuildArguments(new AzManagedCassandraClusterInvokeCommandOptions(
+            ClusterName: "cluster",
+            CommandName: "status",
+            Host: "host",
+            ResourceGroup: "resource-group")
         {
             ClusterArguments = ["first=value", "second=value"],
         });
 
         await Assert.That(arguments).IsEquivalentTo(
-            ["--arguments", "first=value", "second=value"],
+            [
+                "--cluster-name", "cluster",
+                "--command-name", "status",
+                "--host", "host",
+                "--resource-group", "resource-group",
+                "--arguments", "first=value", "second=value",
+            ],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
         await Assert.That(typeof(AzManagedCassandraClusterInvokeCommandOptions).GetProperty(nameof(CommandLineToolOptions.Arguments))!.DeclaringType)
             .IsEqualTo(typeof(CommandLineToolOptions));
@@ -87,7 +111,7 @@ public class AzureCommandTests : TestBase
     {
         var arguments = BuildArguments(new AzAcrTaskCreateOptions("task", "registry")
         {
-            AssignIdentityValue = ["[system]", "/subscriptions/example/identity"],
+            AssignIdentity = ["[system]", "/subscriptions/example/identity"],
         });
 
         await Assert.That(arguments).IsEquivalentTo(
@@ -100,7 +124,7 @@ public class AzureCommandTests : TestBase
     {
         var arguments = BuildArguments(new AzAcrTaskCreateOptions("task", "registry")
         {
-            ScheduleValues = ["daily:0 0 * * *", "weekly:0 0 * * 0"],
+            Schedule = ["daily:0 0 * * *", "weekly:0 0 * * 0"],
         });
 
         await Assert.That(arguments).IsEquivalentTo(
@@ -113,7 +137,7 @@ public class AzureCommandTests : TestBase
     {
         var arguments = BuildArguments(new AzAcrTaskCreateOptions("task", "registry")
         {
-            GitAccessTokenValue = "token",
+            GitAccessToken = "token",
         });
 
         await Assert.That(arguments).IsEquivalentTo(

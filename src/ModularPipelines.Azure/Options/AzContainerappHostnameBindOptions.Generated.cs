@@ -18,19 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "hostname", "bind")]
-public record AzContainerappHostnameBindOptions : AzOptions
+public record AzContainerappHostnameBindOptions(
+    [property: CliOption("--hostname")] string Hostname
+) : AzOptions
 {
     /// <summary>
     /// Name or resource id of the certificate.
     /// </summary>
     [CliOption("--certificate", ShortForm = "-c")]
-    public string? CertificateValue { get; set; }
+    public string? Certificate { get; set; }
 
     /// <summary>
     /// Name or resource id of the Container App environment.
     /// </summary>
     [CliOption("--environment", ShortForm = "-e")]
-    public string? EnvironmentValue { get; set; }
+    public string? Environment { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -50,18 +52,22 @@ public record AzContainerappHostnameBindOptions : AzOptions
     [CliFlag("--validation-method", ShortForm = "-v")]
     public bool? ValidationMethod { get; set; }
 
-    [Obsolete("Use CertificateValue instead.")]
-    public bool? Certificate
-    {
-        get => bool.TryParse(CertificateValue, out var value) ? value : null;
-        set => CertificateValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
-    [Obsolete("Use EnvironmentValue instead.")]
-    public bool? Environment
-    {
-        get => bool.TryParse(EnvironmentValue, out var value) ? value : null;
-        set => EnvironmentValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

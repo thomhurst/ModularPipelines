@@ -18,13 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "access", "update-recursive")]
-public record AzStorageFsAccessUpdateRecursiveOptions : AzOptions
+public record AzStorageFsAccessUpdateRecursiveOptions(
+    [property: CliOption("--acl", GroupValues = true)] IEnumerable<string> Acl,
+    [property: CliOption("--file-system", ShortForm = "-f")] string FileSystem,
+    [property: CliOption("--path", ShortForm = "-p")] string Path
+) : AzOptions
 {
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// Optional. If data set size exceeds batch size then operation will be split into multiple requests so that progress can be tracked. Batch size should be between 1 and 2000. The default when unspecified is 2000.
@@ -55,5 +59,35 @@ public record AzStorageFsAccessUpdateRecursiveOptions : AzOptions
     /// </summary>
     [CliFlag("--timeout")]
     public bool? Timeout { get; set; }
+
+    /// <summary>
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// </summary>
+    [CliFlag("--account-key")]
+    public bool? AccountKey { get; set; }
+
+    /// <summary>
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
+    /// </summary>
+    [CliFlag("--account-name")]
+    public bool? AccountName { get; set; }
+
+    /// <summary>
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
+    /// </summary>
+    [CliFlag("--blob-endpoint")]
+    public bool? BlobEndpoint { get; set; }
+
+    /// <summary>
+    /// Storage account connection string. Environment variable:
+    /// </summary>
+    [CliFlag("--connection-string")]
+    public bool? ConnectionString { get; set; }
+
+    /// <summary>
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// </summary>
+    [CliFlag("--sas-token")]
+    public bool? SasToken { get; set; }
 
 }

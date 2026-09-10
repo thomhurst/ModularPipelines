@@ -18,86 +18,106 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet", "subnet", "create")]
-public record AzNetworkVnetSubnetCreateOptions : AzOptions
+public record AzNetworkVnetSubnetCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vnet-name")] string VnetName
+) : AzOptions
 {
     /// <summary>
     /// Space-separated list of address prefixes in CIDR format. If provided, --ipam-allocations should not be specified.
     /// </summary>
-    [CliFlag("--address-prefixes")]
-    public bool? AddressPrefixes { get; set; }
+    [CliOption("--address-prefixes", GroupValues = true)]
+    public IEnumerable<string>? AddressPrefixes { get; set; }
+
+    /// <summary>
+    /// Set this property to false to disable default outbound connectivity for all VMs in the subnet.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--default-outbound", ShortForm = "--default-outbound-access")]
+    public bool? DefaultOutbound { get; set; }
 
     /// <summary>
     /// Space-separated list of services to whom the subnet should be delegated, e.g.,
     /// </summary>
-    [CliFlag("--delegations")]
-    public bool? Delegations { get; set; }
+    [CliOption("--delegations", GroupValues = true)]
+    public IEnumerable<string>? Delegations { get; set; }
 
     /// <summary>
     /// Disable private endpoint network policies on the subnet. Please note that it will be replaced by `--private- endpoint-network-policies` soon.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--disable-private-endpoint-network-policies")]
+    [CliOption("--disable-private-endpoint-network-policies")]
     public bool? DisablePrivateEndpointNetworkPolicies { get; set; }
 
     /// <summary>
     /// Disable private link service network policies on the subnet. Please note that it will be replaced by `--private-link- service-network-policies` soon. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--disable-private-link-service-network-policies")]
+    [CliOption("--disable-private-link-service-network-policies")]
     public bool? DisablePrivateLinkServiceNetworkPolicies { get; set; }
 
     /// <summary>
     /// An array of service endpoints.
     /// </summary>
-    [CliFlag("--endpoints")]
-    public bool? Endpoints { get; set; }
+    [CliOption("--endpoints")]
+    public IEnumerable<string>? Endpoints { get; set; }
+
+    /// <summary>
+    /// A list of IPAM Pools for allocating IP address prefixes.
+    /// </summary>
+    [CliOption("--ipam-allocations", ShortForm = "--ipam-pool-prefix-allocations", GroupValues = true)]
+    public IEnumerable<string>? IpamAllocations { get; set; }
 
     /// <summary>
     /// Name or ID of a NAT gateway to attach.
     /// </summary>
     [CliOption("--nat-gateway")]
-    public string? NatGatewayValue { get; set; }
+    public string? NatGateway { get; set; }
+
+    /// <summary>
+    /// Name or ID of a network security group (NSG).
+    /// </summary>
+    [CliOption("--network-security-group", ShortForm = "--nsg")]
+    public string? NetworkSecurityGroup { get; set; }
 
     /// <summary>
     /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Manage network policies for private endpoint.  Allowed values: Disabled, Enabled,
+    /// </summary>
+    [CliOption("--ple-network-policies", ShortForm = "--private-endpoint-network-policies")]
+    public string? PleNetworkPolicies { get; set; }
+
+    /// <summary>
+    /// Manage network policy for private link service.  Allowed values: Disabled, Enabled.
+    /// </summary>
+    [CliOption("--pls-network-policies", ShortForm = "--private-link-service-network-policies")]
+    public string? PlsNetworkPolicies { get; set; }
 
     /// <summary>
     /// Name or ID of a route table to associate with the subnet.
     /// </summary>
     [CliOption("--route-table")]
-    public string? RouteTableValue { get; set; }
+    public string? RouteTable { get; set; }
 
     /// <summary>
     /// Space-separated list of names or IDs of service endpoint policies to apply.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--service-endpoint-policy")]
-    public bool? ServiceEndpointPolicy { get; set; }
+    [CliOption("--service-endpoint-policy", GroupValues = true)]
+    public IEnumerable<string>? ServiceEndpointPolicy { get; set; }
 
     /// <summary>
     /// Space-separated list of services allowed private access to this subnet. Values from: az network vnet list-endpoint- services.  Support shorthand- syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--service-endpoints")]
-    public bool? ServiceEndpoints { get; set; }
+    [CliOption("--service-endpoints", GroupValues = true)]
+    public IEnumerable<string>? ServiceEndpoints { get; set; }
 
     /// <summary>
     /// Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty.  Allowed values: DelegatedServices,
     /// </summary>
-    [CliFlag("--sharing-scope")]
-    public bool? SharingScope { get; set; }
-
-    [Obsolete("Use NatGatewayValue instead.")]
-    public bool? NatGateway
-    {
-        get => bool.TryParse(NatGatewayValue, out var value) ? value : null;
-        set => NatGatewayValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use RouteTableValue instead.")]
-    public bool? RouteTable
-    {
-        get => bool.TryParse(RouteTableValue, out var value) ? value : null;
-        set => RouteTableValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--sharing-scope")]
+    public string? SharingScope { get; set; }
 
 }

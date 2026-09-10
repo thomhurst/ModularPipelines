@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "server", "replica", "create")]
-public record AzMysqlServerReplicaCreateOptions : AzOptions
+public record AzMysqlServerReplicaCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--source-server", ShortForm = "-s")] string SourceServer
+) : AzOptions
 {
     /// <summary>
     /// Location. Values from: `az account list-locations`. If not provided, the create replica will be in the same location as the master server.
@@ -36,13 +40,6 @@ public record AzMysqlServerReplicaCreateOptions : AzOptions
     /// The name of the sku. Follows the convention {pricing tier}_{compute generation}_{vCores} in shorthand. Examples:
     /// </summary>
     [CliOption("--sku-name")]
-    public string? SkuNameValue { get; set; }
-
-    [Obsolete("Use SkuNameValue instead.")]
-    public bool? SkuName
-    {
-        get => bool.TryParse(SkuNameValue, out var value) ? value : null;
-        set => SkuNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? SkuName { get; set; }
 
 }

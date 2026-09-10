@@ -62,5 +62,20 @@ public class AzAmsAccountIdentity
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzAmsAccountIdentityRemoveOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// Show the details of managed identity settings for an Azure Media
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzAmsAccountIdentityShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzAmsAccountIdentityShowOptions(), executionOptions, cancellationToken);
+    }
+
     #endregion
 }

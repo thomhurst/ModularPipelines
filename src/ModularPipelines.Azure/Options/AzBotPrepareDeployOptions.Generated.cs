@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bot", "prepare-deploy")]
-public record AzBotPrepareDeployOptions : AzOptions
+public record AzBotPrepareDeployOptions(
+    [property: CliOption("--lang")] string Lang
+) : AzOptions
 {
     /// <summary>
     /// The directory to place the generated deployment files in. Defaults to the current directory the command is called from.
@@ -30,13 +32,6 @@ public record AzBotPrepareDeployOptions : AzOptions
     /// The path to the .csproj file relative to --code-dir.
     /// </summary>
     [CliOption("--proj-file-path")]
-    public string? ProjFilePathValue { get; set; }
-
-    [Obsolete("Use ProjFilePathValue instead.")]
-    public bool? ProjFilePath
-    {
-        get => bool.TryParse(ProjFilePathValue, out var value) ? value : null;
-        set => ProjFilePathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ProjFilePath { get; set; }
 
 }

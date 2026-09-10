@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-service", "update")]
-public record AzSfManagedServiceUpdateOptions : AzOptions
+public record AzSfManagedServiceUpdateOptions(
+    [property: CliOption("--application", ShortForm = "--application-name")] string Application,
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "--service-name")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Specify the default cost for a move. Higher costs make it less likely that the
@@ -33,10 +38,28 @@ public record AzSfManagedServiceUpdateOptions : AzOptions
     public bool? InstanceCount { get; set; }
 
     /// <summary>
+    /// Specify the definition on how long StandBy replicas should be maintained before being removed, represented in ISO 8601 format "hh:mm:ss".
+    /// </summary>
+    [CliFlag("--keep-duration", ShortForm = "--stand-by-replica-keep-duration")]
+    public bool? KeepDuration { get; set; }
+
+    /// <summary>
+    /// Specify the minimum percentage of
+    /// </summary>
+    [CliFlag("--min-inst-pct", ShortForm = "--min-instance-percentage")]
+    public bool? MinInstPct { get; set; }
+
+    /// <summary>
     /// Specify the minimum number of instances that must be up to meet the
     /// </summary>
     [CliFlag("--min-instance-count")]
     public bool? MinInstanceCount { get; set; }
+
+    /// <summary>
+    /// Specify the min replica set size for the stateful service.
+    /// </summary>
+    [CliFlag("--min-replica", ShortForm = "--min-replica-set-size")]
+    public bool? MinReplica { get; set; }
 
     /// <summary>
     /// Specify the placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the
@@ -45,9 +68,33 @@ public record AzSfManagedServiceUpdateOptions : AzOptions
     public bool? PlacementConstraints { get; set; }
 
     /// <summary>
+    /// Specify the duration for which replicas can stay InBuild before reporting that build is stuck, represented in ISO 8601 format "hh:mm:ss".
+    /// </summary>
+    [CliFlag("--plcmt-time-limit", ShortForm = "--service-placement-time-limit")]
+    public bool? PlcmtTimeLimit { get; set; }
+
+    /// <summary>
+    /// Specify the maximum duration for which a partition is allowed to be in a state of quorum loss, represented in ISO 8601 format "hh:mm:ss".
+    /// </summary>
+    [CliFlag("--quorum-loss-wait", ShortForm = "--quorum-loss-wait-duration")]
+    public bool? QuorumLossWait { get; set; }
+
+    /// <summary>
+    /// Specify the duration between when a replica goes down and when a new replica is created, represented in ISO 8601 format "hh:mm:ss".
+    /// </summary>
+    [CliFlag("--replica-restart-wait", ShortForm = "--replica-restart-wait-duration")]
+    public bool? ReplicaRestartWait { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Specify the target replica set size for the stateful service.
+    /// </summary>
+    [CliFlag("--target-replica", ShortForm = "--target-replica-set-size")]
+    public bool? TargetReplica { get; set; }
 
 }

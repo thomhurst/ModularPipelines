@@ -47,5 +47,50 @@ public class AzSearchServicePrivateEndpointConnection
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzSearchServicePrivateEndpointConnectionDeleteOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// List a list of all private endpoint
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzSearchServicePrivateEndpointConnectionListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the details of the private endpoint
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzSearchServicePrivateEndpointConnectionShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSearchServicePrivateEndpointConnectionShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Update a private endpoint connection to
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAsync(
+        AzSearchServicePrivateEndpointConnectionUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSearchServicePrivateEndpointConnectionUpdateOptions(), executionOptions, cancellationToken);
+    }
+
     #endregion
 }

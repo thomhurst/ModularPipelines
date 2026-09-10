@@ -18,13 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "operation", "create")]
-public record AzApimApiOperationCreateOptions : AzOptions
+public record AzApimApiOperationCreateOptions(
+    [property: CliOption("--display-name")] string DisplayName,
+    [property: CliOption("--method")] string Method,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--url-template")] string UrlTemplate,
+    [property: CliOption("--api-id")] string ApiId
+) : AzOptions
 {
     /// <summary>
     /// Description of the operation. May include HTML formatting tags.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// ETag of the Entity.
@@ -38,11 +45,10 @@ public record AzApimApiOperationCreateOptions : AzOptions
     [CliFlag("--operation-id")]
     public bool? OperationId { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Collection of URL template parameters.
+    /// </summary>
+    [CliFlag("--params", ShortForm = "-p")]
+    public bool? Params { get; set; }
 
 }

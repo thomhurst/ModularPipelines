@@ -18,12 +18,70 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "pool", "create")]
-public record AzNetappfilesPoolCreateOptions : AzOptions
+public record AzNetappfilesPoolCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--name", ShortForm = "-p")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
+    /// </summary>
+    [CliFlag("--location", ShortForm = "-l")]
+    public bool? Location { get; set; }
+
+    /// <summary>
+    /// Resource tags.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
+
+    /// <summary>
+    /// If enabled (true) the pool can contain cool Access enabled volumes.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--cool-access")]
+    public bool? CoolAccess { get; set; }
+
+    /// <summary>
+    /// Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level.
+    /// </summary>
+    [CliFlag("--custom-throughput", ShortForm = "--custom-throughput-mibps")]
+    public bool? CustomThroughput { get; set; }
+
+    /// <summary>
+    /// Encryption type of the capacity pool, set encryption type for data at rest for this pool and all volumes in it. This value can only be set when creating new pool.  Allowed values: Double, Single.  Default: Single.
+    /// </summary>
+    [CliOption("--encryption-type")]
+    public string? EncryptionType { get; set; }
+
+    /// <summary>
+    /// The qos type of the pool.  Allowed values: Auto, Manual.  Default: Auto.
+    /// </summary>
+    [CliOption("--qos-type")]
+    public string? QosType { get; set; }
+
+    /// <summary>
+    /// ServiceLevel.  Allowed values: Flexible, Premium, Standard, StandardZRS, Ultra.  Default:
+    /// </summary>
+    [CliOption("--service-level")]
+    public string? ServiceLevel { get; set; }
+
+    /// <summary>
+    /// Provisioned size of the pool. Must be an integer number of tebibytes in multiples of 4. Use either --size or --size-in-bytes, not both.
+    /// </summary>
+    [CliFlag("--size")]
+    public bool? Size { get; set; }
+
+    /// <summary>
+    /// Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). Use either --size or
+    /// </summary>
+    [CliOption("--size-in-bytes")]
+    public string? SizeInBytes { get; set; }
 
 }

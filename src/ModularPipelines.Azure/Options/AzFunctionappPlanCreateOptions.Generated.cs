@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "plan", "create")]
-public record AzFunctionappPlanCreateOptions : AzOptions
+public record AzFunctionappPlanCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--sku")] string Sku
+) : AzOptions
 {
     /// <summary>
     /// Host function app on Linux worker.  Allowed values: false, true.
@@ -39,10 +43,16 @@ public record AzFunctionappPlanCreateOptions : AzOptions
     public bool? MaxBurst { get; set; }
 
     /// <summary>
+    /// The number of workers for the app service plan.
+    /// </summary>
+    [CliFlag("--min-instances", ShortForm = "--number-of-workers")]
+    public bool? MinInstances { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Enable zone redundancy for high availability. Cannot be changed after plan creation. Minimum instance count is 3.

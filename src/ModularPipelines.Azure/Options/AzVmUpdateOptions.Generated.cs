@@ -21,6 +21,42 @@ namespace ModularPipelines.Azure.Options;
 public record AzVmUpdateOptions : AzOptions
 {
     /// <summary>
+    /// Specify whether to implicitly install the ProxyAgent
+    /// </summary>
+    [CliFlag("--add-proxy-agent-ext", ShortForm = "--add-proxy-agent-extension")]
+    public bool? AddProxyAgentExt { get; set; }
+
+    /// <summary>
+    /// The configuration parameter used while creating event grid and resource graph scheduled event setting.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--additional-events", ShortForm = "--additional-scheduled-events")]
+    public bool? AdditionalEvents { get; set; }
+
+    /// <summary>
+    /// Specify whether the regional disks should be aligned/moved to the VM zone. This is applicable only for VMs with placement property set. Please note that this change is irreversible.
+    /// </summary>
+    [CliFlag("--align-regional-disks", ShortForm = "--align-regional-disks-to-vm-zone")]
+    public bool? AlignRegionalDisks { get; set; }
+
+    /// <summary>
+    /// Specifies if
+    /// </summary>
+    [CliFlag("--all-instance-down", ShortForm = "--enable-all-instance-down")]
+    public bool? AllInstanceDown { get; set; }
+
+    /// <summary>
+    /// The ID or name of the capacity reservation group that is used to allocate. Pass in "None" to disassociate the capacity reservation group. Please note that if you want to delete a VM/VMSS that has been associated with capacity reservation group, you need to disassociate the capacity reservation group first.
+    /// </summary>
+    [CliOption("--capacity-reservation-group", ShortForm = "--crg")]
+    public string? CapacityReservationGroup { get; set; }
+
+    /// <summary>
+    /// Explicitly opt out the VM from being associated with any capacity reservation. The VM will consume publicly available capacity.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--disable-capacity-reservation-assignment", ShortForm = "--no-cap-reservation")]
+    public bool? DisableCapacityReservationAssignment { get; set; }
+
+    /// <summary>
     /// Use singular value to apply across, or specify individual disks, e.g. 'os=ReadWrite 0=None 1=ReadOnly' should enable update os disk and 2 data disks.
     /// </summary>
     [CliFlag("--disk-caching")]
@@ -39,6 +75,18 @@ public record AzVmUpdateOptions : AzOptions
     public bool? EnableProxyAgent { get; set; }
 
     /// <summary>
+    /// The configuration parameter used while publishing scheduled events additional publishing targets.
+    /// </summary>
+    [CliFlag("--enable-reboot", ShortForm = "--enable-user-reboot-scheduled-events")]
+    public bool? EnableReboot { get; set; }
+
+    /// <summary>
+    /// The configuration parameter used while creating user initiated redeploy scheduled event setting creation.
+    /// </summary>
+    [CliFlag("--enable-redeploy", ShortForm = "--enable-user-redeploy-scheduled-events")]
+    public bool? EnableRedeploy { get; set; }
+
+    /// <summary>
     /// Enable secure boot.
     /// </summary>
     [CliFlag("--enable-secure-boot")]
@@ -51,10 +99,22 @@ public record AzVmUpdateOptions : AzOptions
     public bool? EnableVtpm { get; set; }
 
     /// <summary>
+    /// Only applicable when used with `--size`. Allows you to choose the
+    /// </summary>
+    [CliFlag("--ephemeral-os-disk-placement", ShortForm = "--ephemeral-placement")]
+    public bool? EphemeralOsDiskPlacement { get; set; }
+
+    /// <summary>
+    /// Specify the access control profile version resource id resource id of imds.
+    /// </summary>
+    [CliOption("--imds-access-control-profile-reference-id", ShortForm = "--imds-profile-id")]
+    public string? ImdsAccessControlProfileReferenceId { get; set; }
+
+    /// <summary>
     /// Specify the mode that proxy agent will execute on if the feature is enabled.  Allowed values: Audit,
     /// </summary>
-    [CliFlag("--imds-mode")]
-    public bool? ImdsMode { get; set; }
+    [CliOption("--imds-mode")]
+    public string? ImdsMode { get; set; }
 
     /// <summary>
     /// Increase the value of this property allows user to reset the key used for securing communication channel between guest and host.
@@ -84,13 +144,19 @@ public record AzVmUpdateOptions : AzOptions
     /// The name or ID of the proximity placement group the
     /// </summary>
     [CliOption("--ppg")]
-    public string? PpgValue { get; set; }
+    public string? Ppg { get; set; }
 
     /// <summary>
     /// Priority. Use 'Spot' to run short-lived workloads in a cost-effective way. 'Low' enum will be deprecated in the future. Please use 'Spot' to deploy
     /// </summary>
     [CliFlag("--priority")]
     public bool? Priority { get; set; }
+
+    /// <summary>
+    /// Specifies the api- version to determine which
+    /// </summary>
+    [CliFlag("--scheduled-events-api-version", ShortForm = "--se-api-version")]
+    public bool? ScheduledEventsApiVersion { get; set; }
 
     /// <summary>
     /// Specify the security type of the virtual machine.  Allowed
@@ -123,10 +189,16 @@ public record AzVmUpdateOptions : AzOptions
     public bool? VCpusPerCore { get; set; }
 
     /// <summary>
+    /// Specify the access control profile version resource id of wire server.
+    /// </summary>
+    [CliOption("--wire-server-access-control-profile-reference-id", ShortForm = "--wire-server-profile-id")]
+    public string? WireServerAccessControlProfileReferenceId { get; set; }
+
+    /// <summary>
     /// Specify the mode that proxy agent will execute on if the feature is enabled.  Allowed values: Audit,
     /// </summary>
-    [CliFlag("--wire-server-mode")]
-    public bool? WireServerMode { get; set; }
+    [CliOption("--wire-server-mode")]
+    public string? WireServerMode { get; set; }
 
     /// <summary>
     /// Enable/disable disk write accelerator.
@@ -146,11 +218,46 @@ public record AzVmUpdateOptions : AzOptions
     [CliFlag("--zone-movement")]
     public bool? ZoneMovement { get; set; }
 
-    [Obsolete("Use PpgValue instead.")]
-    public bool? Ppg
-    {
-        get => bool.TryParse(PpgValue, out var value) ? value : null;
-        set => PpgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

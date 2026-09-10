@@ -21,6 +21,8 @@ namespace ModularPipelines.Azure.Services;
 public class AzAdGroup
 {
     private readonly ICommandContext _command;
+    private AzAdGroupMember? _member;
+    private AzAdGroupOwner? _owner;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAdGroup"/> class.
@@ -29,6 +31,20 @@ public class AzAdGroup
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az member sub-commands.
+    /// </summary>
+    public AzAdGroupMember Member => _member ??= new AzAdGroupMember(_command);
+
+    /// <summary>
+    /// az owner sub-commands.
+    /// </summary>
+    public AzAdGroupOwner Owner => _owner ??= new AzAdGroupOwner(_command);
+
+    #endregion
 
     #region Commands
 
@@ -40,11 +56,26 @@ public class AzAdGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzAdGroupCreateOptions? options = null,
+        AzAdGroupCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzAdGroupCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Delete a group.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteAsync(
+        AzAdGroupDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -55,11 +86,11 @@ public class AzAdGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMemberGroupsAsync(
-        AzAdGroupGetMemberGroupsOptions? options = null,
+        AzAdGroupGetMemberGroupsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzAdGroupGetMemberGroupsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -75,6 +106,21 @@ public class AzAdGroup
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzAdGroupListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the details of a group.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzAdGroupShowOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

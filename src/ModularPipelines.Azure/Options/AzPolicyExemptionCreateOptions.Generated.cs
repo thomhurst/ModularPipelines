@@ -24,32 +24,72 @@ public record AzPolicyExemptionCreateOptions : AzOptions
     /// The name of the policy exemption.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The scope of the policy assignment.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The assignment scope validation.  Allowed values: Default, DoNotValidate.  Default: Default.
+    /// </summary>
+    [CliOption("--assignment-scope-validation", ShortForm = "-v")]
+    public string? AssignmentScopeValidation { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Policy exemption description.
+    /// </summary>
+    [CliFlag("--description")]
+    public bool? Description { get; set; }
+
+    /// <summary>
+    /// The display name of the policy exemption.
+    /// </summary>
+    [CliFlag("--display-name")]
+    public bool? DisplayName { get; set; }
+
+    /// <summary>
+    /// The policy exemption category.  Allowed values:
+    /// </summary>
+    [CliOption("--exemption-category", ShortForm = "-e")]
+    public string? ExemptionCategory { get; set; }
+
+    /// <summary>
+    /// The expiration date and time.
+    /// </summary>
+    [CliFlag("--expires-on")]
+    public bool? ExpiresOn { get; set; }
+
+    /// <summary>
+    /// The policy exemption metadata.  Support shorthand- syntax(full value only), json-file and yaml-file.
+    /// </summary>
+    [CliFlag("--metadata")]
+    public bool? Metadata { get; set; }
+
+    /// <summary>
+    /// The policy assignment to exempt.
+    /// </summary>
+    [CliFlag("--policy-assignment", ShortForm = "-a")]
+    public bool? PolicyAssignment { get; set; }
+
+    /// <summary>
+    /// The policy definition reference IDs.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--policy-definition-reference-ids", ShortForm = "-r")]
+    public bool? PolicyDefinitionReferenceIds { get; set; }
+
+    /// <summary>
+    /// The resource selectors list to filter policies by resource properties.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--resource-selectors")]
+    public string? ResourceSelectors { get; set; }
 
 }

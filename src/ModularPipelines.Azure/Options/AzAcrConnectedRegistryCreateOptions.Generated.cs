@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "connected-registry", "create")]
-public record AzAcrConnectedRegistryCreateOptions : AzOptions
+public record AzAcrConnectedRegistryCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
     /// <summary>
     /// Specify the client access to the repositories in the connected registry. It can be in the format [TOKEN_NAME01] [TOKEN_NAME02]...
@@ -47,20 +50,20 @@ public record AzAcrConnectedRegistryCreateOptions : AzOptions
     /// <summary>
     /// Determine the access it will have when synchronized.  Allowed values: ReadOnly, ReadWrite.  Default: ReadOnly.
     /// </summary>
-    [CliFlag("--mode", ShortForm = "-m")]
-    public bool? Mode { get; set; }
+    [CliOption("--mode", ShortForm = "-m")]
+    public string? Mode { get; set; }
 
     /// <summary>
     /// List of artifact pattern for which notifications need to be generated. Use the format "--notifications [PATTERN1 PATTERN2 ...]".
     /// </summary>
-    [CliFlag("--notifications")]
-    public bool? Notifications { get; set; }
+    [CliOption("--notifications", GroupValues = true)]
+    public IEnumerable<string>? Notifications { get; set; }
 
     /// <summary>
     /// The name of the parent connected registry.
     /// </summary>
     [CliOption("--parent", ShortForm = "-p")]
-    public string? ParentValue { get; set; }
+    public string? Parent { get; set; }
 
     /// <summary>
     /// Specify the repositories that need to be sync to the connected registry. It can be in the format [REPO01] [REPO02]...
@@ -72,7 +75,7 @@ public record AzAcrConnectedRegistryCreateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Determine how long the sync messages will be kept in the cloud. Uses ISO 8601 duration format.  Default: P2D.
@@ -103,19 +106,5 @@ public record AzAcrConnectedRegistryCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
-
-    [Obsolete("Use ParentValue instead.")]
-    public bool? Parent
-    {
-        get => bool.TryParse(ParentValue, out var value) ? value : null;
-        set => ParentValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

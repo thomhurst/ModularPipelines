@@ -18,12 +18,14 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "flow-log", "create")]
-public record AzNetworkWatcherFlowLogCreateOptions : AzOptions
+public record AzNetworkWatcherFlowLogCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Enable logging. Default: true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--enabled")]
+    [CliOption("--enabled")]
     public bool? Enabled { get; set; }
 
     /// <summary>
@@ -36,25 +38,25 @@ public record AzNetworkWatcherFlowLogCreateOptions : AzOptions
     /// Name or ID of the Network Interface (NIC) Resource.
     /// </summary>
     [CliOption("--nic")]
-    public string? NicValue { get; set; }
+    public string? Nic { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Name or ID of the network security group.
     /// </summary>
     [CliOption("--nsg")]
-    public string? NsgValue { get; set; }
+    public string? Nsg { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Number of days to retain logs.
@@ -66,79 +68,78 @@ public record AzNetworkWatcherFlowLogCreateOptions : AzOptions
     /// Name or ID of the storage account in which to save the flow logs. Must be in the same region of flow log.
     /// </summary>
     [CliOption("--storage-account")]
-    public string? StorageAccountValue { get; set; }
+    public string? StorageAccount { get; set; }
 
     /// <summary>
     /// Name or ID of Subnet.
     /// </summary>
     [CliOption("--subnet")]
-    public string? SubnetValue { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Name or ID of the ManagedIdentity Resource.
     /// </summary>
     [CliOption("--user-assigned-identity")]
-    public string? UserAssignedIdentityValue { get; set; }
+    public string? UserAssignedIdentity { get; set; }
 
     /// <summary>
     /// Name or ID of the Virtual Network Resource.
     /// </summary>
     [CliOption("--vnet")]
-    public string? VnetValue { get; set; }
+    public string? Vnet { get; set; }
 
-    [Obsolete("Use NicValue instead.")]
-    public bool? Nic
-    {
-        get => bool.TryParse(NicValue, out var value) ? value : null;
-        set => NicValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// File type of the flow log.  Allowed values: JSON.
+    /// </summary>
+    [CliOption("--format")]
+    public string? Format { get; set; }
 
-    [Obsolete("Use NsgValue instead.")]
-    public bool? Nsg
-    {
-        get => bool.TryParse(NsgValue, out var value) ? value : null;
-        set => NsgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Version (revision) of the flow log.
+    /// </summary>
+    [CliFlag("--log-version")]
+    public bool? LogVersion { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// FlowLog resource Managed Identity  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--identity")]
+    public bool? Identity { get; set; }
 
-    [Obsolete("Use StorageAccountValue instead.")]
-    public bool? StorageAccount
-    {
-        get => bool.TryParse(StorageAccountValue, out var value) ? value : null;
-        set => StorageAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Optional field to filter flowlogs based on SrcIP, SrcPort, DstIP, DstPort, Protocol, Encryption, Direction and Action. If not specified, all flowlogs will be logged.
+    /// </summary>
+    [CliFlag("--filtering-criteria")]
+    public bool? FilteringCriteria { get; set; }
 
-    [Obsolete("Use SubnetValue instead.")]
-    public bool? Subnet
-    {
-        get => bool.TryParse(SubnetValue, out var value) ? value : null;
-        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Optional field to filter network traffic logs based on flow states. Value of this field could be any comma separated combination string of letters B,C,E or D. B represents Begin, when a flow is created. C represents Continue for an ongoing flow generated at every five- minute interval. E represents End, when a flow is terminated. D represents Deny, when a flow is denied. If not specified, all network traffic will be logged.
+    /// </summary>
+    [CliFlag("--record-types")]
+    public bool? RecordTypes { get; set; }
 
-    [Obsolete("Use UserAssignedIdentityValue instead.")]
-    public bool? UserAssignedIdentity
-    {
-        get => bool.TryParse(UserAssignedIdentityValue, out var value) ? value : null;
-        set => UserAssignedIdentityValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Interval in minutes at which to conduct flow analytics. Temporarily allowed values are 10 and 60.  Default: 60.
+    /// </summary>
+    [CliOption("--interval")]
+    public string? Interval { get; set; }
 
-    [Obsolete("Use VnetValue instead.")]
-    public bool? Vnet
-    {
-        get => bool.TryParse(VnetValue, out var value) ? value : null;
-        set => VnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Enable traffic analytics. Defaults to true if `--workspace` is provided.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--traffic-analytics")]
+    public bool? TrafficAnalytics { get; set; }
+
+    /// <summary>
+    /// Name or ID of a Log Analytics workspace. Must be in the same region of flow log.
+    /// </summary>
+    [CliOption("--workspace")]
+    public string? Workspace { get; set; }
 
 }

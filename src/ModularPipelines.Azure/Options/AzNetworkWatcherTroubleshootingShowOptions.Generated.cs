@@ -18,51 +18,32 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "troubleshooting", "show")]
-public record AzNetworkWatcherTroubleshootingShowOptions : AzOptions
+public record AzNetworkWatcherTroubleshootingShowOptions(
+    [property: CliOption("--resource")] string Resource
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The resource type.  Allowed values: vnetGateway, vpnConnection.
     /// </summary>
     [CliOption("--resource-type", ShortForm = "-t")]
-    public string? ResourceTypeValue { get; set; }
+    public string? ResourceType { get; set; }
 
     /// <summary>
     /// Name of the resource group the watcher is in.
     /// </summary>
     [CliOption("--watcher-rg")]
-    public string? WatcherRgValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceTypeValue instead.")]
-    public bool? ResourceType
-    {
-        get => bool.TryParse(ResourceTypeValue, out var value) ? value : null;
-        set => ResourceTypeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use WatcherRgValue instead.")]
-    public bool? WatcherRg
-    {
-        get => bool.TryParse(WatcherRgValue, out var value) ? value : null;
-        set => WatcherRgValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? WatcherRg { get; set; }
 
 }

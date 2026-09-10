@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "server-logs", "list")]
-public record AzMysqlFlexibleServerServerLogsListOptions : AzOptions
+public record AzMysqlFlexibleServerServerLogsListOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
+) : AzOptions
 {
     /// <summary>
     /// Integer in hours to indicate file last modify time.  Default: 72.

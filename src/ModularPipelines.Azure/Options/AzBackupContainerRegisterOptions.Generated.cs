@@ -18,12 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "container", "register")]
-public record AzBackupContainerRegisterOptions : AzOptions
+public record AzBackupContainerRegisterOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--resource-id")] string ResourceId,
+    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName,
+    [property: CliOption("--workload-type")] string WorkloadType
+) : AzOptions
 {
     /// <summary>
     /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name. Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.
     /// </summary>
-    [CliFlag("--backup-management-type")]
-    public bool? BackupManagementType { get; set; }
+    [CliOption("--backup-management-type")]
+    public string? BackupManagementType { get; set; }
 
 }

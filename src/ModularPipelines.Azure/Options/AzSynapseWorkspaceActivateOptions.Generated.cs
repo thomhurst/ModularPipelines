@@ -18,12 +18,38 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "workspace", "activate")]
-public record AzSynapseWorkspaceActivateOptions : AzOptions
+public record AzSynapseWorkspaceActivateOptions(
+    [property: CliOption("--key-identifier")] string KeyIdentifier
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The workspace customer-managed key display name. All existing keys can be found using /"az synapse workspace key list/" cmdlet.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The workspace name.
+    /// </summary>
+    [CliFlag("--workspace-name")]
+    public bool? WorkspaceName { get; set; }
 
 }

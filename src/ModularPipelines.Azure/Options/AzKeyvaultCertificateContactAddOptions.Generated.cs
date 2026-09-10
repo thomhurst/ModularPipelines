@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "contact", "add")]
-public record AzKeyvaultCertificateContactAddOptions : AzOptions
+public record AzKeyvaultCertificateContactAddOptions(
+    [property: CliOption("--email")] string Email,
+    [property: CliOption("--vault-name")] string VaultName
+) : AzOptions
 {
     /// <summary>
     /// Full contact name.

@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("role", "definition", "delete")]
-public record AzRoleDefinitionDeleteOptions : AzOptions
+public record AzRoleDefinitionDeleteOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Custom roles only(vs. build-in ones).  Allowed values: false, true.
@@ -35,7 +37,7 @@ public record AzRoleDefinitionDeleteOptions : AzOptions
     /// <summary>
     /// Scope at which the role assignment or definition applies to, e.g., /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333, /subscriptions/0b1f6471-1bf0-4dda- aec3-111122223333/resourceGroups/myGroup, or /subscriptions/0b1f6471-1bf0-4dda-aec3- 111122223333/resourceGroups/myGroup/providers/Microsoft.Compute/virtual
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
 }

@@ -18,13 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "identity", "assign")]
-public record AzStaticwebappIdentityAssignOptions : AzOptions
+public record AzStaticwebappIdentityAssignOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Space-separated identities to assign. Use '[system]' to refer to the system assigned identity. Default: '[system]'.
     /// </summary>
-    [CliFlag("--identities")]
-    public bool? Identities { get; set; }
+    [CliOption("--identities", GroupValues = true)]
+    public IEnumerable<string>? Identities { get; set; }
 
     /// <summary>
     /// Role name or id the managed identity will be assigned.
@@ -35,7 +38,7 @@ public record AzStaticwebappIdentityAssignOptions : AzOptions
     /// <summary>
     /// The scope the managed identity has access to.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
 }

@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "rule", "create")]
-public record AzMonitorAutoscaleRuleCreateOptions : AzOptions
+public record AzMonitorAutoscaleRuleCreateOptions(
+    [property: CliOption("--autoscale-name")] string AutoscaleName,
+    [property: CliOption("--condition")] string Condition,
+    [property: CliOption("--scale")] string Scale
+) : AzOptions
 {
     /// <summary>
     /// The number of minutes that must elapse before another scaling event can occur.  Default: 5.
@@ -30,7 +34,7 @@ public record AzMonitorAutoscaleRuleCreateOptions : AzOptions
     /// Name of the autoscale profile.  Default: default.
     /// </summary>
     [CliOption("--profile-name")]
-    public string? ProfileNameValue { get; set; }
+    public string? ProfileName { get; set; }
 
     /// <summary>
     /// The way metrics are polled across instances.  Default: avg 1m.
@@ -38,11 +42,34 @@ public record AzMonitorAutoscaleRuleCreateOptions : AzOptions
     [CliFlag("--timegrain")]
     public bool? Timegrain { get; set; }
 
-    [Obsolete("Use ProfileNameValue instead.")]
-    public bool? ProfileName
-    {
-        get => bool.TryParse(ProfileNameValue, out var value) ? value : null;
-        set => ProfileNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name or ID of the target resource.
+    /// </summary>
+    [CliOption("--resource")]
+    public string? Resource { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Target resource provider namespace.
+    /// </summary>
+    [CliFlag("--resource-namespace")]
+    public bool? ResourceNamespace { get; set; }
+
+    /// <summary>
+    /// Target resource parent path, if applicable.
+    /// </summary>
+    [CliFlag("--resource-parent")]
+    public bool? ResourceParent { get; set; }
+
+    /// <summary>
+    /// Target resource type. Can also accept namespace/type format (Ex: 'Microsoft.Compute/virtualMachines').
+    /// </summary>
+    [CliFlag("--resource-type")]
+    public bool? ResourceType { get; set; }
 
 }

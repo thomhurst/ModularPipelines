@@ -40,11 +40,11 @@ public class AzPostgresFlexibleServerDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzPostgresFlexibleServerDbCreateOptions? options = null,
+        AzPostgresFlexibleServerDbCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerDbCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -60,6 +60,36 @@ public class AzPostgresFlexibleServerDb
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerDbDeleteOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List the databases for a flexible server.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzPostgresFlexibleServerDbListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerDbListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Show the details of a database.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzPostgresFlexibleServerDbShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerDbShowOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -23,8 +23,8 @@ public record AzBicepInstallOptions : AzOptions
     /// <summary>
     /// The platform the Bicep CLI will be running on. Set this to skip automatic platform detection if it does not work properly.  Allowed values: linux-arm64, linux-musl-x64, linux-x64, osx-arm64, osx-x64, win-arm64, win-x64.
     /// </summary>
-    [CliFlag("--target-platform", ShortForm = "-t")]
-    public bool? TargetPlatform { get; set; }
+    [CliOption("--target-platform", ShortForm = "-t")]
+    public string? TargetPlatform { get; set; }
 
     /// <summary>
     /// The version of Bicep CLI to be installed. Default to the latest if not specified.

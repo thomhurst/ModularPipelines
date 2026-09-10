@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "recover")]
-public record AzAppConfigRecoverOptions : AzOptions
+public record AzAppConfigRecoverOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Location of the deleted App Configuration store. Can be viewed using command `az appconfig show-deleted`.
@@ -30,19 +32,12 @@ public record AzAppConfigRecoverOptions : AzOptions
     /// Resource group of the deleted App Configuration store.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

@@ -21,6 +21,12 @@ namespace ModularPipelines.Azure.Options;
 public record AzFunctionappConfigContainerSetOptions : AzOptions
 {
     /// <summary>
+    /// Enable/Disable API logging for the Dapr sidecar.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--dal", ShortForm = "--dapr-enable-api-logging")]
+    public bool? Dal { get; set; }
+
+    /// <summary>
     /// The Dapr application identifier.
     /// </summary>
     [CliFlag("--dapr-app-id")]
@@ -33,16 +39,34 @@ public record AzFunctionappConfigContainerSetOptions : AzOptions
     public bool? DaprAppPort { get; set; }
 
     /// <summary>
+    /// Max size of request body http and grpc servers in MB to handle uploading of large files.
+    /// </summary>
+    [CliFlag("--dapr-http-max-request-size", ShortForm = "--dhmrs")]
+    public bool? DaprHttpMaxRequestSize { get; set; }
+
+    /// <summary>
+    /// Max size of http header read buffer in KB to handle when sending multi-KB headers.
+    /// </summary>
+    [CliFlag("--dapr-http-read-buffer-size", ShortForm = "--dhrbs")]
+    public bool? DaprHttpReadBufferSize { get; set; }
+
+    /// <summary>
     /// The log level for the Dapr sidecar.  Allowed values: debug, error, info, warn.
     /// </summary>
-    [CliFlag("--dapr-log-level")]
-    public bool? DaprLogLevel { get; set; }
+    [CliOption("--dapr-log-level")]
+    public string? DaprLogLevel { get; set; }
 
     /// <summary>
     /// Enable/Disable Dapr for a function app on an Azure Container App environment.  Allowed values: false, true.
     /// </summary>
     [CliOption("--enable-dapr")]
     public bool? EnableDapr { get; set; }
+
+    /// <summary>
+    /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image- name&gt;:&lt;tag&gt;`).
+    /// </summary>
+    [CliFlag("--image", ShortForm = "-i")]
+    public bool? Image { get; set; }
 
     /// <summary>
     /// The container registry server password.
@@ -66,13 +90,24 @@ public record AzFunctionappConfigContainerSetOptions : AzOptions
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
-    {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the function app.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

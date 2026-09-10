@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "system-topic", "create")]
-public record AzEventgridSystemTopicCreateOptions : AzOptions
+public record AzEventgridSystemTopicCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--source")] string Source,
+    [property: CliOption("--topic-type")] string TopicType
+) : AzOptions
 {
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
@@ -35,7 +40,7 @@ public record AzEventgridSystemTopicCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

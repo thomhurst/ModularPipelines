@@ -23,7 +23,49 @@ public record AzNetappfilesVolumeBucketGenerateAkvCredentialOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// The number of days from now until the newly generated Access and Secret key pair will expire.
+    /// </summary>
+    [CliFlag("--key-pair-expiry-days")]
+    public bool? KeyPairExpiryDays { get; set; }
+
+    /// <summary>
+    /// The name of the NetApp account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// The name of the bucket.
+    /// </summary>
+    [CliOption("--bucket-name", ShortForm = "-n")]
+    public string? BucketName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the capacity pool.
+    /// </summary>
+    [CliOption("--pool-name", ShortForm = "-p")]
+    public string? PoolName { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The name of the volume.
+    /// </summary>
+    [CliOption("--volume-name", ShortForm = "-v")]
+    public string? VolumeName { get; set; }
 
 }

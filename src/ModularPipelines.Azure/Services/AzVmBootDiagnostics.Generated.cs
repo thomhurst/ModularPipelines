@@ -33,6 +33,21 @@ public class AzVmBootDiagnostics
     #region Commands
 
     /// <summary>
+    /// Disable the boot diagnostics on a VM.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DisableAsync(
+        AzVmBootDiagnosticsDisableOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmBootDiagnosticsDisableOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Enable the boot diagnostics on a VM.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -45,6 +60,21 @@ public class AzVmBootDiagnostics
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmBootDiagnosticsEnableOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the boot diagnostics log from a VM.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetBootLogAsync(
+        AzVmBootDiagnosticsGetBootLogOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmBootDiagnosticsGetBootLogOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

@@ -41,19 +41,22 @@ internal partial class Az : IAz
         IAzBicep bicep,
         IAzBilling billing,
         IAzBot bot,
+        IAzCache cache,
         IAzCapacity capacity,
         IAzCloud cloud,
         IAzCognitiveservices cognitiveservices,
-        IAzComputefleet computefleet,
+        IAzComputeFleet computeFleet,
+        IAzComputeRecommender computeRecommender,
         IAzConnection connection,
         IAzContainer container,
         IAzContainerapp containerapp,
         IAzCosmosdb cosmosdb,
+        IAzDataBoundary dataBoundary,
         IAzDataboxedge databoxedge,
         IAzDeployment deployment,
-        IAzDeploymentscripts deploymentscripts,
+        IAzDeploymentScripts deploymentScripts,
         IAzDisk disk,
-        IAzDiskaccess diskaccess,
+        IAzDiskAccess diskAccess,
         IAzDiskEncryptionSet diskEncryptionSet,
         IAzDms dms,
         IAzEventgrid eventgrid,
@@ -70,7 +73,7 @@ internal partial class Az : IAz
         IAzLock @lock,
         IAzLogicapp logicapp,
         IAzManagedapp managedapp,
-        IAzManagedcassandra managedcassandra,
+        IAzManagedCassandra managedCassandra,
         IAzManagedservices managedservices,
         IAzMaps maps,
         IAzMariadb mariadb,
@@ -81,7 +84,7 @@ internal partial class Az : IAz
         IAzPolicy policy,
         IAzPostgres postgres,
         IAzPpg ppg,
-        IAzPrivatelink privatelink,
+        IAzPrivateLink privateLink,
         IAzProvider provider,
         IAzRedis redis,
         IAzRelay relay,
@@ -97,7 +100,7 @@ internal partial class Az : IAz
         IAzSignalr signalr,
         IAzSnapshot snapshot,
         IAzSql sql,
-        IAzSshkey sshkey,
+        IAzSshKey sshKey,
         IAzStack stack,
         IAzStackWhatif stackWhatif,
         IAzStaticwebapp staticwebapp,
@@ -126,19 +129,22 @@ internal partial class Az : IAz
         Bicep = bicep;
         Billing = billing;
         Bot = bot;
+        Cache = cache;
         Capacity = capacity;
         Cloud = cloud;
         Cognitiveservices = cognitiveservices;
-        Computefleet = computefleet;
+        ComputeFleet = computeFleet;
+        ComputeRecommender = computeRecommender;
         Connection = connection;
         Container = container;
         Containerapp = containerapp;
         Cosmosdb = cosmosdb;
+        DataBoundary = dataBoundary;
         Databoxedge = databoxedge;
         Deployment = deployment;
-        Deploymentscripts = deploymentscripts;
+        DeploymentScripts = deploymentScripts;
         Disk = disk;
-        Diskaccess = diskaccess;
+        DiskAccess = diskAccess;
         DiskEncryptionSet = diskEncryptionSet;
         Dms = dms;
         Eventgrid = eventgrid;
@@ -155,7 +161,7 @@ internal partial class Az : IAz
         Lock = @lock;
         Logicapp = logicapp;
         Managedapp = managedapp;
-        Managedcassandra = managedcassandra;
+        ManagedCassandra = managedCassandra;
         Managedservices = managedservices;
         Maps = maps;
         Mariadb = mariadb;
@@ -166,7 +172,7 @@ internal partial class Az : IAz
         Policy = policy;
         Postgres = postgres;
         Ppg = ppg;
-        Privatelink = privatelink;
+        PrivateLink = privateLink;
         Provider = provider;
         Redis = redis;
         Relay = relay;
@@ -182,7 +188,7 @@ internal partial class Az : IAz
         Signalr = signalr;
         Snapshot = snapshot;
         Sql = sql;
-        Sshkey = sshkey;
+        SshKey = sshKey;
         Stack = stack;
         StackWhatif = stackWhatif;
         Staticwebapp = staticwebapp;
@@ -244,6 +250,9 @@ internal partial class Az : IAz
     public IAzBot Bot { get; }
 
     /// <inheritdoc />
+    public IAzCache Cache { get; }
+
+    /// <inheritdoc />
     public IAzCapacity Capacity { get; }
 
     /// <inheritdoc />
@@ -253,7 +262,10 @@ internal partial class Az : IAz
     public IAzCognitiveservices Cognitiveservices { get; }
 
     /// <inheritdoc />
-    public IAzComputefleet Computefleet { get; }
+    public IAzComputeFleet ComputeFleet { get; }
+
+    /// <inheritdoc />
+    public IAzComputeRecommender ComputeRecommender { get; }
 
     /// <inheritdoc />
     public IAzConnection Connection { get; }
@@ -268,19 +280,22 @@ internal partial class Az : IAz
     public IAzCosmosdb Cosmosdb { get; }
 
     /// <inheritdoc />
+    public IAzDataBoundary DataBoundary { get; }
+
+    /// <inheritdoc />
     public IAzDataboxedge Databoxedge { get; }
 
     /// <inheritdoc />
     public IAzDeployment Deployment { get; }
 
     /// <inheritdoc />
-    public IAzDeploymentscripts Deploymentscripts { get; }
+    public IAzDeploymentScripts DeploymentScripts { get; }
 
     /// <inheritdoc />
     public IAzDisk Disk { get; }
 
     /// <inheritdoc />
-    public IAzDiskaccess Diskaccess { get; }
+    public IAzDiskAccess DiskAccess { get; }
 
     /// <inheritdoc />
     public IAzDiskEncryptionSet DiskEncryptionSet { get; }
@@ -331,7 +346,7 @@ internal partial class Az : IAz
     public IAzManagedapp Managedapp { get; }
 
     /// <inheritdoc />
-    public IAzManagedcassandra Managedcassandra { get; }
+    public IAzManagedCassandra ManagedCassandra { get; }
 
     /// <inheritdoc />
     public IAzManagedservices Managedservices { get; }
@@ -364,7 +379,7 @@ internal partial class Az : IAz
     public IAzPpg Ppg { get; }
 
     /// <inheritdoc />
-    public IAzPrivatelink Privatelink { get; }
+    public IAzPrivateLink PrivateLink { get; }
 
     /// <inheritdoc />
     public IAzProvider Provider { get; }
@@ -412,7 +427,7 @@ internal partial class Az : IAz
     public IAzSql Sql { get; }
 
     /// <inheritdoc />
-    public IAzSshkey Sshkey { get; }
+    public IAzSshKey SshKey { get; }
 
     /// <inheritdoc />
     public IAzStack Stack { get; }

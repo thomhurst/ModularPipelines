@@ -21,6 +21,12 @@ namespace ModularPipelines.Azure.Options;
 public record AzBackupDeletedVaultListContainersOptions : AzOptions
 {
     /// <summary>
+    /// ID of the deleted vault.
+    /// </summary>
+    [CliOption("--deleted-vault-id", ShortForm = "--ids")]
+    public string? DeletedVaultId { get; set; }
+
+    /// <summary>
     /// Location of the deleted vault.
     /// </summary>
     [CliFlag("--location", ShortForm = "-l")]
@@ -30,13 +36,6 @@ public record AzBackupDeletedVaultListContainersOptions : AzOptions
     /// Name of the deleted vault.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? Name { get; set; }
 
 }

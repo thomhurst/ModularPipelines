@@ -18,12 +18,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "storage-account", "container", "create")]
-public record AzDataboxedgeDeviceStorageAccountContainerCreateOptions : AzOptions
+public record AzDataboxedgeDeviceStorageAccountContainerCreateOptions(
+    [property: CliOption("--container-name", ShortForm = "-n")] string ContainerName,
+    [property: CliOption("--device-name")] string DeviceName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--storage-account-name")] string StorageAccountName,
+    [property: CliOption("--data-format")] string DataFormat
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

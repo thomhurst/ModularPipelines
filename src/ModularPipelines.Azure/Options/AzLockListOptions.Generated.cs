@@ -24,7 +24,7 @@ public record AzLockListOptions : AzOptions
     /// A query filter to use to restrict the results.
     /// </summary>
     [CliOption("--filter-string")]
-    public string? FilterStringValue { get; set; }
+    public string? FilterString { get; set; }
 
     /// <summary>
     /// Provider namespace (Ex: 'Microsoft.Provider').
@@ -39,36 +39,21 @@ public record AzLockListOptions : AzOptions
     public bool? Parent { get; set; }
 
     /// <summary>
+    /// Name or ID of the resource being locked. If an ID is given, other resource arguments should not be given.
+    /// </summary>
+    [CliOption("--resource", ShortForm = "--resource-name")]
+    public string? Resource { get; set; }
+
+    /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The resource type (Ex: 'resC'). Can also accept namespace/type format (Ex: 'Microsoft.Provider/resC').
     /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceTypeValue { get; set; }
-
-    [Obsolete("Use FilterStringValue instead.")]
-    public bool? FilterString
-    {
-        get => bool.TryParse(FilterStringValue, out var value) ? value : null;
-        set => FilterStringValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceTypeValue instead.")]
-    public bool? ResourceType
-    {
-        get => bool.TryParse(ResourceTypeValue, out var value) ? value : null;
-        set => ResourceTypeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceType { get; set; }
 
 }

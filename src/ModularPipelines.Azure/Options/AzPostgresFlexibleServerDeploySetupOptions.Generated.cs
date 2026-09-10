@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,13 +19,18 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "deploy", "setup")]
-public record AzPostgresFlexibleServerDeploySetupOptions : AzOptions
+public record AzPostgresFlexibleServerDeploySetupOptions(
+    [property: CliOption("--repo")] string Repo,
+    [property: CliOption("--sql-file")] string SqlFile,
+    [property: SecretValue, CliOption("--admin-password", ShortForm = "-p")] string AdminPassword,
+    [property: CliOption("--admin-user", ShortForm = "-u")] string AdminUser
+) : AzOptions
 {
     /// <summary>
     /// The name of the github action.
     /// </summary>
     [CliOption("--action-name")]
-    public string? ActionNameValue { get; set; }
+    public string? ActionName { get; set; }
 
     /// <summary>
     /// Push the action yml file to the remote repository. The changes will be pushed to origin repository, specified branch or current branch if not specified.  Allowed values: false, true.
@@ -36,20 +42,30 @@ public record AzPostgresFlexibleServerDeploySetupOptions : AzOptions
     /// The name of the branch you want upload github action file. The default will be your current branch.
     /// </summary>
     [CliOption("--branch")]
-    public string? BranchValue { get; set; }
+    public string? Branch { get; set; }
 
-    [Obsolete("Use ActionNameValue instead.")]
-    public bool? ActionName
-    {
-        get => bool.TryParse(ActionNameValue, out var value) ? value : null;
-        set => ActionNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The name of the database.
+    /// </summary>
+    [CliOption("--database-name", ShortForm = "-d")]
+    public string? DatabaseName { get; set; }
 
-    [Obsolete("Use BranchValue instead.")]
-    public bool? Branch
-    {
-        get => bool.TryParse(BranchValue, out var value) ? value : null;
-        set => BranchValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the server.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string? ServerName { get; set; }
 
 }

@@ -23,13 +23,277 @@ public record AzSqlVmUpdateOptions : AzOptions
     /// <summary>
     /// SQL IaaS Agent Least Privilege Mode. Updates from sysadmin to specific permissions used per feature.  Allowed values: Enabled, NotSet.
     /// </summary>
-    [CliFlag("--least-privilege-mode")]
-    public bool? LeastPrivilegeMode { get; set; }
+    [CliOption("--least-privilege-mode")]
+    public string? LeastPrivilegeMode { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Enable or disable R services (SQL 2016 onwards).  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-r-services")]
+    public bool? EnableRServices { get; set; }
+
+    /// <summary>
+    /// Resource group containing the AMA resources DCE and DCR.
+    /// </summary>
+    [CliOption("--agent-rg")]
+    public string? AgentRg { get; set; }
+
+    /// <summary>
+    /// Day of the week to run assessment.  Allowed values: Friday, Monday, Saturday, Sunday,
+    /// </summary>
+    [CliOption("--am-day", ShortForm = "--assessment-day-of-week")]
+    public string? AmDay { get; set; }
+
+    /// <summary>
+    /// Occurrence of the DayOfWeek day within a month to schedule assessment. Supports values 1,2,3,4 and -1. Use -1 for last DayOfWeek day of the month (for example - last Tuesday of the month).  Allowed values: -1, 1, 2, 3, 4.
+    /// </summary>
+    [CliOption("--am-month-occ", ShortForm = "--assessment-monthly-occurrence")]
+    public string? AmMonthOcc { get; set; }
+
+    /// <summary>
+    /// Enable or disable assessment Schedule. If any assessment schedule settings provided, parameter automatically sets to true.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--am-schedule", ShortForm = "--enable-assessment-schedule")]
+    public bool? AmSchedule { get; set; }
+
+    /// <summary>
+    /// Time of the day in HH:mm format. Examples include 17:30, 05:13.
+    /// </summary>
+    [CliFlag("--am-time", ShortForm = "--assessment-start-time-local")]
+    public bool? AmTime { get; set; }
+
+    /// <summary>
+    /// Number of weeks to schedule between 2 assessment runs. Supports value from 1-6. Allowed values: 1, 2, 3, 4, 5, 6.
+    /// </summary>
+    [CliOption("--am-week-int", ShortForm = "--assessment-weekly-interval")]
+    public string? AmWeekInt { get; set; }
+
+    /// <summary>
+    /// Enable or disable assessment feature. If any assessment settings provided, parameter automatically sets to true.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-assessment")]
+    public bool? EnableAssessment { get; set; }
+
+    /// <summary>
+    /// Name of the Log Analytics workspace to associate with VM.
+    /// </summary>
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; set; }
+
+    /// <summary>
+    /// Resource group containing the Log Analytics workspace.
+    /// </summary>
+    [CliOption("--workspace-rg")]
+    public string? WorkspaceRg { get; set; }
+
+    /// <summary>
+    /// Subscription containing the Log Analytics workspace.
+    /// </summary>
+    [CliFlag("--workspace-sub")]
+    public bool? WorkspaceSub { get; set; }
+
+    /// <summary>
+    /// Password for encryption on backup.
+    /// </summary>
+    [CliFlag("--backup-pwd")]
+    public bool? BackupPwd { get; set; }
+
+    /// <summary>
+    /// Backup schedule type.  Allowed values:
+    /// </summary>
+    [CliOption("--backup-schedule-type")]
+    public string? BackupScheduleType { get; set; }
+
+    /// <summary>
+    /// Include system databases on backup.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--backup-system-dbs")]
+    public bool? BackupSystemDbs { get; set; }
+
+    /// <summary>
+    /// Enable or disable autobackup on SQL virtual machine. If any backup settings provided, parameter automatically sets to true.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-auto-backup")]
+    public bool? EnableAutoBackup { get; set; }
+
+    /// <summary>
+    /// Enable encryption for backup on SQL virtual machine.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-encryption")]
+    public bool? EnableEncryption { get; set; }
+
+    /// <summary>
+    /// Duration of the time window of a given day during which full backups can take place. 1-23 hours.
+    /// </summary>
+    [CliFlag("--full-backup-duration")]
+    public bool? FullBackupDuration { get; set; }
+
+    /// <summary>
+    /// Frequency of full backups. In both cases, full backups begin during the next scheduled time window.  Allowed values: Daily, Weekly.
+    /// </summary>
+    [CliOption("--full-backup-frequency")]
+    public string? FullBackupFrequency { get; set; }
+
+    /// <summary>
+    /// Start time of a given day during which full backups can take place. 0-23 hours.
+    /// </summary>
+    [CliFlag("--full-backup-start-hour")]
+    public bool? FullBackupStartHour { get; set; }
+
+    /// <summary>
+    /// Frequency of log backups. 5-60 minutes.
+    /// </summary>
+    [CliFlag("--log-backup-frequency")]
+    public bool? LogBackupFrequency { get; set; }
+
+    /// <summary>
+    /// Retention period of backup. 1-30 days.
+    /// </summary>
+    [CliFlag("--retention-period")]
+    public bool? RetentionPeriod { get; set; }
+
+    /// <summary>
+    /// Storage account key where backup will be taken to.
+    /// </summary>
+    [CliFlag("--sa-key")]
+    public bool? SaKey { get; set; }
+
+    /// <summary>
+    /// Storage account url where backup will be taken to.
+    /// </summary>
+    [CliFlag("--storage-account")]
+    public bool? StorageAccount { get; set; }
+
+    /// <summary>
+    /// Day of week to apply the patch on.  Allowed values: Everyday, Friday, Monday, Saturday, Sunday, Thursday, Tuesday, Wednesday.
+    /// </summary>
+    [CliOption("--day-of-week")]
+    public string? DayOfWeek { get; set; }
+
+    /// <summary>
+    /// Enable or disable autopatching on SQL virtual machine. If any autopatching settings provided, parameter automatically sets to true.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-auto-patching")]
+    public bool? EnableAutoPatching { get; set; }
+
+    /// <summary>
+    /// Duration of patching. 30-180 minutes.
+    /// </summary>
+    [CliFlag("--maintenance-window-duration")]
+    public bool? MaintenanceWindowDuration { get; set; }
+
+    /// <summary>
+    /// Hour of the day when patching is initiated. Local VM time 0-23 hours.
+    /// </summary>
+    [CliFlag("--maintenance-window-start-hour")]
+    public bool? MaintenanceWindowStartHour { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Credential name.
+    /// </summary>
+    [CliFlag("--credential-name")]
+    public bool? CredentialName { get; set; }
+
+    /// <summary>
+    /// Enable or disable key vault credential setting. If any key vault settings provided, parameter automatically sets to true.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-key-vault-credential")]
+    public bool? EnableKeyVaultCredential { get; set; }
+
+    /// <summary>
+    /// Azure Key Vault url.
+    /// </summary>
+    [CliFlag("--key-vault")]
+    public bool? KeyVault { get; set; }
+
+    /// <summary>
+    /// Service principal name to access key vault.
+    /// </summary>
+    [CliFlag("--sp-name")]
+    public bool? SpName { get; set; }
+
+    /// <summary>
+    /// Service principal name secret to access key vault.
+    /// </summary>
+    [CliFlag("--sp-secret")]
+    public bool? SpSecret { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the SQL virtual machine.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// SQL Server connectivity option.  Allowed values: LOCAL, PRIVATE, PUBLIC.
+    /// </summary>
+    [CliOption("--connectivity-type")]
+    public string? ConnectivityType { get; set; }
+
+    /// <summary>
+    /// SQL Server port.
+    /// </summary>
+    [CliFlag("--port")]
+    public bool? Port { get; set; }
+
+    /// <summary>
+    /// SQL image sku.  Allowed values: Developer, Enterprise, Express, Standard, Web.
+    /// </summary>
+    [CliOption("--image-sku")]
+    public string? ImageSku { get; set; }
+
+    /// <summary>
+    /// SQL Server license type.  Allowed values: AHUB,
+    /// </summary>
+    [CliOption("--license-type", ShortForm = "-i")]
+    public string? LicenseType { get; set; }
+
+    /// <summary>
+    /// SQL Server workload type.  Allowed values: DW,
+    /// </summary>
+    [CliOption("--sql-workload-type")]
+    public string? SqlWorkloadType { get; set; }
 
 }

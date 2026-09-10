@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "parameter", "list")]
-public record AzMysqlFlexibleServerParameterListOptions : AzOptions
+public record AzMysqlFlexibleServerParameterListOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
+) : AzOptions
 {
     /// <summary>
     /// The keyword of the server configuration.

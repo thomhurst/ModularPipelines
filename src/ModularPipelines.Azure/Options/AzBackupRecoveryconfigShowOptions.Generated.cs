@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "recoveryconfig", "show")]
-public record AzBackupRecoveryconfigShowOptions : AzOptions
+public record AzBackupRecoveryConfigShowOptions(
+    [property: CliOption("--restore-mode")] string RestoreMode
+) : AzOptions
 {
     /// <summary>
     /// Specify attach and mount value for HANA Snapshot restores.  Allowed values: false, true.
@@ -29,20 +31,20 @@ public record AzBackupRecoveryconfigShowOptions : AzOptions
     /// <summary>
     /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name.  Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.  Default: AzureWorkload.
     /// </summary>
-    [CliFlag("--backup-management-type")]
-    public bool? BackupManagementType { get; set; }
+    [CliOption("--backup-management-type")]
+    public string? BackupManagementType { get; set; }
 
     /// <summary>
     /// The path to which the DB should be restored as files.
     /// </summary>
     [CliOption("--filepath")]
-    public string? FilepathValue { get; set; }
+    public string? Filepath { get; set; }
 
     /// <summary>
     /// Name of the starting Recovery point.
     /// </summary>
     [CliOption("--from-full-rp-name")]
-    public string? FromFullRpNameValue { get; set; }
+    public string? FromFullRpName { get; set; }
 
     /// <summary>
     /// Set Identity ARM ID for HANA Snapshot restores.
@@ -60,7 +62,7 @@ public record AzBackupRecoveryconfigShowOptions : AzOptions
     /// Name of the recovery point.
     /// </summary>
     [CliOption("--rp-name", ShortForm = "-r")]
-    public string? RpNameValue { get; set; }
+    public string? RpName { get; set; }
 
     /// <summary>
     /// Specify the resource group for HANA Snapshot Instance restores. If not provided, the default value will be fetched from the target container details.
@@ -101,8 +103,8 @@ public record AzBackupRecoveryconfigShowOptions : AzOptions
     /// <summary>
     /// Specify the type of the server which should be discovered.  Allowed values: HANAInstance, SAPAseDatabase, SAPHanaDBInstance, SAPHanaDatabase, SAPHanaSystem, SQLAG, SQLDatabase, SQLInstance.
     /// </summary>
-    [CliFlag("--target-server-type")]
-    public bool? TargetServerType { get; set; }
+    [CliOption("--target-server-type")]
+    public string? TargetServerType { get; set; }
 
     /// <summary>
     /// Specify the subscription of the target item for Cross Subscription Restore. Defaulted to source subscription if not specified.
@@ -119,28 +121,37 @@ public record AzBackupRecoveryconfigShowOptions : AzOptions
     /// <summary>
     /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance,
     /// </summary>
-    [CliFlag("--workload-type")]
-    public bool? WorkloadType { get; set; }
+    [CliOption("--workload-type")]
+    public string? WorkloadType { get; set; }
 
-    [Obsolete("Use FilepathValue instead.")]
-    public bool? Filepath
-    {
-        get => bool.TryParse(FilepathValue, out var value) ? value : null;
-        set => FilepathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then BackupManagementType is required.
+    /// </summary>
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string? ContainerName { get; set; }
 
-    [Obsolete("Use FromFullRpNameValue instead.")]
-    public bool? FromFullRpName
-    {
-        get => bool.TryParse(FromFullRpNameValue, out var value) ? value : null;
-        set => FromFullRpNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
-    [Obsolete("Use RpNameValue instead.")]
-    public bool? RpName
-    {
-        get => bool.TryParse(RpNameValue, out var value) ? value : null;
-        set => RpNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the backed up item.
+    /// </summary>
+    [CliOption("--item-name", ShortForm = "-i")]
+    public string? ItemName { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the Recovery services vault.
+    /// </summary>
+    [CliOption("--vault-name", ShortForm = "-v")]
+    public string? VaultName { get; set; }
 
 }

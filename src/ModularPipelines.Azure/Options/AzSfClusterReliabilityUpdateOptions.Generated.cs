@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "cluster", "reliability", "update")]
-public record AzSfClusterReliabilityUpdateOptions : AzOptions
+public record AzSfClusterReliabilityUpdateOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--reliability-level")] string ReliabilityLevel,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Add node count automatically when changing reliability.

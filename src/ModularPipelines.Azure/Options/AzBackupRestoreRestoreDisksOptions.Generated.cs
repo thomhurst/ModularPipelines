@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "restore", "restore-disks")]
-public record AzBackupRestoreRestoreDisksOptions : AzOptions
+public record AzBackupRestoreRestoreDisksOptions(
+    [property: CliOption("--storage-account")] string StorageAccount
+) : AzOptions
 {
     /// <summary>
     /// Disk encryption set ID for the OS disk of confidential VMs. This is used to encrypt the OS disk during restore.
@@ -29,8 +31,8 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// Specify the disk access option for target disks.  Allowed values: EnablePrivateAccessForAllDisks, EnablePublicAccessForAllDisks, SameAsOnSourceDisks.
     /// </summary>
-    [CliFlag("--disk-access-option")]
-    public bool? DiskAccessOption { get; set; }
+    [CliOption("--disk-access-option")]
+    public string? DiskAccessOption { get; set; }
 
     /// <summary>
     /// The disk encryption set id is used for encrypting restored disks. Please ensure access to disk encryption set id that is specified here.
@@ -41,8 +43,8 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// List of disks to be excluded or included.
     /// </summary>
-    [CliFlag("--diskslist")]
-    public bool? Diskslist { get; set; }
+    [CliOption("--diskslist", GroupValues = true)]
+    public IEnumerable<string>? Diskslist { get; set; }
 
     /// <summary>
     /// Use this flag to specify whether a system-assigned managed identity should be used for the restore operation. MI option is not applicable for restoring unmanaged disks.
@@ -65,8 +67,8 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// The type of priority to be maintained while rehydrating a recovery point.  Allowed values: High, Standard.
     /// </summary>
-    [CliFlag("--rehydration-priority")]
-    public bool? RehydrationPriority { get; set; }
+    [CliOption("--rehydration-priority")]
+    public string? RehydrationPriority { get; set; }
 
     /// <summary>
     /// Use this flag to specify to restore as unmanaged disks. Allowed values: false, true.
@@ -77,8 +79,8 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// Specify the restore mode.  Allowed values: AlternateLocation, OriginalLocation.  Default:
     /// </summary>
-    [CliFlag("--restore-mode")]
-    public bool? RestoreMode { get; set; }
+    [CliOption("--restore-mode")]
+    public string? RestoreMode { get; set; }
 
     /// <summary>
     /// Use this flag to restore only OS disks of a backed up VM. Allowed values: false, true.
@@ -102,7 +104,7 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// Name of the resource group which contains the storage account. Default value will be same as --resource-group if not specified.
     /// </summary>
     [CliOption("--storage-account-resource-group")]
-    public string? StorageAccountResourceGroupValue { get; set; }
+    public string? StorageAccountResourceGroup { get; set; }
 
     /// <summary>
     /// Specify the target disk access ID when --disk-access- option is set to EnablePrivateAccessForAllDisks.
@@ -120,43 +122,43 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// Name of the subnet in which the target VM should be created, in the case of Alternate Location restore a new
     /// </summary>
     [CliOption("--target-subnet-name")]
-    public string? TargetSubnetNameValue { get; set; }
+    public string? TargetSubnetName { get; set; }
 
     /// <summary>
     /// ID of the subscription to which the resource should be restored.
     /// </summary>
     [CliOption("--target-subscription-id")]
-    public string? TargetSubscriptionIdValue { get; set; }
+    public string? TargetSubscriptionId { get; set; }
 
     /// <summary>
     /// Name of the VM to which the data should be restored, in the case of Alternate Location restore to a new VM.
     /// </summary>
     [CliOption("--target-vm-name")]
-    public string? TargetVmNameValue { get; set; }
+    public string? TargetVmName { get; set; }
 
     /// <summary>
     /// Name of the VNet in which the target VM should be created, in the case of Alternate Location restore to a new VM.
     /// </summary>
     [CliOption("--target-vnet-name")]
-    public string? TargetVnetNameValue { get; set; }
+    public string? TargetVnetName { get; set; }
 
     /// <summary>
     /// Name of the resource group which contains the target VNet, in the case of Alternate Location restore to a new
     /// </summary>
     [CliOption("--target-vnet-resource-group")]
-    public string? TargetVnetResourceGroupValue { get; set; }
+    public string? TargetVnetResourceGroup { get; set; }
 
     /// <summary>
     /// A primary region currently can have three Azure availability zones. Use this argument to specify the target zone number while doing Cross Zonal Restore. Allowed values: 1, 2, 3, NoZone.
     /// </summary>
-    [CliFlag("--target-zone")]
-    public bool? TargetZone { get; set; }
+    [CliOption("--target-zone")]
+    public string? TargetZone { get; set; }
 
     /// <summary>
     /// ID of the tenant if the Resource Guard protecting the vault exists in a different tenant.
     /// </summary>
     [CliOption("--tenant-id")]
-    public string? TenantIdValue { get; set; }
+    public string? TenantId { get; set; }
 
     /// <summary>
     /// Use this flag to restore from a recoverypoint in secondary region.
@@ -164,53 +166,40 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     [CliFlag("--use-secondary-region")]
     public bool? UseSecondaryRegion { get; set; }
 
-    [Obsolete("Use StorageAccountResourceGroupValue instead.")]
-    public bool? StorageAccountResourceGroup
-    {
-        get => bool.TryParse(StorageAccountResourceGroupValue, out var value) ? value : null;
-        set => StorageAccountResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then
+    /// </summary>
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string? ContainerName { get; set; }
 
-    [Obsolete("Use TargetSubnetNameValue instead.")]
-    public bool? TargetSubnetName
-    {
-        get => bool.TryParse(TargetSubnetNameValue, out var value) ? value : null;
-        set => TargetSubnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
-    [Obsolete("Use TargetSubscriptionIdValue instead.")]
-    public bool? TargetSubscriptionId
-    {
-        get => bool.TryParse(TargetSubscriptionIdValue, out var value) ? value : null;
-        set => TargetSubscriptionIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the backed up item.
+    /// </summary>
+    [CliOption("--item-name", ShortForm = "-i")]
+    public string? ItemName { get; set; }
 
-    [Obsolete("Use TargetVmNameValue instead.")]
-    public bool? TargetVmName
-    {
-        get => bool.TryParse(TargetVmNameValue, out var value) ? value : null;
-        set => TargetVmNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use TargetVnetNameValue instead.")]
-    public bool? TargetVnetName
-    {
-        get => bool.TryParse(TargetVnetNameValue, out var value) ? value : null;
-        set => TargetVnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the recovery point.
+    /// </summary>
+    [CliOption("--rp-name", ShortForm = "-r")]
+    public string? RpName { get; set; }
 
-    [Obsolete("Use TargetVnetResourceGroupValue instead.")]
-    public bool? TargetVnetResourceGroup
-    {
-        get => bool.TryParse(TargetVnetResourceGroupValue, out var value) ? value : null;
-        set => TargetVnetResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TenantIdValue instead.")]
-    public bool? TenantId
-    {
-        get => bool.TryParse(TenantIdValue, out var value) ? value : null;
-        set => TenantIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the Recovery services vault.
+    /// </summary>
+    [CliOption("--vault-name", ShortForm = "-v")]
+    public string? VaultName { get; set; }
 
 }

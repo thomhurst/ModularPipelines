@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,7 +19,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "job", "create")]
-public record AzContainerappJobCreateOptions : AzOptions
+public record AzContainerappJobCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Cron expression. Only supported for trigger type "Schedule".
@@ -30,7 +34,7 @@ public record AzContainerappJobCreateOptions : AzOptions
     /// Name or resource ID of the container app's environment.
     /// </summary>
     [CliOption("--environment")]
-    public string? EnvironmentValue { get; set; }
+    public string? Environment { get; set; }
 
     /// <summary>
     /// Container image, e.g. publisher/image-name:tag.
@@ -47,8 +51,8 @@ public record AzContainerappJobCreateOptions : AzOptions
     /// <summary>
     /// Space-separated user identities to be assigned.
     /// </summary>
-    [CliFlag("--mi-user-assigned")]
-    public bool? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned", GroupValues = true)]
+    public IEnumerable<string>? MiUserAssigned { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -61,6 +65,12 @@ public record AzContainerappJobCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--parallelism")]
     public bool? Parallelism { get; set; }
+
+    /// <summary>
+    /// Number of replicas that need to complete successfully for execution to succeed.  Default: 1.
+    /// </summary>
+    [CliFlag("--rcc", ShortForm = "--replica-completion-count")]
+    public bool? Rcc { get; set; }
 
     /// <summary>
     /// Maximum number of retries before the replica fails.
@@ -77,8 +87,8 @@ public record AzContainerappJobCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Trigger type. Schedule | Event | Manual.
@@ -96,20 +106,115 @@ public record AzContainerappJobCreateOptions : AzOptions
     /// Path to a .yaml file with the configuration of a container app. All other parameters will be ignored. For an example, see  https://learn.microsoft.com/azure/container-apps/azure- resource-manager-api-spec#examples.
     /// </summary>
     [CliOption("--yaml")]
-    public string? YamlValue { get; set; }
+    public string? Yaml { get; set; }
 
-    [Obsolete("Use EnvironmentValue instead.")]
-    public bool? Environment
-    {
-        get => bool.TryParse(EnvironmentValue, out var value) ? value : null;
-        set => EnvironmentValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// A Managed Identity to authenticate with the registry server instead of username/password. Use a resource ID or 'system' for user-defined and system-defined identities, respectively. The registry must be an ACR. If possible, an 'acrpull' role assignment will be created for the identity automatically.
+    /// </summary>
+    [CliOption("--registry-identity")]
+    public string? RegistryIdentity { get; set; }
 
-    [Obsolete("Use YamlValue instead.")]
-    public bool? Yaml
-    {
-        get => bool.TryParse(YamlValue, out var value) ? value : null;
-        set => YamlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The password to log in to container registry. If stored as a secret, value must start with 'secretref:' followed by the secret name.
+    /// </summary>
+    [CliFlag("--registry-password")]
+    public bool? RegistryPassword { get; set; }
+
+    /// <summary>
+    /// The container registry server hostname, e.g. myregistry.azurecr.io.
+    /// </summary>
+    [CliFlag("--registry-server")]
+    public bool? RegistryServer { get; set; }
+
+    /// <summary>
+    /// The username to log in to container registry.
+    /// </summary>
+    [CliFlag("--registry-username")]
+    public bool? RegistryUsername { get; set; }
+
+    /// <summary>
+    /// A list of secret(s) for the container app. Space-separated values in 'key=value' format.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secrets", ShortForm = "-s", GroupValues = true)]
+    public IEnumerable<string>? Secrets { get; set; }
+
+    /// <summary>
+    /// A list of container startup command argument(s). Space- separated values e.g. "-c" "mycommand". Empty string to clear existing values.
+    /// </summary>
+    [CliOption("--args", GroupValues = true)]
+    public IEnumerable<string>? Args { get; set; }
+
+    /// <summary>
+    /// A list of supported commands on the container that will executed during startup. Space-separated values e.g. "/bin/queue" "mycommand". Empty string to clear existing values.
+    /// </summary>
+    [CliOption("--command", GroupValues = true)]
+    public IEnumerable<string>? Command { get; set; }
+
+    /// <summary>
+    /// Name of the container.
+    /// </summary>
+    [CliOption("--container-name")]
+    public string? ContainerName { get; set; }
+
+    /// <summary>
+    /// Required CPU in cores from 0.25 - 2.0, e.g. 0.5.
+    /// </summary>
+    [CliFlag("--cpu")]
+    public bool? Cpu { get; set; }
+
+    /// <summary>
+    /// A list of environment variable(s) for the container. Space- separated values in 'key=value' format. Empty string to clear existing values. Prefix value with 'secretref:' to reference a secret.
+    /// </summary>
+    [CliOption("--env-vars", GroupValues = true)]
+    public IEnumerable<string>? EnvVars { get; set; }
+
+    /// <summary>
+    /// Required memory from 0.5 - 4.0 ending with "Gi", e.g. 1.0Gi.
+    /// </summary>
+    [CliFlag("--memory")]
+    public bool? Memory { get; set; }
+
+    /// <summary>
+    /// Maximum number of job executions to run per polling interval.
+    /// </summary>
+    [CliFlag("--max-executions")]
+    public bool? MaxExecutions { get; set; }
+
+    /// <summary>
+    /// Minimum number of job executions to run per polling interval.
+    /// </summary>
+    [CliFlag("--min-executions")]
+    public bool? MinExecutions { get; set; }
+
+    /// <summary>
+    /// Interval to check each event source in seconds. Defaults to 30s.
+    /// </summary>
+    [CliFlag("--polling-interval")]
+    public bool? PollingInterval { get; set; }
+
+    /// <summary>
+    /// Scale rule auth parameters. Auth parameters must be in format "{triggerParameter}={secretRef} {triggerParameter}={secretRef} ...".
+    /// </summary>
+    [CliFlag("--scale-rule-auth", ShortForm = "--sra")]
+    public bool? ScaleRuleAuth { get; set; }
+
+    /// <summary>
+    /// Scale rule metadata. Metadata must be in format "{key}={value} {key}={value} ...".
+    /// </summary>
+    [CliFlag("--scale-rule-metadata", ShortForm = "--srm")]
+    public bool? ScaleRuleMetadata { get; set; }
+
+    /// <summary>
+    /// The name of the scale rule.
+    /// </summary>
+    [CliOption("--scale-rule-name", ShortForm = "--srn")]
+    public string? ScaleRuleName { get; set; }
+
+    /// <summary>
+    /// The type of the scale rule.
+    /// </summary>
+    [CliFlag("--scale-rule-type", ShortForm = "--srt")]
+    public bool? ScaleRuleType { get; set; }
 
 }

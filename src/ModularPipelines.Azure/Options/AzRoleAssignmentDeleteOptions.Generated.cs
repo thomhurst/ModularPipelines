@@ -35,8 +35,8 @@ public record AzRoleAssignmentDeleteOptions : AzOptions
     /// <summary>
     /// Space-separated role assignment ids.
     /// </summary>
-    [CliFlag("--ids")]
-    public bool? Ids { get; set; }
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
     /// Include assignments applied on parent scopes.
@@ -59,8 +59,8 @@ public record AzRoleAssignmentDeleteOptions : AzOptions
     /// <summary>
     /// Scope at which the role assignment or definition applies to, e.g., /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333, /subscriptions/0b1f6471-1bf0-4dda- aec3-111122223333/resourceGroups/myGroup, or /subscriptions/0b1f6471-1bf0-4dda-aec3- 111122223333/resourceGroups/myGroup/providers/Microsoft.Compute/virtual
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
     /// <summary>
     /// Currently no-op.

@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lock", "create")]
-public record AzLockCreateOptions : AzOptions
+public record AzLockCreateOptions(
+    [property: CliOption("--lock-type", ShortForm = "-t")] string LockType,
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Provider namespace (Ex: 'Microsoft.Provider').
@@ -39,29 +42,21 @@ public record AzLockCreateOptions : AzOptions
     public bool? Parent { get; set; }
 
     /// <summary>
+    /// Name or ID of the resource being locked. If an ID is given, other resource arguments should not be given.
+    /// </summary>
+    [CliOption("--resource", ShortForm = "--resource-name")]
+    public string? Resource { get; set; }
+
+    /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The resource type (Ex: 'resC'). Can also accept namespace/type format (Ex: 'Microsoft.Provider/resC').
     /// </summary>
     [CliOption("--resource-type")]
-    public string? ResourceTypeValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceTypeValue instead.")]
-    public bool? ResourceType
-    {
-        get => bool.TryParse(ResourceTypeValue, out var value) ? value : null;
-        set => ResourceTypeValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceType { get; set; }
 
 }

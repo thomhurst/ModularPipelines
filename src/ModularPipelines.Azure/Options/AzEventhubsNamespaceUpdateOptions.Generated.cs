@@ -23,7 +23,169 @@ public record AzEventhubsNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// A list of regions where replicas of the namespace are maintained.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--locations", GroupValues = true)]
+    public IEnumerable<string>? Locations { get; set; }
+
+    /// <summary>
+    /// The maximum acceptable lag for data replication operations from the primary replica to a quorum of secondary replicas.  When the lag exceeds the configured amount, operations on the primary replica will be failed.
+    /// </summary>
+    [CliFlag("--max-lag", ShortForm = "--max-replication-lag-duration-in-seconds")]
+    public bool? MaxLag { get; set; }
+
+    /// <summary>
+    /// Properties of BYOK Identity description Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--identity")]
+    public bool? Identity { get; set; }
+
+    /// <summary>
+    /// Resource tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
+
+    /// <summary>
+    /// Alternate name specified when alias and namespace names are same.
+    /// </summary>
+    [CliFlag("--alternate-name")]
+    public bool? AlternateName { get; set; }
+
+    /// <summary>
+    /// Cluster ARM ID of the Namespace.
+    /// </summary>
+    [CliFlag("--cluster-arm-id")]
+    public bool? ClusterArmId { get; set; }
+
+    /// <summary>
+    /// This property disables SAS authentication for the Event Hubs namespace.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--disable-local-auth")]
+    public bool? DisableLocalAuth { get; set; }
+
+    /// <summary>
+    /// Value that indicates whether AutoInflate is enabled for eventhub namespace. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-auto-inflate")]
+    public bool? EnableAutoInflate { get; set; }
+
+    /// <summary>
+    /// Properties of BYOK Encryption description  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--encryption")]
+    public bool? Encryption { get; set; }
+
+    /// <summary>
+    /// List of private endpoint connections. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--endpoint-connections", ShortForm = "--private-endpoint-connections", GroupValues = true)]
+    public IEnumerable<string>? EndpointConnections { get; set; }
+
+    /// <summary>
+    /// The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack).  Allowed values:
+    /// </summary>
+    [CliOption("--ip-address-type")]
+    public string? IpAddressType { get; set; }
+
+    /// <summary>
+    /// Value that indicates whether Kafka is enabled for eventhub namespace.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--kafka-enabled")]
+    public bool? KafkaEnabled { get; set; }
+
+    /// <summary>
+    /// Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( '0' if AutoInflateEnabled = true).
+    /// </summary>
+    [CliFlag("--maximum-throughput-units")]
+    public bool? MaximumThroughputUnits { get; set; }
+
+    /// <summary>
+    /// The minimum TLS version for the cluster to support, e.g. '1.2'.  Allowed values: 1.0, 1.1, 1.2, 1.3.
+    /// </summary>
+    [CliOption("--minimum-tls-version")]
+    public string? MinimumTlsVersion { get; set; }
+
+    /// <summary>
+    /// Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--platform-capabilities")]
+    public bool? PlatformCapabilities { get; set; }
+
+    /// <summary>
+    /// This determines if traffic is allowed over public network. By default it is enabled.  Allowed values: Disabled,
+    /// </summary>
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
+
+    /// <summary>
+    /// Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--zone-redundant")]
+    public bool? ZoneRedundant { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids")]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The Namespace name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units. The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.
+    /// </summary>
+    [CliFlag("--capacity")]
+    public bool? Capacity { get; set; }
+
+    /// <summary>
+    /// Name of this SKU.  Allowed values:
+    /// </summary>
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
+
+    /// <summary>
+    /// The billing tier of this particular SKU. Allowed values: Basic, Premium,
+    /// </summary>
+    [CliOption("--tier")]
+    public string? Tier { get; set; }
 
 }

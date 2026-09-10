@@ -18,13 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "namespace", "update")]
-public record AzAksNamespaceUpdateOptions : AzOptions
+public record AzAksNamespaceUpdateOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Action if Kubernetes namespace with same name already exists. Allowed values: Always, IfIdentical, Never.
     /// </summary>
-    [CliFlag("--adoption-policy")]
-    public bool? AdoptionPolicy { get; set; }
+    [CliOption("--adoption-policy")]
+    public string? AdoptionPolicy { get; set; }
 
     /// <summary>
     /// Send custom headers. When specified, format should be
@@ -53,20 +57,20 @@ public record AzAksNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// Delete options of a namespace.  Allowed values: Delete, Keep.
     /// </summary>
-    [CliFlag("--delete-policy")]
-    public bool? DeletePolicy { get; set; }
+    [CliOption("--delete-policy")]
+    public string? DeletePolicy { get; set; }
 
     /// <summary>
     /// Egress policy rule for the network.  Allowed values: AllowAll,
     /// </summary>
-    [CliFlag("--egress-policy")]
-    public bool? EgressPolicy { get; set; }
+    [CliOption("--egress-policy")]
+    public string? EgressPolicy { get; set; }
 
     /// <summary>
     /// Ingress policy rule for the network.  Allowed values: AllowAll,
     /// </summary>
-    [CliFlag("--ingress-policy")]
-    public bool? IngressPolicy { get; set; }
+    [CliOption("--ingress-policy")]
+    public string? IngressPolicy { get; set; }
 
     /// <summary>
     /// Labels for the managed namespace.

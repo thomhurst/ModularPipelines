@@ -22,6 +22,7 @@ public class AzBatchNode
 {
     private readonly ICommandContext _command;
     private AzBatchNodeFile? _file;
+    private AzBatchNodeRemoteLoginSettings? _remoteLoginSettings;
     private AzBatchNodeScheduling? _scheduling;
     private AzBatchNodeServiceLogs? _serviceLogs;
     private AzBatchNodeUser? _user;
@@ -40,6 +41,11 @@ public class AzBatchNode
     /// az file sub-commands.
     /// </summary>
     public AzBatchNodeFile File => _file ??= new AzBatchNodeFile(_command);
+
+    /// <summary>
+    /// az remote-login-settings sub-commands.
+    /// </summary>
+    public AzBatchNodeRemoteLoginSettings RemoteLoginSettings => _remoteLoginSettings ??= new AzBatchNodeRemoteLoginSettings(_command);
 
     /// <summary>
     /// az scheduling sub-commands.
@@ -68,11 +74,26 @@ public class AzBatchNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAsync(
-        AzBatchNodeDeleteOptions? options = null,
+        AzBatchNodeDeleteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBatchNodeDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Lists the Compute Nodes in the specified Pool.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzBatchNodeListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -83,11 +104,26 @@ public class AzBatchNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RebootAsync(
-        AzBatchNodeRebootOptions? options = null,
+        AzBatchNodeRebootOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBatchNodeRebootOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Gets information about the specified Compute Node.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzBatchNodeShowOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

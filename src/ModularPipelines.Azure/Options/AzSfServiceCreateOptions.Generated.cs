@@ -18,13 +18,20 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "service", "create")]
-public record AzSfServiceCreateOptions : AzOptions
+public record AzSfServiceCreateOptions(
+    [property: CliOption("--application", ShortForm = "--application-name")] string Application,
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "--service-name")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-type")] string ServiceType,
+    [property: CliOption("--state")] string State
+) : AzOptions
 {
     /// <summary>
     /// Specify the default cost for a move. Higher costs make it less likely that the Cluster Resource Manager will move the replica when trying to balance the cluster.  Allowed values: High, Low,
     /// </summary>
-    [CliFlag("--default-move-cost")]
-    public bool? DefaultMoveCost { get; set; }
+    [CliOption("--default-move-cost")]
+    public string? DefaultMoveCost { get; set; }
 
     /// <summary>
     /// Specify the instance count for the stateless service. If -1 is used, it means it will run on all the nodes.
@@ -33,9 +40,21 @@ public record AzSfServiceCreateOptions : AzOptions
     public bool? InstanceCount { get; set; }
 
     /// <summary>
+    /// Specify the min replica set size for the stateful service.
+    /// </summary>
+    [CliFlag("--min-replica", ShortForm = "--min-replica-set-size")]
+    public bool? MinReplica { get; set; }
+
+    /// <summary>
     /// Specify what partition scheme to use. Singleton partitions are typically used when the service does not require any additional routing. UniformInt64 means that each partition owns a range of int64 keys. Named is usually for services with data that can be bucketed, within a bounded set. Some common examples of data fields used as named partition keys would be regions, postal codes, customer groups, or other business boundaries.  Allowed values: named, singleton, uniformInt64.  Default: singleton.
     /// </summary>
-    [CliFlag("--partition-scheme")]
-    public bool? PartitionScheme { get; set; }
+    [CliOption("--partition-scheme")]
+    public string? PartitionScheme { get; set; }
+
+    /// <summary>
+    /// Specify the target replica set size for the stateful service.
+    /// </summary>
+    [CliFlag("--target-replica", ShortForm = "--target-replica-set-size")]
+    public bool? TargetReplica { get; set; }
 
 }

@@ -18,45 +18,38 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "ltr-backup", "list")]
-public record AzSqlDbLtrBackupListOptions : AzOptions
+public record AzSqlDbLtrBackupListOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location
+) : AzOptions
 {
     /// <summary>
     /// Name of the Azure SQL Database. If specified (along with server name), retrieves all requested backups under this database.
     /// </summary>
     [CliOption("--database", ShortForm = "-d")]
-    public string? DatabaseValue { get; set; }
+    public string? Database { get; set; }
+
+    /// <summary>
+    /// 'All', 'Live', or 'Deleted'. Will fetch backups only from databases of specified state. If no state provied, defaults to 'All'.
+    /// </summary>
+    [CliFlag("--database-state", ShortForm = "--state")]
+    public bool? DatabaseState { get; set; }
+
+    /// <summary>
+    /// If true, will only return the latest backup for each database.
+    /// </summary>
+    [CliFlag("--latest", ShortForm = "--only-latest-per-database")]
+    public bool? Latest { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Name of the Azure SQL Server. If specified, retrieves all requested backups under this server.
     /// </summary>
     [CliOption("--server", ShortForm = "-s")]
-    public string? ServerValue { get; set; }
-
-    [Obsolete("Use DatabaseValue instead.")]
-    public bool? Database
-    {
-        get => bool.TryParse(DatabaseValue, out var value) ? value : null;
-        set => DatabaseValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ServerValue instead.")]
-    public bool? Server
-    {
-        get => bool.TryParse(ServerValue, out var value) ? value : null;
-        set => ServerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? Server { get; set; }
 
 }

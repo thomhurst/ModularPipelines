@@ -18,31 +18,28 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "show-next-hop")]
-public record AzNetworkWatcherShowNextHopOptions : AzOptions
+public record AzNetworkWatcherShowNextHopOptions(
+    [property: CliOption("--dest-ip")] string DestIp,
+    [property: CliOption("--source-ip")] string SourceIp,
+    [property: CliOption("--vm")] string Vm
+) : AzOptions
 {
     /// <summary>
     /// Name or ID of the NIC resource to test. If the VM has multiple NICs and IP forwarding is enabled on any of them, this parameter is required.
     /// </summary>
-    [CliFlag("--nic")]
-    public bool? Nic { get; set; }
+    [CliOption("--nic")]
+    public string? Nic { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Name of the resource group the target VM is in.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

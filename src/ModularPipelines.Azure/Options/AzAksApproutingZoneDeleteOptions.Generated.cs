@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "approuting", "zone", "delete")]
-public record AzAksApproutingZoneDeleteOptions : AzOptions
+public record AzAksApproutingZoneDeleteOptions(
+    [property: CliOption("--ids", GroupValues = true)] IEnumerable<string> Ids,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.

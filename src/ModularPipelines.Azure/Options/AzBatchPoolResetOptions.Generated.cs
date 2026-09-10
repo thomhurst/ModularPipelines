@@ -18,12 +18,74 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "pool", "reset")]
-public record AzBatchPoolResetOptions : AzOptions
+public record AzBatchPoolResetOptions(
+    [property: CliOption("--pool-id")] string PoolId
+) : AzOptions
 {
     /// <summary>
     /// The file containing pool update properties parameter specification in JSON(formatted to match REST API request body). If this parameter is specified, all 'Pool Update Properties Parameter Arguments' are ignored.
     /// </summary>
     [CliFlag("--json-file")]
     public bool? JsonFile { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// The Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
+    /// </summary>
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// The Batch account name. Only needed Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// Required. The list replaces any existing Application Package references on the Pool. Changes to Application Package references affect all new Compute Nodes joining the Pool, but do not affect Compute Nodes that are already in the Pool until they are rebooted or reimaged. There is a maximum of 10 Application Package references on any given Pool. If omitted, or if you specify an empty collection, any existing Application Packages references are removed from the Pool. A maximum of 10 references may be specified on a given Pool.
+    /// </summary>
+    [CliFlag("--application-package-references")]
+    public bool? ApplicationPackageReferences { get; set; }
+
+    /// <summary>
+    /// Required. This list replaces any existing metadataconfigured on the Pool. If omitted, or if you specify anempty collection, any existing metadata is removed from thePool.
+    /// </summary>
+    [CliFlag("--metadata")]
+    public bool? Metadata { get; set; }
+
+    /// <summary>
+    /// The command line of the start task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux.
+    /// </summary>
+    [CliFlag("--start-task-command-line")]
+    public bool? StartTaskCommandLine { get; set; }
+
+    /// <summary>
+    /// A list of environment variable settings for the start task. Space-separated values in 'key=value' format.
+    /// </summary>
+    [CliOption("--start-task-environment-settings", GroupValues = true)]
+    public IEnumerable<string>? StartTaskEnvironmentSettings { get; set; }
+
+    /// <summary>
+    /// The maximum number of times the task may be retried.
+    /// </summary>
+    [CliFlag("--start-task-max-task-retry-count")]
+    public bool? StartTaskMaxTaskRetryCount { get; set; }
+
+    /// <summary>
+    /// A list of files that the Batch service will download to the Compute Node before running the command line. Files listed under this element are located in the Task's working directory. Space-separated resource references in filename=httpurl format.
+    /// </summary>
+    [CliOption("--start-task-resource-files", GroupValues = true)]
+    public IEnumerable<string>? StartTaskResourceFiles { get; set; }
+
+    /// <summary>
+    /// Whether the Batch service should wait for the start task to complete successfully (that is, to exit with exit code 0) before scheduling any tasks on the compute node. True if flag present, otherwise defaults to False.
+    /// </summary>
+    [CliFlag("--start-task-wait-for-success")]
+    public bool? StartTaskWaitForSuccess { get; set; }
 
 }

@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzNetworkApplicationGatewaySslPolicy
 {
     private readonly ICommandContext _command;
+    private AzNetworkApplicationGatewaySslPolicyPredefined? _predefined;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkApplicationGatewaySslPolicy"/> class.
@@ -29,6 +30,15 @@ public class AzNetworkApplicationGatewaySslPolicy
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az predefined sub-commands.
+    /// </summary>
+    public AzNetworkApplicationGatewaySslPolicyPredefined Predefined => _predefined ??= new AzNetworkApplicationGatewaySslPolicyPredefined(_command);
+
+    #endregion
 
     #region Commands
 
@@ -40,11 +50,41 @@ public class AzNetworkApplicationGatewaySslPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetAsync(
-        AzNetworkApplicationGatewaySslPolicySetOptions? options = null,
+        AzNetworkApplicationGatewaySslPolicySetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkApplicationGatewaySslPolicySetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the details of an SSL policy settings.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzNetworkApplicationGatewaySslPolicyShowOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzNetworkApplicationGatewaySslPolicyWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkApplicationGatewaySslPolicyWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

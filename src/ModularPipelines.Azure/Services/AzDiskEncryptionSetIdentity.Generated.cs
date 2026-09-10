@@ -33,6 +33,21 @@ public class AzDiskEncryptionSetIdentity
     #region Commands
 
     /// <summary>
+    /// Add managed identities to an existing disk encryption
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AssignAsync(
+        AzDiskEncryptionSetIdentityAssignOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzDiskEncryptionSetIdentityAssignOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Remove managed identities from an existing disk
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -45,6 +60,21 @@ public class AzDiskEncryptionSetIdentity
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzDiskEncryptionSetIdentityRemoveOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Display managed identities of a disk encryption set.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzDiskEncryptionSetIdentityShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzDiskEncryptionSetIdentityShowOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

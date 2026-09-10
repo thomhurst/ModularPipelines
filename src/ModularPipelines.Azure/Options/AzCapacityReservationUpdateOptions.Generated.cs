@@ -23,7 +23,43 @@ public record AzCapacityReservationUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Resource tags  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
+
+    /// <summary>
+    /// The name of the capacity reservation group.
+    /// </summary>
+    [CliOption("--capacity-reservation-group", ShortForm = "-c")]
+    public string? CapacityReservationGroup { get; set; }
+
+    /// <summary>
+    /// The name of the capacity reservation.
+    /// </summary>
+    [CliOption("--capacity-reservation-name", ShortForm = "-n")]
+    public string? CapacityReservationName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Specify the number of virtual machines in the scale set.
+    /// </summary>
+    [CliFlag("--capacity")]
+    public bool? Capacity { get; set; }
 
 }

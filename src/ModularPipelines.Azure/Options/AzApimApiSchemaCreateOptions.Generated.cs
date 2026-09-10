@@ -18,7 +18,13 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "schema", "create")]
-public record AzApimApiSchemaCreateOptions : AzOptions
+public record AzApimApiSchemaCreateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--api-id")] string ApiId,
+    [property: CliOption("--schema-id")] string SchemaId,
+    [property: CliOption("--schema-type")] string SchemaType
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -36,7 +42,7 @@ public record AzApimApiSchemaCreateOptions : AzOptions
     /// The name of the schema resource.
     /// </summary>
     [CliOption("--schema-name")]
-    public string? SchemaNameValue { get; set; }
+    public string? SchemaName { get; set; }
 
     /// <summary>
     /// File path specified to import schema of the API.
@@ -44,11 +50,10 @@ public record AzApimApiSchemaCreateOptions : AzOptions
     [CliFlag("--schema-path")]
     public bool? SchemaPath { get; set; }
 
-    [Obsolete("Use SchemaNameValue instead.")]
-    public bool? SchemaName
-    {
-        get => bool.TryParse(SchemaNameValue, out var value) ? value : null;
-        set => SchemaNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+    /// </summary>
+    [CliFlag("--resource-type")]
+    public bool? ResourceType { get; set; }
 
 }

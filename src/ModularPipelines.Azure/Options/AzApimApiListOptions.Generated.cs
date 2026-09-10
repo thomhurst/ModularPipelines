@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "list")]
-public record AzApimApiListOptions : AzOptions
+public record AzApimApiListOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName
+) : AzOptions
 {
     /// <summary>
     /// Number of records to skip.
@@ -31,5 +34,11 @@ public record AzApimApiListOptions : AzOptions
     /// </summary>
     [CliFlag("--top")]
     public bool? Top { get; set; }
+
+    /// <summary>
+    /// Filter of APIs by displayName.
+    /// </summary>
+    [CliFlag("--filter-display-name")]
+    public bool? FilterDisplayName { get; set; }
 
 }

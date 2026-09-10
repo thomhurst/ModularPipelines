@@ -18,38 +18,27 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "token", "update")]
-public record AzAcrTokenUpdateOptions : AzOptions
+public record AzAcrTokenUpdateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The name of the scope map associated with the token. If not specified, running this command will disassociate the current scope map related to the token.
     /// </summary>
     [CliOption("--scope-map")]
-    public string? ScopeMapValue { get; set; }
+    public string? ScopeMap { get; set; }
 
     /// <summary>
     /// The status of the token.  Allowed values: disabled, enabled.
     /// </summary>
-    [CliFlag("--status")]
-    public bool? Status { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ScopeMapValue instead.")]
-    public bool? ScopeMap
-    {
-        get => bool.TryParse(ScopeMapValue, out var value) ? value : null;
-        set => ScopeMapValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--status")]
+    public string? Status { get; set; }
 
 }

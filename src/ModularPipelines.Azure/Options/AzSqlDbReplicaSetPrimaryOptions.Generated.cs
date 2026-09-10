@@ -26,4 +26,28 @@ public record AzSqlDbReplicaSetPrimaryOptions : AzOptions
     [CliFlag("--allow-data-loss")]
     public bool? AllowDataLoss { get; set; }
 
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the database to fail over.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of the resource group containing the secondary replica that will become the new primary.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the server containing the secondary replica that will become the new primary. You can configure the default using `az configure
+    /// </summary>
+    [CliOption("--server", ShortForm = "-s")]
+    public string? Server { get; set; }
+
 }

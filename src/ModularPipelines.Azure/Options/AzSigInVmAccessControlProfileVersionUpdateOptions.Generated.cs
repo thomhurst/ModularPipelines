@@ -23,7 +23,7 @@ public record AzSigInVmAccessControlProfileVersionUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -31,5 +31,77 @@ public record AzSigInVmAccessControlProfileVersionUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--target-regions")]
     public bool? TargetRegions { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// This property allows you to specify if the requests will be allowed to access the host endpoints. Possible values are: 'Allow', 'Deny'.  Allowed values: Allow, Deny.
+    /// </summary>
+    [CliOption("--default-access")]
+    public string? DefaultAccess { get; set; }
+
+    /// <summary>
+    /// If set to true, Virtual Machines deployed from the latest version of the Resource Profile won't use this Profile version.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--exclude-from-latest")]
+    public bool? ExcludeFromLatest { get; set; }
+
+    /// <summary>
+    /// This property allows you to specify whether the access control rules are in Audit mode, in Enforce mode or Disabled. Possible values are: 'Audit', 'Enforce' or 'Disabled'. Allowed values: Audit, Disabled, Enforce.
+    /// </summary>
+    [CliOption("--mode")]
+    public string? Mode { get; set; }
+
+    /// <summary>
+    /// The name of the Shared Image Gallery in which the in VM access control profile resides.
+    /// </summary>
+    [CliOption("--gallery-name")]
+    public string? GalleryName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the gallery in VM access control profile in which the in VM access control profile version is to be created.
+    /// </summary>
+    [CliOption("--profile-name")]
+    public string? ProfileName { get; set; }
+
+    /// <summary>
+    /// The name of the gallery in VM access control profile version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format:
+    /// </summary>
+    [CliOption("--profile-version", ShortForm = "--version-name")]
+    public string? ProfileVersion { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

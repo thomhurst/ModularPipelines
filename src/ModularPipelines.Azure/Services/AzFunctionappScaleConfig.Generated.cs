@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzFunctionappScaleConfig
 {
     private readonly ICommandContext _command;
+    private AzFunctionappScaleConfigAlwaysReady? _alwaysReady;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzFunctionappScaleConfig"/> class.
@@ -29,6 +30,15 @@ public class AzFunctionappScaleConfig
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az always-ready sub-commands.
+    /// </summary>
+    public AzFunctionappScaleConfigAlwaysReady AlwaysReady => _alwaysReady ??= new AzFunctionappScaleConfigAlwaysReady(_command);
+
+    #endregion
 
     #region Commands
 
@@ -45,6 +55,21 @@ public class AzFunctionappScaleConfig
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappScaleConfigSetOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the details of a function app's scale configuration.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzFunctionappScaleConfigShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappScaleConfigShowOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

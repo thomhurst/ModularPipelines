@@ -26,4 +26,22 @@ public record AzKeyvaultCertificateListVersionsOptions : AzOptions
     [CliFlag("--maxresults")]
     public bool? Maxresults { get; set; }
 
+    /// <summary>
+    /// Id of the certificate. If specified all other 'Id' arguments should be omitted.
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Name of the certificate. Required if --id is not specified.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of the Key Vault. Required if --id is not specified.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string? VaultName { get; set; }
+
 }

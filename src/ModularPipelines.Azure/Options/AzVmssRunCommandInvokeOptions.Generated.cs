@@ -18,18 +18,44 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "run-command", "invoke")]
-public record AzVmssRunCommandInvokeOptions : AzOptions
+public record AzVmssRunCommandInvokeOptions(
+    [property: CliOption("--command-id")] string CommandId
+) : AzOptions
 {
     /// <summary>
     /// Space-separated parameters in the format of '[name=]value'.
     /// </summary>
-    [CliFlag("--parameters")]
-    public bool? Parameters { get; set; }
+    [CliOption("--parameters", GroupValues = true)]
+    public IEnumerable<string>? Parameters { get; set; }
 
     /// <summary>
     /// Space-separated script lines. Use @{file} to load script from a file.
     /// </summary>
-    [CliFlag("--scripts")]
-    public bool? Scripts { get; set; }
+    [CliOption("--scripts", GroupValues = true)]
+    public IEnumerable<string>? Scripts { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Scale set VM instance id.
+    /// </summary>
+    [CliFlag("--instance-id")]
+    public bool? InstanceId { get; set; }
+
+    /// <summary>
+    /// Scale set name. You can configure the default using `az configure
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

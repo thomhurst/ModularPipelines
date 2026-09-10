@@ -32,4 +32,28 @@ public record AzSqlDbGeoBackupShowOptions : AzOptions
     [CliFlag("--keys-filter")]
     public bool? KeysFilter { get; set; }
 
+    /// <summary>
+    /// Retrieves a requested geo-redundant backup under this database.
+    /// </summary>
+    [CliFlag("--database", ShortForm = "-d")]
+    public bool? Database { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Retrieves a requested geo-redundant backup under this resource group.
+    /// </summary>
+    [CliFlag("--resource-group", ShortForm = "-g")]
+    public bool? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Retrieves a requested geo-redundant backup under this server.
+    /// </summary>
+    [CliFlag("--server", ShortForm = "-s")]
+    public bool? Server { get; set; }
+
 }

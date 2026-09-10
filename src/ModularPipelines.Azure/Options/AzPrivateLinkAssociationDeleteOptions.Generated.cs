@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("private-link", "association", "delete")]
-public record AzPrivateLinkAssociationDeleteOptions : AzOptions
+public record AzPrivateLinkAssociationDeleteOptions(
+    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId,
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.

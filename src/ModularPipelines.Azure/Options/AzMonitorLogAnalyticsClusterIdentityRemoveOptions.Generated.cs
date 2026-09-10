@@ -18,12 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "cluster", "identity", "remove")]
-public record AzMonitorLogAnalyticsClusterIdentityRemoveOptions : AzOptions
+public record AzMonitorLogAnalyticsClusterIdentityRemoveOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-n")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
 }

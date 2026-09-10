@@ -23,8 +23,8 @@ public record AzNetworkPrivateLinkServiceUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated list of subscription IDs to auto-approve.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--auto-approval")]
-    public bool? AutoApproval { get; set; }
+    [CliOption("--auto-approval", GroupValues = true)]
+    public IEnumerable<string>? AutoApproval { get; set; }
 
     /// <summary>
     /// The destination IP address of the private link service.
@@ -35,50 +35,85 @@ public record AzNetworkPrivateLinkServiceUpdateOptions : AzOptions
     /// <summary>
     /// Enable proxy protocol for private link service.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--enable-proxy-protocol")]
+    [CliOption("--enable-proxy-protocol")]
     public bool? EnableProxyProtocol { get; set; }
 
     /// <summary>
     /// Space-separated list of FQDNs.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--fqdns")]
-    public bool? Fqdns { get; set; }
+    [CliOption("--fqdns", GroupValues = true)]
+    public IEnumerable<string>? Fqdns { get; set; }
 
     /// <summary>
     /// Space-separated list of names or IDs of load balancer frontend IP configurations to link to. If names are used, also supply `--lb- name`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--lb-frontend-ip-configs")]
-    public bool? LbFrontendIpConfigs { get; set; }
+    [CliOption("--lb-frontend-ip-configs", GroupValues = true)]
+    public IEnumerable<string>? LbFrontendIpConfigs { get; set; }
 
     /// <summary>
     /// Name of the load balancer to retrieve frontend IP configs from. Ignored if a frontend IP configuration ID is supplied.
     /// </summary>
     [CliOption("--lb-name")]
-    public string? LbNameValue { get; set; }
+    public string? LbName { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Space-separated list of subscription IDs for which the private link service is visible.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--visibility")]
-    public bool? Visibility { get; set; }
+    [CliOption("--visibility", GroupValues = true)]
+    public IEnumerable<string>? Visibility { get; set; }
 
-    [Obsolete("Use LbNameValue instead.")]
-    public bool? LbName
-    {
-        get => bool.TryParse(LbNameValue, out var value) ? value : null;
-        set => LbNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the private link service.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

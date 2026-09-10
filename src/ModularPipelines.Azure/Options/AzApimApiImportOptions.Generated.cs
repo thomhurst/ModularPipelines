@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "import")]
-public record AzApimApiImportOptions : AzOptions
+public record AzApimApiImportOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name", ShortForm = "-n")] string ServiceName,
+    [property: CliOption("--specification-format")] string SpecificationFormat,
+    [property: CliOption("--path")] string Path
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -42,7 +47,7 @@ public record AzApimApiImportOptions : AzOptions
     /// Url specified to import the API.
     /// </summary>
     [CliOption("--specification-url")]
-    public string? SpecificationUrlValue { get; set; }
+    public string? SpecificationUrl { get; set; }
 
     /// <summary>
     /// Local name of WSDL Endpoint (port) to be imported.
@@ -56,11 +61,76 @@ public record AzApimApiImportOptions : AzOptions
     [CliFlag("--wsdl-service-name")]
     public bool? WsdlServiceName { get; set; }
 
-    [Obsolete("Use SpecificationUrlValue instead.")]
-    public bool? SpecificationUrl
-    {
-        get => bool.TryParse(SpecificationUrlValue, out var value) ? value : null;
-        set => SpecificationUrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// API identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+    /// </summary>
+    [CliFlag("--api-id")]
+    public bool? ApiId { get; set; }
+
+    /// <summary>
+    /// Describes the Revision of the Api. If no value is provided, default revision 1 is created.
+    /// </summary>
+    [CliFlag("--api-revision")]
+    public bool? ApiRevision { get; set; }
+
+    /// <summary>
+    /// The type of the API.  Allowed values: graphql, http, soap, websocket.
+    /// </summary>
+    [CliOption("--api-type")]
+    public string? ApiType { get; set; }
+
+    /// <summary>
+    /// Describes the Version of the Api. If you add a version to a non-versioned API, an Original version will be automatically created and will respond on the default URL.
+    /// </summary>
+    [CliFlag("--api-version")]
+    public bool? ApiVersion { get; set; }
+
+    /// <summary>
+    /// Describes the Version Set to be used with the API.
+    /// </summary>
+    [CliFlag("--api-version-set-id")]
+    public bool? ApiVersionSetId { get; set; }
+
+    /// <summary>
+    /// Description of the API. May include HTML formatting tags.
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Display name of this API.
+    /// </summary>
+    [CliFlag("--display-name")]
+    public bool? DisplayName { get; set; }
+
+    /// <summary>
+    /// Describes on which protocols(one or more) the operations in this API can be invoked.  Allowed values: http, https, ws, wss.
+    /// </summary>
+    [CliOption("--protocols")]
+    public string? Protocols { get; set; }
+
+    /// <summary>
+    /// Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.
+    /// </summary>
+    [CliFlag("--service-url")]
+    public bool? ServiceUrl { get; set; }
+
+    /// <summary>
+    /// Specifies the subscription key header name.
+    /// </summary>
+    [CliFlag("--subscription-key-header-name")]
+    public bool? SubscriptionKeyHeaderName { get; set; }
+
+    /// <summary>
+    /// Specifies the subscription key query string parameter name.
+    /// </summary>
+    [CliFlag("--subscription-key-query-param-name")]
+    public bool? SubscriptionKeyQueryParamName { get; set; }
+
+    /// <summary>
+    /// If true, the API requires a subscription key on requests. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--subscription-required")]
+    public bool? SubscriptionRequired { get; set; }
 
 }

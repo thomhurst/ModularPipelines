@@ -21,7 +21,12 @@ namespace ModularPipelines.Azure.Services;
 public class AzRedis : IAzRedis
 {
     private readonly ICommandContext _command;
+    private AzRedisAccessPolicy? _accessPolicy;
+    private AzRedisAccessPolicyAssignment? _accessPolicyAssignment;
+    private AzRedisFirewallRules? _firewallRules;
     private AzRedisIdentity? _identity;
+    private AzRedisPatchSchedule? _patchSchedule;
+    private AzRedisServerLink? _serverLink;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzRedis"/> class.
@@ -34,9 +39,34 @@ public class AzRedis : IAzRedis
     #region Sub-command Groups
 
     /// <summary>
+    /// az access-policy sub-commands.
+    /// </summary>
+    public AzRedisAccessPolicy AccessPolicy => _accessPolicy ??= new AzRedisAccessPolicy(_command);
+
+    /// <summary>
+    /// az access-policy-assignment sub-commands.
+    /// </summary>
+    public AzRedisAccessPolicyAssignment AccessPolicyAssignment => _accessPolicyAssignment ??= new AzRedisAccessPolicyAssignment(_command);
+
+    /// <summary>
+    /// az firewall-rules sub-commands.
+    /// </summary>
+    public AzRedisFirewallRules FirewallRules => _firewallRules ??= new AzRedisFirewallRules(_command);
+
+    /// <summary>
     /// az identity sub-commands.
     /// </summary>
     public AzRedisIdentity Identity => _identity ??= new AzRedisIdentity(_command);
+
+    /// <summary>
+    /// az patch-schedule sub-commands.
+    /// </summary>
+    public AzRedisPatchSchedule PatchSchedule => _patchSchedule ??= new AzRedisPatchSchedule(_command);
+
+    /// <summary>
+    /// az server-link sub-commands.
+    /// </summary>
+    public AzRedisServerLink ServerLink => _serverLink ??= new AzRedisServerLink(_command);
 
     #endregion
 
@@ -50,11 +80,11 @@ public class AzRedis : IAzRedis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzRedisCreateOptions? options = null,
+        AzRedisCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzRedisCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -80,11 +110,11 @@ public class AzRedis : IAzRedis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExportAsync(
-        AzRedisExportOptions? options = null,
+        AzRedisExportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzRedisExportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -110,26 +140,41 @@ public class AzRedis : IAzRedis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ForceRebootAsync(
-        AzRedisForceRebootOptions? options = null,
+        AzRedisForceRebootOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzRedisForceRebootOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
-    /// Import data into a Redis cache.
+    /// Import data into a Redis cache. Deletes all preexisting cache data.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ImportAsync(
-        AzRedisImportOptions? options = null,
+        AzRedisImportOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzRedisImportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Retrieve a Redis cache's access keys.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListKeysAsync(
+        AzRedisListKeysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzRedisListKeysOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -145,6 +190,36 @@ public class AzRedis : IAzRedis
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzRedisListOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Regenerate Redis cache's access keys.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RegenerateKeysAsync(
+        AzRedisRegenerateKeysOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Gets a Redis cache (resource description).
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzRedisShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzRedisShowOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

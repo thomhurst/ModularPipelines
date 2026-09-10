@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "project", "task", "show")]
-public record AzDmsProjectTaskShowOptions : AzOptions
+public record AzDmsProjectTaskShowOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--project-name")] string ProjectName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--service-name")] string ServiceName
+) : AzOptions
 {
     /// <summary>
     /// Expand the response to provide more details. Use with "command" to see more details of the task. Use with "output" to see the results of the task's migration.

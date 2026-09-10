@@ -18,32 +18,38 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "private-endpoint-connection", "approve")]
-public record AzPostgresFlexibleServerPrivateEndpointConnectionApproveOptions : AzOptions
+public record AzPostgresFlexibleServerPrivateEndpointConnectionApproveOptions(
+    [property: CliOption("--description")] string Description
+) : AzOptions
 {
     /// <summary>
     /// The identifier of the private endpoint connection associated with the Server. If specified --server-name/-s and --name/-n, this should be omitted.
     /// </summary>
     [CliOption("--id")]
-    public string? IdValue { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// The name of the private endpoint connection associated with the Server. Required if --id is not specified.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
-    [Obsolete("Use IdValue instead.")]
-    public bool? Id
-    {
-        get => bool.TryParse(IdValue, out var value) ? value : null;
-        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the server.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string? ServerName { get; set; }
 
 }

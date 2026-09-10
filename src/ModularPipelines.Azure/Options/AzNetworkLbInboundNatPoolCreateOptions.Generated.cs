@@ -18,12 +18,44 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "inbound-nat-pool", "create")]
-public record AzNetworkLbInboundNatPoolCreateOptions : AzOptions
+public record AzNetworkLbInboundNatPoolCreateOptions(
+    [property: CliOption("--lb-name")] string LbName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--backend-port")] string BackendPort,
+    [property: CliOption("--frontend-port-range-end")] string FrontendPortRangeEnd,
+    [property: CliOption("--frontend-port-range-start")] string FrontendPortRangeStart,
+    [property: CliOption("--protocol")] string Protocol
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-floating-ip", ShortForm = "--floating-ip")]
+    public bool? EnableFloatingIp { get; set; }
+
+    /// <summary>
+    /// Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-tcp-reset")]
+    public bool? EnableTcpReset { get; set; }
+
+    /// <summary>
+    /// The name or ID of the frontend IP configuration.
+    /// </summary>
+    [CliOption("--frontend-ip", ShortForm = "--frontend-ip-name")]
+    public string? FrontendIp { get; set; }
+
+    /// <summary>
+    /// The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.
+    /// </summary>
+    [CliFlag("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
+    public bool? IdleTimeout { get; set; }
 
 }

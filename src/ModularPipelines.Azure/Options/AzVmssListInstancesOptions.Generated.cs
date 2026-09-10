@@ -18,13 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "list-instances")]
-public record AzVmssListInstancesOptions : AzOptions
+public record AzVmssListInstancesOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The expand expression to apply to the operation. Allowed values are 'instanceView'.
     /// </summary>
-    [CliFlag("--expand")]
-    public bool? Expand { get; set; }
+    [CliOption("--expand")]
+    public string? Expand { get; set; }
 
     /// <summary>
     /// The filter to apply to the operation.
@@ -41,7 +44,19 @@ public record AzVmssListInstancesOptions : AzOptions
     /// <summary>
     /// The list parameters. Allowed values are 'instanceView', 'instanceView/statuses'.
     /// </summary>
-    [CliFlag("--select")]
-    public bool? Select { get; set; }
+    [CliOption("--select")]
+    public string? Select { get; set; }
+
+    /// <summary>
+    /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next- token` argument of a subsequent command.
+    /// </summary>
+    [CliFlag("--max-items")]
+    public bool? MaxItems { get; set; }
+
+    /// <summary>
+    /// Token to specify where to start paginating. This is the token value from a previously truncated response.
+    /// </summary>
+    [CliFlag("--next-token")]
+    public bool? NextToken { get; set; }
 
 }

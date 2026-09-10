@@ -18,8 +18,32 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "application", "create")]
-public record AzSfApplicationCreateOptions : AzOptions
+public record AzSfApplicationCreateOptions(
+    [property: CliOption("--application-name", ShortForm = "--name")] string ApplicationName,
+    [property: CliOption("--application-type-name", ShortForm = "--type-name")] string ApplicationTypeName,
+    [property: CliOption("--application-type-version", ShortForm = "--version")] string ApplicationTypeVersion,
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
+    /// <summary>
+    /// Specify the application parameters as key/value pairs. These parameters must exist in the application manifest. for example:
+    /// </summary>
+    [CliFlag("--application-parameters", ShortForm = "--parameters")]
+    public bool? ApplicationParameters { get; set; }
+
+    /// <summary>
+    /// Specify the maximum number of nodes on which to place an application. The value of this parameter must be a non-negative integer. The default value is 0, which indicates the application can be placed on any number of nodes in the cluster.
+    /// </summary>
+    [CliFlag("--max-nodes", ShortForm = "--maximum-nodes")]
+    public bool? MaxNodes { get; set; }
+
+    /// <summary>
+    /// Specify the minimum number of nodes where Service Fabric will reserve capacity for this application, this does not mean that the application is guaranteed to have replicas on all those nodes. The value of this parameter must be a non-negative integer. Default value for this is zero, which means no capacity is reserved for the application.
+    /// </summary>
+    [CliFlag("--min-nodes", ShortForm = "--minimum-nodes")]
+    public bool? MinNodes { get; set; }
+
     /// <summary>
     /// Specify the url of the application package sfpkg file.
     /// </summary>

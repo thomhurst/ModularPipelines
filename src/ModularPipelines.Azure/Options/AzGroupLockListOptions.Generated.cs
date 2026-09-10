@@ -18,19 +18,14 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("group", "lock", "list")]
-public record AzGroupLockListOptions : AzOptions
+public record AzGroupLockListOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// A query filter to use to restrict the results.
     /// </summary>
     [CliOption("--filter-string")]
-    public string? FilterStringValue { get; set; }
-
-    [Obsolete("Use FilterStringValue instead.")]
-    public bool? FilterString
-    {
-        get => bool.TryParse(FilterStringValue, out var value) ? value : null;
-        set => FilterStringValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? FilterString { get; set; }
 
 }

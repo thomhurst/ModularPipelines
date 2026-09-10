@@ -21,6 +21,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzAksTrustedaccess
 {
     private readonly ICommandContext _command;
+    private AzAksTrustedaccessRole? _role;
     private AzAksTrustedaccessRolebinding? _rolebinding;
 
     /// <summary>
@@ -32,6 +33,11 @@ public class AzAksTrustedaccess
     }
 
     #region Sub-command Groups
+
+    /// <summary>
+    /// az role sub-commands.
+    /// </summary>
+    public AzAksTrustedaccessRole Role => _role ??= new AzAksTrustedaccessRole(_command);
 
     /// <summary>
     /// az rolebinding sub-commands.

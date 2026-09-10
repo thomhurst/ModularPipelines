@@ -26,4 +26,106 @@ public record AzPolicyStateListOptions : AzOptions
     [CliFlag("--all")]
     public bool? All { get; set; }
 
+    /// <summary>
+    /// Apply expression for aggregations using OData notation.
+    /// </summary>
+    [CliFlag("--apply")]
+    public bool? Apply { get; set; }
+
+    /// <summary>
+    /// Expand expression using OData notation.
+    /// </summary>
+    [CliFlag("--expand")]
+    public bool? Expand { get; set; }
+
+    /// <summary>
+    /// Filter expression using OData notation.
+    /// </summary>
+    [CliFlag("--filter")]
+    public bool? Filter { get; set; }
+
+    /// <summary>
+    /// ISO 8601 formatted timestamp specifying the start time of the interval to query.
+    /// </summary>
+    [CliFlag("--from")]
+    public bool? From { get; set; }
+
+    /// <summary>
+    /// Ordering expression using OData notation.
+    /// </summary>
+    [CliFlag("--order-by")]
+    public bool? OrderBy { get; set; }
+
+    /// <summary>
+    /// Select expression using OData notation.
+    /// </summary>
+    [CliFlag("--select")]
+    public bool? Select { get; set; }
+
+    /// <summary>
+    /// ISO 8601 formatted timestamp specifying the end time of the interval to query.
+    /// </summary>
+    [CliFlag("--to")]
+    public bool? To { get; set; }
+
+    /// <summary>
+    /// Maximum number of records to return.
+    /// </summary>
+    [CliFlag("--top")]
+    public bool? Top { get; set; }
+
+    /// <summary>
+    /// Provider namespace (Ex: Microsoft.Provider).
+    /// </summary>
+    [CliFlag("--namespace")]
+    public bool? Namespace { get; set; }
+
+    /// <summary>
+    /// The parent path (Ex: resourceTypeA/nameA/resourceTypeB/nameB).
+    /// </summary>
+    [CliFlag("--parent")]
+    public bool? Parent { get; set; }
+
+    /// <summary>
+    /// Resource ID or resource name. If a name is given, please provide the resource group and other relevant resource id arguments.
+    /// </summary>
+    [CliOption("--resource")]
+    public string? Resource { get; set; }
+
+    /// <summary>
+    /// Resource type (Ex: resourceTypeC).
+    /// </summary>
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
+
+    /// <summary>
+    /// Name of management group.
+    /// </summary>
+    [CliOption("--management-group", ShortForm = "-m")]
+    public string? ManagementGroup { get; set; }
+
+    /// <summary>
+    /// Name of policy assignment.
+    /// </summary>
+    [CliOption("--policy-assignment", ShortForm = "-a")]
+    public string? PolicyAssignment { get; set; }
+
+    /// <summary>
+    /// Name of policy definition.
+    /// </summary>
+    [CliOption("--policy-definition", ShortForm = "-d")]
+    public string? PolicyDefinition { get; set; }
+
+    /// <summary>
+    /// Name of policy set definition.
+    /// </summary>
+    [CliOption("--policy-set-definition", ShortForm = "-s")]
+    public string? PolicySetDefinition { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
 }

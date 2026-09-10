@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "blob-service-properties", "update")]
-public record AzStorageAccountBlobServicePropertiesUpdateOptions : AzOptions
+public record AzStorageAccountBlobServicePropertiesUpdateOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName
+) : AzOptions
 {
     /// <summary>
     /// Indicate the default version to use for requests to the Blob service if an incoming request's version is not specified.
@@ -42,13 +44,96 @@ public record AzStorageAccountBlobServicePropertiesUpdateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Indicate whether change feed event logging is enabled. If it is true, you enable the storage account to begin capturing changes. The default value is true. You can see more details in https://learn.microsoft.c om/azure/storage/blobs/storage-blob- change-feed?tabs=azure- portal#register-by-using-azure-cli. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-change-feed")]
+    public bool? EnableChangeFeed { get; set; }
+
+    /// <summary>
+    /// Indicate the number of days that the deleted container should be retained. The minimum specified value can be 1 and the maximum value can be 365.
+    /// </summary>
+    [CliFlag("--container-days", ShortForm = "--container-delete-retention-days")]
+    public bool? ContainerDays { get; set; }
+
+    /// <summary>
+    /// Enable container delete retention policy for container soft delete when set to true. Disable container delete retention policy when set to false.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--container-retention", ShortForm = "--enable-container-delete-retention")]
+    public bool? ContainerRetention { get; set; }
+
+    /// <summary>
+    /// Indicate the number of days that the deleted blob should be retained. The value must be in range [1,365]. It must be provided when `--enable- delete-retention` is true.
+    /// </summary>
+    [CliFlag("--delete-retention-days")]
+    public bool? DeleteRetentionDays { get; set; }
+
+    /// <summary>
+    /// Indicate whether delete retention policy is enabled for the blob service.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-delete-retention")]
+    public bool? EnableDeleteRetention { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
+    /// </summary>
+    [CliFlag("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Enable blob restore policy when it set to true.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-restore-policy")]
+    public bool? EnableRestorePolicy { get; set; }
+
+    /// <summary>
+    /// The number of days for the blob can be restored. It should be greater than zero and less than Delete
+    /// </summary>
+    [CliFlag("--restore-days")]
+    public bool? RestoreDays { get; set; }
+
+    /// <summary>
+    /// The absolute path to a webpage that Azure Storage serves for requests that don't correspond to an existing file. The contents of the page are returned with HTTP 404 Not Found. Only a single custom 404 page is supported in each static website.
+    /// </summary>
+    [CliFlag("--404-document", ShortForm = "--error-document-404-path")]
+    public bool? _404Document { get; set; }
+
+    /// <summary>
+    /// The absolute path where the default index file is present. This absolute path is mutually exclusive to "indexDocument" and it is case- sensitive.
+    /// </summary>
+    [CliFlag("--default-index", ShortForm = "--default-index-document-path")]
+    public bool? DefaultIndex { get; set; }
+
+    /// <summary>
+    /// Indicates whether static website support is enabled for the specified account.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-static-website")]
+    public bool? EnableStaticWebsite { get; set; }
+
+    /// <summary>
+    /// The webpage that Azure Storage serves for requests to the root of a website or any subfolder (for example, index.html).
+    /// </summary>
+    [CliFlag("--index-document")]
+    public bool? IndexDocument { get; set; }
 
 }

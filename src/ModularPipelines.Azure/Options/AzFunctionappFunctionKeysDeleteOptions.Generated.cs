@@ -18,32 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "function", "keys", "delete")]
-public record AzFunctionappFunctionKeysDeleteOptions : AzOptions
+public record AzFunctionappFunctionKeysDeleteOptions(
+    [property: CliOption("--key-name")] string KeyName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Name of the Function.
     /// </summary>
     [CliOption("--function-name")]
-    public string? FunctionNameValue { get; set; }
+    public string? FunctionName { get; set; }
 
     /// <summary>
     /// The name of the slot. Defaults to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
-
-    [Obsolete("Use FunctionNameValue instead.")]
-    public bool? FunctionName
-    {
-        get => bool.TryParse(FunctionNameValue, out var value) ? value : null;
-        set => FunctionNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
-    {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? Slot { get; set; }
 
 }

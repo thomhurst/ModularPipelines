@@ -22,6 +22,7 @@ public class AzAccountManagementGroup
 {
     private readonly ICommandContext _command;
     private AzAccountManagementGroupHierarchySettings? _hierarchySettings;
+    private AzAccountManagementGroupSubscription? _subscription;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAccountManagementGroup"/> class.
@@ -38,9 +39,29 @@ public class AzAccountManagementGroup
     /// </summary>
     public AzAccountManagementGroupHierarchySettings HierarchySettings => _hierarchySettings ??= new AzAccountManagementGroupHierarchySettings(_command);
 
+    /// <summary>
+    /// az subscription sub-commands.
+    /// </summary>
+    public AzAccountManagementGroupSubscription Subscription => _subscription ??= new AzAccountManagementGroupSubscription(_command);
+
     #endregion
 
     #region Commands
+
+    /// <summary>
+    /// Check if a Management Group Name is Valid.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CheckNameAvailabilityAsync(
+        AzAccountManagementGroupCheckNameAvailabilityOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
 
     /// <summary>
     /// Create a new management group.
@@ -50,11 +71,11 @@ public class AzAccountManagementGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzAccountManagementGroupCreateOptions? options = null,
+        AzAccountManagementGroupCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzAccountManagementGroupCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -65,11 +86,11 @@ public class AzAccountManagementGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAsync(
-        AzAccountManagementGroupDeleteOptions? options = null,
+        AzAccountManagementGroupDeleteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzAccountManagementGroupDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -95,11 +116,11 @@ public class AzAccountManagementGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowAsync(
-        AzAccountManagementGroupShowOptions? options = null,
+        AzAccountManagementGroupShowOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzAccountManagementGroupShowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -110,11 +131,11 @@ public class AzAccountManagementGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAsync(
-        AzAccountManagementGroupUpdateOptions? options = null,
+        AzAccountManagementGroupUpdateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzAccountManagementGroupUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

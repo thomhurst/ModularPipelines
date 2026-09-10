@@ -26,4 +26,88 @@ public record AzResourceWaitOptions : AzOptions
     [CliOption("--include-response-body")]
     public bool? IncludeResponseBody { get; set; }
 
+    /// <summary>
+    /// The api version of the resource (omit for the latest stable version).
+    /// </summary>
+    [CliFlag("--api-version")]
+    public bool? ApiVersion { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). If provided, no other "Resource Id" arguments should be specified.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The resource name. (Ex: myC).
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Provider namespace (Ex: 'Microsoft.Provider').
+    /// </summary>
+    [CliFlag("--namespace")]
+    public bool? Namespace { get; set; }
+
+    /// <summary>
+    /// The parent path (Ex: 'resA/myA/resB/myB').
+    /// </summary>
+    [CliFlag("--parent")]
+    public bool? Parent { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// The resource type (Ex: 'resC'). Can also accept namespace/type format (Ex: 'Microsoft.Provider/resC').
+    /// </summary>
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
+
+    /// <summary>
+    /// Wait until created with 'provisioningState' at 'Succeeded'.
+    /// </summary>
+    [CliFlag("--created")]
+    public bool? Created { get; set; }
+
+    /// <summary>
+    /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instanceView.statuses[?code=='PowerState/running'].
+    /// </summary>
+    [CliFlag("--custom")]
+    public bool? Custom { get; set; }
+
+    /// <summary>
+    /// Wait until deleted.
+    /// </summary>
+    [CliFlag("--deleted")]
+    public bool? Deleted { get; set; }
+
+    /// <summary>
+    /// Wait until the resource exists.
+    /// </summary>
+    [CliFlag("--exists")]
+    public bool? Exists { get; set; }
+
+    /// <summary>
+    /// Polling interval in seconds.  Default: 30.
+    /// </summary>
+    [CliFlag("--interval")]
+    public bool? Interval { get; set; }
+
+    /// <summary>
+    /// Maximum wait in seconds.  Default: 3600.
+    /// </summary>
+    [CliFlag("--timeout")]
+    public bool? Timeout { get; set; }
+
+    /// <summary>
+    /// Wait until updated with provisioningState at 'Succeeded'.
+    /// </summary>
+    [CliFlag("--updated")]
+    public bool? Updated { get; set; }
+
 }

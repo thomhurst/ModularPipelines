@@ -23,6 +23,7 @@ public class AzSynapseRole
     private readonly ICommandContext _command;
     private AzSynapseRoleAssignment? _assignment;
     private AzSynapseRoleDefinition? _definition;
+    private AzSynapseRoleScope? _scope;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSynapseRole"/> class.
@@ -43,6 +44,11 @@ public class AzSynapseRole
     /// az definition sub-commands.
     /// </summary>
     public AzSynapseRoleDefinition Definition => _definition ??= new AzSynapseRoleDefinition(_command);
+
+    /// <summary>
+    /// az scope sub-commands.
+    /// </summary>
+    public AzSynapseRoleScope Scope => _scope ??= new AzSynapseRoleScope(_command);
 
     #endregion
 }

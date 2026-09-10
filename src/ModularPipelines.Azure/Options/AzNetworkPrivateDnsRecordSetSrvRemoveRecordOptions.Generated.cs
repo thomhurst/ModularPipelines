@@ -18,7 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-dns", "record-set", "srv", "remove-record")]
-public record AzNetworkPrivateDnsRecordSetSrvRemoveRecordOptions : AzOptions
+public record AzNetworkPrivateDnsRecordSetSrvRemoveRecordOptions(
+    [property: CliOption("--port", ShortForm = "-r")] string Port,
+    [property: CliOption("--priority", ShortForm = "-p")] string Priority,
+    [property: CliOption("--record-set-name", ShortForm = "-n")] string RecordSetName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--target", ShortForm = "-t")] string Target,
+    [property: CliOption("--weight", ShortForm = "-w")] string Weight,
+    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
+) : AzOptions
 {
     /// <summary>
     /// Keep the empty record set if the last record is removed.

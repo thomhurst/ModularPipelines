@@ -18,13 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container", "lease", "break")]
-public record AzStorageContainerLeaseBreakOptions : AzOptions
+public record AzStorageContainerLeaseBreakOptions(
+    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName
+) : AzOptions
 {
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// This is the proposed duration of seconds that the lease should continue before it is broken, between 0 and 60 seconds. This break period is only used if it is shorter than the time remaining on the lease. If longer, the time remaining on the lease is used. A new lease will not be available before the break period has expired, but the lease may be held for longer than the break period. If this header does not appear with a break operation, a fixed-duration lease breaks after the remaining lease period elapses, and an infinite lease breaks immediately.
@@ -37,5 +39,65 @@ public record AzStorageContainerLeaseBreakOptions : AzOptions
     /// </summary>
     [CliFlag("--timeout")]
     public bool? Timeout { get; set; }
+
+    /// <summary>
+    /// An ETag value, or the wildcard character (*). Specify this header to perform the operation only if the resource's ETag matches the value specified.
+    /// </summary>
+    [CliFlag("--if-match")]
+    public bool? IfMatch { get; set; }
+
+    /// <summary>
+    /// Commence only if modified since supplied UTC datetime (Y-m-d'T'H:M'Z').
+    /// </summary>
+    [CliFlag("--if-modified-since")]
+    public bool? IfModifiedSince { get; set; }
+
+    /// <summary>
+    /// An ETag value, or the wildcard character (*). Specify this header to perform the operation only if the resource's ETag does not match the value specified. Specify the wildcard character (*) to perform the operation only if the resource does not exist, and fail the operation if it does exist.
+    /// </summary>
+    [CliFlag("--if-none-match")]
+    public bool? IfNoneMatch { get; set; }
+
+    /// <summary>
+    /// Commence only if unmodified since supplied UTC datetime (Y-m-d'T'H:M'Z').
+    /// </summary>
+    [CliFlag("--if-unmodified-since")]
+    public bool? IfUnmodifiedSince { get; set; }
+
+    /// <summary>
+    /// Specify a SQL where clause on blob tags to operate only on blobs with a matching value.
+    /// </summary>
+    [CliFlag("--tags-condition")]
+    public bool? TagsCondition { get; set; }
+
+    /// <summary>
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// </summary>
+    [CliFlag("--account-key")]
+    public bool? AccountKey { get; set; }
+
+    /// <summary>
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
+    /// </summary>
+    [CliFlag("--account-name")]
+    public bool? AccountName { get; set; }
+
+    /// <summary>
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
+    /// </summary>
+    [CliFlag("--blob-endpoint")]
+    public bool? BlobEndpoint { get; set; }
+
+    /// <summary>
+    /// Storage account connection string. Environment variable:
+    /// </summary>
+    [CliFlag("--connection-string")]
+    public bool? ConnectionString { get; set; }
+
+    /// <summary>
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
+    /// </summary>
+    [CliFlag("--sas-token")]
+    public bool? SasToken { get; set; }
 
 }

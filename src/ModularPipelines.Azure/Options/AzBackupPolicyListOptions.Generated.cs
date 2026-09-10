@@ -18,37 +18,33 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "policy", "list")]
-public record AzBackupPolicyListOptions : AzOptions
+public record AzBackupPolicyListOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vault-name", ShortForm = "-v")] string VaultName
+) : AzOptions
 {
     /// <summary>
     /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name. Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.
     /// </summary>
-    [CliFlag("--backup-management-type")]
-    public bool? BackupManagementType { get; set; }
+    [CliOption("--backup-management-type")]
+    public string? BackupManagementType { get; set; }
 
     /// <summary>
     /// Parameter that specifies whether to only list policies where archive tier move is enabled/disabled.  Allowed values: All, Disabled, Enabled.  Default: All.
     /// </summary>
     [CliOption("--move-to-archive-tier")]
-    public string? MoveToArchiveTierValue { get; set; }
+    public string? MoveToArchiveTier { get; set; }
 
     /// <summary>
     /// Sub type of policies to be retrieved. To list standard backup policies, specify ‘Standard’ as the value of this parameter. To list enhanced backup policies for Azure VMs, specify ‘Enhanced’ as the value of this parameter.  Allowed values: Enhanced,
     /// </summary>
-    [CliFlag("--policy-sub-type")]
-    public bool? PolicySubType { get; set; }
+    [CliOption("--policy-sub-type")]
+    public string? PolicySubType { get; set; }
 
     /// <summary>
     /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: AzureFileShare, MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase,
     /// </summary>
-    [CliFlag("--workload-type")]
-    public bool? WorkloadType { get; set; }
-
-    [Obsolete("Use MoveToArchiveTierValue instead.")]
-    public bool? MoveToArchiveTier
-    {
-        get => bool.TryParse(MoveToArchiveTierValue, out var value) ? value : null;
-        set => MoveToArchiveTierValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--workload-type")]
+    public string? WorkloadType { get; set; }
 
 }

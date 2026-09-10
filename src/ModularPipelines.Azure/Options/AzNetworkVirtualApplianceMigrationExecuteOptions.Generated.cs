@@ -22,11 +22,6 @@ public record AzNetworkVirtualApplianceMigrationExecuteOptions(
     [property: CliOption("--migration-type")] string MigrationType
 ) : AzOptions
 {
-    public AzNetworkVirtualApplianceMigrationExecuteOptions()
-        : this(default(string)!)
-    {
-    }
-
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>

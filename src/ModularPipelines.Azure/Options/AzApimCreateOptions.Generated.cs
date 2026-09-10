@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "create")]
-public record AzApimCreateOptions : AzOptions
+public record AzApimCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--publisher-email")] string PublisherEmail,
+    [property: CliOption("--publisher-name")] string PublisherName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Disable gateway in the master region. Only valid for an Api Management service deployed in multiple locations.  Allowed values: false, true.
@@ -65,26 +70,19 @@ public record AzApimCreateOptions : AzOptions
     /// <summary>
     /// The sku of the api management instance.  Allowed values: Basic, Consumption, Developer, Isolated, Premium, Standard.  Default:
     /// </summary>
-    [CliFlag("--sku-name")]
-    public bool? SkuName { get; set; }
+    [CliOption("--sku-name")]
+    public string? SkuName { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The virtual network type.  Allowed values: External, Internal, None.  Default: None.
     /// </summary>
     [CliOption("--virtual-network", ShortForm = "-v")]
-    public string? VirtualNetworkValue { get; set; }
-
-    [Obsolete("Use VirtualNetworkValue instead.")]
-    public bool? VirtualNetwork
-    {
-        get => bool.TryParse(VirtualNetworkValue, out var value) ? value : null;
-        set => VirtualNetworkValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? VirtualNetwork { get; set; }
 
 }

@@ -18,13 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "encryption-scope", "update")]
-public record AzStorageAccountEncryptionScopeUpdateOptions : AzOptions
+public record AzStorageAccountEncryptionScopeUpdateOptions(
+    [property: CliOption("--account-name")] string AccountName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// The provider for the encryption scope.  Allowed values:
     /// </summary>
-    [CliFlag("--key-source", ShortForm = "-s")]
-    public bool? KeySource { get; set; }
+    [CliOption("--key-source", ShortForm = "-s")]
+    public string? KeySource { get; set; }
 
     /// <summary>
     /// The object identifier for a key vault key object. When applied, the encryption scope will use the key referenced by the identifier to enable customer-managed key support on this encryption scope.
@@ -36,19 +39,12 @@ public record AzStorageAccountEncryptionScopeUpdateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Change the state the encryption scope. When disabled, all blob read/write operations using this encryption scope will fail. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--state")]
-    public bool? State { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--state")]
+    public string? State { get; set; }
 
 }

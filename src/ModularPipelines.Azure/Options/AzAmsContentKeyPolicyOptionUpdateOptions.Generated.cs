@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,12 +19,150 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "content-key-policy", "option", "update")]
-public record AzAmsContentKeyPolicyOptionUpdateOptions : AzOptions
+public record AzAmsContentKeyPolicyOptionUpdateOptions(
+    [property: CliOption("--policy-option-id")] string PolicyOptionId
+) : AzOptions
 {
     /// <summary>
     /// The content key policy option name.
     /// </summary>
     [CliFlag("--policy-option-name")]
     public bool? PolicyOptionName { get; set; }
+
+    /// <summary>
+    /// The key that must be used as FairPlay Application Secret Key, which is a 32 character hex string.
+    /// </summary>
+    [CliFlag("--ask")]
+    public bool? Ask { get; set; }
+
+    /// <summary>
+    /// The filepath to a FairPlay certificate file in PKCS 12 (pfx) format (including private key).
+    /// </summary>
+    [CliFlag("--fair-play-pfx")]
+    public bool? FairPlayPfx { get; set; }
+
+    /// <summary>
+    /// The password encrypting FairPlay certificate in PKCS 12 (pfx) format.
+    /// </summary>
+    [CliFlag("--fair-play-pfx-password")]
+    public bool? FairPlayPfxPassword { get; set; }
+
+    /// <summary>
+    /// Playback duration.
+    /// </summary>
+    [CliFlag("--fp-playback-duration-seconds")]
+    public bool? FpPlaybackDurationSeconds { get; set; }
+
+    /// <summary>
+    /// Storage duration.
+    /// </summary>
+    [CliFlag("--fp-storage-duration-seconds")]
+    public bool? FpStorageDurationSeconds { get; set; }
+
+    /// <summary>
+    /// The rental and lease key type. Available values:
+    /// </summary>
+    [CliFlag("--rental-and-lease-key-type")]
+    public bool? RentalAndLeaseKeyType { get; set; }
+
+    /// <summary>
+    /// The rental duration. Must be greater than or equal to 0.
+    /// </summary>
+    [CliFlag("--rental-duration")]
+    public bool? RentalDuration { get; set; }
+
+    /// <summary>
+    /// JSON PlayReady license template. Use @{file} to load from a file.
+    /// </summary>
+    [CliFlag("--play-ready-template")]
+    public bool? PlayReadyTemplate { get; set; }
+
+    /// <summary>
+    /// The name of the Azure Media Services account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The content key policy name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Creates an alternate token key with either a string (for symmetric key) or a filepath to a certificate (x509) or public key (rsa). Must be used in conjunction with --add- alt-token-key-type.
+    /// </summary>
+    [CliFlag("--add-alt-token-key")]
+    public bool? AddAltTokenKey { get; set; }
+
+    /// <summary>
+    /// The type of the token key to be used for the alternate verification key. Allowed values: Symmetric, RSA, X509.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--add-alt-token-key-type")]
+    public string? AddAltTokenKeyType { get; set; }
+
+    /// <summary>
+    /// The audience for the token.
+    /// </summary>
+    [CliFlag("--audience")]
+    public bool? Audience { get; set; }
+
+    /// <summary>
+    /// The token issuer.
+    /// </summary>
+    [CliFlag("--issuer")]
+    public bool? Issuer { get; set; }
+
+    /// <summary>
+    /// The OpenID connect discovery document.
+    /// </summary>
+    [CliFlag("--open-id-connect-discovery-document")]
+    public bool? OpenIdConnectDiscoveryDocument { get; set; }
+
+    /// <summary>
+    /// Space-separated required token claims in '[key=value]' format.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--token-claims", GroupValues = true)]
+    public IEnumerable<string>? TokenClaims { get; set; }
+
+    /// <summary>
+    /// Either a string (for symmetric key) or a filepath to a certificate (x509) or public key (rsa). Must be used in conjunction with --token-key-type.
+    /// </summary>
+    [CliFlag("--token-key")]
+    public bool? TokenKey { get; set; }
+
+    /// <summary>
+    /// The type of the token key to be used for the primary verification key. Allowed values: Symmetric, RSA, X509.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--token-key-type")]
+    public string? TokenKeyType { get; set; }
+
+    /// <summary>
+    /// The type of token. Allowed values: Jwt, Swt.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--token-type")]
+    public string? TokenType { get; set; }
+
+    /// <summary>
+    /// JSON Widevine license template. Use @{file} to load from a file.
+    /// </summary>
+    [CliFlag("--widevine-template")]
+    public bool? WidevineTemplate { get; set; }
 
 }

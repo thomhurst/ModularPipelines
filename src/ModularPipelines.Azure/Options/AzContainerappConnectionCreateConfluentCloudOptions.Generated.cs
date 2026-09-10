@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -18,7 +19,14 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "connection", "create", "confluent-cloud")]
-public record AzContainerappConnectionCreateConfluentCloudOptions : AzOptions
+public record AzContainerappConnectionCreateConfluentCloudOptions(
+    [property: CliOption("--bootstrap-server")] string BootstrapServer,
+    [property: CliOption("--kafka-key")] string KafkaKey,
+    [property: SecretValue, CliOption("--kafka-secret")] string KafkaSecret,
+    [property: CliOption("--schema-key")] string SchemaKey,
+    [property: CliOption("--schema-registry")] string SchemaRegistry,
+    [property: SecretValue, CliOption("--schema-secret")] string SchemaSecret
+) : AzOptions
 {
     /// <summary>
     /// The app configuration id to store configuration.
@@ -29,14 +37,14 @@ public record AzContainerappConnectionCreateConfluentCloudOptions : AzOptions
     /// <summary>
     /// The client type used on the containerapp.  Allowed values: dotnet, dotnet-internal, go, java, none, python, springBoot.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
 
     /// <summary>
     /// Name of the connection.
     /// </summary>
     [CliOption("--connection")]
-    public string? ConnectionValue { get; set; }
+    public string? Connection { get; set; }
 
     /// <summary>
     /// The container where the connection information will be saved (as environment variables).
@@ -54,7 +62,7 @@ public record AzContainerappConnectionCreateConfluentCloudOptions : AzOptions
     /// Name of the container app. Required if '--source-id' is not specified.None.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -65,60 +73,25 @@ public record AzContainerappConnectionCreateConfluentCloudOptions : AzOptions
     /// <summary>
     /// Whether to disable some configuration steps. Use configinfo to disbale configuration information changes on source. Use publicnetwork to disable public network access configuration.Use auth to skip auth configuration such as enabling managed identity and granting RBAC roles.  Allowed values: auth, configinfo, publicnetwork.
     /// </summary>
-    [CliFlag("--opt-out")]
-    public bool? OptOut { get; set; }
+    [CliOption("--opt-out")]
+    public string? OptOut { get; set; }
 
     /// <summary>
     /// The resource group which contains the container app. Required if '--source-id' is not specified.None.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The resource id of a containerapp. Required if ['--resource- group', '--name'] are not specified.
     /// </summary>
     [CliOption("--source-id")]
-    public string? SourceIdValue { get; set; }
+    public string? SourceId { get; set; }
 
     /// <summary>
     /// The id of key vault to store secret value.
     /// </summary>
     [CliOption("--vault-id")]
-    public string? VaultIdValue { get; set; }
-
-    [Obsolete("Use ConnectionValue instead.")]
-    public bool? Connection
-    {
-        get => bool.TryParse(ConnectionValue, out var value) ? value : null;
-        set => ConnectionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SourceIdValue instead.")]
-    public bool? SourceId
-    {
-        get => bool.TryParse(SourceIdValue, out var value) ? value : null;
-        set => SourceIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VaultIdValue instead.")]
-    public bool? VaultId
-    {
-        get => bool.TryParse(VaultIdValue, out var value) ? value : null;
-        set => VaultIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? VaultId { get; set; }
 
 }

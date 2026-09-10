@@ -23,7 +23,31 @@ public record AzVmHostShowOptions : AzOptions
     /// <summary>
     /// The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the dedicated host. 'UserData' is not supported for dedicated host.  Allowed values: instanceView, resiliencyView, userData.
     /// </summary>
-    [CliFlag("--expand")]
-    public bool? Expand { get; set; }
+    [CliOption("--expand", GroupValues = true)]
+    public IEnumerable<string>? Expand { get; set; }
+
+    /// <summary>
+    /// The name of the dedicated host group.
+    /// </summary>
+    [CliOption("--host-group", ShortForm = "--host-group-name")]
+    public string? HostGroup { get; set; }
+
+    /// <summary>
+    /// The name of the dedicated host.
+    /// </summary>
+    [CliOption("--host-name", ShortForm = "-n")]
+    public string? HostName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

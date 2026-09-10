@@ -18,12 +18,98 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "pool", "set")]
-public record AzBatchPoolSetOptions : AzOptions
+public record AzBatchPoolSetOptions(
+    [property: CliOption("--pool-id")] string PoolId
+) : AzOptions
 {
     /// <summary>
     /// A file containing the pool specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Pool Arguments' are ignored.
     /// </summary>
     [CliFlag("--json-file")]
     public bool? JsonFile { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
+    /// </summary>
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Batch account name. Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// A list of Packages to be installed on each Compute Node in the Pool. Changes to Package references affect all new Nodes joining the Pool, but do not affect Compute Nodes that are already in the Pool until they are rebooted or reimaged. If this element is present, it replaces any existing Package references. If you specify an empty collection, then all Package references are removed from the Pool. If omitted, any existing Package references are left unchanged. Space- separated application IDs with optional version in 'id[#version]' format.
+    /// </summary>
+    [CliOption("--application-package-references", GroupValues = true)]
+    public IEnumerable<string>? ApplicationPackageReferences { get; set; }
+
+    /// <summary>
+    /// A list of name-value pairs associated with the Pool as metadata. If this element is present, it replaces any existing metadata configured on the Pool. If you specify an empty collection, any metadata is removed from the Pool. If omitted, any existing metadata is left unchanged. Space- separated values in 'key=value' format.
+    /// </summary>
+    [CliOption("--metadata", GroupValues = true)]
+    public IEnumerable<string>? Metadata { get; set; }
+
+    /// <summary>
+    /// The command line of the StartTask. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en-us/azure/batch/batch-compute- node-environment-variables). Required.
+    /// </summary>
+    [CliFlag("--start-task-command-line")]
+    public bool? StartTaskCommandLine { get; set; }
+
+    /// <summary>
+    /// A list of environment variable settings for the StartTask. Space-separated values in 'key=value' format.
+    /// </summary>
+    [CliOption("--start-task-environment-settings", GroupValues = true)]
+    public IEnumerable<string>? StartTaskEnvironmentSettings { get; set; }
+
+    /// <summary>
+    /// The maximum number of times the Task may be retried. The Batch service retries a Task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the Task. If the maximum retry count is -1, the Batch service retries the Task without limit, however this is not recommended for a start task or any task. The default value is 0 (no retries).
+    /// </summary>
+    [CliFlag("--start-task-max-task-retry-count")]
+    public bool? StartTaskMaxTaskRetryCount { get; set; }
+
+    /// <summary>
+    /// A list of files that the Batch service will download to the Compute Node before running the command line.  There is a maximum size for the list of resource files. When the max size is exceeded, the request will fail and the response error code will be RequestEntityTooLarge. If this occurs, the collection of ResourceFiles must be reduced in size. This can be achieved using .zip files, Application Packages, or Docker Containers. Files listed under this element are located in the Task's working directory. Space-separated resource references in filename=httpurl format.
+    /// </summary>
+    [CliOption("--start-task-resource-files", GroupValues = true)]
+    public IEnumerable<string>? StartTaskResourceFiles { get; set; }
+
+    /// <summary>
+    /// Whether the Batch service should wait for the StartTask to complete successfully (that is, to exit with exit code 0) before scheduling any Tasks on the Compute Node. If true and the StartTask fails on a Node, the Batch service retries the StartTask up to its maximum retry count (maxTaskRetryCount). If the Task has still not completed successfully after all retries, then the Batch service marks the Node unusable, and will not schedule Tasks to it. This condition can be detected via the Compute Node state and failure info details. If false, the Batch service will not wait for the StartTask to complete. In this case, other Tasks can start executing on the Compute Node while the StartTask is still running; and even if the StartTask fails, new Tasks will continue to be scheduled on the Compute Node. The default is true. True if flag present.
+    /// </summary>
+    [CliFlag("--start-task-wait-for-success")]
+    public bool? StartTaskWaitForSuccess { get; set; }
+
+    /// <summary>
+    /// An ETag value associated with the version of the resource known to the client. The operation will be performed only if the resource's current ETag on the service exactly matches the value specified by the client.
+    /// </summary>
+    [CliFlag("--if-match")]
+    public bool? IfMatch { get; set; }
+
+    /// <summary>
+    /// A timestamp indicating the last modified time of the resource known to the client. The operation will be performed only if the resource on the service has been modified since the specified time.
+    /// </summary>
+    [CliFlag("--if-modified-since")]
+    public bool? IfModifiedSince { get; set; }
+
+    /// <summary>
+    /// An ETag value associated with the version of the resource known to the client. The operation will be performed only if the resource's current ETag on the service does not match the value specified by the client.
+    /// </summary>
+    [CliFlag("--if-none-match")]
+    public bool? IfNoneMatch { get; set; }
+
+    /// <summary>
+    /// A timestamp indicating the last modified time of the resource known to the client. The operation will be performed only if the resource on the service has been modified since the specified time.
+    /// </summary>
+    [CliFlag("--if-unmodified-since")]
+    public bool? IfUnmodifiedSince { get; set; }
 
 }

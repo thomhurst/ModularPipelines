@@ -33,6 +33,21 @@ public class AzCosmosdbPostgresConfigurationCoordinator
     #region Commands
 
     /// <summary>
+    /// Get information of a configuration for
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzCosmosdbPostgresConfigurationCoordinatorShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCosmosdbPostgresConfigurationCoordinatorShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Updates configuration of coordinator in
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -45,6 +60,21 @@ public class AzCosmosdbPostgresConfigurationCoordinator
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzCosmosdbPostgresConfigurationCoordinatorUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzCosmosdbPostgresConfigurationCoordinatorWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCosmosdbPostgresConfigurationCoordinatorWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

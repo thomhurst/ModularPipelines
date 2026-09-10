@@ -33,6 +33,21 @@ public class AzSqlMiDtc
     #region Commands
 
     /// <summary>
+    /// Get managed instance DTC settings.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzSqlMiDtcShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlMiDtcShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update managed instance DTC settings.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -45,6 +60,21 @@ public class AzSqlMiDtc
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlMiDtcUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition is met.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzSqlMiDtcWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSqlMiDtcWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

@@ -18,7 +18,14 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "table", "restore", "create")]
-public record AzMonitorLogAnalyticsWorkspaceTableRestoreCreateOptions : AzOptions
+public record AzMonitorLogAnalyticsWorkspaceTableRestoreCreateOptions(
+    [property: CliOption("--end-restore-time")] string EndRestoreTime,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--restore-source-table")] string RestoreSourceTable,
+    [property: CliOption("--start-restore-time")] string StartRestoreTime,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

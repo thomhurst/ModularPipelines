@@ -26,6 +26,7 @@ public class AzMysqlServer
     private AzMysqlServerFirewallRule? _firewallRule;
     private AzMysqlServerKey? _key;
     private AzMysqlServerPrivateEndpointConnection? _privateEndpointConnection;
+    private AzMysqlServerPrivateLinkResource? _privateLinkResource;
     private AzMysqlServerReplica? _replica;
     private AzMysqlServerVnetRule? _vnetRule;
 
@@ -63,6 +64,11 @@ public class AzMysqlServer
     /// az private-endpoint-connection sub-commands.
     /// </summary>
     public AzMysqlServerPrivateEndpointConnection PrivateEndpointConnection => _privateEndpointConnection ??= new AzMysqlServerPrivateEndpointConnection(_command);
+
+    /// <summary>
+    /// az private-link-resource sub-commands.
+    /// </summary>
+    public AzMysqlServerPrivateLinkResource PrivateLinkResource => _privateLinkResource ??= new AzMysqlServerPrivateLinkResource(_command);
 
     /// <summary>
     /// az replica sub-commands.
@@ -116,11 +122,11 @@ public class AzMysqlServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GeorestoreAsync(
-        AzMysqlServerGeorestoreOptions? options = null,
+        AzMysqlServerGeorestoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlServerGeorestoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -139,6 +145,36 @@ public class AzMysqlServer
     }
 
     /// <summary>
+    /// List available sku's in the given region.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListSkusAsync(
+        AzMysqlServerListSkusOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Restart a server.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RestartAsync(
+        AzMysqlServerRestartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlServerRestartOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Restore a server from backup.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -146,11 +182,11 @@ public class AzMysqlServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreAsync(
-        AzMysqlServerRestoreOptions? options = null,
+        AzMysqlServerRestoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlServerRestoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -169,6 +205,51 @@ public class AzMysqlServer
     }
 
     /// <summary>
+    /// Get the details of a server.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzMysqlServerShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlServerShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Start a stopped server.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> StartAsync(
+        AzMysqlServerStartOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlServerStartOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Stop a running server.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> StopAsync(
+        AzMysqlServerStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlServerStopOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update a server.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -181,6 +262,21 @@ public class AzMysqlServer
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlServerUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Wait for server to satisfy certain conditions.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzMysqlServerWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMysqlServerWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

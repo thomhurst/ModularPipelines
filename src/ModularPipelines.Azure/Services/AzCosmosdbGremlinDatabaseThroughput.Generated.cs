@@ -33,6 +33,36 @@ public class AzCosmosdbGremlinDatabaseThroughput
     #region Commands
 
     /// <summary>
+    /// Migrate the throughput of the Gremlin database
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> MigrateAsync(
+        AzCosmosdbGremlinDatabaseThroughputMigrateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the throughput of the Gremlin database under
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzCosmosdbGremlinDatabaseThroughputShowOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update the throughput of the Gremlin database
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -40,11 +70,11 @@ public class AzCosmosdbGremlinDatabaseThroughput
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAsync(
-        AzCosmosdbGremlinDatabaseThroughputUpdateOptions? options = null,
+        AzCosmosdbGremlinDatabaseThroughputUpdateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCosmosdbGremlinDatabaseThroughputUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

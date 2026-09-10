@@ -18,14 +18,14 @@ namespace ModularPipelines.Azure.Services;
 /// az appsettings commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class AzLogicappConfigAppsettings
+public class AzLogicappConfigAppSettings
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AzLogicappConfigAppsettings"/> class.
+    /// Initializes a new instance of the <see cref="AzLogicappConfigAppSettings"/> class.
     /// </summary>
-    public AzLogicappConfigAppsettings(ICommandContext command)
+    public AzLogicappConfigAppSettings(ICommandContext command)
     {
         _command = command;
     }
@@ -40,11 +40,11 @@ public class AzLogicappConfigAppsettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAsync(
-        AzLogicappConfigAppsettingsDeleteOptions? options = null,
+        AzLogicappConfigAppSettingsDeleteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzLogicappConfigAppsettingsDeleteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -55,11 +55,11 @@ public class AzLogicappConfigAppsettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
-        AzLogicappConfigAppsettingsListOptions? options = null,
+        AzLogicappConfigAppSettingsListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzLogicappConfigAppsettingsListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AzLogicappConfigAppsettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetAsync(
-        AzLogicappConfigAppsettingsSetOptions? options = null,
+        AzLogicappConfigAppSettingsSetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzLogicappConfigAppsettingsSetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

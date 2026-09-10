@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "repository", "untag")]
-public record AzAcrRepositoryUntagOptions : AzOptions
+public record AzAcrRepositoryUntagOptions(
+    [property: CliOption("--image", ShortForm = "-t")] string Image,
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// The password used to log into a container registry.

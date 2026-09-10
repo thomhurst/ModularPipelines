@@ -18,19 +18,26 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "list-shared")]
-public record AzSigListSharedOptions : AzOptions
+public record AzSigListSharedOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location
+) : AzOptions
 {
     /// <summary>
     /// The query parameter to decide what shared galleries to fetch when doing listing operations. If not specified, list by subscription id.
     /// </summary>
     [CliOption("--shared-to")]
-    public string? SharedToValue { get; set; }
+    public string? SharedTo { get; set; }
 
-    [Obsolete("Use SharedToValue instead.")]
-    public bool? SharedTo
-    {
-        get => bool.TryParse(SharedToValue, out var value) ? value : null;
-        set => SharedToValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
+    /// </summary>
+    [CliFlag("--max-items")]
+    public bool? MaxItems { get; set; }
+
+    /// <summary>
+    /// Token to specify where to start paginating. This is the token value from a previously truncated response.
+    /// </summary>
+    [CliFlag("--next-token")]
+    public bool? NextToken { get; set; }
 
 }

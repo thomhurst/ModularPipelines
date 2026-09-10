@@ -18,13 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "create")]
-public record AzNetworkApplicationGatewayCreateOptions : AzOptions
+public record AzNetworkApplicationGatewayCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Space-separated list of custom error pages in `STATUS_CODE=URL` format.
     /// </summary>
-    [CliFlag("--custom-error-pages")]
-    public bool? CustomErrorPages { get; set; }
+    [CliOption("--custom-error-pages", GroupValues = true)]
+    public IEnumerable<string>? CustomErrorPages { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
@@ -59,8 +62,8 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Generate and validate the ARM template without creating any resources.
@@ -72,19 +75,180 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     /// Name or ID of a web application firewall (WAF) policy.
     /// </summary>
     [CliOption("--waf-policy")]
-    public string? WafPolicyValue { get; set; }
+    public string? WafPolicy { get; set; }
 
     /// <summary>
     /// Space-separated list of availability zones into which to provision the resource.
     /// </summary>
-    [CliFlag("--zones", ShortForm = "-z")]
-    public bool? Zones { get; set; }
+    [CliOption("--zones", ShortForm = "-z", GroupValues = true)]
+    public IEnumerable<string>? Zones { get; set; }
 
-    [Obsolete("Use WafPolicyValue instead.")]
-    public bool? WafPolicy
-    {
-        get => bool.TryParse(WafPolicyValue, out var value) ? value : null;
-        set => WafPolicyValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The number of instances to use with the application gateway.  Default: 2.
+    /// </summary>
+    [CliFlag("--capacity")]
+    public bool? Capacity { get; set; }
+
+    /// <summary>
+    /// The path to the PFX certificate file.
+    /// </summary>
+    [CliOption("--cert-file")]
+    public string? CertFile { get; set; }
+
+    /// <summary>
+    /// The certificate password.
+    /// </summary>
+    [CliFlag("--cert-password")]
+    public bool? CertPassword { get; set; }
+
+    /// <summary>
+    /// The time in seconds after a backend server is removed during which on open connection remains active. Range: 0 (disabled) to 3600.
+    /// </summary>
+    [CliFlag("--connection-draining-timeout")]
+    public bool? ConnectionDrainingTimeout { get; set; }
+
+    /// <summary>
+    /// Whether FIPS is enabled on the application gateway resource.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-fips")]
+    public bool? EnableFips { get; set; }
+
+    /// <summary>
+    /// The front end port number.
+    /// </summary>
+    [CliFlag("--frontend-port")]
+    public bool? FrontendPort { get; set; }
+
+    /// <summary>
+    /// Enable or disable HTTP settings cookie-based affinity. Allowed values: Disabled, Enabled.  Default: disabled.
+    /// </summary>
+    [CliOption("--http-settings-cookie-based-affinity")]
+    public string? HttpSettingsCookieBasedAffinity { get; set; }
+
+    /// <summary>
+    /// The HTTP settings port.  Default: 80.
+    /// </summary>
+    [CliFlag("--http-settings-port")]
+    public bool? HttpSettingsPort { get; set; }
+
+    /// <summary>
+    /// The HTTP settings protocol.  Allowed values: Http, Https, Tcp, Tls.  Default: Http.
+    /// </summary>
+    [CliOption("--http-settings-protocol")]
+    public string? HttpSettingsProtocol { get; set; }
+
+    /// <summary>
+    /// Use HTTP2 for the application gateway.  Allowed values:
+    /// </summary>
+    [CliOption("--http2")]
+    public string? Http2 { get; set; }
+
+    /// <summary>
+    /// Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in Azure KeyVault. You need enable soft delete for keyvault to use this feature.
+    /// </summary>
+    [CliFlag("--key-vault-secret-id")]
+    public bool? KeyVaultSecretId { get; set; }
+
+    /// <summary>
+    /// The request routing rule type.  Allowed values: Basic, PathBasedRouting.  Default: Basic.
+    /// </summary>
+    [CliOption("--routing-rule-type")]
+    public string? RoutingRuleType { get; set; }
+
+    /// <summary>
+    /// Space-separated list of IP addresses or DNS names corresponding to backend servers.
+    /// </summary>
+    [CliOption("--servers", GroupValues = true)]
+    public IEnumerable<string>? Servers { get; set; }
+
+    /// <summary>
+    /// The name of the SKU.  Allowed values: Standard_Medium, Standard_Small, Standard_v2, WAF_Large, WAF_Medium, WAF_v2.  Default: Standard_Medium.
+    /// </summary>
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
+
+    /// <summary>
+    /// The certificate name. Default will be `&lt;application- gateway-name&gt;SslCert`.
+    /// </summary>
+    [CliFlag("--ssl-certificate-name")]
+    public bool? SslCertificateName { get; set; }
+
+    /// <summary>
+    /// Name or ID of the ManagedIdentity Resource.
+    /// </summary>
+    [CliOption("--identity")]
+    public string? Identity { get; set; }
+
+    /// <summary>
+    /// Static private IP address to use.
+    /// </summary>
+    [CliFlag("--private-ip-address")]
+    public bool? PrivateIpAddress { get; set; }
+
+    /// <summary>
+    /// Name or ID of a public IP address. Uses existing resource or creates new if specified, or none if omitted.
+    /// </summary>
+    [CliOption("--public-ip-address")]
+    public string? PublicIpAddress { get; set; }
+
+    /// <summary>
+    /// The kind of IP allocation to use when creating a new public IP.  Default: Dynamic.
+    /// </summary>
+    [CliFlag("--public-ip-address-allocation")]
+    public bool? PublicIpAddressAllocation { get; set; }
+
+    /// <summary>
+    /// Name or ID of the subnet. Will create resource if it does not exist. If name specified, also specify --vnet- name. If you want to use an existing subnet in other resource group or subscription, please provide the ID instead of the name of the subnet.  Default: default.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// The CIDR prefix to use when creating a new subnet.
+    /// </summary>
+    [CliFlag("--subnet-address-prefix")]
+    public bool? SubnetAddressPrefix { get; set; }
+
+    /// <summary>
+    /// The CIDR prefix to use when creating a new VNet.
+    /// </summary>
+    [CliFlag("--vnet-address-prefix")]
+    public bool? VnetAddressPrefix { get; set; }
+
+    /// <summary>
+    /// The virtual network (VNet) name.
+    /// </summary>
+    [CliOption("--vnet-name")]
+    public string? VnetName { get; set; }
+
+    /// <summary>
+    /// Enable Private Link feature for this application gateway. If both public IP and private IP are enbaled, taking effect only in public frontend IP.
+    /// </summary>
+    [CliFlag("--enable-private-link")]
+    public bool? EnablePrivateLink { get; set; }
+
+    /// <summary>
+    /// The static private IP address of a subnet for Private Link. If omitting, a dynamic one will be created.
+    /// </summary>
+    [CliFlag("--private-link-ip-address")]
+    public bool? PrivateLinkIpAddress { get; set; }
+
+    /// <summary>
+    /// Whether the IP configuration is primary or not.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--private-link-primary")]
+    public bool? PrivateLinkPrimary { get; set; }
+
+    /// <summary>
+    /// The name of the subnet within the same vnet of an application gateway.  Default: PrivateLinkDefaultSubnet.
+    /// </summary>
+    [CliOption("--private-link-subnet")]
+    public string? PrivateLinkSubnet { get; set; }
+
+    /// <summary>
+    /// The CIDR prefix to use when creating a new subnet.
+    /// </summary>
+    [CliFlag("--private-link-subnet-prefix")]
+    public bool? PrivateLinkSubnetPrefix { get; set; }
 
 }

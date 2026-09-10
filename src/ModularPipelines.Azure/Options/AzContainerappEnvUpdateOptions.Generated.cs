@@ -41,8 +41,8 @@ public record AzContainerappEnvUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The friendly name for the workload profile.
@@ -55,5 +55,83 @@ public record AzContainerappEnvUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--workload-profile-type")]
     public bool? WorkloadProfileType { get; set; }
+
+    /// <summary>
+    /// The filepath of the certificate file (.pfx or .pem) for the environment's custom domain. To manage certificates for container apps, use `az containerapp env certificate`.
+    /// </summary>
+    [CliFlag("--certificate-file", ShortForm = "--custom-domain-certificate-file")]
+    public bool? CertificateFile { get; set; }
+
+    /// <summary>
+    /// The certificate file password for the environment's custom domain.
+    /// </summary>
+    [CliFlag("--certificate-password", ShortForm = "--custom-domain-certificate-password")]
+    public bool? CertificatePassword { get; set; }
+
+    /// <summary>
+    /// The DNS suffix for the environment's custom domain.
+    /// </summary>
+    [CliFlag("--custom-domain-dns-suffix", ShortForm = "--dns-suffix")]
+    public bool? CustomDomainDnsSuffix { get; set; }
+
+    /// <summary>
+    /// Application Insights connection string used by Dapr to export service to service communication telemetry. Use "none" to remove it.
+    /// </summary>
+    [CliFlag("--dapr-connection-string", ShortForm = "-d")]
+    public bool? DaprConnectionString { get; set; }
+
+    /// <summary>
+    /// Logs destination.  Allowed values: azure-monitor, log-analytics, none.
+    /// </summary>
+    [CliOption("--logs-destination")]
+    public string? LogsDestination { get; set; }
+
+    /// <summary>
+    /// Workspace ID of the Log Analytics workspace to send diagnostics logs to. Only works with logs destination "log-analytics". You can use "az monitor log-analytics workspace create" to create one. Extra billing may apply.
+    /// </summary>
+    [CliFlag("--logs-workspace-id")]
+    public bool? LogsWorkspaceId { get; set; }
+
+    /// <summary>
+    /// Log Analytics workspace key to configure your Log Analytics workspace. Only works with logs destination "log-analytics". You can use "az monitor log-analytics workspace get-shared-keys" to retrieve the key.
+    /// </summary>
+    [CliFlag("--logs-workspace-key")]
+    public bool? LogsWorkspaceKey { get; set; }
+
+    /// <summary>
+    /// Name or resource ID of the storage account used for Azure Monitor. If this value is provided, Azure Monitor Diagnostic Settings will be created automatically.
+    /// </summary>
+    [CliOption("--storage-account")]
+    public string? StorageAccount { get; set; }
+
+    /// <summary>
+    /// Boolean indicating if mTLS peer authentication is enabled for the environment.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-mtls")]
+    public bool? EnableMtls { get; set; }
+
+    /// <summary>
+    /// Boolean indicating whether the peer-to-peer traffic encryption is enabled for the environment. Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-peer-to-peer-encryption")]
+    public bool? EnablePeerToPeerEncryption { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids")]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Container Apps environment.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

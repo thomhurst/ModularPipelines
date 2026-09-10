@@ -18,19 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "or-policy", "rule", "remove")]
-public record AzStorageAccountOrPolicyRuleRemoveOptions : AzOptions
+public record AzStorageAccountOrPolicyRuleRemoveOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
+    [property: CliOption("--policy-id")] string PolicyId,
+    [property: CliOption("--rule-id", ShortForm = "-r")] string RuleId
+) : AzOptions
 {
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

@@ -18,19 +18,32 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "parameter", "set-batch")]
-public record AzMysqlFlexibleServerParameterSetBatchOptions : AzOptions
+public record AzMysqlFlexibleServerParameterSetBatchOptions(
+    [property: CliOption("--args", GroupValues = true)] IEnumerable<string> Args
+) : AzOptions
 {
     /// <summary>
     /// Source of the configuration.
     /// </summary>
     [CliOption("--source")]
-    public string? SourceValue { get; set; }
+    public string? Source { get; set; }
 
-    [Obsolete("Use SourceValue instead.")]
-    public bool? Source
-    {
-        get => bool.TryParse(SourceValue, out var value) ? value : null;
-        set => SourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string? ServerName { get; set; }
 
 }

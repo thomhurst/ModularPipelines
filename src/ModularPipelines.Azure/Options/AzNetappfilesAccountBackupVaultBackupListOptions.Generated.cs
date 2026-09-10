@@ -18,12 +18,28 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "account", "backup-vault", "backup", "list")]
-public record AzNetappfilesAccountBackupVaultBackupListOptions : AzOptions
+public record AzNetappfilesAccountBackupVaultBackupListOptions(
+    [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
+    [property: CliOption("--backup-vault-name", ShortForm = "-v")] string BackupVaultName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// An option to specify the VolumeResourceId. If present, then only returns the backups under the specified volume.
     /// </summary>
     [CliFlag("--filter")]
     public bool? Filter { get; set; }
+
+    /// <summary>
+    /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
+    /// </summary>
+    [CliFlag("--max-items")]
+    public bool? MaxItems { get; set; }
+
+    /// <summary>
+    /// Token to specify where to start paginating. This is the token value from a previously truncated response.
+    /// </summary>
+    [CliFlag("--next-token")]
+    public bool? NextToken { get; set; }
 
 }

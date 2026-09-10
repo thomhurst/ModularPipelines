@@ -24,7 +24,7 @@ public record AzContainerappEnvCertificateDeleteOptions : AzOptions
     /// Name or resource id of the certificate.
     /// </summary>
     [CliOption("--certificate", ShortForm = "-c")]
-    public string? CertificateValue { get; set; }
+    public string? Certificate { get; set; }
 
     /// <summary>
     /// Location of resource. Examples: eastus2, northeurope.
@@ -44,11 +44,22 @@ public record AzContainerappEnvCertificateDeleteOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use CertificateValue instead.")]
-    public bool? Certificate
-    {
-        get => bool.TryParse(CertificateValue, out var value) ? value : null;
-        set => CertificateValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Container Apps environment.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

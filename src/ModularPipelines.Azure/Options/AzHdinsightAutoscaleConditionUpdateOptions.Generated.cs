@@ -18,13 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "autoscale", "condition", "update")]
-public record AzHdinsightAutoscaleConditionUpdateOptions : AzOptions
+public record AzHdinsightAutoscaleConditionUpdateOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--index")] string Index,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// A space-delimited list of schedule day.  Allowed values: Friday, Monday, Saturday, Sunday, Thursday, Tuesday, Wednesday.
     /// </summary>
-    [CliFlag("--days")]
-    public bool? Days { get; set; }
+    [CliOption("--days", GroupValues = true)]
+    public IEnumerable<string>? Days { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

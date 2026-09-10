@@ -18,13 +18,17 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("restore-point", "create")]
-public record AzRestorePointCreateOptions : AzOptions
+public record AzRestorePointCreateOptions(
+    [property: CliOption("--collection-name")] string CollectionName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Customer managed data disk encryption set resource id.
     /// </summary>
     [CliOption("--data-disk-restore-point-encryption-set")]
-    public string? DataDiskRestorePointEncryptionSetValue { get; set; }
+    public string? DataDiskRestorePointEncryptionSet { get; set; }
 
     /// <summary>
     /// The type of key used to encrypt the data of the data disk restore point.
@@ -35,8 +39,14 @@ public record AzRestorePointCreateOptions : AzOptions
     /// <summary>
     /// List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included.
     /// </summary>
-    [CliFlag("--exclude-disks")]
-    public bool? ExcludeDisks { get; set; }
+    [CliOption("--exclude-disks", GroupValues = true)]
+    public IEnumerable<string>? ExcludeDisks { get; set; }
+
+    /// <summary>
+    /// This property determines the time in minutes the snapshot is retained as instant access for restoring Premium SSD v2 or Ultra disk with fast restore performance in this restore point.
+    /// </summary>
+    [CliFlag("--ia-duration", ShortForm = "--instant-access-duration-minutes")]
+    public bool? IaDuration { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -48,7 +58,7 @@ public record AzRestorePointCreateOptions : AzOptions
     /// Customer managed OS disk encryption set resource id.
     /// </summary>
     [CliOption("--os-restore-point-encryption-set")]
-    public string? OsRestorePointEncryptionSetValue { get; set; }
+    public string? OsRestorePointEncryptionSet { get; set; }
 
     /// <summary>
     /// The type of key used to encrypt the data of the OS disk restore point.
@@ -60,53 +70,18 @@ public record AzRestorePointCreateOptions : AzOptions
     /// Resource Id of the source data disk.
     /// </summary>
     [CliOption("--source-data-disk-resource")]
-    public string? SourceDataDiskResourceValue { get; set; }
+    public string? SourceDataDiskResource { get; set; }
 
     /// <summary>
     /// Resource Id of the source OS disk.
     /// </summary>
     [CliOption("--source-os-resource")]
-    public string? SourceOsResourceValue { get; set; }
+    public string? SourceOsResource { get; set; }
 
     /// <summary>
     /// Resource Id of the source restore point from which a copy needs to be created.
     /// </summary>
     [CliOption("--source-restore-point")]
-    public string? SourceRestorePointValue { get; set; }
-
-    [Obsolete("Use DataDiskRestorePointEncryptionSetValue instead.")]
-    public bool? DataDiskRestorePointEncryptionSet
-    {
-        get => bool.TryParse(DataDiskRestorePointEncryptionSetValue, out var value) ? value : null;
-        set => DataDiskRestorePointEncryptionSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use OsRestorePointEncryptionSetValue instead.")]
-    public bool? OsRestorePointEncryptionSet
-    {
-        get => bool.TryParse(OsRestorePointEncryptionSetValue, out var value) ? value : null;
-        set => OsRestorePointEncryptionSetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SourceDataDiskResourceValue instead.")]
-    public bool? SourceDataDiskResource
-    {
-        get => bool.TryParse(SourceDataDiskResourceValue, out var value) ? value : null;
-        set => SourceDataDiskResourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SourceOsResourceValue instead.")]
-    public bool? SourceOsResource
-    {
-        get => bool.TryParse(SourceOsResourceValue, out var value) ? value : null;
-        set => SourceOsResourceValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SourceRestorePointValue instead.")]
-    public bool? SourceRestorePoint
-    {
-        get => bool.TryParse(SourceRestorePointValue, out var value) ? value : null;
-        set => SourceRestorePointValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? SourceRestorePoint { get; set; }
 
 }

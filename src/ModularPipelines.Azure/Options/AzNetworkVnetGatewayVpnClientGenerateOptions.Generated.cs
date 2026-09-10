@@ -23,20 +23,20 @@ public record AzNetworkVnetGatewayVpnClientGenerateOptions : AzOptions
     /// <summary>
     /// Method used to authenticate with the generated client. Allowed values: EAPMSCHAPv2, EAPTLS.
     /// </summary>
-    [CliFlag("--authentication-method")]
-    public bool? AuthenticationMethod { get; set; }
+    [CliOption("--authentication-method")]
+    public string? AuthenticationMethod { get; set; }
 
     /// <summary>
     /// Space-separated list of client root certificate public certificate data in Base-64 format. Optional for external Radius-based auth with EAPTLS.
     /// </summary>
-    [CliFlag("--client-root-certificates")]
-    public bool? ClientRootCertificates { get; set; }
+    [CliOption("--client-root-certificates", GroupValues = true)]
+    public IEnumerable<string>? ClientRootCertificates { get; set; }
 
     /// <summary>
     /// Processor architecture of the target system.  Allowed values:
     /// </summary>
-    [CliFlag("--processor-architecture")]
-    public bool? ProcessorArchitecture { get; set; }
+    [CliOption("--processor-architecture")]
+    public string? ProcessorArchitecture { get; set; }
 
     /// <summary>
     /// Public certificate data for the Radius server auth certificate in Base-64 format. Required only if external Radius auth has been configured with EAPTLS auth.
@@ -49,5 +49,23 @@ public record AzNetworkVnetGatewayVpnClientGenerateOptions : AzOptions
     /// </summary>
     [CliOption("--use-legacy")]
     public bool? UseLegacy { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the VNet gateway.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

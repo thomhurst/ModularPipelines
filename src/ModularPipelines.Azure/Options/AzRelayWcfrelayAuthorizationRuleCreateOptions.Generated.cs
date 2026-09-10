@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("relay", "wcfrelay", "authorization-rule", "create")]
-public record AzRelayWcfrelayAuthorizationRuleCreateOptions : AzOptions
+public record AzRelayWcfrelayAuthorizationRuleCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--namespace-name")] string NamespaceName,
+    [property: CliOption("--relay-name")] string RelayName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// The rights associated with the rule.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

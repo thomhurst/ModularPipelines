@@ -18,12 +18,39 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "node", "scheduling", "disable")]
-public record AzBatchNodeSchedulingDisableOptions : AzOptions
+public record AzBatchNodeSchedulingDisableOptions(
+    [property: CliOption("--node-id")] string NodeId,
+    [property: CliOption("--pool-id")] string PoolId
+) : AzOptions
 {
     /// <summary>
     /// A file containing the parameters specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Parameters Arguments' are ignored.
     /// </summary>
     [CliFlag("--json-file")]
     public bool? JsonFile { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
+    /// </summary>
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Batch account name. Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// What to do with currently running Tasks when disabling Task scheduling on the Compute Node. The default value is requeue. Known values are: "requeue", "terminate", and "taskcompletion".
+    /// </summary>
+    [CliFlag("--node-disable-scheduling-option")]
+    public bool? NodeDisableSchedulingOption { get; set; }
 
 }

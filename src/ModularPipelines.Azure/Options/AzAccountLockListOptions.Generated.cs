@@ -24,13 +24,6 @@ public record AzAccountLockListOptions : AzOptions
     /// A query filter to use to restrict the results.
     /// </summary>
     [CliOption("--filter-string")]
-    public string? FilterStringValue { get; set; }
-
-    [Obsolete("Use FilterStringValue instead.")]
-    public bool? FilterString
-    {
-        get => bool.TryParse(FilterStringValue, out var value) ? value : null;
-        set => FilterStringValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? FilterString { get; set; }
 
 }

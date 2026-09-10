@@ -32,6 +32,11 @@ public interface IAzDeployment
     AzDeploymentMg Mg => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az operation sub-commands.
+    /// </summary>
+    AzDeploymentOperation Operation => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az sub sub-commands.
     /// </summary>
     AzDeploymentSub Sub => throw new System.NotSupportedException();

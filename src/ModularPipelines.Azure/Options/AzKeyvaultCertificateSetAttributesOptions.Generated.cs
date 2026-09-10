@@ -35,7 +35,31 @@ public record AzKeyvaultCertificateSetAttributesOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Id of the certificate. If specified all other 'Id' arguments should be omitted.
+    /// </summary>
+    [CliOption("--id")]
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Name of the certificate. Required if --id is not specified.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of the Key Vault. Required if --id is not specified.
+    /// </summary>
+    [CliOption("--vault-name")]
+    public string? VaultName { get; set; }
+
+    /// <summary>
+    /// The certificate version. If omitted, uses the latest version.
+    /// </summary>
+    [CliFlag("--version", ShortForm = "-v")]
+    public bool? Version { get; set; }
 
 }

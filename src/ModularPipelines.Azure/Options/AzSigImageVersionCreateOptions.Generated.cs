@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "image-version", "create")]
-public record AzSigImageVersionCreateOptions : AzOptions
+public record AzSigImageVersionCreateOptions(
+    [property: CliOption("--gallery-image-definition", ShortForm = "-i")] string GalleryImageDefinition,
+    [property: CliOption("--gallery-image-version", ShortForm = "-e")] string GalleryImageVersion,
+    [property: CliOption("--gallery-name", ShortForm = "-r")] string GalleryName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Indicate whether or not removing this gallery image version from replicated regions is allowed.
@@ -45,10 +50,16 @@ public record AzSigImageVersionCreateOptions : AzOptions
     public bool? DataVhdsLuns { get; set; }
 
     /// <summary>
+    /// Names or IDs (space- delimited) of storage accounts of source VHD
+    /// </summary>
+    [CliFlag("--data-vhds-sa", ShortForm = "--data-vhds-storage-accounts")]
+    public bool? DataVhdsSa { get; set; }
+
+    /// <summary>
     /// Source VHD
     /// </summary>
     [CliOption("--data-vhds-uris")]
-    public string? DataVhdsUrisValue { get; set; }
+    public string? DataVhdsUris { get; set; }
 
     /// <summary>
     /// The flag means that if it is set to true, people deploying VMs with version omitted will not use this version.
@@ -60,7 +71,7 @@ public record AzSigImageVersionCreateOptions : AzOptions
     /// Resource id of gallery image version source.
     /// </summary>
     [CliOption("--image-version")]
-    public string? ImageVersionValue { get; set; }
+    public string? ImageVersion { get; set; }
 
     /// <summary>
     /// Location.
@@ -72,7 +83,7 @@ public record AzSigImageVersionCreateOptions : AzOptions
     /// Image name(if in the same resource group) or resource id.
     /// </summary>
     [CliOption("--managed-image")]
-    public string? ManagedImageValue { get; set; }
+    public string? ManagedImage { get; set; }
 
     /// <summary>
     /// Do not wait for the long- running operation to finish.
@@ -84,19 +95,19 @@ public record AzSigImageVersionCreateOptions : AzOptions
     /// Name or ID of
     /// </summary>
     [CliOption("--os-snapshot")]
-    public string? OsSnapshotValue { get; set; }
+    public string? OsSnapshot { get; set; }
 
     /// <summary>
     /// Name or ID of storage account of source VHD
     /// </summary>
     [CliOption("--os-vhd-storage-account")]
-    public string? OsVhdStorageAccountValue { get; set; }
+    public string? OsVhdStorageAccount { get; set; }
 
     /// <summary>
     /// Source VHD
     /// </summary>
     [CliOption("--os-vhd-uri")]
-    public string? OsVhdUriValue { get; set; }
+    public string? OsVhdUri { get; set; }
 
     /// <summary>
     /// The default number of replicas to be created per region.
@@ -121,6 +132,12 @@ public record AzSigImageVersionCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }
+
+    /// <summary>
+    /// Space- separated list of customer managed keys for encrypting the OS and data disks in the gallery artifact for each region.
+    /// </summary>
+    [CliFlag("--target-edge-zone-encryption", ShortForm = "--zone-encryption")]
+    public bool? TargetEdgeZoneEncryption { get; set; }
 
     /// <summary>
     /// Space- separated list of regions, edge zones, replica counts and storage types. Use `&lt; region&gt;=&lt;edge zone&gt;[=&lt;repli ca count&gt;][=&lt; storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used.
@@ -150,55 +167,6 @@ public record AzSigImageVersionCreateOptions : AzOptions
     /// Resource id of VM source.
     /// </summary>
     [CliOption("--virtual-machine")]
-    public string? VirtualMachineValue { get; set; }
-
-    [Obsolete("Use DataVhdsUrisValue instead.")]
-    public bool? DataVhdsUris
-    {
-        get => bool.TryParse(DataVhdsUrisValue, out var value) ? value : null;
-        set => DataVhdsUrisValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ImageVersionValue instead.")]
-    public bool? ImageVersion
-    {
-        get => bool.TryParse(ImageVersionValue, out var value) ? value : null;
-        set => ImageVersionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ManagedImageValue instead.")]
-    public bool? ManagedImage
-    {
-        get => bool.TryParse(ManagedImageValue, out var value) ? value : null;
-        set => ManagedImageValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use OsSnapshotValue instead.")]
-    public bool? OsSnapshot
-    {
-        get => bool.TryParse(OsSnapshotValue, out var value) ? value : null;
-        set => OsSnapshotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use OsVhdStorageAccountValue instead.")]
-    public bool? OsVhdStorageAccount
-    {
-        get => bool.TryParse(OsVhdStorageAccountValue, out var value) ? value : null;
-        set => OsVhdStorageAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use OsVhdUriValue instead.")]
-    public bool? OsVhdUri
-    {
-        get => bool.TryParse(OsVhdUriValue, out var value) ? value : null;
-        set => OsVhdUriValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VirtualMachineValue instead.")]
-    public bool? VirtualMachine
-    {
-        get => bool.TryParse(VirtualMachineValue, out var value) ? value : null;
-        set => VirtualMachineValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? VirtualMachine { get; set; }
 
 }

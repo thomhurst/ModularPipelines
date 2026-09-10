@@ -18,13 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "replica", "delete-link")]
-public record AzSqlDbReplicaDeleteLinkOptions : AzOptions
+public record AzSqlDbReplicaDeleteLinkOptions(
+    [property: CliOption("--partner-server")] string PartnerServer
+) : AzOptions
 {
     /// <summary>
     /// Name of the resource group that the other replica is in. If unspecified, defaults to the first database's resource group.
     /// </summary>
     [CliOption("--partner-resource-group")]
-    public string? PartnerResourceGroupValue { get; set; }
+    public string? PartnerResourceGroup { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -32,11 +34,28 @@ public record AzSqlDbReplicaDeleteLinkOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use PartnerResourceGroupValue instead.")]
-    public bool? PartnerResourceGroup
-    {
-        get => bool.TryParse(PartnerResourceGroupValue, out var value) ? value : null;
-        set => PartnerResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Database.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--server", ShortForm = "-s")]
+    public string? Server { get; set; }
 
 }

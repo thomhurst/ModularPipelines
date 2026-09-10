@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "run-command", "create")]
-public record AzVmRunCommandCreateOptions : AzOptions
+public record AzVmRunCommandCreateOptions(
+    [property: CliOption("--name", ShortForm = "--run-command-name")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vm-name")] string VmName
+) : AzOptions
 {
     /// <summary>
     /// Optional. If set to true, provisioning will complete as soon as the script starts and will not wait for script to complete.  Allowed values: false, true.
@@ -60,13 +64,13 @@ public record AzVmRunCommandCreateOptions : AzOptions
     /// The parameters used by the script.
     /// </summary>
     [CliOption("--parameters")]
-    public string? ParametersValue { get; set; }
+    public string? Parameters { get; set; }
 
     /// <summary>
     /// The parameters used by the script.
     /// </summary>
     [CliOption("--protected-parameters")]
-    public string? ProtectedParametersValue { get; set; }
+    public string? ProtectedParameters { get; set; }
 
     /// <summary>
     /// Password if needed for using run-as-user parameter. It will be encrypted and not logged.
@@ -95,27 +99,13 @@ public record AzVmRunCommandCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The timeout in seconds to execute the run command.
     /// </summary>
     [CliFlag("--timeout-in-seconds")]
     public bool? TimeoutInSeconds { get; set; }
-
-    [Obsolete("Use ParametersValue instead.")]
-    public bool? Parameters
-    {
-        get => bool.TryParse(ParametersValue, out var value) ? value : null;
-        set => ParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use ProtectedParametersValue instead.")]
-    public bool? ProtectedParameters
-    {
-        get => bool.TryParse(ProtectedParametersValue, out var value) ? value : null;
-        set => ProtectedParametersValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

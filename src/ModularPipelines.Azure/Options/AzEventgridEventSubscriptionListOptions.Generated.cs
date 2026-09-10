@@ -36,7 +36,7 @@ public record AzEventgridEventSubscriptionListOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Fully qualified identifier of the Azure resource whose event subscription needs to be listed.
@@ -48,20 +48,6 @@ public record AzEventgridEventSubscriptionListOptions : AzOptions
     /// Name of the topic-type whose event subscriptions need to be listed. When this is specified, you must also specify --location.
     /// </summary>
     [CliOption("--topic-type-name")]
-    public string? TopicTypeNameValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TopicTypeNameValue instead.")]
-    public bool? TopicTypeName
-    {
-        get => bool.TryParse(TopicTypeNameValue, out var value) ? value : null;
-        set => TopicTypeNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? TopicTypeName { get; set; }
 
 }

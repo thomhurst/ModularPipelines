@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "deallocate")]
-public record AzVmssDeallocateOptions : AzOptions
+public record AzVmssDeallocateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Hibernate a virtual machine from the VM scale set. Available for VMSS with Flexible OrchestrationMode only.  Allowed values: false, true.
@@ -29,8 +32,8 @@ public record AzVmssDeallocateOptions : AzOptions
     /// <summary>
     /// Space-separated list of IDs (ex: 1 2 3 ...) or * for all instances. If not provided, the action will be applied on the scaleset itself.
     /// </summary>
-    [CliFlag("--instance-ids")]
-    public bool? InstanceIds { get; set; }
+    [CliOption("--instance-ids", GroupValues = true)]
+    public IEnumerable<string>? InstanceIds { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

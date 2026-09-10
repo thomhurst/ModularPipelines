@@ -18,12 +18,32 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "port", "generate-loa")]
-public record AzNetworkExpressRoutePortGenerateLoaOptions : AzOptions
+public record AzNetworkExpressRoutePortGenerateLoaOptions(
+    [property: CliOption("--customer-name")] string CustomerName
+) : AzOptions
 {
     /// <summary>
     /// Directory or the file path of the letter to be saved to. If the file name extension is not .pdf, Azure CLI will help to append. Be careful, the existing file might get overwritten.  Default: loa.pdf.
     /// </summary>
     [CliFlag("--file", ShortForm = "-f")]
     public bool? File { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// ExpressRoute port name.
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

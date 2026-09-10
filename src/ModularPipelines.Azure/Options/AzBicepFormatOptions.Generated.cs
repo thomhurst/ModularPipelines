@@ -18,13 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "format")]
-public record AzBicepFormatOptions : AzOptions
+public record AzBicepFormatOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File
+) : AzOptions
 {
     /// <summary>
     /// Set indentation kind.  Allowed values: Space, Tab.
     /// </summary>
-    [CliFlag("--indent-kind")]
-    public bool? IndentKind { get; set; }
+    [CliOption("--indent-kind")]
+    public string? IndentKind { get; set; }
 
     /// <summary>
     /// Number of spaces to indent with (Only valid with --indent-kind set to
@@ -41,8 +43,8 @@ public record AzBicepFormatOptions : AzOptions
     /// <summary>
     /// Set line ending characters.  Allowed values: CR, CRLF, LF.
     /// </summary>
-    [CliFlag("--newline-kind")]
-    public bool? NewlineKind { get; set; }
+    [CliOption("--newline-kind")]
+    public string? NewlineKind { get; set; }
 
     /// <summary>
     /// When set, saves the output at the specified directory.

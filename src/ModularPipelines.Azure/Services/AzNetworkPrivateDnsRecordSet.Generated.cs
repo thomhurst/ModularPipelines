@@ -81,4 +81,23 @@ public class AzNetworkPrivateDnsRecordSet
     public AzNetworkPrivateDnsRecordSetTxt Txt => _txt ??= new AzNetworkPrivateDnsRecordSetTxt(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// List all record sets within a Private DNS zone.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzNetworkPrivateDnsRecordSetListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

@@ -62,5 +62,20 @@ public class AzContainerappJobIdentity
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappJobIdentityRemoveOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// Show managed identities of a container app job.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzContainerappJobIdentityShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzContainerappJobIdentityShowOptions(), executionOptions, cancellationToken);
+    }
+
     #endregion
 }

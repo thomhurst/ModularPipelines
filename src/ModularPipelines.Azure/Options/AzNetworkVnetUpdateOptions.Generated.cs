@@ -23,8 +23,8 @@ public record AzNetworkVnetUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated list of IP address prefixes for the VNet. Default: 10.0.0.0/16. If provided, --ipam- allocations should not be specified. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--address-prefixes")]
-    public bool? AddressPrefixes { get; set; }
+    [CliOption("--address-prefixes", GroupValues = true)]
+    public IEnumerable<string>? AddressPrefixes { get; set; }
 
     /// <summary>
     /// The BGP community associated with the virtual network.
@@ -35,26 +35,32 @@ public record AzNetworkVnetUpdateOptions : AzOptions
     /// <summary>
     /// Control whether DDoS protection is enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--ddos-protection")]
+    [CliOption("--ddos-protection")]
     public bool? DdosProtection { get; set; }
 
     /// <summary>
     /// Name or ID of a DDoS protection plan to associate with the VNet.
     /// </summary>
     [CliOption("--ddos-protection-plan")]
-    public string? DdosProtectionPlanValue { get; set; }
+    public string? DdosProtectionPlan { get; set; }
 
     /// <summary>
     /// Space-separated list of DNS server IP addresses.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--dns-servers")]
-    public bool? DnsServers { get; set; }
+    [CliOption("--dns-servers", GroupValues = true)]
+    public IEnumerable<string>? DnsServers { get; set; }
 
     /// <summary>
     /// Enable encryption on the virtual network. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--enable-encryption")]
+    [CliOption("--enable-encryption")]
     public bool? EnableEncryption { get; set; }
+
+    /// <summary>
+    /// To control if the Virtual Machine without encryption is allowed in encrypted Virtual Network or not.  Allowed values:
+    /// </summary>
+    [CliOption("--encryption-enforcement-policy", ShortForm = "--encryption-policy")]
+    public string? EncryptionEnforcementPolicy { get; set; }
 
     /// <summary>
     /// The FlowTimeout value (in minutes) for the
@@ -65,20 +71,67 @@ public record AzNetworkVnetUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Private Endpoint VNet Policies.  Allowed values: Basic, Disabled.
+    /// </summary>
+    [CliOption("--pe-vnet-policies", ShortForm = "--private-endpoint-vnet-policies")]
+    public string? PeVnetPolicies { get; set; }
 
     /// <summary>
     /// Enable VM protection for all subnets in the VNet.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--vm-protection")]
+    [CliOption("--vm-protection")]
     public bool? VmProtection { get; set; }
 
-    [Obsolete("Use DdosProtectionPlanValue instead.")]
-    public bool? DdosProtectionPlan
-    {
-        get => bool.TryParse(DdosProtectionPlanValue, out var value) ? value : null;
-        set => DdosProtectionPlanValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// A list of IPAM Pools allocating IP address prefixes. If a non-empty value is provided, --address-prefixes would be ignored.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--ipam-allocations", ShortForm = "--ipam-pool-prefix-allocations", GroupValues = true)]
+    public IEnumerable<string>? IpamAllocations { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids")]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The virtual network (VNet) name.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

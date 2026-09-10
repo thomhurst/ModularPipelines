@@ -23,25 +23,25 @@ public record AzNetworkNsgRuleUpdateOptions : AzOptions
     /// <summary>
     /// Network traffic is allowed or denied.  Allowed values: Allow,
     /// </summary>
-    [CliFlag("--access")]
-    public bool? Access { get; set; }
+    [CliOption("--access")]
+    public string? Access { get; set; }
 
     /// <summary>
     /// Description for this rule. Restricted to 140 chars.
     /// </summary>
     [CliOption("--description")]
-    public string? DescriptionValue { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.  Allowed values:
     /// </summary>
-    [CliFlag("--direction")]
-    public bool? Direction { get; set; }
+    [CliOption("--direction")]
+    public string? Direction { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
@@ -53,14 +53,91 @@ public record AzNetworkNsgRuleUpdateOptions : AzOptions
     /// <summary>
     /// Network protocol this rule applies to.  Allowed values: *, Ah, Esp, Icmp, Tcp, Udp.
     /// </summary>
-    [CliFlag("--protocol")]
-    public bool? Protocol { get; set; }
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
 
-    [Obsolete("Use DescriptionValue instead.")]
-    public bool? Description
-    {
-        get => bool.TryParse(DescriptionValue, out var value) ? value : null;
-        set => DescriptionValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Space-separated list of CIDR prefixes or IP ranges. Alternatively, specify ONE of 'VirtualNetwork', 'AzureLoadBalancer', 'Internet' or '*' to match all IPs. Besides, it also supports all available Service Tags like 'ApiManagement', 'SqlManagement', 'AzureMonitor', etc.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--destination-address-prefixes", GroupValues = true)]
+    public IEnumerable<string>? DestinationAddressPrefixes { get; set; }
+
+    /// <summary>
+    /// Space-separated list of application security group names or IDs. Limited by backend server, temporarily this argument only supports one application security group name or ID.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--destination-asgs", GroupValues = true)]
+    public IEnumerable<string>? DestinationAsgs { get; set; }
+
+    /// <summary>
+    /// Space-separated list of ports or port ranges between 0-65535. Use '*' to match all ports.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--destination-port-ranges", GroupValues = true)]
+    public IEnumerable<string>? DestinationPortRanges { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the network security group rule.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of the network security group.
+    /// </summary>
+    [CliOption("--nsg-name")]
+    public string? NsgName { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Space-separated list of CIDR prefixes or IP ranges. Alternatively, specify ONE of 'VirtualNetwork', 'AzureLoadBalancer', 'Internet' or '*' to match all IPs. Besides, it also supports all available Service Tags like 'ApiManagement', 'SqlManagement', 'AzureMonitor', etc.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--source-address-prefixes", GroupValues = true)]
+    public IEnumerable<string>? SourceAddressPrefixes { get; set; }
+
+    /// <summary>
+    /// Space-separated list of application security group names or IDs. Limited by backend server, temporarily this argument only supports one application security group name or ID.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--source-asgs", GroupValues = true)]
+    public IEnumerable<string>? SourceAsgs { get; set; }
+
+    /// <summary>
+    /// Space-separated list of ports or port ranges between 0-65535. Use '*' to match all ports.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--source-port-ranges", GroupValues = true)]
+    public IEnumerable<string>? SourcePortRanges { get; set; }
 
 }

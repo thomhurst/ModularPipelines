@@ -30,7 +30,7 @@ public record AzExtensionAddOptions : AzOptions
     /// Name of extension.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Filepath or URL to an extension.
@@ -62,11 +62,16 @@ public record AzExtensionAddOptions : AzOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Space-separated list of extra URLs of package indexes to use. This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format.
+    /// </summary>
+    [CliOption("--pip-extra-index-urls", GroupValues = true)]
+    public IEnumerable<string>? PipExtraIndexUrls { get; set; }
+
+    /// <summary>
+    /// Proxy for pip to use for extension dependencies in the form of [user:passwd@]proxy.server:port.
+    /// </summary>
+    [CliFlag("--pip-proxy")]
+    public bool? PipProxy { get; set; }
 
 }

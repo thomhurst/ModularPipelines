@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "network-rule", "add")]
-public record AzStorageAccountNetworkRuleAddOptions : AzOptions
+public record AzStorageAccountNetworkRuleAddOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName
+) : AzOptions
 {
     /// <summary>
     /// The action of virtual network rule. Possible value is Allow.
@@ -36,39 +38,30 @@ public record AzStorageAccountNetworkRuleAddOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Name or ID of subnet. If name is supplied, `--vnet-name` must be supplied.
     /// </summary>
     [CliOption("--subnet")]
-    public string? SubnetValue { get; set; }
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// Name of a virtual network.
     /// </summary>
     [CliOption("--vnet-name")]
-    public string? VnetNameValue { get; set; }
+    public string? VnetName { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The resource id to add in network rule.
+    /// </summary>
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; set; }
 
-    [Obsolete("Use SubnetValue instead.")]
-    public bool? Subnet
-    {
-        get => bool.TryParse(SubnetValue, out var value) ? value : null;
-        set => SubnetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use VnetNameValue instead.")]
-    public bool? VnetName
-    {
-        get => bool.TryParse(VnetNameValue, out var value) ? value : null;
-        set => VnetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The tenant id to add in network rule.
+    /// </summary>
+    [CliFlag("--tenant-id")]
+    public bool? TenantId { get; set; }
 
 }

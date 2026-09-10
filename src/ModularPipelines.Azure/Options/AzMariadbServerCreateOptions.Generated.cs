@@ -29,8 +29,8 @@ public record AzMariadbServerCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable autogrow of the storage. Default value is Enabled.  Allowed values: Disabled, Enabled.  Default:
     /// </summary>
-    [CliFlag("--auto-grow")]
-    public bool? AutoGrow { get; set; }
+    [CliOption("--auto-grow")]
+    public string? AutoGrow { get; set; }
 
     /// <summary>
     /// The number of days a backup is retained. Range of 7 to 35 days. Default is 7 days.
@@ -41,14 +41,14 @@ public record AzMariadbServerCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable geo-redundant backups. Default value is Disabled. Not supported in Basic pricing tier.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--geo-redundant-backup")]
-    public bool? GeoRedundantBackup { get; set; }
+    [CliOption("--geo-redundant-backup")]
+    public string? GeoRedundantBackup { get; set; }
 
     /// <summary>
     /// Add an optional second layer of encryption for data using new encryption algorithm. Default value is Disabled.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--infrastructure-encryption", ShortForm = "-i")]
-    public bool? InfrastructureEncryption { get; set; }
+    [CliOption("--infrastructure-encryption", ShortForm = "-i")]
+    public string? InfrastructureEncryption { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -59,32 +59,38 @@ public record AzMariadbServerCreateOptions : AzOptions
     /// <summary>
     /// Set the minimal TLS version for connections to server when SSL is enabled. Default is TLSEnforcementDisabled.  Allowed values: TLS1_0, TLS1_1, TLS1_2, TLSEnforcementDisabled.
     /// </summary>
-    [CliFlag("--minimal-tls-version")]
-    public bool? MinimalTlsVersion { get; set; }
+    [CliOption("--minimal-tls-version")]
+    public string? MinimalTlsVersion { get; set; }
 
     /// <summary>
     /// Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Enable or disable public network access to server. When disabled, only connections made through Private Links can reach this server. Allowed values are : `Enabled`, `Disabled`, `all`, `0.0.0.0`, `&lt;SingleIP&gt;`, `&lt;StartIP- DestinationIP&gt;`. Default is `Enabled`.
+    /// </summary>
+    [CliOption("--public", ShortForm = "--public-network-access")]
+    public string? Public { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The name of the sku. Follows the convention {pricing tier}_{compute generation}_{vCores} in shorthand. Examples: B_Gen5_1, GP_Gen5_4, MO_Gen5_16.  Default: GP_Gen5_2.
     /// </summary>
     [CliOption("--sku-name")]
-    public string? SkuNameValue { get; set; }
+    public string? SkuName { get; set; }
 
     /// <summary>
     /// Enable or disable ssl enforcement for connections to server. Default is Enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--ssl-enforcement")]
-    public bool? SslEnforcement { get; set; }
+    [CliOption("--ssl-enforcement")]
+    public string? SslEnforcement { get; set; }
 
     /// <summary>
     /// The storage capacity of the server (unit is megabytes). Minimum 5120 and increases in 1024 increments. Default is 5120.  Default: 5120.
@@ -95,8 +101,8 @@ public record AzMariadbServerCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Server major version.
@@ -104,25 +110,16 @@ public record AzMariadbServerCreateOptions : AzOptions
     [CliFlag("--version")]
     public bool? Version { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.
+    /// </summary>
+    [CliFlag("--admin-password", ShortForm = "-p")]
+    public bool? AdminPassword { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use SkuNameValue instead.")]
-    public bool? SkuName
-    {
-        get => bool.TryParse(SkuNameValue, out var value) ? value : null;
-        set => SkuNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Administrator username for the server. Once set, it cannot be changed.  Default: loyaldingo1.
+    /// </summary>
+    [CliFlag("--admin-user", ShortForm = "-u")]
+    public bool? AdminUser { get; set; }
 
 }

@@ -24,6 +24,8 @@ public class AzCosmosdbMongodb
     private AzCosmosdbMongodbCollection? _collection;
     private AzCosmosdbMongodbDatabase? _database;
     private AzCosmosdbMongodbRestorableCollection? _restorableCollection;
+    private AzCosmosdbMongodbRestorableDatabase? _restorableDatabase;
+    private AzCosmosdbMongodbRestorableResource? _restorableResource;
     private AzCosmosdbMongodbRole? _role;
     private AzCosmosdbMongodbUser? _user;
 
@@ -53,6 +55,16 @@ public class AzCosmosdbMongodb
     public AzCosmosdbMongodbRestorableCollection RestorableCollection => _restorableCollection ??= new AzCosmosdbMongodbRestorableCollection(_command);
 
     /// <summary>
+    /// az restorable-database sub-commands.
+    /// </summary>
+    public AzCosmosdbMongodbRestorableDatabase RestorableDatabase => _restorableDatabase ??= new AzCosmosdbMongodbRestorableDatabase(_command);
+
+    /// <summary>
+    /// az restorable-resource sub-commands.
+    /// </summary>
+    public AzCosmosdbMongodbRestorableResource RestorableResource => _restorableResource ??= new AzCosmosdbMongodbRestorableResource(_command);
+
+    /// <summary>
     /// az role sub-commands.
     /// </summary>
     public AzCosmosdbMongodbRole Role => _role ??= new AzCosmosdbMongodbRole(_command);
@@ -61,6 +73,25 @@ public class AzCosmosdbMongodb
     /// az user sub-commands.
     /// </summary>
     public AzCosmosdbMongodbUser User => _user ??= new AzCosmosdbMongodbUser(_command);
+
+    #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// Retrieves latest restorable timestamp for the
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RetrieveLatestBackupTimeAsync(
+        AzCosmosdbMongodbRetrieveLatestBackupTimeOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
 
     #endregion
 }

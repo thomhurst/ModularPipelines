@@ -22,6 +22,11 @@ namespace ModularPipelines.Azure.Services;
 public interface IAzBilling
 {
     /// <summary>
+    /// az enrollment-account sub-commands.
+    /// </summary>
+    AzBillingEnrollmentAccount EnrollmentAccount => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az invoice sub-commands.
     /// </summary>
     AzBillingInvoice Invoice => throw new System.NotSupportedException();
@@ -30,5 +35,10 @@ public interface IAzBilling
     /// az period sub-commands.
     /// </summary>
     AzBillingPeriod Period => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az transfer sub-commands.
+    /// </summary>
+    AzBillingTransfer Transfer => throw new System.NotSupportedException();
 
 }

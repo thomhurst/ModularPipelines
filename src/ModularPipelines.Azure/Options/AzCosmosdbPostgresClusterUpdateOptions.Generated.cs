@@ -23,7 +23,121 @@ public record AzCosmosdbPostgresClusterUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Application-specific metadata in the form of key-value pairs.
+    /// </summary>
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
+
+    /// <summary>
+    /// The password of the administrator login. Required for creation.  If value is blank it's asked from the tty.
+    /// </summary>
+    [CliFlag("--administrator-login-password", ShortForm = "--login-password")]
+    public bool? AdministratorLoginPassword { get; set; }
+
+    /// <summary>
+    /// The Citus extension version on all cluster servers.
+    /// </summary>
+    [CliFlag("--citus-version")]
+    public bool? CitusVersion { get; set; }
+
+    /// <summary>
+    /// If public access is enabled on coordinator.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--coord-public-ip-access", ShortForm = "--coordinator-enable-public-ip-access")]
+    public bool? CoordPublicIpAccess { get; set; }
+
+    /// <summary>
+    /// The edition of a coordinator
+    /// </summary>
+    [CliFlag("--coord-server-edition", ShortForm = "--coordinator-server-edition")]
+    public bool? CoordServerEdition { get; set; }
+
+    /// <summary>
+    /// The storage of a server in MB. Required for creation. See http s://learn.microsoft.com/rest/ap i/postgresqlhsc/#values for more information.
+    /// </summary>
+    [CliFlag("--coordinator-storage", ShortForm = "--coordinator-storage-quota-in-mb")]
+    public bool? CoordinatorStorage { get; set; }
+
+    /// <summary>
+    /// The vCores count of a server (max: 96). Required for creation. See https://learn.mic rosoft.com/rest/api/postgresqlh sc/#values for more information.
+    /// </summary>
+    [CliFlag("--coordinator-v-cores")]
+    public bool? CoordinatorVCores { get; set; }
+
+    /// <summary>
+    /// If high availability (HA) is enabled or not for the cluster. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-ha")]
+    public bool? EnableHa { get; set; }
+
+    /// <summary>
+    /// If shards on coordinator is enabled or not for the cluster. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--enable-shards-on-coord", ShortForm = "--enable-shards-on-coordinator")]
+    public bool? EnableShardsOnCoord { get; set; }
+
+    /// <summary>
+    /// Maintenance window of a cluster.  Support shorthand- syntax, json-file and yaml- file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--maintenance-window")]
+    public bool? MaintenanceWindow { get; set; }
+
+    /// <summary>
+    /// Worker node count of the cluster. When node count is 0, it represents a single node configuration with the ability to create distributed tables on that node. 2 or more worker nodes represent multi-node configuration. Node count value cannot be 1.
+    /// </summary>
+    [CliFlag("--node-count")]
+    public bool? NodeCount { get; set; }
+
+    /// <summary>
+    /// The edition of a node server (default: MemoryOptimized).
+    /// </summary>
+    [CliFlag("--node-server-edition")]
+    public bool? NodeServerEdition { get; set; }
+
+    /// <summary>
+    /// The storage in MB on each worker node. See https://learn. microsoft.com/rest/api/postgres qlhsc/#values for more information.
+    /// </summary>
+    [CliFlag("--node-storage", ShortForm = "--node-storage-quota-in-mb")]
+    public bool? NodeStorage { get; set; }
+
+    /// <summary>
+    /// The compute in vCores on each worker node (max: 104). See htt ps://learn.microsoft.com/rest/a pi/postgresqlhsc/#values for more information.
+    /// </summary>
+    [CliFlag("--node-v-cores")]
+    public bool? NodeVCores { get; set; }
+
+    /// <summary>
+    /// The major PostgreSQL version on all cluster servers.
+    /// </summary>
+    [CliFlag("--postgresql-version")]
+    public bool? PostgresqlVersion { get; set; }
+
+    /// <summary>
+    /// Preferred primary availability zone (AZ) for all cluster servers.
+    /// </summary>
+    [CliFlag("--preferred-primary-zone")]
+    public bool? PreferredPrimaryZone { get; set; }
+
+    /// <summary>
+    /// The name of the cluster.
+    /// </summary>
+    [CliOption("--cluster-name", ShortForm = "-n")]
+    public string? ClusterName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

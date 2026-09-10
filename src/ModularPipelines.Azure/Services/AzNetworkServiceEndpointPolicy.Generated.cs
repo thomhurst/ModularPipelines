@@ -40,11 +40,11 @@ public class AzNetworkServiceEndpointPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        AzNetworkServiceEndpointPolicyCreateOptions? options = null,
+        AzNetworkServiceEndpointPolicyCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkServiceEndpointPolicyCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -78,6 +78,21 @@ public class AzNetworkServiceEndpointPolicy
     }
 
     /// <summary>
+    /// Get the details of a service endpoint policy.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzNetworkServiceEndpointPolicyShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkServiceEndpointPolicyShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Update a service endpoint policy.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -90,6 +105,21 @@ public class AzNetworkServiceEndpointPolicy
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkServiceEndpointPolicyUpdateOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Place the CLI in a waiting state until a condition is
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> WaitAsync(
+        AzNetworkServiceEndpointPolicyWaitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkServiceEndpointPolicyWaitOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

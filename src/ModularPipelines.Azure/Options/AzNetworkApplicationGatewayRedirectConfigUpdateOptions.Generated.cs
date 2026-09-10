@@ -18,56 +18,70 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "redirect-config", "update")]
-public record AzNetworkApplicationGatewayRedirectConfigUpdateOptions : AzOptions
+public record AzNetworkApplicationGatewayRedirectConfigUpdateOptions(
+    [property: CliOption("--gateway-name")] string GatewayName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Whether to include path in the redirected url.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--include-path")]
+    [CliOption("--include-path")]
     public bool? IncludePath { get; set; }
 
     /// <summary>
     /// Whether to include query string in the redirected url.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--include-query-string")]
+    [CliOption("--include-query-string")]
     public bool? IncludeQueryString { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
     /// Name or ID of the HTTP listener to redirect the request to.
     /// </summary>
     [CliOption("--target-listener")]
-    public string? TargetListenerValue { get; set; }
+    public string? TargetListener { get; set; }
 
     /// <summary>
     /// URL to redirect the request to.
     /// </summary>
     [CliOption("--target-url")]
-    public string? TargetUrlValue { get; set; }
+    public string? TargetUrl { get; set; }
 
     /// <summary>
     /// HTTP redirection type.  Allowed values: Found, Permanent,
     /// </summary>
-    [CliFlag("--type", ShortForm = "-t")]
-    public bool? Type { get; set; }
+    [CliOption("--type", ShortForm = "-t")]
+    public string? Type { get; set; }
 
-    [Obsolete("Use TargetListenerValue instead.")]
-    public bool? TargetListener
-    {
-        get => bool.TryParse(TargetListenerValue, out var value) ? value : null;
-        set => TargetListenerValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
 
-    [Obsolete("Use TargetUrlValue instead.")]
-    public bool? TargetUrl
-    {
-        get => bool.TryParse(TargetUrlValue, out var value) ? value : null;
-        set => TargetUrlValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
 
 }

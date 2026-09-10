@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "build")]
-public record AzBicepBuildOptions : AzOptions
+public record AzBicepBuildOptions(
+    [property: CliOption("--file", ShortForm = "-f")] string File
+) : AzOptions
 {
     /// <summary>
     /// When set, builds the bicep file without restoring external modules.

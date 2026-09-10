@@ -22,7 +22,7 @@ public class AzWebappConfig
 {
     private readonly ICommandContext _command;
     private AzWebappConfigAccessRestriction? _accessRestriction;
-    private AzWebappConfigAppsettings? _appsettings;
+    private AzWebappConfigAppSettings? _appSettings;
     private AzWebappConfigBackup? _backup;
     private AzWebappConfigConnectionString? _connectionString;
     private AzWebappConfigContainer? _container;
@@ -49,7 +49,7 @@ public class AzWebappConfig
     /// <summary>
     /// az appsettings sub-commands.
     /// </summary>
-    public AzWebappConfigAppsettings Appsettings => _appsettings ??= new AzWebappConfigAppsettings(_command);
+    public AzWebappConfigAppSettings AppSettings => _appSettings ??= new AzWebappConfigAppSettings(_command);
 
     /// <summary>
     /// az backup sub-commands.

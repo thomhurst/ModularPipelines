@@ -21,6 +21,12 @@ namespace ModularPipelines.Azure.Options;
 public record AzWebappConfigContainerSetOptions : AzOptions
 {
     /// <summary>
+    /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image- name&gt;:&lt;tag&gt;`).
+    /// </summary>
+    [CliFlag("--container-image-name", ShortForm = "-i")]
+    public bool? ContainerImageName { get; set; }
+
+    /// <summary>
     /// The container registry server password.
     /// </summary>
     [CliFlag("--container-registry-password", ShortForm = "-p")]
@@ -53,20 +59,31 @@ public record AzWebappConfigContainerSetOptions : AzOptions
     /// <summary>
     /// Config type.  Allowed values: COMPOSE, KUBE.
     /// </summary>
-    [CliFlag("--multicontainer-config-type")]
-    public bool? MulticontainerConfigType { get; set; }
+    [CliOption("--multicontainer-config-type")]
+    public string? MulticontainerConfigType { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
-    {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

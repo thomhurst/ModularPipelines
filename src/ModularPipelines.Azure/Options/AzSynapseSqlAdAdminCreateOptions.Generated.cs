@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "ad-admin", "create")]
-public record AzSynapseSqlAdAdminCreateOptions : AzOptions
+public record AzSynapseSqlAdAdminCreateOptions(
+    [property: CliOption("--display-name", ShortForm = "-u")] string DisplayName,
+    [property: CliOption("--object-id", ShortForm = "-i")] string ObjectId,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--workspace-name")] string WorkspaceName
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.

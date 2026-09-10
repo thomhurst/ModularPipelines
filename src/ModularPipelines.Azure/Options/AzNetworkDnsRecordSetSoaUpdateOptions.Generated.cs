@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "dns", "record-set", "soa", "update")]
-public record AzNetworkDnsRecordSetSoaUpdateOptions : AzOptions
+public record AzNetworkDnsRecordSetSoaUpdateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--zone-name", ShortForm = "-z")] string ZoneName
+) : AzOptions
 {
     /// <summary>
     /// Email address.

@@ -42,7 +42,7 @@ public class AzNetwork : IAzNetwork
     private AzNetworkPrivateLinkService? _privateLinkService;
     private AzNetworkProfile? _profile;
     private AzNetworkPublicIp? _publicIp;
-    private AzNetworkRouteserver? _routeserver;
+    private AzNetworkRouteServer? _routeServer;
     private AzNetworkRouteTable? _routeTable;
     private AzNetworkServiceEndpoint? _serviceEndpoint;
     private AzNetworkTrafficManager? _trafficManager;
@@ -171,7 +171,7 @@ public class AzNetwork : IAzNetwork
     /// <summary>
     /// az routeserver sub-commands.
     /// </summary>
-    public AzNetworkRouteserver Routeserver => _routeserver ??= new AzNetworkRouteserver(_command);
+    public AzNetworkRouteServer RouteServer => _routeServer ??= new AzNetworkRouteServer(_command);
 
     /// <summary>
     /// az route-table sub-commands.
@@ -235,6 +235,36 @@ public class AzNetwork : IAzNetwork
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkListServiceAliasesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List all service tags which are below to different resources.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListServiceTagsAsync(
+        AzNetworkListServiceTagsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List the number of network resources in a region that are used against
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListUsagesAsync(
+        AzNetworkListUsagesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

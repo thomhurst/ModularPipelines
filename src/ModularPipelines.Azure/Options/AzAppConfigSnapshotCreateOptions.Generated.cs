@@ -18,19 +18,22 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "snapshot", "create")]
-public record AzAppConfigSnapshotCreateOptions : AzOptions
+public record AzAppConfigSnapshotCreateOptions(
+    [property: CliOption("--filters", GroupValues = true)] IEnumerable<string> Filters,
+    [property: CliOption("--snapshot-name", ShortForm = "-s")] string SnapshotName
+) : AzOptions
 {
     /// <summary>
     /// This parameter can be used for indicating how a data operation is to be authorized. If the auth mode is "key", provide connection string or store name and your account access keys will be retrieved for authorization. If the auth mode is "login", provide the `--endpoint` or `--name` and your "az login" credentials will be used for authorization. If the auth mode is "anonymous", provide the --endpoint that will be used for authorization. Anonymous mode is intended for custom endpoints only, such as the App Configuration emulator. You can configure the default auth mode using `az configure --defaults appconfig_auth_mode=&lt;auth_mode&gt;`. For more information, see https://learn.microsoft.com/azure/azure-app- configuration/concept-enable-rbac.  Allowed values: anonymous, key, login.  Default: key.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// Composition type used in building App Configuration snapshots. If not specified, defaults to key.  Allowed values: key, key_label.
     /// </summary>
-    [CliFlag("--composition-type")]
-    public bool? CompositionType { get; set; }
+    [CliOption("--composition-type")]
+    public string? CompositionType { get; set; }
 
     /// <summary>
     /// Combination of access key and endpoint of the App Configuration store. Can be found using 'az appconfig credential list'. Users can preset it using `az configure --defaults appconfig_connection_string=&lt;connection_string&gt;` or environment variable with the name AZURE_APPCONFIG_CONNECTION_STRING.
@@ -48,7 +51,7 @@ public record AzAppConfigSnapshotCreateOptions : AzOptions
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Duration in seconds for which a snapshot can remain archived before expiry. A snapshot can be archived for a maximum of 7 days (604,800s) for free and developer tier stores and 90 days (7,776,000s) for standard and premium tier stores. If specified, retention period must be at least 1 hour (3600s).
@@ -59,14 +62,7 @@ public record AzAppConfigSnapshotCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...].
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

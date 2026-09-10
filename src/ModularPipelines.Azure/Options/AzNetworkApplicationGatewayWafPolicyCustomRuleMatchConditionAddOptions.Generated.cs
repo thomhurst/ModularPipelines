@@ -18,7 +18,13 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "custom-rule", "match-condition", "add")]
-public record AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOptions : AzOptions
+public record AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOptions(
+    [property: CliOption("--match-variables", GroupValues = true)] IEnumerable<string> MatchVariables,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--operator")] string Operator,
+    [property: CliOption("--policy-name")] string PolicyName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Index of match condition. If no index is provided, the default behavior is `append`.
@@ -29,19 +35,19 @@ public record AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOpt
     /// <summary>
     /// Match the negative of the condition.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--negate")]
+    [CliOption("--negate")]
     public bool? Negate { get; set; }
 
     /// <summary>
     /// Space-separated list of transforms to apply when matching. Allowed values: HtmlEntityDecode, Uppercase, Lowercase, RemoveNulls, Trim, UrlDecode, UrlEncode.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--transforms")]
-    public bool? Transforms { get; set; }
+    [CliOption("--transforms", GroupValues = true)]
+    public IEnumerable<string>? Transforms { get; set; }
 
     /// <summary>
     /// Space-separated list of values to match.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--values")]
-    public bool? Values { get; set; }
+    [CliOption("--values", GroupValues = true)]
+    public IEnumerable<string>? Values { get; set; }
 
 }

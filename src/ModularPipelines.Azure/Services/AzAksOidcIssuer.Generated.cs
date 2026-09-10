@@ -40,11 +40,11 @@ public class AzAksOidcIssuer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RotateSigningKeysAsync(
-        AzAksOidcIssuerRotateSigningKeysOptions? options = null,
+        AzAksOidcIssuerRotateSigningKeysOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzAksOidcIssuerRotateSigningKeysOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

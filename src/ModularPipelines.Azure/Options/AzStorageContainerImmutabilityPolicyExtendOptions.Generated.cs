@@ -18,13 +18,23 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container", "immutability-policy", "extend")]
-public record AzStorageContainerImmutabilityPolicyExtendOptions : AzOptions
+public record AzStorageContainerImmutabilityPolicyExtendOptions(
+    [property: CliOption("--account-name")] string AccountName,
+    [property: CliOption("--container-name", ShortForm = "-c")] string ContainerName,
+    [property: CliOption("--if-match")] string IfMatch
+) : AzOptions
 {
     /// <summary>
     /// This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API.  Allowed values: false, true.
     /// </summary>
     [CliOption("--allow-protected-append-writes", ShortForm = "-w")]
     public bool? AllowProtectedAppendWrites { get; set; }
+
+    /// <summary>
+    /// This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to both 'Append and Block Blobs' while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with
+    /// </summary>
+    [CliFlag("--allow-protected-append-writes-all", ShortForm = "--w-all")]
+    public bool? AllowProtectedAppendWritesAll { get; set; }
 
     /// <summary>
     /// The immutability period for the blobs in the container since the policy creation, in days.
@@ -36,13 +46,6 @@ public record AzStorageContainerImmutabilityPolicyExtendOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? ResourceGroup { get; set; }
 
 }

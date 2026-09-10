@@ -21,29 +21,33 @@ namespace ModularPipelines.Azure.Options;
 public record AzAksSafeguardsListOptions : AzOptions
 {
     /// <summary>
+    /// The fully qualified Azure Resource manager identifier of the
+    /// </summary>
+    [CliFlag("--cluster", ShortForm = "-c")]
+    public bool? Cluster { get; set; }
+
+    /// <summary>
     /// The name of the Managed Cluster.You may provide either 'managed_cluster' or both 'resource_group' and name', but not both.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// The name of the resource group. You can configure the default group using az configure --defaults group=`&lt;name&gt;`. You may provide either 'managed_cluster' or both 'resource_group' and 'name', but not both.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
+    /// </summary>
+    [CliFlag("--max-items")]
+    public bool? MaxItems { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Token to specify where to start paginating. This is the token value from a previously truncated response.
+    /// </summary>
+    [CliFlag("--next-token")]
+    public bool? NextToken { get; set; }
 
 }

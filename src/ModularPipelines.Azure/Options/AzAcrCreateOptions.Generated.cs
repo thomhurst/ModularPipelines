@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "create")]
-public record AzAcrCreateOptions : AzOptions
+public record AzAcrCreateOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--sku")] string Sku
+) : AzOptions
 {
     /// <summary>
     /// Indicates whether the admin user is enabled.  Allowed values: false, true.
@@ -35,7 +39,49 @@ public record AzAcrCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Use assigned managed identity resource id or name if in the same resource group.
+    /// </summary>
+    [CliOption("--identity")]
+    public string? Identity { get; set; }
+
+    /// <summary>
+    /// Key vault key uri. To enable automated rotation, provide a version-less key uri. For manual rotation, provide a versioned key uri.
+    /// </summary>
+    [CliOption("--key-encryption-key")]
+    public string? KeyEncryptionKey { get; set; }
+
+    /// <summary>
+    /// Allow trusted Azure Services to access network restricted registries. For more information, please visit https://aka.ms/acr/trusted-services. The Default is to allow.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--allow-trusted-services")]
+    public bool? AllowTrustedServices { get; set; }
+
+    /// <summary>
+    /// Enable dedicated data endpoint for client firewall configuration.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--data-endpoint-enabled")]
+    public bool? DataEndpointEnabled { get; set; }
+
+    /// <summary>
+    /// Default action to apply when no rule matches. Only applicable to Premium SKU.  Allowed values: Allow, Deny.
+    /// </summary>
+    [CliOption("--default-action")]
+    public string? DefaultAction { get; set; }
+
+    /// <summary>
+    /// Allow public network access for the container registry. The Default is to allow.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--public-network-enabled")]
+    public bool? PublicNetworkEnabled { get; set; }
+
+    /// <summary>
+    /// Role assignment mode of the registry. For more information on this feature, see https://aka.ms/acr/auth/abac. The Default is rbac.  Allowed values: rbac, rbac-abac.
+    /// </summary>
+    [CliOption("--role-assignment-mode")]
+    public string? RoleAssignmentMode { get; set; }
 
 }

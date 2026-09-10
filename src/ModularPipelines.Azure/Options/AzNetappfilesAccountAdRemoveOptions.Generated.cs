@@ -18,12 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "account", "ad", "remove")]
-public record AzNetappfilesAccountAdRemoveOptions : AzOptions
+public record AzNetappfilesAccountAdRemoveOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
+    [property: CliOption("--active-directory", ShortForm = "--active-directory-id")] string ActiveDirectory,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>

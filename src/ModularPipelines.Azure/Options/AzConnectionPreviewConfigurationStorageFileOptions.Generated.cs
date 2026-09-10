@@ -23,7 +23,13 @@ public record AzConnectionPreviewConfigurationStorageFileOptions : AzOptions
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, java, nodejs, none, php, python, ruby, springBoot.
     /// </summary>
-    [CliFlag("--client-type")]
-    public bool? ClientType { get; set; }
+    [CliOption("--client-type")]
+    public string? ClientType { get; set; }
+
+    /// <summary>
+    /// The secret auth info.
+    /// </summary>
+    [CliFlag("--secret")]
+    public bool? Secret { get; set; }
 
 }

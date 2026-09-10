@@ -23,6 +23,7 @@ public class AzCosmosdbPostgresConfiguration
     private readonly ICommandContext _command;
     private AzCosmosdbPostgresConfigurationCoordinator? _coordinator;
     private AzCosmosdbPostgresConfigurationNode? _node;
+    private AzCosmosdbPostgresConfigurationServer? _server;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbPostgresConfiguration"/> class.
@@ -43,6 +44,45 @@ public class AzCosmosdbPostgresConfiguration
     /// az node sub-commands.
     /// </summary>
     public AzCosmosdbPostgresConfigurationNode Node => _node ??= new AzCosmosdbPostgresConfigurationNode(_command);
+
+    /// <summary>
+    /// az server sub-commands.
+    /// </summary>
+    public AzCosmosdbPostgresConfigurationServer Server => _server ??= new AzCosmosdbPostgresConfigurationServer(_command);
+
+    #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// List all the configurations of a cluster.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzCosmosdbPostgresConfigurationListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get information of a configuration for coordinator and
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzCosmosdbPostgresConfigurationShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzCosmosdbPostgresConfigurationShowOptions(), executionOptions, cancellationToken);
+    }
 
     #endregion
 }

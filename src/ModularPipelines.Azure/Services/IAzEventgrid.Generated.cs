@@ -32,6 +32,11 @@ public interface IAzEventgrid
     AzEventgridEventSubscription EventSubscription => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az extension-topic sub-commands.
+    /// </summary>
+    AzEventgridExtensionTopic ExtensionTopic => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az partner sub-commands.
     /// </summary>
     AzEventgridPartner Partner => throw new System.NotSupportedException();
@@ -45,5 +50,10 @@ public interface IAzEventgrid
     /// az topic sub-commands.
     /// </summary>
     AzEventgridTopic Topic => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az topic-type sub-commands.
+    /// </summary>
+    AzEventgridTopicType TopicType => throw new System.NotSupportedException();
 
 }

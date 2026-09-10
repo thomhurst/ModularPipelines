@@ -23,20 +23,20 @@ public record AzResourceLockUpdateOptions : AzOptions
     /// <summary>
     /// One or more resource IDs (space-delimited). If provided, no other "Resource Id" arguments should be specified.
     /// </summary>
-    [CliFlag("--ids")]
-    public bool? Ids { get; set; }
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
     /// The type of lock restriction.  Allowed values: CanNotDelete,
     /// </summary>
-    [CliFlag("--lock-type", ShortForm = "-t")]
-    public bool? LockType { get; set; }
+    [CliOption("--lock-type", ShortForm = "-t")]
+    public string? LockType { get; set; }
 
     /// <summary>
     /// Name of the lock.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Notes about this lock.
@@ -48,20 +48,30 @@ public record AzResourceLockUpdateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Provider namespace (Ex: 'Microsoft.Provider').
+    /// </summary>
+    [CliFlag("--namespace")]
+    public bool? Namespace { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The parent path (Ex: 'resA/myA/resB/myB').
+    /// </summary>
+    [CliFlag("--parent")]
+    public bool? Parent { get; set; }
+
+    /// <summary>
+    /// If an ID is given, other resource arguments should not be given.
+    /// </summary>
+    [CliFlag("--resource", ShortForm = "--resource-name")]
+    public bool? Resource { get; set; }
+
+    /// <summary>
+    /// The resource type (Ex: 'resC'). Can also accept namespace/type format (Ex: 'Microsoft.Provider/resC').
+    /// </summary>
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
 
 }

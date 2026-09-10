@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("provider", "show")]
-public record AzProviderShowOptions : AzOptions
+public record AzProviderShowOptions(
+    [property: CliOption("--namespace", ShortForm = "-n")] string Namespace
+) : AzOptions
 {
     /// <summary>
     /// The $expand query parameter. For example, to include property aliases in response, use $expand=resourceTypes/aliases. Default value is None.

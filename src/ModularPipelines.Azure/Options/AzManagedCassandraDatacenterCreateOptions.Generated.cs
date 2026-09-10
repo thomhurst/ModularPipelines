@@ -18,7 +18,14 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-cassandra", "datacenter", "create")]
-public record AzManagedCassandraDatacenterCreateOptions : AzOptions
+public record AzManagedCassandraDatacenterCreateOptions(
+    [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
+    [property: CliOption("--data-center-location", ShortForm = "-l")] string DataCenterLocation,
+    [property: CliOption("--data-center-name", ShortForm = "-d")] string DataCenterName,
+    [property: CliOption("--delegated-subnet-id", ShortForm = "-s")] string DelegatedSubnetId,
+    [property: CliOption("--node-count", ShortForm = "-n")] string NodeCount,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// If the data center haves Availability Zone feature, apply it to the Virtual Machine ScaleSet that host the data center virtual machines. Allowed values: false, true.

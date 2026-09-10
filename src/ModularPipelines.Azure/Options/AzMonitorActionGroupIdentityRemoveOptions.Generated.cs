@@ -18,12 +18,27 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "action-group", "identity", "remove")]
-public record AzMonitorActionGroupIdentityRemoveOptions : AzOptions
+public record AzMonitorActionGroupIdentityRemoveOptions(
+    [property: CliOption("--action-group-name", ShortForm = "-n")] string ActionGroupName,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// Set the system managed identity.
+    /// </summary>
+    [CliFlag("--mi-system-assigned", ShortForm = "--system-assigned")]
+    public bool? MiSystemAssigned { get; set; }
+
+    /// <summary>
+    /// Set the user managed identities.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--mi-user-assigned", ShortForm = "--user-assigned")]
+    public bool? MiUserAssigned { get; set; }
 
 }

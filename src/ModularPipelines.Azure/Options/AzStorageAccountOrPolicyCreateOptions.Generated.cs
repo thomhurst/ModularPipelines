@@ -18,13 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "or-policy", "create")]
-public record AzStorageAccountOrPolicyCreateOptions : AzOptions
+public record AzStorageAccountOrPolicyCreateOptions(
+    [property: CliOption("--account-name", ShortForm = "-n")] string AccountName
+) : AzOptions
 {
     /// <summary>
     /// The destination storage account name or resource Id. Apply
     /// </summary>
     [CliOption("--destination-account", ShortForm = "-d")]
-    public string? DestinationAccountValue { get; set; }
+    public string? DestinationAccount { get; set; }
 
     /// <summary>
     /// Indicates whether object replication metrics feature is enabled for the policy.  Allowed values: false, true.
@@ -42,7 +44,7 @@ public record AzStorageAccountOrPolicyCreateOptions : AzOptions
     /// The ID of object replication policy or "default" if the policy ID is unknown. Policy Id will be auto-generated when setting on destination account. Required when setting on source account.  Default: default.
     /// </summary>
     [CliOption("--policy-id")]
-    public string? PolicyIdValue { get; set; }
+    public string? PolicyId { get; set; }
 
     /// <summary>
     /// Indicates whether object replication priority replication feature is enabled for the policy.  Allowed values: false, true.
@@ -54,13 +56,13 @@ public record AzStorageAccountOrPolicyCreateOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// The source storage account name or resource Id. Required when no --policy provided.
     /// </summary>
     [CliOption("--source-account", ShortForm = "-s")]
-    public string? SourceAccountValue { get; set; }
+    public string? SourceAccount { get; set; }
 
     /// <summary>
     /// Indicates whether object replication tags replication feature is enabled for the policy.  Allowed values: false, true.
@@ -68,32 +70,34 @@ public record AzStorageAccountOrPolicyCreateOptions : AzOptions
     [CliOption("--tags-replication")]
     public bool? TagsReplication { get; set; }
 
-    [Obsolete("Use DestinationAccountValue instead.")]
-    public bool? DestinationAccount
-    {
-        get => bool.TryParse(DestinationAccountValue, out var value) ? value : null;
-        set => DestinationAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Blobs created after the time will be replicated to the destination. It must be in datetime format 'yyyy-MM- ddTHH:mm:ssZ'. Example: 2020-02-19T16:05:00Z.
+    /// </summary>
+    [CliFlag("--min-creation-time", ShortForm = "-t")]
+    public bool? MinCreationTime { get; set; }
 
-    [Obsolete("Use PolicyIdValue instead.")]
-    public bool? PolicyId
-    {
-        get => bool.TryParse(PolicyIdValue, out var value) ? value : null;
-        set => PolicyIdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Optional. Filter the results to replicate only blobs whose names begin with the specified prefix.
+    /// </summary>
+    [CliFlag("--prefix", ShortForm = "--prefix-match")]
+    public bool? Prefix { get; set; }
 
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// The destination storage container name. Required when no
+    /// </summary>
+    [CliFlag("--dcont", ShortForm = "--destination-container")]
+    public bool? Dcont { get; set; }
 
-    [Obsolete("Use SourceAccountValue instead.")]
-    public bool? SourceAccount
-    {
-        get => bool.TryParse(SourceAccountValue, out var value) ? value : null;
-        set => SourceAccountValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Rule Id is auto-generated for each new rule on destination account. It is required for put policy on source account.
+    /// </summary>
+    [CliFlag("--rule-id")]
+    public bool? RuleId { get; set; }
+
+    /// <summary>
+    /// The source storage container name. Required when no --policy provided.
+    /// </summary>
+    [CliOption("--scont", ShortForm = "--source-container")]
+    public string? Scont { get; set; }
 
 }

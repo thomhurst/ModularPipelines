@@ -18,13 +18,21 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "share", "close-handle")]
-public record AzStorageShareCloseHandleOptions : AzOptions
+public record AzStorageShareCloseHandleOptions(
+    [property: CliOption("--name", ShortForm = "-n")] string Name
+) : AzOptions
 {
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided.
     /// </summary>
     [CliFlag("--auth-mode")]
     public bool? AuthMode { get; set; }
+
+    /// <summary>
+    /// Required parameter to use with OAuth (Azure AD) Authentication for Files. This will bypass any file/directory level permission checks and allow access, based on the allowed data actions, even if there are ACLs in place for those files/directories.
+    /// </summary>
+    [CliFlag("--backup-intent", ShortForm = "--enable-file-backup-request-intent")]
+    public bool? BackupIntent { get; set; }
 
     /// <summary>
     /// Whether or not to close all the file handles. Specify close-all or a specific handle-id.  Allowed values: false, true.
@@ -48,7 +56,7 @@ public record AzStorageShareCloseHandleOptions : AzOptions
     /// The path to the file/directory within the file share.
     /// </summary>
     [CliOption("--path", ShortForm = "-p")]
-    public string? PathValue { get; set; }
+    public string? Path { get; set; }
 
     /// <summary>
     /// Boolean that specifies if operation should apply to the directory specified in the URI, its files, with its subdirectories and their files.  Allowed values: false, true.
@@ -60,7 +68,7 @@ public record AzStorageShareCloseHandleOptions : AzOptions
     /// A string that represents the snapshot version, if applicable.
     /// </summary>
     [CliOption("--snapshot")]
-    public string? SnapshotValue { get; set; }
+    public string? Snapshot { get; set; }
 
     /// <summary>
     /// Request timeout in seconds. Applies to each call to the service.
@@ -68,18 +76,34 @@ public record AzStorageShareCloseHandleOptions : AzOptions
     [CliFlag("--timeout")]
     public bool? Timeout { get; set; }
 
-    [Obsolete("Use PathValue instead.")]
-    public bool? Path
-    {
-        get => bool.TryParse(PathValue, out var value) ? value : null;
-        set => PathValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// </summary>
+    [CliFlag("--account-key")]
+    public bool? AccountKey { get; set; }
 
-    [Obsolete("Use SnapshotValue instead.")]
-    public bool? Snapshot
-    {
-        get => bool.TryParse(SnapshotValue, out var value) ? value : null;
-        set => SnapshotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
+    /// </summary>
+    [CliFlag("--account-name")]
+    public bool? AccountName { get; set; }
+
+    /// <summary>
+    /// Storage account connection string.
+    /// </summary>
+    [CliFlag("--connection-string")]
+    public bool? ConnectionString { get; set; }
+
+    /// <summary>
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
+    /// </summary>
+    [CliFlag("--file-endpoint")]
+    public bool? FileEndpoint { get; set; }
+
+    /// <summary>
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
+    /// </summary>
+    [CliFlag("--sas-token")]
+    public bool? SasToken { get; set; }
 
 }

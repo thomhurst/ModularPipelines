@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "ltr-backup", "delete")]
-public record AzSqlDbLtrBackupDeleteOptions : AzOptions
+public record AzSqlDbLtrBackupDeleteOptions(
+    [property: CliOption("--database", ShortForm = "-d")] string Database,
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--server", ShortForm = "-s")] string Server
+) : AzOptions
 {
     /// <summary>
     /// Do not prompt for confirmation.

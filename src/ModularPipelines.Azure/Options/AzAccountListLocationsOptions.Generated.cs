@@ -23,7 +23,7 @@ public record AzAccountListLocationsOptions : AzOptions
     /// <summary>
     /// Whether to include extended locations.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--include-extended-locations")]
+    [CliOption("--include-extended-locations")]
     public bool? IncludeExtendedLocations { get; set; }
 
 }

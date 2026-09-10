@@ -24,19 +24,12 @@ public record AzCloudListProfilesOptions : AzOptions
     /// Name of a registered cloud.  Default: AzureCloud.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Show all available profiles supported in the CLI.
     /// </summary>
     [CliFlag("--show-all")]
     public bool? ShowAll { get; set; }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

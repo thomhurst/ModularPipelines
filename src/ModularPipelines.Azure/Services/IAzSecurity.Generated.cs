@@ -27,6 +27,11 @@ public interface IAzSecurity
     AzSecurityAdaptiveApplicationControls AdaptiveApplicationControls => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az adaptive_network_hardenings sub-commands.
+    /// </summary>
+    AzSecurityAdaptiveNetworkHardenings AdaptiveNetworkHardenings => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az alert sub-commands.
     /// </summary>
     AzSecurityAlert Alert => throw new System.NotSupportedException();
@@ -35,6 +40,11 @@ public interface IAzSecurity
     /// az alerts-suppression-rule sub-commands.
     /// </summary>
     AzSecurityAlertsSuppressionRule AlertsSuppressionRule => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az allowed_connections sub-commands.
+    /// </summary>
+    AzSecurityAllowedConnections AllowedConnections => throw new System.NotSupportedException();
 
     /// <summary>
     /// az assessment sub-commands.
@@ -47,6 +57,11 @@ public interface IAzSecurity
     AzSecurityAssessmentMetadata AssessmentMetadata => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az atp sub-commands.
+    /// </summary>
+    AzSecurityAtp Atp => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az automation sub-commands.
     /// </summary>
     AzSecurityAutomation Automation => throw new System.NotSupportedException();
@@ -57,14 +72,64 @@ public interface IAzSecurity
     AzSecurityAutomationActionEventHub AutomationActionEventHub => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az automation-action-logic-app sub-commands.
+    /// </summary>
+    AzSecurityAutomationActionLogicApp AutomationActionLogicApp => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az automation-action-workspace sub-commands.
+    /// </summary>
+    AzSecurityAutomationActionWorkspace AutomationActionWorkspace => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az automation-rule sub-commands.
+    /// </summary>
+    AzSecurityAutomationRule AutomationRule => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az automation-rule-set sub-commands.
     /// </summary>
     AzSecurityAutomationRuleSet AutomationRuleSet => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az automation-scope sub-commands.
+    /// </summary>
+    AzSecurityAutomationScope AutomationScope => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az automation-source sub-commands.
     /// </summary>
     AzSecurityAutomationSource AutomationSource => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az auto-provisioning-setting sub-commands.
+    /// </summary>
+    AzSecurityAutoProvisioningSetting AutoProvisioningSetting => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az discovered-security-solution sub-commands.
+    /// </summary>
+    AzSecurityDiscoveredSecuritySolution DiscoveredSecuritySolution => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az external-security-solution sub-commands.
+    /// </summary>
+    AzSecurityExternalSecuritySolution ExternalSecuritySolution => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az iot-alerts sub-commands.
+    /// </summary>
+    AzSecurityIotAlerts IotAlerts => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az iot-analytics sub-commands.
+    /// </summary>
+    AzSecurityIotAnalytics IotAnalytics => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az iot-recommendations sub-commands.
+    /// </summary>
+    AzSecurityIotRecommendations IotRecommendations => throw new System.NotSupportedException();
 
     /// <summary>
     /// az iot-solution sub-commands.
@@ -77,9 +142,44 @@ public interface IAzSecurity
     AzSecurityJitPolicy JitPolicy => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az location sub-commands.
+    /// </summary>
+    AzSecurityLocation Location => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az pricing sub-commands.
     /// </summary>
     AzSecurityPricing Pricing => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az regulatory-compliance-assessments sub-commands.
+    /// </summary>
+    AzSecurityRegulatoryComplianceAssessments RegulatoryComplianceAssessments => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az regulatory-compliance-controls sub-commands.
+    /// </summary>
+    AzSecurityRegulatoryComplianceControls RegulatoryComplianceControls => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az regulatory-compliance-standards sub-commands.
+    /// </summary>
+    AzSecurityRegulatoryComplianceStandards RegulatoryComplianceStandards => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az secure-score-controls sub-commands.
+    /// </summary>
+    AzSecuritySecureScoreControls SecureScoreControls => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az secure-scores sub-commands.
+    /// </summary>
+    AzSecuritySecureScores SecureScores => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az setting sub-commands.
+    /// </summary>
+    AzSecuritySetting Setting => throw new System.NotSupportedException();
 
     /// <summary>
     /// az sub-assessment sub-commands.
@@ -90,5 +190,15 @@ public interface IAzSecurity
     /// az task sub-commands.
     /// </summary>
     AzSecurityTask Task => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az topology sub-commands.
+    /// </summary>
+    AzSecurityTopology Topology => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az workspace-setting sub-commands.
+    /// </summary>
+    AzSecurityWorkspaceSetting WorkspaceSetting => throw new System.NotSupportedException();
 
 }

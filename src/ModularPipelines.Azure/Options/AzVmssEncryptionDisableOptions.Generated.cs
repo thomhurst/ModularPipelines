@@ -29,7 +29,25 @@ public record AzVmssEncryptionDisableOptions : AzOptions
     /// <summary>
     /// Type of volume that the encryption operation is performed on.  Allowed values: ALL, DATA, OS.
     /// </summary>
-    [CliFlag("--volume-type")]
-    public bool? VolumeType { get; set; }
+    [CliOption("--volume-type")]
+    public string? VolumeType { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Scale set name. You can configure the default using `az configure
+    /// </summary>
+    [CliFlag("--name", ShortForm = "-n")]
+    public bool? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

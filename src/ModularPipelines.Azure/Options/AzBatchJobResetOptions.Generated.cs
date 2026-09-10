@@ -18,12 +18,104 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "job", "reset")]
-public record AzBatchJobResetOptions : AzOptions
+public record AzBatchJobResetOptions(
+    [property: CliOption("--job-id")] string JobId
+) : AzOptions
 {
     /// <summary>
     /// A file containing the job specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Job Arguments' are ignored.
     /// </summary>
     [CliFlag("--json-file")]
     public bool? JsonFile { get; set; }
+
+    /// <summary>
+    /// Batch service endpoint. Alternatively, set by environment variable:
+    /// </summary>
+    [CliOption("--account-endpoint")]
+    public string? AccountEndpoint { get; set; }
+
+    /// <summary>
+    /// Batch account key. Alternatively, set by environment variable:
+    /// </summary>
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
+
+    /// <summary>
+    /// Batch account name. Alternatively, set by environment variable:
+    /// </summary>
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// Whether Tasks in this job can be preempted by other high priority jobs. If the value is set to True, other high priority jobs submitted to the system will take precedence and will be able requeue tasks from this job. You can update a job's allowTaskPreemption after it has been created using the update job API. True if flag present.
+    /// </summary>
+    [CliFlag("--allow-task-preemption")]
+    public bool? AllowTaskPreemption { get; set; }
+
+    /// <summary>
+    /// The maximum number of tasks that can be executed in parallel for the job. The value of maxParallelTasks must be -1 or greater than 0 if specified. If not specified, the default value is -1, which means there's no limit to the number of tasks that can be run at once. You can update a job's maxParallelTasks after it has been created using the update job API.
+    /// </summary>
+    [CliFlag("--max-parallel-tasks")]
+    public bool? MaxParallelTasks { get; set; }
+
+    /// <summary>
+    /// A list of name-value pairs associated with the Job as metadata. The Batch service does not assign any meaning to metadata; it is solely for the use of user code. Space-separated values in 'key=value' format.
+    /// </summary>
+    [CliOption("--metadata", GroupValues = true)]
+    public IEnumerable<string>? Metadata { get; set; }
+
+    /// <summary>
+    /// The action the Batch service should take when all Tasks in the Job are in the completed state. The default is noaction. Known values are: "noaction" and "terminatejob".
+    /// </summary>
+    [CliFlag("--on-all-tasks-complete")]
+    public bool? OnAllTasksComplete { get; set; }
+
+    /// <summary>
+    /// The priority of the Job. Priority values can range from -1000 to 1000, with -1000 being the lowest priority and 1000 being the highest priority. The default value is 0.
+    /// </summary>
+    [CliFlag("--priority")]
+    public bool? Priority { get; set; }
+
+    /// <summary>
+    /// The maximum number of times each Task may be retried. The Batch service retries a Task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try each Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries a Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry Tasks. If the maximum retry count is -1, the Batch service retries Tasks without limit. The default value is 0 (no retries).
+    /// </summary>
+    [CliFlag("--job-max-task-retry-count")]
+    public bool? JobMaxTaskRetryCount { get; set; }
+
+    /// <summary>
+    /// The maximum elapsed time that the Job may run, measured from the time the Job is created. If the Job does not complete within the time limit, the Batch service terminates it and any Tasks that are still running. In this case, the termination reason will be MaxWallClockTimeExpiry. If this property is not specified, there is no time limit on how long the Job may run. Expected format is an
+    /// </summary>
+    [CliFlag("--job-max-wall-clock-time")]
+    public bool? JobMaxWallClockTime { get; set; }
+
+    /// <summary>
+    /// The ID of an existing Pool. All the Tasks of the Job will run on the specified Pool. You must ensure that the Pool referenced by this property exists. If the Pool does not exist at the time the Batch service tries to schedule a Job, no Tasks for the Job will run until you create a Pool with that id. Note that the Batch service will not reject the Job request; it will simply not run Tasks until the Pool exists. You must specify either the Pool ID or the auto Pool specification, but not both.
+    /// </summary>
+    [CliOption("--pool-id")]
+    public string? PoolId { get; set; }
+
+    /// <summary>
+    /// An ETag value associated with the version of the resource known to the client. The operation will be performed only if the resource's current ETag on the service exactly matches the value specified by the client.
+    /// </summary>
+    [CliFlag("--if-match")]
+    public bool? IfMatch { get; set; }
+
+    /// <summary>
+    /// A timestamp indicating the last modified time of the resource known to the client. The operation will be performed only if the resource on the service has been modified since the specified time.
+    /// </summary>
+    [CliFlag("--if-modified-since")]
+    public bool? IfModifiedSince { get; set; }
+
+    /// <summary>
+    /// An ETag value associated with the version of the resource known to the client. The operation will be performed only if the resource's current ETag on the service does not match the value specified by the client.
+    /// </summary>
+    [CliFlag("--if-none-match")]
+    public bool? IfNoneMatch { get; set; }
+
+    /// <summary>
+    /// A timestamp indicating the last modified time of the resource known to the client. The operation will be performed only if the resource on the service has been modified since the specified time.
+    /// </summary>
+    [CliFlag("--if-unmodified-since")]
+    public bool? IfUnmodifiedSince { get; set; }
 
 }

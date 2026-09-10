@@ -18,38 +18,39 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "mg", "delete")]
-public record AzStackMgDeleteOptions : AzOptions
+public record AzStackMgDeleteOptions(
+    [property: CliOption("--action-on-unmanage", ShortForm = "--aou")] string ActionOnUnmanage,
+    [property: CliOption("--management-group-id", ShortForm = "-m")] string ManagementGroupId
+) : AzOptions
 {
+    /// <summary>
+    /// Flag to bypass service errors that indicate the stack resource list is not correctly synchronized.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--bse", ShortForm = "--bypass-stack-out-of-sync-error")]
+    public bool? Bse { get; set; }
+
     /// <summary>
     /// The deployment stack resource ID.
     /// </summary>
     [CliOption("--id")]
-    public string? IdValue { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// The name of the deployment stack.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? NameValue { get; set; }
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Defines what happens to resources that do not support deletion when they are no longer managed by the stack.  Allowed values: detach, fail.
+    /// </summary>
+    [CliOption("--resources-without-delete-support", ShortForm = "--rwd")]
+    public string? ResourcesWithoutDeleteSupport { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
     /// </summary>
     [CliFlag("--yes")]
     public bool? Yes { get; set; }
-
-    [Obsolete("Use IdValue instead.")]
-    public bool? Id
-    {
-        get => bool.TryParse(IdValue, out var value) ? value : null;
-        set => IdValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use NameValue instead.")]
-    public bool? Name
-    {
-        get => bool.TryParse(NameValue, out var value) ? value : null;
-        set => NameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

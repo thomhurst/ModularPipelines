@@ -18,7 +18,13 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "application", "create")]
-public record AzHdinsightApplicationCreateOptions : AzOptions
+public record AzHdinsightApplicationCreateOptions(
+    [property: CliOption("--cluster-name")] string ClusterName,
+    [property: CliOption("--name", ShortForm = "-n")] string Name,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--script-action-name")] string ScriptActionName,
+    [property: CliOption("--script-uri")] string ScriptUri
+) : AzOptions
 {
     /// <summary>
     /// The marketplace identifier.
@@ -35,13 +41,79 @@ public record AzHdinsightApplicationCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The application type.  Allowed values: CustomApplication, RServer.  Default: CustomApplication.
     /// </summary>
-    [CliFlag("--type", ShortForm = "-t")]
-    public bool? Type { get; set; }
+    [CliOption("--type", ShortForm = "-t")]
+    public string? Type { get; set; }
+
+    /// <summary>
+    /// The access mode for the application.  Default: WebPage.
+    /// </summary>
+    [CliFlag("--access-mode")]
+    public bool? AccessMode { get; set; }
+
+    /// <summary>
+    /// The destination port to connect to.  Default: 8080.
+    /// </summary>
+    [CliFlag("--destination-port")]
+    public bool? DestinationPort { get; set; }
+
+    /// <summary>
+    /// Indicates whether to disable gateway authentication. Default is to enable gateway authentication. Default: false.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--disable-gateway-auth")]
+    public bool? DisableGatewayAuth { get; set; }
+
+    /// <summary>
+    /// The subdomain suffix of the application.
+    /// </summary>
+    [CliFlag("--sub-domain-suffix")]
+    public bool? SubDomainSuffix { get; set; }
+
+    /// <summary>
+    /// The name or ID of subnet. If name is supplied, `--vnet-name` must be supplied.
+    /// </summary>
+    [CliOption("--subnet")]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// The name of a virtual network.
+    /// </summary>
+    [CliOption("--vnet-name")]
+    public string? VnetName { get; set; }
+
+    /// <summary>
+    /// The size of the node. See also: https://learn.microsoft.com/azure/hdinsight/hdinsight-hadoop- provision-linux-clusters#configure-cluster-size.  Default:
+    /// </summary>
+    [CliFlag("--edgenode-size")]
+    public bool? EdgenodeSize { get; set; }
+
+    /// <summary>
+    /// SSH password for the cluster nodes.
+    /// </summary>
+    [CliFlag("--ssh-password", ShortForm = "-P")]
+    public bool? SshPassword { get; set; }
+
+    /// <summary>
+    /// SSH public key for the cluster nodes.
+    /// </summary>
+    [CliFlag("--ssh-public-key", ShortForm = "-K")]
+    public bool? SshPublicKey { get; set; }
+
+    /// <summary>
+    /// SSH username for the cluster nodes.  Default: sshuser.
+    /// </summary>
+    [CliFlag("--ssh-user", ShortForm = "-U")]
+    public bool? SshUser { get; set; }
+
+    /// <summary>
+    /// The parameters for the script.
+    /// </summary>
+    [CliOption("--script-parameters")]
+    public string? ScriptParameters { get; set; }
 
 }

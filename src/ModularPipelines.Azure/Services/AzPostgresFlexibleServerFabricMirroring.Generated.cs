@@ -40,11 +40,11 @@ public class AzPostgresFlexibleServerFabricMirroring
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartAsync(
-        AzPostgresFlexibleServerFabricMirroringStartOptions? options = null,
+        AzPostgresFlexibleServerFabricMirroringStartOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerFabricMirroringStartOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -70,11 +70,11 @@ public class AzPostgresFlexibleServerFabricMirroring
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateDatabasesAsync(
-        AzPostgresFlexibleServerFabricMirroringUpdateDatabasesOptions? options = null,
+        AzPostgresFlexibleServerFabricMirroringUpdateDatabasesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerFabricMirroringUpdateDatabasesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

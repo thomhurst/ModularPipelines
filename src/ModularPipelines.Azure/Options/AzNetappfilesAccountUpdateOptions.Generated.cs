@@ -23,7 +23,115 @@ public record AzNetappfilesAccountUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
+
+    /// <summary>
+    /// Resource tags.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
+
+    /// <summary>
+    /// The name of KeyVault key.
+    /// </summary>
+    [CliOption("--key-name")]
+    public string? KeyName { get; set; }
+
+    /// <summary>
+    /// The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.NetApp, Microsoft.KeyVault.  Allowed values:
+    /// </summary>
+    [CliOption("--key-source")]
+    public string? KeySource { get; set; }
+
+    /// <summary>
+    /// The resource ID of KeyVault.
+    /// </summary>
+    [CliOption("--key-vault-resource-id", ShortForm = "--keyvault-resource-id")]
+    public string? KeyVaultResourceId { get; set; }
+
+    /// <summary>
+    /// The Uri of KeyVault.
+    /// </summary>
+    [CliOption("--key-vault-uri", ShortForm = "-v")]
+    public string? KeyVaultUri { get; set; }
+
+    /// <summary>
+    /// ClientId of the multi-tenant AAD Application. Used to access cross-tenant keyvaults.
+    /// </summary>
+    [CliFlag("--federated-client-id")]
+    public bool? FederatedClientId { get; set; }
+
+    /// <summary>
+    /// The ARM resource identifier of the user assigned identity used to authenticate with key vault. Applicable if identity.type has 'UserAssigned'. It should match key of identity.userAssignedIdentities.
+    /// </summary>
+    [CliFlag("--user-assigned-identity", ShortForm = "-u")]
+    public bool? UserAssignedIdentity { get; set; }
+
+    /// <summary>
+    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// </summary>
+    [CliOption("--add", GroupValues = true)]
+    public IEnumerable<string>? Add { get; set; }
+
+    /// <summary>
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// </summary>
+    [CliOption("--force-string")]
+    public bool? ForceString { get; set; }
+
+    /// <summary>
+    /// Remove a property or an element from a list.
+    /// </summary>
+    [CliOption("--remove", GroupValues = true)]
+    public IEnumerable<string>? Remove { get; set; }
+
+    /// <summary>
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--set", GroupValues = true)]
+    public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).  Allowed values: None,
+    /// </summary>
+    [CliOption("--identity-type", ShortForm = "--type")]
+    public string? IdentityType { get; set; }
+
+    /// <summary>
+    /// The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resource
+    /// </summary>
+    [CliFlag("--user-assigned-identities", ShortForm = "--user-ids")]
+    public bool? UserAssignedIdentities { get; set; }
+
+    /// <summary>
+    /// Active Directories  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliFlag("--active-directories")]
+    public bool? ActiveDirectories { get; set; }
+
+    /// <summary>
+    /// Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes.
+    /// </summary>
+    [CliFlag("--nfs-v4-id-domain")]
+    public bool? NfsV4IdDomain { get; set; }
+
+    /// <summary>
+    /// The name of the NetApp account.
+    /// </summary>
+    [CliOption("--account-name", ShortForm = "-n")]
+    public string? AccountName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

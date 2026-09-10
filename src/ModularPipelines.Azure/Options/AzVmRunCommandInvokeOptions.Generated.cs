@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "run-command", "invoke")]
-public record AzVmRunCommandInvokeOptions : AzOptions
+public record AzVmRunCommandInvokeOptions(
+    [property: CliOption("--command-id")] string CommandId
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -29,13 +31,31 @@ public record AzVmRunCommandInvokeOptions : AzOptions
     /// <summary>
     /// Space-separated parameters in the format of '[name=]value'.
     /// </summary>
-    [CliFlag("--parameters")]
-    public bool? Parameters { get; set; }
+    [CliOption("--parameters", GroupValues = true)]
+    public IEnumerable<string>? Parameters { get; set; }
 
     /// <summary>
     /// Space-separated script lines. Use @{file} to load script from a file.
     /// </summary>
-    [CliFlag("--scripts")]
-    public bool? Scripts { get; set; }
+    [CliOption("--scripts", GroupValues = true)]
+    public IEnumerable<string>? Scripts { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

@@ -18,13 +18,15 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "build")]
-public record AzAcrBuildOptions : AzOptions
+public record AzAcrBuildOptions(
+    [property: CliOption("--registry", ShortForm = "-r")] string Registry
+) : AzOptions
 {
     /// <summary>
     /// Auth mode of the source registry.  Allowed values: Default, None.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// Build argument in '--build-arg name[=value]' format. Multiples are supported by passing '--build-arg name[=value]' multiple times. IMPORTANT: This parameter should not include passwords, access tokens, or sensitive information of any kind. This parameter value will be visible to the ACR team for debugging purposes.
@@ -41,8 +43,8 @@ public record AzAcrBuildOptions : AzOptions
     /// <summary>
     /// The name and tag of the image using the format: '-t repo/image:tag'. Multiple tags are supported by passing -t multiple times.
     /// </summary>
-    [CliFlag("--image", ShortForm = "-t")]
-    public bool? Image { get; set; }
+    [CliOption("--image", ShortForm = "-t")]
+    public string? Image { get; set; }
 
     /// <summary>
     /// Indicates whether the logs should be displayed in raw format.
@@ -78,7 +80,7 @@ public record AzAcrBuildOptions : AzOptions
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
-    public string? ResourceGroupValue { get; set; }
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Secret build argument in '--secret-build-arg name[=value]' format. Multiples are supported by passing '--secret-build-arg name[=value]' multiple times. This parameter value is not surfaced to the ACR team and is more suitable for sensitive information.
@@ -89,33 +91,19 @@ public record AzAcrBuildOptions : AzOptions
     /// <summary>
     /// Assign the identity used for source registry login. Use '[caller]' for caller identity.  Allowed values: [caller], none.
     /// </summary>
-    [CliFlag("--source-acr-auth-id")]
-    public bool? SourceAcrAuthId { get; set; }
+    [CliOption("--source-acr-auth-id")]
+    public string? SourceAcrAuthId { get; set; }
 
     /// <summary>
     /// The name of the target build stage.
     /// </summary>
     [CliOption("--target")]
-    public string? TargetValue { get; set; }
+    public string? Target { get; set; }
 
     /// <summary>
     /// The timeout in seconds.
     /// </summary>
     [CliFlag("--timeout")]
     public bool? Timeout { get; set; }
-
-    [Obsolete("Use ResourceGroupValue instead.")]
-    public bool? ResourceGroup
-    {
-        get => bool.TryParse(ResourceGroupValue, out var value) ? value : null;
-        set => ResourceGroupValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    [Obsolete("Use TargetValue instead.")]
-    public bool? Target
-    {
-        get => bool.TryParse(TargetValue, out var value) ? value : null;
-        set => TargetValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
 
 }

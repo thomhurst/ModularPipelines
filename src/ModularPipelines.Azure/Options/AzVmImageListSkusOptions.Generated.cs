@@ -18,19 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "image", "list-skus")]
-public record AzVmImageListSkusOptions : AzOptions
+public record AzVmImageListSkusOptions(
+    [property: CliOption("--location", ShortForm = "-l")] string Location,
+    [property: CliOption("--offer", ShortForm = "-f")] string Offer,
+    [property: CliOption("--publisher", ShortForm = "-p")] string Publisher
+) : AzOptions
 {
     /// <summary>
     /// The name of edge zone.
     /// </summary>
     [CliOption("--edge-zone")]
-    public string? EdgeZoneValue { get; set; }
-
-    [Obsolete("Use EdgeZoneValue instead.")]
-    public bool? EdgeZone
-    {
-        get => bool.TryParse(EdgeZoneValue, out var value) ? value : null;
-        set => EdgeZoneValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? EdgeZone { get; set; }
 
 }

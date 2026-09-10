@@ -28,8 +28,8 @@ public class AzBackup : IAzBackup
     private AzBackupPolicy? _policy;
     private AzBackupProtectableItem? _protectableItem;
     private AzBackupProtection? _protection;
-    private AzBackupRecoveryconfig? _recoveryconfig;
-    private AzBackupRecoverypoint? _recoverypoint;
+    private AzBackupRecoveryConfig? _recoveryConfig;
+    private AzBackupRecoveryPoint? _recoveryPoint;
     private AzBackupRestore? _restore;
     private AzBackupVault? _vault;
 
@@ -81,12 +81,12 @@ public class AzBackup : IAzBackup
     /// <summary>
     /// az recoveryconfig sub-commands.
     /// </summary>
-    public AzBackupRecoveryconfig Recoveryconfig => _recoveryconfig ??= new AzBackupRecoveryconfig(_command);
+    public AzBackupRecoveryConfig RecoveryConfig => _recoveryConfig ??= new AzBackupRecoveryConfig(_command);
 
     /// <summary>
     /// az recoverypoint sub-commands.
     /// </summary>
-    public AzBackupRecoverypoint Recoverypoint => _recoverypoint ??= new AzBackupRecoverypoint(_command);
+    public AzBackupRecoveryPoint RecoveryPoint => _recoveryPoint ??= new AzBackupRecoveryPoint(_command);
 
     /// <summary>
     /// az restore sub-commands.

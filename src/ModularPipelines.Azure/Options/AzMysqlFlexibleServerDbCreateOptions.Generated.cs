@@ -18,7 +18,10 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "db", "create")]
-public record AzMysqlFlexibleServerDbCreateOptions : AzOptions
+public record AzMysqlFlexibleServerDbCreateOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--server-name", ShortForm = "-s")] string ServerName
+) : AzOptions
 {
     /// <summary>
     /// The charset of the database. The default value is UTF8.
@@ -36,13 +39,6 @@ public record AzMysqlFlexibleServerDbCreateOptions : AzOptions
     /// The name of the database to be created when provisioning the database server.
     /// </summary>
     [CliOption("--database-name", ShortForm = "-d")]
-    public string? DatabaseNameValue { get; set; }
-
-    [Obsolete("Use DatabaseNameValue instead.")]
-    public bool? DatabaseName
-    {
-        get => bool.TryParse(DatabaseNameValue, out var value) ? value : null;
-        set => DatabaseNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    public string? DatabaseName { get; set; }
 
 }

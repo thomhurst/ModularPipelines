@@ -33,6 +33,21 @@ public class AzMonitorLogAnalyticsWorkspaceDataExport
     #region Commands
 
     /// <summary>
+    /// Create a data export rule for a given
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateAsync(
+        AzMonitorLogAnalyticsWorkspaceDataExportCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Delete a data export rule for a given
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -45,6 +60,51 @@ public class AzMonitorLogAnalyticsWorkspaceDataExport
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzMonitorLogAnalyticsWorkspaceDataExportDeleteOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// List all data export ruleses for a given
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzMonitorLogAnalyticsWorkspaceDataExportListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Show a data export rule for a given
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzMonitorLogAnalyticsWorkspaceDataExportShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMonitorLogAnalyticsWorkspaceDataExportShowOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Update a data export rule for a given
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAsync(
+        AzMonitorLogAnalyticsWorkspaceDataExportUpdateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMonitorLogAnalyticsWorkspaceDataExportUpdateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

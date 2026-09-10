@@ -18,7 +18,12 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "backup", "restore")]
-public record AzWebappConfigBackupRestoreOptions : AzOptions
+public record AzWebappConfigBackupRestoreOptions(
+    [property: CliOption("--backup-name")] string BackupName,
+    [property: CliOption("--container-url")] string ContainerUrl,
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--webapp-name", ShortForm = "-n")] string WebappName
+) : AzOptions
 {
     /// <summary>
     /// Ignores custom hostnames stored in the backup.
@@ -36,26 +41,30 @@ public record AzWebappConfigBackupRestoreOptions : AzOptions
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
-    public string? SlotValue { get; set; }
+    public string? Slot { get; set; }
 
     /// <summary>
     /// The name to use for the restored web app. If unspecified, will default to the name that was used when the backup was created.
     /// </summary>
     [CliOption("--target-name")]
-    public string? TargetNameValue { get; set; }
+    public string? TargetName { get; set; }
 
-    [Obsolete("Use SlotValue instead.")]
-    public bool? Slot
-    {
-        get => bool.TryParse(SlotValue, out var value) ? value : null;
-        set => SlotValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Connection string for the database in the backup.
+    /// </summary>
+    [CliFlag("--db-connection-string")]
+    public bool? DbConnectionString { get; set; }
 
-    [Obsolete("Use TargetNameValue instead.")]
-    public bool? TargetName
-    {
-        get => bool.TryParse(TargetNameValue, out var value) ? value : null;
-        set => TargetNameValue = value?.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
-    }
+    /// <summary>
+    /// Name of the database in the backup.
+    /// </summary>
+    [CliOption("--db-name")]
+    public string? DbName { get; set; }
+
+    /// <summary>
+    /// Type of database in the backup.  Allowed values: LocalMySql,
+    /// </summary>
+    [CliOption("--db-type")]
+    public string? DbType { get; set; }
 
 }

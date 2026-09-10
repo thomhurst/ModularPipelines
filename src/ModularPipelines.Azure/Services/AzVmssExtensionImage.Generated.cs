@@ -33,6 +33,21 @@ public class AzVmssExtensionImage
     #region Commands
 
     /// <summary>
+    /// List virtual machine extension image types.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListNamesAsync(
+        AzVmssExtensionImageListNamesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmssExtensionImageListNamesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// List the information on available extensions.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -60,6 +75,21 @@ public class AzVmssExtensionImage
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmssExtensionImageListVersionsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get a virtual machine extension image.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzVmssExtensionImageShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzVmssExtensionImageShowOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

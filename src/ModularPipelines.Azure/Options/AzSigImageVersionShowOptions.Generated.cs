@@ -23,7 +23,37 @@ public record AzSigImageVersionShowOptions : AzOptions
     /// <summary>
     /// The expand expression to apply on the operation.  Allowed values:
     /// </summary>
-    [CliFlag("--expand")]
-    public bool? Expand { get; set; }
+    [CliOption("--expand")]
+    public string? Expand { get; set; }
+
+    /// <summary>
+    /// The name of the gallery image definition in which the Image Version resides.
+    /// </summary>
+    [CliOption("--gallery-image-definition", ShortForm = "-i")]
+    public string? GalleryImageDefinition { get; set; }
+
+    /// <summary>
+    /// The name of the gallery image version to be deleted.
+    /// </summary>
+    [CliOption("--gallery-image-version", ShortForm = "-e")]
+    public string? GalleryImageVersion { get; set; }
+
+    /// <summary>
+    /// The name of the Shared Image Gallery in which the Image Definition resides.
+    /// </summary>
+    [CliOption("--gallery-name", ShortForm = "-r")]
+    public string? GalleryName { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids")]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

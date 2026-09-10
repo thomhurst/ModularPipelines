@@ -18,7 +18,11 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "gremlin", "restorable-graph", "list")]
-public record AzCosmosdbGremlinRestorableGraphListOptions : AzOptions
+public record AzCosmosdbGremlinRestorableGraphListOptions(
+    [property: CliOption("--database-rid", ShortForm = "-d")] string DatabaseRid,
+    [property: CliOption("--instance-id", ShortForm = "-i")] string InstanceId,
+    [property: CliOption("--location", ShortForm = "-l")] string Location
+) : AzOptions
 {
     /// <summary>
     /// End time of restorable Gremlin graph event feed.

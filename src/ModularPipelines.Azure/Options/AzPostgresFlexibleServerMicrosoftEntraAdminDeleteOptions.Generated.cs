@@ -18,7 +18,9 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "microsoft-entra-admin", "delete")]
-public record AzPostgresFlexibleServerMicrosoftEntraAdminDeleteOptions : AzOptions
+public record AzPostgresFlexibleServerMicrosoftEntraAdminDeleteOptions(
+    [property: CliOption("--object-id", ShortForm = "-i")] string ObjectId
+) : AzOptions
 {
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -31,5 +33,23 @@ public record AzPostgresFlexibleServerMicrosoftEntraAdminDeleteOptions : AzOptio
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
+
+    /// <summary>
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// </summary>
+    [CliOption("--ids", GroupValues = true)]
+    public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
+    /// </summary>
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name of the server.
+    /// </summary>
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string? ServerName { get; set; }
 
 }

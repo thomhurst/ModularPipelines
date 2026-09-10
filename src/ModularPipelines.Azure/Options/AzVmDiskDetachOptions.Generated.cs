@@ -18,13 +18,16 @@ namespace ModularPipelines.Azure.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "disk", "detach")]
-public record AzVmDiskDetachOptions : AzOptions
+public record AzVmDiskDetachOptions(
+    [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
+    [property: CliOption("--vm-name")] string VmName
+) : AzOptions
 {
     /// <summary>
     /// The disk IDs of the managed disk (space-delimited).
     /// </summary>
-    [CliFlag("--disk-ids")]
-    public bool? DiskIds { get; set; }
+    [CliOption("--disk-ids", GroupValues = true)]
+    public IEnumerable<string>? DiskIds { get; set; }
 
     /// <summary>
     /// Force detach managed data disks from a VM.

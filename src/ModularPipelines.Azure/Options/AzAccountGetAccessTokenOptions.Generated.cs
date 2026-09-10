@@ -21,6 +21,12 @@ namespace ModularPipelines.Azure.Options;
 public record AzAccountGetAccessTokenOptions : AzOptions
 {
     /// <summary>
+    /// Name or ID of subscription.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-s")]
+    public string? Name { get; set; }
+
+    /// <summary>
     /// Azure resource endpoints in Microsoft Entra v1.0.
     /// </summary>
     [CliFlag("--resource")]
@@ -29,14 +35,14 @@ public record AzAccountGetAccessTokenOptions : AzOptions
     /// <summary>
     /// Type of well-known resource.  Allowed values: aad-graph, arm, batch, data-lake, media, ms-graph, oss-rdbms.
     /// </summary>
-    [CliFlag("--resource-type")]
-    public bool? ResourceType { get; set; }
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
 
     /// <summary>
     /// Space-separated scopes in Microsoft Entra v2.0. Default to Azure
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope", GroupValues = true)]
+    public IEnumerable<string>? Scope { get; set; }
 
     /// <summary>
     /// Tenant ID for which the token is acquired. Only available for user and service principal account, not for managed identity or Cloud
