@@ -51,7 +51,7 @@ public record DockerBuildxCreateOptions : DockerOptions
     public bool? Debug { get; set; }
 
     /// <summary>
-    /// Driver to use (available: "docker-container", "kubernetes", "remote")
+    /// Driver to use (available: "cloud", "docker-container", "kubernetes", "remote")
     /// </summary>
     [CliOption("--driver", Format = OptionFormat.EqualsSeparated)]
     public string? Driver { get; set; }
