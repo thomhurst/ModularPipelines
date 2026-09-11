@@ -16,15 +16,6 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudDiskType
 {
-    [EnumValue("pd-standard")]
-    PdStandard,
-
-    [EnumValue("pd-ssd")]
-    PdSsd,
-
-    [EnumValue("pd-balanced")]
-    PdBalanced,
-
     [EnumValue("hyperdisk-balanced")]
     HyperdiskBalanced,
 
@@ -32,5 +23,14 @@ public enum GcloudDiskType
     HyperdiskExtreme,
 
     [EnumValue("hyperdisk-throughput")]
-    HyperdiskThroughput
+    HyperdiskThroughput,
+
+    [EnumValue("pd-balanced")]
+    PdBalanced,
+
+    [EnumValue("pd-ssd")]
+    PdSsd,
+
+    [EnumValue("pd-standard")]
+    PdStandard
 }

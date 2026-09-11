@@ -19,9 +19,9 @@ public enum GcloudExternalManagedBackendBucketMigrationState
     [EnumValue("PREPARE")]
     Prepare,
 
-    [EnumValue("TEST_BY_PERCENTAGE")]
-    TestByPercentage,
-
     [EnumValue("TEST_ALL_TRAFFIC")]
-    TestAllTraffic
+    TestAllTraffic,
+
+    [EnumValue("TEST_BY_PERCENTAGE")]
+    TestByPercentage
 }

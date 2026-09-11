@@ -16,12 +16,6 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudPurpose
 {
-    [EnumValue("VPC_PEERING")]
-    VpcPeering,
-
-    [EnumValue("SHARED_LOADBALANCER_VIP")]
-    SharedLoadbalancerVip,
-
     [EnumValue("GCE_ENDPOINT")]
     GceEndpoint,
 
@@ -29,5 +23,11 @@ public enum GcloudPurpose
     IpsecInterconnect,
 
     [EnumValue("PRIVATE_SERVICE_CONNECT")]
-    PrivateServiceConnect
+    PrivateServiceConnect,
+
+    [EnumValue("SHARED_LOADBALANCER_VIP")]
+    SharedLoadbalancerVip,
+
+    [EnumValue("VPC_PEERING")]
+    VpcPeering
 }

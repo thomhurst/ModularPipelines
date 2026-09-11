@@ -50,6 +50,18 @@ public record GcloudPreviewComputeInstancesUpdateOptions(
     public bool? NoEnableDisplayDevice { get; set; }
 
     /// <summary>
+    /// If true, exposes the hashed physical host ID in the VM's ResourceStatus. Use --expose-host-topology to enable and --no-expose-host-topology to disable.
+    /// </summary>
+    [CliFlag("--expose-host-topology")]
+    public bool? ExposeHostTopology { get; set; }
+
+    /// <summary>
+    /// Negates --expose-host-topology. If true, exposes the hashed physical host ID in the VM's ResourceStatus. Use --expose-host-topology to enable and --no-expose-host-topology to disable.
+    /// </summary>
+    [CliFlag("--no-expose-host-topology")]
+    public bool? NoExposeHostTopology { get; set; }
+
+    /// <summary>
     /// Enables or disables graceful shutdown for the instance. Use --graceful-shutdown to enable and --no-graceful-shutdown to disable.
     /// </summary>
     [CliFlag("--graceful-shutdown")]

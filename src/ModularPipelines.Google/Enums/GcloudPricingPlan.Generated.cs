@@ -16,9 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudPricingPlan
 {
-    [EnumValue("PER_USE")]
-    PerUse,
-
     [EnumValue("PACKAGE")]
-    Package
+    Package,
+
+    [EnumValue("PER_USE")]
+    PerUse
 }

@@ -16,12 +16,12 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudLoggingOptional
 {
+    [EnumValue("CUSTOM")]
+    Custom,
+
     [EnumValue("EXCLUDE_ALL_OPTIONAL")]
     ExcludeAllOptional,
 
     [EnumValue("INCLUDE_ALL_OPTIONAL")]
-    IncludeAllOptional,
-
-    [EnumValue("CUSTOM")]
-    Custom
+    IncludeAllOptional
 }

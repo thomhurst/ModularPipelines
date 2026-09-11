@@ -16,15 +16,15 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudSslType
 {
-    [EnumValue("SERVER_ONLY")]
-    ServerOnly,
-
-    [EnumValue("SERVER_CLIENT")]
-    ServerClient,
+    [EnumValue("NONE")]
+    None,
 
     [EnumValue("REQUIRED")]
     Required,
 
-    [EnumValue("NONE")]
-    None
+    [EnumValue("SERVER_CLIENT")]
+    ServerClient,
+
+    [EnumValue("SERVER_ONLY")]
+    ServerOnly
 }

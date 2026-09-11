@@ -181,4 +181,36 @@ public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOpt
     [CliFlag("--static-ip-connectivity")]
     public bool? StaticIpConnectivity { get; set; }
 
+    /// <summary>
+    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Hostname for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--forward-ssh-hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshHostname { get; set; }
+
+    /// <summary>
+    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Username for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--forward-ssh-username", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshUsername { get; set; }
+
+    /// <summary>
+    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Port for the SSH tunnel, default value is 22.
+    /// </summary>
+    [CliOption("--forward-ssh-port", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshPort { get; set; }
+
+    /// <summary>
+    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Exactly one of these must be specified: SSH password.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--forward-ssh-password", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshPassword { get; set; }
+
+    /// <summary>
+    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Exactly one of these must be specified: SSH private key..
+    /// </summary>
+    [SecretValue]
+    [CliOption("--forward-ssh-private-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshPrivateKey { get; set; }
+
 }

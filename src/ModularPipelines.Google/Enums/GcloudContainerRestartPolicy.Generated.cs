@@ -16,12 +16,12 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudContainerRestartPolicy
 {
+    [EnumValue("always")]
+    Always,
+
     [EnumValue("never")]
     Never,
 
     [EnumValue("on-failure")]
-    OnFailure,
-
-    [EnumValue("always")]
-    Always
+    OnFailure
 }

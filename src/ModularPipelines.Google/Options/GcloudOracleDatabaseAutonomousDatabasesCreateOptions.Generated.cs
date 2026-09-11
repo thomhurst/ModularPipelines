@@ -238,6 +238,7 @@ public record GcloudOracleDatabaseAutonomousDatabasesCreateOptions : GcloudOptio
     /// <summary>
     /// Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. The ID of the Oracle Cloud Infrastructure vault secret.
     /// </summary>
+    [SecretValue]
     [CliOption("--properties-secret-id", Format = OptionFormat.EqualsSeparated)]
     public string? PropertiesSecretId { get; set; }
 

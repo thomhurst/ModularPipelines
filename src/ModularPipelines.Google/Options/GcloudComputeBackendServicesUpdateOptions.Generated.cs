@@ -188,6 +188,18 @@ public record GcloudComputeBackendServicesUpdateOptions(
     public string? FailoverRatio { get; set; }
 
     /// <summary>
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. A fully-qualified URL of the zonal Network Endpoint Group (NEG) with GCE_VM_IP endpoints that the leader is attached to.
+    /// </summary>
+    [CliOption("--ha-policy-leader-backend-group", Format = OptionFormat.EqualsSeparated)]
+    public string? HaPolicyLeaderBackendGroup { get; set; }
+
+    /// <summary>
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. The name of the VM instance of the leader network endpoint.
+    /// </summary>
+    [CliOption("--ha-policy-leader-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? HaPolicyLeaderInstance { get; set; }
+
+    /// <summary>
     /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Specifies a list of health check objects for checking the health of the backend service. Currently at most one health check can be specified. Health checks need not be for the same protocol as that of the backend service.
     /// </summary>
     [CliOption("--health-checks", Format = OptionFormat.EqualsSeparated)]
@@ -623,6 +635,7 @@ public record GcloudComputeBackendServicesUpdateOptions(
     /// <summary>
     /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. The identifier of an access key used for AWS Signature Version 4 s3 bucket authentication.
     /// </summary>
+    [SecretValue]
     [CliOption("--security-settings-aws-v4-access-key-id", Format = OptionFormat.EqualsSeparated)]
     public string? SecuritySettingsAwsV4AccessKeyId { get; set; }
 

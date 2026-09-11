@@ -178,6 +178,30 @@ public record GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOption
     public string? EnvironmentType { get; set; }
 
     /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Update input_variable_aliases. At most one of these can be specified: Set input_variable_aliases to new value. Input variable aliases defined on this live component. alias Alias for the variable name to be exposed at the root level of the composite template. variable Name of the input variable inside the component's underlying template or module. Shorthand Example: --input-variable-aliases=alias=string,variable=string --input-variable-aliases=alias=string,variable=string JSON Example: --input-variable-aliases='[{"alias": "string", "variable": "string"}]' File Example: --input-variable-aliases=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--input-variable-aliases", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? InputVariableAliases { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Update input_variable_aliases. At most one of these can be specified: Or at least one of these can be specified: Add new value to input_variable_aliases list. Input variable aliases defined on this live component. alias Alias for the variable name to be exposed at the root level of the composite template. variable Name of the input variable inside the component's underlying template or module. Shorthand Example: --add-input-variable-aliases=alias=string,variable=string --add-input-variable-aliases=alias=string,variable=string JSON Example: --add-input-variable-aliases='[{"alias": "string", "variable": "string"}]' File Example: --add-input-variable-aliases=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-input-variable-aliases", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddInputVariableAliases { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Update input_variable_aliases. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear input_variable_aliases value and set to empty list.
+    /// </summary>
+    [CliFlag("--clear-input-variable-aliases")]
+    public bool? ClearInputVariableAliases { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Update input_variable_aliases. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from input_variable_aliases list. Input variable aliases defined on this live component. alias Alias for the variable name to be exposed at the root level of the composite template. variable Name of the input variable inside the component's underlying template or module. Shorthand Example: --remove-input-variable-aliases=alias=string,variable=string --remove-input-variable-aliases=alias=string,variable=string JSON Example: --remove-input-variable-aliases='[{"alias": "string", "variable": "string"}]' File Example: --remove-input-variable-aliases=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-input-variable-aliases", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveInputVariableAliases { get; set; }
+
+    /// <summary>
     /// This captures the apphub application details associated with the component. Scope of an application. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Update parameters. At most one of these can be specified: Set parameters to new value. The component parameters. key The key of the parameter. value The value of the parameter. Shorthand Example: --parameters=key=string,value={...} --parameters=key=string,value={...} JSON Example: --parameters='[{"key": "string", "value": {...}}]' File Example: --parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--parameters", Format = OptionFormat.EqualsSeparated)]
