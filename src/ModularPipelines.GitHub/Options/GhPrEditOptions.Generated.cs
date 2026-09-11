@@ -45,6 +45,12 @@ public record GhPrEditOptions : GhOptions
     public string? AddReviewer { get; set; }
 
     /// <summary>
+    /// Attach an image or video file, in '&lt;file&gt;#&lt;image alt text&gt;' format
+    /// </summary>
+    [CliOption("--attach", Format = OptionFormat.EqualsSeparated)]
+    public string? Attach { get; set; }
+
+    /// <summary>
     /// Change the base branch for this pull request
     /// </summary>
     [CliOption("--base", ShortForm = "-B", Format = OptionFormat.EqualsSeparated)]
