@@ -4,14 +4,7 @@ ModularPipelines.Context.ModularPipelines_Pulumi_b655661490eb4c54ToolsExtensions
 ModularPipelines.Context.ModularPipelines_Pulumi_b655661490eb4c54ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Pulumi.get -> ModularPipelines.Pulumi.Services.IPulumi!
 ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider
 ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider.Aws = 0 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider
-ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider.AzureNative = 2 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider
-ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider.Gcp = 1 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider
-ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider.Kubernetes = 4 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider
-ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider.Oci = 3 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewProvider
 ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule
-ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule.Daily = 2 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule
-ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule.None = 0 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule
-ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule.Value12H = 1 -> ModularPipelines.Pulumi.Enums.PulumiInsightsAccountNewScanSchedule
 ModularPipelines.Pulumi.Enums.PulumiInsightsResourceSearchSort
 ModularPipelines.Pulumi.Enums.PulumiInsightsResourceSearchSort.Category = 0 -> ModularPipelines.Pulumi.Enums.PulumiInsightsResourceSearchSort
 ModularPipelines.Pulumi.Enums.PulumiInsightsResourceSearchSort.Created = 1 -> ModularPipelines.Pulumi.Enums.PulumiInsightsResourceSearchSort
@@ -32,26 +25,16 @@ ModularPipelines.Pulumi.Enums.PulumiInsightsResourceSearchSort.Stack = 15 -> Mod
 ModularPipelines.Pulumi.Enums.PulumiInsightsResourceSearchSort.Type = 16 -> ModularPipelines.Pulumi.Enums.PulumiInsightsResourceSearchSort
 ModularPipelines.Pulumi.Enums.PulumiInsightsResourceSearchSort.Urn = 17 -> ModularPipelines.Pulumi.Enums.PulumiInsightsResourceSearchSort
 ModularPipelines.Pulumi.Enums.PulumiOrgAuditLogExportFormat
-ModularPipelines.Pulumi.Enums.PulumiOrgAuditLogExportFormat.Cef = 1 -> ModularPipelines.Pulumi.Enums.PulumiOrgAuditLogExportFormat
-ModularPipelines.Pulumi.Enums.PulumiOrgAuditLogExportFormat.Csv = 0 -> ModularPipelines.Pulumi.Enums.PulumiOrgAuditLogExportFormat
 ModularPipelines.Pulumi.Enums.PulumiOrgUsageGetGranularity
-ModularPipelines.Pulumi.Enums.PulumiOrgUsageGetGranularity.Daily = 1 -> ModularPipelines.Pulumi.Enums.PulumiOrgUsageGetGranularity
-ModularPipelines.Pulumi.Enums.PulumiOrgUsageGetGranularity.Hourly = 0 -> ModularPipelines.Pulumi.Enums.PulumiOrgUsageGetGranularity
 ModularPipelines.Pulumi.Enums.PulumiOrgUsageGetGranularity.Monthly = 2 -> ModularPipelines.Pulumi.Enums.PulumiOrgUsageGetGranularity
 ModularPipelines.Pulumi.Enums.PulumiStackScheduleEditOperation
-ModularPipelines.Pulumi.Enums.PulumiStackScheduleEditOperation.Destroy = 3 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleEditOperation
 ModularPipelines.Pulumi.Enums.PulumiStackScheduleEditOperation.Preview = 1 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleEditOperation
 ModularPipelines.Pulumi.Enums.PulumiStackScheduleEditOperation.Refresh = 2 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleEditOperation
-ModularPipelines.Pulumi.Enums.PulumiStackScheduleEditOperation.Update = 0 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleEditOperation
 ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewKind
-ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewKind.Drift = 1 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewKind
-ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewKind.Raw = 0 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewKind
 ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewKind.Ttl = 2 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewKind
 ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation
-ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation.Destroy = 3 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation
 ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation.Preview = 1 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation
 ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation.Refresh = 2 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation
-ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation.Update = 0 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation
 ModularPipelines.Pulumi.Extensions.PulumiExtensions
 ModularPipelines.Pulumi.Options.PulumiApiDescribeOptions
 ModularPipelines.Pulumi.Options.PulumiApiDescribeOptions.Color.get -> string?
@@ -1152,8 +1135,6 @@ ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.Memprofilera
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.Memprofilerate.set -> void
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.NonInteractive.get -> bool?
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.NonInteractive.set -> void
-ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAwsClear.get -> bool?
-ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAwsClear.set -> void
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAwsDuration.get -> string?
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAwsDuration.set -> void
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAwsPolicyArn.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -1162,16 +1143,12 @@ ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAwsRoleA
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAwsRoleArn.set -> void
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAwsSessionName.get -> string?
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAwsSessionName.set -> void
-ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAzureClear.get -> bool?
-ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAzureClear.set -> void
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAzureClientId.get -> string?
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAzureClientId.set -> void
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAzureSubscriptionId.get -> string?
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAzureSubscriptionId.set -> void
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAzureTenantId.get -> string?
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAzureTenantId.set -> void
-ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcGcpClear.get -> bool?
-ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcGcpClear.set -> void
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcGcpProjectNumber.get -> string?
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcGcpProjectNumber.set -> void
 ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcGcpProviderId.get -> string?
