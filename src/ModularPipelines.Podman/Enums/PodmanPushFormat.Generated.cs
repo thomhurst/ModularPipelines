@@ -19,9 +19,9 @@ public enum PodmanPushFormat
     [EnumValue("oci")]
     Oci,
 
-    [EnumValue("v2s2")]
-    V2S2,
-
     [EnumValue("v2s1")]
-    V2S1
+    V2S1,
+
+    [EnumValue("v2s2")]
+    V2S2
 }

@@ -39,10 +39,16 @@ public record PodmanMachineInitOptions : PodmanOptions
     public string? IgnitionPath { get; set; }
 
     /// <summary>
-    /// Bootable image for machine
+    /// Bootable image for machine (default "docker://quay.io/podman/machine-os")
     /// </summary>
     [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
     public string? Image { get; set; }
+
+    /// <summary>
+    /// Import the host trusted CA certificates into the machine
+    /// </summary>
+    [CliFlag("--import-native-ca")]
+    public bool? ImportNativeCa { get; set; }
 
     /// <summary>
     /// Memory in MiB (default 2048)
@@ -61,6 +67,12 @@ public record PodmanMachineInitOptions : PodmanOptions
     /// </summary>
     [CliOption("--playbook", Format = OptionFormat.EqualsSeparated)]
     public string? Playbook { get; set; }
+
+    /// <summary>
+    /// Override the default machine provider
+    /// </summary>
+    [CliOption("--provider", Format = OptionFormat.EqualsSeparated)]
+    public string? Provider { get; set; }
 
     /// <summary>
     /// Whether this machine should prefer rootful container execution
@@ -87,6 +99,12 @@ public record PodmanMachineInitOptions : PodmanOptions
     public bool? TlsVerify { get; set; }
 
     /// <summary>
+    /// Set default system connection for this machine
+    /// </summary>
+    [CliFlag("--update-connection", ShortForm = "-u")]
+    public bool? UpdateConnection { get; set; }
+
+    /// <summary>
     /// USB Host passthrough: bus=$1,devnum=$2 or vendor=$1,product=$2
     /// </summary>
     [CliOption("--usb", Format = OptionFormat.EqualsSeparated)]
@@ -105,7 +123,7 @@ public record PodmanMachineInitOptions : PodmanOptions
     public string? Username { get; set; }
 
     /// <summary>
-    /// Volumes to mount, source:target (default [$HOME:$HOME])
+    /// Volumes to mount, source:target (default [$HOME:$HOME,~/.config/containers:/etc/containers])
     /// </summary>
     [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Volume { get; set; }

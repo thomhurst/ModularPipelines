@@ -13,29 +13,35 @@ using ModularPipelines.Podman.Options;
 namespace ModularPipelines.Podman.Options;
 
 /// <summary>
-/// Reload firewall rules for one or more containers
+/// Upgrade machine os
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("network", "reload")]
-public record PodmanNetworkReloadOptions : PodmanOptions
+[CliSubCommand("machine", "os", "upgrade")]
+public record PodmanMachineOsUpgradeOptions : PodmanOptions
 {
     /// <summary>
-    /// Reload network configuration of all containers
+    /// Only check if an upgrade is available
     /// </summary>
-    [CliFlag("--all", ShortForm = "-a")]
-    public bool? All { get; set; }
+    [CliFlag("--dry-run", ShortForm = "-n")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Act on the latest container podman is aware of Not supported with the "--remote" flag
+    /// suppress output except for specified format. Implies -n
     /// </summary>
-    [CliFlag("--latest", ShortForm = "-l")]
-    public bool? Latest { get; set; }
+    [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
+    public string? Format { get; set; }
 
     /// <summary>
-    /// The CONTAINER operand.
+    /// Restart VM to upgrade
+    /// </summary>
+    [CliFlag("--restart")]
+    public bool? Restart { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? Container { get; set; }
+    public string? Name { get; set; }
 
 }

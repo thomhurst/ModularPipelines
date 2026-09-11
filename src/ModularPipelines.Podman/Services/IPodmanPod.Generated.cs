@@ -112,7 +112,7 @@ public interface IPodmanPod
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// List all pods on system including their names, ids and current state.
+    /// List pods
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -35,7 +35,7 @@ public record PodmanUnmountOptions(
     public bool? Force { get; set; }
 
     /// <summary>
-    /// Act on the latest container podman is aware of
+    /// Act on the latest container podman is aware of Not supported with the "--remote" flag
     /// </summary>
     [CliFlag("--latest", ShortForm = "-l")]
     public bool? Latest { get; set; }

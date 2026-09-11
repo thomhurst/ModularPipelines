@@ -65,9 +65,9 @@ public record PodmanContainerCommitOptions(
     public string? Message { get; set; }
 
     /// <summary>
-    /// Pause container during commit
+    /// Pause container during commit (default true)
     /// </summary>
-    [CliFlag("--pause", ShortForm = "-p")]
+    [CliOption("--pause", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public bool? Pause { get; set; }
 
     /// <summary>
