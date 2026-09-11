@@ -16,8 +16,8 @@ namespace ModularPipelines.Pulumi.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum PulumiStackScheduleNewOperation
 {
-    [EnumValue("update")]
-    Update,
+    [EnumValue("destroy")]
+    Destroy,
 
     [EnumValue("preview")]
     Preview,
@@ -25,6 +25,6 @@ public enum PulumiStackScheduleNewOperation
     [EnumValue("refresh")]
     Refresh,
 
-    [EnumValue("destroy")]
-    Destroy
+    [EnumValue("update")]
+    Update
 }
