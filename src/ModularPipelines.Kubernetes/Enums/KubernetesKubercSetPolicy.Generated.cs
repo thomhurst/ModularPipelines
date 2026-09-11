@@ -19,9 +19,9 @@ public enum KubernetesKubercSetPolicy
     [EnumValue("AllowAll")]
     AllowAll,
 
-    [EnumValue("DenyAll")]
-    DenyAll,
-
     [EnumValue("Allowlist")]
-    Allowlist
+    Allowlist,
+
+    [EnumValue("DenyAll")]
+    DenyAll
 }
