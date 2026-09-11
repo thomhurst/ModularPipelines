@@ -27,9 +27,15 @@ public record PodmanQuadletListOptions : PodmanOptions
     public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>
-    /// Pretty-print output to JSON or using a Go template (default "{{range .}}{{.Name}}\t{{.UnitName}}\t{{.Path}}\t{{.Status}}\t{{.App}}\n{{end -}}")
+    /// Pretty-print output to JSON or using a Go template (default "{{range .}}{{.Name}}\t{{.UnitName}}\t{{.Path}}\t{{.Status}}\t{{.App}}\t{{.Pod}}\n{{end -}}")
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
+
+    /// <summary>
+    /// Do not print headers
+    /// </summary>
+    [CliFlag("--noheading", ShortForm = "-n")]
+    public bool? Noheading { get; set; }
 
 }

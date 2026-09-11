@@ -33,6 +33,12 @@ public record PodmanMachineStartOptions : PodmanOptions
     public bool? Quiet { get; set; }
 
     /// <summary>
+    /// Set default system connection for this machine
+    /// </summary>
+    [CliFlag("--update-connection", ShortForm = "-u")]
+    public bool? UpdateConnection { get; set; }
+
+    /// <summary>
     /// The MACHINE operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]

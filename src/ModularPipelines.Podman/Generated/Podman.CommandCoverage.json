@@ -1,9 +1,9 @@
 {
   "formatVersion": 1,
   "toolName": "podman",
-  "toolVersion": "podman version 5.8.4",
-  "commandCount": 255,
-  "commandTreeSha256": "fa3930718b1ecf476ed61035c75543dfacf4d2df669953615aff3c98925335e8",
+  "toolVersion": "podman version 6.1.1",
+  "commandCount": 258,
+  "commandTreeSha256": "1173613661b2e99570a995b22aeebec1e2ff1858aa1ea713d8f9cf737e06a14c",
   "commands": [
     "podman artifact",
     "podman artifact add",
@@ -157,7 +157,9 @@
     "podman machine list",
     "podman machine os",
     "podman machine os apply",
+    "podman machine os upgrade",
     "podman machine reset",
+    "podman machine restart",
     "podman machine rm",
     "podman machine set",
     "podman machine ssh",
@@ -257,6 +259,7 @@
     "podman volume ls",
     "podman volume mount",
     "podman volume prune",
+    "podman volume rename",
     "podman volume rm",
     "podman volume unmount",
     "podman wait"

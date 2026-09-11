@@ -13,19 +13,14 @@ using ModularPipelines.Podman.Options;
 namespace ModularPipelines.Podman.Options;
 
 /// <summary>
-/// Run the health check of a container
+/// Rename a volume
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("healthcheck", "run")]
-public record PodmanHealthcheckRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Container
+[CliSubCommand("volume", "rename")]
+public record PodmanVolumeRenameOptions(
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Volume,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Newname
 ) : PodmanOptions
 {
-    /// <summary>
-    /// Exit with code 0 regardless of healthcheck result or if the container is still in startup period
-    /// </summary>
-    [CliFlag("--ignore-result")]
-    public bool? IgnoreResult { get; set; }
-
 }

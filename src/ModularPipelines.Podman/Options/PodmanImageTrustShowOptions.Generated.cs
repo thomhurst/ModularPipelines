@@ -39,6 +39,12 @@ public record PodmanImageTrustShowOptions : PodmanOptions
     public bool? Raw { get; set; }
 
     /// <summary>
+    /// Path to a signature-policy file
+    /// </summary>
+    [CliOption("--signature-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? SignaturePolicy { get; set; }
+
+    /// <summary>
     /// The REGISTRY operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]

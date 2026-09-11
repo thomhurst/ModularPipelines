@@ -186,7 +186,9 @@ var podman = context.Tools.Podman;
 | `podman machine list` | `PodmanMachineListOptions` |
 | `podman machine os` | `PodmanMachineOsOptions` |
 | `podman machine os apply` | `PodmanMachineOsApplyOptions` |
+| `podman machine os upgrade` | `PodmanMachineOsUpgradeOptions` |
 | `podman machine reset` | `PodmanMachineResetOptions` |
+| `podman machine restart` | `PodmanMachineRestartOptions` |
 | `podman machine rm` | `PodmanMachineRmOptions` |
 | `podman machine set` | `PodmanMachineSetOptions` |
 | `podman machine ssh` | `PodmanMachineSshOptions` |
@@ -286,6 +288,7 @@ var podman = context.Tools.Podman;
 | `podman volume ls` | `PodmanVolumeLsOptions` |
 | `podman volume mount` | `PodmanVolumeMountOptions` |
 | `podman volume prune` | `PodmanVolumePruneOptions` |
+| `podman volume rename` | `PodmanVolumeRenameOptions` |
 | `podman volume rm` | `PodmanVolumeRmOptions` |
 | `podman volume unmount` | `PodmanVolumeUnmountOptions` |
 | `podman wait` | `PodmanWaitOptions` |

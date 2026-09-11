@@ -98,6 +98,18 @@ public record PodmanManifestPushOptions(
     public bool? RemoveSignatures { get; set; }
 
     /// <summary>
+    /// number of times to retry in case of failure when performing push (default 3)
+    /// </summary>
+    [CliOption("--retry", Format = OptionFormat.EqualsSeparated)]
+    public int? Retry { get; set; }
+
+    /// <summary>
+    /// delay between retries in case of push failures
+    /// </summary>
+    [CliOption("--retry-delay", Format = OptionFormat.EqualsSeparated)]
+    public string? RetryDelay { get; set; }
+
+    /// <summary>
     /// remove the manifest list if push succeeds
     /// </summary>
     [CliFlag("--rm")]

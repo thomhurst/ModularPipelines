@@ -13,7 +13,7 @@ using ModularPipelines.Podman.Options;
 namespace ModularPipelines.Podman.Options;
 
 /// <summary>
-/// podman compose cp [OPTIONS] SRC_PATH|- SERVICE:DEST_PATH
+/// Copy files/folders between a service container and the local filesystem
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

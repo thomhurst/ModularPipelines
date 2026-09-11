@@ -39,6 +39,12 @@ public record PodmanQuadletRmOptions : PodmanOptions
     public bool? Ignore { get; set; }
 
     /// <summary>
+    /// Remove all Quadlets belonging to the specified application and its directory
+    /// </summary>
+    [CliFlag("--recursive")]
+    public bool? Recursive { get; set; }
+
+    /// <summary>
     /// Reload systemd after removal (default true)
     /// </summary>
     [CliOption("--reload-systemd", Format = OptionFormat.EqualsSeparated)]

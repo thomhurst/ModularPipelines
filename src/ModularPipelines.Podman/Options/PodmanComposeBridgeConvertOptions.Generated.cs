@@ -39,7 +39,7 @@ public record PodmanComposeBridgeConvertOptions : PodmanOptions
     public string? Templates { get; set; }
 
     /// <summary>
-    /// Transformation to apply to compose
+    /// Transformation to apply to compose model (default: docker/compose-bridge-kubernetes)
     /// </summary>
     [CliOption("--transformation", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Transformation { get; set; }

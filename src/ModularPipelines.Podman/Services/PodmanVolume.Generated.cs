@@ -153,7 +153,7 @@ public class PodmanVolume : IPodmanVolume
     }
 
     /// <summary>
-    /// Remove all unused volumes
+    /// Remove unused volumes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -165,6 +165,21 @@ public class PodmanVolume : IPodmanVolume
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanVolumePruneOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Rename a volume
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RenameAsync(
+        PodmanVolumeRenameOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

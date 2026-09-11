@@ -29,6 +29,12 @@ public record PodmanNetworkRmOptions(
     public bool? Force { get; set; }
 
     /// <summary>
+    /// ignore if a specified network does not exist
+    /// </summary>
+    [CliFlag("--ignore", ShortForm = "-i")]
+    public bool? Ignore { get; set; }
+
+    /// <summary>
     /// Seconds to wait for running containers to stop before killing the container (default 10)
     /// </summary>
     [CliOption("--time", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
