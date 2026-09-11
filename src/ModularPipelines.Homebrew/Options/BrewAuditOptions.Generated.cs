@@ -75,7 +75,7 @@ public record BrewAuditOptions : BrewOptions
     public string? Tap { get; set; }
 
     /// <summary>
-    /// Fix style violations automatically using RuboCop's auto-correct feature.
+    /// Fix style violations automatically using RuboCop's auto-correct feature. When passed with --online for casks, also correct the depends_on macos: stanza and the case of artifact stanzas.
     /// </summary>
     [CliFlag("--fix")]
     public bool? Fix { get; set; }

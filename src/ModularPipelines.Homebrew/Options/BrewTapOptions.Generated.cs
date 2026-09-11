@@ -13,7 +13,7 @@ using ModularPipelines.Homebrew.Options;
 namespace ModularPipelines.Homebrew.Options;
 
 /// <summary>
-/// Tap a formula repository. If no arguments are provided, list all installed taps.
+/// Tap a repository containing formulae, casks, or external commands. If no arguments are provided, list all installed taps.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
