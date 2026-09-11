@@ -4,298 +4,31 @@ ModularPipelines.Context.ModularPipelines_Kubernetes_93b7597fb57ff306ToolsExtens
 ModularPipelines.Context.ModularPipelines_Kubernetes_93b7597fb57ff306ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Kubernetes.get -> ModularPipelines.Kubernetes.Services.IKubernetes!
 ModularPipelines.Context.ModularPipelines_Kubernetes_93b7597fb57ff306ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Kustomize.get -> ModularPipelines.Kubernetes.Services.IKustomize!
 ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesAnnotateOutput
 ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyEditLastAppliedOutput
 ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyOutput
 ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesApplySetLastAppliedOutput
 ModularPipelines.Kubernetes.Enums.KubernetesApplyViewLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyViewLastAppliedOutput.Json = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyViewLastAppliedOutput
-ModularPipelines.Kubernetes.Enums.KubernetesApplyViewLastAppliedOutput.Yaml = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesApplyViewLastAppliedOutput
 ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthReconcileOutput
 ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesAuthWhoamiOutput
 ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesAutoscaleOutput
 ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateApproveOutput
 ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput
-ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesCertificateDenyOutput
 ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput
-ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput
-ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput
-ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput
-ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput
-ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput
-ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput
-ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput
-ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput
-ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput
-ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput
-ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesClusterInfoDumpOutput
 ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesConfigViewOutput
 ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput
-ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput
-ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput
-ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput
-ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput
-ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput
-ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput
-ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput
-ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput
-ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput
-ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput
-ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesEventsOutput
 ModularPipelines.Kubernetes.Enums.KubernetesKubercSetPolicy
-ModularPipelines.Kubernetes.Enums.KubernetesKubercSetPolicy.Allowlist = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesKubercSetPolicy
 ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput
-ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesKubercViewOutput
 ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput
-ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput
-ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput
-ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput
-ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput
-ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput
-ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput
-ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput
-ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput
-ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput
-ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput
-ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesLabelOutput
 ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput
-ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput
-ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput
-ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput
-ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput
-ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput
-ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput
-ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput
-ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput
-ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput
-ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput
-ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesPatchOutput
 ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput
-ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput
-ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput
-ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput
-ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput
-ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput
-ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput
-ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput
-ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput
-ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput
-ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput
-ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesReplaceOutput
 ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutHistoryOutput
 ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutPauseOutput
 ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutRestartOutput
 ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutResumeOutput
 ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput
-ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesRolloutUndoOutput
 ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput
-ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesScaleOutput
 ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput
-ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput
-ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput
-ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput
-ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput
-ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput
-ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput
-ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput
-ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput
-ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput
-ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput
-ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesTaintOutput
 ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput
-ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput.GoTemplate = 4 -> ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput
-ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput.GoTemplateFile = 5 -> ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput
-ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput.Json = 0 -> ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput
-ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput.Jsonpath = 8 -> ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput
-ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput.JsonpathAsJson = 9 -> ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput
-ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput.JsonpathFile = 10 -> ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput
-ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput.Kyaml = 2 -> ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput
-ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput.Name = 3 -> ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput
-ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput.Template = 6 -> ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput
-ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput.Templatefile = 7 -> ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput
-ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput.Yaml = 1 -> ModularPipelines.Kubernetes.Enums.KubernetesWaitOutput
 ModularPipelines.Kubernetes.Extensions.KubernetesExtensions
 ModularPipelines.Kubernetes.Extensions.KustomizeExtensions
 ModularPipelines.Kubernetes.Options.KubernetesAnnotateOptions
