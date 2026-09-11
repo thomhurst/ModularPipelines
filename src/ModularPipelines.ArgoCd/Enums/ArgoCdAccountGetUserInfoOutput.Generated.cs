@@ -16,9 +16,9 @@ namespace ModularPipelines.ArgoCd.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum ArgoCdAccountGetUserInfoOutput
 {
-    [EnumValue("yaml")]
-    Yaml,
-
     [EnumValue("json")]
-    Json
+    Json,
+
+    [EnumValue("yaml")]
+    Yaml
 }

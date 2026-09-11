@@ -19,12 +19,12 @@ public enum ArgoCdClusterGetOutput
     [EnumValue("json")]
     Json,
 
-    [EnumValue("yaml")]
-    Yaml,
+    [EnumValue("server")]
+    Server,
 
     [EnumValue("wide")]
     Wide,
 
-    [EnumValue("server")]
-    Server
+    [EnumValue("yaml")]
+    Yaml
 }

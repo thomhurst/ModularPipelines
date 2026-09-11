@@ -16,14 +16,14 @@ namespace ModularPipelines.ArgoCd.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum ArgoCdApplicationSetListOutput
 {
-    [EnumValue("wide")]
-    Wide,
+    [EnumValue("json")]
+    Json,
 
     [EnumValue("name")]
     Name,
 
-    [EnumValue("json")]
-    Json,
+    [EnumValue("wide")]
+    Wide,
 
     [EnumValue("yaml")]
     Yaml
