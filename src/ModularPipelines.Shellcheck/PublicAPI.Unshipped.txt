@@ -1,4 +1,20 @@
 #nullable enable
+*REMOVED*ModularPipelines.Shellcheck.Enums.ShellcheckColor.Always = 1 -> ModularPipelines.Shellcheck.Enums.ShellcheckColor
+*REMOVED*ModularPipelines.Shellcheck.Enums.ShellcheckColor.Auto = 0 -> ModularPipelines.Shellcheck.Enums.ShellcheckColor
+*REMOVED*ModularPipelines.Shellcheck.Enums.ShellcheckSeverity.Info = 2 -> ModularPipelines.Shellcheck.Enums.ShellcheckSeverity
+*REMOVED*ModularPipelines.Shellcheck.Enums.ShellcheckSeverity.Style = 3 -> ModularPipelines.Shellcheck.Enums.ShellcheckSeverity
+*REMOVED*ModularPipelines.Shellcheck.Enums.ShellcheckSeverity.Warning = 1 -> ModularPipelines.Shellcheck.Enums.ShellcheckSeverity
+*REMOVED*ModularPipelines.Shellcheck.Enums.ShellcheckShell.Bash = 1 -> ModularPipelines.Shellcheck.Enums.ShellcheckShell
+*REMOVED*ModularPipelines.Shellcheck.Enums.ShellcheckShell.Busybox = 4 -> ModularPipelines.Shellcheck.Enums.ShellcheckShell
+*REMOVED*ModularPipelines.Shellcheck.Enums.ShellcheckShell.Sh = 0 -> ModularPipelines.Shellcheck.Enums.ShellcheckShell
 *REMOVED*ModularPipelines.Shellcheck.Services.IShellcheck.ExecuteAsync(ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*static ModularPipelines.Shellcheck.Extensions.ShellcheckExtensions.Shellcheck(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Shellcheck.Services.IShellcheck!
+ModularPipelines.Shellcheck.Enums.ShellcheckColor.Always = 0 -> ModularPipelines.Shellcheck.Enums.ShellcheckColor
+ModularPipelines.Shellcheck.Enums.ShellcheckColor.Auto = 1 -> ModularPipelines.Shellcheck.Enums.ShellcheckColor
+ModularPipelines.Shellcheck.Enums.ShellcheckSeverity.Info = 1 -> ModularPipelines.Shellcheck.Enums.ShellcheckSeverity
+ModularPipelines.Shellcheck.Enums.ShellcheckSeverity.Style = 2 -> ModularPipelines.Shellcheck.Enums.ShellcheckSeverity
+ModularPipelines.Shellcheck.Enums.ShellcheckSeverity.Warning = 3 -> ModularPipelines.Shellcheck.Enums.ShellcheckSeverity
+ModularPipelines.Shellcheck.Enums.ShellcheckShell.Bash = 0 -> ModularPipelines.Shellcheck.Enums.ShellcheckShell
+ModularPipelines.Shellcheck.Enums.ShellcheckShell.Busybox = 1 -> ModularPipelines.Shellcheck.Enums.ShellcheckShell
+ModularPipelines.Shellcheck.Enums.ShellcheckShell.Sh = 4 -> ModularPipelines.Shellcheck.Enums.ShellcheckShell
 ModularPipelines.Shellcheck.Services.IShellcheck.ExecuteAsync(ModularPipelines.Shellcheck.Options.ShellcheckExecuteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
