@@ -27,4 +27,16 @@ public record GcloudServicesApiKeysDeleteOptions : GcloudOptions
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
+    /// <summary>
+    /// If true, existing usage will be checked before the key is deleted. If the key has traffic in the last 7 days that is incompatible with the requested change, the request fails with an error. Defaults to true. Set to false (--no-check-existing-usage) to skip the check. Use --check-existing-usage to enable and --no-check-existing-usage to disable.
+    /// </summary>
+    [CliFlag("--check-existing-usage")]
+    public bool? CheckExistingUsage { get; set; }
+
+    /// <summary>
+    /// Negates --check-existing-usage. If true, existing usage will be checked before the key is deleted. If the key has traffic in the last 7 days that is incompatible with the requested change, the request fails with an error. Defaults to true. Set to false (--no-check-existing-usage) to skip the check. Use --check-existing-usage to enable and --no-check-existing-usage to disable.
+    /// </summary>
+    [CliFlag("--no-check-existing-usage")]
+    public bool? NoCheckExistingUsage { get; set; }
+
 }

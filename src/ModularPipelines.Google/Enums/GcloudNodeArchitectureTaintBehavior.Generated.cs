@@ -16,12 +16,12 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudNodeArchitectureTaintBehavior
 {
-    [EnumValue("unspecified")]
-    Unspecified,
-
     [EnumValue("arm")]
     Arm,
 
     [EnumValue("none")]
-    None
+    None,
+
+    [EnumValue("unspecified")]
+    Unspecified
 }

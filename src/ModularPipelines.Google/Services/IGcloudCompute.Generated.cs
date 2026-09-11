@@ -247,6 +247,11 @@ public interface IGcloudCompute
     GcloudComputeProjectInfo ProjectInfo => throw new System.NotSupportedException();
 
     /// <summary>
+    /// gcloud project-views sub-commands.
+    /// </summary>
+    GcloudComputeProjectViews ProjectViews => throw new System.NotSupportedException();
+
+    /// <summary>
     /// gcloud project-zonal-metadata sub-commands.
     /// </summary>
     GcloudComputeProjectZonalMetadata ProjectZonalMetadata => throw new System.NotSupportedException();

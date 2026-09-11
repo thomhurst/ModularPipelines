@@ -16,27 +16,27 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudNetworkEndpointType
 {
+    [EnumValue("gce-vm-ip")]
+    GceVmIp,
+
     [EnumValue("gce-vm-ip-port")]
     GceVmIpPort,
 
-    [EnumValue("internet-ip-port")]
-    InternetIpPort,
+    [EnumValue("gce-vm-ip-portmap")]
+    GceVmIpPortmap,
 
     [EnumValue("internet-fqdn-port")]
     InternetFqdnPort,
 
+    [EnumValue("internet-ip-port")]
+    InternetIpPort,
+
     [EnumValue("non-gcp-private-ip-port")]
     NonGcpPrivateIpPort,
-
-    [EnumValue("serverless")]
-    Serverless,
-
-    [EnumValue("gce-vm-ip")]
-    GceVmIp,
 
     [EnumValue("private-service-connect")]
     PrivateServiceConnect,
 
-    [EnumValue("gce-vm-ip-portmap")]
-    GceVmIpPortmap
+    [EnumValue("serverless")]
+    Serverless
 }

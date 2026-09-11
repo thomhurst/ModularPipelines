@@ -225,6 +225,12 @@ public record GcloudPreviewComputeBackendServicesCreateOptions(
     public string? FailoverRatio { get; set; }
 
     /// <summary>
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Fast IP move policy for high availability (HA). HA_POLICY_FAST_IP_MOVE must be one of: GARP_RA, DISABLED.
+    /// </summary>
+    [CliOption("--ha-policy-fast-ip-move", Format = OptionFormat.EqualsSeparated)]
+    public GcloudHaPolicyFastIpMove? HaPolicyFastIpMove { get; set; }
+
+    /// <summary>
     /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Specifies a list of health check objects for checking the health of the backend service. Currently at most one health check can be specified. Health checks need not be for the same protocol as that of the backend service.
     /// </summary>
     [CliOption("--health-checks", Format = OptionFormat.EqualsSeparated)]
@@ -489,6 +495,30 @@ public record GcloudPreviewComputeBackendServicesCreateOptions(
     public string? TlsSettings { get; set; }
 
     /// <summary>
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. Name of the network endpoint group to create the backend service.
+    /// </summary>
+    [CliOption("--network-endpoint-group", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkEndpointGroup { get; set; }
+
+    /// <summary>
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: If set, the network endpoint group is global.
+    /// </summary>
+    [CliFlag("--global-network-endpoint-group")]
+    public bool? GlobalNetworkEndpointGroup { get; set; }
+
+    /// <summary>
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: Region of the network endpoint group to create the backend service. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--network-endpoint-group-region", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkEndpointGroupRegion { get; set; }
+
+    /// <summary>
+    /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. At most one of these can be specified: Zone of the network endpoint group to create the backend service. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--network-endpoint-group-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkEndpointGroupZone { get; set; }
+
+    /// <summary>
     /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. The base time during which a backend endpoint is ejected. Defaults to 30000ms/30s.
     /// </summary>
     [CliOption("--outlier-detection-base-ejection-time", Format = OptionFormat.EqualsSeparated)]
@@ -564,6 +594,7 @@ public record GcloudPreviewComputeBackendServicesCreateOptions(
     /// <summary>
     /// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service. Settings for private AWS S3 bucket Signature Version 4 authentication. Mutual TLS (mTLS) security settings. Applicable primarily to global backend services with load-balancing-scheme set to INTERNAL_SELF_MANAGED. The identifier of an access key used for AWS Signature Version 4 s3 bucket authentication.
     /// </summary>
+    [SecretValue]
     [CliOption("--security-settings-aws-v4-access-key-id", Format = OptionFormat.EqualsSeparated)]
     public string? SecuritySettingsAwsV4AccessKeyId { get; set; }
 

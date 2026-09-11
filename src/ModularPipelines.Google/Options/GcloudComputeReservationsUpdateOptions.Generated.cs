@@ -72,6 +72,12 @@ public record GcloudComputeReservationsUpdateOptions(
     public string? SchedulingType { get; set; }
 
     /// <summary>
+    /// The projects that can use the reservation. SHARE_SETTING must be one of: local Only your project can use the reservation. This is the default value. projects Your project and up to 100 other projects within your project's organization can use the reservation. If you specify this value, then you must also include the --share-with flag in the command.
+    /// </summary>
+    [CliOption("--share-setting", Format = OptionFormat.EqualsSeparated)]
+    public string? ShareSetting { get; set; }
+
+    /// <summary>
     /// The number of VM instances that are allocated to this reservation. The value of this field must be an int in the range [1, 1000].
     /// </summary>
     [CliOption("--vm-count", Format = OptionFormat.EqualsSeparated)]

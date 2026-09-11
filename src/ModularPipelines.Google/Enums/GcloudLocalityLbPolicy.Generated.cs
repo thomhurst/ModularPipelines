@@ -19,30 +19,30 @@ public enum GcloudLocalityLbPolicy
     [EnumValue("INVALID_LB_POLICY")]
     InvalidLbPolicy,
 
-    [EnumValue("ROUND_ROBIN")]
-    RoundRobin,
-
     [EnumValue("LEAST_REQUEST")]
     LeastRequest,
 
-    [EnumValue("RING_HASH")]
-    RingHash,
-
-    [EnumValue("RANDOM")]
-    Random,
+    [EnumValue("MAGLEV")]
+    Maglev,
 
     [EnumValue("ORIGINAL_DESTINATION")]
     OriginalDestination,
 
-    [EnumValue("MAGLEV")]
-    Maglev,
+    [EnumValue("RANDOM")]
+    Random,
+
+    [EnumValue("RING_HASH")]
+    RingHash,
+
+    [EnumValue("ROUND_ROBIN")]
+    RoundRobin,
+
+    [EnumValue("WEIGHTED_GCP_RENDEZVOUS")]
+    WeightedGcpRendezvous,
 
     [EnumValue("WEIGHTED_MAGLEV")]
     WeightedMaglev,
 
     [EnumValue("WEIGHTED_ROUND_ROBIN")]
-    WeightedRoundRobin,
-
-    [EnumValue("WEIGHTED_GCP_RENDEZVOUS")]
-    WeightedGcpRendezvous
+    WeightedRoundRobin
 }

@@ -16,9 +16,6 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudExtendedKeyUsages
 {
-    [EnumValue("server_auth")]
-    ServerAuth,
-
     [EnumValue("client_auth")]
     ClientAuth,
 
@@ -28,9 +25,12 @@ public enum GcloudExtendedKeyUsages
     [EnumValue("email_protection")]
     EmailProtection,
 
-    [EnumValue("time_stamping")]
-    TimeStamping,
-
     [EnumValue("ocsp_signing")]
-    OcspSigning
+    OcspSigning,
+
+    [EnumValue("server_auth")]
+    ServerAuth,
+
+    [EnumValue("time_stamping")]
+    TimeStamping
 }
