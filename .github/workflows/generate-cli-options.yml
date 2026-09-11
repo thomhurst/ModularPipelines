@@ -1,25 +1,9 @@
 name: Generate CLI Options
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/generate-cli-options.yml'
-      - 'Directory.Build.props'
-      - 'Directory.Packages.props'
-      - 'global.json'
-      - 'scripts/GeneratedOptionsProvenance.ps1'
-      - 'scripts/Write-GeneratedOptionsProvenance.ps1'
-      - 'src/ModularPipelines/Attributes/CliOptionValueArity.cs'
-      - 'src/ModularPipelines/Attributes/CommandLinePhase.cs'
-      - 'src/ModularPipelines/Helpers/Internal/WindowsCommandResolver.cs'
-      - 'src/ModularPipelines/Options/AdditionalCommandLineArgument.cs'
-      - 'src/ModularPipelines/Options/CommandLineToolOptions.cs'
-      - 'tools/Directory.Build.props'
-      - 'tools/ModularPipelines.OptionsGenerator/**'
   schedule:
-    # Run every Sunday at 2:00 AM UTC
-    - cron: '0 2 * * 0'
+    # Run on the first day of every month at 2:00 AM UTC
+    - cron: '0 2 1 * *'
   workflow_dispatch:
     inputs:
       # Specify which tools to run (comma-separated). Leave empty to run all tools.
