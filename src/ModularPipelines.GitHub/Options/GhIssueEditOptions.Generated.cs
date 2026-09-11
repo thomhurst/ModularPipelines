@@ -59,6 +59,12 @@ public record GhIssueEditOptions(
     public int? AddSubIssue { get; set; }
 
     /// <summary>
+    /// Attach an image or video file, in '&lt;file&gt;#&lt;image alt text&gt;' format
+    /// </summary>
+    [CliOption("--attach", Format = OptionFormat.EqualsSeparated)]
+    public string? Attach { get; set; }
+
+    /// <summary>
     /// Set the new body.
     /// </summary>
     [CliOption("--body", ShortForm = "-b", Format = OptionFormat.EqualsSeparated)]

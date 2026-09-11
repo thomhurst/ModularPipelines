@@ -21,6 +21,12 @@ namespace ModularPipelines.GitHub.Options;
 public record GhPrCommentOptions : GhOptions
 {
     /// <summary>
+    /// Attach an image or video file, in '&lt;file&gt;#&lt;image alt text&gt;' format
+    /// </summary>
+    [CliOption("--attach", Format = OptionFormat.EqualsSeparated)]
+    public string? Attach { get; set; }
+
+    /// <summary>
     /// The comment body text
     /// </summary>
     [CliOption("--body", ShortForm = "-b", Format = OptionFormat.EqualsSeparated)]
