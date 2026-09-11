@@ -16,12 +16,12 @@ namespace ModularPipelines.Liquibase.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum LiquibaseMissingPropertyMode
 {
-    [EnumValue("preserve")]
-    Preserve,
-
     [EnumValue("empty")]
     Empty,
 
     [EnumValue("error")]
-    Error
+    Error,
+
+    [EnumValue("preserve")]
+    Preserve
 }
