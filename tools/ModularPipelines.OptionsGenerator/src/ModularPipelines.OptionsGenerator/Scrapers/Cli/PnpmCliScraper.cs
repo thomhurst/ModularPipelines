@@ -23,11 +23,18 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///
 ///           [possible values: cyclonedx, spdx]
 ///
-/// The root help lists commands under a Commands: section; nested groups such as
-/// audit signatures repeat their parent's catalog.
+/// The root help lists commands under a Commands: section. Some versions repeat
+/// parent catalogs for nested commands; pnpm 12.4.1 instead exposes audit and stage
+/// subcommands through their variadic PARAMS operand.
 /// </summary>
 public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PnpmCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
+    private static readonly string[] ExcludedChildCommands =
+    [
+        "pnpm audit signatures", "pnpm stage approve", "pnpm stage download",
+        "pnpm stage list", "pnpm stage publish", "pnpm stage reject", "pnpm stage view",
+    ];
+
     public override string ToolName => "pnpm";
 
     public override string NamespacePrefix => "Pnpm";
@@ -35,6 +42,24 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
     public override string TargetNamespace => "ModularPipelines.Node";
 
     public override string OutputDirectory => "src/ModularPipelines.Node";
+
+    public override CliToolDefinition CreateToolDefinition() =>
+        base.CreateToolDefinition() with
+        {
+            CommandCoverage = new CliCommandCoveragePolicy
+            {
+                SentinelCommands = ["pnpm audit", "pnpm stage"],
+                Exclusions =
+                [
+                    .. ExcludedChildCommands.Select(command => new CliCommandCoverageExclusion
+                    {
+                        Command = command,
+                        Reason = "pnpm 12.4.1 no longer lists this path in a Commands section or exposes a distinct child synopsis. "
+                                 + "The parent command documents [PARAMS]... instead; use its generated Params operand.",
+                    }),
+                ],
+            },
+        };
 
     /// <summary>
     /// Skip utility commands.
@@ -187,19 +212,27 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
         IReadOnlyList<string> commandParts,
         UsageSynopsisParseResult usage)
     {
-        var normalized = commandParts is ["stage"] or ["audit"]
-            ? usage with
+        // Older help includes child synopsis lines such as "pnpm stage publish ...".
+        // Only those literal child paths are group syntax; the parent's own operands remain.
+        if (commandParts is ["stage"] or ["audit"]
+            && ChildCommandSynopsisPattern().IsMatch(usage.Synopsis ?? ""))
+        {
+            usage = usage with
             {
                 HasOperandTokens = false,
                 PositionalArguments = [],
                 UnparsedOperandTokens = [],
-            }
-            : usage;
-        return normalized with
+            };
+        }
+
+        return usage with
         {
-            PositionalArguments = [.. normalized.PositionalArguments.Select(argument => argument with { Phase = CommandLinePhase.Passthrough })],
+            PositionalArguments = [.. usage.PositionalArguments.Select(argument => argument with { Phase = CommandLinePhase.Passthrough })],
         };
     }
+
+    [GeneratedRegex(@"^pnpm\s+(?:stage|audit)\s+[a-z][a-z-]*(?:\s|$)", RegexOptions.IgnoreCase)]
+    private static partial Regex ChildCommandSynopsisPattern();
 
     /// <inheritdoc />
     protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
