@@ -10,11 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Node.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Node.Enums;
 
 namespace ModularPipelines.Node.Options;
 
 /// <summary>
-/// Publishes a package to the npm registry.
+/// Publish a package to the registry
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,118 +24,280 @@ namespace ModularPipelines.Node.Options;
 public record PnpmPublishOptions : PnpmOptions
 {
     /// <summary>
-    /// Tells the registry whether this package should be published as public or restricted
-    /// </summary>
-    [CliOption("--access")]
-    public string? Access { get; set; }
-
-    /// <summary>
-    /// Send all packages to the registry in a single request instead of one request per package. Requires --recursive and a registry that implements the "/-/pnpm/v1/publish" endpoint (for example, pnpr)
-    /// </summary>
-    [CliFlag("--batch")]
-    public bool? Batch { get; set; }
-
-    /// <summary>
-    /// Does everything a publish would do except actually publishing to the registry
+    /// Do everything `publish` would do except uploading to the registry
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Packages are proceeded to be published even if their current version is already in the registry. This is useful when a "prepublishOnly" script bumps the version of the package before it is published
-    /// </summary>
-    [CliFlag("--force")]
-    public bool? Force { get; set; }
-
-    /// <summary>
-    /// Ignores any publish related lifecycle scripts (prepublishOnly, postpublish, and the like)
-    /// </summary>
-    [CliFlag("--ignore-scripts")]
-    public bool? IgnoreScripts { get; set; }
-
-    /// <summary>
-    /// Show information in JSON format
+    /// Print the per-package publish summary in JSON
     /// </summary>
     [CliFlag("--json")]
     public bool? Json { get; set; }
 
     /// <summary>
-    /// Don't check if current branch is your publish branch, clean, and up to date
+    /// Register the published package under this tag instead of `latest`
     /// </summary>
-    [CliFlag("--no-git-checks")]
-    public bool? NoGitChecks { get; set; }
+    [CliOption("--tag")]
+    public string? Tag { get; set; }
 
     /// <summary>
-    /// When publishing packages that require two-factor authentication, this option can specify a one-time password
+    /// Publish the package as `public` or `restricted`
+    /// </summary>
+    [CliOption("--access")]
+    public PnpmPublishAccess? Access { get; set; }
+
+    /// <summary>
+    /// Generate a provenance attestation for the published package
+    /// </summary>
+    [CliFlag("--provenance")]
+    public bool? Provenance { get; set; }
+
+    /// <summary>
+    /// Don't run publish-related lifecycle scripts
+    /// </summary>
+    [CliFlag("--ignore-scripts")]
+    public bool? IgnoreScripts { get; set; }
+
+    /// <summary>
+    /// Embed the README contents in the published manifest
+    /// </summary>
+    [CliFlag("--embed-readme")]
+    public bool? EmbedReadme { get; set; }
+
+    /// <summary>
+    /// Keep the original `packageManager` field and publish-lifecycle scripts in the published manifest instead of stripping them
+    /// </summary>
+    [CliFlag("--skip-manifest-obfuscation")]
+    public bool? SkipManifestObfuscation { get; set; }
+
+    /// <summary>
+    /// One-time password for two-factor-authenticated registries
     /// </summary>
     [SecretValue]
     [CliOption("--otp")]
     public string? Otp { get; set; }
 
     /// <summary>
-    /// Sets branch name to publish. Default is master
+    /// The branch publishing is allowed from. Defaults to `master` / `main`
     /// </summary>
     [CliOption("--publish-branch")]
     public string? PublishBranch { get; set; }
 
     /// <summary>
-    /// Publish all packages from the workspace
+    /// Skip the git working-tree / branch / remote checks
     /// </summary>
-    [CliFlag("--recursive", ShortForm = "-r")]
-    public bool? Recursive { get; set; }
+    [CliFlag("--no-git-checks")]
+    public bool? NoGitChecks { get; set; }
 
     /// <summary>
-    /// Save the list of the newly published packages to "pnpm-publish-summary.json". Useful when some other tooling is used to report the list of published packages.
+    /// Publish even if the version is already in the registry
+    /// </summary>
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
+
+    /// <summary>
+    /// Send all workspace packages in a single request (requires `--recursive`)
+    /// </summary>
+    [CliFlag("--batch")]
+    public bool? Batch { get; set; }
+
+    /// <summary>
+    /// Recursive only: write a `pnpm-publish-summary.json` report listing the packages that were published
     /// </summary>
     [CliFlag("--report-summary")]
     public bool? ReportSummary { get; set; }
 
     /// <summary>
-    /// Skip pnpm's manifest obfuscation: keep the original `packageManager` field and publish lifecycle scripts in the published manifest instead of stripping them. The pnpm-specific `pnpm` field is still omitted.
+    /// Force colored output
     /// </summary>
-    [CliFlag("--skip-manifest-obfuscation")]
-    public bool? SkipManifestObfuscation { get; set; }
+    [CliOption("--color", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Registers the published package with the given tag. By default, the "latest" tag is used.
+    /// Automatically answer yes to prompts
     /// </summary>
-    [CliOption("--tag")]
-    public string? Tag { get; set; }
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
     /// <summary>
-    /// Defines files to ignore when filtering for changed projects since the specified
+    /// Set working directory. Accepted anywhere on the command line, before or after the subcommand, like every other rc-option
     /// </summary>
-    [CliOption("--changed-files-ignore-pattern")]
-    public string? ChangedFilesIgnorePattern { get; set; }
+    [CliOption("--dir", ShortForm = "-C")]
+    public string? Dir { get; set; }
 
     /// <summary>
-    /// If no projects are matched by the command, exit with exit code 1 (fail)
+    /// Directory in which the package store is created. Relative paths are resolved from the workspace root, or from `--dir` outside a workspace
     /// </summary>
-    [CliFlag("--fail-if-no-match")]
-    public bool? FailIfNoMatch { get; set; }
+    [CliOption("--store-dir")]
+    public string? StoreDir { get; set; }
 
     /// <summary>
-    /// Restricts the scope to package names matching the given pattern. E.g.: foo, "@bar/*"
+    /// Directory in which pnpm persists machine-local state
+    /// </summary>
+    [CliOption("--state-dir")]
+    public string? StateDir { get; set; }
+
+    /// <summary>
+    /// Path to an `.npmrc` to read auth settings from, overriding the default `~/.npmrc`
+    /// </summary>
+    [CliOption("--npmrc-auth-file")]
+    public string? NpmrcAuthFile { get; set; }
+
+    /// <summary>
+    /// Base URL of the npm registry to resolve and fetch packages from. Universal rc-option: accepted on every command and layered onto the config like `--config.registry=&lt;url&gt;`. Commands that expose their own `--registry` still read the same value
+    /// </summary>
+    [CliOption("--registry")]
+    public string? Registry { get; set; }
+
+    /// <summary>
+    /// Proxy for HTTPS registry and tarball requests
+    /// </summary>
+    [CliOption("--https-proxy")]
+    public string? HttpsProxy { get; set; }
+
+    /// <summary>
+    /// Proxy for HTTP registry and tarball requests
+    /// </summary>
+    [CliOption("--http-proxy")]
+    public string? HttpProxy { get; set; }
+
+    /// <summary>
+    /// Hosts that bypass configured proxies
+    /// </summary>
+    [CliOption("--no-proxy")]
+    public string? NoProxy { get; set; }
+
+    /// <summary>
+    /// Run the command for every project in the workspace instead of only the project in `--dir`
+    /// </summary>
+    [CliFlag("--recursive", ShortForm = "-r")]
+    public bool? Recursive { get; set; }
+
+    /// <summary>
+    /// Reporter output format
+    /// </summary>
+    [CliOption("--reporter")]
+    public PnpmPublishReporter? Reporter { get; set; }
+
+    /// <summary>
+    /// What level of logs to print. Mirrors pnpm's universal `--loglevel` option: `silent` selects the silent reporter over any `--reporter` choice; the other levels cap the default reporter's output
+    /// </summary>
+    [CliOption("--loglevel")]
+    public PnpmPublishLoglevel? Loglevel { get; set; }
+
+    /// <summary>
+    /// Select which workspace projects to run on. Repeat to add more. Each selector can be a name pattern (`@scope/*`), a path (`./pkg`), a dependency query (`foo...`), an exclusion (`!bar`), a directory (`{dir}`), or a changed-since query (`[since]`)
     /// </summary>
     [CliOption("--filter", ShortForm = "-F")]
-    public string? Filter { get; set; }
+    public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>
-    /// Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+    /// Like `--filter`, but follow only production dependencies when selecting projects
     /// </summary>
     [CliOption("--filter-prod")]
     public string? FilterProd { get; set; }
 
     /// <summary>
-    /// Defines files related to tests. Useful with the changed since filter. When selecting only changed packages and their dependent packages, the dependent packages will be ignored in case a package has changes only in tests. Usage example: pnpm
+    /// Run the command on the root workspace project
+    /// </summary>
+    [CliFlag("--workspace-root", ShortForm = "-w")]
+    public bool? WorkspaceRoot { get; set; }
+
+    /// <summary>
+    /// Exit with code 1 when the `--filter` / `--filter-prod` selectors match no workspace project
+    /// </summary>
+    [CliFlag("--fail-if-no-match")]
+    public bool? FailIfNoMatch { get; set; }
+
+    /// <summary>
+    /// Also run a recursive command on the root workspace project, which `run` / `exec` / `add` / `test` otherwise leave out
+    /// </summary>
+    [CliFlag("--include-workspace-root")]
+    public bool? IncludeWorkspaceRoot { get; set; }
+
+    /// <summary>
+    /// Leave the root workspace project out of a recursive command, overriding an `includeWorkspaceRoot: true` setting
+    /// </summary>
+    [CliFlag("--no-include-workspace-root")]
+    public bool? NoIncludeWorkspaceRoot { get; set; }
+
+    /// <summary>
+    /// Glob patterns naming test files, used by the `[since]` `--filter` selector to decide which changes count
     /// </summary>
     [CliOption("--test-pattern")]
     public string? TestPattern { get; set; }
 
     /// <summary>
-    /// The &lt;tarball&gt; operand.
+    /// Glob patterns of changed files that the `[since]` `--filter` selector should ignore
+    /// </summary>
+    [CliOption("--changed-files-ignore-pattern")]
+    public string? ChangedFilesIgnorePattern { get; set; }
+
+    /// <summary>
+    /// Keep recursive workspace projects sorted topologically
+    /// </summary>
+    [CliFlag("--sort")]
+    public bool? Sort { get; set; }
+
+    /// <summary>
+    /// Run recursive workspace projects in workspace order
+    /// </summary>
+    [CliFlag("--no-sort")]
+    public bool? NoSort { get; set; }
+
+    /// <summary>
+    /// Process recursive workspace projects in reverse order
+    /// </summary>
+    [CliFlag("--reverse")]
+    public bool? Reverse { get; set; }
+
+    /// <summary>
+    /// Maximum number of workspace projects to process in parallel
+    /// </summary>
+    [CliOption("--workspace-concurrency")]
+    public string? WorkspaceConcurrency { get; set; }
+
+    /// <summary>
+    /// Run scripts in every selected workspace project concurrently, disregarding topological sorting
+    /// </summary>
+    [CliFlag("--parallel")]
+    public bool? Parallel { get; set; }
+
+    /// <summary>
+    /// Stream a recursive command's script output as it arrives, one prefixed line at a time
+    /// </summary>
+    [CliFlag("--stream")]
+    public bool? Stream { get; set; }
+
+    /// <summary>
+    /// Hold each script's streamed output until the script exits, then print it as one block
+    /// </summary>
+    [CliFlag("--aggregate-output")]
+    public bool? AggregateOutput { get; set; }
+
+    /// <summary>
+    /// Divert the reporter's output to stderr, leaving stdout for the command's own result
+    /// </summary>
+    [CliFlag("--use-stderr")]
+    public bool? UseStderr { get; set; }
+
+    /// <summary>
+    /// Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
+    /// </summary>
+    [CliFlag("--ignore-workspace")]
+    public bool? IgnoreWorkspace { get; set; }
+
+    /// <summary>
+    /// Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
+    /// </summary>
+    [CliOption("--workspace-packages")]
+    public IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
+    /// The PACKAGE operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public string? Tarball { get; set; }
+    public string? Package { get; set; }
 
 }
