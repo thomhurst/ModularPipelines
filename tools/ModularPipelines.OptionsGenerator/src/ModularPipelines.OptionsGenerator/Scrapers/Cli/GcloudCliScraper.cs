@@ -271,16 +271,13 @@ public partial class GcloudCliScraper : CliScraperBase
 
         if (group.Kind.HasFlag(CliArgumentGroupKind.AtLeastOne))
         {
+            // Nested branches are conditional choices; flattening their leaves would over-constrain callers.
             if (group.Groups.Count == 0)
             {
                 requiredAlternativeGroups.Add(new CliRequiredAlternativeGroup
                 {
                     IsMutuallyExclusive = group.Kind.HasFlag(CliArgumentGroupKind.AtMostOne),
-                    Members = group.Arguments.Select(argument => new CliRequiredAlternativeMember
-                    {
-                        OptionSwitch = argument.SwitchName,
-                        PropertyName = options.Single(option => option.SwitchName == argument.SwitchName).PropertyName,
-                    }).ToArray(),
+                    Members = group.Arguments.SelectMany(argument => GetRequiredAlternativeMembers(argument, options)).ToArray(),
                 });
             }
 
@@ -307,13 +304,7 @@ public partial class GcloudCliScraper : CliScraperBase
                     requiredAlternativeGroups.Add(new CliRequiredAlternativeGroup
                     {
                         IsMutuallyExclusive = argument.IsNegatable,
-                        Members = options.Where(option => option.SwitchName == argument.SwitchName
-                                || (argument.IsNegatable && option.SwitchName == $"--no-{argument.SwitchName[2..]}"))
-                            .Select(option => new CliRequiredAlternativeMember
-                            {
-                                OptionSwitch = option.SwitchName,
-                                PropertyName = option.PropertyName,
-                            }).ToArray(),
+                        Members = GetRequiredAlternativeMembers(argument, options).ToArray(),
                     });
                 }
                 else
@@ -328,6 +319,17 @@ public partial class GcloudCliScraper : CliScraperBase
             ApplyRequiredGroups(nested, options, requiredAlternativeGroups);
         }
     }
+
+    private static IEnumerable<CliRequiredAlternativeMember> GetRequiredAlternativeMembers(
+        CliArgumentDefinition argument,
+        IReadOnlyList<CliOptionDefinition> options) =>
+        options.Where(option => option.SwitchName == argument.SwitchName
+                || (argument.IsNegatable && option.SwitchName == $"--no-{argument.SwitchName[2..]}"))
+            .Select(option => new CliRequiredAlternativeMember
+            {
+                OptionSwitch = option.SwitchName,
+                PropertyName = option.PropertyName,
+            });
 
     private CliOptionDefinition NormalizeRepeatability(
         CliOptionDefinition option,

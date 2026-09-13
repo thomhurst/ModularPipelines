@@ -112,6 +112,53 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Gcloud_Required_Choices_Include_Negated_Flags(bool exclusive)
+    {
+        var helpText = $"""
+            NAME
+                gcloud example create - create an example
+            REQUIRED FLAGS
+                 {(exclusive ? "Exactly" : "At least")} one of these must be specified:
+                   --[no-]confirm
+                      Confirm the operation.
+                   --other
+                      Select the other operation.
+            """;
+        var command = (await CreateGcloudScraper().Parse(["gcloud", "example", "create"], helpText))!;
+        await Assert.That(command.RequiredAlternativeGroups.Single().PropertyNames)
+            .IsEquivalentTo(["Confirm", "NoConfirm", "Other"]);
+        var tool = new CliToolDefinition
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "src/ModularPipelines.Google",
+            Commands = [command],
+        };
+        var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+        await VerifyGeneratedValidation(generated, "GcloudExampleCreateOptions", async type =>
+        {
+            for (var mask = 0; mask < 8; mask++)
+            {
+                var instance = Activator.CreateInstance(type)!;
+                string[] properties = ["Confirm", "NoConfirm", "Other"];
+                var selected = 0;
+                for (var index = 0; index < properties.Length; index++)
+                {
+                    var enabled = (mask & (1 << index)) != 0;
+                    type.GetProperty(properties[index])!.SetValue(instance, enabled);
+                    selected += enabled ? 1 : 0;
+                }
+
+                var errors = ((IValidatableObject) instance).Validate(new ValidationContext(instance));
+                await Assert.That(!errors.Any()).IsEqualTo(exclusive ? selected == 1 : selected > 0);
+            }
+        });
+    }
+
+    [Test]
     [Arguments("Exactly one of these must be specified. Or choose the other source:", true)]
     [Arguments("At least one of these must be specified. Or combine both sources:", false)]
     public async Task Gcloud_Required_Cardinality_Precedes_Alternative_Prose(string heading, bool exclusive)
@@ -132,13 +179,15 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
-    public async Task Gcloud_Optional_Exclusive_Branches_Do_Not_Require_Their_Nested_Flags()
+    [Arguments("At most one of these can be specified:")]
+    [Arguments("At least one of these must be specified:")]
+    public async Task Gcloud_Conditional_Branches_Do_Not_Require_Their_Nested_Flags(string heading)
     {
-        const string helpText = """
+        var helpText = $"""
             NAME
                 gcloud example create - create an example
             REQUIRED FLAGS
-                 At most one of these can be specified:
+                 {heading}
                    --token=TOKEN
                       Authenticate with a token.
                    Or at least one of these must be specified:
