@@ -40,6 +40,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         CancellationToken cancellationToken = default,
         string? workingDirectory = null)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         _logger.LogDebug("Executing: {Command} {Arguments} (WorkingDir: {WorkingDir})", command, arguments, workingDirectory ?? "default");
 
         var executablePath = ResolveExecutablePath(command);
@@ -80,11 +81,12 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         }
         catch (OperationCanceledException)
         {
-            _logger.LogWarning("Command timed out or cancelled: {Command} {Arguments}", command, arguments);
+            cancellationToken.ThrowIfCancellationRequested();
+            _logger.LogWarning("Command timed out: {Command} {Arguments}", command, arguments);
             return new CliCommandResult
             {
                 StandardOutput = string.Empty,
-                StandardError = "Command timed out or cancelled",
+                StandardError = "Command timed out",
                 ExitCode = -1,
                 TimedOut = true,
             };
@@ -177,6 +179,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
                 StandardOutput = stdout,
                 StandardError = stderr,
                 ExitCode = process.ExitCode,
+                HasProcessExitCode = !executionFailed,
                 ExecutionFailed = executionFailed,
             };
         }
@@ -327,9 +330,9 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
                 result = await ExecuteAsync(command, "--help", cancellationToken);
             }
 
-            return !result.Unavailable && result.ExitCode != -1;
+            return !result.Unavailable && (result.HasProcessExitCode || result.ExitCode != -1);
         }
-        catch
+        catch (Exception) when (!cancellationToken.IsCancellationRequested)
         {
             return false;
         }

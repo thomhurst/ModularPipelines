@@ -20,9 +20,9 @@ internal sealed class CliScrapeProvenance
 
     /// <summary>
     /// Help paths whose latest invocation never produced a real response: it timed out after
-    /// every retry or was rejected by the circuit breaker. Those commands are unavailable in this
-    /// scrape rather than absent from the tool, so coverage validation must not report them as
-    /// removals.
+    /// every retry, was rejected by the circuit breaker, or its process could not execute.
+    /// Those commands are unavailable in this scrape rather than absent from the tool, so
+    /// coverage validation must not report them as removals.
     /// </summary>
     public IReadOnlyList<string> UnavailableHelpPaths =>
         _helpInvocations.Values
@@ -185,8 +185,9 @@ internal sealed record CliHelpInvocation
     internal bool PreserveRawHelp { get; init; }
 
     /// <summary>
-    /// Whether this invocation never produced a real response (executor timeout or circuit
-    /// breaker rejection), so the command is unavailable in this scrape rather than absent.
+    /// Whether this invocation never produced a real response (executor timeout, circuit
+    /// breaker rejection, or process execution failure), so the command is unavailable in this
+    /// scrape rather than absent.
     /// </summary>
     internal bool Unavailable { get; init; }
 }

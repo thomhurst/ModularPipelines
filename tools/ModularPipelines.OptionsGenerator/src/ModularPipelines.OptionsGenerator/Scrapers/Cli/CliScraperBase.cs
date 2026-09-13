@@ -789,7 +789,7 @@ public abstract partial class CliScraperBase : ICliScraper
 
     /// <summary>
     /// Help paths whose invocation timed out after every retry or was rejected by the circuit
-    /// breaker during this scrape.
+    /// breaker, or whose process could not execute during this scrape.
     /// </summary>
     internal IReadOnlyList<string> UnavailableHelpPaths => _scrapeProvenance.UnavailableHelpPaths;
 

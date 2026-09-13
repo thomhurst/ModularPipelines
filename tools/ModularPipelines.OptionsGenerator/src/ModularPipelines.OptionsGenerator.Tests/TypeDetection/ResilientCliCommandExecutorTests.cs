@@ -6,6 +6,24 @@ namespace ModularPipelines.OptionsGenerator.Tests.TypeDetection;
 public class ResilientCliCommandExecutorTests
 {
     [Test]
+    public async Task Real_Negative_Exit_Code_Is_Not_Retried_Or_Marked_Unavailable()
+    {
+        var response = new CliCommandResult
+        {
+            ExitCode = -1,
+            HasProcessExitCode = true,
+            StandardOutput = "Real command output",
+            StandardError = "Invalid arguments",
+        };
+        var inner = new SequenceExecutor(response, response);
+        var result = await CreateExecutor(inner, maxRetries: 1).ExecuteAsync("test", "--help");
+
+        await Assert.That(result).IsSameReferenceAs(response);
+        await Assert.That(result.Unavailable).IsFalse();
+        await Assert.That(inner.ExecutionCount).IsEqualTo(1);
+    }
+
+    [Test]
     [Arguments("Temporary process failure", 2)]
     [Arguments("Executable not found", 1)]
     public async Task Final_Legacy_System_Failures_Are_Unavailable(string error, int attempts)

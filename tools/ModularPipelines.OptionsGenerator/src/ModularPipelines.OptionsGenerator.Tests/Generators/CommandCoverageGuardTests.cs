@@ -9,6 +9,39 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public class CommandCoverageGuardTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Unavailable_Help_Prevents_Secondary_Coverage_Violations(bool approveShrinkage)
+    {
+        var outputDirectory = CreateOutputDirectory();
+        try
+        {
+            var baseline = CommandCoverageGuard.Evaluate(
+                Tool(Command("fake group one"), Command("fake group two")) with { ToolVersion = "1.0" },
+                outputDirectory, approveShrinkage: false);
+            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
+            var current = CommandCoverageGuard.Evaluate(
+                Tool(Command("fake status")) with
+                {
+                    ToolVersion = "1.0",
+                    CommandCoverage = new CliCommandCoveragePolicy
+                    {
+                        MinimumCommandCount = 3,
+                        SentinelCommands = ["fake group one"],
+                    },
+                },
+                outputDirectory, approveShrinkage, unavailableHelpPaths: ["fake group one"]);
+
+            await Assert.That(current.Violations).HasSingleItem();
+            await Assert.That(current.Violations[0]).Contains("Help was unavailable");
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task RemovedCommandsAndEmptyKnownGroups_FailWithoutApproval()
     {
         var outputDirectory = CreateOutputDirectory();

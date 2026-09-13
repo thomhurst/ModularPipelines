@@ -63,6 +63,12 @@ public class CliCommandResult
     public required int ExitCode { get; init; }
 
     /// <summary>
+    /// Whether ExitCode is the exit status of a successfully started target process,
+    /// rather than a legacy executor's system-failure sentinel.
+    /// </summary>
+    public bool HasProcessExitCode { get; init; }
+
+    /// <summary>
     /// Whether the command was abandoned because the executor's timeout elapsed.
     /// </summary>
     public bool TimedOut { get; init; }

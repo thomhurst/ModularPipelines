@@ -114,7 +114,7 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
 
             // Legacy executors use -1 for system failures without setting the newer
             // outcome flags. Their final diagnostics must not be parsed as CLI help.
-            return result.ExitCode == -1 && !result.Unavailable
+            return result.ExitCode == -1 && !result.HasProcessExitCode && !result.Unavailable
                 ? new CliCommandResult
                 {
                     ExitCode = result.ExitCode,
@@ -170,7 +170,7 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
         }
 
         // Ordinary tool errors remain final; launch failures are system-level errors.
-        if (!result.ExecutionFailed && result.ExitCode != -1)
+        if (!result.ExecutionFailed && (result.HasProcessExitCode || result.ExitCode != -1))
         {
             return false;
         }

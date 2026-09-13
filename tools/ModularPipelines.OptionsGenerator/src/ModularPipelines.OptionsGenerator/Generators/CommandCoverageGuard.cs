@@ -240,6 +240,11 @@ internal static class CommandCoverageGuard
             "Help was unavailable after all retries (timed out, rejected by the circuit breaker, or the process could not run); rerun the generation instead of approving these as removals",
             unavailableCommands);
 
+        if (unavailableCommands.Count > 0)
+        {
+            return violations;
+        }
+
         if (policy.MinimumCommandCount is < 1)
         {
             violations.Add("MinimumCommandCount must be greater than zero when configured.");
