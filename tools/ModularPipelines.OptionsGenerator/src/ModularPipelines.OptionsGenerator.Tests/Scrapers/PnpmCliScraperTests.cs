@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -8,6 +9,75 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public class PnpmCliScraperTests
 {
+    [Test]
+    [Arguments("--allow-build <ALLOW_BUILD>", "Package names allowed to run lifecycle scripts. May be repeated")]
+    [Arguments("--ignore <GHSA>", "Ignore a vulnerability by its GitHub advisory ID. May be repeated")]
+    [Arguments("--workspace-packages <WORKSPACE_PACKAGES>", "Glob patterns selecting the workspace's projects. Repeat to add more")]
+    public async Task Prose_Can_Declare_Repeatable_Clap_Options(string declaration, string description)
+    {
+        var helpText = $$"""
+            Usage: pnpm audit [OPTIONS]
+
+            Options:
+                  {{declaration}}
+                      {{description}}
+            """;
+
+        var command = await new TestPnpmCliScraper().Parse(["pnpm", "audit"], helpText);
+
+        await Assert.That(command!.Options.Single().AcceptsMultipleValues).IsTrue();
+        await Assert.That(command.Options.Single().CSharpType).IsEqualTo("IEnumerable<string>?");
+    }
+
+    [Test]
+    public async Task Optional_Clap_Value_Can_Be_Space_Separated()
+    {
+        const string helpText = """
+            Usage: pnpm audit [OPTIONS]
+
+            Options:
+                  --fix [<METHOD>]
+                      Fix the audited vulnerabilities using the specified method.
+            """;
+
+        var command = await new TestPnpmCliScraper().Parse(["pnpm", "audit"], helpText);
+
+        await Assert.That(command!.Options.Single().ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+        await Assert.That(command.Options.Single().ValueSeparator).IsEqualTo(" ");
+    }
+
+    [Test]
+    public async Task Possible_Values_With_Colliding_Member_Names_Are_Preserved()
+    {
+        const string helpText = """
+            Usage: pnpm install [OPTIONS]
+
+            Options:
+                  --reporter <REPORTER>
+                      Reporter output format
+
+                      [possible values: foo-bar, foo_bar, baz, foo-bar]
+            """;
+
+        var command = await new TestPnpmCliScraper().Parse(["pnpm", "install"], helpText);
+
+        await Assert.That(command!.Options.Single().EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["foo-bar", "foo_bar", "baz"]);
+
+        var files = await new EnumGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "pnpm",
+            NamespacePrefix = "Pnpm",
+            TargetNamespace = "ModularPipelines.Node",
+            OutputDirectory = "output",
+            Commands = [command],
+        });
+        var generatedEnum = files.Single().Content;
+        await Assert.That(generatedEnum).Contains("[EnumValue(\"foo-bar\")]");
+        await Assert.That(generatedEnum).Contains("[EnumValue(\"foo_bar\")]");
+        await Assert.That(generatedEnum).Contains("FooBarLowercase");
+    }
+
     [Test]
     public async Task Wrapped_Descriptions_That_Look_Like_Option_Rows_Stay_Prose()
     {
@@ -285,7 +355,7 @@ public class PnpmCliScraperTests
             await Assert.That(command.Options.Where(option => string.IsNullOrWhiteSpace(option.Description)))
                 .IsEmpty();
             await Assert.That(command.Options.Where(option => option.AcceptsMultipleValues).Select(option => option.SwitchName))
-                .IsEquivalentTo(["--cpu", "--os", "--libc"]);
+                .IsEquivalentTo(["--cpu", "--os", "--libc", "--filter", "--workspace-packages"]);
             await Assert.That(command.Enums.Select(definition => definition.EnumName))
                 .IsEquivalentTo(["PnpmInstallNodeLinker", "PnpmInstallReporter", "PnpmInstallLoglevel"]);
             await Assert.That(command.Options.Single(option => option.SwitchName == "--filter").ShortForm).IsEqualTo("-F");

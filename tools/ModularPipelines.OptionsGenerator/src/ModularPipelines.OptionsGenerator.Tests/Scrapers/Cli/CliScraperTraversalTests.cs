@@ -1155,6 +1155,8 @@ public class CliScraperTraversalTests
             .IsEquivalentTo(["pnpm stage", "pnpm stage download", "pnpm stage publish"]);
         await Assert.That(executor.Arguments)
             .IsEquivalentTo(["--help", "stage --help", "stage download --help", "stage publish --help"]);
+        await Assert.That(commands.SelectMany(command => command.PositionalArguments)).IsEmpty();
+        await Assert.That(commands.SelectMany(command => command.UsagePositionalArguments)).IsEmpty();
         await Assert.That(commands.Single(command => command.FullCommand == "pnpm stage publish").Options
                 .Where(option => option.SwitchName is "--dry-run" or "--json")
                 .Select(option => (option.SwitchName, option.CSharpType, option.IsFlag)))
