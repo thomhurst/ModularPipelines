@@ -8,6 +8,11 @@ namespace ModularPipelines.OptionsGenerator.Models;
 public sealed record CliRequiredAlternativeGroup
 {
     /// <summary>
+    /// Whether supplying more than one member is also invalid.
+    /// </summary>
+    public bool IsMutuallyExclusive { get; init; }
+
+    /// <summary>
     /// Generated members participating in the choice.
     /// </summary>
     public required IReadOnlyList<CliRequiredAlternativeMember> Members { get; init; }

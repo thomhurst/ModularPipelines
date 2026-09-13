@@ -215,6 +215,10 @@ internal static partial class CliArgumentGroupParser
         // Help headings are free-form prose, so classification is deliberately best-effort.
         // Tool adapters can retain the group tree even when their phrasing maps to None.
         var kind = CliArgumentGroupKind.None;
+        if (ExactlyOnePattern().IsMatch(description))
+        {
+            kind |= CliArgumentGroupKind.AtLeastOne | CliArgumentGroupKind.AtMostOne;
+        }
         if (AtMostOnePattern().IsMatch(description))
         {
             kind |= CliArgumentGroupKind.AtMostOne;
@@ -279,6 +283,9 @@ internal static partial class CliArgumentGroupParser
 
     [GeneratedRegex(@"\bat most one\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex AtMostOnePattern();
+
+    [GeneratedRegex(@"\bexactly one\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex ExactlyOnePattern();
 
     [GeneratedRegex(@"\bat least one\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex AtLeastOnePattern();
