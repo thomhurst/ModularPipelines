@@ -181,7 +181,7 @@ public partial class GcloudCliScraper : CliScraperBase
         var sectionStart = sectionMatch.Index + sectionMatch.Length;
 
         // Find where section ends (next uppercase section header)
-        var nextMatch = Regex.Match(helpText[sectionStart..], @"^[A-Z][A-Z_\s]+$", RegexOptions.Multiline);
+        var nextMatch = MyRegex().Match(helpText[sectionStart..]);
         var sectionEnd = nextMatch.Success ? sectionStart + nextMatch.Index : helpText.Length;
 
         var section = helpText[sectionStart..sectionEnd];
@@ -229,7 +229,7 @@ public partial class GcloudCliScraper : CliScraperBase
         var sectionStart = flagsMatch.Index + flagsMatch.Length;
 
         // Find end of FLAGS section
-        var nextSectionMatch = Regex.Match(helpText[sectionStart..], @"^[A-Z][A-Z_\s]+$", RegexOptions.Multiline);
+        var nextSectionMatch = MyRegex().Match(helpText[sectionStart..]);
         var sectionEnd = nextSectionMatch.Success ? sectionStart + nextSectionMatch.Index : helpText.Length;
 
         var flagsSection = helpText[sectionStart..sectionEnd];
@@ -299,7 +299,16 @@ public partial class GcloudCliScraper : CliScraperBase
         var hasCompositeSyntax = IsCompositeValueHint(valueHint);
         var isStructuredValue = hasCompositeSyntax
                                 || DescriptionDeclaresStructuredValue(description);
-        var acceptsMultipleValues = (!ShouldTreatOptionAsScalar(commandParts, longForm)
+        var isKeyValue = IsKeyValue(valueHint, isStructuredValue);
+        var isKnownScalar = ShouldTreatOptionAsScalar(commandParts, longForm);
+        var isDelimitedList = !isFlag
+                              && !isStructuredValue
+                              && !isKeyValue
+                              && !isKnownScalar
+                              && ((valueHint.Contains(',') && valueHint.Contains("...", StringComparison.Ordinal))
+                                  || CommaSeparatedListDescriptionPattern().IsMatch(argument.Description ?? string.Empty));
+        var acceptsMultipleValues = isDelimitedList
+                                    || (!isKnownScalar
                                      || valueHint.Contains("...", StringComparison.Ordinal))
                                     && AcceptsMultipleValues(
                 longForm,
@@ -308,8 +317,14 @@ public partial class GcloudCliScraper : CliScraperBase
                 isFlag,
                 hasCompositeSyntax);
         var isNumeric = IsNumericValue(longForm, valueHint, description, isStructuredValue);
-        var isKeyValue = IsKeyValue(valueHint, isStructuredValue);
         var enumDefinition = isStructuredValue ? null : TryDetectEnum(propertyName, description);
+
+        if (isDelimitedList && !isNumeric && enumDefinition is null)
+        {
+            description = $"{description} Collection entries are joined with commas into one option value. "
+                          + "For entries containing commas, supply one pre-escaped list value using gcloud topic escaping "
+                          + "(https://cloud.google.com/sdk/gcloud/reference/topic/escaping).";
+        }
 
         var option = new CliOptionDefinition
         {
@@ -325,6 +340,7 @@ public partial class GcloudCliScraper : CliScraperBase
             IsFlag = isFlag,
             IsRequired = false,
             AcceptsMultipleValues = acceptsMultipleValues,
+            CollectionSeparator = isDelimitedList ? "," : null,
             IsKeyValue = isKeyValue,
             IsNumeric = isNumeric,
             ValueSeparator = isFlag ? " " : "=",
@@ -384,6 +400,7 @@ public partial class GcloudCliScraper : CliScraperBase
             ValueArity = CliOptionValueArity.Required,
             AcceptsMultipleValues = false,
             GroupValues = false,
+            CollectionSeparator = null,
             IsCollection = false,
             IsKeyValue = false,
             IsNumeric = false,
@@ -576,11 +593,11 @@ public partial class GcloudCliScraper : CliScraperBase
         return new CliEnumDefinition
         {
             EnumName = enumName,
-            Values = values.Select(v => new CliEnumValue
+            Values = [.. values.Select(v => new CliEnumValue
             {
                 MemberName = string.Join("", v.Split(['-', '_'], StringSplitOptions.RemoveEmptyEntries).Select(ToPascalCase)),
                 CliValue = v
-            }).ToList(),
+            })],
             Description = $"Allowed values for --{propertyName.ToLowerInvariant()}."
         };
     }
@@ -615,6 +632,9 @@ public partial class GcloudCliScraper : CliScraperBase
 
     #region Regex Patterns
 
+    [GeneratedRegex(@"\bcomma[- ](?:separated|delimited)\s+list\b", RegexOptions.IgnoreCase)]
+    private static partial Regex CommaSeparatedListDescriptionPattern();
+
     /// <summary>
     /// Matches gcloud flag patterns:
     /// --flag
@@ -639,6 +659,8 @@ public partial class GcloudCliScraper : CliScraperBase
         @"\bmust be one of:\s*[A-Za-z][A-Za-z0-9_-]*\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex TextualCategoriesPattern();
+    [GeneratedRegex(@"^[A-Z][A-Z_\s]+$", RegexOptions.Multiline)]
+    private static partial Regex MyRegex();
 
     #endregion
 }
