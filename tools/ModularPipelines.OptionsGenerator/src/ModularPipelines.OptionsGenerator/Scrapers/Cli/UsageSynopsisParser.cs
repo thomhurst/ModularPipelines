@@ -677,12 +677,13 @@ public static class UsageSynopsisParser
             return selectedArguments;
         }
 
-        var selectedPositionalCount = selectedArguments.Count(IsPositionalSlot);
+        var selectedPositionals = selectedArguments.Where(IsPositionalSlot).ToArray();
         return selectedArguments
             .Select(argument => alternatives.All(alternative =>
                 IsRequiredInAlternative(
                     argument,
-                    selectedPositionalCount,
+                    Array.IndexOf(selectedPositionals, argument),
+                    selectedPositionals.Length,
                     alternative.PositionalArguments))
                     ? argument
                     : argument with
@@ -695,6 +696,7 @@ public static class UsageSynopsisParser
 
     private static bool IsRequiredInAlternative(
         CliPositionalArgument selectedArgument,
+        int selectedPosition,
         int selectedArgumentCount,
         IReadOnlyList<CliPositionalArgument> alternativeArguments)
     {
@@ -708,14 +710,12 @@ public static class UsageSynopsisParser
         }
 
         // An operand attached to an option ("--path <PATH>") is that option's value, not a
-        // positional slot, so it cannot stand in for a positional at the same index.
+        // positional slot. Compare ordinals after filtering those operands from both forms.
         var positionalCandidates = alternativeArguments.Where(IsPositionalSlot).ToArray();
-        return IsPositionalSlot(selectedArgument)
+        return selectedPosition >= 0
                && positionalCandidates.Length == selectedArgumentCount
-               && positionalCandidates.Any(candidate =>
-                   candidate.IsRequired
-                   && candidate.PositionIndex == selectedArgument.PositionIndex
-                   && candidate.Phase == selectedArgument.Phase);
+               && positionalCandidates[selectedPosition].IsRequired
+               && positionalCandidates[selectedPosition].Phase == selectedArgument.Phase;
     }
 
     private static bool IsPositionalSlot(CliPositionalArgument argument) =>

@@ -782,6 +782,28 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    [Arguments("<A> --file <FILE> <B>", "<X> <Y>", "B")]
+    [Arguments("--file <FILE> <TARGET>", "<OBJECT> --mode <MODE>", "Target")]
+    [Arguments("--file <FILE> <TARGET>", "<OBJECT>", "Target")]
+    public async Task Matches_Renamed_Positionals_After_Filtering_Option_Operands(
+        string selectedForm,
+        string alternativeForm,
+        string propertyName)
+    {
+        var helpText = $"Usage:\n  tool run [OPTIONS] {selectedForm}\n  tool run [OPTIONS] {alternativeForm}";
+
+        var result = UsageSynopsisParser.Parse(helpText, ["tool", "run"]);
+        var positional = result.PositionalArguments.Single(argument => argument.PropertyName == propertyName);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(positional.AssociatedOptionSwitch).IsNull();
+            await Assert.That(positional.IsRequired).IsTrue();
+            await Assert.That(positional.CSharpType).IsEqualTo("string");
+        }
+    }
+
+    [Test]
     public async Task Relaxes_Operands_Absent_From_Alternate_Invocation_Forms()
     {
         const string helpText = """
