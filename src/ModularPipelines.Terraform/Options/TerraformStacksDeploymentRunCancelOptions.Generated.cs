@@ -18,12 +18,8 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "deployment-run", "cancel")]
-public record TerraformStacksDeploymentRunCancelOptions : TerraformOptions
+public record TerraformStacksDeploymentRunCancelOptions(
+    [property: CliOption("-deployment-run-id", Format = OptionFormat.EqualsSeparated)] string DeploymentRunId
+) : TerraformOptions
 {
-    /// <summary>
-    /// The ID of the deployment run to watch (required).
-    /// </summary>
-    [CliOption("-deployment-run-id", Format = OptionFormat.EqualsSeparated)]
-    public string? DeploymentRunId { get; set; }
-
 }
