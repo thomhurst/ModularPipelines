@@ -41,6 +41,18 @@ public class TerraformCliScraperTests
     [Arguments("(required) The name of the deployment step.", true)]
     [Arguments("The name. (required) One of: plan-description, apply-description.", true)]
     [Arguments("The name.\n                       (required)", true)]
+    [Arguments("The ID of the deployment run to watch (required).", true)]
+    [Arguments("The ID of the deployment run to cancel (required).", true)]
+    [Arguments("The ID of the deployment run (required).", true)]
+    [Arguments("A comma-separated list of deployment names to rerun within the deployment group (required).", true)]
+    [Arguments("The name of the organization to target. Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided. (required)", true)]
+    [Arguments("The name of the project to target. Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided. (required)", true)]
+    [Arguments("The name of the stack to target. Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided. (required)", true)]
+    [Arguments("The deployment's ID (required).", true)]
+    [Arguments("Use the 'name' selector (required).", true)]
+    [Arguments("The name, for example \"(required).\".", false)]
+    [Arguments("The name, for example '(required).'.", false)]
+    [Arguments("The name, for example `(required).`.", false)]
     public async Task Only_Explicit_Required_Markers_Make_Options_Required(string description, bool expected)
     {
         var definition = await _scraper.Parse(
