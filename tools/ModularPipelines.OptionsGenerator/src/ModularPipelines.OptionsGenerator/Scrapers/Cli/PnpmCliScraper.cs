@@ -26,13 +26,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// The root help lists commands under a Commands: section; nested groups such as
 /// audit signatures repeat their parent's catalog.
 /// </summary>
-public partial class PnpmCliScraper : CliScraperBase
+public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PnpmCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    public PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PnpmCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "pnpm";
 
     public override string NamespacePrefix => "Pnpm";
@@ -70,7 +65,7 @@ public partial class PnpmCliScraper : CliScraperBase
                 sectionEnd = nextSection.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
             var lines = section.Split('\n');
 
             foreach (var line in lines)
@@ -202,9 +197,7 @@ public partial class PnpmCliScraper : CliScraperBase
             : usage;
         return normalized with
         {
-            PositionalArguments = normalized.PositionalArguments
-                .Select(argument => argument with { Phase = CommandLinePhase.Passthrough })
-                .ToArray(),
+            PositionalArguments = [.. normalized.PositionalArguments.Select(argument => argument with { Phase = CommandLinePhase.Passthrough })],
         };
     }
 
@@ -225,7 +218,7 @@ public partial class PnpmCliScraper : CliScraperBase
     /// more spaces, or ends at the declaration and is described on the lines beneath it,
     /// followed by [possible values] and other trailers, as clap prints for pnpm 12.
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText, string className)
+    private static List<CliOptionDefinition> ParseOptions(string helpText, string className)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -247,7 +240,7 @@ public partial class PnpmCliScraper : CliScraperBase
             sectionEnd = nextSection.Index;
         }
 
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+        var section = helpText[sectionStart..sectionEnd];
         var lines = section.Split('\n');
 
         for (var i = 0; i < lines.Length; i++)
@@ -259,9 +252,7 @@ public partial class PnpmCliScraper : CliScraperBase
                 continue;
             }
 
-            var shortForm = match.Groups["short"].Value.Trim();
             var longForm = match.Groups["long"].Value.Trim();
-            var valueHint = match.Groups["value"].Value.Trim();
 
             // Consume the row's block before deciding whether to keep the row, so the prose of
             // a skipped or duplicate option is never re-read as declarations.
@@ -278,33 +269,46 @@ public partial class PnpmCliScraper : CliScraperBase
                 continue;
             }
 
-            var isFlag = string.IsNullOrEmpty(valueHint);
-            var acceptsMultipleValues = match.Groups["multi"].Success;
-            var attachedOptionalValue = valueHint.StartsWith("[=", StringComparison.Ordinal);
-            var enumDefinition = TryCreateOptionEnum(className, propertyName, longForm, block.PossibleValues);
-
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = longForm,
-                ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
-                PropertyName = propertyName,
-                CSharpType = isFlag
-                    ? "bool?"
-                    : AsCSharpType($"{enumDefinition?.EnumName ?? "string"}?", acceptsMultipleValues),
-                Description = block.Description,
-                IsFlag = isFlag,
-                ValueArity = attachedOptionalValue ? CliOptionValueArity.Optional : CliOptionValueArity.Required,
-                IsRequired = false,
-                AcceptsMultipleValues = acceptsMultipleValues,
-                IsKeyValue = false,
-                IsNumeric = false,
-                ValueSeparator = attachedOptionalValue ? "=" : " ",
-                EnumDefinition = enumDefinition,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-            });
+            options.Add(CreateOption(match, className, propertyName, longForm, block));
         }
 
         return options;
+    }
+
+    private static CliOptionDefinition CreateOption(
+        Match match,
+        string className,
+        string propertyName,
+        string longForm,
+        ClapOptionBlock block)
+    {
+        var shortForm = match.Groups["short"].Value.Trim();
+        var valueHint = match.Groups["value"].Value.Trim();
+        var isFlag = string.IsNullOrEmpty(valueHint);
+        var acceptsMultipleValues = match.Groups["multi"].Success
+                                    || IsRepeatableValueOption(block.Description, isFlag, isBoolean: false);
+        var attachedOptionalValue = valueHint.StartsWith("[=", StringComparison.Ordinal);
+        var enumDefinition = TryCreateOptionEnum(className, propertyName, longForm, block.PossibleValues);
+
+        return new CliOptionDefinition
+        {
+            SwitchName = longForm,
+            ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
+            PropertyName = propertyName,
+            CSharpType = isFlag
+                ? "bool?"
+                : AsCSharpType($"{enumDefinition?.EnumName ?? "string"}?", acceptsMultipleValues),
+            Description = block.Description,
+            IsFlag = isFlag,
+            ValueArity = valueHint.StartsWith('[') ? CliOptionValueArity.Optional : CliOptionValueArity.Required,
+            IsRequired = false,
+            AcceptsMultipleValues = acceptsMultipleValues,
+            IsKeyValue = false,
+            IsNumeric = false,
+            ValueSeparator = attachedOptionalValue ? "=" : " ",
+            EnumDefinition = enumDefinition,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+        };
     }
 
     private static bool IsOptionRow(string line) => PnpmOptionPattern().IsMatch(line);

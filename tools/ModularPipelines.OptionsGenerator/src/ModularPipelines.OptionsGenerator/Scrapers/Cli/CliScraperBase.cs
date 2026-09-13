@@ -1051,12 +1051,11 @@ public abstract partial class CliScraperBase : ICliScraper
             return options;
         }
 
-        return options
+        return [.. options
             .Select(option => requiredSwitches.Contains(option.SwitchName)
                               || (option.ShortForm is not null && requiredSwitches.Contains(option.ShortForm))
                 ? option with { IsRequired = true }
-                : option)
-            .ToList();
+                : option)];
     }
 
     /// <summary>
@@ -1469,6 +1468,8 @@ public abstract partial class CliScraperBase : ICliScraper
             }
 
             var indentation = GetIndentation(line);
+            // Clap aligns every declaration's long switch, so indentation alone separates
+            // declarations from descriptions even when wrapped prose starts with a switch.
             if (indentation <= switchColumn || indentation < descriptionColumn)
             {
                 break;
@@ -1477,22 +1478,8 @@ public abstract partial class CliScraperBase : ICliScraper
             descriptionColumn ??= indentation;
             index++;
             var text = line.Trim();
-            if (pendingTrailer.Length > 0 || text.StartsWith('['))
+            if (TryReadClapTrailer(text, ref pendingTrailer, possibleValues))
             {
-                // A trailer wrapped at the terminal width continues until its closing bracket.
-                pendingTrailer = pendingTrailer.Length > 0 ? $"{pendingTrailer} {text}" : text;
-                if (!text.EndsWith(']'))
-                {
-                    continue;
-                }
-
-                var trailer = ClapTrailerPattern().Match(pendingTrailer);
-                pendingTrailer = string.Empty;
-                if (trailer.Success && IsPossibleValuesTrailer(trailer.Groups["name"].Value))
-                {
-                    possibleValues.AddRange(ParsePossibleValuesList(trailer.Groups["value"].Value));
-                }
-
                 continue;
             }
 
@@ -1527,6 +1514,33 @@ public abstract partial class CliScraperBase : ICliScraper
         return new ClapOptionBlock(string.Join(' ', prose), possibleValues);
     }
 
+    private static bool TryReadClapTrailer(
+        string text,
+        ref string pendingTrailer,
+        List<ClapPossibleValue> possibleValues)
+    {
+        if (pendingTrailer.Length == 0 && !text.StartsWith('['))
+        {
+            return false;
+        }
+
+        // A trailer wrapped at the terminal width continues until its closing bracket.
+        pendingTrailer = pendingTrailer.Length > 0 ? $"{pendingTrailer} {text}" : text;
+        if (!text.EndsWith(']'))
+        {
+            return true;
+        }
+
+        var trailer = ClapTrailerPattern().Match(pendingTrailer);
+        pendingTrailer = string.Empty;
+        if (trailer.Success && IsPossibleValuesTrailer(trailer.Groups["name"].Value))
+        {
+            possibleValues.AddRange(ParsePossibleValuesList(trailer.Groups["value"].Value));
+        }
+
+        return true;
+    }
+
     /// <summary>
     /// Splits a trailing <c>[possible values: a, b]</c> from an inline description, where
     /// clap's aligned layout appends it to the description text.
@@ -1540,7 +1554,7 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         var prose = string.Concat(description[..match.Index], description[(match.Index + match.Length)..]).Trim();
-        return new ClapOptionBlock(prose, ParsePossibleValuesList(match.Groups["value"].Value).ToArray());
+        return new ClapOptionBlock(prose, [.. ParsePossibleValuesList(match.Groups["value"].Value)]);
     }
 
     /// <summary>
@@ -1561,7 +1575,7 @@ public abstract partial class CliScraperBase : ICliScraper
                 CliValue = value.Value,
                 Description = value.Description,
             })
-            .DistinctBy(member => member.MemberName, StringComparer.Ordinal)
+            .DistinctBy(member => member.CliValue, StringComparer.Ordinal)
             .ToList();
         if (members.Count is < 2 or > 20)
         {
@@ -1706,6 +1720,7 @@ public abstract partial class CliScraperBase : ICliScraper
     private const string RepeatableValueRegex =
         @"\b(?:"
         + @"repeatable"
+        + @"|repeat\s+to\s+add\s+more"
         + @"|(?:can|may|must|should)\s+be\s+repeated"
         + @"|(?:is|are)\s+repeated"
         + @"|multiples?\s+(?:are\s+)?supported\s+by\s+passing\s+--?[\w-]+\s+multiple\s+times"
