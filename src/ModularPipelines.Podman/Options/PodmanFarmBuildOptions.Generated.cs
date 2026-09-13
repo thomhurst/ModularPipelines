@@ -119,6 +119,18 @@ public record PodmanFarmBuildOptions : PodmanOptions
     public bool? CompatVolumes { get; set; }
 
     /// <summary>
+    /// compression format to use for layers and cache
+    /// </summary>
+    [CliOption("--compression-format", Format = OptionFormat.EqualsSeparated)]
+    public string? CompressionFormat { get; set; }
+
+    /// <summary>
+    /// compression level to use for layers and cache
+    /// </summary>
+    [CliOption("--compression-level", Format = OptionFormat.EqualsSeparated)]
+    public int? CompressionLevel { get; set; }
+
+    /// <summary>
     /// set additional flag to pass to C preprocessor (cpp)
     /// </summary>
     [CliOption("--cpp-flag", Format = OptionFormat.EqualsSeparated)]
@@ -216,6 +228,12 @@ public record PodmanFarmBuildOptions : PodmanOptions
     public string? Farm { get; set; }
 
     /// <summary>
+    /// use the specified compression algorithm even if the destination contains a differently-compressed variant already
+    /// </summary>
+    [CliFlag("--force-compression")]
+    public bool? ForceCompression { get; set; }
+
+    /// <summary>
     /// always remove intermediate containers after a build, even if the build is unsuccessful. (default true)
     /// </summary>
     [CliOption("--force-rm", Format = OptionFormat.EqualsSeparated)]
@@ -268,6 +286,12 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// </summary>
     [CliOption("--iidfile", Format = OptionFormat.EqualsSeparated)]
     public string? Iidfile { get; set; }
+
+    /// <summary>
+    /// file to write the image ID to (without algorithm prefix)
+    /// </summary>
+    [CliOption("--iidfile-raw", Format = OptionFormat.EqualsSeparated)]
+    public string? IidfileRaw { get; set; }
 
     /// <summary>
     /// inherit the annotations from the base image or base stages. (default true)
@@ -340,6 +364,12 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// </summary>
     [CliOption("--memory-swap", Format = OptionFormat.EqualsSeparated)]
     public string? MemorySwap { get; set; }
+
+    /// <summary>
+    /// set transient mounts for each RUN instruction, e.g. type=secret,id=mysecret
+    /// </summary>
+    [CliOption("--mount", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Mount { get; set; }
 
     /// <summary>
     /// 'private', 'none', 'ns:path' of network namespace to join, or 'host'
@@ -438,6 +468,12 @@ public record PodmanFarmBuildOptions : PodmanOptions
     public IEnumerable<string>? RuntimeFlag { get; set; }
 
     /// <summary>
+    /// save intermediate stage images.
+    /// </summary>
+    [CliFlag("--save-stages")]
+    public bool? SaveStages { get; set; }
+
+    /// <summary>
     /// scan working container using preset configuration
     /// </summary>
     [CliOption("--sbom", Format = OptionFormat.EqualsSeparated)]
@@ -517,6 +553,12 @@ public record PodmanFarmBuildOptions : PodmanOptions
     public string? SourceDateEpoch { get; set; }
 
     /// <summary>
+    /// pathname of source policy file for controlling source references during build
+    /// </summary>
+    [CliOption("--source-policy-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SourcePolicyFile { get; set; }
+
+    /// <summary>
     /// squash all image layers into a single layer
     /// </summary>
     [CliFlag("--squash")]
@@ -533,6 +575,12 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// </summary>
     [CliOption("--ssh", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Ssh { get; set; }
+
+    /// <summary>
+    /// add metadata labels to intermediate stage images (requires --save-stages).
+    /// </summary>
+    [CliFlag("--stage-labels")]
+    public bool? StageLabels { get; set; }
 
     /// <summary>
     /// tagged name to apply to the built image

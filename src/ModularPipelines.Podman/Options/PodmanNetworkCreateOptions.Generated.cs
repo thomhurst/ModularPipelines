@@ -93,7 +93,7 @@ public record PodmanNetworkCreateOptions : PodmanOptions
     public IEnumerable<string>? Opt { get; set; }
 
     /// <summary>
-    /// static routes
+    /// Static routes for this network. Format: &lt;destination&gt;,&lt;gateway&gt;[,&lt;metric&gt;] or &lt;destination&gt;,&lt;type&gt;[,&lt;metric&gt;] where type is blackhole, unreachable, or prohibit
     /// </summary>
     [CliOption("--route", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Route { get; set; }

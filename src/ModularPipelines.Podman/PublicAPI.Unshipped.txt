@@ -1,4 +1,19 @@
 #nullable enable
+*REMOVED*ModularPipelines.Podman.Enums.PodmanComposeProgress.Json = 3 -> ModularPipelines.Podman.Enums.PodmanComposeProgress
+*REMOVED*ModularPipelines.Podman.Enums.PodmanComposeProgress.Quiet = 4 -> ModularPipelines.Podman.Enums.PodmanComposeProgress
+*REMOVED*ModularPipelines.Podman.Enums.PodmanComposeProgress.Tty = 1 -> ModularPipelines.Podman.Enums.PodmanComposeProgress
+*REMOVED*ModularPipelines.Podman.Enums.PodmanContainerCreateSystemd.Always = 2 -> ModularPipelines.Podman.Enums.PodmanContainerCreateSystemd
+*REMOVED*ModularPipelines.Podman.Enums.PodmanContainerCreateSystemd.True = 0 -> ModularPipelines.Podman.Enums.PodmanContainerCreateSystemd
+*REMOVED*ModularPipelines.Podman.Enums.PodmanContainerRunSystemd.Always = 2 -> ModularPipelines.Podman.Enums.PodmanContainerRunSystemd
+*REMOVED*ModularPipelines.Podman.Enums.PodmanContainerRunSystemd.True = 0 -> ModularPipelines.Podman.Enums.PodmanContainerRunSystemd
+*REMOVED*ModularPipelines.Podman.Enums.PodmanCreateSystemd.Always = 2 -> ModularPipelines.Podman.Enums.PodmanCreateSystemd
+*REMOVED*ModularPipelines.Podman.Enums.PodmanCreateSystemd.True = 0 -> ModularPipelines.Podman.Enums.PodmanCreateSystemd
+*REMOVED*ModularPipelines.Podman.Enums.PodmanImagePushFormat.V2S1 = 2 -> ModularPipelines.Podman.Enums.PodmanImagePushFormat
+*REMOVED*ModularPipelines.Podman.Enums.PodmanImagePushFormat.V2S2 = 1 -> ModularPipelines.Podman.Enums.PodmanImagePushFormat
+*REMOVED*ModularPipelines.Podman.Enums.PodmanPushFormat.V2S1 = 2 -> ModularPipelines.Podman.Enums.PodmanPushFormat
+*REMOVED*ModularPipelines.Podman.Enums.PodmanPushFormat.V2S2 = 1 -> ModularPipelines.Podman.Enums.PodmanPushFormat
+*REMOVED*ModularPipelines.Podman.Enums.PodmanRunSystemd.Always = 2 -> ModularPipelines.Podman.Enums.PodmanRunSystemd
+*REMOVED*ModularPipelines.Podman.Enums.PodmanRunSystemd.True = 0 -> ModularPipelines.Podman.Enums.PodmanRunSystemd
 *REMOVED*ModularPipelines.Podman.Options.PodmanBuildOptions.Output.get -> string?
 *REMOVED*ModularPipelines.Podman.Options.PodmanBuildOptions.Output.set -> void
 *REMOVED*ModularPipelines.Podman.Options.PodmanBuildOptions.Timestamp.get -> int?
@@ -19,6 +34,14 @@
 *REMOVED*ModularPipelines.Podman.Options.PodmanMachineInitOptions.ImagePath.set -> void
 *REMOVED*ModularPipelines.Podman.Options.PodmanMachineInitOptions.VolumeDriver.get -> string?
 *REMOVED*ModularPipelines.Podman.Options.PodmanMachineInitOptions.VolumeDriver.set -> void
+*REMOVED*ModularPipelines.Podman.Options.PodmanMachineListOptions.AllProviders.get -> bool?
+*REMOVED*ModularPipelines.Podman.Options.PodmanMachineListOptions.AllProviders.set -> void
+*REMOVED*ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.Deconstruct(out string! Image) -> void
+*REMOVED*ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.Image.get -> string!
+*REMOVED*ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.Image.init -> void
+*REMOVED*ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.Name.get -> string?
+*REMOVED*ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.Name.set -> void
+*REMOVED*ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.PodmanMachineOsApplyOptions(string! Image) -> void
 *REMOVED*ModularPipelines.Podman.Options.PodmanMachineRmOptions.SaveKeys.get -> bool?
 *REMOVED*ModularPipelines.Podman.Options.PodmanMachineRmOptions.SaveKeys.set -> void
 *REMOVED*ModularPipelines.Podman.Services.IPodman.AttachAsync(ModularPipelines.Podman.Options.PodmanAttachOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
@@ -462,12 +485,61 @@
 *REMOVED*virtual ModularPipelines.Podman.Services.PodmanVolume.PruneAsync(ModularPipelines.Podman.Options.PodmanVolumePruneOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Podman.Services.PodmanVolume.RmAsync(ModularPipelines.Podman.Options.PodmanVolumeRmOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*virtual ModularPipelines.Podman.Services.PodmanVolume.UnmountAsync(ModularPipelines.Podman.Options.PodmanVolumeUnmountOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Podman.Enums.PodmanComposeProgress.Json = 1 -> ModularPipelines.Podman.Enums.PodmanComposeProgress
+ModularPipelines.Podman.Enums.PodmanComposeProgress.Quiet = 3 -> ModularPipelines.Podman.Enums.PodmanComposeProgress
+ModularPipelines.Podman.Enums.PodmanComposeProgress.Tty = 4 -> ModularPipelines.Podman.Enums.PodmanComposeProgress
+ModularPipelines.Podman.Enums.PodmanContainerCreateSystemd.Always = 0 -> ModularPipelines.Podman.Enums.PodmanContainerCreateSystemd
+ModularPipelines.Podman.Enums.PodmanContainerCreateSystemd.True = 2 -> ModularPipelines.Podman.Enums.PodmanContainerCreateSystemd
+ModularPipelines.Podman.Enums.PodmanContainerRunSystemd.Always = 0 -> ModularPipelines.Podman.Enums.PodmanContainerRunSystemd
+ModularPipelines.Podman.Enums.PodmanContainerRunSystemd.True = 2 -> ModularPipelines.Podman.Enums.PodmanContainerRunSystemd
+ModularPipelines.Podman.Enums.PodmanCreateSystemd.Always = 0 -> ModularPipelines.Podman.Enums.PodmanCreateSystemd
+ModularPipelines.Podman.Enums.PodmanCreateSystemd.True = 2 -> ModularPipelines.Podman.Enums.PodmanCreateSystemd
+ModularPipelines.Podman.Enums.PodmanImagePushFormat.V2S1 = 1 -> ModularPipelines.Podman.Enums.PodmanImagePushFormat
+ModularPipelines.Podman.Enums.PodmanImagePushFormat.V2S2 = 2 -> ModularPipelines.Podman.Enums.PodmanImagePushFormat
+ModularPipelines.Podman.Enums.PodmanPushFormat.V2S1 = 1 -> ModularPipelines.Podman.Enums.PodmanPushFormat
+ModularPipelines.Podman.Enums.PodmanPushFormat.V2S2 = 2 -> ModularPipelines.Podman.Enums.PodmanPushFormat
+ModularPipelines.Podman.Enums.PodmanRunSystemd.Always = 0 -> ModularPipelines.Podman.Enums.PodmanRunSystemd
+ModularPipelines.Podman.Enums.PodmanRunSystemd.True = 2 -> ModularPipelines.Podman.Enums.PodmanRunSystemd
 ModularPipelines.Podman.Options.PodmanArtifactOptions
 ModularPipelines.Podman.Options.PodmanArtifactOptions.PodmanArtifactOptions() -> void
 ModularPipelines.Podman.Options.PodmanArtifactOptions.PodmanArtifactOptions(ModularPipelines.Podman.Options.PodmanArtifactOptions! original) -> void
+ModularPipelines.Podman.Options.PodmanBuildOptions.CompressionFormat.get -> string?
+ModularPipelines.Podman.Options.PodmanBuildOptions.CompressionFormat.set -> void
+ModularPipelines.Podman.Options.PodmanBuildOptions.CompressionLevel.get -> int?
+ModularPipelines.Podman.Options.PodmanBuildOptions.CompressionLevel.set -> void
+ModularPipelines.Podman.Options.PodmanBuildOptions.ForceCompression.get -> bool?
+ModularPipelines.Podman.Options.PodmanBuildOptions.ForceCompression.set -> void
+ModularPipelines.Podman.Options.PodmanBuildOptions.IidfileRaw.get -> string?
+ModularPipelines.Podman.Options.PodmanBuildOptions.IidfileRaw.set -> void
+ModularPipelines.Podman.Options.PodmanBuildOptions.MetadataFile.get -> string?
+ModularPipelines.Podman.Options.PodmanBuildOptions.MetadataFile.set -> void
+ModularPipelines.Podman.Options.PodmanBuildOptions.Mount.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Podman.Options.PodmanBuildOptions.Mount.set -> void
+ModularPipelines.Podman.Options.PodmanBuildOptions.SaveStages.get -> bool?
+ModularPipelines.Podman.Options.PodmanBuildOptions.SaveStages.set -> void
+ModularPipelines.Podman.Options.PodmanBuildOptions.SourcePolicyFile.get -> string?
+ModularPipelines.Podman.Options.PodmanBuildOptions.SourcePolicyFile.set -> void
+ModularPipelines.Podman.Options.PodmanBuildOptions.StageLabels.get -> bool?
+ModularPipelines.Podman.Options.PodmanBuildOptions.StageLabels.set -> void
 ModularPipelines.Podman.Options.PodmanContainerOptions
 ModularPipelines.Podman.Options.PodmanContainerOptions.PodmanContainerOptions() -> void
 ModularPipelines.Podman.Options.PodmanContainerOptions.PodmanContainerOptions(ModularPipelines.Podman.Options.PodmanContainerOptions! original) -> void
+ModularPipelines.Podman.Options.PodmanFarmBuildOptions.CompressionFormat.get -> string?
+ModularPipelines.Podman.Options.PodmanFarmBuildOptions.CompressionFormat.set -> void
+ModularPipelines.Podman.Options.PodmanFarmBuildOptions.CompressionLevel.get -> int?
+ModularPipelines.Podman.Options.PodmanFarmBuildOptions.CompressionLevel.set -> void
+ModularPipelines.Podman.Options.PodmanFarmBuildOptions.ForceCompression.get -> bool?
+ModularPipelines.Podman.Options.PodmanFarmBuildOptions.ForceCompression.set -> void
+ModularPipelines.Podman.Options.PodmanFarmBuildOptions.IidfileRaw.get -> string?
+ModularPipelines.Podman.Options.PodmanFarmBuildOptions.IidfileRaw.set -> void
+ModularPipelines.Podman.Options.PodmanFarmBuildOptions.Mount.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Podman.Options.PodmanFarmBuildOptions.Mount.set -> void
+ModularPipelines.Podman.Options.PodmanFarmBuildOptions.SaveStages.get -> bool?
+ModularPipelines.Podman.Options.PodmanFarmBuildOptions.SaveStages.set -> void
+ModularPipelines.Podman.Options.PodmanFarmBuildOptions.SourcePolicyFile.get -> string?
+ModularPipelines.Podman.Options.PodmanFarmBuildOptions.SourcePolicyFile.set -> void
+ModularPipelines.Podman.Options.PodmanFarmBuildOptions.StageLabels.get -> bool?
+ModularPipelines.Podman.Options.PodmanFarmBuildOptions.StageLabels.set -> void
 ModularPipelines.Podman.Options.PodmanFarmOptions
 ModularPipelines.Podman.Options.PodmanFarmOptions.PodmanFarmOptions() -> void
 ModularPipelines.Podman.Options.PodmanFarmOptions.PodmanFarmOptions(ModularPipelines.Podman.Options.PodmanFarmOptions! original) -> void
@@ -477,30 +549,102 @@ ModularPipelines.Podman.Options.PodmanGenerateOptions.PodmanGenerateOptions(Modu
 ModularPipelines.Podman.Options.PodmanHealthcheckOptions
 ModularPipelines.Podman.Options.PodmanHealthcheckOptions.PodmanHealthcheckOptions() -> void
 ModularPipelines.Podman.Options.PodmanHealthcheckOptions.PodmanHealthcheckOptions(ModularPipelines.Podman.Options.PodmanHealthcheckOptions! original) -> void
+ModularPipelines.Podman.Options.PodmanHealthcheckRunOptions.IgnoreResult.get -> bool?
+ModularPipelines.Podman.Options.PodmanHealthcheckRunOptions.IgnoreResult.set -> void
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.CompressionFormat.get -> string?
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.CompressionFormat.set -> void
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.CompressionLevel.get -> int?
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.CompressionLevel.set -> void
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.ForceCompression.get -> bool?
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.ForceCompression.set -> void
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.IidfileRaw.get -> string?
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.IidfileRaw.set -> void
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.MetadataFile.get -> string?
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.MetadataFile.set -> void
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.Mount.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.Mount.set -> void
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.SaveStages.get -> bool?
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.SaveStages.set -> void
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.SourcePolicyFile.get -> string?
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.SourcePolicyFile.set -> void
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.StageLabels.get -> bool?
+ModularPipelines.Podman.Options.PodmanImageBuildOptions.StageLabels.set -> void
 ModularPipelines.Podman.Options.PodmanImageOptions
 ModularPipelines.Podman.Options.PodmanImageOptions.PodmanImageOptions() -> void
 ModularPipelines.Podman.Options.PodmanImageOptions.PodmanImageOptions(ModularPipelines.Podman.Options.PodmanImageOptions! original) -> void
 ModularPipelines.Podman.Options.PodmanImageTrustOptions
 ModularPipelines.Podman.Options.PodmanImageTrustOptions.PodmanImageTrustOptions() -> void
 ModularPipelines.Podman.Options.PodmanImageTrustOptions.PodmanImageTrustOptions(ModularPipelines.Podman.Options.PodmanImageTrustOptions! original) -> void
+ModularPipelines.Podman.Options.PodmanImageTrustSetOptions.SignaturePolicy.get -> string?
+ModularPipelines.Podman.Options.PodmanImageTrustSetOptions.SignaturePolicy.set -> void
+ModularPipelines.Podman.Options.PodmanImageTrustShowOptions.SignaturePolicy.get -> string?
+ModularPipelines.Podman.Options.PodmanImageTrustShowOptions.SignaturePolicy.set -> void
 ModularPipelines.Podman.Options.PodmanKubeOptions
 ModularPipelines.Podman.Options.PodmanKubeOptions.PodmanKubeOptions() -> void
 ModularPipelines.Podman.Options.PodmanKubeOptions.PodmanKubeOptions(ModularPipelines.Podman.Options.PodmanKubeOptions! original) -> void
+ModularPipelines.Podman.Options.PodmanMachineInitOptions.ImportNativeCa.get -> bool?
+ModularPipelines.Podman.Options.PodmanMachineInitOptions.ImportNativeCa.set -> void
+ModularPipelines.Podman.Options.PodmanMachineInitOptions.Provider.get -> string?
+ModularPipelines.Podman.Options.PodmanMachineInitOptions.Provider.set -> void
+ModularPipelines.Podman.Options.PodmanMachineInitOptions.UpdateConnection.get -> bool?
+ModularPipelines.Podman.Options.PodmanMachineInitOptions.UpdateConnection.set -> void
 ModularPipelines.Podman.Options.PodmanMachineOptions
 ModularPipelines.Podman.Options.PodmanMachineOptions.PodmanMachineOptions() -> void
 ModularPipelines.Podman.Options.PodmanMachineOptions.PodmanMachineOptions(ModularPipelines.Podman.Options.PodmanMachineOptions! original) -> void
+ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.Deconstruct(out string! Uri) -> void
+ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.Machine.get -> string?
+ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.Machine.set -> void
+ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.PodmanMachineOsApplyOptions(string! Uri) -> void
+ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.Uri.get -> string!
+ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.Uri.init -> void
 ModularPipelines.Podman.Options.PodmanMachineOsOptions
 ModularPipelines.Podman.Options.PodmanMachineOsOptions.PodmanMachineOsOptions() -> void
 ModularPipelines.Podman.Options.PodmanMachineOsOptions.PodmanMachineOsOptions(ModularPipelines.Podman.Options.PodmanMachineOsOptions! original) -> void
+ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions
+ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.DryRun.get -> bool?
+ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.DryRun.set -> void
+ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.Format.get -> string?
+ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.Format.set -> void
+ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.Name.get -> string?
+ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.Name.set -> void
+ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.PodmanMachineOsUpgradeOptions() -> void
+ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.PodmanMachineOsUpgradeOptions(ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions! original) -> void
+ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.Restart.get -> bool?
+ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.Restart.set -> void
+ModularPipelines.Podman.Options.PodmanMachineRestartOptions
+ModularPipelines.Podman.Options.PodmanMachineRestartOptions.Machine.get -> string?
+ModularPipelines.Podman.Options.PodmanMachineRestartOptions.Machine.set -> void
+ModularPipelines.Podman.Options.PodmanMachineRestartOptions.NoInfo.get -> bool?
+ModularPipelines.Podman.Options.PodmanMachineRestartOptions.NoInfo.set -> void
+ModularPipelines.Podman.Options.PodmanMachineRestartOptions.PodmanMachineRestartOptions() -> void
+ModularPipelines.Podman.Options.PodmanMachineRestartOptions.PodmanMachineRestartOptions(ModularPipelines.Podman.Options.PodmanMachineRestartOptions! original) -> void
+ModularPipelines.Podman.Options.PodmanMachineRestartOptions.Quiet.get -> bool?
+ModularPipelines.Podman.Options.PodmanMachineRestartOptions.Quiet.set -> void
+ModularPipelines.Podman.Options.PodmanMachineSetOptions.ImportNativeCa.get -> bool?
+ModularPipelines.Podman.Options.PodmanMachineSetOptions.ImportNativeCa.set -> void
+ModularPipelines.Podman.Options.PodmanMachineStartOptions.UpdateConnection.get -> bool?
+ModularPipelines.Podman.Options.PodmanMachineStartOptions.UpdateConnection.set -> void
+ModularPipelines.Podman.Options.PodmanManifestPushOptions.Retry.get -> int?
+ModularPipelines.Podman.Options.PodmanManifestPushOptions.Retry.set -> void
+ModularPipelines.Podman.Options.PodmanManifestPushOptions.RetryDelay.get -> string?
+ModularPipelines.Podman.Options.PodmanManifestPushOptions.RetryDelay.set -> void
 ModularPipelines.Podman.Options.PodmanNetworkOptions
 ModularPipelines.Podman.Options.PodmanNetworkOptions.PodmanNetworkOptions() -> void
 ModularPipelines.Podman.Options.PodmanNetworkOptions.PodmanNetworkOptions(ModularPipelines.Podman.Options.PodmanNetworkOptions! original) -> void
+ModularPipelines.Podman.Options.PodmanNetworkRmOptions.Ignore.get -> bool?
+ModularPipelines.Podman.Options.PodmanNetworkRmOptions.Ignore.set -> void
 ModularPipelines.Podman.Options.PodmanPodOptions
 ModularPipelines.Podman.Options.PodmanPodOptions.PodmanPodOptions() -> void
 ModularPipelines.Podman.Options.PodmanPodOptions.PodmanPodOptions(ModularPipelines.Podman.Options.PodmanPodOptions! original) -> void
+ModularPipelines.Podman.Options.PodmanQuadletInstallOptions.Application.get -> string?
+ModularPipelines.Podman.Options.PodmanQuadletInstallOptions.Application.set -> void
+ModularPipelines.Podman.Options.PodmanQuadletListOptions.Noheading.get -> bool?
+ModularPipelines.Podman.Options.PodmanQuadletListOptions.Noheading.set -> void
 ModularPipelines.Podman.Options.PodmanQuadletOptions
 ModularPipelines.Podman.Options.PodmanQuadletOptions.PodmanQuadletOptions() -> void
 ModularPipelines.Podman.Options.PodmanQuadletOptions.PodmanQuadletOptions(ModularPipelines.Podman.Options.PodmanQuadletOptions! original) -> void
+ModularPipelines.Podman.Options.PodmanQuadletRmOptions.Recursive.get -> bool?
+ModularPipelines.Podman.Options.PodmanQuadletRmOptions.Recursive.set -> void
 ModularPipelines.Podman.Options.PodmanSecretOptions
 ModularPipelines.Podman.Options.PodmanSecretOptions.PodmanSecretOptions() -> void
 ModularPipelines.Podman.Options.PodmanSecretOptions.PodmanSecretOptions(ModularPipelines.Podman.Options.PodmanSecretOptions! original) -> void
@@ -513,6 +657,18 @@ ModularPipelines.Podman.Options.PodmanSystemOptions.PodmanSystemOptions(ModularP
 ModularPipelines.Podman.Options.PodmanVolumeOptions
 ModularPipelines.Podman.Options.PodmanVolumeOptions.PodmanVolumeOptions() -> void
 ModularPipelines.Podman.Options.PodmanVolumeOptions.PodmanVolumeOptions(ModularPipelines.Podman.Options.PodmanVolumeOptions! original) -> void
+ModularPipelines.Podman.Options.PodmanVolumePruneOptions.All.get -> bool?
+ModularPipelines.Podman.Options.PodmanVolumePruneOptions.All.set -> void
+ModularPipelines.Podman.Options.PodmanVolumePruneOptions.DryRun.get -> bool?
+ModularPipelines.Podman.Options.PodmanVolumePruneOptions.DryRun.set -> void
+ModularPipelines.Podman.Options.PodmanVolumeRenameOptions
+ModularPipelines.Podman.Options.PodmanVolumeRenameOptions.Deconstruct(out string! Volume, out string! Newname) -> void
+ModularPipelines.Podman.Options.PodmanVolumeRenameOptions.Newname.get -> string!
+ModularPipelines.Podman.Options.PodmanVolumeRenameOptions.Newname.init -> void
+ModularPipelines.Podman.Options.PodmanVolumeRenameOptions.PodmanVolumeRenameOptions(ModularPipelines.Podman.Options.PodmanVolumeRenameOptions! original) -> void
+ModularPipelines.Podman.Options.PodmanVolumeRenameOptions.PodmanVolumeRenameOptions(string! Volume, string! Newname) -> void
+ModularPipelines.Podman.Options.PodmanVolumeRenameOptions.Volume.get -> string!
+ModularPipelines.Podman.Options.PodmanVolumeRenameOptions.Volume.init -> void
 ModularPipelines.Podman.Services.IPodman.AttachAsync(ModularPipelines.Podman.Options.PodmanAttachOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Podman.Services.IPodman.AutoUpdateAsync(ModularPipelines.Podman.Options.PodmanAutoUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Podman.Services.IPodman.BuildAsync(ModularPipelines.Podman.Options.PodmanBuildOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -680,6 +836,7 @@ ModularPipelines.Podman.Services.IPodmanMachine.InitAsync(ModularPipelines.Podma
 ModularPipelines.Podman.Services.IPodmanMachine.InspectAsync(ModularPipelines.Podman.Options.PodmanMachineInspectOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Podman.Services.IPodmanMachine.ListAsync(ModularPipelines.Podman.Options.PodmanMachineListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Podman.Services.IPodmanMachine.ResetAsync(ModularPipelines.Podman.Options.PodmanMachineResetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Podman.Services.IPodmanMachine.RestartAsync(ModularPipelines.Podman.Options.PodmanMachineRestartOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Podman.Services.IPodmanMachine.RmAsync(ModularPipelines.Podman.Options.PodmanMachineRmOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Podman.Services.IPodmanMachine.SetAsync(ModularPipelines.Podman.Options.PodmanMachineSetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Podman.Services.IPodmanMachine.SshAsync(ModularPipelines.Podman.Options.PodmanMachineSshOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -750,6 +907,7 @@ ModularPipelines.Podman.Services.IPodmanVolume.InspectAsync(ModularPipelines.Pod
 ModularPipelines.Podman.Services.IPodmanVolume.LsAsync(ModularPipelines.Podman.Options.PodmanVolumeLsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Podman.Services.IPodmanVolume.MountAsync(ModularPipelines.Podman.Options.PodmanVolumeMountOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Podman.Services.IPodmanVolume.PruneAsync(ModularPipelines.Podman.Options.PodmanVolumePruneOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+ModularPipelines.Podman.Services.IPodmanVolume.RenameAsync(ModularPipelines.Podman.Options.PodmanVolumeRenameOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Podman.Services.IPodmanVolume.RmAsync(ModularPipelines.Podman.Options.PodmanVolumeRmOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Podman.Services.IPodmanVolume.UnmountAsync(ModularPipelines.Podman.Options.PodmanVolumeUnmountOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Podman.Services.PodmanArtifact.PodmanArtifact(ModularPipelines.Context.ICommandContext! command) -> void
@@ -833,6 +991,18 @@ override ModularPipelines.Podman.Options.PodmanMachineOsOptions.Equals(object? o
 override ModularPipelines.Podman.Options.PodmanMachineOsOptions.GetHashCode() -> int
 override ModularPipelines.Podman.Options.PodmanMachineOsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Podman.Options.PodmanMachineOsOptions.ToString() -> string!
+override ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.<Clone>$() -> ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions!
+override ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.Equals(object? obj) -> bool
+override ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.GetHashCode() -> int
+override ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.ToString() -> string!
+override ModularPipelines.Podman.Options.PodmanMachineRestartOptions.<Clone>$() -> ModularPipelines.Podman.Options.PodmanMachineRestartOptions!
+override ModularPipelines.Podman.Options.PodmanMachineRestartOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Podman.Options.PodmanMachineRestartOptions.Equals(object? obj) -> bool
+override ModularPipelines.Podman.Options.PodmanMachineRestartOptions.GetHashCode() -> int
+override ModularPipelines.Podman.Options.PodmanMachineRestartOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Podman.Options.PodmanMachineRestartOptions.ToString() -> string!
 override ModularPipelines.Podman.Options.PodmanNetworkOptions.<Clone>$() -> ModularPipelines.Podman.Options.PodmanNetworkOptions!
 override ModularPipelines.Podman.Options.PodmanNetworkOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Podman.Options.PodmanNetworkOptions.Equals(object? obj) -> bool
@@ -875,6 +1045,12 @@ override ModularPipelines.Podman.Options.PodmanVolumeOptions.Equals(object? obj)
 override ModularPipelines.Podman.Options.PodmanVolumeOptions.GetHashCode() -> int
 override ModularPipelines.Podman.Options.PodmanVolumeOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Podman.Options.PodmanVolumeOptions.ToString() -> string!
+override ModularPipelines.Podman.Options.PodmanVolumeRenameOptions.<Clone>$() -> ModularPipelines.Podman.Options.PodmanVolumeRenameOptions!
+override ModularPipelines.Podman.Options.PodmanVolumeRenameOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Podman.Options.PodmanVolumeRenameOptions.Equals(object? obj) -> bool
+override ModularPipelines.Podman.Options.PodmanVolumeRenameOptions.GetHashCode() -> int
+override ModularPipelines.Podman.Options.PodmanVolumeRenameOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Podman.Options.PodmanVolumeRenameOptions.ToString() -> string!
 override sealed ModularPipelines.Podman.Options.PodmanArtifactOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
 override sealed ModularPipelines.Podman.Options.PodmanContainerOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
 override sealed ModularPipelines.Podman.Options.PodmanFarmOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
@@ -885,6 +1061,8 @@ override sealed ModularPipelines.Podman.Options.PodmanImageTrustOptions.Equals(M
 override sealed ModularPipelines.Podman.Options.PodmanKubeOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
 override sealed ModularPipelines.Podman.Options.PodmanMachineOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
 override sealed ModularPipelines.Podman.Options.PodmanMachineOsOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
+override sealed ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
+override sealed ModularPipelines.Podman.Options.PodmanMachineRestartOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
 override sealed ModularPipelines.Podman.Options.PodmanNetworkOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
 override sealed ModularPipelines.Podman.Options.PodmanPodOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
 override sealed ModularPipelines.Podman.Options.PodmanQuadletOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
@@ -892,6 +1070,7 @@ override sealed ModularPipelines.Podman.Options.PodmanSecretOptions.Equals(Modul
 override sealed ModularPipelines.Podman.Options.PodmanSystemConnectionOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
 override sealed ModularPipelines.Podman.Options.PodmanSystemOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
 override sealed ModularPipelines.Podman.Options.PodmanVolumeOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
+override sealed ModularPipelines.Podman.Options.PodmanVolumeRenameOptions.Equals(ModularPipelines.Podman.Options.PodmanOptions? other) -> bool
 static ModularPipelines.Podman.Options.PodmanArtifactOptions.operator !=(ModularPipelines.Podman.Options.PodmanArtifactOptions? left, ModularPipelines.Podman.Options.PodmanArtifactOptions? right) -> bool
 static ModularPipelines.Podman.Options.PodmanArtifactOptions.operator ==(ModularPipelines.Podman.Options.PodmanArtifactOptions? left, ModularPipelines.Podman.Options.PodmanArtifactOptions? right) -> bool
 static ModularPipelines.Podman.Options.PodmanContainerOptions.operator !=(ModularPipelines.Podman.Options.PodmanContainerOptions? left, ModularPipelines.Podman.Options.PodmanContainerOptions? right) -> bool
@@ -912,6 +1091,10 @@ static ModularPipelines.Podman.Options.PodmanMachineOptions.operator !=(ModularP
 static ModularPipelines.Podman.Options.PodmanMachineOptions.operator ==(ModularPipelines.Podman.Options.PodmanMachineOptions? left, ModularPipelines.Podman.Options.PodmanMachineOptions? right) -> bool
 static ModularPipelines.Podman.Options.PodmanMachineOsOptions.operator !=(ModularPipelines.Podman.Options.PodmanMachineOsOptions? left, ModularPipelines.Podman.Options.PodmanMachineOsOptions? right) -> bool
 static ModularPipelines.Podman.Options.PodmanMachineOsOptions.operator ==(ModularPipelines.Podman.Options.PodmanMachineOsOptions? left, ModularPipelines.Podman.Options.PodmanMachineOsOptions? right) -> bool
+static ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.operator !=(ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions? left, ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions? right) -> bool
+static ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.operator ==(ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions? left, ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions? right) -> bool
+static ModularPipelines.Podman.Options.PodmanMachineRestartOptions.operator !=(ModularPipelines.Podman.Options.PodmanMachineRestartOptions? left, ModularPipelines.Podman.Options.PodmanMachineRestartOptions? right) -> bool
+static ModularPipelines.Podman.Options.PodmanMachineRestartOptions.operator ==(ModularPipelines.Podman.Options.PodmanMachineRestartOptions? left, ModularPipelines.Podman.Options.PodmanMachineRestartOptions? right) -> bool
 static ModularPipelines.Podman.Options.PodmanNetworkOptions.operator !=(ModularPipelines.Podman.Options.PodmanNetworkOptions? left, ModularPipelines.Podman.Options.PodmanNetworkOptions? right) -> bool
 static ModularPipelines.Podman.Options.PodmanNetworkOptions.operator ==(ModularPipelines.Podman.Options.PodmanNetworkOptions? left, ModularPipelines.Podman.Options.PodmanNetworkOptions? right) -> bool
 static ModularPipelines.Podman.Options.PodmanPodOptions.operator !=(ModularPipelines.Podman.Options.PodmanPodOptions? left, ModularPipelines.Podman.Options.PodmanPodOptions? right) -> bool
@@ -926,6 +1109,8 @@ static ModularPipelines.Podman.Options.PodmanSystemOptions.operator !=(ModularPi
 static ModularPipelines.Podman.Options.PodmanSystemOptions.operator ==(ModularPipelines.Podman.Options.PodmanSystemOptions? left, ModularPipelines.Podman.Options.PodmanSystemOptions? right) -> bool
 static ModularPipelines.Podman.Options.PodmanVolumeOptions.operator !=(ModularPipelines.Podman.Options.PodmanVolumeOptions? left, ModularPipelines.Podman.Options.PodmanVolumeOptions? right) -> bool
 static ModularPipelines.Podman.Options.PodmanVolumeOptions.operator ==(ModularPipelines.Podman.Options.PodmanVolumeOptions? left, ModularPipelines.Podman.Options.PodmanVolumeOptions? right) -> bool
+static ModularPipelines.Podman.Options.PodmanVolumeRenameOptions.operator !=(ModularPipelines.Podman.Options.PodmanVolumeRenameOptions? left, ModularPipelines.Podman.Options.PodmanVolumeRenameOptions? right) -> bool
+static ModularPipelines.Podman.Options.PodmanVolumeRenameOptions.operator ==(ModularPipelines.Podman.Options.PodmanVolumeRenameOptions? left, ModularPipelines.Podman.Options.PodmanVolumeRenameOptions? right) -> bool
 virtual ModularPipelines.Podman.Options.PodmanArtifactOptions.Equals(ModularPipelines.Podman.Options.PodmanArtifactOptions? other) -> bool
 virtual ModularPipelines.Podman.Options.PodmanContainerOptions.Equals(ModularPipelines.Podman.Options.PodmanContainerOptions? other) -> bool
 virtual ModularPipelines.Podman.Options.PodmanFarmOptions.Equals(ModularPipelines.Podman.Options.PodmanFarmOptions? other) -> bool
@@ -936,6 +1121,8 @@ virtual ModularPipelines.Podman.Options.PodmanImageTrustOptions.Equals(ModularPi
 virtual ModularPipelines.Podman.Options.PodmanKubeOptions.Equals(ModularPipelines.Podman.Options.PodmanKubeOptions? other) -> bool
 virtual ModularPipelines.Podman.Options.PodmanMachineOptions.Equals(ModularPipelines.Podman.Options.PodmanMachineOptions? other) -> bool
 virtual ModularPipelines.Podman.Options.PodmanMachineOsOptions.Equals(ModularPipelines.Podman.Options.PodmanMachineOsOptions? other) -> bool
+virtual ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions.Equals(ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions? other) -> bool
+virtual ModularPipelines.Podman.Options.PodmanMachineRestartOptions.Equals(ModularPipelines.Podman.Options.PodmanMachineRestartOptions? other) -> bool
 virtual ModularPipelines.Podman.Options.PodmanNetworkOptions.Equals(ModularPipelines.Podman.Options.PodmanNetworkOptions? other) -> bool
 virtual ModularPipelines.Podman.Options.PodmanPodOptions.Equals(ModularPipelines.Podman.Options.PodmanPodOptions? other) -> bool
 virtual ModularPipelines.Podman.Options.PodmanQuadletOptions.Equals(ModularPipelines.Podman.Options.PodmanQuadletOptions? other) -> bool
@@ -943,6 +1130,7 @@ virtual ModularPipelines.Podman.Options.PodmanSecretOptions.Equals(ModularPipeli
 virtual ModularPipelines.Podman.Options.PodmanSystemConnectionOptions.Equals(ModularPipelines.Podman.Options.PodmanSystemConnectionOptions? other) -> bool
 virtual ModularPipelines.Podman.Options.PodmanSystemOptions.Equals(ModularPipelines.Podman.Options.PodmanSystemOptions? other) -> bool
 virtual ModularPipelines.Podman.Options.PodmanVolumeOptions.Equals(ModularPipelines.Podman.Options.PodmanVolumeOptions? other) -> bool
+virtual ModularPipelines.Podman.Options.PodmanVolumeRenameOptions.Equals(ModularPipelines.Podman.Options.PodmanVolumeRenameOptions? other) -> bool
 virtual ModularPipelines.Podman.Services.PodmanArtifact.AddAsync(ModularPipelines.Podman.Options.PodmanArtifactAddOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Podman.Services.PodmanArtifact.ExecuteAsync(ModularPipelines.Podman.Options.PodmanArtifactOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Podman.Services.PodmanArtifact.ExtractAsync(ModularPipelines.Podman.Options.PodmanArtifactExtractOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -1074,6 +1262,7 @@ virtual ModularPipelines.Podman.Services.PodmanMachine.InitAsync(ModularPipeline
 virtual ModularPipelines.Podman.Services.PodmanMachine.InspectAsync(ModularPipelines.Podman.Options.PodmanMachineInspectOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Podman.Services.PodmanMachine.ListAsync(ModularPipelines.Podman.Options.PodmanMachineListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Podman.Services.PodmanMachine.ResetAsync(ModularPipelines.Podman.Options.PodmanMachineResetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Podman.Services.PodmanMachine.RestartAsync(ModularPipelines.Podman.Options.PodmanMachineRestartOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Podman.Services.PodmanMachine.RmAsync(ModularPipelines.Podman.Options.PodmanMachineRmOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Podman.Services.PodmanMachine.SetAsync(ModularPipelines.Podman.Options.PodmanMachineSetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Podman.Services.PodmanMachine.SshAsync(ModularPipelines.Podman.Options.PodmanMachineSshOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -1081,6 +1270,7 @@ virtual ModularPipelines.Podman.Services.PodmanMachine.StartAsync(ModularPipelin
 virtual ModularPipelines.Podman.Services.PodmanMachine.StopAsync(ModularPipelines.Podman.Options.PodmanMachineStopOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Podman.Services.PodmanMachineOs.ApplyAsync(ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Podman.Services.PodmanMachineOs.ExecuteAsync(ModularPipelines.Podman.Options.PodmanMachineOsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Podman.Services.PodmanMachineOs.UpgradeAsync(ModularPipelines.Podman.Options.PodmanMachineOsUpgradeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Podman.Services.PodmanManifest.AddAsync(ModularPipelines.Podman.Options.PodmanManifestAddOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Podman.Services.PodmanManifest.AnnotateAsync(ModularPipelines.Podman.Options.PodmanManifestAnnotateOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Podman.Services.PodmanManifest.CreateAsync(ModularPipelines.Podman.Options.PodmanManifestCreateOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -1152,5 +1342,6 @@ virtual ModularPipelines.Podman.Services.PodmanVolume.InspectAsync(ModularPipeli
 virtual ModularPipelines.Podman.Services.PodmanVolume.LsAsync(ModularPipelines.Podman.Options.PodmanVolumeLsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Podman.Services.PodmanVolume.MountAsync(ModularPipelines.Podman.Options.PodmanVolumeMountOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Podman.Services.PodmanVolume.PruneAsync(ModularPipelines.Podman.Options.PodmanVolumePruneOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Podman.Services.PodmanVolume.RenameAsync(ModularPipelines.Podman.Options.PodmanVolumeRenameOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Podman.Services.PodmanVolume.RmAsync(ModularPipelines.Podman.Options.PodmanVolumeRmOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Podman.Services.PodmanVolume.UnmountAsync(ModularPipelines.Podman.Options.PodmanVolumeUnmountOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!

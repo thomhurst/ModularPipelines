@@ -33,6 +33,12 @@ public record PodmanMachineSetOptions : PodmanOptions
     public int? DiskSize { get; set; }
 
     /// <summary>
+    /// Import the host trusted CA certificates into the machine
+    /// </summary>
+    [CliFlag("--import-native-ca")]
+    public bool? ImportNativeCa { get; set; }
+
+    /// <summary>
     /// Memory in MiB
     /// </summary>
     [CliOption("--memory", ShortForm = "-m", Format = OptionFormat.EqualsSeparated)]
