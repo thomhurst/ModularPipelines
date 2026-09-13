@@ -18,7 +18,7 @@ public abstract partial class CliScraperBase : ICliScraper
     private static readonly string[] DefaultUsageSynopsisHeadings = ["usage"];
     private const int TabWidth = 8;
     private readonly CliScrapeProvenance _scrapeProvenance = new();
-    private readonly HashSet<string> _knownCommandGroups = new(StringComparer.OrdinalIgnoreCase);
+    private readonly HashSet<string> _knownCommandGroups = [with(StringComparer.OrdinalIgnoreCase)];
 
     protected readonly ICliCommandExecutor Executor;
     protected readonly IHelpTextCache HelpCache;
@@ -230,15 +230,10 @@ public abstract partial class CliScraperBase : ICliScraper
     /// Tracks state for parallel scraping workers using a countdown pattern.
     /// Thread-safe without locks by using atomic operations and a completion signal.
     /// </summary>
-    private sealed class WorkCoordinator
+    private sealed class WorkCoordinator(Channel<string[]> workChannel)
     {
         private int _outstandingWork;
-        private readonly Channel<string[]> _workChannel;
-
-        public WorkCoordinator(Channel<string[]> workChannel)
-        {
-            _workChannel = workChannel;
-        }
+        private readonly Channel<string[]> _workChannel = workChannel;
 
         /// <summary>
         /// Increments the outstanding work counter.
@@ -906,10 +901,9 @@ public abstract partial class CliScraperBase : ICliScraper
 
         return new CliRequiredAlternativeGroup
         {
-            Members = members
+            Members = [.. members
                 .Select(static member => member!)
-                .DistinctBy(GetRequiredAlternativeIdentity, StringComparer.Ordinal)
-                .ToArray(),
+                .DistinctBy(GetRequiredAlternativeIdentity, StringComparer.Ordinal)],
         };
     }
 
@@ -965,9 +959,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// </summary>
     protected static IReadOnlyList<CliPositionalArgument> GetPositionalArguments(
         UsageSynopsisParseResult usage) =>
-        usage.PositionalArguments
-            .Where(argument => argument.AssociatedOptionSwitch is null)
-            .ToArray();
+        [.. usage.PositionalArguments.Where(argument => argument.AssociatedOptionSwitch is null)];
 
     /// <summary>
     /// Returns true positional operands, retaining operands that follow presence-only flags.
@@ -975,7 +967,7 @@ public abstract partial class CliScraperBase : ICliScraper
     protected static IReadOnlyList<CliPositionalArgument> GetPositionalArguments(
         UsageSynopsisParseResult usage,
         IReadOnlyList<CliOptionDefinition> options) =>
-        usage.PositionalArguments
+        [.. usage.PositionalArguments
             .Where(argument => argument.AssociatedOptionSwitch is null
                                || !options.Any(option =>
                                    !option.IsFlag
@@ -985,8 +977,7 @@ public abstract partial class CliScraperBase : ICliScraper
                                        || option.ShortForm?.Equals(
                                            argument.AssociatedOptionSwitch,
                                            StringComparison.OrdinalIgnoreCase) == true)))
-            .Select(argument => argument with { AssociatedOptionSwitch = null })
-            .ToArray();
+            .Select(argument => argument with { AssociatedOptionSwitch = null })];
 
     /// <summary>
     /// Checks if help text indicates the command has options/flags.
@@ -1013,10 +1004,8 @@ public abstract partial class CliScraperBase : ICliScraper
     /// <summary>
     /// Default subcommands to always skip.
     /// </summary>
-    private static readonly HashSet<string> DefaultSkipSubcommands = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "help", "completion", "version", "__complete", "__completeNoDesc"
-    };
+    private static readonly HashSet<string> DefaultSkipSubcommands =
+    [with(StringComparer.OrdinalIgnoreCase), "help", "completion", "version", "__complete", "__completeNoDesc"];
 
     /// <summary>
     /// Checks if a subcommand should be skipped (e.g., "help", "completion").
@@ -1317,7 +1306,20 @@ public abstract partial class CliScraperBase : ICliScraper
                 break;
             }
 
-            parts.Add(candidate.Trim());
+            var continuation = candidate.Trim();
+            // Help formatters can wrap a long option reference at an internal hyphen.
+            // Keep ordinary prose hyphens and standalone option terminators unchanged.
+            if (parts.Count > 0
+                && char.IsAsciiLetterOrDigit(continuation[0])
+                && WrappedLongOptionPrefixPattern().IsMatch(parts[^1]))
+            {
+                parts[^1] += continuation;
+            }
+            else
+            {
+                parts.Add(continuation);
+            }
+
             declarationIndex++;
 
             // A row whose prose only starts on the next line (picocli, argparse, git) reveals its
@@ -1327,6 +1329,9 @@ public abstract partial class CliScraperBase : ICliScraper
 
         return string.Join(' ', parts);
     }
+
+    [GeneratedRegex(@"(?<![\w/-])--[A-Za-z0-9][A-Za-z0-9_-]*-$")]
+    private static partial Regex WrappedLongOptionPrefixPattern();
 
     /// <summary>
     /// Parses indentation-based argument declarations into a reusable nested group model.
