@@ -16,11 +16,11 @@ namespace ModularPipelines.Pulumi.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum PulumiOrgUsageGetGranularity
 {
-    [EnumValue("hourly")]
-    Hourly,
-
     [EnumValue("daily")]
     Daily,
+
+    [EnumValue("hourly")]
+    Hourly,
 
     [EnumValue("monthly")]
     Monthly
