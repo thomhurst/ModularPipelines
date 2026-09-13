@@ -1141,10 +1141,10 @@ public abstract partial class CliScraperBase : ICliScraper
         ExplicitBooleanValuePattern().IsMatch(description);
 
     /// <summary>
-    /// Recognizes a required marker before or after the opening description sentence.
+    /// Recognizes an explicit required marker outside quoted examples in the description.
     /// </summary>
     protected static bool DescriptionDeclaresRequiredOption(string description) =>
-        ExplicitRequiredOptionPattern().IsMatch(description);
+        ExplicitRequiredOptionPattern().Matches(description).Any(match => match.Groups["required"].Success);
 
     /// <summary>
     /// Returns whether help describes an option as repeatable.
@@ -1421,7 +1421,9 @@ public abstract partial class CliScraperBase : ICliScraper
         RegexOptions.IgnoreCase)]
     private static partial Regex ExplicitBooleanValuePattern();
 
-    [GeneratedRegex(@"^(?:[^""'`.!?\r\n]*[.!?]\s+)?\(required\)(?=\s|$)", RegexOptions.IgnoreCase)]
+    // Consume quoted spans before looking for markers, without treating possessive apostrophes as opening quotes.
+    [GeneratedRegex(""" "(?:\\.|[^"\\])*" | (?<!\w)'(?:\\.|[^'\\])*' | `[^`]*` | (?<required>\(required\)(?=\s|[.!?]|$)) """,
+        RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace)]
     private static partial Regex ExplicitRequiredOptionPattern();
 
     private const string OperationalCountPhrasePattern =
