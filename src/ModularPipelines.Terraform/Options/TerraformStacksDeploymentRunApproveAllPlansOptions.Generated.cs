@@ -18,12 +18,8 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "deployment-run", "approve-all-plans")]
-public record TerraformStacksDeploymentRunApproveAllPlansOptions : TerraformOptions
+public record TerraformStacksDeploymentRunApproveAllPlansOptions(
+    [property: CliOption("-deployment-run-id", Format = OptionFormat.EqualsSeparated)] string DeploymentRunId
+) : TerraformOptions
 {
-    /// <summary>
-    /// The ID of the deployment run (required).
-    /// </summary>
-    [CliOption("-deployment-run-id", Format = OptionFormat.EqualsSeparated)]
-    public string? DeploymentRunId { get; set; }
-
 }
