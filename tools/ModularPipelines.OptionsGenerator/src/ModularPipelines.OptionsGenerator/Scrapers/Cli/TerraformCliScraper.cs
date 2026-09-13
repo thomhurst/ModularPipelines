@@ -34,13 +34,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   -backend-config=path      Configuration to be merged
 ///   -force-copy               Suppress prompts about moving state data
 /// </summary>
-public partial class TerraformCliScraper : CliScraperBase
+public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<TerraformCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    public TerraformCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<TerraformCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "terraform";
 
     public override string NamespacePrefix => "Terraform";
@@ -117,7 +112,7 @@ public partial class TerraformCliScraper : CliScraperBase
                 sectionEnd = nextSectionMatch.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
 
             // Parse command lines: "  command    description"
             var lines = section.Split('\n');
@@ -207,15 +202,14 @@ public partial class TerraformCliScraper : CliScraperBase
         commandParts is ["metadata" or "stacks" or "state"]
             ? usage with
             {
-                PositionalArguments = usage.PositionalArguments
+                PositionalArguments = [.. usage.PositionalArguments
                     .Select(argument => argument.PropertyName.Equals("Args", StringComparison.OrdinalIgnoreCase)
                         ? argument with
                         {
                             CSharpType = "IEnumerable<string>?",
                             IsVariadic = true,
                         }
-                        : argument)
-                    .ToArray(),
+                        : argument)],
             }
             : usage;
 
@@ -296,7 +290,7 @@ public partial class TerraformCliScraper : CliScraperBase
             sectionEnd = nextSectionMatch.Index;
         }
 
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+        var section = helpText[sectionStart..sectionEnd];
         var lines = section.Split('\n');
 
         for (var i = 0; i < lines.Length; i++)
@@ -361,7 +355,7 @@ public partial class TerraformCliScraper : CliScraperBase
                 CSharpType = csharpType,
                 Description = description,
                 IsFlag = isFlag,
-                IsRequired = false,
+                IsRequired = DescriptionDeclaresRequiredOption(description),
                 AcceptsMultipleValues = acceptsMultipleValues,
                 IsKeyValue = false,
                 IsNumeric = isInteger,
