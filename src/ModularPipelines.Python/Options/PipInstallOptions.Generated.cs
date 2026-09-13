@@ -69,7 +69,7 @@ public record PipInstallOptions : PipOptions
     public IEnumerable<string>? Platform { get; set; }
 
     /// <summary>
-    /// Only use wheels compatible with Python abi &lt;abi&gt;, e.g. 'pypy_41'. If not specified, then the current interpreter abi tag is used. Use this option multiple times to specify multiple abis supported by the target interpreter. Generally you will need to specify --implementation, --platform, and --python- version when using this option.
+    /// Only use wheels compatible with Python abi &lt;abi&gt;, e.g. 'pypy_41'. If not specified, then the current interpreter abi tag is used. Use this option multiple times to specify multiple abis supported by the target interpreter. Generally you will need to specify --implementation, --platform, and --python-version when using this option.
     /// </summary>
     [CliOption("--abi")]
     public IEnumerable<string>? Abi { get; set; }
@@ -189,7 +189,7 @@ public record PipInstallOptions : PipOptions
     public bool? RequireHashes { get; set; }
 
     /// <summary>
-    /// Generate a JSON file describing what pip did to install the provided requirements. Can be used in combination with --dry-run and --ignore- installed to 'resolve' the requirements. When - is used as file name it writes to stdout. When writing to stdout, please combine with the --quiet option to avoid mixing pip logging output with JSON output.
+    /// Generate a JSON file describing what pip did to install the provided requirements. Can be used in combination with --dry-run and --ignore-installed to 'resolve' the requirements. When - is used as file name it writes to stdout. When writing to stdout, please combine with the --quiet option to avoid mixing pip logging output with JSON output.
     /// </summary>
     [CliOption("--report")]
     public string? Report { get; set; }
@@ -213,7 +213,7 @@ public record PipInstallOptions : PipOptions
     public string? ExtraIndexUrl { get; set; }
 
     /// <summary>
-    /// Ignore package index (only looking at --find- links URLs instead).
+    /// Ignore package index (only looking at --find-links URLs instead).
     /// </summary>
     [CliFlag("--no-index")]
     public bool? NoIndex { get; set; }
