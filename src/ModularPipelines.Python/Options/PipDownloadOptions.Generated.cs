@@ -105,7 +105,7 @@ public record PipDownloadOptions : PipOptions
     public IEnumerable<string>? Platform { get; set; }
 
     /// <summary>
-    /// Only use wheels compatible with Python abi &lt;abi&gt;, e.g. 'pypy_41'. If not specified, then the current interpreter abi tag is used. Use this option multiple times to specify multiple abis supported by the target interpreter. Generally you will need to specify --implementation, --platform, and --python- version when using this option.
+    /// Only use wheels compatible with Python abi &lt;abi&gt;, e.g. 'pypy_41'. If not specified, then the current interpreter abi tag is used. Use this option multiple times to specify multiple abis supported by the target interpreter. Generally you will need to specify --implementation, --platform, and --python-version when using this option.
     /// </summary>
     [CliOption("--abi")]
     public IEnumerable<string>? Abi { get; set; }
@@ -129,7 +129,7 @@ public record PipDownloadOptions : PipOptions
     public string? ExtraIndexUrl { get; set; }
 
     /// <summary>
-    /// Ignore package index (only looking at --find- links URLs instead).
+    /// Ignore package index (only looking at --find-links URLs instead).
     /// </summary>
     [CliFlag("--no-index")]
     public bool? NoIndex { get; set; }
