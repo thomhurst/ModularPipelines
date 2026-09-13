@@ -1302,9 +1302,7 @@ public abstract partial class CliScraperBase : ICliScraper
             return false;
         }
 
-        if (looksLikeOptionRow
-            && GetRowDescriptionColumn(line, nextLine) is not null
-            && (previousLine is null || !SwitchReferenceIntroductionPattern().IsMatch(previousLine)))
+        if (looksLikeOptionRow && StartsNestedOptionDescription(line, nextLine, previousLine))
         {
             return false;
         }
@@ -1314,6 +1312,10 @@ public abstract partial class CliScraperBase : ICliScraper
         return (!looksLikeOptionRow || wrappedAtDescriptionColumn)
                && (declarationIndentation is not { } floor || indentation > floor);
     }
+
+    private static bool StartsNestedOptionDescription(string line, string? nextLine, string? previousLine) =>
+        GetRowDescriptionColumn(line, nextLine) is not null
+        && (previousLine is null || !SwitchReferenceIntroductionPattern().IsMatch(previousLine));
 
     // Prose such as "Combine with" introduces a wrapped switch reference. The following
     // sentence may start with any word; casing and attached-value syntax cannot decide that.
