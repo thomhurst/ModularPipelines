@@ -107,10 +107,22 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
     {
         try
         {
-            return await _shield.ExecuteAsync(
+            var result = await _shield.ExecuteAsync(
                     async token => await _inner.ExecuteAsync(command, arguments, token, workingDirectory).ConfigureAwait(false),
                     cancellationToken)
                 .ConfigureAwait(false);
+
+            // Legacy executors use -1 for system failures without setting the newer
+            // outcome flags. Their final diagnostics must not be parsed as CLI help.
+            return result.ExitCode == -1 && !result.Unavailable
+                ? new CliCommandResult
+                {
+                    ExitCode = result.ExitCode,
+                    StandardOutput = result.StandardOutput,
+                    StandardError = result.StandardError,
+                    ExecutionFailed = true,
+                }
+                : result;
         }
         catch (CircuitOpenException ex)
         {

@@ -696,6 +696,29 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    [Arguments(true, false)]
+    [Arguments(false, true)]
+    public async Task Podman_Unavailable_Compose_Provider_Logs_Only_The_Unavailable_Warning(
+        bool timedOut, bool circuitOpen)
+    {
+        var logger = new RecordingLogger();
+        var scraper = new TestPodmanCliScraper(new ComposeProviderExecutor(new CliCommandResult
+        {
+            ExitCode = -1,
+            TimedOut = timedOut,
+            CircuitOpen = circuitOpen,
+            StandardOutput = string.Empty,
+            StandardError = "Help unavailable",
+        }), logger);
+
+        var help = await scraper.GetHelp(["podman", "compose"]);
+
+        await Assert.That(help).IsNull();
+        await Assert.That(logger.Warnings.Count).IsEqualTo(1);
+        await Assert.That(logger.Warnings.Single().Message).DoesNotContain("No compose provider help text");
+    }
+
+    [Test]
     [Arguments("container clone", "CONTAINER NAME IMAGE", 3)]
     [Arguments("pod clone", "POD NAME", 2)]
     public async Task PodmanClone_Keeps_Defaulted_Output_Operands_Optional(
@@ -1456,7 +1479,7 @@ public class CliScraperTraversalTests
             GetHelpTextAsync(commandPath, CancellationToken.None);
     }
 
-    private sealed class RecordingLogger : ILogger
+    private sealed class RecordingLogger : ILogger<PodmanCliScraper>
     {
         public List<(string Message, Exception? Exception)> Warnings { get; } = [];
 
@@ -1479,13 +1502,16 @@ public class CliScraperTraversalTests
         }
     }
 
-    private sealed class TestPodmanCliScraper(ICliCommandExecutor executor)
+    private sealed class TestPodmanCliScraper(ICliCommandExecutor executor, ILogger<PodmanCliScraper>? logger = null)
         : PodmanCliScraper(
             executor,
             new HelpTextCache(NullLogger<HelpTextCache>.Instance),
-            NullLogger<PodmanCliScraper>.Instance)
+            logger ?? NullLogger<PodmanCliScraper>.Instance)
     {
         protected override string? ComposeProviderPath => "docker-compose-shim";
+
+        public Task<string?> GetHelp(string[] commandPath) =>
+            GetHelpTextAsync(commandPath, CancellationToken.None);
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {
@@ -1511,7 +1537,7 @@ public class CliScraperTraversalTests
             new HelpTextCache(NullLogger<HelpTextCache>.Instance),
             NullLogger<CargoCliScraper>.Instance);
 
-    private sealed class ComposeProviderExecutor : ICliCommandExecutor
+    private sealed class ComposeProviderExecutor(CliCommandResult? providerResult = null) : ICliCommandExecutor
     {
         public List<(string Command, string Arguments)> Invocations { get; } = [];
 
@@ -1522,6 +1548,11 @@ public class CliScraperTraversalTests
             string? workingDirectory = null)
         {
             Invocations.Add((command, arguments));
+            if (command == "docker-compose-shim" && providerResult is not null)
+            {
+                return Task.FromResult(providerResult);
+            }
+
             var helpText = (command, arguments) switch
             {
                 ("podman", "--help") => """

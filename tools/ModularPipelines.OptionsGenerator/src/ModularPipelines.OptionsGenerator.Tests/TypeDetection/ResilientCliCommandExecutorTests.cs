@@ -6,6 +6,28 @@ namespace ModularPipelines.OptionsGenerator.Tests.TypeDetection;
 public class ResilientCliCommandExecutorTests
 {
     [Test]
+    [Arguments("Temporary process failure", 2)]
+    [Arguments("Executable not found", 1)]
+    public async Task Final_Legacy_System_Failures_Are_Unavailable(string error, int attempts)
+    {
+        var failure = new CliCommandResult
+        {
+            ExitCode = -1,
+            StandardOutput = "Launcher diagnostics",
+            StandardError = error,
+        };
+        var inner = new SequenceExecutor(failure, failure);
+        var result = await CreateExecutor(inner, maxRetries: 1).ExecuteAsync("test", "--help");
+
+        await Assert.That(result.Unavailable).IsTrue();
+        await Assert.That(result.ExecutionFailed).IsTrue();
+        await Assert.That(result.ExitCode).IsEqualTo(-1);
+        await Assert.That(result.StandardOutput).IsEqualTo(failure.StandardOutput);
+        await Assert.That(result.StandardError).IsEqualTo(error);
+        await Assert.That(inner.ExecutionCount).IsEqualTo(attempts);
+    }
+
+    [Test]
     [Arguments(1, false, true)]
     [Arguments(124, true, false)]
     public async Task Retries_Explicit_System_Failures_Regardless_Of_Exit_Code(

@@ -72,7 +72,10 @@ public partial class PodmanCliScraper : CobraCliScraper
             : result.StandardError;
         if (string.IsNullOrWhiteSpace(helpText))
         {
-            Logger.LogWarning("No compose provider help text for command: {Command}", cacheKey);
+            if (!result.Unavailable)
+            {
+                Logger.LogWarning("No compose provider help text for command: {Command}", cacheKey);
+            }
             return null;
         }
 

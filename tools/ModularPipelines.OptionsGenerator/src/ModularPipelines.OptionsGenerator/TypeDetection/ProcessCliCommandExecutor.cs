@@ -140,9 +140,9 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
                     cts.CancelAfter(_timeout);
                 }
 
-                await process.WaitForExitAsync(cts.Token);
-                await Task.WhenAll(stdoutTask, stderrTask).WaitAsync(cts.Token);
                 statusBytesRead = await launchStatus.ReadAsync(acknowledgement, cts.Token).ConfigureAwait(false);
+                await process.WaitForExitAsync(cts.Token).ConfigureAwait(false);
+                await Task.WhenAll(stdoutTask, stderrTask).WaitAsync(cts.Token).ConfigureAwait(false);
             }
             catch (Exception)
             {
