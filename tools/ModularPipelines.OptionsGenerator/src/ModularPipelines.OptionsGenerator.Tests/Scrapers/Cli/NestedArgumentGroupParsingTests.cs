@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -8,6 +9,44 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 
 public partial class NestedArgumentGroupParsingTests
 {
+    [Test]
+    [Arguments("oauth2-client-credentials-config-id", "The client identifier.", false)]
+    [Arguments("security-settings-aws-v4-access-key-id", "The AWS access key ID.", false)]
+    [Arguments("proxy-secret-version-id", "The ID of the secret version containing proxy credentials.", false)]
+    [Arguments("properties-secret-id", "The ID of the Oracle Cloud Infrastructure vault secret.", false)]
+    [Arguments("password", "The password.", true)]
+    [Arguments("secret-access-key", "The secret access key.", true)]
+    [Arguments("private-key", "Private key material.", true)]
+    [Arguments("body", "The value for the secret.", true)]
+    public async Task Gcloud_Generation_Masks_Secret_Values_But_Not_Identifiers(
+        string switchName, string description, bool expectedSecret)
+    {
+        var helpText = $"""
+            NAME
+                gcloud example update - Update an example.
+
+            FLAGS
+                --{switchName}=VALUE
+                    {description}
+
+            GCLOUD WIDE FLAGS
+                --help
+            """;
+        var command = await CreateGcloudScraper().Parse(["gcloud", "example", "update"], helpText);
+        var generated = await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "src/ModularPipelines.Google",
+            Commands = [command!],
+        });
+
+        await Assert.That(command!.Options.Single().IsSecret).IsEqualTo(expectedSecret);
+        await Assert.That(generated.Single().Content.Contains("[SecretValue]", StringComparison.Ordinal))
+            .IsEqualTo(expectedSecret);
+    }
+
     [Test]
     public async Task SharedParser_Recovers_Nested_Alternatives_And_Documentation()
     {

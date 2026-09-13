@@ -924,6 +924,17 @@ public static partial class GeneratorUtils
             return false;
         }
 
+        if (IsSecretIdentifier(propertyName))
+        {
+            // These names can carry the credential itself: Vault AppRole SecretID,
+            // token ID, and the development server's initial root token.
+            // Keep this list exact so resource references such as PropertiesSecretId
+            // and access-key identifiers remain visible.
+            return propertyName.Equals("SecretId", StringComparison.OrdinalIgnoreCase)
+                   || propertyName.Equals("TokenId", StringComparison.OrdinalIgnoreCase)
+                   || propertyName.Equals("DevRootTokenId", StringComparison.OrdinalIgnoreCase);
+        }
+
         var hasSecretKeyword = SecretKeywords.Any(keyword =>
                                    propertyName.Contains(keyword, StringComparison.OrdinalIgnoreCase))
                                || ContainsIdentifierSegment(propertyName, "Otp")
@@ -933,7 +944,7 @@ public static partial class GeneratorUtils
             return true;
         }
 
-        return !IsSecretIdentifier(propertyName) && DescriptionIdentifiesSecretValue(description);
+        return DescriptionIdentifiesSecretValue(description);
     }
 
     private static bool IsSecretIdentifier(string propertyName) =>

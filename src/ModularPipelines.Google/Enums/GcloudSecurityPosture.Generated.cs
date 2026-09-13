@@ -19,9 +19,9 @@ public enum GcloudSecurityPosture
     [EnumValue("disabled")]
     Disabled,
 
-    [EnumValue("standard")]
-    Standard,
-
     [EnumValue("enterprise")]
-    Enterprise
+    Enterprise,
+
+    [EnumValue("standard")]
+    Standard
 }

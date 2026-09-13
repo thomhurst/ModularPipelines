@@ -16,9 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudOrder
 {
-    [EnumValue("desc")]
-    Desc,
-
     [EnumValue("asc")]
-    Asc
+    Asc,
+
+    [EnumValue("desc")]
+    Desc
 }
