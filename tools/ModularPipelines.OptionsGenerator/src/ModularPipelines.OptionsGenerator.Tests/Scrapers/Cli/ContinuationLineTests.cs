@@ -7,6 +7,8 @@ public class ContinuationLineTests
     [Test]
     [Arguments("Local options:", "Global options:")]
     [Arguments("LOCAL OPTIONS", "GLOBAL OPTIONS")]
+    [Arguments("Image Flags", "Client/Server Flags")]
+    [Arguments("", "")]
     public async Task Repeatable_Lookahead_Uses_The_Containing_Section_Layout(string localHeading, string globalHeading)
     {
         var helpText = $"""
@@ -29,6 +31,9 @@ public class ContinuationLineTests
     [Arguments("            --child  VALUE   may be specified multiple times")]
     [Arguments("              --child VALUE   May be specified multiple times")]
     [Arguments("\t\t--child VALUE\tMay be specified multiple times")]
+    [Arguments("            -c, --child VALUE   May be specified multiple times")]
+    [Arguments("            -c VALUE, --child VALUE   May be specified multiple times")]
+    [Arguments("            --child   Can be repeated to increase verbosity")]
     public async Task Repeatable_Lookahead_Does_Not_Absorb_Nested_Declarations_At_The_Prose_Column(string child)
     {
         var helpText = "  --parent  Configure parent settings\n" + child;
@@ -41,11 +46,13 @@ public class ContinuationLineTests
     }
 
     [Test]
-    public async Task Repeatable_Lookahead_Preserves_Separated_Prose_After_A_Wrapped_Switch_Mention()
+    [Arguments("--env-file=PATH  to load defaults")]
+    [Arguments("--no-restore  to skip restoration")]
+    public async Task Repeatable_Lookahead_Preserves_Separated_Prose_After_A_Wrapped_Switch_Mention(string mention)
     {
-        const string helpText = """
+        var helpText = $"""
               --env VALUE   Set variables. Combine with
-                            --env-file=PATH  to load defaults; may be specified multiple times
+                            {mention}; may be specified multiple times
               --quiet       Suppress output
             """;
 
