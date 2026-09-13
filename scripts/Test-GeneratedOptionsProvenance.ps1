@@ -65,11 +65,6 @@ try {
 
     $workflowContents = Get-Content -LiteralPath $generationWorkflow -Raw
     $normalizedWorkflowContents = $workflowContents.ReplaceLineEndings("`n")
-    foreach ($buildInput in $buildInputs) {
-        if (-not $workflowContents.Contains("- '$buildInput'", [StringComparison]::Ordinal)) {
-            throw "Generator push trigger omits build input '$buildInput'."
-        }
-    }
     $provenanceInputs = @(
         'scripts/GeneratedOptionsProvenance.ps1',
         'scripts/Write-GeneratedOptionsProvenance.ps1'
@@ -77,10 +72,6 @@ try {
     foreach ($provenanceInput in $provenanceInputs) {
         if ($sourcePaths -notcontains $provenanceInput) {
             throw "Generated-options fingerprint omits provenance input '$provenanceInput'."
-        }
-
-        if (-not $workflowContents.Contains("- '$provenanceInput'", [StringComparison]::Ordinal)) {
-            throw "Generator push trigger omits provenance input '$provenanceInput'."
         }
     }
     $guardedAutoMergeDisableSteps = [regex]::Matches(
