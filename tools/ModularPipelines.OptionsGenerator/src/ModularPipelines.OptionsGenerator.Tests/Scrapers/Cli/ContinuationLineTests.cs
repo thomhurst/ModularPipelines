@@ -5,6 +5,40 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class ContinuationLineTests
 {
     [Test]
+    [Arguments("May be specified multiple times:")]
+    [Arguments("MAY BE SPECIFIED MULTIPLE TIMES:")]
+    [Arguments("Available values include:")]
+    public async Task Colon_Terminated_Continuation_Prose_Is_Not_A_Section_Heading(string prose)
+    {
+        var helpText = $"  --env VALUE   Set variables\n  {prose}\n  Values may be specified multiple times\n  --quiet       Suppress output";
+
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsTrue();
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--quiet", string.Empty)).IsFalse();
+    }
+
+    [Test]
+    [Arguments("Repeatable.")]
+    [Arguments("Repeatable")]
+    [Arguments("repeatable")]
+    public async Task Single_Word_Descriptions_End_The_Parent_Option_Block(string description)
+    {
+        foreach (var child in new[] { "--child VALUE", "--child=VALUE", "--child", "--child  VALUE" })
+        {
+            var helpText = $"  --parent  Configure output\n            {child}   {description}";
+            var lines = helpText.Split('\n');
+            var index = 0;
+            var accumulated = CliScraperBase.AccumulateWrappedDescription(
+                lines, ref index, inlineDescription: null,
+                static line => line.TrimStart().StartsWith('-'));
+
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--parent", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--child", string.Empty)).IsTrue();
+            await Assert.That(accumulated).IsEmpty();
+            await Assert.That(index).IsEqualTo(0);
+        }
+    }
+
+    [Test]
     [Arguments("and")]
     [Arguments("or")]
     [Arguments("with")]
@@ -63,6 +97,8 @@ public class ContinuationLineTests
     [Arguments("DESCRIPTION")]
     [Arguments("EXAMPLES")]
     [Arguments("GLOBAL OPTIONS")]
+    [Arguments("Description:")]
+    [Arguments("Custom Section:")]
     public async Task Repeatability_In_Another_Section_Does_Not_Apply_To_An_Option(string heading)
     {
         var helpText = $"  --env VALUE   Set variables\n{heading}\n  Some other setting may be specified multiple times";
@@ -200,6 +236,9 @@ public class ContinuationLineTests
     [Arguments("  --config  KEY VALUE   Set a config value", "Set")]
     [Arguments("  --env  <key> <value>   Set environment variables", "Set")]
     [Arguments("  --add  PATH...   Paths to add", "Paths")]
+    [Arguments("  --verbose    Verbose", "Verbose")]
+    [Arguments("  --child VALUE   Repeatable.", "Repeatable.")]
+    [Arguments("  --child   Required", "Required")]
     public async Task Inline_Description_Column_Skips_Switches_And_Value_Hints(string line, string descriptionStart)
     {
         var expected = CliScraperBase.GetColumn(line, line.IndexOf(descriptionStart, StringComparison.Ordinal));
@@ -214,13 +253,11 @@ public class ContinuationLineTests
     [Arguments("  --env  String")]
     [Arguments("  --output  <path>")]
     [Arguments("  --level  DEBUG")]
-    [Arguments("  --verbose    Verbose")]
     [Arguments("  --config  KEY VALUE")]
     [Arguments("   ")]
     public async Task Rows_Without_Prose_Have_No_Inline_Description_Column(string line)
     {
-        // A lone token is a hint, or a one-word description that nothing wraps beneath; either
-        // way the lookahead takes its column from the first wrapped line instead.
+        // Typed hints and placeholder tokens leave the description column unknown.
         await Assert.That(CliScraperBase.GetInlineDescriptionColumn(line)).IsNull();
     }
 
