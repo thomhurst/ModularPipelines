@@ -314,10 +314,6 @@ ModularPipelines.Terraform.Options.TerraformStacksConfigurationWatchOptions.Terr
 ModularPipelines.Terraform.Options.TerraformStacksCreateOptions
 ModularPipelines.Terraform.Options.TerraformStacksCreateOptions.Json.get -> bool?
 ModularPipelines.Terraform.Options.TerraformStacksCreateOptions.Json.set -> void
-ModularPipelines.Terraform.Options.TerraformStacksCreateOptions.OrganizationName.set -> void
-ModularPipelines.Terraform.Options.TerraformStacksCreateOptions.ProjectName.set -> void
-ModularPipelines.Terraform.Options.TerraformStacksCreateOptions.StackName.set -> void
-ModularPipelines.Terraform.Options.TerraformStacksCreateOptions.TerraformStacksCreateOptions() -> void
 ModularPipelines.Terraform.Options.TerraformStacksCreateOptions.TerraformStacksCreateOptions(ModularPipelines.Terraform.Options.TerraformStacksCreateOptions! original) -> void
 ModularPipelines.Terraform.Options.TerraformStacksCreateOptions.WithTemplate.get -> bool?
 ModularPipelines.Terraform.Options.TerraformStacksCreateOptions.WithTemplate.set -> void
@@ -344,11 +340,9 @@ ModularPipelines.Terraform.Options.TerraformStacksDeploymentGroupOptions.Terrafo
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentGroupRerunOptions
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentGroupRerunOptions.DeploymentGroupId.set -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentGroupRerunOptions.DeploymentGroupName.set -> void
-ModularPipelines.Terraform.Options.TerraformStacksDeploymentGroupRerunOptions.DeploymentNames.set -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentGroupRerunOptions.OrganizationName.set -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentGroupRerunOptions.ProjectName.set -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentGroupRerunOptions.StackName.set -> void
-ModularPipelines.Terraform.Options.TerraformStacksDeploymentGroupRerunOptions.TerraformStacksDeploymentGroupRerunOptions() -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentGroupRerunOptions.TerraformStacksDeploymentGroupRerunOptions(ModularPipelines.Terraform.Options.TerraformStacksDeploymentGroupRerunOptions! original) -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentGroupShowOptions
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentGroupShowOptions.DeploymentGroupId.set -> void
@@ -369,12 +363,8 @@ ModularPipelines.Terraform.Options.TerraformStacksDeploymentGroupWatchOptions.St
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentGroupWatchOptions.TerraformStacksDeploymentGroupWatchOptions() -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentGroupWatchOptions.TerraformStacksDeploymentGroupWatchOptions(ModularPipelines.Terraform.Options.TerraformStacksDeploymentGroupWatchOptions! original) -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunApproveAllPlansOptions
-ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunApproveAllPlansOptions.DeploymentRunId.set -> void
-ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunApproveAllPlansOptions.TerraformStacksDeploymentRunApproveAllPlansOptions() -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunApproveAllPlansOptions.TerraformStacksDeploymentRunApproveAllPlansOptions(ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunApproveAllPlansOptions! original) -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunCancelOptions
-ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunCancelOptions.DeploymentRunId.set -> void
-ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunCancelOptions.TerraformStacksDeploymentRunCancelOptions() -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunCancelOptions.TerraformStacksDeploymentRunCancelOptions(ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunCancelOptions! original) -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunListOptions
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunListOptions.DeploymentGroupId.set -> void
@@ -394,8 +384,6 @@ ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunShowOptions.Json.
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunShowOptions.Json.set -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunShowOptions.TerraformStacksDeploymentRunShowOptions(ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunShowOptions! original) -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunWatchOptions
-ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunWatchOptions.DeploymentRunId.set -> void
-ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunWatchOptions.TerraformStacksDeploymentRunWatchOptions() -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunWatchOptions.TerraformStacksDeploymentRunWatchOptions(ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunWatchOptions! original) -> void
 ModularPipelines.Terraform.Options.TerraformStacksFmtOptions
 ModularPipelines.Terraform.Options.TerraformStacksFmtOptions.Check.get -> bool?
@@ -420,9 +408,7 @@ ModularPipelines.Terraform.Options.TerraformStacksInitOptions.Upgrade.set -> voi
 ModularPipelines.Terraform.Options.TerraformStacksListOptions
 ModularPipelines.Terraform.Options.TerraformStacksListOptions.Json.get -> bool?
 ModularPipelines.Terraform.Options.TerraformStacksListOptions.Json.set -> void
-ModularPipelines.Terraform.Options.TerraformStacksListOptions.OrganizationName.set -> void
 ModularPipelines.Terraform.Options.TerraformStacksListOptions.ProjectName.set -> void
-ModularPipelines.Terraform.Options.TerraformStacksListOptions.TerraformStacksListOptions() -> void
 ModularPipelines.Terraform.Options.TerraformStacksListOptions.TerraformStacksListOptions(ModularPipelines.Terraform.Options.TerraformStacksListOptions! original) -> void
 ModularPipelines.Terraform.Options.TerraformStacksOptions
 ModularPipelines.Terraform.Options.TerraformStacksOptions.Args.get -> System.Collections.Generic.IEnumerable<string!>?
