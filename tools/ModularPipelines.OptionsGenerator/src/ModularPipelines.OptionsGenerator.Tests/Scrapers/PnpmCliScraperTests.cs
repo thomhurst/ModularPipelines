@@ -16,6 +16,12 @@ public class PnpmCliScraperTests
     [Arguments("[warning: unstable API]", "[warning: unstable API]")]
     [Arguments("[Unclosed note", "[Unclosed note")]
     [Arguments("[default: unfinished", "[default: unfinished")]
+    [Arguments("[default: library]", "[default: library]")]
+    [Arguments("[alias: format]", "[alias: format]")]
+    [Arguments("[aliases: format, output]", "[aliases: format, output]")]
+    [Arguments("[env: PNPM_REPORTER=]", "[env: PNPM_REPORTER=]")]
+    [Arguments("[default: a long\n          value]", "[default: a long value]")]
+    [Arguments("[default: compact]\n          [possible values: compact, verbose]", "[default: compact]")]
     public async Task Clap_Help_Preserves_Bracketed_Prose(string description, string expected)
     {
         var help = "Usage: pnpm install [OPTIONS]\n\nOptions:\n      --reporter <REPORTER>\n          "
@@ -191,7 +197,7 @@ public class PnpmCliScraperTests
 
             var type = command.Options.Single(option => option.SwitchName == "--sbom-type");
             await Assert.That(type.Description)
-                .IsEqualTo("The component type for the root package (default: library)");
+                .IsEqualTo("The component type for the root package (default: library) [default: library]");
             await Assert.That(type.EnumDefinition).IsNull();
             await Assert.That(type.IsRequired).IsFalse();
 
@@ -278,7 +284,7 @@ public class PnpmCliScraperTests
         using (Assert.Multiple())
         {
             var reporter = command!.Options.Single(option => option.SwitchName == "--reporter");
-            await Assert.That(reporter.Description).IsEqualTo("Reporter output format");
+            await Assert.That(reporter.Description).IsEqualTo("Reporter output format [default: default]");
             await Assert.That(reporter.CSharpType).IsEqualTo("PnpmInstallReporter?");
             await Assert.That(reporter.EnumDefinition!.Values.Select(value => (value.CliValue, value.MemberName, value.Description ?? string.Empty)))
                 .IsEquivalentTo(
@@ -399,9 +405,9 @@ public class PnpmCliScraperTests
                 .IsEquivalentTo(["PnpmInstallNodeLinker", "PnpmInstallReporter", "PnpmInstallLoglevel"]);
             await Assert.That(command.Options.Single(option => option.SwitchName == "--filter").ShortForm).IsEqualTo("-F");
 
-            // The [alias: --production] trailer stays out of the description.
+            // Preserve the documented alias even though it is not a separate option.
             await Assert.That(command.Options.Single(option => option.SwitchName == "--prod").Description).IsEqualTo(
-                "Install only production dependencies. devDependencies are skipped, and removed if already installed");
+                "Install only production dependencies. devDependencies are skipped, and removed if already installed [alias: --production]");
 
             var reporter = command.Options.Single(option => option.SwitchName == "--reporter");
             await Assert.That(reporter.EnumDefinition!.Values.Select(value => value.CliValue))
