@@ -1424,7 +1424,7 @@ public abstract partial class CliScraperBase : ICliScraper
             descriptionColumn ??= indentation;
             index++;
             var text = line.Trim();
-            if (TryReadClapTrailer(text, ref pendingTrailer, possibleValues))
+            if (TryReadClapTrailer(text, ref pendingTrailer, possibleValues, prose))
             {
                 continue;
             }
@@ -1468,7 +1468,8 @@ public abstract partial class CliScraperBase : ICliScraper
     private static bool TryReadClapTrailer(
         string text,
         ref string pendingTrailer,
-        List<ClapPossibleValue> possibleValues)
+        List<ClapPossibleValue> possibleValues,
+        List<string> prose)
     {
         if (pendingTrailer.Length == 0 && !ClapMetadataTrailerStartPattern().IsMatch(text))
         {
@@ -1483,12 +1484,16 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         var trailer = ClapTrailerPattern().Match(pendingTrailer);
-        pendingTrailer = string.Empty;
         if (trailer.Success && IsPossibleValuesTrailer(trailer.Groups["name"].Value))
         {
             possibleValues.AddRange(ParsePossibleValuesList(trailer.Groups["value"].Value));
         }
+        else
+        {
+            prose.Add(pendingTrailer);
+        }
 
+        pendingTrailer = string.Empty;
         return true;
     }
 
