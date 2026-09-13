@@ -90,10 +90,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
         var helpText = result.CombinedOutput;
         if (string.IsNullOrWhiteSpace(helpText))
         {
-            if (!result.Unavailable)
-            {
-                Logger.LogWarning("No help text for command: {Command}", cacheKey);
-            }
+            LogRejectedHelp(result, cacheKey);
             return null;
         }
 

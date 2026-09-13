@@ -93,10 +93,7 @@ public partial class JqCliScraper : CliScraperBase
             return helpText;
         }
 
-        if (!result.Unavailable)
-        {
-            Logger.LogWarning("No help text for command: {Command}", cacheKey);
-        }
+        LogRejectedHelp(result, cacheKey);
         return null;
     }
 

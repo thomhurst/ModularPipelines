@@ -272,6 +272,15 @@ public abstract partial class CliScraperBase : ICliScraper
         // Check availability first
         if (!await IsAvailableAsync(cancellationToken))
         {
+            // The probe only exposes a boolean, so preserve the unavailable root without
+            // inventing a timeout or a raw help response that was never observed.
+            _scrapeProvenance.Record([ToolName], VersionArguments, new CliCommandResult
+            {
+                ExitCode = -1,
+                ExecutionFailed = true,
+                StandardOutput = string.Empty,
+                StandardError = "The traversal availability probe failed.",
+            });
             Logger.LogError("{Tool} is not available on this system (tried: {Path})",
                 ToolName, ExecutablePath);
             yield break;
@@ -714,10 +723,7 @@ public abstract partial class CliScraperBase : ICliScraper
 
         if (!ShouldAcceptHelpResult(commandPath, result))
         {
-            Logger.LogWarning(
-                "Ignoring failed help command for {Command}; exit code {ExitCode}",
-                cacheKey,
-                result.ExitCode);
+            LogRejectedHelp(result, cacheKey, failedCommand: true);
             return null;
         }
 
@@ -732,11 +738,28 @@ public abstract partial class CliScraperBase : ICliScraper
             return helpText;
         }
 
-        if (!result.Unavailable)
-        {
-            Logger.LogWarning("No help text for command: {Command}", cacheKey);
-        }
+        LogRejectedHelp(result, cacheKey);
         return null;
+    }
+
+    private protected void LogRejectedHelp(CliCommandResult result, string command, bool failedCommand = false)
+    {
+        // ExecuteAndRecordHelpCommandAsync already reports unavailable help. All adapters
+        // share this gate for empty output and stricter exit-code rejection.
+        if (result.Unavailable)
+        {
+            return;
+        }
+
+        if (failedCommand)
+        {
+            Logger.LogWarning("Ignoring failed help command for {Command}; exit code {ExitCode}",
+                command, result.ExitCode);
+        }
+        else
+        {
+            Logger.LogWarning("No help text for command: {Command}", command);
+        }
     }
 
     private protected async Task<CliCommandResult> ExecuteAndRecordHelpCommandAsync(

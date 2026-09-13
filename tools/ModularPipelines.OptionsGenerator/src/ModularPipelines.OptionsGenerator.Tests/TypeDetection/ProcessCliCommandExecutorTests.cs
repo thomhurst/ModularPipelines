@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO.Pipes;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -6,6 +7,45 @@ namespace ModularPipelines.OptionsGenerator.Tests.TypeDetection;
 
 public class ProcessCliCommandExecutorTests
 {
+    [Test]
+    public async Task Target_Does_Not_Inherit_Launch_Status_Pipe()
+    {
+        using var status = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable);
+        var handle = status.GetClientHandleAsString();
+        var target = OperatingSystem.IsWindows()
+            ? new ProcessStartInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "WindowsPowerShell", "v1.0", "powershell.exe"),
+                $"-NoProfile -NonInteractive -Command \"try {{ $p = [System.IO.Pipes.AnonymousPipeClientStream]::new([System.IO.Pipes.PipeDirection]::Out, '{handle}'); $p.WriteByte(2); $p.Dispose() }} catch {{ }}; exit 0\"")
+            : new ProcessStartInfo("/bin/bash", $"-c \"printf x >&{handle} 2>/dev/null || true\"");
+        var launch = OperatingSystem.IsWindows()
+            ? WindowsJobLauncher.Wrap(target, handle)
+            : UnixProcessGroupLauncher.Wrap(target, handle);
+        using var process = Process.Start(launch.StartInfo)!;
+        status.DisposeLocalCopyOfClientHandle();
+        try
+        {
+            var output = process.StandardOutput.ReadToEndAsync();
+            var error = process.StandardError.ReadToEndAsync();
+            await process.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(30));
+            await Task.WhenAll(output, error);
+
+            if (process.ExitCode != 0)
+            {
+                throw new InvalidOperationException($"Launcher failed: {await error}");
+            }
+
+            await Assert.That(status.ReadByte()).IsEqualTo(1);
+            await Assert.That(status.ReadByte()).IsEqualTo(-1);
+        }
+        finally
+        {
+            if (!process.HasExited)
+            {
+                process.Kill(entireProcessTree: true);
+                await process.WaitForExitAsync();
+            }
+        }
+    }
+
     [Test]
     public async Task PreCancelled_Execution_And_Availability_Propagate_Cancellation()
     {

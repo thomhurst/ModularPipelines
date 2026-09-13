@@ -719,6 +719,30 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    [Arguments(true, false, false)]
+    [Arguments(false, true, false)]
+    [Arguments(false, false, true)]
+    public async Task Brew_Unavailable_Help_Logs_Only_The_Unavailable_Warning(
+        bool timedOut, bool circuitOpen, bool executionFailed)
+    {
+        var logger = new RecordingLogger();
+        var executor = new FixedResultExecutor(new CliCommandResult
+        {
+            ExitCode = -1,
+            TimedOut = timedOut,
+            CircuitOpen = circuitOpen,
+            ExecutionFailed = executionFailed,
+            StandardOutput = string.Empty,
+            StandardError = "Help unavailable",
+        });
+        var scraper = new TestBrewCliScraper(executor, logger);
+
+        await Assert.That(await scraper.GetHelp(["brew", "install"])).IsNull();
+        await Assert.That(logger.Warnings).HasSingleItem();
+        await Assert.That(logger.Warnings[0].Message).Contains("is unavailable in this scrape");
+    }
+
+    [Test]
     [Arguments("container clone", "CONTAINER NAME IMAGE", 3)]
     [Arguments("pod clone", "POD NAME", 2)]
     public async Task PodmanClone_Keeps_Defaulted_Output_Operands_Optional(
@@ -1479,7 +1503,7 @@ public class CliScraperTraversalTests
             GetHelpTextAsync(commandPath, CancellationToken.None);
     }
 
-    private sealed class RecordingLogger : ILogger<PodmanCliScraper>
+    private sealed class RecordingLogger : ILogger<PodmanCliScraper>, ILogger<BrewCliScraper>
     {
         public List<(string Message, Exception? Exception)> Warnings { get; } = [];
 
@@ -1523,6 +1547,23 @@ public class CliScraperTraversalTests
             string command,
             IReadOnlyList<CliPositionalArgument> positionalArguments) =>
             ApplyPositionalArgumentFixes(command.Split(' '), positionalArguments);
+    }
+
+    private sealed class TestBrewCliScraper(ICliCommandExecutor executor, ILogger<BrewCliScraper> logger)
+        : BrewCliScraper(executor, new HelpTextCache(NullLogger<HelpTextCache>.Instance), logger)
+    {
+        public Task<string?> GetHelp(string[] commandPath) =>
+            GetHelpTextAsync(commandPath, CancellationToken.None);
+    }
+
+    private sealed class FixedResultExecutor(CliCommandResult result) : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command, string arguments, CancellationToken cancellationToken = default,
+            string? workingDirectory = null) => Task.FromResult(result);
+
+        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
     }
 
     private sealed class TestPnpmCliScraper(ICliCommandExecutor executor)

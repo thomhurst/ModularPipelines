@@ -62,6 +62,12 @@ internal static class WindowsJobLauncher
         }
 
         using var launchStatus = new AnonymousPipeClientStream(PipeDirection.Out, arguments[4]);
+        const uint handleFlagInherit = 1;
+        if (!SetHandleInformation(launchStatus.SafePipeHandle, handleFlagInherit, 0))
+        {
+            return Task.FromResult(ReportNativeFailure("prevent launch status inheritance"));
+        }
+
         return Task.FromResult(Run(arguments[1], arguments[2], arguments[3], launchStatus));
     }
 
@@ -215,6 +221,10 @@ internal static class WindowsJobLauncher
     }
 
 #pragma warning disable SYSLIB1054 // LibraryImport requires unsafe blocks, which this project does not enable.
+    [DllImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool SetHandleInformation(SafePipeHandle handle, uint mask, uint flags);
+
     [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static extern bool CreateProcess(

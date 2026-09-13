@@ -234,6 +234,11 @@ internal static class CommandCoverageGuard
     {
         var violations = new List<string>();
 
+        if (policy.MinimumCommandCount is < 1)
+        {
+            violations.Add("MinimumCommandCount must be greater than zero when configured.");
+        }
+
         // Never subject to shrinkage approval: the scrape is incomplete, not the tool smaller.
         AddViolation(
             violations,
@@ -245,11 +250,7 @@ internal static class CommandCoverageGuard
             return violations;
         }
 
-        if (policy.MinimumCommandCount is < 1)
-        {
-            violations.Add("MinimumCommandCount must be greater than zero when configured.");
-        }
-        else if (policy.MinimumCommandCount is { } minimum && commandCount < minimum)
+        if (policy.MinimumCommandCount is > 0 and var minimum && commandCount < minimum)
         {
             violations.Add($"Command count {commandCount} is below the configured minimum of {minimum}.");
         }

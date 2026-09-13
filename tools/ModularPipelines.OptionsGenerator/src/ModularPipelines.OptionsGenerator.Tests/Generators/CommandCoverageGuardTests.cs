@@ -9,6 +9,31 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public class CommandCoverageGuardTests
 {
     [Test]
+    [Arguments(0)]
+    [Arguments(-1)]
+    public async Task Unavailable_Help_Does_Not_Hide_Invalid_Policy(int minimum)
+    {
+        var outputDirectory = CreateOutputDirectory();
+        try
+        {
+            var current = CommandCoverageGuard.Evaluate(
+                Tool() with
+                {
+                    CommandCoverage = new CliCommandCoveragePolicy { MinimumCommandCount = minimum },
+                },
+                outputDirectory, approveShrinkage: true, unavailableHelpPaths: ["fake"]);
+
+            await Assert.That(current.Violations).Count().IsEqualTo(2);
+            await Assert.That(current.Violations).Contains("MinimumCommandCount must be greater than zero when configured.");
+            await Assert.That(current.Violations).Contains(message => message.Contains("Help was unavailable"));
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task Unavailable_Help_Prevents_Secondary_Coverage_Violations(bool approveShrinkage)

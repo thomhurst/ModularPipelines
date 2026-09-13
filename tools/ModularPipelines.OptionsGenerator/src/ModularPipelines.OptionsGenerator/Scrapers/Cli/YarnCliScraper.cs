@@ -89,10 +89,7 @@ public partial class YarnCliScraper : CliScraperBase
             return helpText;
         }
 
-        if (!result.Unavailable)
-        {
-            Logger.LogWarning("[yarn] No help text for command: {Command}", cacheKey);
-        }
+        LogRejectedHelp(result, cacheKey);
         return null;
     }
 

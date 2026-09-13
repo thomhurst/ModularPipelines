@@ -170,7 +170,9 @@ public class CodeGeneratorOrchestratorTests
             });
     }
 
-    private sealed class DiagnosticExecutor(Func<string, CliCommandResult?>? respond = null) : ICliCommandExecutor
+    private sealed class DiagnosticExecutor(
+        Func<string, CliCommandResult?>? respond = null,
+        Func<bool>? isAvailable = null) : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(
             string command,
@@ -189,7 +191,7 @@ public class CodeGeneratorOrchestratorTests
         public Task<bool> IsAvailableAsync(
             string command,
             CancellationToken cancellationToken = default) =>
-            Task.FromResult(true);
+            Task.FromResult(isAvailable?.Invoke() ?? true);
     }
 
     private static CliCommandDefinition FakeCommand() => new()
@@ -208,6 +210,35 @@ public class CodeGeneratorOrchestratorTests
             htmlScrapers: [],
             generators,
             NullLogger<CodeGeneratorOrchestrator>.Instance);
+
+    [Test]
+    public async Task Failed_Traversal_Availability_Probe_Is_Unavailable_Not_Removed()
+    {
+        var outputRoot = Directory.CreateTempSubdirectory("mp-availability-").FullName;
+        try
+        {
+            var probeCount = 0;
+            var executor = new DiagnosticExecutor(isAvailable: () => ++probeCount == 1);
+            var scraper = new DiagnosticCliScraper(executor);
+            var baseline = CommandCoverageGuard.Evaluate(
+                new FakeCliScraper().CreateToolDefinition() with { Commands = [FakeCommand()] },
+                outputRoot, approveShrinkage: false);
+            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
+            var result = await Orchestrator(scraper, new FakeGenerator())
+                .GenerateAsync("fake", outputRoot, approveCommandCoverageShrinkage: true);
+
+            await Assert.That(probeCount).IsEqualTo(2);
+            await Assert.That(result.HasErrors).IsTrue();
+            await Assert.That(result.GetSummary()).Contains("Unavailable (help failed): fake");
+            await Assert.That(result.CommandCoverage.Single().RemovedCommands).IsEmpty();
+            await Assert.That(result.Errors[0].Message).Contains("Help was unavailable");
+            await Assert.That(result.Errors[0].Message).DoesNotContain("below the configured minimum");
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
 
     [Test]
     public async Task FirstGenerationCoverageFailure_WritesRawHelpDiagnostics()

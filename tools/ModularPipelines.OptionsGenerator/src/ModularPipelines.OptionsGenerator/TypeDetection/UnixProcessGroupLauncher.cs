@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO.Pipes;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
 
 namespace ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -48,6 +49,15 @@ internal static class UnixProcessGroupLauncher
         }
 
         using var launchStatus = new AnonymousPipeClientStream(PipeDirection.Out, arguments[4]);
+        const int closeOnExec = 1; // FD_CLOEXEC on the supported Unix platforms.
+        var descriptorFlags = GetDescriptorFlags(launchStatus.SafePipeHandle);
+        if (descriptorFlags < 0 || SetDescriptorFlags(launchStatus.SafePipeHandle, descriptorFlags | closeOnExec) < 0)
+        {
+            Console.Error.WriteLine(
+                $"Unable to prevent launch status inheritance: native error {Marshal.GetLastPInvokeError()}.");
+            return 1;
+        }
+
         if (SetSessionId() < 0)
         {
             Console.Error.WriteLine(
@@ -102,6 +112,14 @@ internal static class UnixProcessGroupLauncher
     }
 
 #pragma warning disable SYSLIB1054 // LibraryImport requires unsafe blocks, which this project does not enable.
+    // Use the hosting .NET runtime's fixed-arity fcntl bridge. Calling libc's variadic
+    // fcntl as a fixed-arity P/Invoke is not portable to macOS ARM64.
+    [DllImport("System.Native", EntryPoint = "SystemNative_FcntlGetFD", SetLastError = true)]
+    private static extern int GetDescriptorFlags(SafePipeHandle handle);
+
+    [DllImport("System.Native", EntryPoint = "SystemNative_FcntlSetFD", SetLastError = true)]
+    private static extern int SetDescriptorFlags(SafePipeHandle handle, int flags);
+
     [DllImport("libc", EntryPoint = "setsid", SetLastError = true)]
     private static extern int SetSessionId();
 #pragma warning restore SYSLIB1054
