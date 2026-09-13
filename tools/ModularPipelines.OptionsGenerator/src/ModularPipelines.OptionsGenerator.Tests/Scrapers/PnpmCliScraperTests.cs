@@ -10,6 +10,27 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PnpmCliScraperTests
 {
     [Test]
+    [Arguments("audit")]
+    [Arguments("stage")]
+    public async Task Current_Group_Help_Preserves_Variadic_Parameters(string commandName)
+    {
+        var fixturePath = Path.Combine(AppContext.BaseDirectory, "Fixtures", "Pnpm",
+            $"pnpm-12.4.1-{commandName}-help.txt");
+        var helpText = await File.ReadAllTextAsync(fixturePath);
+        var scraper = new TestPnpmCliScraper();
+
+        var command = await scraper.Parse(["pnpm", commandName], helpText);
+
+        await Assert.That(scraper.Subcommands(helpText)).IsEmpty();
+        var argument = command!.PositionalArguments.Single();
+        await Assert.That(argument.PropertyName).IsEqualTo("Params");
+        await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(argument.IsRequired).IsFalse();
+        await Assert.That(argument.IsVariadic).IsTrue();
+        await Assert.That(argument.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+    }
+
+    [Test]
     [Arguments("--allow-build <ALLOW_BUILD>", "Package names allowed to run lifecycle scripts. May be repeated")]
     [Arguments("--ignore <GHSA>", "Ignore a vulnerability by its GitHub advisory ID. May be repeated")]
     [Arguments("--workspace-packages <WORKSPACE_PACKAGES>", "Glob patterns selecting the workspace's projects. Repeat to add more")]
