@@ -204,6 +204,26 @@ public class ZeroOutputScraperTests
     }
 
     [Test]
+    [Arguments("repo", "create")]
+    [Arguments("issue", "view")]
+    public async Task Gh_Attachment_Override_Does_Not_Apply_To_Unrelated_Commands(string group, string commandName)
+    {
+        var helpText = $"""
+            A command with one file option.
+
+            USAGE
+              gh {group} {commandName} [flags]
+
+            FLAGS
+              --attach file   Select the attachment file
+            """;
+        var command = await new TestGhCliScraper().Parse(["gh", group, commandName], helpText);
+
+        await Assert.That(command!.Options.Single().AcceptsMultipleValues).IsFalse();
+        await Assert.That(command.Options.Single().CSharpType).IsEqualTo("string?");
+    }
+
+    [Test]
     public async Task Gh_Api_Models_Field_And_Header_Options_As_Repeatable()
     {
         const string helpText = """

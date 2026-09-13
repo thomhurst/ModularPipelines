@@ -55,8 +55,6 @@ public partial class GhCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         "--field",
         "--raw-field",
         "--header",
-        // gh documents multiple attachments in command prose/examples, but prints a scalar file hint.
-        "--attach",
     ];
 
     public override string ToolName => "gh";
@@ -85,6 +83,9 @@ public partial class GhCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         string description,
         string helpText) =>
         RepeatableOptions.Contains(switchName)
+        // These commands document multiple attachments but print a scalar file hint.
+        || (commandParts is ["issue" or "pr", "create" or "edit" or "comment"]
+            && switchName.Equals("--attach", StringComparison.OrdinalIgnoreCase))
         || base.IsRepeatableOption(commandParts, switchName, typeHint, description, helpText);
 
     protected override bool IsBooleanValueOption(
