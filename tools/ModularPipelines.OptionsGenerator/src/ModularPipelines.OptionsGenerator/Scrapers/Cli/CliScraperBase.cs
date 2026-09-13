@@ -1335,7 +1335,8 @@ public abstract partial class CliScraperBase : ICliScraper
     /// declared at <paramref name="declarationIndentation"/> instead of starting the next
     /// help row. Formatters wrap prose at or beyond the block's description column, so a
     /// switch mention starting at or after that column is still wrapped prose. A declaration
-    /// with a detached value hint and separated description starts another row even at that column.
+    /// with a detached value hint or a bare flag with a separated sentence starts another row
+    /// even at that column.
     /// </summary>
     /// <param name="line">The candidate continuation line.</param>
     /// <param name="declarationIndentation">
@@ -1360,7 +1361,7 @@ public abstract partial class CliScraperBase : ICliScraper
             return false;
         }
 
-        if (looksLikeOptionRow && HasDetachedValueHint(line) && GetInlineDescriptionColumn(line) is not null)
+        if (looksLikeOptionRow && HasNestedDeclaration(line) && GetInlineDescriptionColumn(line) is not null)
         {
             return false;
         }
@@ -1371,11 +1372,16 @@ public abstract partial class CliScraperBase : ICliScraper
                && (declarationIndentation is not { } floor || indentation > floor);
     }
 
-    private static bool HasDetachedValueHint(string line)
+    private static bool HasNestedDeclaration(string line)
     {
-        // A separated prose column alone is ambiguous: wrapped switch mentions may also
-        // contain two spaces before prose. Require a value hint before that prose column.
         var declaration = line.TrimStart();
+        var longSwitch = declaration.IndexOf("--", StringComparison.Ordinal);
+        if (longSwitch > 0 && declaration.StartsWith('-')
+            && declaration[..longSwitch].TrimEnd().EndsWith(','))
+        {
+            declaration = declaration[longSwitch..];
+        }
+
         var switchEnd = declaration.IndexOfAny([' ', '\t']);
         if (switchEnd < 0)
         {
@@ -1384,19 +1390,32 @@ public abstract partial class CliScraperBase : ICliScraper
 
         var valueAndDescription = declaration[(switchEnd + 1)..].TrimStart();
         var value = InlineSegmentSeparatorPattern().Split(valueAndDescription, 2)[0];
-        return value.Length > 0 && LooksLikeValueHint(value);
+        if (value.Length > 0 && LooksLikeValueHint(value))
+        {
+            return true;
+        }
+
+        // A bare flag followed by a separated sentence starts its own declaration.
+        // Attached values and lowercase connecting prose remain wrapped switch mentions.
+        return !declaration[..switchEnd].Contains('=')
+               && valueAndDescription.Length > 0
+               && char.IsUpper(valueAndDescription[0])
+               && InlineSegmentSeparatorPattern().Match(declaration, switchEnd) is { Success: true } separator
+               && separator.Index == switchEnd;
     }
 
     private static int? GetSectionDescriptionColumn(string[] lines, int declarationIndex, int declarationIndentation)
     {
         var start = declarationIndex;
-        while (start > 0 && !IsHelpSectionHeading(lines[start - 1], declarationIndentation))
+        while (start > 0 && !string.IsNullOrWhiteSpace(lines[start - 1])
+               && !IsHelpSectionHeading(lines[start - 1], declarationIndentation))
         {
             start--;
         }
 
         var end = declarationIndex + 1;
-        while (end < lines.Length && !IsHelpSectionHeading(lines[end], declarationIndentation))
+        while (end < lines.Length && !string.IsNullOrWhiteSpace(lines[end])
+               && !IsHelpSectionHeading(lines[end], declarationIndentation))
         {
             end++;
         }
@@ -1414,8 +1433,12 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         var heading = line.Trim();
-        return heading.EndsWith(':') || (heading.Any(char.IsLetter) && !heading.Any(char.IsLower));
+        return heading.EndsWith(':') || (heading.Any(char.IsLetter) && !heading.Any(char.IsLower))
+               || NamedOptionSectionPattern().IsMatch(heading);
     }
+
+    [GeneratedRegex(@"^(?:[\w/]+[ \t]+)*(?:Flags|Options|Arguments)$", RegexOptions.IgnoreCase)]
+    private static partial Regex NamedOptionSectionPattern();
 
     /// <summary>
     /// Returns the column the help text lays option descriptions out at: the most common column
