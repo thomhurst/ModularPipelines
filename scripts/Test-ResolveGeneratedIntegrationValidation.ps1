@@ -296,19 +296,24 @@ foreach ($gcloudSafeguard in @(
 $generationWorkflow = Get-Content `
     -LiteralPath (Join-Path $repositoryRoot '.github/workflows/generate-cli-options.yml') `
     -Raw
+$generationTriggers = [regex]::Match($generationWorkflow, '(?ms)^on:\r?\n.*?(?=^\S)').Value
+$triggerNames = @([regex]::Matches($generationTriggers, '(?m)^  ([\w_]+):') | ForEach-Object {
+    $_.Groups[1].Value
+})
+Assert-Equal `
+    (($triggerNames | Sort-Object) -join ',') `
+    'schedule,workflow_dispatch' `
+    'Generated options must run only on the monthly schedule or manual dispatch.'
+if ($generationTriggers -notmatch "(?m)^    - cron: '0 2 1 \* \*'\s*$") {
+    throw 'Generated options must run on the first day of every month at 02:00 UTC.'
+}
+
 foreach ($refreshBehavior in @(
-             'push:',
-             'tools/ModularPipelines.OptionsGenerator/**',
              'Write-GeneratedOptionsProvenance.ps1',
              "github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch'"
          )) {
     if (-not $generationWorkflow.Contains($refreshBehavior, [StringComparison]::Ordinal)) {
         throw "Generated-options refresh workflow omitted '$refreshBehavior'."
-    }
-}
-foreach ($sourcePath in Get-GeneratedOptionsSourcePath) {
-    if (-not $generationWorkflow.Contains($sourcePath, [StringComparison]::Ordinal)) {
-        throw "Generated-options refresh trigger omitted source input '$sourcePath'."
     }
 }
 
