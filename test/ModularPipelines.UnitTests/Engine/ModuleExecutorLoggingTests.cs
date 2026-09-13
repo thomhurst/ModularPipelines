@@ -212,7 +212,7 @@ public class ModuleExecutorLoggingTests
         var executor = CreateFailFastExecutor(
             faultingModule,
             laterModule,
-            async (moduleState, _, _) =>
+            async (moduleState, _) =>
             {
                 if (Interlocked.Increment(ref workersStarted) == 2)
                 {
@@ -239,7 +239,7 @@ public class ModuleExecutorLoggingTests
         var executor = CreateFailFastExecutor(
             faultingModule,
             laterModule,
-            (_, _, _) => Task.FromException(sharedException));
+            (_, _) => Task.FromException(sharedException));
 
         var exception = await Assert.That(async () =>
                 await executor.ExecuteAsync([faultingModule, laterModule]))
@@ -298,13 +298,11 @@ public class ModuleExecutorLoggingTests
         moduleRunner
             .Setup(x => x.ExecuteAsync(
                 faultingState,
-                scheduler.Object,
                 It.IsAny<CancellationToken>()))
             .ThrowsAsync(primaryException);
         moduleRunner
             .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
                 alwaysRunState,
-                scheduler.Object,
                 CancellationToken.None))
             .Returns(() =>
             {
@@ -351,7 +349,6 @@ public class ModuleExecutorLoggingTests
         moduleRunner.Verify(
             x => x.ExecuteWithoutDependencyWaitAsync(
                 alwaysRunState,
-                scheduler.Object,
                 CancellationToken.None),
             Times.Once());
     }
@@ -366,7 +363,7 @@ public class ModuleExecutorLoggingTests
         var executor = CreateFailFastExecutor(
             faultingModule,
             laterModule,
-            async (moduleState, _, cancellationToken) =>
+            async (moduleState, cancellationToken) =>
             {
                 if (Interlocked.Increment(ref workersStarted) == 2)
                 {
@@ -402,7 +399,7 @@ public class ModuleExecutorLoggingTests
         var executor = CreateFailFastExecutor(
             faultingModule,
             laterModule,
-            async (moduleState, _, cancellationToken) =>
+            async (moduleState, cancellationToken) =>
             {
                 if (Interlocked.Increment(ref workersStarted) == 2)
                 {
@@ -460,22 +457,21 @@ public class ModuleExecutorLoggingTests
         moduleRunner
             .Setup(x => x.ExecuteAsync(
                 It.IsAny<ModuleState>(),
-                It.IsAny<IModuleScheduler>(),
                 It.IsAny<CancellationToken>()))
-            .Returns<ModuleState, IModuleScheduler, CancellationToken>((moduleState, moduleScheduler, _) =>
+            .Returns<ModuleState, CancellationToken>((moduleState, _) =>
             {
                 if (moduleState.ModuleType == typeof(FaultingModule))
                 {
                     throw new InvalidOperationException("Worker fault");
                 }
 
-                if (!moduleScheduler.MarkModuleStarted(moduleState.ModuleType))
+                if (!moduleState.Scheduler!.MarkModuleStarted(moduleState.ModuleType))
                 {
                     throw new InvalidOperationException("Later module could not start");
                 }
 
                 laterModuleRan = true;
-                moduleScheduler.MarkModuleCompleted(moduleState.ModuleType, success: true);
+                moduleState.Scheduler.MarkModuleCompleted(moduleState.ModuleType, success: true);
                 return Task.CompletedTask;
             });
 
@@ -549,9 +545,8 @@ public class ModuleExecutorLoggingTests
         moduleRunner
             .Setup(x => x.ExecuteAsync(
                 It.IsAny<ModuleState>(),
-                It.IsAny<IModuleScheduler>(),
                 It.IsAny<CancellationToken>()))
-            .Returns<ModuleState, IModuleScheduler, CancellationToken>((moduleState, _, _) =>
+            .Returns<ModuleState, CancellationToken>((moduleState, _) =>
             {
                 if (moduleState.ModuleType == typeof(FaultingModule))
                 {
@@ -687,7 +682,7 @@ public class ModuleExecutorLoggingTests
     private static ModuleExecutor CreateFailFastExecutor(
         FaultingModule faultingModule,
         LaterModule laterModule,
-        Func<ModuleState, IModuleScheduler, CancellationToken, Task> executeModule)
+        Func<ModuleState, CancellationToken, Task> executeModule)
     {
         var readyModules = Channel.CreateUnbounded<ModuleState>();
         readyModules.Writer.TryWrite(new ModuleState(faultingModule, typeof(FaultingModule)));
@@ -713,9 +708,8 @@ public class ModuleExecutorLoggingTests
         moduleRunner
             .Setup(x => x.ExecuteAsync(
                 It.IsAny<ModuleState>(),
-                It.IsAny<IModuleScheduler>(),
                 It.IsAny<CancellationToken>()))
-            .Returns<ModuleState, IModuleScheduler, CancellationToken>(executeModule);
+            .Returns<ModuleState, CancellationToken>(executeModule);
 
         var alwaysRunHandler = new Mock<IAlwaysRunHandler>();
         alwaysRunHandler
