@@ -1255,7 +1255,6 @@ public abstract partial class CliScraperBase : ICliScraper
 
         var optionPattern = $@"(?<![\w-]){Regex.Escape(switchName)}(?![\w-])";
         var lines = helpText.ReplaceLineEndings("\n").Split('\n');
-        var layoutColumn = GetLayoutDescriptionColumn(lines);
 
         for (var index = 0; index < lines.Length; index++)
         {
@@ -1267,19 +1266,22 @@ public abstract partial class CliScraperBase : ICliScraper
             }
 
             // Blank lines and option rows bound the block, never indentation: gcloud puts
-            // repeatability notes at the flag column, and column-0 headers rely on blank
-            // separation as before. Wrapped prose that starts with a switch is kept only when it
+            // repeatability notes at the flag column. Section headings also end a block; blank
+            // separation is retained. Wrapped prose that starts with a switch is kept only when it
             // sits at the description column: the row's own inline prose fixes that column, and a
-            // descriptionless row borrows the column the rest of the help lays its descriptions
+            // descriptionless row borrows the column its own help section lays its descriptions
             // out at. While the column is still unknown any option-looking line ends the block (a
             // sibling row, a nested row, or a one-word description's neighbour alike).
-            var descriptionColumn = GetInlineDescriptionColumn(declaration) ?? layoutColumn;
+            var declarationIndentation = GetIndentation(declaration);
+            var descriptionColumn = GetInlineDescriptionColumn(declaration)
+                                    ?? GetSectionDescriptionColumn(lines, index, declarationIndentation);
             var start = index;
             while (index + 1 < lines.Length)
             {
                 var candidate = lines[index + 1];
                 var looksLikeOptionRow = OptionLinePattern().IsMatch(candidate);
-                if ((looksLikeOptionRow && descriptionColumn is null)
+                if (IsHelpSectionHeading(candidate, declarationIndentation)
+                    || (looksLikeOptionRow && descriptionColumn is null)
                     || !IsContinuationLine(candidate, declarationIndentation: null, descriptionColumn, looksLikeOptionRow))
                 {
                     break;
@@ -1353,8 +1355,8 @@ public abstract partial class CliScraperBase : ICliScraper
     /// Returns whether <paramref name="line"/> continues the description of the option
     /// declared at <paramref name="declarationIndentation"/> instead of starting the next
     /// help row. Formatters wrap prose at or beyond the block's description column, so a
-    /// row that looks like an option declaration but starts at or after that column is
-    /// still wrapped prose (for example a wrapped mention of <c>--flag=value</c>).
+    /// switch mention starting at or after that column is still wrapped prose. A declaration
+    /// with a detached value hint and separated description starts another row even at that column.
     /// </summary>
     /// <param name="line">The candidate continuation line.</param>
     /// <param name="declarationIndentation">
@@ -1379,10 +1381,61 @@ public abstract partial class CliScraperBase : ICliScraper
             return false;
         }
 
+        if (looksLikeOptionRow && HasDetachedValueHint(line) && GetInlineDescriptionColumn(line) is not null)
+        {
+            return false;
+        }
+
         var indentation = GetIndentation(line);
         var wrappedAtDescriptionColumn = descriptionColumn is null || indentation >= descriptionColumn;
         return (!looksLikeOptionRow || wrappedAtDescriptionColumn)
                && (declarationIndentation is not { } floor || indentation > floor);
+    }
+
+    private static bool HasDetachedValueHint(string line)
+    {
+        // A separated prose column alone is ambiguous: wrapped switch mentions may also
+        // contain two spaces before prose. Require a value hint before that prose column.
+        var declaration = line.TrimStart();
+        var switchEnd = declaration.IndexOfAny([' ', '\t']);
+        if (switchEnd < 0)
+        {
+            return false;
+        }
+
+        var valueAndDescription = declaration[(switchEnd + 1)..].TrimStart();
+        var value = InlineSegmentSeparatorPattern().Split(valueAndDescription, 2)[0];
+        return value.Length > 0 && LooksLikeValueHint(value);
+    }
+
+    private static int? GetSectionDescriptionColumn(string[] lines, int declarationIndex, int declarationIndentation)
+    {
+        var start = declarationIndex;
+        while (start > 0 && !IsHelpSectionHeading(lines[start - 1], declarationIndentation))
+        {
+            start--;
+        }
+
+        var end = declarationIndex + 1;
+        while (end < lines.Length && !IsHelpSectionHeading(lines[end], declarationIndentation))
+        {
+            end++;
+        }
+
+        return GetLayoutDescriptionColumn(lines[start..end]);
+    }
+
+    private static bool IsHelpSectionHeading(string line, int declarationIndentation)
+    {
+        if (string.IsNullOrWhiteSpace(line)
+            || GetIndentation(line) > declarationIndentation
+            || OptionLinePattern().IsMatch(line))
+        {
+            return false;
+        }
+
+        var heading = line.Trim();
+        return heading.EndsWith(':') || (heading.Any(char.IsLetter) && !heading.Any(char.IsLower));
     }
 
     /// <summary>

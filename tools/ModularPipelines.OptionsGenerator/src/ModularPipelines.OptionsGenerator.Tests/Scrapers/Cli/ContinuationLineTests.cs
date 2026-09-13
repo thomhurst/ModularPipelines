@@ -5,6 +5,53 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class ContinuationLineTests
 {
     [Test]
+    [Arguments("Local options:", "Global options:")]
+    [Arguments("LOCAL OPTIONS", "GLOBAL OPTIONS")]
+    public async Task Repeatable_Lookahead_Uses_The_Containing_Section_Layout(string localHeading, string globalHeading)
+    {
+        var helpText = $"""
+            {localHeading}
+              --format string
+                    Output format.
+              --env stringArray
+                    --env-file=PATH values are merged; may be specified multiple times
+            {globalHeading}
+              --quiet                 Suppress output
+              --verbose               Show detailed output
+              --debug                 Show debug messages
+            """;
+
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsTrue();
+    }
+
+    [Test]
+    [Arguments("            --child VALUE   May be specified multiple times")]
+    [Arguments("            --child  VALUE   may be specified multiple times")]
+    [Arguments("              --child VALUE   May be specified multiple times")]
+    [Arguments("\t\t--child VALUE\tMay be specified multiple times")]
+    public async Task Repeatable_Lookahead_Does_Not_Absorb_Nested_Declarations_At_The_Prose_Column(string child)
+    {
+        var helpText = "  --parent  Configure parent settings\n" + child;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--parent", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--child", string.Empty)).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Repeatable_Lookahead_Preserves_Separated_Prose_After_A_Wrapped_Switch_Mention()
+    {
+        const string helpText = """
+              --env VALUE   Set variables. Combine with
+                            --env-file=PATH  to load defaults; may be specified multiple times
+              --quiet       Suppress output
+            """;
+
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsTrue();
+    }
+    [Test]
     [Arguments("", 0)]
     [Arguments("--flag", 0)]
     [Arguments("    prose", 4)]
@@ -139,6 +186,7 @@ public class ContinuationLineTests
     [Arguments("  --env  stringArray   Set environment variables\n  --quiet              Suppress output\n  --env-file=PATH   Read variables", 23)]
     [Arguments("  --env stringArray\n        Set environment variables\n  --quiet\n        Suppress output", 8)]
     [Arguments("  --env stringArray\n  --quiet", null)]
+    [Arguments("  --one   First description\n  --two       Second description", 10)]
     public async Task Layout_Description_Column_Is_The_Most_Common_Row_Column(string helpText, int? expected)
     {
         await Assert.That(CliScraperBase.GetLayoutDescriptionColumn(helpText.Split('\n'))).IsEqualTo(expected);
