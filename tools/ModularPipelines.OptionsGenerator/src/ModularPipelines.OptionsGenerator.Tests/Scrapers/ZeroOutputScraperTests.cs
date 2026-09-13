@@ -177,6 +177,33 @@ public class ZeroOutputScraperTests
     }
 
     [Test]
+    [Arguments("issue", "create")]
+    [Arguments("issue", "edit")]
+    [Arguments("issue", "comment")]
+    [Arguments("pr", "create")]
+    [Arguments("pr", "edit")]
+    [Arguments("pr", "comment")]
+    public async Task Gh_Attachments_Repeat_Without_Joining_File_Paths(string group, string commandName)
+    {
+        // Captured from gh 2.100.0: the file hint is scalar despite accepting up to 50 files.
+        var helpText = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Gh", $"{group}-{commandName}.txt"));
+        var command = await new TestGhCliScraper().Parse(["gh", group, commandName], helpText);
+        var attach = command!.Options.Single(option => option.SwitchName == "--attach");
+        var bodyFile = command.Options.Single(option => option.SwitchName == "--body-file");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(attach.AcceptsMultipleValues).IsTrue();
+            await Assert.That(attach.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(attach.ValueSeparator).IsEqualTo("=");
+            await Assert.That(attach.CollectionSeparator).IsNull();
+            await Assert.That(bodyFile.AcceptsMultipleValues).IsFalse();
+            await Assert.That(bodyFile.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
     public async Task Gh_Api_Models_Field_And_Header_Options_As_Repeatable()
     {
         const string helpText = """
@@ -423,17 +450,12 @@ public class ZeroOutputScraperTests
         return commands;
     }
 
-    private sealed class TestAwsCliScraper : AwsCliScraper
+    private sealed class TestAwsCliScraper(ICliCommandExecutor? executor = null) : AwsCliScraper(
+            executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AwsCliScraper>.Instance)
     {
-        public TestAwsCliScraper(ICliCommandExecutor? executor = null)
-            : base(
-                executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
-                new HelpTextCache(NullLogger<HelpTextCache>.Instance),
-                NullLogger<AwsCliScraper>.Instance)
-        {
-        }
-
-        public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
+        public IReadOnlyList<string> Extract(string helpText) => [.. ExtractSubcommands(helpText)];
     }
 
     private sealed class TestGhCliScraper : GhCliScraper
@@ -452,20 +474,15 @@ public class ZeroOutputScraperTests
             return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
         }
 
-        public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
+        public IReadOnlyList<string> Extract(string helpText) => [.. ExtractSubcommands(helpText)];
     }
 
-    private sealed class TestYarnCliScraper : YarnCliScraper
+    private sealed class TestYarnCliScraper(ICliCommandExecutor? executor = null) : YarnCliScraper(
+            executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<YarnCliScraper>.Instance)
     {
-        public TestYarnCliScraper(ICliCommandExecutor? executor = null)
-            : base(
-                executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
-                new HelpTextCache(NullLogger<HelpTextCache>.Instance),
-                NullLogger<YarnCliScraper>.Instance)
-        {
-        }
-
-        public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
+        public IReadOnlyList<string> Extract(string helpText) => [.. ExtractSubcommands(helpText)];
 
         protected override async Task<string?> GetHelpTextAsync(
             string[] commandPath,

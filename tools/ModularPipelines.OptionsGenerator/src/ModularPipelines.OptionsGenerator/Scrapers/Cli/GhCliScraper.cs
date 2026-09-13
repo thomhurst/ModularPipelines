@@ -24,7 +24,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   accessibility:  Learn about GitHub CLI's accessibility experiences
 ///   ...
 /// </summary>
-public partial class GhCliScraper : CobraCliScraper
+public partial class GhCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<GhCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
     private static readonly IReadOnlyDictionary<(string Command, string Operand), string> OperandNames =
         new Dictionary<(string Command, string Operand), string>
@@ -49,17 +49,15 @@ public partial class GhCliScraper : CobraCliScraper
             [("workflow view", "WorkflowId")] = "WorkflowIdOrWorkflowNameOrFilename",
         };
 
-    private static readonly HashSet<string> RepeatableOptions = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> RepeatableOptions =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "--field",
         "--raw-field",
         "--header",
-    };
-
-    public GhCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<GhCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
+        // gh documents multiple attachments in command prose/examples, but prints a scalar file hint.
+        "--attach",
+    ];
 
     public override string ToolName => "gh";
 
@@ -100,10 +98,9 @@ public partial class GhCliScraper : CobraCliScraper
     protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments) =>
-        positionalArguments
+        [.. positionalArguments
             .Where(argument => ShouldKeepOperand(commandParts, argument))
-            .Select(argument => NormalizeOperand(commandParts, argument))
-            .ToArray();
+            .Select(argument => NormalizeOperand(commandParts, argument))];
 
     protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
         CliCommandDefinition command,
