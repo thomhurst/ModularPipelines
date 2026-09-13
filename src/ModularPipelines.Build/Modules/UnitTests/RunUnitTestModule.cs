@@ -1,21 +1,22 @@
-using ModularPipelines.Logging;
 using System.Text.RegularExpressions;
 using Kevlar;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines;
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Helpers;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Enums;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.DotNet.Parsers.Trx;
+using ModularPipelines.FileSystem;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using Spectre.Console;
-using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Build.Modules.UnitTests;
 
@@ -23,7 +24,6 @@ namespace ModularPipelines.Build.Modules.UnitTests;
 /// Runs a unit test project and renders its failures and skipped tests as structured output.
 /// </summary>
 [DependsOn<BuildSolutionsModule>]
-[ConsumesArtifact(typeof(BuildSolutionsModule), "build-output", RestorePath = "../../")]
 [RunIf<ModularPipelines.OnLinux>]
 [RequiresCapability("linux")]
 public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipelineSettings) : Module<CommandResult>
@@ -46,6 +46,12 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
     {
         var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync().ConfigureAwait(false)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        await context.Services.GetRequiredService<BuildOutputSharing>().RestoreAsync(
+            context.Artifacts,
+            typeof(BuildSolutionsModule).FullName!,
+            repositoryInfo.Root.Path,
+            cancellationToken).ConfigureAwait(false);
+
         var testProject = repositoryInfo.Root
             .GetFiles(file => file.Name.Equals(TestProjectFileName, StringComparison.OrdinalIgnoreCase))
             .Single();
