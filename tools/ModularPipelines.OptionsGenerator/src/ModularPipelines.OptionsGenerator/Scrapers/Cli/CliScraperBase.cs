@@ -1236,7 +1236,8 @@ public abstract partial class CliScraperBase : ICliScraper
                 var looksLikeOptionRow = OptionLinePattern().IsMatch(candidate);
                 if (IsHelpSectionHeading(candidate, declarationIndentation)
                     || (looksLikeOptionRow && descriptionColumn is null)
-                    || !IsContinuationLine(candidate, declarationIndentation: null, descriptionColumn, looksLikeOptionRow))
+                    || !IsContinuationLine(candidate, declarationIndentation: null, descriptionColumn, looksLikeOptionRow,
+                        index + 2 < lines.Length ? lines[index + 2] : null))
                 {
                     break;
                 }
@@ -1329,14 +1330,22 @@ public abstract partial class CliScraperBase : ICliScraper
         string line,
         int? declarationIndentation,
         int? descriptionColumn,
-        bool looksLikeOptionRow)
+        bool looksLikeOptionRow) =>
+        IsContinuationLine(line, declarationIndentation, descriptionColumn, looksLikeOptionRow, nextLine: null);
+
+    private static bool IsContinuationLine(
+        string line,
+        int? declarationIndentation,
+        int? descriptionColumn,
+        bool looksLikeOptionRow,
+        string? nextLine)
     {
         if (string.IsNullOrWhiteSpace(line))
         {
             return false;
         }
 
-        if (looksLikeOptionRow && HasNestedDeclaration(line) && GetInlineDescriptionColumn(line) is not null)
+        if (looksLikeOptionRow && HasNestedDeclaration(line) && GetRowDescriptionColumn(line, nextLine) is not null)
         {
             return false;
         }
@@ -1360,7 +1369,7 @@ public abstract partial class CliScraperBase : ICliScraper
         var switchEnd = declaration.IndexOfAny([' ', '\t']);
         if (switchEnd < 0)
         {
-            return false;
+            return !declaration.Contains('=');
         }
 
         var valueAndDescription = declaration[(switchEnd + 1)..].TrimStart();
@@ -1371,10 +1380,11 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         // A bare flag followed by a separated sentence starts its own declaration.
-        // Attached values and lowercase connecting prose remain wrapped switch mentions.
+        // Attached values and infinitive phrases remain wrapped switch mentions, such as
+        // "--no-restore  to skip restoration". Sentence casing does not identify declarations.
         return !declaration[..switchEnd].Contains('=')
                && valueAndDescription.Length > 0
-               && char.IsUpper(valueAndDescription[0])
+               && !valueAndDescription.StartsWith("to ", StringComparison.OrdinalIgnoreCase)
                && InlineSegmentSeparatorPattern().Match(declaration, switchEnd) is { Success: true } separator
                && separator.Index == switchEnd;
     }
@@ -1432,18 +1442,7 @@ public abstract partial class CliScraperBase : ICliScraper
                 continue;
             }
 
-            var column = GetInlineDescriptionColumn(line);
-            if (column is null
-                && index + 1 < lines.Count
-                && lines[index + 1] is var next
-                && !string.IsNullOrWhiteSpace(next)
-                && !OptionLinePattern().IsMatch(next)
-                && GetIndentation(next) > GetIndentation(line))
-            {
-                column = GetIndentation(next);
-            }
-
-            if (column is { } known)
+            if (GetRowDescriptionColumn(line, index + 1 < lines.Count ? lines[index + 1] : null) is { } known)
             {
                 columns.Add(known);
             }
@@ -1457,6 +1456,20 @@ public abstract partial class CliScraperBase : ICliScraper
                 .ThenBy(group => group.Key)
                 .First()
                 .Key;
+    }
+
+    private static int? GetRowDescriptionColumn(string line, string? nextLine)
+    {
+        var column = GetInlineDescriptionColumn(line);
+        if (column is null
+            && !string.IsNullOrWhiteSpace(nextLine)
+            && !OptionLinePattern().IsMatch(nextLine)
+            && GetIndentation(nextLine) > GetIndentation(line))
+        {
+            column = GetIndentation(nextLine);
+        }
+
+        return column;
     }
 
     /// <summary>
@@ -1563,7 +1576,8 @@ public abstract partial class CliScraperBase : ICliScraper
                     candidate,
                     declarationIndentation,
                     descriptionColumn,
-                    looksLikeOptionRow(candidate)))
+                    looksLikeOptionRow(candidate),
+                    declarationIndex + 2 < lines.Count ? lines[declarationIndex + 2] : null))
             {
                 break;
             }
