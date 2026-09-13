@@ -16,9 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudLayer7DdosDefenseRuleVisibility
 {
-    [EnumValue("STANDARD")]
-    Standard,
-
     [EnumValue("PREMIUM")]
-    Premium
+    Premium,
+
+    [EnumValue("STANDARD")]
+    Standard
 }

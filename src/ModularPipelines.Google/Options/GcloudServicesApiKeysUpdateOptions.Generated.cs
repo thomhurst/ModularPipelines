@@ -35,6 +35,18 @@ public record GcloudServicesApiKeysUpdateOptions : GcloudOptions
     public bool? Async { get; set; }
 
     /// <summary>
+    /// If true, existing usage will be checked before the key is updated. If the key has traffic in the last 7 days that is incompatible with the requested change, the request fails with an error. Defaults to true. Set to false (--no-check-existing-usage) to skip the check. Use --check-existing-usage to enable and --no-check-existing-usage to disable.
+    /// </summary>
+    [CliFlag("--check-existing-usage")]
+    public bool? CheckExistingUsage { get; set; }
+
+    /// <summary>
+    /// Negates --check-existing-usage. If true, existing usage will be checked before the key is updated. If the key has traffic in the last 7 days that is incompatible with the requested change, the request fails with an error. Defaults to true. Set to false (--no-check-existing-usage) to skip the check. Use --check-existing-usage to enable and --no-check-existing-usage to disable.
+    /// </summary>
+    [CliFlag("--no-check-existing-usage")]
+    public bool? NoCheckExistingUsage { get; set; }
+
+    /// <summary>
     /// Display name of the key to update.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]

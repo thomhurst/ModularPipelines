@@ -16,12 +16,12 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudCloudArmorTier
 {
-    [EnumValue("CA_STANDARD")]
-    CaStandard,
+    [EnumValue("CA_ENTERPRISE_ANNUAL")]
+    CaEnterpriseAnnual,
 
     [EnumValue("CA_ENTERPRISE_PAYGO")]
     CaEnterprisePaygo,
 
-    [EnumValue("CA_ENTERPRISE_ANNUAL")]
-    CaEnterpriseAnnual
+    [EnumValue("CA_STANDARD")]
+    CaStandard
 }

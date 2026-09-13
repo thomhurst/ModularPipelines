@@ -16,9 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudCloudStorageOutputFormat
 {
-    [EnumValue("text")]
-    Text,
-
     [EnumValue("avro")]
-    Avro
+    Avro,
+
+    [EnumValue("text")]
+    Text
 }

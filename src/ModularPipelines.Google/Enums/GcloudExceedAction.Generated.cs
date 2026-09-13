@@ -16,6 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudExceedAction
 {
+    [EnumValue("deny")]
+    Deny,
+
     [EnumValue("deny-403")]
     Deny_403,
 
@@ -27,9 +30,6 @@ public enum GcloudExceedAction
 
     [EnumValue("deny-502")]
     Deny_502,
-
-    [EnumValue("deny")]
-    Deny,
 
     [EnumValue("redirect")]
     Redirect

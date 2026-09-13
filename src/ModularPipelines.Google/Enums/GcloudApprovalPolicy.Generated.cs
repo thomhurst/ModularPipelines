@@ -16,12 +16,12 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudApprovalPolicy
 {
-    [EnumValue("transparency")]
-    Transparency,
+    [EnumValue("access-approval")]
+    AccessApproval,
 
     [EnumValue("streamlined-support")]
     StreamlinedSupport,
 
-    [EnumValue("access-approval")]
-    AccessApproval
+    [EnumValue("transparency")]
+    Transparency
 }

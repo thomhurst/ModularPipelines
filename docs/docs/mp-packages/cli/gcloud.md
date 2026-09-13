@@ -693,6 +693,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud artifacts files download` | `GcloudArtifactsFilesDownloadOptions` |
 | `gcloud artifacts files list` | `GcloudArtifactsFilesListOptions` |
 | `gcloud artifacts files update` | `GcloudArtifactsFilesUpdateOptions` |
+| `gcloud artifacts files upload` | `GcloudArtifactsFilesUploadOptions` |
 | `gcloud artifacts generic` | `GcloudArtifactsGenericOptions` |
 | `gcloud artifacts generic download` | `GcloudArtifactsGenericDownloadOptions` |
 | `gcloud artifacts generic upload` | `GcloudArtifactsGenericUploadOptions` |
@@ -2055,6 +2056,8 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute project-info describe` | `GcloudComputeProjectInfoDescribeOptions` |
 | `gcloud compute project-info remove-metadata` | `GcloudComputeProjectInfoRemoveMetadataOptions` |
 | `gcloud compute project-info update` | `GcloudComputeProjectInfoUpdateOptions` |
+| `gcloud compute project-views` | `GcloudComputeProjectViewsOptions` |
+| `gcloud compute project-views describe` | `GcloudComputeProjectViewsDescribeOptions` |
 | `gcloud compute project-zonal-metadata` | `GcloudComputeProjectZonalMetadataOptions` |
 | `gcloud compute project-zonal-metadata add` | `GcloudComputeProjectZonalMetadataAddOptions` |
 | `gcloud compute project-zonal-metadata describe` | `GcloudComputeProjectZonalMetadataDescribeOptions` |
@@ -4588,6 +4591,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud kms keyrings` | `GcloudKmsKeyringsOptions` |
 | `gcloud kms keyrings add-iam-policy-binding` | `GcloudKmsKeyringsAddIamPolicyBindingOptions` |
 | `gcloud kms keyrings create` | `GcloudKmsKeyringsCreateOptions` |
+| `gcloud kms keyrings delete` | `GcloudKmsKeyringsDeleteOptions` |
 | `gcloud kms keyrings describe` | `GcloudKmsKeyringsDescribeOptions` |
 | `gcloud kms keyrings get-iam-policy` | `GcloudKmsKeyringsGetIamPolicyOptions` |
 | `gcloud kms keyrings list` | `GcloudKmsKeyringsListOptions` |
@@ -4890,6 +4894,11 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud metastore services import` | `GcloudMetastoreServicesImportOptions` |
 | `gcloud metastore services import gcs` | `GcloudMetastoreServicesImportGcsOptions` |
 | `gcloud metastore services list` | `GcloudMetastoreServicesListOptions` |
+| `gcloud metastore services migrations` | `GcloudMetastoreServicesMigrationsOptions` |
+| `gcloud metastore services migrations delete` | `GcloudMetastoreServicesMigrationsDeleteOptions` |
+| `gcloud metastore services migrations describe` | `GcloudMetastoreServicesMigrationsDescribeOptions` |
+| `gcloud metastore services migrations list` | `GcloudMetastoreServicesMigrationsListOptions` |
+| `gcloud metastore services migrations start` | `GcloudMetastoreServicesMigrationsStartOptions` |
 | `gcloud metastore services move-table-to-database` | `GcloudMetastoreServicesMoveTableToDatabaseOptions` |
 | `gcloud metastore services query-metadata` | `GcloudMetastoreServicesQueryMetadataOptions` |
 | `gcloud metastore services remove-iam-policy-binding` | `GcloudMetastoreServicesRemoveIamPolicyBindingOptions` |

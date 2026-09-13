@@ -16,11 +16,23 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudSeverity
 {
-    [EnumValue("DEFAULT")]
-    Default,
+    [EnumValue("ALERT")]
+    Alert,
+
+    [EnumValue("CRITICAL")]
+    Critical,
 
     [EnumValue("DEBUG")]
     Debug,
+
+    [EnumValue("DEFAULT")]
+    Default,
+
+    [EnumValue("EMERGENCY")]
+    Emergency,
+
+    [EnumValue("ERROR")]
+    Error,
 
     [EnumValue("INFO")]
     Info,
@@ -29,17 +41,5 @@ public enum GcloudSeverity
     Notice,
 
     [EnumValue("WARNING")]
-    Warning,
-
-    [EnumValue("ERROR")]
-    Error,
-
-    [EnumValue("CRITICAL")]
-    Critical,
-
-    [EnumValue("ALERT")]
-    Alert,
-
-    [EnumValue("EMERGENCY")]
-    Emergency
+    Warning
 }

@@ -16,14 +16,14 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudLoggingAggregationInterval
 {
+    [EnumValue("interval-1-min")]
+    Interval_1Min,
+
     [EnumValue("interval-10-min")]
     Interval_10Min,
 
     [EnumValue("interval-15-min")]
     Interval_15Min,
-
-    [EnumValue("interval-1-min")]
-    Interval_1Min,
 
     [EnumValue("interval-30-sec")]
     Interval_30Sec,

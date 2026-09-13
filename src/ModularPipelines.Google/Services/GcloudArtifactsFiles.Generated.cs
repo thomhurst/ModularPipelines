@@ -122,5 +122,20 @@ public class GcloudArtifactsFiles
         return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudArtifactsFilesUpdateOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// uploads files to Artifact Registry
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UploadAsync(
+        GcloudArtifactsFilesUploadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudArtifactsFilesUploadOptions(), executionOptions, cancellationToken);
+    }
+
     #endregion
 }
