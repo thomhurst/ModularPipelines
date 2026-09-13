@@ -15,6 +15,9 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Create a Terraform Stack.
 /// </summary>
+/// <param name="OrganizationName">The name of the organization to target. Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided. (required)</param>
+/// <param name="ProjectName">The name of the project to target. Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided. (required)</param>
+/// <param name="StackName">The name of the stack to target. Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided. (required)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "create")]

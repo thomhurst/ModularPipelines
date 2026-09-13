@@ -15,6 +15,7 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Rerun deployments within a deployment group.
 /// </summary>
+/// <param name="DeploymentNames">A comma-separated list of deployment names to rerun within the deployment group (required).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "deployment-group", "rerun")]

@@ -15,6 +15,7 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Cancel a deployment run in progress.
 /// </summary>
+/// <param name="DeploymentRunId">The ID of the deployment run to watch (required).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "deployment-run", "cancel")]

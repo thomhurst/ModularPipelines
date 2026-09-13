@@ -15,6 +15,7 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Populates a local directory with copies of the provider plugins needed for
 /// </summary>
+/// <param name="TargetDir">The &lt;target-dir&gt; operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("providers", "mirror")]

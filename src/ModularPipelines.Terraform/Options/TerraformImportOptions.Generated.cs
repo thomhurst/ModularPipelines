@@ -15,6 +15,8 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Import existing infrastructure into your Terraform state.
 /// </summary>
+/// <param name="Addr">The ADDR operand.</param>
+/// <param name="Id">The ID operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("import")]
