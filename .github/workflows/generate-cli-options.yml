@@ -134,6 +134,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.tool-catalog.outputs.linux) }}
+    env:
+      # Feature-branch refreshes must not overwrite another branch's generated PR.
+      GENERATED_OPTIONS_BRANCH: automated/update-cli-options-${{ matrix.tool }}${{ github.ref_name != github.event.repository.default_branch && format('-{0}', github.ref_name) || '' }}
     concurrency:
       group: ${{ github.workflow }}-generated-refresh-${{ matrix.tool }}
       cancel-in-progress: false
@@ -155,7 +158,7 @@ jobs:
       - name: Disable inherited auto-merge for push refreshes
         if: steps.should-run.outputs.run == 'true' && github.event_name == 'push'
         run: |
-          pr_number="$(gh pr list --state open --head "automated/update-cli-options-${{ matrix.tool }}" --json number --jq '.[0].number // empty')"
+          pr_number="$(gh pr list --state open --head "$GENERATED_OPTIONS_BRANCH" --json number --jq '.[0].number // empty')"
           if [ -n "$pr_number" ]; then
             auto_merge_enabled="$(gh pr view "$pr_number" --json autoMergeRequest --jq '.autoMergeRequest != null')"
             if [ "$auto_merge_enabled" = "true" ]; then
@@ -798,7 +801,7 @@ jobs:
 
             ---
             🤖 Generated with ModularPipelines.OptionsGenerator
-          branch: automated/update-cli-options-${{ matrix.tool }}
+          branch: ${{ env.GENERATED_OPTIONS_BRANCH }}
           # Keep manual feature-branch regeneration on the commit that produced it.
           # Rebasing generated renames onto main can map new content onto stale filenames.
           base: ${{ github.ref_name }}
@@ -829,6 +832,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.tool-catalog.outputs.windows) }}
+    env:
+      # Feature-branch refreshes must not overwrite another branch's generated PR.
+      GENERATED_OPTIONS_BRANCH: automated/update-cli-options-${{ matrix.tool }}${{ github.ref_name != github.event.repository.default_branch && format('-{0}', github.ref_name) || '' }}
     concurrency:
       group: ${{ github.workflow }}-generated-refresh-${{ matrix.tool }}
       cancel-in-progress: false
@@ -854,7 +860,7 @@ jobs:
         run: |
           $prNumber = gh pr list `
             --state open `
-            --head "automated/update-cli-options-${{ matrix.tool }}" `
+            --head $env:GENERATED_OPTIONS_BRANCH `
             --json number `
             --jq '.[0].number // empty'
           if ($LASTEXITCODE -ne 0) {
@@ -1150,7 +1156,7 @@ jobs:
 
             ---
             🤖 Generated with ModularPipelines.OptionsGenerator
-          branch: automated/update-cli-options-${{ matrix.tool }}
+          branch: ${{ env.GENERATED_OPTIONS_BRANCH }}
           # Keep manual feature-branch regeneration on the commit that produced it.
           # Rebasing generated renames onto main can map new content onto stale filenames.
           base: ${{ github.ref_name }}
