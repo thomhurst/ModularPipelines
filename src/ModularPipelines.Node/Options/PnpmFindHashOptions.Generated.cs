@@ -37,7 +37,7 @@ public record PnpmFindHashOptions(
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// Set working directory. Accepted anywhere on the command line, before or after the subcommand, like every other rc-option
+    /// Set working directory. Accepted anywhere on the command line, before or after the subcommand, like every other rc-option [default: .]
     /// </summary>
     [CliOption("--dir", ShortForm = "-C")]
     public string? Dir { get; set; }
@@ -55,7 +55,7 @@ public record PnpmFindHashOptions(
     public string? StateDir { get; set; }
 
     /// <summary>
-    /// Path to an `.npmrc` to read auth settings from, overriding the default `~/.npmrc`
+    /// Path to an `.npmrc` to read auth settings from, overriding the default `~/.npmrc` [alias: --userconfig]
     /// </summary>
     [CliOption("--npmrc-auth-file")]
     public string? NpmrcAuthFile { get; set; }
@@ -91,7 +91,7 @@ public record PnpmFindHashOptions(
     public bool? Recursive { get; set; }
 
     /// <summary>
-    /// Reporter output format
+    /// Reporter output format [default: default]
     /// </summary>
     [CliOption("--reporter")]
     public PnpmFindHashReporter? Reporter { get; set; }
