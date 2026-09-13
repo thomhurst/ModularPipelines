@@ -696,7 +696,6 @@ public class GeneratorUtilsTests
     [Test]
     [Arguments("Credential")]
     [Arguments("UserCredential")]
-    [Arguments("CredentialId")]
     [Arguments("Creds")]
     [Arguments("RegistryCreds")]
     [Arguments("DestCreds")]
@@ -723,7 +722,6 @@ public class GeneratorUtilsTests
 
     [Test]
     [Arguments("ApiKey")]
-    [Arguments("ApiKeyIdentifier")]
     [Arguments("MyApiKey")]
     [Arguments("ApiKeyValue")]
     public async Task IsSecretOption_Returns_True_For_ApiKey_Variants(string propertyName)
@@ -746,8 +744,6 @@ public class GeneratorUtilsTests
     [Test]
     [Arguments("AccessKey")]
     [Arguments("AwsAccessKey")]
-    [Arguments("AccessKeyId")]
-    [Arguments("AwsAccessKeyId")]
     public async Task IsSecretOption_Returns_True_For_AccessKey_Variants(string propertyName)
     {
         var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
@@ -795,11 +791,42 @@ public class GeneratorUtilsTests
     [Arguments("TokenName")]
     [Arguments("KeyId")]
     [Arguments("ResourceIdentifier")]
+    [Arguments("CredentialId")]
+    [Arguments("ApiKeyIdentifier")]
+    [Arguments("AccessKeyId")]
+    [Arguments("AwsAccessKeyId")]
+    [Arguments("Oauth2ClientCredentialsConfigId")]
+    [Arguments("SecuritySettingsAwsV4AccessKeyId")]
+    [Arguments("ProxySecretVersionId")]
+    [Arguments("PropertiesSecretId")]
+    [Arguments("OciVaultSecretId")]
+    [Arguments("ACCESSKEYID")]
     public async Task IsSecretOption_Returns_False_For_Non_Secret_Identifiers(string propertyName)
     {
         var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
 
         await Assert.That(result).IsFalse();
+    }
+
+    [Test]
+    [Arguments("Oauth2ClientCredentialsConfigId", "Parameters for OAuth client credentials. The client identifier.")]
+    [Arguments("SecuritySettingsAwsV4AccessKeyId", "The AWS access key ID.")]
+    [Arguments("ProxySecretVersionId", "The ID of the secret version containing proxy credentials.")]
+    [Arguments("PropertiesSecretId", "The ID of the Oracle Cloud Infrastructure vault secret.")]
+    [Arguments("SecretVersionId", "Identifier of the secret value to retrieve.")]
+    public async Task IsSecretOption_Keeps_Identifiers_Visible_In_Secret_Context(string propertyName, string description)
+    {
+        await Assert.That(GeneratorUtils.IsSecretOption(propertyName, false, description)).IsFalse();
+    }
+
+    [Test]
+    [Arguments("SecretId")]
+    [Arguments("TokenId")]
+    [Arguments("DevRootTokenId")]
+    [Arguments("SECRETID")]
+    public async Task IsSecretOption_Preserves_Known_Bearer_Credential_Identifiers(string propertyName)
+    {
+        await Assert.That(GeneratorUtils.IsSecretOption(propertyName, false)).IsTrue();
     }
 
     [Test]

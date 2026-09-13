@@ -112,7 +112,7 @@ public class PulumiCliScraperTests
     }
 
     [Test]
-    public async Task Aws_Static_Provider_Access_Keys_Are_Secret()
+    public async Task Aws_Static_Provider_Masks_The_Secret_Key_But_Not_Its_Identifier()
     {
         const string helpText = """
             Add static credentials.
@@ -128,7 +128,7 @@ public class PulumiCliScraperTests
         await Assert.That(command).IsNotNull();
         await Assert.That(command!.PositionalArguments
                 .Single(argument => argument.PropertyName == "AccessKeyId").IsSecret)
-            .IsTrue();
+            .IsFalse();
         await Assert.That(command.PositionalArguments
                 .Single(argument => argument.PropertyName == "SecretAccessKey").IsSecret)
             .IsTrue();
