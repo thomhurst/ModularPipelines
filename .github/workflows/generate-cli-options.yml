@@ -134,6 +134,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.tool-catalog.outputs.linux) }}
+    env:
+      # Feature-branch refreshes must not overwrite another branch's generated PR.
+      GENERATED_OPTIONS_BRANCH: automated/update-cli-options-${{ matrix.tool }}${{ github.ref_name != github.event.repository.default_branch && format('-{0}', github.ref_name) || '' }}
     concurrency:
       group: ${{ github.workflow }}-generated-refresh-${{ matrix.tool }}
       cancel-in-progress: false
@@ -843,6 +846,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.tool-catalog.outputs.windows) }}
+    env:
+      # Feature-branch refreshes must not overwrite another branch's generated PR.
+      GENERATED_OPTIONS_BRANCH: automated/update-cli-options-${{ matrix.tool }}${{ github.ref_name != github.event.repository.default_branch && format('-{0}', github.ref_name) || '' }}
     concurrency:
       group: ${{ github.workflow }}-generated-refresh-${{ matrix.tool }}
       cancel-in-progress: false
