@@ -11,14 +11,29 @@ public class PnpmCommandRenderingTests : TestBase
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        var commandLine = builder.Build(new PnpmStagePublishOptions
+        var commandLine = builder.Build(new PnpmStageOptions
         {
-            Tarball = "package.tgz",
+            Params = ["publish", "package.tgz"],
             DryRun = true,
             Json = true,
         });
 
         await Assert.That(commandLine.ToString())
-            .IsEqualTo("pnpm stage publish --dry-run --json package.tgz");
+            .IsEqualTo("pnpm stage --dry-run --json publish package.tgz");
+    }
+
+    [Test]
+    public async Task Audit_Renders_Signatures_As_A_Parent_Parameter()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var commandLine = builder.Build(new PnpmAuditOptions
+        {
+            Params = ["signatures"],
+            Json = true,
+        });
+
+        await Assert.That(commandLine.ToString())
+            .IsEqualTo("pnpm audit --json signatures");
     }
 }
