@@ -67,8 +67,8 @@ ModularPipelines.AmazonWebServices.Lambda.Lambda(Amazon.Lambda.AmazonLambdaClien
 ModularPipelines.AmazonWebServices.Lambda.ListAliases(Amazon.Lambda.Model.ListAliasesRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Amazon.Lambda.Model.ListAliasesResponse!>!
 ModularPipelines.AmazonWebServices.Lambda.ListEventSourceMappings(Amazon.Lambda.Model.ListEventSourceMappingsRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Amazon.Lambda.Model.ListEventSourceMappingsResponse!>!
 ModularPipelines.AmazonWebServices.Lambda.ListFunctions(Amazon.Lambda.Model.ListFunctionsRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Amazon.Lambda.Model.ListFunctionsResponse!>!
-ModularPipelines.AmazonWebServices.Lambda.ListLayers(Amazon.Lambda.Model.ListLayersRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Amazon.Lambda.Model.ListLayersResponse!>!
 ModularPipelines.AmazonWebServices.Lambda.ListLayerVersions(Amazon.Lambda.Model.ListLayerVersionsRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Amazon.Lambda.Model.ListLayerVersionsResponse!>!
+ModularPipelines.AmazonWebServices.Lambda.ListLayers(Amazon.Lambda.Model.ListLayersRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Amazon.Lambda.Model.ListLayersResponse!>!
 ModularPipelines.AmazonWebServices.Lambda.ListTags(Amazon.Lambda.Model.ListTagsRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Amazon.Lambda.Model.ListTagsResponse!>!
 ModularPipelines.AmazonWebServices.Lambda.ListVersionsByFunction(Amazon.Lambda.Model.ListVersionsByFunctionRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Amazon.Lambda.Model.ListVersionsByFunctionResponse!>!
 ModularPipelines.AmazonWebServices.Lambda.PublishLayerVersion(Amazon.Lambda.Model.PublishLayerVersionRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<Amazon.Lambda.Model.PublishLayerVersionResponse!>!
@@ -128,13 +128,14 @@ ModularPipelines.AmazonWebServices.Services.IAws
 ModularPipelines.Context.ModularPipelines_AmazonWebServices_41e8430162c02228ToolsExtensions
 ModularPipelines.Context.ModularPipelines_AmazonWebServices_41e8430162c02228ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
 ModularPipelines.Context.ModularPipelines_AmazonWebServices_41e8430162c02228ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Aws.get -> ModularPipelines.AmazonWebServices.Services.IAws!
-override abstract ModularPipelines.AmazonWebServices.Options.AwsOptions.<Clone>$() -> ModularPipelines.AmazonWebServices.Options.AwsOptions!
 override ModularPipelines.AmazonWebServices.Options.AwsOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.AmazonWebServices.Options.AwsOptions.Equals(object? obj) -> bool
 override ModularPipelines.AmazonWebServices.Options.AwsOptions.GetHashCode() -> int
 override ModularPipelines.AmazonWebServices.Options.AwsOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.AmazonWebServices.Options.AwsOptions.ToString() -> string!
+override abstract ModularPipelines.AmazonWebServices.Options.AwsOptions.<Clone>$() -> ModularPipelines.AmazonWebServices.Options.AwsOptions!
 override sealed ModularPipelines.AmazonWebServices.Options.AwsOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
+static ModularPipelines.AmazonWebServices.Extensions.AwsExtensions.Aws(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.AmazonWebServices.Services.IAws!
 static ModularPipelines.AmazonWebServices.Extensions.AwsExtensions.RegisterAwsContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.AmazonWebServices.Options.AwsOptions.operator !=(ModularPipelines.AmazonWebServices.Options.AwsOptions? left, ModularPipelines.AmazonWebServices.Options.AwsOptions? right) -> bool
 static ModularPipelines.AmazonWebServices.Options.AwsOptions.operator ==(ModularPipelines.AmazonWebServices.Options.AwsOptions? left, ModularPipelines.AmazonWebServices.Options.AwsOptions? right) -> bool

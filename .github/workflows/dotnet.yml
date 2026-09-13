@@ -107,6 +107,7 @@ jobs:
         shell: pwsh
         run: |
           ./scripts/Test-PublicApiRemovedMarker.ps1
+          ./tools/ModularPipelines.OptionsGenerator/scripts/Test-RepairPublicApiBaselineHistory.ps1
           ./scripts/Test-AssertPublicApiBaselines.ps1
       - name: Verify public API baseline coverage
         shell: pwsh

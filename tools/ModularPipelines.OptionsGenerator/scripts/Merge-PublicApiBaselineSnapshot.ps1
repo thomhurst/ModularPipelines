@@ -94,6 +94,14 @@ $shippedApis = [System.Collections.Generic.HashSet[string]]::new(
     [string[]] @(Get-ApiEntries $originalShipped),
     $comparer)
 
+# Older synchronization removed shipped entries while recording their markers.
+# Recover that history before classifying current APIs, including reintroduced APIs.
+foreach ($entry in Get-ApiEntries $originalUnshipped) {
+    if (Test-RemovedMarker $entry) {
+        $null = $shippedApis.Add((Get-RemovedMarkerEntry $entry))
+    }
+}
+
 $unshippedApis = [System.Collections.Generic.HashSet[string]]::new($comparer)
 foreach ($entry in $currentApis) {
     if (-not $shippedApis.Contains($entry)) {
@@ -114,7 +122,7 @@ foreach ($entry in Get-ApiEntries $originalUnshipped) {
     }
 
     $removedApi = Get-RemovedMarkerEntry $entry
-    if ($shippedApis.Contains($removedApi) -and -not $currentApis.Contains($removedApi)) {
+    if (-not $currentApis.Contains($removedApi)) {
         $null = $unshippedApis.Add($entry)
     }
 }

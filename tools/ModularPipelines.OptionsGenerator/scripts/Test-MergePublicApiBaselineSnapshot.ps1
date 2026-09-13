@@ -79,24 +79,27 @@ try {
         -UnshippedOutputPath $unshippedOutput
 
     # Confirmed removals and signature changes keep their shipped entry and gain a
-    # *REMOVED* marker; a marker without a shipped entry (Api.Historical) is dropped.
+    # *REMOVED* marker. Historical markers restore their missing shipped entries;
+    # reintroduced APIs retain that shipped history but lose the stale marker.
     Assert-Lines $shippedOutput @(
         '#nullable enable'
         'Api.Changed(string)'
         'Api.Existing'
+        'Api.Historical'
+        'Api.Reintroduced'
         'Api.Removed()'
         'Api.SnapshotMissing'
     )
     Assert-Lines $unshippedOutput @(
         '#nullable enable'
         '*REMOVED*Api.Changed(string)'
+        '*REMOVED*Api.Historical'
         '*REMOVED*Api.Removed()'
         'Api.Added'
         'Api.Added.ApiAdded() -> void'
         'Api.Added.Name.get -> string!'
         'Api.Changed(int)'
         'Api.Pending'
-        'Api.Reintroduced'
     )
 
     $shippedHash = (Get-FileHash -LiteralPath $shippedOutput).Hash
@@ -114,7 +117,7 @@ try {
         throw 'Repeated baseline synchronization was not idempotent.'
     }
 
-    # Without confirmed removals the shipped baseline is untouched and no marker appears.
+    # Without newly confirmed removals only historical markers survive.
     $emptyRemovals = Join-Path $testRoot 'PublicAPI.NoRemovals.txt'
     $noRemovalShipped = Join-Path $testRoot 'PublicAPI.Shipped.no-removals.txt'
     $noRemovalUnshipped = Join-Path $testRoot 'PublicAPI.Unshipped.no-removals.txt'
@@ -127,15 +130,15 @@ try {
         -ShippedOutputPath $noRemovalShipped `
         -UnshippedOutputPath $noRemovalUnshipped
 
-    Assert-Lines $noRemovalShipped @(Get-Content -LiteralPath $originalShipped)
+    Assert-Lines $noRemovalShipped @(Get-Content -LiteralPath $shippedOutput)
     Assert-Lines $noRemovalUnshipped @(
         '#nullable enable'
+        '*REMOVED*Api.Historical'
         'Api.Added'
         'Api.Added.ApiAdded() -> void'
         'Api.Added.Name.get -> string!'
         'Api.Changed(int)'
         'Api.Pending'
-        'Api.Reintroduced'
     )
 
     # Truly empty inputs (no header at all) must still produce empty baselines.

@@ -3,8 +3,11 @@ ModularPipelines.Context.ModularPipelines_Kind_84aa8736f42f49b8ToolsExtensions
 ModularPipelines.Context.ModularPipelines_Kind_84aa8736f42f49b8ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
 ModularPipelines.Context.ModularPipelines_Kind_84aa8736f42f49b8ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Kind.get -> ModularPipelines.Kind.Services.IKind!
 ModularPipelines.Kind.Enums.KindBuildNodeImageType
+ModularPipelines.Kind.Enums.KindBuildNodeImageType.Ci = 3 -> ModularPipelines.Kind.Enums.KindBuildNodeImageType
 ModularPipelines.Kind.Enums.KindBuildNodeImageType.File = 1 -> ModularPipelines.Kind.Enums.KindBuildNodeImageType
 ModularPipelines.Kind.Enums.KindBuildNodeImageType.Release = 2 -> ModularPipelines.Kind.Enums.KindBuildNodeImageType
+ModularPipelines.Kind.Enums.KindBuildNodeImageType.Source = 4 -> ModularPipelines.Kind.Enums.KindBuildNodeImageType
+ModularPipelines.Kind.Enums.KindBuildNodeImageType.Url = 0 -> ModularPipelines.Kind.Enums.KindBuildNodeImageType
 ModularPipelines.Kind.Extensions.KindExtensions
 ModularPipelines.Kind.Options.KindBuildNodeImageOptions
 ModularPipelines.Kind.Options.KindBuildNodeImageOptions.Arch.get -> string?
@@ -45,6 +48,8 @@ ModularPipelines.Kind.Options.KindCreateClusterOptions.KindCreateClusterOptions(
 ModularPipelines.Kind.Options.KindCreateClusterOptions.KindCreateClusterOptions(ModularPipelines.Kind.Options.KindCreateClusterOptions! original) -> void
 ModularPipelines.Kind.Options.KindCreateClusterOptions.KubeConfig.get -> string?
 ModularPipelines.Kind.Options.KindCreateClusterOptions.KubeConfig.set -> void
+ModularPipelines.Kind.Options.KindCreateClusterOptions.Kubeconfig.get -> string?
+ModularPipelines.Kind.Options.KindCreateClusterOptions.Kubeconfig.set -> void
 ModularPipelines.Kind.Options.KindCreateClusterOptions.Name.get -> string?
 ModularPipelines.Kind.Options.KindCreateClusterOptions.Name.set -> void
 ModularPipelines.Kind.Options.KindCreateClusterOptions.Quiet.get -> bool?
@@ -71,6 +76,8 @@ ModularPipelines.Kind.Options.KindDeleteClusterOptions.KindDeleteClusterOptions(
 ModularPipelines.Kind.Options.KindDeleteClusterOptions.KindDeleteClusterOptions(ModularPipelines.Kind.Options.KindDeleteClusterOptions! original) -> void
 ModularPipelines.Kind.Options.KindDeleteClusterOptions.KubeConfig.get -> string?
 ModularPipelines.Kind.Options.KindDeleteClusterOptions.KubeConfig.set -> void
+ModularPipelines.Kind.Options.KindDeleteClusterOptions.Kubeconfig.get -> string?
+ModularPipelines.Kind.Options.KindDeleteClusterOptions.Kubeconfig.set -> void
 ModularPipelines.Kind.Options.KindDeleteClusterOptions.Name.get -> string?
 ModularPipelines.Kind.Options.KindDeleteClusterOptions.Name.set -> void
 ModularPipelines.Kind.Options.KindDeleteClusterOptions.Quiet.get -> bool?
@@ -86,6 +93,8 @@ ModularPipelines.Kind.Options.KindDeleteClustersOptions.KindDeleteClustersOption
 ModularPipelines.Kind.Options.KindDeleteClustersOptions.KindDeleteClustersOptions(ModularPipelines.Kind.Options.KindDeleteClustersOptions! original) -> void
 ModularPipelines.Kind.Options.KindDeleteClustersOptions.KubeConfig.get -> string?
 ModularPipelines.Kind.Options.KindDeleteClustersOptions.KubeConfig.set -> void
+ModularPipelines.Kind.Options.KindDeleteClustersOptions.Kubeconfig.get -> string?
+ModularPipelines.Kind.Options.KindDeleteClustersOptions.Kubeconfig.set -> void
 ModularPipelines.Kind.Options.KindDeleteClustersOptions.Quiet.get -> bool?
 ModularPipelines.Kind.Options.KindDeleteClustersOptions.Quiet.set -> void
 ModularPipelines.Kind.Options.KindDeleteClustersOptions.Verbosity.get -> int?
@@ -99,6 +108,23 @@ ModularPipelines.Kind.Options.KindDeleteOptions.Quiet.get -> bool?
 ModularPipelines.Kind.Options.KindDeleteOptions.Quiet.set -> void
 ModularPipelines.Kind.Options.KindDeleteOptions.Verbosity.get -> int?
 ModularPipelines.Kind.Options.KindDeleteOptions.Verbosity.set -> void
+ModularPipelines.Kind.Options.KindExportKubeconfigOptions
+ModularPipelines.Kind.Options.KindExportKubeconfigOptions.Help.get -> bool?
+ModularPipelines.Kind.Options.KindExportKubeconfigOptions.Help.set -> void
+ModularPipelines.Kind.Options.KindExportKubeconfigOptions.Internal.get -> bool?
+ModularPipelines.Kind.Options.KindExportKubeconfigOptions.Internal.set -> void
+ModularPipelines.Kind.Options.KindExportKubeconfigOptions.KindExportKubeconfigOptions() -> void
+ModularPipelines.Kind.Options.KindExportKubeconfigOptions.KindExportKubeconfigOptions(ModularPipelines.Kind.Options.KindExportKubeconfigOptions! original) -> void
+ModularPipelines.Kind.Options.KindExportKubeconfigOptions.KubeConfig.get -> string?
+ModularPipelines.Kind.Options.KindExportKubeconfigOptions.KubeConfig.set -> void
+ModularPipelines.Kind.Options.KindExportKubeconfigOptions.Kubeconfig.get -> string?
+ModularPipelines.Kind.Options.KindExportKubeconfigOptions.Kubeconfig.set -> void
+ModularPipelines.Kind.Options.KindExportKubeconfigOptions.Name.get -> string?
+ModularPipelines.Kind.Options.KindExportKubeconfigOptions.Name.set -> void
+ModularPipelines.Kind.Options.KindExportKubeconfigOptions.Quiet.get -> bool?
+ModularPipelines.Kind.Options.KindExportKubeconfigOptions.Quiet.set -> void
+ModularPipelines.Kind.Options.KindExportKubeconfigOptions.Verbosity.get -> int?
+ModularPipelines.Kind.Options.KindExportKubeconfigOptions.Verbosity.set -> void
 ModularPipelines.Kind.Options.KindExportLogsOptions
 ModularPipelines.Kind.Options.KindExportLogsOptions.Help.get -> bool?
 ModularPipelines.Kind.Options.KindExportLogsOptions.Help.set -> void
@@ -130,6 +156,19 @@ ModularPipelines.Kind.Options.KindGetClustersOptions.Quiet.get -> bool?
 ModularPipelines.Kind.Options.KindGetClustersOptions.Quiet.set -> void
 ModularPipelines.Kind.Options.KindGetClustersOptions.Verbosity.get -> int?
 ModularPipelines.Kind.Options.KindGetClustersOptions.Verbosity.set -> void
+ModularPipelines.Kind.Options.KindGetKubeconfigOptions
+ModularPipelines.Kind.Options.KindGetKubeconfigOptions.Help.get -> bool?
+ModularPipelines.Kind.Options.KindGetKubeconfigOptions.Help.set -> void
+ModularPipelines.Kind.Options.KindGetKubeconfigOptions.Internal.get -> bool?
+ModularPipelines.Kind.Options.KindGetKubeconfigOptions.Internal.set -> void
+ModularPipelines.Kind.Options.KindGetKubeconfigOptions.KindGetKubeconfigOptions() -> void
+ModularPipelines.Kind.Options.KindGetKubeconfigOptions.KindGetKubeconfigOptions(ModularPipelines.Kind.Options.KindGetKubeconfigOptions! original) -> void
+ModularPipelines.Kind.Options.KindGetKubeconfigOptions.Name.get -> string?
+ModularPipelines.Kind.Options.KindGetKubeconfigOptions.Name.set -> void
+ModularPipelines.Kind.Options.KindGetKubeconfigOptions.Quiet.get -> bool?
+ModularPipelines.Kind.Options.KindGetKubeconfigOptions.Quiet.set -> void
+ModularPipelines.Kind.Options.KindGetKubeconfigOptions.Verbosity.get -> int?
+ModularPipelines.Kind.Options.KindGetKubeconfigOptions.Verbosity.set -> void
 ModularPipelines.Kind.Options.KindGetNodesOptions
 ModularPipelines.Kind.Options.KindGetNodesOptions.AllClusters.get -> bool?
 ModularPipelines.Kind.Options.KindGetNodesOptions.AllClusters.set -> void
@@ -204,17 +243,42 @@ ModularPipelines.Kind.Services.IKind.Export.get -> ModularPipelines.Kind.Service
 ModularPipelines.Kind.Services.IKind.Get.get -> ModularPipelines.Kind.Services.IKindGet!
 ModularPipelines.Kind.Services.IKind.Load.get -> ModularPipelines.Kind.Services.IKindLoad!
 ModularPipelines.Kind.Services.IKindBuild
+ModularPipelines.Kind.Services.IKindBuild.ExecuteAsync(ModularPipelines.Kind.Options.KindBuildOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Kind.Services.IKindBuild.NodeImageAsync(ModularPipelines.Kind.Options.KindBuildNodeImageOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Kind.Services.IKindCreate
+ModularPipelines.Kind.Services.IKindCreate.ClusterAsync(ModularPipelines.Kind.Options.KindCreateClusterOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Kind.Services.IKindCreate.ExecuteAsync(ModularPipelines.Kind.Options.KindCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Kind.Services.IKindDelete
+ModularPipelines.Kind.Services.IKindDelete.ClusterAsync(ModularPipelines.Kind.Options.KindDeleteClusterOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Kind.Services.IKindDelete.ClustersAsync(ModularPipelines.Kind.Options.KindDeleteClustersOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Kind.Services.IKindDelete.ExecuteAsync(ModularPipelines.Kind.Options.KindDeleteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Kind.Services.IKindExport
+ModularPipelines.Kind.Services.IKindExport.ExecuteAsync(ModularPipelines.Kind.Options.KindExportOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Kind.Services.IKindExport.KubeConfigAsync(ModularPipelines.Kind.Options.KindExportKubeconfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Kind.Services.IKindExport.KubeconfigAsync(ModularPipelines.Kind.Options.KindExportKubeconfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Kind.Services.IKindExport.LogsAsync(ModularPipelines.Kind.Options.KindExportLogsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Kind.Services.IKindGet
+ModularPipelines.Kind.Services.IKindGet.ClustersAsync(ModularPipelines.Kind.Options.KindGetClustersOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Kind.Services.IKindGet.ExecuteAsync(ModularPipelines.Kind.Options.KindGetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Kind.Services.IKindGet.KubeConfigAsync(ModularPipelines.Kind.Options.KindGetKubeconfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Kind.Services.IKindGet.KubeconfigAsync(ModularPipelines.Kind.Options.KindGetKubeconfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Kind.Services.IKindGet.NodesAsync(ModularPipelines.Kind.Options.KindGetNodesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Kind.Services.IKindLoad
+ModularPipelines.Kind.Services.IKindLoad.DockerImageAsync(ModularPipelines.Kind.Options.KindLoadDockerImageOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Kind.Services.IKindLoad.ExecuteAsync(ModularPipelines.Kind.Options.KindLoadOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Kind.Services.IKindLoad.ImageArchiveAsync(ModularPipelines.Kind.Options.KindLoadImageArchiveOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Kind.Services.KindBuild
+ModularPipelines.Kind.Services.KindBuild.KindBuild(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Kind.Services.KindCreate
+ModularPipelines.Kind.Services.KindCreate.KindCreate(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Kind.Services.KindDelete
+ModularPipelines.Kind.Services.KindDelete.KindDelete(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Kind.Services.KindExport
+ModularPipelines.Kind.Services.KindExport.KindExport(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Kind.Services.KindGet
+ModularPipelines.Kind.Services.KindGet.KindGet(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Kind.Services.KindLoad
+ModularPipelines.Kind.Services.KindLoad.KindLoad(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 override ModularPipelines.Kind.Options.KindBuildNodeImageOptions.<Clone>$() -> ModularPipelines.Kind.Options.KindBuildNodeImageOptions!
 override ModularPipelines.Kind.Options.KindBuildNodeImageOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Kind.Options.KindBuildNodeImageOptions.Equals(object? obj) -> bool
@@ -257,6 +321,12 @@ override ModularPipelines.Kind.Options.KindDeleteOptions.Equals(object? obj) -> 
 override ModularPipelines.Kind.Options.KindDeleteOptions.GetHashCode() -> int
 override ModularPipelines.Kind.Options.KindDeleteOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Kind.Options.KindDeleteOptions.ToString() -> string!
+override ModularPipelines.Kind.Options.KindExportKubeconfigOptions.<Clone>$() -> ModularPipelines.Kind.Options.KindExportKubeconfigOptions!
+override ModularPipelines.Kind.Options.KindExportKubeconfigOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Kind.Options.KindExportKubeconfigOptions.Equals(object? obj) -> bool
+override ModularPipelines.Kind.Options.KindExportKubeconfigOptions.GetHashCode() -> int
+override ModularPipelines.Kind.Options.KindExportKubeconfigOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Kind.Options.KindExportKubeconfigOptions.ToString() -> string!
 override ModularPipelines.Kind.Options.KindExportLogsOptions.<Clone>$() -> ModularPipelines.Kind.Options.KindExportLogsOptions!
 override ModularPipelines.Kind.Options.KindExportLogsOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Kind.Options.KindExportLogsOptions.Equals(object? obj) -> bool
@@ -275,6 +345,12 @@ override ModularPipelines.Kind.Options.KindGetClustersOptions.Equals(object? obj
 override ModularPipelines.Kind.Options.KindGetClustersOptions.GetHashCode() -> int
 override ModularPipelines.Kind.Options.KindGetClustersOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.Kind.Options.KindGetClustersOptions.ToString() -> string!
+override ModularPipelines.Kind.Options.KindGetKubeconfigOptions.<Clone>$() -> ModularPipelines.Kind.Options.KindGetKubeconfigOptions!
+override ModularPipelines.Kind.Options.KindGetKubeconfigOptions.EqualityContract.get -> System.Type!
+override ModularPipelines.Kind.Options.KindGetKubeconfigOptions.Equals(object? obj) -> bool
+override ModularPipelines.Kind.Options.KindGetKubeconfigOptions.GetHashCode() -> int
+override ModularPipelines.Kind.Options.KindGetKubeconfigOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+override ModularPipelines.Kind.Options.KindGetKubeconfigOptions.ToString() -> string!
 override ModularPipelines.Kind.Options.KindGetNodesOptions.<Clone>$() -> ModularPipelines.Kind.Options.KindGetNodesOptions!
 override ModularPipelines.Kind.Options.KindGetNodesOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Kind.Options.KindGetNodesOptions.Equals(object? obj) -> bool
@@ -318,9 +394,11 @@ override sealed ModularPipelines.Kind.Options.KindCreateOptions.Equals(ModularPi
 override sealed ModularPipelines.Kind.Options.KindDeleteClusterOptions.Equals(ModularPipelines.Kind.Options.KindOptions? other) -> bool
 override sealed ModularPipelines.Kind.Options.KindDeleteClustersOptions.Equals(ModularPipelines.Kind.Options.KindOptions? other) -> bool
 override sealed ModularPipelines.Kind.Options.KindDeleteOptions.Equals(ModularPipelines.Kind.Options.KindOptions? other) -> bool
+override sealed ModularPipelines.Kind.Options.KindExportKubeconfigOptions.Equals(ModularPipelines.Kind.Options.KindOptions? other) -> bool
 override sealed ModularPipelines.Kind.Options.KindExportLogsOptions.Equals(ModularPipelines.Kind.Options.KindOptions? other) -> bool
 override sealed ModularPipelines.Kind.Options.KindExportOptions.Equals(ModularPipelines.Kind.Options.KindOptions? other) -> bool
 override sealed ModularPipelines.Kind.Options.KindGetClustersOptions.Equals(ModularPipelines.Kind.Options.KindOptions? other) -> bool
+override sealed ModularPipelines.Kind.Options.KindGetKubeconfigOptions.Equals(ModularPipelines.Kind.Options.KindOptions? other) -> bool
 override sealed ModularPipelines.Kind.Options.KindGetNodesOptions.Equals(ModularPipelines.Kind.Options.KindOptions? other) -> bool
 override sealed ModularPipelines.Kind.Options.KindGetOptions.Equals(ModularPipelines.Kind.Options.KindOptions? other) -> bool
 override sealed ModularPipelines.Kind.Options.KindLoadDockerImageOptions.Equals(ModularPipelines.Kind.Options.KindOptions? other) -> bool
@@ -328,6 +406,7 @@ override sealed ModularPipelines.Kind.Options.KindLoadImageArchiveOptions.Equals
 override sealed ModularPipelines.Kind.Options.KindLoadOptions.Equals(ModularPipelines.Kind.Options.KindOptions? other) -> bool
 override sealed ModularPipelines.Kind.Options.KindOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 static ModularPipelines.Context.ModularPipelines_Kind_84aa8736f42f49b8ToolsExtensions.get_Kind(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Kind.Services.IKind!
+static ModularPipelines.Kind.Extensions.KindExtensions.Kind(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Kind.Services.IKind!
 static ModularPipelines.Kind.Extensions.KindExtensions.RegisterKindContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.Kind.Options.KindBuildNodeImageOptions.operator !=(ModularPipelines.Kind.Options.KindBuildNodeImageOptions? left, ModularPipelines.Kind.Options.KindBuildNodeImageOptions? right) -> bool
 static ModularPipelines.Kind.Options.KindBuildNodeImageOptions.operator ==(ModularPipelines.Kind.Options.KindBuildNodeImageOptions? left, ModularPipelines.Kind.Options.KindBuildNodeImageOptions? right) -> bool
@@ -343,12 +422,16 @@ static ModularPipelines.Kind.Options.KindDeleteClustersOptions.operator !=(Modul
 static ModularPipelines.Kind.Options.KindDeleteClustersOptions.operator ==(ModularPipelines.Kind.Options.KindDeleteClustersOptions? left, ModularPipelines.Kind.Options.KindDeleteClustersOptions? right) -> bool
 static ModularPipelines.Kind.Options.KindDeleteOptions.operator !=(ModularPipelines.Kind.Options.KindDeleteOptions? left, ModularPipelines.Kind.Options.KindDeleteOptions? right) -> bool
 static ModularPipelines.Kind.Options.KindDeleteOptions.operator ==(ModularPipelines.Kind.Options.KindDeleteOptions? left, ModularPipelines.Kind.Options.KindDeleteOptions? right) -> bool
+static ModularPipelines.Kind.Options.KindExportKubeconfigOptions.operator !=(ModularPipelines.Kind.Options.KindExportKubeconfigOptions? left, ModularPipelines.Kind.Options.KindExportKubeconfigOptions? right) -> bool
+static ModularPipelines.Kind.Options.KindExportKubeconfigOptions.operator ==(ModularPipelines.Kind.Options.KindExportKubeconfigOptions? left, ModularPipelines.Kind.Options.KindExportKubeconfigOptions? right) -> bool
 static ModularPipelines.Kind.Options.KindExportLogsOptions.operator !=(ModularPipelines.Kind.Options.KindExportLogsOptions? left, ModularPipelines.Kind.Options.KindExportLogsOptions? right) -> bool
 static ModularPipelines.Kind.Options.KindExportLogsOptions.operator ==(ModularPipelines.Kind.Options.KindExportLogsOptions? left, ModularPipelines.Kind.Options.KindExportLogsOptions? right) -> bool
 static ModularPipelines.Kind.Options.KindExportOptions.operator !=(ModularPipelines.Kind.Options.KindExportOptions? left, ModularPipelines.Kind.Options.KindExportOptions? right) -> bool
 static ModularPipelines.Kind.Options.KindExportOptions.operator ==(ModularPipelines.Kind.Options.KindExportOptions? left, ModularPipelines.Kind.Options.KindExportOptions? right) -> bool
 static ModularPipelines.Kind.Options.KindGetClustersOptions.operator !=(ModularPipelines.Kind.Options.KindGetClustersOptions? left, ModularPipelines.Kind.Options.KindGetClustersOptions? right) -> bool
 static ModularPipelines.Kind.Options.KindGetClustersOptions.operator ==(ModularPipelines.Kind.Options.KindGetClustersOptions? left, ModularPipelines.Kind.Options.KindGetClustersOptions? right) -> bool
+static ModularPipelines.Kind.Options.KindGetKubeconfigOptions.operator !=(ModularPipelines.Kind.Options.KindGetKubeconfigOptions? left, ModularPipelines.Kind.Options.KindGetKubeconfigOptions? right) -> bool
+static ModularPipelines.Kind.Options.KindGetKubeconfigOptions.operator ==(ModularPipelines.Kind.Options.KindGetKubeconfigOptions? left, ModularPipelines.Kind.Options.KindGetKubeconfigOptions? right) -> bool
 static ModularPipelines.Kind.Options.KindGetNodesOptions.operator !=(ModularPipelines.Kind.Options.KindGetNodesOptions? left, ModularPipelines.Kind.Options.KindGetNodesOptions? right) -> bool
 static ModularPipelines.Kind.Options.KindGetNodesOptions.operator ==(ModularPipelines.Kind.Options.KindGetNodesOptions? left, ModularPipelines.Kind.Options.KindGetNodesOptions? right) -> bool
 static ModularPipelines.Kind.Options.KindGetOptions.operator !=(ModularPipelines.Kind.Options.KindGetOptions? left, ModularPipelines.Kind.Options.KindGetOptions? right) -> bool
@@ -368,12 +451,33 @@ virtual ModularPipelines.Kind.Options.KindCreateOptions.Equals(ModularPipelines.
 virtual ModularPipelines.Kind.Options.KindDeleteClusterOptions.Equals(ModularPipelines.Kind.Options.KindDeleteClusterOptions? other) -> bool
 virtual ModularPipelines.Kind.Options.KindDeleteClustersOptions.Equals(ModularPipelines.Kind.Options.KindDeleteClustersOptions? other) -> bool
 virtual ModularPipelines.Kind.Options.KindDeleteOptions.Equals(ModularPipelines.Kind.Options.KindDeleteOptions? other) -> bool
+virtual ModularPipelines.Kind.Options.KindExportKubeconfigOptions.Equals(ModularPipelines.Kind.Options.KindExportKubeconfigOptions? other) -> bool
 virtual ModularPipelines.Kind.Options.KindExportLogsOptions.Equals(ModularPipelines.Kind.Options.KindExportLogsOptions? other) -> bool
 virtual ModularPipelines.Kind.Options.KindExportOptions.Equals(ModularPipelines.Kind.Options.KindExportOptions? other) -> bool
 virtual ModularPipelines.Kind.Options.KindGetClustersOptions.Equals(ModularPipelines.Kind.Options.KindGetClustersOptions? other) -> bool
+virtual ModularPipelines.Kind.Options.KindGetKubeconfigOptions.Equals(ModularPipelines.Kind.Options.KindGetKubeconfigOptions? other) -> bool
 virtual ModularPipelines.Kind.Options.KindGetNodesOptions.Equals(ModularPipelines.Kind.Options.KindGetNodesOptions? other) -> bool
 virtual ModularPipelines.Kind.Options.KindGetOptions.Equals(ModularPipelines.Kind.Options.KindGetOptions? other) -> bool
 virtual ModularPipelines.Kind.Options.KindLoadDockerImageOptions.Equals(ModularPipelines.Kind.Options.KindLoadDockerImageOptions? other) -> bool
 virtual ModularPipelines.Kind.Options.KindLoadImageArchiveOptions.Equals(ModularPipelines.Kind.Options.KindLoadImageArchiveOptions? other) -> bool
 virtual ModularPipelines.Kind.Options.KindLoadOptions.Equals(ModularPipelines.Kind.Options.KindLoadOptions? other) -> bool
 virtual ModularPipelines.Kind.Options.KindOptions.Equals(ModularPipelines.Kind.Options.KindOptions? other) -> bool
+virtual ModularPipelines.Kind.Services.KindBuild.ExecuteAsync(ModularPipelines.Kind.Options.KindBuildOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindBuild.NodeImageAsync(ModularPipelines.Kind.Options.KindBuildNodeImageOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindCreate.ClusterAsync(ModularPipelines.Kind.Options.KindCreateClusterOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindCreate.ExecuteAsync(ModularPipelines.Kind.Options.KindCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindDelete.ClusterAsync(ModularPipelines.Kind.Options.KindDeleteClusterOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindDelete.ClustersAsync(ModularPipelines.Kind.Options.KindDeleteClustersOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindDelete.ExecuteAsync(ModularPipelines.Kind.Options.KindDeleteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindExport.ExecuteAsync(ModularPipelines.Kind.Options.KindExportOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindExport.KubeConfigAsync(ModularPipelines.Kind.Options.KindExportKubeconfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindExport.KubeconfigAsync(ModularPipelines.Kind.Options.KindExportKubeconfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindExport.LogsAsync(ModularPipelines.Kind.Options.KindExportLogsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindGet.ClustersAsync(ModularPipelines.Kind.Options.KindGetClustersOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindGet.ExecuteAsync(ModularPipelines.Kind.Options.KindGetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindGet.KubeConfigAsync(ModularPipelines.Kind.Options.KindGetKubeconfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindGet.KubeconfigAsync(ModularPipelines.Kind.Options.KindGetKubeconfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindGet.NodesAsync(ModularPipelines.Kind.Options.KindGetNodesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindLoad.DockerImageAsync(ModularPipelines.Kind.Options.KindLoadDockerImageOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindLoad.ExecuteAsync(ModularPipelines.Kind.Options.KindLoadOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Kind.Services.KindLoad.ImageArchiveAsync(ModularPipelines.Kind.Options.KindLoadImageArchiveOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!

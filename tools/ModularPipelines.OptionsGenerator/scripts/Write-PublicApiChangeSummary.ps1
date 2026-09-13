@@ -40,10 +40,10 @@ function Read-ActiveApi([string[]] $Paths) {
                 continue
             }
 
-            if (Test-RemovedMarker $entry) {
-                [void] $retired.Add((Get-RemovedMarkerEntry $entry))
+            if (Test-RemovedMarker $line) {
+                [void] $retired.Add((Get-RemovedMarkerEntry $line))
             } else {
-                [void] $entries.Add($entry)
+                [void] $entries.Add($line)
             }
         }
     }

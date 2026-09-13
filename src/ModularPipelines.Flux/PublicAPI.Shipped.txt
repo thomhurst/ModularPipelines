@@ -4,84 +4,204 @@ ModularPipelines.Context.ModularPipelines_Flux_b9983fcbe51e0051ToolsExtensions.e
 ModularPipelines.Context.ModularPipelines_Flux_b9983fcbe51e0051ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Flux.get -> ModularPipelines.Flux.Services.IFlux!
 ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerLogLevel
 ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerLogLevel.Debug = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerLogLevel
+ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerLogLevel.Error = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerLogLevel
+ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerLogLevel.Info = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerLogLevel
 ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerSshEcdsaCurve.P256 = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerSshEcdsaCurve.P384 = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerSshEcdsaCurve.P521 = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerSshKeyAlgorithm.Ecdsa = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerSshKeyAlgorithm.Ed25519 = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerSshKeyAlgorithm.Rsa = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapBitbucketServerSshKeyAlgorithm
 ModularPipelines.Flux.Enums.FluxBootstrapGitLogLevel
 ModularPipelines.Flux.Enums.FluxBootstrapGitLogLevel.Debug = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGitLogLevel
+ModularPipelines.Flux.Enums.FluxBootstrapGitLogLevel.Error = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGitLogLevel
+ModularPipelines.Flux.Enums.FluxBootstrapGitLogLevel.Info = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapGitLogLevel
 ModularPipelines.Flux.Enums.FluxBootstrapGitSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapGitSshEcdsaCurve.P256 = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGitSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapGitSshEcdsaCurve.P384 = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapGitSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapGitSshEcdsaCurve.P521 = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGitSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapGitSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapGitSshKeyAlgorithm.Ecdsa = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapGitSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapGitSshKeyAlgorithm.Ed25519 = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGitSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapGitSshKeyAlgorithm.Rsa = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGitSshKeyAlgorithm
 ModularPipelines.Flux.Enums.FluxBootstrapGiteaLogLevel
 ModularPipelines.Flux.Enums.FluxBootstrapGiteaLogLevel.Debug = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGiteaLogLevel
+ModularPipelines.Flux.Enums.FluxBootstrapGiteaLogLevel.Error = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGiteaLogLevel
+ModularPipelines.Flux.Enums.FluxBootstrapGiteaLogLevel.Info = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapGiteaLogLevel
 ModularPipelines.Flux.Enums.FluxBootstrapGiteaSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapGiteaSshEcdsaCurve.P256 = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGiteaSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapGiteaSshEcdsaCurve.P384 = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapGiteaSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapGiteaSshEcdsaCurve.P521 = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGiteaSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapGiteaSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapGiteaSshKeyAlgorithm.Ecdsa = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapGiteaSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapGiteaSshKeyAlgorithm.Ed25519 = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGiteaSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapGiteaSshKeyAlgorithm.Rsa = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGiteaSshKeyAlgorithm
 ModularPipelines.Flux.Enums.FluxBootstrapGithubLogLevel
 ModularPipelines.Flux.Enums.FluxBootstrapGithubLogLevel.Debug = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGithubLogLevel
+ModularPipelines.Flux.Enums.FluxBootstrapGithubLogLevel.Error = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGithubLogLevel
+ModularPipelines.Flux.Enums.FluxBootstrapGithubLogLevel.Info = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapGithubLogLevel
 ModularPipelines.Flux.Enums.FluxBootstrapGithubSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapGithubSshEcdsaCurve.P256 = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGithubSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapGithubSshEcdsaCurve.P384 = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapGithubSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapGithubSshEcdsaCurve.P521 = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGithubSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapGithubSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapGithubSshKeyAlgorithm.Ecdsa = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapGithubSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapGithubSshKeyAlgorithm.Ed25519 = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGithubSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapGithubSshKeyAlgorithm.Rsa = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGithubSshKeyAlgorithm
 ModularPipelines.Flux.Enums.FluxBootstrapGitlabLogLevel
 ModularPipelines.Flux.Enums.FluxBootstrapGitlabLogLevel.Debug = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabLogLevel
+ModularPipelines.Flux.Enums.FluxBootstrapGitlabLogLevel.Error = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabLogLevel
+ModularPipelines.Flux.Enums.FluxBootstrapGitlabLogLevel.Info = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabLogLevel
 ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshEcdsaCurve.P256 = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshEcdsaCurve.P384 = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshEcdsaCurve.P521 = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshKeyAlgorithm.Ecdsa = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshKeyAlgorithm.Ed25519 = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshKeyAlgorithm.Rsa = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabSshKeyAlgorithm
 ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility
+ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility.Internal = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility
+ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility.Private = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility
+ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility.Public = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapGitlabVisibility
 ModularPipelines.Flux.Enums.FluxBootstrapLogLevel
 ModularPipelines.Flux.Enums.FluxBootstrapLogLevel.Debug = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapLogLevel
+ModularPipelines.Flux.Enums.FluxBootstrapLogLevel.Error = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapLogLevel
+ModularPipelines.Flux.Enums.FluxBootstrapLogLevel.Info = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapLogLevel
 ModularPipelines.Flux.Enums.FluxBootstrapSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapSshEcdsaCurve.P256 = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapSshEcdsaCurve.P384 = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapSshEcdsaCurve.P521 = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxBootstrapSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapSshKeyAlgorithm.Ecdsa = 1 -> ModularPipelines.Flux.Enums.FluxBootstrapSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapSshKeyAlgorithm.Ed25519 = 2 -> ModularPipelines.Flux.Enums.FluxBootstrapSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxBootstrapSshKeyAlgorithm.Rsa = 0 -> ModularPipelines.Flux.Enums.FluxBootstrapSshKeyAlgorithm
 ModularPipelines.Flux.Enums.FluxCreateHelmreleaseChartRef
+ModularPipelines.Flux.Enums.FluxCreateHelmreleaseChartRef.HelmChart = 1 -> ModularPipelines.Flux.Enums.FluxCreateHelmreleaseChartRef
+ModularPipelines.Flux.Enums.FluxCreateHelmreleaseChartRef.OciRepository = 0 -> ModularPipelines.Flux.Enums.FluxCreateHelmreleaseChartRef
 ModularPipelines.Flux.Enums.FluxCreateHelmreleaseCrds
+ModularPipelines.Flux.Enums.FluxCreateHelmreleaseCrds.Create = 1 -> ModularPipelines.Flux.Enums.FluxCreateHelmreleaseCrds
+ModularPipelines.Flux.Enums.FluxCreateHelmreleaseCrds.CreateReplace = 2 -> ModularPipelines.Flux.Enums.FluxCreateHelmreleaseCrds
+ModularPipelines.Flux.Enums.FluxCreateHelmreleaseCrds.Skip = 0 -> ModularPipelines.Flux.Enums.FluxCreateHelmreleaseCrds
 ModularPipelines.Flux.Enums.FluxCreateHelmreleaseReconcileStrategy
+ModularPipelines.Flux.Enums.FluxCreateHelmreleaseReconcileStrategy.ChartRevision = 1 -> ModularPipelines.Flux.Enums.FluxCreateHelmreleaseReconcileStrategy
+ModularPipelines.Flux.Enums.FluxCreateHelmreleaseReconcileStrategy.Revision = 0 -> ModularPipelines.Flux.Enums.FluxCreateHelmreleaseReconcileStrategy
 ModularPipelines.Flux.Enums.FluxCreateHelmreleaseSource
+ModularPipelines.Flux.Enums.FluxCreateHelmreleaseSource.Bucket = 2 -> ModularPipelines.Flux.Enums.FluxCreateHelmreleaseSource
 ModularPipelines.Flux.Enums.FluxCreateHelmreleaseSource.GitRepository = 1 -> ModularPipelines.Flux.Enums.FluxCreateHelmreleaseSource
+ModularPipelines.Flux.Enums.FluxCreateHelmreleaseSource.HelmRepository = 0 -> ModularPipelines.Flux.Enums.FluxCreateHelmreleaseSource
 ModularPipelines.Flux.Enums.FluxCreateHelmreleaseValuesFrom
+ModularPipelines.Flux.Enums.FluxCreateHelmreleaseValuesFrom.ConfigMap = 1 -> ModularPipelines.Flux.Enums.FluxCreateHelmreleaseValuesFrom
+ModularPipelines.Flux.Enums.FluxCreateHelmreleaseValuesFrom.Secret = 0 -> ModularPipelines.Flux.Enums.FluxCreateHelmreleaseValuesFrom
 ModularPipelines.Flux.Enums.FluxCreateImagePolicyReflectDigest
+ModularPipelines.Flux.Enums.FluxCreateImagePolicyReflectDigest.IfNotPresent = 1 -> ModularPipelines.Flux.Enums.FluxCreateImagePolicyReflectDigest
+ModularPipelines.Flux.Enums.FluxCreateImagePolicyReflectDigest.Never = 0 -> ModularPipelines.Flux.Enums.FluxCreateImagePolicyReflectDigest
 ModularPipelines.Flux.Enums.FluxCreateKustomizationSource
+ModularPipelines.Flux.Enums.FluxCreateKustomizationSource.Bucket = 2 -> ModularPipelines.Flux.Enums.FluxCreateKustomizationSource
 ModularPipelines.Flux.Enums.FluxCreateKustomizationSource.GitRepository = 1 -> ModularPipelines.Flux.Enums.FluxCreateKustomizationSource
+ModularPipelines.Flux.Enums.FluxCreateKustomizationSource.OciRepository = 0 -> ModularPipelines.Flux.Enums.FluxCreateKustomizationSource
 ModularPipelines.Flux.Enums.FluxCreateReceiverType
+ModularPipelines.Flux.Enums.FluxCreateReceiverType.Acr = 10 -> ModularPipelines.Flux.Enums.FluxCreateReceiverType
+ModularPipelines.Flux.Enums.FluxCreateReceiverType.Bitbucket = 4 -> ModularPipelines.Flux.Enums.FluxCreateReceiverType
+ModularPipelines.Flux.Enums.FluxCreateReceiverType.Cdevents = 11 -> ModularPipelines.Flux.Enums.FluxCreateReceiverType
+ModularPipelines.Flux.Enums.FluxCreateReceiverType.Dockerhub = 6 -> ModularPipelines.Flux.Enums.FluxCreateReceiverType
+ModularPipelines.Flux.Enums.FluxCreateReceiverType.Gcr = 8 -> ModularPipelines.Flux.Enums.FluxCreateReceiverType
+ModularPipelines.Flux.Enums.FluxCreateReceiverType.Generic = 0 -> ModularPipelines.Flux.Enums.FluxCreateReceiverType
+ModularPipelines.Flux.Enums.FluxCreateReceiverType.GenericHmac = 1 -> ModularPipelines.Flux.Enums.FluxCreateReceiverType
+ModularPipelines.Flux.Enums.FluxCreateReceiverType.Github = 2 -> ModularPipelines.Flux.Enums.FluxCreateReceiverType
+ModularPipelines.Flux.Enums.FluxCreateReceiverType.Gitlab = 3 -> ModularPipelines.Flux.Enums.FluxCreateReceiverType
+ModularPipelines.Flux.Enums.FluxCreateReceiverType.Harbor = 5 -> ModularPipelines.Flux.Enums.FluxCreateReceiverType
+ModularPipelines.Flux.Enums.FluxCreateReceiverType.Nexus = 9 -> ModularPipelines.Flux.Enums.FluxCreateReceiverType
+ModularPipelines.Flux.Enums.FluxCreateReceiverType.Quay = 7 -> ModularPipelines.Flux.Enums.FluxCreateReceiverType
 ModularPipelines.Flux.Enums.FluxCreateSecretGitSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxCreateSecretGitSshEcdsaCurve.P256 = 0 -> ModularPipelines.Flux.Enums.FluxCreateSecretGitSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxCreateSecretGitSshEcdsaCurve.P384 = 1 -> ModularPipelines.Flux.Enums.FluxCreateSecretGitSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxCreateSecretGitSshEcdsaCurve.P521 = 2 -> ModularPipelines.Flux.Enums.FluxCreateSecretGitSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxCreateSecretGitSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxCreateSecretGitSshKeyAlgorithm.Ecdsa = 1 -> ModularPipelines.Flux.Enums.FluxCreateSecretGitSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxCreateSecretGitSshKeyAlgorithm.Ed25519 = 2 -> ModularPipelines.Flux.Enums.FluxCreateSecretGitSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxCreateSecretGitSshKeyAlgorithm.Rsa = 0 -> ModularPipelines.Flux.Enums.FluxCreateSecretGitSshKeyAlgorithm
 ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType
+ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType.Acr = 10 -> ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType
+ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType.Bitbucket = 4 -> ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType
+ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType.Cdevents = 11 -> ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType
+ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType.Dockerhub = 6 -> ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType
+ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType.Gcr = 8 -> ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType
+ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType.Generic = 0 -> ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType
+ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType.GenericHmac = 1 -> ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType
+ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType.Github = 2 -> ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType
+ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType.Gitlab = 3 -> ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType
+ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType.Harbor = 5 -> ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType
+ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType.Nexus = 9 -> ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType
+ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType.Quay = 7 -> ModularPipelines.Flux.Enums.FluxCreateSecretReceiverType
 ModularPipelines.Flux.Enums.FluxCreateSourceBucketProvider
+ModularPipelines.Flux.Enums.FluxCreateSourceBucketProvider.Aws = 1 -> ModularPipelines.Flux.Enums.FluxCreateSourceBucketProvider
+ModularPipelines.Flux.Enums.FluxCreateSourceBucketProvider.Azure = 2 -> ModularPipelines.Flux.Enums.FluxCreateSourceBucketProvider
+ModularPipelines.Flux.Enums.FluxCreateSourceBucketProvider.Gcp = 3 -> ModularPipelines.Flux.Enums.FluxCreateSourceBucketProvider
+ModularPipelines.Flux.Enums.FluxCreateSourceBucketProvider.Generic = 0 -> ModularPipelines.Flux.Enums.FluxCreateSourceBucketProvider
 ModularPipelines.Flux.Enums.FluxCreateSourceChartReconcileStrategy
+ModularPipelines.Flux.Enums.FluxCreateSourceChartReconcileStrategy.ChartRevision = 1 -> ModularPipelines.Flux.Enums.FluxCreateSourceChartReconcileStrategy
+ModularPipelines.Flux.Enums.FluxCreateSourceChartReconcileStrategy.Revision = 0 -> ModularPipelines.Flux.Enums.FluxCreateSourceChartReconcileStrategy
 ModularPipelines.Flux.Enums.FluxCreateSourceChartSource
+ModularPipelines.Flux.Enums.FluxCreateSourceChartSource.Bucket = 2 -> ModularPipelines.Flux.Enums.FluxCreateSourceChartSource
 ModularPipelines.Flux.Enums.FluxCreateSourceChartSource.GitRepository = 1 -> ModularPipelines.Flux.Enums.FluxCreateSourceChartSource
+ModularPipelines.Flux.Enums.FluxCreateSourceChartSource.HelmRepository = 0 -> ModularPipelines.Flux.Enums.FluxCreateSourceChartSource
 ModularPipelines.Flux.Enums.FluxCreateSourceGitProvider
+ModularPipelines.Flux.Enums.FluxCreateSourceGitProvider.Aws = 2 -> ModularPipelines.Flux.Enums.FluxCreateSourceGitProvider
+ModularPipelines.Flux.Enums.FluxCreateSourceGitProvider.Azure = 3 -> ModularPipelines.Flux.Enums.FluxCreateSourceGitProvider
+ModularPipelines.Flux.Enums.FluxCreateSourceGitProvider.Generic = 0 -> ModularPipelines.Flux.Enums.FluxCreateSourceGitProvider
+ModularPipelines.Flux.Enums.FluxCreateSourceGitProvider.Github = 1 -> ModularPipelines.Flux.Enums.FluxCreateSourceGitProvider
 ModularPipelines.Flux.Enums.FluxCreateSourceGitSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxCreateSourceGitSshEcdsaCurve.P256 = 0 -> ModularPipelines.Flux.Enums.FluxCreateSourceGitSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxCreateSourceGitSshEcdsaCurve.P384 = 1 -> ModularPipelines.Flux.Enums.FluxCreateSourceGitSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxCreateSourceGitSshEcdsaCurve.P521 = 2 -> ModularPipelines.Flux.Enums.FluxCreateSourceGitSshEcdsaCurve
 ModularPipelines.Flux.Enums.FluxCreateSourceGitSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxCreateSourceGitSshKeyAlgorithm.Ecdsa = 1 -> ModularPipelines.Flux.Enums.FluxCreateSourceGitSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxCreateSourceGitSshKeyAlgorithm.Ed25519 = 2 -> ModularPipelines.Flux.Enums.FluxCreateSourceGitSshKeyAlgorithm
+ModularPipelines.Flux.Enums.FluxCreateSourceGitSshKeyAlgorithm.Rsa = 0 -> ModularPipelines.Flux.Enums.FluxCreateSourceGitSshKeyAlgorithm
 ModularPipelines.Flux.Enums.FluxCreateSourceOciProvider
+ModularPipelines.Flux.Enums.FluxCreateSourceOciProvider.Aws = 1 -> ModularPipelines.Flux.Enums.FluxCreateSourceOciProvider
+ModularPipelines.Flux.Enums.FluxCreateSourceOciProvider.Azure = 2 -> ModularPipelines.Flux.Enums.FluxCreateSourceOciProvider
+ModularPipelines.Flux.Enums.FluxCreateSourceOciProvider.Gcp = 3 -> ModularPipelines.Flux.Enums.FluxCreateSourceOciProvider
+ModularPipelines.Flux.Enums.FluxCreateSourceOciProvider.Generic = 0 -> ModularPipelines.Flux.Enums.FluxCreateSourceOciProvider
 ModularPipelines.Flux.Enums.FluxDiffArtifactProvider
+ModularPipelines.Flux.Enums.FluxDiffArtifactProvider.Aws = 1 -> ModularPipelines.Flux.Enums.FluxDiffArtifactProvider
+ModularPipelines.Flux.Enums.FluxDiffArtifactProvider.Azure = 2 -> ModularPipelines.Flux.Enums.FluxDiffArtifactProvider
+ModularPipelines.Flux.Enums.FluxDiffArtifactProvider.Gcp = 3 -> ModularPipelines.Flux.Enums.FluxDiffArtifactProvider
+ModularPipelines.Flux.Enums.FluxDiffArtifactProvider.Generic = 0 -> ModularPipelines.Flux.Enums.FluxDiffArtifactProvider
 ModularPipelines.Flux.Enums.FluxInstallLogLevel
 ModularPipelines.Flux.Enums.FluxInstallLogLevel.Debug = 0 -> ModularPipelines.Flux.Enums.FluxInstallLogLevel
+ModularPipelines.Flux.Enums.FluxInstallLogLevel.Error = 2 -> ModularPipelines.Flux.Enums.FluxInstallLogLevel
+ModularPipelines.Flux.Enums.FluxInstallLogLevel.Info = 1 -> ModularPipelines.Flux.Enums.FluxInstallLogLevel
 ModularPipelines.Flux.Enums.FluxListArtifactsProvider
+ModularPipelines.Flux.Enums.FluxListArtifactsProvider.Aws = 1 -> ModularPipelines.Flux.Enums.FluxListArtifactsProvider
+ModularPipelines.Flux.Enums.FluxListArtifactsProvider.Azure = 2 -> ModularPipelines.Flux.Enums.FluxListArtifactsProvider
+ModularPipelines.Flux.Enums.FluxListArtifactsProvider.Gcp = 3 -> ModularPipelines.Flux.Enums.FluxListArtifactsProvider
+ModularPipelines.Flux.Enums.FluxListArtifactsProvider.Generic = 0 -> ModularPipelines.Flux.Enums.FluxListArtifactsProvider
 ModularPipelines.Flux.Enums.FluxLogsLevel
 ModularPipelines.Flux.Enums.FluxLogsLevel.Debug = 0 -> ModularPipelines.Flux.Enums.FluxLogsLevel
+ModularPipelines.Flux.Enums.FluxLogsLevel.Error = 2 -> ModularPipelines.Flux.Enums.FluxLogsLevel
+ModularPipelines.Flux.Enums.FluxLogsLevel.Info = 1 -> ModularPipelines.Flux.Enums.FluxLogsLevel
 ModularPipelines.Flux.Enums.FluxPullArtifactProvider
+ModularPipelines.Flux.Enums.FluxPullArtifactProvider.Aws = 1 -> ModularPipelines.Flux.Enums.FluxPullArtifactProvider
+ModularPipelines.Flux.Enums.FluxPullArtifactProvider.Azure = 2 -> ModularPipelines.Flux.Enums.FluxPullArtifactProvider
+ModularPipelines.Flux.Enums.FluxPullArtifactProvider.Gcp = 3 -> ModularPipelines.Flux.Enums.FluxPullArtifactProvider
+ModularPipelines.Flux.Enums.FluxPullArtifactProvider.Generic = 0 -> ModularPipelines.Flux.Enums.FluxPullArtifactProvider
 ModularPipelines.Flux.Enums.FluxPushArtifactProvider
+ModularPipelines.Flux.Enums.FluxPushArtifactProvider.Aws = 1 -> ModularPipelines.Flux.Enums.FluxPushArtifactProvider
+ModularPipelines.Flux.Enums.FluxPushArtifactProvider.Azure = 2 -> ModularPipelines.Flux.Enums.FluxPushArtifactProvider
+ModularPipelines.Flux.Enums.FluxPushArtifactProvider.Gcp = 3 -> ModularPipelines.Flux.Enums.FluxPushArtifactProvider
+ModularPipelines.Flux.Enums.FluxPushArtifactProvider.Generic = 0 -> ModularPipelines.Flux.Enums.FluxPushArtifactProvider
 ModularPipelines.Flux.Enums.FluxTagArtifactProvider
+ModularPipelines.Flux.Enums.FluxTagArtifactProvider.Aws = 1 -> ModularPipelines.Flux.Enums.FluxTagArtifactProvider
+ModularPipelines.Flux.Enums.FluxTagArtifactProvider.Azure = 2 -> ModularPipelines.Flux.Enums.FluxTagArtifactProvider
+ModularPipelines.Flux.Enums.FluxTagArtifactProvider.Gcp = 3 -> ModularPipelines.Flux.Enums.FluxTagArtifactProvider
+ModularPipelines.Flux.Enums.FluxTagArtifactProvider.Generic = 0 -> ModularPipelines.Flux.Enums.FluxTagArtifactProvider
 ModularPipelines.Flux.Enums.FluxTriggerReceiverOidcProvider
+ModularPipelines.Flux.Enums.FluxTriggerReceiverOidcProvider.Forgejo = 1 -> ModularPipelines.Flux.Enums.FluxTriggerReceiverOidcProvider
+ModularPipelines.Flux.Enums.FluxTriggerReceiverOidcProvider.Github = 0 -> ModularPipelines.Flux.Enums.FluxTriggerReceiverOidcProvider
 ModularPipelines.Flux.Enums.FluxTriggerReceiverType
 ModularPipelines.Flux.Enums.FluxTriggerReceiverType.Generic = 0 -> ModularPipelines.Flux.Enums.FluxTriggerReceiverType
 ModularPipelines.Flux.Enums.FluxTriggerReceiverType.GenericHmac = 1 -> ModularPipelines.Flux.Enums.FluxTriggerReceiverType
@@ -801,6 +921,8 @@ ModularPipelines.Flux.Options.FluxBootstrapOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxBootstrapOptions.Cluster.set -> void
 ModularPipelines.Flux.Options.FluxBootstrapOptions.ClusterDomain.get -> string?
 ModularPipelines.Flux.Options.FluxBootstrapOptions.ClusterDomain.set -> void
+ModularPipelines.Flux.Options.FluxBootstrapOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxBootstrapOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxBootstrapOptions.CommitMessageAppendix.get -> string?
 ModularPipelines.Flux.Options.FluxBootstrapOptions.CommitMessageAppendix.set -> void
 ModularPipelines.Flux.Options.FluxBootstrapOptions.Components.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -1034,6 +1156,8 @@ ModularPipelines.Flux.Options.FluxBuildOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxBuildOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxBuildOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxBuildOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxBuildOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxBuildOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxBuildOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxBuildOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxBuildOptions.DisableCompression.get -> bool?
@@ -1369,6 +1493,8 @@ ModularPipelines.Flux.Options.FluxCreateImageOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxCreateImageOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxCreateImageOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxCreateImageOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxCreateImageOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxCreateImageOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxCreateImageOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxCreateImageOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxCreateImageOptions.DisableCompression.get -> bool?
@@ -1730,6 +1856,8 @@ ModularPipelines.Flux.Options.FluxCreateOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxCreateOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxCreateOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxCreateOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxCreateOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxCreateOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxCreateOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxCreateOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxCreateOptions.DisableCompression.get -> bool?
@@ -2197,6 +2325,8 @@ ModularPipelines.Flux.Options.FluxCreateSecretOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxCreateSecretOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxCreateSecretOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxCreateSecretOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxCreateSecretOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxCreateSecretOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxCreateSecretOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxCreateSecretOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxCreateSecretOptions.DisableCompression.get -> bool?
@@ -2882,6 +3012,8 @@ ModularPipelines.Flux.Options.FluxCreateSourceOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxCreateSourceOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxCreateSourceOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxCreateSourceOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxCreateSourceOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxCreateSourceOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxCreateSourceOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxCreateSourceOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxCreateSourceOptions.DisableCompression.get -> bool?
@@ -3124,6 +3256,8 @@ ModularPipelines.Flux.Options.FluxDebugOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxDebugOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxDebugOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxDebugOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxDebugOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxDebugOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxDebugOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxDebugOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxDebugOptions.DisableCompression.get -> bool?
@@ -3340,6 +3474,8 @@ ModularPipelines.Flux.Options.FluxDeleteImageOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteImageOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxDeleteImageOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteImageOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxDeleteImageOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxDeleteImageOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxDeleteImageOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteImageOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxDeleteImageOptions.DisableCompression.get -> bool?
@@ -3613,6 +3749,8 @@ ModularPipelines.Flux.Options.FluxDeleteOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxDeleteOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxDeleteOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxDeleteOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxDeleteOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxDeleteOptions.DisableCompression.get -> bool?
@@ -3996,6 +4134,8 @@ ModularPipelines.Flux.Options.FluxDeleteSourceOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteSourceOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxDeleteSourceOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteSourceOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxDeleteSourceOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxDeleteSourceOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxDeleteSourceOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxDeleteSourceOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxDeleteSourceOptions.DisableCompression.get -> bool?
@@ -4179,6 +4319,8 @@ ModularPipelines.Flux.Options.FluxDiffOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxDiffOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxDiffOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxDiffOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxDiffOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxDiffOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxDiffOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxDiffOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxDiffOptions.DisableCompression.get -> bool?
@@ -4509,6 +4651,8 @@ ModularPipelines.Flux.Options.FluxExportArtifactOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxExportArtifactOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxExportArtifactOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxExportArtifactOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxExportArtifactOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxExportArtifactOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxExportArtifactOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxExportArtifactOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxExportArtifactOptions.DisableCompression.get -> bool?
@@ -4617,6 +4761,8 @@ ModularPipelines.Flux.Options.FluxExportImageOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxExportImageOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxExportImageOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxExportImageOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxExportImageOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxExportImageOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxExportImageOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxExportImageOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxExportImageOptions.DisableCompression.get -> bool?
@@ -4890,6 +5036,8 @@ ModularPipelines.Flux.Options.FluxExportOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxExportOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxExportOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxExportOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxExportOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxExportOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxExportOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxExportOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxExportOptions.DisableCompression.get -> bool?
@@ -5340,6 +5488,8 @@ ModularPipelines.Flux.Options.FluxExportSourceOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxExportSourceOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxExportSourceOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxExportSourceOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxExportSourceOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxExportSourceOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxExportSourceOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxExportSourceOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxExportSourceOptions.DisableCompression.get -> bool?
@@ -5639,6 +5789,8 @@ ModularPipelines.Flux.Options.FluxGetArtifactsOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxGetArtifactsOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxGetArtifactsOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxGetArtifactsOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxGetArtifactsOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxGetArtifactsOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxGetArtifactsOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxGetArtifactsOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxGetArtifactsOptions.DisableCompression.get -> bool?
@@ -5824,6 +5976,8 @@ ModularPipelines.Flux.Options.FluxGetImagesOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxGetImagesOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxGetImagesOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxGetImagesOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxGetImagesOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxGetImagesOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxGetImagesOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxGetImagesOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxGetImagesOptions.DisableCompression.get -> bool?
@@ -6131,6 +6285,8 @@ ModularPipelines.Flux.Options.FluxGetOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxGetOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxGetOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxGetOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxGetOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxGetOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxGetOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxGetOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxGetOptions.DisableCompression.get -> bool?
@@ -6680,6 +6836,8 @@ ModularPipelines.Flux.Options.FluxGetSourcesOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxGetSourcesOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxGetSourcesOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxGetSourcesOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxGetSourcesOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxGetSourcesOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxGetSourcesOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxGetSourcesOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxGetSourcesOptions.DisableCompression.get -> bool?
@@ -6877,6 +7035,8 @@ ModularPipelines.Flux.Options.FluxListOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxListOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxListOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxListOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxListOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxListOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxListOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxListOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxListOptions.DisableCompression.get -> bool?
@@ -7166,6 +7326,8 @@ ModularPipelines.Flux.Options.FluxPluginOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxPluginOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxPluginOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxPluginOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxPluginOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxPluginOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxPluginOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxPluginOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxPluginOptions.DisableCompression.get -> bool?
@@ -7436,6 +7598,8 @@ ModularPipelines.Flux.Options.FluxPullOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxPullOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxPullOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxPullOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxPullOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxPullOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxPullOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxPullOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxPullOptions.DisableCompression.get -> bool?
@@ -7562,6 +7726,8 @@ ModularPipelines.Flux.Options.FluxPushOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxPushOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxPushOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxPushOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxPushOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxPushOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxPushOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxPushOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxPushOptions.DisableCompression.get -> bool?
@@ -7672,6 +7838,8 @@ ModularPipelines.Flux.Options.FluxReconcileImageOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxReconcileImageOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxReconcileImageOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxReconcileImageOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxReconcileImageOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxReconcileImageOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxReconcileImageOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxReconcileImageOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxReconcileImageOptions.DisableCompression.get -> bool?
@@ -7937,6 +8105,8 @@ ModularPipelines.Flux.Options.FluxReconcileOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxReconcileOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxReconcileOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxReconcileOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxReconcileOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxReconcileOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxReconcileOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxReconcileOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxReconcileOptions.DisableCompression.get -> bool?
@@ -8308,6 +8478,8 @@ ModularPipelines.Flux.Options.FluxReconcileSourceOptions.ClientKey.get -> string
 ModularPipelines.Flux.Options.FluxReconcileSourceOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxReconcileSourceOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxReconcileSourceOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxReconcileSourceOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxReconcileSourceOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxReconcileSourceOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxReconcileSourceOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxReconcileSourceOptions.DisableCompression.get -> bool?
@@ -8532,6 +8704,8 @@ ModularPipelines.Flux.Options.FluxResumeImageOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxResumeImageOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxResumeImageOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxResumeImageOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxResumeImageOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxResumeImageOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxResumeImageOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxResumeImageOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxResumeImageOptions.DisableCompression.get -> bool?
@@ -8815,6 +8989,8 @@ ModularPipelines.Flux.Options.FluxResumeOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxResumeOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxResumeOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxResumeOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxResumeOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxResumeOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxResumeOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxResumeOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxResumeOptions.DisableCompression.get -> bool?
@@ -9212,6 +9388,8 @@ ModularPipelines.Flux.Options.FluxResumeSourceOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxResumeSourceOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxResumeSourceOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxResumeSourceOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxResumeSourceOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxResumeSourceOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxResumeSourceOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxResumeSourceOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxResumeSourceOptions.DisableCompression.get -> bool?
@@ -9485,6 +9663,8 @@ ModularPipelines.Flux.Options.FluxSuspendImageOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendImageOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxSuspendImageOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendImageOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxSuspendImageOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxSuspendImageOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxSuspendImageOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendImageOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxSuspendImageOptions.DisableCompression.get -> bool?
@@ -9758,6 +9938,8 @@ ModularPipelines.Flux.Options.FluxSuspendOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxSuspendOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxSuspendOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxSuspendOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxSuspendOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxSuspendOptions.DisableCompression.get -> bool?
@@ -10141,6 +10323,8 @@ ModularPipelines.Flux.Options.FluxSuspendSourceOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendSourceOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxSuspendSourceOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendSourceOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxSuspendSourceOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxSuspendSourceOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxSuspendSourceOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxSuspendSourceOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxSuspendSourceOptions.DisableCompression.get -> bool?
@@ -10249,6 +10433,8 @@ ModularPipelines.Flux.Options.FluxTagOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxTagOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxTagOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxTagOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxTagOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxTagOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxTagOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxTagOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxTagOptions.DisableCompression.get -> bool?
@@ -10415,6 +10601,8 @@ ModularPipelines.Flux.Options.FluxTreeArtifactOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxTreeArtifactOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxTreeArtifactOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxTreeArtifactOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxTreeArtifactOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxTreeArtifactOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxTreeArtifactOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxTreeArtifactOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxTreeArtifactOptions.DisableCompression.get -> bool?
@@ -10523,6 +10711,8 @@ ModularPipelines.Flux.Options.FluxTreeOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxTreeOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxTreeOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxTreeOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxTreeOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxTreeOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxTreeOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxTreeOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxTreeOptions.DisableCompression.get -> bool?
@@ -10574,6 +10764,8 @@ ModularPipelines.Flux.Options.FluxTriggerOptions.ClientKey.get -> string?
 ModularPipelines.Flux.Options.FluxTriggerOptions.ClientKey.set -> void
 ModularPipelines.Flux.Options.FluxTriggerOptions.Cluster.get -> string?
 ModularPipelines.Flux.Options.FluxTriggerOptions.Cluster.set -> void
+ModularPipelines.Flux.Options.FluxTriggerOptions.Command.get -> string?
+ModularPipelines.Flux.Options.FluxTriggerOptions.Command.set -> void
 ModularPipelines.Flux.Options.FluxTriggerOptions.Context.get -> string?
 ModularPipelines.Flux.Options.FluxTriggerOptions.Context.set -> void
 ModularPipelines.Flux.Options.FluxTriggerOptions.DisableCompression.get -> bool?
@@ -10733,114 +10925,234 @@ ModularPipelines.Flux.Options.FluxUninstallOptions.User.set -> void
 ModularPipelines.Flux.Options.FluxUninstallOptions.Verbose.get -> bool?
 ModularPipelines.Flux.Options.FluxUninstallOptions.Verbose.set -> void
 ModularPipelines.Flux.Services.FluxBootstrap
+ModularPipelines.Flux.Services.FluxBootstrap.FluxBootstrap(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxBuild
+ModularPipelines.Flux.Services.FluxBuild.FluxBuild(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxCreate
+ModularPipelines.Flux.Services.FluxCreate.FluxCreate(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxCreate.Image.get -> ModularPipelines.Flux.Services.FluxCreateImage!
 ModularPipelines.Flux.Services.FluxCreate.Secret.get -> ModularPipelines.Flux.Services.FluxCreateSecret!
 ModularPipelines.Flux.Services.FluxCreate.Source.get -> ModularPipelines.Flux.Services.FluxCreateSource!
 ModularPipelines.Flux.Services.FluxCreateImage
+ModularPipelines.Flux.Services.FluxCreateImage.FluxCreateImage(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxCreateSecret
+ModularPipelines.Flux.Services.FluxCreateSecret.FluxCreateSecret(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxCreateSource
+ModularPipelines.Flux.Services.FluxCreateSource.FluxCreateSource(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxDebug
+ModularPipelines.Flux.Services.FluxDebug.FluxDebug(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxDelete
+ModularPipelines.Flux.Services.FluxDelete.FluxDelete(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxDelete.Image.get -> ModularPipelines.Flux.Services.FluxDeleteImage!
 ModularPipelines.Flux.Services.FluxDelete.Source.get -> ModularPipelines.Flux.Services.FluxDeleteSource!
 ModularPipelines.Flux.Services.FluxDeleteImage
+ModularPipelines.Flux.Services.FluxDeleteImage.FluxDeleteImage(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxDeleteSource
+ModularPipelines.Flux.Services.FluxDeleteSource.FluxDeleteSource(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxDiff
+ModularPipelines.Flux.Services.FluxDiff.FluxDiff(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxExport
 ModularPipelines.Flux.Services.FluxExport.Artifact.get -> ModularPipelines.Flux.Services.FluxExportArtifact!
+ModularPipelines.Flux.Services.FluxExport.FluxExport(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxExport.Image.get -> ModularPipelines.Flux.Services.FluxExportImage!
 ModularPipelines.Flux.Services.FluxExport.Source.get -> ModularPipelines.Flux.Services.FluxExportSource!
 ModularPipelines.Flux.Services.FluxExportArtifact
+ModularPipelines.Flux.Services.FluxExportArtifact.FluxExportArtifact(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxExportImage
+ModularPipelines.Flux.Services.FluxExportImage.FluxExportImage(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxExportSource
+ModularPipelines.Flux.Services.FluxExportSource.FluxExportSource(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxGet
 ModularPipelines.Flux.Services.FluxGet.Artifacts.get -> ModularPipelines.Flux.Services.FluxGetArtifacts!
+ModularPipelines.Flux.Services.FluxGet.FluxGet(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxGet.Images.get -> ModularPipelines.Flux.Services.FluxGetImages!
 ModularPipelines.Flux.Services.FluxGet.Sources.get -> ModularPipelines.Flux.Services.FluxGetSources!
 ModularPipelines.Flux.Services.FluxGetArtifacts
+ModularPipelines.Flux.Services.FluxGetArtifacts.FluxGetArtifacts(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxGetImages
+ModularPipelines.Flux.Services.FluxGetImages.FluxGetImages(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxGetSources
+ModularPipelines.Flux.Services.FluxGetSources.FluxGetSources(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxList
+ModularPipelines.Flux.Services.FluxList.FluxList(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxPlugin
+ModularPipelines.Flux.Services.FluxPlugin.FluxPlugin(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxPull
+ModularPipelines.Flux.Services.FluxPull.FluxPull(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxPush
+ModularPipelines.Flux.Services.FluxPush.FluxPush(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxReconcile
+ModularPipelines.Flux.Services.FluxReconcile.FluxReconcile(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxReconcile.Image.get -> ModularPipelines.Flux.Services.FluxReconcileImage!
 ModularPipelines.Flux.Services.FluxReconcile.Source.get -> ModularPipelines.Flux.Services.FluxReconcileSource!
 ModularPipelines.Flux.Services.FluxReconcileImage
+ModularPipelines.Flux.Services.FluxReconcileImage.FluxReconcileImage(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxReconcileSource
+ModularPipelines.Flux.Services.FluxReconcileSource.FluxReconcileSource(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxResume
+ModularPipelines.Flux.Services.FluxResume.FluxResume(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxResume.Image.get -> ModularPipelines.Flux.Services.FluxResumeImage!
 ModularPipelines.Flux.Services.FluxResume.Source.get -> ModularPipelines.Flux.Services.FluxResumeSource!
 ModularPipelines.Flux.Services.FluxResumeImage
+ModularPipelines.Flux.Services.FluxResumeImage.FluxResumeImage(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxResumeSource
+ModularPipelines.Flux.Services.FluxResumeSource.FluxResumeSource(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxSuspend
+ModularPipelines.Flux.Services.FluxSuspend.FluxSuspend(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxSuspend.Image.get -> ModularPipelines.Flux.Services.FluxSuspendImage!
 ModularPipelines.Flux.Services.FluxSuspend.Source.get -> ModularPipelines.Flux.Services.FluxSuspendSource!
 ModularPipelines.Flux.Services.FluxSuspendImage
+ModularPipelines.Flux.Services.FluxSuspendImage.FluxSuspendImage(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxSuspendSource
+ModularPipelines.Flux.Services.FluxSuspendSource.FluxSuspendSource(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxTag
+ModularPipelines.Flux.Services.FluxTag.FluxTag(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxTree
 ModularPipelines.Flux.Services.FluxTree.Artifact.get -> ModularPipelines.Flux.Services.FluxTreeArtifact!
+ModularPipelines.Flux.Services.FluxTree.FluxTree(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxTreeArtifact
+ModularPipelines.Flux.Services.FluxTreeArtifact.FluxTreeArtifact(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.FluxTrigger
+ModularPipelines.Flux.Services.FluxTrigger.FluxTrigger(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 ModularPipelines.Flux.Services.IFlux
 ModularPipelines.Flux.Services.IFlux.Bootstrap.get -> ModularPipelines.Flux.Services.IFluxBootstrap!
 ModularPipelines.Flux.Services.IFlux.Build.get -> ModularPipelines.Flux.Services.IFluxBuild!
+ModularPipelines.Flux.Services.IFlux.CheckAsync(ModularPipelines.Flux.Options.FluxCheckOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFlux.Create.get -> ModularPipelines.Flux.Services.IFluxCreate!
 ModularPipelines.Flux.Services.IFlux.Debug.get -> ModularPipelines.Flux.Services.IFluxDebug!
 ModularPipelines.Flux.Services.IFlux.Delete.get -> ModularPipelines.Flux.Services.IFluxDelete!
 ModularPipelines.Flux.Services.IFlux.Diff.get -> ModularPipelines.Flux.Services.IFluxDiff!
+ModularPipelines.Flux.Services.IFlux.EnvsubstAsync(ModularPipelines.Flux.Options.FluxEnvsubstOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFlux.EventsAsync(ModularPipelines.Flux.Options.FluxEventsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFlux.Export.get -> ModularPipelines.Flux.Services.IFluxExport!
 ModularPipelines.Flux.Services.IFlux.Get.get -> ModularPipelines.Flux.Services.IFluxGet!
+ModularPipelines.Flux.Services.IFlux.InstallAsync(ModularPipelines.Flux.Options.FluxInstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFlux.List.get -> ModularPipelines.Flux.Services.IFluxList!
+ModularPipelines.Flux.Services.IFlux.LogsAsync(ModularPipelines.Flux.Options.FluxLogsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFlux.MigrateAsync(ModularPipelines.Flux.Options.FluxMigrateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFlux.Plugin.get -> ModularPipelines.Flux.Services.IFluxPlugin!
 ModularPipelines.Flux.Services.IFlux.Pull.get -> ModularPipelines.Flux.Services.IFluxPull!
 ModularPipelines.Flux.Services.IFlux.Push.get -> ModularPipelines.Flux.Services.IFluxPush!
 ModularPipelines.Flux.Services.IFlux.Reconcile.get -> ModularPipelines.Flux.Services.IFluxReconcile!
 ModularPipelines.Flux.Services.IFlux.Resume.get -> ModularPipelines.Flux.Services.IFluxResume!
+ModularPipelines.Flux.Services.IFlux.StatsAsync(ModularPipelines.Flux.Options.FluxStatsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFlux.Suspend.get -> ModularPipelines.Flux.Services.IFluxSuspend!
 ModularPipelines.Flux.Services.IFlux.Tag.get -> ModularPipelines.Flux.Services.IFluxTag!
+ModularPipelines.Flux.Services.IFlux.TraceAsync(ModularPipelines.Flux.Options.FluxTraceOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFlux.Tree.get -> ModularPipelines.Flux.Services.IFluxTree!
 ModularPipelines.Flux.Services.IFlux.Trigger.get -> ModularPipelines.Flux.Services.IFluxTrigger!
+ModularPipelines.Flux.Services.IFlux.UninstallAsync(ModularPipelines.Flux.Options.FluxUninstallOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxBootstrap
+ModularPipelines.Flux.Services.IFluxBootstrap.BitbucketServerAsync(ModularPipelines.Flux.Options.FluxBootstrapBitbucketServerOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxBootstrap.ExecuteAsync(ModularPipelines.Flux.Options.FluxBootstrapOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxBootstrap.GitAsync(ModularPipelines.Flux.Options.FluxBootstrapGitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxBootstrap.GiteaAsync(ModularPipelines.Flux.Options.FluxBootstrapGiteaOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxBootstrap.GithubAsync(ModularPipelines.Flux.Options.FluxBootstrapGithubOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxBootstrap.GitlabAsync(ModularPipelines.Flux.Options.FluxBootstrapGitlabOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxBuild
+ModularPipelines.Flux.Services.IFluxBuild.ArtifactAsync(ModularPipelines.Flux.Options.FluxBuildArtifactOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxBuild.ExecuteAsync(ModularPipelines.Flux.Options.FluxBuildOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxBuild.KustomizationAsync(ModularPipelines.Flux.Options.FluxBuildKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxCreate
+ModularPipelines.Flux.Services.IFluxCreate.AlertAsync(ModularPipelines.Flux.Options.FluxCreateAlertOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxCreate.AlertProviderAsync(ModularPipelines.Flux.Options.FluxCreateAlertProviderOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxCreate.ExecuteAsync(ModularPipelines.Flux.Options.FluxCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxCreate.HelmreleaseAsync(ModularPipelines.Flux.Options.FluxCreateHelmreleaseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxCreate.Image.get -> ModularPipelines.Flux.Services.FluxCreateImage!
+ModularPipelines.Flux.Services.IFluxCreate.KustomizationAsync(ModularPipelines.Flux.Options.FluxCreateKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxCreate.ReceiverAsync(ModularPipelines.Flux.Options.FluxCreateReceiverOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxCreate.Secret.get -> ModularPipelines.Flux.Services.FluxCreateSecret!
 ModularPipelines.Flux.Services.IFluxCreate.Source.get -> ModularPipelines.Flux.Services.FluxCreateSource!
+ModularPipelines.Flux.Services.IFluxCreate.TenantAsync(ModularPipelines.Flux.Options.FluxCreateTenantOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxDebug
+ModularPipelines.Flux.Services.IFluxDebug.ExecuteAsync(ModularPipelines.Flux.Options.FluxDebugOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxDebug.HelmreleaseAsync(ModularPipelines.Flux.Options.FluxDebugHelmreleaseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxDebug.KustomizationAsync(ModularPipelines.Flux.Options.FluxDebugKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxDelete
+ModularPipelines.Flux.Services.IFluxDelete.AlertAsync(ModularPipelines.Flux.Options.FluxDeleteAlertOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxDelete.AlertProviderAsync(ModularPipelines.Flux.Options.FluxDeleteAlertProviderOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxDelete.ExecuteAsync(ModularPipelines.Flux.Options.FluxDeleteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxDelete.HelmreleaseAsync(ModularPipelines.Flux.Options.FluxDeleteHelmreleaseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxDelete.Image.get -> ModularPipelines.Flux.Services.FluxDeleteImage!
+ModularPipelines.Flux.Services.IFluxDelete.KustomizationAsync(ModularPipelines.Flux.Options.FluxDeleteKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxDelete.ReceiverAsync(ModularPipelines.Flux.Options.FluxDeleteReceiverOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxDelete.Source.get -> ModularPipelines.Flux.Services.FluxDeleteSource!
 ModularPipelines.Flux.Services.IFluxDiff
+ModularPipelines.Flux.Services.IFluxDiff.ArtifactAsync(ModularPipelines.Flux.Options.FluxDiffArtifactOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxDiff.ExecuteAsync(ModularPipelines.Flux.Options.FluxDiffOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxDiff.KustomizationAsync(ModularPipelines.Flux.Options.FluxDiffKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxExport
+ModularPipelines.Flux.Services.IFluxExport.AlertAsync(ModularPipelines.Flux.Options.FluxExportAlertOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxExport.AlertProviderAsync(ModularPipelines.Flux.Options.FluxExportAlertProviderOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxExport.Artifact.get -> ModularPipelines.Flux.Services.FluxExportArtifact!
+ModularPipelines.Flux.Services.IFluxExport.ExecuteAsync(ModularPipelines.Flux.Options.FluxExportOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxExport.HelmreleaseAsync(ModularPipelines.Flux.Options.FluxExportHelmreleaseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxExport.Image.get -> ModularPipelines.Flux.Services.FluxExportImage!
+ModularPipelines.Flux.Services.IFluxExport.KustomizationAsync(ModularPipelines.Flux.Options.FluxExportKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxExport.ReceiverAsync(ModularPipelines.Flux.Options.FluxExportReceiverOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxExport.Source.get -> ModularPipelines.Flux.Services.FluxExportSource!
 ModularPipelines.Flux.Services.IFluxGet
+ModularPipelines.Flux.Services.IFluxGet.AlertProvidersAsync(ModularPipelines.Flux.Options.FluxGetAlertProvidersOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxGet.AlertsAsync(ModularPipelines.Flux.Options.FluxGetAlertsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxGet.AllAsync(ModularPipelines.Flux.Options.FluxGetAllOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxGet.Artifacts.get -> ModularPipelines.Flux.Services.FluxGetArtifacts!
+ModularPipelines.Flux.Services.IFluxGet.ExecuteAsync(ModularPipelines.Flux.Options.FluxGetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxGet.HelmreleasesAsync(ModularPipelines.Flux.Options.FluxGetHelmreleasesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxGet.Images.get -> ModularPipelines.Flux.Services.FluxGetImages!
+ModularPipelines.Flux.Services.IFluxGet.KustomizationsAsync(ModularPipelines.Flux.Options.FluxGetKustomizationsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxGet.ReceiversAsync(ModularPipelines.Flux.Options.FluxGetReceiversOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxGet.Sources.get -> ModularPipelines.Flux.Services.FluxGetSources!
 ModularPipelines.Flux.Services.IFluxList
+ModularPipelines.Flux.Services.IFluxList.ArtifactsAsync(ModularPipelines.Flux.Options.FluxListArtifactsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxList.ExecuteAsync(ModularPipelines.Flux.Options.FluxListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxPlugin
+ModularPipelines.Flux.Services.IFluxPlugin.ExecuteAsync(ModularPipelines.Flux.Options.FluxPluginOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxPlugin.InstallAsync(ModularPipelines.Flux.Options.FluxPluginInstallOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxPlugin.ListAsync(ModularPipelines.Flux.Options.FluxPluginListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxPlugin.SearchAsync(ModularPipelines.Flux.Options.FluxPluginSearchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxPlugin.UninstallAsync(ModularPipelines.Flux.Options.FluxPluginUninstallOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxPlugin.UpdateAsync(ModularPipelines.Flux.Options.FluxPluginUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxPull
+ModularPipelines.Flux.Services.IFluxPull.ArtifactAsync(ModularPipelines.Flux.Options.FluxPullArtifactOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxPull.ExecuteAsync(ModularPipelines.Flux.Options.FluxPullOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxPush
+ModularPipelines.Flux.Services.IFluxPush.ArtifactAsync(ModularPipelines.Flux.Options.FluxPushArtifactOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxPush.ExecuteAsync(ModularPipelines.Flux.Options.FluxPushOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxReconcile
+ModularPipelines.Flux.Services.IFluxReconcile.ExecuteAsync(ModularPipelines.Flux.Options.FluxReconcileOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxReconcile.HelmreleaseAsync(ModularPipelines.Flux.Options.FluxReconcileHelmreleaseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxReconcile.Image.get -> ModularPipelines.Flux.Services.FluxReconcileImage!
+ModularPipelines.Flux.Services.IFluxReconcile.KustomizationAsync(ModularPipelines.Flux.Options.FluxReconcileKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxReconcile.ReceiverAsync(ModularPipelines.Flux.Options.FluxReconcileReceiverOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxReconcile.Source.get -> ModularPipelines.Flux.Services.FluxReconcileSource!
 ModularPipelines.Flux.Services.IFluxResume
+ModularPipelines.Flux.Services.IFluxResume.AlertAsync(ModularPipelines.Flux.Options.FluxResumeAlertOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxResume.AlertProviderAsync(ModularPipelines.Flux.Options.FluxResumeAlertProviderOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxResume.ExecuteAsync(ModularPipelines.Flux.Options.FluxResumeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxResume.HelmreleaseAsync(ModularPipelines.Flux.Options.FluxResumeHelmreleaseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxResume.Image.get -> ModularPipelines.Flux.Services.FluxResumeImage!
+ModularPipelines.Flux.Services.IFluxResume.KustomizationAsync(ModularPipelines.Flux.Options.FluxResumeKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxResume.ReceiverAsync(ModularPipelines.Flux.Options.FluxResumeReceiverOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxResume.Source.get -> ModularPipelines.Flux.Services.FluxResumeSource!
 ModularPipelines.Flux.Services.IFluxSuspend
+ModularPipelines.Flux.Services.IFluxSuspend.AlertAsync(ModularPipelines.Flux.Options.FluxSuspendAlertOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxSuspend.AlertProviderAsync(ModularPipelines.Flux.Options.FluxSuspendAlertProviderOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxSuspend.ExecuteAsync(ModularPipelines.Flux.Options.FluxSuspendOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxSuspend.HelmreleaseAsync(ModularPipelines.Flux.Options.FluxSuspendHelmreleaseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxSuspend.Image.get -> ModularPipelines.Flux.Services.FluxSuspendImage!
+ModularPipelines.Flux.Services.IFluxSuspend.KustomizationAsync(ModularPipelines.Flux.Options.FluxSuspendKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxSuspend.ReceiverAsync(ModularPipelines.Flux.Options.FluxSuspendReceiverOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxSuspend.Source.get -> ModularPipelines.Flux.Services.FluxSuspendSource!
 ModularPipelines.Flux.Services.IFluxTag
+ModularPipelines.Flux.Services.IFluxTag.ArtifactAsync(ModularPipelines.Flux.Options.FluxTagArtifactOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxTag.ExecuteAsync(ModularPipelines.Flux.Options.FluxTagOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxTree
 ModularPipelines.Flux.Services.IFluxTree.Artifact.get -> ModularPipelines.Flux.Services.FluxTreeArtifact!
+ModularPipelines.Flux.Services.IFluxTree.ExecuteAsync(ModularPipelines.Flux.Options.FluxTreeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxTree.KustomizationAsync(ModularPipelines.Flux.Options.FluxTreeKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Flux.Services.IFluxTrigger
+ModularPipelines.Flux.Services.IFluxTrigger.ExecuteAsync(ModularPipelines.Flux.Options.FluxTriggerOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Flux.Services.IFluxTrigger.ReceiverAsync(ModularPipelines.Flux.Options.FluxTriggerReceiverOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 override ModularPipelines.Flux.Options.FluxBootstrapBitbucketServerOptions.<Clone>$() -> ModularPipelines.Flux.Options.FluxBootstrapBitbucketServerOptions!
 override ModularPipelines.Flux.Options.FluxBootstrapBitbucketServerOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Flux.Options.FluxBootstrapBitbucketServerOptions.Equals(object? obj) -> bool
@@ -12060,6 +12372,7 @@ override sealed ModularPipelines.Flux.Options.FluxTriggerOptions.Equals(ModularP
 override sealed ModularPipelines.Flux.Options.FluxTriggerReceiverOptions.Equals(ModularPipelines.Flux.Options.FluxOptions? other) -> bool
 override sealed ModularPipelines.Flux.Options.FluxUninstallOptions.Equals(ModularPipelines.Flux.Options.FluxOptions? other) -> bool
 static ModularPipelines.Context.ModularPipelines_Flux_b9983fcbe51e0051ToolsExtensions.get_Flux(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Flux.Services.IFlux!
+static ModularPipelines.Flux.Extensions.FluxExtensions.Flux(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Flux.Services.IFlux!
 static ModularPipelines.Flux.Extensions.FluxExtensions.RegisterFluxContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.Flux.Options.FluxBootstrapBitbucketServerOptions.operator !=(ModularPipelines.Flux.Options.FluxBootstrapBitbucketServerOptions? left, ModularPipelines.Flux.Options.FluxBootstrapBitbucketServerOptions? right) -> bool
 static ModularPipelines.Flux.Options.FluxBootstrapBitbucketServerOptions.operator ==(ModularPipelines.Flux.Options.FluxBootstrapBitbucketServerOptions? left, ModularPipelines.Flux.Options.FluxBootstrapBitbucketServerOptions? right) -> bool
@@ -12583,3 +12896,167 @@ virtual ModularPipelines.Flux.Options.FluxTreeOptions.Equals(ModularPipelines.Fl
 virtual ModularPipelines.Flux.Options.FluxTriggerOptions.Equals(ModularPipelines.Flux.Options.FluxTriggerOptions? other) -> bool
 virtual ModularPipelines.Flux.Options.FluxTriggerReceiverOptions.Equals(ModularPipelines.Flux.Options.FluxTriggerReceiverOptions? other) -> bool
 virtual ModularPipelines.Flux.Options.FluxUninstallOptions.Equals(ModularPipelines.Flux.Options.FluxUninstallOptions? other) -> bool
+virtual ModularPipelines.Flux.Services.FluxBootstrap.BitbucketServerAsync(ModularPipelines.Flux.Options.FluxBootstrapBitbucketServerOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxBootstrap.ExecuteAsync(ModularPipelines.Flux.Options.FluxBootstrapOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxBootstrap.GitAsync(ModularPipelines.Flux.Options.FluxBootstrapGitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxBootstrap.GiteaAsync(ModularPipelines.Flux.Options.FluxBootstrapGiteaOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxBootstrap.GithubAsync(ModularPipelines.Flux.Options.FluxBootstrapGithubOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxBootstrap.GitlabAsync(ModularPipelines.Flux.Options.FluxBootstrapGitlabOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxBuild.ArtifactAsync(ModularPipelines.Flux.Options.FluxBuildArtifactOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxBuild.ExecuteAsync(ModularPipelines.Flux.Options.FluxBuildOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxBuild.KustomizationAsync(ModularPipelines.Flux.Options.FluxBuildKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreate.AlertAsync(ModularPipelines.Flux.Options.FluxCreateAlertOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreate.AlertProviderAsync(ModularPipelines.Flux.Options.FluxCreateAlertProviderOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreate.ExecuteAsync(ModularPipelines.Flux.Options.FluxCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreate.HelmreleaseAsync(ModularPipelines.Flux.Options.FluxCreateHelmreleaseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreate.KustomizationAsync(ModularPipelines.Flux.Options.FluxCreateKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreate.ReceiverAsync(ModularPipelines.Flux.Options.FluxCreateReceiverOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreate.TenantAsync(ModularPipelines.Flux.Options.FluxCreateTenantOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateImage.ExecuteAsync(ModularPipelines.Flux.Options.FluxCreateImageOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateImage.PolicyAsync(ModularPipelines.Flux.Options.FluxCreateImagePolicyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateImage.RepositoryAsync(ModularPipelines.Flux.Options.FluxCreateImageRepositoryOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateImage.UpdateAsync(ModularPipelines.Flux.Options.FluxCreateImageUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateSecret.ExecuteAsync(ModularPipelines.Flux.Options.FluxCreateSecretOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateSecret.GitAsync(ModularPipelines.Flux.Options.FluxCreateSecretGitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateSecret.GithubappAsync(ModularPipelines.Flux.Options.FluxCreateSecretGithubappOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateSecret.HelmAsync(ModularPipelines.Flux.Options.FluxCreateSecretHelmOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateSecret.NotationAsync(ModularPipelines.Flux.Options.FluxCreateSecretNotationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateSecret.OciAsync(ModularPipelines.Flux.Options.FluxCreateSecretOciOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateSecret.ProxyAsync(ModularPipelines.Flux.Options.FluxCreateSecretProxyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateSecret.ReceiverAsync(ModularPipelines.Flux.Options.FluxCreateSecretReceiverOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateSecret.TlsAsync(ModularPipelines.Flux.Options.FluxCreateSecretTlsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateSource.BucketAsync(ModularPipelines.Flux.Options.FluxCreateSourceBucketOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateSource.ChartAsync(ModularPipelines.Flux.Options.FluxCreateSourceChartOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateSource.ExecuteAsync(ModularPipelines.Flux.Options.FluxCreateSourceOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateSource.GitAsync(ModularPipelines.Flux.Options.FluxCreateSourceGitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateSource.HelmAsync(ModularPipelines.Flux.Options.FluxCreateSourceHelmOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxCreateSource.OciAsync(ModularPipelines.Flux.Options.FluxCreateSourceOciOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDebug.ExecuteAsync(ModularPipelines.Flux.Options.FluxDebugOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDebug.HelmreleaseAsync(ModularPipelines.Flux.Options.FluxDebugHelmreleaseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDebug.KustomizationAsync(ModularPipelines.Flux.Options.FluxDebugKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDelete.AlertAsync(ModularPipelines.Flux.Options.FluxDeleteAlertOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDelete.AlertProviderAsync(ModularPipelines.Flux.Options.FluxDeleteAlertProviderOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDelete.ExecuteAsync(ModularPipelines.Flux.Options.FluxDeleteOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDelete.HelmreleaseAsync(ModularPipelines.Flux.Options.FluxDeleteHelmreleaseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDelete.KustomizationAsync(ModularPipelines.Flux.Options.FluxDeleteKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDelete.ReceiverAsync(ModularPipelines.Flux.Options.FluxDeleteReceiverOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDeleteImage.ExecuteAsync(ModularPipelines.Flux.Options.FluxDeleteImageOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDeleteImage.PolicyAsync(ModularPipelines.Flux.Options.FluxDeleteImagePolicyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDeleteImage.RepositoryAsync(ModularPipelines.Flux.Options.FluxDeleteImageRepositoryOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDeleteImage.UpdateAsync(ModularPipelines.Flux.Options.FluxDeleteImageUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDeleteSource.BucketAsync(ModularPipelines.Flux.Options.FluxDeleteSourceBucketOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDeleteSource.ChartAsync(ModularPipelines.Flux.Options.FluxDeleteSourceChartOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDeleteSource.ExecuteAsync(ModularPipelines.Flux.Options.FluxDeleteSourceOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDeleteSource.GitAsync(ModularPipelines.Flux.Options.FluxDeleteSourceGitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDeleteSource.HelmAsync(ModularPipelines.Flux.Options.FluxDeleteSourceHelmOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDeleteSource.OciAsync(ModularPipelines.Flux.Options.FluxDeleteSourceOciOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDiff.ArtifactAsync(ModularPipelines.Flux.Options.FluxDiffArtifactOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDiff.ExecuteAsync(ModularPipelines.Flux.Options.FluxDiffOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxDiff.KustomizationAsync(ModularPipelines.Flux.Options.FluxDiffKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExport.AlertAsync(ModularPipelines.Flux.Options.FluxExportAlertOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExport.AlertProviderAsync(ModularPipelines.Flux.Options.FluxExportAlertProviderOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExport.ExecuteAsync(ModularPipelines.Flux.Options.FluxExportOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExport.HelmreleaseAsync(ModularPipelines.Flux.Options.FluxExportHelmreleaseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExport.KustomizationAsync(ModularPipelines.Flux.Options.FluxExportKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExport.ReceiverAsync(ModularPipelines.Flux.Options.FluxExportReceiverOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExportArtifact.ExecuteAsync(ModularPipelines.Flux.Options.FluxExportArtifactOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExportArtifact.GeneratorAsync(ModularPipelines.Flux.Options.FluxExportArtifactGeneratorOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExportImage.ExecuteAsync(ModularPipelines.Flux.Options.FluxExportImageOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExportImage.PolicyAsync(ModularPipelines.Flux.Options.FluxExportImagePolicyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExportImage.RepositoryAsync(ModularPipelines.Flux.Options.FluxExportImageRepositoryOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExportImage.UpdateAsync(ModularPipelines.Flux.Options.FluxExportImageUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExportSource.BucketAsync(ModularPipelines.Flux.Options.FluxExportSourceBucketOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExportSource.ChartAsync(ModularPipelines.Flux.Options.FluxExportSourceChartOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExportSource.ExecuteAsync(ModularPipelines.Flux.Options.FluxExportSourceOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExportSource.ExternalAsync(ModularPipelines.Flux.Options.FluxExportSourceExternalOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExportSource.GitAsync(ModularPipelines.Flux.Options.FluxExportSourceGitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExportSource.HelmAsync(ModularPipelines.Flux.Options.FluxExportSourceHelmOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxExportSource.OciAsync(ModularPipelines.Flux.Options.FluxExportSourceOciOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGet.AlertProvidersAsync(ModularPipelines.Flux.Options.FluxGetAlertProvidersOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGet.AlertsAsync(ModularPipelines.Flux.Options.FluxGetAlertsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGet.AllAsync(ModularPipelines.Flux.Options.FluxGetAllOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGet.ExecuteAsync(ModularPipelines.Flux.Options.FluxGetOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGet.HelmreleasesAsync(ModularPipelines.Flux.Options.FluxGetHelmreleasesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGet.KustomizationsAsync(ModularPipelines.Flux.Options.FluxGetKustomizationsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGet.ReceiversAsync(ModularPipelines.Flux.Options.FluxGetReceiversOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGetArtifacts.ExecuteAsync(ModularPipelines.Flux.Options.FluxGetArtifactsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGetArtifacts.GeneratorsAsync(ModularPipelines.Flux.Options.FluxGetArtifactsGeneratorsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGetImages.AllAsync(ModularPipelines.Flux.Options.FluxGetImagesAllOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGetImages.ExecuteAsync(ModularPipelines.Flux.Options.FluxGetImagesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGetImages.PolicyAsync(ModularPipelines.Flux.Options.FluxGetImagesPolicyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGetImages.RepositoryAsync(ModularPipelines.Flux.Options.FluxGetImagesRepositoryOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGetImages.UpdateAsync(ModularPipelines.Flux.Options.FluxGetImagesUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGetSources.AllAsync(ModularPipelines.Flux.Options.FluxGetSourcesAllOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGetSources.BucketAsync(ModularPipelines.Flux.Options.FluxGetSourcesBucketOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGetSources.ChartAsync(ModularPipelines.Flux.Options.FluxGetSourcesChartOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGetSources.ExecuteAsync(ModularPipelines.Flux.Options.FluxGetSourcesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGetSources.ExternalAsync(ModularPipelines.Flux.Options.FluxGetSourcesExternalOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGetSources.GitAsync(ModularPipelines.Flux.Options.FluxGetSourcesGitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGetSources.HelmAsync(ModularPipelines.Flux.Options.FluxGetSourcesHelmOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxGetSources.OciAsync(ModularPipelines.Flux.Options.FluxGetSourcesOciOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxList.ArtifactsAsync(ModularPipelines.Flux.Options.FluxListArtifactsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxList.ExecuteAsync(ModularPipelines.Flux.Options.FluxListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxPlugin.ExecuteAsync(ModularPipelines.Flux.Options.FluxPluginOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxPlugin.InstallAsync(ModularPipelines.Flux.Options.FluxPluginInstallOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxPlugin.ListAsync(ModularPipelines.Flux.Options.FluxPluginListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxPlugin.SearchAsync(ModularPipelines.Flux.Options.FluxPluginSearchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxPlugin.UninstallAsync(ModularPipelines.Flux.Options.FluxPluginUninstallOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxPlugin.UpdateAsync(ModularPipelines.Flux.Options.FluxPluginUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxPull.ArtifactAsync(ModularPipelines.Flux.Options.FluxPullArtifactOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxPull.ExecuteAsync(ModularPipelines.Flux.Options.FluxPullOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxPush.ArtifactAsync(ModularPipelines.Flux.Options.FluxPushArtifactOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxPush.ExecuteAsync(ModularPipelines.Flux.Options.FluxPushOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxReconcile.ExecuteAsync(ModularPipelines.Flux.Options.FluxReconcileOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxReconcile.HelmreleaseAsync(ModularPipelines.Flux.Options.FluxReconcileHelmreleaseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxReconcile.KustomizationAsync(ModularPipelines.Flux.Options.FluxReconcileKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxReconcile.ReceiverAsync(ModularPipelines.Flux.Options.FluxReconcileReceiverOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxReconcileImage.ExecuteAsync(ModularPipelines.Flux.Options.FluxReconcileImageOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxReconcileImage.PolicyAsync(ModularPipelines.Flux.Options.FluxReconcileImagePolicyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxReconcileImage.RepositoryAsync(ModularPipelines.Flux.Options.FluxReconcileImageRepositoryOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxReconcileImage.UpdateAsync(ModularPipelines.Flux.Options.FluxReconcileImageUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxReconcileSource.BucketAsync(ModularPipelines.Flux.Options.FluxReconcileSourceBucketOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxReconcileSource.ChartAsync(ModularPipelines.Flux.Options.FluxReconcileSourceChartOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxReconcileSource.ExecuteAsync(ModularPipelines.Flux.Options.FluxReconcileSourceOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxReconcileSource.GitAsync(ModularPipelines.Flux.Options.FluxReconcileSourceGitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxReconcileSource.HelmAsync(ModularPipelines.Flux.Options.FluxReconcileSourceHelmOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxReconcileSource.OciAsync(ModularPipelines.Flux.Options.FluxReconcileSourceOciOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxResume.AlertAsync(ModularPipelines.Flux.Options.FluxResumeAlertOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxResume.AlertProviderAsync(ModularPipelines.Flux.Options.FluxResumeAlertProviderOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxResume.ExecuteAsync(ModularPipelines.Flux.Options.FluxResumeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxResume.HelmreleaseAsync(ModularPipelines.Flux.Options.FluxResumeHelmreleaseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxResume.KustomizationAsync(ModularPipelines.Flux.Options.FluxResumeKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxResume.ReceiverAsync(ModularPipelines.Flux.Options.FluxResumeReceiverOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxResumeImage.ExecuteAsync(ModularPipelines.Flux.Options.FluxResumeImageOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxResumeImage.PolicyAsync(ModularPipelines.Flux.Options.FluxResumeImagePolicyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxResumeImage.RepositoryAsync(ModularPipelines.Flux.Options.FluxResumeImageRepositoryOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxResumeImage.UpdateAsync(ModularPipelines.Flux.Options.FluxResumeImageUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxResumeSource.BucketAsync(ModularPipelines.Flux.Options.FluxResumeSourceBucketOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxResumeSource.ChartAsync(ModularPipelines.Flux.Options.FluxResumeSourceChartOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxResumeSource.ExecuteAsync(ModularPipelines.Flux.Options.FluxResumeSourceOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxResumeSource.GitAsync(ModularPipelines.Flux.Options.FluxResumeSourceGitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxResumeSource.HelmAsync(ModularPipelines.Flux.Options.FluxResumeSourceHelmOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxResumeSource.OciAsync(ModularPipelines.Flux.Options.FluxResumeSourceOciOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxSuspend.AlertAsync(ModularPipelines.Flux.Options.FluxSuspendAlertOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxSuspend.AlertProviderAsync(ModularPipelines.Flux.Options.FluxSuspendAlertProviderOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxSuspend.ExecuteAsync(ModularPipelines.Flux.Options.FluxSuspendOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxSuspend.HelmreleaseAsync(ModularPipelines.Flux.Options.FluxSuspendHelmreleaseOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxSuspend.KustomizationAsync(ModularPipelines.Flux.Options.FluxSuspendKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxSuspend.ReceiverAsync(ModularPipelines.Flux.Options.FluxSuspendReceiverOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxSuspendImage.ExecuteAsync(ModularPipelines.Flux.Options.FluxSuspendImageOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxSuspendImage.PolicyAsync(ModularPipelines.Flux.Options.FluxSuspendImagePolicyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxSuspendImage.RepositoryAsync(ModularPipelines.Flux.Options.FluxSuspendImageRepositoryOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxSuspendImage.UpdateAsync(ModularPipelines.Flux.Options.FluxSuspendImageUpdateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxSuspendSource.BucketAsync(ModularPipelines.Flux.Options.FluxSuspendSourceBucketOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxSuspendSource.ChartAsync(ModularPipelines.Flux.Options.FluxSuspendSourceChartOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxSuspendSource.ExecuteAsync(ModularPipelines.Flux.Options.FluxSuspendSourceOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxSuspendSource.GitAsync(ModularPipelines.Flux.Options.FluxSuspendSourceGitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxSuspendSource.HelmAsync(ModularPipelines.Flux.Options.FluxSuspendSourceHelmOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxSuspendSource.OciAsync(ModularPipelines.Flux.Options.FluxSuspendSourceOciOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxTag.ArtifactAsync(ModularPipelines.Flux.Options.FluxTagArtifactOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxTag.ExecuteAsync(ModularPipelines.Flux.Options.FluxTagOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxTree.ExecuteAsync(ModularPipelines.Flux.Options.FluxTreeOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxTree.KustomizationAsync(ModularPipelines.Flux.Options.FluxTreeKustomizationOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxTreeArtifact.ExecuteAsync(ModularPipelines.Flux.Options.FluxTreeArtifactOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxTreeArtifact.GeneratorAsync(ModularPipelines.Flux.Options.FluxTreeArtifactGeneratorOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxTrigger.ExecuteAsync(ModularPipelines.Flux.Options.FluxTriggerOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+virtual ModularPipelines.Flux.Services.FluxTrigger.ReceiverAsync(ModularPipelines.Flux.Options.FluxTriggerReceiverOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
