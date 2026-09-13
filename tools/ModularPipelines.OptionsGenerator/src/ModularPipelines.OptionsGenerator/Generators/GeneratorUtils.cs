@@ -210,11 +210,11 @@ public static partial class GeneratorUtils
     private static string[] GetPathSeparatorVariants(string path)
     {
         var trimmedPath = Path.TrimEndingDirectorySeparator(path);
-        return new[]
+        return [.. new[]
         {
             trimmedPath.Replace('\\', '/'),
             trimmedPath.Replace('/', '\\'),
-        }.Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+        }.Distinct(StringComparer.OrdinalIgnoreCase)];
     }
 
     /// <summary>
@@ -405,8 +405,9 @@ public static partial class GeneratorUtils
     /// <summary>
     /// C# reserved keywords that cannot be used as identifiers without escaping.
     /// </summary>
-    private static readonly HashSet<string> CSharpKeywords = new(StringComparer.Ordinal)
-    {
+    private static readonly HashSet<string> CSharpKeywords =
+    [
+        with(StringComparer.Ordinal),
         "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked",
         "class", "const", "continue", "decimal", "default", "delegate", "do", "double", "else",
         "enum", "event", "explicit", "extern", "false", "finally", "fixed", "float", "for",
@@ -416,7 +417,7 @@ public static partial class GeneratorUtils
         "short", "sizeof", "stackalloc", "static", "string", "struct", "switch", "this",
         "throw", "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort",
         "using", "virtual", "void", "volatile", "while"
-    };
+    ];
 
     /// <summary>
     /// Escapes a C# identifier if it's a reserved keyword by prefixing with @.
@@ -851,11 +852,11 @@ public static partial class GeneratorUtils
 
         if (RequiresOptionsParameter(command))
         {
-            sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);");
+            sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);");
         }
         else
         {
-            sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineToolAsync(options ?? new {command.ClassName}(), executionOptions, cancellationToken);");
+            sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineToolAsync(options ?? new {command.ClassName}(), executionOptions, cancellationToken).ConfigureAwait(false);");
         }
 
         sb.AppendLine($"{indent}}}");
