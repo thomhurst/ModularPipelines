@@ -5,6 +5,45 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public partial class NestedArgumentGroupParsingTests
 {
     [Test]
+    public async Task Gcloud_Scopes_Same_Indentation_Groups_From_Authoritative_Help()
+    {
+        // Unmodified Linux help from Google Cloud SDK 584.0.0. Plain group headings
+        // have the same indentation as their flags, unlike named resource groups.
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory,
+            "Fixtures", "Gcloud", "metastore-services-migrations-start.txt"));
+        var command = (await CreateGcloudScraper().Parse(
+            ["gcloud", "metastore", "services", "migrations", "start"], help))!;
+        var root = command.ArgumentGroups.Single();
+
+        await Assert.That(root.Description).IsNull();
+        await Assert.That(root.Groups).Count().IsEqualTo(2);
+        await Assert.That(root.Groups[0].Arguments.Select(argument => argument.SwitchName))
+            .IsEquivalentTo(["--hive-catalog", "--hive-databases"]);
+        await Assert.That(root.Groups[1].Arguments.Select(argument => argument.SwitchName))
+            .IsEquivalentTo(["--iceberg-catalog", "--iceberg-namespaces"]);
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--async").Description)
+            .IsEqualTo("Return immediately, without waiting for the operation in progress to complete.");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--hive-catalog").Description)
+            .StartsWith("Configuration for migrating Hive tables to a BigLake Hive catalog.")
+            .And.DoesNotContain("Iceberg");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--iceberg-catalog").Description)
+            .StartsWith("Configuration for migrating Iceberg tables to a BigLake Iceberg REST catalog.")
+            .And.DoesNotContain("Hive");
+        var generated = (await new OptionsClassGenerator().GenerateAsync(new()
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "src/ModularPipelines.Google",
+            Commands = [command],
+        })).Single().Content;
+        var propertyIndex = generated.IndexOf(" Async ", StringComparison.Ordinal);
+        var documentationStart = generated.LastIndexOf("/// <summary>", propertyIndex, StringComparison.Ordinal);
+        await Assert.That(generated[documentationStart..propertyIndex])
+            .DoesNotContain("Hive").And.DoesNotContain("Iceberg");
+    }
+
+    [Test]
     [Arguments(true)]
     [Arguments(false)]
     public async Task Gcloud_Scopes_Plain_Sibling_Group_Descriptions(bool includeTopLevelOption)

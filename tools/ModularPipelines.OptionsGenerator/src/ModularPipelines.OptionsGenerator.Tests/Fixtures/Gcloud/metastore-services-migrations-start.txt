@@ -1,0 +1,164 @@
+NAME
+    gcloud metastore services migrations start - start the migration from a
+        Dataproc Metastore service to Lakehouse runtime catalog(s)
+
+SYNOPSIS
+    gcloud metastore services migrations start (SERVICE : --location=LOCATION)
+        [--async] [--conflict-policy=CONFLICT_POLICY] [--dry-run]
+        [--migration-execution-id=MIGRATION_EXECUTION_ID]
+        [--mode=MODE; default="backfill"] [--report-path=REPORT_PATH]
+        [--hive-catalog=HIVE_CATALOG : --hive-databases=[HIVE_DATABASES,...]]
+        [--iceberg-catalog=ICEBERG_CATALOG
+          : --iceberg-namespaces=[ICEBERG_NAMESPACES,...]]
+        [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Start the migration from a Dataproc Metastore service to Lakehouse runtime
+    catalog(s).
+
+    If run asynchronously with --async, exits after printing the operation name
+    that can be used to poll the status of the migration operation via:
+
+        gcloud metastore operations describe
+
+EXAMPLES
+    To start a one-shot backfill migration for service my-service to a target
+    Hive catalog:
+
+        $ gcloud metastore services migrations start my-service \
+            --location=us-central1 --mode=backfill \
+            --hive-catalog=projects/my-project/catalogs/my-hive-catalog
+
+    To start a migration with specific Hive databases and Iceberg namespaces:
+
+        $ gcloud metastore services migrations start my-service \
+            --location=us-central1 --mode=backfill \
+            --hive-catalog=projects/my-project/catalogs/my-hive-catalog \
+            --hive-databases=db1,db2 \
+            --iceberg-catalog=projects/my-project/catalogs/\
+        my-iceberg-catalog --iceberg-namespaces=ns1,ns2
+
+    To run a dry-run migration without applying changes:
+
+        $ gcloud metastore services migrations start my-service \
+            --location=us-central1 --dry-run \
+            --hive-catalog=projects/my-project/catalogs/my-hive-catalog
+
+POSITIONAL ARGUMENTS
+     Service resource - Dataproc Metastore service to start the migration on.
+     The arguments in this group can be used to specify the attributes of this
+     resource. (NOTE) Some attributes are not given arguments in this group but
+     can be set in other ways.
+
+     To set the project attribute:
+      ◆ provide the argument service on the command line with a fully
+        specified name;
+      ◆ provide the argument --project on the command line;
+      ◆ set the property core/project.
+
+     This must be specified.
+
+       SERVICE
+          ID of the service or fully qualified identifier for the service.
+
+          To set the service attribute:
+          ▸ provide the argument service on the command line.
+
+          This positional argument must be specified if any of the other
+          arguments in this group are specified.
+
+       --location=LOCATION
+          The location of the Dataproc Metastore service.
+
+          If not specified, will use default metastore/location.
+
+          To set the location attribute:
+          ▸ provide the argument service on the command line with a fully
+            specified name;
+          ▸ provide the argument --location on the command line;
+          ▸ set the property metastore/location.
+
+FLAGS
+     --async
+        Return immediately, without waiting for the operation in progress to
+        complete.
+
+     --conflict-policy=CONFLICT_POLICY
+        Policy to handle conflicts when migrating resources, defaults to SKIP
+        if not specified. CONFLICT_POLICY must be one of:
+
+         overwrite
+            Update resources that already exist in the target catalog.
+
+         skip
+            Skip migrating resources that already exist in the target catalog.
+
+     --dry-run
+        If true, performs discovery of requested resources and analysis against
+        the target catalog to come up with a plan for each resource (e.g.
+        Create, Update, Skip, etc.). No metadata is actually migrated.
+
+     --migration-execution-id=MIGRATION_EXECUTION_ID
+        ID to use for the migration execution, which will become the final
+        component of the migration execution's resource name. If not specified,
+        a UUID will be generated.
+
+        This value must be between 2 and 63 characters long inclusive, begin
+        with a letter, end with a letter or number, and valid characters are
+        [a-z0-9-].
+
+     --mode=MODE; default="backfill"
+        Execution mode of the migration. MODE must be (only one value is
+        supported):
+
+         backfill
+            Performs the metadata migration of requested resources. The
+            migration completes once the backfill is finished.
+
+     --report-path=REPORT_PATH
+        Cloud Storage path where the backfill / dry run report should be
+        written. If not provided, the report will be generated in the service's
+        artifacts bucket. Format: "gs://path/to/folder".
+
+     Configuration for migrating Hive tables to a BigLake Hive catalog.
+
+     --hive-catalog=HIVE_CATALOG
+        Target catalog for migrated databases and tables. Format:
+        "projects/{project_id_or_number}/catalogs/{catalog_id}"
+
+        This flag argument must be specified if any of the other arguments in
+        this group are specified.
+
+     --hive-databases=[HIVE_DATABASES,...]
+        Comma-separated list of databases to migrate to the Hive catalog.
+        Defaults to * (migrate all databases). Note: If Iceberg tables exist in
+        these databases, they will only be migrated if --iceberg-catalog is
+        also specified.
+
+     Configuration for migrating Iceberg tables to a BigLake Iceberg REST
+     catalog.
+
+     --iceberg-catalog=ICEBERG_CATALOG
+        Target catalog for migrated Iceberg metadata. Format:
+        "projects/{project_id_or_number}/catalogs/{catalog_id}"
+
+        This flag argument must be specified if any of the other arguments in
+        this group are specified.
+
+     --iceberg-namespaces=[ICEBERG_NAMESPACES,...]
+        Comma-separated list of namespaces to migrate to the Iceberg REST
+        catalog. Defaults to * (migrate all namespaces). Note: If Hive tables
+        exist in these namespaces, they will only be migrated if --hive-catalog
+        is also specified.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
+
+API REFERENCE
+    This command uses the metastore/v1 API. The full documentation for this API
+    can be found at: https://cloud.google.com/dataproc-metastore/docs

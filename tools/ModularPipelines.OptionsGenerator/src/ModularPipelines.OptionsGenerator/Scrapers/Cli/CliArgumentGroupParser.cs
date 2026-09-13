@@ -29,7 +29,7 @@ internal static partial class CliArgumentGroupParser
         var firstPrelude = NormalizeDocumentation(firstPreludeLines);
         var firstPreludeIndentation = GetMinimumContentIndentation(firstPreludeLines);
         var firstPreludeStartsGroup = StartsArgumentGroup(firstPreludeLines, firstPrelude)
-            || firstPreludeIndentation < declarations[0].Argument.Indentation;
+            || firstPreludeIndentation <= declarations[0].Argument.Indentation;
         var root = new ArgumentGroupBuilder(
             Math.Min(firstPreludeIndentation, declarations.Min(declaration => declaration.Argument.Indentation)),
             firstPreludeStartsGroup ? null : firstPrelude);
@@ -55,7 +55,7 @@ internal static partial class CliArgumentGroupParser
             var prelude = NormalizeDocumentation(preludeLines);
             var preludeIndentation = GetMinimumContentIndentation(preludeLines);
             var preludeStartsGroup = StartsArgumentGroup(preludeLines, prelude)
-                || preludeIndentation < declaration.Argument.Indentation;
+                || preludeIndentation <= declaration.Argument.Indentation;
             previousDescriptionEnd = descriptionEnd;
 
             MoveToContainingGroup(
