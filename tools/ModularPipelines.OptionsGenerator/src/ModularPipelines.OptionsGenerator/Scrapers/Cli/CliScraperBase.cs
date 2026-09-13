@@ -1444,6 +1444,11 @@ public abstract partial class CliScraperBase : ICliScraper
             }
         }
 
+        if (pendingTrailer.Length > 0)
+        {
+            prose.Add(pendingTrailer);
+        }
+
         return new ClapOptionBlock(string.Join(' ', prose), possibleValues);
     }
 
@@ -1452,7 +1457,7 @@ public abstract partial class CliScraperBase : ICliScraper
         ref string pendingTrailer,
         List<ClapPossibleValue> possibleValues)
     {
-        if (pendingTrailer.Length == 0 && !text.StartsWith('['))
+        if (pendingTrailer.Length == 0 && !ClapMetadataTrailerStartPattern().IsMatch(text))
         {
             return false;
         }
@@ -1528,6 +1533,9 @@ public abstract partial class CliScraperBase : ICliScraper
 
     private static bool IsPossibleValuesTrailer(string trailerName) =>
         trailerName.Equals("possible values", StringComparison.OrdinalIgnoreCase);
+
+    [GeneratedRegex(@"^\[(?:possible values|default|alias(?:es)?|env):", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex ClapMetadataTrailerStartPattern();
 
     private static IEnumerable<ClapPossibleValue> ParsePossibleValuesList(string list) =>
         list.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
