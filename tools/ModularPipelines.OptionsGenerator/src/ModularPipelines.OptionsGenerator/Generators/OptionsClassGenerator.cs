@@ -73,6 +73,8 @@ public class OptionsClassGenerator : ICodeGenerator
                 includePrivateParameterlessConstructor: supportsAlternateInputModes);
             if (requiresCollectionValidation && !supportsAlternateInputModes)
             {
+                // Alternate-input factories leave operation values unset, so they cannot
+                // promise the non-null outputs of positional record deconstruction.
                 GenerateRequiredDeconstruct(sb, command, positionalArguments);
             }
         }
@@ -263,6 +265,12 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine("    {");
         foreach (var parameter in constructorParameters.Where(IsCollectionParameter))
         {
+            if (!IsCollectionType(parameter.CSharpType))
+            {
+                GenerateDeclaredCollectionValidation(sb, parameter);
+                continue;
+            }
+
             sb.AppendLine("        {");
             sb.AppendLine($"            global::System.ArgumentNullException.ThrowIfNull({parameter.PropertyName});");
             sb.AppendLine($"            var materialized = global::System.Linq.Enumerable.ToArray({parameter.PropertyName});");
@@ -279,6 +287,11 @@ public class OptionsClassGenerator : ICodeGenerator
 
         foreach (var parameter in constructorParameters)
         {
+            if (!IsCollectionParameter(parameter) && CliOptionDefinition.IsKnownReferenceType(parameter.CSharpType))
+            {
+                sb.AppendLine($"        global::System.ArgumentNullException.ThrowIfNull({parameter.PropertyName});");
+            }
+
             sb.AppendLine($"        this.{parameter.PropertyName} = {parameter.PropertyName};");
         }
 
@@ -318,7 +331,24 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static bool IsCollectionParameter(
         GeneratorUtils.RequiredConstructorParameter parameter) =>
-        IsCollectionType(parameter.CSharpType);
+        CliOptionDefinition.TryGetCollectionShape(parameter.CSharpType.TrimEnd('?'), out var isCollection)
+            ? isCollection
+            : parameter.Option?.IsCollection == true;
+
+    private static void GenerateDeclaredCollectionValidation(
+        StringBuilder sb,
+        GeneratorUtils.RequiredConstructorParameter parameter)
+    {
+        // An external collection type cannot be replaced by an array. Validate its
+        // enumerable contract while retaining the declared type and original value.
+        sb.AppendLine($"        global::System.ArgumentNullException.ThrowIfNull({parameter.PropertyName});");
+        sb.AppendLine($"        if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>({parameter.PropertyName})))");
+        sb.AppendLine("        {");
+        sb.AppendLine("            throw new global::System.ArgumentException(");
+        sb.AppendLine("                \"Required collection must contain at least one value.\",");
+        sb.AppendLine($"                nameof({parameter.PropertyName}));");
+        sb.AppendLine("        }");
+    }
 
     private static bool IsCollectionType(string cSharpType) =>
         CliOptionDefinition.TryGetCollectionShape(
