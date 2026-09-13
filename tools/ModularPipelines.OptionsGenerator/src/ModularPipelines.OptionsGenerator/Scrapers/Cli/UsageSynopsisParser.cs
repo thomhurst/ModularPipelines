@@ -688,7 +688,10 @@ public static class UsageSynopsisParser
         return usage.PositionalArguments.Select(argument =>
         {
             var original = resolved.FirstOrDefault(candidate =>
-                candidate.PropertyName == argument.PropertyName && candidate.Phase == argument.Phase);
+                candidate.PropertyName == argument.PropertyName
+                && candidate.Phase == argument.Phase
+                && candidate.PositionIndex == argument.PositionIndex
+                && candidate.AssociatedOptionSwitch == argument.AssociatedOptionSwitch);
             return original is null ? argument : argument with
             {
                 IsRequired = original.IsRequired,
@@ -734,6 +737,7 @@ public static class UsageSynopsisParser
     {
         if (alternativeArguments.Any(candidate =>
                 candidate.IsRequired
+                && IsPositionalSlot(candidate, options) == IsPositionalSlot(selectedArgument, options)
                 && candidate.PropertyName.Equals(
                     selectedArgument.PropertyName,
                     StringComparison.OrdinalIgnoreCase)))
@@ -750,7 +754,7 @@ public static class UsageSynopsisParser
                && positionalCandidates[selectedPosition].Phase == selectedArgument.Phase;
     }
 
-    private static bool IsPositionalSlot(
+    internal static bool IsPositionalSlot(
         CliPositionalArgument argument,
         IReadOnlyList<CliOptionDefinition>? options)
     {
@@ -759,10 +763,11 @@ public static class UsageSynopsisParser
             return true;
         }
 
-        var optionIndex = options is null
-            ? -1
-            : CliOptionDefinition.FindIndexBySwitch(options, argument.AssociatedOptionSwitch);
-        return optionIndex >= 0 && options![optionIndex].IsFlag;
+        return options is not null
+               && !options.Any(option =>
+                   !option.IsFlag
+                   && (option.SwitchName.Equals(argument.AssociatedOptionSwitch, StringComparison.OrdinalIgnoreCase)
+                       || option.ShortForm?.Equals(argument.AssociatedOptionSwitch, StringComparison.OrdinalIgnoreCase) == true));
     }
 
     private static IReadOnlyList<string> ExtractSynopses(
