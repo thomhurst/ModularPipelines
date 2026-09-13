@@ -9,6 +9,51 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class CargoCliScraperTests
 {
     [Test]
+    public async Task Same_Named_Option_Value_Does_Not_Make_An_Alternative_Positional_Required()
+    {
+        const string helpText = """
+            Execute a package command
+
+            Usage: cargo run [OPTIONS] <PATH>
+                   cargo run [OPTIONS] --file <PATH>
+
+            Options:
+                  --file <PATH>   Read a file
+            """;
+
+        var command = await new TestCargoCliScraper().Parse(["cargo", "run"], helpText);
+        var positional = command!.PositionalArguments.Single();
+
+        await Assert.That(positional.IsRequired).IsFalse();
+        await Assert.That(positional.CSharpType).IsEqualTo("string?");
+    }
+
+    [Test]
+    public async Task Option_Values_And_Positionals_With_The_Same_Name_Keep_Distinct_Requiredness()
+    {
+        const string helpText = """
+            Execute a package command
+
+            Usage: cargo run [OPTIONS] --file <PATH> <PATH>
+                   cargo run [OPTIONS] <OBJECT>
+
+            Options:
+                  --file <PATH>   Read a file
+            """;
+
+        var command = await new TestCargoCliScraper().Parse(["cargo", "run"], helpText);
+        var positional = command!.PositionalArguments.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(positional.PropertyName).IsEqualTo("Path");
+            await Assert.That(positional.AssociatedOptionSwitch).IsNull();
+            await Assert.That(positional.IsRequired).IsTrue();
+            await Assert.That(positional.CSharpType).IsEqualTo("string");
+        }
+    }
+
+    [Test]
     public async Task Presence_Only_Flags_Do_Not_Require_An_Operand_Missing_From_Another_Form()
     {
         const string helpText = """
@@ -36,6 +81,7 @@ public class CargoCliScraperTests
     [Test]
     [Arguments("<A> [--verbose] <B>", "<X> <Y>")]
     [Arguments("<A> [-v] <B>", "<X> <Y>")]
+    [Arguments("<A> [--missing] <B>", "<X> <Y>")]
     [Arguments("<A> <B>", "<X> [--verbose] <Y>")]
     [Arguments("[--verbose] <A> --file <FILE> <B>", "<X> <Y>")]
     public async Task Presence_Only_Flags_Do_Not_Relax_Renamed_Required_Operands(

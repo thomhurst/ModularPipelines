@@ -1022,15 +1022,7 @@ public abstract partial class CliScraperBase : ICliScraper
         UsageSynopsisParseResult usage,
         IReadOnlyList<CliOptionDefinition> options) =>
         [.. UsageSynopsisParser.ResolveOptionRequiredness(usage, options)
-            .Where(argument => argument.AssociatedOptionSwitch is null
-                               || !options.Any(option =>
-                                   !option.IsFlag
-                                   && (option.SwitchName.Equals(
-                                           argument.AssociatedOptionSwitch,
-                                           StringComparison.OrdinalIgnoreCase)
-                                       || option.ShortForm?.Equals(
-                                           argument.AssociatedOptionSwitch,
-                                           StringComparison.OrdinalIgnoreCase) == true)))
+            .Where(argument => UsageSynopsisParser.IsPositionalSlot(argument, options))
             .Select(argument => argument with { AssociatedOptionSwitch = null })];
 
     /// <summary>
