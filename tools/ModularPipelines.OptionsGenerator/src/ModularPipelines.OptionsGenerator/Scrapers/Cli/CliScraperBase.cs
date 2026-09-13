@@ -1021,7 +1021,7 @@ public abstract partial class CliScraperBase : ICliScraper
     protected static IReadOnlyList<CliPositionalArgument> GetPositionalArguments(
         UsageSynopsisParseResult usage,
         IReadOnlyList<CliOptionDefinition> options) =>
-        [.. usage.PositionalArguments
+        [.. UsageSynopsisParser.ResolveOptionRequiredness(usage, options)
             .Where(argument => argument.AssociatedOptionSwitch is null
                                || !options.Any(option =>
                                    !option.IsFlag

@@ -9,6 +9,62 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class CargoCliScraperTests
 {
     [Test]
+    public async Task Presence_Only_Flags_Do_Not_Require_An_Operand_Missing_From_Another_Form()
+    {
+        const string helpText = """
+            Execute a package command
+
+            Usage: cargo run [OPTIONS] <A> [--verbose] <B>
+                   cargo run [OPTIONS] <A>
+
+            Options:
+              -v, --verbose       Print detailed output
+            """;
+
+        var command = await new TestCargoCliScraper().Parse(["cargo", "run"], helpText);
+        var first = command!.PositionalArguments.Single(argument => argument.PropertyName == "A");
+        var second = command.PositionalArguments.Single(argument => argument.PropertyName == "B");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(first.IsRequired).IsTrue();
+            await Assert.That(second.IsRequired).IsFalse();
+            await Assert.That(second.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
+    [Arguments("<A> [--verbose] <B>", "<X> <Y>")]
+    [Arguments("<A> [-v] <B>", "<X> <Y>")]
+    [Arguments("<A> <B>", "<X> [--verbose] <Y>")]
+    [Arguments("[--verbose] <A> --file <FILE> <B>", "<X> <Y>")]
+    public async Task Presence_Only_Flags_Do_Not_Relax_Renamed_Required_Operands(
+        string firstForm,
+        string secondForm)
+    {
+        var helpText = $"""
+            Execute a package command
+
+            Usage: cargo run [OPTIONS] {firstForm}
+                   cargo run [OPTIONS] {secondForm}
+
+            Options:
+              -v, --verbose       Print detailed output
+                  --file <FILE>   Read a file
+            """;
+
+        var command = await new TestCargoCliScraper().Parse(["cargo", "run"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(command!.PositionalArguments.Select(argument => argument.PropertyName))
+                .IsEquivalentTo(["A", "B"]);
+            await Assert.That(command.PositionalArguments.All(argument => argument.IsRequired)).IsTrue();
+            await Assert.That(command.PositionalArguments.All(argument => argument.CSharpType == "string")).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Wrapped_Descriptions_That_Look_Like_Option_Rows_Stay_Prose()
     {
         const string helpText = """
