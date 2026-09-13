@@ -125,6 +125,7 @@ public partial class GcloudCliScraper : CliScraperBase
             DocumentationUrl = $"https://cloud.google.com/sdk/gcloud/reference/{string.Join("/", commandParts)}",
             Options = options,
             ArgumentGroups = parsedOptions.ArgumentGroups,
+            RequiredAlternativeGroups = parsedOptions.RequiredAlternativeGroups,
             PositionalArguments = positionalArgs,
             SubDomainGroup = subDomain,
             Enums = enums
@@ -138,13 +139,12 @@ public partial class GcloudCliScraper : CliScraperBase
     #region Virtual Method Overrides
 
     /// <summary>
-    /// gcloud uses "FLAGS" section instead of "Flags:" or "Options:".
+    /// gcloud can split flags into required and optional sections.
     /// </summary>
     protected override bool HasOptions(string helpText)
     {
-        return helpText.Contains("\nFLAGS\n") ||
-               helpText.Contains("\nFLAGS\r\n") ||
-               base.HasOptions(helpText);
+        return ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS").Any()
+               || base.HasOptions(helpText);
     }
 
     /// <summary>
@@ -171,35 +171,42 @@ public partial class GcloudCliScraper : CliScraperBase
     {
         var subcommands = new List<string>();
 
-        // Find the section
-        var sectionMatch = Regex.Match(helpText, $@"^{sectionName}\s*$", RegexOptions.Multiline);
-        if (!sectionMatch.Success)
+        foreach (var section in ExtractSections(helpText, sectionName))
         {
-            return subcommands;
-        }
-
-        var sectionStart = sectionMatch.Index + sectionMatch.Length;
-
-        // Find where section ends (next uppercase section header)
-        var nextMatch = Regex.Match(helpText[sectionStart..], @"^[A-Z][A-Z_\s]+$", RegexOptions.Multiline);
-        var sectionEnd = nextMatch.Success ? sectionStart + nextMatch.Index : helpText.Length;
-
-        var section = helpText[sectionStart..sectionEnd];
-
-        // gcloud format: command names are indented with 5+ spaces at line start
-        // Example: "     compute"
-        var matches = Regex.Matches(section, @"^\s{5}(\w[\w-]*)\s*$", RegexOptions.Multiline);
-        foreach (Match match in matches)
-        {
-            var name = match.Groups[1].Value.Trim();
-            if (!string.IsNullOrEmpty(name))
+            // gcloud command names are indented with five spaces at line start.
+            var matches = Regex.Matches(section.Content, @"^\s{5}(\w[\w-]*)\s*$", RegexOptions.Multiline);
+            foreach (Match match in matches)
             {
-                subcommands.Add(name);
+                var name = match.Groups[1].Value.Trim();
+                if (!string.IsNullOrEmpty(name))
+                {
+                    subcommands.Add(name);
+                }
             }
         }
 
         return subcommands;
     }
+
+    private static IEnumerable<(string Name, string Content)> ExtractSections(string helpText, params string[] sectionNames)
+    {
+        var headings = SectionHeadingPattern().Matches(helpText);
+        for (var index = 0; index < headings.Count; index++)
+        {
+            var heading = headings[index];
+            if (!sectionNames.Contains(heading.Value.Trim(), StringComparer.Ordinal))
+            {
+                continue;
+            }
+
+            var start = heading.Index + heading.Length;
+            var end = index + 1 < headings.Count ? headings[index + 1].Index : helpText.Length;
+            yield return (heading.Value.Trim(), helpText[start..end]);
+        }
+    }
+
+    [GeneratedRegex(@"^[A-Z][A-Z_ ]*[ \t]*\r?$", RegexOptions.Multiline)]
+    private static partial Regex SectionHeadingPattern();
 
     private static string? ExtractDescription(string helpText)
     {
@@ -212,43 +219,91 @@ public partial class GcloudCliScraper : CliScraperBase
         return null;
     }
 
-    private (List<CliOptionDefinition> Options, IReadOnlyList<CliArgumentGroup> ArgumentGroups) ParseOptions(
+    private (List<CliOptionDefinition> Options, IReadOnlyList<CliArgumentGroup> ArgumentGroups,
+        IReadOnlyList<CliRequiredAlternativeGroup> RequiredAlternativeGroups) ParseOptions(
         string helpText,
         IReadOnlyList<string> commandParts)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // Find FLAGS section
-        var flagsMatch = Regex.Match(helpText, @"^FLAGS\s*$", RegexOptions.Multiline);
-        if (!flagsMatch.Success)
+        var argumentGroups = new List<CliArgumentGroup>();
+        var requiredAlternativeGroups = new List<CliRequiredAlternativeGroup>();
+        foreach (var section in ExtractSections(helpText, "FLAGS", "REQUIRED FLAGS", "OPTIONAL FLAGS"))
         {
-            return (options, []);
-        }
-
-        var sectionStart = flagsMatch.Index + flagsMatch.Length;
-
-        // Find end of FLAGS section
-        var nextSectionMatch = Regex.Match(helpText[sectionStart..], @"^[A-Z][A-Z_\s]+$", RegexOptions.Multiline);
-        var sectionEnd = nextSectionMatch.Success ? sectionStart + nextSectionMatch.Index : helpText.Length;
-
-        var flagsSection = helpText[sectionStart..sectionEnd];
-        var argumentGroup = ParseArgumentGroups(flagsSection, ParseGcloudArgument);
-
-        foreach (var argument in argumentGroup.FlattenArguments())
-        {
-            foreach (var option in CreateOptions(argument, commandParts))
+            var argumentGroup = ParseArgumentGroups(section.Content, ParseGcloudArgument);
+            argumentGroups.Add(argumentGroup);
+            foreach (var argument in argumentGroup.FlattenArguments())
             {
-                if (!seenOptions.Add(option.SwitchName))
+                foreach (var option in CreateOptions(argument, commandParts))
                 {
-                    continue;
-                }
+                    if (!seenOptions.Add(option.SwitchName))
+                    {
+                        continue;
+                    }
 
-                options.Add(NormalizeRepeatability(option, helpText, commandParts));
+                    options.Add(NormalizeRepeatability(option, helpText, commandParts));
+                }
+            }
+
+            if (section.Name == "REQUIRED FLAGS")
+            {
+                ApplyRequiredGroups(argumentGroup, options, requiredAlternativeGroups);
             }
         }
 
-        return (options, [argumentGroup]);
+        return (options, argumentGroups, requiredAlternativeGroups);
+    }
+
+    private static void ApplyRequiredGroups(
+        CliArgumentGroup group,
+        List<CliOptionDefinition> options,
+        List<CliRequiredAlternativeGroup> requiredAlternativeGroups)
+    {
+        // Resource attributes can come from configuration or a fully qualified name.
+        // Nested alternatives can represent bundles, so do not require their leaves.
+        if (group.Kind.HasFlag(CliArgumentGroupKind.Resource)
+            || group.Kind.HasFlag(CliArgumentGroupKind.Alternative))
+        {
+            return;
+        }
+
+        if (group.Kind.HasFlag(CliArgumentGroupKind.AtLeastOne))
+        {
+            if (group.Groups.Count == 0)
+            {
+                requiredAlternativeGroups.Add(new CliRequiredAlternativeGroup
+                {
+                    IsMutuallyExclusive = group.Kind.HasFlag(CliArgumentGroupKind.AtMostOne),
+                    Members = group.Arguments.Select(argument => new CliRequiredAlternativeMember
+                    {
+                        OptionSwitch = argument.SwitchName,
+                        PropertyName = options.Single(option => option.SwitchName == argument.SwitchName).PropertyName,
+                    }).ToArray(),
+                });
+            }
+
+            return;
+        }
+
+        if (group.Kind.HasFlag(CliArgumentGroupKind.AtMostOne))
+        {
+            return;
+        }
+
+        foreach (var argument in group.Arguments)
+        {
+            var index = options.FindIndex(option => option.SwitchName == argument.SwitchName);
+            if (index >= 0)
+            {
+                options[index] = options[index] with { IsRequired = true };
+            }
+        }
+
+        foreach (var nested in group.Groups)
+        {
+            ApplyRequiredGroups(nested, options, requiredAlternativeGroups);
+        }
     }
 
     private CliOptionDefinition NormalizeRepeatability(

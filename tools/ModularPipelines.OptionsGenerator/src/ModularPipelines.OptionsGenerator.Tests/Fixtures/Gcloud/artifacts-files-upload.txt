@@ -1,0 +1,92 @@
+NAME
+    gcloud artifacts files upload - uploads files to Artifact Registry
+
+SYNOPSIS
+    gcloud artifacts files upload
+        (--source=SOURCE | --source-directory=SOURCE_DIRECTORY) [--async]
+        [--file=FILE] [--skip-existing]
+        [--location=LOCATION --repository=REPOSITORY] [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Uploads files to Artifact Registry.
+
+EXAMPLES
+    To upload a file located in /path/to/file/ to a repository in
+    "us-central1":
+
+        $ gcloud artifacts files upload --location=us-central1 \
+          --project=myproject --repository=myrepo --file=myfile \
+          --source=/path/to/file/
+
+    To upload all files located in directory /path/to/file/ to a repository in
+    "us-central1":
+
+        $ gcloud artifacts files upload --location=us-central1 \
+          --project=myproject --repository=myrepo \
+          --source-directory=/path/to/file/
+
+REQUIRED FLAGS
+     Exactly one of these must be specified:
+
+       --source=SOURCE
+          The path to the file you are uploading.
+
+       --source-directory=SOURCE_DIRECTORY
+          The directory you are uploading.
+
+OPTIONAL FLAGS
+     --async
+        Return immediately, without waiting for the operation in progress to
+        complete.
+
+     --file=FILE
+        The name under which the file will be uploaded. If not specified, the
+        name of the local file is used.
+
+     --skip-existing
+        If specified, skip uploading files that already exist in the
+        repository, and continue to upload the remaining files.
+
+     Repository resource - The Artifact Registry repository. If not specified,
+     the current artifacts/repository is used. The arguments in this group can
+     be used to specify the attributes of this resource. (NOTE) Some attributes
+     are not given arguments in this group but can be set in other ways.
+
+     To set the project attribute:
+      * provide the argument --repository on the command line with a fully
+        specified name;
+      * set the property artifacts/repository with a fully specified name;
+      * provide the argument --project on the command line;
+      * set the property core/project.
+
+       --location=LOCATION
+          Location of the repository.
+
+          To set the location attribute:
+          + provide the argument --repository on the command line with a
+            fully specified name;
+          + set the property artifacts/repository with a fully specified
+            name;
+          + provide the argument --location on the command line;
+          + set the property artifacts/location.
+
+       --repository=REPOSITORY
+          ID of the repository or fully qualified identifier for the
+          repository.
+
+          To set the repository attribute:
+          + provide the argument --repository on the command line;
+          + set the property artifacts/repository.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.
+
+NOTES
+    This command is an internal implementation detail and may change or
+    disappear without notice.
+

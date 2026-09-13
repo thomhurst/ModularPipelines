@@ -222,16 +222,18 @@ public class OptionsClassGenerator : ICodeGenerator
                     $"Required alternative group for {command.FullCommand} has no properties.");
             }
 
-            var presenceExpression = string.Join(
-                " || ",
-                propertyNames.Select(propertyName => GetPresenceExpression(
+            var presenceExpressions = propertyNames.Select(propertyName => GetPresenceExpression(
                     command,
                     positionalArguments,
-                    propertyName)));
+                    propertyName)).ToArray();
+            var invalidExpression = group.IsMutuallyExclusive
+                ? $"{string.Join(" + ", presenceExpressions.Select(expression => $"({expression} ? 1 : 0)"))} != 1"
+                : $"!({string.Join(" || ", presenceExpressions)})";
             var memberNames = string.Join(", ", propertyNames.Select(propertyName => $"nameof({propertyName})"));
-            var message = $"At least one of {FormatChoice(propertyNames)} must be specified.";
+            var cardinality = group.IsMutuallyExclusive ? "Exactly one" : "At least one";
+            var message = $"{cardinality} of {FormatChoice(propertyNames)} must be specified.";
 
-            sb.AppendLine($"        if (!({presenceExpression}))");
+            sb.AppendLine($"        if ({invalidExpression})");
             sb.AppendLine("        {");
             sb.AppendLine($"            yield return new ValidationResult({GeneratorUtils.FormatStringLiteral(message)}, [{memberNames}]);");
             sb.AppendLine("        }");
