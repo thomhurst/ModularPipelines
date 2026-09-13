@@ -77,7 +77,7 @@ public interface IPodmanCompose
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// podman compose cp [OPTIONS] SRC_PATH|- SERVICE:DEST_PATH
+    /// Copy files/folders between a service container and the local filesystem
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

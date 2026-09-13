@@ -4,34 +4,19 @@ ModularPipelines.Context.ModularPipelines_Podman_d124988c81134c6bToolsExtensions
 ModularPipelines.Context.ModularPipelines_Podman_d124988c81134c6bToolsExtensions.extension(ModularPipelines.Context.IToolsContext!).Podman.get -> ModularPipelines.Podman.Services.IPodman!
 ModularPipelines.Podman.Enums.PodmanComposeProgress
 ModularPipelines.Podman.Enums.PodmanComposeProgress.Auto = 0 -> ModularPipelines.Podman.Enums.PodmanComposeProgress
-ModularPipelines.Podman.Enums.PodmanComposeProgress.Json = 3 -> ModularPipelines.Podman.Enums.PodmanComposeProgress
 ModularPipelines.Podman.Enums.PodmanComposeProgress.Plain = 2 -> ModularPipelines.Podman.Enums.PodmanComposeProgress
-ModularPipelines.Podman.Enums.PodmanComposeProgress.Quiet = 4 -> ModularPipelines.Podman.Enums.PodmanComposeProgress
-ModularPipelines.Podman.Enums.PodmanComposeProgress.Tty = 1 -> ModularPipelines.Podman.Enums.PodmanComposeProgress
 ModularPipelines.Podman.Enums.PodmanContainerCreateSystemd
-ModularPipelines.Podman.Enums.PodmanContainerCreateSystemd.Always = 2 -> ModularPipelines.Podman.Enums.PodmanContainerCreateSystemd
 ModularPipelines.Podman.Enums.PodmanContainerCreateSystemd.False = 1 -> ModularPipelines.Podman.Enums.PodmanContainerCreateSystemd
-ModularPipelines.Podman.Enums.PodmanContainerCreateSystemd.True = 0 -> ModularPipelines.Podman.Enums.PodmanContainerCreateSystemd
 ModularPipelines.Podman.Enums.PodmanContainerRunSystemd
-ModularPipelines.Podman.Enums.PodmanContainerRunSystemd.Always = 2 -> ModularPipelines.Podman.Enums.PodmanContainerRunSystemd
 ModularPipelines.Podman.Enums.PodmanContainerRunSystemd.False = 1 -> ModularPipelines.Podman.Enums.PodmanContainerRunSystemd
-ModularPipelines.Podman.Enums.PodmanContainerRunSystemd.True = 0 -> ModularPipelines.Podman.Enums.PodmanContainerRunSystemd
 ModularPipelines.Podman.Enums.PodmanCreateSystemd
-ModularPipelines.Podman.Enums.PodmanCreateSystemd.Always = 2 -> ModularPipelines.Podman.Enums.PodmanCreateSystemd
 ModularPipelines.Podman.Enums.PodmanCreateSystemd.False = 1 -> ModularPipelines.Podman.Enums.PodmanCreateSystemd
-ModularPipelines.Podman.Enums.PodmanCreateSystemd.True = 0 -> ModularPipelines.Podman.Enums.PodmanCreateSystemd
 ModularPipelines.Podman.Enums.PodmanImagePushFormat
 ModularPipelines.Podman.Enums.PodmanImagePushFormat.Oci = 0 -> ModularPipelines.Podman.Enums.PodmanImagePushFormat
-ModularPipelines.Podman.Enums.PodmanImagePushFormat.V2S1 = 2 -> ModularPipelines.Podman.Enums.PodmanImagePushFormat
-ModularPipelines.Podman.Enums.PodmanImagePushFormat.V2S2 = 1 -> ModularPipelines.Podman.Enums.PodmanImagePushFormat
 ModularPipelines.Podman.Enums.PodmanPushFormat
 ModularPipelines.Podman.Enums.PodmanPushFormat.Oci = 0 -> ModularPipelines.Podman.Enums.PodmanPushFormat
-ModularPipelines.Podman.Enums.PodmanPushFormat.V2S1 = 2 -> ModularPipelines.Podman.Enums.PodmanPushFormat
-ModularPipelines.Podman.Enums.PodmanPushFormat.V2S2 = 1 -> ModularPipelines.Podman.Enums.PodmanPushFormat
 ModularPipelines.Podman.Enums.PodmanRunSystemd
-ModularPipelines.Podman.Enums.PodmanRunSystemd.Always = 2 -> ModularPipelines.Podman.Enums.PodmanRunSystemd
 ModularPipelines.Podman.Enums.PodmanRunSystemd.False = 1 -> ModularPipelines.Podman.Enums.PodmanRunSystemd
-ModularPipelines.Podman.Enums.PodmanRunSystemd.True = 0 -> ModularPipelines.Podman.Enums.PodmanRunSystemd
 ModularPipelines.Podman.Extensions.PodmanExtensions
 ModularPipelines.Podman.Options.PodmanArtifactAddOptions
 ModularPipelines.Podman.Options.PodmanArtifactAddOptions.Annotation.get -> string?
@@ -3951,8 +3936,6 @@ ModularPipelines.Podman.Options.PodmanMachineInspectOptions.Machine.set -> void
 ModularPipelines.Podman.Options.PodmanMachineInspectOptions.PodmanMachineInspectOptions() -> void
 ModularPipelines.Podman.Options.PodmanMachineInspectOptions.PodmanMachineInspectOptions(ModularPipelines.Podman.Options.PodmanMachineInspectOptions! original) -> void
 ModularPipelines.Podman.Options.PodmanMachineListOptions
-ModularPipelines.Podman.Options.PodmanMachineListOptions.AllProviders.get -> bool?
-ModularPipelines.Podman.Options.PodmanMachineListOptions.AllProviders.set -> void
 ModularPipelines.Podman.Options.PodmanMachineListOptions.Format.get -> string?
 ModularPipelines.Podman.Options.PodmanMachineListOptions.Format.set -> void
 ModularPipelines.Podman.Options.PodmanMachineListOptions.Noheading.get -> bool?
@@ -3962,13 +3945,7 @@ ModularPipelines.Podman.Options.PodmanMachineListOptions.PodmanMachineListOption
 ModularPipelines.Podman.Options.PodmanMachineListOptions.Quiet.get -> bool?
 ModularPipelines.Podman.Options.PodmanMachineListOptions.Quiet.set -> void
 ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions
-ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.Deconstruct(out string! Image) -> void
-ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.Image.get -> string!
-ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.Image.init -> void
-ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.Name.get -> string?
-ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.Name.set -> void
 ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.PodmanMachineOsApplyOptions(ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions! original) -> void
-ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.PodmanMachineOsApplyOptions(string! Image) -> void
 ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.Restart.get -> bool?
 ModularPipelines.Podman.Options.PodmanMachineOsApplyOptions.Restart.set -> void
 ModularPipelines.Podman.Options.PodmanMachineResetOptions

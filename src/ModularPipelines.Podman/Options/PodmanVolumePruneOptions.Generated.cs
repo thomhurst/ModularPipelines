@@ -13,13 +13,25 @@ using ModularPipelines.Podman.Options;
 namespace ModularPipelines.Podman.Options;
 
 /// <summary>
-/// Remove all unused volumes
+/// Remove unused volumes
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("volume", "prune")]
 public record PodmanVolumePruneOptions : PodmanOptions
 {
+    /// <summary>
+    /// Remove all unused volumes, both anonymous and named
+    /// </summary>
+    [CliFlag("--all", ShortForm = "-a")]
+    public bool? All { get; set; }
+
+    /// <summary>
+    /// Show what would be pruned without actually pruning
+    /// </summary>
+    [CliFlag("--dry-run")]
+    public bool? DryRun { get; set; }
+
     /// <summary>
     /// Provide filter values (e.g. 'label=&lt;key&gt;=&lt;value&gt;')
     /// </summary>
