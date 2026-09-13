@@ -1480,7 +1480,7 @@ public abstract partial class CliScraperBase : ICliScraper
         + @"repeatable"
         + @"|(?:can|may|must|should)\s+be\s+repeated"
         + @"|(?:is|are)\s+repeated"
-        + @"|multiples?\s+(?:are\s+)?supported\s+by\s+passing\s+--?[\w-]+\s+multiple\s+times"
+        + @"|(?:multiples?|multiple\s+[\w-]+)\s+(?:are\s+)?supported\s+by\s+passing\s+--?[\w-]+\s+multiple\s+times"
         + @"|\A" + RepeatableItemCountPattern
         // "Specifications of one or more endpoints" describes the option's values; "Expression is
         // a list of one or more restrictions" describes the grammar of one value, so an

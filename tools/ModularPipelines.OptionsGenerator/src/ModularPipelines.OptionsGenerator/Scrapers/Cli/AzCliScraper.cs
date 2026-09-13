@@ -384,6 +384,7 @@ public partial class AzCliScraper : CliScraperBase
     private static bool HelpDeclaresOptionValue(string switchName, string description) =>
         AzValueDescriptionPattern().IsMatch(description)
         || AzDescriptionOnlyValuePattern().IsMatch(description)
+        || DescriptionNamesValueOption(switchName, description)
         || AzDenySettingsModeDescriptionPattern().IsMatch(description)
         || AzEmbeddedValueDescriptionPattern().IsMatch(description)
         || description.Contains("may be supplied", StringComparison.OrdinalIgnoreCase)
@@ -391,6 +392,40 @@ public partial class AzCliScraper : CliScraperBase
         || DescriptionDeclaresRepeatableOption(description)
         || description.Contains("key=value", StringComparison.OrdinalIgnoreCase)
         || IsAzureGenericUpdateOption(switchName);
+
+    private static bool DescriptionNamesValueOption(string switchName, string description)
+    {
+        if (!switchName.EndsWith("-name", StringComparison.OrdinalIgnoreCase)
+            && !switchName.EndsWith("-id", StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        var subject = description.AsSpan().TrimStart();
+        if (subject.StartsWith("The ", StringComparison.OrdinalIgnoreCase))
+        {
+            subject = subject[4..];
+        }
+        else if (subject.StartsWith("An ", StringComparison.OrdinalIgnoreCase))
+        {
+            subject = subject[3..];
+        }
+        else if (subject.StartsWith("A ", StringComparison.OrdinalIgnoreCase))
+        {
+            subject = subject[2..];
+        }
+        else
+        {
+            return false;
+        }
+
+        // Compare the noun phrase with the switch, allowing "Event Hub" to describe "eventhub".
+        var sentenceEnd = subject.IndexOfAny('.', ':');
+        var valueName = sentenceEnd >= 0 ? subject[..sentenceEnd] : subject;
+        var descriptionName = string.Concat(valueName.ToString().Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries));
+        var optionName = switchName.Replace("-", string.Empty, StringComparison.Ordinal);
+        return descriptionName.Equals(optionName, StringComparison.OrdinalIgnoreCase);
+    }
 
     private static bool HelpDeclaresOptionalValue(string description) =>
         OptionalValueDescriptionPattern().IsMatch(description);
@@ -551,7 +586,7 @@ public partial class AzCliScraper : CliScraperBase
     [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|access token|marketplace version|template|resource|parameters?|managed identity|subnet|virtual network|default identity|install script|registry adapter|storage mount|key vault|source|related resource|related change|batch|issue|scope|list\s+of|defines?|validation level|accepts?)\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzValueDescriptionPattern();
 
-    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:(?:additional|build|cpu|fully-qualified|main|optional|relative|secret|spark)\s+)*(?:arguments?|class(?:\s+name)?|commands?|configuration|files?|identifier|path|platform|timeout)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:(?:additional|build|cpu|fully-qualified|main|optional|relative|secret|spark)\s+)*(?:arguments?|class(?:\s+name)?|commands?|configuration|files?|identifier|(?:geo-)?location|path|platform|timeout)\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzDescriptionOnlyValuePattern();
 
     [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:maximum\s+|minimum\s+|total\s+)?(?:number|count|port|size|timeout)\b", RegexOptions.IgnoreCase)]

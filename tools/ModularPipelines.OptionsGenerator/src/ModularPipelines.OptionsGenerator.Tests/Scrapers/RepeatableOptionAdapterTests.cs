@@ -106,6 +106,8 @@ public class RepeatableOptionAdapterTests
 
     [Test]
     [Arguments("This argument must be repeated for each entry.", true)]
+    [Arguments("Multiple tags are supported by passing -t multiple times.", true)]
+    [Arguments("Multiple tags are supported in one comma-delimited value.", false)]
     [Arguments("The value is repeated across runs.", true)]
     [Arguments("Provide one or more paths to scan.", true)]
     [Arguments("Validates multiple values against a schema.", false)]

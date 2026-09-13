@@ -355,6 +355,59 @@ public class AzCliScraperTests
     }
 
     [Test]
+    [Arguments("authorization-rule-name", "The authorization rule name.")]
+    [Arguments("namespace-name", "The Namespace name.")]
+    [Arguments("consumer-group-name", "The consumer group name.")]
+    [Arguments("eventhub-name", "The Event Hub name.")]
+    [Arguments("external-id", "An external ID.")]
+    [Arguments("location", "Location. Values from: az account list-locations.")]
+    [Arguments("location", "The geo-location where the resource lives When not specified, the location of the resource group will be used.")]
+    public async Task Named_Values_Are_Not_Flags(string switchName, string description)
+    {
+        var helpText = $"Command\n    az service show : Show a service.\n\nArguments\n    --{switchName} : {description}";
+        var command = await new TestAzCliScraper().Parse(["az", "service", "show"], helpText);
+        var option = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.IsRequired).IsFalse();
+            await Assert.That(option.CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
+    public async Task Name_Display_Action_Remains_A_Flag()
+    {
+        const string helpText = """
+            Command
+                az service show : Show a service.
+
+            Optional Arguments
+                --show-name : Show name instead of identifier.
+            """;
+        var command = await new TestAzCliScraper().Parse(["az", "service", "show"], helpText);
+
+        await Assert.That(command!.Options.Single().IsFlag).IsTrue();
+    }
+
+    [Test]
+    public async Task Repeated_Image_Tags_Remain_Collections()
+    {
+        const string helpText = """
+            Command
+                az acr task create : Create a task.
+
+            Optional Arguments
+                --image -t : The name and tag of the image using the format: '-t repo/image:tag'.
+                             Multiple tags are supported by passing -t multiple times.
+            """;
+        var command = await new TestAzCliScraper().Parse(["az", "acr", "task", "create"], helpText);
+
+        await Assert.That(command!.Options.Single().CSharpType).IsEqualTo("IEnumerable<string>?");
+    }
+
+    [Test]
     public async Task Synapse_Description_Only_Values_Are_Not_Flags()
     {
         const string helpText = """
