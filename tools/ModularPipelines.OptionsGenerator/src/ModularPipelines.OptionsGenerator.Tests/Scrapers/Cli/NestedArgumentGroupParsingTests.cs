@@ -52,6 +52,108 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    public async Task Gcloud_Required_Flag_Tables_Do_Not_Declare_Separator_Flags()
+    {
+        var helpText = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Gcloud", "dataproc-clusters-gke-create.txt"));
+        var command = (await CreateGcloudScraper().Parse(["gcloud", "dataproc", "clusters", "gke", "create"], helpText))!;
+        var arguments = command.ArgumentGroups.SelectMany(group => group.FlattenArguments()).ToArray();
+        await Assert.That(arguments.All(argument => argument.SwitchName.Any(char.IsLetterOrDigit))).IsTrue();
+        await Assert.That(arguments.Select(argument => argument.SwitchName))
+            .IsEquivalentTo(command.Options.Where(option => !option.SwitchName.StartsWith("--no-", StringComparison.Ordinal))
+                .Select(option => option.SwitchName));
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Gcloud_Required_Presence_Flag_Rejects_False_And_Missing_Values(bool negatable)
+    {
+        var helpText = $"""
+            NAME
+                gcloud example create - create an example
+            REQUIRED FLAGS
+                 --{(negatable ? "[no-]" : "")}confirm
+                    Confirm the operation.
+            """;
+        var command = (await CreateGcloudScraper().Parse(["gcloud", "example", "create"], helpText))!;
+        await Assert.That(command.Options.All(option => !option.IsRequired)).IsTrue();
+        string[] expectedProperties = negatable ? ["Confirm", "NoConfirm"] : ["Confirm"];
+        await Assert.That(command.RequiredAlternativeGroups.Single().PropertyNames)
+            .IsEquivalentTo(expectedProperties);
+        var tool = new CliToolDefinition
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "src/ModularPipelines.Google",
+            Commands = [command],
+        };
+        var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+        await VerifyGeneratedValidation(generated, "GcloudExampleCreateOptions", async type =>
+        {
+            foreach (var value in new bool?[] { null, false, true })
+            {
+                var instance = Activator.CreateInstance(type)!;
+                type.GetProperty("Confirm")!.SetValue(instance, value);
+                var errors = ((IValidatableObject) instance).Validate(new ValidationContext(instance)).ToArray();
+                await Assert.That(errors.Length == 0).IsEqualTo(value == true);
+            }
+
+            if (negatable)
+            {
+                var instance = Activator.CreateInstance(type)!;
+                type.GetProperty("NoConfirm")!.SetValue(instance, true);
+                await Assert.That(((IValidatableObject) instance).Validate(new ValidationContext(instance))).IsEmpty();
+                type.GetProperty("Confirm")!.SetValue(instance, true);
+                await Assert.That(((IValidatableObject) instance).Validate(new ValidationContext(instance))).IsNotEmpty();
+            }
+        });
+    }
+
+    [Test]
+    [Arguments("Exactly one of these must be specified. Or choose the other source:", true)]
+    [Arguments("At least one of these must be specified. Or combine both sources:", false)]
+    public async Task Gcloud_Required_Cardinality_Precedes_Alternative_Prose(string heading, bool exclusive)
+    {
+        var helpText = $"""
+            NAME
+                gcloud example create - create an example
+            REQUIRED FLAGS
+                 {heading}
+                   --file=FILE
+                      Input file.
+                   --directory=DIRECTORY
+                      Input directory.
+            """;
+        var command = (await CreateGcloudScraper().Parse(["gcloud", "example", "create"], helpText))!;
+        await Assert.That(command.RequiredAlternativeGroups.Single().PropertyNames).IsEquivalentTo(["File", "Directory"]);
+        await Assert.That(command.RequiredAlternativeGroups.Single().IsMutuallyExclusive).IsEqualTo(exclusive);
+    }
+
+    [Test]
+    public async Task Gcloud_Optional_Exclusive_Branches_Do_Not_Require_Their_Nested_Flags()
+    {
+        const string helpText = """
+            NAME
+                gcloud example create - create an example
+            REQUIRED FLAGS
+                 At most one of these can be specified:
+                   --token=TOKEN
+                      Authenticate with a token.
+                   Or at least one of these must be specified:
+                     --profile=PROFILE
+                        Select a saved profile.
+                     --interactive
+                        Sign in interactively.
+            """;
+        var command = (await CreateGcloudScraper().Parse(["gcloud", "example", "create"], helpText))!;
+        await Assert.That(command.Options.Count).IsEqualTo(3);
+        await Assert.That(command.Options.All(option => !option.IsRequired)).IsTrue();
+        await Assert.That(command.RequiredAlternativeGroups).IsEmpty();
+    }
+
+    [Test]
     public async Task Gcloud_Upload_Parses_Required_And_Optional_Flag_Sections()
     {
         var helpText = await File.ReadAllTextAsync(Path.Combine(
@@ -103,7 +205,24 @@ public partial class NestedArgumentGroupParsingTests
         await VerifyUploadValidation(options);
     }
 
-    private static async Task VerifyUploadValidation(string generatedOptions)
+    private static Task VerifyUploadValidation(string generatedOptions) =>
+        VerifyGeneratedValidation(generatedOptions, "GcloudArtifactsFilesUploadOptions", async type =>
+        {
+            foreach (var (source, directory, valid) in new (string?, string?, bool)[]
+            {
+                (null, null, false), (" ", "", false), ("file.txt", "directory", false),
+                ("file.txt", null, true), (null, "directory", true),
+            })
+            {
+                var instance = Activator.CreateInstance(type)!;
+                type.GetProperty("Source")!.SetValue(instance, source);
+                type.GetProperty("SourceDirectory")!.SetValue(instance, directory);
+                var errors = ((IValidatableObject) instance).Validate(new ValidationContext(instance)).ToArray();
+                await Assert.That(errors.Length == 0).IsEqualTo(valid);
+            }
+        });
+
+    private static async Task VerifyGeneratedValidation(string generatedOptions, string typeName, Func<Type, Task> verify)
     {
         var references = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
             .Split(Path.PathSeparator)
@@ -131,19 +250,8 @@ public partial class NestedArgumentGroupParsingTests
         var loadContext = new AssemblyLoadContext("gcloud-upload-validation", isCollectible: true);
         try
         {
-            var type = loadContext.LoadFromStream(stream).GetType("ModularPipelines.Google.Options.GcloudArtifactsFilesUploadOptions")!;
-            foreach (var (source, directory, valid) in new (string?, string?, bool)[]
-            {
-                (null, null, false), (" ", "", false), ("file.txt", "directory", false),
-                ("file.txt", null, true), (null, "directory", true),
-            })
-            {
-                var instance = Activator.CreateInstance(type)!;
-                type.GetProperty("Source")!.SetValue(instance, source);
-                type.GetProperty("SourceDirectory")!.SetValue(instance, directory);
-                var errors = ((IValidatableObject) instance).Validate(new ValidationContext(instance)).ToArray();
-                await Assert.That(errors.Length == 0).IsEqualTo(valid);
-            }
+            var type = loadContext.LoadFromStream(stream).GetType($"ModularPipelines.Google.Options.{typeName}")!;
+            await verify(type);
         }
         finally
         {

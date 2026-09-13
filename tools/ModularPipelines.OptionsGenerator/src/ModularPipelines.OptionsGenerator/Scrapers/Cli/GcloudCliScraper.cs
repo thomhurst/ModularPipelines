@@ -261,9 +261,10 @@ public partial class GcloudCliScraper : CliScraperBase
         List<CliRequiredAlternativeGroup> requiredAlternativeGroups)
     {
         // Resource attributes can come from configuration or a fully qualified name.
-        // Nested alternatives can represent bundles, so do not require their leaves.
+        // A group introduced by "Or" is conditional on selecting that alternative.
         if (group.Kind.HasFlag(CliArgumentGroupKind.Resource)
-            || group.Kind.HasFlag(CliArgumentGroupKind.Alternative))
+            || (group.Kind.HasFlag(CliArgumentGroupKind.Alternative)
+                && group.Description?.TrimStart().StartsWith("Or ", StringComparison.OrdinalIgnoreCase) == true))
         {
             return;
         }
@@ -286,7 +287,10 @@ public partial class GcloudCliScraper : CliScraperBase
             return;
         }
 
-        if (group.Kind.HasFlag(CliArgumentGroupKind.AtMostOne))
+        // Nested alternatives can represent optional bundles. Requiring their leaves
+        // unconditionally would reject callers that omit the bundle or select another one.
+        if (group.Kind.HasFlag(CliArgumentGroupKind.AtMostOne)
+            || group.Kind.HasFlag(CliArgumentGroupKind.Alternative))
         {
             return;
         }
@@ -296,7 +300,26 @@ public partial class GcloudCliScraper : CliScraperBase
             var index = options.FindIndex(option => option.SwitchName == argument.SwitchName);
             if (index >= 0)
             {
-                options[index] = options[index] with { IsRequired = true };
+                if (options[index].IsFlag)
+                {
+                    // A required constructor bool can still be false and emit no switch.
+                    // Reuse presence validation so at least one actual flag must be true.
+                    requiredAlternativeGroups.Add(new CliRequiredAlternativeGroup
+                    {
+                        IsMutuallyExclusive = argument.IsNegatable,
+                        Members = options.Where(option => option.SwitchName == argument.SwitchName
+                                || (argument.IsNegatable && option.SwitchName == $"--no-{argument.SwitchName[2..]}"))
+                            .Select(option => new CliRequiredAlternativeMember
+                            {
+                                OptionSwitch = option.SwitchName,
+                                PropertyName = option.PropertyName,
+                            }).ToArray(),
+                    });
+                }
+                else
+                {
+                    options[index] = options[index] with { IsRequired = true };
+                }
             }
         }
 
@@ -677,7 +700,7 @@ public partial class GcloudCliScraper : CliScraperBase
     /// --option=VALUE
     /// </summary>
     [GeneratedRegex(
-        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>[\w-]+)|(?<long>--[\w-]+))(?:=(?<value>[^\r\n;]+?))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?(?:;\s*default=(?:""[^""]*""|'[^']*'|\S+))?$")]
+        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>\w[\w-]*)|(?<long>--\w[\w-]*))(?:=(?<value>[^\r\n;]+?))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?(?:;\s*default=(?:""[^""]*""|'[^']*'|\S+))?$")]
     private static partial Regex GcloudFlagPattern();
 
     [GeneratedRegex(
