@@ -18,18 +18,9 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "deployment-step", "artifacts")]
-public record TerraformStacksDeploymentStepArtifactsOptions : TerraformOptions
+public record TerraformStacksDeploymentStepArtifactsOptions(
+    [property: CliOption("-deployment-step-id", Format = OptionFormat.EqualsSeparated)] string DeploymentStepId,
+    [property: CliOption("-artifact-name", Format = OptionFormat.EqualsSeparated)] string ArtifactName
+) : TerraformOptions
 {
-    /// <summary>
-    /// The ID of the deployment step. (required)
-    /// </summary>
-    [CliOption("-deployment-step-id", Format = OptionFormat.EqualsSeparated)]
-    public string? DeploymentStepId { get; set; }
-
-    /// <summary>
-    /// The artifact type to retrieve. (required) One of: plan-description   Plan details apply-description  Apply details (outputs + resource changes) plan-debug-log     Plan execution logs apply-debug-log    Apply execution logs
-    /// </summary>
-    [CliOption("-artifact-name", Format = OptionFormat.EqualsSeparated)]
-    public string? ArtifactName { get; set; }
-
 }
