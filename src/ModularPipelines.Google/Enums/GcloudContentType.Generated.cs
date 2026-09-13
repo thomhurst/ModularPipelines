@@ -16,8 +16,8 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudContentType
 {
-    [EnumValue("resource")]
-    Resource,
+    [EnumValue("access-policy")]
+    AccessPolicy,
 
     [EnumValue("iam-policy")]
     IamPolicy,
@@ -25,12 +25,12 @@ public enum GcloudContentType
     [EnumValue("org-policy")]
     OrgPolicy,
 
-    [EnumValue("access-policy")]
-    AccessPolicy,
-
     [EnumValue("os-inventory")]
     OsInventory,
 
     [EnumValue("relationship")]
-    Relationship
+    Relationship,
+
+    [EnumValue("resource")]
+    Resource
 }

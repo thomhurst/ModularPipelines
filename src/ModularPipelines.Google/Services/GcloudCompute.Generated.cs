@@ -66,6 +66,7 @@ public class GcloudCompute : IGcloudCompute
     private GcloudComputePacketMirrorings? _packetMirrorings;
     private GcloudComputePreviewFeatures? _previewFeatures;
     private GcloudComputeProjectInfo? _projectInfo;
+    private GcloudComputeProjectViews? _projectViews;
     private GcloudComputeProjectZonalMetadata? _projectZonalMetadata;
     private GcloudComputePublicAdvertisedPrefixes? _publicAdvertisedPrefixes;
     private GcloudComputePublicDelegatedPrefixes? _publicDelegatedPrefixes;
@@ -335,6 +336,11 @@ public class GcloudCompute : IGcloudCompute
     /// gcloud project-info sub-commands.
     /// </summary>
     public GcloudComputeProjectInfo ProjectInfo => _projectInfo ??= new GcloudComputeProjectInfo(_command);
+
+    /// <summary>
+    /// gcloud project-views sub-commands.
+    /// </summary>
+    public GcloudComputeProjectViews ProjectViews => _projectViews ??= new GcloudComputeProjectViews(_command);
 
     /// <summary>
     /// gcloud project-zonal-metadata sub-commands.

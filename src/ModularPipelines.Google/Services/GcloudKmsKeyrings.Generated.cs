@@ -78,6 +78,21 @@ public class GcloudKmsKeyrings
     }
 
     /// <summary>
+    /// delete a keyring
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteAsync(
+        GcloudKmsKeyringsDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudKmsKeyringsDeleteOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// get metadata for a keyring
     /// </summary>
     /// <param name="options">The command options.</param>
