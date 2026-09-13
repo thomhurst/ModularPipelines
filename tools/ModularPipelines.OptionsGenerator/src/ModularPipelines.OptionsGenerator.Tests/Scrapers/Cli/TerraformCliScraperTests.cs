@@ -23,6 +23,31 @@ public class TerraformCliScraperTests
             CreateHelpText(command, switchName, description));
 
         await AssertValueOption(definition, switchName);
+        await Assert.That(definition!.Options.Single(option => option.SwitchName == switchName).IsRequired).IsTrue();
+    }
+
+    [Test]
+    [Arguments("The ID of the deployment step.", false)]
+    [Arguments("The ID is required only when another option is set.", false)]
+    [Arguments("The name, for example required.", false)]
+    [Arguments("The name, for example \"(required)\".", false)]
+    [Arguments("The name, for example '(required)'.", false)]
+    [Arguments("The name, for example `(required)`.", false)]
+    [Arguments("The name, for example \"Example. (required) value\".", false)]
+    [Arguments("The name, for example 'Example. (required) value'.", false)]
+    [Arguments("The name, for example `Example. (required) value`.", false)]
+    [Arguments("The name. (required when creating a deployment)", false)]
+    [Arguments("The name. (REQUIRED)", true)]
+    [Arguments("(required) The name of the deployment step.", true)]
+    [Arguments("The name. (required) One of: plan-description, apply-description.", true)]
+    [Arguments("The name.\n                       (required)", true)]
+    public async Task Only_Explicit_Required_Markers_Make_Options_Required(string description, bool expected)
+    {
+        var definition = await _scraper.Parse(
+            ["terraform", "stacks", "deployment-step", "show"],
+            CreateHelpText("show", "-deployment-step-id", description));
+
+        await Assert.That(definition!.Options.Single().IsRequired).IsEqualTo(expected);
     }
 
     [Test]

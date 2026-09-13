@@ -18,7 +18,7 @@ public abstract partial class CliScraperBase : ICliScraper
     private static readonly string[] DefaultUsageSynopsisHeadings = ["usage"];
     private const int TabWidth = 8;
     private readonly CliScrapeProvenance _scrapeProvenance = new();
-    private readonly HashSet<string> _knownCommandGroups = new(StringComparer.OrdinalIgnoreCase);
+    private readonly HashSet<string> _knownCommandGroups = [with(StringComparer.OrdinalIgnoreCase)];
 
     protected readonly ICliCommandExecutor Executor;
     protected readonly IHelpTextCache HelpCache;
@@ -230,15 +230,10 @@ public abstract partial class CliScraperBase : ICliScraper
     /// Tracks state for parallel scraping workers using a countdown pattern.
     /// Thread-safe without locks by using atomic operations and a completion signal.
     /// </summary>
-    private sealed class WorkCoordinator
+    private sealed class WorkCoordinator(Channel<string[]> workChannel)
     {
         private int _outstandingWork;
-        private readonly Channel<string[]> _workChannel;
-
-        public WorkCoordinator(Channel<string[]> workChannel)
-        {
-            _workChannel = workChannel;
-        }
+        private readonly Channel<string[]> _workChannel = workChannel;
 
         /// <summary>
         /// Increments the outstanding work counter.
@@ -906,10 +901,9 @@ public abstract partial class CliScraperBase : ICliScraper
 
         return new CliRequiredAlternativeGroup
         {
-            Members = members
+            Members = [.. members
                 .Select(static member => member!)
-                .DistinctBy(GetRequiredAlternativeIdentity, StringComparer.Ordinal)
-                .ToArray(),
+                .DistinctBy(GetRequiredAlternativeIdentity, StringComparer.Ordinal)],
         };
     }
 
@@ -965,9 +959,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// </summary>
     protected static IReadOnlyList<CliPositionalArgument> GetPositionalArguments(
         UsageSynopsisParseResult usage) =>
-        usage.PositionalArguments
-            .Where(argument => argument.AssociatedOptionSwitch is null)
-            .ToArray();
+        [.. usage.PositionalArguments.Where(argument => argument.AssociatedOptionSwitch is null)];
 
     /// <summary>
     /// Returns true positional operands, retaining operands that follow presence-only flags.
@@ -975,7 +967,7 @@ public abstract partial class CliScraperBase : ICliScraper
     protected static IReadOnlyList<CliPositionalArgument> GetPositionalArguments(
         UsageSynopsisParseResult usage,
         IReadOnlyList<CliOptionDefinition> options) =>
-        usage.PositionalArguments
+        [.. usage.PositionalArguments
             .Where(argument => argument.AssociatedOptionSwitch is null
                                || !options.Any(option =>
                                    !option.IsFlag
@@ -985,8 +977,7 @@ public abstract partial class CliScraperBase : ICliScraper
                                        || option.ShortForm?.Equals(
                                            argument.AssociatedOptionSwitch,
                                            StringComparison.OrdinalIgnoreCase) == true)))
-            .Select(argument => argument with { AssociatedOptionSwitch = null })
-            .ToArray();
+            .Select(argument => argument with { AssociatedOptionSwitch = null })];
 
     /// <summary>
     /// Checks if help text indicates the command has options/flags.
@@ -1013,10 +1004,11 @@ public abstract partial class CliScraperBase : ICliScraper
     /// <summary>
     /// Default subcommands to always skip.
     /// </summary>
-    private static readonly HashSet<string> DefaultSkipSubcommands = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> DefaultSkipSubcommands =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "help", "completion", "version", "__complete", "__completeNoDesc"
-    };
+    ];
 
     /// <summary>
     /// Checks if a subcommand should be skipped (e.g., "help", "completion").
@@ -1150,6 +1142,12 @@ public abstract partial class CliScraperBase : ICliScraper
     /// </summary>
     protected static bool HelpDeclaresExplicitBooleanValue(string description) =>
         ExplicitBooleanValuePattern().IsMatch(description);
+
+    /// <summary>
+    /// Recognizes a required marker before or after the opening description sentence.
+    /// </summary>
+    protected static bool DescriptionDeclaresRequiredOption(string description) =>
+        ExplicitRequiredOptionPattern().IsMatch(description);
 
     /// <summary>
     /// Returns whether help describes an option as repeatable.
@@ -1409,6 +1407,9 @@ public abstract partial class CliScraperBase : ICliScraper
         @"(?:[\[{(<]\s*true\s*(?:\||/|or)\s*false\s*[\]})>]|(?:boolean|bool)\s+value|true\s+or\s+false|allowed\s+values?\s*:\s*(?:(?:true\s*,\s*false|false\s*,\s*true)|(?:0\s*,\s*1\s*,\s*f\s*,\s*false\s*,\s*n\s*,\s*no\s*,\s*t\s*,\s*true\s*,\s*y\s*,\s*yes))(?=\s*(?:[.)]|$)))",
         RegexOptions.IgnoreCase)]
     private static partial Regex ExplicitBooleanValuePattern();
+
+    [GeneratedRegex(@"^(?:[^""'`.!?\r\n]*[.!?]\s+)?\(required\)(?=\s|$)", RegexOptions.IgnoreCase)]
+    private static partial Regex ExplicitRequiredOptionPattern();
 
     private const string OperationalCountPhrasePattern =
         @"(?:[\w-]+\s+){0,2}(?:attempts?|times?|retries?)\b";
