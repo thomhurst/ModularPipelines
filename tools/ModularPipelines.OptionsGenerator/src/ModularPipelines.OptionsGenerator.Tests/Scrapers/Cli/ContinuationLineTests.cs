@@ -34,14 +34,27 @@ public class ContinuationLineTests
     [Arguments("            -c, --child VALUE   May be specified multiple times")]
     [Arguments("            -c VALUE, --child VALUE   May be specified multiple times")]
     [Arguments("            --child   Can be repeated to increase verbosity")]
+    [Arguments("            --child   can be specified multiple times")]
+    [Arguments("            --child TYPE\n                may be specified multiple times")]
+    [Arguments("            --child  TYPE\n                may be specified multiple times")]
+    [Arguments("            --child\n                may be specified multiple times")]
     public async Task Repeatable_Lookahead_Does_Not_Absorb_Nested_Declarations_At_The_Prose_Column(string child)
     {
         var helpText = "  --parent  Configure parent settings\n" + child;
+        var lines = helpText.Split('\n');
+        var index = 0;
+        var description = CliScraperBase.AccumulateWrappedDescription(
+            lines,
+            ref index,
+            inlineDescription: null,
+            static line => line.TrimStart().StartsWith('-'));
 
         using (Assert.Multiple())
         {
             await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--parent", string.Empty)).IsFalse();
             await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--child", string.Empty)).IsTrue();
+            await Assert.That(description).IsEmpty();
+            await Assert.That(index).IsEqualTo(0);
         }
     }
 
