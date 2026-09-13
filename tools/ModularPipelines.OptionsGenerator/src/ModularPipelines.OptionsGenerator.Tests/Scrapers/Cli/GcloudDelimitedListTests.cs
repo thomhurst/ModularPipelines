@@ -57,6 +57,9 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("[VALUE,...]", "Values to include.", ",")]
     [Arguments("VALUES", "A comma-delimited list of values.", ",")]
     [Arguments("VALUES", "A comma separated list of values.", ",")]
+    [Arguments("VALUES", "The comma-separated list of values.", ",")]
+    [Arguments("SIZE", "When using a comma-separated list in --worker, set the batch size.", null)]
+    [Arguments("VALUE", "The current value controls a comma-separated list in --other.", null)]
     [Arguments("VALUE", "This flag can be repeated.", null)]
     [Arguments("VALUE", "Matches values that contain comma-separated text.", null)]
     [Arguments("[name=NAME,config=CONFIG]", "This flag can be repeated.", null)]
@@ -125,5 +128,36 @@ public partial class NestedArgumentGroupParsingTests
         await Assert.That(negative.IsFlag).IsTrue();
         await Assert.That(negative.AcceptsMultipleValues).IsFalse();
         await Assert.That(negative.CollectionSeparator).IsNull();
+    }
+
+    [Test]
+    [Arguments("scp")]
+    [Arguments("ssh")]
+    public async Task Gcloud_Tpu_Batch_Size_Does_Not_Inherit_The_Worker_List(string commandName)
+    {
+        var helpText = $"""
+            NAME
+                gcloud compute tpus queued-resources {commandName} - connect to workers
+
+            SYNOPSIS
+                gcloud compute tpus queued-resources {commandName}
+
+            FLAGS
+                 --batch-size=BATCH_SIZE
+                    Batch size for simultaneous command execution on the client's side.
+                    When using a comma-separated list (e.g. '1,4,6') or a range (e.g. '1-3')
+                    or ``all`` keyword in --worker flag, it executes the command concurrently
+                    in groups of the batch size.
+                 --worker=WORKER
+                    TPU worker to connect to.
+            """;
+
+        var command = await CreateGcloudScraper().Parse(
+            ["gcloud", "compute", "tpus", "queued-resources", commandName], helpText);
+        var batchSize = command!.Options.Single(option => option.SwitchName == "--batch-size");
+
+        await Assert.That(batchSize.CSharpType).IsEqualTo("int?");
+        await Assert.That(batchSize.AcceptsMultipleValues).IsFalse();
+        await Assert.That(batchSize.CollectionSeparator).IsNull();
     }
 }
