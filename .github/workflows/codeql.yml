@@ -78,6 +78,7 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           build-mode: none
+          db-location: ${{ runner.temp }}/codeql-databases
       - name: Restore core solution
         if: matrix.language == 'csharp'
         run: dotnet restore ModularPipelines.slnx
@@ -100,3 +101,13 @@ jobs:
         with:
           category: /language:${{ matrix.language }}
           sarif_file: ${{ runner.temp }}/codeql-results
+      - name: Preserve C# extraction diagnostics
+        if: failure() && matrix.language == 'csharp'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: codeql-csharp-diagnostics-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/codeql-databases/csharp/log
+            ${{ runner.temp }}/codeql-databases/csharp/diagnostic
+          if-no-files-found: warn
+          retention-days: 14
