@@ -10,6 +10,13 @@
         "Azure.ResourceManager.AppService"
       ],
       "allowedVersions": "<=1.4.1"
+    },
+    {
+      "description": "Keep Microsoft.Build on the net10.0-compatible line; revisit when the Build project and pinned SDK move to .NET 11",
+      "matchPackageNames": [
+        "Microsoft.Build"
+      ],
+      "allowedVersions": "<18.10.0"
     }
   ]
 }
