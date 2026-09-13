@@ -14,17 +14,29 @@ internal class Http : IHttpContext
     private readonly IModuleLoggerAccessor _moduleLoggerAccessor;
     private readonly IHttpLogger _httpLogger;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
+    private readonly TimeProvider _timeProvider;
 
     public Http(
         IHttpClientFactory httpClientFactory,
         IModuleLoggerAccessor moduleLoggerAccessor,
         IHttpLogger httpLogger,
         IOptions<PipelineOptions> pipelineOptions)
+        : this(httpClientFactory, moduleLoggerAccessor, httpLogger, pipelineOptions, TimeProvider.System)
+    {
+    }
+
+    internal Http(
+        IHttpClientFactory httpClientFactory,
+        IModuleLoggerAccessor moduleLoggerAccessor,
+        IHttpLogger httpLogger,
+        IOptions<PipelineOptions> pipelineOptions,
+        TimeProvider timeProvider)
     {
         _httpClientFactory = httpClientFactory;
         _moduleLoggerAccessor = moduleLoggerAccessor;
         _httpLogger = httpLogger;
         _pipelineOptions = pipelineOptions;
+        _timeProvider = timeProvider;
     }
 
     public async Task<HttpResponseMessage> SendAsync(HttpOptions httpOptions, CancellationToken cancellationToken = default)
@@ -39,7 +51,7 @@ internal class Http : IHttpContext
 
         // Create timeout token if timeout is specified
         var timeoutCts = effectiveTimeout.HasValue
-            ? new CancellationTokenSource(effectiveTimeout.Value)
+            ? new CancellationTokenSource(effectiveTimeout.Value, _timeProvider)
             : null;
 
         // Keep caller cancellation alive through streamed body consumption even when no

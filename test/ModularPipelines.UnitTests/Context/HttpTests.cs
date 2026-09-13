@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
@@ -635,6 +636,7 @@ public class HttpTests : TestBase
     [Test]
     public async Task SendAsync_CustomClientKeepsTimeoutOutsideLoggedReplayContent()
     {
+        var timeProvider = new FakeTimeProvider();
         var timeout = TimeSpan.FromMilliseconds(100);
         var content = new StreamContent(
             new MemoryStream("response body"u8.ToArray()));
@@ -654,7 +656,8 @@ public class HttpTests : TestBase
             Mock.Of<IHttpClientFactory>(),
             moduleLoggerAccessor.Object,
             httpLogger,
-            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
+            timeProvider);
         using var response = await http.SendAsync(new HttpOptions(
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/logged-timeout"))
         {
@@ -664,19 +667,12 @@ public class HttpTests : TestBase
         });
 
         var stream = await response.Content.ReadAsStreamAsync();
-        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
-            await ReadUntilTimeout(stream).WaitAsync(TestHostSettings.DefaultTestTimeout));
-
-        static async Task ReadUntilTimeout(Stream responseStream)
-        {
-            while (true)
-            {
+        timeProvider.Advance(timeout - TimeSpan.FromMilliseconds(1));
 #pragma warning disable CA2022 // Zero-byte read probes timeout cancellation without consuming replay content.
-                responseStream.Read(Span<byte>.Empty);
+        await Assert.That(stream.Read(Span<byte>.Empty)).IsEqualTo(0);
+        timeProvider.Advance(TimeSpan.FromMilliseconds(1));
+        await Assert.That(() => stream.Read(Span<byte>.Empty)).Throws<OperationCanceledException>();
 #pragma warning restore CA2022
-                await Task.Yield();
-            }
-        }
     }
 
     [Test]
