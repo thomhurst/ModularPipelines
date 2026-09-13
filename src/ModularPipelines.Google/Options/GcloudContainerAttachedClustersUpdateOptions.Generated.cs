@@ -24,9 +24,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerAttachedClustersUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Proxy config Annotations for the cluster.
+    /// Proxy config Annotations for the cluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Annotations { get; set; }
 
     /// <summary>
@@ -56,7 +56,7 @@ public record GcloudContainerAttachedClustersUpdateOptions : GcloudOptions
     /// <summary>
     /// Proxy config Set the components that have logging enabled. Examples: $ gcloud container attached clusters update --logging=SYSTEM $ gcloud container attached clusters update --logging=SYSTEM,WORKLOAD $ gcloud container attached clusters update --logging=NONE COMPONENT must be one of: NONE, SYSTEM, WORKLOAD.
     /// </summary>
-    [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--logging", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public GcloudLogging? Logging { get; set; }
 
     /// <summary>
@@ -72,9 +72,9 @@ public record GcloudContainerAttachedClustersUpdateOptions : GcloudOptions
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Proxy config Admin groups At most one of these can be specified: Groups of users that can perform operations as a cluster administrator.
+    /// Proxy config Admin groups At most one of these can be specified: Groups of users that can perform operations as a cluster administrator. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--admin-groups", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--admin-groups", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AdminGroups { get; set; }
 
     /// <summary>
@@ -84,9 +84,9 @@ public record GcloudContainerAttachedClustersUpdateOptions : GcloudOptions
     public bool? ClearAdminGroups { get; set; }
 
     /// <summary>
-    /// Proxy config Admin users At most one of these can be specified: Users that can perform operations as a cluster administrator.
+    /// Proxy config Admin users At most one of these can be specified: Users that can perform operations as a cluster administrator. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AdminUsers { get; set; }
 
     /// <summary>

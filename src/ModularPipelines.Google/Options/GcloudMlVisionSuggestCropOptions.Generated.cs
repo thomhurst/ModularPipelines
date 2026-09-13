@@ -24,9 +24,9 @@ public record GcloudMlVisionSuggestCropOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// A list of aspect ratio hints for the suggested bounding box. Aspect ratios may be specified either as a decimal number (ex. 1.333) or as a ratio of width to height (ex 4:3).
+    /// A list of aspect ratio hints for the suggested bounding box. Aspect ratios may be specified either as a decimal number (ex. 1.333) or as a ratio of width to height (ex 4:3). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--aspect-ratios", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--aspect-ratios", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AspectRatios { get; set; }
 
 }

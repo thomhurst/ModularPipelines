@@ -101,9 +101,9 @@ public record GcloudEdgeCloudContainerClustersCreateOptions : GcloudOptions
     public bool? EnableGoogleGroupAuthentication { get; set; }
 
     /// <summary>
-    /// IPv4 address pools that are used for data plane load balancing of local control plane clusters. Existing pools cannot be updated after cluster creation; only adding new pools is allowed. Each address pool must be specified as one of the following two types of values: 1. A IPv4 address range, for example, "10.0.0.1-10.0.0.10". A range that contains a single IP (e.g. "10.0.0.1-10.0.0.1") is allowed. 2. A IPv4 CIDR block, for example, "10.0.0.1/24" Use comma when specifying multiple address pools, for example: --external-lb-ipv4-address-pools 10.0.0.1-10.0.0.10,10.0.0.1/24
+    /// IPv4 address pools that are used for data plane load balancing of local control plane clusters. Existing pools cannot be updated after cluster creation; only adding new pools is allowed. Each address pool must be specified as one of the following two types of values: 1. A IPv4 address range, for example, "10.0.0.1-10.0.0.10". A range that contains a single IP (e.g. "10.0.0.1-10.0.0.1") is allowed. 2. A IPv4 CIDR block, for example, "10.0.0.1/24" Use comma when specifying multiple address pools, for example: --external-lb-ipv4-address-pools 10.0.0.1-10.0.0.10,10.0.0.1/24 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--external-lb-ipv4-address-pools", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--external-lb-ipv4-address-pools", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ExternalLbIpv4AddressPools { get; set; }
 
     /// <summary>

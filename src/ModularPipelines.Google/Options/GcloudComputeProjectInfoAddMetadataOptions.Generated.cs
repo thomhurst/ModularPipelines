@@ -29,9 +29,9 @@ public record GcloudComputeProjectInfoAddMetadataOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// Same as --metadata except that the value for the entry will be read from a local file. This is useful for values that are too large such as startup-script contents. At least one of [--metadata] or [--metadata-from-file] is required.
+    /// Same as --metadata except that the value for the entry will be read from a local file. This is useful for values that are too large such as startup-script contents. At least one of [--metadata] or [--metadata-from-file] is required. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MetadataFromFile { get; set; }
 
 }

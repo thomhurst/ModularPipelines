@@ -186,9 +186,9 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions
     public string? Region { get; set; }
 
     /// <summary>
-    /// List of containers to remove.
+    /// List of containers to remove. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-containers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-containers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveContainers { get; set; }
 
     /// <summary>
@@ -252,9 +252,9 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions
     public string? VpcEgress { get; set; }
 
     /// <summary>
-    /// These flags modify the Cloud SQL instances this Service connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run service; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Append the given values to the current Cloud SQL instances.
+    /// These flags modify the Cloud SQL instances this Service connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run service; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Append the given values to the current Cloud SQL instances. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-cloudsql-instances", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddCloudsqlInstances { get; set; }
 
     /// <summary>
@@ -264,21 +264,21 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions
     public bool? ClearCloudsqlInstances { get; set; }
 
     /// <summary>
-    /// These flags modify the Cloud SQL instances this Service connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run service; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Remove the given values from the current Cloud SQL instances.
+    /// These flags modify the Cloud SQL instances this Service connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run service; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Remove the given values from the current Cloud SQL instances. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-cloudsql-instances", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveCloudsqlInstances { get; set; }
 
     /// <summary>
-    /// These flags modify the Cloud SQL instances this Service connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run service; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Completely replace the current Cloud SQL instances with the given values.
+    /// These flags modify the Cloud SQL instances this Service connects to. You can specify a name of a Cloud SQL instance if it's in the same project and region as your Cloud Run service; otherwise specify &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance. At most one of these can be specified: Completely replace the current Cloud SQL instances with the given values. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--set-cloudsql-instances", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SetCloudsqlInstances { get; set; }
 
     /// <summary>
-    /// These flags modify the custom audiences that can be used in the audience field of ID token for authenticated requests. At most one of these can be specified: Append the given values to the current custom audiences.
+    /// These flags modify the custom audiences that can be used in the audience field of ID token for authenticated requests. At most one of these can be specified: Append the given values to the current custom audiences. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-custom-audiences", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-custom-audiences", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddCustomAudiences { get; set; }
 
     /// <summary>
@@ -288,15 +288,15 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions
     public bool? ClearCustomAudiences { get; set; }
 
     /// <summary>
-    /// These flags modify the custom audiences that can be used in the audience field of ID token for authenticated requests. At most one of these can be specified: Remove the given values from the current custom audiences.
+    /// These flags modify the custom audiences that can be used in the audience field of ID token for authenticated requests. At most one of these can be specified: Remove the given values from the current custom audiences. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-custom-audiences", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-custom-audiences", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveCustomAudiences { get; set; }
 
     /// <summary>
-    /// These flags modify the custom audiences that can be used in the audience field of ID token for authenticated requests. At most one of these can be specified: Completely replace the current custom audiences with the given values.
+    /// These flags modify the custom audiences that can be used in the audience field of ID token for authenticated requests. At most one of these can be specified: Completely replace the current custom audiences with the given values. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-custom-audiences", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--set-custom-audiences", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SetCustomAudiences { get; set; }
 
     /// <summary>
@@ -312,9 +312,9 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions
     public bool? ClearVolumes { get; set; }
 
     /// <summary>
-    /// Removes volumes from the Cloud Run resource.
+    /// Removes volumes from the Cloud Run resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-volume", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-volume", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveVolume { get; set; }
 
     /// <summary>
@@ -324,9 +324,9 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions
     public string? AddVolumeMount { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Comma-separated arguments passed to the command run by the container image. If not specified and no '--command' is provided, the container image's default Cmd is used. Otherwise, if not specified, no arguments are passed. To reset this field to its default, pass an empty string.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Comma-separated arguments passed to the command run by the container image. If not specified and no '--command' is provided, the container image's default Cmd is used. Otherwise, if not specified, no arguments are passed. To reset this field to its default, pass an empty string. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--args", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--args", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Args { get; set; }
 
     /// <summary>
@@ -336,9 +336,9 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions
     public bool? ClearVolumeMounts { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Entrypoint for the container image. If not specified, the container image's default Entrypoint is run. To reset this field to its default, pass an empty string.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Entrypoint for the container image. If not specified, the container image's default Entrypoint is run. To reset this field to its default, pass an empty string. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--command", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--command", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Command { get; set; }
 
     /// <summary>
@@ -348,9 +348,9 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions
     public string? Cpu { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. List of container dependencies to add to the current container.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. List of container dependencies to add to the current container. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--depends-on", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--depends-on", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DependsOn { get; set; }
 
     /// <summary>
@@ -390,9 +390,9 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? ReadinessProbe { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Removes the volume mounted at the specified path from the current container.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Removes the volume mounted at the specified path from the current container. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-volume-mount", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-volume-mount", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveVolumeMount { get; set; }
 
     /// <summary>
@@ -438,9 +438,9 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? SetEnvVars { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of environment variables to be removed.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of environment variables to be removed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-env-vars", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-env-vars", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveEnvVars { get; set; }
 
     /// <summary>
@@ -463,10 +463,10 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? SetSecrets { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of secrets to be removed.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of secrets to be removed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [SecretValue]
-    [CliOption("--remove-secrets", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-secrets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveSecrets { get; set; }
 
     /// <summary>
@@ -519,9 +519,9 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
@@ -561,9 +561,9 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions
     public bool? ClearNetworkTags { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Applies the given network tags (comma separated) to the Cloud Run service. To clear existing tags, use --clear-network-tags.
+    /// Container Flags If the --container or --remove-containers flag is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Or at least one of these can be specified: Direct VPC egress setting flags group. At most one of these can be specified: Applies the given network tags (comma separated) to the Cloud Run service. To clear existing tags, use --clear-network-tags. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkTags { get; set; }
 
     /// <summary>

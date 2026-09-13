@@ -44,7 +44,7 @@ public class GcloudHealthcareHl7v2StoresExport
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudHealthcareHl7v2StoresExportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudHealthcareHl7v2StoresExportOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class GcloudHealthcareHl7v2StoresExport
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudHealthcareHl7v2StoresExportGcsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudHealthcareHl7v2StoresExportGcsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

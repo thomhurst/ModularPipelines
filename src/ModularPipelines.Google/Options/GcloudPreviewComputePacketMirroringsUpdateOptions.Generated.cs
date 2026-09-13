@@ -61,9 +61,9 @@ public record GcloudPreviewComputePacketMirroringsUpdateOptions(
     public string? Region { get; set; }
 
     /// <summary>
-    /// Update the filter CIDR ranges of this packet mirroring. At most one of these can be specified: List of filter CIDR ranges to add to the packet mirroring.
+    /// Update the filter CIDR ranges of this packet mirroring. At most one of these can be specified: List of filter CIDR ranges to add to the packet mirroring. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-filter-cidr-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-filter-cidr-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddFilterCidrRanges { get; set; }
 
     /// <summary>
@@ -73,21 +73,21 @@ public record GcloudPreviewComputePacketMirroringsUpdateOptions(
     public bool? ClearFilterCidrRanges { get; set; }
 
     /// <summary>
-    /// Update the filter CIDR ranges of this packet mirroring. At most one of these can be specified: List of filter CIDR ranges to remove from the packet mirroring.
+    /// Update the filter CIDR ranges of this packet mirroring. At most one of these can be specified: List of filter CIDR ranges to remove from the packet mirroring. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-filter-cidr-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-filter-cidr-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveFilterCidrRanges { get; set; }
 
     /// <summary>
-    /// Update the filter CIDR ranges of this packet mirroring. At most one of these can be specified: List of filter CIDR ranges to be mirrored on the packet mirroring.
+    /// Update the filter CIDR ranges of this packet mirroring. At most one of these can be specified: List of filter CIDR ranges to be mirrored on the packet mirroring. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-filter-cidr-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--set-filter-cidr-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SetFilterCidrRanges { get; set; }
 
     /// <summary>
-    /// Update the filter protocols of this packet mirroring. At most one of these can be specified: List of filter IP protocols to add to the packet mirroring. PROTOCOL can be one of tcp, udp, icmp, esp, ah, ipip, sctp, or an IANA protocol number.
+    /// Update the filter protocols of this packet mirroring. At most one of these can be specified: List of filter IP protocols to add to the packet mirroring. PROTOCOL can be one of tcp, udp, icmp, esp, ah, ipip, sctp, or an IANA protocol number. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-filter-protocols", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-filter-protocols", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddFilterProtocols { get; set; }
 
     /// <summary>
@@ -97,21 +97,21 @@ public record GcloudPreviewComputePacketMirroringsUpdateOptions(
     public bool? ClearFilterProtocols { get; set; }
 
     /// <summary>
-    /// Update the filter protocols of this packet mirroring. At most one of these can be specified: List of filter IP protocols to remove from the packet mirroring. PROTOCOL can be one of tcp, udp, icmp, esp, ah, ipip, sctp, or an IANA protocol number.
+    /// Update the filter protocols of this packet mirroring. At most one of these can be specified: List of filter IP protocols to remove from the packet mirroring. PROTOCOL can be one of tcp, udp, icmp, esp, ah, ipip, sctp, or an IANA protocol number. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-filter-protocols", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-filter-protocols", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveFilterProtocols { get; set; }
 
     /// <summary>
-    /// Update the filter protocols of this packet mirroring. At most one of these can be specified: List of filter IP protocols to be mirrored on the packet mirroring. PROTOCOL can be one of tcp, udp, icmp, esp, ah, ipip, sctp, or an IANA protocol number.
+    /// Update the filter protocols of this packet mirroring. At most one of these can be specified: List of filter IP protocols to be mirrored on the packet mirroring. PROTOCOL can be one of tcp, udp, icmp, esp, ah, ipip, sctp, or an IANA protocol number. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-filter-protocols", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--set-filter-protocols", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SetFilterProtocols { get; set; }
 
     /// <summary>
-    /// Update the mirrored instances of this packet mirroring. At most one of these can be specified: List of instances to add to the packet mirroring.
+    /// Update the mirrored instances of this packet mirroring. At most one of these can be specified: List of instances to add to the packet mirroring. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-mirrored-instances", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-mirrored-instances", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddMirroredInstances { get; set; }
 
     /// <summary>
@@ -121,21 +121,21 @@ public record GcloudPreviewComputePacketMirroringsUpdateOptions(
     public bool? ClearMirroredInstances { get; set; }
 
     /// <summary>
-    /// Update the mirrored instances of this packet mirroring. At most one of these can be specified: List of instances to remove from the packet mirroring.
+    /// Update the mirrored instances of this packet mirroring. At most one of these can be specified: List of instances to remove from the packet mirroring. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-mirrored-instances", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-mirrored-instances", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveMirroredInstances { get; set; }
 
     /// <summary>
-    /// Update the mirrored instances of this packet mirroring. At most one of these can be specified: List of instances to be mirrored on the packet mirroring.
+    /// Update the mirrored instances of this packet mirroring. At most one of these can be specified: List of instances to be mirrored on the packet mirroring. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-mirrored-instances", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--set-mirrored-instances", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SetMirroredInstances { get; set; }
 
     /// <summary>
-    /// Update the mirrored subnets of this packet mirroring. At most one of these can be specified: List of subnets to add to the packet mirroring.
+    /// Update the mirrored subnets of this packet mirroring. At most one of these can be specified: List of subnets to add to the packet mirroring. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-mirrored-subnets", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-mirrored-subnets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddMirroredSubnets { get; set; }
 
     /// <summary>
@@ -145,21 +145,21 @@ public record GcloudPreviewComputePacketMirroringsUpdateOptions(
     public bool? ClearMirroredSubnets { get; set; }
 
     /// <summary>
-    /// Update the mirrored subnets of this packet mirroring. At most one of these can be specified: List of subnets to remove from the packet mirroring.
+    /// Update the mirrored subnets of this packet mirroring. At most one of these can be specified: List of subnets to remove from the packet mirroring. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-mirrored-subnets", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-mirrored-subnets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveMirroredSubnets { get; set; }
 
     /// <summary>
-    /// Update the mirrored subnets of this packet mirroring. At most one of these can be specified: List of subnets to be mirrored on the packet mirroring.
+    /// Update the mirrored subnets of this packet mirroring. At most one of these can be specified: List of subnets to be mirrored on the packet mirroring. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-mirrored-subnets", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--set-mirrored-subnets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SetMirroredSubnets { get; set; }
 
     /// <summary>
-    /// Update the mirrored tags of this packet mirroring. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags The virtual machines with the provided tags must live in zones contained in the same region as this packet mirroring. At most one of these can be specified: List of tags to add to the packet mirroring.
+    /// Update the mirrored tags of this packet mirroring. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags The virtual machines with the provided tags must live in zones contained in the same region as this packet mirroring. At most one of these can be specified: List of tags to add to the packet mirroring. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-mirrored-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-mirrored-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddMirroredTags { get; set; }
 
     /// <summary>
@@ -169,15 +169,15 @@ public record GcloudPreviewComputePacketMirroringsUpdateOptions(
     public bool? ClearMirroredTags { get; set; }
 
     /// <summary>
-    /// Update the mirrored tags of this packet mirroring. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags The virtual machines with the provided tags must live in zones contained in the same region as this packet mirroring. At most one of these can be specified: List of tags to remove from the packet mirroring.
+    /// Update the mirrored tags of this packet mirroring. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags The virtual machines with the provided tags must live in zones contained in the same region as this packet mirroring. At most one of these can be specified: List of tags to remove from the packet mirroring. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-mirrored-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-mirrored-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveMirroredTags { get; set; }
 
     /// <summary>
-    /// Update the mirrored tags of this packet mirroring. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags The virtual machines with the provided tags must live in zones contained in the same region as this packet mirroring. At most one of these can be specified: List of tags to be mirrored on the packet mirroring.
+    /// Update the mirrored tags of this packet mirroring. To read more about configuring network tags, read this guide: https://cloud.google.com/vpc/docs/add-remove-network-tags The virtual machines with the provided tags must live in zones contained in the same region as this packet mirroring. At most one of these can be specified: List of tags to be mirrored on the packet mirroring. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-mirrored-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--set-mirrored-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SetMirroredTags { get; set; }
 
 }

@@ -146,9 +146,9 @@ public record GcloudComputeInstancesUpdateContainerOptions(
     public string? ContainerEnvFile { get; set; }
 
     /// <summary>
-    /// Removes environment variables KEY from container declaration Does nothing, if a variable is not present.
+    /// Removes environment variables KEY from container declaration Does nothing, if a variable is not present. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-container-env", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-container-env", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveContainerEnv { get; set; }
 
     /// <summary>
@@ -164,9 +164,9 @@ public record GcloudComputeInstancesUpdateContainerOptions(
     public string? ContainerMountTmpfs { get; set; }
 
     /// <summary>
-    /// Removes volume mounts (host-path, tmpfs, disk) with mountPath: MOUNTPATH from container declaration. Does nothing, if a volume mount is not declared.
+    /// Removes volume mounts (host-path, tmpfs, disk) with mountPath: MOUNTPATH from container declaration. Does nothing, if a volume mount is not declared. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-container-mounts", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-container-mounts", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveContainerMounts { get; set; }
 
 }

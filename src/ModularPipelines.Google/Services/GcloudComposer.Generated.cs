@@ -60,7 +60,7 @@ public class GcloudComposer : IGcloudComposer
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComposerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComposerOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

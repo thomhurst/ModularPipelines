@@ -64,9 +64,9 @@ public record GcloudAuthApplicationDefaultLoginOptions : GcloudOptions
     public string? LoginConfig { get; set; }
 
     /// <summary>
-    /// The names of the scopes to authorize for. By default openid, https://www.googleapis.com/auth/userinfo.email, https://www.googleapis.com/auth/cloud-platform, https://www.googleapis.com/auth/sqlservice.login scopes are used. The list of possible scopes can be found at: https://developers.google.com/identity/protocols/googlescopes. To add scopes for applications outside of Google Cloud Platform, such as Google Drive, create an OAuth Client ID (https://support.google.com/cloud/answer/6158849) and provide it by using the --client-id-file flag.
+    /// The names of the scopes to authorize for. By default openid, https://www.googleapis.com/auth/userinfo.email, https://www.googleapis.com/auth/cloud-platform, https://www.googleapis.com/auth/sqlservice.login scopes are used. The list of possible scopes can be found at: https://developers.google.com/identity/protocols/googlescopes. To add scopes for applications outside of Google Cloud Platform, such as Google Drive, create an OAuth Client ID (https://support.google.com/cloud/answer/6158849) and provide it by using the --client-id-file flag. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Scopes { get; set; }
 
 }

@@ -24,9 +24,9 @@ public record GcloudArtifactsDockerImagesScanOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// (DEPRECATED) A comma-separated list of package types to scan in addition to OS packages. This flag is deprecated as scanning for all package types is now the default. To skip scanning for specific package types, use --skip-package-types. ADDITIONAL_PACKAGE_TYPES must be one of: COMPOSER PHP Composer package. GO Go standard library and third party packages. MAVEN Maven package. NPM NPM package. NUGET NuGet package. PYTHON Python package. RUBYGEMS RubyGems package. RUST Rust package.
+    /// (DEPRECATED) A comma-separated list of package types to scan in addition to OS packages. This flag is deprecated as scanning for all package types is now the default. To skip scanning for specific package types, use --skip-package-types. ADDITIONAL_PACKAGE_TYPES must be one of: COMPOSER PHP Composer package. GO Go standard library and third party packages. MAVEN Maven package. NPM NPM package. NUGET NuGet package. PYTHON Python package. RUBYGEMS RubyGems package. RUST Rust package. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--additional-package-types", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--additional-package-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AdditionalPackageTypes { get; set; }
 
     /// <summary>
@@ -48,9 +48,9 @@ public record GcloudArtifactsDockerImagesScanOptions(
     public bool? Remote { get; set; }
 
     /// <summary>
-    /// A comma-separated list of package types to skip when scanning. SKIP_PACKAGE_TYPES must be one of: COMPOSER PHP Composer package. GO Go standard library and third party packages. MAVEN Maven package. NPM NPM package. NUGET NuGet package. PYTHON Python package. RUBYGEMS RubyGems package. RUST Rust package.
+    /// A comma-separated list of package types to skip when scanning. SKIP_PACKAGE_TYPES must be one of: COMPOSER PHP Composer package. GO Go standard library and third party packages. MAVEN Maven package. NPM NPM package. NUGET NuGet package. PYTHON Python package. RUBYGEMS RubyGems package. RUST Rust package. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--skip-package-types", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--skip-package-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SkipPackageTypes { get; set; }
 
 }

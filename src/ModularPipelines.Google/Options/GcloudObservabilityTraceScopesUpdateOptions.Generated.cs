@@ -28,9 +28,9 @@ public record GcloudObservabilityTraceScopesUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Names of the projects that are included in this trace scope. ◆ projects/[PROJECT_ID] A trace scope can include a maximum of 20 projects.
+    /// Names of the projects that are included in this trace scope. ◆ projects/[PROJECT_ID] A trace scope can include a maximum of 20 projects. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--resource-names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--resource-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ResourceNames { get; set; }
 
 }

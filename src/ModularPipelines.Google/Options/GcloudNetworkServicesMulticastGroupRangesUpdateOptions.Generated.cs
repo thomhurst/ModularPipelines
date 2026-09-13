@@ -71,21 +71,21 @@ public record GcloudNetworkServicesMulticastGroupRangesUpdateOptions : GcloudOpt
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
-    /// Update consumer_accept_list. At most one of these can be specified: Set consumer_accept_list to new value.
+    /// Update consumer_accept_list. At most one of these can be specified: Set consumer_accept_list to new value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--consumer-accept-list", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--consumer-accept-list", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ConsumerAcceptList { get; set; }
 
     /// <summary>
-    /// Update consumer_accept_list. At most one of these can be specified: Or at least one of these can be specified: Add new value to consumer_accept_list list.
+    /// Update consumer_accept_list. At most one of these can be specified: Or at least one of these can be specified: Add new value to consumer_accept_list list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-consumer-accept-list", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-consumer-accept-list", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddConsumerAcceptList { get; set; }
 
     /// <summary>
@@ -95,9 +95,9 @@ public record GcloudNetworkServicesMulticastGroupRangesUpdateOptions : GcloudOpt
     public bool? ClearConsumerAcceptList { get; set; }
 
     /// <summary>
-    /// Update consumer_accept_list. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from consumer_accept_list list.
+    /// Update consumer_accept_list. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from consumer_accept_list list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-consumer-accept-list", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-consumer-accept-list", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveConsumerAcceptList { get; set; }
 
 }

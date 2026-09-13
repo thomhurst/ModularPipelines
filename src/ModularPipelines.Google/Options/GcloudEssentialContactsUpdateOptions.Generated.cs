@@ -33,7 +33,7 @@ public record GcloudEssentialContactsUpdateOptions(
     /// <summary>
     /// list of notification categories contact is subscribed to. NOTIFICATION_CATEGORIES must be one of: all, billing, legal, notification-category-unspecified, product-updates, security, suspension, technical, technical-incidents.
     /// </summary>
-    [CliOption("--notification-categories", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--notification-categories", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public GcloudNotificationCategories? NotificationCategories { get; set; }
 
     /// <summary>

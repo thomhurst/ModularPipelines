@@ -35,16 +35,16 @@ public record GcloudAccessApprovalSettingsUpdateOptions : GcloudOptions
     public GcloudApprovalPolicy? ApprovalPolicy { get; set; }
 
     /// <summary>
-    /// Comma-separated list of services to enroll for Access Approval or 'all' for all supported services. Note for project and folder enrollments, only 'all' is supported. Use '' to clear all enrolled services.
+    /// Comma-separated list of services to enroll for Access Approval or 'all' for all supported services. Note for project and folder enrollments, only 'all' is supported. Use '' to clear all enrolled services. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--enrolled_services", Format = OptionFormat.EqualsSeparated)]
-    public string? EnrolledServices { get; set; }
+    [CliOption("--enrolled_services", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? EnrolledServices { get; set; }
 
     /// <summary>
-    /// Comma-separated list of email addresses to which notifications relating to approval requests should be sent or '' to clear all saved notification emails.
+    /// Comma-separated list of email addresses to which notifications relating to approval requests should be sent or '' to clear all saved notification emails. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--notification_emails", Format = OptionFormat.EqualsSeparated)]
-    public string? NotificationEmails { get; set; }
+    [CliOption("--notification_emails", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? NotificationEmails { get; set; }
 
     /// <summary>
     /// The pubsub topic to publish notifications to when approval requests are made.

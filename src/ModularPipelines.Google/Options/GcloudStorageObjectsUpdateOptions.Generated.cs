@@ -82,9 +82,9 @@ public record GcloudStorageObjectsUpdateOptions : GcloudOptions
     public string? AclFile { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage,--add-acl-grant=entity=user-tim@gmail.com,role=OWNER
+    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage,--add-acl-grant=entity=user-tim@gmail.com,role=OWNER Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-acl-grant", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-acl-grant", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddAclGrant { get; set; }
 
     /// <summary>

@@ -41,9 +41,9 @@ public record GcloudNetworkConnectivityHubsGroupsUpdateOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// These flags modify the member auto-accept projects of this group. This controls the list of project ids or project numbers for which auto-accept is enabled for the group. At most one of these can be specified: Append the given values to the current auto-accept projects.
+    /// These flags modify the member auto-accept projects of this group. This controls the list of project ids or project numbers for which auto-accept is enabled for the group. At most one of these can be specified: Append the given values to the current auto-accept projects. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-auto-accept-projects", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-auto-accept-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddAutoAcceptProjects { get; set; }
 
     /// <summary>
@@ -53,9 +53,9 @@ public record GcloudNetworkConnectivityHubsGroupsUpdateOptions : GcloudOptions
     public bool? ClearAutoAcceptProjects { get; set; }
 
     /// <summary>
-    /// These flags modify the member auto-accept projects of this group. This controls the list of project ids or project numbers for which auto-accept is enabled for the group. At most one of these can be specified: Remove the given values from the current auto-accept projects.
+    /// These flags modify the member auto-accept projects of this group. This controls the list of project ids or project numbers for which auto-accept is enabled for the group. At most one of these can be specified: Remove the given values from the current auto-accept projects. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-auto-accept-projects", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-auto-accept-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveAutoAcceptProjects { get; set; }
 
     /// <summary>
@@ -65,9 +65,9 @@ public record GcloudNetworkConnectivityHubsGroupsUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
 }

@@ -204,7 +204,7 @@ public class GcloudOracleDatabase : IGcloudOracleDatabase
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudOracleDatabaseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudOracleDatabaseOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

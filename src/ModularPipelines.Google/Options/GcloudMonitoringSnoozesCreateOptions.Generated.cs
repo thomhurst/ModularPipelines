@@ -34,9 +34,9 @@ public record GcloudMonitoringSnoozesCreateOptions : GcloudOptions
     public string? CriteriaFilter { get; set; }
 
     /// <summary>
-    /// Snooze Settings. If any of these are specified, they will overwrite fields in the --snooze-from-file flags if specified. The policies that the Snooze applies to. Exactly 1 alert policy is required if criteria-filter is specified at the same time.
+    /// Snooze Settings. If any of these are specified, they will overwrite fields in the --snooze-from-file flags if specified. The policies that the Snooze applies to. Exactly 1 alert policy is required if criteria-filter is specified at the same time. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--criteria-policies", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--criteria-policies", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CriteriaPolicies { get; set; }
 
     /// <summary>

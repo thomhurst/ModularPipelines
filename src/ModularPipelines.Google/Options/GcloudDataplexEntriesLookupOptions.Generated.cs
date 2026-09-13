@@ -22,15 +22,15 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataplexEntriesLookupOptions : GcloudOptions
 {
     /// <summary>
-    /// Limits the aspects returned to the provided aspect types. Only works if the --view=custom is selected. For example, if two aspect types are specified: "projects/projectA/locations/us-central1/my-aspect-type,projects/projectB/locations/us/my-aspect-type2" then only aspects matching these aspect types will be returned. Can be further constrained by the --paths argument.
+    /// Limits the aspects returned to the provided aspect types. Only works if the --view=custom is selected. For example, if two aspect types are specified: "projects/projectA/locations/us-central1/my-aspect-type,projects/projectB/locations/us/my-aspect-type2" then only aspects matching these aspect types will be returned. Can be further constrained by the --paths argument. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--aspect-types", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--aspect-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AspectTypes { get; set; }
 
     /// <summary>
-    /// Limits the aspects returned to those associated with the provided paths within the Entry. Only works if the --view=custom is selected. For example, if two paths are specified: "--paths=property1,property2" then only aspects on these paths will be returned. To return aspects without any path, the empty (root) path can be specified. For this "." can be used. For example, when "--paths=.,property1" are specified, then only aspects on the path "property1" and on the entry itself will be returned. Can be further constrained by --aspect-types argument.
+    /// Limits the aspects returned to those associated with the provided paths within the Entry. Only works if the --view=custom is selected. For example, if two paths are specified: "--paths=property1,property2" then only aspects on these paths will be returned. To return aspects without any path, the empty (root) path can be specified. For this "." can be used. For example, when "--paths=.,property1" are specified, then only aspects on the path "property1" and on the entry itself will be returned. Can be further constrained by --aspect-types argument. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--paths", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--paths", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Paths { get; set; }
 
     /// <summary>

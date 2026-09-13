@@ -35,9 +35,9 @@ public record GcloudNetworkConnectivitySpokesLinkedVpcNetworkUpdateOptions : Gcl
     public string? Description { get; set; }
 
     /// <summary>
-    /// New exclude export ranges of the spoke.
+    /// New exclude export ranges of the spoke. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--exclude-export-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--exclude-export-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ExcludeExportRanges { get; set; }
 
     /// <summary>
@@ -47,9 +47,9 @@ public record GcloudNetworkConnectivitySpokesLinkedVpcNetworkUpdateOptions : Gcl
     public bool? Global { get; set; }
 
     /// <summary>
-    /// New include export ranges of the spoke.
+    /// New include export ranges of the spoke. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--include-export-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--include-export-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? IncludeExportRanges { get; set; }
 
     /// <summary>
@@ -65,9 +65,9 @@ public record GcloudNetworkConnectivitySpokesLinkedVpcNetworkUpdateOptions : Gcl
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
 }

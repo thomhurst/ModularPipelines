@@ -131,9 +131,9 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions
     public string? AclFile { get; set; }
 
     /// <summary>
-    /// Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage,--add-acl-grant=entity=user-tim@gmail.com,role=OWNER
+    /// Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage,--add-acl-grant=entity=user-tim@gmail.com,role=OWNER Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-acl-grant", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-acl-grant", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddAclGrant { get; set; }
 
     /// <summary>
@@ -149,9 +149,9 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions
     public string? RemoveAclGrant { get; set; }
 
     /// <summary>
-    /// Adds default object ACL grant. See --add-acl-grant help text for more details.
+    /// Adds default object ACL grant. See --add-acl-grant help text for more details. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-default-object-acl-grant", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-default-object-acl-grant", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddDefaultObjectAclGrant { get; set; }
 
     /// <summary>
@@ -221,15 +221,15 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions
     public string? LabelsFile { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Remove labels by their key names.
+    /// At most one of these can be specified: Or at least one of these can be specified: Remove labels by their key names. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Add or update labels. Example: --update-labels=key1=value1,key2=value2
+    /// At most one of these can be specified: Or at least one of these can be specified: Add or update labels. Example: --update-labels=key1=value1,key2=value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? UpdateLabels { get; set; }
 
     /// <summary>

@@ -79,9 +79,9 @@ public record GcloudAiPlatformJobsSubmitTrainingOptions(
     public string? PackagePath { get; set; }
 
     /// <summary>
-    /// Path to Python archives used for training. These can be local paths (absolute or relative), in which case they will be uploaded to the Cloud Storage bucket given by --staging-bucket, or Cloud Storage URLs ('gs://bucket-name/path/to/package.tar.gz').
+    /// Path to Python archives used for training. These can be local paths (absolute or relative), in which case they will be uploaded to the Cloud Storage bucket given by --staging-bucket, or Cloud Storage URLs ('gs://bucket-name/path/to/package.tar.gz'). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--packages", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--packages", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Packages { get; set; }
 
     /// <summary>

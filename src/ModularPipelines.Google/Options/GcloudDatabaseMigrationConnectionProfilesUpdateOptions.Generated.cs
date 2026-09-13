@@ -121,9 +121,9 @@ public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOpt
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
@@ -180,5 +180,37 @@ public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOpt
     /// </summary>
     [CliFlag("--static-ip-connectivity")]
     public bool? StaticIpConnectivity { get; set; }
+
+    /// <summary>
+    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Hostname for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--forward-ssh-hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshHostname { get; set; }
+
+    /// <summary>
+    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Username for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--forward-ssh-username", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshUsername { get; set; }
+
+    /// <summary>
+    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Port for the SSH tunnel, default value is 22.
+    /// </summary>
+    [CliOption("--forward-ssh-port", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshPort { get; set; }
+
+    /// <summary>
+    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Exactly one of these must be specified: SSH password.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--forward-ssh-password", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshPassword { get; set; }
+
+    /// <summary>
+    /// ▸ provide the argument --psc-service-attachment on the command line. Or at least one of these can be specified: Exactly one of these must be specified: SSH private key..
+    /// </summary>
+    [SecretValue]
+    [CliOption("--forward-ssh-private-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ForwardSshPrivateKey { get; set; }
 
 }

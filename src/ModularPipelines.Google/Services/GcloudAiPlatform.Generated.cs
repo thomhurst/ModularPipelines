@@ -78,7 +78,7 @@ public class GcloudAiPlatform : IGcloudAiPlatform
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAiPlatformOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAiPlatformOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ public class GcloudAiPlatform : IGcloudAiPlatform
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAiPlatformPredictOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAiPlatformPredictOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

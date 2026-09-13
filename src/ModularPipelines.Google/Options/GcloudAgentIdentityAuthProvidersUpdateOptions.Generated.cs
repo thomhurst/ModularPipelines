@@ -35,15 +35,15 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update allowed_scopes. At most one of these can be specified: Set allowed_scopes to new value.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update allowed_scopes. At most one of these can be specified: Set allowed_scopes to new value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--allowed-scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--allowed-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AllowedScopes { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to allowed_scopes list.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to allowed_scopes list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-allowed-scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-allowed-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddAllowedScopes { get; set; }
 
     /// <summary>
@@ -53,21 +53,21 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     public bool? ClearAllowedScopes { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from allowed_scopes list.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from allowed_scopes list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-allowed-scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-allowed-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveAllowedScopes { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update blocked_scopes. At most one of these can be specified: Set blocked_scopes to new value.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update blocked_scopes. At most one of these can be specified: Set blocked_scopes to new value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--blocked-scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--blocked-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? BlockedScopes { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to blocked_scopes list.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to blocked_scopes list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-blocked-scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-blocked-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddBlockedScopes { get; set; }
 
     /// <summary>
@@ -77,9 +77,9 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     public bool? ClearBlockedScopes { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from blocked_scopes list.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from blocked_scopes list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-blocked-scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-blocked-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveBlockedScopes { get; set; }
 
     /// <summary>
@@ -184,15 +184,15 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     public string? RemoveLabels { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update workload_ids. At most one of these can be specified: Set workload_ids to new value.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update workload_ids. At most one of these can be specified: Set workload_ids to new value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--workload-ids", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--workload-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? WorkloadIds { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update workload_ids. At most one of these can be specified: Or at least one of these can be specified: Add new value to workload_ids list.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update workload_ids. At most one of these can be specified: Or at least one of these can be specified: Add new value to workload_ids list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-workload-ids", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-workload-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddWorkloadIds { get; set; }
 
     /// <summary>
@@ -202,9 +202,9 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     public bool? ClearWorkloadIds { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update workload_ids. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from workload_ids list.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update workload_ids. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from workload_ids list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-workload-ids", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-workload-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveWorkloadIds { get; set; }
 
 }

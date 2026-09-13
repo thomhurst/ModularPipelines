@@ -96,9 +96,9 @@ public record GcloudMetastoreServicesCreateOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Encryption configuration for the metastore service. Information used to configure the Hive metastore service as a service principal in a Kerberos realm. The one hour maintenance window that specifies when Dataproc Metastore may perform system maintenance operation to the service, in UTC time. Auxiliary versions configuration for the Dataproc Metastore service. When specified, a secondary Hive metastore service is created along with the primary service. At most one of these can be specified: Comma-separated list of auxiliary Hive metastore versions to deploy. Auxiliary Hive metastore versions must be less than the primary Hive metastore service's version.
+    /// Encryption configuration for the metastore service. Information used to configure the Hive metastore service as a service principal in a Kerberos realm. The one hour maintenance window that specifies when Dataproc Metastore may perform system maintenance operation to the service, in UTC time. Auxiliary versions configuration for the Dataproc Metastore service. When specified, a secondary Hive metastore service is created along with the primary service. At most one of these can be specified: Comma-separated list of auxiliary Hive metastore versions to deploy. Auxiliary Hive metastore versions must be less than the primary Hive metastore service's version. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--auxiliary-versions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--auxiliary-versions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AuxiliaryVersions { get; set; }
 
     /// <summary>
@@ -108,9 +108,9 @@ public record GcloudMetastoreServicesCreateOptions : GcloudOptions
     public string? AuxiliaryVersionsFromFile { get; set; }
 
     /// <summary>
-    /// Encryption configuration for the metastore service. Information used to configure the Hive metastore service as a service principal in a Kerberos realm. The one hour maintenance window that specifies when Dataproc Metastore may perform system maintenance operation to the service, in UTC time. Network configuration for the metastore service. At most one of these can be specified: The list of subnetworks from which the service can be accessed. This can be the subnetwork's ID, fully-qualified URL, or relative name in the form projects/{project_id}/regions/{region_id}/subnetworks/{subnetwork}.
+    /// Encryption configuration for the metastore service. Information used to configure the Hive metastore service as a service principal in a Kerberos realm. The one hour maintenance window that specifies when Dataproc Metastore may perform system maintenance operation to the service, in UTC time. Network configuration for the metastore service. At most one of these can be specified: The list of subnetworks from which the service can be accessed. This can be the subnetwork's ID, fully-qualified URL, or relative name in the form projects/{project_id}/regions/{region_id}/subnetworks/{subnetwork}. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--consumer-subnetworks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--consumer-subnetworks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ConsumerSubnetworks { get; set; }
 
     /// <summary>

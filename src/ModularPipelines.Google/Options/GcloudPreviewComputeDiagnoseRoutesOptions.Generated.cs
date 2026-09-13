@@ -89,9 +89,9 @@ public record GcloudPreviewComputeDiagnoseRoutesOptions : GcloudOptions
     public string? User { get; set; }
 
     /// <summary>
-    /// If provided, only resources from the given zones are queried.
+    /// If provided, only resources from the given zones are queried. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--zones", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--zones", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Zones { get; set; }
 
     /// <summary>

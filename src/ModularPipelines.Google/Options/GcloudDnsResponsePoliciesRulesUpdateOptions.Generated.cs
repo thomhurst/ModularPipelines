@@ -35,9 +35,9 @@ public record GcloudDnsResponsePoliciesRulesUpdateOptions : GcloudOptions
     public string? DnsName { get; set; }
 
     /// <summary>
-    /// All resource record sets for this selector, one per resource record type. The name must match the dns_name. This is a repeated argument that can be specified multiple times to specify multiple local data rrsets. (e.g. --local-data=name="zone.com.",type="A",ttl=21600,rrdata="1.2.3.4 " --local-data=name="www.zone.com.",type="CNAME",ttl=21600,rrdata="1.2.3.4|5.6.7.8") name The DnsName of a resource record set. type Type of all resource records in this set. For example, A, AAAA, SOA, MX, NS, TXT ... ttl Number of seconds that this ResourceRecordSet can be cached by resolvers. rrdatas The list of datas for this record, split by "|".
+    /// All resource record sets for this selector, one per resource record type. The name must match the dns_name. This is a repeated argument that can be specified multiple times to specify multiple local data rrsets. (e.g. --local-data=name="zone.com.",type="A",ttl=21600,rrdata="1.2.3.4 " --local-data=name="www.zone.com.",type="CNAME",ttl=21600,rrdata="1.2.3.4|5.6.7.8") name The DnsName of a resource record set. type Type of all resource records in this set. For example, A, AAAA, SOA, MX, NS, TXT ... ttl Number of seconds that this ResourceRecordSet can be cached by resolvers. rrdatas The list of datas for this record, split by "|". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--local-data", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--local-data", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? LocalData { get; set; }
 
     /// <summary>

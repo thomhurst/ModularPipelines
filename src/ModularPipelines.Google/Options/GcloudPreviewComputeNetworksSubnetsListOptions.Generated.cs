@@ -34,9 +34,9 @@ public record GcloudPreviewComputeNetworksSubnetsListOptions : GcloudOptions
     public string? Regexp { get; set; }
 
     /// <summary>
-    /// If provided, only resources from the given regions are queried.
+    /// If provided, only resources from the given regions are queried. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--regions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--regions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Regions { get; set; }
 
     /// <summary>

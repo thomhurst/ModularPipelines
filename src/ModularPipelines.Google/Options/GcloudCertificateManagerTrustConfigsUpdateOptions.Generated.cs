@@ -23,9 +23,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudCertificateManagerTrustConfigsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Add allowlisted PEM-encoded certificates. Certificates should be provided in files. For multiple file names, separate them by a comma (','). One file can contain multiple certificates. Examples: Single file: --add-allowlisted-certificates=ac.pem Multiple files: --add-allowlisted-certificates=ac1.pem,ac2.pem
+    /// Add allowlisted PEM-encoded certificates. Certificates should be provided in files. For multiple file names, separate them by a comma (','). One file can contain multiple certificates. Examples: Single file: --add-allowlisted-certificates=ac.pem Multiple files: --add-allowlisted-certificates=ac1.pem,ac2.pem Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-allowlisted-certificates", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-allowlisted-certificates", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddAllowlistedCertificates { get; set; }
 
     /// <summary>
@@ -59,9 +59,9 @@ public record GcloudCertificateManagerTrustConfigsUpdateOptions : GcloudOptions
     public bool? ClearAllowlistedCertificates { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Remove allowlisted PEM-encoded certificates. Certificates should be provided in files. For multiple file names, separate them by a comma (','). One file can contain multiple certificates. Examples: Single file: --remove-allowlisted-certificates=ac.pem Multiple files: --remove-allowlisted-certificates=ac1.pem,ac2.pem
+    /// At most one of these can be specified: Remove allowlisted PEM-encoded certificates. Certificates should be provided in files. For multiple file names, separate them by a comma (','). One file can contain multiple certificates. Examples: Single file: --remove-allowlisted-certificates=ac.pem Multiple files: --remove-allowlisted-certificates=ac1.pem,ac2.pem Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-allowlisted-certificates", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-allowlisted-certificates", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveAllowlistedCertificates { get; set; }
 
     /// <summary>
@@ -71,9 +71,9 @@ public record GcloudCertificateManagerTrustConfigsUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
 }

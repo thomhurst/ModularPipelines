@@ -28,9 +28,9 @@ public record GcloudDnsResponsePoliciesUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// The comma-separated list of GKE cluster names to associate with the response policy.
+    /// The comma-separated list of GKE cluster names to associate with the response policy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--gkeclusters", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--gkeclusters", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Gkeclusters { get; set; }
 
     /// <summary>
@@ -40,9 +40,9 @@ public record GcloudDnsResponsePoliciesUpdateOptions : GcloudOptions
     public string? Location { get; set; }
 
     /// <summary>
-    /// The comma-separated list of network names to associate with the response policy.
+    /// The comma-separated list of network names to associate with the response policy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--networks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Networks { get; set; }
 
 }

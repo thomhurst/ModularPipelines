@@ -118,15 +118,15 @@ public record GcloudNetworkManagementVpcFlowLogsConfigsUpdateOptions : GcloudOpt
     public string? RemoveLabels { get; set; }
 
     /// <summary>
-    /// Arguments for the state. Update metadata_fields. At most one of these can be specified: Set metadata_fields to new value.
+    /// Arguments for the state. Update metadata_fields. At most one of these can be specified: Set metadata_fields to new value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MetadataFields { get; set; }
 
     /// <summary>
-    /// Arguments for the state. Update metadata_fields. At most one of these can be specified: Or at least one of these can be specified: Add new value to metadata_fields list.
+    /// Arguments for the state. Update metadata_fields. At most one of these can be specified: Or at least one of these can be specified: Add new value to metadata_fields list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-metadata-fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddMetadataFields { get; set; }
 
     /// <summary>
@@ -136,9 +136,9 @@ public record GcloudNetworkManagementVpcFlowLogsConfigsUpdateOptions : GcloudOpt
     public bool? ClearMetadataFields { get; set; }
 
     /// <summary>
-    /// Arguments for the state. Update metadata_fields. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from metadata_fields list.
+    /// Arguments for the state. Update metadata_fields. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from metadata_fields list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-metadata-fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveMetadataFields { get; set; }
 
 }

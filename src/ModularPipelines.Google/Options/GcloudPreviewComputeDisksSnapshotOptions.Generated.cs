@@ -61,9 +61,9 @@ public record GcloudPreviewComputeDisksSnapshotOptions(
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Names to assign to the created snapshots. Without this option, the name of each snapshot will be a random 12-character alphanumeric string that starts with a letter. The values of this option run parallel to the disks specified. For example, gcloud preview compute disks snapshot my-disk-1 my-disk-2 my-disk-3 --snapshot-names snapshot-1,snapshot-2,snapshot-3 will result in my-disk-1 being snapshotted as snapshot-1, my-disk-2 as snapshot-2, and so on. The name must match the (?:[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?) regular expression, which means it must start with an alphabetic character followed by one or more alphanumeric characters or dashes. The name must not exceed 63 characters and must not contain special symbols. All characters must be lowercase.
+    /// Names to assign to the created snapshots. Without this option, the name of each snapshot will be a random 12-character alphanumeric string that starts with a letter. The values of this option run parallel to the disks specified. For example, gcloud preview compute disks snapshot my-disk-1 my-disk-2 my-disk-3 --snapshot-names snapshot-1,snapshot-2,snapshot-3 will result in my-disk-1 being snapshotted as snapshot-1, my-disk-2 as snapshot-2, and so on. The name must match the (?:[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?) regular expression, which means it must start with an alphabetic character followed by one or more alphanumeric characters or dashes. The name must not exceed 63 characters and must not contain special symbols. All characters must be lowercase. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--snapshot-names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--snapshot-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SnapshotNames { get; set; }
 
     /// <summary>

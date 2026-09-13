@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPubsubTopicsPublishOptions : GcloudOptions
 {
     /// <summary>
-    /// Comma-separated list of attributes. Each ATTRIBUTE has the form name="value". You can specify up to 100 attributes.
+    /// Comma-separated list of attributes. Each ATTRIBUTE has the form name="value". You can specify up to 100 attributes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--attribute", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--attribute", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Attribute { get; set; }
 
     /// <summary>

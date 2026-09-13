@@ -60,7 +60,7 @@ public class GcloudVectorSearch : IGcloudVectorSearch
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVectorSearchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVectorSearchOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

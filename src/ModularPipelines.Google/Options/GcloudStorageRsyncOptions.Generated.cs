@@ -78,15 +78,15 @@ public record GcloudStorageRsyncOptions(
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Exclude objects matching regex pattern from rsync. Note that this is a Python regular expression, not a pure wildcard pattern. For example, matching a string ending in "abc" is .*abc$ rather than *abc. Also note that the exclude path is relative, as opposed to absolute (similar to Linux rsync and tar exclude options). For the Windows cmd.exe command line interpreter, use ^ as an escape character instead of \ and escape the | character. When using Windows PowerShell, use ' instead of " and surround the | character with ".
+    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Exclude objects matching regex pattern from rsync. Note that this is a Python regular expression, not a pure wildcard pattern. For example, matching a string ending in "abc" is .*abc$ rather than *abc. Also note that the exclude path is relative, as opposed to absolute (similar to Linux rsync and tar exclude options). For the Windows cmd.exe command line interpreter, use ^ as an escape character instead of \ and escape the | character. When using Windows PowerShell, use ' instead of " and surround the | character with ". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Exclude { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Applies gzip transport encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This also saves network bandwidth while leaving the data uncompressed in Cloud Storage. When you specify the --gzip-in-flight option, files being uploaded are compressed in-memory and on-the-wire only. Both the local files and Cloud Storage objects remain uncompressed. The uploaded objects retain the Content-Type and name of the original files.
+    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Applies gzip transport encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This also saves network bandwidth while leaving the data uncompressed in Cloud Storage. When you specify the --gzip-in-flight option, files being uploaded are compressed in-memory and on-the-wire only. Both the local files and Cloud Storage objects remain uncompressed. The uploaded objects retain the Content-Type and name of the original files. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--gzip-in-flight", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--gzip-in-flight", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? GzipInFlight { get; set; }
 
     /// <summary>

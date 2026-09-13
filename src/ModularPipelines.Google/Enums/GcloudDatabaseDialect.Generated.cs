@@ -16,9 +16,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudDatabaseDialect
 {
-    [EnumValue("POSTGRESQL")]
-    Postgresql,
-
     [EnumValue("GOOGLE_STANDARD_SQL")]
-    GoogleStandardSql
+    GoogleStandardSql,
+
+    [EnumValue("POSTGRESQL")]
+    Postgresql
 }

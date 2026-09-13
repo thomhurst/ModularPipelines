@@ -28,9 +28,9 @@ public record GcloudDataCatalogTagTemplatesFieldsUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Comma-separated list of enum values. The list of enum values passed with this flag replaces the existing one in tag template enum field. That means: ◆ the enum values passed to the flag and not present in tag template enum field get created ◆ the enum values present in tag template enum field and missing in the list get removed ◆ the order of the items on the list is preserved Enum values can only be removed from optional enum fields for now.
+    /// Comma-separated list of enum values. The list of enum values passed with this flag replaces the existing one in tag template enum field. That means: ◆ the enum values passed to the flag and not present in tag template enum field get created ◆ the enum values present in tag template enum field and missing in the list get removed ◆ the order of the items on the list is preserved Enum values can only be removed from optional enum fields for now. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--enum-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--enum-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? EnumValues { get; set; }
 
     /// <summary>

@@ -34,9 +34,9 @@ public record GcloudApihubDeploymentsUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The endpoints at which this deployment resource is listening for API requests. This could be a list of complete URIs, hostnames or an IP addresses.
+    /// The endpoints at which this deployment resource is listening for API requests. This could be a list of complete URIs, hostnames or an IP addresses. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--endpoints", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--endpoints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Endpoints { get; set; }
 
     /// <summary>
@@ -88,21 +88,21 @@ public record GcloudApihubDeploymentsUpdateOptions : GcloudOptions
     public bool? ClearDeploymentType { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Documentation details. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Documentation details. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--deployment-type-json-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--deployment-type-json-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DeploymentTypeJsonValues { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Documentation details. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Documentation details. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--deployment-type-string-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--deployment-type-string-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DeploymentTypeStringValues { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Documentation details. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Documentation details. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--deployment-type-uri-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--deployment-type-uri-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DeploymentTypeUriValues { get; set; }
 
     /// <summary>
@@ -148,21 +148,21 @@ public record GcloudApihubDeploymentsUpdateOptions : GcloudOptions
     public bool? ClearEnvironment { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--environment-json-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--environment-json-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? EnvironmentJsonValues { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--environment-string-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--environment-string-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? EnvironmentStringValues { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--environment-uri-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--environment-uri-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? EnvironmentUriValues { get; set; }
 
     /// <summary>
@@ -196,21 +196,21 @@ public record GcloudApihubDeploymentsUpdateOptions : GcloudOptions
     public bool? ClearManagementUrl { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--management-url-json-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--management-url-json-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ManagementUrlJsonValues { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--management-url-string-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--management-url-string-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ManagementUrlStringValues { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--management-url-uri-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--management-url-uri-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ManagementUrlUriValues { get; set; }
 
     /// <summary>
@@ -244,21 +244,21 @@ public record GcloudApihubDeploymentsUpdateOptions : GcloudOptions
     public bool? ClearSlo { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--slo-json-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--slo-json-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SloJsonValues { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--slo-string-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--slo-string-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SloStringValues { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--slo-uri-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--slo-uri-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SloUriValues { get; set; }
 
     /// <summary>
@@ -292,21 +292,21 @@ public record GcloudApihubDeploymentsUpdateOptions : GcloudOptions
     public bool? ClearSourceUri { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--source-uri-json-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--source-uri-json-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SourceUriJsonValues { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--source-uri-string-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--source-uri-string-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SourceUriStringValues { get; set; }
 
     /// <summary>
-    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--source-uri-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--source-uri-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SourceUriValues { get; set; }
 
     /// <summary>

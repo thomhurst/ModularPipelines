@@ -25,15 +25,15 @@ public record GcloudComputeBackendBucketsUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Specifies a comma-separated list of HTTP headers, by field name, to include in cache keys. Only the request URL is included in the cache key by default.
+    /// Specifies a comma-separated list of HTTP headers, by field name, to include in cache keys. Only the request URL is included in the cache key by default. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--cache-key-include-http-header", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--cache-key-include-http-header", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CacheKeyIncludeHttpHeader { get; set; }
 
     /// <summary>
-    /// Specifies a comma-separated list of query string parameters to include in cache keys. Default parameters are always included. '&amp;' and '=' are percent encoded and not treated as delimiters.
+    /// Specifies a comma-separated list of query string parameters to include in cache keys. Default parameters are always included. '&amp;' and '=' are percent encoded and not treated as delimiters. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--cache-key-query-string-whitelist", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--cache-key-query-string-whitelist", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CacheKeyQueryStringWhitelist { get; set; }
 
     /// <summary>

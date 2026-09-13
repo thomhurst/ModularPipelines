@@ -30,9 +30,9 @@ public record GcloudComputeSoleTenancyNodeGroupsSimulateMaintenanceEventOptions(
     public bool? Async { get; set; }
 
     /// <summary>
-    /// The names of the nodes to simulate maintenance event.
+    /// The names of the nodes to simulate maintenance event. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Nodes { get; set; }
 
     /// <summary>

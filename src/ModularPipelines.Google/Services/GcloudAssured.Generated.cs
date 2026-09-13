@@ -60,7 +60,7 @@ public class GcloudAssured : IGcloudAssured
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAssuredOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAssuredOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

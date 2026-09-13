@@ -50,6 +50,18 @@ public record GcloudComputeInstancesUpdateOptions(
     public bool? NoEnableDisplayDevice { get; set; }
 
     /// <summary>
+    /// If true, exposes the hashed physical host ID in the VM's ResourceStatus. Use --expose-host-topology to enable and --no-expose-host-topology to disable.
+    /// </summary>
+    [CliFlag("--expose-host-topology")]
+    public bool? ExposeHostTopology { get; set; }
+
+    /// <summary>
+    /// Negates --expose-host-topology. If true, exposes the hashed physical host ID in the VM's ResourceStatus. Use --expose-host-topology to enable and --no-expose-host-topology to disable.
+    /// </summary>
+    [CliFlag("--no-expose-host-topology")]
+    public bool? NoExposeHostTopology { get; set; }
+
+    /// <summary>
     /// Enables or disables graceful shutdown for the instance. Use --graceful-shutdown to enable and --no-graceful-shutdown to disable.
     /// </summary>
     [CliFlag("--graceful-shutdown")]
@@ -158,9 +170,9 @@ public record GcloudComputeInstancesUpdateOptions(
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>

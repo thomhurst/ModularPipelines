@@ -60,9 +60,9 @@ public record GcloudComputeInstanceGroupsManagedUpdateOptions(
     public string? InstanceSelection { get; set; }
 
     /// <summary>
-    /// Parameters for setting distribution policy. Stateful policy settings for the managed instance group. Parameters for setting standby policy. Parameters for setting update policy for this managed instance group. A single selection of machine types. If not provided, the machine type specified in the instance template is used.
+    /// Parameters for setting distribution policy. Stateful policy settings for the managed instance group. Parameters for setting standby policy. Parameters for setting update policy for this managed instance group. A single selection of machine types. If not provided, the machine type specified in the instance template is used. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--instance-selection-machine-types", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--instance-selection-machine-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? InstanceSelectionMachineTypes { get; set; }
 
     /// <summary>
@@ -78,9 +78,9 @@ public record GcloudComputeInstanceGroupsManagedUpdateOptions(
     public string? OnRepairAllowChangingZone { get; set; }
 
     /// <summary>
-    /// Parameters for setting distribution policy. Stateful policy settings for the managed instance group. Parameters for setting standby policy. Parameters for setting update policy for this managed instance group. Remove specific instance selections from the instance flexibility policy.
+    /// Parameters for setting distribution policy. Stateful policy settings for the managed instance group. Parameters for setting standby policy. Parameters for setting update policy for this managed instance group. Remove specific instance selections from the instance flexibility policy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-instance-selections", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-instance-selections", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveInstanceSelections { get; set; }
 
     /// <summary>
@@ -168,21 +168,21 @@ public record GcloudComputeInstanceGroupsManagedUpdateOptions(
     public string? Zone { get; set; }
 
     /// <summary>
-    /// Parameters for setting distribution policy. Stateful policy settings for the managed instance group. Parameters for setting standby policy. Parameters for setting update policy for this managed instance group. Remove stateful configuration for the specified disks.
+    /// Parameters for setting distribution policy. Stateful policy settings for the managed instance group. Parameters for setting standby policy. Parameters for setting update policy for this managed instance group. Remove stateful configuration for the specified disks. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-stateful-disks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-stateful-disks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveStatefulDisks { get; set; }
 
     /// <summary>
-    /// Parameters for setting distribution policy. Stateful policy settings for the managed instance group. Parameters for setting standby policy. Parameters for setting update policy for this managed instance group. Remove stateful configuration for the specified interfaces for external IPs.
+    /// Parameters for setting distribution policy. Stateful policy settings for the managed instance group. Parameters for setting standby policy. Parameters for setting update policy for this managed instance group. Remove stateful configuration for the specified interfaces for external IPs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-stateful-external-ips", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-stateful-external-ips", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveStatefulExternalIps { get; set; }
 
     /// <summary>
-    /// Parameters for setting distribution policy. Stateful policy settings for the managed instance group. Parameters for setting standby policy. Parameters for setting update policy for this managed instance group. Remove stateful configuration for the specified interfaces for internal IPs.
+    /// Parameters for setting distribution policy. Stateful policy settings for the managed instance group. Parameters for setting standby policy. Parameters for setting update policy for this managed instance group. Remove stateful configuration for the specified interfaces for internal IPs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-stateful-internal-ips", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-stateful-internal-ips", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveStatefulInternalIps { get; set; }
 
     /// <summary>

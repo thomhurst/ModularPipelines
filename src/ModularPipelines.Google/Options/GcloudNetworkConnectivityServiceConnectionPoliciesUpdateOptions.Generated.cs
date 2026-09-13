@@ -23,9 +23,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkConnectivityServiceConnectionPoliciesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// List of projects, folders, or orgs where the producer instance can be located in the form "projects/123456789", folders/123456789", or "organizations/123456789".
+    /// List of projects, folders, or orgs where the producer instance can be located in the form "projects/123456789", folders/123456789", or "organizations/123456789". Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--allowed-google-producers-resource-hierarchy-level", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--allowed-google-producers-resource-hierarchy-level", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AllowedGoogleProducersResourceHierarchyLevel { get; set; }
 
     /// <summary>
@@ -65,9 +65,9 @@ public record GcloudNetworkConnectivityServiceConnectionPoliciesUpdateOptions : 
     public string? Region { get; set; }
 
     /// <summary>
-    /// Subnetwork resource - Subnetwork to use for IP address management. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnets on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --subnets on the command line with a fully specified name; ◆ provide the argument --region on the command line. IDs of the subnetworks or fully qualified identifiers for the subnetworks. To set the subnetwork attribute: ◆ provide the argument --subnets on the command line.
+    /// Subnetwork resource - Subnetwork to use for IP address management. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnets on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --subnets on the command line with a fully specified name; ◆ provide the argument --region on the command line. IDs of the subnetworks or fully qualified identifiers for the subnetworks. To set the subnetwork attribute: ◆ provide the argument --subnets on the command line. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--subnets", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--subnets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Subnets { get; set; }
 
 }

@@ -36,9 +36,9 @@ public record GcloudSqlExportSqlOptions(
     public bool? Clean { get; set; }
 
     /// <summary>
-    /// Database(s) from which the export is made. Information on requirements can be found here: https://cloud.google.com/sql/docs/mysql/admin-api/v1beta4/instances/export#exportContext.databases
+    /// Database(s) from which the export is made. Information on requirements can be found here: https://cloud.google.com/sql/docs/mysql/admin-api/v1beta4/instances/export#exportContext.databases Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Database { get; set; }
 
     /// <summary>
@@ -60,9 +60,9 @@ public record GcloudSqlExportSqlOptions(
     public bool? Parallel { get; set; }
 
     /// <summary>
-    /// Tables to export from the specified database. If you specify tables, specify one and only one database. For PostgreSQL instances, only one table can be exported at a time.
+    /// Tables to export from the specified database. If you specify tables, specify one and only one database. For PostgreSQL instances, only one table can be exported at a time. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--table", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--table", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Table { get; set; }
 
     /// <summary>

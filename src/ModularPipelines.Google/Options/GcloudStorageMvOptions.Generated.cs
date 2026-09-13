@@ -126,9 +126,9 @@ public record GcloudStorageMvOptions(
     public bool? NoPreserveAcl { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Applies gzip transport encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This also saves network bandwidth while leaving the data uncompressed in Cloud Storage. When you specify the --gzip-in-flight option, files being uploaded are compressed in-memory and on-the-wire only. Both the local files and Cloud Storage objects remain uncompressed. The uploaded objects retain the Content-Type and name of the original files.
+    /// At most one of these can be specified: Applies gzip transport encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This also saves network bandwidth while leaving the data uncompressed in Cloud Storage. When you specify the --gzip-in-flight option, files being uploaded are compressed in-memory and on-the-wire only. Both the local files and Cloud Storage objects remain uncompressed. The uploaded objects retain the Content-Type and name of the original files. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--gzip-in-flight", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--gzip-in-flight", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? GzipInFlight { get; set; }
 
     /// <summary>
@@ -138,9 +138,9 @@ public record GcloudStorageMvOptions(
     public bool? GzipInFlightAll { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Applies gzip content encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This saves network bandwidth and space in Cloud Storage. When you specify the --gzip-local option, the data from files is compressed before it is uploaded, but the original files are left uncompressed on the local disk. The uploaded objects retain the Content-Type and name of the original files. However, the Content-Encoding metadata is set to gzip and the Cache-Control metadata set to no-transform. The data remains compressed on Cloud Storage servers and will not be decompressed on download by gcloud storage because of the no-transform field. Since the local gzip option compresses data prior to upload, it is not subject to the same compression buffer bottleneck of the in-flight gzip option.
+    /// At most one of these can be specified: Applies gzip content encoding to any file upload whose extension matches the input extension list. This is useful when uploading files with compressible content such as .js, .css, or .html files. This saves network bandwidth and space in Cloud Storage. When you specify the --gzip-local option, the data from files is compressed before it is uploaded, but the original files are left uncompressed on the local disk. The uploaded objects retain the Content-Type and name of the original files. However, the Content-Encoding metadata is set to gzip and the Cache-Control metadata set to no-transform. The data remains compressed on Cloud Storage servers and will not be decompressed on download by gcloud storage because of the no-transform field. Since the local gzip option compresses data prior to upload, it is not subject to the same compression buffer bottleneck of the in-flight gzip option. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--gzip-local", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--gzip-local", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? GzipLocal { get; set; }
 
     /// <summary>

@@ -90,7 +90,7 @@ public class GcloudApphub : IGcloudApphub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudApphubOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudApphubOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

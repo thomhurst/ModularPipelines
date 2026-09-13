@@ -60,9 +60,9 @@ public record GcloudRecaptchaKeysUpdateOptions : GcloudOptions
     public bool? AllowAllPackageNames { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. Exactly one of these must be specified: Android package names of apps allowed to use the key. Example of a valid package name: 'com.companyname.appname'
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. Exactly one of these must be specified: Android package names of apps allowed to use the key. Example of a valid package name: 'com.companyname.appname' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--package-names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--package-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? PackageNames { get; set; }
 
     /// <summary>
@@ -78,9 +78,9 @@ public record GcloudRecaptchaKeysUpdateOptions : GcloudOptions
     public bool? AllowAllBundleIds { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. At most one of these can be specified: iOS bundle ids of apps allowed to use the key. Example of a valid bundle id: 'com.companyname.productname.appname'
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. At most one of these can be specified: iOS bundle ids of apps allowed to use the key. Example of a valid bundle id: 'com.companyname.productname.appname' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--bundle-ids", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--bundle-ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? BundleIds { get; set; }
 
     /// <summary>
@@ -138,9 +138,9 @@ public record GcloudRecaptchaKeysUpdateOptions : GcloudOptions
     public bool? AllowAllDomains { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. At most one of these can be specified: Domains or subdomains of websites allowed to use the key. All subdomains of an allowed domain are automatically allowed. A valid domain requires a host and must not include any path, port, query or fragment. Examples of valid domains: 'example.com' 'subdomain.example.com'
+    /// At most one of these can be specified: Options for an Express site key. Options for a Universal site key. Options for an Android site key. Options for an iOS site key. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for a web site key. Configure if you want to use the POLICY_BASED_CHALLENGE option. At most one of these can be specified: Domains or subdomains of websites allowed to use the key. All subdomains of an allowed domain are automatically allowed. A valid domain requires a host and must not include any path, port, query or fragment. Examples of valid domains: 'example.com' 'subdomain.example.com' Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--domains", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--domains", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Domains { get; set; }
 
 }

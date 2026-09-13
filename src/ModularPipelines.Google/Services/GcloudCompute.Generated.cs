@@ -66,6 +66,7 @@ public class GcloudCompute : IGcloudCompute
     private GcloudComputePacketMirrorings? _packetMirrorings;
     private GcloudComputePreviewFeatures? _previewFeatures;
     private GcloudComputeProjectInfo? _projectInfo;
+    private GcloudComputeProjectViews? _projectViews;
     private GcloudComputeProjectZonalMetadata? _projectZonalMetadata;
     private GcloudComputePublicAdvertisedPrefixes? _publicAdvertisedPrefixes;
     private GcloudComputePublicDelegatedPrefixes? _publicDelegatedPrefixes;
@@ -337,6 +338,11 @@ public class GcloudCompute : IGcloudCompute
     public GcloudComputeProjectInfo ProjectInfo => _projectInfo ??= new GcloudComputeProjectInfo(_command);
 
     /// <summary>
+    /// gcloud project-views sub-commands.
+    /// </summary>
+    public GcloudComputeProjectViews ProjectViews => _projectViews ??= new GcloudComputeProjectViews(_command);
+
+    /// <summary>
     /// gcloud project-zonal-metadata sub-commands.
     /// </summary>
     public GcloudComputeProjectZonalMetadata ProjectZonalMetadata => _projectZonalMetadata ??= new GcloudComputeProjectZonalMetadata(_command);
@@ -522,7 +528,7 @@ public class GcloudCompute : IGcloudCompute
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -537,7 +543,7 @@ public class GcloudCompute : IGcloudCompute
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeConfigSshOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeConfigSshOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -552,7 +558,7 @@ public class GcloudCompute : IGcloudCompute
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeConnectToSerialPortOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeConnectToSerialPortOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -567,7 +573,7 @@ public class GcloudCompute : IGcloudCompute
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeCopyFilesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeCopyFilesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -582,7 +588,7 @@ public class GcloudCompute : IGcloudCompute
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -597,7 +603,7 @@ public class GcloudCompute : IGcloudCompute
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeScpOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeScpOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -612,7 +618,7 @@ public class GcloudCompute : IGcloudCompute
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -627,7 +633,7 @@ public class GcloudCompute : IGcloudCompute
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeSshOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeSshOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -642,7 +648,7 @@ public class GcloudCompute : IGcloudCompute
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

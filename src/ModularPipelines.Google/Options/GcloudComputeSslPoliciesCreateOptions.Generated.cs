@@ -24,9 +24,9 @@ public record GcloudComputeSslPoliciesCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// A comma-separated list of custom features, required when the profile being used is CUSTOM. Using CUSTOM profile allows customization of the features that are part of the SSL policy. This flag allows specifying those custom features. The list of all supported custom features can be obtained using: gcloud compute ssl-policies list-available-features
+    /// A comma-separated list of custom features, required when the profile being used is CUSTOM. Using CUSTOM profile allows customization of the features that are part of the SSL policy. This flag allows specifying those custom features. The list of all supported custom features can be obtained using: gcloud compute ssl-policies list-available-features Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--custom-features", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--custom-features", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CustomFeatures { get; set; }
 
     /// <summary>

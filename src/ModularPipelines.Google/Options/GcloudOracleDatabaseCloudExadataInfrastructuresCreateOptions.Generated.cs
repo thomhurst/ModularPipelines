@@ -100,15 +100,15 @@ public record GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions : Gcl
     public int? MaintenanceWindowCustomActionTimeoutMins { get; set; }
 
     /// <summary>
-    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Days during the week when maintenance should be performed. MAINTENANCE_WINDOW_DAYS_OF_WEEK must be one of: friday Friday monday Monday saturday Saturday sunday Sunday thursday Thursday tuesday Tuesday wednesday Wednesday
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Days during the week when maintenance should be performed. MAINTENANCE_WINDOW_DAYS_OF_WEEK must be one of: friday Friday monday Monday saturday Saturday sunday Sunday thursday Thursday tuesday Tuesday wednesday Wednesday Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--maintenance-window-days-of-week", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--maintenance-window-days-of-week", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MaintenanceWindowDaysOfWeek { get; set; }
 
     /// <summary>
-    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are: 0 - represents time slot 0:00 - 3:59 UTC 4 - represents time slot 4:00 - 7:59 UTC 8 - represents time slot 8:00 - 11:59 UTC 12 - represents time slot 12:00 - 15:59 UTC 16 - represents time slot 16:00 - 19:59 UTC 20 - represents time slot 20:00 - 23:59 UTC
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are: 0 - represents time slot 0:00 - 3:59 UTC 4 - represents time slot 4:00 - 7:59 UTC 8 - represents time slot 8:00 - 11:59 UTC 12 - represents time slot 12:00 - 15:59 UTC 16 - represents time slot 16:00 - 19:59 UTC 20 - represents time slot 20:00 - 23:59 UTC Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--maintenance-window-hours-of-day", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--maintenance-window-hours-of-day", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MaintenanceWindowHoursOfDay { get; set; }
 
     /// <summary>
@@ -124,9 +124,9 @@ public record GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions : Gcl
     public string? MaintenanceWindowLeadTimeWeek { get; set; }
 
     /// <summary>
-    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Months during the year when maintenance should be performed. MAINTENANCE_WINDOW_MONTHS must be one of: april The month of April. august The month of August. december The month of December. february The month of February. january The month of January. july The month of July. june The month of June. march The month of March. may The month of May. november The month of November. october The month of October. september The month of September.
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Months during the year when maintenance should be performed. MAINTENANCE_WINDOW_MONTHS must be one of: april The month of April. august The month of August. december The month of December. february The month of February. january The month of January. july The month of July. june The month of June. march The month of March. may The month of May. november The month of November. october The month of October. september The month of September. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--maintenance-window-months", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--maintenance-window-months", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MaintenanceWindowMonths { get; set; }
 
     /// <summary>
@@ -142,9 +142,9 @@ public record GcloudOracleDatabaseCloudExadataInfrastructuresCreateOptions : Gcl
     public string? MaintenanceWindowPreference { get; set; }
 
     /// <summary>
-    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week.
+    /// Various properties of Exadata Infrastructure. Maintenance window as defined by Oracle. https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/MaintenanceWindow Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--maintenance-window-weeks-of-month", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--maintenance-window-weeks-of-month", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MaintenanceWindowWeeksOfMonth { get; set; }
 
 }

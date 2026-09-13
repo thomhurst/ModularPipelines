@@ -47,9 +47,9 @@ public record GcloudAiModelMonitoringJobsUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Comma-separated email address list. e.g. --emails=a@gmail.com,b@gmail.com
+    /// Comma-separated email address list. e.g. --emails=a@gmail.com,b@gmail.com Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--emails", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--emails", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Emails { get; set; }
 
     /// <summary>
@@ -65,9 +65,9 @@ public record GcloudAiModelMonitoringJobsUpdateOptions : GcloudOptions
     public string? MonitoringFrequency { get; set; }
 
     /// <summary>
-    /// Comma-separated notification channel list. e.g. --notification-channels=projects/fake-project/notificationChannels/123,projects/fake-project/notificationChannels/456
+    /// Comma-separated notification channel list. e.g. --notification-channels=projects/fake-project/notificationChannels/123,projects/fake-project/notificationChannels/456 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--notification-channels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--notification-channels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NotificationChannels { get; set; }
 
     /// <summary>
@@ -89,9 +89,9 @@ public record GcloudAiModelMonitoringJobsUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>

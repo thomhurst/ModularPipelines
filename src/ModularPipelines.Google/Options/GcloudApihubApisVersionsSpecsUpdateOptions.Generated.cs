@@ -178,21 +178,21 @@ public record GcloudApihubApisVersionsSpecsUpdateOptions : GcloudOptions
     public bool? ClearSpecType { get; set; }
 
     /// <summary>
-    /// The spec contents. Documentation details. LintResponse contains the response from the linter. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The spec contents. Documentation details. LintResponse contains the response from the linter. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--spec-type-json-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--spec-type-json-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SpecTypeJsonValues { get; set; }
 
     /// <summary>
-    /// The spec contents. Documentation details. LintResponse contains the response from the linter. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The spec contents. Documentation details. LintResponse contains the response from the linter. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--spec-type-string-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--spec-type-string-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SpecTypeStringValues { get; set; }
 
     /// <summary>
-    /// The spec contents. Documentation details. LintResponse contains the response from the linter. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// The spec contents. Documentation details. LintResponse contains the response from the linter. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--spec-type-uri-values", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--spec-type-uri-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SpecTypeUriValues { get; set; }
 
     /// <summary>

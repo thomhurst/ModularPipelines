@@ -65,9 +65,9 @@ public record GcloudComputeAddressesCreateOptions : GcloudOptions
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Ephemeral IP addresses to promote to reserved status. Only addresses that are being used by resources in the project can be promoted. When providing this flag, a parallel list of names for the addresses can be provided. For example, $ gcloud compute addresses create ADDRESS-1 ADDRESS-2 \ --addresses 162.222.181.197,162.222.181.198 \ --region us-central1 will result in 162.222.181.197 being reserved as 'ADDRESS-1' and 162.222.181.198 as 'ADDRESS-2'. If no names are given, server-generated names will be assigned to the IP addresses.
+    /// At most one of these can be specified: Ephemeral IP addresses to promote to reserved status. Only addresses that are being used by resources in the project can be promoted. When providing this flag, a parallel list of names for the addresses can be provided. For example, $ gcloud compute addresses create ADDRESS-1 ADDRESS-2 \ --addresses 162.222.181.197,162.222.181.198 \ --region us-central1 will result in 162.222.181.197 being reserved as 'ADDRESS-1' and 162.222.181.198 as 'ADDRESS-2'. If no names are given, server-generated names will be assigned to the IP addresses. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--addresses", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--addresses", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Addresses { get; set; }
 
     /// <summary>

@@ -28,9 +28,9 @@ public record GcloudNetworkSecurityAddressGroupsAddItemsOptions : GcloudOptions
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Items to be added to the address group.
+    /// Items to be added to the address group. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--items", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--items", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Items { get; set; }
 
 }

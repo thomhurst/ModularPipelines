@@ -37,9 +37,9 @@ public record GcloudStorageInsightsInventoryReportsCreateOptions(
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. Defaults to all fields being included. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated.
+    /// The metadata fields to be included in the inventory report. The fields: "project, bucket, name" are REQUIRED. Defaults to all fields being included. METADATA_FIELDS must be one of: project, bucket, name, location, size, timeCreated, timeDeleted, updated, storageClass, etag, retentionExpirationTime, crc32c, md5Hash, generation, metageneration, contentType, contentEncoding, timeStorageClassUpdated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MetadataFields { get; set; }
 
     /// <summary>

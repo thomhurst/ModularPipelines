@@ -121,15 +121,15 @@ public record GcloudPreviewComputeSecurityPoliciesRulesUpdateOptions(
     public string? RateLimitThresholdIntervalSec { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. A comma-separated list of site keys to be used during the validation of reCAPTCHA action-tokens. The provided site keys need to be created from the reCAPTCHA API under the same project where the security policy is created.
+    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. A comma-separated list of site keys to be used during the validation of reCAPTCHA action-tokens. The provided site keys need to be created from the reCAPTCHA API under the same project where the security policy is created. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--recaptcha-action-site-keys", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--recaptcha-action-site-keys", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RecaptchaActionSiteKeys { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. A comma-separated list of site keys to be used during the validation of reCAPTCHA session-tokens. The provided site keys need to be created from the reCAPTCHA API under the same project where the security policy is created.
+    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. A comma-separated list of site keys to be used during the validation of reCAPTCHA session-tokens. The provided site keys need to be created from the reCAPTCHA API under the same project where the security policy is created. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--recaptcha-session-site-keys", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--recaptcha-session-site-keys", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RecaptchaSessionSiteKeys { get; set; }
 
     /// <summary>
@@ -151,9 +151,9 @@ public record GcloudPreviewComputeSecurityPoliciesRulesUpdateOptions(
     public string? Region { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. A comma-separated list of header names and header values to add to requests that match this rule.
+    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. A comma-separated list of header names and header values to add to requests that match this rule. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--request-headers-to-add", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--request-headers-to-add", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RequestHeadersToAdd { get; set; }
 
     /// <summary>
@@ -169,51 +169,51 @@ public record GcloudPreviewComputeSecurityPoliciesRulesUpdateOptions(
     public string? Expression { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. The destination IPs/IP ranges to match for this rule. To match all IPs specify *.
+    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. The destination IPs/IP ranges to match for this rule. To match all IPs specify *. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-dest-ip-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-dest-ip-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkDestIpRanges { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. The destination ports to match for this rule. Each element can be an 16-bit unsigned decimal number (e.g. "80") or range (e.g."0-1023"), To match all destination ports specify *.
+    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. The destination ports to match for this rule. Each element can be an 16-bit unsigned decimal number (e.g. "80") or range (e.g."0-1023"), To match all destination ports specify *. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-dest-ports", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-dest-ports", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkDestPorts { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. The IP protocols to match for this rule. Each element can be an 8-bit unsigned decimal number (e.g. "6"), range (e.g."253-254"), or one of the following protocol names: "tcp", "udp", "icmp", "esp", "ah", "ipip", or "sctp". To match all protocols specify *.
+    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. The IP protocols to match for this rule. Each element can be an 8-bit unsigned decimal number (e.g. "6"), range (e.g."253-254"), or one of the following protocol names: "tcp", "udp", "icmp", "esp", "ah", "ipip", or "sctp". To match all protocols specify *. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-ip-protocols", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-ip-protocols", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkIpProtocols { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. BGP Autonomous System Number associated with the source IP address to match for this rule.
+    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. BGP Autonomous System Number associated with the source IP address to match for this rule. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-src-asns", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-src-asns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkSrcAsns { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. The source IPs/IP ranges to match for this rule. To match all IPs specify *.
+    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. The source IPs/IP ranges to match for this rule. To match all IPs specify *. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-src-ip-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-src-ip-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkSrcIpRanges { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. The source ports to match for this rule. Each element can be an 16-bit unsigned decimal number (e.g. "80") or range (e.g."0-1023"), To match all source ports specify *.
+    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. The source ports to match for this rule. Each element can be an 16-bit unsigned decimal number (e.g. "80") or range (e.g."0-1023"), To match all source ports specify *. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-src-ports", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-src-ports", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkSrcPorts { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. The two letter ISO 3166-1 alpha-2 country code associated with the source IP address to match for this rule. To match all region codes specify *.
+    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. The two letter ISO 3166-1 alpha-2 country code associated with the source IP address to match for this rule. To match all region codes specify *. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--network-src-region-codes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--network-src-region-codes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? NetworkSrcRegionCodes { get; set; }
 
     /// <summary>
-    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. The source IPs/IP ranges to match for this rule. To match all IPs specify *.
+    /// Security policy rule matcher. --network-user-defined-fields=[NAME;VALUE:VALUE:...,...] Each element names a defined field and lists the matching values for that field. The source IPs/IP ranges to match for this rule. To match all IPs specify *. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--src-ip-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--src-ip-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SrcIpRanges { get; set; }
 
 }

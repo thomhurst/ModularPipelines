@@ -26,7 +26,7 @@ public record GcloudMonitoringPoliciesUpdateOptions : GcloudOptions
     /// <summary>
     /// At most one of these can be specified: The list of fields to update. Must specify --policy or --policy-from-file if using this flag. field must be one of: disabled, notificationChannels.
     /// </summary>
-    [CliOption("--fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public GcloudFields? Fields { get; set; }
 
     /// <summary>
@@ -54,9 +54,9 @@ public record GcloudMonitoringPoliciesUpdateOptions : GcloudOptions
     public bool? NoEnabled { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels These flags modify the member Notification Channels of this Alert Policy. At most one of these can be specified: Append the given values to the current Notification Channels.
+    /// At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels These flags modify the member Notification Channels of this Alert Policy. At most one of these can be specified: Append the given values to the current Notification Channels. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-notification-channels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-notification-channels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddNotificationChannels { get; set; }
 
     /// <summary>
@@ -66,15 +66,15 @@ public record GcloudMonitoringPoliciesUpdateOptions : GcloudOptions
     public bool? ClearNotificationChannels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels These flags modify the member Notification Channels of this Alert Policy. At most one of these can be specified: Remove the given values from the current Notification Channels.
+    /// At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels These flags modify the member Notification Channels of this Alert Policy. At most one of these can be specified: Remove the given values from the current Notification Channels. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-notification-channels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-notification-channels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveNotificationChannels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels These flags modify the member Notification Channels of this Alert Policy. At most one of these can be specified: Completely replace the current Notification Channels with the given values.
+    /// At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels These flags modify the member Notification Channels of this Alert Policy. At most one of these can be specified: Completely replace the current Notification Channels with the given values. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-notification-channels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--set-notification-channels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SetNotificationChannels { get; set; }
 
     /// <summary>
@@ -108,9 +108,9 @@ public record GcloudMonitoringPoliciesUpdateOptions : GcloudOptions
     public bool? ClearUserLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-user-labels is also specified then --update-user-labels is applied first.
+    /// At most one of these can be specified: Or at least one of these can be specified: Policy Settings. If any of these are specified, they will overwrite fields in the --policy or --policy-from-file flags if specified. Documentation User Labels At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-user-labels is also specified then --update-user-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-user-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-user-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveUserLabels { get; set; }
 
     /// <summary>

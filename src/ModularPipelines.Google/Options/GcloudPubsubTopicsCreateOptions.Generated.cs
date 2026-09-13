@@ -234,9 +234,9 @@ public record GcloudPubsubTopicsCreateOptions : GcloudOptions
     public string? SchemaProject { get; set; }
 
     /// <summary>
-    /// Following flags are for specifying the data source settings for an import topic Schema settings. The schema that messages published to this topic must conform to and the expected message encoding. Options for explicitly specifying the message storage policy (https://cloud.google.com/pubsub/docs/resource-location-restriction) for a topic. A list of one or more Cloud regions where messages are allowed to be stored at rest. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Following flags are for specifying the data source settings for an import topic Schema settings. The schema that messages published to this topic must conform to and the expected message encoding. Options for explicitly specifying the message storage policy (https://cloud.google.com/pubsub/docs/resource-location-restriction) for a topic. A list of one or more Cloud regions where messages are allowed to be stored at rest. This flag argument must be specified if any of the other arguments in this group are specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--message-storage-policy-allowed-regions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--message-storage-policy-allowed-regions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MessageStoragePolicyAllowedRegions { get; set; }
 
     /// <summary>

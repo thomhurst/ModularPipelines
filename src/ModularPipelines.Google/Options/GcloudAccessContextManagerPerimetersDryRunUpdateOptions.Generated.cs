@@ -34,9 +34,9 @@ public record GcloudAccessContextManagerPerimetersDryRunUpdateOptions : GcloudOp
     public string? Etag { get; set; }
 
     /// <summary>
-    /// These flags modify the member Access Level of this Service Perimeter. At most one of these can be specified: Append the given values to the current Access Level.
+    /// These flags modify the member Access Level of this Service Perimeter. At most one of these can be specified: Append the given values to the current Access Level. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-access-levels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-access-levels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddAccessLevels { get; set; }
 
     /// <summary>
@@ -46,15 +46,15 @@ public record GcloudAccessContextManagerPerimetersDryRunUpdateOptions : GcloudOp
     public bool? ClearAccessLevels { get; set; }
 
     /// <summary>
-    /// These flags modify the member Access Level of this Service Perimeter. At most one of these can be specified: Remove the given values from the current Access Level.
+    /// These flags modify the member Access Level of this Service Perimeter. At most one of these can be specified: Remove the given values from the current Access Level. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-access-levels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-access-levels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveAccessLevels { get; set; }
 
     /// <summary>
-    /// These flags modify the member Resources of this Service Perimeter. At most one of these can be specified: Append the given values to the current Resources.
+    /// These flags modify the member Resources of this Service Perimeter. At most one of these can be specified: Append the given values to the current Resources. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-resources", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-resources", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddResources { get; set; }
 
     /// <summary>
@@ -64,15 +64,15 @@ public record GcloudAccessContextManagerPerimetersDryRunUpdateOptions : GcloudOp
     public bool? ClearResources { get; set; }
 
     /// <summary>
-    /// These flags modify the member Resources of this Service Perimeter. At most one of these can be specified: Remove the given values from the current Resources.
+    /// These flags modify the member Resources of this Service Perimeter. At most one of these can be specified: Remove the given values from the current Resources. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-resources", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-resources", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveResources { get; set; }
 
     /// <summary>
-    /// These flags modify the member Restricted Services of this Service Perimeter. At most one of these can be specified: Append the given values to the current Restricted Services.
+    /// These flags modify the member Restricted Services of this Service Perimeter. At most one of these can be specified: Append the given values to the current Restricted Services. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-restricted-services", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-restricted-services", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddRestrictedServices { get; set; }
 
     /// <summary>
@@ -82,9 +82,9 @@ public record GcloudAccessContextManagerPerimetersDryRunUpdateOptions : GcloudOp
     public bool? ClearRestrictedServices { get; set; }
 
     /// <summary>
-    /// These flags modify the member Restricted Services of this Service Perimeter. At most one of these can be specified: Remove the given values from the current Restricted Services.
+    /// These flags modify the member Restricted Services of this Service Perimeter. At most one of these can be specified: Remove the given values from the current Restricted Services. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-restricted-services", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-restricted-services", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveRestrictedServices { get; set; }
 
     /// <summary>
@@ -136,9 +136,9 @@ public record GcloudAccessContextManagerPerimetersDryRunUpdateOptions : GcloudOp
     public bool? NoEnableVpcAccessibleServices { get; set; }
 
     /// <summary>
-    /// These flags modify the VpcAccessibleServices of this ServicePerimeter config. At most one of these can be specified: Or at least one of these can be specified: These flags modify the member vpc allowed services of this perimeter. Services allowed to be called within the Perimeter when VPC Accessible Services is enabled At most one of these can be specified: Append the given values to the current vpc allowed services.
+    /// These flags modify the VpcAccessibleServices of this ServicePerimeter config. At most one of these can be specified: Or at least one of these can be specified: These flags modify the member vpc allowed services of this perimeter. Services allowed to be called within the Perimeter when VPC Accessible Services is enabled At most one of these can be specified: Append the given values to the current vpc allowed services. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-vpc-allowed-services", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-vpc-allowed-services", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddVpcAllowedServices { get; set; }
 
     /// <summary>
@@ -148,9 +148,9 @@ public record GcloudAccessContextManagerPerimetersDryRunUpdateOptions : GcloudOp
     public bool? ClearVpcAllowedServices { get; set; }
 
     /// <summary>
-    /// These flags modify the VpcAccessibleServices of this ServicePerimeter config. At most one of these can be specified: Or at least one of these can be specified: These flags modify the member vpc allowed services of this perimeter. Services allowed to be called within the Perimeter when VPC Accessible Services is enabled At most one of these can be specified: Remove the given values from the current vpc allowed services.
+    /// These flags modify the VpcAccessibleServices of this ServicePerimeter config. At most one of these can be specified: Or at least one of these can be specified: These flags modify the member vpc allowed services of this perimeter. Services allowed to be called within the Perimeter when VPC Accessible Services is enabled At most one of these can be specified: Remove the given values from the current vpc allowed services. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-vpc-allowed-services", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-vpc-allowed-services", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveVpcAllowedServices { get; set; }
 
 }

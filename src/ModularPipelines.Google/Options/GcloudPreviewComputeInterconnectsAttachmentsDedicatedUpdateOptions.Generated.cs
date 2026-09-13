@@ -42,9 +42,9 @@ public record GcloudPreviewComputeInterconnectsAttachmentsDedicatedUpdateOptions
     public string? CandidateCustomerRouterIpv6Address { get; set; }
 
     /// <summary>
-    /// The candididate-ipv6-subnets field is not available.
+    /// The candididate-ipv6-subnets field is not available. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--candidate-ipv6-subnets", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--candidate-ipv6-subnets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CandidateIpv6Subnets { get; set; }
 
     /// <summary>

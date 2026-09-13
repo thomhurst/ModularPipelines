@@ -73,9 +73,9 @@ public record GcloudSpannerInstancesUpdateOptions(
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
@@ -115,9 +115,9 @@ public record GcloudSpannerInstancesUpdateOptions(
     public string? AsymmetricAutoscalingOption { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specify one or both CPU targets: At most one of these can be specified: Specify a comma separated list of locations from which to remove asymmetric autoscaling options
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specify one or both CPU targets: At most one of these can be specified: Specify a comma separated list of locations from which to remove asymmetric autoscaling options Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--clear-asymmetric-autoscaling-option", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--clear-asymmetric-autoscaling-option", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ClearAsymmetricAutoscalingOption { get; set; }
 
     /// <summary>

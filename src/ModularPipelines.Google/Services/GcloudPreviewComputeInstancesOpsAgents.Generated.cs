@@ -54,7 +54,7 @@ public class GcloudPreviewComputeInstancesOpsAgents
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeInstancesOpsAgentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPreviewComputeInstancesOpsAgentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

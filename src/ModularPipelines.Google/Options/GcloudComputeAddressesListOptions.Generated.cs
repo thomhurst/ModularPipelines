@@ -34,9 +34,9 @@ public record GcloudComputeAddressesListOptions : GcloudOptions
     public bool? Global { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: If provided, only regional resources are shown. If arguments are provided, only resources from the given regions are shown.
+    /// At most one of these can be specified: If provided, only regional resources are shown. If arguments are provided, only resources from the given regions are shown. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--regions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--regions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Regions { get; set; }
 
 }

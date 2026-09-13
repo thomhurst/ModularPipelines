@@ -36,15 +36,15 @@ public record GcloudNetworkSecurityOrgAddressGroupsUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Items of the address group.
+    /// Items of the address group. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--items", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--items", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Items { get; set; }
 
     /// <summary>
     /// List of Address Group purposes. PURPOSE must be one of: cloud-armor, default.
     /// </summary>
-    [CliOption("--purpose", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--purpose", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public GcloudPurpose? Purpose { get; set; }
 
     /// <summary>
@@ -60,9 +60,9 @@ public record GcloudNetworkSecurityOrgAddressGroupsUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
 }

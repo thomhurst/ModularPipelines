@@ -32,9 +32,9 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     public GcloudActivationPolicy? ActivationPolicy { get; set; }
 
     /// <summary>
-    /// A comma-separated list of the DNS servers to be used for Active Directory. Only available for SQL Server instances. E.g: 10.0.0.1,10.0.0.2
+    /// A comma-separated list of the DNS servers to be used for Active Directory. Only available for SQL Server instances. E.g: 10.0.0.1,10.0.0.2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ActiveDirectoryDnsServers { get; set; }
 
     /// <summary>
@@ -105,9 +105,9 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     public string? AuditUploadInterval { get; set; }
 
     /// <summary>
-    /// The list of external networks that are allowed to connect to the instance. Specified in CIDR notation, also known as 'slash' notation (e.g. 192.168.100.0/24).
+    /// The list of external networks that are allowed to connect to the instance. Specified in CIDR notation, also known as 'slash' notation (e.g. 192.168.100.0/24). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AuthorizedNetworks { get; set; }
 
     /// <summary>
@@ -429,9 +429,9 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     public int? Timeout { get; set; }
 
     /// <summary>
-    /// A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects.
+    /// A comma-separated list of projects. Each project in this list might be represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be established from specified consumer projects. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AllowedPscProjects { get; set; }
 
     /// <summary>

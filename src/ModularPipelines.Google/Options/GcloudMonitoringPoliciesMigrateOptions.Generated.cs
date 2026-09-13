@@ -28,9 +28,9 @@ public record GcloudMonitoringPoliciesMigrateOptions : GcloudOptions
     public string? ChannelsFromPrometheusAlertmanagerYaml { get; set; }
 
     /// <summary>
-    /// One or more Prometheus alert rule YAML files (separated by commas if multiple) to be converted to Cloud Alerting Policies. Example: --policies-from-prometheus-alert-rules-yaml=rules_1.yaml,rules_2.yaml
+    /// One or more Prometheus alert rule YAML files (separated by commas if multiple) to be converted to Cloud Alerting Policies. Example: --policies-from-prometheus-alert-rules-yaml=rules_1.yaml,rules_2.yaml Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--policies-from-prometheus-alert-rules-yaml", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--policies-from-prometheus-alert-rules-yaml", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? PoliciesFromPrometheusAlertRulesYaml { get; set; }
 
 }

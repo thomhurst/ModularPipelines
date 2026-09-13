@@ -23,9 +23,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeTpusTpuVmUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Tags to add to the TPU Node. Tags are used to identify valid sources or targets for network firewalls. See https://cloud.google.com/vpc/docs/add-remove-network-tags for more details.
+    /// Tags to add to the TPU Node. Tags are used to identify valid sources or targets for network firewalls. See https://cloud.google.com/vpc/docs/add-remove-network-tags for more details. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddTags { get; set; }
 
     /// <summary>
@@ -71,9 +71,9 @@ public record GcloudComputeTpusTpuVmUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
@@ -83,9 +83,9 @@ public record GcloudComputeTpusTpuVmUpdateOptions : GcloudOptions
     public bool? ClearTags { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of tags to remove. If a tag does not exist it is silently ignored. If --add-tags is also specified then --add-tags is applied first.
+    /// At most one of these can be specified: List of tags to remove. If a tag does not exist it is silently ignored. If --add-tags is also specified then --add-tags is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveTags { get; set; }
 
     /// <summary>
@@ -107,9 +107,9 @@ public record GcloudComputeTpusTpuVmUpdateOptions : GcloudOptions
     public bool? ClearMetadata { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: List of comma-separated metadata keys to remove. If a key does not exist it is silently ignored. If --update-metadata is also specified then --update-metadata is applied first.
+    /// At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: List of comma-separated metadata keys to remove. If a key does not exist it is silently ignored. If --update-metadata is also specified then --update-metadata is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-metadata", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-metadata", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveMetadata { get; set; }
 
 }

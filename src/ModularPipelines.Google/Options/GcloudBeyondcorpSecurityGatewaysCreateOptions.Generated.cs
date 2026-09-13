@@ -46,9 +46,9 @@ public record GcloudBeyondcorpSecurityGatewaysCreateOptions : GcloudOptions
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. List of the allowed client header names.
+    /// The configuration for the proxy. Contextual headers configuration. The delegated device information configuration. The delegated group configuration details. The configuration information for the delegated user. List of the allowed client header names. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ProxyProtocolConfigAllowedClientHeaders { get; set; }
 
     /// <summary>

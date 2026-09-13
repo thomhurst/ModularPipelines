@@ -41,9 +41,9 @@ public record GcloudSecretsUpdateOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Rotation. Topics. At most one of these can be specified: List of Pub/Sub topics to add to the secret.
+    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Rotation. Topics. At most one of these can be specified: List of Pub/Sub topics to add to the secret. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-topics", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-topics", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddTopics { get; set; }
 
     /// <summary>
@@ -53,9 +53,9 @@ public record GcloudSecretsUpdateOptions : GcloudOptions
     public bool? ClearTopics { get; set; }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Rotation. Topics. At most one of these can be specified: List of Pub/Sub topics to remove from the secret.
+    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Rotation. Topics. At most one of these can be specified: List of Pub/Sub topics to remove from the secret. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-topics", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-topics", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveTopics { get; set; }
 
     /// <summary>
@@ -65,9 +65,9 @@ public record GcloudSecretsUpdateOptions : GcloudOptions
     public bool? ClearAnnotations { get; set; }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Rotation. Annotations At most one of these can be specified: List of Annotations to be removed.
+    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Rotation. Annotations At most one of these can be specified: List of Annotations to be removed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-annotations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-annotations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveAnnotations { get; set; }
 
     /// <summary>
@@ -83,9 +83,9 @@ public record GcloudSecretsUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Rotation. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Rotation. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
@@ -95,9 +95,9 @@ public record GcloudSecretsUpdateOptions : GcloudOptions
     public bool? ClearVersionAliases { get; set; }
 
     /// <summary>
-    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Rotation. Version Aliases At most one of these can be specified: List of Version Aliases to be removed.
+    /// Location resource - The location to update secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Rotation. Version Aliases At most one of these can be specified: List of Version Aliases to be removed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-version-aliases", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-version-aliases", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveVersionAliases { get; set; }
 
     /// <summary>

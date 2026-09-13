@@ -192,15 +192,15 @@ public record GcloudRedisClustersCreateOptions : GcloudOptions
     public string? ZoneDistributionMode { get; set; }
 
     /// <summary>
-    /// Specify the zones of a multi-zone cluster where Memorystore for Redis Cluster allocates resources. This flag isn't applicable for single-zone clusters.
+    /// Specify the zones of a multi-zone cluster where Memorystore for Redis Cluster allocates resources. This flag isn't applicable for single-zone clusters. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--zones", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--zones", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Zones { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: URIs of Google Cloud Storage objects to import from. For example, gs://bucket/folder/file1.rdb,gs://bucket/folder/file2.rdb.
+    /// At most one of these can be specified: URIs of Google Cloud Storage objects to import from. For example, gs://bucket/folder/file1.rdb,gs://bucket/folder/file2.rdb. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--import-gcs-object-uris", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--import-gcs-object-uris", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ImportGcsObjectUris { get; set; }
 
     /// <summary>

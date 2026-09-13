@@ -204,9 +204,9 @@ public record GcloudPubsubTopicsUpdateOptions : GcloudOptions
     public bool? ClearLabels { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
@@ -294,9 +294,9 @@ public record GcloudPubsubTopicsUpdateOptions : GcloudOptions
     public bool? RecomputeMessageStoragePolicy { get; set; }
 
     /// <summary>
-    /// Message storage policy options. At most one of these can be specified: Or at least one of these can be specified: Options for explicitly specifying the message storage policy (https://cloud.google.com/pubsub/docs/resource-location-restriction) for a topic. When updating MessageStoragePolicy flags, all MessageStoragePolicy flags must be specified. Otherwise, any omitted MessageStoragePolicy flags revert to their default value. These fields can be set only if the --recompute-message-storage-policy flag is not set. A list of one or more Cloud regions where messages are allowed to be stored at rest. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Message storage policy options. At most one of these can be specified: Or at least one of these can be specified: Options for explicitly specifying the message storage policy (https://cloud.google.com/pubsub/docs/resource-location-restriction) for a topic. When updating MessageStoragePolicy flags, all MessageStoragePolicy flags must be specified. Otherwise, any omitted MessageStoragePolicy flags revert to their default value. These fields can be set only if the --recompute-message-storage-policy flag is not set. A list of one or more Cloud regions where messages are allowed to be stored at rest. This flag argument must be specified if any of the other arguments in this group are specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--message-storage-policy-allowed-regions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--message-storage-policy-allowed-regions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? MessageStoragePolicyAllowedRegions { get; set; }
 
     /// <summary>

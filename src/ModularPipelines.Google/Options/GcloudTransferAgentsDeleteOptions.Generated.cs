@@ -22,9 +22,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudTransferAgentsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// At most one of these can be specified: The IDs of the agents you want to delete. Separate multiple agent IDs with commas, with no spaces following the commas.
+    /// At most one of these can be specified: The IDs of the agents you want to delete. Separate multiple agent IDs with commas, with no spaces following the commas. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--ids", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--ids", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>

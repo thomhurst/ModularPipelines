@@ -53,9 +53,9 @@ public record GcloudNetworkConnectivityInternalRangesUpdateOptions : GcloudOptio
     public bool? ClearOverlaps { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Overlap specifications for the range being updated. OVERLAPS must be one of: overlap-existing-subnet-range Allows for creation of internal ranges that overlap with existing subnets. overlap-route-range Allows for creation or existence of routes that have a more specific destination than the created range.
+    /// At most one of these can be specified: Overlap specifications for the range being updated. OVERLAPS must be one of: overlap-existing-subnet-range Allows for creation of internal ranges that overlap with existing subnets. overlap-route-range Allows for creation or existence of routes that have a more specific destination than the created range. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--overlaps", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--overlaps", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Overlaps { get; set; }
 
     /// <summary>

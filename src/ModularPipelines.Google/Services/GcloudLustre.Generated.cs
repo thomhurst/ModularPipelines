@@ -60,7 +60,7 @@ public class GcloudLustre : IGcloudLustre
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudLustreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudLustreOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

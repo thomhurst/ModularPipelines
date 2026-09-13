@@ -34,7 +34,7 @@ public record GcloudStorageBucketsNotificationsCreateOptions(
     /// <summary>
     /// Specify event type filters for this notification configuration. Cloud Storage will send notifications of only these types. By default, Cloud Storage sends notifications for all event types. * OBJECT_FINALIZE: An object has been created. * OBJECT_METADATA_UPDATE: The metadata of an object has changed. * OBJECT_DELETE: An object has been permanently deleted. * OBJECT_ARCHIVE: A live version of an object has become a noncurrent version. NOTIFICATION_EVENT_TYPE must be one of: OBJECT_ARCHIVE, OBJECT_DELETE, OBJECT_FINALIZE, OBJECT_METADATA_UPDATE.
     /// </summary>
-    [CliOption("--event-types", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--event-types", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public GcloudEventTypes? EventTypes { get; set; }
 
     /// <summary>

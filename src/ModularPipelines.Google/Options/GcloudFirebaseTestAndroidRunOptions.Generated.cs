@@ -23,9 +23,9 @@ namespace ModularPipelines.Google.Options;
 public record GcloudFirebaseTestAndroidRunOptions : GcloudOptions
 {
     /// <summary>
-    /// ANDROID GAME-LOOP TEST FLAGS A list of up to 100 additional APKs to install, in addition to those being directly tested. The path may be in the local filesystem or in Google Cloud Storage using gs:// notation.
+    /// ANDROID GAME-LOOP TEST FLAGS A list of up to 100 additional APKs to install, in addition to those being directly tested. The path may be in the local filesystem or in Google Cloud Storage using gs:// notation. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--additional-apks", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--additional-apks", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AdditionalApks { get; set; }
 
     /// <summary>
@@ -59,9 +59,9 @@ public record GcloudFirebaseTestAndroidRunOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? ClientDetails { get; set; }
 
     /// <summary>
-    /// ANDROID GAME-LOOP TEST FLAGS A list of paths that will be copied from the device's storage to the designated results bucket after the test is complete. These must be absolute paths under /sdcard, /storage, or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2). Path names are restricted to the characters a-zA-Z0-9_-./+. The paths /sdcard and /data will be made available and treated as implicit path substitutions. E.g. if /sdcard on a particular device does not map to external storage, the system will replace it with the external storage path prefix for that device. Note that access to some directories on API levels 29 and later may also be limited by scoped storage rules.
+    /// ANDROID GAME-LOOP TEST FLAGS A list of paths that will be copied from the device's storage to the designated results bucket after the test is complete. These must be absolute paths under /sdcard, /storage, or /data/local/tmp (for example, --directories-to-pull /sdcard/tempDir1,/data/local/tmp/tempDir2). Path names are restricted to the characters a-zA-Z0-9_-./+. The paths /sdcard and /data will be made available and treated as implicit path substitutions. E.g. if /sdcard on a particular device does not map to external storage, the system will replace it with the external storage path prefix for that device. Note that access to some directories on API levels 29 and later may also be limited by scoped storage rules. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--directories-to-pull", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--directories-to-pull", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DirectoriesToPull { get; set; }
 
     /// <summary>
@@ -89,9 +89,9 @@ public record GcloudFirebaseTestAndroidRunOptions : GcloudOptions
     public string? ObbFiles { get; set; }
 
     /// <summary>
-    /// ANDROID GAME-LOOP TEST FLAGS A list of device-path=file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push. Device paths must be under absolute, approved paths (${EXTERNAL_STORAGE}, or ${ANDROID_DATA}/local/tmp). Source file paths may be in the local filesystem or in Google Cloud Storage (gs://...). Examples: --other-files /sdcard/dir1/file1.txt=local/file.txt,/storage/dir2/file2.jpg=gs://bucket/file.jpg This flag only copies files to the device. To install files, like OBB or APK files, see --obb-files and --additional-apks.
+    /// ANDROID GAME-LOOP TEST FLAGS A list of device-path=file-path pairs that indicate the device paths to push files to the device before starting tests, and the paths of files to push. Device paths must be under absolute, approved paths (${EXTERNAL_STORAGE}, or ${ANDROID_DATA}/local/tmp). Source file paths may be in the local filesystem or in Google Cloud Storage (gs://...). Examples: --other-files /sdcard/dir1/file1.txt=local/file.txt,/storage/dir2/file2.jpg=gs://bucket/file.jpg This flag only copies files to the device. To install files, like OBB or APK files, see --obb-files and --additional-apks. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--other-files", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--other-files", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? OtherFiles { get; set; }
 
     /// <summary>
@@ -137,15 +137,15 @@ public record GcloudFirebaseTestAndroidRunOptions : GcloudOptions
     public string? ResultsHistoryName { get; set; }
 
     /// <summary>
-    /// ANDROID GAME-LOOP TEST FLAGS A list of game-loop scenario labels (default: None). Each game-loop scenario may be labeled in the APK manifest file with one or more arbitrary strings, creating logical groupings (e.g. GPU_COMPATIBILITY_TESTS). If --scenario-numbers and --scenario-labels are specified together, Firebase Test Lab will first execute each scenario from --scenario-numbers. It will then expand each given scenario label into a list of scenario numbers marked with that label, and execute those scenarios.
+    /// ANDROID GAME-LOOP TEST FLAGS A list of game-loop scenario labels (default: None). Each game-loop scenario may be labeled in the APK manifest file with one or more arbitrary strings, creating logical groupings (e.g. GPU_COMPATIBILITY_TESTS). If --scenario-numbers and --scenario-labels are specified together, Firebase Test Lab will first execute each scenario from --scenario-numbers. It will then expand each given scenario label into a list of scenario numbers marked with that label, and execute those scenarios. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--scenario-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--scenario-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ScenarioLabels { get; set; }
 
     /// <summary>
-    /// ANDROID GAME-LOOP TEST FLAGS A list of game-loop scenario numbers which will be run as part of the test (default: all scenarios). A maximum of 1024 scenarios may be specified in one test matrix, but the maximum number may also be limited by the overall test --timeout setting.
+    /// ANDROID GAME-LOOP TEST FLAGS A list of game-loop scenario numbers which will be run as part of the test (default: all scenarios). A maximum of 1024 scenarios may be specified in one test matrix, but the maximum number may also be limited by the overall test --timeout setting. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--scenario-numbers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--scenario-numbers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ScenarioNumbers { get; set; }
 
 }

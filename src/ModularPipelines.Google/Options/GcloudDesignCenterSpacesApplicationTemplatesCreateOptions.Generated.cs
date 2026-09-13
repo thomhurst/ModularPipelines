@@ -58,9 +58,9 @@ public record GcloudDesignCenterSpacesApplicationTemplatesCreateOptions : Gcloud
     public IEnumerable<string>? RootOutputVariables { get; set; }
 
     /// <summary>
-    /// SaaS runtime context. The SaaS names. Format for each SaaS: projects/{project}/locations/{location}/saas/{saas}
+    /// SaaS runtime context. The SaaS names. Format for each SaaS: projects/{project}/locations/{location}/saas/{saas} Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--saas-runtime-context-names", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--saas-runtime-context-names", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SaasRuntimeContextNames { get; set; }
 
 }

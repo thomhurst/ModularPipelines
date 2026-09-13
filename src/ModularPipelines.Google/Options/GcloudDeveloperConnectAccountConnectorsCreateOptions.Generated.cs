@@ -102,9 +102,9 @@ public record GcloudDeveloperConnectAccountConnectorsCreateOptions : GcloudOptio
     public string? CustomOauthConfigScmProvider { get; set; }
 
     /// <summary>
-    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ProviderOAuthConfig is the OAuth config for a provider. Scopes to be requested during OAuth. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ProviderOAuthConfig is the OAuth config for a provider. Scopes to be requested during OAuth. This flag argument must be specified if any of the other arguments in this group are specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--custom-oauth-config-scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--custom-oauth-config-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? CustomOauthConfigScopes { get; set; }
 
     /// <summary>
@@ -139,9 +139,9 @@ public record GcloudDeveloperConnectAccountConnectorsCreateOptions : GcloudOptio
     public string? Namespace { get; set; }
 
     /// <summary>
-    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ProviderOAuthConfig is the OAuth config for a provider. User selected scopes to apply to the Oauth config In the event of changing scopes, user records under AccountConnector will be deleted and users will re-auth again. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ProviderOAuthConfig is the OAuth config for a provider. User selected scopes to apply to the Oauth config In the event of changing scopes, user records under AccountConnector will be deleted and users will re-auth again. This flag argument must be specified if any of the other arguments in this group are specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--provider-oauth-config-scopes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--provider-oauth-config-scopes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ProviderOauthConfigScopes { get; set; }
 
     /// <summary>

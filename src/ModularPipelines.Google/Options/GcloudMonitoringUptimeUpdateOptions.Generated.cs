@@ -97,9 +97,9 @@ public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
     public string? ValidateSsl { get; set; }
 
     /// <summary>
-    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check status. At most one of these can be specified: Uptime check status classes. At most one of these can be specified: The list of HTTP status classes to add to the uptime check. status-class must be one of: 1xx Any response code from 100-199 inclusive 2xx Any response code from 200-299 inclusive 3xx Any response code from 300-399 inclusive 4xx Any response code from 400-499 inclusive 5xx Any response code from 500-599 inclusive any Any response code
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check status. At most one of these can be specified: Uptime check status classes. At most one of these can be specified: The list of HTTP status classes to add to the uptime check. status-class must be one of: 1xx Any response code from 100-199 inclusive 2xx Any response code from 200-299 inclusive 3xx Any response code from 300-399 inclusive 4xx Any response code from 400-499 inclusive 5xx Any response code from 500-599 inclusive any Any response code Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-status-classes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-status-classes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddStatusClasses { get; set; }
 
     /// <summary>
@@ -109,21 +109,21 @@ public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
     public string? ClearStatusClasses { get; set; }
 
     /// <summary>
-    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check status. At most one of these can be specified: Uptime check status classes. At most one of these can be specified: The list of HTTP status classes to remove from the uptime check. status-class must be one of: 1xx Any response code from 100-199 inclusive 2xx Any response code from 200-299 inclusive 3xx Any response code from 300-399 inclusive 4xx Any response code from 400-499 inclusive 5xx Any response code from 500-599 inclusive any Any response code
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check status. At most one of these can be specified: Uptime check status classes. At most one of these can be specified: The list of HTTP status classes to remove from the uptime check. status-class must be one of: 1xx Any response code from 100-199 inclusive 2xx Any response code from 200-299 inclusive 3xx Any response code from 300-399 inclusive 4xx Any response code from 400-499 inclusive 5xx Any response code from 500-599 inclusive any Any response code Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-status-classes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-status-classes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveStatusClasses { get; set; }
 
     /// <summary>
-    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check status. At most one of these can be specified: Uptime check status classes. At most one of these can be specified: List of HTTP status classes. The uptime check will only pass if the response code is contained in this list. status-class must be one of: 1xx Any response code from 100-199 inclusive 2xx Any response code from 200-299 inclusive 3xx Any response code from 300-399 inclusive 4xx Any response code from 400-499 inclusive 5xx Any response code from 500-599 inclusive any Any response code
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check status. At most one of these can be specified: Uptime check status classes. At most one of these can be specified: List of HTTP status classes. The uptime check will only pass if the response code is contained in this list. status-class must be one of: 1xx Any response code from 100-199 inclusive 2xx Any response code from 200-299 inclusive 3xx Any response code from 300-399 inclusive 4xx Any response code from 400-499 inclusive 5xx Any response code from 500-599 inclusive any Any response code Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-status-classes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--set-status-classes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SetStatusClasses { get; set; }
 
     /// <summary>
-    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check status codes. At most one of these can be specified: The list of HTTP status codes to add to the uptime check.
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check status codes. At most one of these can be specified: The list of HTTP status codes to add to the uptime check. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-status-codes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-status-codes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddStatusCodes { get; set; }
 
     /// <summary>
@@ -133,15 +133,15 @@ public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
     public string? ClearStatusCodes { get; set; }
 
     /// <summary>
-    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check status codes. At most one of these can be specified: The list of HTTP status codes to remove from the uptime check.
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check status codes. At most one of these can be specified: The list of HTTP status codes to remove from the uptime check. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-status-codes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-status-codes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveStatusCodes { get; set; }
 
     /// <summary>
-    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check status codes. At most one of these can be specified: List of HTTP status codes. The uptime check will only pass if the response code is present in this list.
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check status codes. At most one of these can be specified: List of HTTP status codes. The uptime check will only pass if the response code is present in this list. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-status-codes", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--set-status-codes", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SetStatusCodes { get; set; }
 
     /// <summary>
@@ -157,9 +157,9 @@ public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
     public string? ClearHeaders { get; set; }
 
     /// <summary>
-    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check remove headers. At most one of these can be specified: The list of header keys to remove from the uptime check.
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check remove headers. At most one of these can be specified: The list of header keys to remove from the uptime check. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-headers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveHeaders { get; set; }
 
     /// <summary>
@@ -181,9 +181,9 @@ public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
     public int? Timeout { get; set; }
 
     /// <summary>
-    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check selected regions. At most one of these can be specified: The list of regions to add to the uptime check. region must be one of: asia-pacific asia-southeast1 europe europe-west1 south-america southamerica-east1 usa-iowa us-central1 usa-oregon us-west1 usa-virginia us-east4
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check selected regions. At most one of these can be specified: The list of regions to add to the uptime check. region must be one of: asia-pacific asia-southeast1 europe europe-west1 south-america southamerica-east1 usa-iowa us-central1 usa-oregon us-west1 usa-virginia us-east4 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-regions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-regions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddRegions { get; set; }
 
     /// <summary>
@@ -193,15 +193,15 @@ public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
     public string? ClearRegions { get; set; }
 
     /// <summary>
-    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check selected regions. At most one of these can be specified: The list of regions to remove from the uptime check. region must be one of: asia-pacific asia-southeast1 europe europe-west1 south-america southamerica-east1 usa-iowa us-central1 usa-oregon us-west1 usa-virginia us-east4
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check selected regions. At most one of these can be specified: The list of regions to remove from the uptime check. region must be one of: asia-pacific asia-southeast1 europe europe-west1 south-america southamerica-east1 usa-iowa us-central1 usa-oregon us-west1 usa-virginia us-east4 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-regions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-regions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveRegions { get; set; }
 
     /// <summary>
-    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check selected regions. At most one of these can be specified: The list of regions from which the check is run. At least 3 regions must be selected. region must be one of: asia-pacific asia-southeast1 europe europe-west1 south-america southamerica-east1 usa-iowa us-central1 usa-oregon us-west1 usa-virginia us-east4
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. Uptime check selected regions. At most one of these can be specified: The list of regions from which the check is run. At least 3 regions must be selected. region must be one of: asia-pacific asia-southeast1 europe europe-west1 south-america southamerica-east1 usa-iowa us-central1 usa-oregon us-west1 usa-virginia us-east4 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--set-regions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--set-regions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SetRegions { get; set; }
 
     /// <summary>
@@ -217,9 +217,9 @@ public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
     public bool? ClearUserLabels { get; set; }
 
     /// <summary>
-    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-user-labels is also specified then --update-user-labels is applied first.
+    /// Uptime check protocol settings. Uptime check service agent authorization. Uptime check headers. Settings. User labels. Can be set for synthetic monitors. Uptime check matcher settings. Uptime check matcher settings for JSON responses. At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-user-labels is also specified then --update-user-labels is applied first. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-user-labels", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-user-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveUserLabels { get; set; }
 
     /// <summary>

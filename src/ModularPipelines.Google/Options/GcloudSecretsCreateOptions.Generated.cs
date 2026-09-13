@@ -68,9 +68,9 @@ public record GcloudSecretsCreateOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. List of Pub/Sub topics to configure on the secret.
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. List of Pub/Sub topics to configure on the secret. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--topics", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--topics", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Topics { get; set; }
 
     /// <summary>
@@ -116,9 +116,9 @@ public record GcloudSecretsCreateOptions : GcloudOptions
     public string? KmsKeyName { get; set; }
 
     /// <summary>
-    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. Replication policy. At most one of these can be specified: Or at least one of these can be specified: Inline replication arguments. Comma-separated list of locations in which the secret should be replicated.
+    /// Location resource - The location to create secret. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Annotations Rotation. Replication policy. At most one of these can be specified: Or at least one of these can be specified: Inline replication arguments. Comma-separated list of locations in which the secret should be replicated. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--locations", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--locations", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Locations { get; set; }
 
     /// <summary>

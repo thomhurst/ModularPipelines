@@ -30,15 +30,15 @@ public record GcloudComputeNetworkAttachmentsUpdateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// Projects that are allowed to connect to this network attachment.
+    /// Projects that are allowed to connect to this network attachment. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--producer-accept-list", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--producer-accept-list", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ProducerAcceptList { get; set; }
 
     /// <summary>
-    /// Projects that are not allowed to connect to this network attachment.
+    /// Projects that are not allowed to connect to this network attachment. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--producer-reject-list", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--producer-reject-list", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? ProducerRejectList { get; set; }
 
     /// <summary>
@@ -48,9 +48,9 @@ public record GcloudComputeNetworkAttachmentsUpdateOptions(
     public string? Region { get; set; }
 
     /// <summary>
-    /// The subnetworks provided by the consumer for the producers
+    /// The subnetworks provided by the consumer for the producers Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--subnets", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--subnets", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Subnets { get; set; }
 
     /// <summary>

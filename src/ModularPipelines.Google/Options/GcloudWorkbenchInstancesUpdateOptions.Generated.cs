@@ -35,9 +35,9 @@ public record GcloudWorkbenchInstancesUpdateOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. Resource policies to apply to the data disk. Format: projects/{project}/regions/{region}/resourcePolicies/{policy}.
+    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. Resource policies to apply to the data disk. Format: projects/{project}/regions/{region}/resourcePolicies/{policy}. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--data-disk-resource-policies", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--data-disk-resource-policies", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DataDiskResourcePolicies { get; set; }
 
     /// <summary>
@@ -53,9 +53,9 @@ public record GcloudWorkbenchInstancesUpdateOptions : GcloudOptions
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. Tags to apply to this instance.
+    /// Gce Setup for the instance Data disk configurations. Accelerator configurations. Container image configurations. GPU driver configurations. Shielded VM configurations. Tags to apply to this instance. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

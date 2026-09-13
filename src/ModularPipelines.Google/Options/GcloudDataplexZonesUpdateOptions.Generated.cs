@@ -65,15 +65,15 @@ public record GcloudDataplexZonesUpdateOptions : GcloudOptions
     public bool? NoDiscoveryEnabled { get; set; }
 
     /// <summary>
-    /// Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The list of patterns to apply for selecting data to exclude during discovery. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
+    /// Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The list of patterns to apply for selecting data to exclude during discovery. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--discovery-exclude-patterns", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--discovery-exclude-patterns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DiscoveryExcludePatterns { get; set; }
 
     /// <summary>
-    /// Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The list of patterns to apply for selecting data to include during discovery if only a subset of the data should considered. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names.
+    /// Settings to manage the metadata discovery and publishing. Determines when discovery jobs are triggered. Describe data formats. Describe CSV and similar semi-structured data formats. Describe JSON data format. The list of patterns to apply for selecting data to include during discovery if only a subset of the data should considered. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--discovery-include-patterns", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--discovery-include-patterns", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DiscoveryIncludePatterns { get; set; }
 
     /// <summary>

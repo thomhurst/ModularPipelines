@@ -93,9 +93,9 @@ public record GcloudSchedulerJobsUpdateHttpOptions : GcloudOptions
     public bool? ClearHeaders { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Or at least one of these can be specified: KEY1,KEY2 list of HTTP headers to remove from the request. --remove-headers Accept-Language,Accept
+    /// At most one of these can be specified: Or at least one of these can be specified: KEY1,KEY2 list of HTTP headers to remove from the request. --remove-headers Accept-Language,Accept Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-headers", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-headers", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveHeaders { get; set; }
 
     /// <summary>

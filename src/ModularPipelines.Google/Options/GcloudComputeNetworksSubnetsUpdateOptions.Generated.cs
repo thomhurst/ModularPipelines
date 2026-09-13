@@ -26,9 +26,9 @@ public record GcloudComputeNetworksSubnetsUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Adds secondary IP ranges that are associated with internal range resources. For example, --add-secondary-ranges-with-reserved-internal-range range1=//networkconnectivity.googleapis.com/projects/PROJECT/locations/global/internalRanges/RANGE adds a secondary range with the reserved internal range resource. ◆ RANGE_NAME - Name of the secondary range. ◆ INTERNAL_RANGE_URL - URL of an internal range resource.
+    /// Adds secondary IP ranges that are associated with internal range resources. For example, --add-secondary-ranges-with-reserved-internal-range range1=//networkconnectivity.googleapis.com/projects/PROJECT/locations/global/internalRanges/RANGE adds a secondary range with the reserved internal range resource. ◆ RANGE_NAME - Name of the secondary range. ◆ INTERNAL_RANGE_URL - URL of an internal range resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--add-secondary-ranges-with-reserved-internal-range", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--add-secondary-ranges-with-reserved-internal-range", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? AddSecondaryRangesWithReservedInternalRange { get; set; }
 
     /// <summary>
@@ -86,9 +86,9 @@ public record GcloudComputeNetworksSubnetsUpdateOptions(
     public GcloudLoggingMetadata? LoggingMetadata { get; set; }
 
     /// <summary>
-    /// Can only be specified if VPC Flow Logs for this subnetwork is enabled and "metadata" is set to CUSTOM_METADATA. The comma-separated list of metadata fields that should be added to reported logs.
+    /// Can only be specified if VPC Flow Logs for this subnetwork is enabled and "metadata" is set to CUSTOM_METADATA. The comma-separated list of metadata fields that should be added to reported logs. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--logging-metadata-fields", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--logging-metadata-fields", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? LoggingMetadataFields { get; set; }
 
     /// <summary>
@@ -158,9 +158,9 @@ public record GcloudComputeNetworksSubnetsUpdateOptions(
     public string? Purpose { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: Removes secondary ranges from the subnetwork. For example, --remove-secondary-ranges range2,range3 removes the secondary ranges with names range2 and range3.
+    /// At most one of these can be specified: Removes secondary ranges from the subnetwork. For example, --remove-secondary-ranges range2,range3 removes the secondary ranges with names range2 and range3. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--remove-secondary-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--remove-secondary-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? RemoveSecondaryRanges { get; set; }
 
     /// <summary>

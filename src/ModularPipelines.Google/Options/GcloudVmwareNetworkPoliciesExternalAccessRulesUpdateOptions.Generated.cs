@@ -49,15 +49,15 @@ public record GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// List of allowed destination ports. Each entry must be either an integer or a range.
+    /// List of allowed destination ports. Each entry must be either an integer or a range. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--destination-ports", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--destination-ports", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DestinationPorts { get; set; }
 
     /// <summary>
-    /// A list of destination IP addresses that the rule applies to. Each entry in the list be an ExternalAddress resource name or 0.0.0.0/0. When the value is set to 0.0.0.0/0, all IP addresses are allowed.
+    /// A list of destination IP addresses that the rule applies to. Each entry in the list be an ExternalAddress resource name or 0.0.0.0/0. When the value is set to 0.0.0.0/0, all IP addresses are allowed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--destination-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--destination-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? DestinationRanges { get; set; }
 
     /// <summary>
@@ -73,15 +73,15 @@ public record GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateOptions(
     public string? Priority { get; set; }
 
     /// <summary>
-    /// List of allowed source ports. Each entry must be either an integer or a range.
+    /// List of allowed source ports. Each entry must be either an integer or a range. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--source-ports", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--source-ports", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SourcePorts { get; set; }
 
     /// <summary>
-    /// A list of source IP addresses that the rule applies to. Each entry in the list can be a CIDR notation or a single IP address. When the value is set to 0.0.0.0/0, all IP addresses are allowed.
+    /// A list of source IP addresses that the rule applies to. Each entry in the list can be a CIDR notation or a single IP address. When the value is set to 0.0.0.0/0, all IP addresses are allowed. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--source-ranges", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--source-ranges", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? SourceRanges { get; set; }
 
 }

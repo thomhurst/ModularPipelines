@@ -49,9 +49,9 @@ public record GcloudAiPlatformModelsCreateOptions(
     public string? Region { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: The Google Cloud region where the model will be deployed (currently only a single region is supported) against the global endpoint. If you specify this flag, do not specify --region. Defaults to 'us-central1' while using the global endpoint.
+    /// At most one of these can be specified: The Google Cloud region where the model will be deployed (currently only a single region is supported) against the global endpoint. If you specify this flag, do not specify --region. Defaults to 'us-central1' while using the global endpoint. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
-    [CliOption("--regions", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--regions", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
     public IEnumerable<string>? Regions { get; set; }
 
 }
