@@ -10,6 +10,24 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PnpmCliScraperTests
 {
     [Test]
+    [Arguments("[EXPERIMENTAL]", "[EXPERIMENTAL]")]
+    [Arguments("[EXPERIMENTAL]\n          Additional details.", "[EXPERIMENTAL] Additional details.")]
+    [Arguments("[Preview\n          feature]", "[Preview feature]")]
+    [Arguments("[warning: unstable API]", "[warning: unstable API]")]
+    [Arguments("[Unclosed note", "[Unclosed note")]
+    [Arguments("[default: unfinished", "[default: unfinished")]
+    public async Task Clap_Help_Preserves_Bracketed_Prose(string description, string expected)
+    {
+        var help = "Usage: pnpm install [OPTIONS]\n\nOptions:\n      --reporter <REPORTER>\n          "
+            + description + "\n      --offline\n          Use cached packages.\n";
+        var command = (await new TestPnpmCliScraper().Parse(["pnpm", "install"], help))!;
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--reporter").Description)
+            .IsEqualTo(expected);
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--offline").Description)
+            .IsEqualTo("Use cached packages.");
+    }
+
+    [Test]
     [Arguments("audit")]
     [Arguments("stage")]
     public async Task Current_Group_Help_Preserves_Variadic_Parameters(string commandName)
