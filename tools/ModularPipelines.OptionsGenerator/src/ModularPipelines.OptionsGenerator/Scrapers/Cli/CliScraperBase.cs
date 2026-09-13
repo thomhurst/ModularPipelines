@@ -1404,11 +1404,18 @@ public abstract partial class CliScraperBase : ICliScraper
             return false;
         }
 
-        var heading = line.Trim();
-        // Uppercase alone is not a heading: some CLIs capitalize repeatability notes.
-        return heading.EndsWith(':') || NamedHelpSectionPattern().IsMatch(heading)
-               || NamedOptionSectionPattern().IsMatch(heading);
+        var text = line.Trim();
+        var heading = text.TrimEnd(':');
+        // Sentence punctuation and capitalization alone do not turn a repeatability note
+        // into a section. Custom colon-ended headings must have a title-shaped label.
+        return !DescriptionDeclaresRepeatableOption(text)
+               && (NamedHelpSectionPattern().IsMatch(heading)
+                   || NamedOptionSectionPattern().IsMatch(heading)
+                   || (text.EndsWith(':') && TitleHelpSectionPattern().IsMatch(heading)));
     }
+
+    [GeneratedRegex(@"^[A-Z][a-z0-9/-]*(?:[ \t]+(?:[A-Z][a-z0-9/-]*|and|or|of|for|the))*$", RegexOptions.CultureInvariant)]
+    private static partial Regex TitleHelpSectionPattern();
 
     [GeneratedRegex(@"^(?:Usage|Synopsis|Description|Examples?|Environment(?: Variables)?|Notes?|See Also|Exit (?:Status|Codes?)|Commands)$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex NamedHelpSectionPattern();
@@ -1517,18 +1524,18 @@ public abstract partial class CliScraperBase : ICliScraper
     }
 
     /// <summary>
-    /// Returns whether a row segment is a value hint rather than prose. A single token
-    /// (<c>stringArray</c>, <c>String</c>, <c>&lt;value&gt;</c>, <c>PATH</c>) is a hint wherever
-    /// it sits, so a row whose description starts on the next line leaves the column unknown
-    /// until that line establishes it; a one-word description is only misread when something
-    /// wraps beneath it, and then the wrapped line sets the column instead. A run of placeholder
-    /// tokens (<c>KEY VALUE</c>, <c>&lt;key&gt; &lt;value&gt;</c>, <c>PATH...</c>) is a hint
-    /// too; prose has lowercase words.
+    /// Returns whether a row segment is a typed or syntactic value hint rather than prose.
+    /// Single-word descriptions remain prose; recognized types and placeholder sequences
+    /// such as <c>stringArray</c>, <c>String</c>, <c>KEY VALUE</c>, and <c>&lt;value&gt;</c>
+    /// leave the column unknown until an inline or wrapped description establishes it.
     /// </summary>
     private static bool LooksLikeValueHint(string text) =>
-        !text.Any(char.IsWhiteSpace)
+        ValueTypeHintPattern().IsMatch(text)
         || text.Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries)
             .All(static token => PlaceholderTokenPattern().IsMatch(token));
+
+    [GeneratedRegex(@"^(?:bool(?:ean)?|byte|char|decimal|double|duration|float(?:32|64)?|u?int(?:8|16|32|64)?|integer|long|number|object|path|string|time|timestamp)(?:Array|Slice|s)?$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex ValueTypeHintPattern();
 
     [GeneratedRegex(@"^(?:<[^>]+>|\[[^\]]+\]|\{[^}]+\}|[A-Z][A-Z0-9_:.=/|,-]*|\.\.\.|…)(?:\.\.\.|…)?$")]
     private static partial Regex PlaceholderTokenPattern();
