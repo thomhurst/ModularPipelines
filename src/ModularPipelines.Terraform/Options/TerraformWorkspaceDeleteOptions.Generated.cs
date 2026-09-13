@@ -15,6 +15,7 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Delete a Terraform workspace
 /// </summary>
+/// <param name="Name">The NAME operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspace", "delete")]
