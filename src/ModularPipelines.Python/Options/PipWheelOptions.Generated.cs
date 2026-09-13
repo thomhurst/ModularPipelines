@@ -137,7 +137,7 @@ public record PipWheelOptions(
     public string? ExtraIndexUrl { get; set; }
 
     /// <summary>
-    /// Ignore package index (only looking at --find- links URLs instead).
+    /// Ignore package index (only looking at --find-links URLs instead).
     /// </summary>
     [CliFlag("--no-index")]
     public bool? NoIndex { get; set; }
