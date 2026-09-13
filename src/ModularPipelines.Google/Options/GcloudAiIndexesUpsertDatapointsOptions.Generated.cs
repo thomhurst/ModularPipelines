@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// upsert data points into the specified     index
 /// </summary>
+/// <param name="DatapointsFromFile">Path to a local JSON file that contains the data points that need to be added to the index.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "indexes", "upsert-datapoints")]
-public record GcloudAiIndexesUpsertDatapointsOptions : GcloudOptions
+public record GcloudAiIndexesUpsertDatapointsOptions(
+    [property: CliOption("--datapoints-from-file", Format = OptionFormat.EqualsSeparated)] string DatapointsFromFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// Update mask is used to specify the fields to be overwritten in the datapoints by the update. The fields specified in the update_mask are relative to each IndexDatapoint inside datapoints, not the full request. Updatable fields: ◆ Use --update-mask=all_restricts to update both restricts and numeric_restricts.
+    /// </summary>
+    [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? UpdateMask { get; set; }
+
 }

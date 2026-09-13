@@ -10,15 +10,89 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Managed Service for Apache     Kafka cluster
 /// </summary>
+/// <param name="Cpu">The number of vCPUs to provision for the cluster. The minimum is 3.</param>
+/// <param name="Memory">The memory to provision for the cluster in bytes. The value must be between 1 GiB and 8 GiB per vCPU. Ex. 1024Mi, 4Gi.</param>
+/// <param name="Subnets">A comma-separated list of VPC subnets from which the cluster is accessible. Both broker and bootstrap server IP addresses and DNS entries are automatically created in each subnet. Only one subnet per network is allowed, and the subnet must be located in the same region as the cluster. The project may differ. A minimum of 1 subnet is required. A maximum of 10 subnets can be specified. Use commas to separate multiple subnets. The name of the subnet must be in the format projects/PROJECT_ID/regions/REGION/subnetworks/SUBNET.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-kafka", "clusters", "create")]
-public record GcloudManagedKafkaClustersCreateOptions : GcloudOptions
+public record GcloudManagedKafkaClustersCreateOptions(
+    [property: CliOption("--cpu", Format = OptionFormat.EqualsSeparated)] string Cpu,
+    [property: CliOption("--memory", Format = OptionFormat.EqualsSeparated)] string Memory,
+    [property: CliOption("--subnets", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Subnets
+) : GcloudOptions
 {
+    /// <summary>
+    /// A comma-separated list of IPv4 ranges in CIDR notation that are allowed to connect to the public cluster. Use this flag only if --public-cluster is enabled. Example: --allowed-source-ip-ranges=203.0.113.0/24,198.51.100.0/24
+    /// </summary>
+    [CliOption("--allowed-source-ip-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AllowedSourceIpRanges { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Whether the automatic rebalancing is enabled. If automatic rebalancing is enabled, topic partitions are rebalanced among brokers when the number of CPUs in the cluster changes. Automatic rebalancing is enabled by default. Use --no-auto-rebalance to disable this flag. Enabled by default, use --no-auto-rebalance to disable.
+    /// </summary>
+    [CliFlag("--auto-rebalance")]
+    public bool? AutoRebalance { get; set; }
+
+    /// <summary>
+    /// Negates --auto-rebalance. Whether the automatic rebalancing is enabled. If automatic rebalancing is enabled, topic partitions are rebalanced among brokers when the number of CPUs in the cluster changes. Automatic rebalancing is enabled by default. Use --no-auto-rebalance to disable this flag. Enabled by default, use --no-auto-rebalance to disable.
+    /// </summary>
+    [CliFlag("--no-auto-rebalance")]
+    public bool? NoAutoRebalance { get; set; }
+
+    /// <summary>
+    /// The amount of local disk to provision for each broker. Can be specified as a plain integer (defaults to GiB) or with units (e.g., 500Gi, 500GiB, 1Ti, 1TiB). Minimum: 100 Gibibytes.
+    /// </summary>
+    [CliOption("--broker-disk", Format = OptionFormat.EqualsSeparated)]
+    public string? BrokerDisk { get; set; }
+
+    /// <summary>
+    /// The relative resource path of the Cloud KMS key to use for encryption in the form: projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING/cryptoKeys/KEY. The key must be located in the same region as the cluster. The key cannot be changed once set.
+    /// </summary>
+    [CliOption("--encryption-key", Format = OptionFormat.EqualsSeparated)]
+    public string? EncryptionKey { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of CA pools from the Google Cloud Certificate Authority Service. The root certificates of these CA pools will be installed in the truststore of each broker in the cluster for use with mTLS. A maximum of 10 CA pools can be specified. CA pools can be in a different project and region than the cluster. This command overwrites the entire set of pools currently configured on the cluster. If you want to add a new pool to an existing configuration, you must provide the full list of both the old and new CA pools in the command. Each CA pool must be in the format projects/PROJECT_ID/locations/LOCATION/caPools/CA_POOL. Clear the CA pools using the --clear-mtls-ca-pools flag.
+    /// </summary>
+    [CliOption("--mtls-ca-pools", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? MtlsCaPools { get; set; }
+
+    /// <summary>
+    /// Enable a public cluster. If disabled, public cluster config is cleared. Use --public-cluster to enable and --no-public-cluster to disable.
+    /// </summary>
+    [CliFlag("--public-cluster")]
+    public bool? PublicCluster { get; set; }
+
+    /// <summary>
+    /// Negates --public-cluster. Enable a public cluster. If disabled, public cluster config is cleared. Use --public-cluster to enable and --no-public-cluster to disable.
+    /// </summary>
+    [CliFlag("--no-public-cluster")]
+    public bool? NoPublicCluster { get; set; }
+
+    /// <summary>
+    /// The rules for mapping mTLS certificate Distinguished Names (DNs) to shortened principal names for Kafka ACLs. This flag corresponds exactly to the ssl.principal.mapping.rules broker config and matches the format and syntax defined in the Apache Kafka documentation. Setting or modifying this field will trigger a rolling restart of the Kafka brokers to apply the change. An empty string means that the default Kafka behavior is used. Example: "RULE:^CN=(.?),OU=ServiceUsers.$/$1@example.com/,DEFAULT"
+    /// </summary>
+    [CliOption("--ssl-principal-mapping-rules", Format = OptionFormat.EqualsSeparated)]
+    public string? SslPrincipalMappingRules { get; set; }
+
 }

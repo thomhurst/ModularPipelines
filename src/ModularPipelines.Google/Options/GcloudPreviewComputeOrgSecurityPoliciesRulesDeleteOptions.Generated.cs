@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete a     Compute Engine organization security policy rule
 /// </summary>
+/// <param name="SecurityPolicy">short name of the security policy into which the rule should be deleted.</param>
+/// <param name="Priority"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "org-security-policies", "rules", "delete")]
 public record GcloudPreviewComputeOrgSecurityPoliciesRulesDeleteOptions(
+    [property: CliOption("--security-policy", Format = OptionFormat.EqualsSeparated)] string SecurityPolicy,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Organization which the organization security policy belongs to. Must be set if SECURITY_POLICY is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
 }

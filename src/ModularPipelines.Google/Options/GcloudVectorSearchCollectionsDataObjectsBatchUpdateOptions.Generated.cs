@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a batch     of data objects
 /// </summary>
+/// <param name="Requests">Required, The request message specifying the resources to update. A maximum of 1000 DataObjects can be updated in a batch. dataObject The DataObject which replaces the resource on the server. data The data of the dataObject. etag The etag of the dataObject. name Identifier. The fully qualified resource name of the dataObject. Format: projects/{project}/locations/{location}/collections/{collection}/dataObjects/{data_object_id} The data_object_id must be 1-63 characters long, and comply with RFC1035 (https://www.ietf.org/rfc/rfc1035.txt). vectors The vectors of the dataObject. KEY Sets KEY value. VALUE Sets VALUE value. dense A dense vector. values The values of the vector. sparse A sparse vector. indices The corresponding indices for the values. values The values of the vector. updateMask The update mask applies to the resource. See [google.protobuf.FieldMask][google.protobuf.FieldMask]. Shorthand Example: --requests=dataObject={data={...},etag=string,name=string,vectors={string={dense={values=[float]},sparse={indices=[int],values=[float]}}}},updateMask=string --requests=dataObject={data={...},etag=string,name=string,vectors={string={dense={values=[float]},sparse={indices=[int],values=[float]}}}},updateMask=string JSON Example: --requests='[{"dataObject": {"data": {...}, "etag": "string", "name": "string", "vectors": {"string": {"dense": {"values": [float]}, "sparse": {"indices": [int], "values": [float]}}}}, "updateMask": "string"}]' File Example: --requests=path_to_file.(yaml|json)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vector-search", "collections", "data-objects", "batch-update")]
-public record GcloudVectorSearchCollectionsDataObjectsBatchUpdateOptions : GcloudOptions
+public record GcloudVectorSearchCollectionsDataObjectsBatchUpdateOptions(
+    [property: CliOption("--requests", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Requests
+) : GcloudOptions
 {
+    /// <summary>
+    /// Collection resource - The resource name of the Collection to update the DataObjects in. Format: projects/{project}/locations/{location}/collections/{collection}. The parent field in the UpdateDataObjectRequest messages must match this field. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the collection or fully qualified identifier for the collection. To set the collection attribute: ▸ provide the argument --collection on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--collection", Format = OptionFormat.EqualsSeparated)]
+    public string? Collection { get; set; }
+
+    /// <summary>
+    /// Collection resource - The resource name of the Collection to update the DataObjects in. Format: projects/{project}/locations/{location}/collections/{collection}. The parent field in the UpdateDataObjectRequest messages must match this field. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --collection on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the collection resource. To set the location attribute: ▸ provide the argument --collection on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

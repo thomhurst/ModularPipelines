@@ -21,4 +21,22 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "binauthz", "attestors", "create")]
 public record GcloudContainerBinauthzAttestorsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Note resource - The Container Analysis Note to which the created attestor will be bound. For the attestor to be able to access and use the Note, the Note must exist and the active gcloud account (core/account) must have the containeranalysis.notes.listOccurrences permission for the Note. This can be achieved by granting the containeranalysis.notes.occurrences.viewer role to the active account for the Note resource in question. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the note or fully qualified identifier for the note. To set the note attribute: ▸ provide the argument --attestation-authority-note on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--attestation-authority-note", Format = OptionFormat.EqualsSeparated)]
+    public string? AttestationAuthorityNote { get; set; }
+
+    /// <summary>
+    /// Note resource - The Container Analysis Note to which the created attestor will be bound. For the attestor to be able to access and use the Note, the Note must exist and the active gcloud account (core/account) must have the containeranalysis.notes.listOccurrences permission for the Note. This can be achieved by granting the containeranalysis.notes.occurrences.viewer role to the active account for the Note resource in question. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The Container Analysis project for the note. To set the project attribute: ▸ provide the argument --attestation-authority-note on the command line with a fully specified name; ▸ provide the argument --attestation-authority-note-project on the command line.
+    /// </summary>
+    [CliOption("--attestation-authority-note-project", Format = OptionFormat.EqualsSeparated)]
+    public string? AttestationAuthorityNoteProject { get; set; }
+
+    /// <summary>
+    /// A description for the attestor
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
 }

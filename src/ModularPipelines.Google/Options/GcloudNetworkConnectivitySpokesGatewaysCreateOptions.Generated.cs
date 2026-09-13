@@ -10,15 +10,45 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new Gateway     spoke
 /// </summary>
+/// <param name="Capacity">Set the capacity of the gateway in Gbps. CAPACITY must be one of: 10g Gateway will have capacity of 10 Gbps 1g Gateway will have capacity of 1 Gbps</param>
+/// <param name="Group">Group that the spoke will be part of. The group must already exist.</param>
+/// <param name="Hub">Hub that the spoke will attach to. The hub must already exist.</param>
+/// <param name="IpRangeReservations">The IP range reservation for the spoke.</param>
+/// <param name="Region">A Google Cloud region. To see the names of regions, see Viewing a list of available regions (https://cloud.google.com/compute/docs/regions-zones/viewing-regions-zones#viewing_a_list_of_available_regions).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "spokes", "gateways", "create")]
-public record GcloudNetworkConnectivitySpokesGatewaysCreateOptions : GcloudOptions
+public record GcloudNetworkConnectivitySpokesGatewaysCreateOptions(
+    [property: CliOption("--capacity", Format = OptionFormat.EqualsSeparated)] string Capacity,
+    [property: CliOption("--group", Format = OptionFormat.EqualsSeparated)] string Group,
+    [property: CliOption("--hub", Format = OptionFormat.EqualsSeparated)] string Hub,
+    [property: CliOption("--ip-range-reservations", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> IpRangeReservations,
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the spoke to create.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
 }

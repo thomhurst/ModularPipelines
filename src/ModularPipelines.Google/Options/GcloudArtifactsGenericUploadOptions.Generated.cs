@@ -10,15 +10,72 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// uploads an artifact to a generic     repository
 /// </summary>
+/// <param name="Package">The package to upload.</param>
+/// <param name="Version">The version of the package. You cannot overwrite an existing version in the repository.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "generic", "upload")]
-public record GcloudArtifactsGenericUploadOptions : GcloudOptions
+public record GcloudArtifactsGenericUploadOptions(
+    [property: CliOption("--package", Format = OptionFormat.EqualsSeparated)] string Package,
+    [property: CliOption("--version", Format = OptionFormat.EqualsSeparated)] string Version
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The path to the file you are uploading.
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The directory you are uploading.
+    /// </summary>
+    [CliOption("--source-directory", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceDirectory { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Use to specify the path to upload a generic artifact to within a folder structure.
+    /// </summary>
+    [CliOption("--destination-path", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationPath { get; set; }
+
+    /// <summary>
+    /// If specified, skip uploading files that already exist in the repository, and continue to upload the remaining files.
+    /// </summary>
+    [CliFlag("--skip-existing")]
+    public bool? SkipExisting { get; set; }
+
+    /// <summary>
+    /// Repository resource - The Artifact Registry repository. If not specified, the current artifacts/repository is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Location of the repository. To set the location attribute: ◆ provide the argument --repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Repository resource - The Artifact Registry repository. If not specified, the current artifacts/repository is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the repository or fully qualified identifier for the repository. To set the repository attribute: ◆ provide the argument --repository on the command line; ◆ set the property artifacts/repository.
+    /// </summary>
+    [CliOption("--repository", Format = OptionFormat.EqualsSeparated)]
+    public string? Repository { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Source) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SourceDirectory) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Source or SourceDirectory must be specified.", [nameof(Source), nameof(SourceDirectory)]);
+        }
+    }
+
 }

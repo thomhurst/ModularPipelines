@@ -16,9 +16,14 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add an IP override to a key
 /// </summary>
+/// <param name="Ip">IP address to override for the key.</param>
+/// <param name="Override">If set to allow, the IP address/CIDR range will be allowlisted for the key. OVERRIDE must be one of: allow, override-type-unspecified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("recaptcha", "keys", "add-ip-override")]
-public record GcloudRecaptchaKeysAddIpOverrideOptions : GcloudOptions
+public record GcloudRecaptchaKeysAddIpOverrideOptions(
+    [property: CliOption("--ip", Format = OptionFormat.EqualsSeparated)] string Ip,
+    [property: CliOption("--override", Format = OptionFormat.EqualsSeparated)] string Override
+) : GcloudOptions
 {
 }

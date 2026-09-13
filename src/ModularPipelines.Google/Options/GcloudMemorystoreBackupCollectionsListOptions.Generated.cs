@@ -21,4 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("memorystore", "backup-collections", "list")]
 public record GcloudMemorystoreBackupCollectionsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// Location resource - The resource name of the backupCollection location using the form: projects/{project_id}/locations/{location_id} where location_id refers to a Google Cloud region. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

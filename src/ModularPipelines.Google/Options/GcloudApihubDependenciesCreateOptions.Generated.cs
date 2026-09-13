@@ -21,4 +21,40 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "dependencies", "create")]
 public record GcloudApihubDependenciesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Reference to an entity participating in a dependency. This must be specified. Arguments for the identifier. At most one of these can be specified: The resource name of an external API in the API Hub. Format: projects/{project}/locations/{location}/externalApis/{external_api}
+    /// </summary>
+    [CliOption("--consumer-external-api-resource-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ConsumerExternalApiResourceName { get; set; }
+
+    /// <summary>
+    /// Reference to an entity participating in a dependency. This must be specified. Arguments for the identifier. At most one of these can be specified: The resource name of an operation in the API Hub. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation}
+    /// </summary>
+    [CliOption("--consumer-operation-resource-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ConsumerOperationResourceName { get; set; }
+
+    /// <summary>
+    /// Reference to an entity participating in a dependency. This must be specified. Arguments for the identifier. At most one of these can be specified: The resource name of an external API in the API Hub. Format: projects/{project}/locations/{location}/externalApis/{external_api}
+    /// </summary>
+    [CliOption("--supplier-external-api-resource-name", Format = OptionFormat.EqualsSeparated)]
+    public string? SupplierExternalApiResourceName { get; set; }
+
+    /// <summary>
+    /// Reference to an entity participating in a dependency. This must be specified. Arguments for the identifier. At most one of these can be specified: The resource name of an operation in the API Hub. Format: projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation}
+    /// </summary>
+    [CliOption("--supplier-operation-resource-name", Format = OptionFormat.EqualsSeparated)]
+    public string? SupplierOperationResourceName { get; set; }
+
+    /// <summary>
+    /// The list of user defined attributes associated with the dependency resource. The key is the attribute name. It will be of the format: projects/{project}/locations/{location}/attributes/{attribute}. The value is the attribute values associated with the resource. KEY Sets KEY value. VALUE Sets VALUE value. enumValues The attribute values associated with a resource in case attribute data type is enum. values The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ▹ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ▹ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. jsonValues The attribute values associated with a resource in case attribute data type is JSON. values The attribute values in case attribute data type is string or JSON. stringValues The attribute values associated with a resource in case attribute data type is string. values The attribute values in case attribute data type is string or JSON. uriValues The attribute values associated with a resource in case attribute data type is URL, URI or IP, like gs://bucket-name/object-name. values The attribute values in case attribute data type is string or JSON. Shorthand Example: --attributes=string={enumValues={values=[{description=string,displayName=string,id=string,immutable=boolean}]},jsonValues={values=[string]},stringValues={values=[string]},uriValues={values=[string]}} JSON Example: --attributes='{"string": {"enumValues": {"values": [{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]}, "jsonValues": {"values": ["string"]}, "stringValues": {"values": ["string"]}, "uriValues": {"values": ["string"]}}}' File Example: --attributes=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Attributes { get; set; }
+
+    /// <summary>
+    /// Human readable description corresponding of the dependency.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
 }

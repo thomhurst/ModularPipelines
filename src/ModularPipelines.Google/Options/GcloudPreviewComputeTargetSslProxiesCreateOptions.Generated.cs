@@ -16,11 +16,56 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a target SSL     proxy
 /// </summary>
+/// <param name="BackendService">A backend service that will be used for connections to the target SSL proxy.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "target-ssl-proxies", "create")]
 public record GcloudPreviewComputeTargetSslProxiesCreateOptions(
+    [property: CliOption("--backend-service", Format = OptionFormat.EqualsSeparated)] string BackendService,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// At least one of these must be specified: Certificate map resource - The certificate map to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --certificate-map on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --certificate-map on the command line with a fully specified name; ▸ default value of location is [global]. ID of the certificate map or fully qualified identifier for the certificate map. To set the map attribute: ▸ provide the argument --certificate-map on the command line.
+    /// </summary>
+    [CliOption("--certificate-map", Format = OptionFormat.EqualsSeparated)]
+    public string? CertificateMap { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Certificate map resource - The certificate map to attach. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --certificate-map on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --certificate-map on the command line with a fully specified name; ▸ default value of location is [global]. References to at most 15 SSL certificate resources that are used for server-side authentication. The first SSL certificate in this list is considered the primary SSL certificate associated with the load balancer. The SSL certificates must exist and cannot be deleted while referenced by a target SSL proxy.
+    /// </summary>
+    [CliOption("--ssl-certificates", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SslCertificates { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the target SSL proxy.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The type of proxy protocol header to be sent to the backend. PROXY_HEADER must be one of: NONE No proxy header is added. PROXY_V1 Enables PROXY protocol (version 1) for passing client connection information.
+    /// </summary>
+    [CliOption("--proxy-header", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxyHeader { get; set; }
+
+    /// <summary>
+    /// A reference to an SSL policy resource that defines the server-side support for SSL features and affects the connections between clients and load balancers that are using the SSL proxy. The SSL policy must exist and cannot be deleted while referenced by a target SSL proxy.
+    /// </summary>
+    [CliOption("--ssl-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? SslPolicy { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the SSL policy is global.
+    /// </summary>
+    [CliFlag("--global-ssl-policy")]
+    public bool? GlobalSslPolicy { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the SSL policy to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--ssl-policy-region", Format = OptionFormat.EqualsSeparated)]
+    public string? SslPolicyRegion { get; set; }
+
 }

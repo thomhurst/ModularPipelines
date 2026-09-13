@@ -16,9 +16,14 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a snapshot of a Bare Metal Solution     boot volume
 /// </summary>
+/// <param name="Description">Textual description of the created snapshot.</param>
+/// <param name="SnapshotName">Name to assign to the created snapshot.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bms", "volumes", "snapshot")]
-public record GcloudBmsVolumesSnapshotOptions : GcloudOptions
+public record GcloudBmsVolumesSnapshotOptions(
+    [property: CliOption("--description", Format = OptionFormat.EqualsSeparated)] string Description,
+    [property: CliOption("--snapshot-name", Format = OptionFormat.EqualsSeparated)] string SnapshotName
+) : GcloudOptions
 {
 }

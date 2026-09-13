@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a JSON     container image signature object
 /// </summary>
+/// <param name="ArtifactUrl">Container URL. May be in the gcr.io/repository/image format, or may optionally contain the http or https scheme</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "binauthz", "create-signature-payload")]
-public record GcloudContainerBinauthzCreateSignaturePayloadOptions : GcloudOptions
+public record GcloudContainerBinauthzCreateSignaturePayloadOptions(
+    [property: CliOption("--artifact-url", Format = OptionFormat.EqualsSeparated)] string ArtifactUrl
+) : GcloudOptions
 {
 }

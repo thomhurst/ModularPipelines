@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// failover a BigLake Iceberg REST     catalog
 /// </summary>
+/// <param name="PrimaryReplica">The primary replica region to failover to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("biglake", "iceberg", "catalogs", "failover")]
-public record GcloudBiglakeIcebergCatalogsFailoverOptions : GcloudOptions
+public record GcloudBiglakeIcebergCatalogsFailoverOptions(
+    [property: CliOption("--primary-replica", Format = OptionFormat.EqualsSeparated)] string PrimaryReplica
+) : GcloudOptions
 {
+    /// <summary>
+    /// If not specified, wait for all data from the source region to replicate to the new primary region before completing the failover, with no data loss. If specified, the failover will be executed immediately, accepting data loss of any data commited after the specified timestamp. This timestamp must be in UTC format, e.g. "2025-10-09T01:13:34.038262Z". See $ gcloud topic datetimes for more information.
+    /// </summary>
+    [CliOption("--conditional-failover-replication-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionalFailoverReplicationTime { get; set; }
+
+    /// <summary>
+    /// If true, the failover will be validated but not executed.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
 }

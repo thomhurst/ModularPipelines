@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// shared key in a     Compute Engine interconnect MACsec configuration
 /// </summary>
+/// <param name="KeyName">A name of pre-shared key being added to MACsec configuration of the interconnect. The name must be 1-63 characters long, and comply with RFC1035.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "macsec", "update-key")]
 public record GcloudComputeInterconnectsMacsecUpdateKeyOptions(
+    [property: CliOption("--key-name", Format = OptionFormat.EqualsSeparated)] string KeyName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// A RFC3339 timestamp on or after which the key is valid. startTime can be in the future. If the keychain has a single key, --start-time can be omitted. If the keychain has multiple keys, --start-time is mandatory for each key. The start times of two consecutive keys must be at least 6 hours apart.
+    /// </summary>
+    [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? StartTime { get; set; }
+
 }

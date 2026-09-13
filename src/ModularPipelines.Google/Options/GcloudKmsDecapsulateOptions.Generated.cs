@@ -16,9 +16,44 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// decapsulate an input file using a     key-encapsulation key version
 /// </summary>
+/// <param name="CiphertextFile">File path of the ciphertext file to decapsulate.</param>
+/// <param name="SharedSecretFile">File path of the shared secret file to output.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "decapsulate")]
-public record GcloudKmsDecapsulateOptions : GcloudOptions
+public record GcloudKmsDecapsulateOptions(
+    [property: CliOption("--ciphertext-file", Format = OptionFormat.EqualsSeparated)] string CiphertextFile,
+    [property: CliOption("--shared-secret-file", Format = OptionFormat.EqualsSeparated)] string SharedSecretFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// to use for decapsulation.
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Key ring of the key.
+    /// </summary>
+    [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? Keyring { get; set; }
+
+    /// <summary>
+    /// Location of the keyring.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Skip integrity verification on request and response API fields.
+    /// </summary>
+    [CliFlag("--skip-integrity-verification")]
+    public bool? SkipIntegrityVerification { get; set; }
+
+    /// <summary>
+    /// Version to use for decapsulation.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string? Version { get; set; }
+
 }

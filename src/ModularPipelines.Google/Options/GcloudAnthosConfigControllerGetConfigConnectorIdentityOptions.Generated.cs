@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// fetch     default Config Connector identity
 /// </summary>
+/// <param name="Location">The location (region) of the Anthos Config Controller.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("anthos", "config", "controller", "get-config-connector-identity")]
 public record GcloudAnthosConfigControllerGetConfigConnectorIdentityOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {

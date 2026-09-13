@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update the name of a project
 /// </summary>
+/// <param name="Name">New name for the project.</param>
+/// <param name="ProjectId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("projects", "update")]
 public record GcloudProjectsUpdateOptions(
+    [property: CliOption("--name", Format = OptionFormat.EqualsSeparated)] string Name,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjectId
 ) : GcloudOptions
 {

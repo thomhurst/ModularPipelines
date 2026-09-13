@@ -16,10 +16,15 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// deletes an AlloyDB user in a given cluster
 /// </summary>
+/// <param name="Cluster">AlloyDB cluster ID</param>
+/// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+/// <param name="Username"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "users", "delete")]
 public record GcloudAlloydbUsersDeleteOptions(
+    [property: CliOption("--cluster", Format = OptionFormat.EqualsSeparated)] string Cluster,
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Username
 ) : GcloudOptions
 {

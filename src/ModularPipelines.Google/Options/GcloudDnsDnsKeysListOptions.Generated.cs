@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list DNS key resources
 /// </summary>
+/// <param name="Zone">The name of the managed-zone you want to list DNSKEY records for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "dns-keys", "list")]
-public record GcloudDnsDnsKeysListOptions : GcloudOptions
+public record GcloudDnsDnsKeysListOptions(
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone
+) : GcloudOptions
 {
 }

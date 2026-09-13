@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,33 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "subscriptions", "seek")]
-public record GcloudPubsubSubscriptionsSeekOptions : GcloudOptions
+public record GcloudPubsubSubscriptionsSeekOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The name of the snapshot. The snapshot's topic must be the same as that of the subscription.
+    /// </summary>
+    [CliOption("--snapshot", Format = OptionFormat.EqualsSeparated)]
+    public string? Snapshot { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The time to seek to. Messages in the subscription that were published before this time are marked as acknowledged, and messages retained in the subscription that were published after this time are marked as unacknowledged. See $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--time", Format = OptionFormat.EqualsSeparated)]
+    public string? Time { get; set; }
+
+    /// <summary>
+    /// The name of the project the snapshot belongs to (if seeking to a snapshot). If not set, it defaults to the currently selected cloud project.
+    /// </summary>
+    [CliOption("--snapshot-project", Format = OptionFormat.EqualsSeparated)]
+    public string? SnapshotProject { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Snapshot) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Time) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Snapshot or Time must be specified.", [nameof(Snapshot), nameof(Time)]);
+        }
+    }
+
 }

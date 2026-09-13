@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// execute the transaction on     Cloud DNS
 /// </summary>
+/// <param name="Zone">Name of the managed zone whose record sets you want to manage.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "transaction", "execute")]
-public record GcloudDnsRecordSetsTransactionExecuteOptions : GcloudOptions
+public record GcloudDnsRecordSetsTransactionExecuteOptions(
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone
+) : GcloudOptions
 {
     /// <summary>
     /// Path of the file which contains the transaction.

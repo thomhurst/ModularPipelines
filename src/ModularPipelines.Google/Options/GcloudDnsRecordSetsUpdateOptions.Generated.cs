@@ -10,17 +10,107 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// zone
 /// </summary>
+/// <param name="Type">DNS record type of the record-set (e.g. A, AAAA, MX etc.).</param>
+/// <param name="Zone">Name of the managed zone whose record sets you want to manage.</param>
+/// <param name="DnsName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "update")]
 public record GcloudDnsRecordSetsUpdateOptions(
+    [property: CliOption("--type", Format = OptionFormat.EqualsSeparated)] string Type,
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DnsName
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Resource record sets arguments. Can specify either --rrdatas or both --routing-policy-data and --routing-policy-type. Exactly one of these must be specified: DNS data (Address/CNAME/MX info, etc.) of the record-set. This is RDATA; the format of this information varies depending on the type and class of the resource record.
+    /// </summary>
+    [CliOption("--rrdatas", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Rrdatas { get; set; }
+
+    /// <summary>
+    /// Resource record sets arguments. Can specify either --rrdatas or both --routing-policy-data and --routing-policy-type. Exactly one of these must be specified: Or at least one of these can be specified: Routing policy arguments. --routing-policy-type should be specified exactly when one of --routing-policy-data, --routing-policy-item, or --routing-policy-primary-data is set. Indicates what type of routing policy is being specified. As of this time, this field can take on either "WRR" for weighted round robin, "GEO" for geo location, or "FAILOVER" for a primary-backup configuration. This field cannot be modified - once a policy has a chosen type, the only way to change it is to delete the policy and add a new one with the different type. ROUTING_POLICY_TYPE must be one of: GEO, WRR, FAILOVER. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--routing-policy-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudRoutingPolicyType? RoutingPolicyType { get; set; }
+
+    /// <summary>
+    /// Resource record sets arguments. Can specify either --rrdatas or both --routing-policy-data and --routing-policy-type. Exactly one of these must be specified: Or at least one of these can be specified: Routing policy arguments. --routing-policy-type should be specified exactly when one of --routing-policy-data, --routing-policy-item, or --routing-policy-primary-data is set. Specifies whether to enable fencing for geo queries.
+    /// </summary>
+    [CliFlag("--enable-geo-fencing")]
+    public bool? EnableGeoFencing { get; set; }
+
+    /// <summary>
+    /// Resource record sets arguments. Can specify either --rrdatas or both --routing-policy-data and --routing-policy-type. Exactly one of these must be specified: Or at least one of these can be specified: Routing policy arguments. --routing-policy-type should be specified exactly when one of --routing-policy-data, --routing-policy-item, or --routing-policy-primary-data is set. Routing policy data arguments. Allows setting one of [routing-policy-data, routing-policy-item, [routing-policy-primary-data, [routing-policy-backup-data, routing-policy-backup-item]]] Exactly one of these must be specified: (DEPRECATED) The routing policy data supports one of two formats below, depending on the choice of routing-policy-type. For --routing-policy-type = "WRR" this flag indicates the weighted round robin policy data. The field accepts a semicolon-delimited list of the format "${weight_percent}=${rrdata},${rrdata}". Specify weight as a non-negative number (0 is allowed). Ratio of traffic routed to the target is calculated from the ratio of individual weight over the total across all weights. For --routing-policy-type = "GEO" this flag indicates the geo-locations policy data. The field accepts a semicolon-delimited list of the format "${region}=${rrdata},${rrdata}". Each rrdata can either be an IP address or a reference to a forwarding rule of the format "FORWARDING_RULE_NAME", "FORWARDING_RULE_NAME@{region}", "FORWARDING_RULE_NAME@global", or the full resource path of the forwarding rule. The --routing-policy-data flag is deprecated. Use --routing-policy-item instead.
+    /// </summary>
+    [CliOption("--routing-policy-data", Format = OptionFormat.EqualsSeparated)]
+    public string? RoutingPolicyData { get; set; }
+
+    /// <summary>
+    /// Resource record sets arguments. Can specify either --rrdatas or both --routing-policy-data and --routing-policy-type. Exactly one of these must be specified: Or at least one of these can be specified: Routing policy arguments. --routing-policy-type should be specified exactly when one of --routing-policy-data, --routing-policy-item, or --routing-policy-primary-data is set. Routing policy data arguments. Allows setting one of [routing-policy-data, routing-policy-item, [routing-policy-primary-data, [routing-policy-backup-data, routing-policy-backup-item]]] Exactly one of these must be specified: Specify this argument multiple times for a weighted round robin (WRR) or geolocation routing policy. Use this repeated argument for only one routing policy type (WRR or geolocation), not both. Similarly, use it only for health checking either internal load balancers or external IP addresses, not both. (e.g. --routing-policy-item=weight=1,rrdatas=1.2.3.4;2.3.4.5,external_endpoints=3.4.5.6;4.5.6.7 --routing-policy-item=weight=1,rrdatas=10.0.0.1;10.0.0.2,external_endpoints=10.0.0.4) weight The weight of the item. This is specified only for WRR routing policy items. location The location corresponding to the item. This is specified only for GEO routing policy items. rrdatas The list of rrdatas, split by ";". external_endpoints The list of health checked ips, split by ";". internal_load_balancers The list of health checked internal load balancers, split by ";".
+    /// </summary>
+    [CliOption("--routing-policy-item", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RoutingPolicyItem { get; set; }
+
+    /// <summary>
+    /// Resource record sets arguments. Can specify either --rrdatas or both --routing-policy-data and --routing-policy-type. Exactly one of these must be specified: Or at least one of these can be specified: Routing policy arguments. --routing-policy-type should be specified exactly when one of --routing-policy-data, --routing-policy-item, or --routing-policy-primary-data is set. Routing policy data arguments. Allows setting one of [routing-policy-data, routing-policy-item, [routing-policy-primary-data, [routing-policy-backup-data, routing-policy-backup-item]]] Exactly one of these must be specified: Or at least one of these can be specified: Configuration for primary backup routing policy For FAILOVER routing policies, the type of routing policy the backup data uses. Currently, this must be GEO. ROUTING_POLICY_BACKUP_DATA_TYPE must be (only one value is supported): GEO. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--routing-policy-backup-data-type", Format = OptionFormat.EqualsSeparated)]
+    public string? RoutingPolicyBackupDataType { get; set; }
+
+    /// <summary>
+    /// Resource record sets arguments. Can specify either --rrdatas or both --routing-policy-data and --routing-policy-type. Exactly one of these must be specified: Or at least one of these can be specified: Routing policy arguments. --routing-policy-type should be specified exactly when one of --routing-policy-data, --routing-policy-item, or --routing-policy-primary-data is set. Routing policy data arguments. Allows setting one of [routing-policy-data, routing-policy-item, [routing-policy-primary-data, [routing-policy-backup-data, routing-policy-backup-item]]] Exactly one of these must be specified: Or at least one of these can be specified: Configuration for primary backup routing policy The primary configuration for a primary backup routing policy. This configuration is a list of forwarding rules of the format "FORWARDING_RULE_NAME", "FORWARDING_RULE_NAME@scope", or the full resource path of the forwarding rule. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--routing-policy-primary-data", Format = OptionFormat.EqualsSeparated)]
+    public string? RoutingPolicyPrimaryData { get; set; }
+
+    /// <summary>
+    /// Resource record sets arguments. Can specify either --rrdatas or both --routing-policy-data and --routing-policy-type. Exactly one of these must be specified: Or at least one of these can be specified: Routing policy arguments. --routing-policy-type should be specified exactly when one of --routing-policy-data, --routing-policy-item, or --routing-policy-primary-data is set. Routing policy data arguments. Allows setting one of [routing-policy-data, routing-policy-item, [routing-policy-primary-data, [routing-policy-backup-data, routing-policy-backup-item]]] Exactly one of these must be specified: Or at least one of these can be specified: Configuration for primary backup routing policy Specifies the percentage of traffic to send to the backup targets even when the primary targets are healthy.
+    /// </summary>
+    [CliOption("--backup-data-trickle-ratio", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupDataTrickleRatio { get; set; }
+
+    /// <summary>
+    /// Resource record sets arguments. Can specify either --rrdatas or both --routing-policy-data and --routing-policy-type. Exactly one of these must be specified: Or at least one of these can be specified: Routing policy arguments. --routing-policy-type should be specified exactly when one of --routing-policy-data, --routing-policy-item, or --routing-policy-primary-data is set. Routing policy data arguments. Allows setting one of [routing-policy-data, routing-policy-item, [routing-policy-primary-data, [routing-policy-backup-data, routing-policy-backup-item]]] Exactly one of these must be specified: Or at least one of these can be specified: Configuration for primary backup routing policy Routing policy backup data arguments for the primary backup routing policy. Specify either --routing-policy-backup-data or --routing-policy-backup-item, but not both. Exactly one of these must be specified: (DEPRECATED) Specify the backup configuration for a primary backup routing policy. This backup configuration uses the same format as the routing-policy-data argument because it functions as another geolocation routing policy. The --routing-policy-backup-data flag is deprecated. Use --routing-policy-backup-item instead.
+    /// </summary>
+    [CliOption("--routing-policy-backup-data", Format = OptionFormat.EqualsSeparated)]
+    public string? RoutingPolicyBackupData { get; set; }
+
+    /// <summary>
+    /// Resource record sets arguments. Can specify either --rrdatas or both --routing-policy-data and --routing-policy-type. Exactly one of these must be specified: Or at least one of these can be specified: Routing policy arguments. --routing-policy-type should be specified exactly when one of --routing-policy-data, --routing-policy-item, or --routing-policy-primary-data is set. Routing policy data arguments. Allows setting one of [routing-policy-data, routing-policy-item, [routing-policy-primary-data, [routing-policy-backup-data, routing-policy-backup-item]]] Exactly one of these must be specified: Or at least one of these can be specified: Configuration for primary backup routing policy Routing policy backup data arguments for the primary backup routing policy. Specify either --routing-policy-backup-data or --routing-policy-backup-item, but not both. Exactly one of these must be specified: Specify this argument multiple times to define multiple items for a primary backup routing policy. (e.g. --routing-policy-backup-item=location=us-east1-a,rrdatas=1.2.3.4;2.3.4.5,external_endpoints=3.4.5.6;4.5.6.7 --routing-policy-backup-item=location=us-east1-b,rrdatas=10.0.0.1;10.0.0.2,external_endpoints=10.0.0.4) location The location corresponding to the item. rrdatas The list of rrdatas, split by ";". external_endpoints The list of health checked ips, split by ";". internal_load_balancers The list of health checked internal load balancers, split by ";".
+    /// </summary>
+    [CliOption("--routing-policy-backup-item", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RoutingPolicyBackupItem { get; set; }
+
+    /// <summary>
+    /// Resource record sets arguments. Can specify either --rrdatas or both --routing-policy-data and --routing-policy-type. Exactly one of these must be specified: Or at least one of these can be specified: Routing policy arguments. --routing-policy-type should be specified exactly when one of --routing-policy-data, --routing-policy-item, or --routing-policy-primary-data is set. Health checking arguments. You can specify one of --health-check or --enable-health-checking, but not both. At most one of these can be specified: Required if specifying forwarding rule names for rrdata.
+    /// </summary>
+    [CliFlag("--enable-health-checking")]
+    public bool? EnableHealthChecking { get; set; }
+
+    /// <summary>
+    /// Resource record sets arguments. Can specify either --rrdatas or both --routing-policy-data and --routing-policy-type. Exactly one of these must be specified: Or at least one of these can be specified: Routing policy arguments. --routing-policy-type should be specified exactly when one of --routing-policy-data, --routing-policy-item, or --routing-policy-primary-data is set. Health checking arguments. You can specify one of --health-check or --enable-health-checking, but not both. At most one of these can be specified: Specifies the health check to be used for public IP health checking. Either the health check name or full resource path should be provided.
+    /// </summary>
+    [CliOption("--health-check", Format = OptionFormat.EqualsSeparated)]
+    public string? HealthCheck { get; set; }
+
+    /// <summary>
+    /// Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// TTL (time to live) for the record-set.
+    /// </summary>
+    [CliOption("--ttl", Format = OptionFormat.EqualsSeparated)]
+    public string? Ttl { get; set; }
+
 }

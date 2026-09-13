@@ -10,15 +10,37 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an Artifact Registry rule
 /// </summary>
+/// <param name="Action">The action the rule would make, can only be DENY or ALLOW. ACTION must be one of: allow, deny.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "rules", "create")]
-public record GcloudArtifactsRulesCreateOptions : GcloudOptions
+public record GcloudArtifactsRulesCreateOptions(
+    [property: CliOption("--action", Format = OptionFormat.EqualsSeparated)] GcloudAction Action
+) : GcloudOptions
 {
+    /// <summary>
+    /// The CEL expression for the rule.
+    /// </summary>
+    [CliOption("--condition", Format = OptionFormat.EqualsSeparated)]
+    public string? Condition { get; set; }
+
+    /// <summary>
+    /// The operation the rule applies to. OPERATION must be (only one value is supported): download.
+    /// </summary>
+    [CliOption("--operation", Format = OptionFormat.EqualsSeparated)]
+    public string? Operation { get; set; }
+
+    /// <summary>
+    /// The package the rule applies to. Empty means the rule is set for the entire repository.
+    /// </summary>
+    [CliOption("--package", Format = OptionFormat.EqualsSeparated)]
+    public string? Package { get; set; }
+
 }

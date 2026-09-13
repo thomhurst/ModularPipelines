@@ -21,4 +21,34 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "hub", "identity-service", "apply")]
 public record GcloudContainerHubIdentityServiceApplyOptions : GcloudOptions
 {
+    /// <summary>
+    /// At least one of these must be specified: The path to an identity-service.yaml configuration file.
+    /// </summary>
+    [CliOption("--fleet-default-member-config", Format = OptionFormat.EqualsSeparated)]
+    public string? FleetDefaultMemberConfig { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Exactly one of these must be specified: The path to an identity-service.yaml configuration file.
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Exactly one of these must be specified: Applies the fleet-level default membership configuration to a membership. ORIGIN must be (only one value is supported): fleet.
+    /// </summary>
+    [CliOption("--origin", Format = OptionFormat.EqualsSeparated)]
+    public string? Origin { get; set; }
+
+    /// <summary>
+    /// Membership resource - The group of arguments defining a membership. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --membership on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. ID of the membership or fully qualified identifier for the membership. To set the membership attribute: ▸ provide the argument --membership on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--membership", Format = OptionFormat.EqualsSeparated)]
+    public string? Membership { get; set; }
+
+    /// <summary>
+    /// Membership resource - The group of arguments defining a membership. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --membership on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. Location for the membership. To set the location attribute: ▸ provide the argument --membership on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property gkehub/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

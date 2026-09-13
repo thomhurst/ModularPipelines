@@ -16,10 +16,15 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list benchmarks for a given     model and model server
 /// </summary>
+/// <param name="Model">The model.</param>
+/// <param name="ModelServer">The model server.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "ai", "profiles", "benchmarks", "list")]
-public record GcloudContainerAiProfilesBenchmarksListOptions : GcloudOptions
+public record GcloudContainerAiProfilesBenchmarksListOptions(
+    [property: CliOption("--model", Format = OptionFormat.EqualsSeparated)] string Model,
+    [property: CliOption("--model-server", Format = OptionFormat.EqualsSeparated)] string ModelServer
+) : GcloudOptions
 {
     /// <summary>
     /// The format to print the output in. Default is csvprofile, which displays the profile information in a CSV format, including cost conversions.

@@ -16,9 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// accept a proposal to     update a spoke in a hub
 /// </summary>
+/// <param name="Spoke">URI of the spoke to accept update</param>
+/// <param name="SpokeEtag">Etag of the spoke to accept update</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "hubs", "accept-spoke-update")]
-public record GcloudNetworkConnectivityHubsAcceptSpokeUpdateOptions : GcloudOptions
+public record GcloudNetworkConnectivityHubsAcceptSpokeUpdateOptions(
+    [property: CliOption("--spoke", Format = OptionFormat.EqualsSeparated)] string Spoke,
+    [property: CliOption("--spoke-etag", Format = OptionFormat.EqualsSeparated)] string SpokeEtag
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

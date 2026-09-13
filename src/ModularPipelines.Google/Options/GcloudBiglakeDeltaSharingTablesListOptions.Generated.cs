@@ -21,4 +21,22 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("biglake", "delta-sharing", "tables", "list")]
 public record GcloudBiglakeDeltaSharingTablesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// Schema resource - The schema to list tables from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --schema on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the schema or fully qualified identifier for the schema. To set the schema attribute: ▸ provide the argument --schema on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--schema", Format = OptionFormat.EqualsSeparated)]
+    public string? Schema { get; set; }
+
+    /// <summary>
+    /// Schema resource - The schema to list tables from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --schema on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The BigQuery catalog ID. To set the catalog attribute: ▸ provide the argument --schema on the command line with a fully specified name; ▸ provide the argument --catalog on the command line.
+    /// </summary>
+    [CliOption("--catalog", Format = OptionFormat.EqualsSeparated)]
+    public string? Catalog { get; set; }
+
+    /// <summary>
+    /// Schema resource - The schema to list tables from. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --schema on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The share ID. To set the share attribute: ▸ provide the argument --schema on the command line with a fully specified name; ▸ provide the argument --share on the command line.
+    /// </summary>
+    [CliOption("--share", Format = OptionFormat.EqualsSeparated)]
+    public string? Share { get; set; }
+
 }

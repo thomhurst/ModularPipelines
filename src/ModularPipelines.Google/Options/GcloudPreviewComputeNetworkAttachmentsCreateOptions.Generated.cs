@@ -10,17 +10,57 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Google Compute     Engine network attachment
 /// </summary>
+/// <param name="Subnets">The subnetworks provided by the consumer for the producers</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "network-attachments", "create")]
 public record GcloudPreviewComputeNetworkAttachmentsCreateOptions(
+    [property: CliOption("--subnets", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Subnets,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// The connection preference of network attachment. The value can be set to ACCEPT_AUTOMATIC or ACCEPT_MANUAL. An ACCEPT_AUTOMATIC network attachment is one that always accepts the connection from producer NIC. An ACCEPT_MANUAL network attachment is one that requires an explicit addition of the producer project id or project number to the producer accept list. CONNECTION_PREFERENCE must be one of: ACCEPT_AUTOMATIC, ACCEPT_MANUAL.
+    /// </summary>
+    [CliOption("--connection-preference", Format = OptionFormat.EqualsSeparated)]
+    public GcloudConnectionPreference? ConnectionPreference { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the network attachment.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Projects that are allowed to connect to this network attachment.
+    /// </summary>
+    [CliOption("--producer-accept-list", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ProducerAcceptList { get; set; }
+
+    /// <summary>
+    /// Projects that are not allowed to connect to this network attachment.
+    /// </summary>
+    [CliOption("--producer-reject-list", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ProducerRejectList { get; set; }
+
+    /// <summary>
+    /// Region of the network attachment to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Region of the subnetworks to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--subnets-region", Format = OptionFormat.EqualsSeparated)]
+    public string? SubnetsRegion { get; set; }
+
 }

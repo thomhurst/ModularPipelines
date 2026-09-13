@@ -10,15 +10,41 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Security Health Analytics     custom module
 /// </summary>
+/// <param name="CustomConfigFromFile">Path to a YAML file that contains the configuration for the Security Health Analytics custom module. Use a full or relative path to a local file containing the value of custom_config.</param>
+/// <param name="DisplayName">Sets the display name of the Security Health Analytics custom module. This display name becomes the finding category for all findings that are returned by this custom module. The display name must be between 1 and 128 characters, start with a lowercase letter, and contain alphanumeric characters or underscores only.</param>
+/// <param name="EnablementState">Sets the enablement state of the Security Health Analytics custom module. From the following list of possible enablement states, specify either enabled or disabled only. ENABLEMENT_STATE must be one of: disabled, enabled, enablement-state-unspecified, inherited.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "custom-modules", "sha", "create")]
-public record GcloudSccCustomModulesShaCreateOptions : GcloudOptions
+public record GcloudSccCustomModulesShaCreateOptions(
+    [property: CliOption("--custom-config-from-file", Format = OptionFormat.EqualsSeparated)] string CustomConfigFromFile,
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName,
+    [property: CliOption("--enablement-state", Format = OptionFormat.EqualsSeparated)] GcloudEnablementState EnablementState
+) : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: Folder where the Security Health Analytics custom module resides. Formatted as folders/456 or just 456.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Organization where the Security Health Analytics custom module resides. Formatted as organizations/123 or just 123.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: ID or number of the project where the Security Health Analytics custom module resides. Formatted as projects/789 or just 789.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
 }

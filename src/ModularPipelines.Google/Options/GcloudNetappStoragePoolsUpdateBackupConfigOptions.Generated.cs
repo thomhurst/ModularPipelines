@@ -16,9 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update backup config of     a volume in an ONTAP-mode Storage Pool
 /// </summary>
+/// <param name="BackupConfig">Backup Config contains backup related config on a volume in ONTAP-mode Storage Pool. Backup Config will have the following format: --backup-config=backup-policies=BACKUP_POLICIES,backup-vault=BACKUP_VAULT_NAME,enable-scheduled-backups=ENABLE_SCHEDULED_BACKUPS backup-policies is a pound-separated (#) list of backup policy names, backup-vault can include a single backup-vault resource name, and enable-scheduled-backups is a Boolean value indicating whether or not scheduled backups are enabled on the volume in the ONTAP-mode Storage Pool.</param>
+/// <param name="VolumeUuid">The UUID of the volume to update backup config for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netapp", "storage-pools", "update-backup-config")]
-public record GcloudNetappStoragePoolsUpdateBackupConfigOptions : GcloudOptions
+public record GcloudNetappStoragePoolsUpdateBackupConfigOptions(
+    [property: CliOption("--backup-config", Format = OptionFormat.EqualsSeparated)] string BackupConfig,
+    [property: CliOption("--volume-uuid", Format = OptionFormat.EqualsSeparated)] string VolumeUuid
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

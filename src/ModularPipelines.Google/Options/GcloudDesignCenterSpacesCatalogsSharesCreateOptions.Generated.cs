@@ -21,4 +21,22 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("design-center", "spaces", "catalogs", "shares", "create")]
 public record GcloudDesignCenterSpacesCatalogsSharesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Space resource - The space resource path to which the catalog is shared. Format is projects/$project/locations/$location/spaces/$space This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination-space on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --destination-space on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the space or fully qualified identifier for the space. To set the space attribute: ▸ provide the argument --destination-space on the command line.
+    /// </summary>
+    [CliOption("--destination-space", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationSpace { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// For resources [share, destination-space], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

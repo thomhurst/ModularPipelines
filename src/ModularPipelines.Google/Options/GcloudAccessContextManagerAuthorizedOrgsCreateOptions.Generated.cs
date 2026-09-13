@@ -10,15 +10,35 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new     authorized organizations description
 /// </summary>
+/// <param name="AssetType">The asset type of this authorized organizations description. For example, device, or credential strength. ASSET_TYPE must be one of: asset-type-credential-strength, asset-type-device, asset-type-unspecified.</param>
+/// <param name="AuthorizationDirection">Authorization direction of this authorization relationship. Specifies whether to allow specified organizations to evaluate this organization's traffic, or allow specified organizations traffic to be evaluated by this org. AUTHORIZATION_DIRECTION must be one of: authorization-direction-from, authorization-direction-to, authorization-direction-unspecified.</param>
+/// <param name="AuthorizationType">The authorization type of the authorized organizations description. For example, trust, troubleshooting or logging. AUTHORIZATION_TYPE must be one of: authorization-type-trust, authorization-type-unspecified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("access-context-manager", "authorized-orgs", "create")]
-public record GcloudAccessContextManagerAuthorizedOrgsCreateOptions : GcloudOptions
+public record GcloudAccessContextManagerAuthorizedOrgsCreateOptions(
+    [property: CliOption("--asset_type", Format = OptionFormat.EqualsSeparated)] GcloudAssetType AssetType,
+    [property: CliOption("--authorization_direction", Format = OptionFormat.EqualsSeparated)] string AuthorizationDirection,
+    [property: CliOption("--authorization_type", Format = OptionFormat.EqualsSeparated)] string AuthorizationType
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of organizations (in the following format: organizations/&lt;organizationnumber&gt;).
+    /// </summary>
+    [CliOption("--orgs", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Orgs { get; set; }
+
 }

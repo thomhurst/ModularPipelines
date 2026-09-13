@@ -66,7 +66,7 @@ public class GcloudComputeMigration
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeMigrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeMigrationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

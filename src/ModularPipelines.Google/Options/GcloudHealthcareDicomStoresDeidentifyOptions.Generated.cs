@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// identify data from the     source store and write it to the destination store
 /// </summary>
+/// <param name="DestinationStore">The name of the DICOM store to which the redacted data should be written (e.g., projects/{projectId}/locations/{locationId}/datasets/{datasetId}/dicomStores/{dicomStoreId}). The destination DICOM store must already exist, or the request will fail.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "dicom-stores", "deidentify")]
-public record GcloudHealthcareDicomStoresDeidentifyOptions : GcloudOptions
+public record GcloudHealthcareDicomStoresDeidentifyOptions(
+    [property: CliOption("--destination-store", Format = OptionFormat.EqualsSeparated)] string DestinationStore
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Tags to be filtered. Tags must be DICOM Data Elements, File Meta Elements, or Directory Structuring Elements, as defined at: http://dicom.nema.org/medical/dicom/current/output/html/part06.html#table_6-1,. They may be provided by "Keyword" or "Tag". For example "PatientID", "0010,0010".
+    /// </summary>
+    [CliOption("--dicom-filter-tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DicomFilterTags { get; set; }
+
+    /// <summary>
+    /// Determines how to redact text from image. TEXT_REDACTION_MODE must be (only one value is supported): all Redact all text.
+    /// </summary>
+    [CliOption("--text-redaction-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? TextRedactionMode { get; set; }
+
 }

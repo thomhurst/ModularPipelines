@@ -13,6 +13,7 @@ using ModularPipelines.Google.Options;
 
 namespace ModularPipelines.Google.Options;
 
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "attachments", "groups", "get-operational-status")]

@@ -16,9 +16,14 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// acknowledge messages on a     Pub/Sub Lite subscription
 /// </summary>
+/// <param name="Offset">The offset of a message within a topic partition. Must be greater than or equal to 0.</param>
+/// <param name="Partition">The topic partition. Partitions are zero indexed, so the partition must be in the range [0, topic.num_partitions). If you do not know your topic.num_partitions, run gcloud pubsub lite-topic describe TOPIC --location=ZONE.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "lite-subscriptions", "ack-up-to")]
-public record GcloudPubsubLiteSubscriptionsAckUpToOptions : GcloudOptions
+public record GcloudPubsubLiteSubscriptionsAckUpToOptions(
+    [property: CliOption("--offset", Format = OptionFormat.EqualsSeparated)] string Offset,
+    [property: CliOption("--partition", Format = OptionFormat.EqualsSeparated)] string Partition
+) : GcloudOptions
 {
 }

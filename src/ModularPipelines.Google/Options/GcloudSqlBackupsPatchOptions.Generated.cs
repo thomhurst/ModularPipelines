@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update the Final backup of a Cloud SQL project
 /// </summary>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "backups", "patch")]
@@ -23,4 +24,22 @@ public record GcloudSqlBackupsPatchOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// At least one of these must be specified: Provides description for the backup going to be taken.
+    /// </summary>
+    [CliOption("--backup-description", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupDescription { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: Specifies when the final backup expires. The Maximum time allowed is 365 days from now. Format: YYYY-MM-DDTHH:MM:SS. Provide either ttl-days or expiry-time.
+    /// </summary>
+    [CliOption("--expiry-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ExpiryTime { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: Specifies the number of days to retain the final backup. The valid range is between 1 and 365. The Default value is 30 days. Provide either ttl-days or expiry-time.
+    /// </summary>
+    [CliOption("--ttl-days", Format = OptionFormat.EqualsSeparated)]
+    public string? TtlDays { get; set; }
+
 }

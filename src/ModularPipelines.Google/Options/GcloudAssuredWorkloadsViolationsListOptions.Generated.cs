@@ -16,9 +16,16 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list all Assured Workloads     violations that belong to a assured workloads environment
 /// </summary>
+/// <param name="Location">The location of the Assured Workloads environments. For a current list of supported LOCATION values, see Assured Workloads locations (https://cloud.google.com/assured-workloads/docs/locations).</param>
+/// <param name="Organization">The parent organization of the Assured Workloads environments, provided as an organization ID.</param>
+/// <param name="Workload">The parent workload of the Assured Workloads violations, provided as workload ID.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("assured", "workloads", "violations", "list")]
-public record GcloudAssuredWorkloadsViolationsListOptions : GcloudOptions
+public record GcloudAssuredWorkloadsViolationsListOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
+    [property: CliOption("--organization", Format = OptionFormat.EqualsSeparated)] string Organization,
+    [property: CliOption("--workload", Format = OptionFormat.EqualsSeparated)] string Workload
+) : GcloudOptions
 {
 }

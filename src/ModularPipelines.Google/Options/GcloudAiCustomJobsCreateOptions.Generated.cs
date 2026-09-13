@@ -10,15 +10,125 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new custom job
 /// </summary>
+/// <param name="DisplayName">Display name of the custom job to create.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "custom-jobs", "create")]
-public record GcloudAiCustomJobsCreateOptions : GcloudOptions
+public record GcloudAiCustomJobsCreateOptions(
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Worker pool specification. At least one of these must be specified: Path to the job configuration file. This file should be a YAML document containing a `CustomJobSpec` (https://cloud.google.com/vertex-ai/docs/reference/rest/v1/CustomJobSpec). If an option is specified both in the configuration file **and** via command-line arguments, the command-line arguments override the configuration file. Note that keys with underscore are invalid. Example(YAML): workerPoolSpecs: machineSpec: machineType: n1-highmem-2 replicaCount: 1 containerSpec: imageUri: gcr.io/ucaip-test/ucaip-training-test args: - port=8500 command: - start
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// Worker pool specification. At least one of these must be specified: Define the worker pool configuration used by the custom job. You can specify multiple worker pool specs in order to create a custom job with multiple worker pools. The spec can contain the following fields: machine-type (Required): The type of the machine. see https://cloud.google.com/vertex-ai/docs/training/configure-compute#machine-types for supported types. This is corresponding to the machineSpec.machineType field in WorkerPoolSpec API message. replica-count The number of worker replicas to use for this worker pool, by default the value is 1. This is corresponding to the replicaCount field in WorkerPoolSpec API message. accelerator-type The type of GPUs. see https://cloud.google.com/vertex-ai/docs/training/configure-compute#specifying_gpus for more requirements. This is corresponding to the machineSpec.acceleratorType field in WorkerPoolSpec API message. accelerator-count The number of GPUs for each VM in the worker pool to use, by default the value if 1. This is corresponding to the machineSpec.acceleratorCount field in WorkerPoolSpec API message. container-image-uri The URI of a container image to be directly run on each worker replica. This is corresponding to the containerSpec.imageUri field in WorkerPoolSpec API message. executor-image-uri The URI of a container image that will run the provided package. output-image-uri The URI of a custom container image to be built for autopackaged custom jobs. python-module The Python module name to run within the provided package. local-package-path The local path of a folder that contains training code. script The relative path under the local-package-path to a file to execute. It can be a Python file or an arbitrary bash script. requirements Python dependencies to be installed from PyPI, separated by ";". This is supposed to be used when some public packages are required by your training application but not in the base images. It has the same effect as editing a "requirements.txt" file under local-package-path. extra-packages Relative paths of local Python archives to be installed, separated by ";". This is supposed to be used when some custom packages are required by your training application but not in the base images. Every path should be relative to the local-package-path. extra-dirs Relative paths of the folders under local-package-path to be copied into the container, separated by ";". If not specified, only the parent directory that contains the main executable (script or python-module) will be copied. Note that some of these fields are used for different job creation methods and are categorized as mutually exclusive groups listed below. Exactly one of these groups of fields must be specified: container-image-uri Specify this field to use a custom container image for training. Together with the --command and --args flags, this field represents a `WorkerPoolSpec.ContainerSpec` (https://cloud.google.com/vertex-ai/docs/reference/rest/v1/CustomJobSpec?#containerspec) message. In this case, the --python-package-uris flag is disallowed. Example: --worker-pool-spec=replica-count=1,machine-type=n1-highmem-2,container-image-uri=gcr.io/ucaip-test/ucaip-training-test executor-image-uri, python-module Specify these fields to train using a pre-built container and Python packages that are already in Cloud Storage. Together with the --python-package-uris and --args flags, these fields represent a `WorkerPoolSpec.PythonPackageSpec` (https://cloud.google.com/vertex-ai/docs/reference/rest/v1/CustomJobSpec#pythonpackagespec) message . Example: --worker-pool-spec=machine-type=e2-standard-4,executor-image-uri=us-docker.pkg.dev/vertex-ai/training/tf-cpu.2-4:latest,python-module=trainer.task output-image-uri Specify this field to push the output custom container training image to a specific path in Container Registry or Artifact Registry for an autopackaged custom job. Example: --worker-pool-spec=machine-type=e2-standard-4,executor-image-uri=us-docker.pkg.dev/vertex-ai/training/tf-cpu.2-4:latest,output-image-uri='eu.gcr.io/projectName/imageName',python-module=trainer.task local-package-path, executor-image-uri, output-image-uri, python-module|script Specify these fields, optionally with requirements, extra-packages, or extra-dirs, to train using a pre-built container and Python code from a local path. In this case, the --python-package-uris flag is disallowed. Example using python-module: --worker-pool-spec=machine-type=e2-standard-4,replica-count=1,executor-image-uri=us-docker.pkg.dev/vertex-ai/training/tf-cpu.2-4:latest,python-module=trainer.task,local-package-path=/usr/page/application Example using script: --worker-pool-spec=machine-type=e2-standard-4,replica-count=1,executor-image-uri=us-docker.pkg.dev/vertex-ai/training/tf-cpu.2-4:latest,script=my_run.sh,local-package-path=/usr/jeff/application
+    /// </summary>
+    [CliOption("--worker-pool-spec", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? WorkerPoolSpec { get; set; }
+
+    /// <summary>
+    /// Comma-separated arguments passed to containers or python tasks.
+    /// </summary>
+    [CliOption("--args", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Args { get; set; }
+
+    /// <summary>
+    /// Command to be invoked when containers are started. It overrides the entrypoint instruction in Dockerfile when provided.
+    /// </summary>
+    [CliOption("--command", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Command { get; set; }
+
+    /// <summary>
+    /// Whether you want Vertex AI to enable dashboard built on the training containers. If set to true, you can access the dashboard at the URIs given by CustomJob.web_access_uris or Trial.web_access_uris (within HyperparameterTuningJob.trials).
+    /// </summary>
+    [CliFlag("--enable-dashboard-access")]
+    public bool? EnableDashboardAccess { get; set; }
+
+    /// <summary>
+    /// Whether you want Vertex AI to enable interactive shell access (https://cloud.google.com/vertex-ai/docs/training/monitor-debug-interactive-shell) to training containers. If set to true, you can access interactive shells at the URIs given by CustomJob.web_access_uris or Trial.web_access_uris (within HyperparameterTuningJob.trials).
+    /// </summary>
+    [CliFlag("--enable-web-access")]
+    public bool? EnableWebAccess { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Full name of the Google Compute Engine network to which the Job is peered with. Private services access must already have been configured. If unspecified, the Job is not peered with any network.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// The name of the persistent resource from the same project and region on which to run this custom job. If this is specified, the job will be run on existing machines held by the PersistentResource instead of on-demand short-lived machines. The network and CMEK configs on the job should be consistent with those on the PersistentResource, otherwise, the job will be rejected.
+    /// </summary>
+    [CliOption("--persistent-resource-id", Format = OptionFormat.EqualsSeparated)]
+    public string? PersistentResourceId { get; set; }
+
+    /// <summary>
+    /// The common Python package URIs to be used for training with a pre-built container image. e.g. --python-package-uri=path1,path2 If you are using multiple worker pools and want to specify a different Python packag fo reach pool, use --config instead.
+    /// </summary>
+    [CliOption("--python-package-uris", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? PythonPackageUris { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create a custom job. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property ai/region; ◆ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create a custom job. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The email address of a service account to use when running the training appplication. You must have the iam.serviceAccounts.actAs permission for the specified service account.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the custom job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the custom job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the custom job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the custom job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(Config) || WorkerPoolSpec?.Any() == true))
+        {
+            yield return new ValidationResult("At least one of Config or WorkerPoolSpec must be specified.", [nameof(Config), nameof(WorkerPoolSpec)]);
+        }
+    }
+
 }

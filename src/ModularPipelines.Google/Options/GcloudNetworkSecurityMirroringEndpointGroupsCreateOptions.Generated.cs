@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,52 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-security", "mirroring-endpoint-groups", "create")]
 public record GcloudNetworkSecurityMirroringEndpointGroupsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// This must be specified. Mirroring deployment group resource - Mirroring Deployment Group. The arguments in this group can be used to specify the attributes of this resource. ID of the mirroring deployment group or fully qualified identifier for the mirroring deployment group. To set the id attribute: ▸ provide the argument --mirroring-deployment-group on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--mirroring-deployment-group", Format = OptionFormat.EqualsSeparated)]
+    public string? MirroringDeploymentGroup { get; set; }
+
+    /// <summary>
+    /// This must be specified. Mirroring deployment group resource - Mirroring Deployment Group. The arguments in this group can be used to specify the attributes of this resource. Location of the mirroring deployment group. To set the location attribute: ▸ provide the argument --mirroring-deployment-group on the command line with a fully specified name; ▸ provide the argument --mirroring-deployment-group-location on the command line; ▸ provide the argument --location on the command line; ▸ provide the argument MIRRORING_ENDPOINT_GROUP on the command line with a fully specified name.
+    /// </summary>
+    [CliOption("--mirroring-deployment-group-location", Format = OptionFormat.EqualsSeparated)]
+    public string? MirroringDeploymentGroupLocation { get; set; }
+
+    /// <summary>
+    /// This must be specified. Mirroring deployment group resource - Mirroring Deployment Group. The arguments in this group can be used to specify the attributes of this resource. Project of the mirroring deployment group. To set the project attribute: ▸ provide the argument --mirroring-deployment-group on the command line with a fully specified name; ▸ provide the argument --mirroring-deployment-group-project on the command line; ▸ provide the argument --project on the command line; ▸ set the property core/project; ▸ provide the argument MIRRORING_ENDPOINT_GROUP on the command line with a fully specified name.
+    /// </summary>
+    [CliOption("--mirroring-deployment-group-project", Format = OptionFormat.EqualsSeparated)]
+    public string? MirroringDeploymentGroupProject { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Description of the endpoint
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --no-async isn't specified. See $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxWait { get; set; }
+
 }

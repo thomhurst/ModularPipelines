@@ -16,11 +16,32 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe an insight type     configuration
 /// </summary>
+/// <param name="Location">Location to use for this invocation.</param>
+/// <param name="InsightType"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("recommender", "insight-type-config", "describe")]
 public record GcloudRecommenderInsightTypeConfigDescribeOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InsightType
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Exactly one of these must be specified: The Google Cloud billing account ID to use for this invocation.
+    /// </summary>
+    [CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BillingAccount { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Exactly one of these must be specified: The Google Cloud organization ID to use for this invocation.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with cloud entity type. Exactly one of these must be specified: The Google Cloud project ID. Overrides the default core/project property value for this command invocation.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
 }

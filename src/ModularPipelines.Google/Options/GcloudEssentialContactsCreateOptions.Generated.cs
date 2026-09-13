@@ -10,15 +10,41 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an essential contact
 /// </summary>
+/// <param name="Email">email address of contact.</param>
+/// <param name="Language">preferred language of contact. Must be a valid ISO 639-1 language code.</param>
+/// <param name="NotificationCategories">list of notification categories contact is subscribed to. NOTIFICATION_CATEGORIES must be one of: all, billing, legal, notification-category-unspecified, product-updates, security, suspension, technical, technical-incidents.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("essential-contacts", "create")]
-public record GcloudEssentialContactsCreateOptions : GcloudOptions
+public record GcloudEssentialContactsCreateOptions(
+    [property: CliOption("--email", Format = OptionFormat.EqualsSeparated)] string Email,
+    [property: CliOption("--language", Format = OptionFormat.EqualsSeparated)] string Language,
+    [property: CliOption("--notification-categories", Format = OptionFormat.EqualsSeparated)] GcloudNotificationCategories NotificationCategories
+) : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: folder number where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: organization number where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: project number or id where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
 }

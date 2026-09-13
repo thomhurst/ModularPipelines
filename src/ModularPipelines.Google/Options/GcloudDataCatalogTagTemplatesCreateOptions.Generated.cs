@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Data Catalog tag     template
 /// </summary>
+/// <param name="Field">Specification for a tag template field. This flag can be repeated to specify multiple fields. The following keys are allowed: *id*::: (Required) ID of the tag template field. *type*::: (Required) Type of the tag template field. Choices are double, string, bool, timestamp, and enum. To specify a string field: `type=string` To specify an enum field with values 'A' and 'B': `type=enum(A|B)` *display-name*::: Display name of the tag template field. *required*::: Indicates if the tag template field is required. Defaults to FALSE.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "tag-templates", "create")]
-public record GcloudDataCatalogTagTemplatesCreateOptions : GcloudOptions
+public record GcloudDataCatalogTagTemplatesCreateOptions(
+    [property: CliOption("--field", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Field
+) : GcloudOptions
 {
+    /// <summary>
+    /// Human-readable name for the tag template.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
 }

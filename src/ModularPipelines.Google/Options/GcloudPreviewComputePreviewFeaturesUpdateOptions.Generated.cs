@@ -10,15 +10,41 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// update a preview feature's     activation status
 /// </summary>
+/// <param name="ActivationStatus">The activation status of the preview feature. ACTIVATION_STATUS must be one of: enabled, unspecified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "preview-features", "update")]
-public record GcloudPreviewComputePreviewFeaturesUpdateOptions : GcloudOptions
+public record GcloudPreviewComputePreviewFeaturesUpdateOptions(
+    [property: CliOption("--activation-status", Format = OptionFormat.EqualsSeparated)] GcloudActivationStatus ActivationStatus
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// The rollout plan of the preview feature. Exactly one of these must be specified: Use a custom rollout plan by name.
+    /// </summary>
+    [CliOption("--custom-rollout-plan", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomRolloutPlan { get; set; }
+
+    /// <summary>
+    /// The rollout plan of the preview feature. Exactly one of these must be specified: Use a predefined rollout plan. ROLLOUT_PLAN must be one of: fast-rollout, two-day-rollout.
+    /// </summary>
+    [CliOption("--rollout-plan", Format = OptionFormat.EqualsSeparated)]
+    public GcloudRolloutPlan? RolloutPlan { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(CustomRolloutPlan) ? 1 : 0) + (RolloutPlan is not null ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of CustomRolloutPlan or RolloutPlan must be specified.", [nameof(CustomRolloutPlan), nameof(RolloutPlan)]);
+        }
+    }
+
 }

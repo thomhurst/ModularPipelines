@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -16,11 +17,45 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// executes a statement on a Cloud SQL     instance
 /// </summary>
+/// <param name="Sql">SQL statement(s) to execute. It supports multiple statements as well. When it starts with the character '@', the rest should be a filepath to read the SQL statement(s) from. For example, --sql=@my_script.sql.</param>
+/// <param name="Instance"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "execute-sql")]
 public record GcloudSqlInstancesExecuteSqlOptions(
+    [property: CliOption("--sql", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Sql,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Database on which the statement is executed.
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string? Database { get; set; }
+
+    /// <summary>
+    /// Controls how the API responds when the SQL execution result is incomplete due to size limit or other reasons. The default mode is to return an error instead of returning a partial result. PARTIAL_RESULT_MODE must be one of: ALLOW_PARTIAL_RESULT If the complete result is unavailable, returns a partial result, marks the field &lt;code&gt;partial_result&lt;/code&gt; to &lt;code&gt;true&lt;/code&gt;, and doesn't throw an error. FAIL_PARTIAL_RESULT If the complete result is unavailable, returns an error and doesn't return the partial result. PARTIAL_RESULT_MODE_UNSPECIFIED Unspecified mode, effectively the same as &lt;code&gt;FAIL_PARTIAL_RESULT&lt;/code&gt;.
+    /// </summary>
+    [CliOption("--partial-result-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? PartialResultMode { get; set; }
+
+    /// <summary>
+    /// The resource name of the Secret Manager secret holding the password for the database user. The secret should be created using the regional endpoint and stored in the same region as the Cloud SQL instance. The expected resource name format is &lt;code&gt;projects/{project}/locations/{location}/secrets/{secret}/versions/{secret_version}&lt;/code&gt;. Used together with &lt;code&gt;--user&lt;/code&gt;. If not specified, IAM database authentication is used.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password-secret-version", Format = OptionFormat.EqualsSeparated)]
+    public string? PasswordSecretVersion { get; set; }
+
+    /// <summary>
+    /// Maximum number of rows to return. The default is unlimited.
+    /// </summary>
+    [CliOption("--row-limit", Format = OptionFormat.EqualsSeparated)]
+    public string? RowLimit { get; set; }
+
+    /// <summary>
+    /// The database user to authenticate as. Used together with &lt;code&gt;--password-secret-version&lt;/code&gt;. If not specified, IAM database authentication is used.
+    /// </summary>
+    [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
+    public string? User { get; set; }
+
 }

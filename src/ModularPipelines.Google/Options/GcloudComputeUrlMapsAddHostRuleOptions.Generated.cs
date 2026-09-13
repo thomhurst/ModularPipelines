@@ -16,11 +16,34 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add a rule to a URL map to map     hosts to a path matcher
 /// </summary>
+/// <param name="Hosts">The set of hosts to match requests against. Each host must be a fully qualified domain name (FQDN) with the exception that the host can begin with a ``*'' or ``*-''. ``*'' acts as a glob and will match any string of atoms to the left where an atom is separated by dots (``.'') or dashes (``-'').</param>
+/// <param name="PathMatcherName">The name of the path matcher to use if a request matches this host rule. The path matcher must already exist in the URL map (see gcloud compute url-maps add-path-matcher).</param>
+/// <param name="UrlMap"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "url-maps", "add-host-rule")]
 public record GcloudComputeUrlMapsAddHostRuleOptions(
+    [property: CliOption("--hosts", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Hosts,
+    [property: CliOption("--path-matcher-name", Format = OptionFormat.EqualsSeparated)] string PathMatcherName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string UrlMap
 ) : GcloudOptions
 {
+    /// <summary>
+    /// An optional, textual description for the host rule.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the URL map is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the URL map to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

@@ -10,16 +10,20 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// add labels to Google Compute     Engine snapshots
 /// </summary>
+/// <param name="Labels">A list of labels to add.</param>
+/// <param name="SnapshotName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "snapshots", "add-labels")]
 public record GcloudPreviewComputeSnapshotsAddLabelsOptions(
+    [property: CliOption("--labels", Format = OptionFormat.EqualsSeparated)] IReadOnlyList<KeyValue> Labels,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SnapshotName
 ) : GcloudOptions
 {

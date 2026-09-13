@@ -16,9 +16,50 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// publish a Knowledge Catalog     Data Product or BigLake tables to external partners
 /// </summary>
+/// <param name="SapFederatedIdentityProvider">The resource name of the Workload Identity Federation (WIF) provider resource representing the SAP federated identity. You must manually grant this identity the necessary IAM permissions (e.g., roles/biglake.viewer) on the underlying catalog.</param>
+/// <param name="Share">The desired name of the Share as it will be published to</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("biglake", "data-product-sharing", "publish")]
-public record GcloudBiglakeDataProductSharingPublishOptions : GcloudOptions
+public record GcloudBiglakeDataProductSharingPublishOptions(
+    [property: CliOption("--sap-federated-identity-provider", Format = OptionFormat.EqualsSeparated)] string SapFederatedIdentityProvider,
+    [property: CliOption("--share", Format = OptionFormat.EqualsSeparated)] string Share
+) : GcloudOptions
 {
+    /// <summary>
+    /// Catalog resource - The delta sharing catalog that contains information about where the data product is published. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --connection-catalog on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▸ provide the argument --connection-catalog on the command line.
+    /// </summary>
+    [CliOption("--connection-catalog", Format = OptionFormat.EqualsSeparated)]
+    public string? ConnectionCatalog { get; set; }
+
+    /// <summary>
+    /// source Exactly one of these must be specified: The Knowledge Catalog Data Product to publish.
+    /// </summary>
+    [CliOption("--data-product", Format = OptionFormat.EqualsSeparated)]
+    public string? DataProduct { get; set; }
+
+    /// <summary>
+    /// source Exactly one of these must be specified: Or at least one of these can be specified: Catalog resource - The BigLake Iceberg REST Catalog whose tables will be published. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --iceberg-catalog on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. ID of the catalog or fully qualified identifier for the catalog. To set the catalog attribute: ▫ provide the argument --iceberg-catalog on the command line.
+    /// </summary>
+    [CliOption("--iceberg-catalog", Format = OptionFormat.EqualsSeparated)]
+    public string? IcebergCatalog { get; set; }
+
+    /// <summary>
+    /// The optional detailed description of the published share.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The short, concise description of the published share. Required when publishing an Iceberg catalog.
+    /// </summary>
+    [CliOption("--short-description", Format = OptionFormat.EqualsSeparated)]
+    public string? ShortDescription { get; set; }
+
+    /// <summary>
+    /// The title of the published share. Required when publishing an Iceberg catalog.
+    /// </summary>
+    [CliOption("--title", Format = OptionFormat.EqualsSeparated)]
+    public string? Title { get; set; }
+
 }

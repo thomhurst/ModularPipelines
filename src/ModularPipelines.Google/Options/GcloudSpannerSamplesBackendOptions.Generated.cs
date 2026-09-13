@@ -16,11 +16,32 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// run the backend gRPC service for the given     Cloud Spanner sample app
 /// </summary>
+/// <param name="InstanceId">The Cloud Spanner instance ID for the sample app.</param>
+/// <param name="Appname"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "samples", "backend")]
 public record GcloudSpannerSamplesBackendOptions(
+    [property: CliOption("--instance-id", Format = OptionFormat.EqualsSeparated)] string InstanceId,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Appname
 ) : GcloudOptions
 {
+    /// <summary>
+    /// The Cloud Spanner database ID for the sample app.
+    /// </summary>
+    [CliOption("--database-id", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseId { get; set; }
+
+    /// <summary>
+    /// Duration of time allowed to run before stopping the service.
+    /// </summary>
+    [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
+    public string? Duration { get; set; }
+
+    /// <summary>
+    /// Port on which to receive gRPC requests.
+    /// </summary>
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
+    public string? Port { get; set; }
+
 }

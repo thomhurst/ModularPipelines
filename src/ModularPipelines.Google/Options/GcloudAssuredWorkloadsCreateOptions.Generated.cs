@@ -10,15 +10,87 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new Assured Workloads     environment
 /// </summary>
+/// <param name="BillingAccount">The billing account of the new Assured Workloads environment, for example, billingAccounts/0000AA-AAA00A-A0A0A0</param>
+/// <param name="ComplianceRegime">The compliance regime of the new Assured Workloads environment. COMPLIANCE_REGIME must be one of: assured-workloads-for-partners, au-regions-and-us-support, australia-data-boundary-and-support, ca-protected-b, ca-regions-and-support, canada-controlled-goods, canada-data-boundary-and-support, cjis, data-boundary-for-canada-controlled-goods, data-boundary-for-canada-protected-b, data-boundary-for-cjis, data-boundary-for-fedramp-high, data-boundary-for-fedramp-moderate, data-boundary-for-il2, data-boundary-for-il4, data-boundary-for-il5, data-boundary-for-irs-publication-1075, data-boundary-for-itar, eu-data-boundary-and-support, eu-regions-and-support, fedramp-high, fedramp-moderate, healthcare-and-life-sciences-controls, healthcare-and-life-sciences-controls-us-support, hipaa, hitrust, il2, il4, il5, irs-1075, isr-regions, isr-regions-and-support, israel-data-boundary-and-support, itar, japan-data-boundary, jp-regions-and-support, ksa-data-boundary-with-access-justifications, ksa-regions-and-support-with-sovereignty-controls, regional-controls, regional-data-boundary, switzerland-data-boundary-with-access-justifications, us-data-boundary-and-support, us-data-boundary-for-healthcare-and-life-sciences, us-data-boundary-for-healthcare-and-life-sciences-with-support, us-regional-access.</param>
+/// <param name="DisplayName">The display name of the new Assured Workloads environment</param>
+/// <param name="Location">The location of the new Assured Workloads environment. For a current list of supported LOCATION values, see Assured Workloads locations (https://cloud.google.com/assured-workloads/docs/locations).</param>
+/// <param name="Organization">The parent organization of the new Assured Workloads environment, provided as an organization ID</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("assured", "workloads", "create")]
-public record GcloudAssuredWorkloadsCreateOptions : GcloudOptions
+public record GcloudAssuredWorkloadsCreateOptions(
+    [property: CliOption("--billing-account", Format = OptionFormat.EqualsSeparated)] string BillingAccount,
+    [property: CliOption("--compliance-regime", Format = OptionFormat.EqualsSeparated)] string ComplianceRegime,
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName,
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
+    [property: CliOption("--organization", Format = OptionFormat.EqualsSeparated)] string Organization
+) : GcloudOptions
 {
+    /// <summary>
+    /// If true, enable sovereign controls for the new Assured Workloads environment, currently only supported by EU_REGIONS_AND_SUPPORT
+    /// </summary>
+    [CliOption("--enable-sovereign-controls", Format = OptionFormat.EqualsSeparated)]
+    public string? EnableSovereignControls { get; set; }
+
+    /// <summary>
+    /// The external identifier of the new Assured Workloads environment
+    /// </summary>
+    [CliOption("--external-identifier", Format = OptionFormat.EqualsSeparated)]
+    public string? ExternalIdentifier { get; set; }
+
+    /// <summary>
+    /// The labels of the new Assured Workloads environment, for example, LabelKey1=LabelValue1,LabelKey2=LabelValue2
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The next rotation time of the KMS settings of new Assured Workloads environment, for example, 2020-12-30T10:15:30.00Z
+    /// </summary>
+    [CliOption("--next-rotation-time", Format = OptionFormat.EqualsSeparated)]
+    public string? NextRotationTime { get; set; }
+
+    /// <summary>
+    /// The partner choice when creating a workload managed by local trusted partners. PARTNER must be one of: local-controls-by-s3ns, sovereign-controls-by-cntxt, sovereign-controls-by-cntxt-no-ekm, sovereign-controls-by-psn, sovereign-controls-by-sia-minsait, sovereign-controls-by-t-systems, spain-data-boundary-by-telefonica.
+    /// </summary>
+    [CliOption("--partner", Format = OptionFormat.EqualsSeparated)]
+    public string? Partner { get; set; }
+
+    /// <summary>
+    /// The partner permissions for the partner regime, for example, data-logs-viewer=true/false
+    /// </summary>
+    [CliOption("--partner-permissions", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? PartnerPermissions { get; set; }
+
+    /// <summary>
+    /// Billing account necessary for purchasing services from Sovereign Partners. This field is required for creating SIA/PSN/CNTXT partner workloads. The caller should have 'billing.resourceAssociations.create' IAM permission on this billing-account. The format of this string is billingAccounts/AAAAAA-BBBBBB-CCCCCC
+    /// </summary>
+    [CliOption("--partner-services-billing-account", Format = OptionFormat.EqualsSeparated)]
+    public string? PartnerServicesBillingAccount { get; set; }
+
+    /// <summary>
+    /// The parent of the provisioned projects, for example, folders/{FOLDER_ID}
+    /// </summary>
+    [CliOption("--provisioned-resources-parent", Format = OptionFormat.EqualsSeparated)]
+    public string? ProvisionedResourcesParent { get; set; }
+
+    /// <summary>
+    /// A comma-separated, key=value map of custom resource settings such as custom project ids, for example: consumer-project-id={CONSUMER_PROJECT_ID} Note: Currently only consumer-project-id, consumer-project-name, encryption-keys-project-id, encryption-keys-project-name and keyring-id are supported. The encryption-keys-project-id, encryption-keys-project-name and keyring-id settings can be specified only if KMS settings are provided
+    /// </summary>
+    [CliOption("--resource-settings", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ResourceSettings { get; set; }
+
+    /// <summary>
+    /// The rotation period of the KMS settings of the new Assured Workloads environment, for example, 172800s
+    /// </summary>
+    [CliOption("--rotation-period", Format = OptionFormat.EqualsSeparated)]
+    public string? RotationPeriod { get; set; }
+
 }

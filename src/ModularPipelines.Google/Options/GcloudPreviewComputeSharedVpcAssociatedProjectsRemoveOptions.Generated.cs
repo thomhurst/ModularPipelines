@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// disassociate     the given project from the given shared VPC host project
 /// </summary>
+/// <param name="HostProject">The XPN host to remove the associated project from</param>
+/// <param name="ProjectId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "shared-vpc", "associated-projects", "remove")]
 public record GcloudPreviewComputeSharedVpcAssociatedProjectsRemoveOptions(
+    [property: CliOption("--host-project", Format = OptionFormat.EqualsSeparated)] string HostProject,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ProjectId
 ) : GcloudOptions
 {

@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// consistently stops a     group of asynchronously replicating disks
 /// </summary>
+/// <param name="DiskConsistencyGroupPolicy"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "disks", "stop-group-async-replication")]

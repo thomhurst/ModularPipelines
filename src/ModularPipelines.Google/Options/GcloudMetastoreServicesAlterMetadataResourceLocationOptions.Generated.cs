@@ -16,9 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// alter metadata     resource location
 /// </summary>
+/// <param name="LocationUri">The new location URI for the metadata resource.</param>
+/// <param name="ResourceName">The relative metadata resource name in the following format. databases/{database_id} or databases/{database_id}/tables/{table_id} or databases/{database_id}/tables/{table_id}/partitions/{partition_id}</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("metastore", "services", "alter-metadata-resource-location")]
-public record GcloudMetastoreServicesAlterMetadataResourceLocationOptions : GcloudOptions
+public record GcloudMetastoreServicesAlterMetadataResourceLocationOptions(
+    [property: CliOption("--location_uri", Format = OptionFormat.EqualsSeparated)] string LocationUri,
+    [property: CliOption("--resource_name", Format = OptionFormat.EqualsSeparated)] string ResourceName
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

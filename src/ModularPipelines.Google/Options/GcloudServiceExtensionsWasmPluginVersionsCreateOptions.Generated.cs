@@ -10,15 +10,55 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a     WasmPluginVersion resource
 /// </summary>
+/// <param name="Image">URI of the image containing the plugin's Wasm module, stored in the Artifact Registry.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service-extensions", "wasm-plugin-versions", "create")]
-public record GcloudServiceExtensionsWasmPluginVersionsCreateOptions : GcloudOptions
+public record GcloudServiceExtensionsWasmPluginVersionsCreateOptions(
+    [property: CliOption("--image", Format = OptionFormat.EqualsSeparated)] string Image
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A human-readable description of the resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of KEY=VALUE labels to attach to this resource.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Configuration for the plugin, provided at runtime by the on_configure function (Rust Proxy-Wasm SDK) or the onConfigure method (C++ Proxy-Wasm SDK). At most one of these can be specified: Plugin configuration in the textual format.
+    /// </summary>
+    [CliOption("--plugin-config", Format = OptionFormat.EqualsSeparated)]
+    public string? PluginConfig { get; set; }
+
+    /// <summary>
+    /// Configuration for the plugin, provided at runtime by the on_configure function (Rust Proxy-Wasm SDK) or the onConfigure method (C++ Proxy-Wasm SDK). At most one of these can be specified: Path to a file containing the plugin configuration. Use a full or relative path to a local file containing the value of plugin_config_file.
+    /// </summary>
+    [CliOption("--plugin-config-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PluginConfigFile { get; set; }
+
+    /// <summary>
+    /// Configuration for the plugin, provided at runtime by the on_configure function (Rust Proxy-Wasm SDK) or the onConfigure method (C++ Proxy-Wasm SDK). At most one of these can be specified: URI of the image containing the plugin's configuration, stored in the Artifact Registry.
+    /// </summary>
+    [CliOption("--plugin-config-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? PluginConfigUri { get; set; }
+
 }

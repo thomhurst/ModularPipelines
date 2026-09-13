@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// rule     - add an attestation rule on a workload identity pool managed identity
 /// </summary>
+/// <param name="GoogleCloudResource">A single workload operating on Google Cloud. This will be set in the attestation rule to be added.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workload-identity-pools", "managed-identities", "add-attestation-rule")]
-public record GcloudIamWorkloadIdentityPoolsManagedIdentitiesAddAttestationRuleOptions : GcloudOptions
+public record GcloudIamWorkloadIdentityPoolsManagedIdentitiesAddAttestationRuleOptions(
+    [property: CliOption("--google-cloud-resource", Format = OptionFormat.EqualsSeparated)] string GoogleCloudResource
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

@@ -54,7 +54,7 @@ public class GcloudContainerWorkload
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerWorkloadOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerWorkloadOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

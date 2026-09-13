@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove a backend     from a backend service
 /// </summary>
+/// <param name="BackendServiceName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "backend-services", "remove-backend")]
@@ -23,4 +24,58 @@ public record GcloudPreviewComputeBackendServicesRemoveBackendOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendServiceName
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Instance Group Network Endpoint Group Name of the instance group to remove from the backend service. For details on valid instance names, refer to the criteria documented under the field 'name' at: https://cloud.google.com/compute/docs/reference/rest/v1/instances This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--instance-group", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceGroup { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Instance Group Network Endpoint Group At most one of these can be specified: Region of the instance group to remove from the backend service. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--instance-group-region", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceGroupRegion { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Instance Group Network Endpoint Group At most one of these can be specified: Zone of the instance group to remove from the backend service. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--instance-group-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceGroupZone { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Instance Group Network Endpoint Group Name of the network endpoint group to remove from the backend service. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--network-endpoint-group", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkEndpointGroup { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Instance Group Network Endpoint Group At most one of these can be specified: If set, the network endpoint group is global.
+    /// </summary>
+    [CliFlag("--global-network-endpoint-group")]
+    public bool? GlobalNetworkEndpointGroup { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Instance Group Network Endpoint Group At most one of these can be specified: Region of the network endpoint group to remove from the backend service. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--network-endpoint-group-region", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkEndpointGroupRegion { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Instance Group Network Endpoint Group At most one of these can be specified: Zone of the network endpoint group to remove from the backend service. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--network-endpoint-group-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkEndpointGroupZone { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the backend service is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the backend service to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

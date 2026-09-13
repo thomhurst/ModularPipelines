@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// displays configuration and metadata about a     Cloud SQL database
 /// </summary>
+/// <param name="Instance">Cloud SQL instance ID.</param>
+/// <param name="Database"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "databases", "describe")]
 public record GcloudSqlDatabasesDescribeOptions(
+    [property: CliOption("--instance", Format = OptionFormat.EqualsSeparated)] string Instance,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Database
 ) : GcloudOptions
 {

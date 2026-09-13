@@ -10,15 +10,40 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// commit a Pub/Sub schema revision
 /// </summary>
+/// <param name="Type">The type of the schema.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "schemas", "commit")]
-public record GcloudPubsubSchemasCommitOptions : GcloudOptions
+public record GcloudPubsubSchemasCommitOptions(
+    [property: CliOption("--type", Format = OptionFormat.EqualsSeparated)] string Type
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Schema definition Exactly one of these must be specified: The new definition of the schema.
+    /// </summary>
+    [CliOption("--definition", Format = OptionFormat.EqualsSeparated)]
+    public string? Definition { get; set; }
+
+    /// <summary>
+    /// Schema definition Exactly one of these must be specified: File containing the new schema definition. Use a full or relative path to a local file containing the value of definition_file.
+    /// </summary>
+    [CliOption("--definition-file", Format = OptionFormat.EqualsSeparated)]
+    public string? DefinitionFile { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Definition) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DefinitionFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Definition or DefinitionFile must be specified.", [nameof(Definition), nameof(DefinitionFile)]);
+        }
+    }
+
 }

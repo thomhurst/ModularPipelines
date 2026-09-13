@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import a Looker instance
 /// </summary>
+/// <param name="SourceGcsUri">Import Destination - The path and storage where the import will be retrieved from. This must be specified. The path to the folder in Google Cloud Storage where the import will be retrieved from. The URI is in the form gs://bucketName/folderName.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("looker", "instances", "import")]
-public record GcloudLookerInstancesImportOptions : GcloudOptions
+public record GcloudLookerInstancesImportOptions(
+    [property: CliOption("--source-gcs-uri", Format = OptionFormat.EqualsSeparated)] string SourceGcsUri
+) : GcloudOptions
 {
 }

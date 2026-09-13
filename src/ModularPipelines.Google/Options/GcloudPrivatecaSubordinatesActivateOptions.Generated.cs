@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// activate a subordinate certificate     authority awaiting user activation
 /// </summary>
+/// <param name="Certificate"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "subordinates", "activate")]
@@ -23,4 +24,34 @@ public record GcloudPrivatecaSubordinatesActivateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Certificate
 ) : GcloudOptions
 {
+    /// <summary>
+    /// The activation method for the subordinate CA. Exactly one of these must be specified: A file containing a list of PEM-encoded certificates, starting with the current CA certificate and ending with the root CA certificate.
+    /// </summary>
+    [CliOption("--pem-chain", Format = OptionFormat.EqualsSeparated)]
+    public string? PemChain { get; set; }
+
+    /// <summary>
+    /// The activation method for the subordinate CA. Exactly one of these must be specified: Or at least one of these can be specified: The issuing resource used for this CA certificate. The Certificate Authority ID of the CA to issue the subordinate CA certificate from. This ID is optional. If omitted, any available ENABLED CA in the issuing CA pool will be chosen.
+    /// </summary>
+    [CliOption("--issuer-ca", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerCa { get; set; }
+
+    /// <summary>
+    /// The activation method for the subordinate CA. Exactly one of these must be specified: Issuer resource - The issuing CA Pool to use, if it is on Certificate Authority Service. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --issuer-pool on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. ID of the Issuer or fully qualified identifier for the Issuer. To set the pool attribute: ▫ provide the argument --issuer-pool on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--issuer-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerPool { get; set; }
+
+    /// <summary>
+    /// The activation method for the subordinate CA. Exactly one of these must be specified: Issuer resource - The issuing CA Pool to use, if it is on Certificate Authority Service. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --issuer-pool on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. The location of the Issuer. To set the location attribute: ▫ provide the argument --issuer-pool on the command line with a fully specified name; ▫ provide the argument --issuer-location on the command line; ▫ set the property privateca/location.
+    /// </summary>
+    [CliOption("--issuer-location", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerLocation { get; set; }
+
+    /// <summary>
+    /// If this flag is set, the Certificate Authority will be automatically enabled upon creation.
+    /// </summary>
+    [CliFlag("--auto-enable")]
+    public bool? AutoEnable { get; set; }
+
 }

@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update an Artifact Registry tag
 /// </summary>
+/// <param name="Version">The version associated with the tag.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "tags", "update")]
-public record GcloudArtifactsTagsUpdateOptions : GcloudOptions
+public record GcloudArtifactsTagsUpdateOptions(
+    [property: CliOption("--version", Format = OptionFormat.EqualsSeparated)] string Version
+) : GcloudOptions
 {
 }

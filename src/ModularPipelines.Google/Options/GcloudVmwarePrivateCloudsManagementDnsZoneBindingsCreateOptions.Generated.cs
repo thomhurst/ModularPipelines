@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,45 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "management-dns-zone-bindings", "create")]
-public record GcloudVmwarePrivateCloudsManagementDnsZoneBindingsCreateOptions : GcloudOptions
+public record GcloudVmwarePrivateCloudsManagementDnsZoneBindingsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Resource name of VMware Engine network to bind to the management DNS zone of the private cloud.
+    /// </summary>
+    [CliOption("--vmware-engine-network", Format = OptionFormat.EqualsSeparated)]
+    public string? VmwareEngineNetwork { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Resource name of the Google Cloud VPC network to bind to the management DNS zone of the private cloud.
+    /// </summary>
+    [CliOption("--vpc-network", Format = OptionFormat.EqualsSeparated)]
+    public string? VpcNetwork { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Text describing the binding resource that represents the network getting bound to the management DNS zone.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(VmwareEngineNetwork) ? 1 : 0) + (!string.IsNullOrWhiteSpace(VpcNetwork) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of VmwareEngineNetwork or VpcNetwork must be specified.", [nameof(VmwareEngineNetwork), nameof(VpcNetwork)]);
+        }
+    }
+
 }

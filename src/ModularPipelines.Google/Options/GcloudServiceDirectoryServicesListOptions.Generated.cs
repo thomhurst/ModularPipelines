@@ -21,4 +21,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("service-directory", "services", "list")]
 public record GcloudServiceDirectoryServicesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// Namespace resource - The Service Directory namespace to list. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --namespace on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the namespace or fully qualified identifier for the namespace. To set the namespace attribute: ▸ provide the argument --namespace on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
+
+    /// <summary>
+    /// Namespace resource - The Service Directory namespace to list. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --namespace on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The name of the region for the namespace. To set the location attribute: ▸ provide the argument --namespace on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Rollouts of a Fleet     Package
 /// </summary>
+/// <param name="FleetPackage">Parent Fleet Package of the Rollout.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "packages", "rollouts", "list")]
-public record GcloudContainerHubPackagesRolloutsListOptions : GcloudOptions
+public record GcloudContainerHubPackagesRolloutsListOptions(
+    [property: CliOption("--fleet-package", Format = OptionFormat.EqualsSeparated)] string FleetPackage
+) : GcloudOptions
 {
     /// <summary>
     /// Show less verbose output.

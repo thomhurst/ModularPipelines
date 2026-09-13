@@ -10,15 +10,207 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Datastream stream
 /// </summary>
+/// <param name="DisplayName">Friendly name for the stream.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datastream", "streams", "create")]
-public record GcloudDatastreamStreamsCreateOptions : GcloudOptions
+public record GcloudDatastreamStreamsCreateOptions(
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Do not automatically backfill any objects. This flag is equivalent to selecting the Manual backfill type in the Google Cloud console.
+    /// </summary>
+    [CliFlag("--backfill-none")]
+    public bool? BackfillNone { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Automatically backfill objects included in the stream source configuration. Specific objects can be excluded. This flag is equivalent to selecting the Automatic backfill type in the Google Cloud console.
+    /// </summary>
+    [CliFlag("--backfill-all")]
+    public bool? BackfillAll { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Path to a YAML (or JSON) file containing the MongoDB data sources to avoid backfilling. The JSON file is formatted as follows, with camelCase field naming: { "databases": [ { "database":"sample_database", "collections": [ { "collection": "sample_collection", "fields": [ { "field": "sample_field", } ] } ] } ] }
+    /// </summary>
+    [CliOption("--mongodb-excluded-objects", Format = OptionFormat.EqualsSeparated)]
+    public string? MongodbExcludedObjects { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Path to a YAML (or JSON) file containing the MySQL data sources to avoid backfilling. The JSON file is formatted as follows, with camelCase field naming: { "mysqlDatabases": [ { "database":"sample_database", "mysqlTables": [ { "table": "sample_table", "mysqlColumns": [ { "column": "sample_column", } ] } ] } ] }
+    /// </summary>
+    [CliOption("--mysql-excluded-objects", Format = OptionFormat.EqualsSeparated)]
+    public string? MysqlExcludedObjects { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Path to a YAML (or JSON) file containing the Oracle data sources to avoid backfilling. The JSON file is formatted as follows, with camelCase field naming: { "oracleSchemas": [ { "schema": "SAMPLE", "oracleTables": [ { "table": "SAMPLE_TABLE", "oracleColumns": [ { "column": "COL", } ] } ] } ] }
+    /// </summary>
+    [CliOption("--oracle-excluded-objects", Format = OptionFormat.EqualsSeparated)]
+    public string? OracleExcludedObjects { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Path to a YAML (or JSON) file containing the PostgreSQL data sources to avoid backfilling. The JSON file is formatted as follows, with camelCase field naming: { "postgresqlSchemas": [ { "schema": "SAMPLE", "postgresqlTables": [ { "table": "SAMPLE_TABLE", "postgresqlColumns": [ { "column": "COL", } ] } ] } ] }
+    /// </summary>
+    [CliOption("--postgresql-excluded-objects", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresqlExcludedObjects { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Path to a YAML (or JSON) file containing the SaaS data sources to avoid backfilling. The JSON file is formatted as follows, with camelCase field naming: { "objects": [ { "objectName": "Account", } ] }
+    /// </summary>
+    [CliOption("--saas-excluded-objects", Format = OptionFormat.EqualsSeparated)]
+    public string? SaasExcludedObjects { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Path to a YAML (or JSON) file containing the Salesforce data sources to avoid backfilling. The JSON file is formatted as follows, with camelCase field naming: { "objects": [ { "objectName": "SAMPLE", }, { "objectName": "SAMPLE2", } ] }
+    /// </summary>
+    [CliOption("--salesforce-excluded-objects", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforceExcludedObjects { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Path to a YAML (or JSON) file containing the Spanner data sources to avoid backfilling. The JSON file is formatted as follows, with camelCase field naming: { "schemas": [ { "schema": "SAMPLE_SCHEMA", "tables": [ { "table": "SAMPLE_TABLE", "columns": [ { "column": "SAMPLE_COLUMN", } ] } ] } ] }
+    /// </summary>
+    [CliOption("--spanner-excluded-objects", Format = OptionFormat.EqualsSeparated)]
+    public string? SpannerExcludedObjects { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Path to a YAML (or JSON) file containing the SQL Server data sources to avoid backfilling. The JSON file is formatted as follows, with camelCase field naming: { "schemas": [ { "schema": "SAMPLE", "tables": [ { "table": "SAMPLE_TABLE", "columns": [ { "column": "COL", } ] } ] } ] }
+    /// </summary>
+    [CliOption("--sqlserver-excluded-objects", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlServerExcludedObjects { get; set; }
+
+    /// <summary>
+    /// This must be specified. Connection profile resource - Resource ID of the destination connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --destination on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --destination on the command line with a fully specified name; ▸ provide the argument --location on the command line. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▫ provide the argument --destination on the command line.
+    /// </summary>
+    [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
+    public string? Destination { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a YAML (or JSON) file containing the configuration for Google BigQuery Destination Config. The YAML (or JSON) file should be formatted as follows: BigQuery configuration with source hierarchy datasets and merge mode (merge mode is by default): { "sourceHierarchyDatasets": { "datasetTemplate": { "location": "us-central1", "datasetIdPrefix": "my_prefix", "kmsKeyName": "projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{cryptoKey}" } }, "merge": {} "dataFreshness": "3600s" } BigQuery configuration with source hierarchy datasets and append only mode: { "sourceHierarchyDatasets": { "datasetTemplate": { "location": "us-central1", "datasetIdPrefix": "my_prefix", "kmsKeyName": "projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{cryptoKey}" } }, "appendOnly": {} } BigQuery configuration with single target dataset and merge mode: { "singleTargetDataset": { "datasetId": "projectId:my_dataset" }, "merge": {} "dataFreshness": "3600s" } BigQuery configuration with Big Lake table configuration: { "singleTargetDataset": { "datasetId": "projectId:datasetId" }, "appendOnly": {}, "blmtConfig": { "bucket": "bucketName", "tableFormat": "ICEBERG", "fileFormat": "PARQUET", "connectionName": "projectId.region.connectionName", "rootPath": "/root" } }
+    /// </summary>
+    [CliOption("--bigquery-destination-config", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryDestinationConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a YAML (or JSON) file containing the configuration for Google Cloud Storage Destination Config. The JSON file is formatted as follows: { "path": "some/path", "fileRotationMb":5, "fileRotationInterval":"15s", "avroFileFormat": {} }
+    /// </summary>
+    [CliOption("--gcs-destination-config", Format = OptionFormat.EqualsSeparated)]
+    public string? GcsDestinationConfig { get; set; }
+
+    /// <summary>
+    /// This must be specified. Connection profile resource - Resource ID of the source connection profile. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --source on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --source on the command line with a fully specified name; ▸ provide the argument --location on the command line. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▫ provide the argument --source on the command line.
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a YAML (or JSON) file containing the configuration for Dataverse Source Config. The JSON file is formatted as follows, with camelCase field naming: { "pollingInterval": "300s", "includeObjects": {}, "excludeObjects": { "objects": [ { "objectName": "Account", "properties": [ { "propertyName": "name", } ] } ] } }
+    /// </summary>
+    [CliOption("--dataverse-source-config", Format = OptionFormat.EqualsSeparated)]
+    public string? DataverseSourceConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a YAML (or JSON) file containing the configuration for MongoDB Source Config. The JSON file is formatted as follows, with snake_case field naming: { "includeObjects": {}, "excludeObjects": { "databases": [ { "database": "sampleDb", "collections": [ { "collection": "sampleCollection", "fields": [ { "field": "SAMPLE_FIELD", } ] } ] } ] } }
+    /// </summary>
+    [CliOption("--mongodb-source-config", Format = OptionFormat.EqualsSeparated)]
+    public string? MongodbSourceConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a YAML (or JSON) file containing the configuration for MySQL Source Config. The JSON file is formatted as follows, with camelCase field naming: { "includeObjects": {}, "excludeObjects": { "mysqlDatabases": [ { "database":"sample_database", "mysqlTables": [ { "table": "sample_table", "mysqlColumns": [ { "column": "sample_column", } ] } ] } ] } }
+    /// </summary>
+    [CliOption("--mysql-source-config", Format = OptionFormat.EqualsSeparated)]
+    public string? MysqlSourceConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a YAML (or JSON) file containing the configuration for Oracle Source Config. The JSON file is formatted as follows, with camelCase field naming: { "includeObjects": {}, "excludeObjects": { "oracleSchemas": [ { "schema": "SAMPLE", "oracleTables": [ { "table": "SAMPLE_TABLE", "oracleColumns": [ { "column": "COL", } ] } ] } ] } }
+    /// </summary>
+    [CliOption("--oracle-source-config", Format = OptionFormat.EqualsSeparated)]
+    public string? OracleSourceConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a YAML (or JSON) file containing the configuration for PostgreSQL Source Config. The JSON file is formatted as follows, with camelCase field naming: { "includeObjects": {}, "excludeObjects": { "postgresqlSchemas": [ { "schema": "SAMPLE", "postgresqlTables": [ { "table": "SAMPLE_TABLE", "postgresqlColumns": [ { "column": "COL", } ] } ] } ] }, "replicationSlot": "SAMPLE_REPLICATION_SLOT", "publication": "SAMPLE_PUBLICATION" }
+    /// </summary>
+    [CliOption("--postgresql-source-config", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresqlSourceConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a YAML (or JSON) file containing the configuration for Salesforce Marketing Cloud Source Config. The JSON file is formatted as follows, with camelCase field naming: { "pollingInterval": "300s", "fullRefreshPollingInterval": "86400s", "includeObjects": {}, "excludeObjects": { "objects": [ { "objectName": "Subscriber", "properties": [ { "propertyName": "EmailAddress", } ] } ] } }
+    /// </summary>
+    [CliOption("--salesforce-marketing-cloud-source-config", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforceMarketingCloudSourceConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a YAML (or JSON) file containing the configuration for Salesforce Source Config. The JSON file is formatted as follows, with camelCase field naming: { "pollingInterval": "3000s", "includeObjects": {}, "excludeObjects": { "objects": [ { "objectName": "SAMPLE", "fields": [ { "fieldName": "SAMPLE_FIELD", } ] } ] } }
+    /// </summary>
+    [CliOption("--salesforce-source-config", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforceSourceConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a YAML (or JSON) file containing the configuration for ServiceNow Source Config. The JSON file is formatted as follows, with camelCase field naming: { "pollingInterval": "300s", "includeObjects": {}, "excludeObjects": { "objects": [ { "objectName": "incident", "properties": [ { "propertyName": "short_description", } ] } ] } }
+    /// </summary>
+    [CliOption("--servicenow-source-config", Format = OptionFormat.EqualsSeparated)]
+    public string? ServicenowSourceConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a YAML (or JSON) file containing the configuration for Spanner Source Config. The JSON file is formatted as follows, with camelCase field naming: "changeStreamName": "SAMPLE_CHANGE_STREAM_NAME", { "includeObjects": {}, "excludeObjects": { "schemas": [ { "schema": "SAMPLE", "tables": [ { "table": "SAMPLE_TABLE", "columns": [ { "column": "COL", } ] } ] } ] }, "maxConcurrentCdcTasks": 1000, "maxConcurrentBackfillTasks": 10, "backfillDataBoostEnabled": false, "fgacRole": "SAMPLE_FGAC_ROLE", "spannerRpcPriority": "MEDIUM" }
+    /// </summary>
+    [CliOption("--spanner-source-config", Format = OptionFormat.EqualsSeparated)]
+    public string? SpannerSourceConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a YAML (or JSON) file containing the configuration for SQL Server Source Config. The JSON file is formatted as follows, with camelCase field naming: { "includeObjects": {}, "excludeObjects": { "schemas": [ { "schema": "SAMPLE", "tables": [ { "table": "SAMPLE_TABLE", "columns": [ { "column": "COL", } ] } ] } ] }, "maxConcurrentCdcTasks": 2, "maxConcurrentBackfillTasks": 10, "transactionLogs": {} # Or changeTables }
+    /// </summary>
+    [CliOption("--sqlserver-source-config", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlServerSourceConfig { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Path to a JSON file containing a list of rule sets to be applied to the stream. The JSON file is formatted as follows, with camelCase field naming: [ { "objectFilter": { "sourceObjectIdentifier": { "oracleIdentifier": { "schema": "schema1", "table": "table1" } } }, "customizationRules": [ { "bigqueryClustering": { "columns": ["COL_A"] } } ] }, { "objectFilter": { "sourceObjectIdentifier": { "oracleIdentifier": { "schema": "schema2", "table": "table2" } } }, "customizationRules": [ { "bigqueryPartitioning": { "timeUnitPartition": { "column": "TIME_COL", "partitioningTimeGranularity": "PARTITIONING_TIME_GRANULARITY_DAY" } } } ] } ]
+    /// </summary>
+    [CliOption("--rule-sets", Format = OptionFormat.EqualsSeparated)]
+    public string? RuleSets { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Create the stream without validating it.
+    /// </summary>
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Only validate the stream, but do not create any resources. The default is false.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(BigqueryDestinationConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(GcsDestinationConfig) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of BigqueryDestinationConfig or GcsDestinationConfig must be specified.", [nameof(BigqueryDestinationConfig), nameof(GcsDestinationConfig)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(DataverseSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MongodbSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MysqlSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(OracleSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PostgresqlSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SalesforceMarketingCloudSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SalesforceSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ServicenowSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SpannerSourceConfig) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SqlServerSourceConfig) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DataverseSourceConfig, MongodbSourceConfig, MysqlSourceConfig, OracleSourceConfig, PostgresqlSourceConfig, SalesforceMarketingCloudSourceConfig, SalesforceSourceConfig, ServicenowSourceConfig, SpannerSourceConfig, or SqlServerSourceConfig must be specified.", [nameof(DataverseSourceConfig), nameof(MongodbSourceConfig), nameof(MysqlSourceConfig), nameof(OracleSourceConfig), nameof(PostgresqlSourceConfig), nameof(SalesforceMarketingCloudSourceConfig), nameof(SalesforceSourceConfig), nameof(ServicenowSourceConfig), nameof(SpannerSourceConfig), nameof(SqlServerSourceConfig)]);
+        }
+    }
+
 }

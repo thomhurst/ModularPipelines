@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// complete a     rollout stage
 /// </summary>
+/// <param name="Stage">The number of the rollout stage to force-complete. The stage must be the current active stage of the rollout.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "rollouts", "force-complete-stage")]
-public record GcloudContainerFleetRolloutsForceCompleteStageOptions : GcloudOptions
+public record GcloudContainerFleetRolloutsForceCompleteStageOptions(
+    [property: CliOption("--stage", Format = OptionFormat.EqualsSeparated)] string Stage
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

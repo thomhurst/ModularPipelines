@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// download an Artifact Registry file
 /// </summary>
+/// <param name="Destination">The path where you want to download the file.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "files", "download")]
-public record GcloudArtifactsFilesDownloadOptions : GcloudOptions
+public record GcloudArtifactsFilesDownloadOptions(
+    [property: CliOption("--destination", Format = OptionFormat.EqualsSeparated)] string Destination
+) : GcloudOptions
 {
+    /// <summary>
+    /// If specified, the command overwrites an existing file
+    /// </summary>
+    [CliFlag("--allow-overwrite")]
+    public bool? AllowOverwrite { get; set; }
+
+    /// <summary>
+    /// If specified, the name of the downloaded file on the local system is set to the value you use for LOCAL_FILENAME. Otherwise the name of the downloaded file is based on the file name in the registry.
+    /// </summary>
+    [CliOption("--local-filename", Format = OptionFormat.EqualsSeparated)]
+    public string? LocalFilename { get; set; }
+
+    /// <summary>
+    /// Specifies the number of threads to use for downloading the file in parallel.
+    /// </summary>
+    [CliOption("--parallelism", Format = OptionFormat.EqualsSeparated)]
+    public string? Parallelism { get; set; }
+
 }

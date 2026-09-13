@@ -72,7 +72,7 @@ public class GcloudRecommender : IGcloudRecommender
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudRecommenderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudRecommenderOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -18,6 +18,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a Security Command Center finding
 /// </summary>
+/// <param name="Finding"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "findings", "update")]

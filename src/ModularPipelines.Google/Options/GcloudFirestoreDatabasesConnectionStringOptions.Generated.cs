@@ -10,15 +10,31 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// prints the mongo connection     string for the given Firestore database
 /// </summary>
+/// <param name="Database">The database to operate on. For example, to operate on database foo: $ gcloud firestore databases connection-string --database='foo'</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "databases", "connection-string")]
-public record GcloudFirestoreDatabasesConnectionStringOptions : GcloudOptions
+public record GcloudFirestoreDatabasesConnectionStringOptions(
+    [property: CliOption("--database", Format = OptionFormat.EqualsSeparated)] string Database
+) : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: The auth configuration for the connection string. If connecting from a Google Compute Engine VM, use gce-vm. For short term access using the gcloud CLI's access token, use access-token. For password auth use scram-sha-256. Otherwise, use none and configure auth manually. AUTH must be one of: none, gce-vm, access-token, scram-sha-256.
+    /// </summary>
+    [CliOption("--auth", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAuth? Auth { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Validate the specified connection string for the current database. This command checks that the connection string is well formed, contains the required parameters, and specifies correct configuration values for the current database.
+    /// </summary>
+    [CliOption("--validate", Format = OptionFormat.EqualsSeparated)]
+    public string? Validate { get; set; }
+
 }

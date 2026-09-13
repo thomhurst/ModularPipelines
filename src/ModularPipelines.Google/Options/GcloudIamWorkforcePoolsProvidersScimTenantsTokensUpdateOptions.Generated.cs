@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update an     IAM workforce identity pool provider SCIM tenant token
 /// </summary>
+/// <param name="DisplayName">Optional, user-specified display name for the SCIM token (max 32 characters).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workforce-pools", "providers", "scim-tenants", "tokens", "update")]
-public record GcloudIamWorkforcePoolsProvidersScimTenantsTokensUpdateOptions : GcloudOptions
+public record GcloudIamWorkforcePoolsProvidersScimTenantsTokensUpdateOptions(
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName
+) : GcloudOptions
 {
 }

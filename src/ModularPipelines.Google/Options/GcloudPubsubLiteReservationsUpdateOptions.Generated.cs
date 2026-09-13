@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a Pub/Sub Lite reservation
 /// </summary>
+/// <param name="ThroughputCapacity">Reservation throughput capacity. Every unit of throughput capacity is equivalent to 1 MiB/s of published messages or 2 MiB/s of subscribed messages.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "lite-reservations", "update")]
-public record GcloudPubsubLiteReservationsUpdateOptions : GcloudOptions
+public record GcloudPubsubLiteReservationsUpdateOptions(
+    [property: CliOption("--throughput-capacity", Format = OptionFormat.EqualsSeparated)] string ThroughputCapacity
+) : GcloudOptions
 {
 }

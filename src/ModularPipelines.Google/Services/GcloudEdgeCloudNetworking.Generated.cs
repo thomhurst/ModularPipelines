@@ -84,7 +84,7 @@ public class GcloudEdgeCloudNetworking
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCloudNetworkingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCloudNetworkingOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

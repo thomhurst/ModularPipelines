@@ -21,4 +21,52 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("access-context-manager", "cloud-bindings", "update")]
 public record GcloudAccessContextManagerCloudBindingsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Cloud access binding resource - The cloud access binding you want to update. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the cloud-access-binding or fully qualified identifier for the cloud-access-binding. To set the binding attribute: ▸ provide the argument --binding on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--binding", Format = OptionFormat.EqualsSeparated)]
+    public string? Binding { get; set; }
+
+    /// <summary>
+    /// Cloud access binding resource - The cloud access binding you want to update. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID of the organization. To set the organization attribute: ▸ provide the argument --binding on the command line with a fully specified name; ▸ provide the argument --organization on the command line; ▸ set the property access_context_manager/organization.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// When true, append the ScopedAccessSettings in --binding-file to the existing ScopedAccessSettings on the binding. When false, the existing binding's ScopedAccessSettings will be overwritten. Defaults to false. You may only append ScopedAccessSettings that exclusively hold session settings (i.e no access levels).
+    /// </summary>
+    [CliFlag("--append")]
+    public bool? Append { get; set; }
+
+    /// <summary>
+    /// Path to the file that contains a Google Cloud user access binding. This file contains a YAML-compliant object representing a GcpUserAccessBinding (as described in the API reference) containing ScopedAccessSettings only. No other binding fields are allowed. The file content replaces the corresponding fields in the existing binding. Unless --append is specified. See --append help text for more details.
+    /// </summary>
+    [CliOption("--binding-file", Format = OptionFormat.EqualsSeparated)]
+    public string? BindingFile { get; set; }
+
+    /// <summary>
+    /// The dry run access level that replaces the existing dry run level for the given binding. The input must be the full identifier of an access level, such as accessPolicies/123/accessLevels/new-def.
+    /// </summary>
+    [CliOption("--dry-run-level", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DryRunLevel { get; set; }
+
+    /// <summary>
+    /// The access level that replaces the existing level for the given binding. The input must be the full identifier of an access level, such as accessPolicies/123/accessLevels/new-abc.
+    /// </summary>
+    [CliOption("--level", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Level { get; set; }
+
+    /// <summary>
+    /// The maximum lifetime of a user session provided as an ISO 8601 duration string. Must be at least one hour or zero seconds, and no more than twenty-four hours. Granularity is limited to seconds. When --session-length=0 then users in the group attached to this binding will have infinite session length, effectively disabling the session settings. A session begins when a user signs in successfully. If a user signs out before the end of the session lifetime, a new login creates a new session with a fresh lifetime. When a session expires, the user is asked to re-authenticate in accordance with session-method. Setting --session-reauth-method when --session-length is empty raises an error.
+    /// </summary>
+    [CliOption("--session-length", Format = OptionFormat.EqualsSeparated)]
+    public string? SessionLength { get; set; }
+
+    /// <summary>
+    /// Specifies the security check a user must undergo when their session expires. Defaults to --session-reauth-method=LOGIN if unspecified and --session-length is set. Cannot be used when --session-length is empty or 0. SESSION_REAUTH_METHOD must be one of: login The user will be prompted to perform regular login. Users who are enrolled in two-step verification and haven't chosen to "Remember this computer" will be prompted for their second factor. password The user will only be required to enter their password. security-key The user will be prompted to authenticate using their security key. If no security key has been configured, the LOGIN method is used. For help configuring your security key, see https://support.google.com/a/answer/2537800?hl=en#zippy=%2Cview-add-or-remove-security-keys
+    /// </summary>
+    [CliOption("--session-reauth-method", Format = OptionFormat.EqualsSeparated)]
+    public string? SessionReauthMethod { get; set; }
+
 }

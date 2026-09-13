@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describes an operation     resource for a given operation name
 /// </summary>
+/// <param name="Name">The name of operation to describe</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "vpc-peerings", "operations", "describe")]
-public record GcloudServicesVpcPeeringsOperationsDescribeOptions : GcloudOptions
+public record GcloudServicesVpcPeeringsOperationsDescribeOptions(
+    [property: CliOption("--name", Format = OptionFormat.EqualsSeparated)] string Name
+) : GcloudOptions
 {
 }

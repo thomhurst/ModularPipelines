@@ -21,4 +21,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apihub", "discovered-api-observations", "discovered-api-operations", "list")]
 public record GcloudApihubDiscoveredApiObservationsDiscoveredApiOperationsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// DiscoveredApiObservation resource - The parent, which owns this collection of DiscoveredApiOperations. Format: projects/{project}/locations/{location}/discoveredApiObservations/{discovered_api_observation} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --discovered-api-observation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the discoveredApiObservation or fully qualified identifier for the discoveredApiObservation. To set the discovered-api-observation attribute: ▸ provide the argument --discovered-api-observation on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--discovered-api-observation", Format = OptionFormat.EqualsSeparated)]
+    public string? DiscoveredApiObservation { get; set; }
+
+    /// <summary>
+    /// DiscoveredApiObservation resource - The parent, which owns this collection of DiscoveredApiOperations. Format: projects/{project}/locations/{location}/discoveredApiObservations/{discovered_api_observation} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --discovered-api-observation on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the discoveredApiObservation resource. To set the location attribute: ▸ provide the argument --discovered-api-observation on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

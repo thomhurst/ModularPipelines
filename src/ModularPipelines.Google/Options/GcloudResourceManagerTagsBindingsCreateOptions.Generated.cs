@@ -16,9 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// creates a TagBinding     resource
 /// </summary>
+/// <param name="Parent">Full resource name of the resource to attach to the tagValue.</param>
+/// <param name="TagValue">Tag value name or namespaced name. The name should be in the form tagValues/{numeric_id}. The namespaced name should be in the form {org_id}/{tag_key_short_name}/{short_name} where short_name must be 1-63 characters, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (), dots (.), and alphanumerics between.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "tags", "bindings", "create")]
-public record GcloudResourceManagerTagsBindingsCreateOptions : GcloudOptions
+public record GcloudResourceManagerTagsBindingsCreateOptions(
+    [property: CliOption("--parent", Format = OptionFormat.EqualsSeparated)] string Parent,
+    [property: CliOption("--tag-value", Format = OptionFormat.EqualsSeparated)] string TagValue
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Region or zone of the resource to bind to the TagValue. This field is not required if the resource is a global resource like projects, folders and organizations.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -16,11 +17,47 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// creates a user in a given cluster
 /// </summary>
+/// <param name="Cluster">AlloyDB cluster ID</param>
+/// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+/// <param name="Username"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "users", "create")]
 public record GcloudAlloydbUsersCreateOptions(
+    [property: CliOption("--cluster", Format = OptionFormat.EqualsSeparated)] string Cluster,
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Username
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Comma separated list of database roles this new user will be granted upon creation.
+    /// </summary>
+    [CliOption("--db-roles", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DbRoles { get; set; }
+
+    /// <summary>
+    /// If the user already exists and has extra roles, keep them.
+    /// </summary>
+    [CliOption("--keep-extra-roles", Format = OptionFormat.EqualsSeparated)]
+    public string? KeepExtraRoles { get; set; }
+
+    /// <summary>
+    /// Password for this database user.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public string? Password { get; set; }
+
+    /// <summary>
+    /// If true, new user will have AlloyDB superuser privileges. Default value is false.
+    /// </summary>
+    [CliOption("--superuser", Format = OptionFormat.EqualsSeparated)]
+    public string? Superuser { get; set; }
+
+    /// <summary>
+    /// Type corresponds to the user type. TYPE must be one of: BUILT_IN This database user can authenticate via password-based authentication IAM_BASED This database user can authenticate via IAM-based authentication IAM_GROUP This database user represents an IAM group whose members can authenticate via IAM group-based authentication
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string? Type { get; set; }
+
 }

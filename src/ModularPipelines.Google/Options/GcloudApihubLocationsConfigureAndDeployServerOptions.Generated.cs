@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,67 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "locations", "configure-and-deploy-server")]
-public record GcloudApihubLocationsConfigureAndDeployServerOptions : GcloudOptions
+public record GcloudApihubLocationsConfigureAndDeployServerOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Deployment target runtime. Exactly one target must be specified. This must be specified. Apigee X runtime target. The specific Apigee X environment where the server will be deployed. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--apigee-x-environment", Format = OptionFormat.EqualsSeparated)]
+    public string? ApigeeXEnvironment { get; set; }
+
+    /// <summary>
+    /// Deployment target runtime. Exactly one target must be specified. This must be specified. Apigee X runtime target. Name identifying the proxy resource in Apigee X. Standard alphanumeric format (e.g. "mcp-discovery-server"). This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--apigee-x-proxy", Format = OptionFormat.EqualsSeparated)]
+    public string? ApigeeXProxy { get; set; }
+
+    /// <summary>
+    /// Deployment target runtime. Exactly one target must be specified. This must be specified. Apigee X runtime target. The runtime project that hosts the Apigee X organization. This must be one of the runtime projects attached to the API Hub host project. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--apigee-x-target-project", Format = OptionFormat.EqualsSeparated)]
+    public string? ApigeeXTargetProject { get; set; }
+
+    /// <summary>
+    /// Deployment target runtime. Exactly one target must be specified. This must be specified. Apigee X runtime target. Description for the deployed proxy revision in Apigee X.
+    /// </summary>
+    [CliOption("--apigee-x-proxy-description", Format = OptionFormat.EqualsSeparated)]
+    public string? ApigeeXProxyDescription { get; set; }
+
+    /// <summary>
+    /// Deployment target runtime. Exactly one target must be specified. This must be specified. Apigee X runtime target. Display name for the deployed proxy revision in Apigee X.
+    /// </summary>
+    [CliOption("--apigee-x-proxy-display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ApigeeXProxyDisplayName { get; set; }
+
+    /// <summary>
+    /// Server protocol configuration. Exactly one server type must be specified. This must be specified. MCP (Model Context Protocol) server configuration. Provide either --mcp-tools (one or more) or --mcp-tools-from-file. Exactly one of these must be specified: A tool to expose on the MCP server. Repeatable. Each value is a comma-separated dict with keys: ▫ tool-id (required) Unique identifier for the tool. ▫ description (required) What the tool does. ▫ operation (required) Full API Hub operation resource name, e.g. projects/{project}/locations/ {location}/apis/{api}/versions/{version}/ operations/{operation}. For tools that reference an operation by spec + path + method, use --mcp-tools-from-file instead (this flag cannot express the http_operation oneof arm).
+    /// </summary>
+    [CliOption("--mcp-tools", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? McpTools { get; set; }
+
+    /// <summary>
+    /// Server protocol configuration. Exactly one server type must be specified. This must be specified. MCP (Model Context Protocol) server configuration. Provide either --mcp-tools (one or more) or --mcp-tools-from-file. Exactly one of these must be specified: Path to a YAML or JSON file containing a list of MCP tools. Each list item maps 1:1 to a tool, with keys: ▫ tool_id (required) ▫ description (required) ▫ Exactly one of: ◇ operation: full API Hub operation resource name ◇ http_operation: { spec, path, method } where method is one of GET, PUT, POST, DELETE, OPTIONS, HEAD, PATCH, TRACE.
+    /// </summary>
+    [CliOption("--mcp-tools-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? McpToolsFromFile { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ApigeeXEnvironment) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ApigeeXProxy) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ApigeeXTargetProject) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ApigeeXProxyDescription) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ApigeeXProxyDisplayName) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ApigeeXEnvironment, ApigeeXProxy, ApigeeXTargetProject, ApigeeXProxyDescription, or ApigeeXProxyDisplayName must be specified.", [nameof(ApigeeXEnvironment), nameof(ApigeeXProxy), nameof(ApigeeXTargetProject), nameof(ApigeeXProxyDescription), nameof(ApigeeXProxyDisplayName)]);
+        }
+        if ((McpTools?.Any() == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(McpToolsFromFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of McpTools or McpToolsFromFile must be specified.", [nameof(McpTools), nameof(McpToolsFromFile)]);
+        }
+    }
+
 }

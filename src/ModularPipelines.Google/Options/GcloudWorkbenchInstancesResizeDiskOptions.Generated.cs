@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,33 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workbench", "instances", "resize-disk")]
-public record GcloudWorkbenchInstancesResizeDiskOptions : GcloudOptions
+public record GcloudWorkbenchInstancesResizeDiskOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Disk resizing configurations Amount needs to be greater than the existing size. Exactly one of these must be specified: Size of boot disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB).
+    /// </summary>
+    [CliOption("--boot-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? BootDiskSize { get; set; }
+
+    /// <summary>
+    /// Disk resizing configurations Amount needs to be greater than the existing size. Exactly one of these must be specified: Size of data disk in GB attached to this instance, up to a maximum of 64000 GB (64 TB).
+    /// </summary>
+    [CliOption("--data-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? DataDiskSize { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((BootDiskSize is not null ? 1 : 0) + (DataDiskSize is not null ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of BootDiskSize or DataDiskSize must be specified.", [nameof(BootDiskSize), nameof(DataDiskSize)]);
+        }
+    }
+
 }

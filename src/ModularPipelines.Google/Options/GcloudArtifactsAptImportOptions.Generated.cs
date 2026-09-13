@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import one or more Debian packages into an     artifact repository
 /// </summary>
+/// <param name="GcsSource">The Google Cloud Storage location of a package to import. To import multiple packages, use wildcards at the end of the path.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "apt", "import")]
-public record GcloudArtifactsAptImportOptions : GcloudOptions
+public record GcloudArtifactsAptImportOptions(
+    [property: CliOption("--gcs-source", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> GcsSource
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

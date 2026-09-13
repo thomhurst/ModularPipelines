@@ -10,15 +10,64 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Cloud IDS endpoint
 /// </summary>
+/// <param name="Network">Name of the VPC network to monitor</param>
+/// <param name="Severity">Minimum severity of threats to report on. SEVERITY must be one of: INFORMATIONAL, LOW, MEDIUM, HIGH, CRITICAL.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ids", "endpoints", "create")]
-public record GcloudIdsEndpointsCreateOptions : GcloudOptions
+public record GcloudIdsEndpointsCreateOptions(
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network,
+    [property: CliOption("--severity", Format = OptionFormat.EqualsSeparated)] GcloudSeverity Severity
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Description of the endpoint.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Whether to enable traffic logs on the endpoint. Enabling traffic logs can generate a large number of logs which can increase costs in Cloud Logging.
+    /// </summary>
+    [CliFlag("--enable-traffic-logs")]
+    public bool? EnableTrafficLogs { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Time to synchronously wait for the operation to complete, after which the operation continues asynchronously. Ignored if --no-async isn't specified. See $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxWait { get; set; }
+
+    /// <summary>
+    /// List of threat IDs to be excepted from alerting. Passing empty list clears the exceptions.
+    /// </summary>
+    [CliOption("--threat-exceptions", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ThreatExceptions { get; set; }
+
 }

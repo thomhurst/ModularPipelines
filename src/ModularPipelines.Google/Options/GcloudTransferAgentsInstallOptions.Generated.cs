@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// install Transfer Service agents
 /// </summary>
+/// <param name="Pool">The agent pool to associate with the newly installed agent. When creating transfer jobs, the agent pool parameter will determine which agents are activated.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "agents", "install")]
-public record GcloudTransferAgentsInstallOptions : GcloudOptions
+public record GcloudTransferAgentsInstallOptions(
+    [property: CliOption("--pool", Format = OptionFormat.EqualsSeparated)] string Pool
+) : GcloudOptions
 {
     /// <summary>
     /// Specify the number of agents to install on your current machine. System requirements: 8 GB of memory and 4 CPUs per agent. Note: If the 'id-prefix' flag is specified, Transfer Service increments a number value after each prefix. Example: prefix1, prefix2, etc.

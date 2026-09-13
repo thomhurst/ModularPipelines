@@ -16,9 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export data objects     from a collection
 /// </summary>
+/// <param name="GcsDestinationExportUri">URI prefix of the Cloud Storage where to export Data Objects. The bucket is required to be in the same region as the collection.</param>
+/// <param name="GcsDestinationFormat">The format of the exported Data Objects. GCS_DESTINATION_FORMAT must be (only one value is supported): jsonl Exports Data Objects in JSONL format.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vector-search", "collections", "export-data-objects")]
-public record GcloudVectorSearchCollectionsExportDataObjectsOptions : GcloudOptions
+public record GcloudVectorSearchCollectionsExportDataObjectsOptions(
+    [property: CliOption("--gcs-destination-export-uri", Format = OptionFormat.EqualsSeparated)] string GcsDestinationExportUri,
+    [property: CliOption("--gcs-destination-format", Format = OptionFormat.EqualsSeparated)] string GcsDestinationFormat
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// upload a public key for an IAM     service account
 /// </summary>
+/// <param name="PublicKeyFile"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "keys", "upload")]
@@ -23,4 +24,10 @@ public record GcloudIamServiceAccountsKeysUploadOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PublicKeyFile
 ) : GcloudOptions
 {
+    /// <summary>
+    /// IamAccount resource - The service account for which to upload a key. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --iam-account on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the iamAccount or fully qualified identifier for the iamAccount. To set the iam-account attribute: ▸ provide the argument --iam-account on the command line.
+    /// </summary>
+    [CliOption("--iam-account", Format = OptionFormat.EqualsSeparated)]
+    public string? IamAccount { get; set; }
+
 }

@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Curation
 /// </summary>
+/// <param name="DisplayName">The display name of the curation.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "curations", "create")]
-public record GcloudApihubCurationsCreateOptions : GcloudOptions
+public record GcloudApihubCurationsCreateOptions(
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName
+) : GcloudOptions
 {
+    /// <summary>
+    /// The endpoint to be triggered for curation. The endpoint will be invoked with a request payload containing [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should contain curated data in the form of [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. This must be specified. Arguments for the endpoint details. The details of the Application Integration endpoint to be triggered for curation. This must be specified. The API trigger ID of the Application Integration workflow. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--application-integration-endpoint-details-trigger-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ApplicationIntegrationEndpointDetailsTriggerId { get; set; }
+
+    /// <summary>
+    /// The endpoint to be triggered for curation. The endpoint will be invoked with a request payload containing [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. Response should contain curated data in the form of [ApiMetadata][google.cloud.apihub.v1.ApiHub.ApiMetadata]. This must be specified. Arguments for the endpoint details. The details of the Application Integration endpoint to be triggered for curation. This must be specified. The endpoint URI should be a valid REST URI for triggering an Application Integration. Format: https://integrations.googleapis.com/v1/{name=projects/*/locations/*/integrations/*}:execute or https://{location}-integrations.googleapis.com/v1/{name=projects/*/locations/*/integrations/*}:execute This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--application-integration-endpoint-details-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? ApplicationIntegrationEndpointDetailsUri { get; set; }
+
+    /// <summary>
+    /// The description of the curation.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
 }

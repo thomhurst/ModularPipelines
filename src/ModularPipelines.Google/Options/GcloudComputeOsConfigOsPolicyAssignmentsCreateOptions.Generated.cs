@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create an OS policy     assignment
 /// </summary>
+/// <param name="File">Absolute path to the OS policy assignment file on your local client. File must be in either JSON or YAML format. This file defines the OS policies that you want to apply to your VMs, the target VMs that you want to apply the policies to, and the rollout rate at which to apply the OS policies. For more information about this resource and sample OS policy assignment files, see https://cloud.google.com/compute/docs/os-configuration-management/working-with-os-policies#os-policy-assignment.</param>
+/// <param name="Os"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "os-config", "os-policy-assignments", "create")]
 public record GcloudComputeOsConfigOsPolicyAssignmentsCreateOptions(
+    [property: CliOption("--file", Format = OptionFormat.EqualsSeparated)] string File,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Os
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

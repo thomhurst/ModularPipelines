@@ -22,6 +22,12 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSupportSupportEventSubscriptionsListOptions : GcloudOptions
 {
     /// <summary>
+    /// Organization resource - The fully qualified name of the Cloud resource to list support event subscriptions under. Format: organizations/{organization_id} This represents a Cloud resource. This must be specified. ID of the organization or fully qualified identifier for the organization. To set the organization attribute: ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
     /// Whether to show deleted subscriptions. By default, deleted subscriptions are not returned.
     /// </summary>
     [CliFlag("--show-deleted")]

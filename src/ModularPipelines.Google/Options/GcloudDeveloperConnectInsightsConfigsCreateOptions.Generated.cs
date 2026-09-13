@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,33 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("developer-connect", "insights-configs", "create")]
-public record GcloudDeveloperConnectInsightsConfigsCreateOptions : GcloudOptions
+public record GcloudDeveloperConnectInsightsConfigsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The App Hub application to which the insight config is associated.
+    /// </summary>
+    [CliOption("--app-hub-application", Format = OptionFormat.EqualsSeparated)]
+    public string? AppHubApplication { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: A comma-separated list of target project IDs/numbers to which the insight config is associated. Format examples: --target-projects=123567890,my-project --target-projects=projects/1234567890,projects/my-project
+    /// </summary>
+    [CliOption("--target-projects", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TargetProjects { get; set; }
+
+    /// <summary>
+    /// Specifies a single artifact configuration. This flag can be repeated for multiple configurations. Each configuration can be provided in a key-value format. Format examples: --artifact-config=uri={REGION}-docker.pkg.dev/my-project/my-repo/my-image,buildProject=my-project --artifact-config=[uri={REGION}-docker.pkg.dev/my-project/my-repo/my-image,buildProject=my-project] Supported keys within a configuration: ◆ buildProject: String, e.g., my-project ◆ uri: String, e.g., {REGION}-docker.pkg.dev/my-project/my-repo/my-image
+    /// </summary>
+    [CliOption("--artifact-config", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ArtifactConfig { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AppHubApplication) ? 1 : 0) + (TargetProjects?.Any() == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of AppHubApplication or TargetProjects must be specified.", [nameof(AppHubApplication), nameof(TargetProjects)]);
+        }
+    }
+
 }

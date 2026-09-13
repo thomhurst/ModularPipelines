@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// lists the custom constraints     set on an organization
 /// </summary>
+/// <param name="Organization">Organization ID.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org-policies", "list-custom-constraints")]
-public record GcloudOrgPoliciesListCustomConstraintsOptions : GcloudOptions
+public record GcloudOrgPoliciesListCustomConstraintsOptions(
+    [property: CliOption("--organization", Format = OptionFormat.EqualsSeparated)] string Organization
+) : GcloudOptions
 {
 }

@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// rolls back a workbench instance
 /// </summary>
+/// <param name="TargetSnapshot">The saved snapshot to rollback to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workbench", "instances", "rollback")]
-public record GcloudWorkbenchInstancesRollbackOptions : GcloudOptions
+public record GcloudWorkbenchInstancesRollbackOptions(
+    [property: CliOption("--target-snapshot", Format = OptionFormat.EqualsSeparated)] string TargetSnapshot
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

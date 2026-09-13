@@ -10,17 +10,39 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// upload a route policy     into a Compute Engine router
 /// </summary>
+/// <param name="FileName">Local path to the file defining the policy</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "routers", "upload-route-policy")]
 public record GcloudPreviewComputeRoutersUploadRoutePolicyOptions(
+    [property: CliOption("--file-name", Format = OptionFormat.EqualsSeparated)] string FileName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Format of the file passed to --file-name. FILE_FORMAT must be one of: json, yaml.
+    /// </summary>
+    [CliOption("--file-format", Format = OptionFormat.EqualsSeparated)]
+    public GcloudFileFormat? FileFormat { get; set; }
+
+    /// <summary>
+    /// Name of the route policy to add/replace.
+    /// </summary>
+    [CliOption("--policy-name", Format = OptionFormat.EqualsSeparated)]
+    public string? PolicyName { get; set; }
+
+    /// <summary>
+    /// Region of the router to upload. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

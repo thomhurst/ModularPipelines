@@ -10,15 +10,85 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a node pool in an Anthos     cluster on VMware
 /// </summary>
+/// <param name="ImageType">Configuration of the node pool This must be specified. OS image type to use on node pool instances. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="BootDiskSize">Configuration of the node pool This must be specified. Size of VMware disk to be used during creation in GB.</param>
+/// <param name="Cpus">Configuration of the node pool This must be specified. Number of CPUs for each node in the node pool.</param>
+/// <param name="Image">Configuration of the node pool This must be specified. OS image name in vCenter.</param>
+/// <param name="Memory">Configuration of the node pool This must be specified. Size of memory for each node in the node pool in MB.</param>
+/// <param name="NodeLabels">Configuration of the node pool This must be specified. Kubernetes labels (key/value pairs) to be applied to each node.</param>
+/// <param name="NodeTaints">Configuration of the node pool This must be specified. Applies the given kubernetes taints on all nodes in the new node pool, which can be used with tolerations for pod scheduling. Taint effect must be one of the following: NoSchedule, PreferNoSchedule, or NoExecute. Examples: $ gcloud container vmware node-pools create node-pool-1 \ --cluster=example-cluster \ --node-taints=key1=val1:NoSchedule,key2=val2:PreferNoSchedule</param>
+/// <param name="Replicas">Configuration of the node pool This must be specified. Number of replicas to use on node pool instances.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "vmware", "node-pools", "create")]
-public record GcloudContainerVmwareNodePoolsCreateOptions : GcloudOptions
+public record GcloudContainerVmwareNodePoolsCreateOptions(
+    [property: CliOption("--image-type", Format = OptionFormat.EqualsSeparated)] string ImageType,
+    [property: CliOption("--boot-disk-size", Format = OptionFormat.EqualsSeparated)] int BootDiskSize,
+    [property: CliOption("--cpus", Format = OptionFormat.EqualsSeparated)] string Cpus,
+    [property: CliOption("--image", Format = OptionFormat.EqualsSeparated)] string Image,
+    [property: CliOption("--memory", Format = OptionFormat.EqualsSeparated)] string Memory,
+    [property: CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)] IReadOnlyList<KeyValue> NodeLabels,
+    [property: CliOption("--node-taints", Format = OptionFormat.EqualsSeparated)] IReadOnlyList<KeyValue> NodeTaints,
+    [property: CliOption("--replicas", Format = OptionFormat.EqualsSeparated)] string Replicas
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Configuration of the node pool This must be specified. If set, enable the use of load balancer on the node pool instances.
+    /// </summary>
+    [CliFlag("--enable-load-balancer")]
+    public bool? EnableLoadBalancer { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Annotations on the node pool.
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Display name for the resource.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling If set, only validate the request, but do not actually perform the operation.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Maximum number of replicas in the node pool. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--max-replicas", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxReplicas { get; set; }
+
+    /// <summary>
+    /// Node pool autoscaling Minimum number of replicas in the node pool. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--min-replicas", Format = OptionFormat.EqualsSeparated)]
+    public string? MinReplicas { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(EnableLoadBalancer == true))
+        {
+            yield return new ValidationResult("At least one of EnableLoadBalancer must be specified.", [nameof(EnableLoadBalancer)]);
+        }
+    }
+
 }

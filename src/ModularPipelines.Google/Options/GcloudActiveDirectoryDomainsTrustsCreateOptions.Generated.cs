@@ -6,19 +6,57 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Microsoft Active     Directory Trust between a Managed Microsoft AD domain and another     domain
 /// </summary>
+/// <param name="TargetDnsIpAddresses">Target DNS server IP addresses that can resolve the target domain. Only IPv4 is supported.</param>
+/// <param name="TargetDomainName">Target domain name for the Managed Microsoft AD Trust.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("active-directory", "domains", "trusts", "create")]
-public record GcloudActiveDirectoryDomainsTrustsCreateOptions : GcloudOptions
+public record GcloudActiveDirectoryDomainsTrustsCreateOptions(
+    [property: CliOption("--target-dns-ip-addresses", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> TargetDnsIpAddresses,
+    [property: CliOption("--target-domain-name", Format = OptionFormat.EqualsSeparated)] string TargetDomainName
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Direction of the trust. Must be one of: INBOUND, OUTBOUND, BIDIRECTIONAL. Default is BIDIRECTIONAL. DIRECTION must be one of: bidirectional, inbound, outbound, trust-direction-unspecified.
+    /// </summary>
+    [CliOption("--direction", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDirection? Direction { get; set; }
+
+    /// <summary>
+    /// Trust handshake secret with target domain. The secret will not be stored. If not specified, command will prompt user for secret.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--handshake-secret", Format = OptionFormat.EqualsSeparated)]
+    public string? HandshakeSecret { get; set; }
+
+    /// <summary>
+    /// If specified, trusted side will only have selective access to approved set of resources. Otherwise, the trusted side has forest/domain wide access. Default is false.
+    /// </summary>
+    [CliFlag("--selective-authentication")]
+    public bool? SelectiveAuthentication { get; set; }
+
+    /// <summary>
+    /// Type of the trust. Must be FOREST or EXTERNAL. Default is FOREST. TYPE must be one of: external, forest, trust-type-unspecified.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudType? Type { get; set; }
+
 }

@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// rename an     enum value in Data Catalog tag template enum field
 /// </summary>
+/// <param name="NewId">New display name of the enum value.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "tag-templates", "fields", "enum-values", "rename")]
-public record GcloudDataCatalogTagTemplatesFieldsEnumValuesRenameOptions : GcloudOptions
+public record GcloudDataCatalogTagTemplatesFieldsEnumValuesRenameOptions(
+    [property: CliOption("--new-id", Format = OptionFormat.EqualsSeparated)] string NewId
+) : GcloudOptions
 {
 }

@@ -16,9 +16,108 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a component
 /// </summary>
+/// <param name="SharedTemplateRevisionUri">The shared template used to generate the component.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "application-templates", "components", "create")]
-public record GcloudDesignCenterSpacesApplicationTemplatesComponentsCreateOptions : GcloudOptions
+public record GcloudDesignCenterSpacesApplicationTemplatesComponentsCreateOptions(
+    [property: CliOption("--shared-template-revision-uri", Format = OptionFormat.EqualsSeparated)] string SharedTemplateRevisionUri
+) : GcloudOptions
 {
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Consumer provided attributes. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload The component display name.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Consumer provided attributes. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Input variable aliases defined on this live component. alias Alias for the variable name to be exposed at the root level of the composite template. variable Name of the input variable inside the component's underlying template or module. Shorthand Example: --input-variable-aliases=alias=string,variable=string --input-variable-aliases=alias=string,variable=string JSON Example: --input-variable-aliases='[{"alias": "string", "variable": "string"}]' File Example: --input-variable-aliases=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--input-variable-aliases", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? InputVariableAliases { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Consumer provided attributes. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload The component parameters. key The key of the parameter. value The value of the parameter. Shorthand Example: --parameters=key=string,value={...} --parameters=key=string,value={...} JSON Example: --parameters='[{"key": "string", "value": {...}}]' File Example: --parameters=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--parameters", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Parameters { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Consumer provided attributes. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Whether the component is exported as a separate terraform root module in a composite application template. If this is false, then native components will be exported as a submodule of a separate terraform root module.
+    /// </summary>
+    [CliFlag("--use-as-root-module")]
+    public bool? UseAsRootModule { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Consumer provided attributes. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload The application ID of the apphub application. The ID must be 1-63 characters long and should match the regular expression ^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--application-info-apphub-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ApplicationInfoApphubId { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Consumer provided attributes. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Deployment region for the component. If the scope is set to REGIONAL, then the apphub application is created in this region, e.g. us-central1.
+    /// </summary>
+    [CliOption("--application-info-deployment-region", Format = OptionFormat.EqualsSeparated)]
+    public string? ApplicationInfoDeploymentRegion { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Consumer provided attributes. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Display name for the application. The number of characters should be less than 64 characters.
+    /// </summary>
+    [CliOption("--application-info-display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ApplicationInfoDisplayName { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Consumer provided attributes. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Scope Type. SCOPE_TYPE must be one of: global Global type. regional Regional type.
+    /// </summary>
+    [CliOption("--scope-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ScopeType { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Consumer provided attributes. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Business team that ensures user needs are met and value is delivered. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-business-owners=channel={uri=string},displayName=string,email=string --attributes-business-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-business-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-business-owners=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--attributes-business-owners", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AttributesBusinessOwners { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Consumer provided attributes. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Developer team that owns development and coding. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-developer-owners=channel={uri=string},displayName=string,email=string --attributes-developer-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-developer-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-developer-owners=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--attributes-developer-owners", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AttributesDeveloperOwners { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Consumer provided attributes. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Operator team that ensures runtime and operations. channel Communication channel of the contacts. uri URI of the channel. displayName Contact's name. Can have a maximum length of 63 characters. email Email address of the contacts. Shorthand Example: --attributes-operator-owners=channel={uri=string},displayName=string,email=string --attributes-operator-owners=channel={uri=string},displayName=string,email=string JSON Example: --attributes-operator-owners='[{"channel": {"uri": "string"}, "displayName": "string", "email": "string"}]' File Example: --attributes-operator-owners=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--attributes-operator-owners", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AttributesOperatorOwners { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Consumer provided attributes. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Criticality Type. CRITICALITY_TYPE must be one of: high High impact. low Low impact. medium Medium impact. mission-critical Mission critical service, application or workload. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--criticality-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CriticalityType { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Consumer provided attributes. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Criticality level. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead.
+    /// </summary>
+    [CliOption("--criticality-level", Format = OptionFormat.EqualsSeparated)]
+    public string? CriticalityLevel { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Consumer provided attributes. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead.
+    /// </summary>
+    [CliFlag("--criticality-mission-critical")]
+    public bool? CriticalityMissionCritical { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Consumer provided attributes. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Environment Type. ENVIRONMENT_TYPE must be one of: development Development environment. production Production environment. staging Staging environment. test Test environment. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--environment-type", Format = OptionFormat.EqualsSeparated)]
+    public string? EnvironmentType { get; set; }
+
+    /// <summary>
+    /// This captures the apphub application details associated with the component. Scope of an application. Consumer provided attributes. Criticality of the Application, Service, or Workload Environment of the Application, Service, or Workload Environment name. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead.
+    /// </summary>
+    [CliOption("--environment", Format = OptionFormat.EqualsSeparated)]
+    public string? Environment { get; set; }
+
 }

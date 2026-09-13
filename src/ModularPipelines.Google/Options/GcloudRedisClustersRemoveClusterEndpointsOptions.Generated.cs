@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove existing     Memorystore cluster endpoints
 /// </summary>
+/// <param name="ClusterEndpoint">Required, Resource details of a redis cluster endpoint. psc-connection Sets psc-connection value. psc-connection-id Sets psc-connection-id value. Shorthand Example: --cluster-endpoint=psc-connection=[{psc-connection-id=string}] --cluster-endpoint=psc-connection=[{psc-connection-id=string}] JSON Example: --cluster-endpoint='[{"psc-connection": [{"psc-connection-id": "string"}]}]' File Example: --cluster-endpoint=path_to_file.(yaml|json)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "clusters", "remove-cluster-endpoints")]
-public record GcloudRedisClustersRemoveClusterEndpointsOptions : GcloudOptions
+public record GcloudRedisClustersRemoveClusterEndpointsOptions(
+    [property: CliOption("--cluster-endpoint", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> ClusterEndpoint
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

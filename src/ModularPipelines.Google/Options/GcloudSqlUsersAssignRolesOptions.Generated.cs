@@ -16,11 +16,40 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// updates a user's database roles in a given     instance
 /// </summary>
+/// <param name="Instance">Cloud SQL instance ID.</param>
+/// <param name="Type">Cloud SQL user's type. It determines the method to authenticate the user during login. See the list of user types at https://cloud.google.com/sql/docs/postgres/admin-api/rest/v1beta4/SqlUserType</param>
+/// <param name="Username"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "users", "assign-roles")]
 public record GcloudSqlUsersAssignRolesOptions(
+    [property: CliOption("--instance", Format = OptionFormat.EqualsSeparated)] string Instance,
+    [property: CliOption("--type", Format = OptionFormat.EqualsSeparated)] string Type,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Username
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of database roles to be assigned to the user. This option is only available for MySQL and PostgreSQL instances. You can include predefined Cloud SQL roles, like cloudsqlsuperuser, or your own custom roles. Custom roles must be created in the database before you can assign them. You can create roles using the CREATE ROLE statement for both MySQL and PostgreSQL.
+    /// </summary>
+    [CliOption("--database-roles", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DatabaseRoles { get; set; }
+
+    /// <summary>
+    /// Cloud SQL user's hostname expressed as a specific IP address or address range. % denotes an unrestricted hostname. Applicable flag for MySQL instances; ignored for all other engines. Note, if you connect to your instance using IP addresses, you must add your client IP address as an authorized address, even if your hostname is unrestricted. For more information, see Configure IP (https://cloud.google.com/sql/docs/mysql/configure-ip).
+    /// </summary>
+    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
+    public string? Host { get; set; }
+
+    /// <summary>
+    /// A boolean flag for revoking existing database roles from the user. This option is only available for MySQL and PostgreSQL instances.
+    /// </summary>
+    [CliFlag("--revoke-existing-roles")]
+    public bool? RevokeExistingRoles { get; set; }
+
 }

@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a catalog     template
 /// </summary>
+/// <param name="TemplateCategory">The category of the Application Design Center application template. TEMPLATE_CATEGORY must be one of: application-template Application template. component-template Component template. composite-solution-template Imported as a single, complex unit without disassembling into components. instance-template Instance template.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "catalogs", "templates", "create")]
-public record GcloudDesignCenterSpacesCatalogsTemplatesCreateOptions : GcloudOptions
+public record GcloudDesignCenterSpacesCatalogsTemplatesCreateOptions(
+    [property: CliOption("--template-category", Format = OptionFormat.EqualsSeparated)] string TemplateCategory
+) : GcloudOptions
 {
+    /// <summary>
+    /// The catalog template description.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The display name of a catalog template.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// The Application Design Center application template type. TYPE must be one of: application An application template is a composition of workload/service/asset templates. asset An asset template can be used to provision resources that are not services or workloads. composite-application-template A composite application template. helm-application A helm chart based template. helm-chart A helm chart based template. jss-solution A Jumpstart Solution template. service A service template is an App Hub service. service-data-source A service data source template. standard-application-template A standard application template. workload A workload template is an App Hub workload.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string? Type { get; set; }
+
 }

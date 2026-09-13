@@ -21,4 +21,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "authorized-views", "list")]
 public record GcloudBigtableAuthorizedViewsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// Table resource - Cloud Bigtable table for which to list all authorized views. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --table on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the table or fully qualified identifier for the table. To set the table attribute: ▸ provide the argument --table on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--table", Format = OptionFormat.EqualsSeparated)]
+    public string? Table { get; set; }
+
+    /// <summary>
+    /// Table resource - Cloud Bigtable table for which to list all authorized views. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --table on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Name of the Bigtable instance. To set the instance attribute: ▸ provide the argument --table on the command line with a fully specified name; ▸ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
 }

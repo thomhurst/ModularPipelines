@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -16,9 +17,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Cloud Build     Connection for Bitbucket Cloud
 /// </summary>
+/// <param name="AuthorizerTokenSecretVersion">Secret containing the repository_read,repository_admin, pullrequest_read, webhook repository/project/workspace access token.</param>
+/// <param name="ReadAuthorizerTokenSecretVersion">Secret containing the repository_read repository/project/workspace access token.</param>
+/// <param name="WebhookSecretSecretVersion">Secret containing the webhook secret string for validating webhook events sent by Bitbucket Cloud.</param>
+/// <param name="Workspace">Workspace of the Bitbucket Cloud instance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "connections", "create", "bitbucket-cloud")]
-public record GcloudBuildsConnectionsCreateBitbucketCloudOptions : GcloudOptions
+public record GcloudBuildsConnectionsCreateBitbucketCloudOptions(
+    [property: SecretValue, CliOption("--authorizer-token-secret-version", Format = OptionFormat.EqualsSeparated)] string AuthorizerTokenSecretVersion,
+    [property: SecretValue, CliOption("--read-authorizer-token-secret-version", Format = OptionFormat.EqualsSeparated)] string ReadAuthorizerTokenSecretVersion,
+    [property: SecretValue, CliOption("--webhook-secret-secret-version", Format = OptionFormat.EqualsSeparated)] string WebhookSecretSecretVersion,
+    [property: CliOption("--workspace", Format = OptionFormat.EqualsSeparated)] string Workspace
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

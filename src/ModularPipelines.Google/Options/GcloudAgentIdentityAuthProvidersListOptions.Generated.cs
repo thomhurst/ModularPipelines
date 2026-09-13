@@ -22,6 +22,12 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAgentIdentityAuthProvidersListOptions : GcloudOptions
 {
     /// <summary>
+    /// Location resource - The parent resource where the search is performed. Format: projects/{project}/locations/{location} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Deleted auth_providers will be kept with a soft-delete for 30 days before being purged. If this field is set to true, deleted auth_providers will also be returned.
     /// </summary>
     [CliFlag("--show-deleted")]

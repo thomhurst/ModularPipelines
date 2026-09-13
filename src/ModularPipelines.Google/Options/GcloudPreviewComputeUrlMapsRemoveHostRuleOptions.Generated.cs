@@ -16,11 +16,32 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove a host rule from     a URL map
 /// </summary>
+/// <param name="Host">One of the hosts in the host rule to remove.</param>
+/// <param name="UrlMap"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "url-maps", "remove-host-rule")]
 public record GcloudPreviewComputeUrlMapsRemoveHostRuleOptions(
+    [property: CliOption("--host", Format = OptionFormat.EqualsSeparated)] string Host,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string UrlMap
 ) : GcloudOptions
 {
+    /// <summary>
+    /// If provided and a path matcher is orphaned as a result of this command, the command removes the orphaned path matcher instead of failing.
+    /// </summary>
+    [CliFlag("--delete-orphaned-path-matcher")]
+    public bool? DeleteOrphanedPathMatcher { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the URL map is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the URL map to operate on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

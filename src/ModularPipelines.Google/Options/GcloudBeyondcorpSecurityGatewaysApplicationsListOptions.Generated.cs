@@ -21,4 +21,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("beyondcorp", "security-gateways", "applications", "list")]
 public record GcloudBeyondcorpSecurityGatewaysApplicationsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// SecurityGateway resource - The parent location to which the resources belong. projects/{project_id}/locations/global/securityGateways/{security_gateway_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --security-gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the securityGateway or fully qualified identifier for the securityGateway. To set the security-gateway attribute: ▸ provide the argument --security-gateway on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--security-gateway", Format = OptionFormat.EqualsSeparated)]
+    public string? SecurityGateway { get; set; }
+
+    /// <summary>
+    /// SecurityGateway resource - The parent location to which the resources belong. projects/{project_id}/locations/global/securityGateways/{security_gateway_id} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --security-gateway on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the securityGateway resource. We support only global location. To set the location attribute: ▸ provide the argument --security-gateway on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

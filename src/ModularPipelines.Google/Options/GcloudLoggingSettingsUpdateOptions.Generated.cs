@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,75 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "settings", "update")]
-public record GcloudLoggingSettingsUpdateOptions : GcloudOptions
+public record GcloudLoggingSettingsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Folder to update Logs Router settings for.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization to update Logs Router settings for.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Enable or disable _Default sink for the _Default bucket. Specify --no-disable-default-sink to enable a disabled _Default sink. Note: It only applies to the newly created projects and will not affect the projects created before.
+    /// </summary>
+    [CliFlag("--disable-default-sink")]
+    public bool? DisableDefaultSink { get; set; }
+
+    /// <summary>
+    /// Negates --disable-default-sink. Enable or disable _Default sink for the _Default bucket. Specify --no-disable-default-sink to enable a disabled _Default sink. Note: It only applies to the newly created projects and will not affect the projects created before.
+    /// </summary>
+    [CliFlag("--no-disable-default-sink")]
+    public bool? NoDisableDefaultSink { get; set; }
+
+    /// <summary>
+    /// Update the storage location for _Default bucket and _Required bucket. Note: It only applies to the newly created projects and will not affect the projects created before.
+    /// </summary>
+    [CliOption("--storage-location", Format = OptionFormat.EqualsSeparated)]
+    public string? StorageLocation { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Disable CMEK for the Logs Router by clearing out Cloud KMS cryptokey in the organization's CMEK settings.
+    /// </summary>
+    [CliFlag("--clear-kms-key")]
+    public bool? ClearKmsKey { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the logs being processed by the Cloud Logging Logs Router. The Cloud KMS CryptoKey Encrypter/Decryper role must be assigned to the Cloud Logging Logs Router service account. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ▫ provide the argument --kms-key-name on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key-name", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyName { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the logs being processed by the Cloud Logging Logs Router. The Cloud KMS CryptoKey Encrypter/Decryper role must be assigned to the Cloud Logging Logs Router service account. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ▫ provide the argument --kms-key-name on the command line with a fully specified name; ▫ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the logs being processed by the Cloud Logging Logs Router. The Cloud KMS CryptoKey Encrypter/Decryper role must be assigned to the Cloud Logging Logs Router service account. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ▫ provide the argument --kms-key-name on the command line with a fully specified name; ▫ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the logs being processed by the Cloud Logging Logs Router. The Cloud KMS CryptoKey Encrypter/Decryper role must be assigned to the Cloud Logging Logs Router service account. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ▫ provide the argument --kms-key-name on the command line with a fully specified name; ▫ provide the argument --kms-project on the command line; ▫ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder or Organization must be specified.", [nameof(Folder), nameof(Organization)]);
+        }
+    }
+
 }

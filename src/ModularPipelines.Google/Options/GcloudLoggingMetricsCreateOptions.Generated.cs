@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// based metric
 /// </summary>
+/// <param name="MetricName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "metrics", "create")]
@@ -23,4 +24,28 @@ public record GcloudLoggingMetricsCreateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string MetricName
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Data about the new metric. Exactly one of these must be specified: A path to a YAML or JSON file specifying the logs-based metric to create. For an example of the file structure, see https://cloud.google.com/logging/docs/logs-based-metrics/distribution-metrics#example. Use a full or relative path to a local file containing the value of config.
+    /// </summary>
+    [CliOption("--config-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigFromFile { get; set; }
+
+    /// <summary>
+    /// Data about the new metric. Exactly one of these must be specified: Or at least one of these can be specified: A group of arguments to specify simple counter logs-based metrics. The metric's description. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Data about the new metric. Exactly one of these must be specified: Or at least one of these can be specified: A group of arguments to specify simple counter logs-based metrics. The metric's filter expression. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--log-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? LogFilter { get; set; }
+
+    /// <summary>
+    /// Data about the new metric. Exactly one of these must be specified: Or at least one of these can be specified: A group of arguments to specify simple counter logs-based metrics. The Log Bucket name which owns the log-based metric.
+    /// </summary>
+    [CliOption("--bucket-name", Format = OptionFormat.EqualsSeparated)]
+    public string? BucketName { get; set; }
+
 }

@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// rules     - set attestation rules on a workload identity pool managed identity
 /// </summary>
+/// <param name="PolicyFile">Path to a local JSON-formatted or YAML-formatted file containing an attestation policy, structured as a list of attestation rules (https://cloud.google.com/iam/docs/reference/rest/v1/projects.locations.workloadIdentityPools.namespaces.managedIdentities/setAttestationRules#request-body).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workload-identity-pools", "managed-identities", "set-attestation-rules")]
-public record GcloudIamWorkloadIdentityPoolsManagedIdentitiesSetAttestationRulesOptions : GcloudOptions
+public record GcloudIamWorkloadIdentityPoolsManagedIdentitiesSetAttestationRulesOptions(
+    [property: CliOption("--policy-file", Format = OptionFormat.EqualsSeparated)] string PolicyFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

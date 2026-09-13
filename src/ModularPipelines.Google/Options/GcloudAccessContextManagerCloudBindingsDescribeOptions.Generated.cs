@@ -21,4 +21,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("access-context-manager", "cloud-bindings", "describe")]
 public record GcloudAccessContextManagerCloudBindingsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// Cloud access binding resource - The cloud access binding you want to show details about The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the cloud-access-binding or fully qualified identifier for the cloud-access-binding. To set the binding attribute: ▸ provide the argument --binding on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--binding", Format = OptionFormat.EqualsSeparated)]
+    public string? Binding { get; set; }
+
+    /// <summary>
+    /// Cloud access binding resource - The cloud access binding you want to show details about The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID of the organization. To set the organization attribute: ▸ provide the argument --binding on the command line with a fully specified name; ▸ provide the argument --organization on the command line; ▸ set the property access_context_manager/organization.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
 }

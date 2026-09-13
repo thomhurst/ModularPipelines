@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// authorize access to Google Cloud     with a service account
 /// </summary>
+/// <param name="KeyFile">Path to the private key file.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "activate-service-account")]
-public record GcloudAuthActivateServiceAccountOptions : GcloudOptions
+public record GcloudAuthActivateServiceAccountOptions(
+    [property: CliOption("--key-file", Format = OptionFormat.EqualsSeparated)] string KeyFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: Path to a file containing the password for the service account private key (only for a .p12 file).
+    /// </summary>
+    [CliOption("--password-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PasswordFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Prompt for the password for the service account private key (only for a .p12 file).
+    /// </summary>
+    [CliFlag("--prompt-for-password")]
+    public bool? PromptForPassword { get; set; }
+
 }

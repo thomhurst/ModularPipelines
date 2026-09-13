@@ -10,15 +10,29 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// alter metadata table     properties
 /// </summary>
+/// <param name="Properties">A string where field names are separated by a comma. Describes the desired values to mutate. If update-mask is empty, the properties will not update. Otherwise, the properties only alter the values whose associated paths exist in the update mask. For example, the desired key-value pairs. a=2,b=3,c=4</param>
+/// <param name="TableName">The name of the table containing the properties you're altering in the following format. databases/{database_id}/tables/{table_id}</param>
+/// <param name="UpdateMask">A string where field names are separated by a comma. Specifies the metadata table properties fields that are overwritten by the update. Fields specified in the update-mask are relative to the resource (not to the full request). A field is overwritten if it is in the mask. For example, given the target properties: properties { a: 1 b: 2 } And an update properties: properties { a: 2 b: 3 c: 4 } then if the field mask is: properties.b,properties.c then the updated result will be: properties { a: 1 b: 3 c: 4 }</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("metastore", "services", "alter-table-properties")]
-public record GcloudMetastoreServicesAlterTablePropertiesOptions : GcloudOptions
+public record GcloudMetastoreServicesAlterTablePropertiesOptions(
+    [property: CliOption("--properties", Format = OptionFormat.EqualsSeparated)] IReadOnlyList<KeyValue> Properties,
+    [property: CliOption("--table-name", Format = OptionFormat.EqualsSeparated)] string TableName,
+    [property: CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)] string UpdateMask
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

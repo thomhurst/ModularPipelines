@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,39 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "composite-health-checks", "update")]
-public record GcloudComputeCompositeHealthChecksUpdateOptions : GcloudOptions
+public record GcloudComputeCompositeHealthChecksUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// At least one of these must be specified: A textual description of this resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: URL to the destination resource. Must be set. Must be a ForwardingRule. The ForwardingRule must have load balancing scheme INTERNAL or INTERNAL_MANAGED and must be regional and in the same region as the CompositeHealthCheck (cross-region deployment for INTERNAL_MANAGED is not supported). Can be mutated.
+    /// </summary>
+    [CliOption("--health-destination", Format = OptionFormat.EqualsSeparated)]
+    public string? HealthDestination { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: URLs to the HealthSource resources whose results are AND'ed. I.e. the aggregated result is HEALTHY only if all sources are HEALTHY. Must have at least 1. Must not have more than 10. Must be regional and in the same region as the CompositeHealthCheck. Can be mutated.
+    /// </summary>
+    [CliOption("--health-sources", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? HealthSources { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(Description) || !string.IsNullOrWhiteSpace(HealthDestination) || HealthSources?.Any() == true))
+        {
+            yield return new ValidationResult("At least one of Description, HealthDestination, or HealthSources must be specified.", [nameof(Description), nameof(HealthDestination), nameof(HealthSources)]);
+        }
+    }
+
 }

@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// rename a Bare Metal Solution network
 /// </summary>
+/// <param name="NewName">New network name for renaming an already existing network.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bms", "networks", "rename")]
-public record GcloudBmsNetworksRenameOptions : GcloudOptions
+public record GcloudBmsNetworksRenameOptions(
+    [property: CliOption("--new-name", Format = OptionFormat.EqualsSeparated)] string NewName
+) : GcloudOptions
 {
 }

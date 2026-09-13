@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export an Artifact Registry package version     by tag
 /// </summary>
+/// <param name="GcsDestination">Google Cloud Storage path to export the artifact to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "tags", "export")]
-public record GcloudArtifactsTagsExportOptions : GcloudOptions
+public record GcloudArtifactsTagsExportOptions(
+    [property: CliOption("--gcs-destination", Format = OptionFormat.EqualsSeparated)] string GcsDestination
+) : GcloudOptions
 {
 }

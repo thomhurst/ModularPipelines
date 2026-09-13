@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("api-gateway", "api-configs", "create")]
-public record GcloudApiGatewayApiConfigsCreateOptions : GcloudOptions
+public record GcloudApiGatewayApiConfigsCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Configuration files for the API. Exactly one of these must be specified: Files describing the GRPC service. Google Service Configuration files in JSON or YAML formats as well as Proto descriptors should be listed.
+    /// </summary>
+    [CliOption("--grpc-files", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? GrpcFiles { get; set; }
+
+    /// <summary>
+    /// Configuration files for the API. Exactly one of these must be specified: The OpenAPI specifications containing service configuration information, and API specification for the gateway.
+    /// </summary>
+    [CliOption("--openapi-spec", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? OpenapiSpec { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Service account which will be used to sign tokens for backends with authentication configured.
+    /// </summary>
+    [CliOption("--backend-auth-service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? BackendAuthServiceAccount { get; set; }
+
+    /// <summary>
+    /// Human readable name which can optionally be supplied.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((GrpcFiles?.Any() == true ? 1 : 0) + (OpenapiSpec?.Any() == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of GrpcFiles or OpenapiSpec must be specified.", [nameof(GrpcFiles), nameof(OpenapiSpec)]);
+        }
+    }
+
 }

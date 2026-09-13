@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// roll back a Pub/Sub schema to a specified     revision
 /// </summary>
+/// <param name="RevisionId">The revision to roll back to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "schemas", "rollback")]
-public record GcloudPubsubSchemasRollbackOptions : GcloudOptions
+public record GcloudPubsubSchemasRollbackOptions(
+    [property: CliOption("--revision-id", Format = OptionFormat.EqualsSeparated)] string RevisionId
+) : GcloudOptions
 {
 }

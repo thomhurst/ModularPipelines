@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// waits for an operation to     complete for a given operation name
 /// </summary>
+/// <param name="Name">The name of operation to wait</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "vpc-peerings", "operations", "wait")]
-public record GcloudServicesVpcPeeringsOperationsWaitOptions : GcloudOptions
+public record GcloudServicesVpcPeeringsOperationsWaitOptions(
+    [property: CliOption("--name", Format = OptionFormat.EqualsSeparated)] string Name
+) : GcloudOptions
 {
 }

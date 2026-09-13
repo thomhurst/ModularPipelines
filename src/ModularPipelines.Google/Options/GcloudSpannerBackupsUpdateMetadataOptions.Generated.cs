@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,27 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "backups", "update-metadata")]
-public record GcloudSpannerBackupsUpdateMetadataOptions : GcloudOptions
+public record GcloudSpannerBackupsUpdateMetadataOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Expiration time of the backup, must be at least 6 hours and at most 366 days from the time of creation. See $ gcloud topic datetimes for information on date/time formats.
+    /// </summary>
+    [CliOption("--expiration-date", Format = OptionFormat.EqualsSeparated)]
+    public string? ExpirationDate { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Retention period of the backup relative from now, must be at least 6 hours and at most a year from the time of creation. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--retention-period", Format = OptionFormat.EqualsSeparated)]
+    public string? RetentionPeriod { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(ExpirationDate) ? 1 : 0) + (!string.IsNullOrWhiteSpace(RetentionPeriod) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ExpirationDate or RetentionPeriod must be specified.", [nameof(ExpirationDate), nameof(RetentionPeriod)]);
+        }
+    }
+
 }

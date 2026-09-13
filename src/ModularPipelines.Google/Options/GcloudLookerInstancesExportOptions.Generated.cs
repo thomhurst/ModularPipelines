@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export a Looker instance
 /// </summary>
+/// <param name="TargetGcsUri">Export Destination - The path and storage where the export will be stored. This must be specified. The path to the folder in Google Cloud Storage where the export will be stored. The URI is in the form gs://bucketName/folderName. The Looker Service Agent should have the role Storage Object Creator.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("looker", "instances", "export")]
-public record GcloudLookerInstancesExportOptions : GcloudOptions
+public record GcloudLookerInstancesExportOptions(
+    [property: CliOption("--target-gcs-uri", Format = OptionFormat.EqualsSeparated)] string TargetGcsUri
+) : GcloudOptions
 {
+    /// <summary>
+    /// Export Destination - The path and storage where the export will be stored. This must be specified. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the Looker instance and backups. The 'Looker Service Agent' service account must hold role 'Cloud KMS CryptoKey Encrypter'. The arguments in this group can be used to specify the attributes of this resource. This must be specified. Fully qualified identifier (name) for the key.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
 }

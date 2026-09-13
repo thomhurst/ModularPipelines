@@ -16,11 +16,62 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// attach a disk to an instance
 /// </summary>
+/// <param name="Disk">The name of the disk to attach to the instance.</param>
+/// <param name="InstanceName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "attach-disk")]
 public record GcloudPreviewComputeInstancesAttachDiskOptions(
+    [property: CliOption("--disk", Format = OptionFormat.EqualsSeparated)] string Disk,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Attach the disk to the instance as a boot disk.
+    /// </summary>
+    [CliFlag("--boot")]
+    public bool? Boot { get; set; }
+
+    /// <summary>
+    /// (DEPRECATED) Path to a Customer-Supplied Encryption Key (CSEK) key file that maps Compute Engine resources to user managed keys to be used when creating, mounting, or taking snapshots of disks. If you pass `-` as value of the flag, the CSEK is read from stdin. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --csek-key-file flag is deprecated.
+    /// </summary>
+    [CliOption("--csek-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? CsekKeyFile { get; set; }
+
+    /// <summary>
+    /// An optional name that indicates the disk name the guest operating system will see. (Note: Device name does not correspond to mounted volume name). Must match the disk name if the disk is going to be mounted to a container with --container-mount-disk (alpha feature).
+    /// </summary>
+    [CliOption("--device-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DeviceName { get; set; }
+
+    /// <summary>
+    /// The scope of the disk. DISK_SCOPE must be one of: regional The disk specified in --disk is interpreted as a regional disk in the same region as the instance. Ignored if a full URI is provided to the --disk flag. zonal The disk specified in --disk is interpreted as a zonal disk in the same zone as the instance. Ignored if a full URI is provided to the --disk flag.
+    /// </summary>
+    [CliOption("--disk-scope", Format = OptionFormat.EqualsSeparated)]
+    public string? DiskScope { get; set; }
+
+    /// <summary>
+    /// Attach the disk to the instance even if it is currently attached to another instance. The attachment will succeed even if detaching from the previous instance fails at first. The server will continue trying to detach the disk from the previous instance in the background.
+    /// </summary>
+    [CliFlag("--force-attach")]
+    public bool? ForceAttach { get; set; }
+
+    /// <summary>
+    /// The interface of the disk. INTERFACE must be one of: NVME NVME SCSI SCSI
+    /// </summary>
+    [CliOption("--interface", Format = OptionFormat.EqualsSeparated)]
+    public string? Interface { get; set; }
+
+    /// <summary>
+    /// Specifies the mode of the disk. MODE must be one of: ro Read-only. rw Read-write.
+    /// </summary>
+    [CliOption("--mode", Format = OptionFormat.EqualsSeparated)]
+    public string? Mode { get; set; }
+
+    /// <summary>
+    /// Zone of the instance to operate on. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
 }

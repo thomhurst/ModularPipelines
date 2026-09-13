@@ -21,4 +21,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("access-context-manager", "levels", "conditions", "list")]
 public record GcloudAccessContextManagerLevelsConditionsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// Level resource - The access level you want to list the conditions for. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the level or fully qualified identifier for the level. To set the level attribute: ▸ provide the argument --level on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--level", Format = OptionFormat.EqualsSeparated)]
+    public string? Level { get; set; }
+
+    /// <summary>
+    /// Level resource - The access level you want to list the conditions for. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID of the access policy. To set the policy attribute: ▸ provide the argument --level on the command line with a fully specified name; ▸ provide the argument --policy on the command line; ▸ set the property access_context_manager/policy; ▸ automatically, if the current account belongs to an organization with exactly one access policy..
+    /// </summary>
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
+    public string? Policy { get; set; }
+
 }

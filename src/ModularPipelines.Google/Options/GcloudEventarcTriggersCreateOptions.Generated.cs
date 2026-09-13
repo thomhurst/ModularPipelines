@@ -10,15 +10,149 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an Eventarc trigger
 /// </summary>
+/// <param name="EventFilters">The trigger's list of filters that apply to CloudEvents attributes. This flag can be repeated to add more filters to the list. Only events that match all these filters will be sent to the destination. The filters must include the type attribute, as well as any other attributes that are expected for the chosen type.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventarc", "triggers", "create")]
-public record GcloudEventarcTriggersCreateOptions : GcloudOptions
+public record GcloudEventarcTriggersCreateOptions(
+    [property: CliOption("--event-filters", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> EventFilters
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Flags for specifying the destination to which events should be sent. Exactly one of these must be specified: Flags for specifying a GKE service destination. Flags for specifying a HTTP Endpoint destination. Flags for specifying a Network Config for the destination. Name of the GKE cluster that the destination GKE service is running in. The cluster must be in the same project as the trigger. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--destination-gke-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationGkeCluster { get; set; }
+
+    /// <summary>
+    /// Flags for specifying the destination to which events should be sent. Exactly one of these must be specified: Flags for specifying a GKE service destination. Flags for specifying a HTTP Endpoint destination. Flags for specifying a Network Config for the destination. Name of the destination GKE service that receives the events for the trigger. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--destination-gke-service", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationGkeService { get; set; }
+
+    /// <summary>
+    /// Flags for specifying the destination to which events should be sent. Exactly one of these must be specified: Flags for specifying a GKE service destination. Flags for specifying a HTTP Endpoint destination. Flags for specifying a Network Config for the destination. Location of the GKE cluster that the destination GKE service is running in. If not specified, it is assumed that the cluster is a regional cluster and is in the same region as the trigger.
+    /// </summary>
+    [CliOption("--destination-gke-location", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationGkeLocation { get; set; }
+
+    /// <summary>
+    /// Flags for specifying the destination to which events should be sent. Exactly one of these must be specified: Flags for specifying a GKE service destination. Flags for specifying a HTTP Endpoint destination. Flags for specifying a Network Config for the destination. Namespace that the destination GKE service is running in. If not specified, the default namespace is used.
+    /// </summary>
+    [CliOption("--destination-gke-namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationGkeNamespace { get; set; }
+
+    /// <summary>
+    /// Flags for specifying the destination to which events should be sent. Exactly one of these must be specified: Flags for specifying a GKE service destination. Flags for specifying a HTTP Endpoint destination. Flags for specifying a Network Config for the destination. Relative path on the destination GKE service to which the events for the trigger should be sent. Examples: /route, route, route/subroute.
+    /// </summary>
+    [CliOption("--destination-gke-path", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationGkePath { get; set; }
+
+    /// <summary>
+    /// Flags for specifying the destination to which events should be sent. Exactly one of these must be specified: Flags for specifying a GKE service destination. Flags for specifying a HTTP Endpoint destination. Flags for specifying a Network Config for the destination. URI that the destination HTTP Endpoint is connecting to. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--destination-http-endpoint-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationHttpEndpointUri { get; set; }
+
+    /// <summary>
+    /// Flags for specifying the destination to which events should be sent. Exactly one of these must be specified: Flags for specifying a GKE service destination. Flags for specifying a HTTP Endpoint destination. Flags for specifying a Network Config for the destination. The network attachment associated with the trigger that allows access to the destination VPC.
+    /// </summary>
+    [CliOption("--network-attachment", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkAttachment { get; set; }
+
+    /// <summary>
+    /// Flags for specifying a Cloud Run fully-managed resource destination. Flags for specifying a Cloud Workflows destination. Name of the Cloud Run fully-managed service that receives the events for the trigger. The service must be in the same project as the trigger. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--destination-run-service", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationRunService { get; set; }
+
+    /// <summary>
+    /// Flags for specifying a Cloud Run fully-managed resource destination. Flags for specifying a Cloud Workflows destination. Relative path on the destination Cloud Run service to which the events for the trigger should be sent. Examples: /route, route, route/subroute.
+    /// </summary>
+    [CliOption("--destination-run-path", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationRunPath { get; set; }
+
+    /// <summary>
+    /// Flags for specifying a Cloud Run fully-managed resource destination. Flags for specifying a Cloud Workflows destination. Region in which the destination Cloud Run service can be found. If not specified, it is assumed that the service is in the same region as the trigger.
+    /// </summary>
+    [CliOption("--destination-run-region", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationRunRegion { get; set; }
+
+    /// <summary>
+    /// Flags for specifying a Cloud Run fully-managed resource destination. Flags for specifying a Cloud Workflows destination. ID of the workflow that receives the events for the trigger. The workflow must be in the same project as the trigger. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--destination-workflow", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationWorkflow { get; set; }
+
+    /// <summary>
+    /// Flags for specifying a Cloud Run fully-managed resource destination. Flags for specifying a Cloud Workflows destination. Location that the destination workflow is running in. If not specified, it is assumed that the workflow is in the same location as the trigger.
+    /// </summary>
+    [CliOption("--destination-workflow-location", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationWorkflowLocation { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Channel resource - The channel to use in the trigger. The channel is needed only if trigger is created for a third-party provider. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --channel on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --channel on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. The retry policy configuration for the trigger. Can only be set for Cloud Run destinations. ID of the channel or fully qualified identifier for the channel. To set the channel attribute: ◆ provide the argument --channel on the command line.
+    /// </summary>
+    [CliOption("--channel", Format = OptionFormat.EqualsSeparated)]
+    public string? Channel { get; set; }
+
+    /// <summary>
+    /// Channel resource - The channel to use in the trigger. The channel is needed only if trigger is created for a third-party provider. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --channel on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --channel on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. The retry policy configuration for the trigger. Can only be set for Cloud Run destinations. Depending on the event provider, you can specify the encoding of the event data payload that will be delivered to your destination, to either be encoded in application/json or application/protobuf. The default encoding is application/json. Note that for custom sources or third-party providers, or for direct events from Cloud Pub/Sub, this formatting option is not supported.
+    /// </summary>
+    [CliOption("--event-data-content-type", Format = OptionFormat.EqualsSeparated)]
+    public string? EventDataContentType { get; set; }
+
+    /// <summary>
+    /// Channel resource - The channel to use in the trigger. The channel is needed only if trigger is created for a third-party provider. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --channel on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --channel on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. The retry policy configuration for the trigger. Can only be set for Cloud Run destinations. The trigger's list of filters in path pattern format that apply to CloudEvent attributes. This flag can be repeated to add more filters to the list. Only events that match all these filters will be sent to the destination. Currently, path pattern format is only available for the resourceName attribute for Cloud Audit Log events.
+    /// </summary>
+    [CliOption("--event-filters-path-pattern", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? EventFiltersPathPattern { get; set; }
+
+    /// <summary>
+    /// Channel resource - The channel to use in the trigger. The channel is needed only if trigger is created for a third-party provider. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --channel on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --channel on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. The retry policy configuration for the trigger. Can only be set for Cloud Run destinations. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Channel resource - The channel to use in the trigger. The channel is needed only if trigger is created for a third-party provider. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --channel on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --channel on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. The retry policy configuration for the trigger. Can only be set for Cloud Run destinations. The maximum number of delivery attempts. The only valid value is 1.
+    /// </summary>
+    [CliOption("--max-retry-attempts", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxRetryAttempts { get; set; }
+
+    /// <summary>
+    /// Channel resource - The channel to use in the trigger. The channel is needed only if trigger is created for a third-party provider. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --channel on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --channel on the command line with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property eventarc/location. The retry policy configuration for the trigger. Can only be set for Cloud Run destinations. The IAM service account email associated with the trigger.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Pub/Sub topic resource - The Cloud Pub/Sub topic to use for the trigger's transport intermediary. This feature is currently only available for triggers of event type google.cloud.pubsub.topic.v1.messagePublished. The topic must be in the same project as the trigger. If not specified, a transport topic will be created. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --transport-topic on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the Pub/Sub topic or fully qualified identifier for the Pub/Sub topic. To set the transport-topic attribute: ◆ provide the argument --transport-topic on the command line.
+    /// </summary>
+    [CliOption("--transport-topic", Format = OptionFormat.EqualsSeparated)]
+    public string? TransportTopic { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DestinationGkeCluster) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DestinationGkeService) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DestinationGkeLocation) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DestinationGkeNamespace) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DestinationGkePath) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DestinationHttpEndpointUri) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NetworkAttachment) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DestinationGkeCluster, DestinationGkeService, DestinationGkeLocation, DestinationGkeNamespace, DestinationGkePath, DestinationHttpEndpointUri, or NetworkAttachment must be specified.", [nameof(DestinationGkeCluster), nameof(DestinationGkeService), nameof(DestinationGkeLocation), nameof(DestinationGkeNamespace), nameof(DestinationGkePath), nameof(DestinationHttpEndpointUri), nameof(NetworkAttachment)]);
+        }
+    }
+
 }

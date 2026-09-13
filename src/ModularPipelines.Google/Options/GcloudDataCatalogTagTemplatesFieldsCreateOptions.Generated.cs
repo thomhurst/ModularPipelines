@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Data Catalog tag     template field
 /// </summary>
+/// <param name="Type">Type of the tag template field. Choices are double, string, bool, timestamp, and enum. To specify a string field: `type=string` To specify an enum field with values 'A' and 'B': `type="enum(A|B)"`</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "tag-templates", "fields", "create")]
-public record GcloudDataCatalogTagTemplatesFieldsCreateOptions : GcloudOptions
+public record GcloudDataCatalogTagTemplatesFieldsCreateOptions(
+    [property: CliOption("--type", Format = OptionFormat.EqualsSeparated)] string Type
+) : GcloudOptions
 {
+    /// <summary>
+    /// Display name of the tag template field.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
 }

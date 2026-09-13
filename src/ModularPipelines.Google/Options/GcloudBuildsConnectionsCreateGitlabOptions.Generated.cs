@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -16,9 +17,40 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Cloud Build Connection     for gitlab.com or GitLab Enterprise
 /// </summary>
+/// <param name="AuthorizerTokenSecretVersion">Secret containing the api personal access token.</param>
+/// <param name="ReadAuthorizerTokenSecretVersion">Secret containing the read_api personal access token.</param>
+/// <param name="WebhookSecretSecretVersion">Secret containing the webhook secret string for validating webhook events sent by GitLab.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "connections", "create", "gitlab")]
-public record GcloudBuildsConnectionsCreateGitlabOptions : GcloudOptions
+public record GcloudBuildsConnectionsCreateGitlabOptions(
+    [property: SecretValue, CliOption("--authorizer-token-secret-version", Format = OptionFormat.EqualsSeparated)] string AuthorizerTokenSecretVersion,
+    [property: SecretValue, CliOption("--read-authorizer-token-secret-version", Format = OptionFormat.EqualsSeparated)] string ReadAuthorizerTokenSecretVersion,
+    [property: SecretValue, CliOption("--webhook-secret-secret-version", Format = OptionFormat.EqualsSeparated)] string WebhookSecretSecretVersion
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// URI of the GitLab instance.
+    /// </summary>
+    [CliOption("--host-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? HostUri { get; set; }
+
+    /// <summary>
+    /// Group of arguments for configuring access through Service Directory. Service Directory service resource to use for accessing the gitlab.com or GitLab Enterprise Server. Necessary only if the server has no public access from the internet. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--service-directory-service", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceDirectoryService { get; set; }
+
+    /// <summary>
+    /// Group of arguments for configuring access through Service Directory. File containing the SSL_CA to be used.
+    /// </summary>
+    [CliOption("--ssl-ca-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SslCaFile { get; set; }
+
 }

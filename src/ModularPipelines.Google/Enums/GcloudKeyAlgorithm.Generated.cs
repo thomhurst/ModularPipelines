@@ -19,15 +19,6 @@ public enum GcloudKeyAlgorithm
     [EnumValue("ecdsa-p256")]
     EcdsaP256,
 
-    [EnumValue("ecdsa-p384")]
-    EcdsaP384,
-
     [EnumValue("rsa-2048")]
-    Rsa_2048,
-
-    [EnumValue("rsa-3072")]
-    Rsa_3072,
-
-    [EnumValue("rsa-4096")]
-    Rsa_4096
+    Rsa_2048
 }

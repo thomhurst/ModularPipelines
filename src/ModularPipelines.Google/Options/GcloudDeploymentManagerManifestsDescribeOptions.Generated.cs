@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// provide information about a     manifest
 /// </summary>
+/// <param name="Deployment">Deployment name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment-manager", "manifests", "describe")]
-public record GcloudDeploymentManagerManifestsDescribeOptions : GcloudOptions
+public record GcloudDeploymentManagerManifestsDescribeOptions(
+    [property: CliOption("--deployment", Format = OptionFormat.EqualsSeparated)] string Deployment
+) : GcloudOptions
 {
 }

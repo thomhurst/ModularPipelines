@@ -16,11 +16,44 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// run the given Cloud Spanner sample app
 /// </summary>
+/// <param name="InstanceId">The Cloud Spanner instance ID for the sample app.</param>
+/// <param name="Appname"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "samples", "run")]
 public record GcloudSpannerSamplesRunOptions(
+    [property: CliOption("--instance-id", Format = OptionFormat.EqualsSeparated)] string InstanceId,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Appname
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Delete the instance after running the sample app. Enabled by default, use --no-cleanup to disable.
+    /// </summary>
+    [CliFlag("--cleanup")]
+    public bool? Cleanup { get; set; }
+
+    /// <summary>
+    /// Negates --cleanup. Delete the instance after running the sample app. Enabled by default, use --no-cleanup to disable.
+    /// </summary>
+    [CliFlag("--no-cleanup")]
+    public bool? NoCleanup { get; set; }
+
+    /// <summary>
+    /// ID of the new Cloud Spanner database to create for the sample app.
+    /// </summary>
+    [CliOption("--database-id", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseId { get; set; }
+
+    /// <summary>
+    /// Duration of time allowed to run the sample app before stopping the service.
+    /// </summary>
+    [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
+    public string? Duration { get; set; }
+
+    /// <summary>
+    /// Use an existing database instead of creating a new one.
+    /// </summary>
+    [CliFlag("--skip-init")]
+    public bool? SkipInit { get; set; }
+
 }

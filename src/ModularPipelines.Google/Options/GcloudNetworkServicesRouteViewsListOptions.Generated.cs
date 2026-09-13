@@ -22,6 +22,18 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkServicesRouteViewsListOptions : GcloudOptions
 {
     /// <summary>
+    /// Parent of the Route View Exactly one of these must be specified: Gateway resource - Parent Gateway This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --gateway on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --gateway on the command line with a fully specified name; ▸ provide the argument --location on the command line. ID of the gateway or fully qualified identifier for the gateway. To set the gateway attribute: ▸ provide the argument --gateway on the command line.
+    /// </summary>
+    [CliOption("--gateway", Format = OptionFormat.EqualsSeparated)]
+    public string? Gateway { get; set; }
+
+    /// <summary>
+    /// Mesh resource - Parent Mesh This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --mesh on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --mesh on the command line with a fully specified name; ▸ provide the argument --location on the command line. ID of the mesh or fully qualified identifier for the mesh. To set the mesh attribute: ▸ provide the argument --mesh on the command line.
+    /// </summary>
+    [CliOption("--mesh", Format = OptionFormat.EqualsSeparated)]
+    public string? Mesh { get; set; }
+
+    /// <summary>
     /// Location resource - Location of the parent This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]

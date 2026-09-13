@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -16,11 +17,51 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// changes a user's password in a given     instance
 /// </summary>
+/// <param name="Instance">Cloud SQL instance ID.</param>
+/// <param name="Username"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "users", "set-password")]
 public record GcloudSqlUsersSetPasswordOptions(
+    [property: CliOption("--instance", Format = OptionFormat.EqualsSeparated)] string Instance,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Username
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Cloud SQL user's hostname expressed as a specific IP address or address range. % denotes an unrestricted hostname. Applicable flag for MySQL instances; ignored for all other engines. Note, if you connect to your instance using IP addresses, you must add your client IP address as an authorized address, even if your hostname is unrestricted. For more information, see Configure IP (https://cloud.google.com/sql/docs/mysql/configure-ip).
+    /// </summary>
+    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
+    public string? Host { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Discard the user's secondary password. Cannot set password and set this flag. This flag is only available for MySQL 8.0.
+    /// </summary>
+    [CliFlag("--discard-dual-password")]
+    public bool? DiscardDualPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Retain the old password when changing to the new password. Must set password with this flag. This flag is only available for MySQL 8.0.
+    /// </summary>
+    [CliFlag("--retain-password")]
+    public bool? RetainPassword { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Cloud SQL user's password.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public string? Password { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Prompt for the Cloud SQL user's password with character echo disabled. The password is all typed characters up to but not including the RETURN or ENTER key.
+    /// </summary>
+    [CliFlag("--prompt-for-password")]
+    public bool? PromptForPassword { get; set; }
+
 }

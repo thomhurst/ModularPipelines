@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// run Vertex AI online stream     direct prediction
 /// </summary>
+/// <param name="JsonRequest">Path to a local file containing the body of a JSON request. An example of a JSON request: { "inputs": [ {"dtype": "STRING", shape: [1], "string_val": ["hello world"]}, {"dtype": "INT32", shape: [1], "int_val": [42]} ] } This flag accepts "-" for stdin.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "endpoints", "stream-direct-predict")]
-public record GcloudAiEndpointsStreamDirectPredictOptions : GcloudOptions
+public record GcloudAiEndpointsStreamDirectPredictOptions(
+    [property: CliOption("--json-request", Format = OptionFormat.EqualsSeparated)] string JsonRequest
+) : GcloudOptions
 {
 }

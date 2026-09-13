@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a single tenant HSM instance
 /// </summary>
+/// <param name="TotalApproverCount">The total number of approvers. This is the N value used for M of N quorum auth. Must be greater than or equal to 3 and less than or equal to 16.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "single-tenant-hsm", "create")]
-public record GcloudKmsSingleTenantHsmCreateOptions : GcloudOptions
+public record GcloudKmsSingleTenantHsmCreateOptions(
+    [property: CliOption("--total-approver-count", Format = OptionFormat.EqualsSeparated)] int TotalApproverCount
+) : GcloudOptions
 {
+    /// <summary>
+    /// Location resource - The KMS location resource. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// If set, the single tenant HSM instance will be able to perform key portability operations.
+    /// </summary>
+    [CliFlag("--key-portability-enabled")]
+    public bool? KeyPortabilityEnabled { get; set; }
+
+    /// <summary>
+    /// Specify an ID for the single tenant HSM instance. It must be unique within a location and match the regular expression [a-zA-Z0-9-]{1,63}.
+    /// </summary>
+    [CliOption("--single-tenant-hsm-instance-id", Format = OptionFormat.EqualsSeparated)]
+    public string? SingleTenantHsmInstanceId { get; set; }
+
 }

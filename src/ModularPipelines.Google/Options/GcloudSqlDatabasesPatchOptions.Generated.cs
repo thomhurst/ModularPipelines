@@ -16,11 +16,32 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// patches the settings of a Cloud SQL database
 /// </summary>
+/// <param name="Instance">Cloud SQL instance ID.</param>
+/// <param name="Database"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "databases", "patch")]
 public record GcloudSqlDatabasesPatchOptions(
+    [property: CliOption("--instance", Format = OptionFormat.EqualsSeparated)] string Instance,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Database
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Cloud SQL database charset setting, which specifies the set of symbols and encodings used to store the data in your database. Each database version may support a different set of charsets.
+    /// </summary>
+    [CliOption("--charset", Format = OptionFormat.EqualsSeparated)]
+    public string? Charset { get; set; }
+
+    /// <summary>
+    /// Cloud SQL database collation setting, which specifies the set of rules for comparing characters in a character set. Each database version may support a different set of collations. This flag can't be used with PostgreSQL instances.
+    /// </summary>
+    [CliOption("--collation", Format = OptionFormat.EqualsSeparated)]
+    public string? Collation { get; set; }
+
+    /// <summary>
+    /// Show what changed as a result of the patch.
+    /// </summary>
+    [CliFlag("--diff")]
+    public bool? Diff { get; set; }
+
 }

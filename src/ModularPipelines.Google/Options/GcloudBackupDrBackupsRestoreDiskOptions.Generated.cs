@@ -10,15 +10,160 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// restores a Compute Disk Backup
 /// </summary>
+/// <param name="Name">Name of the restored Disk.</param>
+/// <param name="TargetProject">Project where the restore should happen.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-dr", "backups", "restore", "disk")]
-public record GcloudBackupDrBackupsRestoreDiskOptions : GcloudOptions
+public record GcloudBackupDrBackupsRestoreDiskOptions(
+    [property: CliOption("--name", Format = OptionFormat.EqualsSeparated)] string Name,
+    [property: CliOption("--target-project", Format = OptionFormat.EqualsSeparated)] string TargetProject
+) : GcloudOptions
 {
+    /// <summary>
+    /// Specifies how VMs attached to the disk can access the data on the disk. To grant read-only access to multiple VMs attached to the disk, set access-mode to READ_ONLY_MANY. To grant read-write access to only one VM attached to the disk, use READ_WRITE_SINGLE. READ_WRITE_SINGLE is used if omitted. ACCESS_MODE must be one of: READ_ONLY_MANY, READ_WRITE_MANY, READ_WRITE_SINGLE. ACCESS_MODE must be one of: READ_ONLY_MANY The AccessMode means the disk can be attached to multiple instances in RW mode. READ_WRITE_MANY The AccessMode means the disk can be attached to multiple instances in RO mode. READ_WRITE_SINGLE The default AccessMode, means the disk can be attached to single instance in RW mode.
+    /// </summary>
+    [CliOption("--access-mode", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAccessMode? AccessMode { get; set; }
+
+    /// <summary>
+    /// Specifies the architecture or processor type that this disk can support. For available processor types on Compute Engine, see https://cloud.google.com/compute/docs/cpu-platforms. ARCHITECTURE must be one of: ARM64, X86_64. ARCHITECTURE must be one of: ARM64 The disk can only be used with ARM64 machines. X86_64 The disk can only be used with x86_64 machines.
+    /// </summary>
+    [CliOption("--architecture", Format = OptionFormat.EqualsSeparated)]
+    public GcloudArchitecture? Architecture { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// The restored disk reverts to GMEK (CMEK is disabled).
+    /// </summary>
+    [CliFlag("--clear-encryption-key")]
+    public bool? ClearEncryptionKey { get; set; }
+
+    /// <summary>
+    /// Creates the disk with confidential compute mode enabled. Encryption with a Cloud KMS key is required to enable this option.
+    /// </summary>
+    [CliFlag("--confidential-compute")]
+    public bool? ConfidentialCompute { get; set; }
+
+    /// <summary>
+    /// Specifies a textual description of the restored disk.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Enables one or more features for VM instances that use the image for their boot disks. See the descriptions of supported features at: https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features. GUEST_OS_FEATURE must be one of: VIRTIO_SCSI_MULTIQUEUE, WINDOWS, MULTI_IP_SUBNET, UEFI_COMPATIBLE, SEV_CAPABLE, SEV_LIVE_MIGRATABLE, SEV_LIVE_MIGRATABLE_V2, SEV_SNP_CAPABLE, GVNIC, IDPF, TDX_CAPABLE, SUSPEND_RESUME_COMPATIBLE.
+    /// </summary>
+    [CliOption("--guest-os-features", Format = OptionFormat.EqualsSeparated)]
+    public GcloudGuestOsFeatures? GuestOsFeatures { get; set; }
+
+    /// <summary>
+    /// The Cloud KMS (Key Management Service) cryptokey that will be used to protect the disk Provide the full resource name of the cryptokey in the format: projects/&lt;project&gt;/locations/&lt;location&gt;/keyRings/&lt;key-ring&gt;/cryptoKeys/&lt;key&gt;
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// A list of URIs to license resources. The provided licenses will be added onto the created disks to indicate the licensing and billing policies.
+    /// </summary>
+    [CliOption("--licenses", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Licenses { get; set; }
+
+    /// <summary>
+    /// Provisioned IOPS of disk to create. Only for use with disks of type pd-extreme and hyperdisk-extreme.
+    /// </summary>
+    [CliOption("--provisioned-iops", Format = OptionFormat.EqualsSeparated)]
+    public int? ProvisionedIops { get; set; }
+
+    /// <summary>
+    /// Provisioned throughput of disk to create. The throughput unit is MB per sec. Only for use with disks of type hyperdisk-throughput.
+    /// </summary>
+    [CliOption("--provisioned-throughput", Format = OptionFormat.EqualsSeparated)]
+    public string? ProvisionedThroughput { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of exactly 2 URLs of the zones where the disk should be replicated to. Required when restoring to a regional disk. The zones must be in the same region as specified in the --target-region flag. See available zones with gcloud compute zones list.
+    /// </summary>
+    [CliOption("--replica-zones", Format = OptionFormat.EqualsSeparated)]
+    public string? ReplicaZones { get; set; }
+
+    /// <summary>
+    /// A list of resource policy names to be added to the disk. The policies must exist in the same region as the disk.
+    /// </summary>
+    [CliOption("--resource-policies", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ResourcePolicies { get; set; }
+
+    /// <summary>
+    /// Size of the disk in GB. Disk size must be a multiple of 1 GB. If disk size is not specified, the default size of 500GB for pd-standard disks, 100GB for pd-balanced disks, 100GB for pd-ssd disks, and 1000GB for pd-extreme disks will be used. For details about disk size limits, refer to: https://cloud.google.com/compute/docs/disks
+    /// </summary>
+    [CliOption("--size", Format = OptionFormat.EqualsSeparated)]
+    public int? Size { get; set; }
+
+    /// <summary>
+    /// Specifies the URI of the storage pool in which the disk is created.
+    /// </summary>
+    [CliOption("--storage-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? StoragePool { get; set; }
+
+    /// <summary>
+    /// Region where the target disk is restored. This flag is mutually exclusive with --target-zone.
+    /// </summary>
+    [CliOption("--target-region", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetRegion { get; set; }
+
+    /// <summary>
+    /// Zone where the target disk is restored. This flag is mutually exclusive with --target-region.
+    /// </summary>
+    [CliOption("--target-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetZone { get; set; }
+
+    /// <summary>
+    /// URL of the disk type describing which disk type to use to restore the disk. For example: projects/project/zones/zone/diskTypes/pd-ssd. To get a list of available disk types, run gcloud compute disk-types list. The default disk type is pd-standard.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string? Type { get; set; }
+
+    /// <summary>
+    /// If set, the BackupDR Project Service Agent (P4SA) credentials will be used for the restore operation instead of the Backup Vault Service Account. This is only supported for same-project restores.
+    /// </summary>
+    [CliFlag("--use-project-service-account")]
+    public bool? UseProjectServiceAccount { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Whether to restore the boot disk of the instance.
+    /// </summary>
+    [CliFlag("--source-instance-boot-disk")]
+    public bool? SourceInstanceBootDisk { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: The device name of the disk to be restored. This is the device name of the disk as specified in the original VM instance backup. This is different from source disk resource name.
+    /// </summary>
+    [CliOption("--source-instance-disk-device-name", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceInstanceDiskDeviceName { get; set; }
+
 }

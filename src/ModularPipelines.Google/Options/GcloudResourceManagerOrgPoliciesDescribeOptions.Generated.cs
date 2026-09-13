@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe an Organization     Policy
 /// </summary>
+/// <param name="OrgPolicyId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "org-policies", "describe")]
@@ -23,4 +24,28 @@ public record GcloudResourceManagerOrgPoliciesDescribeOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OrgPolicyId
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Resource that is associated with the organization policy. Exactly one of these must be specified: Folder ID.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with the organization policy. Exactly one of these must be specified: Organization ID.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with the organization policy. Exactly one of these must be specified: Project ID. Overrides the default core/project property value for this command invocation.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// Show the effective policy.
+    /// </summary>
+    [CliFlag("--effective")]
+    public bool? Effective { get; set; }
+
 }

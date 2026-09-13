@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add more cluster endpoints
 /// </summary>
+/// <param name="ClusterEndpoint">Required, Resource details of a redis cluster endpoint. psc-connection Sets psc-connection value. address Sets address value. forwarding-rule Sets forwarding-rule value. network Sets network value. psc-connection-id Sets psc-connection-id value. service-attachment Sets service-attachment value. Shorthand Example: --cluster-endpoint=psc-connection=[{address=string,forwarding-rule=string,network=string,psc-connection-id=string,service-attachment=string}] --cluster-endpoint=psc-connection=[{address=string,forwarding-rule=string,network=string,psc-connection-id=string,service-attachment=string}] JSON Example: --cluster-endpoint='[{"psc-connection": [{"address": "string", "forwarding-rule": "string", "network": "string", "psc-connection-id": "string", "service-attachment": "string"}]}]' File Example: --cluster-endpoint=path_to_file.(yaml|json)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "clusters", "add-cluster-endpoints")]
-public record GcloudRedisClustersAddClusterEndpointsOptions : GcloudOptions
+public record GcloudRedisClustersAddClusterEndpointsOptions(
+    [property: CliOption("--cluster-endpoint", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> ClusterEndpoint
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

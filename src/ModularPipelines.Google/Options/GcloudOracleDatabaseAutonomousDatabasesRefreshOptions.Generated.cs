@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// refresh an     AutonomousDatabase clone
 /// </summary>
+/// <param name="RefreshCutoffTime">The timestamp to which the Autonomous Database refreshable clone will be refreshed. Changes made in the primary database after this timestamp are not part of the data refresh.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "autonomous-databases", "refresh")]
-public record GcloudOracleDatabaseAutonomousDatabasesRefreshOptions : GcloudOptions
+public record GcloudOracleDatabaseAutonomousDatabasesRefreshOptions(
+    [property: CliOption("--refresh-cutoff-time", Format = OptionFormat.EqualsSeparated)] string RefreshCutoffTime
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

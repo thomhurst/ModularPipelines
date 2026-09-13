@@ -16,9 +16,36 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import     mapping rules in a Database Migration Service conversion workspace
 /// </summary>
+/// <param name="ConfigFiles">A list of files to import rules from. Either provide a single file path or if multiple files are to be provided, each file should correspond to one schema. Provide file paths as a comma separated list.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "conversion-workspaces", "import-rules")]
-public record GcloudDatabaseMigrationConversionWorkspacesImportRulesOptions : GcloudOptions
+public record GcloudDatabaseMigrationConversionWorkspacesImportRulesOptions(
+    [property: CliOption("--config-files", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> ConfigFiles
+) : GcloudOptions
 {
+    /// <summary>
+    /// Auto-commit the conversion workspace (default: True). Use --auto-commit to enable and --no-auto-commit to disable.
+    /// </summary>
+    [CliFlag("--auto-commit")]
+    public bool? AutoCommit { get; set; }
+
+    /// <summary>
+    /// Negates --auto-commit. Auto-commit the conversion workspace (default: True). Use --auto-commit to enable and --no-auto-commit to disable.
+    /// </summary>
+    [CliFlag("--no-auto-commit")]
+    public bool? NoAutoCommit { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// File format type to import rules from. FILE_FORMAT must be (only one value is supported): ORA2PG.
+    /// </summary>
+    [CliOption("--file-format", Format = OptionFormat.EqualsSeparated)]
+    public string? FileFormat { get; set; }
+
 }

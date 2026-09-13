@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,99 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datastream", "objects", "lookup")]
-public record GcloudDatastreamObjectsLookupOptions : GcloudOptions
+public record GcloudDatastreamObjectsLookupOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Salesforce object name.
+    /// </summary>
+    [CliOption("--salesforce-object-name", Format = OptionFormat.EqualsSeparated)]
+    public string? SalesforceObjectName { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Mysql database for the object. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--mysql-database", Format = OptionFormat.EqualsSeparated)]
+    public string? MysqlDatabase { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Mysql table for the object. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--mysql-table", Format = OptionFormat.EqualsSeparated)]
+    public string? MysqlTable { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Oracle schema for the object. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--oracle-schema", Format = OptionFormat.EqualsSeparated)]
+    public string? OracleSchema { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Oracle table for the object. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--oracle-table", Format = OptionFormat.EqualsSeparated)]
+    public string? OracleTable { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: PostgreSQL schema for the object. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--postgresql-schema", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresqlSchema { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: PostgreSQL table for the object. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--postgresql-table", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresqlTable { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Spanner table name. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--spanner-table", Format = OptionFormat.EqualsSeparated)]
+    public string? SpannerTable { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Spanner schema name.
+    /// </summary>
+    [CliOption("--spanner-schema", Format = OptionFormat.EqualsSeparated)]
+    public string? SpannerSchema { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: SQL Server schema for the object. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--sqlserver-schema", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlServerSchema { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: SQL Server table for the object. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--sqlserver-table", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlServerTable { get; set; }
+
+    /// <summary>
+    /// Stream resource - The stream to list objects for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --stream on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the stream or fully qualified identifier for the stream. To set the stream attribute: ▸ provide the argument --stream on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--stream", Format = OptionFormat.EqualsSeparated)]
+    public string? Stream { get; set; }
+
+    /// <summary>
+    /// Stream resource - The stream to list objects for. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --stream on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud location for the stream. To set the location attribute: ▸ provide the argument --stream on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(SalesforceObjectName) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MysqlDatabase) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MysqlTable) ? 1 : 0) + (!string.IsNullOrWhiteSpace(OracleSchema) ? 1 : 0) + (!string.IsNullOrWhiteSpace(OracleTable) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PostgresqlSchema) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PostgresqlTable) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SpannerTable) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SpannerSchema) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SqlServerSchema) ? 1 : 0) + (!string.IsNullOrWhiteSpace(SqlServerTable) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of SalesforceObjectName, MysqlDatabase, MysqlTable, OracleSchema, OracleTable, PostgresqlSchema, PostgresqlTable, SpannerTable, SpannerSchema, SqlServerSchema, or SqlServerTable must be specified.", [nameof(SalesforceObjectName), nameof(MysqlDatabase), nameof(MysqlTable), nameof(OracleSchema), nameof(OracleTable), nameof(PostgresqlSchema), nameof(PostgresqlTable), nameof(SpannerTable), nameof(SpannerSchema), nameof(SqlServerSchema), nameof(SqlServerTable)]);
+        }
+    }
+
 }

@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// get the root CA certs for all active     CAs in the CA pool
 /// </summary>
+/// <param name="OutputFile">The path where the concatenated PEM certificates will be written. This will include the root CA certificate for each active CA in the CA pool.</param>
+/// <param name="Ca"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "pools", "get-ca-certs")]
 public record GcloudPrivatecaPoolsGetCaCertsOptions(
+    [property: CliOption("--output-file", Format = OptionFormat.EqualsSeparated)] string OutputFile,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Ca
 ) : GcloudOptions
 {

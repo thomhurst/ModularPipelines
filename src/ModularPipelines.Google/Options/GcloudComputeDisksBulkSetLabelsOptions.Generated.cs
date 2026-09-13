@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,28 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "disks", "bulk", "set-labels")]
 public record GcloudComputeDisksBulkSetLabelsOptions : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a JSON file containing a list of disk label update requests. Each request object must specify "name" and "labels", and may optionally include "label_fingerprint".
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Comma-separated list of disk names to update. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--disks", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Disks { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: List of label KEY=VALUE pairs to set on all specified disks. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Zone of the disk to update labels. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
 }

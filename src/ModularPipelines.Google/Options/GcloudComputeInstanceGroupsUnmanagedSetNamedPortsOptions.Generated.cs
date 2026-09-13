@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// sets the list of     named ports for an instance group
 /// </summary>
+/// <param name="NamedPorts">The comma-separated list of key:value pairs representing the service name and the port that it is running on. To clear the list of named ports pass empty list as flag value. For example: $ gcloud compute instance-groups unmanaged set-named-ports \ example-instance-group --named-ports ""</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "unmanaged", "set-named-ports")]
 public record GcloudComputeInstanceGroupsUnmanagedSetNamedPortsOptions(
+    [property: CliOption("--named-ports", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> NamedPorts,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Zone of the instance group to operate on. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
 }

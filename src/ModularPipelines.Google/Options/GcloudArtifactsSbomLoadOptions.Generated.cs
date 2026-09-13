@@ -16,9 +16,32 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// upload an SBOM file and create a reference     occurrence
 /// </summary>
+/// <param name="Source">The SBOM file for uploading.</param>
+/// <param name="Uri">The URI of the artifact the SBOM is generated from. The URI can be a Docker image from any Docker registries. A URI provided with a tag (e.g. [IMAGE]:[TAG]) will be resolved into a URI with a digest ([IMAGE]@sha256:[DIGEST]). When passing an image which is not from Artifact Registry or Container Registry with a tag, only public images can be resolved. Also, when passing an image which is not from Artifact Registry or Container Registry, the --destination flag is required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "sbom", "load")]
-public record GcloudArtifactsSbomLoadOptions : GcloudOptions
+public record GcloudArtifactsSbomLoadOptions(
+    [property: CliOption("--source", Format = OptionFormat.EqualsSeparated)] string Source,
+    [property: CliOption("--uri", Format = OptionFormat.EqualsSeparated)] string Uri
+) : GcloudOptions
 {
+    /// <summary>
+    /// The storage path will be used to store the SBOM file. Currently only supports Cloud Storage paths start with 'gs://'.
+    /// </summary>
+    [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
+    public string? Destination { get; set; }
+
+    /// <summary>
+    /// Cloud KMS key version to sign the SBOM reference. The key version provided should be the resource ID in the format of projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME]/cryptoKeyVersions/[KEY_VERSION].
+    /// </summary>
+    [CliOption("--kms-key-version", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyVersion { get; set; }
+
+    /// <summary>
+    /// If specified, all requests to Artifact Analysis for occurrences will go to location specified
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

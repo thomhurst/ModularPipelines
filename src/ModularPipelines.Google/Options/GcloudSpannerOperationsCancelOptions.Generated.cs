@@ -10,17 +10,58 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// cancel a Cloud Spanner operation
 /// </summary>
+/// <param name="Operation"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "operations", "cancel")]
 public record GcloudSpannerOperationsCancelOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Operation
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The ID of the instance the operation is executing on.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The ID of the instance configuration the operation is executing on.
+    /// </summary>
+    [CliOption("--instance-config", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceConfig { get; set; }
+
+    /// <summary>
+    /// For a backup operation, the name of the backup the operation is executing on.
+    /// </summary>
+    [CliOption("--backup", Format = OptionFormat.EqualsSeparated)]
+    public string? Backup { get; set; }
+
+    /// <summary>
+    /// For a database operation, the name of the database the operation is executing on.
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string? Database { get; set; }
+
+    /// <summary>
+    /// For an instance partition operation, the name of the instance partition the operation is executing on.
+    /// </summary>
+    [CliOption("--instance-partition", Format = OptionFormat.EqualsSeparated)]
+    public string? InstancePartition { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Instance) ? 1 : 0) + (!string.IsNullOrWhiteSpace(InstanceConfig) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Instance or InstanceConfig must be specified.", [nameof(Instance), nameof(InstanceConfig)]);
+        }
+    }
+
 }

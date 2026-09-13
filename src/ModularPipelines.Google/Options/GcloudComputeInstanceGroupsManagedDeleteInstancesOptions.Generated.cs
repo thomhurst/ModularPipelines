@@ -16,11 +16,38 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete instances     that are managed by a managed instance group
 /// </summary>
+/// <param name="Instances">Names of instances to delete.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "managed", "delete-instances")]
 public record GcloudComputeInstanceGroupsManagedDeleteInstancesOptions(
+    [property: CliOption("--instances", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Instances,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// End an ongoing graceful shutdown, or delete the specified instances without graceful shutdown.
+    /// </summary>
+    [CliFlag("--no-graceful-shutdown")]
+    public bool? NoGracefulShutdown { get; set; }
+
+    /// <summary>
+    /// Specifies whether the request should proceed even if the request includes instances that are not members of the group or that are already being deleted or abandoned. By default, if you omit this flag and such an instance is specified in the request, the operation fails. The operation always fails if the request contains a badly formatted instance name or a reference to an instance that exists in a zone or region other than the group's zone or region.
+    /// </summary>
+    [CliFlag("--skip-instances-on-validation-error")]
+    public bool? SkipInstancesOnValidationError { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the managed instance group to operate on. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the managed instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
 }

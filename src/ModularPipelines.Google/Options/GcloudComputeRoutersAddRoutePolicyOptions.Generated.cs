@@ -16,11 +16,22 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add an empty route policy to a     Compute Engine router
 /// </summary>
+/// <param name="PolicyName">Name of the route policy to add.</param>
+/// <param name="PolicyType">Type of the route policy to add. POLICY_TYPE must be one of: EXPORT The route policy is an export policy. IMPORT The route policy is an import policy.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "routers", "add-route-policy")]
 public record GcloudComputeRoutersAddRoutePolicyOptions(
+    [property: CliOption("--policy-name", Format = OptionFormat.EqualsSeparated)] string PolicyName,
+    [property: CliOption("--policy-type", Format = OptionFormat.EqualsSeparated)] string PolicyType,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Region of the router to update. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

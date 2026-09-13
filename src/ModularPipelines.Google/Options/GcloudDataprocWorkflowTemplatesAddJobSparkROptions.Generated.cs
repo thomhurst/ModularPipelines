@@ -10,17 +10,75 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// add a SparkR job to     the workflow template
 /// </summary>
+/// <param name="StepId">The step ID of the job in the workflow template.</param>
+/// <param name="RFile"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "workflow-templates", "add-job", "spark-r")]
 public record GcloudDataprocWorkflowTemplatesAddJobSparkROptions(
+    [property: CliOption("--step-id", Format = OptionFormat.EqualsSeparated)] string StepId,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RFile
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Template resource - The name of the workflow template to add job to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --workflow-template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument --workflow-template on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--workflow-template", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkflowTemplate { get; set; }
+
+    /// <summary>
+    /// Template resource - The name of the workflow template to add job to. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --workflow-template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Dataproc region for the template. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. Overrides the default dataproc/region property value for this command invocation. To set the region attribute: ▸ provide the argument --workflow-template on the command line with a fully specified name; ▸ provide the argument --region on the command line; ▸ set the property dataproc/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Comma separated list of archives to be extracted into the working directory of each executor. Must be one of the following file formats: .zip, .tar, .tar.gz, or .tgz.
+    /// </summary>
+    [CliOption("--archives", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Archives { get; set; }
+
+    /// <summary>
+    /// List of key value pairs to configure driver logging, where key is a package and value is the log4j log level. For example: root=FATAL,com.example=INFO
+    /// </summary>
+    [CliOption("--driver-log-levels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DriverLogLevels { get; set; }
+
+    /// <summary>
+    /// Comma separated list of files to be placed in the working directory of both the app driver and executors.
+    /// </summary>
+    [CliOption("--files", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Files { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// List of key value pairs to configure SparkR. For a list of available properties, see: https://spark.apache.org/docs/latest/configuration.html#available-properties.
+    /// </summary>
+    [CliOption("--properties", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Properties { get; set; }
+
+    /// <summary>
+    /// Path to a local file or a file in a Cloud Storage bucket containing configuration properties for the job. The client machine running this command must have read permission to the file. Specify properties in the form of property=value in the text file. For example: # Properties to set for the job: key1=value1 key2=value2 # Comment out properties not used. # key3=value3 If a property is set in both --properties and --properties-file, the value defined in --properties takes precedence.
+    /// </summary>
+    [CliOption("--properties-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesFile { get; set; }
+
+    /// <summary>
+    /// (Optional) List of step IDs to start this job after.
+    /// </summary>
+    [CliOption("--start-after", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? StartAfter { get; set; }
+
 }

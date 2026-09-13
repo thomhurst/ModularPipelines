@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// initialize a Cloud Spanner sample app
 /// </summary>
+/// <param name="InstanceId">The Cloud Spanner instance ID for the sample app.</param>
+/// <param name="Appname"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "samples", "init")]
 public record GcloudSpannerSamplesInitOptions(
+    [property: CliOption("--instance-id", Format = OptionFormat.EqualsSeparated)] string InstanceId,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Appname
 ) : GcloudOptions
 {
+    /// <summary>
+    /// ID of the new Cloud Spanner database to create for the sample app.
+    /// </summary>
+    [CliOption("--database-id", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseId { get; set; }
+
 }

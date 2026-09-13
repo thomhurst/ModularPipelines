@@ -10,15 +10,49 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an OAuth client
 /// </summary>
+/// <param name="AllowedGrantTypes">A list of OAuth grant types that are allowed for the OAuth client. The following grant types are currently supported: ◆ authorization-code-grant ◆ refresh-token-grant</param>
+/// <param name="AllowedRedirectUris">A list of redirect uris that is allowed for redirecting when the authorization is completed.</param>
+/// <param name="AllowedScopes">A list of scopes that the OAuth client is allowed to request during OAuth flows. The following scopes are currently supported: ◆ https://www.googleapis.com/auth/cloud-platform: View, edit, configure, and delete your Google Cloud data, and view the email address for your Google Account. ◆ openid: Associate you with your personal info on Google Cloud. ◆ email: The OAuth client can read a federated identity's email address. ◆ groups: The OAuth client can read a federated identity's groups.</param>
+/// <param name="ClientType">The type of OAuth client. CLIENT_TYPE must be one of: confidential-client, public-client.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "oauth-clients", "create")]
-public record GcloudIamOauthClientsCreateOptions : GcloudOptions
+public record GcloudIamOauthClientsCreateOptions(
+    [property: CliOption("--allowed-grant-types", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> AllowedGrantTypes,
+    [property: CliOption("--allowed-redirect-uris", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> AllowedRedirectUris,
+    [property: CliOption("--allowed-scopes", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> AllowedScopes,
+    [property: CliOption("--client-type", Format = OptionFormat.EqualsSeparated)] GcloudClientType ClientType
+) : GcloudOptions
 {
+    /// <summary>
+    /// A description of the OAuth client. Cannot exceed 256 characters.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Disables the OAuth client. You cannot use a disabled OAuth client for login. Include --no-disabled to enable a disabled OAuth client.
+    /// </summary>
+    [CliFlag("--disabled")]
+    public bool? Disabled { get; set; }
+
+    /// <summary>
+    /// Negates --disabled. Disables the OAuth client. You cannot use a disabled OAuth client for login. Include --no-disabled to enable a disabled OAuth client.
+    /// </summary>
+    [CliFlag("--no-disabled")]
+    public bool? NoDisabled { get; set; }
+
+    /// <summary>
+    /// A display name for the OAuth client. Cannot exceed 32 characters.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
 }

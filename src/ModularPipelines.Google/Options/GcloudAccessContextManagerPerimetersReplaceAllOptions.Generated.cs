@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// replace all existing     service perimeters
 /// </summary>
+/// <param name="SourceFile">Path to a file containing a list of service perimeters. An service perimeter file is a YAML-formatted list of service perimeters, which are YAML objects representing a Condition as described in the API reference. For example: - name: my_perimeter title: My Perimeter description: Perimeter for foo. perimeterType: PERIMETER_TYPE_REGULAR status: resources: - projects/0123456789 accessLevels: - accessPolicies/my_policy/accessLevels/my_level restrictedServices: - storage.googleapis.com For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For other versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("access-context-manager", "perimeters", "replace-all")]
-public record GcloudAccessContextManagerPerimetersReplaceAllOptions : GcloudOptions
+public record GcloudAccessContextManagerPerimetersReplaceAllOptions(
+    [property: CliOption("--source-file", Format = OptionFormat.EqualsSeparated)] string SourceFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// An etag which specifies the version of the Access Policy. Only etags that represent the latest version of the Access Policy will be accepted.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
 }

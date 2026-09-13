@@ -10,15 +10,43 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// looks up metadata that can be used as     context by agents
 /// </summary>
+/// <param name="Resources">The identifier describing the resource, for example: projects/{project}/locations/{location}/entryGroups/{entry_group}/entries/{entry}</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "context", "lookup")]
-public record GcloudDataplexContextLookupOptions : GcloudOptions
+public record GcloudDataplexContextLookupOptions(
+    [property: CliOption("--resources", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Resources
+) : GcloudOptions
 {
+    /// <summary>
+    /// Includes all schema fields in the context.
+    /// </summary>
+    [CliFlag("--all-schema-fields")]
+    public bool? AllSchemaFields { get; set; }
+
+    /// <summary>
+    /// The output format of the command. CONTEXT_FORMAT must be one of: json, xml, yaml.
+    /// </summary>
+    [CliOption("--context-format", Format = OptionFormat.EqualsSeparated)]
+    public GcloudContextFormat? ContextFormat { get; set; }
+
+    /// <summary>
+    /// Location resource - The Dataplex location for the context lookup. If not specified, the location will be taken from the dataplex/location property in your gcloud configuration. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property dataplex/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ set the property dataplex/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Location resource - The Dataplex location for the context lookup. If not specified, the location will be taken from the dataplex/location property in your gcloud configuration. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ set the property dataplex/location with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Additional options for the command. This can be provided as a JSON string. Example: --options='{"key": "value"}'
+    /// </summary>
+    [CliOption("--options", Format = OptionFormat.EqualsSeparated)]
+    public string? Options { get; set; }
+
 }

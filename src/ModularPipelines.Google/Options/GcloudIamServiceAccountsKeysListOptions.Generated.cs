@@ -17,10 +17,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list the keys for a service account
 /// </summary>
+/// <param name="IamAccount">A textual name to display for the account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "keys", "list")]
-public record GcloudIamServiceAccountsKeysListOptions : GcloudOptions
+public record GcloudIamServiceAccountsKeysListOptions(
+    [property: CliOption("--iam-account", Format = OptionFormat.EqualsSeparated)] string IamAccount
+) : GcloudOptions
 {
     /// <summary>
     /// Return only keys created before the specified time. Common time formats are accepted. This is equivalent to --filter="validAfterTime&lt;DATE_TIME". See $ gcloud topic datetimes for information on time formats.

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,22 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("managed-kafka", "topics", "update")]
 public record GcloudManagedKafkaTopicsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// At least one of these must be specified: The number of partitions in a topic. You can increase the partition count for a topic, but you cannot decrease it. Increasing partitions for a topic that uses a key might change how messages are distributed.
+    /// </summary>
+    [CliOption("--partitions", Format = OptionFormat.EqualsSeparated)]
+    public string? Partitions { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: Remove all the configurations for the topic.
+    /// </summary>
+    [CliFlag("--clear-configs")]
+    public bool? ClearConfigs { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: At most one of these can be specified: Configuration for the topic that are overridden from the cluster defaults. The key of the map is a Kafka topic property name, for example: cleanup.policy=compact,compression.type=producer. If you provide a map with a key that already exists, only that configuration is updated. If the map contains a key that does not exist, the entry is appended to the topic configuration.
+    /// </summary>
+    [CliOption("--configs", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Configs { get; set; }
+
 }

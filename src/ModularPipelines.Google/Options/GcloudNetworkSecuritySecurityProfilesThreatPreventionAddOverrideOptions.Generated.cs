@@ -10,15 +10,72 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// add overrides to Threat Prevention Profile
 /// </summary>
+/// <param name="Action">Action associated with antivirus, severity, or threat-id. ACTION must be one of: DEFAULT_ACTION, ALLOW, ALERT, DENY.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "security-profiles", "threat-prevention", "add-override")]
-public record GcloudNetworkSecuritySecurityProfilesThreatPreventionAddOverrideOptions : GcloudOptions
+public record GcloudNetworkSecuritySecurityProfilesThreatPreventionAddOverrideOptions(
+    [property: CliOption("--action", Format = OptionFormat.EqualsSeparated)] GcloudAction Action
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: List of comma-separated protocols where each value in the list indicates the protocol of the antivirus threat.
+    /// </summary>
+    [CliOption("--antivirus", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Antivirus { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: List of comma-separated severities where each value in the list indicates the severity of the threat.
+    /// </summary>
+    [CliOption("--severities", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Severities { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: List of comma-separated threat identifiers where each identifier in the list is a vendor-specified Signature ID representing a threat type.
+    /// </summary>
+    [CliOption("--threat-ids", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ThreatIds { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is False.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all labels. If --update-labels is also specified then --clear-labels is applied first. For example, to remove all labels: $ gcloud network-security security-profiles threat-prevention \ add-override --clear-labels To remove all existing labels and create two new labels, foo and baz: $ gcloud network-security security-profiles threat-prevention \ add-override --clear-labels --update-labels foo=bar,baz=qux
+    /// </summary>
+    [CliFlag("--clear-labels")]
+    public bool? ClearLabels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: List of label keys to remove. If a label does not exist it is silently ignored. If --update-labels is also specified then --update-labels is applied first.
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Antivirus?.Any() == true ? 1 : 0) + (Severities?.Any() == true ? 1 : 0) + (ThreatIds?.Any() == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Antivirus, Severities, or ThreatIds must be specified.", [nameof(Antivirus), nameof(Severities), nameof(ThreatIds)]);
+        }
+    }
+
 }

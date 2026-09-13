@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// acknowledges one or more messages on the     specified subscription
 /// </summary>
+/// <param name="AckIds">One or more ACK_IDs to acknowledge. An ACK_ID is a string that is returned to subscribers (https://cloud.google.com/pubsub/docs/reference/rpc/google.pubsub.v1#google.pubsub.v1.ReceivedMessage). along with the message. The ACK_ID is different from the message ID (https://cloud.google.com/pubsub/docs/reference/rpc/google.pubsub.v1#google.pubsub.v1.PubsubMessage).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "subscriptions", "ack")]
-public record GcloudPubsubSubscriptionsAckOptions : GcloudOptions
+public record GcloudPubsubSubscriptionsAckOptions(
+    [property: CliOption("--ack-ids", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> AckIds
+) : GcloudOptions
 {
 }

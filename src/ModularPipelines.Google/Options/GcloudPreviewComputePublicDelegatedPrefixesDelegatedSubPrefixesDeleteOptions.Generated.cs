@@ -16,11 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// prefixes     delete - deletes a Compute Engine delegated sub prefix
 /// </summary>
+/// <param name="PublicDelegatedPrefix">Name of the public delegated prefix to delete the delegate sub prefix for.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "public-delegated-prefixes", "delegated-sub-prefixes", "delete")]
 public record GcloudPreviewComputePublicDelegatedPrefixesDelegatedSubPrefixesDeleteOptions(
+    [property: CliOption("--public-delegated-prefix", Format = OptionFormat.EqualsSeparated)] string PublicDelegatedPrefix,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: If set, the public delegated prefix is global.
+    /// </summary>
+    [CliFlag("--global-public-delegated-prefix")]
+    public bool? GlobalPublicDelegatedPrefix { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the public delegated prefix to delete the delegate sub prefix for. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--public-delegated-prefix-region", Format = OptionFormat.EqualsSeparated)]
+    public string? PublicDelegatedPrefixRegion { get; set; }
+
 }

@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -21,4 +22,105 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("agent-identity", "auth-providers", "create")]
 public record GcloudAgentIdentityAuthProvidersCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The API key for this auth_provider.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--api-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ApiKey { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The authorization endpoint to send users to for consenting to delegate to the agent. eg. "https://auth.atlassian.com/authorize"
+    /// </summary>
+    [CliOption("--three-legged-oauth-authorization-url", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreeLeggedOauthAuthorizationUrl { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The client ID of the OAuth client.
+    /// </summary>
+    [CliOption("--three-legged-oauth-client-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreeLeggedOauthClientId { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The client secret of the OAuth client.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--three-legged-oauth-client-secret", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreeLeggedOauthClientSecret { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The default continue URI for 3LO flow to redirect end users after consent.
+    /// </summary>
+    [CliOption("--three-legged-oauth-default-continue-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreeLeggedOauthDefaultContinueUri { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks.
+    /// </summary>
+    [CliFlag("--three-legged-oauth-enable-pkce")]
+    public bool? ThreeLeggedOauthEnablePkce { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The token endpoint for requesting tokens on behalf of an end user. eg. "https://auth.atlassian.com/oauth/token"
+    /// </summary>
+    [SecretValue]
+    [CliOption("--three-legged-oauth-token-url", Format = OptionFormat.EqualsSeparated)]
+    public string? ThreeLeggedOauthTokenUrl { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The client ID of the OAuth client.
+    /// </summary>
+    [CliOption("--two-legged-oauth-client-id", Format = OptionFormat.EqualsSeparated)]
+    public string? TwoLeggedOauthClientId { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The client secret of the OAuth client.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--two-legged-oauth-client-secret", Format = OptionFormat.EqualsSeparated)]
+    public string? TwoLeggedOauthClientSecret { get; set; }
+
+    /// <summary>
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. This must be specified. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The token endpoint of the OAuth client.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--two-legged-oauth-token-url", Format = OptionFormat.EqualsSeparated)]
+    public string? TwoLeggedOauthTokenUrl { get; set; }
+
+    /// <summary>
+    /// List of scopes that are allowed to be requested for this auth_provider. If this list is non-empty, only scopes within this list may be requested. If this list is empty, all scopes may be requested. Scopes appearing in blocked_scopes are disallowed even if they appear in allowed_scopes. The number of allowed scopes is limited to 200.
+    /// </summary>
+    [CliOption("--allowed-scopes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AllowedScopes { get; set; }
+
+    /// <summary>
+    /// List of scopes that are blocked from being requested for this auth_provider. If a scope appears in this list, it will not be requested, even if it also appears in allowed_scopes. blocked_scopes takes precedence over allowed_scopes. The number of blocked scopes is limited to 200.
+    /// </summary>
+    [CliOption("--blocked-scopes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? BlockedScopes { get; set; }
+
+    /// <summary>
+    /// Description of the resource. Must be less than 256 characters.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Represents the workload identity in IAM principal:// format of the agent(s) that will use this AuthProvider. Example: principal://agents.global.org-${ORG_ID}.system.id.goog/resources/aiplatform/projects/{PROJECT_ID}/locations/{LOCATIONS}/reasoningEngines/{ID}
+    /// </summary>
+    [CliOption("--workload-ids", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? WorkloadIds { get; set; }
+
 }

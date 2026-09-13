@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a SAC     realm
 /// </summary>
+/// <param name="SecurityService">Security service supporting this realm. SECURITY_SERVICE must be (only one value is supported): prisma-access.</param>
+/// <param name="Sac"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "secure-access-connect", "realms", "create")]
 public record GcloudNetworkSecuritySecureAccessConnectRealmsCreateOptions(
+    [property: CliOption("--security-service", Format = OptionFormat.EqualsSeparated)] string SecurityService,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Sac
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

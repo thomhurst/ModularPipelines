@@ -10,15 +10,87 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new QuotaPreference that     declares the desired value for a quota
 /// </summary>
+/// <param name="PreferredValue">Preferred value. Must be greater than or equal to -1. If set to -1, it means the value is "unlimited".</param>
+/// <param name="QuotaId">ID of the quota, which is unique within the service.</param>
+/// <param name="Service">Name of the service in which the quota is defined.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("quotas", "preferences", "create")]
-public record GcloudQuotasPreferencesCreateOptions : GcloudOptions
+public record GcloudQuotasPreferencesCreateOptions(
+    [property: CliOption("--preferred-value", Format = OptionFormat.EqualsSeparated)] string PreferredValue,
+    [property: CliOption("--quota-id", Format = OptionFormat.EqualsSeparated)] string QuotaId,
+    [property: CliOption("--service", Format = OptionFormat.EqualsSeparated)] string Service
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Folder of the quota preference to create.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization of the quota preference to create.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Project of the quota preference to create.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// If specified, allows you to reduce your effective limit by more than 10 percent. Default is false.
+    /// </summary>
+    [CliFlag("--allow-high-percentage-quota-decrease")]
+    public bool? AllowHighPercentageQuotaDecrease { get; set; }
+
+    /// <summary>
+    /// If specified, allows you to reduce your effective limit below your quota usage. Default is false.
+    /// </summary>
+    [CliFlag("--allow-quota-decrease-below-usage")]
+    public bool? AllowQuotaDecreaseBelowUsage { get; set; }
+
+    /// <summary>
+    /// Dimensions of the quota.
+    /// </summary>
+    [CliOption("--dimensions", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Dimensions { get; set; }
+
+    /// <summary>
+    /// An optional email address that can be used for quota related communication between the Google Cloud and the user in case the Google Cloud needs further information to make a decision on whether the user preferred quota can be granted. The Google account for the email address must have quota update permission for the project, folder or organization this quota preference is for. If no contact email address is provided, or the provided email address does not have the required quota update permission, the quota preference request will be denied in case further information is required to make a decision.
+    /// </summary>
+    [CliOption("--email", Format = OptionFormat.EqualsSeparated)]
+    public string? Email { get; set; }
+
+    /// <summary>
+    /// A short statement to justify quota increase requests.
+    /// </summary>
+    [CliOption("--justification", Format = OptionFormat.EqualsSeparated)]
+    public string? Justification { get; set; }
+
+    /// <summary>
+    /// ID of the Quota Preference object, must be unique under its parent.
+    /// </summary>
+    [CliOption("--preference-id", Format = OptionFormat.EqualsSeparated)]
+    public string? PreferenceId { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+    }
+
 }

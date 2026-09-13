@@ -21,4 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("dns", "operations", "list")]
 public record GcloudDnsOperationsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// Zone resource - Name of one or more zones to read. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --zones on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. IDs of the zones or fully qualified identifiers for the zones. To set the zone attribute: ▸ provide the argument --zones on the command line.
+    /// </summary>
+    [CliOption("--zones", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Zones { get; set; }
+
 }

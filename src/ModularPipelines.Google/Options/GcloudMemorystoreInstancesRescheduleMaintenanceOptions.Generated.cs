@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// reschedule     maintenance window for an instance
 /// </summary>
+/// <param name="RescheduleType">If reschedule type is SPECIFIC_TIME, schedule_time must be set. RESCHEDULE_TYPE must be one of: immediate If the user wants to schedule the maintenance to happen now. specific-time If the user wants to reschedule the maintenance to a specific time.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memorystore", "instances", "reschedule-maintenance")]
-public record GcloudMemorystoreInstancesRescheduleMaintenanceOptions : GcloudOptions
+public record GcloudMemorystoreInstancesRescheduleMaintenanceOptions(
+    [property: CliOption("--reschedule-type", Format = OptionFormat.EqualsSeparated)] string RescheduleType
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Timestamp when the maintenance shall be rescheduled to if reschedule_type=SPECIFIC_TIME, in RFC 3339 format. Example: 2012-11-15T16:19:00.094Z.
+    /// </summary>
+    [CliOption("--schedule-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleTime { get; set; }
+
 }

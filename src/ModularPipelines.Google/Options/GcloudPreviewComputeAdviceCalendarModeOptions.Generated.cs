@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,75 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "advice", "calendar-mode")]
-public record GcloudPreviewComputeAdviceCalendarModeOptions : GcloudOptions
+public record GcloudPreviewComputeAdviceCalendarModeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Specify the properties of the resources that you want to view the availability of. Exactly one of these must be specified: You must define the version and number of TPUs to reserve. The number of chips to check for availability. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--chip-count", Format = OptionFormat.EqualsSeparated)]
+    public int? ChipCount { get; set; }
+
+    /// <summary>
+    /// Specify the properties of the resources that you want to view the availability of. Exactly one of these must be specified: You must define the version and number of TPUs to reserve. The version of Cloud TPU to reserve. TPU_VERSION must be one of: TPU7X Cloud TPU v7x V5E Cloud TPU v5e Lite V5P Cloud TPU v5p V6E Cloud TPU v6e This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--tpu-version", Format = OptionFormat.EqualsSeparated)]
+    public string? TpuVersion { get; set; }
+
+    /// <summary>
+    /// Specify the properties of the resources that you want to view the availability of. Exactly one of these must be specified: You must define the version and number of TPUs to reserve. Type of the workload that will be running on the reserved TPUs. WORKLOAD_TYPE must be one of: BATCH Reserved resources will be optimized for BATCH workloads that handle large amounts of data in single or multiple operations, such as ML training workloads. SERVING Reserved resources will be optimized for SERVING workloads that handle concurrent requests and require minimal network latency, such as ML inference. Define individual instance properties for the specific SKU reservation.
+    /// </summary>
+    [CliOption("--workload-type", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkloadType { get; set; }
+
+    /// <summary>
+    /// Specify the properties of the resources that you want to view the availability of. Exactly one of these must be specified: You must define the version and number of TPUs to reserve. The type of machine (name only) that has a fixed number of vCPUs and a fixed amount of memory. You can also specify a custom machine type by using the pattern custom-number_of_CPUs-amount_of_memory-for example, custom-32-29440. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Specify the properties of the resources that you want to view the availability of. Exactly one of these must be specified: You must define the version and number of TPUs to reserve. The number of instances to check for availability. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--vm-count", Format = OptionFormat.EqualsSeparated)]
+    public int? VmCount { get; set; }
+
+    /// <summary>
+    /// Specify the properties of the resources that you want to view the availability of. Exactly one of these must be specified: You must define the version and number of TPUs to reserve. Manage the size and the interface of local SSD to use. See https://cloud.google.com/compute/docs/disks/local-ssd for more information. interface The kind of disk interface exposed to the VM for this SSD. The only valid value is nvme. size The size of the local SSD in base-2 GB.
+    /// </summary>
+    [CliOption("--local-ssd", Format = OptionFormat.EqualsSeparated)]
+    public string? LocalSsd { get; set; }
+
+    /// <summary>
+    /// A duration range for the duration of the Future Reservation. Defined as a list of key-value pairs. The key is either "min" or "max", and the value is a duration in seconds. For example, specify 30m for a duration of 30 minutes or specify 1d2h3m4s for a duration of 1 day, 2 hours, 3 minutes, and 4 seconds. See $ gcloud topic datetimes for information on duration formats. min The minimum duration of the Future Reservation. max The maximum duration of the Future Reservation. Example: gcloud compute advice calendar-mode --duration-range=min=24h,max=72h
+    /// </summary>
+    [CliOption("--duration-range", Format = OptionFormat.EqualsSeparated)]
+    public string? DurationRange { get; set; }
+
+    /// <summary>
+    /// Policy for which zones to include or exclude when looking for the optimal time window and zone for Future Reservations within a region. Policy is defined as a list of key-value pairs, with the key being the zone name, and value being the applied policy. Available policies are allow and deny. Default for zones if left unspecified is allow. Example: gcloud compute advice calendar-mode --location-policy=us-central1-a=allow,us-central1-b=deny
+    /// </summary>
+    [CliOption("--location-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? LocationPolicy { get; set; }
+
+    /// <summary>
+    /// Region of the resources to get advice on. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// A time range for the start time of the Future Reservation. Defined as a list of key-value pairs. The key is either "from" or "to", and the value is a datetime. See $ gcloud topic datetimes for information on time formats. from The earliest possible start time for the reservation. to The latest possible start time for the reservation. Example: gcloud compute advice calendar-mode --start-time-range=from=2024-08-01T00:00:00Z,to=2024-08-02T00:00:00Z
+    /// </summary>
+    [CliOption("--start-time-range", Format = OptionFormat.EqualsSeparated)]
+    public string? StartTimeRange { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((ChipCount is not null ? 1 : 0) + (!string.IsNullOrWhiteSpace(TpuVersion) ? 1 : 0) + (!string.IsNullOrWhiteSpace(WorkloadType) ? 1 : 0) + (!string.IsNullOrWhiteSpace(MachineType) ? 1 : 0) + (VmCount is not null ? 1 : 0) + (!string.IsNullOrWhiteSpace(LocalSsd) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of ChipCount, TpuVersion, WorkloadType, MachineType, VmCount, or LocalSsd must be specified.", [nameof(ChipCount), nameof(TpuVersion), nameof(WorkloadType), nameof(MachineType), nameof(VmCount), nameof(LocalSsd)]);
+        }
+    }
+
 }

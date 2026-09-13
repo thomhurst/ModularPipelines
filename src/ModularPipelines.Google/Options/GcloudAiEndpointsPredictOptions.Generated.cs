@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// run Vertex AI online prediction
 /// </summary>
+/// <param name="JsonRequest">Path to a local file containing the body of a JSON request. An example of a JSON request: { "instances": [ {"x": [1, 2], "y": [3, 4]}, {"x": [-1, -2], "y": [-3, -4]} ] } This flag accepts "-" for stdin.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "endpoints", "predict")]
-public record GcloudAiEndpointsPredictOptions : GcloudOptions
+public record GcloudAiEndpointsPredictOptions(
+    [property: CliOption("--json-request", Format = OptionFormat.EqualsSeparated)] string JsonRequest
+) : GcloudOptions
 {
 }

@@ -16,9 +16,28 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// establish peering for Cache     Volumes
 /// </summary>
+/// <param name="PeerClusterName">Name of the destination cluster to be peered with the source cluster.</param>
+/// <param name="PeerSvmName">Name of the local source vserver svm to be peered with the destination cluster.</param>
+/// <param name="PeerVolumeName">Name of the source volume to be peered with the destination volume.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netapp", "volumes", "establish-peering")]
-public record GcloudNetappVolumesEstablishPeeringOptions : GcloudOptions
+public record GcloudNetappVolumesEstablishPeeringOptions(
+    [property: CliOption("--peer-cluster-name", Format = OptionFormat.EqualsSeparated)] string PeerClusterName,
+    [property: CliOption("--peer-svm-name", Format = OptionFormat.EqualsSeparated)] string PeerSvmName,
+    [property: CliOption("--peer-volume-name", Format = OptionFormat.EqualsSeparated)] string PeerVolumeName
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// List of ip addresses to be used for peering. This is required for cluster peering, not required for svm peering.
+    /// </summary>
+    [CliOption("--peer-ip-addresses", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? PeerIpAddresses { get; set; }
+
 }

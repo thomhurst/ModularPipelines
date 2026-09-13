@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,52 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("source", "project-configs", "update")]
 public record GcloudSourceProjectConfigsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Disable PushBlock for all repositories under current project. PushBlock allows repository owners to block git push transactions containing private key data.
+    /// </summary>
+    [CliFlag("--disable-pushblock")]
+    public bool? DisablePushblock { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable PushBlock for all repositories under current project. PushBlock allows repository owners to block git push transactions containing private key data.
+    /// </summary>
+    [CliFlag("--enable-pushblock")]
+    public bool? EnablePushblock { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Manage Cloud Pub/Sub topics associated with the Cloud project. The format of the message to publish to the topic. MESSAGE_FORMAT must be one of: json, protobuf.
+    /// </summary>
+    [CliOption("--message-format", Format = OptionFormat.EqualsSeparated)]
+    public GcloudMessageFormat? MessageFormat { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Manage Cloud Pub/Sub topics associated with the Cloud project. Email address of the service account used for publishing Cloud Pub/Sub messages. This service account needs to be in the same project as the project. When added, the caller needs to have iam.serviceAccounts.actAs permission on this service account. If unspecified, it defaults to the Compute Engine default service account.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Manage Cloud Pub/Sub topics associated with the Cloud project. Cloud project for the topic. If not set, the currently set project will be used.
+    /// </summary>
+    [CliOption("--topic-project", Format = OptionFormat.EqualsSeparated)]
+    public string? TopicProject { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Manage Cloud Pub/Sub topics associated with the Cloud project. At most one of these can be specified: Topic resource - The Cloud Pub/Sub topic to add to the project. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◇ provide the argument --add-topic on the command line with a fully specified name; ◇ provide the argument --topic-project on the command line; ◇ set the property core/project. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ◇ provide the argument --add-topic on the command line.
+    /// </summary>
+    [CliOption("--add-topic", Format = OptionFormat.EqualsSeparated)]
+    public string? AddTopic { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Manage Cloud Pub/Sub topics associated with the Cloud project. Topic resource - The Cloud Pub/Sub topic to remove from the project. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◇ provide the argument --remove-topic on the command line with a fully specified name; ◇ provide the argument --topic-project on the command line; ◇ set the property core/project. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ◇ provide the argument --remove-topic on the command line.
+    /// </summary>
+    [CliOption("--remove-topic", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveTopic { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Manage Cloud Pub/Sub topics associated with the Cloud project. Topic resource - The Cloud Pub/Sub topic to update in the project. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◇ provide the argument --update-topic on the command line with a fully specified name; ◇ provide the argument --topic-project on the command line; ◇ set the property core/project. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ◇ provide the argument --update-topic on the command line.
+    /// </summary>
+    [CliOption("--update-topic", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdateTopic { get; set; }
+
 }

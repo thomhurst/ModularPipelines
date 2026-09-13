@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export Cloud Healthcare API FHIR     resources to Google Cloud Storage
 /// </summary>
+/// <param name="GcsUri">The Cloud Storage destination location. Specify a path to a Cloud Storage bucket or folder rather than a concrete object. The exported outputs are organized by FHIR resource types. The server will create one object per resource type. Each object contains newline delimited JSON, and each line is a FHIR resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "fhir-stores", "export", "gcs")]
-public record GcloudHealthcareFhirStoresExportGcsOptions : GcloudOptions
+public record GcloudHealthcareFhirStoresExportGcsOptions(
+    [property: CliOption("--gcs-uri", Format = OptionFormat.EqualsSeparated)] string GcsUri
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported.
+    /// </summary>
+    [CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ResourceType { get; set; }
+
+    /// <summary>
+    /// If provided, only resources updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, 2015-02-07T13:28:17.239+02:00 or 2017-01-01T00:00:00Z. The time must be specified to the second and include a time zone.
+    /// </summary>
+    [CliOption("--since", Format = OptionFormat.EqualsSeparated)]
+    public string? Since { get; set; }
+
 }

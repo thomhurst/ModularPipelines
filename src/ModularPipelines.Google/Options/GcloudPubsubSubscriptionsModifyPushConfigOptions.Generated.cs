@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -16,9 +17,49 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// modifies the push     configuration of a Cloud Pub/Sub subscription
 /// </summary>
+/// <param name="PushEndpoint">A URL to use as the endpoint for this subscription. This will also automatically set the subscription type to PUSH.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "subscriptions", "modify-push-config")]
-public record GcloudPubsubSubscriptionsModifyPushConfigOptions : GcloudOptions
+public record GcloudPubsubSubscriptionsModifyPushConfigOptions(
+    [property: CliOption("--push-endpoint", Format = OptionFormat.EqualsSeparated)] string PushEndpoint
+) : GcloudOptions
 {
+    /// <summary>
+    /// NoWrapper Config Options. Service account email used as the identity for the generated Open ID Connect token for authenticated push.
+    /// </summary>
+    [CliOption("--push-auth-service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? PushAuthServiceAccount { get; set; }
+
+    /// <summary>
+    /// NoWrapper Config Options. Audience used in the generated Open ID Connect token for authenticated push. If not specified, it will be set to the push-endpoint.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--push-auth-token-audience", Format = OptionFormat.EqualsSeparated)]
+    public string? PushAuthTokenAudience { get; set; }
+
+    /// <summary>
+    /// NoWrapper Config Options. When set, the message data is delivered directly as the HTTP body. Use --no-push-no-wrapper to disable this flag. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--push-no-wrapper")]
+    public bool? PushNoWrapper { get; set; }
+
+    /// <summary>
+    /// Negates --push-no-wrapper. NoWrapper Config Options. When set, the message data is delivered directly as the HTTP body. Use --no-push-no-wrapper to disable this flag. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--no-push-no-wrapper")]
+    public bool? NoPushNoWrapper { get; set; }
+
+    /// <summary>
+    /// NoWrapper Config Options. When true, writes the Pub/Sub message metadata to x-goog-pubsub-&lt;KEY&gt;:&lt;VAL&gt; headers of the HTTP request. Writes the Pub/Sub message attributes to &lt;KEY&gt;:&lt;VAL&gt; headers of the HTTP request. Use --no-push-no-wrapper-write-metadata to disable this flag.
+    /// </summary>
+    [CliFlag("--push-no-wrapper-write-metadata")]
+    public bool? PushNoWrapperWriteMetadata { get; set; }
+
+    /// <summary>
+    /// Negates --push-no-wrapper-write-metadata. NoWrapper Config Options. When true, writes the Pub/Sub message metadata to x-goog-pubsub-&lt;KEY&gt;:&lt;VAL&gt; headers of the HTTP request. Writes the Pub/Sub message attributes to &lt;KEY&gt;:&lt;VAL&gt; headers of the HTTP request. Use --no-push-no-wrapper-write-metadata to disable this flag.
+    /// </summary>
+    [CliFlag("--no-push-no-wrapper-write-metadata")]
+    public bool? NoPushNoWrapperWriteMetadata { get; set; }
+
 }

@@ -21,4 +21,58 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("agent-registry", "bindings", "create")]
 public record GcloudAgentRegistryBindingsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// The source of the Binding. This must be specified. Arguments for the source type. The identifier of the source Agent. Format: ▸ urn:agent:{publisher}:{namespace}:{name}
+    /// </summary>
+    [CliOption("--source-identifier", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceIdentifier { get; set; }
+
+    /// <summary>
+    /// The target of the Binding. This must be specified. Arguments for the target type. The identifier of the target Agent, MCP Server, or Endpoint. Format: ▸ urn:agent:{publisher}:{namespace}:{name} ▸ urn:mcp:{publisher}:{namespace}:{name} ▸ urn:endpoint:{publisher}:{namespace}:{name}
+    /// </summary>
+    [CliOption("--target-identifier", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetIdentifier { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// User-defined description of a Binding. Can have a maximum length of 2048 characters.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// User-defined display name for the Binding. Can have a maximum length of 63 characters.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Arguments for the binding. The AuthProvider of the Binding. The resource name of the target AuthProvider. Format: ◆ projects/{project}/locations/{location}/authProviders/{auth_provider} This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--auth-provider-binding", Format = OptionFormat.EqualsSeparated)]
+    public string? AuthProviderBinding { get; set; }
+
+    /// <summary>
+    /// Arguments for the binding. The AuthProvider of the Binding. The continue URI of the AuthProvider. The URI is used to reauthenticate the user and finalize the managed OAuth flow.
+    /// </summary>
+    [CliOption("--auth-provider-binding-continue-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? AuthProviderBindingContinueUri { get; set; }
+
+    /// <summary>
+    /// Arguments for the binding. The AuthProvider of the Binding. The list of OAuth2 scopes of the AuthProvider.
+    /// </summary>
+    [CliOption("--auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AuthProviderBindingScopes { get; set; }
+
 }

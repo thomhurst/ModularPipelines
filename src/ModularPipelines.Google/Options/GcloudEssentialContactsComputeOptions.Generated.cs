@@ -10,16 +10,20 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// compute the essential contacts that are     subscribed to the specified notification categories for a resource
 /// </summary>
+/// <param name="NotificationCategories">list of notification categories contact is subscribed to. NOTIFICATION_CATEGORIES must be one of: all, billing, legal, notification-category-unspecified, product-updates, security, suspension, technical, technical-incidents.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("essential-contacts", "compute")]
-public record GcloudEssentialContactsComputeOptions : GcloudOptions
+public record GcloudEssentialContactsComputeOptions(
+    [property: CliOption("--notification-categories", Format = OptionFormat.EqualsSeparated)] GcloudNotificationCategories NotificationCategories
+) : GcloudOptions
 {
     /// <summary>
     /// At most one of these can be specified: folder number where contacts are set. If neither --project, --folder, nor --organization are provided then the config property [core/project] will be used as the resource.

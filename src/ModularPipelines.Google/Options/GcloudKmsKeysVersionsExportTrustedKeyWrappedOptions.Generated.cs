@@ -16,11 +16,38 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export a trusted key     wrapped CryptoKeyVersion
 /// </summary>
+/// <param name="WrappingKeyVersion">The resource name of the CryptoKeyVersion to use as a wrapping key.</param>
+/// <param name="Version"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keys", "versions", "export-trusted-key-wrapped")]
 public record GcloudKmsKeysVersionsExportTrustedKeyWrappedOptions(
+    [property: CliOption("--wrapping-key-version", Format = OptionFormat.EqualsSeparated)] string WrappingKeyVersion,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Version
 ) : GcloudOptions
 {
+    /// <summary>
+    /// The containing key.
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Key ring of the key.
+    /// </summary>
+    [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? Keyring { get; set; }
+
+    /// <summary>
+    /// Location of the keyring.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Path to the RSA/RSA+AES wrapped key file to store the wrapped key material.
+    /// </summary>
+    [CliOption("--wrapped-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? WrappedKeyFile { get; set; }
+
 }

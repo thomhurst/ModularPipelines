@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a login     configuration file to enable sign-in via a web-based authorization flow     using Workforce Identity Federation
 /// </summary>
+/// <param name="OutputFile">Location to store the generated login configuration file.</param>
+/// <param name="Audience"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workforce-pools", "create-login-config")]
 public record GcloudIamWorkforcePoolsCreateLoginConfigOptions(
+    [property: CliOption("--output-file", Format = OptionFormat.EqualsSeparated)] string OutputFile,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Audience
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Sets the property auth/login_config_file to the created login configuration file. Calling gcloud auth login will automatically use this login configuration unless it is explicitly unset.
+    /// </summary>
+    [CliFlag("--activate")]
+    public bool? Activate { get; set; }
+
 }

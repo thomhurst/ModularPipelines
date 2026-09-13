@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// test IAM permissions     for a health source
 /// </summary>
+/// <param name="Permissions">Permissions to be tested.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "health-sources", "test-iam-permissions")]
-public record GcloudComputeHealthSourcesTestIamPermissionsOptions : GcloudOptions
+public record GcloudComputeHealthSourcesTestIamPermissionsOptions(
+    [property: CliOption("--permissions", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Permissions
+) : GcloudOptions
 {
 }

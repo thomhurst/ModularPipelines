@@ -16,9 +16,42 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// diagnoses a workbench instance
 /// </summary>
+/// <param name="GcsBucket">The Cloud Storage bucket where the log files generated from the diagnose command will be stored. storage.buckets.writer permissions must be given to project's service account or user credential. Format: gs://{gcs_bucket}</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workbench", "instances", "diagnose")]
-public record GcloudWorkbenchInstancesDiagnoseOptions : GcloudOptions
+public record GcloudWorkbenchInstancesDiagnoseOptions(
+    [property: CliOption("--gcs-bucket", Format = OptionFormat.EqualsSeparated)] string GcsBucket
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Enables flag to copy all /home/jupyter folder contents
+    /// </summary>
+    [CliFlag("--enable-copy-home-files")]
+    public bool? EnableCopyHomeFiles { get; set; }
+
+    /// <summary>
+    /// Enables flag to capture packets from the instance for 30 seconds
+    /// </summary>
+    [CliFlag("--enable-packet-capture")]
+    public bool? EnablePacketCapture { get; set; }
+
+    /// <summary>
+    /// Enables flag to repair service for instance
+    /// </summary>
+    [CliFlag("--enable-repair")]
+    public bool? EnableRepair { get; set; }
+
+    /// <summary>
+    /// Defines the relative storage path in the Cloud Storage bucket where the diagnostic logs will be written. Default path will be the root directory of the Cloud Storage bucketFormat of full path: gs://{gcs_bucket}/{relative_path}/
+    /// </summary>
+    [CliOption("--relative-path", Format = OptionFormat.EqualsSeparated)]
+    public string? RelativePath { get; set; }
+
 }

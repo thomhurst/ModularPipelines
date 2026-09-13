@@ -16,11 +16,38 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a target gRPC     proxy
 /// </summary>
+/// <param name="UrlMap">A reference to a URL map resource. A URL map defines the mapping of URLs to backend services. Before you can refer to a URL map, you must create the URL map. To delete a URL map that a target proxy is referring to, you must first delete the target gRPC proxy.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "target-grpc-proxies", "create")]
 public record GcloudPreviewComputeTargetGrpcProxiesCreateOptions(
+    [property: CliOption("--url-map", Format = OptionFormat.EqualsSeparated)] string UrlMap,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// An optional, textual description for the target gRPC proxy.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// If specified, configuration in the associated urlMap and the BackendServices is checked to allow only the features that are supported in the latest release of gRPC. If unspecified, no such configuration checks are performed. This may cause unexpected behavior in gRPC applications if unsupported features are configured.
+    /// </summary>
+    [CliFlag("--validate-for-proxyless")]
+    public bool? ValidateForProxyless { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the URL map is global.
+    /// </summary>
+    [CliFlag("--global-url-map")]
+    public bool? GlobalUrlMap { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the URL map to operate on. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--url-map-region", Format = OptionFormat.EqualsSeparated)]
+    public string? UrlMapRegion { get; set; }
+
 }

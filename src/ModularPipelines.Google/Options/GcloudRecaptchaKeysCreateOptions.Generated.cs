@@ -10,15 +10,170 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Key
 /// </summary>
+/// <param name="DisplayName">A human-readable name for the key. Typically a site or app name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("recaptcha", "keys", "create")]
-public record GcloudRecaptchaKeysCreateOptions : GcloudOptions
+public record GcloudRecaptchaKeysCreateOptions(
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName
+) : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. Creates a Key configured for Express assessments.
+    /// </summary>
+    [CliFlag("--express")]
+    public bool? Express { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. Creates a Universal site key.
+    /// </summary>
+    [CliFlag("--universal")]
+    public bool? Universal { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. Creates a Key configured for Android devices. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--android")]
+    public bool? Android { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. If set, this key can be used in an Android application that is available for download in app stores other than the Google Play Store. This setting allows your key to accept traffic from devices without Google Mobile Services (GMS) installed.
+    /// </summary>
+    [CliFlag("--support-non-google-app-store-distribution")]
+    public bool? SupportNonGoogleAppStoreDistribution { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. Exactly one of these must be specified: If set, package name enforcement will NOT be enabled on this key.
+    /// </summary>
+    [CliFlag("--allow-all-package-names")]
+    public bool? AllowAllPackageNames { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. Exactly one of these must be specified: Android package names of apps allowed to use the key. Example of a valid package name: 'com.companyname.appname'
+    /// </summary>
+    [CliOption("--package-names", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? PackageNames { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. Creates a Key configured for iOS devices. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--ios")]
+    public bool? Ios { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. Exactly one of these must be specified: If set, bundle id enforcement will NOT be enabled on this key.
+    /// </summary>
+    [CliFlag("--allow-all-bundle-ids")]
+    public bool? AllowAllBundleIds { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. Exactly one of these must be specified: iOS bundle ids of apps allowed to use the key. Example of a valid bundle id: 'com.companyname.productname.appname'
+    /// </summary>
+    [CliOption("--bundle-ids", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? BundleIds { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. The Apple developer key ID (10-character string). This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--key-id", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyId { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. File path to a private key (downloaded as a text file with a .p8 file extension) generated for your Apple Developer account. Ensure that DeviceCheck is enabled for the private key. Use a full or relative path to a local file containing the value of private_key_file. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--private-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateKeyFile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. The Apple team ID (10-character string) owning the provisioning profile used to build your application. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--team-id", Format = OptionFormat.EqualsSeparated)]
+    public string? TeamId { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. Creates a Key configured for websites. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--web")]
+    public bool? Web { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. Whether this key can be used on AMP (Accelerated Mobile Pages) websites.
+    /// </summary>
+    [CliFlag("--allow-amp-traffic")]
+    public bool? AllowAmpTraffic { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. Configures how reCAPTCHA will operate on your site. This only applies to 'web' platform. INTEGRATION_TYPE must be one of: checkbox Renders the classic "I'm not a robot" checkbox, and a captcha challenge for low scoring events invisible Does not display the "I'm not a robot" checkbox, but may show CAPTCHA challenges after risk analysis policy-based-challenge Conditionally displays a challenge based on the score score Shows no CAPTCHA challenge on the page
+    /// </summary>
+    [CliOption("--integration-type", Format = OptionFormat.EqualsSeparated)]
+    public string? IntegrationType { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. Represents the possible challenge frequency and difficulty configurations for a web key. usability: show fewer and easier challenges. balance: show balanced (in amount and difficulty) challenges. security: show more and harder challenges. SECURITY_PREFERENCE must be one of: balance, challenge-security-preference-unspecified, security, usability.
+    /// </summary>
+    [CliOption("--security-preference", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSecurityPreference? SecurityPreference { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. For CHECKBOX and INVISIBLE Keys only, this option configures whether challenges will be issued for execute requests. TESTING_CHALLENGE must be one of: challenge Execute requests for this key will always return an unsolvable challenge consisting of a message about this testing key. nocaptcha Execute requests for this key will always return nocaptcha.
+    /// </summary>
+    [CliOption("--testing-challenge", Format = OptionFormat.EqualsSeparated)]
+    public string? TestingChallenge { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. Exactly one of these must be specified: If set, domain name enforcement will NOT be enabled on this key.
+    /// </summary>
+    [CliFlag("--allow-all-domains")]
+    public bool? AllowAllDomains { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. Exactly one of these must be specified: Domains or subdomains of websites allowed to use the key. All subdomains of an allowed domain are automatically allowed. A valid domain requires a host and must not include any path, port, query or fragment. Examples of valid domains: 'example.com' 'subdomain.example.com'
+    /// </summary>
+    [CliOption("--domains", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Domains { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. The global threshold to be used for POLICY_BASED_CHALLENGE if no action specific one exists. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--default-score-threshold", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultScoreThreshold { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Options for the creation of a site key for Express. Options for the creation of a Universal site key. Options for the creation of a site key for Android. Options for the creation of a site key for iOS. Fields that are required to perform Apple-specific integrity checks (recommended for iOS keys). Options for the creation of a site key for web. Configure if you want to use the POLICY_BASED_CHALLENGE option. The action to score threshold used for POLICY_BASED_CHALLENGE. For example: --action-score-thresholds=login='{"scoreThreshold": "0.3"}',signup='{"scoreThreshold": "0.1"}' or --action-score-thresholds=file_path.(json|yaml). KEY Sets KEY value. VALUE Sets VALUE value. scoreThreshold Sets scoreThreshold value. Shorthand Example: --action-score-thresholds=string={scoreThreshold=float} JSON Example: --action-score-thresholds='{"string": {"scoreThreshold": float}}' File Example: --action-score-thresholds=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--action-score-thresholds", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ActionScoreThresholds { get; set; }
+
+    /// <summary>
+    /// Options for the creation of a WAF-enabled key. For more information, please refer to https://cloud.google.com/recaptcha-enterprise/docs/integration-overview. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Options for the creation of a WAF-enabled key. For more information, please refer to https://cloud.google.com/recaptcha-enterprise/docs/integration-overview. If set, all assessments for this key will return this score. Must be between 0 (likely not legitimate) and 1 (likely legitimate) inclusive.
+    /// </summary>
+    [CliOption("--testing-score", Format = OptionFormat.EqualsSeparated)]
+    public string? TestingScore { get; set; }
+
+    /// <summary>
+    /// Options for the creation of a WAF-enabled key. For more information, please refer to https://cloud.google.com/recaptcha-enterprise/docs/integration-overview. The WAF service provider to use. WAF_SERVICE must be one of: akamai Akamai ca Cloud Armor cloudflare Cloudflare fastly Fastly This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--waf-service", Format = OptionFormat.EqualsSeparated)]
+    public string? WafService { get; set; }
+
+    /// <summary>
+    /// Options for the creation of a WAF-enabled key. For more information, please refer to https://cloud.google.com/recaptcha-enterprise/docs/integration-overview. The WAF feature to use. For more information, see https://cloud.google.com/recaptcha-enterprise/docs/usecase#comparison_of_features. WAF_FEATURE must be one of: action-token Use reCAPTCHA action-tokens to protect user actions. challenge-page Redirects suspicious traffic to reCAPTCHA challenge page. express Assesses requests without tokens or frontend integration. This option is deprecated, use --express instead. session-token Use reCAPTCHA session-tokens to protect the whole user session on the site's domain.
+    /// </summary>
+    [CliOption("--waf-feature", Format = OptionFormat.EqualsSeparated)]
+    public string? WafFeature { get; set; }
+
 }

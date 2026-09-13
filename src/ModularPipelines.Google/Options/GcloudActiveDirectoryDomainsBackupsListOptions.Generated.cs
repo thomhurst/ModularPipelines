@@ -21,4 +21,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("active-directory", "domains", "backups", "list")]
 public record GcloudActiveDirectoryDomainsBackupsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// Domain resource - Name of the domain for which you want to list all associated Managed Microsoft AD domain backups. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --domain on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the domain or fully qualified identifier for the domain. To set the domain attribute: ▸ provide the argument --domain on the command line.
+    /// </summary>
+    [CliOption("--domain", Format = OptionFormat.EqualsSeparated)]
+    public string? Domain { get; set; }
+
 }

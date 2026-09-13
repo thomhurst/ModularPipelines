@@ -16,9 +16,46 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create an     enterprise-certificate configuration file for Windows
 /// </summary>
+/// <param name="Issuer">The certificate issuer.</param>
+/// <param name="Provider">The Windows secure store provider.</param>
+/// <param name="Store">The Windows secure store.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "enterprise-certificate-config", "create", "windows")]
-public record GcloudAuthEnterpriseCertificateConfigCreateWindowsOptions : GcloudOptions
+public record GcloudAuthEnterpriseCertificateConfigCreateWindowsOptions(
+    [property: CliOption("--issuer", Format = OptionFormat.EqualsSeparated)] string Issuer,
+    [property: CliOption("--provider", Format = OptionFormat.EqualsSeparated)] string Provider,
+    [property: CliOption("--store", Format = OptionFormat.EqualsSeparated)] string Store
+) : GcloudOptions
 {
+    /// <summary>
+    /// Provide a custom path to the enterprise-certificate-proxy binary. This flag must be the full path to the binary.
+    /// </summary>
+    [CliOption("--ecp", Format = OptionFormat.EqualsSeparated)]
+    public string? Ecp { get; set; }
+
+    /// <summary>
+    /// Provide a custom path to the enterprise-certificate-proxy shared client library. This flag must be the full path to the shared library.
+    /// </summary>
+    [CliOption("--ecp-client", Format = OptionFormat.EqualsSeparated)]
+    public string? EcpClient { get; set; }
+
+    /// <summary>
+    /// Provide a custom path to the ECP HTTP proxy binary. This flag must be the full path to the binary.
+    /// </summary>
+    [CliOption("--ecp-http-proxy", Format = OptionFormat.EqualsSeparated)]
+    public string? EcpHttpProxy { get; set; }
+
+    /// <summary>
+    /// Override the file path that the enterprise-certificate-proxy configuration is written to.
+    /// </summary>
+    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
+    public string? OutputFile { get; set; }
+
+    /// <summary>
+    /// Provide a custom path to the enterprise-certificate-proxy shared tls offload library. This flag must be the full path to the shared library.
+    /// </summary>
+    [CliOption("--tls-offload", Format = OptionFormat.EqualsSeparated)]
+    public string? TlsOffload { get; set; }
+
 }

@@ -16,9 +16,46 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// download a generic artifact from a     generic artifact repository
 /// </summary>
+/// <param name="Destination">The path where you want to save the downloaded file.</param>
+/// <param name="Package">The artifact to download.</param>
+/// <param name="Version">The version of the artifact to download.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "generic", "download")]
-public record GcloudArtifactsGenericDownloadOptions : GcloudOptions
+public record GcloudArtifactsGenericDownloadOptions(
+    [property: CliOption("--destination", Format = OptionFormat.EqualsSeparated)] string Destination,
+    [property: CliOption("--package", Format = OptionFormat.EqualsSeparated)] string Package,
+    [property: CliOption("--version", Format = OptionFormat.EqualsSeparated)] string Version
+) : GcloudOptions
 {
+    /// <summary>
+    /// If specified, the chunk size (bytes) to use for downloading the package.
+    /// </summary>
+    [CliOption("--chunk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? ChunkSize { get; set; }
+
+    /// <summary>
+    /// If specified, the file name within the artifact to download.
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Specifies the number of threads to use for downloading the file in parallel.
+    /// </summary>
+    [CliOption("--parallelism", Format = OptionFormat.EqualsSeparated)]
+    public string? Parallelism { get; set; }
+
+    /// <summary>
+    /// Repository resource - The Artifact Registry repository. If not specified, the current artifacts/repository is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Location of the repository. To set the location attribute: ◆ provide the argument --repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --location on the command line; ◆ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Repository resource - The Artifact Registry repository. If not specified, the current artifacts/repository is used. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --repository on the command line with a fully specified name; ◆ set the property artifacts/repository with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the repository or fully qualified identifier for the repository. To set the repository attribute: ◆ provide the argument --repository on the command line; ◆ set the property artifacts/repository.
+    /// </summary>
+    [CliOption("--repository", Format = OptionFormat.EqualsSeparated)]
+    public string? Repository { get; set; }
+
 }

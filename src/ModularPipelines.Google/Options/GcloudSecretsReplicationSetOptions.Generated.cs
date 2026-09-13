@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// set a secret's replication
 /// </summary>
+/// <param name="ReplicationPolicyFile">JSON or YAML file to use to read the replication policy. The file must conform to https://cloud.google.com/secret-manager/docs/reference/rest/v1/projects.secrets#replication.Set this to "-" to read from stdin.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secrets", "replication", "set")]
-public record GcloudSecretsReplicationSetOptions : GcloudOptions
+public record GcloudSecretsReplicationSetOptions(
+    [property: CliOption("--replication-policy-file", Format = OptionFormat.EqualsSeparated)] string ReplicationPolicyFile
+) : GcloudOptions
 {
 }

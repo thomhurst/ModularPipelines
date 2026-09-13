@@ -21,4 +21,82 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("batch", "jobs", "submit")]
 public record GcloudBatchJobsSubmitOptions : GcloudOptions
 {
+    /// <summary>
+    /// At least one of these must be specified: The file path of the job config file in either JSON or YAML format. It also supports direct input from stdin with '-' or HereDoc (in shells with HereDoc support like Bash) with '- &lt;&lt;DELIMITER'. Use a full or relative path to a local file containing the value of config.
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Either specify the config file for the job or the first runnable in the task spec. Specify either a script file or container arguments for the first runnable in the task spec. At most one of these can be specified: Options to specify the container arguments for the first runnable in the task spec. Overrides the CMD specified in the container. If there is an ENTRYPOINT (either in the container image or with the entrypoint field below) then commands are appended as arguments to the ENTRYPOINT.
+    /// </summary>
+    [CliOption("--container-commands-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerCommandsFile { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Either specify the config file for the job or the first runnable in the task spec. Specify either a script file or container arguments for the first runnable in the task spec. At most one of these can be specified: Options to specify the container arguments for the first runnable in the task spec. Overrides the ENTRYPOINT specified in the container.
+    /// </summary>
+    [CliOption("--container-entrypoint", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerEntrypoint { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Either specify the config file for the job or the first runnable in the task spec. Specify either a script file or container arguments for the first runnable in the task spec. At most one of these can be specified: Options to specify the container arguments for the first runnable in the task spec. The URI to pull the container image from.
+    /// </summary>
+    [CliOption("--container-image-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerImageUri { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Either specify the config file for the job or the first runnable in the task spec. Specify either a script file or container arguments for the first runnable in the task spec. At most one of these can be specified: Options to specify the container arguments for the first runnable in the task spec. Either specify a path to a script file to run or provide inline text to execute directly. At most one of these can be specified: Path to script file to run as first runnable in task spec. File path should be a valid path on the instance volume.
+    /// </summary>
+    [CliOption("--script-file-path", Format = OptionFormat.EqualsSeparated)]
+    public string? ScriptFilePath { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Either specify the config file for the job or the first runnable in the task spec. Specify either a script file or container arguments for the first runnable in the task spec. At most one of these can be specified: Options to specify the container arguments for the first runnable in the task spec. Either specify a path to a script file to run or provide inline text to execute directly. At most one of these can be specified: Text to run as first runnable in task spec.
+    /// </summary>
+    [CliOption("--script-text", Format = OptionFormat.EqualsSeparated)]
+    public string? ScriptText { get; set; }
+
+    /// <summary>
+    /// Specify the job prefix. A job ID in the format of job prefix + %Y%m%d-%H%M%S will be generated. Note that job prefix cannot be specified while JOB ID positional argument is specified.
+    /// </summary>
+    [CliOption("--job-prefix", Format = OptionFormat.EqualsSeparated)]
+    public string? JobPrefix { get; set; }
+
+    /// <summary>
+    /// Specify the Compute Engine machine type, for example, e2-standard-4. Currently only one machine type is supported.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Job priority [0-99] 0 is the lowest priority.
+    /// </summary>
+    [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
+    public string? Priority { get; set; }
+
+    /// <summary>
+    /// Specify the allowed provisioning model for the compute instances. PROVISIONING_MODEL must be one of: SPOT The SPOT VM provisioning model. Ideal for fault-tolerant workloads that can withstand preemption. STANDARD The STANDARD VM provisioning model
+    /// </summary>
+    [CliOption("--provisioning-model", Format = OptionFormat.EqualsSeparated)]
+    public string? ProvisioningModel { get; set; }
+
+    /// <summary>
+    /// The URL for the network resource. Must specify subnetwork as well if network is specified
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// The URL for the subnetwork resource. Must specify network as well if subnetwork is specified
+    /// </summary>
+    [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnetwork { get; set; }
+
+    /// <summary>
+    /// Required if no external public IP address is attached to the VM. If no external public IP address, additional configuration is required to allow the VM to access Google Services.
+    /// </summary>
+    [CliFlag("--no-external-ip-address")]
+    public bool? NoExternalIpAddress { get; set; }
+
 }

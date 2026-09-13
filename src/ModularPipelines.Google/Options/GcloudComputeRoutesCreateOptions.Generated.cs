@@ -10,17 +10,109 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new route
 /// </summary>
+/// <param name="DestinationRange">The destination range of outgoing packets that the route will apply to. To match all traffic, use ``0.0.0.0/0''.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "routes", "create")]
 public record GcloudComputeRoutesCreateOptions(
+    [property: CliOption("--destination-range", Format = OptionFormat.EqualsSeparated)] string DestinationRange,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies the IP address of an instance that should handle matching packets. The instance must have IP forwarding enabled (i.e., include --can-ip-forward when creating the instance using gcloud compute instances create)
+    /// </summary>
+    [CliOption("--next-hop-address", Format = OptionFormat.EqualsSeparated)]
+    public string? NextHopAddress { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies the gateway that should handle matching packets. Currently, the only acceptable value is default-internet-gateway which is a gateway operated by Google Compute Engine.
+    /// </summary>
+    [CliOption("--next-hop-gateway", Format = OptionFormat.EqualsSeparated)]
+    public string? NextHopGateway { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies the name or IP address of a forwarding rule for an internal TCP/UDP load balancer. The forwarding rule's --load-balancing-scheme must be INTERNAL. You can use any --destination-range that doesn't exactly match the destination of a subnet route and isn't more specific (has a longer subnet mask) than the destination of a subnet route. For more information, see https://cloud.google.com/load-balancing/docs/internal/ilb-next-hop-overview#destination_range.
+    /// </summary>
+    [CliOption("--next-hop-ilb", Format = OptionFormat.EqualsSeparated)]
+    public string? NextHopIlb { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies the name of an instance that should handle traffic matching this route. When this flag is specified, the zone of the instance must be specified using --next-hop-instance-zone.
+    /// </summary>
+    [CliOption("--next-hop-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? NextHopInstance { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The target VPN tunnel that will receive forwarded traffic.
+    /// </summary>
+    [CliOption("--next-hop-vpn-tunnel", Format = OptionFormat.EqualsSeparated)]
+    public string? NextHopVpnTunnel { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the route.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Specifies the network to which the route will be applied.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// The region of the next hop forwarding rule. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--next-hop-ilb-region", Format = OptionFormat.EqualsSeparated)]
+    public string? NextHopIlbRegion { get; set; }
+
+    /// <summary>
+    /// The zone of the next hop instance. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--next-hop-instance-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? NextHopInstanceZone { get; set; }
+
+    /// <summary>
+    /// The region of the next hop vpn tunnel. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--next-hop-vpn-tunnel-region", Format = OptionFormat.EqualsSeparated)]
+    public string? NextHopVpnTunnelRegion { get; set; }
+
+    /// <summary>
+    /// Specifies the priority of this route relative to other routes with the same specificity. The lower the value, the higher the priority.
+    /// </summary>
+    [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
+    public string? Priority { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of Resource Manager tags to apply to the route.
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// Identifies the set of instances that this route will apply to. If no tags are provided, the route will apply to all instances in the network.
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(NextHopAddress) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NextHopGateway) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NextHopIlb) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NextHopInstance) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NextHopVpnTunnel) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of NextHopAddress, NextHopGateway, NextHopIlb, NextHopInstance, or NextHopVpnTunnel must be specified.", [nameof(NextHopAddress), nameof(NextHopGateway), nameof(NextHopIlb), nameof(NextHopInstance), nameof(NextHopVpnTunnel)]);
+        }
+    }
+
 }

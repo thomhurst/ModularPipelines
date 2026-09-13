@@ -16,9 +16,90 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a framework     deployment
 /// </summary>
+/// <param name="CloudControlMetadata">Required, The deployment mode and parameters for each of the cloud controls in the framework. Every cloud control in the framework includes metadata. cloudControlDetails The cloud control name and parameters. majorRevisionId The major version of the cloud control. name The name of the cloud control, in one of the following formats: organizations/{organization}/locations/{location}/cloudControls/{cloud_control} or projects/{project}/locations/{location}/cloudControls/{cloud_control}. The only supported location is global. parameters Parameters are key-value pairs that let you provide your custom location requirements, environment requirements, or other settings that are relevant to the cloud control. An example parameter is {"name": "location","value": "us-west-1"}. name The name or key of the parameter. enforcementMode The enforcement mode of the cloud control. Shorthand Example: --cloud-control-metadata=cloudControlDetails={majorRevisionId=int,name=string,parameters=[{name=string}]},enforcementMode=string --cloud-control-metadata=cloudControlDetails={majorRevisionId=int,name=string,parameters=[{name=string}]},enforcementMode=string JSON Example: --cloud-control-metadata='[{"cloudControlDetails": {"majorRevisionId": int, "name": "string", "parameters": [{"name": "string"}]}, "enforcementMode": "string"}]' File Example: --cloud-control-metadata=path_to_file.(yaml|json)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compliance-manager", "framework-deployments", "create")]
-public record GcloudComplianceManagerFrameworkDeploymentsCreateOptions : GcloudOptions
+public record GcloudComplianceManagerFrameworkDeploymentsCreateOptions(
+    [property: CliOption("--cloud-control-metadata", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> CloudControlMetadata
+) : GcloudOptions
 {
+    /// <summary>
+    /// The reference of a framework, in one of the following formats: ◆ organizations/{organization}/locations/{location}/frameworks/{framework} ◆ projects/{project}/locations/{location}/frameworks/{framework}. The only supported location is global. This must be specified. Framework resource - The major version of the framework. If not specified, the version corresponds to the latest version of the framework. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the organization attribute: ▸ provide the argument --framework on the command line with a fully specified name; ▸ provide the argument --organization on the command line. To set the project attribute: ▸ provide the argument --framework on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --framework on the command line with a fully specified name; ▸ provide the argument --location on the command line. This resource can be one of the following types: [cloudsecuritycompliance.organizations.locations.frameworks, cloudsecuritycompliance.projects.locations.frameworks]. This must be specified. ID of the framework or fully qualified identifier for the framework. To set the framework attribute: ▫ provide the argument --framework on the command line.
+    /// </summary>
+    [CliOption("--framework", Format = OptionFormat.EqualsSeparated)]
+    public string? Framework { get; set; }
+
+    /// <summary>
+    /// Arguments for the major revision id. The major version of the framework. If not specified, the version corresponds to the latest version of the framework.
+    /// </summary>
+    [CliOption("--framework-major-revision-id", Format = OptionFormat.EqualsSeparated)]
+    public string? FrameworkMajorRevisionId { get; set; }
+
+    /// <summary>
+    /// The name of the target resource or the configuration that's required to create a new target resource. This must be specified. Arguments for the resource config. At most one of these can be specified: The resource hierarchy node, in one of the following formats: ▫ organizations/{organizationID} ▫ folders/{folderID} ▫ projects/{projectID}
+    /// </summary>
+    [CliOption("--target-resource-config-existing", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetResourceConfigExisting { get; set; }
+
+    /// <summary>
+    /// The name of the target resource or the configuration that's required to create a new target resource. This must be specified. Arguments for the resource config. At most one of these can be specified: Or at least one of these can be specified: The configuration that's required to create a target resource. Arguments for the resource creation config. At most one of these can be specified: The configuration that's required to create a folder to be used as the target resource for a deployment. The display name of the folder. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--target-resource-creation-config-folder-display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetResourceCreationConfigFolderDisplayName { get; set; }
+
+    /// <summary>
+    /// The name of the target resource or the configuration that's required to create a new target resource. This must be specified. Arguments for the resource config. At most one of these can be specified: Or at least one of these can be specified: The configuration that's required to create a target resource. Arguments for the resource creation config. At most one of these can be specified: The configuration that's required to create a folder to be used as the target resource for a deployment. The parent of the folder, in the format organizations/{organizationID} or folders/{folderID}. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--target-resource-creation-config-folder-parent", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetResourceCreationConfigFolderParent { get; set; }
+
+    /// <summary>
+    /// The name of the target resource or the configuration that's required to create a new target resource. This must be specified. Arguments for the resource config. At most one of these can be specified: The configuration that's required to create a project to be used as the target resource of a deployment. The billing account ID for the project. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--target-resource-creation-config-project-billing-account-id", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetResourceCreationConfigProjectBillingAccountId { get; set; }
+
+    /// <summary>
+    /// The name of the target resource or the configuration that's required to create a new target resource. This must be specified. Arguments for the resource config. At most one of these can be specified: The configuration that's required to create a project to be used as the target resource of a deployment. The display name of the project. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--target-resource-creation-config-project-display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetResourceCreationConfigProjectDisplayName { get; set; }
+
+    /// <summary>
+    /// The name of the target resource or the configuration that's required to create a new target resource. This must be specified. Arguments for the resource config. At most one of these can be specified: The configuration that's required to create a project to be used as the target resource of a deployment. The parent of the project, in the format organizations/{organizationID} or folders/{folderID}. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--target-resource-creation-config-project-parent", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetResourceCreationConfigProjectParent { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A user-provided description of the framework deployment.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// To prevent concurrent updates from overwriting each other, always provide the etag when you update a framework deployment. You can also provide the etag when you delete a framework deployment, to help ensure that you're deleting the intended version of the framework deployment.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
+    /// <summary>
+    /// For resources [framework, framework_deployment], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// For resources [framework, framework_deployment], provides fallback value for resource organization attribute. When the resource's full URI path is not provided, organization will fallback to this flag value.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
 }

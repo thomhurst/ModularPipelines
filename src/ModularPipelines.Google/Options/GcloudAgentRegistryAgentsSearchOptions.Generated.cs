@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -21,4 +22,29 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("agent-registry", "agents", "search")]
 public record GcloudAgentRegistryAgentsSearchOptions : GcloudOptions
 {
+    /// <summary>
+    /// Location resource - Parent value for SearchAgentsRequest. Format: projects/{project}/locations/{location}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// The maximum number of agents to return. The service may return fewer than this value. If unspecified, at most 20 agents will be returned. The maximum value is 100; values above 100 will be coerced to 100.
+    /// </summary>
+    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PageSize { get; set; }
+
+    /// <summary>
+    /// A page token, received from a previous SearchAgents call.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--page-token", Format = OptionFormat.EqualsSeparated)]
+    public string? PageToken { get; set; }
+
+    /// <summary>
+    /// Search criteria used to select the Agents to return. If no search criteria is specified then all accessible Agents will be returned. Search expressions can be used to restrict results based upon searchable fields, where the operators can be used along with the suffix wildcard symbol *. See instructions (https://docs.cloud.google.com/agent-registry/search-agents-and-tools) for more details. Allowed operators: =, :, NOT, AND, OR, and (). Examples: ◆ agentId="urn:agent:projects-123:projects:123:locations:us-central1:reasoningEngines:1234" to find the agent with the specified agent ID. ◆ name:important to find agents whose name contains important as a word. ◆ displayName:works* to find agents whose display name contains words that start with works. ◆ skills.tags:test to find agents whose skills tags contain test. ◆ planner OR booking to find agents whose metadata contains the words planner or booking.
+    /// </summary>
+    [CliOption("--search-string", Format = OptionFormat.EqualsSeparated)]
+    public string? SearchString { get; set; }
+
 }

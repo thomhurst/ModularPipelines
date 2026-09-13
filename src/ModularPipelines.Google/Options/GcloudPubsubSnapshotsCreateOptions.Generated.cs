@@ -10,17 +10,39 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// creates one or more Cloud Pub/Sub     snapshots
 /// </summary>
+/// <param name="Subscription">The subscription whose backlog the snapshot retains. Specifically, the created snapshot is guaranteed to retain a) The existing backlog on the subscription, i.e., the set of messages in the subscription that are unacknowledged upon the successful completion of the create snapshot request, b) Any messages published to the subscription's topic following the successful creation of the snapshot.</param>
+/// <param name="Snapshot"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "snapshots", "create")]
 public record GcloudPubsubSnapshotsCreateOptions(
+    [property: CliOption("--subscription", Format = OptionFormat.EqualsSeparated)] string Subscription,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Snapshot
 ) : GcloudOptions
 {
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The name of the project the provided subscription belongs to. If not set, it defaults to the currently selected cloud project.
+    /// </summary>
+    [CliOption("--subscription-project", Format = OptionFormat.EqualsSeparated)]
+    public string? SubscriptionProject { get; set; }
+
+    /// <summary>
+    /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;. Example: 123/environment=production,123/costCenter=marketing
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
 }

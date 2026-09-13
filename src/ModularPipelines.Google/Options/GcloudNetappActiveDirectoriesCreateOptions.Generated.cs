@@ -6,19 +6,116 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Cloud NetApp Active     Directory
 /// </summary>
+/// <param name="Dns">A comma separated list of DNS server IP addresses for the Active Directory domain.</param>
+/// <param name="Domain">The Active Directory domain.</param>
+/// <param name="NetBiosPrefix">NetBIOS prefix name of the server.</param>
+/// <param name="Password">Password of the Active Directory domain administrator.</param>
+/// <param name="Username">Username of the Active Directory domain administrator.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netapp", "active-directories", "create")]
-public record GcloudNetappActiveDirectoriesCreateOptions : GcloudOptions
+public record GcloudNetappActiveDirectoriesCreateOptions(
+    [property: CliOption("--dns", Format = OptionFormat.EqualsSeparated)] string Dns,
+    [property: CliOption("--domain", Format = OptionFormat.EqualsSeparated)] string Domain,
+    [property: CliOption("--net-bios-prefix", Format = OptionFormat.EqualsSeparated)] string NetBiosPrefix,
+    [property: SecretValue, CliOption("--password", Format = OptionFormat.EqualsSeparated)] string Password,
+    [property: CliOption("--username", Format = OptionFormat.EqualsSeparated)] string Username
+) : GcloudOptions
 {
+    /// <summary>
+    /// Members of the Active Directory built-in Administrators group.
+    /// </summary>
+    [CliOption("--administrators", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Administrators { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Users to be added to the Built-in Backup Operator Active Directory group.
+    /// </summary>
+    [CliOption("--backup-operators", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? BackupOperators { get; set; }
+
+    /// <summary>
+    /// A description of the Cloud NetApp Active Directory
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The Boolean value indiciating whether AES encryption will be enabled for SMB communication.
+    /// </summary>
+    [CliOption("--enable-aes", Format = OptionFormat.EqualsSeparated)]
+    public string? EnableAes { get; set; }
+
+    /// <summary>
+    /// Boolean flag that specifies whether or not LDAP traffic needs to be signed.
+    /// </summary>
+    [CliOption("--enable-ldap-signing", Format = OptionFormat.EqualsSeparated)]
+    public string? EnableLdapSigning { get; set; }
+
+    /// <summary>
+    /// Boolean flag that specifies whether traffic between SMB server to Domain Controller (DC) will be encrypted.
+    /// </summary>
+    [CliOption("--encrypt-dc-connections", Format = OptionFormat.EqualsSeparated)]
+    public string? EncryptDcConnections { get; set; }
+
+    /// <summary>
+    /// Name of the Active Directory machine.
+    /// </summary>
+    [CliOption("--kdc-hostname", Format = OptionFormat.EqualsSeparated)]
+    public string? KdcHostname { get; set; }
+
+    /// <summary>
+    /// KDC server IP address for the Active Directory machine.
+    /// </summary>
+    [CliOption("--kdc-ip", Format = OptionFormat.EqualsSeparated)]
+    public string? KdcIp { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Boolean flag that allows access to local users and LDAP users. If access is needed only for LDAP users, it has to be disabled.
+    /// </summary>
+    [CliOption("--nfs-users-with-ldap", Format = OptionFormat.EqualsSeparated)]
+    public string? NfsUsersWithLdap { get; set; }
+
+    /// <summary>
+    /// The Organizational Unit (OU) within the Windows Active Directory the user belongs to.
+    /// </summary>
+    [CliOption("--organizational-unit", Format = OptionFormat.EqualsSeparated)]
+    public string? OrganizationalUnit { get; set; }
+
+    /// <summary>
+    /// Domain users to be given the Security privilege.
+    /// </summary>
+    [CliOption("--security-operators", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SecurityOperators { get; set; }
+
+    /// <summary>
+    /// The Active Directory site the service will limit Domain Controller discovery to.
+    /// </summary>
+    [CliOption("--site", Format = OptionFormat.EqualsSeparated)]
+    public string? Site { get; set; }
+
 }

@@ -16,11 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// deletes a Compute     Engine network firewall policy rule
 /// </summary>
+/// <param name="FirewallPolicy">Firewall policy ID with which to delete rule.</param>
+/// <param name="Priority"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "network-firewall-policies", "rules", "delete")]
 public record GcloudComputeNetworkFirewallPoliciesRulesDeleteOptions(
+    [property: CliOption("--firewall-policy", Format = OptionFormat.EqualsSeparated)] string FirewallPolicy,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
 ) : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: Region of the firewall policy to delete. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--firewall-policy-region", Format = OptionFormat.EqualsSeparated)]
+    public string? FirewallPolicyRegion { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the firewall policy is global.
+    /// </summary>
+    [CliFlag("--global-firewall-policy")]
+    public bool? GlobalFirewallPolicy { get; set; }
+
 }

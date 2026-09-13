@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// set the primary version of a key
 /// </summary>
+/// <param name="Version">Version to make primary.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keys", "set-primary-version")]
-public record GcloudKmsKeysSetPrimaryVersionOptions : GcloudOptions
+public record GcloudKmsKeysSetPrimaryVersionOptions(
+    [property: CliOption("--version", Format = OptionFormat.EqualsSeparated)] string Version
+) : GcloudOptions
 {
 }

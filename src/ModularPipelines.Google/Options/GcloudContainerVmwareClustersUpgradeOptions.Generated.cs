@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// centrally upgrade an Anthos     cluster on VMware
 /// </summary>
+/// <param name="Version">Anthos Cluster on VMware version for the cluster resource</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "vmware", "clusters", "upgrade")]
-public record GcloudContainerVmwareClustersUpgradeOptions : GcloudOptions
+public record GcloudContainerVmwareClustersUpgradeOptions(
+    [property: CliOption("--version", Format = OptionFormat.EqualsSeparated)] string Version
+) : GcloudOptions
 {
 }

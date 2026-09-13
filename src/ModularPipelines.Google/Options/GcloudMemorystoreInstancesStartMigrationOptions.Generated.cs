@@ -16,9 +16,22 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// start migration for a     Memorystore instance
 /// </summary>
+/// <param name="SelfManagedSourceIpAddress">The IP address of the source instance. This IP address should be a stable IP address that can be accessed by the Memorystore instance throughout the migration process.</param>
+/// <param name="SelfManagedSourceNetworkAttachment">The resource name of the Private Service Connect Network Attachment used to establish connectivity to the source instance. This network attachment has the following requirements: 1. It must be in the same project as the Memorystore instance. 2. It must be in the same region as the Memorystore instance. 3. The subnet attached to the network attachment must be in the same VPC network as the source instance nodes. Format: projects/{project}/regions/{region}/networkAttachments/{network_attachment}</param>
+/// <param name="SelfManagedSourcePort">The port of the source instance. This port should be a stable port that can be accessed by the Memorystore instance throughout the migration process.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memorystore", "instances", "start-migration")]
-public record GcloudMemorystoreInstancesStartMigrationOptions : GcloudOptions
+public record GcloudMemorystoreInstancesStartMigrationOptions(
+    [property: CliOption("--self-managed-source-ip-address", Format = OptionFormat.EqualsSeparated)] string SelfManagedSourceIpAddress,
+    [property: CliOption("--self-managed-source-network-attachment", Format = OptionFormat.EqualsSeparated)] string SelfManagedSourceNetworkAttachment,
+    [property: CliOption("--self-managed-source-port", Format = OptionFormat.EqualsSeparated)] string SelfManagedSourcePort
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

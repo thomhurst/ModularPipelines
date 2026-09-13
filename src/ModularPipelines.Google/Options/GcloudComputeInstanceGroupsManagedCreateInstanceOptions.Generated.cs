@@ -10,17 +10,57 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new     virtual machine instance in a managed instance group with a defined     name and optionally its stateful configuration
 /// </summary>
+/// <param name="Instance">Name of the new instance to create.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "managed", "create-instance")]
 public record GcloudComputeInstanceGroupsManagedCreateInstanceOptions(
+    [property: CliOption("--instance", Format = OptionFormat.EqualsSeparated)] string Instance,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Disks considered stateful by the instance group. Managed instance groups preserve and reattach stateful disks on VM autohealing, update, and recreate events. You can also attach and preserve disks, not defined in the group's instance template, to a given instance. The same disk can be attached to more than one instance but only in read-only mode.
+    /// </summary>
+    [CliOption("--stateful-disk", Format = OptionFormat.EqualsSeparated)]
+    public string? StatefulDisk { get; set; }
+
+    /// <summary>
+    /// Managed instance groups preserve stateful IPs on VM autohealing, update, and recreate events. Use this argument multiple times to update more IPs. If a stateful external IP with the given interface name already exists in the current instance configuration, its properties are replaced by the newly provided ones. Otherwise, a new stateful external IP definition is added to the instance configuration. interface-name (Optional) Network interface name. If omitted, the default network interface named nic0 is assumed. *address*::: Static IP address to assign to the instance in one of the following formats: + Address: URL of a static IP address reservation. For example: projects/example-project/regions/us-east1/addresses/example-ip-name. + Literal: For example: 130.211.181.55. If the provided IP address is not yet reserved, the managed instance group automatically creates the corresponding IP address reservation. If the provided IP address is reserved, the group assigns the reservation to the instance. auto-delete (Optional) Prescribes what should happen to an associated static Address resource when a VM instance is permanently deleted. Regardless of the value of the delete rule, stateful IP addresses are always preserved on instance autohealing, update, and recreation operations. The following options are available: ▸ never: (Default) Never delete the static IP address. Instead, unassign the address when its instance is permanently deleted and keep the address reserved. ▸ on-permanent-instance-deletion: Delete the static IP address reservation when the instance that it's assigned to is permanently deleted from the instance group; for example, when the instance is deleted manually or when the group size is decreased.
+    /// </summary>
+    [CliOption("--stateful-external-ip", Format = OptionFormat.EqualsSeparated)]
+    public string? StatefulExternalIp { get; set; }
+
+    /// <summary>
+    /// Managed instance groups preserve stateful IPs on VM autohealing, update, and recreate events. Use this argument multiple times to update more IPs. If a stateful internal IP with the given interface name already exists in the current instance configuration, its properties are replaced by the newly provided ones. Otherwise, a new stateful internal IP definition is added to the instance configuration. interface-name (Optional) Network interface name. If omitted, the default network interface named nic0 is assumed. *address*::: Static IP address to assign to the instance in one of the following formats: + Address: URL of a static IP address reservation. For example: projects/example-project/regions/us-east1/addresses/example-ip-name. + Literal: For example: 130.211.181.55. If the provided IP address is not yet reserved, the managed instance group automatically creates the corresponding IP address reservation. If the provided IP address is reserved, the group assigns the reservation to the instance. auto-delete (Optional) Prescribes what should happen to an associated static Address resource when a VM instance is permanently deleted. Regardless of the value of the delete rule, stateful IP addresses are always preserved on instance autohealing, update, and recreation operations. The following options are available: ▸ never: (Default) Never delete the static IP address. Instead, unassign the address when its instance is permanently deleted and keep the address reserved. ▸ on-permanent-instance-deletion: Delete the static IP address reservation when the instance that it's assigned to is permanently deleted from the instance group; for example, when the instance is deleted manually or when the group size is decreased.
+    /// </summary>
+    [CliOption("--stateful-internal-ip", Format = OptionFormat.EqualsSeparated)]
+    public string? StatefulInternalIp { get; set; }
+
+    /// <summary>
+    /// Additional metadata to be made available to the guest operating system in addition to the metadata defined in the instance template. Stateful metadata may be used to define a key/value pair specific for the one given instance to differentiate it from the other instances in the managed instance group. Stateful metadata key/value pairs are preserved on instance recreation, autohealing, updates, and any other lifecycle transitions of the instance. Stateful metadata have priority over the metadata defined in the instance template. This means that stateful metadata that is defined for a key that already exists in the instance template overrides the instance template value. Each metadata entry is a key/value pair separated by an equals sign. Metadata keys must be unique and less than 128 bytes in length. Multiple entries can be passed to this flag, e.g., --stateful-metadata key-1=value-1,key-2=value-2,key-3=value-3.
+    /// </summary>
+    [CliOption("--stateful-metadata", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? StatefulMetadata { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the managed instance group to create instance in. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the managed instance group to create instance in. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
 }

@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe project zonal     metadata
 /// </summary>
+/// <param name="Zone">Zone for project zonal metadata</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "project-zonal-metadata", "describe")]
-public record GcloudComputeProjectZonalMetadataDescribeOptions : GcloudOptions
+public record GcloudComputeProjectZonalMetadataDescribeOptions(
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone
+) : GcloudOptions
 {
 }

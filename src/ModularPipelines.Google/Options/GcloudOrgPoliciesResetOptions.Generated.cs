@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// reset the policy to the default for the     constraint
 /// </summary>
+/// <param name="Constraint"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org-policies", "reset")]
@@ -23,4 +24,28 @@ public record GcloudOrgPoliciesResetOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Constraint
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Resource that is associated with the organization policy. Exactly one of these must be specified: Folder ID.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with the organization policy. Exactly one of these must be specified: Organization ID.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with the organization policy. Exactly one of these must be specified: Project ID. Overrides the default core/project property value for this command invocation.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// Field mask used to specify the fields to be overwritten in the policy by the set. The fields specified in the update_mask are relative to the policy, not the full request. The update-mask flag can be empty, or have values policy.spec, policy.dry_run_spec or *. If the policy does not contain the dry_run_spec and update-mask flag is not provided, then it defaults to policy.spec.
+    /// </summary>
+    [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdateMask { get; set; }
+
 }

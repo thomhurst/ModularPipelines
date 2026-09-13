@@ -16,11 +16,22 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add an empty named set to a     Compute Engine router
 /// </summary>
+/// <param name="SetName">Name of the named set to add.</param>
+/// <param name="SetType">Type of the set's elements. SET_TYPE must be one of: COMMUNITY The Named Set is a Community Named Set. PREFIX The Named Set is a Prefix Named Set.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "routers", "add-named-set")]
 public record GcloudPreviewComputeRoutersAddNamedSetOptions(
+    [property: CliOption("--set-name", Format = OptionFormat.EqualsSeparated)] string SetName,
+    [property: CliOption("--set-type", Format = OptionFormat.EqualsSeparated)] string SetType,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Region of the router to update. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

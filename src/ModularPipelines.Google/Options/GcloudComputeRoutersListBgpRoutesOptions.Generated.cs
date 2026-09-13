@@ -16,10 +16,17 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list routes advertised and learned     on individual BGP sessions, both pre- and post-policy evaluation
 /// </summary>
+/// <param name="AddressFamily">Limit results to routes learned for this Address Family Identifier. ADDRESS_FAMILY must be one of: IPV4 Interface with IPv4-based BGP. IPV6 Interface with IPv6-based BGP.</param>
+/// <param name="Peer">Limit results to routes learned from this peer (name).</param>
+/// <param name="RouteDirection">Limit results to routes in this direction. ROUTE_DIRECTION must be one of: INBOUND Learned routes. OUTBOUND Advertised routes.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "routers", "list-bgp-routes")]
 public record GcloudComputeRoutersListBgpRoutesOptions(
+    [property: CliOption("--address-family", Format = OptionFormat.EqualsSeparated)] string AddressFamily,
+    [property: CliOption("--peer", Format = OptionFormat.EqualsSeparated)] string Peer,
+    [property: CliOption("--route-direction", Format = OptionFormat.EqualsSeparated)] string RouteDirection,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {

@@ -16,10 +16,17 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list received or advertised     routes for a VPC network peering
 /// </summary>
+/// <param name="Direction">Direction of the routes to list. To list received routes, use INCOMING. To list advertised routes, use OUTGOING. DIRECTION must be one of: INCOMING To list received routes. OUTGOING To list advertised routes.</param>
+/// <param name="Network">Network of the peering.</param>
+/// <param name="Region">Region to list the routes for.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "networks", "peerings", "list-routes")]
 public record GcloudComputeNetworksPeeringsListRoutesOptions(
+    [property: CliOption("--direction", Format = OptionFormat.EqualsSeparated)] string Direction,
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network,
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {

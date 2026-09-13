@@ -10,15 +10,163 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new Vertex AI model     monitoring job
 /// </summary>
+/// <param name="DisplayName">Display name of the model deployment monitoring job.</param>
+/// <param name="Emails">Comma-separated email address list. e.g. --emails=a@gmail.com,b@gmail.com</param>
+/// <param name="Endpoint">Id of the endpoint.</param>
+/// <param name="PredictionSamplingRate">Prediction sampling rate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "model-monitoring-jobs", "create")]
-public record GcloudAiModelMonitoringJobsCreateOptions : GcloudOptions
+public record GcloudAiModelMonitoringJobsCreateOptions(
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName,
+    [property: CliOption("--emails", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Emails,
+    [property: CliOption("--endpoint", Format = OptionFormat.EqualsSeparated)] string Endpoint,
+    [property: CliOption("--prediction-sampling-rate", Format = OptionFormat.EqualsSeparated)] string PredictionSamplingRate
+) : GcloudOptions
 {
+    /// <summary>
+    /// YAML schema file uri(Google Cloud Storage) describing the format of a single instance that you want Tensorflow Data Validation (TFDV) to analyze.
+    /// </summary>
+    [CliOption("--analysis-instance-schema", Format = OptionFormat.EqualsSeparated)]
+    public string? AnalysisInstanceSchema { get; set; }
+
+    /// <summary>
+    /// If true, anomaly will be sent to Cloud Logging. Use --anomaly-cloud-logging to enable and --no-anomaly-cloud-logging to disable.
+    /// </summary>
+    [CliFlag("--anomaly-cloud-logging")]
+    public bool? AnomalyCloudLogging { get; set; }
+
+    /// <summary>
+    /// Negates --anomaly-cloud-logging. If true, anomaly will be sent to Cloud Logging. Use --anomaly-cloud-logging to enable and --no-anomaly-cloud-logging to disable.
+    /// </summary>
+    [CliFlag("--no-anomaly-cloud-logging")]
+    public bool? NoAnomalyCloudLogging { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// TTL of BigQuery tables in user projects which stores logs(Day-based unit).
+    /// </summary>
+    [CliOption("--log-ttl", Format = OptionFormat.EqualsSeparated)]
+    public string? LogTtl { get; set; }
+
+    /// <summary>
+    /// Monitoring frequency, unit is 1 hour.
+    /// </summary>
+    [CliOption("--monitoring-frequency", Format = OptionFormat.EqualsSeparated)]
+    public string? MonitoringFrequency { get; set; }
+
+    /// <summary>
+    /// Comma-separated notification channel list. e.g. --notification-channels=projects/fake-project/notificationChannels/123,projects/fake-project/notificationChannels/456
+    /// </summary>
+    [CliOption("--notification-channels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NotificationChannels { get; set; }
+
+    /// <summary>
+    /// YAML schema file uri(Google Cloud Storage) describing the format of a single instance, which are given to format this Endpoint's prediction. If not set, predict schema will be generated from collected predict requests.
+    /// </summary>
+    [CliOption("--predict-instance-schema", Format = OptionFormat.EqualsSeparated)]
+    public string? PredictInstanceSchema { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create model deployment monitoring job. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property ai/region; ◆ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create model deployment monitoring job. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Path to a local file containing the body of a JSON object. Same format as [PredictRequest.instances][], this can be set as a replacement of predict-instance-schema. If not set, predict schema will be generated from collected predict requests. An example of a JSON request: {"x": [1, 2], "y": [3, 4]}
+    /// </summary>
+    [CliOption("--sample-predict-request", Format = OptionFormat.EqualsSeparated)]
+    public string? SamplePredictRequest { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the model deployment monitoring job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the model deployment monitoring job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the model deployment monitoring job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the model deployment monitoring job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the model deployment monitoring job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Path to the model monitoring objective config file. This file should be a YAML document containing a ModelDeploymentMonitoringJob(https://cloud.google.com/vertex-ai/docs/reference/rest/v1beta1/projects.locations.modelDeploymentMonitoringJobs#ModelDeploymentMonitoringJob), but only the ModelDeploymentMonitoringObjectiveConfig needs to be configured. Note: Only one of --monitoring-config-from-file and other objective config set, like --feature-thresholds, --feature-attribution-thresholds needs to be set. Example(YAML): modelDeploymentMonitoringObjectiveConfigs: - deployedModelId: '5251549009234886656' objectiveConfig: trainingDataset: dataFormat: csv gcsSource: uris: - gs://fake-bucket/training_data.csv targetField: price trainingPredictionSkewDetectionConfig: skewThresholds: feat1: value: 0.9 feat2: value: 0.8 - deployedModelId: '2945706000021192704' objectiveConfig: predictionDriftDetectionConfig: driftThresholds: feat1: value: 0.3 feat2: value: 0.4
+    /// </summary>
+    [CliOption("--monitoring-config-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? MonitoringConfigFromFile { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the model deployment monitoring job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Or at least one of these can be specified: List of feature-attribution score threshold value pairs(Apply for all the deployed models under the endpoint, if you want to specify different thresholds for different deployed model, please use flag --monitoring-config-from-file or call API directly). If only feature name is set, the default threshold value would be 0.3. For example: feature-attribution-thresholds=feat1=0.1,feat2,feat3=0.2
+    /// </summary>
+    [CliOption("--feature-attribution-thresholds", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? FeatureAttributionThresholds { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the model deployment monitoring job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Or at least one of these can be specified: List of feature-threshold value pairs(Apply for all the deployed models under the endpoint, if you want to specify different thresholds for different deployed model, please use flag --monitoring-config-from-file or call API directly). If only feature name is set, the default threshold value would be 0.3. For example: --feature-thresholds=feat1=0.1,feat2,feat3=0.2
+    /// </summary>
+    [CliOption("--feature-thresholds", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? FeatureThresholds { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the model deployment monitoring job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Or at least one of these can be specified: Target field name the model is to predict. Must be provided if you'd like to do training-prediction skew detection.
+    /// </summary>
+    [CliOption("--target-field", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetField { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the model deployment monitoring job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Or at least one of these can be specified: Training Dataset sampling rate.
+    /// </summary>
+    [CliOption("--training-sampling-rate", Format = OptionFormat.EqualsSeparated)]
+    public string? TrainingSamplingRate { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the model deployment monitoring job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: BigQuery table of the unmanaged Dataset used to train this Model. For example: bq://projectId.bqDatasetId.bqTableId.
+    /// </summary>
+    [CliOption("--bigquery-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryUri { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the model deployment monitoring job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Id of Vertex AI Dataset used to train this Model.
+    /// </summary>
+    [CliOption("--dataset", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSet { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the model deployment monitoring job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Data format of the dataset, must be provided if the input is from Google Cloud Storage. The possible formats are: tf-record, csv
+    /// </summary>
+    [CliOption("--data-format", Format = OptionFormat.EqualsSeparated)]
+    public string? DataFormat { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the model deployment monitoring job. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Or at least one of these can be specified: Comma-separated Google Cloud Storage uris of the unmanaged Datasets used to train this Model.
+    /// </summary>
+    [CliOption("--gcs-uris", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? GcsUris { get; set; }
+
 }

@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// export a Redis cluster backup to a     Google Cloud Storage bucket
 /// </summary>
+/// <param name="GcsBucket">The name of the Google Cloud Storage bucket to export the backup to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "clusters", "backups", "export")]
-public record GcloudRedisClustersBackupsExportOptions : GcloudOptions
+public record GcloudRedisClustersBackupsExportOptions(
+    [property: CliOption("--gcs-bucket", Format = OptionFormat.EqualsSeparated)] string GcsBucket
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

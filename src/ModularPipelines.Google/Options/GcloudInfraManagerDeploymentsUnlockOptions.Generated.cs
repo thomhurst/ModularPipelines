@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// unlocks the deployment
 /// </summary>
+/// <param name="LockId">Lock ID of the lock file to verify person importing owns lock.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("infra-manager", "deployments", "unlock")]
-public record GcloudInfraManagerDeploymentsUnlockOptions : GcloudOptions
+public record GcloudInfraManagerDeploymentsUnlockOptions(
+    [property: CliOption("--lock-id", Format = OptionFormat.EqualsSeparated)] string LockId
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

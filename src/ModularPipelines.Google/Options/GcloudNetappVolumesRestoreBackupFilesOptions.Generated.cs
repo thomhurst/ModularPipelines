@@ -16,9 +16,36 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// restore specific files from a     backup to a Volume
 /// </summary>
+/// <param name="FileList">List of files to be restored in the form of their absolute path as in source volume.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netapp", "volumes", "restore-backup-files")]
-public record GcloudNetappVolumesRestoreBackupFilesOptions : GcloudOptions
+public record GcloudNetappVolumesRestoreBackupFilesOptions(
+    [property: CliOption("--file-list", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> FileList
+) : GcloudOptions
 {
+    /// <summary>
+    /// Backup resource - The Backup from which files are restored back to the Volume. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup on the command line with a fully specified name; ◆ set the property netapp/location. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument --backup on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--backup", Format = OptionFormat.EqualsSeparated)]
+    public string? Backup { get; set; }
+
+    /// <summary>
+    /// Backup resource - The Backup from which files are restored back to the Volume. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup on the command line with a fully specified name; ◆ set the property netapp/location. This must be specified. The Backup Vault of the backup. To set the backup_vault attribute: ▸ provide the argument --backup on the command line with a fully specified name; ▸ provide the argument --backup_vault on the command line; ▸ provide the argument --backup-vault on the command line.
+    /// </summary>
+    [CliOption("--backup_vault", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupVault { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Name of the absolute directory path in the destination volume..
+    /// </summary>
+    [CliOption("--restore-destination-path", Format = OptionFormat.EqualsSeparated)]
+    public string? RestoreDestinationPath { get; set; }
+
 }

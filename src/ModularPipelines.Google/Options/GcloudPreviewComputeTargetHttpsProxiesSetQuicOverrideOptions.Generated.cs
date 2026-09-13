@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// set the     QUIC override policy for a Compute Engine target HTTPS proxy
 /// </summary>
+/// <param name="QuicOverride">QUIC policy for the TargetHttpsProxy resource. QUIC_OVERRIDE must be one of: disable The load balancer will not attempt to negotiate QUIC with clients. enable The load balancer will attempt to negotiate QUIC with clients. none No overrides to the default QUIC policy.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "target-https-proxies", "set-quic-override")]
-public record GcloudPreviewComputeTargetHttpsProxiesSetQuicOverrideOptions : GcloudOptions
+public record GcloudPreviewComputeTargetHttpsProxiesSetQuicOverrideOptions(
+    [property: CliOption("--quic-override", Format = OptionFormat.EqualsSeparated)] string QuicOverride
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

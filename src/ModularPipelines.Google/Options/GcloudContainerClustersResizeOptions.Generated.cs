@@ -10,17 +10,70 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// resizes an existing cluster for running     containers
 /// </summary>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "clusters", "resize")]
 public record GcloudContainerClustersResizeOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Target number of nodes in the cluster.
+    /// </summary>
+    [CliOption("--num-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? NumNodes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: (DEPRECATED) Target number of nodes in the cluster. The --size flag is now deprecated. Please use --num-nodes instead.
+    /// </summary>
+    [CliOption("--size", Format = OptionFormat.EqualsSeparated)]
+    public string? Size { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The node pool to resize.
+    /// </summary>
+    [CliOption("--node-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? NodePool { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Compute zone or region (e.g. us-central1-a or us-central1) for the cluster. Overrides the default compute/region or compute/zone value for this command invocation. Prefer using this flag over the --region or --zone flags.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Compute region (e.g. us-central1) for a regional cluster. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(NumNodes) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Size) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of NumNodes or Size must be specified.", [nameof(NumNodes), nameof(Size)]);
+        }
+    }
+
 }

@@ -10,15 +10,19 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// level settings
 /// </summary>
+/// <param name="Ingress">Control what traffic can reach the app. INGRESS must be one of: all, internal-only, internal-and-cloud-load-balancing.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "services", "update")]
-public record GcloudAppServicesUpdateOptions : GcloudOptions
+public record GcloudAppServicesUpdateOptions(
+    [property: CliOption("--ingress", Format = OptionFormat.EqualsSeparated)] GcloudIngress Ingress
+) : GcloudOptions
 {
 }

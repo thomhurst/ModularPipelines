@@ -10,17 +10,75 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a     Compute Engine L2 forwarding interconnect attachment
 /// </summary>
+/// <param name="GeneveVni">A VNI identier for Geneve header, as defined in https://datatracker.ietf.org/doc/html/rfc8926, used for L2 forwarding.</param>
+/// <param name="Interconnect">The interconnect for the interconnect attachment</param>
+/// <param name="Network">The Google Network to use for L2 forwarding.</param>
+/// <param name="TunnelEndpointIpAddress">A single IPv4 or IPv6 address. This address will be used as the source IP address for L2 forwarding packets sent to the appliances, and must be used as the destination IP address for packets that should be sent out through this attachment.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "interconnects", "attachments", "l2-forwarding", "create")]
 public record GcloudComputeInterconnectsAttachmentsL2ForwardingCreateOptions(
+    [property: CliOption("--geneve-vni", Format = OptionFormat.EqualsSeparated)] string GeneveVni,
+    [property: CliOption("--interconnect", Format = OptionFormat.EqualsSeparated)] string Interconnect,
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network,
+    [property: CliOption("--tunnel-endpoint-ip-address", Format = OptionFormat.EqualsSeparated)] string TunnelEndpointIpAddress,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Provisioned capacity of the attachment. BANDWIDTH must be one of: 50m 50 Mbit/s 100m 100 Mbit/s 200m 200 Mbit/s 300m 300 Mbit/s 400m 400 Mbit/s 500m 500 Mbit/s 1g 1 Gbit/s 2g 2 Gbit/s 5g 5 Gbit/s 10g 10 Gbit/s 20g 20 Gbit/s 50g 50 Gbit/s 100g 100 Gbit/s
+    /// </summary>
+    [CliOption("--bandwidth", Format = OptionFormat.EqualsSeparated)]
+    public string? Bandwidth { get; set; }
+
+    /// <summary>
+    /// A single IPv4 or IPv6 address used as the default destination IP when there is no VLAN mapping result found for L2 forwarding. Unset field indicates the unmatched packet should be dropped.
+    /// </summary>
+    [CliOption("--default-appliance-ip-address", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultApplianceIpAddress { get; set; }
+
+    /// <summary>
+    /// Human-readable plain-text description of attachment.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Administrative status of the interconnect attachment. If not provided on creation, defaults to enabled. When this is enabled, the attachment is operational and will carry traffic. Use --no-enable-admin to disable it.
+    /// </summary>
+    [CliFlag("--enable-admin")]
+    public bool? EnableAdmin { get; set; }
+
+    /// <summary>
+    /// Negates --enable-admin. Administrative status of the interconnect attachment. If not provided on creation, defaults to enabled. When this is enabled, the attachment is operational and will carry traffic. Use --no-enable-admin to disable it.
+    /// </summary>
+    [CliFlag("--no-enable-admin")]
+    public bool? NoEnableAdmin { get; set; }
+
+    /// <summary>
+    /// Maximum transmission unit (MTU) is the size of the largest IP packet passing through this interconnect attachment. Must be one of 1440, 1460, 1500, or 8896. If not specified, the value will default to 1440.
+    /// </summary>
+    [CliOption("--mtu", Format = OptionFormat.EqualsSeparated)]
+    public string? Mtu { get; set; }
+
+    /// <summary>
+    /// Region of the interconnect attachment to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of Resource Manager tags to apply to the interconnect.
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
 }

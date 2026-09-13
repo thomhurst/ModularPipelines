@@ -22,6 +22,12 @@ namespace ModularPipelines.Google.Options;
 public record GcloudStorageBatchOperationsBucketOperationsListOptions : GcloudOptions
 {
     /// <summary>
+    /// Batch job resource - The batch job for which to list bucket operations. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --job on the command line with a fully specified name; ◆ The default is global. This must be specified. ID of the batch-job or fully qualified identifier for the batch-job. To set the batch-job attribute: ▸ provide the argument --job on the command line.
+    /// </summary>
+    [CliOption("--job", Format = OptionFormat.EqualsSeparated)]
+    public string? Job { get; set; }
+
+    /// <summary>
     /// If provided, only show operations for buckets in the list.
     /// </summary>
     [CliOption("--buckets", Format = OptionFormat.EqualsSeparated)]

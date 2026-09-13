@@ -16,11 +16,230 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a NAT on a Compute     Engine router
 /// </summary>
+/// <param name="Router">Router to use for NAT.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "routers", "nats", "update")]
 public record GcloudPreviewComputeRoutersNatsUpdateOptions(
+    [property: CliOption("--router", Format = OptionFormat.EqualsSeparated)] string Router,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Network tier to use when automatically reserving NAT IP addresses. AUTO_NETWORK_TIER must be one of: PREMIUM High quality, Google-grade network tier with support for all networking products. STANDARD Public internet quality, with only limited support for other networking products.
+    /// </summary>
+    [CliOption("--auto-network-tier", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoNetworkTier { get; set; }
+
+    /// <summary>
+    /// Enable dynamic port allocation. If not specified, Dynamic Port Allocation is disabled by default. Use --enable-dynamic-port-allocation to enable and --no-enable-dynamic-port-allocation to disable.
+    /// </summary>
+    [CliFlag("--enable-dynamic-port-allocation")]
+    public bool? EnableDynamicPortAllocation { get; set; }
+
+    /// <summary>
+    /// Negates --enable-dynamic-port-allocation. Enable dynamic port allocation. If not specified, Dynamic Port Allocation is disabled by default. Use --enable-dynamic-port-allocation to enable and --no-enable-dynamic-port-allocation to disable.
+    /// </summary>
+    [CliFlag("--no-enable-dynamic-port-allocation")]
+    public bool? NoEnableDynamicPortAllocation { get; set; }
+
+    /// <summary>
+    /// Enable endpoint-independent mapping for the NAT (as defined in RFC 5128). If not specified, NATs have endpoint-independent mapping disabled by default. Use --no-enable-endpoint-independent-mapping to disable endpoint-independent mapping.
+    /// </summary>
+    [CliFlag("--enable-endpoint-independent-mapping")]
+    public bool? EnableEndpointIndependentMapping { get; set; }
+
+    /// <summary>
+    /// Negates --enable-endpoint-independent-mapping. Enable endpoint-independent mapping for the NAT (as defined in RFC 5128). If not specified, NATs have endpoint-independent mapping disabled by default. Use --no-enable-endpoint-independent-mapping to disable endpoint-independent mapping.
+    /// </summary>
+    [CliFlag("--no-enable-endpoint-independent-mapping")]
+    public bool? NoEnableEndpointIndependentMapping { get; set; }
+
+    /// <summary>
+    /// Enable logging for the NAT. Logs will be exported to Stackdriver. NAT logging is disabled by default. To disable logging for the NAT, use $ gcloud preview compute routers nats update MY-NAT \ --no-enable-logging --router ROUTER --region REGION
+    /// </summary>
+    [CliFlag("--enable-logging")]
+    public bool? EnableLogging { get; set; }
+
+    /// <summary>
+    /// Negates --enable-logging. Enable logging for the NAT. Logs will be exported to Stackdriver. NAT logging is disabled by default. To disable logging for the NAT, use $ gcloud preview compute routers nats update MY-NAT \ --no-enable-logging --router ROUTER --region REGION
+    /// </summary>
+    [CliFlag("--no-enable-logging")]
+    public bool? NoEnableLogging { get; set; }
+
+    /// <summary>
+    /// Filter for logs exported to stackdriver. The default is ALL. If logging is not enabled, filter settings will be persisted but will have no effect. Use --[no-]enable-logging to enable and disable logging. LOG_FILTER must be one of: ALL Export logs for all connections handled by this NAT. ERRORS_ONLY Export logs for connection failures only. TRANSLATIONS_ONLY Export logs for successful connections only.
+    /// </summary>
+    [CliOption("--log-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? LogFilter { get; set; }
+
+    /// <summary>
+    /// Region of the NAT to create. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Path to YAML file containing NAT Rules applied to the NAT. The YAML file format must follow the REST API schema for NAT Rules. See API Discovery docs (https://www.googleapis.com/discovery/v1/apis/compute/alpha/rest) for reference.
+    /// </summary>
+    [CliOption("--rules", Format = OptionFormat.EqualsSeparated)]
+    public string? Rules { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Automatically allocate external IP addresses for Cloud NAT
+    /// </summary>
+    [CliFlag("--auto-allocate-nat-external-ips")]
+    public bool? AutoAllocateNatExternalIps { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: External IP Addresses to use for Cloud NAT
+    /// </summary>
+    [CliOption("--nat-external-ip-pool", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NatExternalIpPool { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear timeout for ICMP connections
+    /// </summary>
+    [CliFlag("--clear-icmp-idle-timeout")]
+    public bool? ClearIcmpIdleTimeout { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Timeout for ICMP connections. See https://cloud.google.com/sdk/gcloud/reference/topic/datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--icmp-idle-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? IcmpIdleTimeout { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear maximum ports to be allocated to a VM
+    /// </summary>
+    [CliFlag("--clear-max-ports-per-vm")]
+    public bool? ClearMaxPortsPerVm { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Maximum ports to be allocated to a VM. This field can only be set when Dynamic Port Allocation is enabled and defaults to 65536. It must be set to a power of 2 that is greater than minPortsPerVm and at most 65536.
+    /// </summary>
+    [CliOption("--max-ports-per-vm", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxPortsPerVm { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear minimum ports to be allocated to a VM
+    /// </summary>
+    [CliFlag("--clear-min-ports-per-vm")]
+    public bool? ClearMinPortsPerVm { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Minimum ports to be allocated to a VM. If Dynamic Port Allocation is disabled, this defaults to 64. If Dynamic Port Allocation is enabled, this defaults to 32 and must be set to a power of 2 that is at least 32 and lower than maxPortsPerVm.
+    /// </summary>
+    [CliOption("--min-ports-per-vm", Format = OptionFormat.EqualsSeparated)]
+    public string? MinPortsPerVm { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear the drained NAT IPs
+    /// </summary>
+    [CliFlag("--clear-nat-external-drain-ip-pool")]
+    public bool? ClearNatExternalDrainIpPool { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: External IP Addresses to be drained These IPs must be valid external IPs that have been used as NAT IPs
+    /// </summary>
+    [CliOption("--nat-external-drain-ip-pool", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NatExternalDrainIpPool { get; set; }
+
+    /// <summary>
+    /// Options for IPv4 subnetwork ranges. At most one of these can be specified: Clear IPv4 subnetwork ranges.
+    /// </summary>
+    [CliFlag("--clear-nat-subnet-ip-ranges")]
+    public bool? ClearNatSubnetIpRanges { get; set; }
+
+    /// <summary>
+    /// Options for IPv4 subnetwork ranges. At most one of these can be specified: Allow all IP ranges of all subnetworks in the region, including primary and secondary ranges, to use NAT.
+    /// </summary>
+    [CliFlag("--nat-all-subnet-ip-ranges")]
+    public bool? NatAllSubnetIpRanges { get; set; }
+
+    /// <summary>
+    /// Options for IPv4 subnetwork ranges. At most one of these can be specified: List of subnetwork primary and secondary IP ranges to be allowed to use NAT. ▸ SUBNETWORK:ALL - specifying a subnetwork name with ALL includes the primary range and all secondary ranges of the subnet. ▸ SUBNETWORK - including a subnetwork name includes only the primary subnet range of the subnetwork. ▸ SUBNETWORK:RANGE_NAME - specifying a subnetwork and secondary range name includes only that secondary range. It does not include the primary range of the subnet.
+    /// </summary>
+    [CliOption("--nat-custom-subnet-ip-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NatCustomSubnetIpRanges { get; set; }
+
+    /// <summary>
+    /// Options for IPv4 subnetwork ranges. At most one of these can be specified: Allow only primary IP ranges of all subnetworks in the region to use NAT.
+    /// </summary>
+    [CliFlag("--nat-primary-subnet-ip-ranges")]
+    public bool? NatPrimarySubnetIpRanges { get; set; }
+
+    /// <summary>
+    /// Options for IPv6 subnetwork ranges. At most one of these can be specified: Clear IPv6 subnetwork ranges.
+    /// </summary>
+    [CliFlag("--clear-nat64-subnet-ip-ranges")]
+    public bool? ClearNat64SubnetIpRanges { get; set; }
+
+    /// <summary>
+    /// Options for IPv6 subnetwork ranges. At most one of these can be specified: Allow all IPv6 subnetwork ranges in the region to use NAT.
+    /// </summary>
+    [CliFlag("--nat64-all-v6-subnet-ip-ranges")]
+    public bool? Nat64AllV6SubnetIpRanges { get; set; }
+
+    /// <summary>
+    /// Options for IPv6 subnetwork ranges. At most one of these can be specified: List of subnetworks with IPv6 ranges to be allowed to use NAT.
+    /// </summary>
+    [CliOption("--nat64-custom-v6-subnet-ip-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Nat64CustomV6SubnetIpRanges { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear timeout for TCP established connections
+    /// </summary>
+    [CliFlag("--clear-tcp-established-idle-timeout")]
+    public bool? ClearTcpEstablishedIdleTimeout { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Timeout for TCP established connections. See https://cloud.google.com/sdk/gcloud/reference/topic/datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--tcp-established-idle-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? TcpEstablishedIdleTimeout { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear timeout for TCP connections in the TIME_WAIT state
+    /// </summary>
+    [CliFlag("--clear-tcp-time-wait-timeout")]
+    public bool? ClearTcpTimeWaitTimeout { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Timeout for TCP connections in the TIME_WAIT state. See https://cloud.google.com/sdk/gcloud/reference/topic/datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--tcp-time-wait-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? TcpTimeWaitTimeout { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear timeout for TCP transitory connections
+    /// </summary>
+    [CliFlag("--clear-tcp-transitory-idle-timeout")]
+    public bool? ClearTcpTransitoryIdleTimeout { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Timeout for TCP transitory connections. See https://cloud.google.com/sdk/gcloud/reference/topic/datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--tcp-transitory-idle-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? TcpTransitoryIdleTimeout { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear timeout for UDP connections
+    /// </summary>
+    [CliFlag("--clear-udp-idle-timeout")]
+    public bool? ClearUdpIdleTimeout { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Timeout for UDP connections. See https://cloud.google.com/sdk/gcloud/reference/topic/datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--udp-idle-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? UdpIdleTimeout { get; set; }
+
 }

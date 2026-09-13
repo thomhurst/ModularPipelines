@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// rename a Bare Metal Solution instance
 /// </summary>
+/// <param name="NewName">New instance name for renaming an already existing instance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bms", "instances", "rename")]
-public record GcloudBmsInstancesRenameOptions : GcloudOptions
+public record GcloudBmsInstancesRenameOptions(
+    [property: CliOption("--new-name", Format = OptionFormat.EqualsSeparated)] string NewName
+) : GcloudOptions
 {
 }

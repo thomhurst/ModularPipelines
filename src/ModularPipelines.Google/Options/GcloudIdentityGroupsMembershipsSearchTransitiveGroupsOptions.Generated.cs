@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -16,9 +17,27 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// search     transitive groups of a member
 /// </summary>
+/// <param name="Labels">The labels of the transitive groups.</param>
+/// <param name="MemberEmail">The email address of the member to search transitive groups for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "groups", "memberships", "search-transitive-groups")]
-public record GcloudIdentityGroupsMembershipsSearchTransitiveGroupsOptions : GcloudOptions
+public record GcloudIdentityGroupsMembershipsSearchTransitiveGroupsOptions(
+    [property: CliOption("--labels", Format = OptionFormat.EqualsSeparated)] string Labels,
+    [property: CliOption("--member-email", Format = OptionFormat.EqualsSeparated)] string MemberEmail
+) : GcloudOptions
 {
+    /// <summary>
+    /// The maximum number of results to return.
+    /// </summary>
+    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PageSize { get; set; }
+
+    /// <summary>
+    /// The next_page_token value returned from a previous search request, if any.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--page-token", Format = OptionFormat.EqualsSeparated)]
+    public string? PageToken { get; set; }
+
 }

@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// test IAM permissions for     a Design Center space
 /// </summary>
+/// <param name="Permissions">The set of permissions to check for the resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "test-iam-permissions")]
-public record GcloudDesignCenterSpacesTestIamPermissionsOptions : GcloudOptions
+public record GcloudDesignCenterSpacesTestIamPermissionsOptions(
+    [property: CliOption("--permissions", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Permissions
+) : GcloudOptions
 {
 }

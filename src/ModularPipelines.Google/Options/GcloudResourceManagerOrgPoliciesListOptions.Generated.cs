@@ -22,6 +22,24 @@ namespace ModularPipelines.Google.Options;
 public record GcloudResourceManagerOrgPoliciesListOptions : GcloudOptions
 {
     /// <summary>
+    /// Resource that is associated with the organization policy. Exactly one of these must be specified: Folder ID.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with the organization policy. Exactly one of these must be specified: Organization ID.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Resource that is associated with the organization policy. Exactly one of these must be specified: Project ID. Overrides the default core/project property value for this command invocation.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
     /// Show available constraints. For more information about constraints, see https://cloud.google.com/resource-manager/docs/organization-policy/understanding-constraints
     /// </summary>
     [CliFlag("--show-unset")]

@@ -10,15 +10,61 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// executes a SQL query against a Cloud     Spanner database
 /// </summary>
+/// <param name="Sql">The SQL query to issue to the database. Cloud Spanner SQL is described at https://cloud.google.com/spanner/docs/query-syntax</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "databases", "execute-sql")]
-public record GcloudSpannerDatabasesExecuteSqlOptions : GcloudOptions
+public record GcloudSpannerDatabasesExecuteSqlOptions(
+    [property: CliOption("--sql", Format = OptionFormat.EqualsSeparated)] string Sql
+) : GcloudOptions
 {
+    /// <summary>
+    /// Database role user assumes while accessing the database.
+    /// </summary>
+    [CliOption("--database-role", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseRole { get; set; }
+
+    /// <summary>
+    /// Execute DML statement using Partitioned DML
+    /// </summary>
+    [CliFlag("--enable-partitioned-dml")]
+    public bool? EnablePartitionedDml { get; set; }
+
+    /// <summary>
+    /// The priority for the execute SQL request. PRIORITY must be one of: high, low, medium, unspecified.
+    /// </summary>
+    [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
+    public GcloudPriority? Priority { get; set; }
+
+    /// <summary>
+    /// Mode in which the query must be processed. QUERY_MODE must be one of: NORMAL Returns only the query result, without any information about the query plan. PLAN Returns only the query plan, without any result rows or execution statistics information. PROFILE Returns the query plan, overall execution statistics, operator-level execution statistics, along with the result rows. WITH_PLAN_AND_STATS Returns the query plan, overall (but not operator-level) execution statistics, along with the results. WITH_STATS Returns the overall (but not operator-level) execution statistics along with the results.
+    /// </summary>
+    [CliOption("--query-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? QueryMode { get; set; }
+
+    /// <summary>
+    /// Maximum time to wait for the SQL query to complete. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? Timeout { get; set; }
+
+    /// <summary>
+    /// Read-only query timestamp bound. The default is --strong. See https://cloud.google.com/spanner/docs/timestamp-bounds. At most one of these can be specified: Perform a query at the given timestamp.
+    /// </summary>
+    [CliOption("--read-timestamp", Format = OptionFormat.EqualsSeparated)]
+    public string? ReadTimestamp { get; set; }
+
+    /// <summary>
+    /// Read-only query timestamp bound. The default is --strong. See https://cloud.google.com/spanner/docs/timestamp-bounds. At most one of these can be specified: Perform a strong query.
+    /// </summary>
+    [CliFlag("--strong")]
+    public bool? Strong { get; set; }
+
 }

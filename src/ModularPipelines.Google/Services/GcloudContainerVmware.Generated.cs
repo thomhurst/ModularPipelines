@@ -72,7 +72,7 @@ public class GcloudContainerVmware
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerVmwareOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerVmwareOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

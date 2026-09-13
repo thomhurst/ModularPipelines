@@ -10,15 +10,57 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// sign a user input file using an     asymmetric-signing key version
 /// </summary>
+/// <param name="InputFile">Path to the input file to sign.</param>
+/// <param name="SignatureFile">Path to the signature file to output.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "asymmetric-sign")]
-public record GcloudKmsAsymmetricSignOptions : GcloudOptions
+public record GcloudKmsAsymmetricSignOptions(
+    [property: CliOption("--input-file", Format = OptionFormat.EqualsSeparated)] string InputFile,
+    [property: CliOption("--signature-file", Format = OptionFormat.EqualsSeparated)] string SignatureFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// The algorithm to digest the input. DIGEST_ALGORITHM must be one of: external-mu, sha256, sha384, sha512.
+    /// </summary>
+    [CliOption("--digest-algorithm", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDigestAlgorithm? DigestAlgorithm { get; set; }
+
+    /// <summary>
+    /// to use for signing.
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Key ring of the key.
+    /// </summary>
+    [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? Keyring { get; set; }
+
+    /// <summary>
+    /// Location of the keyring.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Skip integrity verification on request and response API fields.
+    /// </summary>
+    [CliFlag("--skip-integrity-verification")]
+    public bool? SkipIntegrityVerification { get; set; }
+
+    /// <summary>
+    /// Version to use for signing.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string? Version { get; set; }
+
 }

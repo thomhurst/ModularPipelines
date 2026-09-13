@@ -10,15 +10,113 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Dataplex data     quality scan job
 /// </summary>
+/// <param name="DataQualitySpecFile">Path to the JSON/YAML file containing the spec for the data quality scan. The JSON representation reference: https://cloud.google.com/dataplex/docs/reference/rest/v1/DataQualitySpec The YAML representation reference: https://cloud.google.com/dataplex/docs/use-auto-data-quality#create-scan-using-gcloud</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "datascans", "create", "data-quality")]
-public record GcloudDataplexDatascansCreateDataQualityOptions : GcloudOptions
+public record GcloudDataplexDatascansCreateDataQualityOptions(
+    [property: CliOption("--data-quality-spec-file", Format = OptionFormat.EqualsSeparated)] string DataQualitySpecFile
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Data source for the data quality scan. Exactly one of these must be specified: Dataplex entity that contains the data for the data quality scan, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}.
+    /// </summary>
+    [CliOption("--data-source-entity", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSourceEntity { get; set; }
+
+    /// <summary>
+    /// Data source for the data quality scan. Exactly one of these must be specified: Fully-qualified service resource name of the cloud resource that contains the data for the data quality scan, of the form: //bigquery.googleapis.com/projects/{project_number}/datasets/{dataset_id}/tables/{table_id}.
+    /// </summary>
+    [CliOption("--data-source-resource", Format = OptionFormat.EqualsSeparated)]
+    public string? DataSourceResource { get; set; }
+
+    /// <summary>
+    /// Data quality scan execution settings. Description of the data quality scan.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Data quality scan execution settings. Display name of the data quality scan.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Data quality scan execution settings. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Data quality scan execution settings. At most one of --async | --validate-only can be specified. At most one of these can be specified: Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Data quality scan execution settings. At most one of --async | --validate-only can be specified. At most one of these can be specified: Validate the create action, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Data quality scan execution settings. Field that contains values that monotonically increase over time (e.g. timestamp).
+    /// </summary>
+    [CliOption("--incremental-field", Format = OptionFormat.EqualsSeparated)]
+    public string? IncrementalField { get; set; }
+
+    /// <summary>
+    /// Data quality scan execution settings. Data quality scan scheduling and trigger settings At most one of these can be specified: If set, the scan runs one-time shortly after data quality scan creation.
+    /// </summary>
+    [CliOption("--on-demand", Format = OptionFormat.EqualsSeparated)]
+    public string? OnDemand { get; set; }
+
+    /// <summary>
+    /// Data quality scan execution settings. Data quality scan scheduling and trigger settings At most one of these can be specified: Cron schedule (https://en.wikipedia.org/wiki/Cron) for running scans periodically. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, CRON_TZ=America/New_York 1 * * * * or TZ=America/New_York 1 * * * *. This field is required for RECURRING scans.
+    /// </summary>
+    [CliOption("--schedule", Format = OptionFormat.EqualsSeparated)]
+    public string? Schedule { get; set; }
+
+    /// <summary>
+    /// Data quality scan execution settings. Data quality scan scheduling and trigger settings At most one of these can be specified: Or at least one of these can be specified: Data quality scan one-time trigger settings. If set, the data quality scan runs once, and auto deleted once the ttl_after_scan_completion expires.
+    /// </summary>
+    [CliFlag("--one-time")]
+    public bool? OneTime { get; set; }
+
+    /// <summary>
+    /// Data quality scan execution settings. Data quality scan scheduling and trigger settings At most one of these can be specified: Or at least one of these can be specified: Data quality scan one-time trigger settings. The time to live for one-time scans. Default value is 24 hours, minimum value is 0 seconds, and maximum value is 365 days. The time is calculated from the data scan job completion time. If value is set as 0 seconds, the scan will be immediately deleted upon job completion, regardless of whether the job succeeded or failed. The value should be a number followed by a unit suffix "s". Example: "100s" for 100 seconds.The argument is only valid when --one-time is set.
+    /// </summary>
+    [CliOption("--ttl-after-scan-completion", Format = OptionFormat.EqualsSeparated)]
+    public string? TtlAfterScanCompletion { get; set; }
+
+    /// <summary>
+    /// Data quality scan execution settings. Identity to run the datascan. At most one of these can be specified: Service account email to run the scan as.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Data quality scan execution settings. Identity to run the datascan. At most one of these can be specified: If set, the scan runs with the caller's credential.
+    /// </summary>
+    [CliFlag("--use-user-credential")]
+    public bool? UseUserCredential { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(DataSourceEntity) ? 1 : 0) + (!string.IsNullOrWhiteSpace(DataSourceResource) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DataSourceEntity or DataSourceResource must be specified.", [nameof(DataSourceEntity), nameof(DataSourceResource)]);
+        }
+    }
+
 }

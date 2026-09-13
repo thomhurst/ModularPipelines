@@ -16,9 +16,36 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a private service connection     to a service for a project network
 /// </summary>
+/// <param name="Network">The network in the current project to be peered with the service</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "vpc-peerings", "update")]
-public record GcloudServicesVpcPeeringsUpdateOptions : GcloudOptions
+public record GcloudServicesVpcPeeringsUpdateOptions(
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// If specified, the update call will proceed even if the update can be destructive.
+    /// </summary>
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
+
+    /// <summary>
+    /// The names of IP CIDR ranges for service to use.
+    /// </summary>
+    [CliOption("--ranges", Format = OptionFormat.EqualsSeparated)]
+    public string? Ranges { get; set; }
+
+    /// <summary>
+    /// The service to connect to
+    /// </summary>
+    [CliOption("--service", Format = OptionFormat.EqualsSeparated)]
+    public string? Service { get; set; }
+
 }

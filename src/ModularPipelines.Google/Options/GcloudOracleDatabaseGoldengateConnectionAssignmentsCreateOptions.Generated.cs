@@ -21,4 +21,46 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("oracle-database", "goldengate-connection-assignments", "create")]
 public record GcloudOracleDatabaseGoldengateConnectionAssignmentsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// The properties of a GoldengateConnectionAssignment. This must be specified. GoldengateConnection resource - The GoldengateConnection resource to be assigned. Format: projects/{project}/locations/{location}/goldengateConnections/{goldengate_connection} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --properties-goldengate-connection on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --properties-goldengate-connection on the command line with a fully specified name; ▸ provide the argument --location on the command line. This must be specified. ID of the goldengateConnection or fully qualified identifier for the goldengateConnection. To set the goldengate-connection attribute: ▫ provide the argument --properties-goldengate-connection on the command line.
+    /// </summary>
+    [CliOption("--properties-goldengate-connection", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesGoldengateConnection { get; set; }
+
+    /// <summary>
+    /// GoldengateDeployment resource - The GoldenGateDeployment to assign the connection to. Format: projects/{project}/locations/{location}/goldengateDeployments/{goldengate_deployment} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --properties-goldengate-deployment on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --properties-goldengate-deployment on the command line with a fully specified name; ▸ provide the argument --location on the command line. This must be specified. ID of the goldengateDeployment or fully qualified identifier for the goldengateDeployment. To set the goldengate-deployment attribute: ▫ provide the argument --properties-goldengate-deployment on the command line.
+    /// </summary>
+    [CliOption("--properties-goldengate-deployment", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesGoldengateDeployment { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The display name for the GoldengateConnectionAssignment.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// The labels or tags associated with the GoldengateConnectionAssignment. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// For resources [goldengate_connection_assignment, properties-goldengate-connection, properties-goldengate-deployment], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
 }

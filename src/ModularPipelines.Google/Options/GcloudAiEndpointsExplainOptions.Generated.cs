@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// request an online explanation from an Vertex     AI endpoint
 /// </summary>
+/// <param name="JsonRequest">Path to a local file containing the body of a JSON request. An example of a JSON request: { "instances": [ {"x": [1, 2], "y": [3, 4]}, {"x": [-1, -2], "y": [-3, -4]} ] } This flag accepts "-" for stdin.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "endpoints", "explain")]
-public record GcloudAiEndpointsExplainOptions : GcloudOptions
+public record GcloudAiEndpointsExplainOptions(
+    [property: CliOption("--json-request", Format = OptionFormat.EqualsSeparated)] string JsonRequest
+) : GcloudOptions
 {
+    /// <summary>
+    /// Id of the deployed model.
+    /// </summary>
+    [CliOption("--deployed-model-id", Format = OptionFormat.EqualsSeparated)]
+    public string? DeployedModelId { get; set; }
+
 }

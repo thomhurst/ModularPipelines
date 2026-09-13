@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove a user     defined field from a Compute Engine security policy
 /// </summary>
+/// <param name="UserDefinedFieldName">The name of the user defined field to remove.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "security-policies", "remove-user-defined-field")]
 public record GcloudComputeSecurityPoliciesRemoveUserDefinedFieldOptions(
+    [property: CliOption("--user-defined-field-name", Format = OptionFormat.EqualsSeparated)] string UserDefinedFieldName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Region of the security policy to update. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

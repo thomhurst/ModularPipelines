@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,33 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "os-login", "ssh-keys", "add")]
-public record GcloudComputeOsLoginSshKeysAddOptions : GcloudOptions
+public record GcloudComputeOsLoginSshKeysAddOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The SSH public key to add to the OS Login Profile.
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The path to a file containing an SSH public key to add to the OS Login Profile.
+    /// </summary>
+    [CliOption("--key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyFile { get; set; }
+
+    /// <summary>
+    /// The amount of time before the SSH key expires. For example, specifying 30m will set the expiration time on the SSH key for 30 minutes from the current time. A value of 0 will result in no expiration time. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--ttl", Format = OptionFormat.EqualsSeparated)]
+    public string? Ttl { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Key) ? 1 : 0) + (!string.IsNullOrWhiteSpace(KeyFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Key or KeyFile must be specified.", [nameof(Key), nameof(KeyFile)]);
+        }
+    }
+
 }

@@ -10,15 +10,266 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Database     Migration Service migration job
 /// </summary>
+/// <param name="Type">Type of the migration job. TYPE must be one of: ONE_TIME, CONTINUOUS.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "migration-jobs", "create")]
-public record GcloudDatabaseMigrationMigrationJobsCreateOptions : GcloudOptions
+public record GcloudDatabaseMigrationMigrationJobsCreateOptions(
+    [property: CliOption("--type", Format = OptionFormat.EqualsSeparated)] GcloudType Type
+) : GcloudOptions
 {
+    /// <summary>
+    /// Connection profile resource - ID of the destination connection profile, representing the destination database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --destination on the command line with a fully specified name; ◆ provide the argument --region on the command line. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▸ provide the argument --destination on the command line.
+    /// </summary>
+    [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
+    public string? Destination { get; set; }
+
+    /// <summary>
+    /// Connection profile resource - ID of the source connection profile, representing the source database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --source on the command line with a fully specified name; ◆ provide the argument --region on the command line. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▸ provide the argument --source on the command line.
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// Waits for the operation in progress to complete before returning.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Commit id for the conversion workspace to use for creating the migration job. If not specified, the latest commit id will be used by default.
+    /// </summary>
+    [CliOption("--commit-id", Format = OptionFormat.EqualsSeparated)]
+    public string? CommitId { get; set; }
+
+    /// <summary>
+    /// Conversion workspace resource - Name of the conversion workspaces to be used for the migration job This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --conversion-workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --conversion-workspace on the command line with a fully specified name; ◆ provide the argument --region on the command line. ID of the conversion_workspace or fully qualified identifier for the conversion_workspace. To set the conversion_workspace attribute: ◆ provide the argument --conversion-workspace on the command line.
+    /// </summary>
+    [CliOption("--conversion-workspace", Format = OptionFormat.EqualsSeparated)]
+    public string? ConversionWorkspace { get; set; }
+
+    /// <summary>
+    /// Conversion workspace resource - Name of the conversion workspaces to be used for the migration job This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --conversion-workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --conversion-workspace on the command line with a fully specified name; ◆ provide the argument --region on the command line. A user-friendly name for the migration job. The display name can include letters, numbers, spaces, and hyphens, and must start with a letter.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Conversion workspace resource - Name of the conversion workspaces to be used for the migration job This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --conversion-workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --conversion-workspace on the command line with a fully specified name; ◆ provide the argument --region on the command line. Parallelization level during initial dump of the migration job. If not specified, will be defaulted to OPTIMAL. DUMP_PARALLEL_LEVEL must be one of: MIN, OPTIMAL, MAX.
+    /// </summary>
+    [CliOption("--dump-parallel-level", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDumpParallelLevel? DumpParallelLevel { get; set; }
+
+    /// <summary>
+    /// Conversion workspace resource - Name of the conversion workspaces to be used for the migration job This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --conversion-workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --conversion-workspace on the command line with a fully specified name; ◆ provide the argument --region on the command line. The type of the data dump. Currently applicable for MySQL to MySQL migrations only. DUMP_TYPE must be one of: LOGICAL, PHYSICAL.
+    /// </summary>
+    [CliOption("--dump-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDumpType? DumpType { get; set; }
+
+    /// <summary>
+    /// Conversion workspace resource - Name of the conversion workspaces to be used for the migration job This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --conversion-workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --conversion-workspace on the command line with a fully specified name; ◆ provide the argument --region on the command line. Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// Conversion workspace resource - Name of the conversion workspaces to be used for the migration job This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --conversion-workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --conversion-workspace on the command line with a fully specified name; ◆ provide the argument --region on the command line. Filter the entities based on AIP-160 (https://google.aip.dev/160) standard. Example: to filter all tables whose name start with "Employee" and are present under schema "Company", use filter as "Company.Employee* AND type=TABLE"
+    /// </summary>
+    [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
+    public string? Filter { get; set; }
+
+    /// <summary>
+    /// Conversion workspace resource - Name of the conversion workspaces to be used for the migration job This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --conversion-workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --conversion-workspace on the command line with a fully specified name; ◆ provide the argument --region on the command line. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Conversion workspace resource - Name of the conversion workspaces to be used for the migration job This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --conversion-workspace on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --conversion-workspace on the command line with a fully specified name; ◆ provide the argument --region on the command line. Whether the destination for the migration job is a primary instance.
+    /// </summary>
+    [CliFlag("--mysql-is-primary-destination")]
+    public bool? MysqlIsPrimaryDestination { get; set; }
+
+    /// <summary>
+    /// Migration job resource - Name of the original migration job to be used for the failback migration job This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --original-migration-name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --original-migration-name on the command line with a fully specified name; ◆ provide the argument --region on the command line. ID of the migration_job or fully qualified identifier for the migration_job. To set the migration_job attribute: ◆ provide the argument --original-migration-name on the command line.
+    /// </summary>
+    [CliOption("--original-migration-name", Format = OptionFormat.EqualsSeparated)]
+    public string? OriginalMigrationName { get; set; }
+
+    /// <summary>
+    /// Migration job resource - Name of the original migration job to be used for the failback migration job This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --original-migration-name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --original-migration-name on the command line with a fully specified name; ◆ provide the argument --region on the command line. Maximum number of additional subscriptions to use for the PostgreSQL migration job.
+    /// </summary>
+    [CliOption("--postgres-max-additional-subscriptions", Format = OptionFormat.EqualsSeparated)]
+    public string? PostgresMaxAdditionalSubscriptions { get; set; }
+
+    /// <summary>
+    /// Migration job resource - Name of the original migration job to be used for the failback migration job This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --original-migration-name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --original-migration-name on the command line with a fully specified name; ◆ provide the argument --region on the command line. Use native logical replication for PostgreSQL migration.
+    /// </summary>
+    [CliFlag("--use-postgres-native")]
+    public bool? UsePostgresNative { get; set; }
+
+    /// <summary>
+    /// Migration job resource - Name of the original migration job to be used for the failback migration job This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --original-migration-name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --original-migration-name on the command line with a fully specified name; ◆ provide the argument --region on the command line. The migration job objects config. The migration job objects config for databases. At most one of these can be specified: Migrate all databases for the migration job. This flag is used only for Postgres to AlloyDB, and Postgres to Cloud SQL Postgres and MySQL to Cloud SQL MySQL migrations.
+    /// </summary>
+    [CliFlag("--all-databases")]
+    public bool? AllDatabases { get; set; }
+
+    /// <summary>
+    /// Migration job resource - Name of the original migration job to be used for the failback migration job This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --original-migration-name on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --original-migration-name on the command line with a fully specified name; ◆ provide the argument --region on the command line. The migration job objects config. The migration job objects config for databases. At most one of these can be specified: A list of databases to be migrated to the destination instance. Provide databases as a comma separated list. This flag is used only for Postgres to AlloyDB, and Postgres to Cloud SQL Postgres and MySQL to Cloud SQL MySQL migrations.
+    /// </summary>
+    [CliOption("--databases-filter", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DatabasesFilter { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. ID of the cmek-key or fully qualified identifier for the cmek-key. To set the cmek-key attribute: ◆ provide the argument --cmek-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--cmek-key", Format = OptionFormat.EqualsSeparated)]
+    public string? CmekKey { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. The CMEK keyring id of the cmek-key. To set the cmek-keyring attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --cmek-keyring on the command line.
+    /// </summary>
+    [CliOption("--cmek-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? CmekKeyring { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. The Cloud project id for the cmek-key. To set the cmek-project attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --cmek-project on the command line.
+    /// </summary>
+    [CliOption("--cmek-project", Format = OptionFormat.EqualsSeparated)]
+    public string? CmekProject { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. At most one of these can be specified: A list of dump flags. An object containing a list of "key": "value" pairs.
+    /// </summary>
+    [CliOption("--dump-flags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? DumpFlags { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. At most one of these can be specified: Path to the dump file in Google Cloud Storage, in the format: gs://[BUCKET_NAME]/[OBJECT_NAME].
+    /// </summary>
+    [CliOption("--dump-path", Format = OptionFormat.EqualsSeparated)]
+    public string? DumpPath { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. Maximum number of connections Database Migration Service will open to the source for CDC phase.
+    /// </summary>
+    [CliOption("--max-concurrent-cdc-connections", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxConcurrentCdcConnections { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. Maximum number of connections Database Migration Service will open to the source for full dump phase.
+    /// </summary>
+    [CliOption("--max-concurrent-full-dump-connections", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxConcurrentFullDumpConnections { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. Whether to skip full dump or not.
+    /// </summary>
+    [CliFlag("--skip-full-dump")]
+    public bool? SkipFullDump { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. Configuration for CDC start position. At most one of these can be specified: Oracle schema change number (SCN) to start CDC data migration from.
+    /// </summary>
+    [CliOption("--oracle-cdc-start-position", Format = OptionFormat.EqualsSeparated)]
+    public string? OracleCdcStartPosition { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. Configuration for CDC start position. At most one of these can be specified: Sqlserver log squence number (LSN) to start CDC data migration from.
+    /// </summary>
+    [CliOption("--sqlserver-cdc-start-position", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlServerCdcStartPosition { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. Maximum number of concurrent connections Database Migration Service will open to the destination for data migration.
+    /// </summary>
+    [CliOption("--max-concurrent-destination-connections", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxConcurrentDestinationConnections { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. Timeout for data migration transactions.
+    /// </summary>
+    [CliOption("--transaction-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? TransactionTimeout { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't added to the migration job. At most one of these can be specified: Name of the VPC network to peer with the Cloud SQL private network.
+    /// </summary>
+    [CliOption("--peer-vpc", Format = OptionFormat.EqualsSeparated)]
+    public string? PeerVpc { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't added to the migration job. At most one of these can be specified: Use the default IP allowlist method. This method creates a public IP that will be used with the destination Cloud SQL database. The method works by configuring the source database server to accept connections from the outgoing IP of the Cloud SQL instance.
+    /// </summary>
+    [CliFlag("--static-ip")]
+    public bool? StaticIp { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't added to the migration job. At most one of these can be specified: Or at least one of these can be specified: Parameters for the reverse-SSH tunnel connectivity method. Bastion Virtual Machine IP. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--vm-ip", Format = OptionFormat.EqualsSeparated)]
+    public string? VmIp { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't added to the migration job. At most one of these can be specified: Or at least one of these can be specified: Parameters for the reverse-SSH tunnel connectivity method. Forwarding port for the SSH tunnel. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--vm-port", Format = OptionFormat.EqualsSeparated)]
+    public string? VmPort { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't added to the migration job. At most one of these can be specified: Or at least one of these can be specified: Parameters for the reverse-SSH tunnel connectivity method. Name of the VPC network where the VM is hosted. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--vpc", Format = OptionFormat.EqualsSeparated)]
+    public string? Vpc { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. The connectivity method used by the migration job. If a connectivity method isn't specified, then it isn't added to the migration job. At most one of these can be specified: Or at least one of these can be specified: Parameters for the reverse-SSH tunnel connectivity method. Name of VM that will host the SSH tunnel bastion.
+    /// </summary>
+    [CliOption("--vm", Format = OptionFormat.EqualsSeparated)]
+    public string? Vm { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. A list of databases to be migrated to the destination Cloud SQL instance. Provide databases as a comma separated list. This list should contain all encrypted and non-encrypted database names. This flag is used only for SQL Server to Cloud SQL migrations. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--sqlserver-databases", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SqlServerDatabases { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. Enable differential backups. If not specified, differential backups are disabled by default. Use --sqlserver-diff-backup to enable and --no-sqlserver-diff-backup to disable. This flag is used only for homogeneous SQL Server to Cloud SQL for SQL Server migrations.
+    /// </summary>
+    [CliFlag("--sqlserver-diff-backup")]
+    public bool? SqlServerDiffBackup { get; set; }
+
+    /// <summary>
+    /// Negates --sqlserver-diff-backup. Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. Enable differential backups. If not specified, differential backups are disabled by default. Use --sqlserver-diff-backup to enable and --no-sqlserver-diff-backup to disable. This flag is used only for homogeneous SQL Server to Cloud SQL for SQL Server migrations.
+    /// </summary>
+    [CliFlag("--no-sqlserver-diff-backup")]
+    public bool? NoSqlServerDiffBackup { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. A JSON/YAML file describing the encryption settings per database for all encrytped databases. Note: Path to the Certificate (.cer) and Private Key (.pvk) in Cloud Storage, should be in the form of gs://bucketName/fileName. The instance must have write permissions to the bucket and read access to the file. An example of a JSON request: [{ "database": "db1", "encryptionOptions": { "certPath": "Path to certificate 1", "pvkPath": "Path to certificate private key 1", "pvkPassword": "Private key password 1" } }, { "database": "db2", "encryptionOptions": { "certPath": "Path to certificate 2", "pvkPath": "Path to certificate private key 2", "pvkPassword": "Private key password 2" } }] This flag accepts "-" for stdin. This flag is used only for SQL Server to Cloud SQL migrations.
+    /// </summary>
+    [CliOption("--sqlserver-encrypted-databases", Format = OptionFormat.EqualsSeparated)]
+    public string? SqlServerEncryptedDatabases { get; set; }
+
+    /// <summary>
+    /// Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. Promote the database when it is ready. Use --sqlserver-promote-when-ready to enable and --no-sqlserver-promote-when-ready to disable. This flag is used only for homogeneous SQL Server to Cloud SQL for SQL Server migrations.
+    /// </summary>
+    [CliFlag("--sqlserver-promote-when-ready")]
+    public bool? SqlServerPromoteWhenReady { get; set; }
+
+    /// <summary>
+    /// Negates --sqlserver-promote-when-ready. Cmek key resource - Name of the CMEK (customer-managed encryption key) used for the migration job The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the region attribute: ◆ provide the argument --cmek-key on the command line with a fully specified name; ◆ provide the argument --region on the command line. The heterogeneous migration config. This is used only for Oracle to Cloud SQL for PostgreSQL and SQL Server to Cloud SQL for PostgreSQL migrations. Configuration for Oracle or SQL Server as a source in a heterogeneous migration. Configuration for skipping full dump. Configuration for Postgres as a destination in a heterogeneous migration. At most one of these can be specified: The SQL Server homogeneous migration config. This is used only for SQL Server to CloudSQL SQL Server migrations. Promote the database when it is ready. Use --sqlserver-promote-when-ready to enable and --no-sqlserver-promote-when-ready to disable. This flag is used only for homogeneous SQL Server to Cloud SQL for SQL Server migrations.
+    /// </summary>
+    [CliFlag("--no-sqlserver-promote-when-ready")]
+    public bool? NoSqlServerPromoteWhenReady { get; set; }
+
 }

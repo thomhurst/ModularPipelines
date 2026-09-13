@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// share
 /// </summary>
+/// <param name="NewName">New nfs-share name for renaming an already existing nfs-share.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bms", "nfs-shares", "rename")]
-public record GcloudBmsNfsSharesRenameOptions : GcloudOptions
+public record GcloudBmsNfsSharesRenameOptions(
+    [property: CliOption("--new-name", Format = OptionFormat.EqualsSeparated)] string NewName
+) : GcloudOptions
 {
 }

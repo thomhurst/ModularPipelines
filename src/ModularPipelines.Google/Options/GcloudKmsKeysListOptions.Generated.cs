@@ -21,4 +21,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("kms", "keys", "list")]
 public record GcloudKmsKeysListOptions : GcloudOptions
 {
+    /// <summary>
+    /// Keyring resource - The KMS keyring resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --keyring on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the keyring or fully qualified identifier for the keyring. To set the keyring attribute: ▸ provide the argument --keyring on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? Keyring { get; set; }
+
+    /// <summary>
+    /// Keyring resource - The KMS keyring resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --keyring on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The Google Cloud location for the keyring. To set the location attribute: ▸ provide the argument --keyring on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

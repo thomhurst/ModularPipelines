@@ -10,15 +10,201 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// upload a new model
 /// </summary>
+/// <param name="ContainerImageUri">URI of the Model serving container file in the Container Registry (e.g. gcr.io/myproject/server:latest).</param>
+/// <param name="DisplayName">Display name of the model.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "models", "upload")]
-public record GcloudAiModelsUploadOptions : GcloudOptions
+public record GcloudAiModelsUploadOptions(
+    [property: CliOption("--container-image-uri", Format = OptionFormat.EqualsSeparated)] string ContainerImageUri,
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName
+) : GcloudOptions
 {
+    /// <summary>
+    /// Path to the directory containing the Model artifact and any of its supporting files.
+    /// </summary>
+    [CliOption("--artifact-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? ArtifactUri { get; set; }
+
+    /// <summary>
+    /// Comma-separated arguments passed to the command run by the container image. If not specified and no --command is provided, the container image's default command is used.
+    /// </summary>
+    [CliOption("--container-args", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ContainerArgs { get; set; }
+
+    /// <summary>
+    /// Entrypoint for the container image. If not specified, the container image's default entrypoint is run.
+    /// </summary>
+    [CliOption("--container-command", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ContainerCommand { get; set; }
+
+    /// <summary>
+    /// Deployment timeout in seconds.
+    /// </summary>
+    [CliOption("--container-deployment-timeout-seconds", Format = OptionFormat.EqualsSeparated)]
+    public int? ContainerDeploymentTimeoutSeconds { get; set; }
+
+    /// <summary>
+    /// List of key-value pairs to set as environment variables.
+    /// </summary>
+    [CliOption("--container-env-vars", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ContainerEnvVars { get; set; }
+
+    /// <summary>
+    /// Container ports to receive grpc requests at. Must be a number between 1 and 65535, inclusive.
+    /// </summary>
+    [CliOption("--container-grpc-ports", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ContainerGrpcPorts { get; set; }
+
+    /// <summary>
+    /// Exec specifies the action to take. Used by health probe. An example of this argument would be ["cat", "/tmp/healthy"].
+    /// </summary>
+    [CliOption("--container-health-probe-exec", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ContainerHealthProbeExec { get; set; }
+
+    /// <summary>
+    /// How often (in seconds) to perform the health probe. Default to 10 seconds. Minimum value is 1.
+    /// </summary>
+    [CliOption("--container-health-probe-period-seconds", Format = OptionFormat.EqualsSeparated)]
+    public int? ContainerHealthProbePeriodSeconds { get; set; }
+
+    /// <summary>
+    /// Number of seconds after which the health probe times out. Defaults to 1 second. Minimum value is 1.
+    /// </summary>
+    [CliOption("--container-health-probe-timeout-seconds", Format = OptionFormat.EqualsSeparated)]
+    public int? ContainerHealthProbeTimeoutSeconds { get; set; }
+
+    /// <summary>
+    /// HTTP path to send health checks to inside the container.
+    /// </summary>
+    [CliOption("--container-health-route", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerHealthRoute { get; set; }
+
+    /// <summary>
+    /// Container ports to receive http requests at. Must be a number between 1 and 65535, inclusive.
+    /// </summary>
+    [CliOption("--container-ports", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ContainerPorts { get; set; }
+
+    /// <summary>
+    /// HTTP path to send prediction requests to inside the container.
+    /// </summary>
+    [CliOption("--container-predict-route", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerPredictRoute { get; set; }
+
+    /// <summary>
+    /// The amount of the VM memory to reserve as the shared memory for the model in megabytes.
+    /// </summary>
+    [CliOption("--container-shared-memory-size-mb", Format = OptionFormat.EqualsSeparated)]
+    public int? ContainerSharedMemorySizeMb { get; set; }
+
+    /// <summary>
+    /// Exec specifies the action to take. Used by startup probe. An example of this argument would be ["cat", "/tmp/healthy"].
+    /// </summary>
+    [CliOption("--container-startup-probe-exec", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ContainerStartupProbeExec { get; set; }
+
+    /// <summary>
+    /// How often (in seconds) to perform the startup probe. Default to 10 seconds. Minimum value is 1.
+    /// </summary>
+    [CliOption("--container-startup-probe-period-seconds", Format = OptionFormat.EqualsSeparated)]
+    public int? ContainerStartupProbePeriodSeconds { get; set; }
+
+    /// <summary>
+    /// Number of seconds after which the startup probe times out. Defaults to 1 second. Minimum value is 1.
+    /// </summary>
+    [CliOption("--container-startup-probe-timeout-seconds", Format = OptionFormat.EqualsSeparated)]
+    public int? ContainerStartupProbeTimeoutSeconds { get; set; }
+
+    /// <summary>
+    /// Description of the model.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Path to a local JSON file that contains the metadata describing the Model's input and output for explanation.
+    /// </summary>
+    [CliOption("--explanation-metadata-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ExplanationMetadataFile { get; set; }
+
+    /// <summary>
+    /// Method used for explanation. Accepted values are integrated-gradients, xrai and sampled-shapley.
+    /// </summary>
+    [CliOption("--explanation-method", Format = OptionFormat.EqualsSeparated)]
+    public string? ExplanationMethod { get; set; }
+
+    /// <summary>
+    /// Number of feature permutations to consider when approximating the Shapley values for explanation.
+    /// </summary>
+    [CliOption("--explanation-path-count", Format = OptionFormat.EqualsSeparated)]
+    public string? ExplanationPathCount { get; set; }
+
+    /// <summary>
+    /// Number of steps to approximate the path integral for explanation.
+    /// </summary>
+    [CliOption("--explanation-step-count", Format = OptionFormat.EqualsSeparated)]
+    public int? ExplanationStepCount { get; set; }
+
+    /// <summary>
+    /// Labels with user-defined metadata to organize your Models. Label keys and values can be no longer than 64 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. See https://goo.gl/xmQnxf for more information and examples of labels.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// ID to use for the uploaded Model, which will become the final component of the model resource name.
+    /// </summary>
+    [CliOption("--model-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ModelId { get; set; }
+
+    /// <summary>
+    /// Resource name of the model into which to upload the version. Only specify this field when uploading a new version. Value should be provided in format: projects/PROJECT_ID/locations/REGION/models/PARENT_MODEL_ID
+    /// </summary>
+    [CliOption("--parent-model", Format = OptionFormat.EqualsSeparated)]
+    public string? ParentModel { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to upload model. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property ai/region; ◆ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to upload model. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Single float value used to add noise to all the features for explanation. Only applicable to explanation method integrated-gradients or xrai.
+    /// </summary>
+    [CliOption("--smooth-grad-noise-sigma", Format = OptionFormat.EqualsSeparated)]
+    public string? SmoothGradNoiseSigma { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to upload model. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Noise sigma by features for explanation. Noise sigma represents the standard deviation of the gaussian kernel that will be used to add noise to interpolated inputs prior to computing gradients. Only applicable to explanation method integrated-gradients or xrai.
+    /// </summary>
+    [CliOption("--smooth-grad-noise-sigma-by-feature", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? SmoothGradNoiseSigmaByFeature { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to upload model. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Number of gradient samples used for approximation at explanation. Only applicable to explanation method integrated-gradients or xrai.
+    /// </summary>
+    [CliOption("--smooth-grad-noisy-sample-count", Format = OptionFormat.EqualsSeparated)]
+    public int? SmoothGradNoisySampleCount { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to upload model. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Aliases used to reference a model version instead of auto-generated version ID. The aliases mentioned in the flag will replace the aliases set in the model.
+    /// </summary>
+    [CliOption("--version-aliases", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? VersionAliases { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to upload model. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Description of the model version.
+    /// </summary>
+    [CliOption("--version-description", Format = OptionFormat.EqualsSeparated)]
+    public string? VersionDescription { get; set; }
+
 }

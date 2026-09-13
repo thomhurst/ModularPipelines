@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import a terraform     state file
 /// </summary>
+/// <param name="LockId">Lock ID of the lock file to verify person importing owns lock.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("infra-manager", "deployments", "import-statefile")]
-public record GcloudInfraManagerDeploymentsImportStatefileOptions : GcloudOptions
+public record GcloudInfraManagerDeploymentsImportStatefileOptions(
+    [property: CliOption("--lock-id", Format = OptionFormat.EqualsSeparated)] string LockId
+) : GcloudOptions
 {
+    /// <summary>
+    /// File path for importing statefile into a deployment. It specifies the local file path of an existing Terraform statefile to directly upload for a deployment.
+    /// </summary>
+    [CliOption("--file", Format = OptionFormat.EqualsSeparated)]
+    public string? File { get; set; }
+
 }

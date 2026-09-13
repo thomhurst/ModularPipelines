@@ -21,4 +21,28 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "bare-metal", "clusters", "enroll")]
 public record GcloudContainerBareMetalClustersEnrollOptions : GcloudOptions
 {
+    /// <summary>
+    /// Admin cluster membership resource - membership of the admin cluster. Membership name is the same as the admin cluster name. Examples: $ gcloud container bare-metal clusters enroll
+    /// </summary>
+    [CliOption("--admin-cluster-membership", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminClusterMembership { get; set; }
+
+    /// <summary>
+    /// or $ gcloud container bare-metal clusters enroll
+    /// </summary>
+    [CliOption("--admin-cluster-membership-project", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminClusterMembershipProject { get; set; }
+
+    /// <summary>
+    /// or $ gcloud container bare-metal clusters enroll
+    /// </summary>
+    [CliOption("--admin-cluster-membership-location", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminClusterMembershipLocation { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

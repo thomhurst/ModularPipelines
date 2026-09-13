@@ -16,9 +16,32 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new backup plan     association
 /// </summary>
+/// <param name="Resource">The resource to which the backup plan is to be applied. E.g., projects/sample-project/zones/us-central1-a/instances/sample-instance</param>
+/// <param name="ResourceType">Type of resource to which the backup plan should be applied. For example: ◆ compute.&lt;UNIVERSE_DOMAIN&gt;/Instance for Compute Engine instances. ◆ file.&lt;UNIVERSE_DOMAIN&gt;/Instance for Filestore instances.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-dr", "backup-plan-associations", "create")]
-public record GcloudBackupDrBackupPlanAssociationsCreateOptions : GcloudOptions
+public record GcloudBackupDrBackupPlanAssociationsCreateOptions(
+    [property: CliOption("--resource", Format = OptionFormat.EqualsSeparated)] string Resource,
+    [property: CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)] string ResourceType
+) : GcloudOptions
 {
+    /// <summary>
+    /// Backup Plan resource - The backup plan to be applied to the resource. E.g., projects/sample-project/locations/us-central1/backupPlans/sample-backup-plan This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --backup-plan on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --backup-plan on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the Backup Plan or fully qualified identifier for the Backup Plan. To set the name attribute: ▸ provide the argument --backup-plan on the command line.
+    /// </summary>
+    [CliOption("--backup-plan", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupPlan { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
 }

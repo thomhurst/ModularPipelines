@@ -6,16 +6,20 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// update cluster settings for an existing     container cluster
 /// </summary>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "clusters", "update")]
@@ -23,4 +27,1237 @@ public record GcloudContainerClustersUpdateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Enable or restrict anonymous access to the cluster. When enabled, anonymous users will be authenticated as system:anonymous with the group system:unauthenticated. Limiting access restricts anonymous access to only the health check endpoints /readyz, /livez, and /healthz. ANONYMOUS_AUTHENTICATION_CONFIG must be one of: ENABLED 'ENABLED' enables anonymous calls. LIMITED 'LIMITED' restricts anonymous access to the cluster. Only calls to the health check endpoints are allowed anonymously, all other calls will be rejected.
+    /// </summary>
+    [CliOption("--anonymous-authentication-config", Format = OptionFormat.EqualsSeparated)]
+    public string? AnonymousAuthenticationConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Sets the Autopilot general profile for the cluster; possible values are none and no-performance. If none is used, the cluster will use the Autopilot default configuration. AUTOPILOT_GENERAL_PROFILE must be one of: none, no-performance.
+    /// </summary>
+    [CliOption("--autopilot-general-profile", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAutopilotGeneralProfile? AutopilotGeneralProfile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies which privileged workload allowlist paths can be referenced and installed by AllowlistSynchronizers in Autopilot modes. The value is a comma-separated list of paths in the format: ▸ gke://&lt;partner_name&gt;/&lt;app_name&gt;/&lt;allowlist_path&gt; for Autopilot partner allowlists ▸ gs://&lt;bucket_name&gt;/&lt;allowlist_path&gt; for user allowlists By default, all GKE-managed allowlists (gke://*) are authorized. See https://cloud.google.com/kubernetes-engine/docs/resources/autopilot-partners for all supported Autopilot partner allowlists. When setting this flag, be careful to explicitly specify gke://* in addition to other entries if you rely on this default behavior. Wildcards (*) are supported. For example, if gke://* is authorized, then AllowlistSynchronizers can be used to install gke://partner1/allowlist1.yaml and gke://partner2/allowlist2.yaml. Note: Use of user allowlists (gs://) requires special permissions and is only available to a subset of high tier customers. Please contact your account team for more information. Examples: Allow all GKE-managed allowlists (default behavior): $ gcloud container clusters update \ --autopilot-privileged-admission=gke://* Authorize only allowlists from a GKE Autopilot partner: $ gcloud container clusters update \ --autopilot-privileged-admission=gke://my-partner/* Authorize only a singular user-owned allowlist $ gcloud container clusters update \ --autopilot-privileged-admission=gs://my-bucket/allowlists/\ my-allowlist.yaml Authorize all user-owned allowlists under a given path: $ gcloud container clusters update \ --autopilot-privileged-admission=gs://my-bucket/* Authorize all GKE-managed allowlists and a specific user-owned allowlist: $ gcloud container clusters update \ --autopilot-privileged-admission=gke://*,gs://my-bucket/\ allowlists/my-allowlist.yaml Disable allowlist installation entirely: $ gcloud container clusters update \ --autopilot-privileged-admission="" Exercise caution when using this flag on an existing cluster. Upon updates, existing AllowlistSynchronizers will uninstall allowlists that are no longer authorized. For instructions on installing allowlists in the cluster after authorization, please refer to: https://cloud.google.com/kubernetes-engine/docs/how-to/run-autopilot-partner-workloads
+    /// </summary>
+    [CliOption("--autopilot-privileged-admission", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AutopilotPrivilegedAdmission { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Add Autopilot workload policies to the cluster. Examples: $ gcloud container clusters update example-cluster \ --autopilot-workload-policies=allow-net-admin The only supported workload policy is 'allow-net-admin'.
+    /// </summary>
+    [CliOption("--autopilot-workload-policies", Format = OptionFormat.EqualsSeparated)]
+    public string? AutopilotWorkloadPolicies { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Sets the cgroup mode for auto-provisioned nodes. Updating this flag triggers an update using surge upgrades of all existing auto-provisioned nodes to apply the new value of cgroup mode. For an Autopilot cluster, the specified cgroup mode will be set on all existing and new nodes in the cluster. For a Standard cluster, the specified cgroup mode will be set on all existing and new auto-provisioned node pools in the cluster. If not set, GKE uses cgroupv2 for new nodes when the cluster was created running 1.26 or later, and cgroupv1 for clusters created running 1.25 or earlier. To check your initial cluster version, run gcloud container clusters describe [NAME] --format="value(initialClusterVersion)" For clusters created running version 1.26 or later, you can't set the cgroup mode to v1. To learn more, see: https://cloud.google.com/kubernetes-engine/docs/how-to/migrate-cgroupv2. AUTOPROVISIONING_CGROUP_MODE must be one of: default, v1, v2.
+    /// </summary>
+    [CliOption("--autoprovisioning-cgroup-mode", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAutoprovisioningCgroupMode? AutoprovisioningCgroupMode { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enables the Kubelet's insecure read only port for Autoprovisioned Node Pools. If not set, the value from nodePoolDefaults.nodeConfigDefaults will be used. To disable the readonly port --no-autoprovisioning-enable-insecure-kubelet-readonly-port.
+    /// </summary>
+    [CliFlag("--autoprovisioning-enable-insecure-kubelet-readonly-port")]
+    public bool? AutoprovisioningEnableInsecureKubeletReadonlyPort { get; set; }
+
+    /// <summary>
+    /// Negates --autoprovisioning-enable-insecure-kubelet-readonly-port. Exactly one of these must be specified: Enables the Kubelet's insecure read only port for Autoprovisioned Node Pools. If not set, the value from nodePoolDefaults.nodeConfigDefaults will be used. To disable the readonly port --no-autoprovisioning-enable-insecure-kubelet-readonly-port.
+    /// </summary>
+    [CliFlag("--no-autoprovisioning-enable-insecure-kubelet-readonly-port")]
+    public bool? NoAutoprovisioningEnableInsecureKubeletReadonlyPort { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Replaces the user specified Compute Engine tags on all nodes in all the existing auto-provisioned node pools in the Standard cluster or the Autopilot with the given tags (comma separated). Examples: $ gcloud container clusters update example-cluster \ --autoprovisioning-network-tags=tag1,tag2 New nodes in auto-provisioned node pools, including ones created by resize or recreate, will have these tags on the Compute Engine API instance object and these tags can be used in firewall rules. See https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create for examples.
+    /// </summary>
+    [CliOption("--autoprovisioning-network-tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AutoprovisioningNetworkTags { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: For an Autopilot cluster, the specified comma-separated resource manager tags that has the GCP_FIREWALL purpose replace the existing tags on all nodes in the cluster. For a Standard cluster, the specified comma-separated resource manager tags that has the GCE_FIREWALL purpose are applied to all nodes in the new newly created auto-provisioned node pools. Existing auto-provisioned node pools retain the tags that they had before the update. To update tags on an existing auto-provisioned node pool, use the node pool level flag '--resource-manager-tags'. Examples: $ gcloud container clusters update example-cluster \ --autoprovisioning-resource-manager-tags=tagKeys/\ 1234=tagValues/2345 $ gcloud container clusters update example-cluster \ --autoprovisioning-resource-manager-tags=my-project/key1=value1 $ gcloud container clusters update example-cluster \ --autoprovisioning-resource-manager-tags=12345/key1=value1,\ 23456/key2=value2 $ gcloud container clusters update example-cluster \ --autoprovisioning-resource-manager-tags= All nodes in an Autopilot cluster or all newly created auto-provisioned nodes in a Standard cluster, including nodes that are resized or re-created, will have the specified tags on the corresponding Instance object in the Compute Engine API. You can reference these tags in network firewall policy rules. For instructions, see https://cloud.google.com/firewall/docs/use-tags-for-firewalls.
+    /// </summary>
+    [CliOption("--autoprovisioning-resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? AutoprovisioningResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Set autoscaling behaviour, choices are 'optimize-utilization' and 'balanced'. Default is 'balanced'.
+    /// </summary>
+    [CliOption("--autoscaling-profile", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingProfile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Complete the IP and credential rotation for this cluster. For example: $ gcloud container clusters update example-cluster \ --complete-credential-rotation This causes the cluster to stop serving its old IP, return to a single IP, and invalidate old credentials. See documentation for more details: https://cloud.google.com/kubernetes-engine/docs/how-to/credential-rotation.
+    /// </summary>
+    [CliFlag("--complete-credential-rotation")]
+    public bool? CompleteCredentialRotation { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Complete the IP rotation for this cluster. For example: $ gcloud container clusters update example-cluster \ --complete-ip-rotation This causes the cluster to stop serving its old IP, and return to a single IP state. See documentation for more details: https://cloud.google.com/kubernetes-engine/docs/how-to/ip-rotation.
+    /// </summary>
+    [CliFlag("--complete-ip-rotation")]
+    public bool? CompleteIpRotation { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path of the YAML file that contains containerd configuration entries like configuring access to private image registries. For detailed information on the configuration usage, please refer to https://cloud.google.com/kubernetes-engine/docs/how-to/customize-containerd-configuration. Note: Updating the containerd configuration of an existing cluster or node pool requires recreation of the existing nodes, which might cause disruptions in running workloads. Use a full or relative path to a local file containing the value of containerd_config.
+    /// </summary>
+    [CliOption("--containerd-config-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerdConfigFromFile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Configures the egress policy for the GKE control plane to control outbound traffic from the kube-apiserver. CONTROL_PLANE_EGRESS must be one of: NONE (Recommended) Provides maximum security. This mode removes the control plane's public IP address and blocks all outbound traffic from the kube-apiserver by default, preventing unexpected data exfiltration. Webhooks that use clientConfig.url will be disabled. Essential GKE-managed services are still permitted to function via an internal allowlist. VIA_CONTROL_PLANE (Default) Maintains backward compatibility. The control plane retains its public IP address and allows egress traffic from the kube-apiserver.
+    /// </summary>
+    [CliOption("--control-plane-egress", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneEgress { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable Database Encryption. Enable database encryption that will be used to encrypt Kubernetes Secrets at the application layer. The key provided should be the resource ID in the format of projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME]. For more information, see https://cloud.google.com/kubernetes-engine/docs/how-to/encrypting-secrets.
+    /// </summary>
+    [CliOption("--database-encryption-key", Format = OptionFormat.EqualsSeparated)]
+    public string? DatabaseEncryptionKey { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Disable database encryption. Disable Database Encryption which encrypt Kubernetes Secrets at the application layer. For more information, see https://cloud.google.com/kubernetes-engine/docs/how-to/encrypting-secrets.
+    /// </summary>
+    [CliFlag("--disable-database-encryption")]
+    public bool? DisableDatabaseEncryption { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Disable default source NAT rules applied in cluster nodes. By default, cluster nodes perform source network address translation (SNAT) for packets sent from Pod IP address sources to destination IP addresses that are not in the non-masquerade CIDRs list. For more details about SNAT and IP masquerading, see: https://cloud.google.com/kubernetes-engine/docs/how-to/ip-masquerade-agent#how_ipmasq_works SNAT changes the packet's source IP address to the node's internal IP address. When this flag is set, GKE does not perform SNAT for packets sent to any destination. You must set this flag if the cluster uses privately reused public IPs. The --disable-default-snat flag is only applicable to private GKE clusters, which are inherently VPC-native. Thus, --disable-default-snat requires that the cluster was created with both --enable-ip-alias and --enable-private-nodes.
+    /// </summary>
+    [CliFlag("--disable-default-snat")]
+    public bool? DisableDefaultSnat { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Disable the Lustre CSI driver to automatically detect and configure all suitable network interfaces on a node for Lustre IO.
+    /// </summary>
+    [CliFlag("--disable-multi-nic-lustre")]
+    public bool? DisableMultiNicLustre { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Disable Workload Identity on the cluster. For more information on Workload Identity, see https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
+    /// </summary>
+    [CliFlag("--disable-workload-identity")]
+    public bool? DisableWorkloadIdentity { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable the Agent Sandbox feature on the cluster. Use --no-enable-agent-sandbox to disable.
+    /// </summary>
+    [CliFlag("--enable-agent-sandbox")]
+    public bool? EnableAgentSandbox { get; set; }
+
+    /// <summary>
+    /// Negates --enable-agent-sandbox. Exactly one of these must be specified: Enable the Agent Sandbox feature on the cluster. Use --no-enable-agent-sandbox to disable.
+    /// </summary>
+    [CliFlag("--no-enable-agent-sandbox")]
+    public bool? NoEnableAgentSandbox { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Lets you run the gcloud container clusters check-autopilot-compatibility (https://cloud.google.com/sdk/gcloud/reference/container/clusters/check-autopilot-compatibility) command to check whether your workloads are compatible with Autopilot mode. This flag is only applicable to clusters that run version 1.31.6-gke.1027000 or later. Note: This flag causes a control plane restart. Use --enable-autopilot-compatibility-auditing to enable and --no-enable-autopilot-compatibility-auditing to disable.
+    /// </summary>
+    [CliFlag("--enable-autopilot-compatibility-auditing")]
+    public bool? EnableAutopilotCompatibilityAuditing { get; set; }
+
+    /// <summary>
+    /// Negates --enable-autopilot-compatibility-auditing. Exactly one of these must be specified: Lets you run the gcloud container clusters check-autopilot-compatibility (https://cloud.google.com/sdk/gcloud/reference/container/clusters/check-autopilot-compatibility) command to check whether your workloads are compatible with Autopilot mode. This flag is only applicable to clusters that run version 1.31.6-gke.1027000 or later. Note: This flag causes a control plane restart. Use --enable-autopilot-compatibility-auditing to enable and --no-enable-autopilot-compatibility-auditing to disable.
+    /// </summary>
+    [CliFlag("--no-enable-autopilot-compatibility-auditing")]
+    public bool? NoEnableAutopilotCompatibilityAuditing { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enables autoscaling for a node pool. Enables autoscaling in the node pool specified by --node-pool or the default node pool if --node-pool is not provided. If not already, --max-nodes or --total-max-nodes must also be set.
+    /// </summary>
+    [CliFlag("--enable-autoscaling")]
+    public bool? EnableAutoscaling { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable Cilium Clusterwide Network Policies on the cluster. Use --enable-cilium-clusterwide-network-policy to enable and --no-enable-cilium-clusterwide-network-policy to disable.
+    /// </summary>
+    [CliFlag("--enable-cilium-clusterwide-network-policy")]
+    public bool? EnableCiliumClusterwideNetworkPolicy { get; set; }
+
+    /// <summary>
+    /// Negates --enable-cilium-clusterwide-network-policy. Exactly one of these must be specified: Enable Cilium Clusterwide Network Policies on the cluster. Use --enable-cilium-clusterwide-network-policy to enable and --no-enable-cilium-clusterwide-network-policy to disable.
+    /// </summary>
+    [CliFlag("--no-enable-cilium-clusterwide-network-policy")]
+    public bool? NoEnableCiliumClusterwideNetworkPolicy { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable the cost management feature. When enabled, you can get informational GKE cost breakdowns by cluster, namespace and label in your billing data exported to BigQuery (https://cloud.google.com/billing/docs/how-to/export-data-bigquery). Use --no-enable-cost-allocation to disable this feature.
+    /// </summary>
+    [CliFlag("--enable-cost-allocation")]
+    public bool? EnableCostAllocation { get; set; }
+
+    /// <summary>
+    /// Negates --enable-cost-allocation. Exactly one of these must be specified: Enable the cost management feature. When enabled, you can get informational GKE cost breakdowns by cluster, namespace and label in your billing data exported to BigQuery (https://cloud.google.com/billing/docs/how-to/export-data-bigquery). Use --no-enable-cost-allocation to disable this feature.
+    /// </summary>
+    [CliFlag("--no-enable-cost-allocation")]
+    public bool? NoEnableCostAllocation { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable the default compute class to use for the cluster. To disable Default Compute Class in an existing cluster, explicitly set flag --no-enable-default-compute-class.
+    /// </summary>
+    [CliFlag("--enable-default-compute-class")]
+    public bool? EnableDefaultComputeClass { get; set; }
+
+    /// <summary>
+    /// Negates --enable-default-compute-class. Exactly one of these must be specified: Enable the default compute class to use for the cluster. To disable Default Compute Class in an existing cluster, explicitly set flag --no-enable-default-compute-class.
+    /// </summary>
+    [CliFlag("--no-enable-default-compute-class")]
+    public bool? NoEnableDefaultComputeClass { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable FQDN Network Policies on the cluster. FQDN Network Policies are disabled by default.
+    /// </summary>
+    [CliFlag("--enable-fqdn-network-policy")]
+    public bool? EnableFqdnNetworkPolicy { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable Identity Service component on the cluster. When enabled, users can authenticate to Kubernetes cluster with external identity providers. Identity Service is by default disabled when creating a new cluster. To disable Identity Service in an existing cluster, explicitly set flag --no-enable-identity-service.
+    /// </summary>
+    [CliFlag("--enable-identity-service")]
+    public bool? EnableIdentityService { get; set; }
+
+    /// <summary>
+    /// Negates --enable-identity-service. Exactly one of these must be specified: Enable Identity Service component on the cluster. When enabled, users can authenticate to Kubernetes cluster with external identity providers. Identity Service is by default disabled when creating a new cluster. To disable Identity Service in an existing cluster, explicitly set flag --no-enable-identity-service.
+    /// </summary>
+    [CliFlag("--no-enable-identity-service")]
+    public bool? NoEnableIdentityService { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable Image Streaming for the cluster, allowing nodes to stream container image data from Artifact Registry on demand to reduce container start times. This flag sets the default for new node pools. It is enabled by default on Autopilot clusters. See Image Streaming documentation (https://cloud.google.com/kubernetes-engine/docs/how-to/image-streaming) for full requirements (including version, API enablement and Artifact Registry usage). To disable Image Streaming for the cluster, use --no-enable-image-streaming.
+    /// </summary>
+    [CliFlag("--enable-image-streaming")]
+    public bool? EnableImageStreaming { get; set; }
+
+    /// <summary>
+    /// Negates --enable-image-streaming. Exactly one of these must be specified: Enable Image Streaming for the cluster, allowing nodes to stream container image data from Artifact Registry on demand to reduce container start times. This flag sets the default for new node pools. It is enabled by default on Autopilot clusters. See Image Streaming documentation (https://cloud.google.com/kubernetes-engine/docs/how-to/image-streaming) for full requirements (including version, API enablement and Artifact Registry usage). To disable Image Streaming for the cluster, use --no-enable-image-streaming.
+    /// </summary>
+    [CliFlag("--no-enable-image-streaming")]
+    public bool? NoEnableImageStreaming { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enables the Kubelet's insecure read only port. To disable the readonly port on a cluster or node-pool set the flag to --no-enable-insecure-kubelet-readonly-port.
+    /// </summary>
+    [CliFlag("--enable-insecure-kubelet-readonly-port")]
+    public bool? EnableInsecureKubeletReadonlyPort { get; set; }
+
+    /// <summary>
+    /// Negates --enable-insecure-kubelet-readonly-port. Exactly one of these must be specified: Enables the Kubelet's insecure read only port. To disable the readonly port on a cluster or node-pool set the flag to --no-enable-insecure-kubelet-readonly-port.
+    /// </summary>
+    [CliFlag("--no-enable-insecure-kubelet-readonly-port")]
+    public bool? NoEnableInsecureKubeletReadonlyPort { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable Intra-node visibility for this cluster. Enabling intra-node visibility makes your intra-node pod-to-pod traffic visible to the networking fabric. With this feature, you can use VPC flow logging or other VPC features for intra-node traffic. Enabling it on an existing cluster causes the cluster master and the cluster nodes to restart, which might cause a disruption.
+    /// </summary>
+    [CliFlag("--enable-intra-node-visibility")]
+    public bool? EnableIntraNodeVisibility { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enforces that kernel modules are signed on all new nodes in the cluster unless explicitly overridden with --no-enable-kernel-module-signature-enforcement when creating the nodepool. Use --no-enable-kernel-module-signature-enforcement to disable. Examples: $ gcloud container clusters update example-cluster \ --enable-kernel-module-signature-enforcement
+    /// </summary>
+    [CliFlag("--enable-kernel-module-signature-enforcement")]
+    public bool? EnableKernelModuleSignatureEnforcement { get; set; }
+
+    /// <summary>
+    /// Negates --enable-kernel-module-signature-enforcement. Exactly one of these must be specified: Enforces that kernel modules are signed on all new nodes in the cluster unless explicitly overridden with --no-enable-kernel-module-signature-enforcement when creating the nodepool. Use --no-enable-kernel-module-signature-enforcement to disable. Examples: $ gcloud container clusters update example-cluster \ --enable-kernel-module-signature-enforcement
+    /// </summary>
+    [CliFlag("--no-enable-kernel-module-signature-enforcement")]
+    public bool? NoEnableKernelModuleSignatureEnforcement { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable Kubernetes beta API features on this cluster. Beta APIs are not expected to be production ready and should be avoided in production-grade environments.
+    /// </summary>
+    [CliOption("--enable-kubernetes-unstable-apis", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? EnableKubernetesUnstableApis { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable Subsetting for L4 ILB services created on this cluster.
+    /// </summary>
+    [CliFlag("--enable-l4-ilb-subsetting")]
+    public bool? EnableL4IlbSubsetting { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enables the legacy ABAC authentication for the cluster. User rights are granted through the use of policies which combine attributes together. For a detailed look at these properties and related formats, see https://kubernetes.io/docs/admin/authorization/abac/. To use RBAC permissions instead, create or update your cluster with the option --no-enable-legacy-authorization.
+    /// </summary>
+    [CliFlag("--enable-legacy-authorization")]
+    public bool? EnableLegacyAuthorization { get; set; }
+
+    /// <summary>
+    /// Negates --enable-legacy-authorization. Exactly one of these must be specified: Enables the legacy ABAC authentication for the cluster. User rights are granted through the use of policies which combine attributes together. For a detailed look at these properties and related formats, see https://kubernetes.io/docs/admin/authorization/abac/. To use RBAC permissions instead, create or update your cluster with the option --no-enable-legacy-authorization.
+    /// </summary>
+    [CliFlag("--no-enable-legacy-authorization")]
+    public bool? NoEnableLegacyAuthorization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Allow the Lustre CSI driver to initialize LNet (the virtual network layer for Lustre kernel module) using port 6988. This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
+    /// </summary>
+    [CliFlag("--enable-legacy-lustre-port")]
+    public bool? EnableLegacyLustrePort { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enables multi-networking on the cluster. Multi-networking is disabled by default.
+    /// </summary>
+    [CliFlag("--enable-multi-networking")]
+    public bool? EnableMultiNetworking { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable network policy enforcement for this cluster. If you are enabling network policy on an existing cluster the network policy addon must first be enabled on the master by using --update-addons=NetworkPolicy=ENABLED flag.
+    /// </summary>
+    [CliFlag("--enable-network-policy")]
+    public bool? EnableNetworkPolicy { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Standard cluster: Enable private nodes as a default behavior for all newly created node pools, if --enable-private-nodes is not provided at node pool creation time. Modifications to this flag do not affect `--enable-private-nodes` state of the existing node pools. Autopilot cluster: Force new and existing workloads, without explicit cloud.google.com/private-node=true node selector, to run on nodes with no public IP address. Modifications to this flag trigger a re-schedule operation on all existng workloads to run on different node VMs.
+    /// </summary>
+    [CliFlag("--enable-private-nodes")]
+    public bool? EnablePrivateNodes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enables use of services with externalIPs field.
+    /// </summary>
+    [CliFlag("--enable-service-externalips")]
+    public bool? EnableServiceExternalips { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable Shielded Nodes for this cluster. Enabling Shielded Nodes will enable a more secure Node credential bootstrapping implementation. Starting with version 1.18, clusters will have Shielded GKE nodes by default.
+    /// </summary>
+    [CliFlag("--enable-shielded-nodes")]
+    public bool? EnableShieldedNodes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable Slice Controller for the cluster. Use --no-enable-slice-controller to disable.
+    /// </summary>
+    [CliFlag("--enable-slice-controller")]
+    public bool? EnableSliceController { get; set; }
+
+    /// <summary>
+    /// Negates --enable-slice-controller. Exactly one of these must be specified: Enable Slice Controller for the cluster. Use --no-enable-slice-controller to disable.
+    /// </summary>
+    [CliFlag("--no-enable-slice-controller")]
+    public bool? NoEnableSliceController { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: (DEPRECATED) Enable Cloud Operations for GKE. The --enable-stackdriver-kubernetes flag is deprecated and will be removed in an upcoming release. Please use --logging and --monitoring instead. For more information, please read: https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs and https://cloud.google.com/kubernetes-engine/docs/how-to/configure-metrics.
+    /// </summary>
+    [CliFlag("--enable-stackdriver-kubernetes")]
+    public bool? EnableStackdriverKubernetes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Flags for vertical pod autoscaling: Enable vertical pod autoscaling for a cluster.
+    /// </summary>
+    [CliFlag("--enable-vertical-pod-autoscaling")]
+    public bool? EnableVerticalPodAutoscaling { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enables GKE Gateway controller in this cluster. The value of the flag specifies which Open Source Gateway API release channel will be used to define Gateway resources. GATEWAY_API must be one of: disabled Gateway controller will be disabled in the cluster. standard Gateway controller will be enabled in the cluster. Resource definitions from the standard OSS Gateway API release channel will be installed.
+    /// </summary>
+    [CliOption("--gateway-api", Format = OptionFormat.EqualsSeparated)]
+    public string? GatewayApi { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Ask the server to generate a secure password and use that as the basic auth password, keeping the existing username.
+    /// </summary>
+    [CliFlag("--generate-password")]
+    public bool? GeneratePassword { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Set Horizontal Pod Autoscaler behavior. Accepted values are: none, performance. For more information, see https://cloud.google.com/kubernetes-engine/docs/how-to/horizontal-pod-autoscaling#hpa-profile.
+    /// </summary>
+    [CliOption("--hpa-profile", Format = OptionFormat.EqualsSeparated)]
+    public string? HpaProfile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable Dataplane V2 in-transit encryption. Dataplane v2 in-transit encryption is disabled by default. IN_TRANSIT_ENCRYPTION must be one of: inter-node-transparent, none.
+    /// </summary>
+    [CliOption("--in-transit-encryption", Format = OptionFormat.EqualsSeparated)]
+    public GcloudInTransitEncryption? InTransitEncryption { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Specifies the logging variant that will be deployed on all the nodes in the cluster. Valid logging variants are MAX_THROUGHPUT, DEFAULT. If no value is specified, DEFAULT is used. LOGGING_VARIANT must be one of: DEFAULT 'DEFAULT' variant requests minimal resources but may not guarantee high throughput. MAX_THROUGHPUT 'MAX_THROUGHPUT' variant requests more node resources and is able to achieve logging throughput up to 10MB per sec.
+    /// </summary>
+    [CliOption("--logging-variant", Format = OptionFormat.EqualsSeparated)]
+    public string? LoggingVariant { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Set a time of day when you prefer maintenance to start on this cluster. For example: $ gcloud container clusters update example-cluster \ --maintenance-window=12:43 The time corresponds to the UTC time zone, and must be in HH:MM format. Non-emergency maintenance will occur in the 4 hour block starting at the specified time. This is mutually exclusive with the recurring maintenance windows and will overwrite any existing window. Compatible with maintenance exclusions. To remove an existing maintenance window from the cluster, use '--clear-maintenance-window'.
+    /// </summary>
+    [CliOption("--maintenance-window", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindow { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Configures network performance settings for the cluster. Node pools can override with their own settings. total-egress-bandwidth-tier Total egress bandwidth is the available outbound bandwidth from a VM, regardless of whether the traffic is going to internal IP or external IP destinations. The following tier values are allowed: [TIER_UNSPECIFIED,TIER_1]. See https://cloud.google.com/compute/docs/networking/configure-vm-with-high-bandwidth-configuration for more information.
+    /// </summary>
+    [CliOption("--network-performance-configs", Format = OptionFormat.EqualsSeparated)]
+    public string? NetworkPerformanceConfigs { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Configures node creation mode for the cluster, either via kubelet or via control plane. NODE_CREATION_MODE must be one of: CONTROL_PLANE registers nodes via control plane; kubelet registration will be rejected. This selection will not take effect if you turn off Shielded Nodes. KUBELET registers nodes via kubelet.
+    /// </summary>
+    [CliOption("--node-creation-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? NodeCreationMode { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The set of zones in which the specified node footprint should be replicated. All zones must be in the same region as the cluster's master(s), specified by the -location, --zone, or --region flag. Additionally, for zonal clusters, --node-locations must contain the cluster's primary zone. If not specified, all nodes will be in the cluster's primary zone (for zonal clusters) or spread across three randomly chosen zones within the cluster's region (for regional clusters). Note that NUM_NODES nodes will be created in each zone, such that if you specify --num-nodes=4 and choose two locations, 8 nodes will be created. Multiple locations can be specified, separated by commas. For example: $ gcloud container clusters update example-cluster \ --location us-central1-a \ --node-locations us-central1-a,us-central1-b
+    /// </summary>
+    [CliOption("--node-locations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NodeLocations { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The notification configuration of the cluster. GKE supports publishing cluster upgrade notifications to any Pub/Sub topic you created in the same project. Create a subscription for the topic specified to receive notification messages. See https://cloud.google.com/pubsub/docs/admin on how to manage Pub/Sub topics and subscriptions. You can also use the filter option to specify which event types you'd like to receive from the following options: SecurityBulletinEvent, UpgradeEvent, UpgradeInfoEvent, UpgradeAvailableEvent. Examples: $ gcloud container clusters update example-cluster \ --notification-config=pubsub=ENABLED,pubsub-topic=projects/\ {project}/topics/{topic-name} $ gcloud container clusters update example-cluster \ --notification-config=pubsub=ENABLED,pubsub-topic=projects/\ {project}/topics/{topic-name},\ filter="SecurityBulletinEvent|UpgradeEvent" The project of the Pub/Sub topic must be the same one as the cluster. It can be either the project ID or the project number.
+    /// </summary>
+    [CliOption("--notification-config", Format = OptionFormat.EqualsSeparated)]
+    public string? NotificationConfig { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The patch update to use for the cluster. Setting to 'accelerated' automatically upgrades the cluster to the latest patch available within the cluster's current minor version and release channel. Setting to 'default' automatically upgrades the cluster to the default patch upgrade targetversion available within the cluster's current minor version and release channel. PATCH_UPDATE must be one of: accelerated, default.
+    /// </summary>
+    [CliOption("--patch-update", Format = OptionFormat.EqualsSeparated)]
+    public GcloudPatchUpdate? PatchUpdate { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Sets the type of private access to Google services over IPv6. PRIVATE_IPV6_GOOGLE_ACCESS_TYPE must be one of: bidirectional Allows Google services to initiate connections to GKE pods in this cluster. This is not intended for common use, and requires previous integration with Google services. disabled Default value. Disables private access to Google services over IPv6. outbound-only Allows GKE pods to make fast, secure requests to Google services over IPv6. This is the most common use of private IPv6 access. $ gcloud alpha container clusters create \ --private-ipv6-google-access-type=disabled $ gcloud alpha container clusters create \ --private-ipv6-google-access-type=outbound-only $ gcloud alpha container clusters create \ --private-ipv6-google-access-type=bidirectional PRIVATE_IPV6_GOOGLE_ACCESS_TYPE must be one of: bidirectional, disabled, outbound-only.
+    /// </summary>
+    [CliOption("--private-ipv6-google-access-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudPrivateIpv6GoogleAccessType? PrivateIpv6GoogleAccessType { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Subscribe or unsubscribe this cluster to a release channel. When a cluster is subscribed to a release channel, Google maintains both the master version and the node version. Node auto-upgrade is enabled by default for release channel clusters and can be controlled via upgrade-scope exclusions (https://cloud.google.com/kubernetes-engine/docs/concepts/maintenance-windows-and-exclusions#scope_of_maintenance_to_exclude). CHANNEL must be one of: None Use 'None' to opt-out of any release channel. extended Clusters subscribed to 'extended' can remain on a minor version for 24 months from when the minor version is made available in the Regular channel. rapid 'rapid' channel is offered on an early access basis for customers who want to test new releases. WARNING: Versions available in the 'rapid' channel may be subject to unresolved issues with no known workaround and are not subject to any SLAs. regular Clusters subscribed to 'regular' receive versions that are considered GA quality. 'regular' is intended for production users who want to take advantage of new features. stable Clusters subscribed to 'stable' receive versions that are known to be stable and reliable in production.
+    /// </summary>
+    [CliOption("--release-channel", Format = OptionFormat.EqualsSeparated)]
+    public string? ReleaseChannel { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Remove Autopilot workload policies from the cluster. Examples: $ gcloud container clusters update example-cluster \ --remove-autopilot-workload-policies=allow-net-admin The only supported workload policy is 'allow-net-admin'.
+    /// </summary>
+    [CliOption("--remove-autopilot-workload-policies", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveAutopilotWorkloadPolicies { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Labels to remove from the Google Cloud resources in use by the Kubernetes Engine cluster. These are unrelated to Kubernetes labels. Examples: $ gcloud container clusters update example-cluster \ --remove-labels=label_a,label_b
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Remove Autopilot workload policies from the cluster. Examples: $ gcloud container clusters update example-cluster \ --remove-workload-policies=allow-net-admin The only supported workload policy is 'allow-net-admin'.
+    /// </summary>
+    [CliOption("--remove-workload-policies", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveWorkloadPolicies { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The name of the RBAC security group for use with Google security groups in Kubernetes RBAC (https://kubernetes.io/docs/reference/access-authn-authz/rbac/). To include group membership as part of the claims issued by Google during authentication, a group must be designated as a security group by including it as a direct member of this group. If unspecified, no groups will be returned for use with RBAC.
+    /// </summary>
+    [CliOption("--security-group", Format = OptionFormat.EqualsSeparated)]
+    public string? SecurityGroup { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Sets the mode of the Kubernetes security posture API's off-cluster features. To enable advanced mode explicitly set the flag to --security-posture=enterprise. To enable in standard mode explicitly set the flag to --security-posture=standard To disable in an existing cluster, explicitly set the flag to --security-posture=disabled. For more information on enablement, see https://cloud.google.com/kubernetes-engine/docs/concepts/about-security-posture-dashboard#feature-enablement. SECURITY_POSTURE must be one of: disabled, standard, enterprise.
+    /// </summary>
+    [CliOption("--security-posture", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSecurityPosture? SecurityPosture { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Set the basic auth password to the specified value, keeping the existing username.
+    /// </summary>
+    [CliFlag("--set-password")]
+    public bool? SetPassword { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: IP stack type of the cluster nodes. STACK_TYPE must be one of: ipv4, ipv4-ipv6.
+    /// </summary>
+    [CliOption("--stack-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudStackType? StackType { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Start the rotation of IP and credentials for this cluster. For example: $ gcloud container clusters update example-cluster \ --start-credential-rotation This causes the cluster to serve on two IPs, and will initiate a node upgrade to point to the new IP. See documentation for more details: https://cloud.google.com/kubernetes-engine/docs/how-to/credential-rotation.
+    /// </summary>
+    [CliFlag("--start-credential-rotation")]
+    public bool? StartCredentialRotation { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Start the rotation of this cluster to a new IP. For example: $ gcloud container clusters update example-cluster \ --start-ip-rotation This causes the cluster to serve on two IPs, and will initiate a node upgrade to point to the new IP. See documentation for more details: https://cloud.google.com/kubernetes-engine/docs/how-to/ip-rotation.
+    /// </summary>
+    [CliFlag("--start-ip-rotation")]
+    public bool? StartIpRotation { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: (DEPRECATED) Set the desired tier for the cluster. The --tier flag is deprecated. More info: https://cloud.google.com/kubernetes-engine/docs/release-notes#September_02_2025. TIER must be one of: standard, enterprise.
+    /// </summary>
+    [CliOption("--tier", Format = OptionFormat.EqualsSeparated)]
+    public GcloudTier? Tier { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Cluster addons to enable or disable. Options are HorizontalPodAutoscaling=ENABLED|DISABLED HttpLoadBalancing=ENABLED|DISABLED KubernetesDashboard=ENABLED|DISABLED NetworkPolicy=ENABLED|DISABLED BackupRestore=ENABLED|DISABLED CloudRun=ENABLED|DISABLED ConfigConnector=ENABLED|DISABLED NodeLocalDNS=ENABLED|DISABLED GcePersistentDiskCsiDriver=ENABLED|DISABLED GcpFilestoreCsiDriver=ENABLED|DISABLED GcsFuseCsiDriver=ENABLED|DISABLED NodeReadinessController=ENABLED|DISABLED
+    /// </summary>
+    [CliOption("--update-addons", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdateAddons { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Labels to apply to the Google Cloud resources in use by the Kubernetes Engine cluster. These are unrelated to Kubernetes labels. Examples: $ gcloud container clusters update example-cluster \ --update-labels=label_a=value1,label_b=value2
+    /// </summary>
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Add Autopilot workload policies to the cluster. Examples: $ gcloud container clusters update example-cluster \ --workload-policies=allow-net-admin The only supported workload policy is 'allow-net-admin'.
+    /// </summary>
+    [CliOption("--workload-policies", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkloadPolicies { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Enable Workload Identity on the cluster. When enabled, Kubernetes service accounts will be able to act as Cloud IAM Service Accounts, through the provided workload pool. Currently, the only accepted workload pool is the workload pool of the Cloud project containing the cluster, PROJECT_ID.svc.id.goog. For more information on Workload Identity, see https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
+    /// </summary>
+    [CliOption("--workload-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkloadPool { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Sets the mode of the Kubernetes security posture API's workload vulnerability scanning. To enable Advanced vulnerability insights mode explicitly set the flag to --workload-vulnerability-scanning=enterprise. To enable in standard mode explicitly set the flag to --workload-vulnerability-scanning=standard. To disable in an existing cluster, explicitly set the flag to --workload-vulnerability-scanning=disabled. For more information on enablement, see https://cloud.google.com/kubernetes-engine/docs/concepts/about-security-posture-dashboard#feature-enablement. WORKLOAD_VULNERABILITY_SCANNING must be one of: disabled, standard, enterprise.
+    /// </summary>
+    [CliOption("--workload-vulnerability-scanning", Format = OptionFormat.EqualsSeparated)]
+    public GcloudWorkloadVulnerabilityScanning? WorkloadVulnerabilityScanning { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Add additional subnetworks named "my-subnet" with pod ipv4 range named "my-range" to the cluster. Examples: $ gcloud container clusters update example-cluster \ --additional-ip-ranges=subnetwork=my-subnet,\ pod-ipv4-range=my-range
+    /// </summary>
+    [CliOption("--additional-ip-ranges", Format = OptionFormat.EqualsSeparated)]
+    public string? AdditionalIpRanges { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Additional subnetworks to be removed from the cluster. Examples: Remove pod range named "my-range" under additional subnetwork named "my-subnet" from the cluster. $ gcloud container clusters update example-cluster \ --remove-additional-ip-ranges=subnetwork=my-subnet,\ pod-ipv4-range=my-range Remove additional subnetwork named "my-subnet", including all the pod ipv4 ranges under the subnetwork. $ gcloud container clusters update example-cluster \ --remove-additional-ip-ranges=subnetwork=my-subnet
+    /// </summary>
+    [CliOption("--remove-additional-ip-ranges", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveAdditionalIpRanges { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Additional IP address ranges(by name) for pods that need to be added to the cluster. Examples: $ gcloud container clusters update example-cluster \ --additional-pod-ipv4-ranges=range1,range2
+    /// </summary>
+    [CliOption("--additional-pod-ipv4-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdditionalPodIpv4Ranges { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Previously added additional pod ranges(by name) for pods that are to be removed from the cluster. Examples: $ gcloud container clusters update example-cluster \ --remove-additional-pod-ipv4-ranges=range1,range2
+    /// </summary>
+    [CliOption("--remove-additional-pod-ipv4-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveAdditionalPodIpv4Ranges { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Enables Auto-Monitoring for a specific scope within the cluster. ALL: Enables Auto-Monitoring for all supported workloads within the cluster. NONE: Disables Auto-Monitoring. AUTO_MONITORING_SCOPE must be one of: ALL, NONE.
+    /// </summary>
+    [CliOption("--auto-monitoring-scope", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAutoMonitoringScope? AutoMonitoringScope { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Set the components that have logging enabled. Valid component values are: SYSTEM, WORKLOAD, API_SERVER, CONTROLLER_MANAGER, SCHEDULER, KCP_HPA, KCP_VPA, NONE For more information, see https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs#available-logs Examples: $ gcloud container clusters update --logging=SYSTEM $ gcloud container clusters update \ --logging=SYSTEM,API_SERVER,WORKLOAD $ gcloud container clusters update --logging=NONE
+    /// </summary>
+    [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Logging { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Specifies the scope of Managed OpenTelemetry within the cluster. COLLECTION_AND_INSTRUMENTATION_COMPONENTS: Enables GKE Managed OpenTelemetry Collector and other Instrumentations components like Instrumentation CRD within the cluster. NONE: Disables the GKE Managed OpenTelemetry. MANAGED_OTEL_SCOPE must be one of: COLLECTION_AND_INSTRUMENTATION_COMPONENTS, NONE.
+    /// </summary>
+    [CliOption("--managed-otel-scope", Format = OptionFormat.EqualsSeparated)]
+    public string? ManagedOtelScope { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Set the components that have monitoring enabled. Valid component values are: SYSTEM, WORKLOAD (Deprecated), NONE, API_SERVER, CONTROLLER_MANAGER, SCHEDULER, DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, JOBSET Note: DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, and JOBSET require Google Managed Prometheus to be enabled. For more information, see https://cloud.google.com/kubernetes-engine/docs/how-to/configure-metrics#available-metrics Examples: $ gcloud container clusters update --monitoring=SYSTEM,API_SERVER,POD $ gcloud container clusters update --monitoring=NONE
+    /// </summary>
+    [CliOption("--monitoring", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Monitoring { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Disable managed collection for Managed Service for Prometheus.
+    /// </summary>
+    [CliFlag("--disable-managed-prometheus")]
+    public bool? DisableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Enables managed collection for Managed Service for Prometheus in the cluster. See https://cloud.google.com/stackdriver/docs/managed-prometheus/setup-managed#enable-mgdcoll-gke for more info. Enabled by default for cluster versions 1.27 or greater, use --no-enable-managed-prometheus to disable.
+    /// </summary>
+    [CliFlag("--enable-managed-prometheus")]
+    public bool? EnableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Negates --enable-managed-prometheus. Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Enables managed collection for Managed Service for Prometheus in the cluster. See https://cloud.google.com/stackdriver/docs/managed-prometheus/setup-managed#enable-mgdcoll-gke for more info. Enabled by default for cluster versions 1.27 or greater, use --no-enable-managed-prometheus to disable.
+    /// </summary>
+    [CliFlag("--no-enable-managed-prometheus")]
+    public bool? NoEnableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Binary Authorization: At most one of these can be specified: Enable Binary Authorization for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: disabled, project-singleton-policy-enforce.
+    /// </summary>
+    [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? BinauthzEvaluationMode { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Binary Authorization: At most one of these can be specified: (DEPRECATED) Enable Binary Authorization for this cluster. The --enable-binauthz flag is deprecated. Please use --binauthz-evaluation-mode instead.
+    /// </summary>
+    [CliFlag("--enable-binauthz")]
+    public bool? EnableBinauthz { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Remove the cluster from current fleet host project. Example: $ gcloud container clusters update --clear-fleet-project
+    /// </summary>
+    [CliFlag("--clear-fleet-project")]
+    public bool? ClearFleetProject { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Set cluster project as the fleet host project. This will register the cluster to the same project. To register the cluster to a fleet in a different project, please use --fleet-project=FLEET_HOST_PROJECT. Example: $ gcloud container clusters update --enable-fleet
+    /// </summary>
+    [CliFlag("--enable-fleet")]
+    public bool? EnableFleet { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Sets fleet host project for the cluster. If specified, the current cluster will be registered as a fleet membership under the fleet host project. Example: $ gcloud container clusters update --fleet-project=my-project
+    /// </summary>
+    [CliOption("--fleet-project", Format = OptionFormat.EqualsSeparated)]
+    public int? FleetProject { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Specify a membership type for the cluster's fleet membership. Example: $ gcloud container clusters update --membership-type=LIGHTWEIGHT. \ MEMBERSHIP_TYPE must be (only one value is supported): LIGHTWEIGHT Fleet membership representing this cluster will be lightweight.
+    /// </summary>
+    [CliOption("--membership-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MembershipType { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Set the membership type for the cluster's fleet membership to empty. Example: $ gcloud container clusters update --unset-membership-type
+    /// </summary>
+    [CliFlag("--unset-membership-type")]
+    public bool? UnsetMembershipType { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for cluster disruption budget configuration: At most one of these can be specified: Restore the default values for the minimum interval of time between minor version cluster upgrades.
+    /// </summary>
+    [CliFlag("--clear-maintenance-minor-version-disruption-interval")]
+    public bool? ClearMaintenanceMinorVersionDisruptionInterval { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for cluster disruption budget configuration: At most one of these can be specified: Set the minimum interval of time between minor version cluster upgrades.
+    /// </summary>
+    [CliOption("--maintenance-minor-version-disruption-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceMinorVersionDisruptionInterval { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: At most one of these can be specified: Restore the default values for the minimum interval of time between patch version cluster upgrades.
+    /// </summary>
+    [CliFlag("--clear-maintenance-patch-version-disruption-interval")]
+    public bool? ClearMaintenancePatchVersionDisruptionInterval { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: At most one of these can be specified: Set the minimum interval of time between patch version cluster upgrades.
+    /// </summary>
+    [CliOption("--maintenance-patch-version-disruption-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenancePatchVersionDisruptionInterval { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: If set, remove the maintenance window that was set with --maintenance-window family of flags.
+    /// </summary>
+    [CliFlag("--clear-maintenance-window")]
+    public bool? ClearMaintenanceWindow { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Name of a maintenance exclusion to remove. If you hadn't specified a name, one was auto-generated. Get it with $ gcloud container clusters describe.
+    /// </summary>
+    [CliOption("--remove-maintenance-exclusion", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveMaintenanceExclusion { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Or at least one of these can be specified: Sets a period of time in which maintenance should not occur. This is compatible with both daily and recurring maintenance windows. If --add-maintenance-exclusion-scope is not specified, the exclusion will exclude all upgrades. Examples: $ gcloud container clusters update example-cluster \
+    /// </summary>
+    [CliOption("--add-maintenance-exclusion-name", Format = OptionFormat.EqualsSeparated)]
+    public string? AddMaintenanceExclusionName { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Or at least one of these can be specified: Sets a period of time in which maintenance should not occur. This is compatible with both daily and recurring maintenance windows. If --add-maintenance-exclusion-scope is not specified, the exclusion will exclude all upgrades. Examples: $ gcloud container clusters update example-cluster \
+    /// </summary>
+    [CliOption("--add-maintenance-exclusion-start", Format = OptionFormat.EqualsSeparated)]
+    public string? AddMaintenanceExclusionStart { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Or at least one of these can be specified: Sets a period of time in which maintenance should not occur. This is compatible with both daily and recurring maintenance windows. If --add-maintenance-exclusion-scope is not specified, the exclusion will exclude all upgrades. Examples: $ gcloud container clusters update example-cluster \
+    /// </summary>
+    [CliOption("--add-maintenance-exclusion-end", Format = OptionFormat.EqualsSeparated)]
+    public string? AddMaintenanceExclusionEnd { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Or at least one of these can be specified: Sets a period of time in which maintenance should not occur. This is compatible with both daily and recurring maintenance windows. If --add-maintenance-exclusion-scope is not specified, the exclusion will exclude all upgrades. Examples: $ gcloud container clusters update example-cluster \
+    /// </summary>
+    [CliOption("--add-maintenance-exclusion-scope", Format = OptionFormat.EqualsSeparated)]
+    public string? AddMaintenanceExclusionScope { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Exactly one of these must be specified: End time of the exclusion window is the end of the cluster's support.
+    /// </summary>
+    [CliFlag("--add-maintenance-exclusion-until-end-of-support")]
+    public bool? AddMaintenanceExclusionUntilEndOfSupport { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Or at least one of these can be specified: Set a flexible maintenance window by specifying a window that recurs per an RFC 5545 RRULE. Non-emergency maintenance will occur in the recurring windows. Examples: For a 9-5 Mon-Wed UTC-4 maintenance window: $ gcloud container clusters update example-cluster \
+    /// </summary>
+    [CliOption("--maintenance-window-start", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowStart { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Or at least one of these can be specified: Set a flexible maintenance window by specifying a window that recurs per an RFC 5545 RRULE. Non-emergency maintenance will occur in the recurring windows. Examples: For a 9-5 Mon-Wed UTC-4 maintenance window: $ gcloud container clusters update example-cluster \
+    /// </summary>
+    [CliOption("--maintenance-window-end", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowEnd { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: --maintenance-window-recurrence='FREQ=WEEKLY;BYDAY=MO,TU,WE' For a daily window from 22:00 - 04:00 UTC: $ gcloud container clusters update example-cluster \
+    /// </summary>
+    [CliOption("--maintenance-window-recurrence", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowRecurrence { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Exactly one of these must be specified: The duration of maintenance windows, expressed as an ISO 8601 duration (https://en.wikipedia.org/wiki/ISO_8601#Durations) in hours, minutes, and seconds. You must set a maintenance window to at least 4 hours (4H). Use this flag or the --maintenance-window-end flag for the duration of the maintenance window.
+    /// </summary>
+    [CliOption("--maintenance-window-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowDuration { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Exports cluster's usage of cloud resources Disables exporting cluster resource usage to BigQuery.
+    /// </summary>
+    [CliFlag("--clear-resource-usage-bigquery-dataset")]
+    public bool? ClearResourceUsageBigqueryDataSet { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Exports cluster's usage of cloud resources Or at least one of these can be specified: Enable network egress metering on this cluster. When enabled, a DaemonSet is deployed into the cluster. Each DaemonSet pod meters network egress traffic by collecting data from the conntrack table, and exports the metered metrics to the specified destination. Network egress metering is disabled if this flag is omitted, or when --no-enable-network-egress-metering is set.
+    /// </summary>
+    [CliFlag("--enable-network-egress-metering")]
+    public bool? EnableNetworkEgressMetering { get; set; }
+
+    /// <summary>
+    /// Negates --enable-network-egress-metering. Exactly one of these must be specified: Or at most one of these can be specified: Exports cluster's usage of cloud resources Or at least one of these can be specified: Enable network egress metering on this cluster. When enabled, a DaemonSet is deployed into the cluster. Each DaemonSet pod meters network egress traffic by collecting data from the conntrack table, and exports the metered metrics to the specified destination. Network egress metering is disabled if this flag is omitted, or when --no-enable-network-egress-metering is set.
+    /// </summary>
+    [CliFlag("--no-enable-network-egress-metering")]
+    public bool? NoEnableNetworkEgressMetering { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Exports cluster's usage of cloud resources Or at least one of these can be specified: Enable resource consumption metering on this cluster. When enabled, a table will be created in the specified BigQuery dataset to store resource consumption data. The resulting table can be joined with the resource usage table or with BigQuery billing export. To disable resource consumption metering, set --no-enable-resource-consumption- metering. If this flag is omitted, then resource consumption metering will remain enabled or disabled depending on what is already configured for this cluster.
+    /// </summary>
+    [CliFlag("--enable-resource-consumption-metering")]
+    public bool? EnableResourceConsumptionMetering { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Exports cluster's usage of cloud resources Or at least one of these can be specified: The name of the BigQuery dataset to which the cluster's usage of cloud resources is exported. A table will be created in the specified dataset to store cluster resource usage. The resulting table can be joined with BigQuery Billing Export to produce a fine-grained cost breakdown. Examples: $ gcloud container clusters update example-cluster \ --resource-usage-bigquery-dataset=example_bigquery_dataset_name
+    /// </summary>
+    [CliOption("--resource-usage-bigquery-dataset", Format = OptionFormat.EqualsSeparated)]
+    public string? ResourceUsageBigqueryDataSet { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: ClusterDNS DNS provider to use for this cluster. CLUSTER_DNS must be one of: clouddns Selects Cloud DNS as the DNS provider for the cluster. default Selects the default DNS provider (kube-dns) for the cluster. kubedns Selects Kube DNS as the DNS provider for the cluster.
+    /// </summary>
+    [CliOption("--cluster-dns", Format = OptionFormat.EqualsSeparated)]
+    public string? ClusterDns { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: ClusterDNS DNS domain for this cluster. The default value is cluster.local. This is configurable when --cluster-dns=clouddns and --cluster-dns-scope=vpc are set. The value must be a valid DNS subdomain as defined in RFC 1123.
+    /// </summary>
+    [CliOption("--cluster-dns-domain", Format = OptionFormat.EqualsSeparated)]
+    public string? ClusterDnsDomain { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: ClusterDNS DNS scope for the Cloud DNS zone created - valid only with --cluster-dns=clouddns. Defaults to cluster. CLUSTER_DNS_SCOPE must be one of: cluster Configures the Cloud DNS zone to be private to the cluster. vpc Configures the Cloud DNS zone to be private to the VPC Network.
+    /// </summary>
+    [CliOption("--cluster-dns-scope", Format = OptionFormat.EqualsSeparated)]
+    public string? ClusterDnsScope { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: ClusterDNS At most one of these can be specified: The domain used in Additive VPC scope. Only works with Cluster Scope.
+    /// </summary>
+    [CliOption("--additive-vpc-scope-dns-domain", Format = OptionFormat.EqualsSeparated)]
+    public string? AdditiveVpcScopeDnsDomain { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: ClusterDNS At most one of these can be specified: Disables Additive VPC Scope.
+    /// </summary>
+    [CliFlag("--disable-additive-vpc-scope")]
+    public bool? DisableAdditiveVpcScope { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: (REMOVED) Select Advanced Datapath Observability mode for the cluster. Defaults to DISABLED. Advanced Datapath Observability allows for a real-time view into pod-to-pod traffic within your cluster. Examples: $ gcloud container clusters update \ --dataplane-v2-observability-mode=DISABLED $ gcloud container clusters update \ --dataplane-v2-observability-mode=INTERNAL_VPC_LB $ gcloud container clusters update \ --dataplane-v2-observability-mode=EXTERNAL_LB Flag --dataplane-v2-observability-mode has been removed. DATAPLANE_V2_OBSERVABILITY_MODE must be one of: DISABLED Disables Advanced Datapath Observability. EXTERNAL_LB Makes Advanced Datapath Observability available to the external network. INTERNAL_VPC_LB Makes Advanced Datapath Observability available from the VPC network.
+    /// </summary>
+    [CliOption("--dataplane-v2-observability-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? DataplaneV2ObservabilityMode { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Disables Advanced Datapath Observability.
+    /// </summary>
+    [CliFlag("--disable-dataplane-v2-flow-observability")]
+    public bool? DisableDataplaneV2FlowObservability { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: At most one of these can be specified: Enables Advanced Datapath Observability which allows for a real-time view into pod-to-pod traffic within your cluster.
+    /// </summary>
+    [CliFlag("--enable-dataplane-v2-flow-observability")]
+    public bool? EnableDataplaneV2FlowObservability { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: At most one of these can be specified: Stops exposing advanced datapath flow metrics on node port.
+    /// </summary>
+    [CliFlag("--disable-dataplane-v2-metrics")]
+    public bool? DisableDataplaneV2Metrics { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: At most one of these can be specified: Exposes advanced datapath flow metrics on node port.
+    /// </summary>
+    [CliFlag("--enable-dataplane-v2-metrics")]
+    public bool? EnableDataplaneV2Metrics { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Disable the Auto IP Address Management (Auto IPAM) feature for the cluster.
+    /// </summary>
+    [CliFlag("--disable-auto-ipam")]
+    public bool? DisableAutoIpam { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Enable the Auto IP Address Management (Auto IPAM) feature for the cluster.
+    /// </summary>
+    [CliFlag("--enable-auto-ipam")]
+    public bool? EnableAutoIpam { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Disable reconciliation on the cluster for L4 Load Balancer VPC firewalls targeting ingress traffic.
+    /// </summary>
+    [CliFlag("--disable-l4-lb-firewall-reconciliation")]
+    public bool? DisableL4LbFirewallReconciliation { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Enable reconciliation on the cluster for L4 Load Balancer VPC firewalls targeting ingress traffic. L4 LB VPC firewall reconciliation is enabled by default.
+    /// </summary>
+    [CliFlag("--enable-l4-lb-firewall-reconciliation")]
+    public bool? EnableL4LbFirewallReconciliation { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Disable the Pod Snapshot feature on the cluster.
+    /// </summary>
+    [CliFlag("--disable-pod-snapshots")]
+    public bool? DisablePodSnapshots { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at most one of these can be specified: Enable the Pod Snapshot feature on the cluster.
+    /// </summary>
+    [CliFlag("--enable-pod-snapshots")]
+    public bool? EnablePodSnapshots { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Master Authorized Networks Enable enforcement of --master-authorized-networks CIDR ranges for traffic reaching cluster's control plane via private IP.
+    /// </summary>
+    [CliFlag("--enable-authorized-networks-on-private-endpoint")]
+    public bool? EnableAuthorizedNetworksOnPrivateEndpoint { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Master Authorized Networks Enable access to the cluster's control plane over DNS-based endpoint. DNS-based control plane access is recommended.
+    /// </summary>
+    [CliFlag("--enable-dns-access")]
+    public bool? EnableDnsAccess { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Master Authorized Networks When you enable Google Cloud Access, any public IP addresses owned by Google Cloud can reach the public control plane endpoint of your cluster.
+    /// </summary>
+    [CliFlag("--enable-google-cloud-access")]
+    public bool? EnableGoogleCloudAccess { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Master Authorized Networks Enable access to the cluster's control plane over private IP and public IP if --enable-private-endpoint is not enabled.
+    /// </summary>
+    [CliFlag("--enable-ip-access")]
+    public bool? EnableIpAccess { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Master Authorized Networks Enable K8s client certificates Authentication to the cluster's control plane over DNS-based endpoint.
+    /// </summary>
+    [CliFlag("--enable-k8s-certs-via-dns")]
+    public bool? EnableK8sCertsViaDns { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Master Authorized Networks Enable K8s Service Account tokens Authentication to the cluster's control plane over DNS-based endpoint.
+    /// </summary>
+    [CliFlag("--enable-k8s-tokens-via-dns")]
+    public bool? EnableK8sTokensViaDns { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Master Authorized Networks Use with private clusters to allow access to the master's private endpoint from any Google Cloud region or on-premises environment regardless of the private cluster's region.
+    /// </summary>
+    [CliFlag("--enable-master-global-access")]
+    public bool? EnableMasterGlobalAccess { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Master Authorized Networks Enables cluster's control plane to be accessible using private IP address only.
+    /// </summary>
+    [CliFlag("--enable-private-endpoint")]
+    public bool? EnablePrivateEndpoint { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Master Authorized Networks Allow only specified set of CIDR blocks (specified by the --master-authorized-networks flag) to connect to Kubernetes master through HTTPS. Besides these blocks, the following have access as well: 1) The private network the cluster connects to if `--enable-private-nodes` is specified. 2) Google Compute Engine Public IPs if `--enable-private-nodes` is not specified. Use --no-enable-master-authorized-networks to disable. When disabled, public internet (0.0.0.0/0) is allowed to connect to Kubernetes master through HTTPS.
+    /// </summary>
+    [CliFlag("--enable-master-authorized-networks")]
+    public bool? EnableMasterAuthorizedNetworks { get; set; }
+
+    /// <summary>
+    /// Negates --enable-master-authorized-networks. Exactly one of these must be specified: Or at least one of these can be specified: Master Authorized Networks Allow only specified set of CIDR blocks (specified by the --master-authorized-networks flag) to connect to Kubernetes master through HTTPS. Besides these blocks, the following have access as well: 1) The private network the cluster connects to if `--enable-private-nodes` is specified. 2) Google Compute Engine Public IPs if `--enable-private-nodes` is not specified. Use --no-enable-master-authorized-networks to disable. When disabled, public internet (0.0.0.0/0) is allowed to connect to Kubernetes master through HTTPS.
+    /// </summary>
+    [CliFlag("--no-enable-master-authorized-networks")]
+    public bool? NoEnableMasterAuthorizedNetworks { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Master Authorized Networks The list of CIDR blocks (up to 100 for private cluster, 50 for public cluster) that are allowed to connect to Kubernetes master through HTTPS. Specified in CIDR notation (e.g. 1.2.3.4/30). Cannot be specified unless --enable-master-authorized-networks is also specified.
+    /// </summary>
+    [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? MasterAuthorizedNetworks { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning Enables node autoprovisioning for a cluster. Cluster Autoscaler will be able to create new node pools. Requires maximum CPU and memory limits to be specified.
+    /// </summary>
+    [CliFlag("--enable-autoprovisioning")]
+    public bool? EnableAutoprovisioning { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Path of the JSON/YAML file which contains information about the cluster's node autoprovisioning configuration. Currently it contains a list of resource limits, identity defaults for autoprovisioning, node upgrade settings, node management settings, minimum cpu platform, image type, node locations for autoprovisioning, disk type and size configuration, Shielded instance settings, and customer-managed encryption keys settings. Resource limits are specified in the field 'resourceLimits'. Each resource limits definition contains three fields: resourceType, maximum and minimum. Resource type can be "cpu", "memory" or an accelerator (e.g. "nvidia-tesla-t4" for NVIDIA T4). Use gcloud compute accelerator-types list to learn about available accelerator types. Maximum is the maximum allowed amount with the unit of the resource. Minimum is the minimum allowed amount with the unit of the resource. Identity default contains at most one of the below fields: serviceAccount: The Google Cloud Platform Service Account to be used by node VMs in autoprovisioned node pools. If not specified, the project's default service account is used. scopes: A list of scopes to be used by node instances in autoprovisioned node pools. Multiple scopes can be specified, separated by commas. For information on defaults, look at: https://cloud.google.com/sdk/gcloud/reference/container/clusters/create#--scopes Node Upgrade settings are specified under the field 'upgradeSettings', which has the following fields: maxSurgeUpgrade: Number of extra (surge) nodes to be created on each upgrade of an autoprovisioned node pool. maxUnavailableUpgrade: Number of nodes that can be unavailable at the same time on each upgrade of an autoprovisioned node pool. Node Management settings are specified under the field 'management', which has the following fields: autoUpgrade: A boolean field that indicates if node autoupgrade is enabled for autoprovisioned node pools. autoRepair: A boolean field that indicates if node autorepair is enabled for autoprovisioned node pools. minCpuPlatform (deprecated): If specified, new autoprovisioned nodes will be scheduled on host with specified CPU architecture or a newer one. Note: Min CPU platform can only be specified in Beta and Alpha. Autoprovisioned node image is specified under the 'imageType' field. If not specified the default value will be applied. Autoprovisioning locations is a set of zones where new node pools can be created by Autoprovisioning. Autoprovisioning locations are specified in the field 'autoprovisioningLocations'. All zones must be in the same region as the cluster's master(s). Disk type and size are specified under the 'diskType' and 'diskSizeGb' fields, respectively. If specified, new autoprovisioned nodes will be created with custom boot disks configured by these settings. Shielded instance settings are specified under the 'shieldedInstanceConfig' field, which has the following fields: enableSecureBoot: A boolean field that indicates if secure boot is enabled for autoprovisioned nodes. enableIntegrityMonitoring: A boolean field that indicates if integrity monitoring is enabled for autoprovisioned nodes. Customer Managed Encryption Keys (CMEK) used by new auto-provisioned node pools can be specified in the 'bootDiskKmsKey' field. Use a full or relative path to a local file containing the value of autoprovisioning_config_file.
+    /// </summary>
+    [CliOption("--autoprovisioning-config-file", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoprovisioningConfigFile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Node Autoprovisioning will create new nodes with the specified image type
+    /// </summary>
+    [CliOption("--autoprovisioning-image-type", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoprovisioningImageType { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Set of zones where new node pools can be created by autoprovisioning. All zones must be in the same region as the cluster's master(s). Multiple locations can be specified, separated by commas.
+    /// </summary>
+    [CliOption("--autoprovisioning-locations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AutoprovisioningLocations { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: (DEPRECATED) If specified, new autoprovisioned nodes will be scheduled on host with specified CPU architecture or a newer one. The --autoprovisioning-min-cpu-platform flag is deprecated and will be removed in an upcoming release. More info: https://cloud.google.com/kubernetes-engine/docs/release-notes#March_08_2022
+    /// </summary>
+    [CliOption("--autoprovisioning-min-cpu-platform", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoprovisioningMinCpuPlatform { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Maximum number of cores in the cluster. Maximum number of cores to which the cluster can scale. Required to be set when --enable-autoprovisioning is used.
+    /// </summary>
+    [CliOption("--max-cpu", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxCpu { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Maximum memory in the cluster. Maximum number of gigabytes of memory to which the cluster can scale. Required to be set when --enable-autoprovisioning is used.
+    /// </summary>
+    [CliOption("--max-memory", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxMemory { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Minimum number of cores in the cluster. Minimum number of cores to which the cluster can scale.
+    /// </summary>
+    [CliOption("--min-cpu", Format = OptionFormat.EqualsSeparated)]
+    public string? MinCpu { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Minimum memory in the cluster. Minimum number of gigabytes of memory to which the cluster can scale.
+    /// </summary>
+    [CliOption("--min-memory", Format = OptionFormat.EqualsSeparated)]
+    public string? MinMemory { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Number of extra (surge) nodes to be created on each upgrade of an autoprovisioned node pool.
+    /// </summary>
+    [CliOption("--autoprovisioning-max-surge-upgrade", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoprovisioningMaxSurgeUpgrade { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Number of nodes that can be unavailable at the same time on each upgrade of an autoprovisioned node pool.
+    /// </summary>
+    [CliOption("--autoprovisioning-max-unavailable-upgrade", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoprovisioningMaxUnavailableUpgrade { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Time in seconds to be spent waiting during blue-green upgrade before deleting the blue pool and completing the update. This argument should be used in conjunction with --enable-autoprovisioning-blue-green-upgrade to take effect.
+    /// </summary>
+    [CliOption("--autoprovisioning-node-pool-soak-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoprovisioningNodePoolSoakDuration { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Standard rollout policy options for blue-green upgrade. This argument should be used in conjunction with --enable-autoprovisioning-blue-green-upgrade to take effect. Batch sizes are specified by one of, batch-node-count or batch-percent. The duration between batches is specified by batch-soak-duration. Example: --standard-rollout-policy=batch-node-count=3,batch-soak-duration=60s --standard-rollout-policy=batch-percent=0.05,batch-soak-duration=180s
+    /// </summary>
+    [CliOption("--autoprovisioning-standard-rollout-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoprovisioningStandardRolloutPolicy { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Flag group to choose the top level upgrade option: At most one of these can be specified: Whether to use blue-green upgrade for the autoprovisioned node pool.
+    /// </summary>
+    [CliFlag("--enable-autoprovisioning-blue-green-upgrade")]
+    public bool? EnableAutoprovisioningBlueGreenUpgrade { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Flag group to choose the top level upgrade option: At most one of these can be specified: Whether to use surge upgrade for the autoprovisioned node pool.
+    /// </summary>
+    [CliFlag("--enable-autoprovisioning-surge-upgrade")]
+    public bool? EnableAutoprovisioningSurgeUpgrade { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: The scopes to be used by node instances in autoprovisioned node pools. Multiple scopes can be specified, separated by commas. For information on defaults, look at: https://cloud.google.com/sdk/gcloud/reference/container/clusters/create#--scopes
+    /// </summary>
+    [CliOption("--autoprovisioning-scopes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AutoprovisioningScopes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: The Google Cloud Platform Service Account to be used by node VMs in autoprovisioned node pools. If not specified, the project default service account is used.
+    /// </summary>
+    [CliOption("--autoprovisioning-service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoprovisioningServiceAccount { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Enable node autorepair for autoprovisioned node pools. Use --no-enable-autoprovisioning-autorepair to disable. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--enable-autoprovisioning-autorepair")]
+    public bool? EnableAutoprovisioningAutorepair { get; set; }
+
+    /// <summary>
+    /// Negates --enable-autoprovisioning-autorepair. Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Enable node autorepair for autoprovisioned node pools. Use --no-enable-autoprovisioning-autorepair to disable. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--no-enable-autoprovisioning-autorepair")]
+    public bool? NoEnableAutoprovisioningAutorepair { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Enable node autoupgrade for autoprovisioned node pools. Use --no-enable-autoprovisioning-autoupgrade to disable. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--enable-autoprovisioning-autoupgrade")]
+    public bool? EnableAutoprovisioningAutoupgrade { get; set; }
+
+    /// <summary>
+    /// Negates --enable-autoprovisioning-autoupgrade. Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Enable node autoupgrade for autoprovisioned node pools. Use --no-enable-autoprovisioning-autoupgrade to disable. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--no-enable-autoprovisioning-autoupgrade")]
+    public bool? NoEnableAutoprovisioningAutoupgrade { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Sets maximum limit for a single type of accelerators (e.g. GPUs) in cluster. type (Required) The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator for which the limit is set. Use gcloud compute accelerator-types list to learn about all available accelerator types. count (Required) The maximum number of accelerators to which the cluster can be scaled. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--max-accelerator", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxAccelerator { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Node autoprovisioning At most one of these can be specified: Or at least one of these can be specified: Flags to configure autoprovisioned nodes Flags to specify upgrade settings for autoprovisioned nodes: Flags to specify identity for autoprovisioned nodes: Flags to specify node management settings for autoprovisioned nodes: Arguments to set limits on accelerators: Sets minimum limit for a single type of accelerators (e.g. GPUs) in cluster. Defaults to 0 for all accelerator types if it isn't set. type (Required) The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4) of accelerator for which the limit is set. Use gcloud compute accelerator-types list to learn about all available accelerator types. count (Required) The minimum number of accelerators to which the cluster can be scaled.
+    /// </summary>
+    [CliOption("--min-accelerator", Format = OptionFormat.EqualsSeparated)]
+    public string? MinAccelerator { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Allow using system:authenticated as a subject in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:authenticated is a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-authenticated flag instead.
+    /// </summary>
+    [CliFlag("--enable-insecure-binding-system-authenticated")]
+    public bool? EnableInsecureBindingSystemAuthenticated { get; set; }
+
+    /// <summary>
+    /// Negates --enable-insecure-binding-system-authenticated. Exactly one of these must be specified: Or at least one of these can be specified: Allow using system:authenticated as a subject in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:authenticated is a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-authenticated flag instead.
+    /// </summary>
+    [CliFlag("--no-enable-insecure-binding-system-authenticated")]
+    public bool? NoEnableInsecureBindingSystemAuthenticated { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Allow using system:unauthenticated and system:anonymous as subjects in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:unauthenticated and system:anonymous are a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-unauthenticated flag instead.
+    /// </summary>
+    [CliFlag("--enable-insecure-binding-system-unauthenticated")]
+    public bool? EnableInsecureBindingSystemUnauthenticated { get; set; }
+
+    /// <summary>
+    /// Negates --enable-insecure-binding-system-unauthenticated. Exactly one of these must be specified: Or at least one of these can be specified: Allow using system:unauthenticated and system:anonymous as subjects in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:unauthenticated and system:anonymous are a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-unauthenticated flag instead.
+    /// </summary>
+    [CliFlag("--no-enable-insecure-binding-system-unauthenticated")]
+    public bool? NoEnableInsecureBindingSystemUnauthenticated { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: (DEPRECATED) Logging service to use for the cluster. Options are: "logging.googleapis.com/kubernetes" (the Google Cloud Logging service with Kubernetes-native resource model enabled), "logging.googleapis.com" (the Google Cloud Logging service), "none" (logs will not be exported from the cluster) The --logging-service flag is deprecated and will be removed in an upcoming release. Please use --logging instead. For more information, please read: https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs.
+    /// </summary>
+    [CliOption("--logging-service", Format = OptionFormat.EqualsSeparated)]
+    public string? LoggingService { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: (DEPRECATED) Monitoring service to use for the cluster. Options are: "monitoring.googleapis.com/kubernetes" (the Google Cloud Monitoring service with Kubernetes-native resource model enabled), "monitoring.googleapis.com" (the Google Cloud Monitoring service), "none" (no metrics will be exported from the cluster) The --monitoring-service flag is deprecated and will be removed in an upcoming release. Please use --monitoring instead. For more information, please read: https://cloud.google.com/kubernetes-engine/docs/how-to/configure-metrics.
+    /// </summary>
+    [CliOption("--monitoring-service", Format = OptionFormat.EqualsSeparated)]
+    public string? MonitoringService { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Enable automatic log processing sidecar for Ray clusters. Use --enable-ray-cluster-logging to enable and --no-enable-ray-cluster-logging to disable.
+    /// </summary>
+    [CliFlag("--enable-ray-cluster-logging")]
+    public bool? EnableRayClusterLogging { get; set; }
+
+    /// <summary>
+    /// Negates --enable-ray-cluster-logging. Exactly one of these must be specified: Or at least one of these can be specified: Enable automatic log processing sidecar for Ray clusters. Use --enable-ray-cluster-logging to enable and --no-enable-ray-cluster-logging to disable.
+    /// </summary>
+    [CliFlag("--no-enable-ray-cluster-logging")]
+    public bool? NoEnableRayClusterLogging { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Enable automatic metrics collection for Ray clusters. Use --enable-ray-cluster-monitoring to enable and --no-enable-ray-cluster-monitoring to disable.
+    /// </summary>
+    [CliFlag("--enable-ray-cluster-monitoring")]
+    public bool? EnableRayClusterMonitoring { get; set; }
+
+    /// <summary>
+    /// Negates --enable-ray-cluster-monitoring. Exactly one of these must be specified: Or at least one of these can be specified: Enable automatic metrics collection for Ray clusters. Use --enable-ray-cluster-monitoring to enable and --no-enable-ray-cluster-monitoring to disable.
+    /// </summary>
+    [CliFlag("--no-enable-ray-cluster-monitoring")]
+    public bool? NoEnableRayClusterMonitoring { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Secret Manager configuration: Enables the Secret Manager CSI driver provider component. See https://secrets-store-csi-driver.sigs.k8s.io/introduction https://github.com/GoogleCloudPlatform/secrets-store-csi-driver-provider-gcp. Use --enable-secret-manager to enable and --no-enable-secret-manager to disable.
+    /// </summary>
+    [CliFlag("--enable-secret-manager")]
+    public bool? EnableSecretManager { get; set; }
+
+    /// <summary>
+    /// Negates --enable-secret-manager. Exactly one of these must be specified: Or at least one of these can be specified: Flags for Secret Manager configuration: Enables the Secret Manager CSI driver provider component. See https://secrets-store-csi-driver.sigs.k8s.io/introduction https://github.com/GoogleCloudPlatform/secrets-store-csi-driver-provider-gcp. Use --enable-secret-manager to enable and --no-enable-secret-manager to disable.
+    /// </summary>
+    [CliFlag("--no-enable-secret-manager")]
+    public bool? NoEnableSecretManager { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Secret Manager configuration: Enables the rotation of secrets in the Secret Manager CSI driver provider component. Use --enable-secret-manager-rotation to enable and --no-enable-secret-manager-rotation to disable.
+    /// </summary>
+    [CliFlag("--enable-secret-manager-rotation")]
+    public bool? EnableSecretManagerRotation { get; set; }
+
+    /// <summary>
+    /// Negates --enable-secret-manager-rotation. Exactly one of these must be specified: Or at least one of these can be specified: Flags for Secret Manager configuration: Enables the rotation of secrets in the Secret Manager CSI driver provider component. Use --enable-secret-manager-rotation to enable and --no-enable-secret-manager-rotation to disable.
+    /// </summary>
+    [CliFlag("--no-enable-secret-manager-rotation")]
+    public bool? NoEnableSecretManagerRotation { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Secret Manager configuration: Set the rotation period for secrets in the Secret Manager CSI driver provider component. If you don't specify a time interval for the rotation, it will default to a rotation period of two minutes.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secret-manager-rotation-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? SecretManagerRotationInterval { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Secret Sync configuration: Enables the Secret Sync component. For details, see Synchronize secrets to Kubernetes Secrets (https://docs.cloud.google.com/secret-manager/docs/sync-k8-secrets). Use --enable-secret-sync to enable and --no-enable-secret-sync to disable.
+    /// </summary>
+    [CliFlag("--enable-secret-sync")]
+    public bool? EnableSecretSync { get; set; }
+
+    /// <summary>
+    /// Negates --enable-secret-sync. Exactly one of these must be specified: Or at least one of these can be specified: Flags for Secret Sync configuration: Enables the Secret Sync component. For details, see Synchronize secrets to Kubernetes Secrets (https://docs.cloud.google.com/secret-manager/docs/sync-k8-secrets). Use --enable-secret-sync to enable and --no-enable-secret-sync to disable.
+    /// </summary>
+    [CliFlag("--no-enable-secret-sync")]
+    public bool? NoEnableSecretSync { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Secret Sync configuration: Enables the rotation of secrets in the Secret Sync component. Use --enable-secret-sync-rotation to enable and --no-enable-secret-sync-rotation to disable.
+    /// </summary>
+    [CliFlag("--enable-secret-sync-rotation")]
+    public bool? EnableSecretSyncRotation { get; set; }
+
+    /// <summary>
+    /// Negates --enable-secret-sync-rotation. Exactly one of these must be specified: Or at least one of these can be specified: Flags for Secret Sync configuration: Enables the rotation of secrets in the Secret Sync component. Use --enable-secret-sync-rotation to enable and --no-enable-secret-sync-rotation to disable.
+    /// </summary>
+    [CliFlag("--no-enable-secret-sync-rotation")]
+    public bool? NoEnableSecretSyncRotation { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Secret Sync configuration: Set the rotation period for secrets in the Secret Sync component.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secret-sync-rotation-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? SecretSyncRotationInterval { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Basic auth The password to use for cluster auth. Defaults to a server-specified randomly-generated string.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public string? Password { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Basic auth Options to specify the username. At most one of these can be specified: Enable basic (username/password) auth for the cluster. --enable-basic-auth is an alias for --username=admin; --no-enable-basic-auth is an alias for --username="". Use --password to specify a password; if not, the server will randomly generate one. For cluster versions before 1.12, if neither --enable-basic-auth nor --username is specified, --enable-basic-auth will default to true. After 1.12, --enable-basic-auth will default to false.
+    /// </summary>
+    [CliFlag("--enable-basic-auth")]
+    public bool? EnableBasicAuth { get; set; }
+
+    /// <summary>
+    /// Negates --enable-basic-auth. Exactly one of these must be specified: Or at least one of these can be specified: Basic auth Options to specify the username. At most one of these can be specified: Enable basic (username/password) auth for the cluster. --enable-basic-auth is an alias for --username=admin; --no-enable-basic-auth is an alias for --username="". Use --password to specify a password; if not, the server will randomly generate one. For cluster versions before 1.12, if neither --enable-basic-auth nor --username is specified, --enable-basic-auth will default to true. After 1.12, --enable-basic-auth will default to false.
+    /// </summary>
+    [CliFlag("--no-enable-basic-auth")]
+    public bool? NoEnableBasicAuth { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Basic auth Options to specify the username. At most one of these can be specified: The user name to use for basic auth for the cluster. Use --password to specify a password; if not, the server will randomly generate one.
+    /// </summary>
+    [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
+    public string? Username { get; set; }
+
+    /// <summary>
+    /// Cluster autoscaling Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Cluster autoscaling Configurations for Cloud Run addon, requires --addons=CloudRun for create and --update-addons=CloudRun=ENABLED for update. load-balancer-type (Optional) Type of load-balancer-type EXTERNAL or INTERNAL. Examples: $ gcloud container clusters update example-cluster \ --cloud-run-config=load-balancer-type=INTERNAL
+    /// </summary>
+    [CliOption("--cloud-run-config", Format = OptionFormat.EqualsSeparated)]
+    public string? CloudRunConfig { get; set; }
+
+    /// <summary>
+    /// Cluster autoscaling Node pool to be updated.
+    /// </summary>
+    [CliOption("--node-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? NodePool { get; set; }
+
+    /// <summary>
+    /// Cluster autoscaling At most one of these can be specified: Compute zone or region (e.g. us-central1-a or us-central1) for the cluster. Overrides the default compute/region or compute/zone value for this command invocation. Prefer using this flag over the --region or --zone flags.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Cluster autoscaling At most one of these can be specified: Compute region (e.g. us-central1) for a regional cluster. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Cluster autoscaling At most one of these can be specified: Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// Cluster autoscaling Location policy specifies the algorithm used when scaling-up the node pool. ◆ BALANCED - Is a best effort policy that aims to balance the sizes of available zones. ◆ ANY - Instructs the cluster autoscaler to prioritize utilization of unused reservations, and reduces preemption risk for Spot VMs. LOCATION_POLICY must be one of: BALANCED, ANY.
+    /// </summary>
+    [CliOption("--location-policy", Format = OptionFormat.EqualsSeparated)]
+    public GcloudLocationPolicy? LocationPolicy { get; set; }
+
+    /// <summary>
+    /// Cluster autoscaling Maximum number of nodes per zone in the node pool. Maximum number of nodes per zone to which the node pool specified by --node-pool (or default node pool if unspecified) can scale. Ignored unless --enable-autoscaling is also specified.
+    /// </summary>
+    [CliOption("--max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxNodes { get; set; }
+
+    /// <summary>
+    /// Cluster autoscaling Minimum number of nodes per zone in the node pool. Minimum number of nodes per zone to which the node pool specified by --node-pool (or default node pool if unspecified) can scale. Ignored unless --enable-autoscaling is also specified.
+    /// </summary>
+    [CliOption("--min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? MinNodes { get; set; }
+
+    /// <summary>
+    /// Cluster autoscaling Maximum number of all nodes in the node pool. Maximum number of all nodes to which the node pool specified by --node-pool (or default node pool if unspecified) can scale. Ignored unless --enable-autoscaling is also specified.
+    /// </summary>
+    [CliOption("--total-max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? TotalMaxNodes { get; set; }
+
+    /// <summary>
+    /// Cluster autoscaling Minimum number of all nodes in the node pool. Minimum number of all nodes to which the node pool specified by --node-pool (or default node pool if unspecified) can scale. Ignored unless --enable-autoscaling is also specified.
+    /// </summary>
+    [CliOption("--total-min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? TotalMinNodes { get; set; }
+
 }

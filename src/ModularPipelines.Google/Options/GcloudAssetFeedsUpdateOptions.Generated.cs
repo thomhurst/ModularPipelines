@@ -10,17 +10,155 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// update an existing Cloud Asset Inventory Feed
 /// </summary>
+/// <param name="FeedId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "feeds", "update")]
 public record GcloudAssetFeedsUpdateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FeedId
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Folder of the feed.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization of the feed.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: project of the feed. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// Name of the Cloud Pub/Sub topic to publish to, of the form projects/PROJECT_ID/topics/TOPIC_ID. You can list existing topics with gcloud pubsub topics list --format="text(name)"
+    /// </summary>
+    [CliOption("--pubsub-topic", Format = OptionFormat.EqualsSeparated)]
+    public string? PubsubTopic { get; set; }
+
+    /// <summary>
+    /// These flags modify the member assetNames of this Feed. See https://cloud.google.com/apis/design/resource_names#full_resource_name for more information. At most one of these can be specified: Append the given values to the current assetNames.
+    /// </summary>
+    [CliOption("--add-asset-names", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddAssetNames { get; set; }
+
+    /// <summary>
+    /// These flags modify the member assetNames of this Feed. See https://cloud.google.com/apis/design/resource_names#full_resource_name for more information. At most one of these can be specified: Empty the current assetNames.
+    /// </summary>
+    [CliFlag("--clear-asset-names")]
+    public bool? ClearAssetNames { get; set; }
+
+    /// <summary>
+    /// These flags modify the member assetNames of this Feed. See https://cloud.google.com/apis/design/resource_names#full_resource_name for more information. At most one of these can be specified: Remove the given values from the current assetNames.
+    /// </summary>
+    [CliOption("--remove-asset-names", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveAssetNames { get; set; }
+
+    /// <summary>
+    /// These flags modify the member assetTypes of this Feed. See https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/overview for all supported asset types. At most one of these can be specified: Append the given values to the current assetTypes.
+    /// </summary>
+    [CliOption("--add-asset-types", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddAssetTypes { get; set; }
+
+    /// <summary>
+    /// These flags modify the member assetTypes of this Feed. See https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/overview for all supported asset types. At most one of these can be specified: Empty the current assetTypes.
+    /// </summary>
+    [CliFlag("--clear-asset-types")]
+    public bool? ClearAssetTypes { get; set; }
+
+    /// <summary>
+    /// These flags modify the member assetTypes of this Feed. See https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/overview for all supported asset types. At most one of these can be specified: Remove the given values from the current assetTypes.
+    /// </summary>
+    [CliOption("--remove-asset-types", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveAssetTypes { get; set; }
+
+    /// <summary>
+    /// These flags modify the member relationshipTypes of this Feed. See https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/overview for all supported relationship types. At most one of these can be specified: Append the given values to the current relationshipTypes.
+    /// </summary>
+    [CliOption("--add-relationship-types", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddRelationshipTypes { get; set; }
+
+    /// <summary>
+    /// These flags modify the member relationshipTypes of this Feed. See https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/overview for all supported relationship types. At most one of these can be specified: Empty the current relationshipTypes.
+    /// </summary>
+    [CliFlag("--clear-relationship-types")]
+    public bool? ClearRelationshipTypes { get; set; }
+
+    /// <summary>
+    /// These flags modify the member relationshipTypes of this Feed. See https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/overview for all supported relationship types. At most one of these can be specified: Remove the given values from the current relationshipTypes.
+    /// </summary>
+    [CliOption("--remove-relationship-types", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveRelationshipTypes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear any existing condition description setting on the feed. Condition description will be empty.
+    /// </summary>
+    [CliFlag("--clear-condition-description")]
+    public bool? ClearConditionDescription { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Condition description to overwrite the existing one.
+    /// </summary>
+    [CliOption("--condition-description", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionDescription { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear any existing condition expression setting on the feed. No condition will be applied to feed.
+    /// </summary>
+    [CliFlag("--clear-condition-expression")]
+    public bool? ClearConditionExpression { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Condition expression to overwrite the existing one. For more information, see: https://cloud.google.com/asset-inventory/docs/monitoring-asset-changes#feed_with_condition
+    /// </summary>
+    [CliOption("--condition-expression", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionExpression { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear any existing condition title setting on the feed. Condition title will be empty.
+    /// </summary>
+    [CliFlag("--clear-condition-title")]
+    public bool? ClearConditionTitle { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Condition title to overwrite the existing one.
+    /// </summary>
+    [CliOption("--condition-title", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionTitle { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Clear any existing content type setting on the feed. Content type will be unspecified, no content but the asset name and type will be returned in the feed.
+    /// </summary>
+    [CliFlag("--clear-content-type")]
+    public bool? ClearContentType { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Asset content type to overwrite the existing one. For more information, see: https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/overview#asset_content_type. CONTENT_TYPE must be one of: resource, iam-policy, org-policy, access-policy, os-inventory, relationship.
+    /// </summary>
+    [CliOption("--content-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudContentType? ContentType { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+    }
+
 }

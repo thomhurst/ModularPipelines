@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,27 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "indexes", "remove-datapoints")]
-public record GcloudAiIndexesRemoveDatapointsOptions : GcloudOptions
+public record GcloudAiIndexesRemoveDatapointsOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: List of index datapoint ids to be removed from the index.
+    /// </summary>
+    [CliOption("--datapoint-ids", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DatapointIds { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a local JSON file that contains the data points that need to be added to the index.
+    /// </summary>
+    [CliOption("--datapoints-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? DatapointsFromFile { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((DatapointIds?.Any() == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(DatapointsFromFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of DatapointIds or DatapointsFromFile must be specified.", [nameof(DatapointIds), nameof(DatapointsFromFile)]);
+        }
+    }
+
 }

@@ -16,9 +16,168 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a Model Armor floor     setting
 /// </summary>
+/// <param name="FullUri">Full uri of the floor setting</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("model-armor", "floorsettings", "update")]
-public record GcloudModelArmorFloorsettingsUpdateOptions : GcloudOptions
+public record GcloudModelArmorFloorsettingsUpdateOptions(
+    [property: CliOption("--full-uri", Format = OptionFormat.EqualsSeparated)] string FullUri
+) : GcloudOptions
 {
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. Enable or disable the floor setting enforcement. Set the value to "TRUE" to enable the floor setting enforcement, "FALSE" to disable it.
+    /// </summary>
+    [CliOption("--enable-floor-setting-enforcement", Format = OptionFormat.EqualsSeparated)]
+    public string? EnableFloorSettingEnforcement { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. Enable multi-language detection for floor setting, allowing Model Armor to process content in multiple languages. Use --enable-multi-language-detection to enable and --no-enable-multi-language-detection to disable.
+    /// </summary>
+    [CliFlag("--enable-multi-language-detection")]
+    public bool? EnableMultiLanguageDetection { get; set; }
+
+    /// <summary>
+    /// Negates --enable-multi-language-detection. Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. Enable multi-language detection for floor setting, allowing Model Armor to process content in multiple languages. Use --enable-multi-language-detection to enable and --no-enable-multi-language-detection to disable.
+    /// </summary>
+    [CliFlag("--no-enable-multi-language-detection")]
+    public bool? NoEnableMultiLanguageDetection { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. Malicious URI filter settings.
+    /// </summary>
+    [CliOption("--malicious-uri-filter-settings-enforcement", Format = OptionFormat.EqualsSeparated)]
+    public string? MaliciousUriFilterSettingsEnforcement { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. Manage list of MCP servers for which the Google MCP server floor setting is applicable. Empty list indicates that the floor setting is applicable to all Google MCP servers. APIs need to be valid MCP resources, for example:"bigquery.googleapis.com/mcp", "run.googleapis.com/mcp" At most one of these can be specified: Appends the given APIs to the list of Google MCP server APIs.
+    /// </summary>
+    [CliOption("--add-google-mcp-server-apis", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddGoogleMcpServerApis { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. Manage list of MCP servers for which the Google MCP server floor setting is applicable. Empty list indicates that the floor setting is applicable to all Google MCP servers. APIs need to be valid MCP resources, for example:"bigquery.googleapis.com/mcp", "run.googleapis.com/mcp" At most one of these can be specified: Removes all APIs from the list of Google MCP server APIs. Empty list indicates that the floor setting is applicable to all Google MCP servers.
+    /// </summary>
+    [CliFlag("--clear-google-mcp-server-apis")]
+    public bool? ClearGoogleMcpServerApis { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. Manage list of MCP servers for which the Google MCP server floor setting is applicable. Empty list indicates that the floor setting is applicable to all Google MCP servers. APIs need to be valid MCP resources, for example:"bigquery.googleapis.com/mcp", "run.googleapis.com/mcp" At most one of these can be specified: Replaces the current list of Google MCP server APIs with the provided list.
+    /// </summary>
+    [CliOption("--google-mcp-server-apis", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? GoogleMcpServerApis { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. Manage list of MCP servers for which the Google MCP server floor setting is applicable. Empty list indicates that the floor setting is applicable to all Google MCP servers. APIs need to be valid MCP resources, for example:"bigquery.googleapis.com/mcp", "run.googleapis.com/mcp" At most one of these can be specified: Removes the given APIs from the list of Google MCP server APIs.
+    /// </summary>
+    [CliOption("--remove-google-mcp-server-apis", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveGoogleMcpServerApis { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. Manage integrated services to apply Model Armor floor settings. Integrated services will have Model Armor sanitization enabled project-wide. At most one of these can be specified: Set the list of integrated services for the floor setting. This can be used to enable project-wide Model Armor sanitization for the respective services. This flag can be repeated to specify multiple services, or a comma-separated list can be provided.
+    /// </summary>
+    [CliOption("--add-integrated-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddIntegratedServices { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. Manage integrated services to apply Model Armor floor settings. Integrated services will have Model Armor sanitization enabled project-wide. At most one of these can be specified: Clear all integrated services from the floor setting.
+    /// </summary>
+    [CliFlag("--clear-integrated-services")]
+    public bool? ClearIntegratedServices { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. Manage integrated services to apply Model Armor floor settings. Integrated services will have Model Armor sanitization enabled project-wide. At most one of these can be specified: Remove specified service(s) from the list of integrated services. This flag can be repeated to specify multiple services, or a comma-separated list can be provided.
+    /// </summary>
+    [CliOption("--remove-integrated-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveIntegratedServices { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. RAI filter settings. At most one of these can be specified: Add rai filter settings. Sets add_rai_settings_filters value. Shorthand Example: --add-rai-settings-filters=string,string JSON Example: --add-rai-settings-filters=["string"] File Example: --add-rai-settings-filters=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-rai-settings-filters", Format = OptionFormat.EqualsSeparated)]
+    public string? AddRaiSettingsFilters { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. RAI filter settings. At most one of these can be specified: Clear all rai filter settings.
+    /// </summary>
+    [CliFlag("--clear-rai-settings-filters")]
+    public bool? ClearRaiSettingsFilters { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. RAI filter settings. At most one of these can be specified: Set rai_settings_filters to new value. List of Responsible AI filters enabled for floor setting. Sets rai_settings_filters value. Shorthand Example: --rai-settings-filters=string,string JSON Example: --rai-settings-filters=["string"] File Example: --rai-settings-filters=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--rai-settings-filters", Format = OptionFormat.EqualsSeparated)]
+    public string? RaiSettingsFilters { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. RAI filter settings. At most one of these can be specified: Remove rai filter settings. Sets remove_rai_settings_filters value. Shorthand Example: --remove-rai-settings-filters=string,string JSON Example: --remove-rai-settings-filters=["string"] File Example: --remove-rai-settings-filters=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--remove-rai-settings-filters", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveRaiSettingsFilters { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. The sdp filter settings enforcement. The value has to be a valid template name. e.g. projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}
+    /// </summary>
+    [CliOption("--advanced-config-deidentify-template", Format = OptionFormat.EqualsSeparated)]
+    public string? AdvancedConfigDeidentifyTemplate { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. The sdp filter settings enforcement. The value has to be a valid template name. e.g. projects/{project}/locations/{location}/inspectTemplates/{inspect_template}
+    /// </summary>
+    [CliOption("--advanced-config-inspect-template", Format = OptionFormat.EqualsSeparated)]
+    public string? AdvancedConfigInspectTemplate { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. The sdp filter settings enforcement. The value can be either ENABLED or DISABLED.
+    /// </summary>
+    [CliOption("--basic-config-filter-enforcement", Format = OptionFormat.EqualsSeparated)]
+    public string? BasicConfigFilterEnforcement { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. Enable Cloud Logging for Google MCP server sanitization to log Model Armor sanitization results. Use --enable-google-mcp-server-cloud-logging to enable and --no-enable-google-mcp-server-cloud-logging to disable.
+    /// </summary>
+    [CliFlag("--enable-google-mcp-server-cloud-logging")]
+    public bool? EnableGoogleMcpServerCloudLogging { get; set; }
+
+    /// <summary>
+    /// Negates --enable-google-mcp-server-cloud-logging. Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. Enable Cloud Logging for Google MCP server sanitization to log Model Armor sanitization results. Use --enable-google-mcp-server-cloud-logging to enable and --no-enable-google-mcp-server-cloud-logging to disable.
+    /// </summary>
+    [CliFlag("--no-enable-google-mcp-server-cloud-logging")]
+    public bool? NoEnableGoogleMcpServerCloudLogging { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. Specifies the enforcement mode for Google MCP server sanitization, such as "INSPECT_ONLY" or "INSPECT_AND_BLOCK". Default is "INSPECT_ONLY".
+    /// </summary>
+    [CliOption("--google-mcp-server-enforcement-type", Format = OptionFormat.EqualsSeparated)]
+    public string? GoogleMcpServerEnforcementType { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. Enable Cloud Logging for Vertex AI sanitization to log Model Armor sanitization results. Use --enable-vertex-ai-cloud-logging to enable and --no-enable-vertex-ai-cloud-logging to disable.
+    /// </summary>
+    [CliFlag("--enable-vertex-ai-cloud-logging")]
+    public bool? EnableVertexAiCloudLogging { get; set; }
+
+    /// <summary>
+    /// Negates --enable-vertex-ai-cloud-logging. Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. Enable Cloud Logging for Vertex AI sanitization to log Model Armor sanitization results. Use --enable-vertex-ai-cloud-logging to enable and --no-enable-vertex-ai-cloud-logging to disable.
+    /// </summary>
+    [CliFlag("--no-enable-vertex-ai-cloud-logging")]
+    public bool? NoEnableVertexAiCloudLogging { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. Specifies the enforcement mode for Vertex AI sanitization, such as "INSPECT_ONLY" or "INSPECT_AND_BLOCK". Default is "INSPECT_ONLY".
+    /// </summary>
+    [CliOption("--vertex-ai-enforcement-type", Format = OptionFormat.EqualsSeparated)]
+    public string? VertexAiEnforcementType { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. The pi and jailbreak filter settings confidence level. The value can be either "high", "medium-and-above" or "low-and-above"
+    /// </summary>
+    [CliOption("--pi-and-jailbreak-filter-settings-confidence-level", Format = OptionFormat.EqualsSeparated)]
+    public string? PiAndJailbreakFilterSettingsConfidenceLevel { get; set; }
+
+    /// <summary>
+    /// Multi language detection enablement. Malicious uri filter settings. SDP filter settings. Options for Google MCP server sanitization. Options for Vertex AI sanitization. PI and jailbreak filter settings. The pi and jailbreak filter settings enforcement. The value can be either "enable" or "disable".
+    /// </summary>
+    [CliOption("--pi-and-jailbreak-filter-settings-enforcement", Format = OptionFormat.EqualsSeparated)]
+    public string? PiAndJailbreakFilterSettingsEnforcement { get; set; }
+
 }

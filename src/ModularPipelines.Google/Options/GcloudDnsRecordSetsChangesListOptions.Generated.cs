@@ -17,10 +17,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// view the list of changes that have     been made to your record-sets
 /// </summary>
+/// <param name="Zone">Name of the managed zone whose record sets you want to manage.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "changes", "list")]
-public record GcloudDnsRecordSetsChangesListOptions : GcloudOptions
+public record GcloudDnsRecordSetsChangesListOptions(
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone
+) : GcloudOptions
 {
     /// <summary>
     /// Sort order for listing. SORT_ORDER must be one of: ascending, descending.

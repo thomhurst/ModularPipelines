@@ -10,15 +10,31 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// set traffic splitting settings
 /// </summary>
+/// <param name="Splits">Key-value pairs describing what proportion of traffic should go to each version. The split values are added together and used as weights. The exact values do not matter, only their relation to each other. For example, v1=2,v2=2 is equivalent to v1=.5,v2=.5</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "services", "set-traffic")]
-public record GcloudAppServicesSetTrafficOptions : GcloudOptions
+public record GcloudAppServicesSetTrafficOptions(
+    [property: CliOption("--splits", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Splits
+) : GcloudOptions
 {
+    /// <summary>
+    /// The migrate flag determines whether or not to use traffic migration during the operation. Traffic migration will attempt to automatically migrate traffic from the previous version to the new version, giving the autoscaler time to respond. See the documentation here: https://cloud.google.com/appengine/docs/python/console/trafficmigration for more information.
+    /// </summary>
+    [CliFlag("--migrate")]
+    public bool? Migrate { get; set; }
+
+    /// <summary>
+    /// Whether to split traffic based on cookie, IP address or random. SPLIT_BY must be one of: cookie, ip, random.
+    /// </summary>
+    [CliOption("--split-by", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSplitBy? SplitBy { get; set; }
+
 }

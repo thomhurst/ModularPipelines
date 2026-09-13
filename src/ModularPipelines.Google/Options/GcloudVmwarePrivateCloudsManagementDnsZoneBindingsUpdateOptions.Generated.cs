@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a     management DNS zone binding
 /// </summary>
+/// <param name="Description">Text describing the binding resource that represents the network getting bound to the management DNS zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "management-dns-zone-bindings", "update")]
-public record GcloudVmwarePrivateCloudsManagementDnsZoneBindingsUpdateOptions : GcloudOptions
+public record GcloudVmwarePrivateCloudsManagementDnsZoneBindingsUpdateOptions(
+    [property: CliOption("--description", Format = OptionFormat.EqualsSeparated)] string Description
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
 }

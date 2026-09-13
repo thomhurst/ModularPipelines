@@ -10,15 +10,51 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Managed Microsoft AD     domain
 /// </summary>
+/// <param name="Region">Google Compute Engine region in which to provision domain controllers.</param>
+/// <param name="ReservedIpRange">Classless Inter-Domain Routing range of internal addresses that are reserved for this domain.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("active-directory", "domains", "create")]
-public record GcloudActiveDirectoryDomainsCreateOptions : GcloudOptions
+public record GcloudActiveDirectoryDomainsCreateOptions(
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Region,
+    [property: CliOption("--reserved-ip-range", Format = OptionFormat.EqualsSeparated)] string ReservedIpRange
+) : GcloudOptions
 {
+    /// <summary>
+    /// Name of the administrator that may be used to perform Active Directory operations. This is a delegated administrator account provisioned by our service. If left unspecified MIAdmin will be used. This is different from both the domain administrator and the Directory Services Restore Mode (DSRM) administrator.
+    /// </summary>
+    [CliOption("--admin-name", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminName { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Names of the Google Compute Engine networks to which the domain will be connected.
+    /// </summary>
+    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AuthorizedNetworks { get; set; }
+
+    /// <summary>
+    /// If specified, Active Directory data audit logs are enabled for the domain.
+    /// </summary>
+    [CliFlag("--enable-audit-logs")]
+    public bool? EnableAuditLogs { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
 }

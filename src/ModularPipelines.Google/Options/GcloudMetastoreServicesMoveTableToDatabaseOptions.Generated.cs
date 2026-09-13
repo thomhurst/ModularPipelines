@@ -16,9 +16,22 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// move table to another     database
 /// </summary>
+/// <param name="DestinationDbName">The name of the database where the table should be moved.</param>
+/// <param name="SourceDbName">The name of the database where the table resides.</param>
+/// <param name="TableName">The name of the table to be moved.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("metastore", "services", "move-table-to-database")]
-public record GcloudMetastoreServicesMoveTableToDatabaseOptions : GcloudOptions
+public record GcloudMetastoreServicesMoveTableToDatabaseOptions(
+    [property: CliOption("--destination_db_name", Format = OptionFormat.EqualsSeparated)] string DestinationDbName,
+    [property: CliOption("--source_db_name", Format = OptionFormat.EqualsSeparated)] string SourceDbName,
+    [property: CliOption("--table_name", Format = OptionFormat.EqualsSeparated)] string TableName
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

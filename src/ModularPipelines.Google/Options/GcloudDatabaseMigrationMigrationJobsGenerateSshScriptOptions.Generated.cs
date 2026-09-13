@@ -16,9 +16,48 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// generate a     SSH script for a Database Migration Service migration job
 /// </summary>
+/// <param name="Vm">Bastion Compute Engine VM instance name to use or to create.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "migration-jobs", "generate-ssh-script")]
-public record GcloudDatabaseMigrationMigrationJobsGenerateSshScriptOptions : GcloudOptions
+public record GcloudDatabaseMigrationMigrationJobsGenerateSshScriptOptions(
+    [property: CliOption("--vm", Format = OptionFormat.EqualsSeparated)] string Vm
+) : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Zone the existing bastion VM instance is located in.
+    /// </summary>
+    [CliOption("--vm-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? VmZone { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Subnet to create the VM instance in. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Machine type for a new VM instance. To get a list of available machine types, run 'gcloud compute machine-types list'. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--vm-machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? VmMachineType { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Zone to create the VM instance in.
+    /// </summary>
+    [CliOption("--vm-zone-create", Format = OptionFormat.EqualsSeparated)]
+    public string? VmZoneCreate { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// Port that will be open on the bastion host.
+    /// </summary>
+    [CliOption("--vm-port", Format = OptionFormat.EqualsSeparated)]
+    public string? VmPort { get; set; }
+
 }

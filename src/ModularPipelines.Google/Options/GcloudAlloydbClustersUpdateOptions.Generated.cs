@@ -10,17 +10,201 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// update an AlloyDB cluster within a given     project and region
 /// </summary>
+/// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+/// <param name="Cluster"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "clusters", "update")]
 public record GcloudAlloydbClustersUpdateOptions(
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Cluster
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Continuous Backup configuration. Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Enable or disable Dataplex integration for this cluster (Enabled by default). Use --enable-dataplex-integration to enable and --no-enable-dataplex-integration to disable.
+    /// </summary>
+    [CliFlag("--enable-dataplex-integration")]
+    public bool? EnableDataplexIntegration { get; set; }
+
+    /// <summary>
+    /// Negates --enable-dataplex-integration. Continuous Backup configuration. Enable or disable Dataplex integration for this cluster (Enabled by default). Use --enable-dataplex-integration to enable and --no-enable-dataplex-integration to disable.
+    /// </summary>
+    [CliFlag("--no-enable-dataplex-integration")]
+    public bool? NoEnableDataplexIntegration { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Maintenance version to update the cluster to. Use latest to apply the latest available maintenance version.
+    /// </summary>
+    [CliOption("--maintenance-version", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceVersion { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Subscription type of the cluster. SUBSCRIPTION_TYPE must be one of: STANDARD, TRIAL.
+    /// </summary>
+    [CliOption("--subscription-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSubscriptionType? SubscriptionType { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Automated backup policy. At most one of these can be specified: Clears the automated backup policy on the cluster. The default automated backup policy will be used.
+    /// </summary>
+    [CliFlag("--clear-automated-backup")]
+    public bool? ClearAutomatedBackup { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Automated backup policy. At most one of these can be specified: Disables automated backups on the cluster.
+    /// </summary>
+    [CliFlag("--disable-automated-backup")]
+    public bool? DisableAutomatedBackup { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Automated backup policy. At most one of these can be specified: Or at least one of these can be specified: Enable automated backup policy. Comma-separated list of days of the week to perform a backup. At least one day of the week must be provided. (e.g., --automated-backup-days-of-week=MONDAY,WEDNESDAY,SUNDAY). DAYS_OF_WEEK must be one of: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
+    /// </summary>
+    [CliOption("--automated-backup-days-of-week", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAutomatedBackupDaysOfWeek? AutomatedBackupDaysOfWeek { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Automated backup policy. At most one of these can be specified: Or at least one of these can be specified: Enable automated backup policy. Comma-separated list of times during the day to start a backup. At least one start time must be provided. The start times are assumed to be in UTC and required to be an exact hour in the format HH:00. (e.g., --automated-backup-start-times=01:00,13:00)
+    /// </summary>
+    [CliOption("--automated-backup-start-times", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AutomatedBackupStartTimes { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Automated backup policy. At most one of these can be specified: Or at least one of these can be specified: Enable automated backup policy. Length of the time window beginning at start time during which a backup can be taken. If a backup does not succeed within this time window, it will be canceled and considered failed. The backup window must be at least 5 minutes long. There is no upper bound on the window. If not set, it will default to 1 hour.
+    /// </summary>
+    [CliOption("--automated-backup-window", Format = OptionFormat.EqualsSeparated)]
+    public int? AutomatedBackupWindow { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Automated backup policy. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the automated backups. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ▫ provide the argument --automated-backup-encryption-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--automated-backup-encryption-key", Format = OptionFormat.EqualsSeparated)]
+    public string? AutomatedBackupEncryptionKey { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Automated backup policy. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the automated backups. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ▫ provide the argument --automated-backup-encryption-key on the command line with a fully specified name; ▫ provide the argument --automated-backup-encryption-key-keyring on the command line.
+    /// </summary>
+    [CliOption("--automated-backup-encryption-key-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? AutomatedBackupEncryptionKeyKeyring { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Automated backup policy. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the automated backups. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ▫ provide the argument --automated-backup-encryption-key on the command line with a fully specified name; ▫ provide the argument --automated-backup-encryption-key-location on the command line.
+    /// </summary>
+    [CliOption("--automated-backup-encryption-key-location", Format = OptionFormat.EqualsSeparated)]
+    public string? AutomatedBackupEncryptionKeyLocation { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Automated backup policy. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the automated backups. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ▫ provide the argument --automated-backup-encryption-key on the command line with a fully specified name; ▫ provide the argument --automated-backup-encryption-key-project on the command line; ▫ set the property core/project.
+    /// </summary>
+    [CliOption("--automated-backup-encryption-key-project", Format = OptionFormat.EqualsSeparated)]
+    public string? AutomatedBackupEncryptionKeyProject { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Automated backup policy. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the automated backups. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Retention policy. If no retention policy is provided, all automated backups will be retained. At most one of these can be specified: Number of most recent successful backups retained.
+    /// </summary>
+    [CliOption("--automated-backup-retention-count", Format = OptionFormat.EqualsSeparated)]
+    public int? AutomatedBackupRetentionCount { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Automated backup policy. At most one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the automated backups. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Retention policy. If no retention policy is provided, all automated backups will be retained. At most one of these can be specified: Retention period of the backup relative to creation time. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--automated-backup-retention-period", Format = OptionFormat.EqualsSeparated)]
+    public string? AutomatedBackupRetentionPeriod { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Recovery window of the log files and backups saved to support Continuous Backups.
+    /// </summary>
+    [CliOption("--continuous-backup-recovery-window-days", Format = OptionFormat.EqualsSeparated)]
+    public string? ContinuousBackupRecoveryWindowDays { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Enables Continuous Backups on the cluster.
+    /// </summary>
+    [CliFlag("--enable-continuous-backup")]
+    public bool? EnableContinuousBackup { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Encryption configuration for Continuous Backups. At most one of these can be specified: Clears the encryption configuration for Continuous Backups. Google default encryption will be used for future Continuous Backups.
+    /// </summary>
+    [CliFlag("--clear-continuous-backup-encryption-key")]
+    public bool? ClearContinuousBackupEncryptionKey { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Encryption configuration for Continuous Backups. At most one of these can be specified: Or at least one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the continuous backup. The 'AlloyDB Service Agent's service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ▫ provide the argument --continuous-backup-encryption-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--continuous-backup-encryption-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ContinuousBackupEncryptionKey { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Encryption configuration for Continuous Backups. At most one of these can be specified: Or at least one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the continuous backup. The 'AlloyDB Service Agent's service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ▫ provide the argument --continuous-backup-encryption-key on the command line with a fully specified name; ▫ provide the argument --continuous-backup-encryption-key-keyring on the command line.
+    /// </summary>
+    [CliOption("--continuous-backup-encryption-key-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? ContinuousBackupEncryptionKeyKeyring { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Encryption configuration for Continuous Backups. At most one of these can be specified: Or at least one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the continuous backup. The 'AlloyDB Service Agent's service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ▫ provide the argument --continuous-backup-encryption-key on the command line with a fully specified name; ▫ provide the argument --continuous-backup-encryption-key-location on the command line.
+    /// </summary>
+    [CliOption("--continuous-backup-encryption-key-location", Format = OptionFormat.EqualsSeparated)]
+    public string? ContinuousBackupEncryptionKeyLocation { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Encryption configuration for Continuous Backups. At most one of these can be specified: Or at least one of these can be specified: Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the continuous backup. The 'AlloyDB Service Agent's service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ▫ provide the argument --continuous-backup-encryption-key on the command line with a fully specified name; ▫ provide the argument --continuous-backup-encryption-key-project on the command line; ▫ set the property core/project.
+    /// </summary>
+    [CliOption("--continuous-backup-encryption-key-project", Format = OptionFormat.EqualsSeparated)]
+    public string? ContinuousBackupEncryptionKeyProject { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Configure a preferred maintenance window. At most one of these can be specified: Remove the user-specified maintenance window.
+    /// </summary>
+    [CliFlag("--maintenance-window-any")]
+    public bool? MaintenanceWindowAny { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Configure a preferred maintenance window. At most one of these can be specified: Or at least one of these can be specified: Specify preferred day and time for maintenance. Day of week for maintenance window, in UTC time zone. MAINTENANCE_WINDOW_DAY must be one of: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--maintenance-window-day", Format = OptionFormat.EqualsSeparated)]
+    public GcloudMaintenanceWindowDay? MaintenanceWindowDay { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Configure a preferred maintenance window. At most one of these can be specified: Or at least one of these can be specified: Specify preferred day and time for maintenance. Hour of day for maintenance window, in UTC time zone. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--maintenance-window-hour", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceWindowHour { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Specify maintenance deny period. At most one of these can be specified: Remove the deny maintenance period.
+    /// </summary>
+    [CliFlag("--remove-deny-maintenance-period")]
+    public bool? RemoveDenyMaintenancePeriod { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Specify maintenance deny period. At most one of these can be specified: Or at least one of these can be specified: Specify preferred day and time for maintenance deny period. Date when the deny maintenance period ends, that is 2020-11-01 or 11-01 for recurring. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--deny-maintenance-period-end-date", Format = OptionFormat.EqualsSeparated)]
+    public string? DenyMaintenancePeriodEndDate { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Specify maintenance deny period. At most one of these can be specified: Or at least one of these can be specified: Specify preferred day and time for maintenance deny period. Date when the deny maintenance period begins, that is 2020-11-01 or 11-01 for recurring. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--deny-maintenance-period-start-date", Format = OptionFormat.EqualsSeparated)]
+    public string? DenyMaintenancePeriodStartDate { get; set; }
+
+    /// <summary>
+    /// Continuous Backup configuration. Specify maintenance deny period. At most one of these can be specified: Or at least one of these can be specified: Specify preferred day and time for maintenance deny period. Time when the deny maintenance period starts and ends, for example 05:00, in UTC time zone. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--deny-maintenance-period-time", Format = OptionFormat.EqualsSeparated)]
+    public string? DenyMaintenancePeriodTime { get; set; }
+
 }

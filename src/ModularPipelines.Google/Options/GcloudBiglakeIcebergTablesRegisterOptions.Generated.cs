@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// register a BigLake Iceberg table
 /// </summary>
+/// <param name="MetadataLocation">Metadata location of the table.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("biglake", "iceberg", "tables", "register")]
-public record GcloudBiglakeIcebergTablesRegisterOptions : GcloudOptions
+public record GcloudBiglakeIcebergTablesRegisterOptions(
+    [property: CliOption("--metadata-location", Format = OptionFormat.EqualsSeparated)] string MetadataLocation
+) : GcloudOptions
 {
+    /// <summary>
+    /// Overwrite the table if it already exists.
+    /// </summary>
+    [CliFlag("--overwrite")]
+    public bool? Overwrite { get; set; }
+
 }

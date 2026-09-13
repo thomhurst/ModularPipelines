@@ -16,9 +16,36 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Cloud Healthcare API FHIR     store
 /// </summary>
+/// <param name="Version">The FHIR specification version that this FHIR store supports natively. This field is immutable after store creation. Requests are rejected if they contain FHIR resources of a different version. An empty value is treated as STU3. VERSION must be one of: dstu2 Draft Standard for Trial Use, Release 2 (https://www.hl7.org/fhir/DSTU2) r4 Release 4 (https://www.hl7.org/fhir/R4) stu3 Standard for Trial Use, Release 3 (https://www.hl7.org/fhir/STU3)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "fhir-stores", "create")]
-public record GcloudHealthcareFhirStoresCreateOptions : GcloudOptions
+public record GcloudHealthcareFhirStoresCreateOptions(
+    [property: CliOption("--version", Format = OptionFormat.EqualsSeparated)] string Version
+) : GcloudOptions
 {
+    /// <summary>
+    /// Whether to disable referential integrity in this FHIR store. Default value is false, meaning that the API will enforce referential integrity and fail the requests that will result in inconsistent state in the FHIR store. When this field is set to true, the API will skip referential integrity check. This field is immutable after store creation.
+    /// </summary>
+    [CliFlag("--disable-referential-integrity")]
+    public bool? DisableReferentialIntegrity { get; set; }
+
+    /// <summary>
+    /// Whether to disable resource versioning for this FHIR store. If set to false, which is the default behavior, all write operations will cause historical versions to be recorded automatically. Historical versions can be fetched through the history APIs, but cannot be updated. This field is immutable after store creation.
+    /// </summary>
+    [CliFlag("--disable-resource-versioning")]
+    public bool? DisableResourceVersioning { get; set; }
+
+    /// <summary>
+    /// Whether this FHIR store has the [updateCreate] (https://www.hl7.org/fhir/capabilitystatement-definitions.html#CapabilityStatement.rest.resource.updateCreate) capability. Determines if the client can use an Update operation to create a new resource with a client-specified ID. If false, all IDs are server-assigned through the Create operation and attempts to Update a non-existent resource will return errors.
+    /// </summary>
+    [CliFlag("--enable-update-create")]
+    public bool? EnableUpdateCreate { get; set; }
+
+    /// <summary>
+    /// Google Cloud Pub/Sub topic to send updates to. Note, a topic needs to be created before publishing or subscribing to it. For instructions on creating topics, refer to: https://cloud.google.com/pubsub/docs/admin#create_a_topic
+    /// </summary>
+    [CliOption("--pubsub-topic", Format = OptionFormat.EqualsSeparated)]
+    public string? PubsubTopic { get; set; }
+
 }

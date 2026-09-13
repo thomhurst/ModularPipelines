@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,117 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "analyze-iam-policy")]
-public record GcloudAssetAnalyzeIamPolicyOptions : GcloudOptions
+public record GcloudAssetAnalyzeIamPolicyOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Folder ID on which to perform the analysis. Only policies defined at or below this folder will be targeted in the analysis.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization ID on which to perform the analysis. Only policies defined at or below this organization will be targeted in the analysis.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Project ID or number on which to perform the analysis. Only policies defined at or below this project will be targeted in the analysis.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// The hypothetical context to evaluate IAM conditions. The hypothetical access timestamp to evaluate IAM conditions.
+    /// </summary>
+    [CliOption("--access-time", Format = OptionFormat.EqualsSeparated)]
+    public string? AccessTime { get; set; }
+
+    /// <summary>
+    /// The hypothetical context to evaluate IAM conditions. Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. Specifies the name of a saved analysis query. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. The full resource name.
+    /// </summary>
+    [CliOption("--full-resource-name", Format = OptionFormat.EqualsSeparated)]
+    public string? FullResourceName { get; set; }
+
+    /// <summary>
+    /// The hypothetical context to evaluate IAM conditions. Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. Specifies the name of a saved analysis query. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. The identity appearing in the form of principals in the IAM policy binding.
+    /// </summary>
+    [CliOption("--identity", Format = OptionFormat.EqualsSeparated)]
+    public string? Identity { get; set; }
+
+    /// <summary>
+    /// The hypothetical context to evaluate IAM conditions. Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. Specifies the name of a saved analysis query. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. The name of a saved query. When a saved_analysis_query is provided, its query content will be used as the base query. Other flags' values will override the base query to compose the final query to run. IDs might be in one of the following formats: ◆ projects/project_number/savedQueries/saved_query_id folders/folder_number/savedQueries/saved_query_id organizations/organization_number/savedQueries/saved_query_id
+    /// </summary>
+    [CliOption("--saved-analysis-query", Format = OptionFormat.EqualsSeparated)]
+    public string? SavedAnalysisQuery { get; set; }
+
+    /// <summary>
+    /// The hypothetical context to evaluate IAM conditions. Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. Specifies the name of a saved analysis query. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. If true, the response will include access analysis from identities to resources via service account impersonation. This is a very expensive operation, because many derived queries will be executed. We highly recommend you use AnalyzeIamPolicyLongrunning rpc instead. Default is false.
+    /// </summary>
+    [CliFlag("--analyze-service-account-impersonation")]
+    public bool? AnalyzeServiceAccountImpersonation { get; set; }
+
+    /// <summary>
+    /// The hypothetical context to evaluate IAM conditions. Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. Specifies the name of a saved analysis query. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. The amount of time the executable has to complete. See JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json). Deafult is empty.
+    /// </summary>
+    [CliOption("--execution-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? ExecutionTimeout { get; set; }
+
+    /// <summary>
+    /// The hypothetical context to evaluate IAM conditions. Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. Specifies the name of a saved analysis query. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. If true, the identities section of the result will expand any Google groups appearing in an IAM policy binding. Default is false.
+    /// </summary>
+    [CliFlag("--expand-groups")]
+    public bool? ExpandGroups { get; set; }
+
+    /// <summary>
+    /// The hypothetical context to evaluate IAM conditions. Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. Specifies the name of a saved analysis query. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. If true, the resource section of the result will expand any resource attached to an IAM policy to include resources lower in the resource hierarchy. Default is false.
+    /// </summary>
+    [CliFlag("--expand-resources")]
+    public bool? ExpandResources { get; set; }
+
+    /// <summary>
+    /// The hypothetical context to evaluate IAM conditions. Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. Specifies the name of a saved analysis query. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. If true, the access section of result will expand any roles appearing in IAM policy bindings to include their permissions. Default is false.
+    /// </summary>
+    [CliFlag("--expand-roles")]
+    public bool? ExpandRoles { get; set; }
+
+    /// <summary>
+    /// The hypothetical context to evaluate IAM conditions. Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. Specifies the name of a saved analysis query. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. If true, the result will output the relevant membership relationships between groups. Default is false.
+    /// </summary>
+    [CliFlag("--output-group-edges")]
+    public bool? OutputGroupEdges { get; set; }
+
+    /// <summary>
+    /// The hypothetical context to evaluate IAM conditions. Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. Specifies the name of a saved analysis query. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. If true, the result will output the relevant parent/child relationships between resources. Default is false.
+    /// </summary>
+    [CliFlag("--output-resource-edges")]
+    public bool? OutputResourceEdges { get; set; }
+
+    /// <summary>
+    /// The hypothetical context to evaluate IAM conditions. Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. Specifies the name of a saved analysis query. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. If true, the response will be showed as-is in the command output.
+    /// </summary>
+    [CliFlag("--show-response")]
+    public bool? ShowResponse { get; set; }
+
+    /// <summary>
+    /// The hypothetical context to evaluate IAM conditions. Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. Specifies the name of a saved analysis query. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. The permissions to appear in the result.
+    /// </summary>
+    [CliOption("--permissions", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Permissions { get; set; }
+
+    /// <summary>
+    /// The hypothetical context to evaluate IAM conditions. Specifies a resource for analysis. Leaving it empty means ANY. Specifies an identity for analysis. Leaving it empty means ANY. Specifies the name of a saved analysis query. The analysis options. Specifies roles or permissions for analysis. Leaving it empty means ANY. The roles to appear in the result.
+    /// </summary>
+    [CliOption("--roles", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Roles { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+    }
+
 }

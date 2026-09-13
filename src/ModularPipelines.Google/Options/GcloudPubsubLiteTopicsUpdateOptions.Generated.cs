@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "lite-topics", "update")]
-public record GcloudPubsubLiteTopicsUpdateOptions : GcloudOptions
+public record GcloudPubsubLiteTopicsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// At least one of these must be specified: How long a published message is retained. If unset, messages will only be dropped to make space for new ones once the per-partition-bytes limit is reached. A valid example value of this flag would be message-retention-period="2w".
+    /// </summary>
+    [CliOption("--message-retention-period", Format = OptionFormat.EqualsSeparated)]
+    public string? MessageRetentionPeriod { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Number of partitions in the topic.
+    /// </summary>
+    [CliOption("--partitions", Format = OptionFormat.EqualsSeparated)]
+    public string? Partitions { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Provisioned storage, in bytes, per partition. If the number of bytes stored in any of the topic's partitions exceeds this value, older messages will be dropped to make room for newer ones, regardless of the value of message-retention-period. A valid example value of this flag would be per-partition-bytes=30GiB.
+    /// </summary>
+    [CliOption("--per-partition-bytes", Format = OptionFormat.EqualsSeparated)]
+    public string? PerPartitionBytes { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Topic partition publish throughput capacity in MiB/s. Must be between 4 and 16.
+    /// </summary>
+    [CliOption("--per-partition-publish-mib", Format = OptionFormat.EqualsSeparated)]
+    public string? PerPartitionPublishMib { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Topic partition subscribe throughput capacity in MiB/s. Must be between 4 and 32.
+    /// </summary>
+    [CliOption("--per-partition-subscribe-mib", Format = OptionFormat.EqualsSeparated)]
+    public string? PerPartitionSubscribeMib { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Reservation ID to use for topic throughput.
+    /// </summary>
+    [CliOption("--throughput-reservation", Format = OptionFormat.EqualsSeparated)]
+    public string? ThroughputReservation { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(MessageRetentionPeriod) || !string.IsNullOrWhiteSpace(Partitions) || !string.IsNullOrWhiteSpace(PerPartitionBytes) || !string.IsNullOrWhiteSpace(PerPartitionPublishMib) || !string.IsNullOrWhiteSpace(PerPartitionSubscribeMib) || !string.IsNullOrWhiteSpace(ThroughputReservation)))
+        {
+            yield return new ValidationResult("At least one of MessageRetentionPeriod, Partitions, PerPartitionBytes, PerPartitionPublishMib, PerPartitionSubscribeMib, or ThroughputReservation must be specified.", [nameof(MessageRetentionPeriod), nameof(Partitions), nameof(PerPartitionBytes), nameof(PerPartitionPublishMib), nameof(PerPartitionSubscribeMib), nameof(ThroughputReservation)]);
+        }
+    }
+
 }

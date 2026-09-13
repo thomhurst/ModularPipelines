@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,81 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "app-profiles", "create")]
-public record GcloudBigtableAppProfilesCreateOptions : GcloudOptions
+public record GcloudBigtableAppProfilesCreateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Multi Cluster Routing Policy Single Cluster Routing Policy Use Multi Cluster Routing policy. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--route-any")]
+    public bool? RouteAny { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Multi Cluster Routing Policy Single Cluster Routing Policy Cluster IDs to route to using the Multi Cluster Routing Policy. If unset, all clusters in the instance are eligible.
+    /// </summary>
+    [CliOption("--restrict-to", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RestrictTo { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Multi Cluster Routing Policy Single Cluster Routing Policy Use row-affinity routing for this app profile.
+    /// </summary>
+    [CliFlag("--row-affinity")]
+    public bool? RowAffinity { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Multi Cluster Routing Policy Single Cluster Routing Policy Cluster ID to route to using Single Cluster Routing policy. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--route-to", Format = OptionFormat.EqualsSeparated)]
+    public string? RouteTo { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Multi Cluster Routing Policy Single Cluster Routing Policy Allow transactional writes with a Single Cluster Routing policy.
+    /// </summary>
+    [CliFlag("--transactional-writes")]
+    public bool? TransactionalWrites { get; set; }
+
+    /// <summary>
+    /// Friendly name of the app profile.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Ignore warnings and force create.
+    /// </summary>
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Data Boost Read-only Isolation Standard Isolation Use Data Boost serverless compute option, rather than standard provisioned node compute. If specified, --data-boost-compute-billing-owner is required. Specifying Data Boost compute on an app profile that uses standard provisioned node compute may cause unexpected behavior for running applications. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--data-boost")]
+    public bool? DataBoost { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Data Boost Read-only Isolation Standard Isolation Specify the Data Boost compute billing owner, required if --data-boost is passed. DATA_BOOST_COMPUTE_BILLING_OWNER must be (only one value is supported): HOST_PAYS Compute billing should be accounted towards the host Cloud project (containing the targeted Bigtable instance / table). This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--data-boost-compute-billing-owner", Format = OptionFormat.EqualsSeparated)]
+    public string? DataBoostComputeBillingOwner { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Data Boost Read-only Isolation Standard Isolation Specify the request priority under standard provisioned node compute capabilities. Passing this option implies standard provisioned node compute, e.g. the --standard option. If not specified, the app profile uses standard provisioned node compute with PRIORITY_HIGH by default. Specifying request priority on an app profile that has Data Boost serverless compute enabled changes the compute option to standard and uses the specified priority, which might cause unexpected behavior for running applications. PRIORITY must be one of: PRIORITY_HIGH Requests are treated with high priority. PRIORITY_LOW Requests are treated with low priority. PRIORITY_MEDIUM Requests are treated with medium priority.
+    /// </summary>
+    [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
+    public string? Priority { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Data Boost Read-only Isolation Standard Isolation Use standard provisioned node compute option, rather than Data Boost compute option. If specified, --priority is required.
+    /// </summary>
+    [CliFlag("--standard")]
+    public bool? Standard { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((RouteAny == true ? 1 : 0) + (RestrictTo?.Any() == true ? 1 : 0) + (RowAffinity == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RouteTo) ? 1 : 0) + (TransactionalWrites == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of RouteAny, RestrictTo, RowAffinity, RouteTo, or TransactionalWrites must be specified.", [nameof(RouteAny), nameof(RestrictTo), nameof(RowAffinity), nameof(RouteTo), nameof(TransactionalWrites)]);
+        }
+    }
+
 }

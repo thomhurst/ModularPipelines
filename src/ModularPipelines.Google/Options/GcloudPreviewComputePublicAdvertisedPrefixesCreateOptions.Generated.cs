@@ -10,17 +10,45 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// creates a     Compute Engine public advertised prefix
 /// </summary>
+/// <param name="Range">IP range allocated to this public advertised prefix, in CIDR format.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "public-advertised-prefixes", "create")]
 public record GcloudPreviewComputePublicAdvertisedPrefixesCreateOptions(
+    [property: CliOption("--range", Format = OptionFormat.EqualsSeparated)] string Range,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Description of this public advertised prefix.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// IP address to use for verification. It must be within the IP range specified in --range.
+    /// </summary>
+    [CliOption("--dns-verification-ip", Format = OptionFormat.EqualsSeparated)]
+    public string? DnsVerificationIp { get; set; }
+
+    /// <summary>
+    /// Specifies the IPv6 access type of the public advertised prefix. IPV6_ACCESS_TYPE must be one of: internal, external.
+    /// </summary>
+    [CliOption("--ipv6-access-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudIpv6AccessType? Ipv6AccessType { get; set; }
+
+    /// <summary>
+    /// Specifies how child public delegated prefix will be scoped. PDP_SCOPE must be one of: GLOBAL, REGIONAL.
+    /// </summary>
+    [CliOption("--pdp-scope", Format = OptionFormat.EqualsSeparated)]
+    public GcloudPdpScope? PdpScope { get; set; }
+
 }

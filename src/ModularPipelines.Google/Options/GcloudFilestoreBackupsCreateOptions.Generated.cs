@@ -10,17 +10,77 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Filestore backup
 /// </summary>
+/// <param name="FileShare">File share name on the Filestore instance to backup.</param>
+/// <param name="Instance">Share name of the Filestore instance you want to backup.</param>
+/// <param name="Region">Region (e.g. us-central1) for the backup.</param>
+/// <param name="Backup"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("filestore", "backups", "create")]
 public record GcloudFilestoreBackupsCreateOptions(
+    [property: CliOption("--file-share", Format = OptionFormat.EqualsSeparated)] string FileShare,
+    [property: CliOption("--instance", Format = OptionFormat.EqualsSeparated)] string Instance,
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Backup
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Region of the Filestore instance.
+    /// </summary>
+    [CliOption("--instance-location", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceLocation { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Zone of the Filestore instance.
+    /// </summary>
+    [CliOption("--instance-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceZone { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description for the backup. Limit: 2048 characters.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// CMEK for backup in the form of projects/{project}/locations/{location}/keyRings/{key-ring}/cryptoKeys/{crypto-key}
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// List of tag KEY=VALUE pairs to add.
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(InstanceLocation) ? 1 : 0) + (!string.IsNullOrWhiteSpace(InstanceZone) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of InstanceLocation or InstanceZone must be specified.", [nameof(InstanceLocation), nameof(InstanceZone)]);
+        }
+    }
+
 }

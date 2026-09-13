@@ -16,9 +16,60 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create an Apphub application
 /// </summary>
+/// <param name="ScopeType">Scope of the Application. SCOPE_TYPE must be one of: GLOBAL Represents a global application REGIONAL Represents a regional application</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apphub", "applications", "create")]
-public record GcloudApphubApplicationsCreateOptions : GcloudOptions
+public record GcloudApphubApplicationsCreateOptions(
+    [property: CliOption("--scope-type", Format = OptionFormat.EqualsSeparated)] string ScopeType
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Business owners of the application
+    /// </summary>
+    [CliOption("--business-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? BusinessOwners { get; set; }
+
+    /// <summary>
+    /// Criticality Type of the application. CRITICALITY_TYPE must be one of: HIGH High impact LOW Low impact MEDIUM Medium impact MISSION_CRITICAL Mission critical service, application or workload TYPE_UNSPECIFIED Unspecified criticality type
+    /// </summary>
+    [CliOption("--criticality-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CriticalityType { get; set; }
+
+    /// <summary>
+    /// Description of the Application
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Developer owners of the application
+    /// </summary>
+    [CliOption("--developer-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? DeveloperOwners { get; set; }
+
+    /// <summary>
+    /// Human-friendly display name
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Environment Type of the application. ENVIRONMENT_TYPE must be one of: DEVELOPMENT Development environment PRODUCTION Production environment STAGING Staging environment TEST Test environment TYPE_UNSPECIFIED Unspecified environment type
+    /// </summary>
+    [CliOption("--environment-type", Format = OptionFormat.EqualsSeparated)]
+    public string? EnvironmentType { get; set; }
+
+    /// <summary>
+    /// Operator owners of the application
+    /// </summary>
+    [CliOption("--operator-owners", Format = OptionFormat.EqualsSeparated)]
+    public string? OperatorOwners { get; set; }
+
 }

@@ -22,6 +22,18 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamWorkforcePoolsProvidersListOptions : GcloudOptions
 {
     /// <summary>
+    /// Workforce pool resource - The parent workforce pool of the workforce pool providers to list. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workforce pool or fully qualified identifier for the workforce pool. To set the workforce-pool attribute: ▸ provide the argument --workforce-pool on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--workforce-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkforcePool { get; set; }
+
+    /// <summary>
+    /// Workforce pool resource - The parent workforce pool of the workforce pool providers to list. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location for the workforce pool. To set the location attribute: ▸ provide the argument --workforce-pool on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// Show soft-deleted workforce pool providers by specifying this flag.
     /// </summary>
     [CliFlag("--show-deleted")]

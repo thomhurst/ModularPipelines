@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new version of an existing secret
 /// </summary>
+/// <param name="DataFile">File path from which to read secret data. Set this to "-" to read the secret data from stdin.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secrets", "versions", "add")]
-public record GcloudSecretsVersionsAddOptions : GcloudOptions
+public record GcloudSecretsVersionsAddOptions(
+    [property: CliOption("--data-file", Format = OptionFormat.EqualsSeparated)] string DataFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// Location resource - The location to create secret version. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

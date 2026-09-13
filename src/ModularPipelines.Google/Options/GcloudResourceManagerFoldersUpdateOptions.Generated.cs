@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update the display name of a     folder
 /// </summary>
+/// <param name="DisplayName">New display name for the folder (unique under the same parent).</param>
+/// <param name="FolderId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "folders", "update")]
 public record GcloudResourceManagerFoldersUpdateOptions(
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FolderId
 ) : GcloudOptions
 {

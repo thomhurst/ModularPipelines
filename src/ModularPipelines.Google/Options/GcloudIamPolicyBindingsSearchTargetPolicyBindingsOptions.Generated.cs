@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// search policy     bindings by target
 /// </summary>
+/// <param name="Target">The target resource, which is bound to the policy in the binding. Format: ◆ //iam.googleapis.com/locations/global/workforcePools/POOL_ID ◆ //iam.googleapis.com/projects/PROJECT_NUMBER/locations/global/workloadIdentityPools/POOL_ID ◆ //iam.googleapis.com/locations/global/workspace/WORKSPACE_ID ◆ //cloudresourcemanager.googleapis.com/projects/{project_number} ◆ //cloudresourcemanager.googleapis.com/folders/{folder_id} ◆ //cloudresourcemanager.googleapis.com/organizations/{organization_id}</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "policy-bindings", "search-target-policy-bindings")]
-public record GcloudIamPolicyBindingsSearchTargetPolicyBindingsOptions : GcloudOptions
+public record GcloudIamPolicyBindingsSearchTargetPolicyBindingsOptions(
+    [property: CliOption("--target", Format = OptionFormat.EqualsSeparated)] string Target
+) : GcloudOptions
 {
+    /// <summary>
+    /// Location resource - The parent resource where this search will be performed. This should be the nearest Resource Manager resource (project, folder, or organization) to the target. Format: ◆ projects/{project_id}/locations/{location} ◆ projects/{project_number}/locations/{location} ◆ folders/{folder_id}/locations/{location} ◆ organizations/{organization_id}/locations/{location} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations, iam.organizations.locations, iam.projects.locations]. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Location resource - The parent resource where this search will be performed. This should be the nearest Resource Manager resource (project, folder, or organization) to the target. Format: ◆ projects/{project_id}/locations/{location} ◆ projects/{project_number}/locations/{location} ◆ folders/{folder_id}/locations/{location} ◆ organizations/{organization_id}/locations/{location} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations, iam.organizations.locations, iam.projects.locations]. This must be specified. The folder id of the location resource. To set the folder attribute: ▸ provide the argument --location on the command line with a fully specified name; ▸ provide the argument --folder on the command line. Must be specified for resource of type [iam.folders.locations].
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Location resource - The parent resource where this search will be performed. This should be the nearest Resource Manager resource (project, folder, or organization) to the target. Format: ◆ projects/{project_id}/locations/{location} ◆ projects/{project_number}/locations/{location} ◆ folders/{folder_id}/locations/{location} ◆ organizations/{organization_id}/locations/{location} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [iam.folders.locations, iam.organizations.locations, iam.projects.locations]. This must be specified. The organization id of the location resource. To set the organization attribute: ▸ provide the argument --location on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [iam.organizations.locations].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
 }

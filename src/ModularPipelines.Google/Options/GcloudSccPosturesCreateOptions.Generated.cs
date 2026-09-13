@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Cloud Security Command Center posture
 /// </summary>
+/// <param name="PostureFromFile">YAML file containing the body of the posture to be created. Use a full or relative path to a local file containing the value of posture.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "postures", "create")]
-public record GcloudSccPosturesCreateOptions : GcloudOptions
+public record GcloudSccPosturesCreateOptions(
+    [property: CliOption("--posture-from-file", Format = OptionFormat.EqualsSeparated)] string PostureFromFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

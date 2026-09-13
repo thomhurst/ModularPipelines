@@ -16,9 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a composite health     check
 /// </summary>
+/// <param name="HealthDestination">URL to the destination resource. Must be set. Must be a ForwardingRule. The ForwardingRule must have load balancing scheme INTERNAL or INTERNAL_MANAGED and must be regional and in the same region as the CompositeHealthCheck (cross-region deployment for INTERNAL_MANAGED is not supported). Can be mutated.</param>
+/// <param name="HealthSources">URLs to the HealthSource resources whose results are AND'ed. I.e. the aggregated result is HEALTHY only if all sources are HEALTHY. Must have at least 1. Must not have more than 10. Must be regional and in the same region as the CompositeHealthCheck. Can be mutated.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "composite-health-checks", "create")]
-public record GcloudComputeCompositeHealthChecksCreateOptions : GcloudOptions
+public record GcloudComputeCompositeHealthChecksCreateOptions(
+    [property: CliOption("--health-destination", Format = OptionFormat.EqualsSeparated)] string HealthDestination,
+    [property: CliOption("--health-sources", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> HealthSources
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A textual description of this resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
 }

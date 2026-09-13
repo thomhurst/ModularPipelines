@@ -16,9 +16,32 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// add/remove/modify membership roles of a membership in a group
 /// </summary>
+/// <param name="GroupEmail">The email address of the group that member-email belongs to.</param>
+/// <param name="MemberEmail">The email address of the group or user that is being updated</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "groups", "memberships", "modify-membership-roles")]
-public record GcloudIdentityGroupsMembershipsModifyMembershipRolesOptions : GcloudOptions
+public record GcloudIdentityGroupsMembershipsModifyMembershipRolesOptions(
+    [property: CliOption("--group-email", Format = OptionFormat.EqualsSeparated)] string GroupEmail,
+    [property: CliOption("--member-email", Format = OptionFormat.EqualsSeparated)] string MemberEmail
+) : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: Resource representing the parameters to update membership roles. An example would be --update-roles-params MEMBER=expiry_details.expire_time.
+    /// </summary>
+    [CliOption("--update-roles-params", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdateRolesParams { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Membership roles to be added. Currently supported MembershipRole: 'MEMBER', 'OWNER', 'MANAGER'.
+    /// </summary>
+    [CliOption("--add-roles", Format = OptionFormat.EqualsSeparated)]
+    public string? AddRoles { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Membership role names to be removed. Currently supported MembershipRole: 'OWNER', 'MANAGER'. MEMBER-less owner is not supported so removing just MEMBER role won't be possible.
+    /// </summary>
+    [CliOption("--remove-roles", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveRoles { get; set; }
+
 }

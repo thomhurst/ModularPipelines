@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,57 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("database-migration", "objects", "lookup")]
-public record GcloudDatabaseMigrationObjectsLookupOptions : GcloudOptions
+public record GcloudDatabaseMigrationObjectsLookupOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// The source object identifier. At least one of these must be specified: The name of the database to lookup.
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string? Database { get; set; }
+
+    /// <summary>
+    /// The source object identifier. At least one of these must be specified: The name of the schema to lookup.
+    /// </summary>
+    [CliOption("--schema", Format = OptionFormat.EqualsSeparated)]
+    public string? Schema { get; set; }
+
+    /// <summary>
+    /// The source object identifier. At least one of these must be specified: The name of the table to lookup.
+    /// </summary>
+    [CliOption("--table", Format = OptionFormat.EqualsSeparated)]
+    public string? Table { get; set; }
+
+    /// <summary>
+    /// Migration job resource - The migration job to list migration job objects. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --migration-job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the migration_job or fully qualified identifier for the migration_job. To set the migration_job attribute: ▸ provide the argument --migration-job on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--migration-job", Format = OptionFormat.EqualsSeparated)]
+    public string? MigrationJob { get; set; }
+
+    /// <summary>
+    /// Migration job resource - The migration job to list migration job objects. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --migration-job on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud region for the migration_job. To set the region attribute: ▸ provide the argument --migration-job on the command line with a fully specified name; ▸ provide the argument --region on the command line.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// The type of the object to lookup. If not provided, the default is DATABASE. TYPE must be one of: DATABASE, SCHEMA, TABLE.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudType? Type { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(Database) || !string.IsNullOrWhiteSpace(Schema) || !string.IsNullOrWhiteSpace(Table)))
+        {
+            yield return new ValidationResult("At least one of Database, Schema, or Table must be specified.", [nameof(Database), nameof(Schema), nameof(Table)]);
+        }
+    }
+
 }

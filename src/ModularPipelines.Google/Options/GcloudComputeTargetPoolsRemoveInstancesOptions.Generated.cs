@@ -16,11 +16,32 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove instances from a     target pool
 /// </summary>
+/// <param name="Instances">Specifies a list of instances to remove from the target pool.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "target-pools", "remove-instances")]
 public record GcloudComputeTargetPoolsRemoveInstancesOptions(
+    [property: CliOption("--instances", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Instances,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Zone of the instances to remove from the target pool. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--instances-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? InstancesZone { get; set; }
+
+    /// <summary>
+    /// Region of the target pool to operate on. If not specified, it will be set to the region of the instances. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Zone of the instances to remove from the target pool. DEPRECATED, use --instances-zone. If not specified, you will be prompted to select a zone. Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
 }

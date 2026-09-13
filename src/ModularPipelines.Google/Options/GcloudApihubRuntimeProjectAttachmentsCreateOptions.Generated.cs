@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Runtime Project     Attachment
 /// </summary>
+/// <param name="RuntimeProject">Google cloud project name in the format: "projects/abc" or "projects/123". As input, project name with either project id or number are accepted. As output, this field will contain project number.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "runtime-project-attachments", "create")]
-public record GcloudApihubRuntimeProjectAttachmentsCreateOptions : GcloudOptions
+public record GcloudApihubRuntimeProjectAttachmentsCreateOptions(
+    [property: CliOption("--runtime-project", Format = OptionFormat.EqualsSeparated)] string RuntimeProject
+) : GcloudOptions
 {
 }

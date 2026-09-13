@@ -16,9 +16,42 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// load a snapshot into the     environment
 /// </summary>
+/// <param name="SnapshotPath">The Cloud Storage path to load the snapshot from. It must start with prefix gs:// and one needs to specify a single snapshot that should be loaded.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("composer", "environments", "snapshots", "load")]
-public record GcloudComposerEnvironmentsSnapshotsLoadOptions : GcloudOptions
+public record GcloudComposerEnvironmentsSnapshotsLoadOptions(
+    [property: CliOption("--snapshot-path", Format = OptionFormat.EqualsSeparated)] string SnapshotPath
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// When specified, skips setting Airflow overrides from the snapshot.
+    /// </summary>
+    [CliFlag("--skip-airflow-overrides-setting")]
+    public bool? SkipAirflowOverridesSetting { get; set; }
+
+    /// <summary>
+    /// When specified, skips setting environment variables from the snapshot.
+    /// </summary>
+    [CliFlag("--skip-environment-variables-setting")]
+    public bool? SkipEnvironmentVariablesSetting { get; set; }
+
+    /// <summary>
+    /// When specified, skips copying dags, plugins and data folders from the snapshot.
+    /// </summary>
+    [CliFlag("--skip-gcs-data-copying")]
+    public bool? SkipGcsDataCopying { get; set; }
+
+    /// <summary>
+    /// When specified, skips the installation of custom PyPI packages from the snapshot.
+    /// </summary>
+    [CliFlag("--skip-pypi-packages-installation")]
+    public bool? SkipPypiPackagesInstallation { get; set; }
+
 }

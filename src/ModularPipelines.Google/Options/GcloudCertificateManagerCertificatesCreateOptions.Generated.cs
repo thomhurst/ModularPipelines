@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,64 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("certificate-manager", "certificates", "create")]
 public record GcloudCertificateManagerCertificatesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Configuration for creating and uploading certificates to Cloud Certificate Manager. Exactly one of these must be specified: Configuration for uploading self-managed certificates and keys. Configuration for creating new managed certificates. Certificate data in PEM-encoded form. Use a full or relative path to a local file containing the value of certificate_file. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--certificate-file", Format = OptionFormat.EqualsSeparated)]
+    public string? CertificateFile { get; set; }
+
+    /// <summary>
+    /// Configuration for creating and uploading certificates to Cloud Certificate Manager. Exactly one of these must be specified: Configuration for uploading self-managed certificates and keys. Configuration for creating new managed certificates. Private key data in PEM-encoded form. Use a full or relative path to a local file containing the value of private_key_file. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--private-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PrivateKeyFile { get; set; }
+
+    /// <summary>
+    /// Configuration for creating and uploading certificates to Cloud Certificate Manager. Exactly one of these must be specified: Configuration for uploading self-managed certificates and keys. Configuration for creating new managed certificates. Public domain name(s) to create a certificate for. ▸ If a DNS authorization is provided for the domain, the certificate will be validated against the DNS record you added as part of the authorization flow. ▸ If no DNS authorization is provided, Certificate Manager will attempt to validate the domain against the serving endpoint directly. You may list multiple, comma-separated domain names to include multiple names as Subject Alternative Names on the issued certificate. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--domains", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Domains { get; set; }
+
+    /// <summary>
+    /// Configuration for creating and uploading certificates to Cloud Certificate Manager. Exactly one of these must be specified: Configuration for uploading self-managed certificates and keys. Configuration for creating new managed certificates. At most one of these can be specified: Name(s) of the DNS authorizations for each listed domain. Note that each domain requires a matching authorization, and any domain that fails authorization will prevent issuance and/or renewal of the certificate. To reference multiple DNS authorizations, provide a list of comma separated DNS authorization resource names or URLs. For example: $ gcloud certificate-manager certificates create \ --dns-authorizations=api-example-com,www-example-com
+    /// </summary>
+    [CliOption("--dns-authorizations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DnsAuthorizations { get; set; }
+
+    /// <summary>
+    /// Configuration for creating and uploading certificates to Cloud Certificate Manager. Exactly one of these must be specified: Configuration for uploading self-managed certificates and keys. Configuration for creating new managed certificates. At most one of these can be specified: Name of the Certificate Issuance Config to use for issuance.
+    /// </summary>
+    [CliOption("--issuance-config", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuanceConfig { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Human-readable description of the resource.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Scope of the managed certificate. This determines which services the certificate can be attached to/associated with. Defaults to DEFAULT. SCOPE must be one of: all-regions Certificates with scope ALL_REGIONS are currently used for Cross-region Internal Application Load Balancer only. client-auth Certificates with scope CLIENT_AUTH are used for client authentication. default Certificates with DEFAULT scope are used for Load Balancing and Cloud CDN. If unsure, choose this option. edge-cache Certificates with scope EDGE_CACHE are special-purposed certificates, scoped for use with Media Edge services only.
+    /// </summary>
+    [CliOption("--scope", Format = OptionFormat.EqualsSeparated)]
+    public string? Scope { get; set; }
+
+    /// <summary>
+    /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;. Example: 123/environment=production,123/costCenter=marketing
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
 }

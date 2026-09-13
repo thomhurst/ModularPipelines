@@ -10,15 +10,27 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new     workload identity pool provider key
 /// </summary>
+/// <param name="Spec">The specifications for the key. SPEC must be one of: key-spec-unspecified, rsa-2048, rsa-3072, rsa-4096.</param>
+/// <param name="Use">The purpose of the key. USE must be one of: encryption, key-use-unspecified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workload-identity-pools", "providers", "keys", "create")]
-public record GcloudIamWorkloadIdentityPoolsProvidersKeysCreateOptions : GcloudOptions
+public record GcloudIamWorkloadIdentityPoolsProvidersKeysCreateOptions(
+    [property: CliOption("--spec", Format = OptionFormat.EqualsSeparated)] GcloudSpec Spec,
+    [property: CliOption("--use", Format = OptionFormat.EqualsSeparated)] GcloudUse Use
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

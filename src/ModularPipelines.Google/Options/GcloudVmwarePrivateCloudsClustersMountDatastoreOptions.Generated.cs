@@ -10,15 +10,73 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// mount a datastore     to a Google Cloud VMware Engine cluster
 /// </summary>
+/// <param name="Datastore">The datastore resource name to mount.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "clusters", "mount-datastore")]
-public record GcloudVmwarePrivateCloudsClustersMountDatastoreOptions : GcloudOptions
+public record GcloudVmwarePrivateCloudsClustersMountDatastoreOptions(
+    [property: CliOption("--datastore", Format = OptionFormat.EqualsSeparated)] string Datastore
+) : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a JSON file containing the datastore network configuration. Use a full or relative path to a local file containing the value of datastore_network.
+    /// </summary>
+    [CliOption("--datastore-network", Format = OptionFormat.EqualsSeparated)]
+    public string? DatastoreNetwork { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Datastore network configuration if not providing via file. Subnet to use for inlined datastore network configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Datastore network configuration if not providing via file. Connection count for inlined datastore network configuration.
+    /// </summary>
+    [CliOption("--connection-count", Format = OptionFormat.EqualsSeparated)]
+    public int? ConnectionCount { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Datastore network configuration if not providing via file. MTU for inlined datastore network configuration.
+    /// </summary>
+    [CliOption("--mtu", Format = OptionFormat.EqualsSeparated)]
+    public string? Mtu { get; set; }
+
+    /// <summary>
+    /// Access mode for the datastore. ACCESS_MODE must be one of: READ_WRITE, READ_ONLY.
+    /// </summary>
+    [CliOption("--access-mode", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAccessMode? AccessMode { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// If set, ignore colocation checks.
+    /// </summary>
+    [CliFlag("--ignore-colocation")]
+    public bool? IgnoreColocation { get; set; }
+
+    /// <summary>
+    /// NFS version for the datastore. NFS_VERSION must be one of: NFS_V3, NFS_V4.
+    /// </summary>
+    [CliOption("--nfs-version", Format = OptionFormat.EqualsSeparated)]
+    public GcloudNfsVersion? NfsVersion { get; set; }
+
 }

@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// show the latest status of an     operation
 /// </summary>
+/// <param name="Name">The full name of the Cloud Scheduler operation to describe. Format: projects/{project}/locations/{location}/operations/{operation}</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scheduler", "operations", "describe")]
-public record GcloudSchedulerOperationsDescribeOptions : GcloudOptions
+public record GcloudSchedulerOperationsDescribeOptions(
+    [property: CliOption("--name", Format = OptionFormat.EqualsSeparated)] string Name
+) : GcloudOptions
 {
 }

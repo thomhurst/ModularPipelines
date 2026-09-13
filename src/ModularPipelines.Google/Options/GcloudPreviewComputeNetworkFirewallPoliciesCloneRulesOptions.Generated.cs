@@ -16,11 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// replace the     rules of a Compute Engine network firewall policy with rules from     another policy
 /// </summary>
+/// <param name="SourceFirewallPolicy">Name of the source network firewall policy to copy the rules from.</param>
+/// <param name="FirewallPolicy"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "network-firewall-policies", "clone-rules")]
 public record GcloudPreviewComputeNetworkFirewallPoliciesCloneRulesOptions(
+    [property: CliOption("--source-firewall-policy", Format = OptionFormat.EqualsSeparated)] string SourceFirewallPolicy,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FirewallPolicy
 ) : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: If set, the firewall policy is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the firewall policy to clone-rules. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

@@ -16,9 +16,60 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a policy     orchestrator
 /// </summary>
+/// <param name="PolicyType">Policy type to use. POLICY_TYPE must be (only one value is supported): os_policy_assignment_v1 OS policy assignment v1.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "os-config", "policy-orchestrators", "create")]
-public record GcloudComputeOsConfigPolicyOrchestratorsCreateOptions : GcloudOptions
+public record GcloudComputeOsConfigPolicyOrchestratorsCreateOptions(
+    [property: CliOption("--policy-type", Format = OptionFormat.EqualsSeparated)] string PolicyType
+) : GcloudOptions
 {
+    /// <summary>
+    /// Action to be taken on policy. ACTION must be one of: delete Delete a policy with a given name. policy-id must be specified. upsert Create or update a policy. policy-file must be specified.
+    /// </summary>
+    [CliOption("--action", Format = OptionFormat.EqualsSeparated)]
+    public string? Action { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Applies policy to selected folders. Comma-separated list of folder numbers. Can beused together with --include-projects.
+    /// </summary>
+    [CliOption("--include-folders", Format = OptionFormat.EqualsSeparated)]
+    public string? IncludeFolders { get; set; }
+
+    /// <summary>
+    /// Applies policy to selected locations, e.g. us-central1-a.
+    /// </summary>
+    [CliOption("--include-locations", Format = OptionFormat.EqualsSeparated)]
+    public string? IncludeLocations { get; set; }
+
+    /// <summary>
+    /// Applies policy to selected projects. Comma-separated list of project numbers. Can be used together with --include-folders.
+    /// </summary>
+    [CliOption("--include-projects", Format = OptionFormat.EqualsSeparated)]
+    public string? IncludeProjects { get; set; }
+
+    /// <summary>
+    /// Absolute path to the OS policy assignment file on your local client. File must be in either JSON or YAML format. This file defines the OS policies that you want to apply to your VMs, the target VMs that you want to apply the policies to, and the rollout rate at which to apply the OS policies on a zonal level. For more information about this resource and sample OS policy assignment files, see https://cloud.google.com/compute/docs/os-configuration-management/working-with-os-policies#os-policy-assignment.
+    /// </summary>
+    [CliOption("--policy-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PolicyFile { get; set; }
+
+    /// <summary>
+    /// Policy id. Must be specified for DELETE action.
+    /// </summary>
+    [CliOption("--policy-id", Format = OptionFormat.EqualsSeparated)]
+    public string? PolicyId { get; set; }
+
+    /// <summary>
+    /// State of the policy orchestrator. STATE must be one of: active Creates a policy orchestrator in ACTIVE state. stopped Creates a policy orchestrator in STOPPED state.
+    /// </summary>
+    [CliOption("--state", Format = OptionFormat.EqualsSeparated)]
+    public string? State { get; set; }
+
 }

@@ -10,15 +10,25 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Membership     Binding
 /// </summary>
+/// <param name="Scope">ID of the scope or fully qualified identifier for the scope. To set the scope attribute: ◆ provide the argument --scope on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "memberships", "bindings", "create")]
-public record GcloudContainerFleetMembershipsBindingsCreateOptions : GcloudOptions
+public record GcloudContainerFleetMembershipsBindingsCreateOptions(
+    [property: CliOption("--scope", Format = OptionFormat.EqualsSeparated)] string Scope
+) : GcloudOptions
 {
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
 }

@@ -10,17 +10,29 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// creates a firewall rule
 /// </summary>
+/// <param name="Action">Allow or deny matched traffic. ACTION must be one of: ALLOW, DENY.</param>
+/// <param name="SourceRange">An IP address or range in CIDR notation or the * wildcard to match all traffic.</param>
+/// <param name="Priority"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "firewall-rules", "create")]
 public record GcloudAppFirewallRulesCreateOptions(
+    [property: CliOption("--action", Format = OptionFormat.EqualsSeparated)] GcloudAction Action,
+    [property: CliOption("--source-range", Format = OptionFormat.EqualsSeparated)] string SourceRange,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
 ) : GcloudOptions
 {
+    /// <summary>
+    /// A text description of the rule.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
 }

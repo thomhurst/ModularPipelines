@@ -13,9 +13,12 @@ using ModularPipelines.Google.Options;
 
 namespace ModularPipelines.Google.Options;
 
+/// <param name="Permissions">Permissions to be tested.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "attachments", "groups", "test-iam-permissions")]
-public record GcloudPreviewComputeInterconnectsAttachmentsGroupsTestIamPermissionsOptions : GcloudOptions
+public record GcloudPreviewComputeInterconnectsAttachmentsGroupsTestIamPermissionsOptions(
+    [property: CliOption("--permissions", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Permissions
+) : GcloudOptions
 {
 }

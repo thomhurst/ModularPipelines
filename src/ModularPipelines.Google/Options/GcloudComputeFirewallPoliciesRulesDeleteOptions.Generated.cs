@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// deletes a Compute Engine     organization firewall policy rule
 /// </summary>
+/// <param name="FirewallPolicy">Short name of the firewall policy into which the rule should be deleted.</param>
+/// <param name="Priority"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "firewall-policies", "rules", "delete")]
 public record GcloudComputeFirewallPoliciesRulesDeleteOptions(
+    [property: CliOption("--firewall-policy", Format = OptionFormat.EqualsSeparated)] string FirewallPolicy,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Organization which the organization firewall policy belongs to. Must be set if FIREWALL_POLICY is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
 }

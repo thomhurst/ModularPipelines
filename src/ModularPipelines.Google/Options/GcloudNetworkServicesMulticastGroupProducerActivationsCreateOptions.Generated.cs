@@ -10,15 +10,43 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a multicast group producer activation
 /// </summary>
+/// <param name="MulticastProducerAssociation">The multicast producer association to be used.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-services", "multicast-group-producer-activations", "create")]
-public record GcloudNetworkServicesMulticastGroupProducerActivationsCreateOptions : GcloudOptions
+public record GcloudNetworkServicesMulticastGroupProducerActivationsCreateOptions(
+    [property: CliOption("--multicast-producer-association", Format = OptionFormat.EqualsSeparated)] string MulticastProducerAssociation
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The description for the multicast group producer activation.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The multicast group range activation to be used.
+    /// </summary>
+    [CliOption("--multicast-group-range-activation", Format = OptionFormat.EqualsSeparated)]
+    public string? MulticastGroupRangeActivation { get; set; }
+
 }

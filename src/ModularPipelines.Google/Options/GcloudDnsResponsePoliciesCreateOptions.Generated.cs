@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// creates a new Cloud DNS response     policy
 /// </summary>
+/// <param name="Description">A description of the response policy.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "response-policies", "create")]
-public record GcloudDnsResponsePoliciesCreateOptions : GcloudOptions
+public record GcloudDnsResponsePoliciesCreateOptions(
+    [property: CliOption("--description", Format = OptionFormat.EqualsSeparated)] string Description
+) : GcloudOptions
 {
+    /// <summary>
+    /// The comma-separated list of GKE cluster names to associate with the response policy.
+    /// </summary>
+    [CliOption("--gkeclusters", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Gkeclusters { get; set; }
+
+    /// <summary>
+    /// Specifies the desired service location the request is sent to. Defaults to Cloud DNS global service. Use --location=global if you want to target the global service.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// The comma-separated list of network names to associate with the response policy.
+    /// </summary>
+    [CliOption("--networks", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Networks { get; set; }
+
 }

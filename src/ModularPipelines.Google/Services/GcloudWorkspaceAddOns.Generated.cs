@@ -54,7 +54,7 @@ public class GcloudWorkspaceAddOns : IGcloudWorkspaceAddOns
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudWorkspaceAddOnsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudWorkspaceAddOnsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ public class GcloudWorkspaceAddOns : IGcloudWorkspaceAddOns
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudWorkspaceAddOnsGetAuthorizationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudWorkspaceAddOnsGetAuthorizationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

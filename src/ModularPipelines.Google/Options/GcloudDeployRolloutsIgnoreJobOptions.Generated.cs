@@ -16,9 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// ignores a specified job and phase     combination on a rollout
 /// </summary>
+/// <param name="JobId">Job ID on a rollout resource</param>
+/// <param name="PhaseId">Phase ID on a rollout resource</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "rollouts", "ignore-job")]
-public record GcloudDeployRolloutsIgnoreJobOptions : GcloudOptions
+public record GcloudDeployRolloutsIgnoreJobOptions(
+    [property: CliOption("--job-id", Format = OptionFormat.EqualsSeparated)] string JobId,
+    [property: CliOption("--phase-id", Format = OptionFormat.EqualsSeparated)] string PhaseId
+) : GcloudOptions
 {
+    /// <summary>
+    /// Deploy policies to override
+    /// </summary>
+    [CliOption("--override-deploy-policies", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? OverrideDeployPolicies { get; set; }
+
 }

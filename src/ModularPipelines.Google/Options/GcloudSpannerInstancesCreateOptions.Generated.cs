@@ -10,17 +10,131 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Cloud Spanner instance
 /// </summary>
+/// <param name="Config">Instance configuration defines the geographic placement and replication of the databases in that instance. Available configurations can be found by running "gcloud spanner instance-configs list"</param>
+/// <param name="Description">Description of the instance.</param>
+/// <param name="Instance"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "instances", "create")]
 public record GcloudSpannerInstancesCreateOptions(
+    [property: CliOption("--config", Format = OptionFormat.EqualsSeparated)] string Config,
+    [property: CliOption("--description", Format = OptionFormat.EqualsSeparated)] string Description,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The default backup schedule type that is used in the instance. DEFAULT_BACKUP_SCHEDULE_TYPE must be one of: AUTOMATIC A default backup schedule is created automatically when a new database is created in an instance. You can edit or delete the default backup schedule once it's created. The default backup schedule creates a full backup every 24 hours. These full backups are retained for 7 days. DEFAULT_BACKUP_SCHEDULE_TYPE_UNSPECIFIED Not specified. NONE No default backup schedule is created automatically when a new database is created in an instance.
+    /// </summary>
+    [CliOption("--default-backup-schedule-type", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultBackupScheduleType { get; set; }
+
+    /// <summary>
+    /// Spanner edition. EDITION must be one of: EDITION_UNSPECIFIED Spanner's legacy pricing model. For more information, see the Spanner editions overview (https://cloud.google.com/spanner/docs/editions-overview) ENTERPRISE Enterprise edition ENTERPRISE_PLUS Enterprise Plus edition STANDARD Standard edition
+    /// </summary>
+    [CliOption("--edition", Format = OptionFormat.EqualsSeparated)]
+    public string? Edition { get; set; }
+
+    /// <summary>
+    /// The expire behavior of a free trial instance. EXPIRE_BEHAVIOR must be one of: free-to-provisioned When the free trial instance expires, upgrade the instance to a provisioned instance. remove-after-grace-period When the free trial instance expires, disable the instance, and delete it after the grace period passes if it has not been upgraded to a provisioned instance.
+    /// </summary>
+    [CliOption("--expire-behavior", Format = OptionFormat.EqualsSeparated)]
+    public string? ExpireBehavior { get; set; }
+
+    /// <summary>
+    /// Specifies the type for this instance. INSTANCE_TYPE must be one of: free-instance Free trial instances provide no guarantees for dedicated resources, both node_count and processing_units should be 0. They come with stricter usage limits and limited support. provisioned Provisioned instances have dedicated resources, standard usage limits, and support.
+    /// </summary>
+    [CliOption("--instance-type", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceType { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Number of nodes for the instance.
+    /// </summary>
+    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? Nodes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Number of processing units for the instance.
+    /// </summary>
+    [CliOption("--processing-units", Format = OptionFormat.EqualsSeparated)]
+    public string? ProcessingUnits { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specifies the target percentage of storage the autoscaled instance can utilize. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-storage-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingStorageTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specifies the asymmetric autoscaling option for the instance.
+    /// </summary>
+    [CliOption("--asymmetric-autoscaling-option", Format = OptionFormat.EqualsSeparated)]
+    public string? AsymmetricAutoscalingOption { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Set the flag to disable downscaling for the autoscaled instance. Use --disable-downscaling to enable and --no-disable-downscaling to disable.
+    /// </summary>
+    [CliFlag("--disable-downscaling")]
+    public bool? DisableDownscaling { get; set; }
+
+    /// <summary>
+    /// Negates --disable-downscaling. At most one of these can be specified: Or at least one of these can be specified: Autoscaling Set the flag to disable downscaling for the autoscaled instance. Use --disable-downscaling to enable and --no-disable-downscaling to disable.
+    /// </summary>
+    [CliFlag("--no-disable-downscaling")]
+    public bool? NoDisableDownscaling { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specify one or both CPU targets: At least one of these must be specified: Specifies the target percentage of high-priority CPU the autoscaled instance can utilize.
+    /// </summary>
+    [CliOption("--autoscaling-high-priority-cpu-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingHighPriorityCpuTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Specify one or both CPU targets: At least one of these must be specified: Specifies the target percentage of total CPU the autoscaled instance can utilize.
+    /// </summary>
+    [CliOption("--autoscaling-total-cpu-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingTotalCpuTarget { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling limits can be defined in either nodes or processing units. Exactly one of these must be specified: Autoscaling limits in nodes: Autoscaling limits in processing units: Maximum number of nodes for the autoscaled instance. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMaxNodes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling limits can be defined in either nodes or processing units. Exactly one of these must be specified: Autoscaling limits in nodes: Autoscaling limits in processing units: Minimum number of nodes for the autoscaled instance. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMinNodes { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling limits can be defined in either nodes or processing units. Exactly one of these must be specified: Autoscaling limits in nodes: Autoscaling limits in processing units: Maximum number of processing units for the autoscaled instance. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-max-processing-units", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMaxProcessingUnits { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Autoscaling Autoscaling limits can be defined in either nodes or processing units. Exactly one of these must be specified: Autoscaling limits in nodes: Autoscaling limits in processing units: Minimum number of processing units for the autoscaled instance. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--autoscaling-min-processing-units", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMinProcessingUnits { get; set; }
+
 }

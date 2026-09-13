@@ -10,15 +10,48 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Security Command Center finding
 /// </summary>
+/// <param name="Category">Taxonomy group within findings from a given source. Example: XSS_SCRIPTING</param>
+/// <param name="EventTime">Time at which the event took place. For example, if the finding represents an open firewall it would capture the time the open firewall was detected. If event-time is not provided, it will default to UTC version of NOW. See $ gcloud topic datetimes for information on supported time formats.</param>
+/// <param name="ResourceName">Full resource name of the Google Cloud Platform resource this finding is for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "findings", "create")]
-public record GcloudSccFindingsCreateOptions : GcloudOptions
+public record GcloudSccFindingsCreateOptions(
+    [property: CliOption("--category", Format = OptionFormat.EqualsSeparated)] string Category,
+    [property: CliOption("--event-time", Format = OptionFormat.EqualsSeparated)] string EventTime,
+    [property: CliOption("--resource-name", Format = OptionFormat.EqualsSeparated)] string ResourceName
+) : GcloudOptions
 {
+    /// <summary>
+    /// URI that, if available, points to a web page outside of Cloud SCC (Security Command Center) where additional information about the finding can be found. This field is guaranteed to be either empty or a well formed URL.
+    /// </summary>
+    [CliOption("--external-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? ExternalUri { get; set; }
+
+    /// <summary>
+    /// When data residency controls are enabled, this attribute specifies the location in which the resource is located and applicable. The location attribute can be provided as part of the fully specified resource name or with the --location argument on the command line. The default location is global. NOTE: If you override the endpoint to a regional endpoint (https://cloud.google.com/security-command-center/docs/reference/rest/index.html?rep_location=global#regional-service-endpoint) you must specify the correct data location (https://cloud.google.com/security-command-center/docs/data-residency-support#locations) using this flag. The default location on this command is unrelated to the default location that is specified when data residency controls are enabled for Security Command Center. NOTE: If no location is specified, the default location is global AND the request will be routed to the SCC V1 API. To use the SCC V2 API - please explicitly specify the flag.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Source specific properties. These properties are managed by the source that writes the finding. The key names in the source_properties map must be between 1 and 255 characters, and must start with a letter and contain alphanumeric characters or underscores only. For example "key1=val1,key2=val2"
+    /// </summary>
+    [CliOption("--source-properties", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? SourceProperties { get; set; }
+
+    /// <summary>
+    /// State is one of: [ACTIVE, INACTIVE]. STATE must be one of: active, inactive, state-unspecified.
+    /// </summary>
+    [CliOption("--state", Format = OptionFormat.EqualsSeparated)]
+    public GcloudState? State { get; set; }
+
 }

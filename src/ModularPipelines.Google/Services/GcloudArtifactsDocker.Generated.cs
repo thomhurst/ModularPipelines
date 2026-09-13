@@ -66,7 +66,7 @@ public class GcloudArtifactsDocker
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudArtifactsDockerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudArtifactsDockerOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

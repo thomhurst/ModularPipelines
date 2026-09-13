@@ -21,4 +21,22 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "vmware", "admin-clusters", "enroll")]
 public record GcloudContainerVmwareAdminClustersEnrollOptions : GcloudOptions
 {
+    /// <summary>
+    /// Admin cluster membership resource - membership of the admin cluster. Membership can be the membership ID or the full resource name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-cluster-membership on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the admin_cluster_membership or fully qualified identifier for the admin_cluster_membership. To set the admin_cluster_membership attribute: ▸ provide the argument --admin-cluster-membership on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--admin-cluster-membership", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminClusterMembership { get; set; }
+
+    /// <summary>
+    /// Admin cluster membership resource - membership of the admin cluster. Membership can be the membership ID or the full resource name. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --admin-cluster-membership on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. Google Cloud location for the admin_cluster_membership. To set the location attribute: ▸ provide the argument --admin-cluster-membership on the command line with a fully specified name; ▸ provide the argument --admin-cluster-membership-location on the command line.
+    /// </summary>
+    [CliOption("--admin-cluster-membership-location", Format = OptionFormat.EqualsSeparated)]
+    public string? AdminClusterMembershipLocation { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

@@ -21,4 +21,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-security", "gateway-security-policies", "rules", "list")]
 public record GcloudNetworkSecurityGatewaySecurityPoliciesRulesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// Gateway security policy resource - The project of the Gateway Security Policy Rules to display. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --gateway-security-policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the gateway security policy or fully qualified identifier for the gateway security policy. To set the gateway-security-policy attribute: ▸ provide the argument --gateway-security-policy on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--gateway-security-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? GatewaySecurityPolicy { get; set; }
+
+    /// <summary>
+    /// Gateway security policy resource - The project of the Gateway Security Policy Rules to display. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --gateway-security-policy on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location Id. To set the location attribute: ▸ provide the argument --gateway-security-policy on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

@@ -10,17 +10,264 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new certificate
 /// </summary>
+/// <param name="Certificate"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "certificates", "create")]
 public record GcloudPrivatecaCertificatesCreateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Certificate
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Certificate persistence options. Exactly one of these must be specified: The path where the resulting PEM-encoded certificate chain file should be written (ordered from leaf to root).
+    /// </summary>
+    [CliOption("--cert-output-file", Format = OptionFormat.EqualsSeparated)]
+    public string? CertOutputFile { get; set; }
+
+    /// <summary>
+    /// Certificate persistence options. Exactly one of these must be specified: If this flag is set, the certificate resource will not be persisted and the returned certificate will not contain the pem_certificate field.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: A PEM-encoded certificate signing request file path. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--csr", Format = OptionFormat.EqualsSeparated)]
+    public string? Csr { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: If this value is set then the issued certificate will use the subject found in the CSR preserving the exact RDN sequence.
+    /// </summary>
+    [CliFlag("--rdn-sequence-subject")]
+    public bool? RdnSequenceSubject { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: Alternatively, you may describe the certificate and key to use. The subject names for the certificate. At least one of these must be specified: One or more comma-separated DNS Subject Alternative Names.
+    /// </summary>
+    [CliOption("--dns-san", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DnsSan { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: Alternatively, you may describe the certificate and key to use. The subject names for the certificate. At least one of these must be specified: One or more comma-separated email Subject Alternative Names.
+    /// </summary>
+    [CliOption("--email-san", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? EmailSan { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: Alternatively, you may describe the certificate and key to use. The subject names for the certificate. At least one of these must be specified: One or more comma-separated IP Subject Alternative Names.
+    /// </summary>
+    [CliOption("--ip-san", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? IpSan { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: Alternatively, you may describe the certificate and key to use. The subject names for the certificate. At least one of these must be specified: X.501 name of the certificate subject. Example: --subject "C=US,ST=California,L=Mountain View,O=Google LLC,CN=google.com"
+    /// </summary>
+    [CliOption("--subject", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Subject { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: Alternatively, you may describe the certificate and key to use. The subject names for the certificate. At least one of these must be specified: One or more comma-separated URI Subject Alternative Names.
+    /// </summary>
+    [CliOption("--uri-san", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? UriSan { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: To describe the key that will be used for this certificate, use one of the following options. Exactly one of these must be specified: To generate a new key pair, use the following: Use this flag to have a new RSA-2048 private key securely generated on your machine. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--generate-key")]
+    public bool? GenerateKey { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: To describe the key that will be used for this certificate, use one of the following options. Exactly one of these must be specified: To generate a new key pair, use the following: The path where the generated private key file should be written (in PEM format). Note: possession of this key file could allow anybody to act as this certificate's subject. Please make sure that you store this key file in a secure location at all times, and ensure that only authorized users have access to it. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--key-output-file", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyOutputFile { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: Key version resource - An existing KMS key version backing this certificate. The arguments in this group can be used to specify the attributes of this resource. ID of the key version or fully qualified identifier for the key version. To set the kms-key-version attribute: ▫ provide the argument --kms-key-version on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key-version", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyVersion { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: Key version resource - An existing KMS key version backing this certificate. The arguments in this group can be used to specify the attributes of this resource. The KMS key of the key version. To set the kms-key attribute: ▫ provide the argument --kms-key-version on the command line with a fully specified name; ▫ provide the argument --kms-key on the command line.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: Key version resource - An existing KMS key version backing this certificate. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key version. To set the kms-keyring attribute: ▫ provide the argument --kms-key-version on the command line with a fully specified name; ▫ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: Key version resource - An existing KMS key version backing this certificate. The arguments in this group can be used to specify the attributes of this resource. The location of the key version. To set the kms-location attribute: ▫ provide the argument --kms-key-version on the command line with a fully specified name; ▫ provide the argument --kms-location on the command line; ▫ provide the argument location on the command line; ▫ set the property privateca/location.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: Key version resource - An existing KMS key version backing this certificate. The arguments in this group can be used to specify the attributes of this resource. The project containing the key version. To set the kms-project attribute: ▫ provide the argument --kms-key-version on the command line with a fully specified name; ▫ provide the argument --kms-project on the command line; ▫ provide the argument project on the command line; ▫ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: The x509 configuration used for this certificate. At most one of these can be specified: The name of an existing preset profile used to encapsulate X.509 parameter values. USE_PRESET_PROFILE must be one of: leaf_client_tls, leaf_code_signing, leaf_mtls, leaf_server_tls, leaf_smime, root_unconstrained, subordinate_client_tls_pathlen_0, subordinate_code_signing_pathlen_0, subordinate_mtls_pathlen_0, subordinate_server_tls_pathlen_0, subordinate_smime_pathlen_0, subordinate_unconstrained_pathlen_0. For more information, see https://cloud.google.com/certificate-authority-service/docs/certificate-profile.
+    /// </summary>
+    [CliOption("--use-preset-profile", Format = OptionFormat.EqualsSeparated)]
+    public GcloudUsePresetProfile? UsePresetProfile { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: The x509 configuration used for this certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations The list of extended key usages for this certificate. This can only be provided if --use-preset-profile is not provided. EXTENDED_KEY_USAGES must be one of: server_auth, client_auth, code_signing, email_protection, time_stamping, ocsp_signing.
+    /// </summary>
+    [CliOption("--extended-key-usages", Format = OptionFormat.EqualsSeparated)]
+    public GcloudExtendedKeyUsages? ExtendedKeyUsages { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: The x509 configuration used for this certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations Whether this certificate is for a CertificateAuthority or not. Indicates the Certificate Authority field in the x509 basic constraints extension.
+    /// </summary>
+    [CliFlag("--is-ca-cert")]
+    public bool? IsCaCert { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: The x509 configuration used for this certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations The list of key usages for this certificate. This can only be provided if --use-preset-profile is not provided. KEY_USAGES must be one of: digital_signature, content_commitment, key_encipherment, data_encipherment, key_agreement, cert_sign, crl_sign, encipher_only, decipher_only.
+    /// </summary>
+    [CliOption("--key-usages", Format = OptionFormat.EqualsSeparated)]
+    public GcloudKeyUsages? KeyUsages { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: The x509 configuration used for this certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations At most one of these can be specified: Maximum depth of subordinate CAs allowed under this CA for a CA certificate. This can only be provided if neither --use-preset-profile nor --unconstrained-chain-length are provided.
+    /// </summary>
+    [CliOption("--max-chain-length", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxChainLength { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: The x509 configuration used for this certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations At most one of these can be specified: If set, allows an unbounded number of subordinate CAs under this newly issued CA certificate. This can only be provided if neither --use-preset-profile nor --max-chain-length are provided.
+    /// </summary>
+    [CliFlag("--unconstrained-chain-length")]
+    public bool? UnconstrainedChainLength { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: The x509 configuration used for this certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations Indicates whether or not name constraints are marked as critical. Name constraints are considered critical unless explicitly set to false. Enabled by default, use --no-name-constraints-critical to disable.
+    /// </summary>
+    [CliFlag("--name-constraints-critical")]
+    public bool? NameConstraintsCritical { get; set; }
+
+    /// <summary>
+    /// Negates --name-constraints-critical. Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: The x509 configuration used for this certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations Indicates whether or not name constraints are marked as critical. Name constraints are considered critical unless explicitly set to false. Enabled by default, use --no-name-constraints-critical to disable.
+    /// </summary>
+    [CliFlag("--no-name-constraints-critical")]
+    public bool? NoNameConstraintsCritical { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: The x509 configuration used for this certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations One or more comma-separated DNS names which are excluded from being issued certificates. Any DNS name that can be constructed by simply adding zero or more labels to the left-hand side of the name satisfies the name constraint. For example, example.com, www.example.com, www.sub.example.com would satisfy example.com, while example1.com does not.
+    /// </summary>
+    [CliOption("--name-excluded-dns", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NameExcludedDns { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: The x509 configuration used for this certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations One or more comma-separated emails which are excluded from being issued certificates. The value can be a particular email address, a hostname to indicate all email addresses on that host or a domain with a leading period (e.g. .example.com) to indicate all email addresses in that domain.
+    /// </summary>
+    [CliOption("--name-excluded-email", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NameExcludedEmail { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: The x509 configuration used for this certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations One or more comma-separated IP ranges which are excluded from being issued certificates. For IPv4 addresses, the ranges are expressed using CIDR notation as specified in RFC 4632. For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+    /// </summary>
+    [CliOption("--name-excluded-ip", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NameExcludedIp { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: The x509 configuration used for this certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations One or more comma-separated URIs which are excluded from being issued certificates. The value can be a hostname or a domain with a leading period (like .example.com)
+    /// </summary>
+    [CliOption("--name-excluded-uri", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NameExcludedUri { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: The x509 configuration used for this certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations One or more comma-separated DNS names which are permitted to be issued certificates. Any DNS name that can be constructed by simply adding zero or more labels to the left-hand side of the name satisfies the name constraint. For example, example.com, www.example.com, www.sub.example.com would satisfy example.com, while example1.com does not.
+    /// </summary>
+    [CliOption("--name-permitted-dns", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NamePermittedDns { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: The x509 configuration used for this certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations One or more comma-separated email addresses which are permitted to be issued certificates. The value can be a particular email address, a hostname to indicate all email addresses on that host or a domain with a leading period (e.g. .example.com) to indicate all email addresses in that domain.
+    /// </summary>
+    [CliOption("--name-permitted-email", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NamePermittedEmail { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: The x509 configuration used for this certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations One or more comma-separated IP ranges which are permitted to be issued certificates. For IPv4 addresses, the ranges are expressed using CIDR notation as specified in RFC 4632. For IPv6 addresses, the ranges are expressed in similar encoding as IPv4
+    /// </summary>
+    [CliOption("--name-permitted-ip", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NamePermittedIp { get; set; }
+
+    /// <summary>
+    /// Certificate generation method. Exactly one of these must be specified: To issue a certificate from a CSR use the following: The x509 configuration used for this certificate. At most one of these can be specified: Or at least one of these can be specified: The x509 name constraints configurations One or more comma-separated URIs which are permitted to be issued certificates. The value can be a hostname or a domain with a leading period (like .example.com)
+    /// </summary>
+    [CliOption("--name-permitted-uri", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NamePermittedUri { get; set; }
+
+    /// <summary>
+    /// The name of an existing certificate authority to use for issuing the certificate. If omitted, a certificate authority will be will be chosen from the CA pool by the service on your behalf.
+    /// </summary>
+    [CliOption("--ca", Format = OptionFormat.EqualsSeparated)]
+    public string? Ca { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The requested not before time for the certificate, in ISO 8601 format (e.g., 2026-04-29T23:18:06Z).
+    /// </summary>
+    [CliOption("--requested-not-before-time", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestedNotBeforeTime { get; set; }
+
+    /// <summary>
+    /// Optional field to specify subject key ID for certificate. DO NOT USE except to maintain a previously established identifier for a public key, whose SKI was not generated using method (1) described in RFC 5280 section 4.2.1.2.
+    /// </summary>
+    [CliOption("--subject-key-id", Format = OptionFormat.EqualsSeparated)]
+    public string? SubjectKeyId { get; set; }
+
+    /// <summary>
+    /// The validity of this certificate, as an ISO8601 duration. Defaults to 30 days.
+    /// </summary>
+    [CliOption("--validity", Format = OptionFormat.EqualsSeparated)]
+    public string? Validity { get; set; }
+
+    /// <summary>
+    /// Certificate template resource - The name of a certificate template to use for issuing this certificate, if desired. A template may overwrite parts of the certificate request, and the use of certificate templates may be required and/or regulated by the issuing CA Pool's CA Manager. The specified template must be in the same location as the issuing CA Pool. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the certificate_template or fully qualified identifier for the certificate_template. To set the certificate template attribute: ◆ provide the argument --template on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
+    public string? Template { get; set; }
+
+    /// <summary>
+    /// Certificate template resource - The name of a certificate template to use for issuing this certificate, if desired. A template may overwrite parts of the certificate request, and the use of certificate templates may be required and/or regulated by the issuing CA Pool's CA Manager. The specified template must be in the same location as the issuing CA Pool. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The location of the certificate_template. To set the location attribute: ◆ provide the argument --template on the command line with a fully specified name; ◆ provide the argument --template-location on the command line; ◆ provide the argument --issuer-location on the command line; ◆ set the property privateca/location.
+    /// </summary>
+    [CliOption("--template-location", Format = OptionFormat.EqualsSeparated)]
+    public string? TemplateLocation { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(CertOutputFile) ? 1 : 0) + (ValidateOnly == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of CertOutputFile or ValidateOnly must be specified.", [nameof(CertOutputFile), nameof(ValidateOnly)]);
+        }
+    }
+
 }

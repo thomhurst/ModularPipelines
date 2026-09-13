@@ -16,9 +16,166 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Deployment
 /// </summary>
+/// <param name="DisplayName">The display name of the deployment.</param>
+/// <param name="Endpoints">The endpoints at which this deployment resource is listening for API requests. This could be a list of complete URIs, hostnames or an IP addresses.</param>
+/// <param name="ResourceUri">The resource URI identifies the deployment within its gateway. For Apigee gateways, its recommended to use the format: organizations/{org}/environments/{env}/apis/{api}. For ex: if a proxy with name orders is deployed in staging environment of cymbal organization, the resource URI would be: organizations/cymbal/environments/staging/apis/orders.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "deployments", "create")]
-public record GcloudApihubDeploymentsCreateOptions : GcloudOptions
+public record GcloudApihubDeploymentsCreateOptions(
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName,
+    [property: CliOption("--endpoints", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Endpoints,
+    [property: CliOption("--resource-uri", Format = OptionFormat.EqualsSeparated)] string ResourceUri
+) : GcloudOptions
 {
+    /// <summary>
+    /// The attribute values associated with resource. This must be specified. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. Required, The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ◇ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ◇ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. Shorthand Example: --deployment-type-enum-values=description=string,displayName=string,id=string,immutable=boolean --deployment-type-enum-values=description=string,displayName=string,id=string,immutable=boolean JSON Example: --deployment-type-enum-values='[{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]' File Example: --deployment-type-enum-values=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--deployment-type-enum-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DeploymentTypeEnumValues { get; set; }
+
+    /// <summary>
+    /// The attribute values associated with resource. This must be specified. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--deployment-type-json-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DeploymentTypeJsonValues { get; set; }
+
+    /// <summary>
+    /// The attribute values associated with resource. This must be specified. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--deployment-type-string-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DeploymentTypeStringValues { get; set; }
+
+    /// <summary>
+    /// The attribute values associated with resource. This must be specified. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--deployment-type-uri-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DeploymentTypeUriValues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The list of user defined attributes associated with the deployment resource. The key is the attribute name. It will be of the format: projects/{project}/locations/{location}/attributes/{attribute}. The value is the attribute values associated with the resource. KEY Sets KEY value. VALUE Sets VALUE value. enumValues The attribute values associated with a resource in case attribute data type is enum. values The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ▹ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ▹ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. jsonValues The attribute values associated with a resource in case attribute data type is JSON. values The attribute values in case attribute data type is string or JSON. stringValues The attribute values associated with a resource in case attribute data type is string. values The attribute values in case attribute data type is string or JSON. uriValues The attribute values associated with a resource in case attribute data type is URL, URI or IP, like gs://bucket-name/object-name. values The attribute values in case attribute data type is string or JSON. Shorthand Example: --attributes=string={enumValues={values=[{description=string,displayName=string,id=string,immutable=boolean}]},jsonValues={values=[string]},stringValues={values=[string]},uriValues={values=[string]}} JSON Example: --attributes='{"string": {"enumValues": {"values": [{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]}, "jsonValues": {"values": ["string"]}, "stringValues": {"values": ["string"]}, "uriValues": {"values": ["string"]}}}' File Example: --attributes=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Attributes { get; set; }
+
+    /// <summary>
+    /// Documentation details. The description of the deployment.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Documentation details. The uri of the externally hosted documentation.
+    /// </summary>
+    [CliOption("--documentation-external-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? DocumentationExternalUri { get; set; }
+
+    /// <summary>
+    /// Documentation details. The environment at source for the deployment. For example: prod, dev, staging, etc.
+    /// </summary>
+    [CliOption("--source-environment", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceEnvironment { get; set; }
+
+    /// <summary>
+    /// Documentation details. The project to which the deployment belongs. For Google Cloud gateways, this will refer to the project identifier. For others like Edge/OPDK, this will refer to the org identifier.
+    /// </summary>
+    [CliOption("--source-project", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceProject { get; set; }
+
+    /// <summary>
+    /// Documentation details. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. Required, The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ▫ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ▫ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. Shorthand Example: --environment-enum-values=description=string,displayName=string,id=string,immutable=boolean --environment-enum-values=description=string,displayName=string,id=string,immutable=boolean JSON Example: --environment-enum-values='[{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]' File Example: --environment-enum-values=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--environment-enum-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? EnvironmentEnumValues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--environment-json-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? EnvironmentJsonValues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--environment-string-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? EnvironmentStringValues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--environment-uri-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? EnvironmentUriValues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. Required, The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ▫ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ▫ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. Shorthand Example: --management-url-enum-values=description=string,displayName=string,id=string,immutable=boolean --management-url-enum-values=description=string,displayName=string,id=string,immutable=boolean JSON Example: --management-url-enum-values='[{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]' File Example: --management-url-enum-values=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--management-url-enum-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ManagementUrlEnumValues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--management-url-json-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ManagementUrlJsonValues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--management-url-string-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ManagementUrlStringValues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--management-url-uri-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ManagementUrlUriValues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. Required, The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ▫ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ▫ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. Shorthand Example: --slo-enum-values=description=string,displayName=string,id=string,immutable=boolean --slo-enum-values=description=string,displayName=string,id=string,immutable=boolean JSON Example: --slo-enum-values='[{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]' File Example: --slo-enum-values=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--slo-enum-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SloEnumValues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--slo-json-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SloJsonValues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--slo-string-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SloStringValues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--slo-uri-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SloUriValues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. Required, The attribute values in case attribute data type is enum. description The detailed description of the allowed value. displayName The display name of the allowed value. id The ID of the allowed value. ▫ If provided, the same will be used. The service will throw an error if the specified id is already used by another allowed value in the same attribute resource. ▫ If not provided, a system generated id derived from the display name will be used. In this case, the service will handle conflict resolution by adding a system generated suffix in case of duplicates. This value should be 4-63 characters, and valid characters are /[a-z][0-9]-/. immutable When set to true, the allowed value cannot be updated or deleted by the user. It can only be true for System defined attributes. Shorthand Example: --source-uri-enum-values=description=string,displayName=string,id=string,immutable=boolean --source-uri-enum-values=description=string,displayName=string,id=string,immutable=boolean JSON Example: --source-uri-enum-values='[{"description": "string", "displayName": "string", "id": "string", "immutable": boolean}]' File Example: --source-uri-enum-values=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--source-uri-enum-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SourceUriEnumValues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--source-uri-json-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SourceUriJsonValues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--source-uri-string-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SourceUriStringValues { get; set; }
+
+    /// <summary>
+    /// Documentation details. The attribute values associated with resource. Arguments for the Value. At most one of these can be specified: The attribute values of data type enum. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values of data type string or JSON. The attribute values in case attribute data type is string or JSON.
+    /// </summary>
+    [CliOption("--source-uri-values", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SourceUriValues { get; set; }
+
 }

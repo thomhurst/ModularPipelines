@@ -10,15 +10,61 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new     regional endpoint
 /// </summary>
+/// <param name="TargetGoogleApi">The service endpoint the regional endpoint will connect to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-connectivity", "regional-endpoints", "create")]
-public record GcloudNetworkConnectivityRegionalEndpointsCreateOptions : GcloudOptions
+public record GcloudNetworkConnectivityRegionalEndpointsCreateOptions(
+    [property: CliOption("--target-google-api", Format = OptionFormat.EqualsSeparated)] string TargetGoogleApi
+) : GcloudOptions
 {
+    /// <summary>
+    /// The IP Address of the Regional Endpoint. When no address is provided, an IP from the subnetwork is allocated. Use one of the following formats: ◆ IPv4 address as in 10.0.0.1 ◆ Address resource URI as in projects/{project}/regions/{region}/addresses/{address_name} for an IPv4 or IPv6 address.
+    /// </summary>
+    [CliOption("--address", Format = OptionFormat.EqualsSeparated)]
+    public string? Address { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Description of the regional endpoint.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Whether the REGIONAL or GLOBAL access is enabled.
+    /// </summary>
+    [CliFlag("--enable-global-access")]
+    public bool? EnableGlobalAccess { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Consumer's VPC network that this regional endpoint belongs to.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// The name of the subnetwork from which the IP address will be allocated.
+    /// </summary>
+    [CliOption("--subnetwork", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnetwork { get; set; }
+
 }

@@ -16,9 +16,110 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// creates a Managed Lustre instance
 /// </summary>
+/// <param name="CapacityGib">The storage capacity of the instance in gibibytes (GiB). Allowed values depend on the perUnitStorageThroughput. See Performance tiers (https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for specific minimums, maximums, and step sizes for each performance tier.</param>
+/// <param name="Filesystem">The filesystem name for this instance. This name is used by client-side tools, including when mounting the instance. Must be eight characters or less and can only contain letters and numbers.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lustre", "instances", "create")]
-public record GcloudLustreInstancesCreateOptions : GcloudOptions
+public record GcloudLustreInstancesCreateOptions(
+    [property: CliOption("--capacity-gib", Format = OptionFormat.EqualsSeparated)] string CapacityGib,
+    [property: CliOption("--filesystem", Format = OptionFormat.EqualsSeparated)] string Filesystem
+) : GcloudOptions
 {
+    /// <summary>
+    /// Network resource - The full name of the VPC network to which the instance is connected. Must be in the format projects/{project_id}/global/networks/{network_name}. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the network or fully qualified identifier for the network. To set the network attribute: ▸ provide the argument --network on the command line.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. A user-readable description of the instance.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The dynamic tier mode of the instance. DYNAMIC_TIER_OPTIONS_MODE must be one of: default-cache The dynamic tier is enabled. disabled The dynamic tier is explicitly disabled.
+    /// </summary>
+    [CliOption("--dynamic-tier-options-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? DynamicTierOptionsMode { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Deprecated: No longer required for GKE instance creation. Indicates whether you want to enable support for GKE clients. By default, GKE clients are not supported.
+    /// </summary>
+    [CliFlag("--gke-support-enabled")]
+    public bool? GkeSupportEnabled { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The Cloud KMS key name to use for data encryption. If not set, the instance will use Google-managed encryption keys. If set, the instance will use customer-managed encryption keys. The key must be in the same region as the instance. The key format is: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{key}
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The throughput of the instance in MBps per TiB. Valid values are 0, 125, 250, 500, 1000. See Performance tiers (https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for more information. If the instance is using the Dynamic tier, this field must not be set or must be set to zero.
+    /// </summary>
+    [CliOption("--per-unit-storage-throughput", Format = OptionFormat.EqualsSeparated)]
+    public string? PerUnitStorageThroughput { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The placement policy name for the instance in the format of projects/{project}/locations/{location}/resourcePolicies/{resource_policy}
+    /// </summary>
+    [CliOption("--placement-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? PlacementPolicy { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The squash mode for the default access rule. DEFAULT_SQUASH_MODE must be one of: no-squash Squash is disabled. If set inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule], root users matching the [ip_ranges][AccessRule.ip_ranges] are not squashed. If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode], root squash is disabled for this instance. If the default squash mode is NO_SQUASH, do not set the [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] or [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid], or an invalid argument error is returned. root-squash Root user squash is enabled. Not supported inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule]. If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode], root users not matching any of the [access_rules][google.cloud.lustre.v1.AccessRulesOptions.access_rules] are squashed to the [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] and [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid]. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--default-squash-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultSquashMode { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The access rules for the instance. ipAddressRanges The IP address ranges to which to apply this access rule. Accepts non-overlapping CIDR ranges (e.g., 192.168.1.0/24) and IP addresses (e.g., 192.168.1.0). name The name of the access rule policy group. Must be 16 characters or less and include only alphanumeric characters or ''. squashMode Squash mode for the access rule. Shorthand Example: --access-rules=ipAddressRanges=[string],name=string,squashMode=string --access-rules=ipAddressRanges=[string],name=string,squashMode=string JSON Example: --access-rules='[{"ipAddressRanges": ["string"], "name": "string", "squashMode": "string"}]' File Example: --access-rules=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--access-rules", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AccessRules { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The user squash GID for the default access rule. This user squash GID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no GID squash).
+    /// </summary>
+    [CliOption("--default-squash-gid", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultSquashGid { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The user squash UID for the default access rule. This user squash UID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no UID squash).
+    /// </summary>
+    [CliOption("--default-squash-uid", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultSquashUid { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. Required, The weekly maintenance windows for the instance. Currently limited to 1 window. dayOfWeek Day of the week for the maintenance window. startTime Start time of the maintenance window in UTC time zone. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --maintenance-policy-weekly-windows=dayOfWeek=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} --maintenance-policy-weekly-windows=dayOfWeek=string,startTime={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --maintenance-policy-weekly-windows='[{"dayOfWeek": "string", "startTime": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --maintenance-policy-weekly-windows=path_to_file.(yaml|json) This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--maintenance-policy-weekly-windows", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? MaintenancePolicyWeeklyWindows { get; set; }
+
+    /// <summary>
+    /// Dynamic tier options for a Managed Lustre instance. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Defines a maintenance policy for a resource. The exclusion windows for the instance. Currently limited to 1 window. endDate End date of the exclusion period in UTC time zone. This date is inclusive. day Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. month Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. year Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. startDate Start date of the exclusion period in UTC time zone. This date is inclusive. day Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. month Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. year Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. time Time in UTC when the exclusion window starts on start_date and ends on end_date. This can be: ▸ Full time OR ▸ All zeros for 00:00:00 UTC. hours Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. minutes Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. nanos Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. seconds Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. Shorthand Example: --maintenance-policy-exclusion-window=endDate={day=int,month=int,year=int},startDate={day=int,month=int,year=int},time={hours=int,minutes=int,nanos=int,seconds=int} --maintenance-policy-exclusion-window=endDate={day=int,month=int,year=int},startDate={day=int,month=int,year=int},time={hours=int,minutes=int,nanos=int,seconds=int} JSON Example: --maintenance-policy-exclusion-window='[{"endDate": {"day": int, "month": int, "year": int}, "startDate": {"day": int, "month": int, "year": int}, "time": {"hours": int, "minutes": int, "nanos": int, "seconds": int}}]' File Example: --maintenance-policy-exclusion-window=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--maintenance-policy-exclusion-window", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? MaintenancePolicyExclusionWindow { get; set; }
+
 }

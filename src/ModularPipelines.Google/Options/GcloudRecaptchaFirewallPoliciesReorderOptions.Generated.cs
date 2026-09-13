@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// reorder all Firewall Policies
 /// </summary>
+/// <param name="Names">Names of all firewall policies in desired order.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("recaptcha", "firewall-policies", "reorder")]
-public record GcloudRecaptchaFirewallPoliciesReorderOptions : GcloudOptions
+public record GcloudRecaptchaFirewallPoliciesReorderOptions(
+    [property: CliOption("--names", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Names
+) : GcloudOptions
 {
 }

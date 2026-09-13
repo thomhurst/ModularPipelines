@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list shared     template revisions
 /// </summary>
+/// <param name="SharedTemplate">ID of the sharedTemplate or fully qualified identifier for the sharedTemplate. To set the shared-template attribute: ◆ provide the argument --shared-template on the command line.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "shared-templates", "revisions", "list")]
-public record GcloudDesignCenterSpacesSharedTemplatesRevisionsListOptions : GcloudOptions
+public record GcloudDesignCenterSpacesSharedTemplatesRevisionsListOptions(
+    [property: CliOption("--shared-template", Format = OptionFormat.EqualsSeparated)] string SharedTemplate
+) : GcloudOptions
 {
     /// <summary>
     /// The location id of the sharedTemplate resource. To set the location attribute: ◆ provide the argument --shared-template on the command line with a fully specified name; ◆ provide the argument --location on the command line.

@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update Data Lineage configuration
 /// </summary>
+/// <param name="Config">Inline JSON/YAML config or path to a file containing it.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datalineage", "config", "update")]
-public record GcloudDatalineageConfigUpdateOptions : GcloudOptions
+public record GcloudDatalineageConfigUpdateOptions(
+    [property: CliOption("--config", Format = OptionFormat.EqualsSeparated)] string Config
+) : GcloudOptions
 {
+    /// <summary>
+    /// At most one of these can be specified: Folder ID.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Organization ID.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Project ID or number. If none of --project, --folder, or --organization are provided, the current project will be used.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
 }

@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete Cloud CDN     Signed URL key from a backend bucket
 /// </summary>
+/// <param name="KeyName">Name of the Cloud CDN Signed URL key.</param>
+/// <param name="BackendBucketName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-buckets", "delete-signed-url-key")]
 public record GcloudComputeBackendBucketsDeleteSignedUrlKeyOptions(
+    [property: CliOption("--key-name", Format = OptionFormat.EqualsSeparated)] string KeyName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string BackendBucketName
 ) : GcloudOptions
 {

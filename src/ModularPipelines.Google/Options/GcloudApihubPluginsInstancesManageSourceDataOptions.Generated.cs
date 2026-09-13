@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// manage pluginInstances
 /// </summary>
+/// <param name="Action">Action to be performed. ACTION must be one of: delete Delete data. upload Upload or upsert data.</param>
+/// <param name="Data">Data to be managed.</param>
+/// <param name="DataType">Type of data to be managed. DATA_TYPE must be one of: environment-manifest Environment manifest. proxy-bundle Proxy bundle. proxy-deployment-manifest Proxy deployment manifest. shared-flow-bundle Shared flow bundle.</param>
+/// <param name="RelativePath">Relative path of data being managed for a given plugin instance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apihub", "plugins", "instances", "manage-source-data")]
-public record GcloudApihubPluginsInstancesManageSourceDataOptions : GcloudOptions
+public record GcloudApihubPluginsInstancesManageSourceDataOptions(
+    [property: CliOption("--action", Format = OptionFormat.EqualsSeparated)] string Action,
+    [property: CliOption("--data", Format = OptionFormat.EqualsSeparated)] string Data,
+    [property: CliOption("--data-type", Format = OptionFormat.EqualsSeparated)] string DataType,
+    [property: CliOption("--relative-path", Format = OptionFormat.EqualsSeparated)] string RelativePath
+) : GcloudOptions
 {
 }

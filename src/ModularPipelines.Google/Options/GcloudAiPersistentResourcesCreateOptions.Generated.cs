@@ -10,15 +10,85 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new persistent resource
 /// </summary>
+/// <param name="PersistentResourceId">User-specified ID of the Persistent Resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "persistent-resources", "create")]
-public record GcloudAiPersistentResourcesCreateOptions : GcloudOptions
+public record GcloudAiPersistentResourcesCreateOptions(
+    [property: CliOption("--persistent-resource-id", Format = OptionFormat.EqualsSeparated)] string PersistentResourceId
+) : GcloudOptions
 {
+    /// <summary>
+    /// resource pool specification. At least one of these must be specified: Path to the Persistent Resource configuration file. This file should be a YAML document containing a list of ResourcePool If an option is specified both in the configuration file **and** via command-line arguments, the command-line arguments override the configuration file. Note that keys with underscore are invalid. Example(YAML): resourcePoolSpecs: machineSpec: machineType: n1-standard-4 replicaCount: 1
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// resource pool specification. At least one of these must be specified: Defines a resource pool to be created in the Persistent Resource. You can include multiple resource pool specs in order to create a Persistent Resource with multiple resource pools. The spec can contain the following fields: machine-type (Required): The type of the machine. see https://cloud.google.com/vertex-ai/docs/training/configure-compute#machine-types for supported types. This field corresponds to the machineSpec.machineType field in ResourcePool API message. replica-count (Required if autoscaling not enabled) The number of replicas to use when creating this resource pool. This field corresponds to the replicaCount field in 'ResourcePool' API message. min-replica-count (Optional) The minimum number of replicas that autoscaling will down-size to for this resource pool. Both min-replica-count and max-replica-count are required to enable autoscaling on this resource pool. The value for this parameter must be at least 1. max-replica-count (Optional) The maximum number of replicas that autoscaling will create for this resource pool. Both min-replica-count and max-replica-count are required to enable autoscaling on this resource pool. The maximum value for this parameter is 1000. accelerator-type (Optional) The type of GPU to attach to the machines. see https://cloud.google.com/vertex-ai/docs/training/configure-compute#specifying_gpus for more requirements. This field corresponds to the machineSpec.acceleratorType field in ResourcePool API message. accelerator-count (Required with accelerator-type) The number of GPUs for each VM in the resource pool to use. The default the value if 1. This field corresponds to the machineSpec.acceleratorCount field in ResourcePool API message. disk-type (Optional) The type of disk to use for each machine's boot disk in the resource pool. The default is pd-standard. This field corresponds to the diskSpec.bootDiskType field in ResourcePool API message. disk-size (Optional) The disk size in Gb for each machine's boot disk in the resource pool. The default is 100. This field corresponds to the diskSpec.bootDiskSizeGb field in ResourcePool API message. Example: --worker-pool-spec=replica-count=1,machine-type=n1-highmem-2
+    /// </summary>
+    [CliOption("--resource-pool-spec", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ResourcePoolSpec { get; set; }
+
+    /// <summary>
+    /// Display name of the Persistent Resource.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Whether or not to use a custom user-managed service account with this Persistent Resource.
+    /// </summary>
+    [CliFlag("--enable-custom-service-account")]
+    public bool? EnableCustomServiceAccount { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Full name of the Google Compute Engine network to which the Job is peered with. Private services access must already have been configured. If unspecified, the Job is not peered with any network.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Region resource - Cloud region to create a Persistent Resource. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property ai/region with a fully specified name; ◆ choose one from the prompted list of available regions with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property ai/region; ◆ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the persistent resource. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the persistent resource. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the persistent resource. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the persistent resource. The 'Vertex AI Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
 }

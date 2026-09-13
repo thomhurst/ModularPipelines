@@ -10,17 +10,100 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// export data from an AlloyDB cluster to     Google Cloud Storage
 /// </summary>
+/// <param name="Database">Database name.</param>
+/// <param name="GcsUri">Destination URI where the file needs to be exported. This must be specified. Path to the Google Cloud Storage file to which export has to be done.</param>
+/// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+/// <param name="Cluster"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "clusters", "export")]
 public record GcloudAlloydbClustersExportOptions(
+    [property: CliOption("--database", Format = OptionFormat.EqualsSeparated)] string Database,
+    [property: CliOption("--gcs-uri", Format = OptionFormat.EqualsSeparated)] string GcsUri,
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Cluster
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: CSV export options for the cluster. SQL export options for the cluster. SQL export options to clean target objects. Specifies destination file type. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--csv")]
+    public bool? Csv { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: CSV export options for the cluster. SQL export options for the cluster. SQL export options to clean target objects. Select query to be used for export. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--select-query", Format = OptionFormat.EqualsSeparated)]
+    public string? SelectQuery { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: CSV export options for the cluster. SQL export options for the cluster. SQL export options to clean target objects. Escape character to be used for export.
+    /// </summary>
+    [CliOption("--escape-character", Format = OptionFormat.EqualsSeparated)]
+    public string? EscapeCharacter { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: CSV export options for the cluster. SQL export options for the cluster. SQL export options to clean target objects. Field delimiter to be used for export.
+    /// </summary>
+    [CliOption("--field-delimiter", Format = OptionFormat.EqualsSeparated)]
+    public string? FieldDelimiter { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: CSV export options for the cluster. SQL export options for the cluster. SQL export options to clean target objects. Quote character to be used for export.
+    /// </summary>
+    [CliOption("--quote-character", Format = OptionFormat.EqualsSeparated)]
+    public string? QuoteCharacter { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: CSV export options for the cluster. SQL export options for the cluster. SQL export options to clean target objects. Specifies destination file type. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--sql")]
+    public bool? Sql { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: CSV export options for the cluster. SQL export options for the cluster. SQL export options to clean target objects. Export only schema of the database.
+    /// </summary>
+    [CliFlag("--schema-only")]
+    public bool? SchemaOnly { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: CSV export options for the cluster. SQL export options for the cluster. SQL export options to clean target objects. Comma-separated list of table names which need to be exported.
+    /// </summary>
+    [CliOption("--tables", Format = OptionFormat.EqualsSeparated)]
+    public string? Tables { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: CSV export options for the cluster. SQL export options for the cluster. SQL export options to clean target objects. If true, output commands to DROP all the dumped database objects prior to outputting the commands for creating them. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliFlag("--clean-target-objects")]
+    public bool? CleanTargetObjects { get; set; }
+
+    /// <summary>
+    /// Export options for the cluster. Exactly one of these must be specified: CSV export options for the cluster. SQL export options for the cluster. SQL export options to clean target objects. If true, use DROP ... IF EXISTS commands to check for the object's existence before dropping it in clean_target_objects mode.
+    /// </summary>
+    [CliFlag("--if-exist-target-objects")]
+    public bool? IfExistTargetObjects { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Csv == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SelectQuery) ? 1 : 0) + (!string.IsNullOrWhiteSpace(EscapeCharacter) ? 1 : 0) + (!string.IsNullOrWhiteSpace(FieldDelimiter) ? 1 : 0) + (!string.IsNullOrWhiteSpace(QuoteCharacter) ? 1 : 0) + (Sql == true ? 1 : 0) + (SchemaOnly == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Tables) ? 1 : 0) + (CleanTargetObjects == true ? 1 : 0) + (IfExistTargetObjects == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Csv, SelectQuery, EscapeCharacter, FieldDelimiter, QuoteCharacter, Sql, SchemaOnly, Tables, CleanTargetObjects, or IfExistTargetObjects must be specified.", [nameof(Csv), nameof(SelectQuery), nameof(EscapeCharacter), nameof(FieldDelimiter), nameof(QuoteCharacter), nameof(Sql), nameof(SchemaOnly), nameof(Tables), nameof(CleanTargetObjects), nameof(IfExistTargetObjects)]);
+        }
+    }
+
 }

@@ -10,17 +10,33 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new Compute Engine     external VPN gateway
 /// </summary>
+/// <param name="Interfaces">Map of interfaces from interface ID to interface IP address for the External VPN Gateway. There can be one, two, or four interfaces in the map. For example, to create an external VPN gateway with one interface: $ gcloud compute external-vpn-gateways create MY-EXTERNAL-GATEWAY \ --interfaces 0=192.0.2.0 To create an external VPN gateway with two interfaces: $ gcloud compute external-vpn-gateways create MY-EXTERNAL-GATEWAY \ --interfaces 0=192.0.2.0,1=192.0.2.1 To create an external VPN gateway with four interfaces: $ gcloud compute external-vpn-gateways create MY-EXTERNAL-GATEWAY \ --interfaces 0=192.0.2.0,1=192.0.2.1,2=192.0.2.3,3=192.0.2.4 To create an external VPN gateway with IPv6 addresses on four interfaces: $ gcloud compute external-vpn-gateways create MY-EXTERNAL-GATEWAY \ --interfaces \ 0=2001:db8::1,1=2001:db8::2,2=2001:db8::3,3=2001:db8::4 Note that the redundancy type of the gateway will be automatically inferred based on the number of interfaces provided: 1 interface: `SINGLE_IP_INTERNALLY_REDUNDANT` 2 interfaces: `TWO_IPS_REDUNDANCY` 4 interfaces: `FOUR_IPS_REDUNDANCY`</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "external-vpn-gateways", "create")]
 public record GcloudComputeExternalVpnGatewaysCreateOptions(
+    [property: CliOption("--interfaces", Format = OptionFormat.EqualsSeparated)] string Interfaces,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Textual description of the External VPN Gateway.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of Resource Manager tags to apply to the external VPN gateway.
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
 }

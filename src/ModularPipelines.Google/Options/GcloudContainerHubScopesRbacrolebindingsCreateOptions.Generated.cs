@@ -10,17 +10,64 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an RBAC     RoleBinding
 /// </summary>
+/// <param name="Rbacr"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "scopes", "rbacrolebindings", "create")]
 public record GcloudContainerHubScopesRbacrolebindingsCreateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Rbacr
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Custom role to assign to principal.
+    /// </summary>
+    [CliOption("--custom-role", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomRole { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Predefined role to assign to principal (admin, edit, view). ROLE must be one of: admin, edit, view.
+    /// </summary>
+    [CliOption("--role", Format = OptionFormat.EqualsSeparated)]
+    public GcloudRole? Role { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Group for the RoleBinding.
+    /// </summary>
+    [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
+    public string? Group { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: User for the RoleBinding.
+    /// </summary>
+    [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
+    public string? User { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(CustomRole) ? 1 : 0) + (Role is not null ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of CustomRole or Role must be specified.", [nameof(CustomRole), nameof(Role)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Group) ? 1 : 0) + (!string.IsNullOrWhiteSpace(User) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Group or User must be specified.", [nameof(Group), nameof(User)]);
+        }
+    }
+
 }

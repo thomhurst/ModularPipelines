@@ -10,17 +10,69 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// export data from a Cloud SQL instance to a BAK file
 /// </summary>
+/// <param name="Database">Database from which the export is made. Information on requirements can be found here: https://cloud.google.com/sql/docs/sqlserver/admin-api/v1beta4/instances/export#exportContext.databases</param>
+/// <param name="Instance"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "export", "bak")]
 public record GcloudSqlExportBakOptions(
+    [property: CliOption("--database", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Database,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Instance
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Type of bak file that will be exported, FULL or DIFF. SQL Server only. BAK_TYPE must be one of: FULL, DIFF, TLOG.
+    /// </summary>
+    [CliOption("--bak-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudBakType? BakType { get; set; }
+
+    /// <summary>
+    /// Whether the bak file export can be used as differential base for future differential backup. SQL Server only
+    /// </summary>
+    [CliFlag("--differential-base")]
+    public bool? DifferentialBase { get; set; }
+
+    /// <summary>
+    /// Optional flag. The end time of the transaction log files that are included in the export file. Use this flag to export transaction logs for Cloud SQL for SQL Server only. Format: YYYY-MM-DDTHH:MM:SSZ, UTC timezone only.
+    /// </summary>
+    [CliOption("--export-log-end-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ExportLogEndTime { get; set; }
+
+    /// <summary>
+    /// Optional flag. The start time of the transaction log files that are included in the export file. Use this flag to export transaction logs for Cloud SQL for SQL Server only. Format: YYYY-MM-DDTHH:MM:SSZ, UTC timezone only.
+    /// </summary>
+    [CliOption("--export-log-start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ExportLogStartTime { get; set; }
+
+    /// <summary>
+    /// Specifies the number of stripes to use for SQL Server exports.
+    /// </summary>
+    [CliOption("--stripe_count", Format = OptionFormat.EqualsSeparated)]
+    public int? StripeCount { get; set; }
+
+    /// <summary>
+    /// Whether SQL Server export should be striped. Use --striped to enable and --no-striped to disable.
+    /// </summary>
+    [CliFlag("--striped")]
+    public bool? Striped { get; set; }
+
+    /// <summary>
+    /// Negates --striped. Whether SQL Server export should be striped. Use --striped to enable and --no-striped to disable.
+    /// </summary>
+    [CliFlag("--no-striped")]
+    public bool? NoStriped { get; set; }
+
 }

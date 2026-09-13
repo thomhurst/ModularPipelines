@@ -10,17 +10,69 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Pub/Sub Lite     subscription
 /// </summary>
+/// <param name="Topic">Topic ID associated with the subscription.</param>
+/// <param name="Subscription"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "lite-subscriptions", "create")]
 public record GcloudPubsubLiteSubscriptionsCreateOptions(
+    [property: CliOption("--topic", Format = OptionFormat.EqualsSeparated)] string Topic,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Subscription
 ) : GcloudOptions
 {
+    /// <summary>
+    /// When this subscription should send messages to subscribers relative to messages persistence in storage. See https://cloud.google.com/pubsub/lite/docs/subscriptions#creating_lite_subscriptions for more info. DELIVERY_REQUIREMENT must be one of: deliver-after-stored, deliver-immediately.
+    /// </summary>
+    [CliOption("--delivery-requirement", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDeliveryRequirement? DeliveryRequirement { get; set; }
+
+    /// <summary>
+    /// Location resource - Identifies the Cloud zone this command will be executed on. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the location or fully qualified identifier for the location. To set the location attribute: ◆ provide the argument --location on the command line; ◆ provide the argument --zone on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Location resource - Identifies the Cloud zone this command will be executed on. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: The event time to which you seek a subscription. The subscription seeks to the first message with event time greater than or equal to the specified event time. Messages missing an event time use publish time as a fallback. As event times are user supplied, subsequent messages may have event times less than the specified event time and must be filtered by the client, if necessary. Run $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--event-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EventTime { get; set; }
+
+    /// <summary>
+    /// Location resource - Identifies the Cloud zone this command will be executed on. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: The publish time to which you seek a subscription. Messages with publish time greater than or equal to the specified time are delivered after the seek operation. Run $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--publish-time", Format = OptionFormat.EqualsSeparated)]
+    public string? PublishTime { get; set; }
+
+    /// <summary>
+    /// Location resource - Identifies the Cloud zone this command will be executed on. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. At most one of these can be specified: The offset at which a newly created or seeked subscription starts receiving messages. A subscription can be initialized at the offset of the oldest retained message (beginning), or at the current HEAD offset (end). STARTING_OFFSET must be one of: beginning, end.
+    /// </summary>
+    [CliOption("--starting-offset", Format = OptionFormat.EqualsSeparated)]
+    public GcloudStartingOffset? StartingOffset { get; set; }
+
+    /// <summary>
+    /// Location resource - Identifies the Cloud zone this command will be executed on. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The name of the destination Pub/Sub topic to which messages are exported. Must be the topic's fully specified path if it is not in the same project as the subscription to be created.
+    /// </summary>
+    [CliOption("--export-pubsub-topic", Format = OptionFormat.EqualsSeparated)]
+    public string? ExportPubsubTopic { get; set; }
+
+    /// <summary>
+    /// Location resource - Identifies the Cloud zone this command will be executed on. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The name of the Pub/Sub Lite topic to write messages that cannot be exported. Must be in the same project and location as the subscription to be created. Note that this is a Lite topic.
+    /// </summary>
+    [CliOption("--export-dead-letter-topic", Format = OptionFormat.EqualsSeparated)]
+    public string? ExportDeadLetterTopic { get; set; }
+
+    /// <summary>
+    /// Location resource - Identifies the Cloud zone this command will be executed on. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --zone on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. The desired state of the export. Process messages by setting the value to ACTIVE or pause message processing by setting the value to PAUSED. EXPORT_DESIRED_STATE must be one of: active, paused.
+    /// </summary>
+    [CliOption("--export-desired-state", Format = OptionFormat.EqualsSeparated)]
+    public GcloudExportDesiredState? ExportDesiredState { get; set; }
+
 }

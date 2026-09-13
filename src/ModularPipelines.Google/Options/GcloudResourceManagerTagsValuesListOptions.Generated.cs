@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// lists TagValues under the     specified parent resource
 /// </summary>
+/// <param name="Parent">Parent of the TagValue in either in the form of tagKeys/{id} or {org_id}/{tagkey_short_name}</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "tags", "values", "list")]
-public record GcloudResourceManagerTagsValuesListOptions : GcloudOptions
+public record GcloudResourceManagerTagsValuesListOptions(
+    [property: CliOption("--parent", Format = OptionFormat.EqualsSeparated)] string Parent
+) : GcloudOptions
 {
 }

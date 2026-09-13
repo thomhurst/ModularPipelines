@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,57 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "clusters", "update")]
-public record GcloudBigtableClustersUpdateOptions : GcloudOptions
+public record GcloudBigtableClustersUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Autoscaling Manual Scaling The target CPU utilization percentage for autoscaling. Accepted values are from 10 to 80.
+    /// </summary>
+    [CliOption("--autoscaling-cpu-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingCpuTarget { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Autoscaling Manual Scaling The maximum number of nodes for autoscaling.
+    /// </summary>
+    [CliOption("--autoscaling-max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMaxNodes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Autoscaling Manual Scaling The minimum number of nodes for autoscaling.
+    /// </summary>
+    [CliOption("--autoscaling-min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMinNodes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Autoscaling Manual Scaling The target storage utilization gibibytes per node for autoscaling. Accepted values are from 2560 to 5120 for SSD clusters and 8192 to 16384 for HDD clusters.
+    /// </summary>
+    [CliOption("--autoscaling-storage-target", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingStorageTarget { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Autoscaling Manual Scaling Number of nodes to serve. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--num-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? NumNodes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Autoscaling Manual Scaling Set this flag and --num-nodes to disable autoscaling. If autoscaling is currently not enabled, setting this flag does nothing.
+    /// </summary>
+    [CliFlag("--disable-autoscaling")]
+    public bool? DisableAutoscaling { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AutoscalingCpuTarget) ? 1 : 0) + (!string.IsNullOrWhiteSpace(AutoscalingMaxNodes) ? 1 : 0) + (!string.IsNullOrWhiteSpace(AutoscalingMinNodes) ? 1 : 0) + (!string.IsNullOrWhiteSpace(AutoscalingStorageTarget) ? 1 : 0) + (!string.IsNullOrWhiteSpace(NumNodes) ? 1 : 0) + (DisableAutoscaling == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of AutoscalingCpuTarget, AutoscalingMaxNodes, AutoscalingMinNodes, AutoscalingStorageTarget, NumNodes, or DisableAutoscaling must be specified.", [nameof(AutoscalingCpuTarget), nameof(AutoscalingMaxNodes), nameof(AutoscalingMinNodes), nameof(AutoscalingStorageTarget), nameof(NumNodes), nameof(DisableAutoscaling)]);
+        }
+    }
+
 }

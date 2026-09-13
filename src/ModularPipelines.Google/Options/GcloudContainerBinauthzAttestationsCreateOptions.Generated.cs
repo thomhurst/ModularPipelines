@@ -16,9 +16,52 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Binary     Authorization attestation
 /// </summary>
+/// <param name="ArtifactUrl">Container URL. May be in the gcr.io/repository/image format, or may optionally contain the http or https scheme</param>
+/// <param name="PublicKeyId">The ID of the public key that will be used to verify the signature of the created Attestation. This ID must match the one found on the Attestor resource(s) which will verify this Attestation. For PGP keys, this must be the version 4, full 160-bit fingerprint, expressed as a 40 character hexadecimal string. See https://tools.ietf.org/html/rfc4880#section-12.2 for details.</param>
+/// <param name="SignatureFile">Path to file containing the signature to store, or - to read signature from stdin.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "binauthz", "attestations", "create")]
-public record GcloudContainerBinauthzAttestationsCreateOptions : GcloudOptions
+public record GcloudContainerBinauthzAttestationsCreateOptions(
+    [property: CliOption("--artifact-url", Format = OptionFormat.EqualsSeparated)] string ArtifactUrl,
+    [property: CliOption("--public-key-id", Format = OptionFormat.EqualsSeparated)] string PublicKeyId,
+    [property: CliOption("--signature-file", Format = OptionFormat.EqualsSeparated)] string SignatureFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// Path to file containing the payload over which the signature was calculated. This defaults to the output of the standard payload command: $ gcloud container binauthz create-signature-payload NOTE: If you sign a payload with e.g. different whitespace or formatting, you must explicitly provide the payload content via this flag.
+    /// </summary>
+    [CliOption("--payload-file", Format = OptionFormat.EqualsSeparated)]
+    public string? PayloadFile { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Note resource - The Container Analysis Note which will be used to host the created attestation. In order to successfully attach the attestation, the active gcloud account (core/account) must have the containeranalysis.notes.attachOccurrence permission for the Note (usually via the containeranalysis.notes.attacher role). The arguments in this group can be used to specify the attributes of this resource. ID of the note or fully qualified identifier for the note. To set the note attribute: ▸ provide the argument --note on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--note", Format = OptionFormat.EqualsSeparated)]
+    public string? Note { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Note resource - The Container Analysis Note which will be used to host the created attestation. In order to successfully attach the attestation, the active gcloud account (core/account) must have the containeranalysis.notes.attachOccurrence permission for the Note (usually via the containeranalysis.notes.attacher role). The arguments in this group can be used to specify the attributes of this resource. The Container Analysis project for the note. To set the project attribute: ▸ provide the argument --note on the command line with a fully specified name; ▸ provide the argument --note-project on the command line.
+    /// </summary>
+    [CliOption("--note-project", Format = OptionFormat.EqualsSeparated)]
+    public string? NoteProject { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Note resource - The Container Analysis Note which will be used to host the created attestation. In order to successfully attach the attestation, the active gcloud account (core/account) must have the containeranalysis.notes.attachOccurrence permission for the Note (usually via the containeranalysis.notes.attacher role). The arguments in this group can be used to specify the attributes of this resource. Whether to validate that the Attestation can be verified by the provided Attestor.
+    /// </summary>
+    [CliFlag("--validate")]
+    public bool? Validate { get; set; }
+
+    /// <summary>
+    /// Attestor resource - The Attestor whose Container Analysis Note will be used to host the created attestation. In order to successfully attach the attestation, the active gcloud account (core/account) must be able to read this attestor and must have the containeranalysis.notes.attachOccurrence permission for the Attestor's underlying Note resource (usually via the containeranalysis.notes.attacher role). The arguments in this group can be used to specify the attributes of this resource. ID of the attestor or fully qualified identifier for the attestor. To set the name attribute: ▸ provide the argument --attestor on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--attestor", Format = OptionFormat.EqualsSeparated)]
+    public string? Attestor { get; set; }
+
+    /// <summary>
+    /// Attestor resource - The Attestor whose Container Analysis Note will be used to host the created attestation. In order to successfully attach the attestation, the active gcloud account (core/account) must be able to read this attestor and must have the containeranalysis.notes.attachOccurrence permission for the Attestor's underlying Note resource (usually via the containeranalysis.notes.attacher role). The arguments in this group can be used to specify the attributes of this resource. Project ID of the Google Cloud project for the attestor. To set the project attribute: ▸ provide the argument --attestor on the command line with a fully specified name; ▸ provide the argument --attestor-project on the command line; ▸ provide the argument --project on the command line; ▸ set the property core/project.
+    /// </summary>
+    [CliOption("--attestor-project", Format = OptionFormat.EqualsSeparated)]
+    public string? AttestorProject { get; set; }
+
 }

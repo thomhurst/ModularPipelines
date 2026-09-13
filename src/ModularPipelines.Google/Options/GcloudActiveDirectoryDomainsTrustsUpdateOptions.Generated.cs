@@ -16,9 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update target DNS IP     addresses for a Managed Microsoft AD trust
 /// </summary>
+/// <param name="TargetDnsIpAddresses">DNS server IP addresses that can resolve the target domain. Only IPv4 is supported.</param>
+/// <param name="TargetDomainName">Target domain name for the Managed Microsoft AD trust you want to update.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("active-directory", "domains", "trusts", "update")]
-public record GcloudActiveDirectoryDomainsTrustsUpdateOptions : GcloudOptions
+public record GcloudActiveDirectoryDomainsTrustsUpdateOptions(
+    [property: CliOption("--target-dns-ip-addresses", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> TargetDnsIpAddresses,
+    [property: CliOption("--target-domain-name", Format = OptionFormat.EqualsSeparated)] string TargetDomainName
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

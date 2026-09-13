@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// sign a blob with a managed service     account key
 /// </summary>
+/// <param name="IamAccount">The service account to sign as.</param>
+/// <param name="Input"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "sign-blob")]
 public record GcloudIamServiceAccountsSignBlobOptions(
+    [property: CliOption("--iam-account", Format = OptionFormat.EqualsSeparated)] string IamAccount,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Input
 ) : GcloudOptions
 {

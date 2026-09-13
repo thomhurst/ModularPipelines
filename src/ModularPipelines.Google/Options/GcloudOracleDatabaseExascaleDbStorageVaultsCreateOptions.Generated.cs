@@ -16,9 +16,54 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new     ExascaleDbStorageVault
 /// </summary>
+/// <param name="DisplayName">The display name for the ExascaleDbStorageVault. The name does not have to be unique within your project. The name must be 1-255 characters long and can only contain alphanumeric characters.</param>
+/// <param name="ExascaleDbStorageDetailsTotalSizeGbs">The properties of the ExascaleDbStorageVault. next ID: 12 This must be specified. The storage details of the ExascaleDbStorageVault. This must be specified. The total storage allocation for the ExascaleDbStorageVault, in gigabytes (GB).</param>
+/// <param name="PropertiesAdditionalFlashCachePercent">The size of additional flash cache in percentage of high capacity database storage.</param>
+/// <param name="PropertiesDescription">The description of the ExascaleDbStorageVault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "exascale-db-storage-vaults", "create")]
-public record GcloudOracleDatabaseExascaleDbStorageVaultsCreateOptions : GcloudOptions
+public record GcloudOracleDatabaseExascaleDbStorageVaultsCreateOptions(
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName,
+    [property: CliOption("--exascale-db-storage-details-total-size-gbs", Format = OptionFormat.EqualsSeparated)] int ExascaleDbStorageDetailsTotalSizeGbs,
+    [property: CliOption("--properties-additional-flash-cache-percent", Format = OptionFormat.EqualsSeparated)] string PropertiesAdditionalFlashCachePercent,
+    [property: CliOption("--properties-description", Format = OptionFormat.EqualsSeparated)] string PropertiesDescription
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// CloudExadataInfrastructure resource - The Exadata Infrastructure resource on which ExascaleDbStorageVault resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --location on the command line. ID of the cloudExadataInfrastructure or fully qualified identifier for the cloudExadataInfrastructure. To set the cloud-exadata-infrastructure attribute: ◆ provide the argument --exadata-infrastructure on the command line.
+    /// </summary>
+    [CliOption("--exadata-infrastructure", Format = OptionFormat.EqualsSeparated)]
+    public string? ExadataInfrastructure { get; set; }
+
+    /// <summary>
+    /// CloudExadataInfrastructure resource - The Exadata Infrastructure resource on which ExascaleDbStorageVault resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --location on the command line. The GCP Oracle zone where Oracle ExascaleDbStorageVault is hosted. Example: us-east4-b-r2. If not specified, the system will pick a zone based on availability.
+    /// </summary>
+    [CliOption("--gcp-oracle-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? GcpOracleZone { get; set; }
+
+    /// <summary>
+    /// CloudExadataInfrastructure resource - The Exadata Infrastructure resource on which ExascaleDbStorageVault resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --location on the command line. The labels or tags associated with the ExascaleDbStorageVault. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// CloudExadataInfrastructure resource - The Exadata Infrastructure resource on which ExascaleDbStorageVault resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --location on the command line. For resources [exadata-infrastructure, exascale_db_storage_vault], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// CloudExadataInfrastructure resource - The Exadata Infrastructure resource on which ExascaleDbStorageVault resource is created, in the following format: projects/{project}/locations/{region}/cloudExadataInfrastuctures/{cloud_extradata_infrastructure} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --exadata-infrastructure on the command line with a fully specified name; ◆ provide the argument --location on the command line. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
 }

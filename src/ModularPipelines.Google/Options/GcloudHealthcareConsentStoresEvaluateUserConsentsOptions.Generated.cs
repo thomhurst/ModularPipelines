@@ -6,19 +6,62 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// check the     consents for a particular user's data
 /// </summary>
+/// <param name="UserId">The unique identifier of the user to evaluate consents for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "consent-stores", "evaluate-user-consents")]
-public record GcloudHealthcareConsentStoresEvaluateUserConsentsOptions : GcloudOptions
+public record GcloudHealthcareConsentStoresEvaluateUserConsentsOptions(
+    [property: CliOption("--user-id", Format = OptionFormat.EqualsSeparated)] string UserId
+) : GcloudOptions
 {
+    /// <summary>
+    /// List of user consents to evaluate the access request against. They must have the same user_id as the data to check access for, exist in the current consent_store, and have a state of either ACTIVE or DRAFT. A maximum of 100 consents can be provided here.
+    /// </summary>
+    [CliOption("--consent-list", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ConsentList { get; set; }
+
+    /// <summary>
+    /// Limit on the number of user data mappings to return in a single response. If zero the default page size of 100 is used.
+    /// </summary>
+    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
+    public int? PageSize { get; set; }
+
+    /// <summary>
+    /// Token to retrieve the next page of results.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--page-token", Format = OptionFormat.EqualsSeparated)]
+    public string? PageToken { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of request attributes associated with this access request. Each attribute has the form "KEY=VALUE".
+    /// </summary>
+    [CliOption("--request-attributes", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? RequestAttributes { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of resource attributes associated with this access request. Each attribute has the form "KEY=VALUE". If no values are specified, then all data types are queried.
+    /// </summary>
+    [CliOption("--resource-attributes", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ResourceAttributes { get; set; }
+
+    /// <summary>
+    /// The requested view of information provided in the response (BASIC or FULL). RESPONSE_VIEW must be one of: basic, full, response-view-unspecified.
+    /// </summary>
+    [CliOption("--response-view", Format = OptionFormat.EqualsSeparated)]
+    public GcloudResponseView? ResponseView { get; set; }
+
 }

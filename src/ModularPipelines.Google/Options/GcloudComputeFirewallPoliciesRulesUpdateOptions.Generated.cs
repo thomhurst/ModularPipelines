@@ -10,17 +10,201 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// updates a Compute Engine     firewall policy rule
 /// </summary>
+/// <param name="FirewallPolicy">Short name of the firewall policy into which the rule should be updated.</param>
+/// <param name="Priority"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "firewall-policies", "rules", "update")]
 public record GcloudComputeFirewallPoliciesRulesUpdateOptions(
+    [property: CliOption("--firewall-policy", Format = OptionFormat.EqualsSeparated)] string FirewallPolicy,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Action to take if the request matches the match condition. ACTION must be one of: allow, deny, goto_next, apply_security_profile_group.
+    /// </summary>
+    [CliOption("--action", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAction? Action { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the rule.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Destination address groups to match for this rule. Can only be specified if DIRECTION is egress.
+    /// </summary>
+    [CliOption("--dest-address-groups", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DestAddressGroups { get; set; }
+
+    /// <summary>
+    /// Destination FQDNs to match for this rule. Can only be specified if DIRECTION is egress.
+    /// </summary>
+    [CliOption("--dest-fqdns", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DestFqdns { get; set; }
+
+    /// <summary>
+    /// Destination IP ranges to match for this rule.
+    /// </summary>
+    [CliOption("--dest-ip-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DestIpRanges { get; set; }
+
+    /// <summary>
+    /// Use this flag to indicate that the rule should match internet or non-internet traffic. It applies to destination traffic for egress rules. Valid values are INTERNET and NON_INTERNET. Use empty string to clear the field.
+    /// </summary>
+    [CliOption("--dest-network-context", Format = OptionFormat.EqualsSeparated)]
+    public string? DestNetworkContext { get; set; }
+
+    /// <summary>
+    /// Destination Region Code to match for this rule. Can only be specified if DIRECTION is egress. Cannot be specified when the source network context is NON_INTERNET.
+    /// </summary>
+    [CliOption("--dest-region-codes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DestRegionCodes { get; set; }
+
+    /// <summary>
+    /// Destination Threat Intelligence lists to match for this rule. Can only be specified if DIRECTION is egress. Cannot be specified when source network context is NON_INTERNET. The available lists can be found here: https://cloud.google.com/vpc/docs/firewall-policies-rule-details#threat-intelligence-fw-policy.
+    /// </summary>
+    [CliOption("--dest-threat-intelligence", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DestThreatIntelligence { get; set; }
+
+    /// <summary>
+    /// Direction of the traffic the rule is applied. The default is to apply on incoming traffic. DIRECTION must be one of: INGRESS, EGRESS.
+    /// </summary>
+    [CliOption("--direction", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDirection? Direction { get; set; }
+
+    /// <summary>
+    /// Use this flag to disable the rule. Disabled rules will not affect traffic. Use --disabled to enable and --no-disabled to disable.
+    /// </summary>
+    [CliFlag("--disabled")]
+    public bool? Disabled { get; set; }
+
+    /// <summary>
+    /// Negates --disabled. Use this flag to disable the rule. Disabled rules will not affect traffic. Use --disabled to enable and --no-disabled to disable.
+    /// </summary>
+    [CliFlag("--no-disabled")]
+    public bool? NoDisabled { get; set; }
+
+    /// <summary>
+    /// Use this flag to enable logging of connections that allowed or denied by this rule. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--enable-logging")]
+    public bool? EnableLogging { get; set; }
+
+    /// <summary>
+    /// Negates --enable-logging. Use this flag to enable logging of connections that allowed or denied by this rule. Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--no-enable-logging")]
+    public bool? NoEnableLogging { get; set; }
+
+    /// <summary>
+    /// A list of destination protocols and ports to which the firewall rule will apply.
+    /// </summary>
+    [CliOption("--layer4-configs", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Layer4Configs { get; set; }
+
+    /// <summary>
+    /// New priority for the rule to update. Valid in [0, 65535].
+    /// </summary>
+    [CliOption("--new-priority", Format = OptionFormat.EqualsSeparated)]
+    public string? NewPriority { get; set; }
+
+    /// <summary>
+    /// Organization which the organization firewall policy belongs to. Must be set if FIREWALL_POLICY is short name.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// An org-based security profile group to be used with apply_security_profile_group action. Allowed formats are: a) http(s)://&lt;namespace&gt;/&lt;api&gt;/organizations/&lt;org_id&gt;/locations/global/securityProfileGroups/&lt;profile&gt; b) (//)&lt;namespace&gt;/organizations/&lt;org_id&gt;/locations/global/securityProfileGroups/&lt;profile&gt; c) &lt;profile&gt;. In case "c" gcloud CLI will create a reference matching format "a", but to make it work CLOUDSDK_API_ENDPOINT_OVERRIDES_NETWORKSECURITY property must be set. In order to set this property, please run the command gcloud config set api_endpoint_overrides/networksecurity https://&lt;namespace&gt;/.
+    /// </summary>
+    [CliOption("--security-profile-group", Format = OptionFormat.EqualsSeparated)]
+    public string? SecurityProfileGroup { get; set; }
+
+    /// <summary>
+    /// Source address groups to match for this rule. Can only be specified if DIRECTION is ingress.
+    /// </summary>
+    [CliOption("--src-address-groups", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SrcAddressGroups { get; set; }
+
+    /// <summary>
+    /// Source FQDNs to match for this rule. Can only be specified if DIRECTION is ingress.
+    /// </summary>
+    [CliOption("--src-fqdns", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SrcFqdns { get; set; }
+
+    /// <summary>
+    /// Source IP ranges to match for this rule.
+    /// </summary>
+    [CliOption("--src-ip-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SrcIpRanges { get; set; }
+
+    /// <summary>
+    /// Use this flag to indicate that the rule should match internet, non-internet traffic or traffic coming from the network specified by --src-network. It applies to ingress rules. Valid values are INTERNET, NON_INTERNET, VPC_NETWORKS and INTRA_VPC. Use empty string to clear the field.
+    /// </summary>
+    [CliOption("--src-network-context", Format = OptionFormat.EqualsSeparated)]
+    public string? SrcNetworkContext { get; set; }
+
+    /// <summary>
+    /// The source VPC networks to match for this rule. It can only be specified when --src-network-type is VPC_NETWORKS. It applies to ingress rules. It accepts full or partial URLs.
+    /// </summary>
+    [CliOption("--src-networks", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SrcNetworks { get; set; }
+
+    /// <summary>
+    /// Source Region Code to match for this rule. Can only be specified if DIRECTION is ingress. Cannot be specified when the source network context is NON_INTERNET, VPC_NETWORK or INTRA_VPC.
+    /// </summary>
+    [CliOption("--src-region-codes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SrcRegionCodes { get; set; }
+
+    /// <summary>
+    /// A list of instance secure tags indicating the set of instances on the network to which the rule applies if all other fields match. Either --src-ip-ranges or --src-secure-tags must be specified for ingress traffic. If both --src-ip-ranges and --src-secure-tags are specified, an inbound connection is allowed if either the range of the source matches --src-ip-ranges or the tag of the source matches --src-secure-tags. Secure Tags can be assigned to instances during instance creation.
+    /// </summary>
+    [CliOption("--src-secure-tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SrcSecureTags { get; set; }
+
+    /// <summary>
+    /// Source Threat Intelligence lists to match for this rule. Can only be specified if DIRECTION is ingress. Cannot be specified when the source network context is NON_INTERNET, VPC_NETWORK or INTRA_VPC. The available lists can be found here: https://cloud.google.com/vpc/docs/firewall-policies-rule-details#threat-intelligence-fw-policy.
+    /// </summary>
+    [CliOption("--src-threat-intelligence", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SrcThreatIntelligence { get; set; }
+
+    /// <summary>
+    /// List of URLs of target resources to which the rule is applied.
+    /// </summary>
+    [CliOption("--target-resources", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TargetResources { get; set; }
+
+    /// <summary>
+    /// An optional, list of target secure tags with a name of the format tagValues/ or full namespaced name
+    /// </summary>
+    [CliOption("--target-secure-tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TargetSecureTags { get; set; }
+
+    /// <summary>
+    /// List of target service accounts for the rule.
+    /// </summary>
+    [CliOption("--target-service-accounts", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TargetServiceAccounts { get; set; }
+
+    /// <summary>
+    /// Use this flag to indicate whether TLS traffic should be inspected using the TLS inspection policy when the security profile group is applied. Default: no TLS inspection. Use --tls-inspect to enable and --no-tls-inspect to disable.
+    /// </summary>
+    [CliFlag("--tls-inspect")]
+    public bool? TlsInspect { get; set; }
+
+    /// <summary>
+    /// Negates --tls-inspect. Use this flag to indicate whether TLS traffic should be inspected using the TLS inspection policy when the security profile group is applied. Default: no TLS inspection. Use --tls-inspect to enable and --no-tls-inspect to disable.
+    /// </summary>
+    [CliFlag("--no-tls-inspect")]
+    public bool? NoTlsInspect { get; set; }
+
 }

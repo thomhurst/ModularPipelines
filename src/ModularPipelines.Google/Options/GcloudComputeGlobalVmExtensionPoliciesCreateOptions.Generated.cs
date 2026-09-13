@@ -10,17 +10,76 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Compute     Engine global VM extension policy
 /// </summary>
+/// <param name="Extensions">One or more extensions to be added to the policy.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "global-vm-extension-policies", "create")]
 public record GcloudComputeGlobalVmExtensionPoliciesCreateOptions(
+    [property: CliOption("--extensions", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Extensions,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// A comma separated key:value list where the key is the extension name and the value is the desired config for the given extension. The extension name must be one of the extensions specified in the --extensions flag. E.g. --config=filestore='filestore config',ops-agent='ops agent config' Raises: ArgumentTypeError: If the extension name is not specified in the --extensions flag.
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Config { get; set; }
+
+    /// <summary>
+    /// Same as --config except that the value for the entry will be read from a local file. The extension name must be one of the extensions specified in the --extensions flag. It is an error to specify the same extension in both --config and --config-from-file.
+    /// </summary>
+    [CliOption("--config-from-file", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ConfigFromFile { get; set; }
+
+    /// <summary>
+    /// An optional text description for the extension policy.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// A list of inclusion labels to select the target VMs. The expected format for a single selector is "key1=value1,key2=value2". A VM is selected if it has ALL the inclusion labels. When the option is specified multiple times, it assumes a logical OR between the selectors. For example, if the inclusion labels are ["env=prod,workload=frontend", "workload=backend"], the following VMs will be selected: ◆ VM1: env=prod, workload=frontend, something=else ◆ VM2: env=prod, workload=backend But not: ◆ VM3: env=prod If not specified, ALL VMs in the project/folder will be selected.
+    /// </summary>
+    [CliOption("--inclusion-labels", Format = OptionFormat.EqualsSeparated)]
+    public string? InclusionLabels { get; set; }
+
+    /// <summary>
+    /// The priority of the policy. Lower the number, higher the priority. When two policies try to apply the same extension to a VM, the policy with higher priority takes precedence. If the priorities are the same, the policy with the more recent update timestamp takes precedence. If a policy is deleted, the extension remains installed on the VM if a lower-priority policy still applies. Range from 0 to 65535. Default is 1000.
+    /// </summary>
+    [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
+    public string? Priority { get; set; }
+
+    /// <summary>
+    /// Specifies the behavior of a rollout if a conflict is detected between a zonal policy and a global policy. See gcloud compute zone-vm-extension-policies for more details on zonal policies. The possible values are: ◆ "": The zonal policy value is used in case of a conflict. This is the default behavior. ◆ overwrite: The global policy overwrites the zonal policy. If you set --rollout-conflict-behavior to overwrite and want to revert to the default behavior, use the update command and omit the --rollout-conflict-behavior flag.
+    /// </summary>
+    [CliOption("--rollout-conflict-behavior", Format = OptionFormat.EqualsSeparated)]
+    public string? RolloutConflictBehavior { get; set; }
+
+    /// <summary>
+    /// Provide the name of a custom rollout plan to be used for the rollout. One of either --rollout-predefined-plan or --rollout-custom-plan must be specified, but not both.
+    /// </summary>
+    [CliOption("--rollout-custom-plan", Format = OptionFormat.EqualsSeparated)]
+    public string? RolloutCustomPlan { get; set; }
+
+    /// <summary>
+    /// Provide the name of a predefined rollout plan from [fast_rollout, slow_rollout] to be used for the rollout. One of either --rollout-predefined-plan or --rollout-custom-plan must be specified, but not both. ROLLOUT_PREDEFINED_PLAN must be one of: fast_rollout, slow_rollout.
+    /// </summary>
+    [CliOption("--rollout-predefined-plan", Format = OptionFormat.EqualsSeparated)]
+    public GcloudRolloutPredefinedPlan? RolloutPredefinedPlan { get; set; }
+
+    /// <summary>
+    /// A comma separated key:value list where the key is the extension name and the value is the desired version for the given extension. The extension name must be one of the extensions specified in the --extensions flag. If no version is specified for an extension, the latest version will be used and will be upgraded automatically. E.g. --version=filestore=123ABC,ops-agent=456DEF Raises: ArgumentTypeError: If the extension name is not specified in the --extensions flag.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Version { get; set; }
+
 }

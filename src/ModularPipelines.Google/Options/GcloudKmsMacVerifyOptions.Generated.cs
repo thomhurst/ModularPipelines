@@ -16,9 +16,44 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// verify a user signature file using a MAC key     version
 /// </summary>
+/// <param name="InputFile">Path to the input file to use for verification.</param>
+/// <param name="SignatureFile">Path to the signature file to be verified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "mac-verify")]
-public record GcloudKmsMacVerifyOptions : GcloudOptions
+public record GcloudKmsMacVerifyOptions(
+    [property: CliOption("--input-file", Format = OptionFormat.EqualsSeparated)] string InputFile,
+    [property: CliOption("--signature-file", Format = OptionFormat.EqualsSeparated)] string SignatureFile
+) : GcloudOptions
 {
+    /// <summary>
+    /// to use for signing.
+    /// </summary>
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    public string? Key { get; set; }
+
+    /// <summary>
+    /// Key ring of the key.
+    /// </summary>
+    [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? Keyring { get; set; }
+
+    /// <summary>
+    /// Location of the keyring.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Skip integrity verification on request and response API fields.
+    /// </summary>
+    [CliFlag("--skip-integrity-verification")]
+    public bool? SkipIntegrityVerification { get; set; }
+
+    /// <summary>
+    /// Version to use for signing.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string? Version { get; set; }
+
 }

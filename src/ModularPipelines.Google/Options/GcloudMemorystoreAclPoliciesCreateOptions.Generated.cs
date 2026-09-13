@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create aclPolicies
 /// </summary>
+/// <param name="Rules">Required, The ACL rules within the ACL policy. rule The rule to be applied to the username. Ex: "on &gt;password123 ~ +@all" The format of the rule is defined by Valkey OSS: https://valkey.io/topics/acl/. username Specifies the IAM user or service account to be added to the ACL policy. This username will be directly set on the Valkey OSS. Shorthand Example: --rules=rule=string,username=string --rules=rule=string,username=string JSON Example: --rules='[{"rule": "string", "username": "string"}]' File Example: --rules=path_to_file.(yaml|json)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("memorystore", "acl-policies", "create")]
-public record GcloudMemorystoreAclPoliciesCreateOptions : GcloudOptions
+public record GcloudMemorystoreAclPoliciesCreateOptions(
+    [property: CliOption("--rules", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Rules
+) : GcloudOptions
 {
+    /// <summary>
+    /// Idempotent request UUID. .
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
 }

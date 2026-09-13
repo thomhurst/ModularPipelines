@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,33 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "rbacrolebindingactuation", "update")]
-public record GcloudContainerFleetRbacrolebindingactuationUpdateOptions : GcloudOptions
+public record GcloudContainerFleetRbacrolebindingactuationUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Add a single custom role to the allowed custom roles list.
+    /// </summary>
+    [CliOption("--add-allowed-custom-role", Format = OptionFormat.EqualsSeparated)]
+    public string? AddAllowedCustomRole { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The list of allowed custom roles that can be used in scope RBACRoleBindings.
+    /// </summary>
+    [CliOption("--allowed-custom-roles", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AllowedCustomRoles { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Remove a single custom role from the allowed custom roles list.
+    /// </summary>
+    [CliOption("--remove-allowed-custom-role", Format = OptionFormat.EqualsSeparated)]
+    public string? RemoveAllowedCustomRole { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(AddAllowedCustomRole) ? 1 : 0) + (AllowedCustomRoles?.Any() == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveAllowedCustomRole) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of AddAllowedCustomRole, AllowedCustomRoles, or RemoveAllowedCustomRole must be specified.", [nameof(AddAllowedCustomRole), nameof(AllowedCustomRoles), nameof(RemoveAllowedCustomRole)]);
+        }
+    }
+
 }

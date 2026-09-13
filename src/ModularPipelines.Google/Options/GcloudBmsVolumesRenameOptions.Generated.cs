@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// rename a Bare Metal Solution volume
 /// </summary>
+/// <param name="NewName">New volume name for renaming an already existing volume.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bms", "volumes", "rename")]
-public record GcloudBmsVolumesRenameOptions : GcloudOptions
+public record GcloudBmsVolumesRenameOptions(
+    [property: CliOption("--new-name", Format = OptionFormat.EqualsSeparated)] string NewName
+) : GcloudOptions
 {
 }

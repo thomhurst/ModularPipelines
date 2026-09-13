@@ -10,17 +10,29 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// upgrade an AlloyDB cluster within a given     project and region
 /// </summary>
+/// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+/// <param name="Version">Target database version for the upgrade. VERSION must be one of: POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17, POSTGRES_18.</param>
+/// <param name="Cluster"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "clusters", "upgrade")]
 public record GcloudAlloydbClustersUpgradeOptions(
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region,
+    [property: CliOption("--version", Format = OptionFormat.EqualsSeparated)] GcloudVersion Version,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Cluster
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

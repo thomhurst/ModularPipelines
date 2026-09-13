@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Google Cloud VMware     Engine cluster
 /// </summary>
+/// <param name="NodeTypeConfig">Information about the type and number of nodes associated with the cluster. type (required): canonical identifier of the node type. count (required): number of nodes of this type in the cluster. custom-core-count (optional): customized number of cores available to each node of the type. To get a list of valid values for your node type, run the gcloud vmware node-types describe command and reference the availableCustomCoreCounts field in the output.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "clusters", "create")]
-public record GcloudVmwarePrivateCloudsClustersCreateOptions : GcloudOptions
+public record GcloudVmwarePrivateCloudsClustersCreateOptions(
+    [property: CliOption("--node-type-config", Format = OptionFormat.EqualsSeparated)] string NodeTypeConfig
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
 }

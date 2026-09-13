@@ -10,17 +10,27 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a service account key
 /// </summary>
+/// <param name="IamAccount">The service account for which to create a key. To list all service accounts in the project, run: $ gcloud iam service-accounts list</param>
+/// <param name="Output"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "keys", "create")]
 public record GcloudIamServiceAccountsKeysCreateOptions(
+    [property: CliOption("--iam-account", Format = OptionFormat.EqualsSeparated)] string IamAccount,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Output
 ) : GcloudOptions
 {
+    /// <summary>
+    /// The type of key to create. KEY_FILE_TYPE must be one of: json, p12.
+    /// </summary>
+    [CliOption("--key-file-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudKeyFileType? KeyFileType { get; set; }
+
 }

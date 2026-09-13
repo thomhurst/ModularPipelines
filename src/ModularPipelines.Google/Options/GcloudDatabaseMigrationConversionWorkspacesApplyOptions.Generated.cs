@@ -21,4 +21,34 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("database-migration", "conversion-workspaces", "apply")]
 public record GcloudDatabaseMigrationConversionWorkspacesApplyOptions : GcloudOptions
 {
+    /// <summary>
+    /// Connection profile resource - The connection profile to apply to. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination-connection-profile on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the region attribute: ◆ provide the argument --destination-connection-profile on the command line with a fully specified name; ◆ provide the argument --region on the command line. This must be specified. ID of the connection_profile or fully qualified identifier for the connection_profile. To set the connection_profile attribute: ▸ provide the argument --destination-connection-profile on the command line.
+    /// </summary>
+    [CliOption("--destination-connection-profile", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationConnectionProfile { get; set; }
+
+    /// <summary>
+    /// Waits for the operation in progress to complete before returning.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Only validates the apply process, but doesn't change the destination database. Only works for PostgreSQL destination connection profile.
+    /// </summary>
+    [CliFlag("--dry-run")]
+    public bool? DryRun { get; set; }
+
+    /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// Filter the entities based on AIP-160 (https://google.aip.dev/160) standard. Example: to filter all tables whose name start with "Employee" and are present under schema "Company", use filter as "Company.Employee* AND type=TABLE"
+    /// </summary>
+    [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
+    public string? Filter { get; set; }
+
 }

@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// instantiate a     workflow template from a file
 /// </summary>
+/// <param name="File">The YAML file containing the workflow template to run</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "workflow-templates", "instantiate-from-file")]
-public record GcloudDataprocWorkflowTemplatesInstantiateFromFileOptions : GcloudOptions
+public record GcloudDataprocWorkflowTemplatesInstantiateFromFileOptions(
+    [property: CliOption("--file", Format = OptionFormat.EqualsSeparated)] string File
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Dataproc region to use. Each Dataproc region constitutes an independent resource namespace constrained to deploying instances into Compute Engine zones inside the region. Overrides the default dataproc/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

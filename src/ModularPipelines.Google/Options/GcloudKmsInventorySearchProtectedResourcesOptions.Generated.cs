@@ -16,11 +16,32 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// searches the resources     protected by a key
 /// </summary>
+/// <param name="Scope">The scope of the search, which can be an organization ID or a project ID or a project number.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "inventory", "search-protected-resources")]
-public record GcloudKmsInventorySearchProtectedResourcesOptions : GcloudOptions
+public record GcloudKmsInventorySearchProtectedResourcesOptions(
+    [property: CliOption("--scope", Format = OptionFormat.EqualsSeparated)] string Scope
+) : GcloudOptions
 {
+    /// <summary>
+    /// Key resource - The KMS key resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --keyname on the command line with a fully specified name; ◆ set the property core/project. This must be specified. ID of the key or fully qualified identifier for the key. To set the key attribute: ▸ provide the argument --keyname on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--keyname", Format = OptionFormat.EqualsSeparated)]
+    public string? Keyname { get; set; }
+
+    /// <summary>
+    /// Key resource - The KMS key resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --keyname on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The KMS keyring of the key. To set the keyring attribute: ▸ provide the argument --keyname on the command line with a fully specified name; ▸ provide the argument --keyring on the command line.
+    /// </summary>
+    [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? Keyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The KMS key resource. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --keyname on the command line with a fully specified name; ◆ set the property core/project. This must be specified. The Google Cloud location for the key. To set the location attribute: ▸ provide the argument --keyname on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
     /// <summary>
     /// A list of resource types that this request searches for. If empty, it will search all the trackable resource types (https://cloud.google.com/kms/docs/view-key-usage#tracked-resource-types). Regular expressions are also supported. For example: ◆ compute.googleapis.com.* snapshots resources whose type starts with compute.googleapis.com. ◆ .*Image snapshots resources whose type ends with Image. ◆ .*Image.* snapshots resources whose type contains Image. See RE2 (https://github.com/google/re2/wiki/Syntax) for all supported regular expression syntax. If the regular expression does not match any supported resource type, an INVALID_ARGUMENT error will be returned.
     /// </summary>

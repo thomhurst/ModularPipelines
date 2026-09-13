@@ -10,15 +10,37 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// queries all     accessible data IDs
 /// </summary>
+/// <param name="GcsUri">The Cloud Storage destination for the result file. The Cloud Healthcare API service account must have the roles/storage.objectAdmin Cloud IAM role for this Cloud Storage location.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcare", "consent-stores", "query-accessible-data")]
-public record GcloudHealthcareConsentStoresQueryAccessibleDataOptions : GcloudOptions
+public record GcloudHealthcareConsentStoresQueryAccessibleDataOptions(
+    [property: CliOption("--gcs-uri", Format = OptionFormat.EqualsSeparated)] string GcsUri
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of request attributes associated with this access request. Each attribute has the form "KEY=VALUE".
+    /// </summary>
+    [CliOption("--request-attributes", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? RequestAttributes { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of resources attributes associated with the type of data being requested. Each attribute has the form "KEY=VALUE". If no values are specified, then all data types are included in the output.
+    /// </summary>
+    [CliOption("--resource-attributes", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ResourceAttributes { get; set; }
+
 }

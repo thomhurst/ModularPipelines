@@ -21,4 +21,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("iam", "principal-access-boundary-policies", "list")]
 public record GcloudIamPrincipalAccessBoundaryPoliciesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// Location resource - The parent resource, which owns the collection of principal access boundary policies. Format: organizations/{organization_id}/locations/{location} The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Location resource - The parent resource, which owns the collection of principal access boundary policies. Format: organizations/{organization_id}/locations/{location} The arguments in this group can be used to specify the attributes of this resource. This must be specified. The organization id of the location resource. To set the organization attribute: ▸ provide the argument --location on the command line with a fully specified name; ▸ provide the argument --organization on the command line.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
 }

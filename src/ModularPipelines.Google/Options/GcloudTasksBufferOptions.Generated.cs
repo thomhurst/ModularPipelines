@@ -16,9 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// buffers a task into a queue
 /// </summary>
+/// <param name="Location">The location where the queue exists.</param>
+/// <param name="Queue">The queue the task belongs to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "buffer")]
-public record GcloudTasksBufferOptions : GcloudOptions
+public record GcloudTasksBufferOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
+    [property: CliOption("--queue", Format = OptionFormat.EqualsSeparated)] string Queue
+) : GcloudOptions
 {
+    /// <summary>
+    /// The task ID for the task being created.
+    /// </summary>
+    [CliOption("--task-id", Format = OptionFormat.EqualsSeparated)]
+    public string? TaskId { get; set; }
+
 }

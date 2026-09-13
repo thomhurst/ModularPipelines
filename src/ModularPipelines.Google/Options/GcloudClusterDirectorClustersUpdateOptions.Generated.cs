@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,225 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cluster-director", "clusters", "update")]
-public record GcloudClusterDirectorClustersUpdateOptions : GcloudOptions
+public record GcloudClusterDirectorClustersUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Reference of existing filestore instance. id: ID of the filestore resource, used to refer to this resource in storage-configs. name: Name of the existing filestore instance to import from your project in the format of locations/us-central1/instances/filestore-1. For example --add-filestore-instances id=my-fs,name=locations/us-central1/instances/filestore-1. Sets add_filestore_instances value. id Required, sets id value. name Required, sets name value. Shorthand Example: --add-filestore-instances=id=string,name=string --add-filestore-instances=id=string,name=string JSON Example: --add-filestore-instances='[{"id": "string", "name": "string"}]' File Example: --add-filestore-instances=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-filestore-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddFilestoreInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to define cluster Flex Start instances. For example --add-flex-start-instances id=c1,zone=us-central1-a,machineType=n1-standard-1,maxDuration=10000s. Sets add_flex_start_instances value. id Required, sets id value. machineType Required, sets machineType value. maxDuration Required, sets maxDuration value. zone Required, sets zone value. Shorthand Example: --add-flex-start-instances=id=string,machineType=string,maxDuration=string,zone=string --add-flex-start-instances=id=string,machineType=string,maxDuration=string,zone=string JSON Example: --add-flex-start-instances='[{"id": "string", "machineType": "string", "maxDuration": "string", "zone": "string"}]' File Example: --add-flex-start-instances=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-flex-start-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddFlexStartInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Cluster labels as key value pairs. For example --add-labels key1=value1,key2=value2. Sets add_labels value. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --add-labels={string=string} JSON Example: --add-labels='{"string": "string"}' File Example: --add-labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddLabels { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Reference of existing Lustre instance. id: ID of the lustre resource, used to refer to this resource in storage-configs. name: Name of the existing Managed Lustre instance to import from your project in the format of locations/us-central1/instances/lustre-1. For example --add-lustre-instances id=my-lustre,name=locations/us-central1/instances/lustre-1. Sets add_lustre_instances value. id Required, sets id value. name Required, sets name value. Shorthand Example: --add-lustre-instances=id=string,name=string --add-lustre-instances=id=string,name=string JSON Example: --add-lustre-instances='[{"id": "string", "name": "string"}]' File Example: --add-lustre-instances=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-lustre-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddLustreInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to create a filestore instance. Required fields: ▸ id ▸ name ▸ tier ▸ capacityGb ▸ fileshare For example --create-filestores id=my-fs,name=locations/us-central1/instances/filestore-1,tier=REGIONAL,capacityGb=1024,fileshare=share1 id: Alphanumeric identifier of the filestore resource. Can be used to refer to this resource in storage-configs. name: Name of the filestore instance to create in your project in the format of locations/us-central1/instances/filestore-1. capacityGb: Size of the filestore in GiB. Must be between 1024 and 102400, and must meet scalability requirements described at https://cloud.google.com/filestore/docs/service-tiers. fileshare: The directory on a Filestore instance where all shared files are stored. Must match the regex [a-z]([-a-z0-9]*[a-z0-9])?, be 1-63 characters in length, and comply with RFC1035. Supported protocol values: ▸ NFSV3 ▸ NFSV41 ▸ If not specified, defaults to NFSV3 Defaults: ▸ protocol: NFSV3. Sets add_new_filestore_instances value. Shorthand Example: --add-new-filestore-instances=capacityGb=int,description=string,fileshare=string,id=string,name=string,protocol=string,tier=string --add-new-filestore-instances=capacityGb=int,description=string,fileshare=string,id=string,name=string,protocol=string,tier=string JSON Example: --add-new-filestore-instances='[{"capacityGb": int, "description": "string", "fileshare": "string", "id": "string", "name": "string", "protocol": "string", "tier": "string"}]' File Example: --add-new-filestore-instances=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-new-filestore-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddNewFilestoreInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to create a Lustre instance. Required fields: ▸ id ▸ name ▸ capacityGb ▸ filesystem. id: ID of the lustre resource, used to refer to this resource in storage-configs. name: Name of the Managed Lustre instance to create in your project in the format of locations/us-central1/instances/lustre-1. For example --add-new-lustre-instances id=my-lustre,name=locations/us-central1/instances/lustre-1,capacityGb=1024,filesystem=fs-1,perUnitStorageThroughput=1000 Values for perUnitStorageThroughput: 125, 250, 500, 1000. Sets add_new_lustre_instances value. Shorthand Example: --add-new-lustre-instances=capacityGb=int,description=string,filesystem=string,id=string,name=string,perUnitStorageThroughput=int --add-new-lustre-instances=capacityGb=int,description=string,filesystem=string,id=string,name=string,perUnitStorageThroughput=int JSON Example: --add-new-lustre-instances='[{"capacityGb": int, "description": "string", "filesystem": "string", "id": "string", "name": "string", "perUnitStorageThroughput": int}]' File Example: --add-new-lustre-instances=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-new-lustre-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddNewLustreInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to create a Google Cloud Storage bucket. Required fields: ▸ id ▸ name For example --add-new-storage-buckets id=my-bucket,name=bucket-1,storageClass=STANDARD,enableHNS=true Supported storageClass values: ▸ STANDARD ▸ NEARLINE ▸ COLDLINE ▸ ARCHIVE Defaults: ▸ storageClass: STANDARD Note: ▸ Either storageClass or enableAutoclass can be set. ▸ HNS: Hierarchical namespace. Hierarchical namespace buckets cannot use Autoclass. Sets add_new_storage_buckets value. Shorthand Example: --add-new-storage-buckets=enableAutoclass=boolean,enableHNS=boolean,id=string,name=string,storageClass=string --add-new-storage-buckets=enableAutoclass=boolean,enableHNS=boolean,id=string,name=string,storageClass=string JSON Example: --add-new-storage-buckets='[{"enableAutoclass": boolean, "enableHNS": boolean, "id": "string", "name": "string", "storageClass": "string"}]' File Example: --add-new-storage-buckets=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-new-storage-buckets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddNewStorageBuckets { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to define cluster on demand instances. For example --add-on-demand-instances id=c1,zone=us-central1-a,machineType=n1-standard-1. Sets add_on_demand_instances value. id Required, sets id value. machineType Required, sets machineType value. zone Required, sets zone value. Shorthand Example: --add-on-demand-instances=id=string,machineType=string,zone=string --add-on-demand-instances=id=string,machineType=string,zone=string JSON Example: --add-on-demand-instances='[{"id": "string", "machineType": "string", "zone": "string"}]' File Example: --add-on-demand-instances=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-on-demand-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddOnDemandInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to define cluster reserved instances. For example --add-reserved-instances id=c1,reservation=zones/us-central1-a/reservations/reservation-1. Sets add_reserved_instances value. id Required, sets id value. reservation Sets reservation value. Shorthand Example: --add-reserved-instances=id=string,reservation=string --add-reserved-instances=id=string,reservation=string JSON Example: --add-reserved-instances='[{"id": "string", "reservation": "string"}]' File Example: --add-reserved-instances=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-reserved-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddReservedInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Slurm epilog bash scripts. For example --add-slurm-epilog-scripts script1.sh,script2.sh
+    /// </summary>
+    [CliOption("--add-slurm-epilog-scripts", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddSlurmEpilogScripts { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to define slurm cluster nodeset config. Required fields: ▸ id For example --add-slurm-node-sets id=ns1,computeId=c1,staticNodeCount=1,maxDynamicNodeCount=2,computeInstance=[startupScript="echo hello",labels="k1=v1"] Defaults: Note: ▸ startupScript: ▫ Either str or file_path ▫ For file_path, only bash file format (.sh or .bash) is supported. ▫ For file_path, only absolute path is supported. Sets add_slurm_node_sets value. Shorthand Example: --add-slurm-node-sets=computeId=string,computeInstance={bootDisk={sizeGb=int,type=string},labels={string=string},startupScript=string},id=string,maxDynamicNodeCount=int,staticNodeCount=int,storageConfigs=[{id=string,localMount=string}] --add-slurm-node-sets=computeId=string,computeInstance={bootDisk={sizeGb=int,type=string},labels={string=string},startupScript=string},id=string,maxDynamicNodeCount=int,staticNodeCount=int,storageConfigs=[{id=string,localMount=string}] JSON Example: --add-slurm-node-sets='[{"computeId": "string", "computeInstance": {"bootDisk": {"sizeGb": int, "type": "string"}, "labels": {"string": "string"}, "startupScript": "string"}, "id": "string", "maxDynamicNodeCount": int, "staticNodeCount": int, "storageConfigs": [{"id": "string", "localMount": "string"}]}]' File Example: --add-slurm-node-sets=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-slurm-node-sets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddSlurmNodeSets { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to define slurm cluster partitions. For example --add-slurm-partitions id=p1,nodesetIds=[ns1,ns2]. Sets add_slurm_partitions value. id Required, sets id value. nodeSetIds Required, sets nodeSetIds value. Shorthand Example: --add-slurm-partitions=id=string,nodeSetIds=[string] --add-slurm-partitions=id=string,nodeSetIds=[string] JSON Example: --add-slurm-partitions='[{"id": "string", "nodeSetIds": ["string"]}]' File Example: --add-slurm-partitions=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-slurm-partitions", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddSlurmPartitions { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Slurm prolog bash scripts. For example --add-slurm-prolog-scripts script1.sh,script2.sh
+    /// </summary>
+    [CliOption("--add-slurm-prolog-scripts", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddSlurmPrologScripts { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to define cluster spot instances. For example --add-spot-instances id=c1,zone=us-central1-a,machineType=n1-standard-1. Sets add_spot_instances value. id Required, sets id value. machineType Required, sets machineType value. terminationAction Sets terminationAction value. zone Required, sets zone value. Shorthand Example: --add-spot-instances=id=string,machineType=string,terminationAction=string,zone=string --add-spot-instances=id=string,machineType=string,terminationAction=string,zone=string JSON Example: --add-spot-instances='[{"id": "string", "machineType": "string", "terminationAction": "string", "zone": "string"}]' File Example: --add-spot-instances=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-spot-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddSpotInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Reference of existing Google Cloud Storage bucket. id: ID of the bucket resource, used to refer to this resource in storage-configs. name: Name of the existing Cloud Storage bucket to import from your project in the format of bucket-name. For example --add-storage-buckets id=my-bucket,name=bucket-1. Sets add_storage_buckets value. id Required, sets id value. name Required, sets name value. Shorthand Example: --add-storage-buckets=id=string,name=string --add-storage-buckets=id=string,name=string JSON Example: --add-storage-buckets='[{"id": "string", "name": "string"}]' File Example: --add-storage-buckets=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--add-storage-buckets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AddStorageBuckets { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Description of the cluster. For example --description "My cluster"
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to remove filestore instance config by filestore name. For example --remove-filestore-instances locations/us-central1/instances/filestore-1,locations/us-central1/instances/filestore-2,...
+    /// </summary>
+    [CliOption("--remove-filestore-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveFilestoreInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to remove Flex Start instance config by compute id. For example --remove-flex-start-instances c1,c2,...
+    /// </summary>
+    [CliOption("--remove-flex-start-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveFlexStartInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to remove cluster label by key. For example --remove-labels key1,key2,...
+    /// </summary>
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLabels { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to remove lustre instance config by lustre name. For example --remove-lustre-instances locations/us-central1/instances/lustre-1,locations/us-central1/instances/lustre-2,...
+    /// </summary>
+    [CliOption("--remove-lustre-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveLustreInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to remove on demand instances config by compute id. For example --remove-on-demand-instances c1,c2,...
+    /// </summary>
+    [CliOption("--remove-on-demand-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveOnDemandInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to remove reserved instance config by compute id. For example --remove-reserved-instances c1,c2,...
+    /// </summary>
+    [CliOption("--remove-reserved-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveReservedInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Scripts to remove from Slurm epilog bash scripts. For example --remove-slurm-epilog-scripts script1.sh,script2.sh
+    /// </summary>
+    [CliOption("--remove-slurm-epilog-scripts", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveSlurmEpilogScripts { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to remove slurm nodeset config by nodeset id. For example --remove-slurm-node-sets ns1,ns2,...
+    /// </summary>
+    [CliOption("--remove-slurm-node-sets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveSlurmNodeSets { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to remove slurm partition config by partition id. For example --remove-slurm-partitions p1,p2,...
+    /// </summary>
+    [CliOption("--remove-slurm-partitions", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveSlurmPartitions { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Scripts to remove from Slurm prolog bash scripts. For example --remove-slurm-prolog-scripts script1.sh,script2.sh
+    /// </summary>
+    [CliOption("--remove-slurm-prolog-scripts", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveSlurmPrologScripts { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to remove spot instance config by compute id. For example --remove-spot-instances c1,c2,...
+    /// </summary>
+    [CliOption("--remove-spot-instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveSpotInstances { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to remove Google Cloud Storage bucket by bucket name. For example --remove-storage-buckets bucket-1,bucket-2,...
+    /// </summary>
+    [CliOption("--remove-storage-buckets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RemoveStorageBuckets { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to define slurm cluster default partition. For example --slurm-default-partition p1
+    /// </summary>
+    [CliOption("--slurm-default-partition", Format = OptionFormat.EqualsSeparated)]
+    public string? SlurmDefaultPartition { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to update slurm cluster login node. Only bootDisk, count and startupScript can be updated. For example --update-slurm-login-node count=2,startupScript="echo hello". Sets update_slurm_login_node value. Shorthand Example: --update-slurm-login-node=bootDisk={sizeGb=int,type=string},count=int,startupScript=string JSON Example: --update-slurm-login-node='{"bootDisk": {"sizeGb": int, "type": "string"}, "count": int, "startupScript": "string"}' File Example: --update-slurm-login-node=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--update-slurm-login-node", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdateSlurmLoginNode { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to define and update slurm cluster nodeset config. For example --update-slurm-node-sets id=ns1,staticNodeCount=1,maxDynamicNodeCount=2,computeInstance=[startupScript="echo hello"]. Sets update_slurm_node_sets value. Shorthand Example: --update-slurm-node-sets=computeId=string,computeInstance={bootDisk={sizeGb=int,type=string},labels={string=string},startupScript=string},id=string,maxDynamicNodeCount=int,staticNodeCount=int,storageConfigs=[{id=string,localMount=string}] --update-slurm-node-sets=computeId=string,computeInstance={bootDisk={sizeGb=int,type=string},labels={string=string},startupScript=string},id=string,maxDynamicNodeCount=int,staticNodeCount=int,storageConfigs=[{id=string,localMount=string}] JSON Example: --update-slurm-node-sets='[{"computeId": "string", "computeInstance": {"bootDisk": {"sizeGb": int, "type": "string"}, "labels": {"string": "string"}, "startupScript": "string"}, "id": "string", "maxDynamicNodeCount": int, "staticNodeCount": int, "storageConfigs": [{"id": "string", "localMount": "string"}]}]' File Example: --update-slurm-node-sets=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--update-slurm-node-sets", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? UpdateSlurmNodeSets { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Parameters to define and update slurm cluster partition config. For example --update-slurm-partitions id=p1,nodesetIds=[ns1,ns2]. Sets update_slurm_partitions value. id Required, sets id value. nodeSetIds Sets nodeSetIds value. Shorthand Example: --update-slurm-partitions=id=string,nodeSetIds=[string] --update-slurm-partitions=id=string,nodeSetIds=[string] JSON Example: --update-slurm-partitions='[{"id": "string", "nodeSetIds": ["string"]}]' File Example: --update-slurm-partitions=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--update-slurm-partitions", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? UpdateSlurmPartitions { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Configuration of the cluster specs in the form of a JSON object. Required, See example below: --config='{ "networkResources": { "network0": { "config": { "newNetwork": { "network": "network0" } } } }, "storageResources": { "lustre0": { "config": { "newLustre": { "capacityGb": 1200, "filesystem": "lustre-fs" } } } }, "computeResources": { "compute0": { "config": { "newOnDemandInstances": { "machineType": "n2-standard-4", "zone": "us-central1-a" } } } }, "orchestrator": { "slurm": { "nodeSets": [ { "id": "nodeset0", "computeId": "compute0" } ] } } }' --format json. Shorthand Example: --config=computeResources={string={config={newDwsFlexInstances={machineType=string,maxDuration=string,zone=string},newFlexStartInstances={machineType=string,maxDuration=string,zone=string},newOnDemandInstances={machineType=string,zone=string},newReservedInstances={reservation=string},newSpotInstances={machineType=string,terminationAction=string,zone=string}}}},description=string,labels={string=string},name=string,networkResources={string={config={existingComputeNetwork={network=string,subnetwork=string},existingNetwork={network=string,subnetwork=string},newComputeNetwork={description=string,network=string},newNetwork={description=string,network=string}}}},orchestrator={slurm={defaultPartition=string,epilogBashScripts,loginNodes={bootDisk={sizeGb=int,type=string},count=int,enableOsLogin=boolean,enablePublicIps=boolean,labels={string=string},machineType=string,startupScript=string,storageConfigs=[{id=string,localMount=string}],zone=string},nodeSets=[{computeId=string,computeInstance={bootDisk={sizeGb=int,type=string},labels={string=string},startupScript=string},id=string,maxDynamicNodeCount=int,staticNodeCount=int,storageConfigs=[{id=string,localMount=string}]}],partitions=[{id=string,nodeSetIds=[string]}],prologBashScripts}},storageResources={string={config={existingBucket={bucket=string},existingFilestore={filestore=string},existingLustre={lustre=string},newBucket={autoclass={enabled=boolean},bucket=string,hierarchicalNamespace={enabled=boolean},storageClass=string},newFilestore={description=string,fileShares=[{capacityGb=int,fileShare=string}],filestore=string,id=string,protocol=string,tier=string},newLustre={capacityGb=int,description=string,filesystem=string,id=string,lustre=string,perUnitStorageThroughput=int}}}} JSON Example: --config='{"computeResources": {"string": {"config": {"newDwsFlexInstances": {"machineType": "string", "maxDuration": "string", "zone": "string"}, "newFlexStartInstances": {"machineType": "string", "maxDuration": "string", "zone": "string"}, "newOnDemandInstances": {"machineType": "string", "zone": "string"}, "newReservedInstances": {"reservation": "string"}, "newSpotInstances": {"machineType": "string", "terminationAction": "string", "zone": "string"}}}}, "description": "string", "labels": {"string": "string"}, "name": "string", "networkResources": {"string": {"config": {"existingComputeNetwork": {"network": "string", "subnetwork": "string"}, "existingNetwork": {"network": "string", "subnetwork": "string"}, "newComputeNetwork": {"description": "string", "network": "string"}, "newNetwork": {"description": "string", "network": "string"}}}}, "orchestrator": {"slurm": {"defaultPartition": "string", "epilogBashScripts", "loginNodes": {"bootDisk": {"sizeGb": int, "type": "string"}, "count": int, "enableOsLogin": boolean, "enablePublicIps": boolean, "labels": {"string": "string"}, "machineType": "string", "startupScript": "string", "storageConfigs": [{"id": "string", "localMount": "string"}], "zone": "string"}, "nodeSets": [{"computeId": "string", "computeInstance": {"bootDisk": {"sizeGb": int, "type": "string"}, "labels": {"string": "string"}, "startupScript": "string"}, "id": "string", "maxDynamicNodeCount": int, "staticNodeCount": int, "storageConfigs": [{"id": "string", "localMount": "string"}]}], "partitions": [{"id": "string", "nodeSetIds": ["string"]}], "prologBashScripts"}}, "storageResources": {"string": {"config": {"existingBucket": {"bucket": "string"}, "existingFilestore": {"filestore": "string"}, "existingLustre": {"lustre": "string"}, "newBucket": {"autoclass": {"enabled": boolean}, "bucket": "string", "hierarchicalNamespace": {"enabled": boolean}, "storageClass": "string"}, "newFilestore": {"description": "string", "fileShares": [{"capacityGb": int, "fileShare": "string"}], "filestore": "string", "id": "string", "protocol": "string", "tier": "string"}, "newLustre": {"capacityGb": int, "description": "string", "filesystem": "string", "id": "string", "lustre": "string", "perUnitStorageThroughput": int}}}}}' File Example: --config=path_to_file.(yaml|json) This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// Cluster configuration for provisioning with updates. Exactly one of these must be specified: Flag Configurations to define cluster updates. Cluster configuration for updates. Update mask to specify the fields to update. For example --update-mask "description,labels". Required, sets update_mask value. Input Example: --update-mask=string File Example: --update-mask=path_to_file.(yaml|json) This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--update-mask", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdateMask { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((AddFilestoreInstances?.Any() == true ? 1 : 0) + (AddFlexStartInstances?.Any() == true ? 1 : 0) + (AddLabels?.Any() == true ? 1 : 0) + (AddLustreInstances?.Any() == true ? 1 : 0) + (AddNewFilestoreInstances?.Any() == true ? 1 : 0) + (AddNewLustreInstances?.Any() == true ? 1 : 0) + (AddNewStorageBuckets?.Any() == true ? 1 : 0) + (AddOnDemandInstances?.Any() == true ? 1 : 0) + (AddReservedInstances?.Any() == true ? 1 : 0) + (AddSlurmEpilogScripts?.Any() == true ? 1 : 0) + (AddSlurmNodeSets?.Any() == true ? 1 : 0) + (AddSlurmPartitions?.Any() == true ? 1 : 0) + (AddSlurmPrologScripts?.Any() == true ? 1 : 0) + (AddSpotInstances?.Any() == true ? 1 : 0) + (AddStorageBuckets?.Any() == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Description) ? 1 : 0) + (RemoveFilestoreInstances?.Any() == true ? 1 : 0) + (RemoveFlexStartInstances?.Any() == true ? 1 : 0) + (RemoveLabels?.Any() == true ? 1 : 0) + (RemoveLustreInstances?.Any() == true ? 1 : 0) + (RemoveOnDemandInstances?.Any() == true ? 1 : 0) + (RemoveReservedInstances?.Any() == true ? 1 : 0) + (RemoveSlurmEpilogScripts?.Any() == true ? 1 : 0) + (RemoveSlurmNodeSets?.Any() == true ? 1 : 0) + (RemoveSlurmPartitions?.Any() == true ? 1 : 0) + (RemoveSlurmPrologScripts?.Any() == true ? 1 : 0) + (RemoveSpotInstances?.Any() == true ? 1 : 0) + (RemoveStorageBuckets?.Any() == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(SlurmDefaultPartition) ? 1 : 0) + (!string.IsNullOrWhiteSpace(UpdateSlurmLoginNode) ? 1 : 0) + (UpdateSlurmNodeSets?.Any() == true ? 1 : 0) + (UpdateSlurmPartitions?.Any() == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(Config) ? 1 : 0) + (!string.IsNullOrWhiteSpace(UpdateMask) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of AddFilestoreInstances, AddFlexStartInstances, AddLabels, AddLustreInstances, AddNewFilestoreInstances, AddNewLustreInstances, AddNewStorageBuckets, AddOnDemandInstances, AddReservedInstances, AddSlurmEpilogScripts, AddSlurmNodeSets, AddSlurmPartitions, AddSlurmPrologScripts, AddSpotInstances, AddStorageBuckets, Description, RemoveFilestoreInstances, RemoveFlexStartInstances, RemoveLabels, RemoveLustreInstances, RemoveOnDemandInstances, RemoveReservedInstances, RemoveSlurmEpilogScripts, RemoveSlurmNodeSets, RemoveSlurmPartitions, RemoveSlurmPrologScripts, RemoveSpotInstances, RemoveStorageBuckets, SlurmDefaultPartition, UpdateSlurmLoginNode, UpdateSlurmNodeSets, UpdateSlurmPartitions, Config, or UpdateMask must be specified.", [nameof(AddFilestoreInstances), nameof(AddFlexStartInstances), nameof(AddLabels), nameof(AddLustreInstances), nameof(AddNewFilestoreInstances), nameof(AddNewLustreInstances), nameof(AddNewStorageBuckets), nameof(AddOnDemandInstances), nameof(AddReservedInstances), nameof(AddSlurmEpilogScripts), nameof(AddSlurmNodeSets), nameof(AddSlurmPartitions), nameof(AddSlurmPrologScripts), nameof(AddSpotInstances), nameof(AddStorageBuckets), nameof(Description), nameof(RemoveFilestoreInstances), nameof(RemoveFlexStartInstances), nameof(RemoveLabels), nameof(RemoveLustreInstances), nameof(RemoveOnDemandInstances), nameof(RemoveReservedInstances), nameof(RemoveSlurmEpilogScripts), nameof(RemoveSlurmNodeSets), nameof(RemoveSlurmPartitions), nameof(RemoveSlurmPrologScripts), nameof(RemoveSpotInstances), nameof(RemoveStorageBuckets), nameof(SlurmDefaultPartition), nameof(UpdateSlurmLoginNode), nameof(UpdateSlurmNodeSets), nameof(UpdateSlurmPartitions), nameof(Config), nameof(UpdateMask)]);
+        }
+    }
+
 }

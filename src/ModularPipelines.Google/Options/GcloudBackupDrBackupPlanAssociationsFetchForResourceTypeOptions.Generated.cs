@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// fetch     Backup Plan Associations for a given resource type and location
 /// </summary>
+/// <param name="Location">Location for which backup plan associations should be fetched.</param>
+/// <param name="ResourceType"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-dr", "backup-plan-associations", "fetch-for-resource-type")]
 public record GcloudBackupDrBackupPlanAssociationsFetchForResourceTypeOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ResourceType
 ) : GcloudOptions
 {

@@ -21,4 +21,52 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("vmware", "datastores", "create")]
 public record GcloudVmwareDatastoresCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Google Filestore instance to be used as datastore.
+    /// </summary>
+    [CliOption("--filestore", Format = OptionFormat.EqualsSeparated)]
+    public string? Filestore { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Google NetApp volume to be used as datastore.
+    /// </summary>
+    [CliOption("--netapp", Format = OptionFormat.EqualsSeparated)]
+    public string? Netapp { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Mount folder name of NFS. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--third-party-nfs-file-share", Format = OptionFormat.EqualsSeparated)]
+    public string? ThirdPartyNfsFileShare { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Network name of NFS's VPC. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--third-party-nfs-network", Format = OptionFormat.EqualsSeparated)]
+    public string? ThirdPartyNfsNetwork { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Comma-separated list of server IP addresses of the NFS file service. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--third-party-nfs-servers", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? ThirdPartyNfsServers { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// Text describing the datastore.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
 }

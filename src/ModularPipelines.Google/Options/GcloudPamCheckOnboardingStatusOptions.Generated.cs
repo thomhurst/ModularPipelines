@@ -21,4 +21,22 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("pam", "check-onboarding-status")]
 public record GcloudPamCheckOnboardingStatusOptions : GcloudOptions
 {
+    /// <summary>
+    /// Location resource - The project/organization/folder location for which the onboarding status is to be checked. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [privilegedaccessmanager.projects.locations, privilegedaccessmanager.folders.locations, privilegedaccessmanager.organizations.locations]. This must be specified. ID of the location or fully qualified identifier for the location. To set the location attribute: ▸ provide the argument --location on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Location resource - The project/organization/folder location for which the onboarding status is to be checked. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [privilegedaccessmanager.projects.locations, privilegedaccessmanager.folders.locations, privilegedaccessmanager.organizations.locations]. This must be specified. The name of the folder To set the folder attribute: ▸ provide the argument --location on the command line with a fully specified name; ▸ provide the argument --folder on the command line. Must be specified for resource of type [privilegedaccessmanager.folders.locations].
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Location resource - The project/organization/folder location for which the onboarding status is to be checked. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --location on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This resource can be one of the following types: [privilegedaccessmanager.projects.locations, privilegedaccessmanager.folders.locations, privilegedaccessmanager.organizations.locations]. This must be specified. The name of the organization To set the organization attribute: ▸ provide the argument --location on the command line with a fully specified name; ▸ provide the argument --organization on the command line. Must be specified for resource of type [privilegedaccessmanager.organizations.locations].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
 }

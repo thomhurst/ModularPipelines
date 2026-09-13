@@ -10,15 +10,62 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an Security Health     Analytics custom module
 /// </summary>
+/// <param name="CustomConfigFromFile">Path to a YAML custom configuration file. Use a full or relative path to a local file containing the value of custom_config.</param>
+/// <param name="DisplayName">The display name of the custom module.</param>
+/// <param name="EnablementState">Sets the enablement state of the Security Health Analytics custom module. Valid options are ENABLED, DISABLED, OR INHERITED.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "manage", "custom-modules", "sha", "create")]
-public record GcloudSccManageCustomModulesShaCreateOptions : GcloudOptions
+public record GcloudSccManageCustomModulesShaCreateOptions(
+    [property: CliOption("--custom-config-from-file", Format = OptionFormat.EqualsSeparated)] string CustomConfigFromFile,
+    [property: CliOption("--display-name", Format = OptionFormat.EqualsSeparated)] string DisplayName,
+    [property: CliOption("--enablement-state", Format = OptionFormat.EqualsSeparated)] string EnablementState
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Folder associated with the custom module.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization associated with the custom module.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Parent associated with the custom module. Can be one of organizations/&lt;id&gt;, projects/&lt;id or name&gt;, folders/&lt;id&gt;
+    /// </summary>
+    [CliOption("--parent", Format = OptionFormat.EqualsSeparated)]
+    public string? Parent { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Project associated with the custom module.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// If present, the request is validated (including IAM checks) but no action is taken.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Parent) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, Parent, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Parent), nameof(Project)]);
+        }
+    }
+
 }

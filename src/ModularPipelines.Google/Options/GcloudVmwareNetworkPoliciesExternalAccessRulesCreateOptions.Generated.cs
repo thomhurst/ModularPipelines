@@ -10,17 +10,63 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a     VMware Engine external access firewall rule
 /// </summary>
+/// <param name="DestinationRanges">A list of destination IP addresses that the rule applies to. Each entry in the list can be an ExternalAddress resource name or 0.0.0.0/0. When the value is set to 0.0.0.0/0, all IP addresses are allowed.</param>
+/// <param name="IpProtocol">Internet protocol covered by the rule. Valid values are TCP, UDP, and ICMP. IP_PROTOCOL must be one of: TCP, UDP, ICMP.</param>
+/// <param name="Priority">Priority of this external access rule. Valid values are numbers between 100 and 4096, with 100 being the highest priority. Firewall rules are processed from highest to lowest priority.</param>
+/// <param name="SourceRanges">A list of source IP addresses that the rule applies to. Each entry in the list can be a CIDR notation or a single IP address. When the value is set to 0.0.0.0/0, all IP addresses are allowed.</param>
+/// <param name="Vm"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "network-policies", "external-access-rules", "create")]
 public record GcloudVmwareNetworkPoliciesExternalAccessRulesCreateOptions(
+    [property: CliOption("--destination-ranges", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> DestinationRanges,
+    [property: CliOption("--ip-protocol", Format = OptionFormat.EqualsSeparated)] GcloudIpProtocol IpProtocol,
+    [property: CliOption("--priority", Format = OptionFormat.EqualsSeparated)] string Priority,
+    [property: CliOption("--source-ranges", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> SourceRanges,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Vm
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Whether the firewall rule allows or denies traffic based on a successful rule match. By default, the action is ALLOW. ACTION must be one of: ALLOW, DENY.
+    /// </summary>
+    [CliOption("--action", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAction? Action { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// User-provided description of the external access rule.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of allowed destination ports. Each entry must be either an integer or a range.
+    /// </summary>
+    [CliOption("--destination-ports", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DestinationPorts { get; set; }
+
+    /// <summary>
+    /// List of allowed source ports. Each entry must be either an integer or a range.
+    /// </summary>
+    [CliOption("--source-ports", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SourcePorts { get; set; }
+
 }

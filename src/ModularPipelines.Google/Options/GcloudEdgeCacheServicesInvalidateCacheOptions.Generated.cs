@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,33 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cache", "services", "invalidate-cache")]
-public record GcloudEdgeCacheServicesInvalidateCacheOptions : GcloudOptions
+public record GcloudEdgeCacheServicesInvalidateCacheOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// At least one of these must be specified: The hostname to invalidate against. You can specify an exact or wildcard host - e.g. "video.example.com" or ".example.com" - based on host component.
+    /// </summary>
+    [CliOption("--host", Format = OptionFormat.EqualsSeparated)]
+    public string? Host { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: The path to invalidate against. You can specify an exact or wildcard host - e.g. "/videos/hls/139123.mp4" or "/manifests/" - based on path component.
+    /// </summary>
+    [CliOption("--path", Format = OptionFormat.EqualsSeparated)]
+    public string? Path { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A list of cache tags used to identify cached objects. ▸ Cache tags are specified when the response is first cached, by setting the "Cache-Tag" response header at the origin. ▸ By default, all objects have a cache tag representing the HTTP status code of the response, the MIME content-type, and the origin. ▸ Multiple cache tags in the same revalidation request are treated as boolean OR - e.g. tag1 OR tag2 OR tag3. ▸ If a host and/or path are also specified, these are treated as boolean AND with any tags. Up to 10 tags may be specified in a single invalidation request.
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(Host) || !string.IsNullOrWhiteSpace(Path) || Tags?.Any() == true))
+        {
+            yield return new ValidationResult("At least one of Host, Path, or Tags must be specified.", [nameof(Host), nameof(Path), nameof(Tags)]);
+        }
+    }
+
 }

@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// extract a Cloud Security Command Center     posture from a workload
 /// </summary>
+/// <param name="Workload">Workload from where policies has to be extracted into a posture. It can be in one of the following formats: projects/projectNumber, folders/folderNumber, organizations/organizationNumber.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "postures", "extract")]
-public record GcloudSccPosturesExtractOptions : GcloudOptions
+public record GcloudSccPosturesExtractOptions(
+    [property: CliOption("--workload", Format = OptionFormat.EqualsSeparated)] string Workload
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

@@ -16,9 +16,48 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a single tenant HSM     instance proposal
 /// </summary>
+/// <param name="OperationType">The type of operation for the single tenant HSM instance proposal.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "single-tenant-hsm", "proposal", "create")]
-public record GcloudKmsSingleTenantHsmProposalCreateOptions : GcloudOptions
+public record GcloudKmsSingleTenantHsmProposalCreateOptions(
+    [property: CliOption("--operation-type", Format = OptionFormat.EqualsSeparated)] string OperationType
+) : GcloudOptions
 {
+    /// <summary>
+    /// ID to use for the crypto key version. This field is required for upgrade_key_trust operation type.
+    /// </summary>
+    [CliOption("--crypto-key-version-name", Format = OptionFormat.EqualsSeparated)]
+    public string? CryptoKeyVersionName { get; set; }
+
+    /// <summary>
+    /// The PEM file containing the public key of the quorum member to add or remove. This field is required for add_quorum_member and remove_quorum_member operation types.
+    /// </summary>
+    [CliOption("--member-public-key-pem", Format = OptionFormat.EqualsSeparated)]
+    public string? MemberPublicKeyPem { get; set; }
+
+    /// <summary>
+    /// The number of approvers required for the single tenant HSM instance. This is the M value used for M of N quorum. Must be greater than or equal to 1 and less than or equal to the total approver count of the single tenant HSM instance minus 1. This field is required for the register_2fa_keys operation type.
+    /// </summary>
+    [CliOption("--required-approver-count", Format = OptionFormat.EqualsSeparated)]
+    public int? RequiredApproverCount { get; set; }
+
+    /// <summary>
+    /// The ID to use for the single tenant HSM instance proposal, which will become the final component of the single tenant HSM instance resource name.
+    /// </summary>
+    [CliOption("--single-tenant-hsm-instance-proposal-id", Format = OptionFormat.EqualsSeparated)]
+    public string? SingleTenantHsmInstanceProposalId { get; set; }
+
+    /// <summary>
+    /// PEM file containing the two-factor public key. This field is required for upgrade_key_trust operation type.
+    /// </summary>
+    [CliOption("--two-factor-public-key-pem", Format = OptionFormat.EqualsSeparated)]
+    public string? TwoFactorPublicKeyPem { get; set; }
+
+    /// <summary>
+    /// The PEM files containing the two factor public keys 2FA keys for M of N quorum auth tenant HSM instance. This field is required for register_2fa_keys operation type.
+    /// </summary>
+    [CliOption("--two-factor-public-key-pems", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TwoFactorPublicKeyPems { get; set; }
+
 }

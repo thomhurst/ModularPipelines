@@ -10,17 +10,144 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Compute Engine firewall     rule
 /// </summary>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "firewall-rules", "create")]
 public record GcloudComputeFirewallRulesCreateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The action for the firewall rule: whether to allow or deny matching traffic. If specified, the flag --rules must also be specified. ACTION must be one of: ALLOW, DENY.
+    /// </summary>
+    [CliOption("--action", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAction? Action { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: A list of protocols and ports whose traffic will be allowed. The protocols allowed over this connection. This can be the (case-sensitive) string values tcp, udp, icmp, esp, ah, sctp, or any IP protocol number. An IP-based protocol must be specified for each rule. The rule applies only to specified protocol. For port-based protocols - tcp, udp, and sctp - a list of destination ports or port ranges to which the rule applies may optionally be specified. If no port or port range is specified, the rule applies to all destination ports. The ICMP protocol is supported, but there is no support for configuring ICMP packet filtering by ICMP code. For example, to create a rule that allows TCP traffic through port 80 and ICMP traffic: $ gcloud compute firewall-rules create MY-RULE --allow tcp:80,icmp To create a rule that allows TCP traffic from port 20000 to 25000: $ gcloud compute firewall-rules create MY-RULE \ --allow tcp:20000-25000 To create a rule that allows all TCP traffic: $ gcloud compute firewall-rules create MY-RULE --allow tcp
+    /// </summary>
+    [CliOption("--allow", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Allow { get; set; }
+
+    /// <summary>
+    /// A textual description for the firewall rule.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The firewall rule will apply to traffic that has destination IP address in these IP address block list. The IP address blocks must be specified in CIDR format: http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing. If --destination-ranges is NOT provided, then this flag will default to 0.0.0.0/0, allowing all IPv4 destinations. Multiple IP address blocks can be specified if they are separated by commas.
+    /// </summary>
+    [CliOption("--destination-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? DestinationRanges { get; set; }
+
+    /// <summary>
+    /// If direction is NOT specified, then default is to apply on incoming traffic. For outbound traffic, it is NOT supported to specify source-tags. For convenience, 'IN' can be used to represent ingress direction and 'OUT' can be used to represent egress direction. DIRECTION must be one of: INGRESS, EGRESS, IN, OUT.
+    /// </summary>
+    [CliOption("--direction", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDirection? Direction { get; set; }
+
+    /// <summary>
+    /// Disable a firewall rule and stop it from being enforced in the network. If a firewall rule is disabled, the associated network behaves as if the rule did not exist. To enable a disabled rule, use: $ gcloud compute firewall-rules update MY-RULE --no-disabled Firewall rules are enabled by default.
+    /// </summary>
+    [CliFlag("--disabled")]
+    public bool? Disabled { get; set; }
+
+    /// <summary>
+    /// Negates --disabled. Disable a firewall rule and stop it from being enforced in the network. If a firewall rule is disabled, the associated network behaves as if the rule did not exist. To enable a disabled rule, use: $ gcloud compute firewall-rules update MY-RULE --no-disabled Firewall rules are enabled by default.
+    /// </summary>
+    [CliFlag("--no-disabled")]
+    public bool? NoDisabled { get; set; }
+
+    /// <summary>
+    /// Enable logging for the firewall rule. Logs will be exported to StackDriver. Firewall logging is disabled by default. To enable logging for an existing rule, run: $ gcloud compute firewall-rules create MY-RULE --enable-logging To disable logging on an existing rule, run: $ gcloud compute firewall-rules create MY-RULE --no-enable-logging Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--enable-logging")]
+    public bool? EnableLogging { get; set; }
+
+    /// <summary>
+    /// Negates --enable-logging. Enable logging for the firewall rule. Logs will be exported to StackDriver. Firewall logging is disabled by default. To enable logging for an existing rule, run: $ gcloud compute firewall-rules create MY-RULE --enable-logging To disable logging on an existing rule, run: $ gcloud compute firewall-rules create MY-RULE --no-enable-logging Use --enable-logging to enable and --no-enable-logging to disable.
+    /// </summary>
+    [CliFlag("--no-enable-logging")]
+    public bool? NoEnableLogging { get; set; }
+
+    /// <summary>
+    /// Adds or removes metadata fields to or from the reported firewall logs. Can only be specified if --enable-logging is true. LOGGING_METADATA must be one of: exclude-all, include-all.
+    /// </summary>
+    [CliOption("--logging-metadata", Format = OptionFormat.EqualsSeparated)]
+    public GcloudLoggingMetadata? LoggingMetadata { get; set; }
+
+    /// <summary>
+    /// The network to which this rule is attached. If omitted, the rule is attached to the default network.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// This is an integer between 0 and 65535, both inclusive. When NOT specified, the value assumed is 1000. Relative priority determines precedence of conflicting rules: lower priority values imply higher precedence. DENY rules take precedence over ALLOW rules having equal priority.
+    /// </summary>
+    [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
+    public string? Priority { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of Resource Manager tags to apply to the firewall.
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// A list of protocols and ports to which the firewall rule will apply. PROTOCOL is the IP protocol whose traffic will be checked. PROTOCOL can be either the name of a well-known protocol (e.g., tcp or icmp) or the IP protocol number. A list of IP protocols can be found at http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml A port or port range can be specified after PROTOCOL to which the firewall rule apply on traffic through specific ports. If no port or port range is specified, connections through all ranges are applied. TCP and UDP rules must include a port or port range. If specified, the flag --action must also be specified. For example, the following will create a rule that blocks TCP traffic through port 80 and ICMP traffic: $ gcloud compute firewall-rules create MY-RULE --action deny \ --rules tcp:80,icmp
+    /// </summary>
+    [CliOption("--rules", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Rules { get; set; }
+
+    /// <summary>
+    /// A list of IP address blocks that are allowed to make inbound connections that match the firewall rule to the instances on the network. The IP address blocks must be specified in CIDR format: http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing. If neither --source-ranges nor --source-tags are specified, --source-ranges defaults to 0.0.0.0/0, which means that the rule applies to all incoming IPv4 connections from inside or outside the network. If both --source-ranges and --source-tags are specified, the rule matches if either the range of the source matches --source-ranges or the tag of the source matches --source-tags. Multiple IP address blocks can be specified if they are separated by commas.
+    /// </summary>
+    [CliOption("--source-ranges", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SourceRanges { get; set; }
+
+    /// <summary>
+    /// The email of a service account indicating the set of instances on the network which match a traffic source in the firewall rule. If a source service account is specified then neither source tags nor target tags can also be specified.
+    /// </summary>
+    [CliOption("--source-service-accounts", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SourceServiceAccounts { get; set; }
+
+    /// <summary>
+    /// A list of instance tags indicating the set of instances on the network to which the rule applies if all other fields match. If neither --source-ranges nor --source-tags are specified, --source-ranges defaults to 0.0.0.0/0, which means that the rule applies to all incoming IPv4 connections from inside or outside the network. If both --source-ranges and --source-tags are specified, an inbound connection is allowed if either the range of the source matches --source-ranges or the tag of the source matches --source-tags. Tags can be assigned to instances during instance creation. If source tags are specified then neither a source nor target service account can also be specified.
+    /// </summary>
+    [CliOption("--source-tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SourceTags { get; set; }
+
+    /// <summary>
+    /// The email of a service account indicating the set of instances to which firewall rules apply. If both target tags and target service account are omitted, the firewall rule is applied to all instances on the network. If a target service account is specified then neither source tag nor target tags can also be specified.
+    /// </summary>
+    [CliOption("--target-service-accounts", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TargetServiceAccounts { get; set; }
+
+    /// <summary>
+    /// List of instance tags indicating the set of instances on the network which may accept connections that match the firewall rule. Note that tags can be assigned to instances during instance creation. If target tags are specified, then neither a source nor target service account can also be specified. If both target tags and target service account are omitted, all instances on the network can receive connections that match the rule.
+    /// </summary>
+    [CliOption("--target-tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TargetTags { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Action is not null ? 1 : 0) + (Allow?.Any() == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Action or Allow must be specified.", [nameof(Action), nameof(Allow)]);
+        }
+    }
+
 }

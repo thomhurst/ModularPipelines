@@ -16,9 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create an Azure client
 /// </summary>
+/// <param name="ApplicationId">Azure Active Directory (AAD) Application/Client ID (GUID).</param>
+/// <param name="TenantId">Azure Active Directory (AAD) tenant ID (GUID) to associate with the client.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "azure", "clients", "create")]
-public record GcloudContainerAzureClientsCreateOptions : GcloudOptions
+public record GcloudContainerAzureClientsCreateOptions(
+    [property: CliOption("--application-id", Format = OptionFormat.EqualsSeparated)] string ApplicationId,
+    [property: CliOption("--tenant-id", Format = OptionFormat.EqualsSeparated)] string TenantId
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Validate the creation of the client, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
 }

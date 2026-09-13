@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,33 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("developer-connect", "insights-configs", "update")]
-public record GcloudDeveloperConnectInsightsConfigsUpdateOptions : GcloudOptions
+public record GcloudDeveloperConnectInsightsConfigsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Update the insight config. At least one of these must be specified: Sets the state of the insight config to PENDING and kicks off the discovery flow.
+    /// </summary>
+    [CliFlag("--run-discovery")]
+    public bool? RunDiscovery { get; set; }
+
+    /// <summary>
+    /// Update the insight config. At least one of these must be specified: Identifier for the specific artifact you want to update This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--artifact-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? ArtifactUri { get; set; }
+
+    /// <summary>
+    /// Update the insight config. At least one of these must be specified: The project ID of the project to where the artifact is built. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--build-project", Format = OptionFormat.EqualsSeparated)]
+    public string? BuildProject { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(RunDiscovery == true || !string.IsNullOrWhiteSpace(ArtifactUri) || !string.IsNullOrWhiteSpace(BuildProject)))
+        {
+            yield return new ValidationResult("At least one of RunDiscovery, ArtifactUri, or BuildProject must be specified.", [nameof(RunDiscovery), nameof(ArtifactUri), nameof(BuildProject)]);
+        }
+    }
+
 }

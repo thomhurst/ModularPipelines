@@ -16,9 +16,84 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create an index
 /// </summary>
+/// <param name="IndexField">The collection schema field to index.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vector-search", "collections", "indexes", "create")]
-public record GcloudVectorSearchCollectionsIndexesCreateOptions : GcloudOptions
+public record GcloudVectorSearchCollectionsIndexesCreateOptions(
+    [property: CliOption("--index-field", Format = OptionFormat.EqualsSeparated)] string IndexField
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Arguments for the index type. Dense ScaNN index configuration. Feature norm type. DENSE_SCANN_FEATURE_NORM_TYPE must be one of: none No norm applied. unit-l2-norm Unit L2 norm.
+    /// </summary>
+    [CliOption("--dense-scann-feature-norm-type", Format = OptionFormat.EqualsSeparated)]
+    public string? DenseScannFeatureNormType { get; set; }
+
+    /// <summary>
+    /// Arguments for the index type. Dense ScaNN index configuration. User-specified description of the index
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Arguments for the index type. Dense ScaNN index configuration. User-specified display name of the index
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Arguments for the index type. Dense ScaNN index configuration. Distance metric used for indexing. If not specified, will default to DOT_PRODUCT. DISTANCE_METRIC must be one of: cosine-distance Cosine distance metric. dot-product Dot product distance metric.
+    /// </summary>
+    [CliOption("--distance-metric", Format = OptionFormat.EqualsSeparated)]
+    public string? DistanceMetric { get; set; }
+
+    /// <summary>
+    /// Arguments for the index type. Dense ScaNN index configuration. The fields to push into the index to enable fast ANN inline filtering.
+    /// </summary>
+    [CliOption("--filter-fields", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? FilterFields { get; set; }
+
+    /// <summary>
+    /// Arguments for the index type. Dense ScaNN index configuration. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// Arguments for the index type. Dense ScaNN index configuration. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// </summary>
+    [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Arguments for the index type. Dense ScaNN index configuration. The fields to push into the index to enable inline data retrieval.
+    /// </summary>
+    [CliOption("--store-fields", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? StoreFields { get; set; }
+
+    /// <summary>
+    /// Arguments for the infra type. Represents dedicated infrastructure for the index. Arguments for the mode. Specification for autoscaling. Mode of the dedicated infrastructure. DEDICATED_INFRASTRUCTURE_MODE must be one of: performance-optimized This is Performance optimized on E2 or equivalent family. storage-optimized This is storage optimized variation.
+    /// </summary>
+    [CliOption("--dedicated-infrastructure-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? DedicatedInfrastructureMode { get; set; }
+
+    /// <summary>
+    /// Arguments for the infra type. Represents dedicated infrastructure for the index. Arguments for the mode. Specification for autoscaling. The maximum number of replicas. Must be &gt;= min_replica_count and &lt;= 1000. For the v1beta version, if not set or set to 0, defaults to the greater of min_replica_count and 5. For all other versions, if not set or set to 0, defaults to the greater of min_replica_count and 2.
+    /// </summary>
+    [CliOption("--dedicated-infrastructure-autoscaling-spec-max-replica-count", Format = OptionFormat.EqualsSeparated)]
+    public int? DedicatedInfrastructureAutoscalingSpecMaxReplicaCount { get; set; }
+
+    /// <summary>
+    /// Arguments for the infra type. Represents dedicated infrastructure for the index. Arguments for the mode. Specification for autoscaling. The minimum number of replicas. If not set or set to 0, defaults to 2. Must be &gt;= 1 and &lt;= 1000.
+    /// </summary>
+    [CliOption("--dedicated-infrastructure-autoscaling-spec-min-replica-count", Format = OptionFormat.EqualsSeparated)]
+    public int? DedicatedInfrastructureAutoscalingSpecMinReplicaCount { get; set; }
+
 }

@@ -16,11 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// test IAM     permissions on a Compute Engine reservation sub-block
 /// </summary>
+/// <param name="BlockName">The name of the reservation block.</param>
+/// <param name="Permissions">Set of permissions to check for the resource.</param>
+/// <param name="SubBlockName">The name of the reservation sub block.</param>
+/// <param name="Reservation"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "reservations", "sub-blocks", "test-iam-permissions")]
 public record GcloudComputeReservationsSubBlocksTestIamPermissionsOptions(
+    [property: CliOption("--block-name", Format = OptionFormat.EqualsSeparated)] string BlockName,
+    [property: CliOption("--permissions", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Permissions,
+    [property: CliOption("--sub-block-name", Format = OptionFormat.EqualsSeparated)] string SubBlockName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Reservation
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Zone of the reservation to test-iam-permissions. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
 }

@@ -10,15 +10,55 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Distributed Cloud     Edge Network subnet
 /// </summary>
+/// <param name="Network">The network that this subnetwork belongs to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cloud", "networking", "subnets", "create")]
-public record GcloudEdgeCloudNetworkingSubnetsCreateOptions : GcloudOptions
+public record GcloudEdgeCloudNetworkingSubnetsCreateOptions(
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the subnet.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The ranges of ipv4 addresses that are owned by this subnetwork in CIDR format.
+    /// </summary>
+    [CliOption("--ipv4-range", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Ipv4Range { get; set; }
+
+    /// <summary>
+    /// The ranges of ipv6 addresses that are owned by this subnetwork in CIDR format.
+    /// </summary>
+    [CliOption("--ipv6-range", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Ipv6Range { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// The ID of the VLAN to tag the subnetwork. If not specified we assign one automatically.
+    /// </summary>
+    [CliOption("--vlan-id", Format = OptionFormat.EqualsSeparated)]
+    public string? VlanId { get; set; }
+
 }

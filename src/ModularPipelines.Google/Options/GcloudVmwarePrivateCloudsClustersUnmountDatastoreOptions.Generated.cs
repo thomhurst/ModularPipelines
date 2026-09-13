@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// unmount a     datastore from a Google Cloud VMware Engine cluster
 /// </summary>
+/// <param name="Datastore">The datastore resource name to unmount.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "clusters", "unmount-datastore")]
-public record GcloudVmwarePrivateCloudsClustersUnmountDatastoreOptions : GcloudOptions
+public record GcloudVmwarePrivateCloudsClustersUnmountDatastoreOptions(
+    [property: CliOption("--datastore", Format = OptionFormat.EqualsSeparated)] string Datastore
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
 }

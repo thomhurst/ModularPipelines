@@ -10,17 +10,74 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// update a Security Command Center     service
 /// </summary>
+/// <param name="ServiceName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "manage", "services", "update")]
 public record GcloudSccManageServicesUpdateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServiceName
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// At least one of these must be specified: Sets the enablement state of the Security Center service. Valid options are ENABLED, DISABLED, OR INHERITED. The INHERITED state is only valid when setting the enablement state at the project or folder level.
+    /// </summary>
+    [CliOption("--enablement-state", Format = OptionFormat.EqualsSeparated)]
+    public string? EnablementState { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: Path to a JSON or YAML file that contains the module config to set for the given module and service. The file should contain a map where keys are module names (e.g., "DISK_CMEK_DISABLED") and values are objects with an "intended_enablement_state" field. Valid states are "ENABLED", "DISABLED", or "INHERITED". To find the available module names for a specific service and resource, use the gcloud scc manage services describe &lt;SERVICE_NAME&gt; --parent=&lt;RESOURCE&gt; command and look for the keys in the "modules" section of the output. Example YAML format: DISK_CMEK_DISABLED: intended_enablement_state: DISABLED SQL_WEAK_ROOT_PASSWORD: intended_enablement_state: ENABLED Example JSON format: { "DISK_CMEK_DISABLED": { "intended_enablement_state": "DISABLED" }, "SQL_WEAK_ROOT_PASSWORD": { "intended_enablement_state": "ENABLED" } } . Use a full or relative path to a local file containing the value of module_config_file.
+    /// </summary>
+    [CliOption("--module-config-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ModuleConfigFile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Folder associated with the custom module.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization associated with the custom module.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Parent associated with the custom module. Can be one of organizations/&lt;id&gt;, projects/&lt;id or name&gt;, folders/&lt;id&gt;
+    /// </summary>
+    [CliOption("--parent", Format = OptionFormat.EqualsSeparated)]
+    public string? Parent { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Project associated with the custom module.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// If present, the request is validated (including IAM checks) but no action is taken.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(EnablementState) || !string.IsNullOrWhiteSpace(ModuleConfigFile)))
+        {
+            yield return new ValidationResult("At least one of EnablementState or ModuleConfigFile must be specified.", [nameof(EnablementState), nameof(ModuleConfigFile)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Parent) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, Parent, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Parent), nameof(Project)]);
+        }
+    }
+
 }

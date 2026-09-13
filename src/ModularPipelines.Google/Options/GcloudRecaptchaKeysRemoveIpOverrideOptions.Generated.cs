@@ -16,9 +16,14 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// remove an IP override from a key
 /// </summary>
+/// <param name="Ip">IP address to override for the key.</param>
+/// <param name="Override">If set to allow, the IP address/CIDR range will be removed from the allowlisted IPs. OVERRIDE must be one of: allow, override-type-unspecified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("recaptcha", "keys", "remove-ip-override")]
-public record GcloudRecaptchaKeysRemoveIpOverrideOptions : GcloudOptions
+public record GcloudRecaptchaKeysRemoveIpOverrideOptions(
+    [property: CliOption("--ip", Format = OptionFormat.EqualsSeparated)] string Ip,
+    [property: CliOption("--override", Format = OptionFormat.EqualsSeparated)] string Override
+) : GcloudOptions
 {
 }

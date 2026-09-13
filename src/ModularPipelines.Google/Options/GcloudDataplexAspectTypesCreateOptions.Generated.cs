@@ -10,15 +10,55 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Dataplex Aspect Type
 /// </summary>
+/// <param name="MetadataTemplateFileName">The name of the JSON or YAML file to define Metadata Template.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "aspect-types", "create")]
-public record GcloudDataplexAspectTypesCreateOptions : GcloudOptions
+public record GcloudDataplexAspectTypesCreateOptions(
+    [property: CliOption("--metadata-template-file-name", Format = OptionFormat.EqualsSeparated)] string MetadataTemplateFileName
+) : GcloudOptions
 {
+    /// <summary>
+    /// Data classification of the Aspect Type. DATA_CLASSIFICATION must be (only one value is supported): METADATA_AND_DATA.
+    /// </summary>
+    [CliOption("--data-classification", Format = OptionFormat.EqualsSeparated)]
+    public string? DataClassification { get; set; }
+
+    /// <summary>
+    /// Description of the Aspect Type.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Display name of the Aspect Type.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Validate the create action, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
 }

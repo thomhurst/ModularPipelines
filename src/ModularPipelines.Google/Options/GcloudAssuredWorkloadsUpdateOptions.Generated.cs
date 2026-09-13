@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +21,39 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("assured", "workloads", "update")]
-public record GcloudAssuredWorkloadsUpdateOptions : GcloudOptions
+public record GcloudAssuredWorkloadsUpdateOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Settings that can be updated on the Assured Workloads environment. At least one of these must be specified: The new display name of the Assured Workloads environment.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Settings that can be updated on the Assured Workloads environment. At least one of these must be specified: The new labels of the Assured Workloads environment, for example, LabelKey1=LabelValue1,LabelKey2=LabelValue2
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Settings that can be updated on the Assured Workloads environment. At least one of these must be specified: The notification setting of the Assured Workloads environment.
+    /// </summary>
+    [CliOption("--violation-notifications-enabled", Format = OptionFormat.EqualsSeparated)]
+    public string? ViolationNotificationsEnabled { get; set; }
+
+    /// <summary>
+    /// The etag acquired by reading the Assured Workloads environment before updating.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(!string.IsNullOrWhiteSpace(DisplayName) || Labels?.Any() == true || !string.IsNullOrWhiteSpace(ViolationNotificationsEnabled)))
+        {
+            yield return new ValidationResult("At least one of DisplayName, Labels, or ViolationNotificationsEnabled must be specified.", [nameof(DisplayName), nameof(Labels), nameof(ViolationNotificationsEnabled)]);
+        }
+    }
+
 }

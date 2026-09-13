@@ -10,15 +10,62 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Backup and DR backup vault
 /// </summary>
+/// <param name="BackupMinEnforcedRetention">Backups will be kept for this minimum period before they can be deleted. Once the effective time is reached, the enforced retention period cannot be decreased or removed. The value must be specified in relative time format (e.g. p1d, p1m, p1m1d).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-dr", "backup-vaults", "create")]
-public record GcloudBackupDrBackupVaultsCreateOptions : GcloudOptions
+public record GcloudBackupDrBackupVaultsCreateOptions(
+    [property: CliOption("--backup-min-enforced-retention", Format = OptionFormat.EqualsSeparated)] string BackupMinEnforcedRetention
+) : GcloudOptions
 {
+    /// <summary>
+    /// Authorize certain sources and destinations for data being sent into, or restored from, the backup vault being created. This choice determines the type of resources that can be stored. Restricting access to within your project or organization limits the resources to those managed through the Google Cloud console (e.g., Compute Engine VMs). Unrestricted access is required for resources managed through the management console (e.g., VMware Engine VMs, databases, and file systems). ACCESS_RESTRICTION must be one of: within-project, within-org, unrestricted, within-org-but-unrestricted-for-ba.
+    /// </summary>
+    [CliOption("--access-restriction", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAccessRestriction? AccessRestriction { get; set; }
+
+    /// <summary>
+    /// Wait for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// The inheritance mode for enforced retention end time of the backup within this backup vault. Once set, the inheritance mode cannot be changed. Default is inherit-vault-retention. If set to inherit-vault-retention, the backup retention period will be inherited from the backup vault. If set to match-backup-expire-time, the backup retention period will be the same as the backup expiration time. BACKUP_RETENTION_INHERITANCE must be one of: inherit-vault-retention, match-backup-expire-time.
+    /// </summary>
+    [CliOption("--backup-retention-inheritance", Format = OptionFormat.EqualsSeparated)]
+    public GcloudBackupRetentionInheritance? BackupRetentionInheritance { get; set; }
+
+    /// <summary>
+    /// Optional description for the backup vault (2048 characters or less).
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// The time at which the enforced retention period becomes locked. This flag is mutually exclusive with --unlock-backup-min-enforced-retention.
+    /// </summary>
+    [CliOption("--effective-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EffectiveTime { get; set; }
+
+    /// <summary>
+    /// The Cloud KMS key resource name to be used for encryption. Format: projects/{project}/locations/{location}/keyRings/{ring}/cryptoKeys/{key}
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Optional resource labels to represent metadata provided by the user.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
 }

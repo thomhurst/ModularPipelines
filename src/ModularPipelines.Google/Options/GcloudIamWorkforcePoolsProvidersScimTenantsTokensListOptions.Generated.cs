@@ -22,6 +22,30 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamWorkforcePoolsProvidersScimTenantsTokensListOptions : GcloudOptions
 {
     /// <summary>
+    /// Workforce pool provider scim tenant resource - The SCIM tenant to list tokens for. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the workforce pool provider scim tenant or fully qualified identifier for the workforce pool provider scim tenant. To set the scim-tenant attribute: ▸ provide the argument --scim-tenant on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--scim-tenant", Format = OptionFormat.EqualsSeparated)]
+    public string? ScimTenant { get; set; }
+
+    /// <summary>
+    /// Workforce pool provider scim tenant resource - The SCIM tenant to list tokens for. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The location for the workforce pool. To set the location attribute: ▸ provide the argument --scim-tenant on the command line with a fully specified name; ▸ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Workforce pool provider scim tenant resource - The SCIM tenant to list tokens for. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID to use for the workforce pool provider, which becomes the final component of the resource name. This value must be unique within the workforce pool, 4-32 characters in length, and may contain the characters [a-z0-9-]. The prefix gcp- is reserved for use by Google, and may not be specified. To set the provider attribute: ▸ provide the argument --scim-tenant on the command line with a fully specified name; ▸ provide the argument --provider on the command line.
+    /// </summary>
+    [CliOption("--provider", Format = OptionFormat.EqualsSeparated)]
+    public string? Provider { get; set; }
+
+    /// <summary>
+    /// Workforce pool provider scim tenant resource - The SCIM tenant to list tokens for. The arguments in this group can be used to specify the attributes of this resource. This must be specified. The ID to use for the workforce pool, which becomes the final component of the resource name. This value must be a globally unique string of 6 to 63 lowercase letters, digits, or hyphens. It must start with a letter, and cannot have a trailing hyphen. The prefix gcp- is reserved for use by Google, and may not be specified. To set the workforce-pool attribute: ▸ provide the argument --scim-tenant on the command line with a fully specified name; ▸ provide the argument --workforce-pool on the command line.
+    /// </summary>
+    [CliOption("--workforce-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkforcePool { get; set; }
+
+    /// <summary>
     /// Include soft-deleted tokens in the results.
     /// </summary>
     [CliFlag("--show-deleted")]

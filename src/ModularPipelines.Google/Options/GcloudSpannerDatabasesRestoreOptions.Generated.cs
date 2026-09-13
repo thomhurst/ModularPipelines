@@ -21,4 +21,70 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("spanner", "databases", "restore")]
 public record GcloudSpannerDatabasesRestoreOptions : GcloudOptions
 {
+    /// <summary>
+    /// Database resource - TEXT The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination-database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the database or fully qualified identifier for the database. To set the database attribute: ▸ provide the argument --destination-database on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--destination-database", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationDatabase { get; set; }
+
+    /// <summary>
+    /// Database resource - TEXT The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --destination-database on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Spanner instance for the database. To set the instance attribute: ▸ provide the argument --destination-database on the command line with a fully specified name; ▸ provide the argument --destination-instance on the command line; ▸ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--destination-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationInstance { get; set; }
+
+    /// <summary>
+    /// Backup resource - TEXT The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source-backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the backup or fully qualified identifier for the backup. To set the backup attribute: ▸ provide the argument --source-backup on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--source-backup", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceBackup { get; set; }
+
+    /// <summary>
+    /// Backup resource - TEXT The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --source-backup on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The Cloud Spanner instance for the backup. To set the instance attribute: ▸ provide the argument --source-backup on the command line with a fully specified name; ▸ provide the argument --source-instance on the command line; ▸ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--source-instance", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceInstance { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// The encryption type of the restored database. ENCRYPTION_TYPE must be one of: customer-managed-encryption Use the provided Cloud KMS key for encryption. If this option is selected, kms-key must be set. google-default-encryption Use Google default encryption. use-config-default-or-backup-encryption Use the default encryption configuration if one exists, otherwise use the same encryption configuration as the backup.
+    /// </summary>
+    [CliOption("--encryption-type", Format = OptionFormat.EqualsSeparated)]
+    public string? EncryptionType { get; set; }
+
+    /// <summary>
+    /// KMS key name group At most one of these can be specified: Key resource - Cloud KMS key(s) to be used to restore the Cloud Spanner database. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the kms-project attribute: ▸ provide the argument --kms-keys on the command line with a fully specified name. To set the kms-location attribute: ▸ provide the argument --kms-keys on the command line with a fully specified name. To set the kms-keyring attribute: ▸ provide the argument --kms-keys on the command line with a fully specified name. IDs of the keys or fully qualified identifiers for the keys. To set the kms-key attribute: ▸ provide the argument --kms-keys on the command line.
+    /// </summary>
+    [CliOption("--kms-keys", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? KmsKeys { get; set; }
+
+    /// <summary>
+    /// Key resource - Cloud KMS key to be used to restore the Cloud Spanner database. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ▸ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - Cloud KMS key to be used to restore the Cloud Spanner database. The arguments in this group can be used to specify the attributes of this resource. KMS keyring id of the key. To set the kms-keyring attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - Cloud KMS key to be used to restore the Cloud Spanner database. The arguments in this group can be used to specify the attributes of this resource. Cloud location for the key. To set the kms-location attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - Cloud KMS key to be used to restore the Cloud Spanner database. The arguments in this group can be used to specify the attributes of this resource. Cloud project id for the key. To set the kms-project attribute: ▸ provide the argument --kms-key on the command line with a fully specified name; ▸ provide the argument --kms-project on the command line.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
 }

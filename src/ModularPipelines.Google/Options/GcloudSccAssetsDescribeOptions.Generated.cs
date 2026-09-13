@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,27 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "assets", "describe")]
-public record GcloudSccAssetsDescribeOptions : GcloudOptions
+public record GcloudSccAssetsDescribeOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Cloud SCC specific asset. It's derived from the the asset's relative resource name. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name. For Example, for the given asset name: "organizations/123/assets/456", 456 represents asset id.
+    /// </summary>
+    [CliOption("--asset", Format = OptionFormat.EqualsSeparated)]
+    public string? Asset { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Asset's resource name. Full resource name of the Google Cloud Platform resource this asset represents. This field is immutable after create time. See: https://cloud.google.com/apis/design/resource_names#full_resource_name. For Example: "//cloudresourcemanager.googleapis.com/projects/1234567890123" could be the resource-name for a project.
+    /// </summary>
+    [CliOption("--resource-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ResourceName { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(Asset) ? 1 : 0) + (!string.IsNullOrWhiteSpace(ResourceName) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Asset or ResourceName must be specified.", [nameof(Asset), nameof(ResourceName)]);
+        }
+    }
+
 }

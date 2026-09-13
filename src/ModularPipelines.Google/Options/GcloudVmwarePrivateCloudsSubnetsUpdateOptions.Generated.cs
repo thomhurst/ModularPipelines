@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a subnet
 /// </summary>
+/// <param name="IpCidrRange">Updated IP CIDR range for this subnet.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "subnets", "update")]
-public record GcloudVmwarePrivateCloudsSubnetsUpdateOptions : GcloudOptions
+public record GcloudVmwarePrivateCloudsSubnetsUpdateOptions(
+    [property: CliOption("--ip-cidr-range", Format = OptionFormat.EqualsSeparated)] string IpCidrRange
+) : GcloudOptions
 {
 }

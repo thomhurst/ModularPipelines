@@ -16,9 +16,54 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Secure Source Manager     repository
 /// </summary>
+/// <param name="Instance">A Secure Source Manager instance ID.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source-manager", "repos", "create")]
-public record GcloudSourceManagerReposCreateOptions : GcloudOptions
+public record GcloudSourceManagerReposCreateOptions(
+    [property: CliOption("--instance", Format = OptionFormat.EqualsSeparated)] string Instance
+) : GcloudOptions
 {
+    /// <summary>
+    /// Repository initialization configuration. Description of the repository. Cannot exceed 500 characters.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Repository initialization configuration. Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// Repository initialization configuration. The service account to attach to the repository.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAccount { get; set; }
+
+    /// <summary>
+    /// Repository initialization configuration. Default branch name of the repository.
+    /// </summary>
+    [CliOption("--default-branch", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultBranch { get; set; }
+
+    /// <summary>
+    /// Repository initialization configuration. List of gitignore template names user can choose from. Full list can be found here: https://cloud.google.com/secure-source-manager/docs/reference/rest/v1/projects.locations.repositories#InitialConfig
+    /// </summary>
+    [CliOption("--gitignores", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Gitignores { get; set; }
+
+    /// <summary>
+    /// Repository initialization configuration. License template name user can choose from. Full list can be found here: https://cloud.google.com/secure-source-manager/docs/reference/rest/v1/projects.locations.repositories#InitialConfig
+    /// </summary>
+    [CliOption("--license", Format = OptionFormat.EqualsSeparated)]
+    public string? License { get; set; }
+
+    /// <summary>
+    /// Repository initialization configuration. README template name. Valid template name(s) are: default.
+    /// </summary>
+    [CliOption("--readme", Format = OptionFormat.EqualsSeparated)]
+    public string? Readme { get; set; }
+
 }

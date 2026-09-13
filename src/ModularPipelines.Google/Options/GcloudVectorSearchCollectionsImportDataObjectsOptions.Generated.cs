@@ -16,9 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// import data objects     into a collection
 /// </summary>
+/// <param name="GcsImportContentsUri">URI prefix of the Cloud Storage DataObjects to import.</param>
+/// <param name="GcsImportErrorUri">URI prefix of the Cloud Storage location to write any errors encountered during the import.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vector-search", "collections", "import-data-objects")]
-public record GcloudVectorSearchCollectionsImportDataObjectsOptions : GcloudOptions
+public record GcloudVectorSearchCollectionsImportDataObjectsOptions(
+    [property: CliOption("--gcs-import-contents-uri", Format = OptionFormat.EqualsSeparated)] string GcsImportContentsUri,
+    [property: CliOption("--gcs-import-error-uri", Format = OptionFormat.EqualsSeparated)] string GcsImportErrorUri
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// URI prefix of the Cloud Storage location to write DataObject IDs and etags of DataObjects that were successfully imported. The service will write the successfully imported DataObjects to sharded files under this prefix. If this field is empty, no output will be written.
+    /// </summary>
+    [CliOption("--gcs-import-output-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? GcsImportOutputUri { get; set; }
+
 }

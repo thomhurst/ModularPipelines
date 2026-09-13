@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list Logging saved queries
 /// </summary>
+/// <param name="Location">Location of the saved queries to list.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "saved-queries", "list")]
-public record GcloudLoggingSavedQueriesListOptions : GcloudOptions
+public record GcloudLoggingSavedQueriesListOptions(
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location
+) : GcloudOptions
 {
     /// <summary>
     /// At most one of these can be specified: Billing account of the parent resource for saved queries to list.

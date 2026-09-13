@@ -16,9 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new access policy
 /// </summary>
+/// <param name="Organization">Parent organization for the access policies.</param>
+/// <param name="Title">Short human-readable title of the access policy.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("access-context-manager", "policies", "create")]
-public record GcloudAccessContextManagerPoliciesCreateOptions : GcloudOptions
+public record GcloudAccessContextManagerPoliciesCreateOptions(
+    [property: CliOption("--organization", Format = OptionFormat.EqualsSeparated)] string Organization,
+    [property: CliOption("--title", Format = OptionFormat.EqualsSeparated)] string Title
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Folder or project on which this policy is applicable. You can specify only one folder or project as the scope and the scope must exist within the specified organization. If you don't specify a scope, the policy applies to the entire organization.
+    /// </summary>
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Scopes { get; set; }
+
 }

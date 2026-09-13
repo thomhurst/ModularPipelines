@@ -16,9 +16,30 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a new Bigtable     materialized view
 /// </summary>
+/// <param name="Query">The query of the view.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "materialized-views", "create")]
-public record GcloudBigtableMaterializedViewsCreateOptions : GcloudOptions
+public record GcloudBigtableMaterializedViewsCreateOptions(
+    [property: CliOption("--query", Format = OptionFormat.EqualsSeparated)] string Query
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Whether the view is protected from deletion.
+    /// </summary>
+    [CliOption("--deletion-protection", Format = OptionFormat.EqualsSeparated)]
+    public string? DeletionProtection { get; set; }
+
+    /// <summary>
+    /// Ignore warnings when creating the materialized view.
+    /// </summary>
+    [CliFlag("--ignore-warnings")]
+    public bool? IgnoreWarnings { get; set; }
+
 }

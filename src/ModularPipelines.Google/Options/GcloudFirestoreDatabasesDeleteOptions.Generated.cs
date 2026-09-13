@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// delete a Google Cloud Firestore     database
 /// </summary>
+/// <param name="Database">The database to operate on.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "databases", "delete")]
-public record GcloudFirestoreDatabasesDeleteOptions : GcloudOptions
+public record GcloudFirestoreDatabasesDeleteOptions(
+    [property: CliOption("--database", Format = OptionFormat.EqualsSeparated)] string Database
+) : GcloudOptions
 {
+    /// <summary>
+    /// The current etag of the Database. If an etag is provided and does not match the current etag of the database, deletion will be blocked and a FAILED_PRECONDITION error will be returned.
+    /// </summary>
+    [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
+    public string? Etag { get; set; }
+
 }

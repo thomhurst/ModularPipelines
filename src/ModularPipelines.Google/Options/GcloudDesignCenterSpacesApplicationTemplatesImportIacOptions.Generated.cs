@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,39 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "application-templates", "import-iac")]
-public record GcloudDesignCenterSpacesApplicationTemplatesImportIacOptions : GcloudOptions
+public record GcloudDesignCenterSpacesApplicationTemplatesImportIacOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: The Cloud Storage URI of the Terraform code (e.g., gs://my-bucket/iac).
+    /// </summary>
+    [CliOption("--gcs-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? GcsUri { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to a local YAML or JSON file containing the IaC module definition. Use a full or relative path to a local file containing the value of iac_module.
+    /// </summary>
+    [CliOption("--iac-module-from-file", Format = OptionFormat.EqualsSeparated)]
+    public string? IacModuleFromFile { get; set; }
+
+    /// <summary>
+    /// If set, partially import valid IaC changes and ignore invalid ones.
+    /// </summary>
+    [CliFlag("--allow-partial-import")]
+    public bool? AllowPartialImport { get; set; }
+
+    /// <summary>
+    /// Validate the IaC without performing the import.
+    /// </summary>
+    [CliFlag("--validate-iac")]
+    public bool? ValidateIac { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((!string.IsNullOrWhiteSpace(GcsUri) ? 1 : 0) + (!string.IsNullOrWhiteSpace(IacModuleFromFile) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of GcsUri or IacModuleFromFile must be specified.", [nameof(GcsUri), nameof(IacModuleFromFile)]);
+        }
+    }
+
 }

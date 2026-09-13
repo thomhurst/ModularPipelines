@@ -10,15 +10,119 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a node pool in an Anthos     cluster on Azure
 /// </summary>
+/// <param name="MaxPodsPerNode">Maximum number of pods per node.</param>
+/// <param name="NodeVersion">Kubernetes version to use for the node pool.</param>
+/// <param name="SshPublicKey">SSH public key to use for authentication.</param>
+/// <param name="SubnetId">Subnet ID of an existing VNET to use for the node pool.</param>
+/// <param name="MaxNodes">Node pool autoscaling This must be specified. Maximum number of nodes in the node pool. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="MinNodes">Node pool autoscaling This must be specified. Minimum number of nodes in the node pool. This flag argument must be specified if any of the other arguments in this group are specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "azure", "node-pools", "create")]
-public record GcloudContainerAzureNodePoolsCreateOptions : GcloudOptions
+public record GcloudContainerAzureNodePoolsCreateOptions(
+    [property: CliOption("--max-pods-per-node", Format = OptionFormat.EqualsSeparated)] string MaxPodsPerNode,
+    [property: CliOption("--node-version", Format = OptionFormat.EqualsSeparated)] string NodeVersion,
+    [property: CliOption("--ssh-public-key", Format = OptionFormat.EqualsSeparated)] string SshPublicKey,
+    [property: CliOption("--subnet-id", Format = OptionFormat.EqualsSeparated)] string SubnetId,
+    [property: CliOption("--max-nodes", Format = OptionFormat.EqualsSeparated)] string MaxNodes,
+    [property: CliOption("--min-nodes", Format = OptionFormat.EqualsSeparated)] string MinNodes
+) : GcloudOptions
 {
+    /// <summary>
+    /// Proxy config Annotations for the node pool.
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Proxy config Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Proxy config Azure availability zone where the node pool will be created.
+    /// </summary>
+    [CliOption("--azure-availability-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? AzureAvailabilityZone { get; set; }
+
+    /// <summary>
+    /// Proxy config URL the of the Azure Key Vault key (with its version) to use to encrypt / decrypt config data.
+    /// </summary>
+    [CliOption("--config-encryption-key-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigEncryptionKeyId { get; set; }
+
+    /// <summary>
+    /// Proxy config RSA key of the Azure Key Vault public key to use for encrypting config data.
+    /// </summary>
+    [CliOption("--config-encryption-public-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigEncryptionPublicKey { get; set; }
+
+    /// <summary>
+    /// Proxy config Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container azure node-pools create --enable-autorepair Node autorepair is disabled by default.
+    /// </summary>
+    [CliFlag("--enable-autorepair")]
+    public bool? EnableAutorepair { get; set; }
+
+    /// <summary>
+    /// Negates --enable-autorepair. Proxy config Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container azure node-pools create --enable-autorepair Node autorepair is disabled by default.
+    /// </summary>
+    [CliFlag("--no-enable-autorepair")]
+    public bool? NoEnableAutorepair { get; set; }
+
+    /// <summary>
+    /// Proxy config Labels assigned to the node pool's nodes.
+    /// </summary>
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? NodeLabels { get; set; }
+
+    /// <summary>
+    /// Proxy config Taints assigned to nodes of the node pool. Node taint is of format key=value:effect. Effect must be one of: NoExecute, NoSchedule, PreferNoSchedule.
+    /// </summary>
+    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated)]
+    public GcloudNodeTaints? NodeTaints { get; set; }
+
+    /// <summary>
+    /// Proxy config Size of the root volume. The value must be a whole number followed by a size unit of GB for gigabyte, or TB for terabyte. If no size unit is specified, GB is assumed.
+    /// </summary>
+    [CliOption("--root-volume-size", Format = OptionFormat.EqualsSeparated)]
+    public int? RootVolumeSize { get; set; }
+
+    /// <summary>
+    /// Proxy config Applies the given tags (comma separated) on the node pool. Example: $ gcloud container azure node-pools create EXAMPLE_NODE_POOL \ --tags=tag1=one,tag2=two
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Proxy config Validate the creation of the node pool, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Proxy config Azure Virtual Machine Size (e.g. Standard_DS1_v).
+    /// </summary>
+    [CliOption("--vm-size", Format = OptionFormat.EqualsSeparated)]
+    public int? VmSize { get; set; }
+
+    /// <summary>
+    /// Proxy config The ARM ID the of the resource group containing proxy keyvault. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--proxy-resource-group-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxyResourceGroupId { get; set; }
+
+    /// <summary>
+    /// Proxy config The URL the of the proxy setting secret with its version. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--proxy-secret-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretId { get; set; }
+
 }

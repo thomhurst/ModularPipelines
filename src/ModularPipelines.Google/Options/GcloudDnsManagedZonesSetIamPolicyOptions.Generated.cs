@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// set the IAM policy for a Cloud     DNS managed-zone
 /// </summary>
+/// <param name="PolicyFile">JSON or YAML file with the IAM policy</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "managed-zones", "set-iam-policy")]
-public record GcloudDnsManagedZonesSetIamPolicyOptions : GcloudOptions
+public record GcloudDnsManagedZonesSetIamPolicyOptions(
+    [property: CliOption("--policy-file", Format = OptionFormat.EqualsSeparated)] string PolicyFile
+) : GcloudOptions
 {
 }

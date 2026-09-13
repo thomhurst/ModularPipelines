@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// encoded certificate to     a file
 /// </summary>
+/// <param name="OutputFile">The path where the resulting PEM-encoded certificate will be written.</param>
+/// <param name="Certificate"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "certificates", "export")]
 public record GcloudPrivatecaCertificatesExportOptions(
+    [property: CliOption("--output-file", Format = OptionFormat.EqualsSeparated)] string OutputFile,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Certificate
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Whether to include the certificate's issuer chain in the exported file. If this is set, the resulting file will contain the pem-encoded certificate and its issuing chain, ordered from leaf to root.
+    /// </summary>
+    [CliFlag("--include-chain")]
+    public bool? IncludeChain { get; set; }
+
 }

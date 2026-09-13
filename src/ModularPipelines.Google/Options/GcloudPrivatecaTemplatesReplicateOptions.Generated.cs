@@ -10,17 +10,52 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// replicate a certificate template to     multiple locations
 /// </summary>
+/// <param name="Certificate"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "templates", "replicate")]
 public record GcloudPrivatecaTemplatesReplicateOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Certificate
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Specify where the certificate template should be replicated. Exactly one of these must be specified: Replicate this template to all supported locations.
+    /// </summary>
+    [CliFlag("--all-locations")]
+    public bool? AllLocations { get; set; }
+
+    /// <summary>
+    /// Specify where the certificate template should be replicated. Exactly one of these must be specified: Replicate this template to the given locations.
+    /// </summary>
+    [CliOption("--target-locations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? TargetLocations { get; set; }
+
+    /// <summary>
+    /// Continue replicating the template to other locations even if an error is encountered. If this is set, an error in one location will be logged but will not prevent replication to other locations.
+    /// </summary>
+    [CliFlag("--continue-on-error")]
+    public bool? ContinueOnError { get; set; }
+
+    /// <summary>
+    /// Overwrite any existing templates with the same name, if they exist.
+    /// </summary>
+    [CliFlag("--overwrite")]
+    public bool? Overwrite { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((AllLocations == true ? 1 : 0) + (TargetLocations?.Any() == true ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of AllLocations or TargetLocations must be specified.", [nameof(AllLocations), nameof(TargetLocations)]);
+        }
+    }
+
 }

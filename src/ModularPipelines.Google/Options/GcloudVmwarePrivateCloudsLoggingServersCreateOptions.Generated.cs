@@ -10,15 +10,37 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Google Cloud     VMware Engine logging-server
 /// </summary>
+/// <param name="Hostname">Fully-qualified domain name (FQDN) or IP Address of the logging server.</param>
+/// <param name="Port">Port number at which the logging server receives logs.</param>
+/// <param name="Protocol">Defines possible protocols used to send logs to a logging server. PROTOCOL must be one of: UDP, TCP, TLS, SSL, RELP.</param>
+/// <param name="SourceType">The type of component that produces logs that will be forwarded to this logging server. SOURCE_TYPE must be one of: VCSA, ESXI.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "logging-servers", "create")]
-public record GcloudVmwarePrivateCloudsLoggingServersCreateOptions : GcloudOptions
+public record GcloudVmwarePrivateCloudsLoggingServersCreateOptions(
+    [property: CliOption("--hostname", Format = OptionFormat.EqualsSeparated)] string Hostname,
+    [property: CliOption("--port", Format = OptionFormat.EqualsSeparated)] string Port,
+    [property: CliOption("--protocol", Format = OptionFormat.EqualsSeparated)] GcloudProtocol Protocol,
+    [property: CliOption("--source-type", Format = OptionFormat.EqualsSeparated)] GcloudSourceType SourceType
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
 }

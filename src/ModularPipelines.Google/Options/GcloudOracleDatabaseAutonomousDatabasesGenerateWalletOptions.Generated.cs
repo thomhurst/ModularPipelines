@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -16,9 +17,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// generate     wallet for an AutonomousDatabase
 /// </summary>
+/// <param name="Password">The password used to encrypt the keys inside the wallet. The password must be a minimum of 8 characters.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("oracle-database", "autonomous-databases", "generate-wallet")]
-public record GcloudOracleDatabaseAutonomousDatabasesGenerateWalletOptions : GcloudOptions
+public record GcloudOracleDatabaseAutonomousDatabasesGenerateWalletOptions(
+    [property: SecretValue, CliOption("--password", Format = OptionFormat.EqualsSeparated)] string Password
+) : GcloudOptions
 {
+    /// <summary>
+    /// True when requesting regional connection strings in PDB connect info, applicable to cross-region Data Guard only.
+    /// </summary>
+    [CliFlag("--is-regional")]
+    public bool? IsRegional { get; set; }
+
+    /// <summary>
+    /// The type of wallet generation for the Autonomous Database. The default value is SINGLE. TYPE must be one of: all Used to generate wallet for all databases in the region. single Used to generate wallet for a single database.
+    /// </summary>
+    [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
+    public string? Type { get; set; }
+
 }

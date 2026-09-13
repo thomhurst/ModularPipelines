@@ -16,9 +16,14 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list supported     model server versions
 /// </summary>
+/// <param name="Model">The model.</param>
+/// <param name="ModelServer">The model server. If not specified, this defaults to any model server.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "ai", "profiles", "model-server-versions", "list")]
-public record GcloudContainerAiProfilesModelServerVersionsListOptions : GcloudOptions
+public record GcloudContainerAiProfilesModelServerVersionsListOptions(
+    [property: CliOption("--model", Format = OptionFormat.EqualsSeparated)] string Model,
+    [property: CliOption("--model-server", Format = OptionFormat.EqualsSeparated)] string ModelServer
+) : GcloudOptions
 {
 }

@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// lists TagBindings bound to the     specified resource
 /// </summary>
+/// <param name="Parent">Full resource name attached to the binding</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "tags", "bindings", "list")]
-public record GcloudResourceManagerTagsBindingsListOptions : GcloudOptions
+public record GcloudResourceManagerTagsBindingsListOptions(
+    [property: CliOption("--parent", Format = OptionFormat.EqualsSeparated)] string Parent
+) : GcloudOptions
 {
     /// <summary>
     /// Show all effective TagBindings on the resource. TagBindings applied at a higher level will be inherited to all descendants.

@@ -16,10 +16,15 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update a     Google Cloud Observability agents policy for the Ops Agent
 /// </summary>
+/// <param name="File">YAML file with a subset of agents policy fields you wish to update. For information about the agents policy format, see https://cloud.google.com/stackdriver/docs/solutions/agents/ops-agent/agent-policies#config-files.</param>
+/// <param name="Zone">Zone where the agents policy is located.</param>
+/// <param name="PolicyId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "ops-agents", "policies", "update")]
 public record GcloudPreviewComputeInstancesOpsAgentsPoliciesUpdateOptions(
+    [property: CliOption("--file", Format = OptionFormat.EqualsSeparated)] string File,
+    [property: CliOption("--zone", Format = OptionFormat.EqualsSeparated)] string Zone,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PolicyId
 ) : GcloudOptions
 {

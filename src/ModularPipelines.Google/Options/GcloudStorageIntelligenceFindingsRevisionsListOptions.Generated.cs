@@ -16,9 +16,12 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// historical revisions     list of a finding
 /// </summary>
+/// <param name="FindingId">The ID of the intelligence finding to list revisions for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "intelligence-findings", "revisions", "list")]
-public record GcloudStorageIntelligenceFindingsRevisionsListOptions : GcloudOptions
+public record GcloudStorageIntelligenceFindingsRevisionsListOptions(
+    [property: CliOption("--finding-id", Format = OptionFormat.EqualsSeparated)] string FindingId
+) : GcloudOptions
 {
 }

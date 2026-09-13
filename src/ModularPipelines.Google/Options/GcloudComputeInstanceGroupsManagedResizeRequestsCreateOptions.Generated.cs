@@ -10,17 +10,60 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a     Compute Engine managed instance group resize request
 /// </summary>
+/// <param name="ResizeRequest">The name of the resize request to create.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "managed", "resize-requests", "create")]
 public record GcloudComputeInstanceGroupsManagedResizeRequestsCreateOptions(
+    [property: CliOption("--resize-request", Format = OptionFormat.EqualsSeparated)] string ResizeRequest,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Exactly one of these must be specified: A comma-separated list of instance names. The number of names you provide determines the number of instances to create with this resize request. The group's target size increases by this count.
+    /// </summary>
+    [CliOption("--instances", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Instances { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: The number of instances to create with this resize request. Instances have automatically-generated names. The group's target size increases by this number.
+    /// </summary>
+    [CliOption("--resize-by", Format = OptionFormat.EqualsSeparated)]
+    public string? ResizeBy { get; set; }
+
+    /// <summary>
+    /// The time you need the requested VMs to run before being automatically deleted. The value must be formatted as the number of days, hours, minutes, or seconds followed by d, h, m, and s respectively. For example, specify 30m for a duration of 30 minutes or 1d2h3m4s for 1 day, 2 hours, 3 minutes, and 4 seconds. The value must be between 10m (10 minutes) and 7d (7 days). If you want the managed instance group to consume a reservation or use FLEX_START provisioning model, then this flag is optional. Otherwise, it's required.
+    /// </summary>
+    [CliOption("--requested-run-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestedRunDuration { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the managed instance group to operate on. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Zone of the managed instance group to operate on. If not specified, you might be prompted to select a zone (interactive mode only). A list of zones can be fetched by running: $ gcloud compute zones list Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((Instances?.Any() == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(ResizeBy) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Instances or ResizeBy must be specified.", [nameof(Instances), nameof(ResizeBy)]);
+        }
+    }
+
 }

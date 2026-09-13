@@ -17,6 +17,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// removes     configuration properties from Policy Controller components
 /// </summary>
+/// <param name="Deployment"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "policycontroller", "deployment", "remove")]

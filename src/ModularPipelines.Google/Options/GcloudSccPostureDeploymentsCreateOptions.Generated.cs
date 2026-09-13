@@ -16,9 +16,28 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Cloud Security Command     Center posture deployment
 /// </summary>
+/// <param name="PostureName">Posture that needs to be deployed. Format: organizations/&lt;organizationID&gt;/locations/&lt;location&gt;/postures/&lt;postureID&gt;</param>
+/// <param name="PostureRevisionId">Posture revision that needs to be deployed.</param>
+/// <param name="TargetResource">Name of the workload on which posture deployment is to be created. It could be an organization, folder or a project. Possible formats: | organizations/&lt;organizationID&gt; | folders/&lt;folderID&gt; | projects/&lt;projectID&gt; The above mentioned IDs need to have numeric format.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "posture-deployments", "create")]
-public record GcloudSccPostureDeploymentsCreateOptions : GcloudOptions
+public record GcloudSccPostureDeploymentsCreateOptions(
+    [property: CliOption("--posture-name", Format = OptionFormat.EqualsSeparated)] string PostureName,
+    [property: CliOption("--posture-revision-id", Format = OptionFormat.EqualsSeparated)] string PostureRevisionId,
+    [property: CliOption("--target-resource", Format = OptionFormat.EqualsSeparated)] string TargetResource
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// User-provided description of the posture deployment.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
 }

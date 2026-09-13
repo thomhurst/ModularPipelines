@@ -16,9 +16,22 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// creates an Artifact Registry     attachment in a repository
 /// </summary>
+/// <param name="AttachmentType">Type of the attachment</param>
+/// <param name="Files">Comma-seperated list of files that are part of this attachment</param>
+/// <param name="Target">Target of the attachment, should be fully qualified version name</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "attachments", "create")]
-public record GcloudArtifactsAttachmentsCreateOptions : GcloudOptions
+public record GcloudArtifactsAttachmentsCreateOptions(
+    [property: CliOption("--attachment-type", Format = OptionFormat.EqualsSeparated)] string AttachmentType,
+    [property: CliOption("--files", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> Files,
+    [property: CliOption("--target", Format = OptionFormat.EqualsSeparated)] string Target
+) : GcloudOptions
 {
+    /// <summary>
+    /// Namespace of the attachment
+    /// </summary>
+    [CliOption("--attachment-namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? AttachmentNamespace { get; set; }
+
 }

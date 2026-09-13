@@ -16,11 +16,32 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// download an Artifact Registry     attachment from a repository
 /// </summary>
+/// <param name="Destination">Path where you want to save the downloaded attachment files.</param>
+/// <param name="Attachment"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "attachments", "download")]
 public record GcloudArtifactsAttachmentsDownloadOptions(
+    [property: CliOption("--destination", Format = OptionFormat.EqualsSeparated)] string Destination,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Attachment
 ) : GcloudOptions
 {
+    /// <summary>
+    /// If specified, the chunk size (bytes) to use for downloading the package.
+    /// </summary>
+    [CliOption("--chunk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? ChunkSize { get; set; }
+
+    /// <summary>
+    /// For Docker-format repositories only. The version name of the OCI artifact to download.
+    /// </summary>
+    [CliOption("--oci-version-name", Format = OptionFormat.EqualsSeparated)]
+    public string? OciVersionName { get; set; }
+
+    /// <summary>
+    /// Specifies the number of threads to use for downloading the attachment files in parallel.
+    /// </summary>
+    [CliOption("--parallelism", Format = OptionFormat.EqualsSeparated)]
+    public string? Parallelism { get; set; }
+
 }

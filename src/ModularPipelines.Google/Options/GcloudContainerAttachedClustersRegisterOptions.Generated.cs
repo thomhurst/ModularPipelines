@@ -6,19 +6,151 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// register an Attached cluster
 /// </summary>
+/// <param name="Distribution">Set the base platform type of the cluster to attach. Examples: $ gcloud container attached clusters register --distribution=aks $ gcloud container attached clusters register --distribution=eks $ gcloud container attached clusters register --distribution=generic</param>
+/// <param name="FleetProject">ID or number of the Fleet host project where the cluster is registered.</param>
+/// <param name="PlatformVersion">Platform version to use for the cluster. To retrieve a list of valid versions, run: $ gcloud alpha container attached get-server-config \ --location=LOCATION Replace LOCATION with the target Google Cloud location for the cluster.</param>
+/// <param name="Context">kubectl config This must be specified. Context to use in the kubeconfig. This flag argument must be specified if any of the other arguments in this group are specified.</param>
+/// <param name="KubeConfig">kubectl config This must be specified. Path to the kubeconfig file. If not provided, the default at ~/.kube/config will be used.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "attached", "clusters", "register")]
-public record GcloudContainerAttachedClustersRegisterOptions : GcloudOptions
+public record GcloudContainerAttachedClustersRegisterOptions(
+    [property: CliOption("--distribution", Format = OptionFormat.EqualsSeparated)] string Distribution,
+    [property: CliOption("--fleet-project", Format = OptionFormat.EqualsSeparated)] string FleetProject,
+    [property: CliOption("--platform-version", Format = OptionFormat.EqualsSeparated)] string PlatformVersion,
+    [property: CliOption("--context", Format = OptionFormat.EqualsSeparated)] string Context,
+    [property: CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)] string KubeConfig
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// OIDC config Exactly one of these must be specified: Indicates no publicly routable OIDC discovery endpoint exists for the Kubernetes service account token issuer. If this flag is set, gcloud will read the issuer URL and JWKs from the cluster's api server.
+    /// </summary>
+    [CliFlag("--has-private-issuer")]
+    public bool? HasPrivateIssuer { get; set; }
+
+    /// <summary>
+    /// OIDC config Exactly one of these must be specified: Issuer url of the cluster to attach.
+    /// </summary>
+    [CliOption("--issuer-url", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerUrl { get; set; }
+
+    /// <summary>
+    /// Proxy config Groups of users that can perform operations as a cluster administrator.
+    /// </summary>
+    [CliOption("--admin-groups", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdminGroups { get; set; }
+
+    /// <summary>
+    /// Proxy config Users that can perform operations as a cluster administrator.
+    /// </summary>
+    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdminUsers { get; set; }
+
+    /// <summary>
+    /// Proxy config Annotations for the cluster.
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Proxy config Set Binary Authorization evaluation mode for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE.
+    /// </summary>
+    [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? BinauthzEvaluationMode { get; set; }
+
+    /// <summary>
+    /// Proxy config Description for the cluster.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Proxy config Enables managed collection for Managed Service for Prometheus in the cluster. See https://cloud.google.com/stackdriver/docs/managed-prometheus/setup-managed#enable-mgdcoll-gke for more info. Managed Prometheus is enabled by default for cluster versions 1.27 or greater, use --no-enable-managed-prometheus to disable.
+    /// </summary>
+    [CliFlag("--enable-managed-prometheus")]
+    public bool? EnableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Negates --enable-managed-prometheus. Proxy config Enables managed collection for Managed Service for Prometheus in the cluster. See https://cloud.google.com/stackdriver/docs/managed-prometheus/setup-managed#enable-mgdcoll-gke for more info. Managed Prometheus is enabled by default for cluster versions 1.27 or greater, use --no-enable-managed-prometheus to disable.
+    /// </summary>
+    [CliFlag("--no-enable-managed-prometheus")]
+    public bool? NoEnableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Proxy config Set the components that have logging enabled. Examples: $ gcloud container attached clusters register --logging=SYSTEM $ gcloud container attached clusters register \ --logging=SYSTEM,WORKLOAD $ gcloud container attached clusters register --logging=NONE COMPONENT must be one of: NONE, SYSTEM, WORKLOAD.
+    /// </summary>
+    [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
+    public GcloudLogging? Logging { get; set; }
+
+    /// <summary>
+    /// Proxy config Kubernetes labels to be applied to system component pods.
+    /// </summary>
+    [CliOption("--system-component-labels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SystemComponentLabels { get; set; }
+
+    /// <summary>
+    /// Proxy config Kubernetes tolerations to be applied to system component pods.
+    /// </summary>
+    [CliOption("--system-component-tolerations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SystemComponentTolerations { get; set; }
+
+    /// <summary>
+    /// Proxy config Tag keys/values directly bound to this resource. The short name of a tag key or value can have a maximum length of 256 characters. The permitted character set for the short name includes UTF-8 encoded Unicode characters except single quotes, double quotes, backslashes, and forward slashes.
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Proxy config Validate the cluster to create, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Proxy config Cloud Monitoring Config At most one of these can be specified: Disables managed collection for Cloud Monitoring in the cluster. Cloud Monitoring is enabled by default for all clusters. Beginning with cluster version 1.31, use --disable-cloud-monitoring to disable.
+    /// </summary>
+    [CliFlag("--disable-cloud-monitoring")]
+    public bool? DisableCloudMonitoring { get; set; }
+
+    /// <summary>
+    /// Proxy config Cloud Monitoring Config At most one of these can be specified: Enables managed collection for Cloud Monitoring in the cluster. Cloud Monitoring is enabled by default for all clusters. Beginning with cluster version 1.31, use --disable-cloud-monitoring to disable.
+    /// </summary>
+    [CliFlag("--enable-cloud-monitoring")]
+    public bool? EnableCloudMonitoring { get; set; }
+
+    /// <summary>
+    /// Proxy config Name of the Kubernetes secret that contains the HTTP/HTTPS proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--proxy-secret-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretName { get; set; }
+
+    /// <summary>
+    /// Proxy config Namespace of the Kubernetes secret that contains the HTTP/HTTPS proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--proxy-secret-namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretNamespace { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if ((HasPrivateIssuer == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(IssuerUrl) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of HasPrivateIssuer or IssuerUrl must be specified.", [nameof(HasPrivateIssuer), nameof(IssuerUrl)]);
+        }
+    }
+
 }

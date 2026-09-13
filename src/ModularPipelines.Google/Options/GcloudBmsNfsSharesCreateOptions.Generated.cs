@@ -10,15 +10,35 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Bare Metal Solution NFS share
 /// </summary>
+/// <param name="AllowedClient">Adds an allowed client to the NFS share. This flag can be repeated to specify multiple allowed clients. network The name of the network to allow. network-project-id The project ID of the allowed client network. If not present, the project ID of the NFS share will be used. cidr The subnet of IP addresses permitted to access the NFS share. mount-permissions The mount permissions for the allowed client. MOUNT_PERMISSIONS must be one of: READ_ONLY, READ_WRITE. allow-dev If yes, allows creation of devices. allow-suid If yes, allows SUID. enable-root-squash If yes, enables root squashing which is a special mapping of the remote superuser (root) identity when using identity authentication .</param>
+/// <param name="SizeGib">The requested size of the NFS share in GiB</param>
+/// <param name="StorageType">Specifies the storage type of the underlying volume which will be created for the NFS share. STORAGE_TYPE must be one of: HDD The storage type of the underlying volume will be HDD SSD The storage type of the underlying volume will be SSD</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bms", "nfs-shares", "create")]
-public record GcloudBmsNfsSharesCreateOptions : GcloudOptions
+public record GcloudBmsNfsSharesCreateOptions(
+    [property: CliOption("--allowed-client", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> AllowedClient,
+    [property: CliOption("--size-gib", Format = OptionFormat.EqualsSeparated)] int SizeGib,
+    [property: CliOption("--storage-type", Format = OptionFormat.EqualsSeparated)] string StorageType
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
 }

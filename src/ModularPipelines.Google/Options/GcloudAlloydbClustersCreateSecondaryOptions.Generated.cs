@@ -10,17 +10,174 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new AlloyDB SECONDARY     cluster within a given project
 /// </summary>
+/// <param name="PrimaryCluster">AlloyDB primary cluster ID</param>
+/// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+/// <param name="Cluster"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "clusters", "create-secondary")]
 public record GcloudAlloydbClustersCreateSecondaryOptions(
+    [property: CliOption("--primary-cluster", Format = OptionFormat.EqualsSeparated)] string PrimaryCluster,
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Cluster
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Name of the allocated IP range for the private IP AlloyDB cluster, for example: "google-managed-services-default". If set, the instance IPs for this cluster will be created in the allocated range. The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?.
+    /// </summary>
+    [CliOption("--allocated-ip-range-name", Format = OptionFormat.EqualsSeparated)]
+    public string? AllocatedIpRangeName { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Enable or disable Dataplex integration for this cluster (Enabled by default). Use --enable-dataplex-integration to enable and --no-enable-dataplex-integration to disable.
+    /// </summary>
+    [CliFlag("--enable-dataplex-integration")]
+    public bool? EnableDataplexIntegration { get; set; }
+
+    /// <summary>
+    /// Negates --enable-dataplex-integration. Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Enable or disable Dataplex integration for this cluster (Enabled by default). Use --enable-dataplex-integration to enable and --no-enable-dataplex-integration to disable.
+    /// </summary>
+    [CliFlag("--no-enable-dataplex-integration")]
+    public bool? NoEnableDataplexIntegration { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. List of tags KEY=VALUE pairs to bind. Each item must be expressed as &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;. Example: 123/environment=production,123/costCenter=marketing
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Comma-separated list of days of the week to perform a backup. At least one day of the week must be provided. (e.g., --automated-backup-days-of-week=MONDAY,WEDNESDAY,SUNDAY). DAYS_OF_WEEK must be one of: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY.
+    /// </summary>
+    [CliOption("--automated-backup-days-of-week", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAutomatedBackupDaysOfWeek? AutomatedBackupDaysOfWeek { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Comma-separated list of times during the day to start a backup. At least one start time must be provided. The start times are assumed to be in UTC and required to be an exact hour in the format HH:00. (e.g., --automated-backup-start-times=01:00,13:00)
+    /// </summary>
+    [CliOption("--automated-backup-start-times", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AutomatedBackupStartTimes { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. The length of the time window beginning at start time during which a backup can be taken. If a backup does not succeed within this time window, it will be canceled and considered failed. The backup window must be at least 5 minutes long. There is no upper bound on the window. If not set, it will default to 1 hour.
+    /// </summary>
+    [CliOption("--automated-backup-window", Format = OptionFormat.EqualsSeparated)]
+    public int? AutomatedBackupWindow { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Enables Automated Backups on the cluster.
+    /// </summary>
+    [CliFlag("--enable-automated-backup")]
+    public bool? EnableAutomatedBackup { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the automated backups. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Continuous Backup configuration. If unspecified, continuous backups are copied from the associated primary cluster. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --automated-backup-encryption-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--automated-backup-encryption-key", Format = OptionFormat.EqualsSeparated)]
+    public string? AutomatedBackupEncryptionKey { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the automated backups. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Continuous Backup configuration. If unspecified, continuous backups are copied from the associated primary cluster. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --automated-backup-encryption-key on the command line with a fully specified name; ◆ provide the argument --automated-backup-encryption-key-keyring on the command line.
+    /// </summary>
+    [CliOption("--automated-backup-encryption-key-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? AutomatedBackupEncryptionKeyKeyring { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the automated backups. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Continuous Backup configuration. If unspecified, continuous backups are copied from the associated primary cluster. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --automated-backup-encryption-key on the command line with a fully specified name; ◆ provide the argument --automated-backup-encryption-key-location on the command line.
+    /// </summary>
+    [CliOption("--automated-backup-encryption-key-location", Format = OptionFormat.EqualsSeparated)]
+    public string? AutomatedBackupEncryptionKeyLocation { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the automated backups. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Continuous Backup configuration. If unspecified, continuous backups are copied from the associated primary cluster. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --automated-backup-encryption-key on the command line with a fully specified name; ◆ provide the argument --automated-backup-encryption-key-project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--automated-backup-encryption-key-project", Format = OptionFormat.EqualsSeparated)]
+    public string? AutomatedBackupEncryptionKeyProject { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the automated backups. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Continuous Backup configuration. If unspecified, continuous backups are copied from the associated primary cluster. Retention policy. If no retention policy is provided, all automated backups will be retained. At most one of these can be specified: Number of most recent successful backups retained.
+    /// </summary>
+    [CliOption("--automated-backup-retention-count", Format = OptionFormat.EqualsSeparated)]
+    public int? AutomatedBackupRetentionCount { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the automated backups. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Continuous Backup configuration. If unspecified, continuous backups are copied from the associated primary cluster. Retention policy. If no retention policy is provided, all automated backups will be retained. At most one of these can be specified: Retention period of the backup relative to creation time. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--automated-backup-retention-period", Format = OptionFormat.EqualsSeparated)]
+    public string? AutomatedBackupRetentionPeriod { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the automated backups. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Continuous Backup configuration. If unspecified, continuous backups are copied from the associated primary cluster. Recovery window of the log files and backups saved to support Continuous Backups.
+    /// </summary>
+    [CliOption("--continuous-backup-recovery-window-days", Format = OptionFormat.EqualsSeparated)]
+    public string? ContinuousBackupRecoveryWindowDays { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the automated backups. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. Continuous Backup configuration. If unspecified, continuous backups are copied from the associated primary cluster. Enables Continuous Backups on the cluster.
+    /// </summary>
+    [CliFlag("--enable-continuous-backup")]
+    public bool? EnableContinuousBackup { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the continuous backup. The 'AlloyDB Service Agent's service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --continuous-backup-encryption-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--continuous-backup-encryption-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ContinuousBackupEncryptionKey { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the continuous backup. The 'AlloyDB Service Agent's service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --continuous-backup-encryption-key on the command line with a fully specified name; ◆ provide the argument --continuous-backup-encryption-key-keyring on the command line.
+    /// </summary>
+    [CliOption("--continuous-backup-encryption-key-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? ContinuousBackupEncryptionKeyKeyring { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the continuous backup. The 'AlloyDB Service Agent's service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --continuous-backup-encryption-key on the command line with a fully specified name; ◆ provide the argument --continuous-backup-encryption-key-location on the command line.
+    /// </summary>
+    [CliOption("--continuous-backup-encryption-key-location", Format = OptionFormat.EqualsSeparated)]
+    public string? ContinuousBackupEncryptionKeyLocation { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the continuous backup. The 'AlloyDB Service Agent's service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --continuous-backup-encryption-key on the command line with a fully specified name; ◆ provide the argument --continuous-backup-encryption-key-project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--continuous-backup-encryption-key-project", Format = OptionFormat.EqualsSeparated)]
+    public string? ContinuousBackupEncryptionKeyProject { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Automated backup policy. If unspecified, automated backups are copied from the associated primary cluster. Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the cluster. The 'AlloyDB Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
 }

@@ -21,4 +21,82 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("design-center", "spaces", "catalogs", "templates", "revisions", "create")]
 public record GcloudDesignCenterSpacesCatalogsTemplatesRevisionsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Application template revision to use as source. Example: projects/my-project/locations/us-central1/spaces/my-space/catalogs/my-catalog/templates/my-template/revisions/r1
+    /// </summary>
+    [CliOption("--application-template-revision-source", Format = OptionFormat.EqualsSeparated)]
+    public string? ApplicationTemplateRevisionSource { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Google Cloud Storage URI for source. Example: gs://my-bucket/my-template.
+    /// </summary>
+    [CliOption("--gcs-source-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? GcsSourceUri { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Developer Connect source. The Developer Connect repository to use as a source. Example: projects/my-project/locations/us-central1/connections/my-connection/gitRepositoryLinks/my-repo This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--developer-connect-repo", Format = OptionFormat.EqualsSeparated)]
+    public string? DeveloperConnectRepo { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Developer Connect source. The directory within the repository to use. Example: "modules/my-product" This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--developer-connect-repo-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? DeveloperConnectRepoDir { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Developer Connect source. The Git ref (branch or tag) within the repository to use. Example: "refs/tags/v1.0.0" or "refs/heads/main" or "refs/commits/269b518b99d06b31ff938a2d182e75f5e41941c7". This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--developer-connect-repo-ref", Format = OptionFormat.EqualsSeparated)]
+    public string? DeveloperConnectRepoRef { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Git source. Git reference tag for Git source. Example: "v1.0.0" This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--git-source-ref-tag", Format = OptionFormat.EqualsSeparated)]
+    public string? GitSourceRefTag { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Git source. Git repository for Git source. Example: GoogleCloudPlatform/terraform-google-cloud-run This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--git-source-repo", Format = OptionFormat.EqualsSeparated)]
+    public string? GitSourceRepo { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for Git source. Git directory for Git source. Example: "modules/my-product". This field is optional.
+    /// </summary>
+    [CliOption("--git-source-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? GitSourceDir { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for OCI Repo source. OCI Repo URI for OCI Repo source. Example: oci://us-west1-docker.pkg.dev/my-project/my-repo/my-chart This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--oci-repo-uri", Format = OptionFormat.EqualsSeparated)]
+    public string? OciRepoUri { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Flags for OCI Repo source. OCI Repo version for OCI Repo source. Example: "1.0.0". This field is optional.
+    /// </summary>
+    [CliOption("--oci-repo-version", Format = OptionFormat.EqualsSeparated)]
+    public string? OciRepoVersion { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// A description for the revision.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Path to a local YAML file containing the template metadata. Example: "path/to/metadata.yaml".
+    /// </summary>
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
+    public string? Metadata { get; set; }
+
 }

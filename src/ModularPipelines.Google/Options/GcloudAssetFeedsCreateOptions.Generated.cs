@@ -10,17 +10,95 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Cloud Asset Inventory Feed
 /// </summary>
+/// <param name="PubsubTopic">Name of the Cloud Pub/Sub topic to publish to, of the form projects/PROJECT_ID/topics/TOPIC_ID. You can list existing topics with gcloud pubsub topics list --format="text(name)"</param>
+/// <param name="FeedId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "feeds", "create")]
 public record GcloudAssetFeedsCreateOptions(
+    [property: CliOption("--pubsub-topic", Format = OptionFormat.EqualsSeparated)] string PubsubTopic,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string FeedId
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// At least one of these must be specified: A comma-separated list of the full names of the assets to receive updates. For example: //compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1. For more information, see: https://cloud.google.com/apis/design/resource_names#full_resource_name
+    /// </summary>
+    [CliOption("--asset-names", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AssetNames { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A comma-separated list of types of the assets types to receive updates. For example: compute.googleapis.com/Disk,compute.googleapis.com/Network. Regular expressions (https://github.com/google/re2/wiki/Syntax) are also supported. For more information, see: https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/overview
+    /// </summary>
+    [CliOption("--asset-types", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AssetTypes { get; set; }
+
+    /// <summary>
+    /// At least one of these must be specified: A comma-separated list of the relationship types (i.e., "INSTANCE_TO_INSTANCEGROUP") to receive updates. This argument will only be honoured if content_type=RELATIONSHIP.See http://cloud.google.com/asset-inventory/docs/supported-asset-types for supported relationship types.
+    /// </summary>
+    [CliOption("--relationship-types", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RelationshipTypes { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Folder of the feed.
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Organization of the feed.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: project of the feed. The Google Cloud project ID to use for this invocation. If omitted, then the current project is assumed; the current project can be listed using gcloud config list --format='text(core.project)' and can be set using gcloud config set project PROJECTID. --project and its fallback core/project property play two roles in the invocation. It specifies the project of the resource to operate on. It also specifies the project for API enablement check, quota, and billing. To specify a different project for quota and billing, use --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
+    public string? Project { get; set; }
+
+    /// <summary>
+    /// Description of the feed condition. For reference only.
+    /// </summary>
+    [CliOption("--condition-description", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionDescription { get; set; }
+
+    /// <summary>
+    /// Feed condition expression. If not specified, no condition will be applied to feed. For more information, see: https://cloud.google.com/asset-inventory/docs/monitoring-asset-changes#feed_with_condition
+    /// </summary>
+    [CliOption("--condition-expression", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionExpression { get; set; }
+
+    /// <summary>
+    /// Title of the feed condition. For reference only.
+    /// </summary>
+    [CliOption("--condition-title", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionTitle { get; set; }
+
+    /// <summary>
+    /// Asset content type. If not specified, no content but the asset name and type will be returned in the feed. For more information, see https://cloud.google.com/resource-manager/docs/cloud-asset-inventory/overview#asset_content_type. CONTENT_TYPE must be one of: resource, iam-policy, org-policy, access-policy, os-inventory, relationship.
+    /// </summary>
+    [CliOption("--content-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudContentType? ContentType { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(AssetNames?.Any() == true || AssetTypes?.Any() == true || RelationshipTypes?.Any() == true))
+        {
+            yield return new ValidationResult("At least one of AssetNames, AssetTypes, or RelationshipTypes must be specified.", [nameof(AssetNames), nameof(AssetTypes), nameof(RelationshipTypes)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Folder) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Organization) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Project) ? 1 : 0) != 1)
+        {
+            yield return new ValidationResult("Exactly one of Folder, Organization, or Project must be specified.", [nameof(Folder), nameof(Organization), nameof(Project)]);
+        }
+    }
+
 }

@@ -16,9 +16,14 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// analyze organization policies under a     scope
 /// </summary>
+/// <param name="Constraint">The name of the constraint to analyze organization policies for. The response only contains analyzed organization policies for the provided constraint. Example: ◆ organizations/{ORGANIZATION_NUMBER}/customConstraints/{CUSTOM_CONSTRAINT_NAME} for a user-defined custom constraint.</param>
+/// <param name="Scope">Scope can only be an organization. The analysis is limited to the Cloud organization policies within this scope. The caller must be granted the cloudasset.assets.searchAllResources permission on the desired scope. The allowed values are: ◆ organizations/{ORGANIZATION_NUMBER} (e.g. organizations/123456)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "analyze-org-policies")]
-public record GcloudAssetAnalyzeOrgPoliciesOptions : GcloudOptions
+public record GcloudAssetAnalyzeOrgPoliciesOptions(
+    [property: CliOption("--constraint", Format = OptionFormat.EqualsSeparated)] string Constraint,
+    [property: CliOption("--scope", Format = OptionFormat.EqualsSeparated)] string Scope
+) : GcloudOptions
 {
 }

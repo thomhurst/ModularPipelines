@@ -10,15 +10,86 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a new key
 /// </summary>
+/// <param name="Purpose">The "purpose" of the key. PURPOSE must be one of: aes-wrapping, asymmetric-encryption, asymmetric-signing, encryption, key-encapsulation, mac, raw-encryption.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keys", "create")]
-public record GcloudKmsKeysCreateOptions : GcloudOptions
+public record GcloudKmsKeysCreateOptions(
+    [property: CliOption("--purpose", Format = OptionFormat.EqualsSeparated)] GcloudPurpose Purpose
+) : GcloudOptions
 {
+    /// <summary>
+    /// The list of allowed Key Access Justifications access reasons on the key. The key must be enrolled in Key Access Justifications to configure this field. By default, this field is absent, and all justification codes are allowed. For more information about justification codes, see https://cloud.google.com/assured-workloads/key-access-justifications/docs/justification-codes. ALLOWED_ACCESS_REASONS must be one of: customer-authorized-workflow-servicing, customer-initiated-access, customer-initiated-support, google-initiated-review, google-initiated-service, google-initiated-system-operation, google-response-to-production-alert, modified-customer-initiated-access, modified-google-initiated-system-operation, reason-not-expected, reason-unspecified, third-party-data-request.
+    /// </summary>
+    [CliOption("--allowed-access-reasons", Format = OptionFormat.EqualsSeparated)]
+    public GcloudAllowedAccessReasons? AllowedAccessReasons { get; set; }
+
+    /// <summary>
+    /// For keys with the external-vpc protection level, the name of the EkmConnection that is used to access the key material in your EKM.
+    /// </summary>
+    [CliOption("--crypto-key-backend", Format = OptionFormat.EqualsSeparated)]
+    public string? CryptoKeyBackend { get; set; }
+
+    /// <summary>
+    /// The default algorithm for the crypto key. For more information about choosing an algorithm, see https://cloud.google.com/kms/docs/algorithms. DEFAULT_ALGORITHM must be one of: aes-128-cbc, aes-128-ctr, aes-128-gcm, aes-256-cbc, aes-256-ctr, aes-256-gcm, aes-256-kwp, ec-sign-ed25519, ec-sign-p256-sha256, ec-sign-p384-sha384, ec-sign-secp256k1-sha256, external-symmetric-encryption, google-symmetric-encryption, hmac-sha1, hmac-sha224, hmac-sha256, hmac-sha384, hmac-sha512, kem-xwing, ml-kem-1024, ml-kem-768, pq-sign-hash-slh-dsa-sha2-128s-sha256, pq-sign-ml-dsa-44, pq-sign-ml-dsa-44-external-mu, pq-sign-ml-dsa-65, pq-sign-ml-dsa-65-external-mu, pq-sign-ml-dsa-87, pq-sign-ml-dsa-87-external-mu, pq-sign-slh-dsa-sha2-128s, rsa-decrypt-oaep-2048-sha1, rsa-decrypt-oaep-2048-sha256, rsa-decrypt-oaep-3072-sha1, rsa-decrypt-oaep-3072-sha256, rsa-decrypt-oaep-4096-sha1, rsa-decrypt-oaep-4096-sha256, rsa-decrypt-oaep-4096-sha512, rsa-sign-pkcs1-2048-sha256, rsa-sign-pkcs1-3072-sha256, rsa-sign-pkcs1-4096-sha256, rsa-sign-pkcs1-4096-sha512, rsa-sign-pss-2048-sha256, rsa-sign-pss-3072-sha256, rsa-sign-pss-4096-sha256, rsa-sign-pss-4096-sha512, rsa-sign-raw-pkcs1-2048, rsa-sign-raw-pkcs1-3072, rsa-sign-raw-pkcs1-4096.
+    /// </summary>
+    [CliOption("--default-algorithm", Format = OptionFormat.EqualsSeparated)]
+    public string? DefaultAlgorithm { get; set; }
+
+    /// <summary>
+    /// The amount of time that versions of the key should spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--destroy-scheduled-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? DestroyScheduledDuration { get; set; }
+
+    /// <summary>
+    /// Enable HSM trusted wrapping capabilities for the key.
+    /// </summary>
+    [CliFlag("--hsm-trusted-wrapping")]
+    public bool? HsmTrustedWrapping { get; set; }
+
+    /// <summary>
+    /// Restrict this key to imported versions only.
+    /// </summary>
+    [CliFlag("--import-only")]
+    public bool? ImportOnly { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Next automatic rotation time of the key. See $ gcloud topic datetimes for information on time formats.
+    /// </summary>
+    [CliOption("--next-rotation-time", Format = OptionFormat.EqualsSeparated)]
+    public string? NextRotationTime { get; set; }
+
+    /// <summary>
+    /// Protection level of the key. PROTECTION_LEVEL must be one of: software, hsm, hsm-single-tenant, external, external-vpc.
+    /// </summary>
+    [CliOption("--protection-level", Format = OptionFormat.EqualsSeparated)]
+    public GcloudProtectionLevel? ProtectionLevel { get; set; }
+
+    /// <summary>
+    /// Automatic rotation period of the key. See $ gcloud topic datetimes for information on duration formats.
+    /// </summary>
+    [CliOption("--rotation-period", Format = OptionFormat.EqualsSeparated)]
+    public string? RotationPeriod { get; set; }
+
+    /// <summary>
+    /// Skip creating the first version in a key and setting it as primary during creation.
+    /// </summary>
+    [CliFlag("--skip-initial-version-creation")]
+    public bool? SkipInitialVersionCreation { get; set; }
+
 }

@@ -16,11 +16,26 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// describe Rollout resource
 /// </summary>
+/// <param name="FleetPackage">Parent Fleet Package of the Rollout.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "packages", "rollouts", "describe")]
 public record GcloudContainerHubPackagesRolloutsDescribeOptions(
+    [property: CliOption("--fleet-package", Format = OptionFormat.EqualsSeparated)] string FleetPackage,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Show less verbose output.
+    /// </summary>
+    [CliFlag("--less")]
+    public bool? Less { get; set; }
+
+    /// <summary>
+    /// Google Cloud zone or region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

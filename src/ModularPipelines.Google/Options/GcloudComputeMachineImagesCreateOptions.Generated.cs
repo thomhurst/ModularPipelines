@@ -10,17 +10,99 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Compute Engine machine     image
 /// </summary>
+/// <param name="SourceInstance">The source instance to create a machine image from.</param>
+/// <param name="Image"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "machine-images", "create")]
 public record GcloudComputeMachineImagesCreateOptions(
+    [property: CliOption("--source-instance", Format = OptionFormat.EqualsSeparated)] string SourceInstance,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
 ) : GcloudOptions
 {
+    /// <summary>
+    /// (DEPRECATED) Path to a Customer-Supplied Encryption Key (CSEK) key file that maps Compute Engine machine images to user managed keys to be used when creating, mounting, or taking snapshots of disks. If you pass `-` as value of the flag, the CSEK is read from stdin. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --csek-key-file flag is deprecated.
+    /// </summary>
+    [CliOption("--csek-key-file", Format = OptionFormat.EqualsSeparated)]
+    public string? CsekKeyFile { get; set; }
+
+    /// <summary>
+    /// Specifies a text description of the machine image.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Create an application-consistent machine image by informing the OS to prepare for the snapshot process.
+    /// </summary>
+    [CliFlag("--guest-flush")]
+    public bool? GuestFlush { get; set; }
+
+    /// <summary>
+    /// (DEPRECATED) Refuse to create machine images not protected by a user managed key in the key file when --csek-key-file is given. This behavior is enabled by default to prevent incorrect gcloud invocations from accidentally creating machine images with no user managed key. Disabling the check allows creation of some machine images without a matching Customer-Supplied Encryption Key in the supplied --csek-key-file. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --require-csek-key-create flag is deprecated. Enabled by default, use --no-require-csek-key-create to disable.
+    /// </summary>
+    [CliFlag("--require-csek-key-create")]
+    public bool? RequireCsekKeyCreate { get; set; }
+
+    /// <summary>
+    /// Negates --require-csek-key-create. (DEPRECATED) Refuse to create machine images not protected by a user managed key in the key file when --csek-key-file is given. This behavior is enabled by default to prevent incorrect gcloud invocations from accidentally creating machine images with no user managed key. Disabling the check allows creation of some machine images without a matching Customer-Supplied Encryption Key in the supplied --csek-key-file. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --require-csek-key-create flag is deprecated. Enabled by default, use --no-require-csek-key-create to disable.
+    /// </summary>
+    [CliFlag("--no-require-csek-key-create")]
+    public bool? NoRequireCsekKeyCreate { get; set; }
+
+    /// <summary>
+    /// A comma-separated list of Resource Manager tags to apply to the machine image.
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// (DEPRECATED) Customer-supplied encryption key of the disk attached to the source instance. Required if the source disk is protected by a customer-supplied encryption key. This flag can be repeated to specify multiple attached disks. *disk*::: URL of the disk attached to the source instance. This can be a full or valid partial URL *csek-key-file*::: path to customer-supplied encryption key. The --source-disk-csek-key flag is deprecated.
+    /// </summary>
+    [CliOption("--source-disk-csek-key", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SourceDiskCsekKey { get; set; }
+
+    /// <summary>
+    /// Zone of the instance to operate on. If not specified and the compute/zone property isn't set, you might be prompted to select a zone (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// </summary>
+    [CliOption("--source-instance-zone", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceInstanceZone { get; set; }
+
+    /// <summary>
+    /// Google Cloud Storage location, either regional or multi-regional, where machine image's content is to be stored. If absent, a nearby regional or multi-regional location is chosen automatically.
+    /// </summary>
+    [CliOption("--storage-location", Format = OptionFormat.EqualsSeparated)]
+    public string? StorageLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the machine image. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. ID of the key or fully qualified identifier for the key. To set the kms-key attribute: ◆ provide the argument --kms-key on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the machine image. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The KMS keyring of the key. To set the kms-keyring attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the machine image. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud location for the key. To set the kms-location attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// Key resource - The Cloud KMS (Key Management Service) cryptokey that will be used to protect the machine image. The 'Compute Engine Service Agent' service account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'. The arguments in this group can be used to specify the attributes of this resource. The Google Cloud project for the key. To set the kms-project attribute: ◆ provide the argument --kms-key on the command line with a fully specified name; ◆ provide the argument --kms-project on the command line; ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
 }

@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// historical     revision description of a finding
 /// </summary>
+/// <param name="FindingId">The ID of the intelligence finding the revision belongs to.</param>
+/// <param name="RevisionId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "intelligence-findings", "revisions", "describe")]
 public record GcloudStorageIntelligenceFindingsRevisionsDescribeOptions(
+    [property: CliOption("--finding-id", Format = OptionFormat.EqualsSeparated)] string FindingId,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RevisionId
 ) : GcloudOptions
 {

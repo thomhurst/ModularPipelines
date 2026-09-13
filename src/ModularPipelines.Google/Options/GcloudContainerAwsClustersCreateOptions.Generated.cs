@@ -6,19 +6,213 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create an Anthos cluster on AWS
 /// </summary>
+/// <param name="AwsRegion">AWS region to deploy the cluster.</param>
+/// <param name="ClusterVersion">Kubernetes version to use for the cluster.</param>
+/// <param name="ConfigEncryptionKmsKeyArn">Amazon Resource Name (ARN) of the AWS KMS key to encrypt the user data.</param>
+/// <param name="DatabaseEncryptionKmsKeyArn">Amazon Resource Name (ARN) of the AWS KMS key to encrypt the cluster secrets.</param>
+/// <param name="FleetProject">ID or number of the Fleet host project where the cluster is registered.</param>
+/// <param name="IamInstanceProfile">Name or ARN of the IAM instance profile associated with the cluster.</param>
+/// <param name="PodAddressCidrBlocks">IP address range for the pods in this cluster in CIDR notation (e.g. 10.0.0.0/8).</param>
+/// <param name="RoleArn">Amazon Resource Name (ARN) of the IAM role to assume when managing AWS resources.</param>
+/// <param name="ServiceAddressCidrBlocks">IP address range for the services IPs in CIDR notation (e.g. 10.0.0.0/8).</param>
+/// <param name="SubnetIds">Subnet ID of an existing VNET to use for the cluster control plane.</param>
+/// <param name="VpcId">VPC associated with the cluster.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "aws", "clusters", "create")]
-public record GcloudContainerAwsClustersCreateOptions : GcloudOptions
+public record GcloudContainerAwsClustersCreateOptions(
+    [property: CliOption("--aws-region", Format = OptionFormat.EqualsSeparated)] string AwsRegion,
+    [property: CliOption("--cluster-version", Format = OptionFormat.EqualsSeparated)] string ClusterVersion,
+    [property: CliOption("--config-encryption-kms-key-arn", Format = OptionFormat.EqualsSeparated)] string ConfigEncryptionKmsKeyArn,
+    [property: CliOption("--database-encryption-kms-key-arn", Format = OptionFormat.EqualsSeparated)] string DatabaseEncryptionKmsKeyArn,
+    [property: CliOption("--fleet-project", Format = OptionFormat.EqualsSeparated)] string FleetProject,
+    [property: CliOption("--iam-instance-profile", Format = OptionFormat.EqualsSeparated)] string IamInstanceProfile,
+    [property: CliOption("--pod-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)] string PodAddressCidrBlocks,
+    [property: CliOption("--role-arn", Format = OptionFormat.EqualsSeparated)] string RoleArn,
+    [property: CliOption("--service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)] string ServiceAddressCidrBlocks,
+    [property: CliOption("--subnet-ids", Format = OptionFormat.EqualsSeparated)] IEnumerable<string> SubnetIds,
+    [property: CliOption("--vpc-id", Format = OptionFormat.EqualsSeparated)] string VpcId
+) : GcloudOptions
 {
+    /// <summary>
+    /// Proxy config Groups of users that can perform operations as a cluster administrator.
+    /// </summary>
+    [CliOption("--admin-groups", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdminGroups { get; set; }
+
+    /// <summary>
+    /// Proxy config Users that can perform operations as a cluster administrator. If not specified, the value of property core/account is used.
+    /// </summary>
+    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AdminUsers { get; set; }
+
+    /// <summary>
+    /// Proxy config Annotations for the cluster.
+    /// </summary>
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Annotations { get; set; }
+
+    /// <summary>
+    /// Proxy config Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Proxy config Set Binary Authorization evaluation mode for this cluster. BINAUTHZ_EVALUATION_MODE must be one of: DISABLED, PROJECT_SINGLETON_POLICY_ENFORCE.
+    /// </summary>
+    [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? BinauthzEvaluationMode { get; set; }
+
+    /// <summary>
+    /// Proxy config Description for the cluster.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Proxy config Disable the default per node pool subnet security group rules on the control plane security group. When disabled, at least one security group that allows node pools to send traffic to the control plane on ports TCP/443 and TCP/8132 must be provided.
+    /// </summary>
+    [CliFlag("--disable-per-node-pool-sg-rules")]
+    public bool? DisablePerNodePoolSgRules { get; set; }
+
+    /// <summary>
+    /// Proxy config Enables managed collection for Managed Service for Prometheus in the cluster. See https://cloud.google.com/stackdriver/docs/managed-prometheus/setup-managed#enable-mgdcoll-gke for more info. Managed Prometheus is enabled by default for cluster versions 1.27 or greater, use --no-enable-managed-prometheus to disable.
+    /// </summary>
+    [CliFlag("--enable-managed-prometheus")]
+    public bool? EnableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Negates --enable-managed-prometheus. Proxy config Enables managed collection for Managed Service for Prometheus in the cluster. See https://cloud.google.com/stackdriver/docs/managed-prometheus/setup-managed#enable-mgdcoll-gke for more info. Managed Prometheus is enabled by default for cluster versions 1.27 or greater, use --no-enable-managed-prometheus to disable.
+    /// </summary>
+    [CliFlag("--no-enable-managed-prometheus")]
+    public bool? NoEnableManagedPrometheus { get; set; }
+
+    /// <summary>
+    /// Proxy config AWS EC2 instance type for the control plane's nodes.
+    /// </summary>
+    [CliOption("--instance-type", Format = OptionFormat.EqualsSeparated)]
+    public string? InstanceType { get; set; }
+
+    /// <summary>
+    /// Proxy config Set the components that have logging enabled. Examples: $ gcloud container aws clusters create --logging=SYSTEM $ gcloud container aws clusters create --logging=SYSTEM,WORKLOAD COMPONENT must be one of: SYSTEM, WORKLOAD.
+    /// </summary>
+    [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
+    public GcloudLogging? Logging { get; set; }
+
+    /// <summary>
+    /// Proxy config Number of I/O operations per second (IOPS) to provision for the main volume.
+    /// </summary>
+    [CliOption("--main-volume-iops", Format = OptionFormat.EqualsSeparated)]
+    public int? MainVolumeIops { get; set; }
+
+    /// <summary>
+    /// Proxy config Amazon Resource Name (ARN) of the AWS KMS key to encrypt the main volume.
+    /// </summary>
+    [CliOption("--main-volume-kms-key-arn", Format = OptionFormat.EqualsSeparated)]
+    public string? MainVolumeKmsKeyArn { get; set; }
+
+    /// <summary>
+    /// Proxy config Size of the main volume. The value must be a whole number followed by a size unit of GB for gigabyte, or TB for terabyte. If no size unit is specified, GB is assumed.
+    /// </summary>
+    [CliOption("--main-volume-size", Format = OptionFormat.EqualsSeparated)]
+    public int? MainVolumeSize { get; set; }
+
+    /// <summary>
+    /// Proxy config Throughput to provision for the main volume, in MiB/s. Only valid if the volume type is GP3. If volume type is GP3 and throughput is not provided, it defaults to 125.
+    /// </summary>
+    [CliOption("--main-volume-throughput", Format = OptionFormat.EqualsSeparated)]
+    public string? MainVolumeThroughput { get; set; }
+
+    /// <summary>
+    /// Proxy config Type of the main volume. MAIN_VOLUME_TYPE must be one of: gp2, gp3.
+    /// </summary>
+    [CliOption("--main-volume-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudMainVolumeType? MainVolumeType { get; set; }
+
+    /// <summary>
+    /// Proxy config Identifier for the assumed role session.
+    /// </summary>
+    [CliOption("--role-session-name", Format = OptionFormat.EqualsSeparated)]
+    public string? RoleSessionName { get; set; }
+
+    /// <summary>
+    /// Proxy config Number of I/O operations per second (IOPS) to provision for the root volume.
+    /// </summary>
+    [CliOption("--root-volume-iops", Format = OptionFormat.EqualsSeparated)]
+    public int? RootVolumeIops { get; set; }
+
+    /// <summary>
+    /// Proxy config Amazon Resource Name (ARN) of the AWS KMS key to encrypt the root volume.
+    /// </summary>
+    [CliOption("--root-volume-kms-key-arn", Format = OptionFormat.EqualsSeparated)]
+    public string? RootVolumeKmsKeyArn { get; set; }
+
+    /// <summary>
+    /// Proxy config Size of the root volume. The value must be a whole number followed by a size unit of GB for gigabyte, or TB for terabyte. If no size unit is specified, GB is assumed.
+    /// </summary>
+    [CliOption("--root-volume-size", Format = OptionFormat.EqualsSeparated)]
+    public int? RootVolumeSize { get; set; }
+
+    /// <summary>
+    /// Proxy config Throughput to provision for the root volume, in MiB/s. Only valid if the volume type is GP3. If volume type is GP3 and throughput is not provided, it defaults to 125.
+    /// </summary>
+    [CliOption("--root-volume-throughput", Format = OptionFormat.EqualsSeparated)]
+    public string? RootVolumeThroughput { get; set; }
+
+    /// <summary>
+    /// Proxy config Type of the root volume. ROOT_VOLUME_TYPE must be one of: gp2, gp3.
+    /// </summary>
+    [CliOption("--root-volume-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudRootVolumeType? RootVolumeType { get; set; }
+
+    /// <summary>
+    /// Proxy config IDs of additional security groups to add to the control plane's nodes.
+    /// </summary>
+    [CliOption("--security-group-ids", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? SecurityGroupIds { get; set; }
+
+    /// <summary>
+    /// Proxy config Name of the EC2 key pair authorized to login to the control plane's nodes.
+    /// </summary>
+    [CliOption("--ssh-ec2-key-pair", Format = OptionFormat.EqualsSeparated)]
+    public string? SshEc2KeyPair { get; set; }
+
+    /// <summary>
+    /// Proxy config Applies the given tags (comma separated) on the cluster. Example: $ gcloud container aws clusters create EXAMPLE_CLUSTER \ --tags=tag1=one,tag2=two
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Proxy config Validate the cluster to create, but don't actually perform it.
+    /// </summary>
+    [CliFlag("--validate-only")]
+    public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Proxy config ARN of the AWS Secrets Manager secret that contains a proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--proxy-secret-arn", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretArn { get; set; }
+
+    /// <summary>
+    /// Proxy config Version ID string of the AWS Secrets Manager secret that contains a proxy configuration. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--proxy-secret-version-id", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretVersionId { get; set; }
+
 }

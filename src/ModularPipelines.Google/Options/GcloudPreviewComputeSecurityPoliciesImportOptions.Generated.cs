@@ -10,17 +10,39 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// import security policy     configs into your project
 /// </summary>
+/// <param name="FileName">The name of the JSON or YAML file to import the security policy config from.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "security-policies", "import")]
 public record GcloudPreviewComputeSecurityPoliciesImportOptions(
+    [property: CliOption("--file-name", Format = OptionFormat.EqualsSeparated)] string FileName,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// The format of the file to import the security policy config from. Specify either yaml or json. Defaults to yaml if not specified. FILE_FORMAT must be one of: json, yaml.
+    /// </summary>
+    [CliOption("--file-format", Format = OptionFormat.EqualsSeparated)]
+    public GcloudFileFormat? FileFormat { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: If set, the security policy is global.
+    /// </summary>
+    [CliFlag("--global")]
+    public bool? Global { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Region of the security policy to import. Overrides the default compute/region property value for this command invocation.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

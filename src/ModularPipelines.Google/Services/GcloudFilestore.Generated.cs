@@ -84,7 +84,7 @@ public class GcloudFilestore : IGcloudFilestore
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFilestoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudFilestoreOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

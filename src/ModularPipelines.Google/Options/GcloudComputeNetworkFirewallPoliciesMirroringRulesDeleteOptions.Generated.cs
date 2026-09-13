@@ -10,17 +10,36 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// deletes a     Compute Engine network firewall policy packet mirroirng rule
 /// </summary>
+/// <param name="FirewallPolicy">Firewall policy ID with which to delete rule.</param>
+/// <param name="Priority"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "network-firewall-policies", "mirroring-rules", "delete")]
 public record GcloudComputeNetworkFirewallPoliciesMirroringRulesDeleteOptions(
+    [property: CliOption("--firewall-policy", Format = OptionFormat.EqualsSeparated)] string FirewallPolicy,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Priority
-) : GcloudOptions
+) : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Use this flag to indicate that firewall policy is global.
+    /// </summary>
+    [CliFlag("--global-firewall-policy")]
+    public bool? GlobalFirewallPolicy { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(GlobalFirewallPolicy == true))
+        {
+            yield return new ValidationResult("At least one of GlobalFirewallPolicy must be specified.", [nameof(GlobalFirewallPolicy)]);
+        }
+    }
+
 }

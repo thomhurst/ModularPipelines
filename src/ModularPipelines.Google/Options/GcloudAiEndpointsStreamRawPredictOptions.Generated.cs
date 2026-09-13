@@ -16,9 +16,18 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// run Vertex AI online stream raw     prediction
 /// </summary>
+/// <param name="Request">The request to send to the endpoint. If the request starts with the letter '@', the rest should be a file name to read the request from, or '@-' to read from stdin. If the request body actually starts with '@', it must be placed in a file. If required, the Content-Type header should also be set appropriately, particularly for binary data.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai", "endpoints", "stream-raw-predict")]
-public record GcloudAiEndpointsStreamRawPredictOptions : GcloudOptions
+public record GcloudAiEndpointsStreamRawPredictOptions(
+    [property: CliOption("--request", Format = OptionFormat.EqualsSeparated)] string Request
+) : GcloudOptions
 {
+    /// <summary>
+    /// List of header and value pairs to send as part of the request. For example, to set the Content-Type and X-Header: --http-headers=Content-Type="application/json",X-Header=Value
+    /// </summary>
+    [CliOption("--http-headers", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? HttpHeaders { get; set; }
+
 }

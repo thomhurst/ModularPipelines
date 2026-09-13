@@ -10,15 +10,55 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a Distributed Cloud Edge Network interconnect attachment
 /// </summary>
+/// <param name="Interconnect">The underlying interconnect object that this attachment's traffic will traverse through.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edge-cloud", "networking", "interconnects", "attachments", "dedicated", "create")]
-public record GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicatedCreateOptions : GcloudOptions
+public record GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicatedCreateOptions(
+    [property: CliOption("--interconnect", Format = OptionFormat.EqualsSeparated)] string Interconnect
+) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// An optional, textual description for the interconnect attachment.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// </summary>
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
+
+    /// <summary>
+    /// Maximum transmission unit (MTU) is the size of the largest IP packet that can be transmitted on this attachment. Default value is 1500 bytes, and the valid values are 1500 and 9000.
+    /// </summary>
+    [CliOption("--mtu", Format = OptionFormat.EqualsSeparated)]
+    public string? Mtu { get; set; }
+
+    /// <summary>
+    /// The network to use for dynamic routing.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// The ID of the vlan to tag the subnetwork. Default value is 0.
+    /// </summary>
+    [CliOption("--vlan-id", Format = OptionFormat.EqualsSeparated)]
+    public string? VlanId { get; set; }
+
 }

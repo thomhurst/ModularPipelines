@@ -16,10 +16,13 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update patch deployment     in a project
 /// </summary>
+/// <param name="File">The JSON or YAML file with the patch deployment to update. For information about the patch deployment format, see https://cloud.google.com/compute/docs/osconfig/rest/v1/projects.patchDeployments.</param>
+/// <param name="PatchDeploymentId"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "os-config", "patch-deployments", "update")]
 public record GcloudComputeOsConfigPatchDeploymentsUpdateOptions(
+    [property: CliOption("--file", Format = OptionFormat.EqualsSeparated)] string File,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PatchDeploymentId
 ) : GcloudOptions
 {

@@ -16,10 +16,15 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// query data objects     from a Vector Search collection
 /// </summary>
+/// <param name="Collection">The collection to query data objects from.</param>
+/// <param name="Location">Location of the collection.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vector-search", "collections", "data-objects", "query")]
-public record GcloudVectorSearchCollectionsDataObjectsQueryOptions : GcloudOptions
+public record GcloudVectorSearchCollectionsDataObjectsQueryOptions(
+    [property: CliOption("--collection", Format = OptionFormat.EqualsSeparated)] string Collection,
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location
+) : GcloudOptions
 {
     /// <summary>
     /// Output fields A filter expression in JSON format to apply to the query, e.g. '{"genre": {"$eq": "sci-fi"}}'.

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,6 +20,51 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "message-transforms", "test")]
-public record GcloudPubsubMessageTransformsTestOptions : GcloudOptions
+public record GcloudPubsubMessageTransformsTestOptions : GcloudOptions, IValidatableObject
 {
+    /// <summary>
+    /// Message to test the message transforms against. At least one of these must be specified: Comma-separated list of attributes to attach to the message. Each ATTRIBUTE has the form name="value". You can specify up to 100 attributes.
+    /// </summary>
+    [CliOption("--attribute", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Attribute { get; set; }
+
+    /// <summary>
+    /// Message to test the message transforms against. At least one of these must be specified: Message body to test the message transforms against.
+    /// </summary>
+    [CliOption("--message", Format = OptionFormat.EqualsSeparated)]
+    public string? Message { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Path to YAML or JSON file containing message transforms.
+    /// </summary>
+    [CliOption("--message-transforms-file", Format = OptionFormat.EqualsSeparated)]
+    public string? MessageTransformsFile { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Subscription resource - Name of the subscription from which the message transforms are taken to be applied to the message. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▫ provide the argument --subscription on the command line with a fully specified name; ▫ provide the argument --project on the command line; ▫ set the property core/project. ID of the subscription or fully qualified identifier for the subscription. To set the subscription attribute: ▫ provide the argument --subscription on the command line.
+    /// </summary>
+    [CliOption("--subscription", Format = OptionFormat.EqualsSeparated)]
+    public string? Subscription { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Topic resource - Name of the topic from which the message transforms are taken to be applied to the message. The arguments in this group can be used to specify the attributes of this resource. ID of the topic or fully qualified identifier for the topic. To set the topic attribute: ▫ provide the argument --topic on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--topic", Format = OptionFormat.EqualsSeparated)]
+    public string? Topic { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Topic resource - Name of the topic from which the message transforms are taken to be applied to the message. The arguments in this group can be used to specify the attributes of this resource. Project ID of the Google Cloud project for the topic. To set the project attribute: ▫ provide the argument --topic on the command line with a fully specified name; ▫ provide the argument --topic-project on the command line; ▫ provide the argument --project on the command line; ▫ set the property core/project.
+    /// </summary>
+    [CliOption("--topic-project", Format = OptionFormat.EqualsSeparated)]
+    public string? TopicProject { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(Attribute?.Any() == true || !string.IsNullOrWhiteSpace(Message)))
+        {
+            yield return new ValidationResult("At least one of Attribute or Message must be specified.", [nameof(Attribute), nameof(Message)]);
+        }
+    }
+
 }

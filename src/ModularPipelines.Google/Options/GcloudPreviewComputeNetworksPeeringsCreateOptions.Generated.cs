@@ -16,11 +16,94 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Compute Engine     network peering
 /// </summary>
+/// <param name="Network">The name of the network in the current project to be peered with the peer network.</param>
+/// <param name="PeerNetwork">The name of the network to be peered with the current network.</param>
+/// <param name="Name"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "networks", "peerings", "create")]
 public record GcloudPreviewComputeNetworksPeeringsCreateOptions(
+    [property: CliOption("--network", Format = OptionFormat.EqualsSeparated)] string Network,
+    [property: CliOption("--peer-network", Format = OptionFormat.EqualsSeparated)] string PeerNetwork,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// (DEPRECATED) If set, will automatically create routes for the network peering. Flag auto-create-routes is deprecated. Peer network subnet routes are always created in a network when peered. Flag --auto-create-routes is deprecated and will be removed in a future release.
+    /// </summary>
+    [CliFlag("--auto-create-routes")]
+    public bool? AutoCreateRoutes { get; set; }
+
+    /// <summary>
+    /// If set, the network will export custom routes to peer network. Use --no-export-custom-routes to disable it.
+    /// </summary>
+    [CliFlag("--export-custom-routes")]
+    public bool? ExportCustomRoutes { get; set; }
+
+    /// <summary>
+    /// Negates --export-custom-routes. If set, the network will export custom routes to peer network. Use --no-export-custom-routes to disable it.
+    /// </summary>
+    [CliFlag("--no-export-custom-routes")]
+    public bool? NoExportCustomRoutes { get; set; }
+
+    /// <summary>
+    /// If set, the network will export subnet routes with addresses in the public IP ranges to peer network. Use --no-export-subnet-routes-with-public-ip to disable it.
+    /// </summary>
+    [CliFlag("--export-subnet-routes-with-public-ip")]
+    public bool? ExportSubnetRoutesWithPublicIp { get; set; }
+
+    /// <summary>
+    /// Negates --export-subnet-routes-with-public-ip. If set, the network will export subnet routes with addresses in the public IP ranges to peer network. Use --no-export-subnet-routes-with-public-ip to disable it.
+    /// </summary>
+    [CliFlag("--no-export-subnet-routes-with-public-ip")]
+    public bool? NoExportSubnetRoutesWithPublicIp { get; set; }
+
+    /// <summary>
+    /// If set, the network will import custom routes from peer network. Use --no-import-custom-routes to disable it.
+    /// </summary>
+    [CliFlag("--import-custom-routes")]
+    public bool? ImportCustomRoutes { get; set; }
+
+    /// <summary>
+    /// Negates --import-custom-routes. If set, the network will import custom routes from peer network. Use --no-import-custom-routes to disable it.
+    /// </summary>
+    [CliFlag("--no-import-custom-routes")]
+    public bool? NoImportCustomRoutes { get; set; }
+
+    /// <summary>
+    /// If set, the network will import subnet routes with addresses in the public IP ranges from peer network. Use --no-import-subnet-routes-with-public-ip to disable it.
+    /// </summary>
+    [CliFlag("--import-subnet-routes-with-public-ip")]
+    public bool? ImportSubnetRoutesWithPublicIp { get; set; }
+
+    /// <summary>
+    /// Negates --import-subnet-routes-with-public-ip. If set, the network will import subnet routes with addresses in the public IP ranges from peer network. Use --no-import-subnet-routes-with-public-ip to disable it.
+    /// </summary>
+    [CliFlag("--no-import-subnet-routes-with-public-ip")]
+    public bool? NoImportSubnetRoutesWithPublicIp { get; set; }
+
+    /// <summary>
+    /// The name of the project for the peer network. If not specified, defaults to current project.
+    /// </summary>
+    [CliOption("--peer-project", Format = OptionFormat.EqualsSeparated)]
+    public string? PeerProject { get; set; }
+
+    /// <summary>
+    /// Stack type of the peering. If not specified, defaults to IPV4_ONLY. STACK_TYPE must be one of: IPV4_ONLY Only IPv4 traffic and routes will be exchanged across this peering. IPV4_IPV6 IPv4 traffic and routes will be exchanged across this peering. IPv6 traffic and routes will be exchanged if the matching peering configuration also has stack_type set to IPV4_IPV6.
+    /// </summary>
+    [CliOption("--stack-type", Format = OptionFormat.EqualsSeparated)]
+    public string? StackType { get; set; }
+
+    /// <summary>
+    /// Update strategy of the peering. If not specified, defaults to INDEPENDENT. UPDATE_STRATEGY must be one of: INDEPENDENT Updates and deletes to the peering connection can be performed by either network admin. CONSENSUS Updates and deletes to the peering connection must be agreed upon by both network admins.
+    /// </summary>
+    [CliOption("--update-strategy", Format = OptionFormat.EqualsSeparated)]
+    public string? UpdateStrategy { get; set; }
+
 }

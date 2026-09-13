@@ -10,17 +10,121 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a VMware Engine VPC network     peering
 /// </summary>
+/// <param name="PeerNetwork">ID of the network to peer with the VMware Engine network. The peer network can be a consumer VPC network or another VMware Engine network.</param>
+/// <param name="PeerNetworkType">Type of the VPC network to peer with the VMware Engine network. PEER_NETWORK_TYPE must be one of the following: ◆ STANDARD: Peering connection used for connecting to another VPC network established by the same user. For example, a peering connection to another VPC network in the same project or to an on-premises network. ◆ VMWARE_ENGINE_NETWORK: Peering connection used for connecting to another VMware Engine network. ◆ PRIVATE_SERVICES_ACCESS: Peering connection used for establishing private services access. ◆ NETAPP_CLOUD_VOLUMES: Peering connection used for connecting to NetApp Cloud Volumes. ◆ THIRD_PARTY_SERVICE: Peering connection used for connecting to third-party services. Most third-party services require manual setup of reverse peering on the VPC network associated with the third-party service. ◆ DELL_POWERSCALE: Peering connection used for connecting to Dell PowerScale Filers. ◆ GOOGLE_CLOUD_NETAPP_VOLUMES: Peering connection used for connecting to Google Cloud NetApp Volumes. PEER_NETWORK_TYPE must be one of: PEER_NETWORK_TYPE_UNSPECIFIED, STANDARD, VMWARE_ENGINE_NETWORK, PRIVATE_SERVICES_ACCESS, NETAPP_CLOUD_VOLUMES, THIRD_PARTY_SERVICE, DELL_POWERSCALE, GOOGLE_CLOUD_NETAPP_VOLUMES.</param>
+/// <param name="VmwareEngineNetwork">ID of the VMware Engine network to attach the new peering to.</param>
+/// <param name="Vm"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "network-peerings", "create")]
 public record GcloudVmwareNetworkPeeringsCreateOptions(
+    [property: CliOption("--peer-network", Format = OptionFormat.EqualsSeparated)] string PeerNetwork,
+    [property: CliOption("--peer-network-type", Format = OptionFormat.EqualsSeparated)] GcloudPeerNetworkType PeerNetworkType,
+    [property: CliOption("--vmware-engine-network", Format = OptionFormat.EqualsSeparated)] string VmwareEngineNetwork,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Vm
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
+    /// </summary>
+    [CliFlag("--no-async")]
+    public bool? NoAsync { get; set; }
+
+    /// <summary>
+    /// User-provided description of the VPC network peering.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// True if full-mesh connectivity is created and managed automatically between peered VPC networks; false otherwise. This field is always true because Google Compute Engine automatically creates and manages subnetwork routes between two VPC networks when the peering state is ACTIVE. Enabled by default, use --no-exchange-subnet-routes to disable.
+    /// </summary>
+    [CliFlag("--exchange-subnet-routes")]
+    public bool? ExchangeSubnetRoutes { get; set; }
+
+    /// <summary>
+    /// Negates --exchange-subnet-routes. True if full-mesh connectivity is created and managed automatically between peered VPC networks; false otherwise. This field is always true because Google Compute Engine automatically creates and manages subnetwork routes between two VPC networks when the peering state is ACTIVE. Enabled by default, use --no-exchange-subnet-routes to disable.
+    /// </summary>
+    [CliFlag("--no-exchange-subnet-routes")]
+    public bool? NoExchangeSubnetRoutes { get; set; }
+
+    /// <summary>
+    /// True if custom routes are exported to the peered VPC network; false otherwise. The default value is true. Enabled by default, use --no-export-custom-routes to disable.
+    /// </summary>
+    [CliFlag("--export-custom-routes")]
+    public bool? ExportCustomRoutes { get; set; }
+
+    /// <summary>
+    /// Negates --export-custom-routes. True if custom routes are exported to the peered VPC network; false otherwise. The default value is true. Enabled by default, use --no-export-custom-routes to disable.
+    /// </summary>
+    [CliFlag("--no-export-custom-routes")]
+    public bool? NoExportCustomRoutes { get; set; }
+
+    /// <summary>
+    /// True if all subnet routes with public IP address range are exported; false otherwise. The default value is true. Enabled by default, use --no-export-custom-routes-with-public-ip to disable.
+    /// </summary>
+    [CliFlag("--export-custom-routes-with-public-ip")]
+    public bool? ExportCustomRoutesWithPublicIp { get; set; }
+
+    /// <summary>
+    /// Negates --export-custom-routes-with-public-ip. True if all subnet routes with public IP address range are exported; false otherwise. The default value is true. Enabled by default, use --no-export-custom-routes-with-public-ip to disable.
+    /// </summary>
+    [CliFlag("--no-export-custom-routes-with-public-ip")]
+    public bool? NoExportCustomRoutesWithPublicIp { get; set; }
+
+    /// <summary>
+    /// True if custom routes are imported to the peered VPC network; false otherwise. The default value is true. Enabled by default, use --no-import-custom-routes to disable.
+    /// </summary>
+    [CliFlag("--import-custom-routes")]
+    public bool? ImportCustomRoutes { get; set; }
+
+    /// <summary>
+    /// Negates --import-custom-routes. True if custom routes are imported to the peered VPC network; false otherwise. The default value is true. Enabled by default, use --no-import-custom-routes to disable.
+    /// </summary>
+    [CliFlag("--no-import-custom-routes")]
+    public bool? NoImportCustomRoutes { get; set; }
+
+    /// <summary>
+    /// True if all subnet routes with public IP address range are imported; false otherwise. The default value is true. Enabled by default, use --no-import-custom-routes-with-public-ip to disable.
+    /// </summary>
+    [CliFlag("--import-custom-routes-with-public-ip")]
+    public bool? ImportCustomRoutesWithPublicIp { get; set; }
+
+    /// <summary>
+    /// Negates --import-custom-routes-with-public-ip. True if all subnet routes with public IP address range are imported; false otherwise. The default value is true. Enabled by default, use --no-import-custom-routes-with-public-ip to disable.
+    /// </summary>
+    [CliFlag("--no-import-custom-routes-with-public-ip")]
+    public bool? NoImportCustomRoutesWithPublicIp { get; set; }
+
+    /// <summary>
+    /// Maximum transmission unit (MTU) in bytes.
+    /// </summary>
+    [CliOption("--peer-mtu", Format = OptionFormat.EqualsSeparated)]
+    public string? PeerMtu { get; set; }
+
+    /// <summary>
+    /// Project ID or project number of the peer network. Use this flag when the peer network is in another project.
+    /// </summary>
+    [CliOption("--peer-project", Format = OptionFormat.EqualsSeparated)]
+    public string? PeerProject { get; set; }
+
+    /// <summary>
+    /// Project of the VMware Engine network to attach the new peering to. Use this flag when the VMware Engine network is in another project.
+    /// </summary>
+    [CliOption("--vmware-engine-network-project", Format = OptionFormat.EqualsSeparated)]
+    public string? VmwareEngineNetworkProject { get; set; }
+
 }

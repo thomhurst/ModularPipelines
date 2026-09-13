@@ -16,10 +16,17 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update an AlloyDB user's superuser     role within a given cluster and region
 /// </summary>
+/// <param name="Cluster">AlloyDB cluster ID</param>
+/// <param name="Region">Regional location (e.g. asia-east1, us-east1). See the full list of regions at https://cloud.google.com/sql/docs/instance-locations.</param>
+/// <param name="Superuser">If true, user will have AlloyDB superuser privileges</param>
+/// <param name="Username"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "users", "set-superuser")]
 public record GcloudAlloydbUsersSetSuperuserOptions(
+    [property: CliOption("--cluster", Format = OptionFormat.EqualsSeparated)] string Cluster,
+    [property: CliOption("--region", Format = OptionFormat.EqualsSeparated)] string Region,
+    [property: CliOption("--superuser", Format = OptionFormat.EqualsSeparated)] string Superuser,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Username
 ) : GcloudOptions
 {

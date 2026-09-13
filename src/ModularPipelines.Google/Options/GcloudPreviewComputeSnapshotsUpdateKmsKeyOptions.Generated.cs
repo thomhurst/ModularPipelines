@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// update the KMS key of a     Compute Engine standard or archive snapshot
 /// </summary>
+/// <param name="SnapshotName"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "snapshots", "update-kms-key")]

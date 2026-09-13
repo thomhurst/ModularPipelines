@@ -16,9 +16,24 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// initiates the prewarming of     a specified artifact version or tag
 /// </summary>
+/// <param name="StreamLocation">The target Cloud Region where the artifact should be prewarmed.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "image-streaming-cache", "create")]
-public record GcloudArtifactsImageStreamingCacheCreateOptions : GcloudOptions
+public record GcloudArtifactsImageStreamingCacheCreateOptions(
+    [property: CliOption("--stream-location", Format = OptionFormat.EqualsSeparated)] string StreamLocation
+) : GcloudOptions
 {
+    /// <summary>
+    /// If set, evicts older items from the cache if the quota is reached.
+    /// </summary>
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
+
+    /// <summary>
+    /// Number of days to retain the artifact in the cache (e.g., 1-7).
+    /// </summary>
+    [CliOption("--retention-days", Format = OptionFormat.EqualsSeparated)]
+    public string? RetentionDays { get; set; }
+
 }

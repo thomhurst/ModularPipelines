@@ -10,15 +10,74 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
 /// create a storage pool
 /// </summary>
+/// <param name="ProvisionedCapacity">Provisioned capacity of the storage pool.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "storage-pools", "create")]
-public record GcloudComputeStoragePoolsCreateOptions : GcloudOptions
+public record GcloudComputeStoragePoolsCreateOptions(
+    [property: CliOption("--provisioned-capacity", Format = OptionFormat.EqualsSeparated)] string ProvisionedCapacity
+) : GcloudOptions
 {
+    /// <summary>
+    /// Storage pool type resource - Type of the storage pool. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --storage-pool-type on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the zone attribute: ◆ provide the argument --storage-pool-type on the command line with a fully specified name; ◆ provide the argument --zone on the command line; ◆ set the property compute/zone. This must be specified. ID of the storage pool type or fully qualified identifier for the storage pool type. To set the storage-pool-type attribute: ▸ provide the argument --storage-pool-type on the command line.
+    /// </summary>
+    [CliOption("--storage-pool-type", Format = OptionFormat.EqualsSeparated)]
+    public string? StoragePoolType { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Capacity provisioning type. CAPACITY_PROVISIONING_TYPE must be one of: advanced, standard.
+    /// </summary>
+    [CliOption("--capacity-provisioning-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudCapacityProvisioningType? CapacityProvisioningType { get; set; }
+
+    /// <summary>
+    /// Description of the storage pool.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Performance provisioning type. PERFORMANCE_PROVISIONING_TYPE must be one of: advanced, standard.
+    /// </summary>
+    [CliOption("--performance-provisioning-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudPerformanceProvisioningType? PerformanceProvisioningType { get; set; }
+
+    /// <summary>
+    /// IOPS with which to provision the pool.
+    /// </summary>
+    [CliOption("--provisioned-iops", Format = OptionFormat.EqualsSeparated)]
+    public int? ProvisionedIops { get; set; }
+
+    /// <summary>
+    /// Throughput in MB/s with which to provision the pool.
+    /// </summary>
+    [CliOption("--provisioned-throughput", Format = OptionFormat.EqualsSeparated)]
+    public string? ProvisionedThroughput { get; set; }
+
+    /// <summary>
+    /// Resource manager tags to be bound to the storage pool.
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// For resources [storage-pool-type, storage_pool], provides fallback value for resource zone attribute. When the resource's full URI path is not provided, zone will fallback to this flag value.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
 }

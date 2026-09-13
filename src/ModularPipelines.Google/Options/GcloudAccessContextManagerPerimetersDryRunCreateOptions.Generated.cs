@@ -21,4 +21,124 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("access-context-manager", "perimeters", "dry-run", "create")]
 public record GcloudAccessContextManagerPerimetersDryRunCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Exactly one of these must be specified: Arguments for creating dry-run spec for an **existing** Service Perimeter. Comma-separated list of IDs for access levels (in the same policy) that an intra-perimeter request must satisfy to be allowed.
+    /// </summary>
+    [CliOption("--access-levels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? AccessLevels { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Arguments for creating dry-run spec for an **existing** Service Perimeter. Path to a file containing a list of Egress Policies. This file contains a list of YAML-compliant objects representing Egress Policies described in the API reference. For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For more information about non-alpha versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+    /// </summary>
+    [CliOption("--egress-policies", Format = OptionFormat.EqualsSeparated)]
+    public string? EgressPolicies { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Arguments for creating dry-run spec for an **existing** Service Perimeter. Path to a file containing a list of Ingress Policies. This file contains a list of YAML-compliant objects representing Ingress Policies described in the API reference. For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For more information about non-alpha versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+    /// </summary>
+    [CliOption("--ingress-policies", Format = OptionFormat.EqualsSeparated)]
+    public string? IngressPolicies { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Arguments for creating dry-run spec for an **existing** Service Perimeter. Comma-separated list of resources (currently only projects, in the form projects/&lt;projectnumber&gt;) in this perimeter.
+    /// </summary>
+    [CliOption("--resources", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Resources { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Arguments for creating dry-run spec for an **existing** Service Perimeter. Comma-separated list of services to which the perimeter boundary does apply (for example, storage.googleapis.com).
+    /// </summary>
+    [CliOption("--restricted-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? RestrictedServices { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Arguments for creating dry-run spec for an **existing** Service Perimeter. At most one of these can be specified: Path to a YAML file containing a VpcAccessibleServices object.
+    /// </summary>
+    [CliOption("--vpc-accessible-services", Format = OptionFormat.EqualsSeparated)]
+    public string? VpcAccessibleServices { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Arguments for creating dry-run spec for an **existing** Service Perimeter. At most one of these can be specified: Or at least one of these can be specified: Whether to restrict API calls within the perimeter to those in the vpc-allowed-services list.
+    /// </summary>
+    [CliFlag("--enable-vpc-accessible-services")]
+    public bool? EnableVpcAccessibleServices { get; set; }
+
+    /// <summary>
+    /// Exactly one of these must be specified: Arguments for creating dry-run spec for an **existing** Service Perimeter. At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of APIs accessible from within the Service Perimeter. In order to include all restricted services, use reference "RESTRICTED-SERVICES". Requires vpc-accessible-services be enabled.
+    /// </summary>
+    [CliOption("--vpc-allowed-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? VpcAllowedServices { get; set; }
+
+    /// <summary>
+    /// Arguments for creating a dry-run spec for a new Service Perimeter. Short human-readable title for the Service Perimeter. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--perimeter-title", Format = OptionFormat.EqualsSeparated)]
+    public string? PerimeterTitle { get; set; }
+
+    /// <summary>
+    /// Arguments for creating a dry-run spec for a new Service Perimeter. Type of the perimeter. A *regular* perimeter allows resources within this service perimeter to import and export data amongst themselves. A project may belong to at most one regular service perimeter. A *bridge* perimeter allows resources in different regular service perimeters to import and export data between each other. A project may belong to multiple bridge service perimeters (only if it also belongs to a regular service perimeter). Both restricted and unrestricted service lists, as well as access level lists, must be empty. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// </summary>
+    [CliOption("--perimeter-type", Format = OptionFormat.EqualsSeparated)]
+    public string? PerimeterType { get; set; }
+
+    /// <summary>
+    /// Arguments for creating a dry-run spec for a new Service Perimeter. Comma-separated list of IDs for access levels (in the same policy) that an intra-perimeter request must satisfy to be allowed.
+    /// </summary>
+    [CliOption("--perimeter-access-levels", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? PerimeterAccessLevels { get; set; }
+
+    /// <summary>
+    /// Arguments for creating a dry-run spec for a new Service Perimeter. Long-form description of Service Perimeter.
+    /// </summary>
+    [CliOption("--perimeter-description", Format = OptionFormat.EqualsSeparated)]
+    public string? PerimeterDescription { get; set; }
+
+    /// <summary>
+    /// Arguments for creating a dry-run spec for a new Service Perimeter. Path to a file containing a list of Egress Policies. This file contains a list of YAML-compliant objects representing Egress Policies described in the API reference. For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For more information about non-alpha versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+    /// </summary>
+    [CliOption("--perimeter-egress-policies", Format = OptionFormat.EqualsSeparated)]
+    public string? PerimeterEgressPolicies { get; set; }
+
+    /// <summary>
+    /// Arguments for creating a dry-run spec for a new Service Perimeter. Path to a file containing a list of Ingress Policies. This file contains a list of YAML-compliant objects representing Ingress Policies described in the API reference. For more information about the alpha version, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1alpha/accessPolicies.servicePerimeters For more information about non-alpha versions, see: https://cloud.google.com/access-context-manager/docs/reference/rest/v1/accessPolicies.servicePerimeters
+    /// </summary>
+    [CliOption("--perimeter-ingress-policies", Format = OptionFormat.EqualsSeparated)]
+    public string? PerimeterIngressPolicies { get; set; }
+
+    /// <summary>
+    /// Arguments for creating a dry-run spec for a new Service Perimeter. Comma-separated list of resources (currently only projects, in the form projects/&lt;projectnumber&gt;) in this perimeter.
+    /// </summary>
+    [CliOption("--perimeter-resources", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? PerimeterResources { get; set; }
+
+    /// <summary>
+    /// Arguments for creating a dry-run spec for a new Service Perimeter. Comma-separated list of services to which the perimeter boundary does apply (for example, storage.googleapis.com).
+    /// </summary>
+    [CliOption("--perimeter-restricted-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? PerimeterRestrictedServices { get; set; }
+
+    /// <summary>
+    /// Arguments for creating a dry-run spec for a new Service Perimeter. At most one of these can be specified: Path to a YAML file containing a VpcAccessibleServices object.
+    /// </summary>
+    [CliOption("--perimeter-vpc-accessible-services", Format = OptionFormat.EqualsSeparated)]
+    public string? PerimeterVpcAccessibleServices { get; set; }
+
+    /// <summary>
+    /// Arguments for creating a dry-run spec for a new Service Perimeter. At most one of these can be specified: Or at least one of these can be specified: Whether to restrict API calls within the perimeter to those in the vpc-allowed-services list.
+    /// </summary>
+    [CliFlag("--perimeter-enable-vpc-accessible-services")]
+    public bool? PerimeterEnableVpcAccessibleServices { get; set; }
+
+    /// <summary>
+    /// Arguments for creating a dry-run spec for a new Service Perimeter. At most one of these can be specified: Or at least one of these can be specified: Comma-separated list of APIs accessible from within the Service Perimeter. In order to include all restricted services, use reference "RESTRICTED-SERVICES". Requires vpc-accessible-services be enabled.
+    /// </summary>
+    [CliOption("--perimeter-vpc-allowed-services", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? PerimeterVpcAllowedServices { get; set; }
+
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }

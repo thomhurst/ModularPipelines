@@ -16,10 +16,15 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// list the defined views
 /// </summary>
+/// <param name="Bucket">ID of bucket</param>
+/// <param name="Location">Location of the specified bucket</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "views", "list")]
-public record GcloudLoggingViewsListOptions : GcloudOptions
+public record GcloudLoggingViewsListOptions(
+    [property: CliOption("--bucket", Format = OptionFormat.EqualsSeparated)] string Bucket,
+    [property: CliOption("--location", Format = OptionFormat.EqualsSeparated)] string Location
+) : GcloudOptions
 {
     /// <summary>
     /// At most one of these can be specified: Billing account of the views to list.

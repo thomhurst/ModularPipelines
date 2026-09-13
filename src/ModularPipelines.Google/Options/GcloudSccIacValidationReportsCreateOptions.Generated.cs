@@ -16,11 +16,20 @@ namespace ModularPipelines.Google.Options;
 /// <summary>
 /// create a Cloud Security Command     Center IaC Validation Report
 /// </summary>
+/// <param name="TfPlanFile">Path to a JSON file containing the IaC plan to be validated. Use a full or relative path to a local file containing the value of tf_plan_file.</param>
+/// <param name="Parent"></param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "iac-validation-reports", "create")]
 public record GcloudSccIacValidationReportsCreateOptions(
+    [property: CliOption("--tf-plan-file", Format = OptionFormat.EqualsSeparated)] string TfPlanFile,
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Parent
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to complete.
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
 }
