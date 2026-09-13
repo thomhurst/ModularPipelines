@@ -47,8 +47,13 @@ function Invoke-PublicApiBuild(
         "-p:ErrorLog=$ErrorLogPath"
     ) + $ExtraBuildArguments
 
+    Write-Host "Starting public API build: $BuildLogPath"
+    $buildTimer = [Diagnostics.Stopwatch]::StartNew()
     & $DotNetExecutable @arguments *> $BuildLogPath
-    if ($LASTEXITCODE -ne 0) {
+    $buildExitCode = $LASTEXITCODE
+    $buildTimer.Stop()
+    Write-Host "Public API build exited $buildExitCode after $([Math]::Round($buildTimer.Elapsed.TotalSeconds, 1)) seconds: $BuildLogPath"
+    if ($buildExitCode -ne 0) {
         Get-Content -LiteralPath $BuildLogPath
         throw $FailureMessage
     }
