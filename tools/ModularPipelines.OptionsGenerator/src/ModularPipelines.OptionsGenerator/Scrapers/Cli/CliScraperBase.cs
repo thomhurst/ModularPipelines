@@ -18,7 +18,7 @@ public abstract partial class CliScraperBase : ICliScraper
     private static readonly string[] DefaultUsageSynopsisHeadings = ["usage"];
     private const int TabWidth = 8;
     private readonly CliScrapeProvenance _scrapeProvenance = new();
-    private readonly HashSet<string> _knownCommandGroups = new(StringComparer.OrdinalIgnoreCase);
+    private readonly HashSet<string> _knownCommandGroups = [with(StringComparer.OrdinalIgnoreCase)];
 
     protected readonly ICliCommandExecutor Executor;
     protected readonly IHelpTextCache HelpCache;
@@ -230,15 +230,10 @@ public abstract partial class CliScraperBase : ICliScraper
     /// Tracks state for parallel scraping workers using a countdown pattern.
     /// Thread-safe without locks by using atomic operations and a completion signal.
     /// </summary>
-    private sealed class WorkCoordinator
+    private sealed class WorkCoordinator(Channel<string[]> workChannel)
     {
         private int _outstandingWork;
-        private readonly Channel<string[]> _workChannel;
-
-        public WorkCoordinator(Channel<string[]> workChannel)
-        {
-            _workChannel = workChannel;
-        }
+        private readonly Channel<string[]> _workChannel = workChannel;
 
         /// <summary>
         /// Increments the outstanding work counter.
@@ -906,10 +901,9 @@ public abstract partial class CliScraperBase : ICliScraper
 
         return new CliRequiredAlternativeGroup
         {
-            Members = members
+            Members = [.. members
                 .Select(static member => member!)
-                .DistinctBy(GetRequiredAlternativeIdentity, StringComparer.Ordinal)
-                .ToArray(),
+                .DistinctBy(GetRequiredAlternativeIdentity, StringComparer.Ordinal)],
         };
     }
 
@@ -965,9 +959,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// </summary>
     protected static IReadOnlyList<CliPositionalArgument> GetPositionalArguments(
         UsageSynopsisParseResult usage) =>
-        usage.PositionalArguments
-            .Where(argument => argument.AssociatedOptionSwitch is null)
-            .ToArray();
+        [.. usage.PositionalArguments.Where(argument => argument.AssociatedOptionSwitch is null)];
 
     /// <summary>
     /// Returns true positional operands, retaining operands that follow presence-only flags.
@@ -975,7 +967,7 @@ public abstract partial class CliScraperBase : ICliScraper
     protected static IReadOnlyList<CliPositionalArgument> GetPositionalArguments(
         UsageSynopsisParseResult usage,
         IReadOnlyList<CliOptionDefinition> options) =>
-        usage.PositionalArguments
+        [.. usage.PositionalArguments
             .Where(argument => argument.AssociatedOptionSwitch is null
                                || !options.Any(option =>
                                    !option.IsFlag
@@ -985,8 +977,7 @@ public abstract partial class CliScraperBase : ICliScraper
                                        || option.ShortForm?.Equals(
                                            argument.AssociatedOptionSwitch,
                                            StringComparison.OrdinalIgnoreCase) == true)))
-            .Select(argument => argument with { AssociatedOptionSwitch = null })
-            .ToArray();
+            .Select(argument => argument with { AssociatedOptionSwitch = null })];
 
     /// <summary>
     /// Marks the options a usage synopsis lists outside every optional group with a required
@@ -1006,12 +997,11 @@ public abstract partial class CliScraperBase : ICliScraper
             return options;
         }
 
-        return options
+        return [.. options
             .Select(option => requiredSwitches.Contains(option.SwitchName)
                               || (option.ShortForm is not null && requiredSwitches.Contains(option.ShortForm))
                 ? option with { IsRequired = true }
-                : option)
-            .ToList();
+                : option)];
     }
 
     /// <summary>
@@ -1039,10 +1029,11 @@ public abstract partial class CliScraperBase : ICliScraper
     /// <summary>
     /// Default subcommands to always skip.
     /// </summary>
-    private static readonly HashSet<string> DefaultSkipSubcommands = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> DefaultSkipSubcommands =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "help", "completion", "version", "__complete", "__completeNoDesc"
-    };
+    ];
 
     /// <summary>
     /// Checks if a subcommand should be skipped (e.g., "help", "completion").
@@ -1410,6 +1401,8 @@ public abstract partial class CliScraperBase : ICliScraper
             }
 
             var indentation = GetIndentation(line);
+            // Clap aligns every declaration's long switch, so indentation alone separates
+            // declarations from descriptions even when wrapped prose starts with a switch.
             if (indentation <= switchColumn || indentation < descriptionColumn)
             {
                 break;
@@ -1418,22 +1411,8 @@ public abstract partial class CliScraperBase : ICliScraper
             descriptionColumn ??= indentation;
             index++;
             var text = line.Trim();
-            if (pendingTrailer.Length > 0 || text.StartsWith('['))
+            if (TryReadClapTrailer(text, ref pendingTrailer, possibleValues))
             {
-                // A trailer wrapped at the terminal width continues until its closing bracket.
-                pendingTrailer = pendingTrailer.Length > 0 ? $"{pendingTrailer} {text}" : text;
-                if (!text.EndsWith(']'))
-                {
-                    continue;
-                }
-
-                var trailer = ClapTrailerPattern().Match(pendingTrailer);
-                pendingTrailer = string.Empty;
-                if (trailer.Success && IsPossibleValuesTrailer(trailer.Groups["name"].Value))
-                {
-                    possibleValues.AddRange(ParsePossibleValuesList(trailer.Groups["value"].Value));
-                }
-
                 continue;
             }
 
@@ -1468,6 +1447,33 @@ public abstract partial class CliScraperBase : ICliScraper
         return new ClapOptionBlock(string.Join(' ', prose), possibleValues);
     }
 
+    private static bool TryReadClapTrailer(
+        string text,
+        ref string pendingTrailer,
+        List<ClapPossibleValue> possibleValues)
+    {
+        if (pendingTrailer.Length == 0 && !text.StartsWith('['))
+        {
+            return false;
+        }
+
+        // A trailer wrapped at the terminal width continues until its closing bracket.
+        pendingTrailer = pendingTrailer.Length > 0 ? $"{pendingTrailer} {text}" : text;
+        if (!text.EndsWith(']'))
+        {
+            return true;
+        }
+
+        var trailer = ClapTrailerPattern().Match(pendingTrailer);
+        pendingTrailer = string.Empty;
+        if (trailer.Success && IsPossibleValuesTrailer(trailer.Groups["name"].Value))
+        {
+            possibleValues.AddRange(ParsePossibleValuesList(trailer.Groups["value"].Value));
+        }
+
+        return true;
+    }
+
     /// <summary>
     /// Splits a trailing <c>[possible values: a, b]</c> from an inline description, where
     /// clap's aligned layout appends it to the description text.
@@ -1481,7 +1487,7 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         var prose = string.Concat(description[..match.Index], description[(match.Index + match.Length)..]).Trim();
-        return new ClapOptionBlock(prose, ParsePossibleValuesList(match.Groups["value"].Value).ToArray());
+        return new ClapOptionBlock(prose, [.. ParsePossibleValuesList(match.Groups["value"].Value)]);
     }
 
     /// <summary>
@@ -1502,7 +1508,7 @@ public abstract partial class CliScraperBase : ICliScraper
                 CliValue = value.Value,
                 Description = value.Description,
             })
-            .DistinctBy(member => member.MemberName, StringComparer.Ordinal)
+            .DistinctBy(member => member.CliValue, StringComparer.Ordinal)
             .ToList();
         if (members.Count is < 2 or > 20)
         {
@@ -1647,6 +1653,7 @@ public abstract partial class CliScraperBase : ICliScraper
     private const string RepeatableValueRegex =
         @"\b(?:"
         + @"repeatable"
+        + @"|repeat\s+to\s+add\s+more"
         + @"|(?:can|may|must|should)\s+be\s+repeated"
         + @"|(?:is|are)\s+repeated"
         + @"|multiples?\s+(?:are\s+)?supported\s+by\s+passing\s+--?[\w-]+\s+multiple\s+times"
