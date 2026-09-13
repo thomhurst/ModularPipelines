@@ -93,6 +93,12 @@ public record BrewTestsOptions : BrewOptions
     public string? Only { get; set; }
 
     /// <summary>
+    /// Run only index of total test shards.
+    /// </summary>
+    [CliOption("--shard", Format = OptionFormat.EqualsSeparated)]
+    public string? Shard { get; set; }
+
+    /// <summary>
     /// Output the n slowest tests. When run without --no-parallel this will output the slowest tests for each parallel test process.
     /// </summary>
     [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
