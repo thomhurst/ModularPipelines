@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO.Pipes;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -19,7 +20,7 @@ internal static class WindowsJobLauncher
         arguments.Length > 0
         && arguments[0].Equals(InvocationArgument, StringComparison.Ordinal);
 
-    public static ProcessLaunch Wrap(ProcessStartInfo targetStartInfo)
+    public static ProcessLaunch Wrap(ProcessStartInfo targetStartInfo, string statusHandle)
     {
         if (!OperatingSystem.IsWindows())
         {
@@ -34,6 +35,7 @@ internal static class WindowsJobLauncher
         launcherStartInfo.ArgumentList.Add(targetStartInfo.FileName);
         launcherStartInfo.ArgumentList.Add(targetStartInfo.Arguments);
         launcherStartInfo.ArgumentList.Add(targetStartInfo.WorkingDirectory);
+        launcherStartInfo.ArgumentList.Add(statusHandle);
         launcherStartInfo.WorkingDirectory = targetStartInfo.WorkingDirectory;
         launcherStartInfo.RedirectStandardOutput = true;
         launcherStartInfo.RedirectStandardError = true;
@@ -54,15 +56,16 @@ internal static class WindowsJobLauncher
 
     public static Task<int> RunAsync(string[] arguments)
     {
-        if (arguments.Length != 4 || !OperatingSystem.IsWindows())
+        if (arguments.Length != 5 || !OperatingSystem.IsWindows())
         {
             return Task.FromResult(1);
         }
 
-        return Task.FromResult(Run(arguments[1], arguments[2], arguments[3]));
+        using var launchStatus = new AnonymousPipeClientStream(PipeDirection.Out, arguments[4]);
+        return Task.FromResult(Run(arguments[1], arguments[2], arguments[3], launchStatus));
     }
 
-    private static int Run(string executablePath, string arguments, string workingDirectory)
+    private static int Run(string executablePath, string arguments, string workingDirectory, AnonymousPipeClientStream launchStatus)
     {
         using var job = WindowsJob.TryCreate(killOnClose: true);
         if (job is null)
@@ -76,6 +79,7 @@ internal static class WindowsJobLauncher
             return 1;
         }
 
+        launchStatus.WriteByte(1);
         return WaitForCompletion(job, target.ProcessHandle);
     }
 

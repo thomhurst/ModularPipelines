@@ -1,4 +1,6 @@
+using System.ComponentModel;
 using System.Diagnostics;
+using System.IO.Pipes;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -12,13 +14,14 @@ internal static class UnixProcessGroupLauncher
         arguments.Length > 0
         && arguments[0].Equals(InvocationArgument, StringComparison.Ordinal);
 
-    public static ProcessLaunch Wrap(ProcessStartInfo targetStartInfo)
+    public static ProcessLaunch Wrap(ProcessStartInfo targetStartInfo, string statusHandle)
     {
         var launcherStartInfo = CreateLauncherStartInfo();
         launcherStartInfo.ArgumentList.Add(InvocationArgument);
         launcherStartInfo.ArgumentList.Add(targetStartInfo.FileName);
         launcherStartInfo.ArgumentList.Add(targetStartInfo.Arguments);
         launcherStartInfo.ArgumentList.Add(targetStartInfo.WorkingDirectory);
+        launcherStartInfo.ArgumentList.Add(statusHandle);
         launcherStartInfo.WorkingDirectory = targetStartInfo.WorkingDirectory;
         launcherStartInfo.RedirectStandardOutput = true;
         launcherStartInfo.RedirectStandardError = true;
@@ -39,11 +42,12 @@ internal static class UnixProcessGroupLauncher
 
     public static async Task<int> RunAsync(string[] arguments)
     {
-        if (arguments.Length != 4 || OperatingSystem.IsWindows())
+        if (arguments.Length != 5 || OperatingSystem.IsWindows())
         {
             return 1;
         }
 
+        using var launchStatus = new AnonymousPipeClientStream(PipeDirection.Out, arguments[4]);
         if (SetSessionId() < 0)
         {
             Console.Error.WriteLine(
@@ -59,14 +63,24 @@ internal static class UnixProcessGroupLauncher
             UseShellExecute = false,
         };
 
-        using var process = Process.Start(startInfo);
-        if (process is null)
+        try
         {
+            using var process = Process.Start(startInfo);
+            if (process is null)
+            {
+                Console.Error.WriteLine("Unable to start the target process.");
+                return 1;
+            }
+
+            launchStatus.WriteByte(1);
+            await process.WaitForExitAsync().ConfigureAwait(false);
+            return process.ExitCode;
+        }
+        catch (Win32Exception exception)
+        {
+            Console.Error.WriteLine($"Unable to start the target process: {exception.Message}");
             return 1;
         }
-
-        await process.WaitForExitAsync();
-        return process.ExitCode;
     }
 
     private static ProcessStartInfo CreateLauncherStartInfo()

@@ -98,6 +98,7 @@ internal sealed class CliScrapeProvenance
         var toolName = coverage.Manifest.ToolName;
         var unavailableHelpPaths = coverage.UnavailableCommands;
         var requestedHelpPaths = coverage.RemovedCommands
+            .Concat(unavailableHelpPaths)
             .SelectMany(GetAncestorCommands)
             .Concat(unavailableHelpPaths)
             .Append(toolName)

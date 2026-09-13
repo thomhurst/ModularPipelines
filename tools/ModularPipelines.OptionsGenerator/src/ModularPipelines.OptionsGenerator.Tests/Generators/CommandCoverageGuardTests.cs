@@ -266,7 +266,8 @@ public class CommandCoverageGuardTests
             var baseline = CommandCoverageGuard.Evaluate(
                 Tool(
                     Command("aws ec2 describe-instances"),
-                    Command("aws fsx describe-backups")) with { ToolName = "aws" },
+                    Command("aws fsx describe-backups")) with
+                { ToolName = "aws" },
                 outputDirectory,
                 approveShrinkage: false);
             await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
@@ -321,8 +322,10 @@ public class CommandCoverageGuardTests
                 await Assert.That(current.Violations).HasSingleItem();
                 await Assert.That(current.Violations[0]).Contains("Help was unavailable after all retries");
                 await Assert.That(unavailableHelpPaths)
-                    .IsEquivalentTo(["aws fsx describe-backups", "aws s3api create-bucket"]);
+                    .IsEquivalentTo(new string?[] { "aws fsx describe-backups", "aws s3api create-bucket" });
                 await Assert.That(invocationPaths).Contains("aws fsx describe-backups");
+                await Assert.That(invocationPaths).Contains("aws fsx");
+                await Assert.That(diagnostics.RootElement.GetRawText()).Contains("RAW FSX HELP");
             }
         }
         finally
@@ -342,7 +345,8 @@ public class CommandCoverageGuardTests
                 Tool(
                     Command("aws ec2 describe-instances"),
                     Command("aws fsx create-backup"),
-                    Command("aws fsx describe-backups")) with { ToolName = "aws" },
+                    Command("aws fsx describe-backups")) with
+                { ToolName = "aws" },
                 outputDirectory,
                 approveShrinkage: false);
             await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
@@ -379,7 +383,8 @@ public class CommandCoverageGuardTests
             var baseline = CommandCoverageGuard.Evaluate(
                 Tool(
                     Command("aws ec2 describe-instances"),
-                    Command("aws fsx describe-backups")) with { ToolName = "aws" },
+                    Command("aws fsx describe-backups")) with
+                { ToolName = "aws" },
                 outputDirectory,
                 approveShrinkage: false);
             await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
@@ -837,10 +842,10 @@ public class CommandCoverageGuardTests
         string standardError = "",
         int exitCode = 0,
         bool timedOut = false) => new()
-    {
-        StandardOutput = standardOutput,
-        StandardError = standardError,
-        ExitCode = exitCode,
-        TimedOut = timedOut,
-    };
+        {
+            StandardOutput = standardOutput,
+            StandardError = standardError,
+            ExitCode = exitCode,
+            TimedOut = timedOut,
+        };
 }

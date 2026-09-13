@@ -284,6 +284,7 @@ public class CodeGeneratorOrchestratorTests
                 await Assert.That(result.HasErrors).IsTrue();
                 await Assert.That(result.Errors[0].Message).Contains("Help was unavailable after all retries");
                 await Assert.That(result.Errors[0].Message).Contains("fake run");
+                await Assert.That(result.GetSummary()).Contains("Unavailable (help failed): fake run");
                 await Assert.That(File.Exists(diagnosticsPath)).IsTrue();
                 await Assert.That(await File.ReadAllTextAsync(diagnosticsPath)).Contains("\"unavailableHelpPaths\"");
             }

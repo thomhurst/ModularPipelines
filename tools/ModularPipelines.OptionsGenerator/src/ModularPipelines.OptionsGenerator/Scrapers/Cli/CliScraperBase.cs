@@ -732,7 +732,10 @@ public abstract partial class CliScraperBase : ICliScraper
             return helpText;
         }
 
-        Logger.LogWarning("No help text for command: {Command}", cacheKey);
+        if (!result.Unavailable)
+        {
+            Logger.LogWarning("No help text for command: {Command}", cacheKey);
+        }
         return null;
     }
 

@@ -1783,6 +1783,7 @@ public class GenerationResult
 
             AppendDiff(lines, coverage.ChangesApproved ? "Added (approved)" : "Added", coverage.AddedCommands);
             AppendDiff(lines, coverage.ChangesApproved ? "Removed (approved)" : "Removed", coverage.RemovedCommands);
+            AppendDiff(lines, "Unavailable (help failed)", coverage.UnavailableCommands);
             AppendDiff(lines, "Groups without children", coverage.KnownGroupsWithoutChildren);
             AppendDiff(
                 lines,

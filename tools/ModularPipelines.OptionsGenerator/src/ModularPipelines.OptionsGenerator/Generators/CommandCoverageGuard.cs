@@ -499,7 +499,7 @@ internal static class CommandCoverageGuard
 
     private static bool IsSameOrChildOf(string ancestor, string command) =>
         string.Equals(ancestor, command, StringComparison.OrdinalIgnoreCase)
-        || command.StartsWith(ancestor + " ", StringComparison.OrdinalIgnoreCase);
+        || IsChildOf(ancestor, command);
 
     private static string NormalizeCommand(string command) =>
         string.Join(' ', command.Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries));

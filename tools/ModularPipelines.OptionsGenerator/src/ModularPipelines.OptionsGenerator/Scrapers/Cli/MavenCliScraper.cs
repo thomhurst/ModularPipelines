@@ -88,7 +88,10 @@ public partial class MavenCliScraper : CliScraperBase
             return helpText;
         }
 
-        Logger.LogWarning("No help text for command: {Command}", cacheKey);
+        if (!result.Unavailable)
+        {
+            Logger.LogWarning("No help text for command: {Command}", cacheKey);
+        }
         return null;
     }
 

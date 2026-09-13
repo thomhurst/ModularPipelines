@@ -30,6 +30,61 @@ public class ProcessCliCommandExecutorTests
     }
 
     [Test]
+    public async Task Target_Launch_Failure_Is_Reported_As_Unavailable()
+    {
+        var directory = Directory.CreateTempSubdirectory("cli-launch-failure-").FullName;
+        var executable = Path.Combine(directory, "invalid.exe");
+        try
+        {
+            await File.WriteAllTextAsync(executable, "This is not an executable.");
+            if (!OperatingSystem.IsWindows())
+            {
+                File.SetUnixFileMode(executable, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+            }
+
+            var executor = new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
+            var result = await executor.ExecuteAsync(executable, "--help");
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(result.ExecutionFailed).IsTrue();
+                await Assert.That(result.Unavailable).IsTrue();
+                await Assert.That(result.TimedOut).IsFalse();
+                await Assert.That(result.StandardError).IsNotEmpty();
+                await Assert.That(await executor.IsAvailableAsync(executable, "--help")).IsFalse();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(1)]
+    [Arguments(255)]
+    public async Task Target_Exit_Code_Is_Not_A_Launch_Failure(int exitCode)
+    {
+        var executor = new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
+        var command = OperatingSystem.IsWindows() ? "cmd.exe" : "/bin/sh";
+        var arguments = OperatingSystem.IsWindows()
+            ? $"/d /c \"echo Unable to start the target process 1>&2 & exit {exitCode}\""
+            : $"-c \"echo Unable to start the target process >&2; exit {exitCode}\"";
+
+        var result = await executor.ExecuteAsync(command, arguments);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ExitCode).IsEqualTo(exitCode);
+            await Assert.That(result.ExecutionFailed).IsFalse();
+            await Assert.That(result.Unavailable).IsFalse();
+            await Assert.That(result.StandardError).Contains("Unable to start the target process");
+            await Assert.That(await executor.IsAvailableAsync(command, arguments)).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task DescendantIdentity_Rejects_Process_Older_Than_Root()
     {
         var rootStart = new DateTime(2026, 8, 3, 12, 0, 0, DateTimeKind.Utc);
