@@ -38,6 +38,9 @@ public class ContinuationLineTests
     [Arguments("            --child TYPE\n                may be specified multiple times")]
     [Arguments("            --child  TYPE\n                may be specified multiple times")]
     [Arguments("            --child\n                may be specified multiple times")]
+    [Arguments("            --child=VALUE   May be specified multiple times")]
+    [Arguments("            --child=VALUE   may be specified multiple times")]
+    [Arguments("            --child=VALUE\n                may be specified multiple times")]
     public async Task Repeatable_Lookahead_Does_Not_Absorb_Nested_Declarations_At_The_Prose_Column(string child)
     {
         var helpText = "  --parent  Configure parent settings\n" + child;
@@ -61,6 +64,9 @@ public class ContinuationLineTests
     [Test]
     [Arguments("--env-file=PATH  to load defaults")]
     [Arguments("--no-restore  to skip restoration")]
+    [Arguments("--no-restore  may be specified multiple times")]
+    [Arguments("--no-restore  can be combined with other switches")]
+    [Arguments("--env-file=PATH  may be specified multiple times")]
     public async Task Repeatable_Lookahead_Preserves_Separated_Prose_After_A_Wrapped_Switch_Mention(string mention)
     {
         var helpText = $"""
@@ -70,6 +76,13 @@ public class ContinuationLineTests
             """;
 
         await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsTrue();
+        var lines = helpText.Split('\n');
+        var index = 0;
+        var description = CliScraperBase.AccumulateWrappedDescription(
+            lines, ref index, inlineDescription: null,
+            static line => line.TrimStart().StartsWith('-'));
+        await Assert.That(description).Contains(mention);
+        await Assert.That(index).IsEqualTo(1);
     }
     [Test]
     [Arguments("", 0)]
