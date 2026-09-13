@@ -129,6 +129,9 @@ function Resolve-GeneratedIntegrationValidation {
     }
 
     $tool = $HeadRef.Substring($branchPrefix.Length)
+    if ($tool -cmatch '^(?<tool>.+)-ref-[a-f0-9]{64}$') {
+        $tool = $Matches.tool
+    }
     if ([string]::IsNullOrWhiteSpace($tool)) {
         return New-GeneratedIntegrationValidationResult `
             -IsGeneratedIntegration $false `

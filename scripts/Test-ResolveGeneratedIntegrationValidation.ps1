@@ -92,6 +92,39 @@ foreach ($case in @(
     }
 }
 
+$branchScript = Join-Path $PSScriptRoot 'Get-GeneratedOptionsBranch.ps1'
+Assert-Equal (& $branchScript -Tool brew -SourceRef main -DefaultBranch main) `
+    'automated/update-cli-options-brew' 'Default-branch refreshes must keep their established branch.'
+$featureRefs = @('feature', 'feature/foo', 'feature-foo', 'Feature/foo', 'feature/foo/bar')
+$featureBranches = @($featureRefs | ForEach-Object {
+    $branch = & $branchScript -Tool brew -SourceRef $_ -DefaultBranch main
+    if ($branch -cnotmatch '^automated/update-cli-options-brew-ref-[a-f0-9]{64}$') {
+        throw "Feature branch must use a flat, unambiguous ref identity: $branch."
+    }
+    Assert-Equal (& $branchScript -Tool brew -SourceRef $_ -DefaultBranch main) `
+        $branch 'Repeated refreshes must select the same output branch.'
+    $branch
+})
+Assert-Equal (@($featureBranches | Sort-Object -Unique).Count) $featureRefs.Count `
+    'Distinct source refs must not overwrite the same generated branch.'
+
+foreach ($case in @(
+        @{ Tool = 'brew'; Package = 'Homebrew'; Prefix = 'Brew' },
+        @{ Tool = 'podman'; Package = 'Podman'; Prefix = 'Podman' },
+        @{ Tool = 'gcloud'; Package = 'Google'; Prefix = 'Gcloud' },
+        @{ Tool = 'dotnet'; Package = 'DotNet'; Prefix = 'DotNet' }
+    )) {
+    $result = Resolve-GeneratedIntegrationValidation `
+        -HeadRef (& $branchScript -Tool $case.Tool -SourceRef feature/foo -DefaultBranch main) `
+        -HeadRepository $repository `
+        -PullRequestAuthor $automationAuthor `
+        -Repository $repository `
+        -ChangedPath @("src/ModularPipelines.$($case.Package)/Generated/$($case.Prefix).Generation.json") `
+        -RepositoryRoot $repositoryRoot
+    Assert-Equal $result.IsGeneratedIntegration $true 'Feature-branch generation must retain integration validation.'
+    Assert-Equal $result.Tool $case.Tool 'The source-ref identity must not become part of the tool name.'
+}
+
 $unrelatedManifest = Resolve-GeneratedIntegrationValidation `
     -HeadRef 'automated/update-cli-options-aws' `
     -HeadRepository $repository `
@@ -257,6 +290,10 @@ Assert-Equal `
     'Changes outside the generated package and its documentation must retain full validation.'
 
 $workflow = Get-Content -LiteralPath (Join-Path $repositoryRoot '.github/workflows/dotnet.yml') -Raw
+$pullRequestTrigger = [regex]::Match($workflow, '(?ms)^  pull_request:.*?(?=^  [a-z_]+:)').Value
+if ([string]::IsNullOrWhiteSpace($pullRequestTrigger) -or $pullRequestTrigger -match '(?m)^    branches(?:-ignore)?:') {
+    throw 'Generated refreshes targeting feature branches must receive pull-request validation.'
+}
 $fastFailJob = [regex]::Match(
     $workflow,
     '(?ms)^  fast-fail:.*?(?=^  analyzers:)').Value
