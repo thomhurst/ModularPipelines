@@ -1,4 +1,3 @@
-using ModularPipelines.Logging;
 using System.Text.RegularExpressions;
 using Kevlar;
 using Microsoft.Extensions.Logging;
@@ -12,11 +11,12 @@ using ModularPipelines.Context;
 using ModularPipelines.DotNet.Enums;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.DotNet.Parsers.Trx;
+using ModularPipelines.FileSystem;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using Spectre.Console;
-using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Build.Modules.UnitTests;
 
@@ -50,7 +50,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
             context.Artifacts,
             typeof(BuildSolutionsModule).FullName!,
             repositoryInfo.Root.Path,
-            cancellationToken);
+            cancellationToken).ConfigureAwait(false);
 
         var testProject = repositoryInfo.Root
             .GetFiles(file => file.Name.Equals(TestProjectFileName, StringComparison.OrdinalIgnoreCase))
