@@ -15,6 +15,8 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Replace provider for resources in the Terraform state.
 /// </summary>
+/// <param name="FromProviderFqn">The FROM_PROVIDER_FQN operand.</param>
+/// <param name="ToProviderFqn">The TO_PROVIDER_FQN operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("state", "replace-provider")]

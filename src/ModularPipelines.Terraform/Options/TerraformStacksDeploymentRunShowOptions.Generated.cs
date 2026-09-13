@@ -15,6 +15,7 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Show the details of a single deployment run, including its deployment steps.
 /// </summary>
+/// <param name="DeploymentRunId">The ID of the deployment run to show. (required)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "deployment-run", "show")]

@@ -15,6 +15,7 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Approve all plans for a deployment run.
 /// </summary>
+/// <param name="DeploymentRunId">The ID of the deployment run (required).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "deployment-run", "approve-all-plans")]

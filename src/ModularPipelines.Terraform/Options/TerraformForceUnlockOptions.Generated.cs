@@ -15,6 +15,7 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Manually unlock the state for the defined configuration.
 /// </summary>
+/// <param name="LockId">The LOCK_ID operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("force-unlock")]
