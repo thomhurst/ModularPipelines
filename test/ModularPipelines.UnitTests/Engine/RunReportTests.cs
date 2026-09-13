@@ -3463,6 +3463,8 @@ public class RunReportTests
     }
 
     [Test]
+    // Keep the 50-iteration regression in the parallel Ubuntu suite required by #4666.
+    [Repeat(49)]
     [TUnit.Core.NotInParallel("ProcessEnvironment")]
     public async Task DistributedMasterMetricsTimeoutWhenCoordinatorIgnoresCancellation()
     {
