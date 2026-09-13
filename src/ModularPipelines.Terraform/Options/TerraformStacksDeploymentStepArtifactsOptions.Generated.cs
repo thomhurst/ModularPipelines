@@ -15,6 +15,8 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Retrieve the raw artifact data for a deployment step. The data is returned
 /// </summary>
+/// <param name="DeploymentStepId">The ID of the deployment step. (required)</param>
+/// <param name="ArtifactName">The artifact type to retrieve. (required) One of: plan-description   Plan details apply-description  Apply details (outputs + resource changes) plan-debug-log     Plan execution logs apply-debug-log    Apply execution logs</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "deployment-step", "artifacts")]

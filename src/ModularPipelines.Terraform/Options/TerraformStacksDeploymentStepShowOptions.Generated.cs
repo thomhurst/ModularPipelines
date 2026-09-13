@@ -15,6 +15,7 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Show the details of a single deployment step, including its deployment steps.
 /// </summary>
+/// <param name="DeploymentStepId">The ID of the deployment step to show. (required)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "deployment-step", "show")]
