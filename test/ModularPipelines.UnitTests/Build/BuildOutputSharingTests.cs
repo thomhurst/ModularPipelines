@@ -27,7 +27,7 @@ public class BuildOutputSharingTests
         var download = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
         using var cancellation = new CancellationTokenSource();
         var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
-        artifacts.Setup(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, cancellation.Token))
+        artifacts.Setup(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, CancellationToken.None))
             .Returns(download.Task);
         var sharing = new BuildOutputSharing(Microsoft.Extensions.Options.Options.Create(new DistributedOptions { TotalInstances = 2 }));
 
@@ -37,7 +37,7 @@ public class BuildOutputSharingTests
 
         foreach (var restore in restores)
         {
-            await Assert.That(ReferenceEquals(restore, download.Task)).IsTrue();
+            await Assert.That(restore.IsCompleted).IsFalse();
         }
 
         download.SetResult(RepositoryRoot);
@@ -45,7 +45,36 @@ public class BuildOutputSharingTests
         await sharing.RestoreAsync(artifacts.Object, Producer, RepositoryRoot, cancellation.Token);
 
         await Assert.That(sharing.IsEnabled).IsTrue();
-        artifacts.Verify(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, cancellation.Token), Times.Once);
+        artifacts.Verify(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, CancellationToken.None), Times.Once);
+        artifacts.VerifyNoOtherCalls();
+    }
+
+    [Test]
+    [Arguments(true)]
+    [Arguments(false)]
+    public async Task Canceling_One_Consumer_Does_Not_Cancel_The_Shared_Restore(bool cancelFirstConsumer)
+    {
+        var download = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var firstCancellation = new CancellationTokenSource();
+        using var secondCancellation = new CancellationTokenSource();
+        var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
+        artifacts.Setup(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, It.IsAny<CancellationToken>()))
+            .Returns((string _, string _, string _, CancellationToken token) => download.Task.WaitAsync(token));
+        var sharing = new BuildOutputSharing(Microsoft.Extensions.Options.Options.Create(new DistributedOptions { TotalInstances = 2 }));
+
+        var first = sharing.RestoreAsync(artifacts.Object, Producer, RepositoryRoot, firstCancellation.Token);
+        var second = sharing.RestoreAsync(artifacts.Object, Producer, RepositoryRoot, secondCancellation.Token);
+        var canceled = cancelFirstConsumer ? first : second;
+        var remaining = cancelFirstConsumer ? second : first;
+
+        (cancelFirstConsumer ? firstCancellation : secondCancellation).Cancel();
+
+        await Assert.That(canceled.IsCanceled).IsTrue();
+        await Assert.That(remaining.IsCompleted).IsFalse();
+        download.SetResult(RepositoryRoot);
+        await remaining.WaitAsync(TimeSpan.FromSeconds(10));
+        await sharing.RestoreAsync(artifacts.Object, Producer, RepositoryRoot, CancellationToken.None);
+        artifacts.Verify(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, CancellationToken.None), Times.Once);
         artifacts.VerifyNoOtherCalls();
     }
 

@@ -18,11 +18,12 @@ internal sealed class BuildOutputSharing(IOptions<DistributedOptions> options)
     public bool IsEnabled => options.Value.TotalInstances > 1;
 
     /// <summary>
-    /// Restores build outputs once, sharing the same task and outcome with every consumer.
+    /// Restores build outputs once, sharing the download and outcome with every consumer.
     /// </summary>
     /// <remarks>
-    /// The first consumer supplies the download arguments and cancellation token.
-    /// Failed and canceled restores remain cached for the lifetime of this instance.
+    /// The first consumer supplies the download arguments. Each consumer can cancel its own
+    /// wait without canceling the shared download. Download failures remain cached for the
+    /// lifetime of this instance.
     /// </remarks>
     public Task RestoreAsync(
         IArtifactContext artifacts,
@@ -35,13 +36,16 @@ internal sealed class BuildOutputSharing(IOptions<DistributedOptions> options)
             return Task.CompletedTask;
         }
 
+        Task restoreTask;
         lock (_restoreLock)
         {
-            return _restoreTask ??= artifacts.DownloadAsync(
+            restoreTask = _restoreTask ??= artifacts.DownloadAsync(
                 producerModuleTypeName,
                 "build-output",
                 repositoryRoot,
-                cancellationToken);
+                CancellationToken.None);
         }
+
+        return restoreTask.WaitAsync(cancellationToken);
     }
 }
