@@ -13,25 +13,29 @@ using ModularPipelines.Podman.Options;
 namespace ModularPipelines.Podman.Options;
 
 /// <summary>
-/// Initialize one or more containers
+/// Restart an existing machine
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("init")]
-public record PodmanInitOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Container
-) : PodmanOptions
+[CliSubCommand("machine", "restart")]
+public record PodmanMachineRestartOptions : PodmanOptions
 {
     /// <summary>
-    /// Initialize all containers
+    /// Suppress informational tips
     /// </summary>
-    [CliFlag("--all", ShortForm = "-a")]
-    public bool? All { get; set; }
+    [CliFlag("--no-info")]
+    public bool? NoInfo { get; set; }
 
     /// <summary>
-    /// Act on the latest container podman is aware of Not supported with the "--remote" flag
+    /// Suppress machine restarting status output
     /// </summary>
-    [CliFlag("--latest", ShortForm = "-l")]
-    public bool? Latest { get; set; }
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public bool? Quiet { get; set; }
+
+    /// <summary>
+    /// The MACHINE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string? Machine { get; set; }
 
 }

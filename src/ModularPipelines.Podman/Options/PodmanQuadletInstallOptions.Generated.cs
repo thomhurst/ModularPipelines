@@ -23,6 +23,12 @@ public record PodmanQuadletInstallOptions(
 ) : PodmanOptions
 {
     /// <summary>
+    /// Group quadlets and associated file in a directory named after the application
+    /// </summary>
+    [CliOption("--application", Format = OptionFormat.EqualsSeparated)]
+    public string? Application { get; set; }
+
+    /// <summary>
     /// Reload systemd after installing Quadlets (default true)
     /// </summary>
     [CliOption("--reload-systemd", Format = OptionFormat.EqualsSeparated)]

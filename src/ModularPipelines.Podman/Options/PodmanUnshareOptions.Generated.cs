@@ -21,7 +21,7 @@ namespace ModularPipelines.Podman.Options;
 public record PodmanUnshareOptions : PodmanOptions
 {
     /// <summary>
-    /// Join the rootless network namespace used for CNI and netavark networking
+    /// Join the rootless network namespace used for netavark networking
     /// </summary>
     [CliFlag("--rootless-netns")]
     public bool? RootlessNetns { get; set; }

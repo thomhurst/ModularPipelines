@@ -3,8 +3,8 @@ name: .NET
 on:
   push:
     branches: ["main"]
+  # Generated refreshes also target feature branches and need the same validation gates.
   pull_request:
-    branches: ["main"]
   workflow_dispatch:
     inputs:
       publish-packages:

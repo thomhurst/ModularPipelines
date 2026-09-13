@@ -16,12 +16,12 @@ namespace ModularPipelines.Podman.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum PodmanContainerRunSystemd
 {
-    [EnumValue("true")]
-    True,
+    [EnumValue("always")]
+    Always,
 
     [EnumValue("false")]
     False,
 
-    [EnumValue("always")]
-    Always
+    [EnumValue("true")]
+    True
 }

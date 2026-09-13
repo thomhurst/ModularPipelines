@@ -29,6 +29,12 @@ public record PodmanImageTrustSetOptions(
     public IEnumerable<string>? Pubkeysfile { get; set; }
 
     /// <summary>
+    /// Path to a signature-policy file
+    /// </summary>
+    [CliOption("--signature-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? SignaturePolicy { get; set; }
+
+    /// <summary>
     /// Trust type, accept values: signedBy(default), accept, reject (default "signedBy")
     /// </summary>
     [CliOption("--type", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
