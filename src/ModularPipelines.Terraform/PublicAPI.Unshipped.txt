@@ -75,6 +75,8 @@
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunOptions.Subcommand.init -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunOptions.TerraformStacksDeploymentRunOptions(string! Subcommand) -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunShowOptions.DeploymentRunId.get -> bool?
+*REMOVED*ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunShowOptions.DeploymentRunId.set -> void
+*REMOVED*ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunShowOptions.TerraformStacksDeploymentRunShowOptions() -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunWatchOptions.DeploymentRunId.get -> bool?
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStacksListOptions.OrganizationName.get -> bool?
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStacksListOptions.ProjectName.get -> bool?
@@ -247,25 +249,30 @@ ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunListOptions.Deplo
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunListOptions.OrganizationName.get -> string?
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunListOptions.ProjectName.get -> string?
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunListOptions.StackName.get -> string?
-ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunShowOptions.DeploymentRunId.get -> string?
+ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunShowOptions.Deconstruct(out string! DeploymentRunId) -> void
+ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunShowOptions.DeploymentRunId.get -> string!
+ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunShowOptions.DeploymentRunId.init -> void
+ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunShowOptions.TerraformStacksDeploymentRunShowOptions(string! DeploymentRunId) -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunWatchOptions.DeploymentRunId.get -> string?
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepArtifactsOptions
-ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepArtifactsOptions.ArtifactName.get -> string?
-ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepArtifactsOptions.ArtifactName.set -> void
-ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepArtifactsOptions.DeploymentStepId.get -> string?
-ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepArtifactsOptions.DeploymentStepId.set -> void
-ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepArtifactsOptions.TerraformStacksDeploymentStepArtifactsOptions() -> void
+ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepArtifactsOptions.ArtifactName.get -> string!
+ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepArtifactsOptions.ArtifactName.init -> void
+ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepArtifactsOptions.Deconstruct(out string! DeploymentStepId, out string! ArtifactName) -> void
+ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepArtifactsOptions.DeploymentStepId.get -> string!
+ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepArtifactsOptions.DeploymentStepId.init -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepArtifactsOptions.TerraformStacksDeploymentStepArtifactsOptions(ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepArtifactsOptions! original) -> void
+ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepArtifactsOptions.TerraformStacksDeploymentStepArtifactsOptions(string! DeploymentStepId, string! ArtifactName) -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepOptions
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepOptions.TerraformStacksDeploymentStepOptions() -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepOptions.TerraformStacksDeploymentStepOptions(ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepOptions! original) -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepShowOptions
-ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepShowOptions.DeploymentStepId.get -> string?
-ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepShowOptions.DeploymentStepId.set -> void
+ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepShowOptions.Deconstruct(out string! DeploymentStepId) -> void
+ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepShowOptions.DeploymentStepId.get -> string!
+ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepShowOptions.DeploymentStepId.init -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepShowOptions.Json.get -> bool?
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepShowOptions.Json.set -> void
-ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepShowOptions.TerraformStacksDeploymentStepShowOptions() -> void
 ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepShowOptions.TerraformStacksDeploymentStepShowOptions(ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepShowOptions! original) -> void
+ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepShowOptions.TerraformStacksDeploymentStepShowOptions(string! DeploymentStepId) -> void
 ModularPipelines.Terraform.Options.TerraformStacksDiagnosticsOptions
 ModularPipelines.Terraform.Options.TerraformStacksDiagnosticsOptions.Id.get -> string?
 ModularPipelines.Terraform.Options.TerraformStacksDiagnosticsOptions.Id.set -> void
@@ -421,11 +428,11 @@ virtual ModularPipelines.Terraform.Services.TerraformStacksDeploymentRun.Approve
 virtual ModularPipelines.Terraform.Services.TerraformStacksDeploymentRun.CancelAsync(ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunCancelOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Terraform.Services.TerraformStacksDeploymentRun.ExecuteAsync(ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Terraform.Services.TerraformStacksDeploymentRun.ListAsync(ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Terraform.Services.TerraformStacksDeploymentRun.ShowAsync(ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunShowOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Terraform.Services.TerraformStacksDeploymentRun.ShowAsync(ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunShowOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Terraform.Services.TerraformStacksDeploymentRun.WatchAsync(ModularPipelines.Terraform.Options.TerraformStacksDeploymentRunWatchOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Terraform.Services.TerraformStacksDeploymentStep.ArtifactsAsync(ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepArtifactsOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Terraform.Services.TerraformStacksDeploymentStep.ArtifactsAsync(ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepArtifactsOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Terraform.Services.TerraformStacksDeploymentStep.ExecuteAsync(ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
-virtual ModularPipelines.Terraform.Services.TerraformStacksDeploymentStep.ShowAsync(ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepShowOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
+virtual ModularPipelines.Terraform.Services.TerraformStacksDeploymentStep.ShowAsync(ModularPipelines.Terraform.Options.TerraformStacksDeploymentStepShowOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Terraform.Services.TerraformState.ExecuteAsync(ModularPipelines.Terraform.Options.TerraformStateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Terraform.Services.TerraformState.IdentitiesAsync(ModularPipelines.Terraform.Options.TerraformStateIdentitiesOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.Terraform.Services.TerraformState.ListAsync(ModularPipelines.Terraform.Options.TerraformStateListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
