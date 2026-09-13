@@ -142,34 +142,33 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
 
     /// <summary>
     /// Determines if a failure is transient and should trigger retry.
-    /// Transient failures include:
-    /// - Timeout (exit code -1)
-    /// - Process errors that aren't "command not found"
+    /// Explicit timeouts and launch failures participate regardless of the launcher's exit code.
+    /// Legacy executors can still report system failures with exit code -1.
     /// </summary>
     private static bool IsTransientFailure(CliCommandResult result)
     {
-        // Exit code -1 typically means timeout or execution failure
-        if (result.ExitCode == -1)
+        if (result.CircuitOpen)
         {
-            // Check if it's "command not found" vs transient failure
-            var stderr = result.StandardError?.ToLowerInvariant() ?? "";
+            return false;
+        }
 
-            // Don't retry if command doesn't exist
-            if (stderr.Contains("not found") ||
-                stderr.Contains("not recognized") ||
-                stderr.Contains("cannot find") ||
-                stderr.Contains("no such file"))
-            {
-                return false;
-            }
-
-            // Retry on timeout or other transient errors
+        if (result.TimedOut)
+        {
             return true;
         }
 
-        // Non-zero exit codes from CLI tools are usually intentional (validation, errors, etc.)
-        // We only retry on system-level failures, not CLI-level errors
-        return false;
+        // Ordinary tool errors remain final; launch failures are system-level errors.
+        if (!result.ExecutionFailed && result.ExitCode != -1)
+        {
+            return false;
+        }
+
+        // Missing executables cannot recover through retries.
+        var stderr = result.StandardError ?? string.Empty;
+        return !stderr.Contains("not found", StringComparison.OrdinalIgnoreCase)
+               && !stderr.Contains("not recognized", StringComparison.OrdinalIgnoreCase)
+               && !stderr.Contains("cannot find", StringComparison.OrdinalIgnoreCase)
+               && !stderr.Contains("no such file", StringComparison.OrdinalIgnoreCase);
     }
 }
 
