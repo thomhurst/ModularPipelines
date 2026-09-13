@@ -1,9 +1,9 @@
 {
   "formatVersion": 1,
   "toolName": "brew",
-  "toolVersion": "Homebrew 6.0.20",
-  "commandCount": 122,
-  "commandTreeSha256": "0c701de73d7e728cba2bd96e3b9aa36c0025ba16c8f47f26b230e86d9ffc2e54",
+  "toolVersion": "Homebrew 6.0.22",
+  "commandCount": 124,
+  "commandTreeSha256": "b9bc491964db5025a9226c50ddcd5931068c38239471e3e36517ca999bfc5c4c",
   "commands": [
     "brew alias",
     "brew as-console-user",
@@ -53,7 +53,9 @@
     "brew exec",
     "brew extract",
     "brew fetch",
+    "brew find-appcast",
     "brew formula",
+    "brew generate-cask-token",
     "brew generate-man-completions",
     "brew generate-zap",
     "brew gist-logs",
