@@ -147,7 +147,7 @@ public partial class CargoCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = "https://doc.rust-lang.org/cargo/commands/",
             Options = options,
-            PositionalArguments = usage.PositionalArguments,
+            PositionalArguments = GetPositionalArguments(usage, options),
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = null,
