@@ -43,16 +43,24 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($"namespace {tool.TargetNamespace}.Options;");
         sb.AppendLine();
 
+        var positionalArguments = CliPositionalArgument.MergeDuplicates(command.PositionalArguments);
+        var constructorParameters = GeneratorUtils.GetRequiredConstructorParameters(command, positionalArguments);
+
         // XML documentation
         GeneratorUtils.GenerateXmlDocumentation(sb, command.Description, "");
+        foreach (var parameter in constructorParameters)
+        {
+            var description = parameter.Option?.Description ?? parameter.PositionalArgument?.Description;
+            var name = parameter.PropertyName.TrimStart('@');
+            sb.AppendLine($"/// <param name=\"{name}\">{GeneratorUtils.EscapeXmlComment(description)}</param>");
+        }
 
         GenerateClassAttributes(sb, command);
 
         // Class declaration. The returned set contains the names emitted as
         // primary-constructor parameters, so a name scraped as both required and
         // optional can't produce two members (CS0102).
-        var positionalArguments = CliPositionalArgument.MergeDuplicates(command.PositionalArguments);
-        var existingPropertyNames = GenerateClassDeclaration(sb, command, positionalArguments);
+        var existingPropertyNames = GenerateClassDeclaration(sb, command, constructorParameters);
 
         sb.AppendLine("{");
         GenerateProperties(sb, command, positionalArguments, existingPropertyNames);
@@ -159,9 +167,8 @@ public class OptionsClassGenerator : ICodeGenerator
     private static HashSet<string> GenerateClassDeclaration(
         StringBuilder sb,
         CliCommandDefinition command,
-        IReadOnlyList<CliPositionalArgument> positionalArguments)
+        IReadOnlyList<GeneratorUtils.RequiredConstructorParameter> constructorParameters)
     {
-        var constructorParameters = GeneratorUtils.GetRequiredConstructorParameters(command, positionalArguments);
         var existingNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         if (constructorParameters.Count > 0)
@@ -325,8 +332,11 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static string GetPositionalAttributeString(CliPositionalArgument positional)
     {
-        var parts = new List<string> { positional.PositionIndex.ToString() };
-        parts.Add($"Phase = CommandLinePhase.{positional.Phase}");
+        var parts = new List<string>
+        {
+            positional.PositionIndex.ToString(),
+            $"Phase = CommandLinePhase.{positional.Phase}"
+        };
 
         if (positional.PrependOptionTerminator)
         {
