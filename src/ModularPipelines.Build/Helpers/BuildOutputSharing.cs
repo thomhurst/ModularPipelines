@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed;
 
@@ -7,7 +8,7 @@ namespace ModularPipelines.Build.Helpers;
 /// Shares one build-output restore per distributed pipeline process.
 /// Standalone runs use the existing checkout without copying or archiving it.
 /// </summary>
-internal sealed class BuildOutputSharing(IOptions<DistributedOptions> options)
+internal sealed class BuildOutputSharing(IOptions<DistributedOptions> options, IHostApplicationLifetime applicationLifetime)
 {
     private readonly Lock _restoreLock = new();
     private Task? _restoreTask;
@@ -22,8 +23,8 @@ internal sealed class BuildOutputSharing(IOptions<DistributedOptions> options)
     /// </summary>
     /// <remarks>
     /// The first consumer supplies the download arguments. Each consumer can cancel its own
-    /// wait without canceling the shared download. Download failures remain cached for the
-    /// lifetime of this instance.
+    /// wait without canceling the shared download. Application shutdown cancels that download.
+    /// Download failures remain cached for the lifetime of this instance.
     /// </remarks>
     public Task RestoreAsync(
         IArtifactContext artifacts,
@@ -43,7 +44,7 @@ internal sealed class BuildOutputSharing(IOptions<DistributedOptions> options)
                 producerModuleTypeName,
                 "build-output",
                 repositoryRoot,
-                CancellationToken.None);
+                applicationLifetime.ApplicationStopping);
         }
 
         return restoreTask.WaitAsync(cancellationToken);

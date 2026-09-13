@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Hosting;
 using ModularPipelines.Build.Helpers;
 using ModularPipelines.Distributed;
 using Moq;
@@ -10,10 +11,54 @@ public class BuildOutputSharingTests
     private const string RepositoryRoot = "/repository";
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Host_Shutdown_Cancels_Shared_Download_After_Consumer_Cancellation(
+        bool cancelConsumersFirst)
+    {
+        using var shutdown = new CancellationTokenSource();
+        using var consumerCancellation = new CancellationTokenSource();
+        var download = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var downloadToken = CancellationToken.None;
+        Task<string>? sharedDownload = null;
+        var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
+        artifacts.Setup(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, It.IsAny<CancellationToken>()))
+            .Returns((string _, string _, string _, CancellationToken token) =>
+            {
+                downloadToken = token;
+                return sharedDownload = download.Task.WaitAsync(token);
+            });
+        var sharing = CreateSharing(shutdownToken: shutdown.Token);
+        var first = sharing.RestoreAsync(artifacts.Object, Producer, RepositoryRoot, consumerCancellation.Token);
+        var second = sharing.RestoreAsync(artifacts.Object, Producer, RepositoryRoot, consumerCancellation.Token);
+
+        if (cancelConsumersFirst)
+        {
+            consumerCancellation.Cancel();
+            await Assert.That(first.IsCanceled).IsTrue();
+            await Assert.That(second.IsCanceled).IsTrue();
+            await Assert.That(sharedDownload!.IsCompleted).IsFalse();
+        }
+
+        shutdown.Cancel();
+
+        await Assert.That(downloadToken.IsCancellationRequested).IsTrue();
+        await Assert.That(sharedDownload!.IsCanceled).IsTrue();
+        await Assert.That(() => first).Throws<OperationCanceledException>();
+        await Assert.That(() => second).Throws<OperationCanceledException>();
+        artifacts.Verify(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, shutdown.Token), Times.Once);
+        artifacts.VerifyNoOtherCalls();
+    }
+
+    private static BuildOutputSharing CreateSharing(int totalInstances = 2, CancellationToken shutdownToken = default) =>
+        new(Microsoft.Extensions.Options.Options.Create(new DistributedOptions { TotalInstances = totalInstances }),
+            Mock.Of<IHostApplicationLifetime>(lifetime => lifetime.ApplicationStopping == shutdownToken));
+
+    [Test]
     public async Task Standalone_Uses_Existing_Output_Without_Downloading()
     {
         var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
-        var sharing = new BuildOutputSharing(Microsoft.Extensions.Options.Options.Create(new DistributedOptions()));
+        var sharing = CreateSharing(totalInstances: 1);
 
         await sharing.RestoreAsync(artifacts.Object, Producer, RepositoryRoot, CancellationToken.None);
 
@@ -29,7 +74,7 @@ public class BuildOutputSharingTests
         var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
         artifacts.Setup(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, CancellationToken.None))
             .Returns(download.Task);
-        var sharing = new BuildOutputSharing(Microsoft.Extensions.Options.Options.Create(new DistributedOptions { TotalInstances = 2 }));
+        var sharing = CreateSharing();
 
         var restores = new Task[16];
         Parallel.For(0, restores.Length, index =>
@@ -60,7 +105,7 @@ public class BuildOutputSharingTests
         var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
         artifacts.Setup(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, It.IsAny<CancellationToken>()))
             .Returns((string _, string _, string _, CancellationToken token) => download.Task.WaitAsync(token));
-        var sharing = new BuildOutputSharing(Microsoft.Extensions.Options.Options.Create(new DistributedOptions { TotalInstances = 2 }));
+        var sharing = CreateSharing();
 
         var first = sharing.RestoreAsync(artifacts.Object, Producer, RepositoryRoot, firstCancellation.Token);
         var second = sharing.RestoreAsync(artifacts.Object, Producer, RepositoryRoot, secondCancellation.Token);
@@ -85,7 +130,7 @@ public class BuildOutputSharingTests
         var artifacts = new Mock<IArtifactContext>(MockBehavior.Strict);
         artifacts.Setup(x => x.DownloadAsync(Producer, "build-output", RepositoryRoot, CancellationToken.None))
             .Returns(Task.FromException<string>(failure));
-        var sharing = new BuildOutputSharing(Microsoft.Extensions.Options.Options.Create(new DistributedOptions { TotalInstances = 2 }));
+        var sharing = CreateSharing();
 
         for (var consumer = 0; consumer < 2; consumer++)
         {
