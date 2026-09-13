@@ -1417,9 +1417,9 @@ public abstract partial class CliScraperBase : ICliScraper
         GetRowDescriptionColumn(line, nextLine) is not null
         && (previousLine is null || !SwitchReferenceIntroductionPattern().IsMatch(previousLine));
 
-    // Prose such as "Combine with" introduces a wrapped switch reference. The following
-    // sentence may start with any word; casing and attached-value syntax cannot decide that.
-    [GeneratedRegex(@"\b(?:with|from|using|via|see|use|like|including|except|and|or)\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    // Require a reference phrase, not a terminal connector such as "and" or "with":
+    // ordinary parent prose can end with those words immediately before a nested declaration.
+    [GeneratedRegex(@"\b(?:(?:combine[ds]?|pair(?:ed|s)?) with|values? from|for example)\s*:?\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex SwitchReferenceIntroductionPattern();
 
     private static int? GetSectionDescriptionColumn(string[] lines, int declarationIndex, int declarationIndentation)
@@ -1451,11 +1451,13 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         var heading = line.Trim();
-        // Heading-like prose at the declaration indentation intentionally ends the section;
-        // borrowing a later section's layout would otherwise cross an uncertain boundary.
-        return heading.EndsWith(':') || (heading.Any(char.IsLetter) && !heading.Any(char.IsLower))
+        // Uppercase alone is not a heading: some CLIs capitalize repeatability notes.
+        return heading.EndsWith(':') || NamedHelpSectionPattern().IsMatch(heading)
                || NamedOptionSectionPattern().IsMatch(heading);
     }
+
+    [GeneratedRegex(@"^(?:Usage|Synopsis|Description|Examples?|Environment(?: Variables)?|Notes?|See Also|Exit (?:Status|Codes?)|Commands)$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex NamedHelpSectionPattern();
 
     [GeneratedRegex(@"^(?:[\w/]+[ \t]+)*(?:Flags|Options|Arguments)$", RegexOptions.IgnoreCase)]
     private static partial Regex NamedOptionSectionPattern();
