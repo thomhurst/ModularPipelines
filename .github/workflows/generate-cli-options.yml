@@ -663,7 +663,21 @@ jobs:
             -NamespacePrefix "${{ matrix.prefix }}" `
             -ChangeManifest "$env:RUNNER_TEMP/generated-paths.txt"
 
+      - name: Preserve generated API build inputs
+        if: steps.should-run.outputs.run == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: generated-api-inputs-${{ matrix.tool }}-${{ runner.os }}
+          path: |
+            ${{ matrix.outputDirectory }}
+            ${{ runner.temp }}/generated-paths.txt
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Synchronize generated public API baselines
+        id: api-sync
+        # Leave time to upload compiler diagnostics before the matrix job deadline.
+        timeout-minutes: 20
         if: steps.should-run.outputs.run == 'true'
         shell: pwsh
         env:
@@ -680,6 +694,16 @@ jobs:
             -ProjectPath "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
             -TemporaryDirectory $env:RUNNER_TEMP `
             -ExtraBuildArguments $buildArguments
+
+      - name: Upload public API build diagnostics
+        if: always() && steps.api-sync.outcome != 'skipped' && steps.api-sync.outcome != ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: public-api-build-diagnostics-${{ matrix.tool }}-${{ runner.os }}
+          path: |
+            ${{ runner.temp }}/PublicAPI.*
+          if-no-files-found: warn
+          retention-days: 7
 
       - name: Summarize assembly public API changes
         id: api-summary
@@ -1070,7 +1094,21 @@ jobs:
             -NamespacePrefix "${{ matrix.prefix }}" `
             -ChangeManifest "$env:RUNNER_TEMP/generated-paths.txt"
 
+      - name: Preserve generated API build inputs
+        if: steps.should-run.outputs.run == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: generated-api-inputs-${{ matrix.tool }}-${{ runner.os }}
+          path: |
+            ${{ matrix.outputDirectory }}
+            ${{ runner.temp }}/generated-paths.txt
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Synchronize generated public API baselines
+        id: api-sync
+        # Leave time to upload compiler diagnostics before the matrix job deadline.
+        timeout-minutes: 20
         if: steps.should-run.outputs.run == 'true'
         shell: pwsh
         env:
@@ -1081,6 +1119,16 @@ jobs:
             -PackageDirectory $packageDirectory `
             -ProjectPath "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
             -TemporaryDirectory $env:RUNNER_TEMP
+
+      - name: Upload public API build diagnostics
+        if: always() && steps.api-sync.outcome != 'skipped' && steps.api-sync.outcome != ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: public-api-build-diagnostics-${{ matrix.tool }}-${{ runner.os }}
+          path: |
+            ${{ runner.temp }}/PublicAPI.*
+          if-no-files-found: warn
+          retention-days: 7
 
       - name: Summarize assembly public API changes
         id: api-summary

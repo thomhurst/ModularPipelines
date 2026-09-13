@@ -42,6 +42,9 @@ function Invoke-PublicApiBuild(
         '-c'
         'Release'
         '--no-incremental'
+        '--verbosity'
+        'normal'
+        '-p:ReportAnalyzer=true'
         '-p:TreatWarningsAsErrors=false'
         '-p:WarningsAsErrors='
         "-p:ErrorLog=$ErrorLogPath"
