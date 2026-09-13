@@ -53,6 +53,12 @@ public record GhIssueDevelopOptions(
     public string? Name { get; set; }
 
     /// <summary>
+    /// Check out the branch into a worktree at the given path
+    /// </summary>
+    [CliOption("--worktree", Format = OptionFormat.EqualsSeparated)]
+    public string? Worktree { get; set; }
+
+    /// <summary>
     /// Show help for command
     /// </summary>
     [CliFlag("--help")]
