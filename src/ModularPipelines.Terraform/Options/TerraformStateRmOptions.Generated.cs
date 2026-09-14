@@ -15,14 +15,39 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Remove one or more items from the Terraform state, causing Terraform to
 /// </summary>
-/// <param name="Address">The ADDRESS operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("state", "rm")]
-public record TerraformStateRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Address
-) : TerraformOptions
+public record TerraformStateRmOptions : TerraformOptions
 {
+    /// <summary>
+    /// Remove one or more items from the Terraform state, causing Terraform to
+    /// </summary>
+    /// <param name="Address">The ADDRESS operand.</param>
+    public TerraformStateRmOptions(
+        IEnumerable<string> Address
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Address);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Address));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Address));
+            }
+
+            Address = materialized;
+        }
+        this.Address = Address;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Address)
+    {
+        Address = this.Address;
+    }
+
     /// <summary>
     /// If set, prints out what would've been removed but doesn't actually remove anything.
     /// </summary>
@@ -64,5 +89,11 @@ public record TerraformStateRmOptions(
     /// </summary>
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
     public string? VarFile { get; set; }
+
+    /// <summary>
+    /// The ADDRESS operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Address { get; private init; }
 
 }
