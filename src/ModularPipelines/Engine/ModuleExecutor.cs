@@ -126,9 +126,11 @@ internal class ModuleExecutor(
     IExecutionBackendContext IExecutionBackendContextFactory.Create(
         IExecutionBackendContext resultContext,
         IReadOnlyList<IModule> modules,
-        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations) =>
+        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations,
+        EngineCancellationToken engineCancellationToken) =>
         new InProcessExecutionBackendContext(
-            resultContext, _moduleRunner, modules, () => InitializeSchedulerAsync(modules, estimatedDurations));
+            resultContext, _moduleRunner, modules, () => InitializeSchedulerAsync(modules, estimatedDurations),
+            _parallelLimitProvider.GetMaxDegreeOfParallelism(), engineCancellationToken);
 
     internal Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
         IReadOnlyList<IModule> modules,

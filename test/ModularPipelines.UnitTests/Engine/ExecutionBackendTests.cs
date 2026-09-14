@@ -13,7 +13,7 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.Engine;
 
-public class ExecutionBackendTests
+public partial class ExecutionBackendTests
 {
     [Test]
     public async Task BuiltInBackendExecutesWithoutCustomDispatchContext()
@@ -67,9 +67,10 @@ public class ExecutionBackendTests
         var scheduler = new Mock<IModuleScheduler>();
         scheduler.Setup(x => x.MarkModuleCompleted(module.GetType(), true, null, ModuleStatus.Succeeded))
             .Throws(failure);
+        using var engineCancellation = new ModularPipelines.Engine.EngineCancellationToken(Mock.Of<IPrimaryExceptionContainer>());
         await using var context = new InProcessExecutionBackendContext(
             Mock.Of<IExecutionBackendContext>(), Mock.Of<IModuleRunner>(), [module],
-            () => Task.FromResult(scheduler.Object));
+            () => Task.FromResult(scheduler.Object), 1, engineCancellation);
 
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => context.ExecuteModuleAsync(module));
         await context.DisposeAsync();

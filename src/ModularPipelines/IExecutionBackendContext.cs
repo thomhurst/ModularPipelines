@@ -16,7 +16,11 @@ public interface IExecutionBackendContext
     /// Use the context passed to <see cref="IExecutionBackend.ExecuteAsync"/>. The backend
     /// must request execution of dependencies or apply their remote results, and await its
     /// execution requests before returning. Concurrent requests for the same module share
-    /// one execution; the first request's token controls that execution.
+    /// one execution; the first request's token controls that execution. Local executions
+    /// respect the pipeline's global parallelism limit without counting dependency waits.
+    /// When an AlwaysRun module uses the pipeline token supplied to the backend, it ignores
+    /// failure cancellation but still observes user cancellation. Other request tokens,
+    /// including tokens linked by the backend, are honored directly.
     /// </remarks>
     /// <param name="module">The exact module instance supplied in the execution plan.</param>
     /// <param name="cancellationToken">Requests cancellation of the module execution.</param>

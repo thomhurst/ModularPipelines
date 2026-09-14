@@ -123,7 +123,8 @@ Applying a result through the context immediately completes the local module awa
 allowing dependent work to observe remotely produced results.
 
 An in-process backend can request all planned modules concurrently. The engine waits for
-their dependencies and enforces module constraints:
+their dependencies and enforces module constraints and `Concurrency.MaxParallelism`.
+Dependency waits do not occupy execution slots:
 
 ```csharp
 public sealed class MyExecutionBackend : IExecutionBackend
@@ -149,6 +150,11 @@ token controls the execution, and later callers can cancel their own waits. Awai
 requests before returning. A completed request includes module hooks and scope disposal,
 and failures follow the pipeline's configured failure policy. Do not apply a remote result
 to a module whose local execution is still in progress.
+
+When an `AlwaysRun` request uses the pipeline token supplied to the backend, unrelated
+failures and failed dependencies do not cancel that request. User cancellation still
+applies. Other request tokens, including tokens linked by the backend, are honored
+directly. Use a separate request token when you need to cancel an individual module.
 
 Register a custom backend before building the pipeline:
 

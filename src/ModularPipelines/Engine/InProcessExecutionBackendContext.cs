@@ -1,6 +1,7 @@
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using Semaphores;
 
 namespace ModularPipelines.Engine;
 
@@ -8,6 +9,8 @@ internal sealed class InProcessExecutionBackendContext : IExecutionBackendContex
 {
     private readonly IExecutionBackendContext _resultContext;
     private readonly IModuleRunner _moduleRunner;
+    private readonly AsyncSemaphore _executionLimit;
+    private readonly EngineCancellationToken _engineCancellationToken;
     private readonly Dictionary<Type, IModule> _modules;
     private readonly Lazy<Task<IModuleScheduler>> _scheduler;
     private readonly Dictionary<IModule, Lazy<Task<IModuleResult>>> _executions = new(ReferenceEqualityComparer.Instance);
@@ -21,10 +24,14 @@ internal sealed class InProcessExecutionBackendContext : IExecutionBackendContex
         IExecutionBackendContext resultContext,
         IModuleRunner moduleRunner,
         IReadOnlyList<IModule> modules,
-        Func<Task<IModuleScheduler>> initializeScheduler)
+        Func<Task<IModuleScheduler>> initializeScheduler,
+        int maxParallelism,
+        EngineCancellationToken engineCancellationToken)
     {
         _resultContext = resultContext;
         _moduleRunner = moduleRunner;
+        _executionLimit = new AsyncSemaphore(maxParallelism);
+        _engineCancellationToken = engineCancellationToken;
         _modules = modules.ToDictionary(module => module.GetType());
         _scheduler = new Lazy<Task<IModuleScheduler>>(async () =>
         {
@@ -59,7 +66,12 @@ internal sealed class InProcessExecutionBackendContext : IExecutionBackendContex
     public Task<IModuleResult> ExecuteModuleAsync(IModule module, CancellationToken cancellationToken = default)
     {
         ValidateModule(module);
-        cancellationToken.ThrowIfCancellationRequested();
+        var requestToken = GetRequestCancellationToken(module, cancellationToken);
+        if (requestToken.IsCancellationRequested)
+        {
+            throw new OperationCanceledException(cancellationToken);
+        }
+
         Lazy<Task<IModuleResult>> execution;
         var created = false;
         lock (_sync)
@@ -73,7 +85,7 @@ internal sealed class InProcessExecutionBackendContext : IExecutionBackendContex
             }
         }
 
-        return created ? execution.Value : execution.Value.WaitAsync(cancellationToken);
+        return created ? execution.Value : WaitForExecutionAsync(execution.Value, requestToken, cancellationToken);
     }
 
     public bool TryApplyResult(IModule module, IModuleResult result)
@@ -103,9 +115,29 @@ internal sealed class InProcessExecutionBackendContext : IExecutionBackendContex
         return applied;
     }
 
+    private CancellationToken GetRequestCancellationToken(IModule module, CancellationToken cancellationToken) =>
+        module.Configuration.AlwaysRun && cancellationToken == _engineCancellationToken.Token
+            ? _engineCancellationToken.NonFailureCancellationToken
+            : cancellationToken;
+
+    private static async Task<IModuleResult> WaitForExecutionAsync(
+        Task<IModuleResult> execution, CancellationToken requestToken, CancellationToken callerToken)
+    {
+        try
+        {
+            return await execution.WaitAsync(requestToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException exception) when (
+            WorkerCancellationClassifier.IsExpected(exception, requestToken))
+        {
+            throw new NormalizedWorkerCancellationException(exception.Message, exception, callerToken);
+        }
+    }
+
     private async Task<IModuleResult> ExecuteCoreAsync(IModule module, CancellationToken cancellationToken)
     {
-        using var linkedCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _lifetime.Token);
+        using var linkedCancellation = CancellationTokenSource.CreateLinkedTokenSource(
+            GetRequestCancellationToken(module, cancellationToken), _lifetime.Token);
         var token = linkedCancellation.Token;
         try
         {
@@ -120,7 +152,7 @@ internal sealed class InProcessExecutionBackendContext : IExecutionBackendContex
                     completionChanged = _completionChanged.Task;
                 }
 
-                await _moduleRunner.ExecuteAsync(state, token).ConfigureAwait(false);
+                await _moduleRunner.ExecuteAsync(state, _executionLimit, token).ConfigureAwait(false);
                 if (state.ExecutionDeferred)
                 {
                     // A competing module can acquire a constraint between scheduling and

@@ -234,7 +234,8 @@ public class PipelineExecutorTests
         contextFactory.Setup(factory => factory.Create(
                 It.IsAny<IExecutionBackendContext>(),
                 It.IsAny<IReadOnlyList<IModule>>(),
-                It.IsAny<IReadOnlyDictionary<Type, TimeSpan>>()))
+                It.IsAny<IReadOnlyDictionary<Type, TimeSpan>>(),
+                It.IsAny<ModularPipelines.Engine.EngineCancellationToken>()))
             .Returns(executionBackendContext);
 
         return new PipelineExecutor(

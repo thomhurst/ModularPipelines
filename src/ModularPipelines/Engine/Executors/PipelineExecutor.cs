@@ -61,7 +61,7 @@ internal class PipelineExecutor : IPipelineExecutor
             // Only custom backends need shared dispatch state; the built-in backend owns its scheduler directly.
             var context = _executionBackend is ModuleExecutor
                 ? null
-                : _executionBackendContextFactory.Create(_executionBackendContext, runnableModules, estimatedDurations);
+                : _executionBackendContextFactory.Create(_executionBackendContext, runnableModules, estimatedDurations, _engineCancellationToken);
             try
             {
                 var results = await _executionBackend.ExecuteAsync(
