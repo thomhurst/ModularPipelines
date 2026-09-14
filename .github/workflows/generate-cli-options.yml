@@ -42,14 +42,6 @@ jobs:
       - name: Test exact generated-file staging
         shell: pwsh
         run: tools/ModularPipelines.OptionsGenerator/scripts/Test-StageGeneratedChanges.ps1
-      - name: Test public API baseline synchronization
-        shell: pwsh
-        run: |
-          tools/ModularPipelines.OptionsGenerator/scripts/Test-WritePublicApiSnapshotFromSarif.ps1
-          tools/ModularPipelines.OptionsGenerator/scripts/Test-WriteRemovedPublicApiSnapshotFromSarif.ps1
-          tools/ModularPipelines.OptionsGenerator/scripts/Test-MergePublicApiBaselineSnapshot.ps1
-          tools/ModularPipelines.OptionsGenerator/scripts/Test-SyncPublicApiBaselines.ps1
-          tools/ModularPipelines.OptionsGenerator/scripts/Test-WritePublicApiChangeSummary.ps1
       - name: Reject stale generated enum attributes
         shell: pwsh
         run: tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedEnumAttributes.ps1
@@ -670,90 +662,6 @@ jobs:
             -NamespacePrefix "${{ matrix.prefix }}" `
             -ChangeManifest "$env:RUNNER_TEMP/generated-paths.txt"
 
-      - name: Preserve generated API build inputs
-        if: steps.should-run.outputs.run == 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: generated-api-inputs-${{ matrix.tool }}-${{ runner.os }}
-          path: |
-            ${{ matrix.outputDirectory }}
-            ${{ runner.temp }}/generated-paths.txt
-          if-no-files-found: error
-          retention-days: 7
-
-      - name: Install Azure compiler diagnostics
-        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'az'
-        shell: bash
-        run: dotnet tool install --tool-path "$RUNNER_TEMP/compiler-diagnostics" dotnet-trace --version 10.0.731102
-
-      - name: Synchronize generated public API baselines
-        id: api-sync
-        # Leave time to upload compiler diagnostics before the matrix job deadline.
-        timeout-minutes: 20
-        if: steps.should-run.outputs.run == 'true'
-        shell: pwsh
-        env:
-          PublicApiAnalyzerProject: ${{ matrix.package }}
-          GENERATED_PACKAGE: ${{ steps.package.outputs.package }}
-        run: |
-          if ('${{ matrix.tool }}' -eq 'az') {
-            $synchronize = {
-              $packageDirectory = "src/$env:GENERATED_PACKAGE"
-              tools/ModularPipelines.OptionsGenerator/scripts/Sync-PublicApiBaselines.ps1 `
-                -PackageDirectory $packageDirectory `
-                -ProjectPath "$packageDirectory/$env:GENERATED_PACKAGE.csproj" `
-                -TemporaryDirectory $env:RUNNER_TEMP `
-                -ExtraBuildArguments @('/m:1', '--disable-build-servers', '-p:UseSharedCompilation=false')
-            }
-            python3 scripts/trace-public-api-compiler.py `
-              --project $env:GENERATED_PACKAGE `
-              --trace-tool "$env:RUNNER_TEMP/compiler-diagnostics/dotnet-trace" `
-              --output-directory $env:RUNNER_TEMP `
-              -- pwsh -NoProfile -Command $synchronize.ToString()
-            exit $LASTEXITCODE
-          }
-          $packageDirectory = "src/${{ steps.package.outputs.package }}"
-          $buildArguments = if ('${{ matrix.tool }}' -in @('gcloud', 'aws')) {
-            @('/m:1', '--disable-build-servers', '-p:UseSharedCompilation=false')
-          } else {
-            @()
-          }
-          tools/ModularPipelines.OptionsGenerator/scripts/Sync-PublicApiBaselines.ps1 `
-            -PackageDirectory $packageDirectory `
-            -ProjectPath "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
-            -TemporaryDirectory $env:RUNNER_TEMP `
-            -ExtraBuildArguments $buildArguments
-
-      - name: Upload public API build diagnostics
-        if: always() && steps.api-sync.outcome != 'skipped' && steps.api-sync.outcome != ''
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: public-api-build-diagnostics-${{ matrix.tool }}-${{ runner.os }}
-          path: |
-            ${{ runner.temp }}/PublicAPI.*
-          if-no-files-found: warn
-          retention-days: 7
-
-      - name: Summarize assembly public API changes
-        id: api-summary
-        if: steps.should-run.outputs.run == 'true'
-        shell: pwsh
-        run: |
-          $packageDirectory = "src/${{ steps.package.outputs.package }}"
-          $summaryPath = Join-Path $env:RUNNER_TEMP 'public-api-summary.md'
-          tools/ModularPipelines.OptionsGenerator/scripts/Write-PublicApiChangeSummary.ps1 `
-            -OriginalShippedPath (Join-Path $env:RUNNER_TEMP 'PublicAPI.Shipped.original.txt') `
-            -OriginalUnshippedPath (Join-Path $env:RUNNER_TEMP 'PublicAPI.Unshipped.original.txt') `
-            -CurrentShippedPath (Join-Path $packageDirectory 'PublicAPI.Shipped.txt') `
-            -CurrentUnshippedPath (Join-Path $packageDirectory 'PublicAPI.Unshipped.txt') `
-            -PackageDirectory $packageDirectory `
-            -OutputPath $summaryPath
-
-          $delimiter = "api_summary_$([guid]::NewGuid().ToString('N'))"
-          "markdown<<$delimiter" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          Get-Content -LiteralPath $summaryPath | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          $delimiter | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-
       - name: Check for changes
         if: steps.should-run.outputs.run == 'true'
         id: changes
@@ -763,10 +671,6 @@ jobs:
             -RepositoryRoot "$env:GITHUB_WORKSPACE" `
             -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
             -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
-            -AllowedPath @(
-              "src/${{ steps.package.outputs.package }}/PublicAPI.Shipped.txt"
-              "src/${{ steps.package.outputs.package }}/PublicAPI.Unshipped.txt"
-            ) `
             -MaximumFileSizeBytes 26214400
 
           # Check for actual content changes (ignore whitespace-only changes)
@@ -812,8 +716,6 @@ jobs:
 
       - name: Build solution to verify changes
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
-        env:
-          PublicApiAnalyzerProject: ${{ matrix.package }}
         run: |
           BUILD_ARGS=()
           # Gcloud generates enough source for parallel MSBuild nodes to exhaust the hosted runner.
@@ -831,10 +733,6 @@ jobs:
             -RepositoryRoot "$env:GITHUB_WORKSPACE" `
             -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
             -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
-            -AllowedPath @(
-              "src/${{ steps.package.outputs.package }}/PublicAPI.Shipped.txt"
-              "src/${{ steps.package.outputs.package }}/PublicAPI.Unshipped.txt"
-            ) `
             -MaximumFileSizeBytes 26214400
 
       - name: Create Pull Request for ${{ matrix.tool }}
@@ -857,8 +755,6 @@ jobs:
             - Updated options classes to reflect latest CLI documentation
             - Added new commands if any were detected
             - Updated option types and descriptions
-
-            ${{ steps.api-summary.outputs.markdown }}
 
             ## Command coverage
             ${{ steps.generator.outputs.coverage-report }}
@@ -1120,62 +1016,6 @@ jobs:
             -NamespacePrefix "${{ matrix.prefix }}" `
             -ChangeManifest "$env:RUNNER_TEMP/generated-paths.txt"
 
-      - name: Preserve generated API build inputs
-        if: steps.should-run.outputs.run == 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: generated-api-inputs-${{ matrix.tool }}-${{ runner.os }}
-          path: |
-            ${{ matrix.outputDirectory }}
-            ${{ runner.temp }}/generated-paths.txt
-          if-no-files-found: error
-          retention-days: 7
-
-      - name: Synchronize generated public API baselines
-        id: api-sync
-        # Leave time to upload compiler diagnostics before the matrix job deadline.
-        timeout-minutes: 20
-        if: steps.should-run.outputs.run == 'true'
-        shell: pwsh
-        env:
-          PublicApiAnalyzerProject: ${{ matrix.package }}
-        run: |
-          $packageDirectory = "src/${{ steps.package.outputs.package }}"
-          tools/ModularPipelines.OptionsGenerator/scripts/Sync-PublicApiBaselines.ps1 `
-            -PackageDirectory $packageDirectory `
-            -ProjectPath "${packageDirectory}/${{ steps.package.outputs.package }}.csproj" `
-            -TemporaryDirectory $env:RUNNER_TEMP
-
-      - name: Upload public API build diagnostics
-        if: always() && steps.api-sync.outcome != 'skipped' && steps.api-sync.outcome != ''
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: public-api-build-diagnostics-${{ matrix.tool }}-${{ runner.os }}
-          path: |
-            ${{ runner.temp }}/PublicAPI.*
-          if-no-files-found: warn
-          retention-days: 7
-
-      - name: Summarize assembly public API changes
-        id: api-summary
-        if: steps.should-run.outputs.run == 'true'
-        shell: pwsh
-        run: |
-          $packageDirectory = "src/${{ steps.package.outputs.package }}"
-          $summaryPath = Join-Path $env:RUNNER_TEMP 'public-api-summary.md'
-          tools/ModularPipelines.OptionsGenerator/scripts/Write-PublicApiChangeSummary.ps1 `
-            -OriginalShippedPath (Join-Path $env:RUNNER_TEMP 'PublicAPI.Shipped.original.txt') `
-            -OriginalUnshippedPath (Join-Path $env:RUNNER_TEMP 'PublicAPI.Unshipped.original.txt') `
-            -CurrentShippedPath (Join-Path $packageDirectory 'PublicAPI.Shipped.txt') `
-            -CurrentUnshippedPath (Join-Path $packageDirectory 'PublicAPI.Unshipped.txt') `
-            -PackageDirectory $packageDirectory `
-            -OutputPath $summaryPath
-
-          $delimiter = "api_summary_$([guid]::NewGuid().ToString('N'))"
-          "markdown<<$delimiter" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          Get-Content -LiteralPath $summaryPath | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          $delimiter | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-
       - name: Check for changes
         if: steps.should-run.outputs.run == 'true'
         id: changes
@@ -1185,10 +1025,6 @@ jobs:
             -RepositoryRoot "$env:GITHUB_WORKSPACE" `
             -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
             -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
-            -AllowedPath @(
-              "src/${{ steps.package.outputs.package }}/PublicAPI.Shipped.txt"
-              "src/${{ steps.package.outputs.package }}/PublicAPI.Unshipped.txt"
-            ) `
             -MaximumFileSizeBytes 5242880
 
           # Check for actual content changes (ignore whitespace-only changes)
@@ -1206,8 +1042,6 @@ jobs:
 
       - name: Build solution to verify changes
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
-        env:
-          PublicApiAnalyzerProject: ${{ matrix.package }}
         run: >-
           dotnet build
           "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.slnx"
@@ -1221,10 +1055,6 @@ jobs:
             -RepositoryRoot "$env:GITHUB_WORKSPACE" `
             -ManifestPath "$env:RUNNER_TEMP/generated-paths.txt" `
             -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
-            -AllowedPath @(
-              "src/${{ steps.package.outputs.package }}/PublicAPI.Shipped.txt"
-              "src/${{ steps.package.outputs.package }}/PublicAPI.Unshipped.txt"
-            ) `
             -MaximumFileSizeBytes 5242880
 
       - name: Create Pull Request for ${{ matrix.tool }}
@@ -1247,8 +1077,6 @@ jobs:
             - Updated options classes to reflect latest CLI documentation
             - Added new commands if any were detected
             - Updated option types and descriptions
-
-            ${{ steps.api-summary.outputs.markdown }}
 
             ## Command coverage
             ${{ steps.generator.outputs.coverage-report }}

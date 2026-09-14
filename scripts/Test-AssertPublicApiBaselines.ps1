@@ -52,10 +52,25 @@ try {
     Add-BaselinePair 'src/ModularPipelines.Example'
     Add-File 'tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.csproj' '<Project />'
     Add-BaselinePair 'tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator'
+    Add-File 'src/ModularPipelines.GeneratedCli/ModularPipelines.GeneratedCli.csproj' '<Project />'
+    Add-File 'src/ModularPipelines.GeneratedCli/ModularPipelines.GeneratedCli.slnx' '<Solution />'
+    Add-File 'src/ModularPipelines.GeneratedCli/Generated/First.CommandCoverage.json' '{}'
+    Add-File 'src/ModularPipelines.GeneratedCli/Generated/Second.CommandCoverage.json' '{}'
 
     $successOutput = & $scriptPath -RepositoryRoot $testRoot
     if ($successOutput -notmatch 'Verified public API baselines for 4 package projects') {
         throw "Expected successful coverage output, got: $successOutput"
+    }
+
+    foreach ($baseline in 'PublicAPI.Shipped.txt', 'PublicAPI.Unshipped.txt') {
+        Add-File "src/ModularPipelines.GeneratedCli/$baseline" '#nullable enable'
+        $generatedMessage = Get-AssertFailureMessage
+        if ($generatedMessage -notlike '*Generated CLI integrations must not contain public API baselines:*' -or
+            -not $generatedMessage.Contains($baseline)) {
+            throw "Expected generated CLI baseline rejection, got: $generatedMessage"
+        }
+
+        Remove-Item -LiteralPath (Join-Path $testRoot "src/ModularPipelines.GeneratedCli/$baseline")
     }
 
     # Whitespace-only lines are blank, as the merge script treats them, not entries.

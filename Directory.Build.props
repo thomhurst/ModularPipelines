@@ -40,12 +40,12 @@
     <PackageReference Include="StyleCop.Analyzers" PrivateAssets="All" Condition="$(MSBuildProjectFile.Contains('Test')) == false and ('$(GITHUB_ACTIONS)' != 'true' or '$(EnableCiAnalyzers)' == 'true')" />
   </ItemGroup>
 
-  <!-- Generated integrations opt into baseline synchronization during their generation job. -->
-  <ItemGroup Condition="('$(MSBuildProjectName)' == 'ModularPipelines' and ('$(GITHUB_ACTIONS)' == 'true' or '$(EnableCiAnalyzers)' == 'true')) or '$(PublicApiAnalyzerProject)' == '$(MSBuildProjectName)'">
+  <!-- Track the core public API only; generated CLI integrations do not maintain baselines. -->
+  <ItemGroup Condition="'$(MSBuildProjectName)' == 'ModularPipelines' and ('$(GITHUB_ACTIONS)' == 'true' or '$(EnableCiAnalyzers)' == 'true')">
     <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" PrivateAssets="All" />
   </ItemGroup>
 
-  <PropertyGroup Condition="('$(MSBuildProjectName)' == 'ModularPipelines' and ('$(GITHUB_ACTIONS)' == 'true' or '$(EnableCiAnalyzers)' == 'true')) or '$(PublicApiAnalyzerProject)' == '$(MSBuildProjectName)'">
+  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'ModularPipelines' and ('$(GITHUB_ACTIONS)' == 'true' or '$(EnableCiAnalyzers)' == 'true')">
     <!-- Keep the core public API baseline enforced in ordinary CI builds. -->
     <EnableNETAnalyzers Condition="'$(GITHUB_ACTIONS)' == 'true' and '$(EnableCiAnalyzers)' != 'true'">false</EnableNETAnalyzers>
     <RunAnalyzers Condition="'$(GITHUB_ACTIONS)' == 'true'">true</RunAnalyzers>

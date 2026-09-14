@@ -44,7 +44,6 @@ jobs:
         id: generated_integration
         uses: ./.github/actions/detect-generated-integration
       - name: Reject stale generated snapshots
-        # Generated routing includes both shipped and unshipped API baseline updates.
         if: steps.generated_integration.outputs.is_generated_integration == 'true'
         shell: pwsh
         env:
@@ -76,7 +75,6 @@ jobs:
         shell: pwsh
         run: |
           ./scripts/Test-PublicApiRemovedMarker.ps1
-          ./tools/ModularPipelines.OptionsGenerator/scripts/Test-RepairPublicApiBaselineHistory.ps1
           ./scripts/Test-AssertPublicApiBaselines.ps1
       - name: Verify public API baseline coverage
         if: steps.generated_integration.outputs.is_generated_integration != 'true'

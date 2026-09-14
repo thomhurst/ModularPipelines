@@ -29,8 +29,7 @@ $aws = Resolve-GeneratedIntegrationValidation `
         'src/ModularPipelines.AmazonWebServices/AssemblyInfo.Generated.cs',
         'src/ModularPipelines.AmazonWebServices/Enums/AwsMode.Generated.cs',
         'src/ModularPipelines.AmazonWebServices/Generated/Aws.Generation.json',
-        'src/ModularPipelines.AmazonWebServices/Options/AwsRunOptions.Generated.cs',
-        'src/ModularPipelines.AmazonWebServices/PublicAPI.Unshipped.txt'
+        'src/ModularPipelines.AmazonWebServices/Options/AwsRunOptions.Generated.cs'
     ) `
     -RepositoryRoot $repositoryRoot
 
@@ -67,20 +66,19 @@ foreach ($case in @(
         Repository = $repository
         RepositoryRoot = $repositoryRoot
     }
-    $shippedPath = "src/$($case.Package)/PublicAPI.Shipped.txt"
+    $manifestPath = "src/$($case.Package)/Generated/$($case.Prefix).Generation.json"
     foreach ($paths in @(
-            @{ Values = @($shippedPath) },
+            @{ Values = @($manifestPath) },
             @{ Values = @(
-                    $shippedPath,
-                    "src/$($case.Package)/PublicAPI.Unshipped.txt",
-                    "src/$($case.Package)/Generated/$($case.Prefix).Generation.json"
+                    $manifestPath,
+                    "src/$($case.Package)/Generated/$($case.Prefix).CommandCoverage.json"
                 ) }
         )) {
         $result = Resolve-GeneratedIntegrationValidation @parameters -ChangedPath $paths.Values
-        Assert-Equal $result.IsGeneratedIntegration $true "$($case.Tool) baseline updates should use generated validation."
+        Assert-Equal $result.IsGeneratedIntegration $true "$($case.Tool) manifest updates should use generated validation."
         Assert-Equal $result.NamespacePrefix $case.Prefix 'Shared packages must select the branch tool manifest.'
-        Assert-Equal $result.Project "src/$($case.Package)/$($case.Package).csproj" 'Baseline updates selected the wrong project.'
-        Assert-Equal $result.Solution "src/$($case.Package)/$($case.Package).slnx" 'Baseline updates selected the wrong solution.'
+        Assert-Equal $result.Project "src/$($case.Package)/$($case.Package).csproj" 'Manifest updates selected the wrong project.'
+        Assert-Equal $result.Solution "src/$($case.Package)/$($case.Package).slnx" 'Manifest updates selected the wrong solution.'
     }
 
     foreach ($unexpectedPath in @(
@@ -88,6 +86,8 @@ foreach ($case in @(
             'scripts/Resolve-GeneratedIntegrationValidation.ps1',
             'src/ModularPipelines/Engine/ModuleScheduler.cs',
             'src/ModularPipelines.Pulumi/PublicAPI.Shipped.txt',
+            "src/$($case.Package)/PublicAPI.Shipped.txt",
+            "src/$($case.Package)/PublicAPI.Unshipped.txt",
             "src/$($case.Package)/Handwritten.cs",
             "src/$($case.Package)/$($case.Package).csproj",
             "test/$($case.Package).UnitTests/ChangedTest.cs",
@@ -96,8 +96,8 @@ foreach ($case in @(
             "src/$($case.Package)/Generated/Other.Generation.json"
         )) {
         $result = Resolve-GeneratedIntegrationValidation @parameters `
-            -ChangedPath @($shippedPath, $unexpectedPath)
-        Assert-Equal $result.IsGeneratedIntegration $false "A shipped baseline must not hide unrelated changes: $unexpectedPath."
+            -ChangedPath @($manifestPath, $unexpectedPath)
+        Assert-Equal $result.IsGeneratedIntegration $false "A generation manifest must not hide unrelated changes: $unexpectedPath."
     }
 }
 

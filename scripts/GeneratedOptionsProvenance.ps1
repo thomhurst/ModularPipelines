@@ -33,7 +33,6 @@ function Get-GeneratedOptionsSourcePath {
         'Directory.Packages.props',
         'global.json',
         'scripts/GeneratedOptionsProvenance.ps1',
-        'scripts/PublicApiRemovedMarker.ps1',
         'scripts/Write-GeneratedOptionsProvenance.ps1',
         'src/ModularPipelines/Attributes/CliOptionValueArity.cs',
         'src/ModularPipelines/Attributes/CommandLinePhase.cs',

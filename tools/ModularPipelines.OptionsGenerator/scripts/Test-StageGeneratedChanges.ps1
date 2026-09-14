@@ -63,6 +63,34 @@ try {
 
     & git -C $testRoot commit --quiet -m generated
 
+    # Baselines must never be staged, even if a manifest or explicit allowance includes them.
+    foreach ($baseline in 'PublicAPI.Shipped.txt', 'PublicAPI.Unshipped.txt') {
+        $relativeBaseline = "src/Fake/$baseline"
+        $baselinePath = Join-Path $testRoot $relativeBaseline
+        Set-Content -LiteralPath $baselinePath -Value '#nullable enable'
+        Set-Content -LiteralPath $manifest -Value $relativeBaseline
+        foreach ($alreadyStaged in $false, $true) {
+            if ($alreadyStaged) {
+                & git -C $testRoot add $relativeBaseline
+            }
+
+            $baselineRejected = $false
+            try {
+                & $stagingScript -RepositoryRoot $testRoot -ManifestPath $manifest -AllowedPath $relativeBaseline
+            }
+            catch {
+                $baselineRejected = $_.Exception.Message.Contains('must not include public API baselines')
+            }
+
+            if (-not $baselineRejected) {
+                throw "Public API baseline was not rejected: $relativeBaseline (staged: $alreadyStaged)."
+            }
+        }
+
+        & git -C $testRoot reset --quiet HEAD -- $relativeBaseline
+        Remove-Item -LiteralPath $baselinePath
+    }
+
     $obsoleteFile = Join-Path $testRoot 'src/Fake/Options/Obsolete.Generated.cs'
     Set-Content -LiteralPath $obsoleteFile -Value '// obsolete'
     & git -C $testRoot add $obsoleteFile
@@ -113,7 +141,7 @@ try {
         throw "Explicitly allowed oversized path was not staged: $($stagedPaths -join ', ')"
     }
 
-    Write-Output 'OK exact staging, archive rejection, staged deletion, and size controls passed.'
+    Write-Output 'OK exact staging, public API baseline rejection, archive rejection, staged deletion, and size controls passed.'
 }
 finally {
     if (Test-Path -LiteralPath $resolvedTestRoot) {

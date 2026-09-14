@@ -118,6 +118,10 @@ foreach ($file in Get-ChildItem -LiteralPath $repositoryPath -File) {
 }
 
 foreach ($path in $changedPaths) {
+    if ([System.IO.Path]::GetFileName($path) -in @('PublicAPI.Shipped.txt', 'PublicAPI.Unshipped.txt')) {
+        throw "Generated CLI changes must not include public API baselines: '$path'."
+    }
+
     if (-not $allowedPaths.Contains($path)) {
         throw "Unexpected checkout change '$path'. Only generator-manifest paths may be staged."
     }

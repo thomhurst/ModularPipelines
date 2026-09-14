@@ -15,7 +15,7 @@ function Invoke-Git {
     }
 }
 
-function Assert-GeneratedBaselineFreshness {
+function Assert-GeneratedManifestFreshness {
     param([Parameter(Mandatory)][string]$RepositoryRoot)
 
     $route = Resolve-GeneratedIntegrationValidation `
@@ -23,10 +23,10 @@ function Assert-GeneratedBaselineFreshness {
         -HeadRepository 'owner/repo' `
         -PullRequestAuthor 'owner' `
         -Repository 'owner/repo' `
-        -ChangedPath @('src/ModularPipelines.Fake/PublicAPI.Shipped.txt') `
+        -ChangedPath @('src/ModularPipelines.Fake/Generated/Fake.Generation.json') `
         -RepositoryRoot $RepositoryRoot
     if (-not $route.IsGeneratedIntegration) {
-        throw "Shipped baseline changes bypassed the freshness gate: $($route.Reason)"
+        throw "Generation manifest changes bypassed the freshness gate: $($route.Reason)"
     }
 
     & (Join-Path $PSScriptRoot 'Assert-GeneratedOptionsFreshness.ps1') `
@@ -135,9 +135,6 @@ try {
     Set-Content `
         -LiteralPath (Join-Path $tempRoot 'src/ModularPipelines.Fake/ModularPipelines.Fake.csproj') `
         -Value '<Project />'
-    Set-Content `
-        -LiteralPath (Join-Path $tempRoot 'src/ModularPipelines.Fake/PublicAPI.Shipped.txt') `
-        -Value '#nullable enable'
 
     foreach ($sourcePath in Get-GeneratedOptionsSourcePath) {
         if ($sourcePath -eq 'tools/ModularPipelines.OptionsGenerator') {
@@ -205,7 +202,7 @@ try {
     Invoke-Git $tempRoot add .
     Invoke-Git $tempRoot commit -m generated
 
-    Assert-GeneratedBaselineFreshness -RepositoryRoot $tempRoot
+    Assert-GeneratedManifestFreshness -RepositoryRoot $tempRoot
 
     Set-Content -LiteralPath (Join-Path $tempRoot 'README.md') -Value 'unrelated change'
     Invoke-Git $tempRoot add README.md
@@ -225,7 +222,7 @@ try {
 
     $centralPackageError = $null
     try {
-        Assert-GeneratedBaselineFreshness -RepositoryRoot $tempRoot
+        Assert-GeneratedManifestFreshness -RepositoryRoot $tempRoot
     }
     catch {
         $centralPackageError = $_.Exception.Message

@@ -29,10 +29,12 @@ $packageProjects = @(
 $missingBaselines = [System.Collections.Generic.List[string]]::new()
 $orphanedMarkers = [System.Collections.Generic.List[string]]::new()
 $duplicateEntries = [System.Collections.Generic.List[string]]::new()
+$generatedBaselines = [System.Collections.Generic.List[string]]::new()
+$trackedProjectCount = 0
 
 function Add-DuplicateEntries([string] $Path, [string[]] $Lines) {
     # PublicApiAnalyzers rejects a baseline that lists the same entry twice (RS0024).
-    # Entries compare exactly, as the merge script and the analyzer do. Bulk-constructing
+    # Entries compare exactly, as the analyzer does. Bulk-constructing
     # the set is cheap even for 100k-line files; only walk line by line when the counts
     # prove something repeats.
     $distinct = [System.Collections.Generic.HashSet[string]]::new($Lines, [System.StringComparer]::Ordinal)
@@ -52,6 +54,19 @@ foreach ($project in $packageProjects) {
     $projectDirectory = Split-Path $project -Parent
     $shippedPath = Join-Path $projectDirectory 'PublicAPI.Shipped.txt'
     $unshippedPath = Join-Path $projectDirectory 'PublicAPI.Unshipped.txt'
+    $coverageManifests = @(Get-ChildItem -Path (Join-Path $projectDirectory 'Generated/*.CommandCoverage.json') -File -ErrorAction SilentlyContinue)
+    if ($coverageManifests.Count -gt 0) {
+        # CLI snapshots change independently, including within shared integration packages.
+        foreach ($path in @($shippedPath, $unshippedPath)) {
+            if (Test-Path -LiteralPath $path -PathType Leaf) {
+                $generatedBaselines.Add([System.IO.Path]::GetRelativePath($repositoryRootPath, $path))
+            }
+        }
+
+        continue
+    }
+
+    $trackedProjectCount++
     $missing = @($shippedPath, $unshippedPath | Where-Object { -not (Test-Path -LiteralPath $_ -PathType Leaf) })
     if ($missing.Count -gt 0) {
         foreach ($path in $missing) {
@@ -102,6 +117,10 @@ foreach ($project in $packageProjects) {
 # Report every populated category at once so one CI run shows every problem to fix.
 $newLine = [Environment]::NewLine
 $problems = [System.Collections.Generic.List[string]]::new()
+if ($generatedBaselines.Count -gt 0) {
+    $problems.Add("Generated CLI integrations must not contain public API baselines:$newLine$($generatedBaselines -join $newLine)")
+}
+
 if ($missingBaselines.Count -gt 0) {
     $problems.Add("Public API baseline coverage is incomplete:$newLine$($missingBaselines -join $newLine)")
 }
@@ -118,4 +137,4 @@ if ($problems.Count -gt 0) {
     throw ($problems -join ($newLine + $newLine))
 }
 
-Write-Output "Verified public API baselines for $($packageProjects.Count) package projects."
+Write-Output "Verified public API baselines for $trackedProjectCount package projects."
