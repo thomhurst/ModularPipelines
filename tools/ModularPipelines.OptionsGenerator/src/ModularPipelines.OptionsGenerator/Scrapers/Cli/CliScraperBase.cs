@@ -1464,7 +1464,7 @@ public abstract partial class CliScraperBase : ICliScraper
                    && text.EndsWith(':') && TitleHelpSectionPattern().IsMatch(heading));
     }
 
-    [GeneratedRegex(@"^[A-Z][a-z0-9/-]*(?:[ \t]+(?:[A-Z][a-z0-9/-]*|and|or|of|for|the))*$", RegexOptions.CultureInvariant)]
+    [GeneratedRegex(@"^[A-Z][A-Za-z0-9/-]*(?:[ \t]+(?:[A-Z][A-Za-z0-9/-]*|and|or|of|for|the))*$", RegexOptions.CultureInvariant)]
     private static partial Regex TitleHelpSectionPattern();
 
     [GeneratedRegex(@"^(?:Usage|Synopsis|Description|Examples?|Environment(?: Variables)?|Notes?|See Also|Exit (?:Status|Codes?)|Commands)$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]

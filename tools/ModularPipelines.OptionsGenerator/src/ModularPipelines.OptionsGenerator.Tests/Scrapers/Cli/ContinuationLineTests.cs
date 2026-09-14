@@ -5,6 +5,23 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class ContinuationLineTests
 {
     [Test]
+    [Arguments("TLS Configuration:")]
+    [Arguments("HTTP Settings:")]
+    [Arguments("HTTP/2 Support:")]
+    [Arguments("Advanced TLS Configuration:")]
+    [Arguments("TLS CONFIGURATION:")]
+    public async Task Acronym_Section_Headings_End_Repeatability_Lookahead(string heading)
+    {
+        foreach (var declaration in new[] { "  --env VALUE   Set variables", "  --env VALUE" })
+        {
+            var helpText = $"{declaration}\n  {heading}\n  Values may be specified multiple times\n  --quiet   Suppress output";
+
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--quiet", string.Empty)).IsFalse();
+        }
+    }
+
+    [Test]
     [Arguments("--child VALUE")]
     [Arguments("--child=VALUE")]
     [Arguments("--child")]
