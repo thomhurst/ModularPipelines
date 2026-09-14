@@ -9,78 +9,24 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Node.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Node.Enums;
 
 namespace ModularPipelines.Node.Options;
 
 /// <summary>
-/// Shows the packages that depend on &lt;pkg&gt;
+/// Shows the packages that depend on `pkg`
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("why")]
-public record PnpmWhyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Pkg
-) : PnpmOptions
+public record PnpmWhyOptions : PnpmOptions
 {
-    /// <summary>
-    /// Aggregate output from child processes that are run in parallel, and only print output when child process is finished. It makes reading large logs after running `pnpm recursive` with `--parallel` or with `--workspace-concurrency` much easier (especially on CI). Only `--reporter=append-only` is supported.
-    /// </summary>
-    [CliFlag("--aggregate-output")]
-    public bool? AggregateOutput { get; set; }
-
     /// <summary>
     /// Max display depth of the reverse dependency tree
     /// </summary>
     [CliOption("--depth")]
     public string? Depth { get; set; }
-
-    /// <summary>
-    /// Display only the dependency graph for packages in `devDependencies`
-    /// </summary>
-    [CliFlag("--dev", ShortForm = "-D")]
-    public bool? Dev { get; set; }
-
-    /// <summary>
-    /// Change to directory &lt;dir&gt; (default: ~/work/_temp/generator-work)
-    /// </summary>
-    [CliOption("--dir", ShortForm = "-C")]
-    public string? Dir { get; set; }
-
-    /// <summary>
-    /// Exclude peer dependencies
-    /// </summary>
-    [CliFlag("--exclude-peers")]
-    public bool? ExcludePeers { get; set; }
-
-    /// <summary>
-    /// List packages in the global install prefix instead of in the current project
-    /// </summary>
-    [CliFlag("--global", ShortForm = "-g")]
-    public bool? Global { get; set; }
-
-    /// <summary>
-    /// Specify a custom directory to store global packages
-    /// </summary>
-    [CliOption("--global-dir")]
-    public string? GlobalDir { get; set; }
-
-    /// <summary>
-    /// Output usage information
-    /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
-
-    /// <summary>
-    /// Show information in JSON format
-    /// </summary>
-    [CliFlag("--json")]
-    public bool? Json { get; set; }
-
-    /// <summary>
-    /// What level of logs to report. Any logs at or higher than the given level will be shown. Levels (lowest to highest): debug, info, warn, error. Or use "--silent" to turn off all logging.
-    /// </summary>
-    [CliOption("--loglevel")]
-    public string? Loglevel { get; set; }
 
     /// <summary>
     /// Show extended information
@@ -89,10 +35,10 @@ public record PnpmWhyOptions(
     public bool? Long { get; set; }
 
     /// <summary>
-    /// Don't display packages from `optionalDependencies`
+    /// Show information in JSON format
     /// </summary>
-    [CliFlag("--no-optional")]
-    public bool? NoOptional { get; set; }
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
 
     /// <summary>
     /// Show parseable output instead of tree view
@@ -101,28 +47,130 @@ public record PnpmWhyOptions(
     public bool? Parseable { get; set; }
 
     /// <summary>
-    /// Display only the dependency graph for packages in `dependencies` and `optionalDependencies`
+    /// Display only the dependency graph for packages in `dependencies` and `optionalDependencies` [alias: --production]
     /// </summary>
     [CliFlag("--prod", ShortForm = "-P")]
     public bool? Prod { get; set; }
 
     /// <summary>
-    /// Perform command on every package in subdirectories or on every workspace package, when executed inside a workspace. For options that may be used with `-r`, see "pnpm help recursive"
+    /// Display only the dependency graph for packages in `devDependencies`
+    /// </summary>
+    [CliFlag("--dev", ShortForm = "-D")]
+    public bool? Dev { get; set; }
+
+    /// <summary>
+    /// Don't display packages from `optionalDependencies`
+    /// </summary>
+    [CliFlag("--no-optional")]
+    public bool? NoOptional { get; set; }
+
+    /// <summary>
+    /// Include packages from `optionalDependencies`
+    /// </summary>
+    [CliFlag("--optional")]
+    public bool? Optional { get; set; }
+
+    /// <summary>
+    /// Exclude peer dependencies. Accepted but not applied, matching the TypeScript CLI: its `why` command declares the flag without forwarding it to the dependents-tree builder.
+    /// </summary>
+    [CliFlag("--exclude-peers")]
+    public bool? ExcludePeers { get; set; }
+
+    /// <summary>
+    /// Search by a finder function declared in `.pnpmfile.cjs`
+    /// </summary>
+    [CliOption("--find-by")]
+    public string? FindBy { get; set; }
+
+    /// <summary>
+    /// Force colored output
+    /// </summary>
+    [CliOption("--color", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Color { get; set; }
+
+    /// <summary>
+    /// Automatically answer yes to prompts
+    /// </summary>
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
+
+    /// <summary>
+    /// Set working directory. Accepted anywhere on the command line, before or after the subcommand, like every other rc-option [default: .]
+    /// </summary>
+    [CliOption("--dir", ShortForm = "-C")]
+    public string? Dir { get; set; }
+
+    /// <summary>
+    /// Directory in which the package store is created. Relative paths are resolved from the workspace root, or from `--dir` outside a workspace
+    /// </summary>
+    [CliOption("--store-dir")]
+    public string? StoreDir { get; set; }
+
+    /// <summary>
+    /// Directory in which pnpm persists machine-local state
+    /// </summary>
+    [CliOption("--state-dir")]
+    public string? StateDir { get; set; }
+
+    /// <summary>
+    /// Path to an `.npmrc` to read auth settings from, overriding the default `~/.npmrc` [alias: --userconfig]
+    /// </summary>
+    [CliOption("--npmrc-auth-file")]
+    public string? NpmrcAuthFile { get; set; }
+
+    /// <summary>
+    /// Base URL of the npm registry to resolve and fetch packages from. Universal rc-option: accepted on every command and layered onto the config like `--config.registry=&lt;url&gt;`. Commands that expose their own `--registry` still read the same value
+    /// </summary>
+    [CliOption("--registry")]
+    public string? Registry { get; set; }
+
+    /// <summary>
+    /// Proxy for HTTPS registry and tarball requests
+    /// </summary>
+    [CliOption("--https-proxy")]
+    public string? HttpsProxy { get; set; }
+
+    /// <summary>
+    /// Proxy for HTTP registry and tarball requests
+    /// </summary>
+    [CliOption("--http-proxy")]
+    public string? HttpProxy { get; set; }
+
+    /// <summary>
+    /// Hosts that bypass configured proxies
+    /// </summary>
+    [CliOption("--no-proxy")]
+    public string? NoProxy { get; set; }
+
+    /// <summary>
+    /// Run the command for every project in the workspace instead of only the project in `--dir`
     /// </summary>
     [CliFlag("--recursive", ShortForm = "-r")]
     public bool? Recursive { get; set; }
 
     /// <summary>
-    /// Stream output from child processes immediately, prefixed with the originating package directory. This allows output from different packages to be interleaved.
+    /// Reporter output format [default: default]
     /// </summary>
-    [CliFlag("--stream")]
-    public bool? Stream { get; set; }
+    [CliOption("--reporter")]
+    public PnpmWhyReporter? Reporter { get; set; }
 
     /// <summary>
-    /// Divert all output to stderr
+    /// What level of logs to print. Mirrors pnpm's universal `--loglevel` option: `silent` selects the silent reporter over any `--reporter` choice; the other levels cap the default reporter's output
     /// </summary>
-    [CliFlag("--use-stderr")]
-    public bool? UseStderr { get; set; }
+    [CliOption("--loglevel")]
+    public PnpmWhyLoglevel? Loglevel { get; set; }
+
+    /// <summary>
+    /// Select which workspace projects to run on. Repeat to add more. Each selector can be a name pattern (`@scope/*`), a path (`./pkg`), a dependency query (`foo...`), an exclusion (`!bar`), a directory (`{dir}`), or a changed-since query (`[since]`)
+    /// </summary>
+    [CliOption("--filter", ShortForm = "-F")]
+    public IEnumerable<string>? Filter { get; set; }
+
+    /// <summary>
+    /// Like `--filter`, but follow only production dependencies when selecting projects
+    /// </summary>
+    [CliOption("--filter-prod")]
+    public string? FilterProd { get; set; }
 
     /// <summary>
     /// Run the command on the root workspace project
@@ -131,39 +179,99 @@ public record PnpmWhyOptions(
     public bool? WorkspaceRoot { get; set; }
 
     /// <summary>
-    /// Automatically answer yes to prompts and run non-interactively. Will abort if an undesirable situation occurs and user input is strictly necessary.
-    /// </summary>
-    [CliFlag("--yes", ShortForm = "-y")]
-    public bool? Yes { get; set; }
-
-    /// <summary>
-    /// Defines files to ignore when filtering for changed projects since the specified
-    /// </summary>
-    [CliOption("--changed-files-ignore-pattern")]
-    public string? ChangedFilesIgnorePattern { get; set; }
-
-    /// <summary>
-    /// If no projects are matched by the command, exit with exit code 1 (fail)
+    /// Exit with code 1 when the `--filter` / `--filter-prod` selectors match no workspace project
     /// </summary>
     [CliFlag("--fail-if-no-match")]
     public bool? FailIfNoMatch { get; set; }
 
     /// <summary>
-    /// Restricts the scope to package names matching the given pattern. E.g.: foo, "@bar/*"
+    /// Also run a recursive command on the root workspace project, which `run` / `exec` / `add` / `test` otherwise leave out
     /// </summary>
-    [CliOption("--filter", ShortForm = "-F")]
-    public string? Filter { get; set; }
+    [CliFlag("--include-workspace-root")]
+    public bool? IncludeWorkspaceRoot { get; set; }
 
     /// <summary>
-    /// Restricts the scope to package names matching the given pattern similar to --filter, but it ignores devDependencies when searching for dependencies and dependents.
+    /// Leave the root workspace project out of a recursive command, overriding an `includeWorkspaceRoot: true` setting
     /// </summary>
-    [CliOption("--filter-prod")]
-    public string? FilterProd { get; set; }
+    [CliFlag("--no-include-workspace-root")]
+    public bool? NoIncludeWorkspaceRoot { get; set; }
 
     /// <summary>
-    /// Defines files related to tests. Useful with the changed since filter. When selecting only changed packages and their dependent packages, the dependent packages will be ignored in case a package has changes only in tests. Usage example: pnpm
+    /// Glob patterns naming test files, used by the `[since]` `--filter` selector to decide which changes count
     /// </summary>
     [CliOption("--test-pattern")]
     public string? TestPattern { get; set; }
+
+    /// <summary>
+    /// Glob patterns of changed files that the `[since]` `--filter` selector should ignore
+    /// </summary>
+    [CliOption("--changed-files-ignore-pattern")]
+    public string? ChangedFilesIgnorePattern { get; set; }
+
+    /// <summary>
+    /// Keep recursive workspace projects sorted topologically
+    /// </summary>
+    [CliFlag("--sort")]
+    public bool? Sort { get; set; }
+
+    /// <summary>
+    /// Run recursive workspace projects in workspace order
+    /// </summary>
+    [CliFlag("--no-sort")]
+    public bool? NoSort { get; set; }
+
+    /// <summary>
+    /// Process recursive workspace projects in reverse order
+    /// </summary>
+    [CliFlag("--reverse")]
+    public bool? Reverse { get; set; }
+
+    /// <summary>
+    /// Maximum number of workspace projects to process in parallel
+    /// </summary>
+    [CliOption("--workspace-concurrency")]
+    public string? WorkspaceConcurrency { get; set; }
+
+    /// <summary>
+    /// Run scripts in every selected workspace project concurrently, disregarding topological sorting
+    /// </summary>
+    [CliFlag("--parallel")]
+    public bool? Parallel { get; set; }
+
+    /// <summary>
+    /// Stream a recursive command's script output as it arrives, one prefixed line at a time
+    /// </summary>
+    [CliFlag("--stream")]
+    public bool? Stream { get; set; }
+
+    /// <summary>
+    /// Hold each script's streamed output until the script exits, then print it as one block
+    /// </summary>
+    [CliFlag("--aggregate-output")]
+    public bool? AggregateOutput { get; set; }
+
+    /// <summary>
+    /// Divert the reporter's output to stderr, leaving stdout for the command's own result
+    /// </summary>
+    [CliFlag("--use-stderr")]
+    public bool? UseStderr { get; set; }
+
+    /// <summary>
+    /// Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
+    /// </summary>
+    [CliFlag("--ignore-workspace")]
+    public bool? IgnoreWorkspace { get; set; }
+
+    /// <summary>
+    /// Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
+    /// </summary>
+    [CliOption("--workspace-packages")]
+    public IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
+    /// The [PACKAGES] operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Packages { get; set; }
 
 }

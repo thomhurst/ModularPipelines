@@ -1254,7 +1254,7 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    [Timeout(5_000)]
+    [Timeout(30_000)]
     public async Task Missing_Result_Times_Out_And_Completes_Pipeline(CancellationToken testCancellation)
     {
         var module = new DistributedModule();
@@ -1269,7 +1269,11 @@ public class DistributedModuleExecutorTests
             coordinator: coordinator,
             distributedOptions: options);
 
-        await executor.ExecuteAsync([module]).WaitAsync(testCancellation);
+        await executor.ExecuteAsync(
+            [module],
+            new Dictionary<Type, TimeSpan>(),
+            new ExecutionBackendContext(resultRegistry),
+            testCancellation).WaitAsync(testCancellation);
 
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();

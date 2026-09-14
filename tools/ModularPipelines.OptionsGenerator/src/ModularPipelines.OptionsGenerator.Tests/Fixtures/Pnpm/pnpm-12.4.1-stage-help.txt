@@ -1,0 +1,162 @@
+Stage packages for publishing, deferring proof-of-presence (2FA) to a later point in time
+
+Usage: pnpm stage [OPTIONS] [PARAMS]...
+
+Arguments:
+  [PARAMS]...
+          Stage subcommand and arguments
+
+Options:
+      --registry <REGISTRY>
+          The base URL of the npm registry
+
+      --dry-run
+          Do everything `publish` would do except uploading to the registry
+
+      --json
+          Print the per-package publish summary in JSON
+
+      --tag <TAG>
+          Register the published package under this tag instead of `latest`
+
+      --access <ACCESS>
+          Publish the package as `public` or `restricted`
+
+          [possible values: public, restricted]
+
+      --provenance
+          Generate a provenance attestation for the published package
+
+      --ignore-scripts
+          Don't run publish-related lifecycle scripts
+
+      --embed-readme
+          Embed the README contents in the published manifest
+
+      --skip-manifest-obfuscation
+          Keep the original `packageManager` field and publish-lifecycle scripts in the published manifest instead of stripping them
+
+      --otp <OTP>
+          One-time password for two-factor-authenticated registries
+
+      --publish-branch <PUBLISH_BRANCH>
+          The branch publishing is allowed from. Defaults to `master` / `main`
+
+      --no-git-checks
+          Skip the git working-tree / branch / remote checks
+
+      --force
+          Publish even if the version is already in the registry
+
+      --batch
+          Send all workspace packages in a single request (requires `--recursive`)
+
+      --report-summary
+          Recursive only: write a `pnpm-publish-summary.json` report listing the packages that were published
+
+      --color[=<COLOR>]
+          Force colored output
+
+  -y, --yes
+          Automatically answer yes to prompts
+
+  -C, --dir <DIR>
+          Set working directory. Accepted anywhere on the command line, before or after the subcommand, like every other rc-option
+
+          [default: .]
+
+      --store-dir <DIR>
+          Directory in which the package store is created. Relative paths are resolved from the workspace root, or from `--dir` outside a workspace
+
+      --state-dir <DIR>
+          Directory in which pnpm persists machine-local state
+
+      --npmrc-auth-file <NPMRC_AUTH_FILE>
+          Path to an `.npmrc` to read auth settings from, overriding the default `~/.npmrc`
+
+          [alias: --userconfig]
+
+      --https-proxy <HTTPS_PROXY>
+          Proxy for HTTPS registry and tarball requests
+
+      --http-proxy <HTTP_PROXY>
+          Proxy for HTTP registry and tarball requests
+
+      --no-proxy <NO_PROXY>
+          Hosts that bypass configured proxies
+
+  -r, --recursive
+          Run the command for every project in the workspace instead of only the project in `--dir`
+
+      --reporter <REPORTER>
+          Reporter output format
+
+          Possible values:
+          - default:     Rich visual output: a progress line, a packages diff, lifecycle output, and a `Done in ...` summary. The default; renders in place on a terminal and falls back to `append-only` output when stdout is not a terminal
+          - append-only: Like `default` but forces the append-only rendering even on a TTY — one line per update, no cursor movement
+          - ndjson:      Newline-delimited JSON on stderr
+          - silent:      No progress output
+
+          [default: default]
+
+      --loglevel <LOGLEVEL>
+          What level of logs to print. Mirrors pnpm's universal `--loglevel` option: `silent` selects the silent reporter over any `--reporter` choice; the other levels cap the default reporter's output
+
+          [possible values: silent, error, warn, info, debug]
+
+  -F, --filter <FILTER>
+          Select which workspace projects to run on. Repeat to add more. Each selector can be a name pattern (`@scope/*`), a path (`./pkg`), a dependency query (`foo...`), an exclusion (`!bar`), a directory (`{dir}`), or a changed-since query (`[since]`)
+
+      --filter-prod <FILTER_PROD>
+          Like `--filter`, but follow only production dependencies when selecting projects
+
+  -w, --workspace-root
+          Run the command on the root workspace project
+
+      --fail-if-no-match
+          Exit with code 1 when the `--filter` / `--filter-prod` selectors match no workspace project
+
+      --include-workspace-root
+          Also run a recursive command on the root workspace project, which `run` / `exec` / `add` / `test` otherwise leave out
+
+      --no-include-workspace-root
+          Leave the root workspace project out of a recursive command, overriding an `includeWorkspaceRoot: true` setting
+
+      --test-pattern <TEST_PATTERN>
+          Glob patterns naming test files, used by the `[since]` `--filter` selector to decide which changes count
+
+      --changed-files-ignore-pattern <CHANGED_FILES_IGNORE_PATTERN>
+          Glob patterns of changed files that the `[since]` `--filter` selector should ignore
+
+      --sort
+          Keep recursive workspace projects sorted topologically
+
+      --no-sort
+          Run recursive workspace projects in workspace order
+
+      --reverse
+          Process recursive workspace projects in reverse order
+
+      --workspace-concurrency <WORKSPACE_CONCURRENCY>
+          Maximum number of workspace projects to process in parallel
+
+      --parallel
+          Run scripts in every selected workspace project concurrently, disregarding topological sorting
+
+      --stream
+          Stream a recursive command's script output as it arrives, one prefixed line at a time
+
+      --aggregate-output
+          Hold each script's streamed output until the script exits, then print it as one block
+
+      --use-stderr
+          Divert the reporter's output to stderr, leaving stdout for the command's own result
+
+      --ignore-workspace
+          Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
+
+      --workspace-packages <WORKSPACE_PACKAGES>
+          Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
+
+  -h, --help
+          Print help (see a summary with '-h')

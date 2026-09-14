@@ -9,11 +9,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Node.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Node.Enums;
 
 namespace ModularPipelines.Node.Options;
 
 /// <summary>
-/// Checks for known security issues with the installed packages.
+/// Checks for known security issues with the installed packages
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,10 +23,22 @@ namespace ModularPipelines.Node.Options;
 public record PnpmAuditOptions : PnpmOptions
 {
     /// <summary>
-    /// Only print advisories with severity greater than or equal to one of the following: info|low|moderate|high|critical. Default: low
+    /// Output audit report in JSON format
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// Only print advisories with severity greater than or equal to this level
     /// </summary>
     [CliOption("--audit-level")]
-    public string? AuditLevel { get; set; }
+    public PnpmAuditAuditLevel? AuditLevel { get; set; }
+
+    /// <summary>
+    /// Only audit "dependencies" and "optionalDependencies" [alias: --production]
+    /// </summary>
+    [CliFlag("--prod", ShortForm = "-P")]
+    public bool? Prod { get; set; }
 
     /// <summary>
     /// Only audit "devDependencies"
@@ -33,22 +47,34 @@ public record PnpmAuditOptions : PnpmOptions
     public bool? Dev { get; set; }
 
     /// <summary>
-    /// Fix the audited vulnerabilities using the specified method: "override" or "update". "override" adds overrides to the package.json file in order to force non-vulnerable versions of the dependencies. "update" attempts to update the vulnerable packages in the lockfile to non-vulnerable versions. If no method is specified, "override" is used by default.
+    /// Don't audit "optionalDependencies"
     /// </summary>
-    [CliOption("--fix")]
-    public string? Fix { get; set; }
+    [CliFlag("--no-optional")]
+    public bool? NoOptional { get; set; }
 
     /// <summary>
-    /// Ignore a vulnerability by its GitHub advisory ID (e.g. GHSA-xxxx-xxxx-xxxx)
+    /// Include "optionalDependencies"
     /// </summary>
-    [CliOption("--ignore")]
-    public string? Ignore { get; set; }
+    [CliFlag("--optional")]
+    public bool? Optional { get; set; }
 
     /// <summary>
-    /// Use exit code 0 if the registry responds with an error. Useful when audit checks are used in CI. A build should not fail because the registry has issues.
+    /// Use exit code 0 if the registry responds with an error
     /// </summary>
     [CliFlag("--ignore-registry-errors")]
     public bool? IgnoreRegistryErrors { get; set; }
+
+    /// <summary>
+    /// Fix the audited vulnerabilities using the specified method: "override" or "update". "override" adds overrides to `pnpm-workspace.yaml` to force non-vulnerable versions; "update" re-resolves the lockfile to non-vulnerable versions. Defaults to "override" when no method is given
+    /// </summary>
+    [CliOption("--fix", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Fix { get; set; }
+
+    /// <summary>
+    /// Ignore a vulnerability by its GitHub advisory ID (e.g. GHSA-xxxx-xxxx-xxxx). May be repeated
+    /// </summary>
+    [CliOption("--ignore")]
+    public IEnumerable<string>? Ignore { get; set; }
 
     /// <summary>
     /// Ignore all vulnerabilities for which no fix exists
@@ -63,21 +89,195 @@ public record PnpmAuditOptions : PnpmOptions
     public bool? Interactive { get; set; }
 
     /// <summary>
-    /// Output audit report in JSON format
+    /// Force colored output
     /// </summary>
-    [CliFlag("--json")]
-    public bool? Json { get; set; }
+    [CliOption("--color", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Don't audit "optionalDependencies"
+    /// Automatically answer yes to prompts
     /// </summary>
-    [CliFlag("--no-optional")]
-    public bool? NoOptional { get; set; }
+    [CliFlag("--yes", ShortForm = "-y")]
+    public bool? Yes { get; set; }
 
     /// <summary>
-    /// Only audit "dependencies" and "optionalDependencies"
+    /// Set working directory. Accepted anywhere on the command line, before or after the subcommand, like every other rc-option [default: .]
     /// </summary>
-    [CliFlag("--prod", ShortForm = "-P")]
-    public bool? Prod { get; set; }
+    [CliOption("--dir", ShortForm = "-C")]
+    public string? Dir { get; set; }
+
+    /// <summary>
+    /// Directory in which the package store is created. Relative paths are resolved from the workspace root, or from `--dir` outside a workspace
+    /// </summary>
+    [CliOption("--store-dir")]
+    public string? StoreDir { get; set; }
+
+    /// <summary>
+    /// Directory in which pnpm persists machine-local state
+    /// </summary>
+    [CliOption("--state-dir")]
+    public string? StateDir { get; set; }
+
+    /// <summary>
+    /// Path to an `.npmrc` to read auth settings from, overriding the default `~/.npmrc` [alias: --userconfig]
+    /// </summary>
+    [CliOption("--npmrc-auth-file")]
+    public string? NpmrcAuthFile { get; set; }
+
+    /// <summary>
+    /// Base URL of the npm registry to resolve and fetch packages from. Universal rc-option: accepted on every command and layered onto the config like `--config.registry=&lt;url&gt;`. Commands that expose their own `--registry` still read the same value
+    /// </summary>
+    [CliOption("--registry")]
+    public string? Registry { get; set; }
+
+    /// <summary>
+    /// Proxy for HTTPS registry and tarball requests
+    /// </summary>
+    [CliOption("--https-proxy")]
+    public string? HttpsProxy { get; set; }
+
+    /// <summary>
+    /// Proxy for HTTP registry and tarball requests
+    /// </summary>
+    [CliOption("--http-proxy")]
+    public string? HttpProxy { get; set; }
+
+    /// <summary>
+    /// Hosts that bypass configured proxies
+    /// </summary>
+    [CliOption("--no-proxy")]
+    public string? NoProxy { get; set; }
+
+    /// <summary>
+    /// Run the command for every project in the workspace instead of only the project in `--dir`
+    /// </summary>
+    [CliFlag("--recursive", ShortForm = "-r")]
+    public bool? Recursive { get; set; }
+
+    /// <summary>
+    /// Reporter output format [default: default]
+    /// </summary>
+    [CliOption("--reporter")]
+    public PnpmAuditReporter? Reporter { get; set; }
+
+    /// <summary>
+    /// What level of logs to print. Mirrors pnpm's universal `--loglevel` option: `silent` selects the silent reporter over any `--reporter` choice; the other levels cap the default reporter's output
+    /// </summary>
+    [CliOption("--loglevel")]
+    public PnpmAuditLoglevel? Loglevel { get; set; }
+
+    /// <summary>
+    /// Select which workspace projects to run on. Repeat to add more. Each selector can be a name pattern (`@scope/*`), a path (`./pkg`), a dependency query (`foo...`), an exclusion (`!bar`), a directory (`{dir}`), or a changed-since query (`[since]`)
+    /// </summary>
+    [CliOption("--filter", ShortForm = "-F")]
+    public IEnumerable<string>? Filter { get; set; }
+
+    /// <summary>
+    /// Like `--filter`, but follow only production dependencies when selecting projects
+    /// </summary>
+    [CliOption("--filter-prod")]
+    public string? FilterProd { get; set; }
+
+    /// <summary>
+    /// Run the command on the root workspace project
+    /// </summary>
+    [CliFlag("--workspace-root", ShortForm = "-w")]
+    public bool? WorkspaceRoot { get; set; }
+
+    /// <summary>
+    /// Exit with code 1 when the `--filter` / `--filter-prod` selectors match no workspace project
+    /// </summary>
+    [CliFlag("--fail-if-no-match")]
+    public bool? FailIfNoMatch { get; set; }
+
+    /// <summary>
+    /// Also run a recursive command on the root workspace project, which `run` / `exec` / `add` / `test` otherwise leave out
+    /// </summary>
+    [CliFlag("--include-workspace-root")]
+    public bool? IncludeWorkspaceRoot { get; set; }
+
+    /// <summary>
+    /// Leave the root workspace project out of a recursive command, overriding an `includeWorkspaceRoot: true` setting
+    /// </summary>
+    [CliFlag("--no-include-workspace-root")]
+    public bool? NoIncludeWorkspaceRoot { get; set; }
+
+    /// <summary>
+    /// Glob patterns naming test files, used by the `[since]` `--filter` selector to decide which changes count
+    /// </summary>
+    [CliOption("--test-pattern")]
+    public string? TestPattern { get; set; }
+
+    /// <summary>
+    /// Glob patterns of changed files that the `[since]` `--filter` selector should ignore
+    /// </summary>
+    [CliOption("--changed-files-ignore-pattern")]
+    public string? ChangedFilesIgnorePattern { get; set; }
+
+    /// <summary>
+    /// Keep recursive workspace projects sorted topologically
+    /// </summary>
+    [CliFlag("--sort")]
+    public bool? Sort { get; set; }
+
+    /// <summary>
+    /// Run recursive workspace projects in workspace order
+    /// </summary>
+    [CliFlag("--no-sort")]
+    public bool? NoSort { get; set; }
+
+    /// <summary>
+    /// Process recursive workspace projects in reverse order
+    /// </summary>
+    [CliFlag("--reverse")]
+    public bool? Reverse { get; set; }
+
+    /// <summary>
+    /// Maximum number of workspace projects to process in parallel
+    /// </summary>
+    [CliOption("--workspace-concurrency")]
+    public string? WorkspaceConcurrency { get; set; }
+
+    /// <summary>
+    /// Run scripts in every selected workspace project concurrently, disregarding topological sorting
+    /// </summary>
+    [CliFlag("--parallel")]
+    public bool? Parallel { get; set; }
+
+    /// <summary>
+    /// Stream a recursive command's script output as it arrives, one prefixed line at a time
+    /// </summary>
+    [CliFlag("--stream")]
+    public bool? Stream { get; set; }
+
+    /// <summary>
+    /// Hold each script's streamed output until the script exits, then print it as one block
+    /// </summary>
+    [CliFlag("--aggregate-output")]
+    public bool? AggregateOutput { get; set; }
+
+    /// <summary>
+    /// Divert the reporter's output to stderr, leaving stdout for the command's own result
+    /// </summary>
+    [CliFlag("--use-stderr")]
+    public bool? UseStderr { get; set; }
+
+    /// <summary>
+    /// Run as if the project were standalone, ignoring any `pnpm-workspace.yaml` above it
+    /// </summary>
+    [CliFlag("--ignore-workspace")]
+    public bool? IgnoreWorkspace { get; set; }
+
+    /// <summary>
+    /// Glob patterns selecting the workspace's projects, overriding the `packages` field of `pnpm-workspace.yaml`. Repeat to add more
+    /// </summary>
+    [CliOption("--workspace-packages")]
+    public IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
+    /// The [PARAMS] operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Params { get; set; }
 
 }
