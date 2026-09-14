@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Rust.Options;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Rust.Enums;
 
 namespace ModularPipelines.Rust.Options;
 
@@ -41,31 +42,31 @@ public record CargoAddOptions : CargoOptions, IValidatableObject
     public IEnumerable<string>? Features { get; set; }
 
     /// <summary>
-    /// Mark the dependency as optional
+    /// Mark the dependency as optional The package name will be exposed as feature of your crate.
     /// </summary>
     [CliFlag("--optional")]
     public bool? Optional { get; set; }
 
     /// <summary>
-    /// Mark the dependency as required
+    /// Mark the dependency as required The package will be removed from your features.
     /// </summary>
     [CliFlag("--no-optional")]
     public bool? NoOptional { get; set; }
 
     /// <summary>
-    /// Mark the dependency as public (unstable)
+    /// Mark the dependency as public (unstable) The dependency can be referenced in your library's public API.
     /// </summary>
     [CliFlag("--public")]
     public bool? Public { get; set; }
 
     /// <summary>
-    /// Mark the dependency as private (unstable)
+    /// Mark the dependency as private (unstable) While you can use the crate in your implementation, it cannot be referenced in your public API.
     /// </summary>
     [CliFlag("--no-public")]
     public bool? NoPublic { get; set; }
 
     /// <summary>
-    /// Rename the dependency
+    /// Rename the dependency Example uses: - Depending on multiple versions of a crate - Depend on crates with the same name from different registries
     /// </summary>
     [CliOption("--rename")]
     public string? Rename { get; set; }
@@ -77,6 +78,12 @@ public record CargoAddOptions : CargoOptions, IValidatableObject
     public bool? DryRun { get; set; }
 
     /// <summary>
+    /// Use verbose output (-vv very verbose/build.rs output)
+    /// </summary>
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public int? Verbose { get; set; }
+
+    /// <summary>
     /// Do not print cargo log messages
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
@@ -86,19 +93,19 @@ public record CargoAddOptions : CargoOptions, IValidatableObject
     /// Coloring
     /// </summary>
     [CliOption("--color")]
-    public string? Color { get; set; }
+    public CargoAddColor? Color { get; set; }
 
     /// <summary>
     /// Override a configuration value
     /// </summary>
     [CliOption("--config")]
-    public string? Config { get; set; }
+    public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
-    /// Print help (see a summary with '-h')
+    /// Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliOption("-Z")]
+    public string? Z { get; set; }
 
     /// <summary>
     /// Path to Cargo.toml
@@ -131,6 +138,12 @@ public record CargoAddOptions : CargoOptions, IValidatableObject
     public bool? Frozen { get; set; }
 
     /// <summary>
+    /// Package to modify
+    /// </summary>
+    [CliOption("--package", ShortForm = "-p")]
+    public string? Package { get; set; }
+
+    /// <summary>
     /// Filesystem path to local crate to add
     /// </summary>
     [CliOption("--path")]
@@ -143,7 +156,7 @@ public record CargoAddOptions : CargoOptions, IValidatableObject
     public string? Base { get; set; }
 
     /// <summary>
-    /// Git repository location
+    /// Git repository location Without any other information, cargo will use latest commit on the main branch.
     /// </summary>
     [CliOption("--git")]
     public string? Git { get; set; }
@@ -161,7 +174,7 @@ public record CargoAddOptions : CargoOptions, IValidatableObject
     public string? Tag { get; set; }
 
     /// <summary>
-    /// Git reference to download the crate from
+    /// Git reference to download the crate from This is the catch all, handling hashes to named references in remote repositories.
     /// </summary>
     [CliOption("--rev")]
     public string? Rev { get; set; }
@@ -173,13 +186,13 @@ public record CargoAddOptions : CargoOptions, IValidatableObject
     public string? Registry { get; set; }
 
     /// <summary>
-    /// Add as development dependency
+    /// Add as development dependency Dev-dependencies are not used when compiling a package for building, but are used for compiling tests, examples, and benchmarks. These dependencies are not propagated to other packages which depend on this package.
     /// </summary>
     [CliFlag("--dev")]
     public bool? Dev { get; set; }
 
     /// <summary>
-    /// Add as build dependency
+    /// Add as build dependency Build-dependencies are the only dependencies available for use by build scripts (`build.rs` files).
     /// </summary>
     [CliFlag("--build")]
     public bool? Build { get; set; }

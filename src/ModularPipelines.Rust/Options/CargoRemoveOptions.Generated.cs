@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Rust.Options;
+using ModularPipelines.Rust.Enums;
 
 namespace ModularPipelines.Rust.Options;
 
@@ -19,15 +20,47 @@ namespace ModularPipelines.Rust.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("remove")]
-public record CargoRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> DepId
-) : CargoOptions
+public record CargoRemoveOptions : CargoOptions
 {
+    /// <summary>
+    /// Remove dependencies from a Cargo.toml manifest file
+    /// </summary>
+    /// <param name="DepId">The &lt;DEP_ID&gt; operand.</param>
+    public CargoRemoveOptions(
+        IEnumerable<string> DepId
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DepId);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DepId));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DepId));
+            }
+
+            DepId = materialized;
+        }
+        this.DepId = DepId;
+    }
+
+    public void Deconstruct(out IEnumerable<string> DepId)
+    {
+        DepId = this.DepId;
+    }
+
     /// <summary>
     /// Don't actually write the manifest
     /// </summary>
     [CliFlag("--dry-run", ShortForm = "-n")]
     public bool? DryRun { get; set; }
+
+    /// <summary>
+    /// Use verbose output (-vv very verbose/build.rs output)
+    /// </summary>
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public int? Verbose { get; set; }
 
     /// <summary>
     /// Do not print cargo log messages
@@ -36,22 +69,22 @@ public record CargoRemoveOptions(
     public bool? Quiet { get; set; }
 
     /// <summary>
-    /// Coloring [possible values: auto, always, never]
+    /// Coloring
     /// </summary>
     [CliOption("--color")]
-    public string? Color { get; set; }
+    public CargoRemoveColor? Color { get; set; }
 
     /// <summary>
     /// Override a configuration value
     /// </summary>
     [CliOption("--config")]
-    public string? Config { get; set; }
+    public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
-    /// Print help
+    /// Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliOption("-Z")]
+    public string? Z { get; set; }
 
     /// <summary>
     /// Remove from dev-dependencies
@@ -70,6 +103,12 @@ public record CargoRemoveOptions(
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; set; }
+
+    /// <summary>
+    /// Package to remove from
+    /// </summary>
+    [CliOption("--package", ShortForm = "-p")]
+    public string? Package { get; set; }
 
     /// <summary>
     /// Path to Cargo.toml
@@ -94,5 +133,11 @@ public record CargoRemoveOptions(
     /// </summary>
     [CliFlag("--frozen")]
     public bool? Frozen { get; set; }
+
+    /// <summary>
+    /// The &lt;DEP_ID&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> DepId { get; private init; }
 
 }

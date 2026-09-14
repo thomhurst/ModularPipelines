@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Rust.Options;
+using ModularPipelines.Rust.Enums;
 
 namespace ModularPipelines.Rust.Options;
 
@@ -22,10 +23,16 @@ namespace ModularPipelines.Rust.Options;
 public record CargoRunOptions : CargoOptions
 {
     /// <summary>
-    /// Error format [possible values: human, short, json, json-diagnostic-short, json-diagnostic-rendered-ansi, json-render-diagnostics]
+    /// Error format
     /// </summary>
     [CliOption("--message-format")]
-    public string? MessageFormat { get; set; }
+    public IEnumerable<CargoRunMessageFormat>? MessageFormat { get; set; }
+
+    /// <summary>
+    /// Use verbose output (-vv very verbose/build.rs output)
+    /// </summary>
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public int? Verbose { get; set; }
 
     /// <summary>
     /// Do not print cargo log messages
@@ -34,22 +41,40 @@ public record CargoRunOptions : CargoOptions
     public bool? Quiet { get; set; }
 
     /// <summary>
-    /// Coloring [possible values: auto, always, never]
+    /// Coloring
     /// </summary>
     [CliOption("--color")]
-    public string? Color { get; set; }
+    public CargoRunColor? Color { get; set; }
 
     /// <summary>
     /// Override a configuration value
     /// </summary>
     [CliOption("--config")]
-    public string? Config { get; set; }
+    public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
-    /// Print help
+    /// Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
     /// </summary>
-    [CliFlag("--help", ShortForm = "-h")]
-    public bool? Help { get; set; }
+    [CliOption("-Z")]
+    public string? Z { get; set; }
+
+    /// <summary>
+    /// Package with the target to run
+    /// </summary>
+    [CliOption("--package", ShortForm = "-p")]
+    public string? Package { get; set; }
+
+    /// <summary>
+    /// Name of the bin target to run
+    /// </summary>
+    [CliOption("--bin")]
+    public string? Bin { get; set; }
+
+    /// <summary>
+    /// Name of the example target to run
+    /// </summary>
+    [CliOption("--example")]
+    public string? Example { get; set; }
 
     /// <summary>
     /// Space or comma separated list of features to activate
@@ -92,6 +117,12 @@ public record CargoRunOptions : CargoOptions
     /// </summary>
     [CliOption("--profile")]
     public string? Profile { get; set; }
+
+    /// <summary>
+    /// Build for the target triple
+    /// </summary>
+    [CliOption("--target")]
+    public string? Target { get; set; }
 
     /// <summary>
     /// Directory for all generated artifacts
