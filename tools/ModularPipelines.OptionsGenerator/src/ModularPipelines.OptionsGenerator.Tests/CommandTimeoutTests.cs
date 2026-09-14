@@ -14,7 +14,7 @@ public class CommandTimeoutTests
         var executor = new RecordingExecutor();
         using var services = new ServiceCollection()
             .AddSingleton<ILoggerFactory>(NullLoggerFactory.Instance)
-            .AddSingleton<ICliCommandExecutor>(executor)
+            .AddSingleton<ProcessCliCommandExecutor>(executor)
             .AddSingleton(OptionsGeneratorCommand.CreateTypeEnhancer)
             .BuildServiceProvider();
         var tool = new CliToolDefinition
@@ -61,12 +61,13 @@ public class CommandTimeoutTests
         await Assert.That(result).IsNotEqualTo(0);
     }
 
-    private sealed class RecordingExecutor : ICliCommandExecutor
+    private sealed class RecordingExecutor()
+        : ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance), ICliCommandExecutor
     {
         public List<string> Commands { get; } = [];
 
-        public Task<CliCommandResult> ExecuteAsync(
-            string command, string arguments, CancellationToken cancellationToken = default, string? workingDirectory = null)
+        Task<CliCommandResult> ICliCommandExecutor.ExecuteAsync(
+            string command, string arguments, CancellationToken cancellationToken, string? workingDirectory)
         {
             Commands.Add($"{command} {arguments}");
             return Task.FromResult(new CliCommandResult
@@ -77,6 +78,6 @@ public class CommandTimeoutTests
             });
         }
 
-        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) => Task.FromResult(true);
+        Task<bool> ICliCommandExecutor.IsAvailableAsync(string command, CancellationToken cancellationToken) => Task.FromResult(true);
     }
 }
