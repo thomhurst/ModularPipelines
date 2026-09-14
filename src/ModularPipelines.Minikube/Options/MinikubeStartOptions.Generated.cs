@@ -64,7 +64,7 @@ public record MinikubeStartOptions : MinikubeOptions
     public bool? AutoUpdateDrivers { get; set; }
 
     /// <summary>
-    /// v0.0.51@sha256:4a1c825b61479e6c898851ea66f13c620aaeab6002746e95067fc2c4b38a0b24':
+    /// The base image to use for docker/podman drivers. Intended for local development.
     /// </summary>
     [CliOption("--base-image", Format = OptionFormat.EqualsSeparated)]
     public string? BaseImage { get; set; }
@@ -322,10 +322,10 @@ public record MinikubeStartOptions : MinikubeOptions
     public bool? Interactive { get; set; }
 
     /// <summary>
-    /// //storage.googleapis.com/minikube/iso/minikube-v1.39.0-amd64.iso,https://github.com/kubernetes/minikube/releases/download/v1.39.0/minikube-v1.39.0-amd64.iso,https://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/iso/minikube-v1.39.0-amd64.iso]:
+    /// Locations to fetch the minikube ISO from.
     /// </summary>
     [CliOption("--iso-url", Format = OptionFormat.EqualsSeparated)]
-    public string? IsoUrl { get; set; }
+    public IEnumerable<string>? IsoUrl { get; set; }
 
     /// <summary>
     /// This will keep the existing kubectl context and will create a minikube context.
@@ -364,7 +364,7 @@ public record MinikubeStartOptions : MinikubeOptions
     public int? KvmNumaCount { get; set; }
 
     /// <summary>
-    /// ///system':
+    /// The KVM QEMU connection URI. (kvm2 driver only)
     /// </summary>
     [CliOption("--kvm-qemu-uri", Format = OptionFormat.EqualsSeparated)]
     public string? KvmQemuUri { get; set; }
@@ -625,7 +625,7 @@ public record MinikubeStartOptions : MinikubeOptions
     /// comma separated list of Kubernetes components to verify and wait for after starting a cluster. defaults to "apiserver,system_pods", available options: "apiserver,system_pods,default_sa,apps_running,node_ready,kubelet,extra" . other acceptable values are 'all' or 'none', 'true' and 'false'
     /// </summary>
     [CliOption("--wait", Format = OptionFormat.EqualsSeparated)]
-    public string? Wait { get; set; }
+    public IEnumerable<string>? Wait { get; set; }
 
     /// <summary>
     /// max time to wait per Kubernetes or host to be healthy.
