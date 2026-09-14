@@ -246,6 +246,7 @@ internal static partial class CliArgumentGroupParser
         IEnumerable<string> lines,
         string? description) =>
         Classify(description) != CliArgumentGroupKind.None
+        || description?.Contains("This must be specified.", StringComparison.OrdinalIgnoreCase) == true
         || lines.Any(line => SectionHeadingPattern().IsMatch(line.Trim()));
 
     private sealed class ArgumentGroupBuilder(int indentation, string? description)
@@ -270,7 +271,7 @@ internal static partial class CliArgumentGroupParser
             Description = Description,
             Kind = Classify(Description),
             Arguments = Arguments,
-            Groups = Groups.Select(group => group.Build()).ToArray(),
+            Groups = [.. Groups.Select(group => group.Build())],
         };
     }
 

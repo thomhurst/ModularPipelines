@@ -65,20 +65,21 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Gcloud_Required_Presence_Flag_Rejects_False_And_Missing_Values(bool negatable)
+    [Arguments(false, false)]
+    [Arguments(true, false)]
+    [Arguments(false, true)]
+    public async Task Gcloud_Required_Presence_Flag_Rejects_False_And_Missing_Values(bool negatable, bool descriptionNegation)
     {
         var helpText = $"""
             NAME
                 gcloud example create - create an example
             REQUIRED FLAGS
                  --{(negatable ? "[no-]" : "")}confirm
-                    Confirm the operation.
+                    Confirm the operation. {(descriptionNegation ? "Specify --no-confirm to reject it." : string.Empty)}
             """;
         var command = (await CreateGcloudScraper().Parse(["gcloud", "example", "create"], helpText))!;
         await Assert.That(command.Options.All(option => !option.IsRequired)).IsTrue();
-        string[] expectedProperties = negatable ? ["Confirm", "NoConfirm"] : ["Confirm"];
+        string[] expectedProperties = negatable || descriptionNegation ? ["Confirm", "NoConfirm"] : ["Confirm"];
         await Assert.That(command.RequiredAlternativeGroups.Single().PropertyNames)
             .IsEquivalentTo(expectedProperties);
         var tool = new CliToolDefinition
@@ -100,7 +101,7 @@ public partial class NestedArgumentGroupParsingTests
                 await Assert.That(errors.Length == 0).IsEqualTo(value == true);
             }
 
-            if (negatable)
+            if (negatable || descriptionNegation)
             {
                 var instance = Activator.CreateInstance(type)!;
                 type.GetProperty("NoConfirm")!.SetValue(instance, true);
@@ -199,7 +200,34 @@ public partial class NestedArgumentGroupParsingTests
         var command = (await CreateGcloudScraper().Parse(["gcloud", "example", "create"], helpText))!;
         await Assert.That(command.Options.Count).IsEqualTo(3);
         await Assert.That(command.Options.All(option => !option.IsRequired)).IsTrue();
-        await Assert.That(command.RequiredAlternativeGroups).IsEmpty();
+        if (heading.StartsWith("At most", StringComparison.Ordinal))
+        {
+            await Assert.That(command.RequiredAlternativeGroups).IsEmpty();
+            return;
+        }
+
+        await Assert.That(command.RequiredAlternativeGroups.Single().PropertyNames)
+            .IsEquivalentTo(["Token", "Profile", "Interactive"]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "src/ModularPipelines.Google",
+            Commands = [command],
+        })).Single().Content;
+        await VerifyGeneratedValidation(generated, "GcloudExampleCreateOptions", async type =>
+        {
+            for (var mask = 0; mask < 8; mask++)
+            {
+                var instance = Activator.CreateInstance(type)!;
+                type.GetProperty("Token")!.SetValue(instance, (mask & 1) != 0 ? "token" : " ");
+                type.GetProperty("Profile")!.SetValue(instance, (mask & 2) != 0 ? "profile" : "");
+                type.GetProperty("Interactive")!.SetValue(instance, (mask & 4) != 0);
+                var errors = ((IValidatableObject) instance).Validate(new ValidationContext(instance));
+                await Assert.That(!errors.Any()).IsEqualTo(mask != 0);
+            }
+        });
     }
 
     [Test]
@@ -340,6 +368,7 @@ public partial class NestedArgumentGroupParsingTests
                 CSharpSyntaxTree.ParseText("global using System; global using System.Collections.Generic; global using System.Linq; "
                     + "global using ModularPipelines.Attributes; "
                     + "namespace ModularPipelines.Google.Options { public record GcloudOptions; } "
+                    + "namespace ModularPipelines.Secrets { public sealed class SecretValueAttribute : Attribute; } "
                     + "namespace ModularPipelines.Attributes { "
                     + "public enum OptionFormat { EqualsSeparated } "
                     + "public sealed class CliOptionAttribute(string name) : Attribute { public OptionFormat Format { get; set; } } "
