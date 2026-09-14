@@ -87,6 +87,25 @@ public class CargoCliScraperTests
         await Assert.That(commands.Any(command => command.FullCommand == "cargo build")).IsFalse();
         await Assert.That(executor.ManualRequested).IsTrue();
         await Assert.That(scraper.UnavailableHelpPaths).IsEquivalentTo(["cargo build"]);
+
+        var tool = (await scraper.CreateToolDefinitionAsync()) with { Commands = commands };
+        var coverage = CommandCoverageGuard.Evaluate(tool,
+            Path.Combine(Path.GetTempPath(), $"cargo-missing-manual-{Guid.NewGuid():N}"),
+            approveShrinkage: true, allowMissingManifest: true, unavailableHelpPaths: scraper.UnavailableHelpPaths);
+        await Assert.That(coverage.UnavailableCommands).IsEquivalentTo(["cargo build"]);
+        await Assert.That(coverage.Violations.Any(violation => violation.Contains("Help was unavailable after all retries"))).IsTrue();
+    }
+
+    [Test]
+    public async Task Captured_Build_Help_Preserves_Short_Only_Unstable_Option()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "cargo-1.98.1-build-help.txt"));
+        var command = (await new TestCargoCliScraper().Parse(["cargo", "build"], help))!;
+        var option = command.Options.Single(option => option.SwitchName == "-Z");
+        await Assert.That(option.PropertyName).IsEqualTo("Z");
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.ValueArity).IsEqualTo(CliOptionValueArity.Required);
+        await Assert.That(option.Description).Contains("Unstable (nightly-only) flags to Cargo");
     }
 
     [Test]
