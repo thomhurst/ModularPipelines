@@ -58,6 +58,75 @@ public class ModuleExecutorLoggingTests
     }
 
     [Test]
+    [Arguments(FailureMode.FailFast)]
+    [Arguments(FailureMode.ContinueOnFailure)]
+    public async Task Caller_Cancellation_Stops_Ordinary_Work_And_Drains_AlwaysRun(FailureMode failureMode)
+    {
+        using var cancellation = new CancellationTokenSource();
+        var running = new FaultingModule();
+        var queued = new LaterModule();
+        var alwaysRun = new QueuedAlwaysRunModule();
+        var started = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var readyModules = Channel.CreateUnbounded<ModuleState>();
+        foreach (var module in new IModule[] { running, queued, alwaysRun })
+        {
+            readyModules.Writer.TryWrite(new ModuleState(module, module.GetType()));
+        }
+
+        readyModules.Writer.Complete();
+        var scheduler = new Mock<IModuleScheduler>();
+        scheduler.SetupGet(x => x.ReadyModules).Returns(readyModules.Reader);
+        scheduler.Setup(x => x.RunSchedulerAsync(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+        var factory = new Mock<IModuleSchedulerFactory>();
+        factory.Setup(x => x.Create()).Returns(scheduler.Object);
+        var limits = new Mock<IParallelLimitProvider>();
+        limits.Setup(x => x.GetMaxDegreeOfParallelism()).Returns(1);
+        var runner = new Mock<IModuleRunner>();
+        var alwaysRunCompleted = false;
+        runner.Setup(x => x.ExecuteAsync(It.IsAny<ModuleState>(), It.IsAny<CancellationToken>()))
+            .Returns<ModuleState, CancellationToken>(async (state, token) =>
+            {
+                if (state.Module == running)
+                {
+                    started.TrySetResult();
+                    await Task.Delay(Timeout.InfiniteTimeSpan, token);
+                }
+                else if (state.Module == alwaysRun)
+                {
+                    token.ThrowIfCancellationRequested();
+                    alwaysRunCompleted = true;
+                }
+            });
+        var registry = new ModuleResultRegistry();
+        var executor = new ModuleExecutor(factory.Object, runner.Object, Mock.Of<IAlwaysRunHandler>(),
+            new ModuleResultRegistrar(registry, NullLogger<ModuleResultRegistrar>.Instance), registry,
+            limits.Object, Mock.Of<IRegistrationEventExecutor>(), Mock.Of<IMetricsCollector>(),
+            new ModuleDependencyRegistry(), new ModuleMetadataRegistry(new ModuleAttributeEventService()),
+            new SecondaryExceptionContainer(),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions { FailureMode = failureMode }),
+            NullLogger<ModuleExecutor>.Instance);
+
+        var execution = executor.ExecuteAsync([running, queued, alwaysRun], new Dictionary<Type, TimeSpan>(),
+            new ExecutionBackendContext(registry), cancellation.Token);
+        try
+        {
+            await started.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            await cancellation.CancelAsync();
+            await execution.WaitAsync(TimeSpan.FromSeconds(10));
+        }
+        finally
+        {
+            await cancellation.CancelAsync();
+        }
+
+        await Assert.That(alwaysRunCompleted).IsTrue();
+        await Assert.That(registry.GetResult(running.GetType())!.Status).IsEqualTo(ModuleStatus.Cancelled);
+        await Assert.That(registry.GetResult(queued.GetType())!.Status).IsEqualTo(ModuleStatus.Cancelled);
+        runner.Verify(x => x.ExecuteAsync(It.Is<ModuleState>(state => state.Module == queued),
+            It.IsAny<CancellationToken>()), Times.Never());
+    }
+
+    [Test]
     public async Task SuccessfulCompletion_DoesNotLogCancellation()
     {
         var logs = new StringBuilder();
@@ -219,7 +288,7 @@ public class ModuleExecutorLoggingTests
                     bothWorkersStarted.TrySetResult();
                 }
 
-                await bothWorkersStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                await bothWorkersStarted.Task.WaitAsync(TimeSpan.FromSeconds(5), CancellationToken.None);
                 throw new InvalidOperationException(moduleState.ModuleType.Name);
             });
 
@@ -370,7 +439,7 @@ public class ModuleExecutorLoggingTests
                     bothWorkersStarted.TrySetResult();
                 }
 
-                await bothWorkersStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                await bothWorkersStarted.Task.WaitAsync(TimeSpan.FromSeconds(5), CancellationToken.None);
 
                 if (moduleState.ModuleType == typeof(FaultingModule))
                 {
@@ -406,7 +475,7 @@ public class ModuleExecutorLoggingTests
                     bothWorkersStarted.TrySetResult();
                 }
 
-                await bothWorkersStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                await bothWorkersStarted.Task.WaitAsync(TimeSpan.FromSeconds(5), CancellationToken.None);
 
                 if (moduleState.ModuleType == typeof(FaultingModule))
                 {
@@ -414,7 +483,8 @@ public class ModuleExecutorLoggingTests
                 }
 
                 using var registration = cancellationToken.Register(failFastCancellationObserved.SetResult);
-                await failFastCancellationObserved.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                // Observe pool cancellation before throwing the unrelated cancellation under test.
+                await failFastCancellationObserved.Task.WaitAsync(TimeSpan.FromSeconds(5), CancellationToken.None);
                 throw new OperationCanceledException(independentCancellationToken);
             });
 

@@ -286,7 +286,7 @@ public class DistributedModuleExecutorTests
         bool dequeueAfterRelease = false) : IDistributedMasterCoordinator
     {
         private readonly ConcurrentDictionary<string, TaskCompletionSource> _resultWaits = new();
-        private readonly ConcurrentDictionary<string, TaskCompletionSource> _publishedResults = new();
+        private readonly ConcurrentDictionary<string, TaskCompletionSource<SerializedModuleResult>> _publishedResults = new();
         private readonly TaskCompletionSource _assignmentDequeued =
             new(TaskCreationOptions.RunContinuationsAsynchronously);
         private int _dequeueCount;
@@ -339,13 +339,13 @@ public class DistributedModuleExecutorTests
             await inner.PublishResultAsync(result, cancellationToken);
             _publishedResults.GetOrAdd(
                 result.ModuleTypeName,
-                _ => new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously)).TrySetResult();
+                _ => new TaskCompletionSource<SerializedModuleResult>(TaskCreationOptions.RunContinuationsAsynchronously)).TrySetResult(result);
         }
 
-        public Task WaitForResultPublishedAsync(Type moduleType) =>
+        public Task<SerializedModuleResult> WaitForResultPublishedAsync(Type moduleType) =>
             _publishedResults.GetOrAdd(
                 moduleType.FullName!,
-                _ => new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously)).Task;
+                _ => new TaskCompletionSource<SerializedModuleResult>(TaskCreationOptions.RunContinuationsAsynchronously)).Task;
 
         public Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken cancellationToken)
         {
@@ -523,6 +523,92 @@ public class DistributedModuleExecutorTests
         services.AddScoped(_ => loggerProvider.Object);
         services.AddScoped(_ => Mock.Of<IPipelineContext>());
         return services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
+    }
+
+    [Test]
+    public async Task Rejected_Cache_Hit_Uses_Accepted_Result_Without_Recording_A_Hit()
+    {
+        var module = new CachedDistributedModule();
+        var state = new ModuleState(module, module.GetType());
+        var scheduler = CreateMockScheduler(state);
+        var accepted = CreateTypedFailureResult(module, new InvalidOperationException("Accepted failure"));
+        var cached = CreateSuccessResult(new SimpleResult { Message = "rejected" }, module.GetType().Name);
+        var cache = new Mock<IModuleCacheResultRepository>();
+        cache.Setup(x => x.GetResultAsync(
+                It.IsAny<Module<SimpleResult>>(), It.IsAny<IPipelineContext>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(cached);
+        var registry = new ModuleResultRegistry();
+        var tracker = new DistributedCacheHitTracker();
+        IModuleResult? rejected = null;
+        var context = new Mock<IExecutionBackendContext>();
+        context.Setup(x => x.TryApplyResult(module, It.IsAny<IModuleResult>()))
+            .Returns<IModule, IModuleResult>((_, candidate) =>
+            {
+                rejected = candidate;
+                ModuleCompletionSourceApplicator.TryApply(module, accepted);
+                registry.RegisterResult(module.GetType(), accepted);
+                return false;
+            });
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        var executor = CreateExecutor(scheduler, resultRegistry: registry, coordinator: coordinator.Object,
+            cacheResultRepository: cache.Object, cacheHitTracker: tracker);
+
+        await executor.ExecuteAsync([module], new Dictionary<Type, TimeSpan>(), context.Object, CancellationToken.None);
+
+        await Assert.That(state.Result).IsSameReferenceAs(accepted);
+        await Assert.That(registry.GetResult(module.GetType())).IsSameReferenceAs(accepted);
+        await Assert.That(tracker.Contains(state.Result!)).IsFalse();
+        await Assert.That(tracker.Contains(rejected!)).IsFalse();
+        scheduler.Verify(x => x.MarkModuleCompleted(module.GetType(), false, accepted.ExceptionOrDefault, accepted.Status), Times.Once());
+        coordinator.Verify(x => x.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()), Times.Never());
+    }
+
+    [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task Collection_Uses_Accepted_Result_When_Worker_Result_Or_Failure_Is_Rejected(
+        bool collectionThrows,
+        bool acceptedFailure)
+    {
+        var module = new DistributedModule();
+        var scheduler = CreateMockScheduler(new ModuleState(module, module.GetType()));
+        var registry = new ModuleResultRegistry();
+        var context = new ExecutionBackendContext(registry);
+        var accepted = acceptedFailure
+            ? CreateTypedFailureResult(module, new InvalidOperationException("Accepted failure"))
+            : CreateSuccessResult(new SimpleResult { Message = "accepted" }, module.GetType().Name);
+        var candidate = acceptedFailure
+            ? CreateSuccessResult(new SimpleResult { Message = "rejected" }, module.GetType().Name)
+            : CreateTypedFailureResult(module, new InvalidOperationException("Rejected failure"));
+        var types = new ModuleTypeRegistry();
+        types.Register(module.GetType());
+        var serializer = new ModuleResultSerializer(types);
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(x => x.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Returns<string, CancellationToken>((_, _) =>
+            {
+                context.TryApplyResult(module, accepted);
+                return collectionThrows
+                    ? Task.FromException<SerializedModuleResult>(new InvalidOperationException("Collection failed"))
+                    : Task.FromResult(serializer.Serialize(candidate, module.GetType().FullName!, typeof(SimpleResult).FullName!, 1));
+            });
+        var executor = CreateExecutor(scheduler, resultRegistry: registry, coordinator: coordinator.Object,
+            resultCollector: new DistributedResultCollector(coordinator.Object, serializer));
+
+        await executor.ExecuteAsync([module]);
+
+        await Assert.That(registry.GetResult(module.GetType())).IsSameReferenceAs(accepted);
+        await Assert.That(await module.AsInternal().ResultTask).IsSameReferenceAs(accepted);
+        scheduler.Verify(x => x.MarkModuleCompleted(module.GetType(), !acceptedFailure,
+            It.IsAny<Exception?>(), It.IsAny<ModuleStatus?>()), Times.Once());
+        if (collectionThrows)
+        {
+            coordinator.Verify(x => x.PublishResultAsync(
+                It.Is<SerializedModuleResult>(result => serializer.Deserialize(result)!.Status == accepted.Status),
+                It.IsAny<CancellationToken>()), Times.Once());
+        }
     }
 
     [Test]
@@ -1542,6 +1628,13 @@ public class DistributedModuleExecutorTests
 
         await executionTask.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await Assert.That(noDequeue.DequeueCount).IsEqualTo(1);
+        var cancelledResult = await noDequeue.WaitForResultPublishedAsync(typeof(AnotherDistributedModule))
+            .WaitAsync(TestHostSettings.DefaultTestTimeout);
+        await Assert.That(serializer.Deserialize(cancelledResult)!.Status).IsEqualTo(ModuleStatus.Cancelled);
+        var lateDependencyResult = await coordinator.WaitForResultAsync(
+            typeof(AnotherDistributedModule).FullName!, CancellationToken.None)
+            .WaitAsync(TestHostSettings.DefaultTestTimeout);
+        await Assert.That(lateDependencyResult).IsSameReferenceAs(cancelledResult);
         moduleRunner.Verify(runner => runner.ExecuteWithoutDependencyWaitAsync(
             It.IsAny<ModuleState>(),
             It.IsAny<CancellationToken>()), Times.Never);

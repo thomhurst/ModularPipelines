@@ -26,53 +26,36 @@ namespace ModularPipelines.Engine;
 /// - <see cref="IAlwaysRunHandler"/>: Handles AlwaysRun module completion.
 /// - <see cref="IModuleResultRegistrar"/>: Registers module results.
 /// </remarks>
-internal class ModuleExecutor : IExecutionBackend
+internal class ModuleExecutor(
+    IModuleSchedulerFactory schedulerFactory,
+    IModuleRunner moduleRunner,
+    IAlwaysRunHandler alwaysRunHandler,
+    IModuleResultRegistrar resultRegistrar,
+    IModuleResultRegistry resultRegistry,
+    IParallelLimitProvider parallelLimitProvider,
+    IRegistrationEventExecutor registrationEventExecutor,
+    IMetricsCollector metricsCollector,
+    IModuleDependencyRegistry dependencyRegistry,
+    IModuleMetadataRegistry metadataRegistry,
+    ISecondaryExceptionContainer secondaryExceptionContainer,
+    IOptions<PipelineOptions> pipelineOptions,
+    ILogger<ModuleExecutor> logger) : IExecutionBackend
 {
-    private readonly IModuleSchedulerFactory _schedulerFactory;
-    private readonly IModuleRunner _moduleRunner;
-    private readonly IAlwaysRunHandler _alwaysRunHandler;
-    private readonly IModuleResultRegistrar _resultRegistrar;
-    private readonly IModuleResultRegistry _resultRegistry;
-    private readonly IParallelLimitProvider _parallelLimitProvider;
-    private readonly IRegistrationEventExecutor _registrationEventExecutor;
-    private readonly IMetricsCollector _metricsCollector;
-    private readonly IModuleDependencyRegistry _dependencyRegistry;
-    private readonly IModuleMetadataRegistry _metadataRegistry;
-    private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
-    private readonly IOptions<PipelineOptions> _pipelineOptions;
-    private readonly ILogger<ModuleExecutor> _logger;
+    private readonly IModuleSchedulerFactory _schedulerFactory = schedulerFactory;
+    private readonly IModuleRunner _moduleRunner = moduleRunner;
+    private readonly IAlwaysRunHandler _alwaysRunHandler = alwaysRunHandler;
+    private readonly IModuleResultRegistrar _resultRegistrar = resultRegistrar;
+    private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
+    private readonly IParallelLimitProvider _parallelLimitProvider = parallelLimitProvider;
+    private readonly IRegistrationEventExecutor _registrationEventExecutor = registrationEventExecutor;
+    private readonly IMetricsCollector _metricsCollector = metricsCollector;
+    private readonly IModuleDependencyRegistry _dependencyRegistry = dependencyRegistry;
+    private readonly IModuleMetadataRegistry _metadataRegistry = metadataRegistry;
+    private readonly ISecondaryExceptionContainer _secondaryExceptionContainer = secondaryExceptionContainer;
+    private readonly IOptions<PipelineOptions> _pipelineOptions = pipelineOptions;
+    private readonly ILogger<ModuleExecutor> _logger = logger;
 
     public bool OwnsEntirePlan => true;
-
-    public ModuleExecutor(
-        IModuleSchedulerFactory schedulerFactory,
-        IModuleRunner moduleRunner,
-        IAlwaysRunHandler alwaysRunHandler,
-        IModuleResultRegistrar resultRegistrar,
-        IModuleResultRegistry resultRegistry,
-        IParallelLimitProvider parallelLimitProvider,
-        IRegistrationEventExecutor registrationEventExecutor,
-        IMetricsCollector metricsCollector,
-        IModuleDependencyRegistry dependencyRegistry,
-        IModuleMetadataRegistry metadataRegistry,
-        ISecondaryExceptionContainer secondaryExceptionContainer,
-        IOptions<PipelineOptions> pipelineOptions,
-        ILogger<ModuleExecutor> logger)
-    {
-        _schedulerFactory = schedulerFactory;
-        _moduleRunner = moduleRunner;
-        _alwaysRunHandler = alwaysRunHandler;
-        _resultRegistrar = resultRegistrar;
-        _resultRegistry = resultRegistry;
-        _parallelLimitProvider = parallelLimitProvider;
-        _registrationEventExecutor = registrationEventExecutor;
-        _metricsCollector = metricsCollector;
-        _dependencyRegistry = dependencyRegistry;
-        _metadataRegistry = metadataRegistry;
-        _secondaryExceptionContainer = secondaryExceptionContainer;
-        _pipelineOptions = pipelineOptions;
-        _logger = logger;
-    }
 
     /// <summary>
     /// Executes a collection of modules using eager parallel scheduling.
@@ -90,7 +73,7 @@ internal class ModuleExecutor : IExecutionBackend
         if (modules.Count == 0)
         {
             _logger.LogDebug("No modules to execute");
-            return Array.Empty<IModuleResult>();
+            return [];
         }
 
         IModuleScheduler? scheduler = null;
@@ -153,10 +136,9 @@ internal class ModuleExecutor : IExecutionBackend
 
     internal static IReadOnlyList<Exception> FlattenDistinctExceptions(
         params Exception[] exceptions) =>
-        exceptions
+        [.. exceptions
             .SelectMany(FlattenException)
-            .Distinct<Exception>(ReferenceEqualityComparer.Instance)
-            .ToArray();
+            .Distinct<Exception>(ReferenceEqualityComparer.Instance)];
 
     private static IEnumerable<Exception> FlattenException(Exception exception) =>
         exception is AggregateException { InnerExceptions.Count: > 0 } aggregateException
@@ -203,9 +185,8 @@ internal class ModuleExecutor : IExecutionBackend
         IModuleScheduler scheduler,
         CancellationToken cancellationToken)
     {
-        // ModuleRunner already observes the engine cancellation token. Linking it to the
-        // worker-pool token would abort scheduling before cancellation results and AlwaysRun
-        // modules can finish their normal pipeline lifecycle.
+        // Cancel ordinary module execution with the caller, but keep scheduling alive
+        // until cancellation results and AlwaysRun modules have completed.
         using var cancellationTokenSource = new CancellationTokenSource();
 
         RegisterCancellationCallback(cancellationTokenSource, scheduler);
@@ -216,7 +197,8 @@ internal class ModuleExecutor : IExecutionBackend
 
         try
         {
-            firstFailure = await ExecuteWorkerPoolAsync(scheduler, cancellationTokenSource).ConfigureAwait(false);
+            firstFailure = await ExecuteWorkerPoolAsync(scheduler, cancellationTokenSource, cancellationToken)
+                .ConfigureAwait(false);
         }
         catch (Exception exception)
         {
@@ -263,7 +245,7 @@ internal class ModuleExecutor : IExecutionBackend
         _logger.LogDebug("ExecuteAsync returning normally with {Count} modules", modules.Count);
     }
 
-    private void RegisterCancellationCallback(CancellationTokenSource cancellationTokenSource, IModuleScheduler scheduler)
+    private static void RegisterCancellationCallback(CancellationTokenSource cancellationTokenSource, IModuleScheduler scheduler)
     {
         cancellationTokenSource.Token.Register(
             () => scheduler.CancelPendingModules());
@@ -271,7 +253,8 @@ internal class ModuleExecutor : IExecutionBackend
 
     private async Task<WorkerFailure?> ExecuteWorkerPoolAsync(
         IModuleScheduler scheduler,
-        CancellationTokenSource cancellationTokenSource)
+        CancellationTokenSource cancellationTokenSource,
+        CancellationToken cancellationToken)
     {
         var maxDegreeOfParallelism = _parallelLimitProvider.GetMaxDegreeOfParallelism();
 
@@ -295,9 +278,22 @@ internal class ModuleExecutor : IExecutionBackend
                 parallelOptions,
                 async (moduleState, ct) =>
                 {
+                    using var executionCancellation = moduleState.Module.Configuration.AlwaysRun || !cancellationToken.CanBeCanceled
+                        ? null
+                        : CancellationTokenSource.CreateLinkedTokenSource(ct, cancellationToken);
+                    var executionToken = executionCancellation?.Token ?? ct;
                     try
                     {
-                        await _moduleRunner.ExecuteAsync(moduleState, ct).ConfigureAwait(false);
+                        executionToken.ThrowIfCancellationRequested();
+                        await _moduleRunner.ExecuteAsync(moduleState, executionToken).ConfigureAwait(false);
+                    }
+                    catch (OperationCanceledException ex) when (
+                        cancellationToken.IsCancellationRequested
+                        && !moduleState.Module.Configuration.AlwaysRun
+                        && WorkerCancellationClassifier.IsExpected(ex, executionToken))
+                    {
+                        TryRegisterTerminatedResult(moduleState, ex);
+                        TryMarkModuleFailed(moduleState, scheduler, ex);
                     }
                     catch (Exception ex) when (_pipelineOptions.Value.FailureMode == FailureMode.FailFast)
                     {
@@ -305,7 +301,7 @@ internal class ModuleExecutor : IExecutionBackend
                         var pipelineException = GetPipelineException(ex);
                         var isFirstFailure = false;
 
-                        if (!WorkerCancellationClassifier.IsExpected(ex, ct)
+                        if (!WorkerCancellationClassifier.IsExpected(ex, executionToken)
                             && recordedWorkerExceptions.TryAdd(pipelineException, 0))
                         {
                             _secondaryExceptionContainer.RegisterException(pipelineException);
@@ -486,7 +482,7 @@ internal class ModuleExecutor : IExecutionBackend
         }
     }
 
-    private void EnsureCancellation(CancellationTokenSource cancellationTokenSource)
+    private static void EnsureCancellation(CancellationTokenSource cancellationTokenSource)
     {
         if (!cancellationTokenSource.IsCancellationRequested)
         {
