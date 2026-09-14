@@ -154,11 +154,13 @@ public partial class RequiredConstructorValidationTests
     }
 
     [Test]
-    public async Task Alternative_Unresolved_Collections_Require_A_Known_Retention_Contract()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Alternative_Unresolved_Collections_Require_A_Known_Retention_Contract(bool positional)
     {
         var exception = await Assert.That(async () =>
         {
-            await GenerateAlternativeCollection(false, "PrivatePackage.SingleUseValues?", isCollection: true);
+            await GenerateAlternativeCollection(positional, "PrivatePackage.SingleUseValues?", isCollection: true);
         }).Throws<InvalidOperationException>();
         await Assert.That(exception!.Message).Contains("PrivatePackage.SingleUseValues?");
         await Assert.That(exception.Message).Contains("reusable snapshot");
@@ -212,6 +214,28 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(retained.Cast<object>().ToArray()).IsEquivalentTo(values.Cast<object>());
     }
 
+    [Test]
+    [Arguments(false, "System.Collections.IEnumerable?")]
+    [Arguments(true, "System.Collections.IEnumerable?")]
+    [Arguments(false, "IEnumerable<char>?")]
+    [Arguments(true, "IEnumerable<char>?")]
+    public async Task Alternative_Enumerable_Contracts_Preserve_String_Inputs(bool positional, string collectionType)
+    {
+        var options = Compile(await GenerateAlternativeCollection(positional, collectionType))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var property = options.GetProperty("Values")!;
+        const string input = "complete-value";
+        property.SetValue(instance, input);
+        await Assert.That(property.GetValue(instance)).IsSameReferenceAs(input);
+        var validation = (IValidatableObject) instance;
+        await Assert.That(validation.Validate(new(instance))).IsEmpty();
+        property.SetValue(instance, string.Empty);
+        await Assert.That(property.GetValue(instance)).IsSameReferenceAs(string.Empty);
+        await Assert.That(validation.Validate(new(instance))).Count().IsEqualTo(1);
+        options.GetProperty("Fallback")!.SetValue(instance, "fallback");
+        await Assert.That(validation.Validate(new(instance))).IsEmpty();
+    }
     private static Task<string> GenerateAlternativeCollection(bool positional, string collectionType, bool? isCollection = null)
     {
         List<CliOptionDefinition> options =
@@ -229,7 +253,7 @@ public partial class RequiredConstructorValidationTests
             PositionalArgumentPositionIndex = positional ? 0 : null,
         };
         return Generate(options,
-            positional ? [new() { PropertyName = "Values", CSharpType = collectionType, PositionIndex = 0 }] : [],
+            positional ? [new() { PropertyName = "Values", CSharpType = collectionType, PositionIndex = 0, IsVariadic = isCollection == true }] : [],
             [new() { Members = [member, new() { PropertyName = "Fallback", OptionSwitch = "--fallback" }] }]);
     }
 

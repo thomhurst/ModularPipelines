@@ -255,6 +255,7 @@ public record CliOptionDefinition
     {
         var elementName = elementType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
         var values = $"global::System.Linq.Enumerable.Cast<{elementName}>({{0}})";
+        var snapshot = $"global::System.Linq.Enumerable.ToArray({values})";
         var immutableArrayType = compilation.GetTypeByMetadataName("System.Collections.Immutable.ImmutableArray`1")?.Construct(elementType);
         if (retainUnsupportedCollections && immutableArrayType is not null
             && compilation.ClassifyConversion(immutableArrayType, propertyType).IsImplicit)
@@ -262,10 +263,17 @@ public record CliOptionDefinition
             var immutableArrayName = immutableArrayType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
             // Object equality compares backing-array identity across element types, so a
             // default ImmutableArray<string> is also recognized through IEnumerable<object>.
-            return $"default({immutableArrayName}).Equals((object){{0}}) ? global::System.Array.Empty<{elementName}>() : global::System.Linq.Enumerable.ToArray({values})";
+            snapshot = $"default({immutableArrayName}).Equals((object){{0}}) ? global::System.Array.Empty<{elementName}>() : {snapshot}";
         }
 
-        return $"global::System.Linq.Enumerable.ToArray({values})";
+        if (retainUnsupportedCollections && compilation.ClassifyConversion(
+                compilation.GetSpecialType(SpecialType.System_String), propertyType).IsImplicit)
+        {
+            // Strings are immutable and render as one CLI value, even through enumerable contracts.
+            return $"{{0}} is string ? {{0}} : ({snapshot})";
+        }
+
+        return snapshot;
     }
 
     private static PortableExecutableReference[] GetPlatformReferences()

@@ -390,7 +390,8 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static bool IsCollectionParameter(
         GeneratorUtils.RequiredConstructorParameter parameter) =>
-        CliOptionDefinition.IsCollectionType(parameter.CSharpType.TrimEnd('?'), parameter.Option?.IsCollection);
+        CliOptionDefinition.IsCollectionType(parameter.CSharpType.TrimEnd('?'),
+            parameter.Option?.IsCollection ?? parameter.PositionalArgument?.IsVariadic);
 
     private static bool RequiresNullableFlagProperty(CliOptionDefinition? option) =>
         option is { IsFlag: true, NegatedSwitchName: not null };
@@ -497,9 +498,9 @@ public class OptionsClassGenerator : ICodeGenerator
         string propertyName)
     {
         var option = command.Options.FirstOrDefault(candidate => candidate.PropertyName == propertyName);
+        var positional = positionalArguments.FirstOrDefault(candidate => candidate.PropertyName == propertyName);
         var csharpType = option?.PropertyType
-                         ?? positionalArguments.FirstOrDefault(candidate => candidate.PropertyName == propertyName)
-                             ?.CSharpType
+                         ?? positional?.CSharpType
                          ?? throw new InvalidOperationException(
                              $"Required alternative property {propertyName} was not generated for {command.FullCommand}.");
 
@@ -513,7 +514,7 @@ public class OptionsClassGenerator : ICodeGenerator
             return $"!string.IsNullOrWhiteSpace({propertyName})";
         }
 
-        return CliOptionDefinition.IsCollectionType(csharpType, option?.IsCollection)
+        return CliOptionDefinition.IsCollectionType(csharpType, option?.IsCollection ?? positional?.IsVariadic)
             ? $"{propertyName}?.Cast<object>().Any() == true"
             : $"{propertyName} is not null";
     }
@@ -587,7 +588,7 @@ public class OptionsClassGenerator : ICodeGenerator
             propertyType = propertyType.TrimEnd('?');
         }
 
-        GeneratePropertyDeclaration(sb, propertyType, positional.PropertyName, positional.IsRequired, participatesInAlternative);
+        GeneratePropertyDeclaration(sb, propertyType, positional.PropertyName, positional.IsRequired, participatesInAlternative, positional.IsVariadic);
     }
 
     private static void GeneratePropertyDeclaration(
