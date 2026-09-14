@@ -195,6 +195,22 @@ public partial class TerraformCliScraper : CliScraperBase
         // Parse options from the help text
         var options = ParseOptions(helpText, commandParts);
 
+        // Terraform's state identities synopsis requires -json, but its Options section
+        // omits this presence-only flag (internal/command/state_identities.go).
+        if (commandParts is ["state", "identities"]
+            && usage.RequiredOptionSwitches.Contains("-json", StringComparer.Ordinal)
+            && CliOptionDefinition.FindIndexBySwitch(options, "-json") < 0)
+        {
+            options.Add(new CliOptionDefinition
+            {
+                SwitchName = "-json",
+                PropertyName = "Json",
+                CSharpType = "bool?",
+                IsFlag = true,
+                IsRequired = true,
+            });
+        }
+
         // Extract enums from options
         var enums = options
             .Where(o => o.EnumDefinition is not null)
