@@ -280,7 +280,7 @@ public partial class RequiredConstructorValidationTests
     [Test]
     [Arguments("IEnumerable<string>?")]
     [Arguments("System.Collections.IEnumerable?")]
-    public async Task Cli_Json_Factories_Reject_Null_Alternate_Input(string collectionType)
+    public async Task Cli_Json_Factories_Reject_Blank_Alternate_Input(string collectionType)
     {
         var generated = await Generate(collectionType, alternateInput: true);
         var options = Compile(generated).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
@@ -291,11 +291,26 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(exception!.InnerException).IsTypeOf<ArgumentNullException>();
         await Assert.That(((ArgumentNullException) exception.InnerException!).ParamName).IsEqualTo("cliInputJson");
 
+        foreach (var input in new[] { "", " \t\r\n" })
+        {
+            var blankException = await Assert.That(() => factory.Invoke(null, [input]))
+                .Throws<TargetInvocationException>();
+            await Assert.That(blankException!.InnerException).IsTypeOf<ArgumentException>();
+            await Assert.That(((ArgumentException) blankException.InnerException!).ParamName).IsEqualTo("cliInputJson");
+        }
+
         foreach (var input in new[] { "{}", "file://parameters.json" })
         {
             var instance = factory.Invoke(null, [input])!;
             await Assert.That(options.GetProperty("CliInputJson")!.GetValue(instance)).IsEqualTo(input);
             await Assert.That(options.GetProperty("Name")!.GetValue(instance)).IsNull();
+            var validation = (System.ComponentModel.DataAnnotations.IValidatableObject) instance;
+            await Assert.That(validation.Validate(new(instance))).IsEmpty();
+            foreach (var blank in new string?[] { null, "", " \t\r\n" })
+            {
+                options.GetProperty("CliInputJson")!.SetValue(instance, blank);
+                await Assert.That(validation.Validate(new(instance))).IsNotEmpty();
+            }
         }
     }
 

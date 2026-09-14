@@ -401,7 +401,7 @@ public class OptionsClassGenerator : ICodeGenerator
         {
             sb.AppendLine($"    public static {command.ClassName} FromCliInputJson(string cliInputJson)");
             sb.AppendLine("    {");
-            sb.AppendLine("        global::System.ArgumentNullException.ThrowIfNull(cliInputJson);");
+            sb.AppendLine("        global::System.ArgumentException.ThrowIfNullOrWhiteSpace(cliInputJson);");
             sb.AppendLine("        return new() { CliInputJson = cliInputJson };");
             sb.AppendLine("    }");
             sb.AppendLine();
@@ -439,7 +439,7 @@ public class OptionsClassGenerator : ICodeGenerator
             List<string> alternateInputs = [];
             if (HasOption(command, "--cli-input-json"))
             {
-                alternateInputs.Add("CliInputJson is not null");
+                alternateInputs.Add("!string.IsNullOrWhiteSpace(CliInputJson)");
             }
 
             if (HasOption(command, "--generate-cli-skeleton"))
