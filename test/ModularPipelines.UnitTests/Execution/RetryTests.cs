@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.ExecutionBackend.TestFixtures;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
@@ -191,15 +192,22 @@ public class RetryTests : TestBase
     }
 
     [Test]
-    public async Task When_Error_Then_Retry()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task When_Error_Then_Retry(bool customBackend)
     {
-        var host = await TestPipelineBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .ConfigureOptions(options => options with
             {
                 DefaultRetryCount = DefaultRetryCount,
             })
-            .AddModule<FailedModule>()
-            .BuildAsync();
+            .AddModule<FailedModule>();
+        if (customBackend)
+        {
+            builder.AddExecutionBackend<InProcessExecutionBackend>();
+        }
+
+        await using var host = await builder.BuildAsync();
 
         await host.RunAsync();
 

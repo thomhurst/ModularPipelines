@@ -89,6 +89,11 @@ internal class ModuleExecutionContext : IModuleExecutionContext
     public bool AllowHistoricalResultWhenSkipped { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets a value indicating whether a custom backend's request can cancel AlwaysRun execution.
+    /// </summary>
+    public bool HonorCallerCancellation { get; set; }
+
+    /// <summary>
     /// Gets the stopwatch tracking execution time.
     /// </summary>
     public Stopwatch Stopwatch { get; }

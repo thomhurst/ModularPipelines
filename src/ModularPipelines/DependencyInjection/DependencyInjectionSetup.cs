@@ -261,6 +261,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<PipelineRunReportFactory>()
             .AddSingleton<IRunReportService, RunReportService>()
             .AddSingleton<ModuleExecutor>()
+            .AddSingleton<IExecutionBackendContextFactory>(services => services.GetRequiredService<ModuleExecutor>())
             .AddSingleton<IExecutionBackendContext, ExecutionBackendContext>()
             .AddSingleton<IModuleExecutionPipeline, ModuleExecutionPipeline>()
             .AddSingleton<IModuleResultRegistry, ModuleResultRegistry>()

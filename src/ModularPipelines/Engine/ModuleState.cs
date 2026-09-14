@@ -183,6 +183,11 @@ internal class ModuleState
     public IModuleResult? Result { get; set; }
 
     /// <summary>
+    /// Gets or sets whether execution must retry after a competing module releases a constraint.
+    /// </summary>
+    public bool ExecutionDeferred { get; set; }
+
+    /// <summary>
     /// Gets the first skip decision recorded for the module.
     /// </summary>
     public SkipDecision SkipResult => Volatile.Read(ref _skipResult);

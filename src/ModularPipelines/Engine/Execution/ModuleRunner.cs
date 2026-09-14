@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.ExceptionServices;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -21,6 +22,7 @@ using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Secrets;
 using ModularPipelines.Tracing;
+using Semaphores;
 
 namespace ModularPipelines.Engine.Execution;
 
@@ -115,6 +117,13 @@ internal class ModuleRunner : IModuleRunner
     }
 
     /// <inheritdoc />
+    public Task ExecuteAsync(ModuleState moduleState, AsyncSemaphore executionLimit, CancellationToken cancellationToken)
+    {
+        return ExecuteCore(moduleState, GetScheduler(moduleState, skipDependencyWait: false), cancellationToken,
+            skipDependencyWait: false, executionLimit: executionLimit);
+    }
+
+    /// <inheritdoc />
     public Task ExecuteAsync(ModuleState moduleState, IModuleScheduler scheduler, CancellationToken cancellationToken)
     {
         return ExecuteCore(moduleState, scheduler, cancellationToken, skipDependencyWait: false);
@@ -136,9 +145,11 @@ internal class ModuleRunner : IModuleRunner
         ModuleState moduleState,
         IModuleScheduler? scheduler,
         CancellationToken cancellationToken,
-        bool skipDependencyWait)
+        bool skipDependencyWait,
+        AsyncSemaphore? executionLimit = null)
     {
         var module = moduleState.Module;
+        moduleState.ExecutionDeferred = false;
         var moduleType = moduleState.ModuleType;
         var moduleName = moduleType.Name;
         var limiterCancellationToken = default(CancellationToken);
@@ -146,118 +157,159 @@ internal class ModuleRunner : IModuleRunner
 
         // Create a scope to resolve scoped services like IModuleContext and ModuleLogger<T>
         var scope = _serviceProvider.CreateAsyncScope();
-        await using (scope.ConfigureAwait(false))
+        IDisposable? executionLimitHandle = null;
+        try
         {
-            try
+            await using (scope.ConfigureAwait(false))
             {
-                if (!skipDependencyWait)
+                try
                 {
-                    await _dependencyWaiter.WaitForDependenciesAsync(
+                    await WaitForDependenciesAsync(
                             moduleState,
-                            scheduler!,
+                            scheduler,
                             scope.ServiceProvider,
-                            cancellationToken)
+                            cancellationToken,
+                            skipDependencyWait)
                         .ConfigureAwait(false);
-                }
-                else
-                {
-                    _logger.LogDebug("Skipping dependency wait for late-started AlwaysRun module: {ModuleName}", moduleName);
-                }
 
-                var allowHistoricalResultWhenSkipped = !await HasRunnableArtifactConsumerAsync(
-                        moduleType,
-                        scheduler,
-                        cancellationToken)
-                    .ConfigureAwait(false);
-
-                if (moduleState.TryStartReadyEvents())
-                {
-                    var pipelineContext = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
-                    var readyLifecycleContext = CreateLifecycleContext(
-                        moduleState,
-                        pipelineContext,
-                        scope.ServiceProvider,
-                        cancellationToken);
-                    readyLogger = readyLifecycleContext.ConsoleWriter as IInternalModuleLogger;
-                    await _pipelineSetupExecutor
-                        .OnModuleReadyAsync(moduleState, readyLifecycleContext.ConsoleWriter)
-                        .ConfigureAwait(false);
-                    await InvokeReadyEventAsync(moduleState, readyLifecycleContext).ConfigureAwait(false);
-                }
-
-                using var limiterCancellationTokenSource = module.Configuration.AlwaysRun
-                    ? null
-                    : CancellationTokenSource.CreateLinkedTokenSource(
-                        cancellationToken,
-                        _engineCancellationToken.Token);
-                limiterCancellationToken = module.Configuration.AlwaysRun
-                    ? _engineCancellationToken.NonFailureCancellationToken
-                    : limiterCancellationTokenSource!.Token;
-                using var semaphoreHandle = await _parallelLimitHandler
-                    .AcquireParallelLimitAsync(moduleType, limiterCancellationToken)
-                    .ConfigureAwait(false);
-                using var executionHintHandle = await _parallelLimitHandler
-                    .AcquireExecutionHintLimitAsync(moduleState, limiterCancellationToken)
-                    .ConfigureAwait(false);
-
-                // Check constraints again after acquiring execution slots. Keeping the module queued
-                // until this point prevents limiter wait time from being reported as execution time.
-                if (!TryMarkModuleStarted(scheduler, moduleType))
-                {
-                    readyLogger ??= GetAmbientOrScopedModuleLogger(
-                        scope.ServiceProvider,
-                        moduleType) as IInternalModuleLogger;
-                    readyLogger?.PreserveBufferForDeferredExecution();
-                    _logger.LogDebug("Module {ModuleName} deferred due to constraint check failure", moduleName);
-                    return; // Module will be rescheduled by the scheduler
-                }
-
-                _logger.LogDebug("Starting module {ModuleName}", moduleName);
-                var executionContext = CreateExecutionContext(module, moduleType);
-                ApplyDependencySkip(moduleState, executionContext);
-                executionContext.AllowHistoricalResultWhenSkipped = allowHistoricalResultWhenSkipped;
-
-                await ExecuteModuleWithPipeline(
-                        moduleState,
-                        scheduler,
-                        scope.ServiceProvider,
-                        executionContext,
-                        cancellationToken)
-                    .ConfigureAwait(false);
-
-                scheduler?.MarkModuleCompleted(moduleType, true, statusOverride: moduleState.Result?.Status);
-            }
-            catch (Exception ex)
-            {
-                var handledException = NormalizeLimiterCancellation(
-                    ex,
-                    cancellationToken,
-                    limiterCancellationToken);
-                HandleExecutionFailure(
-                    moduleState,
-                    scheduler,
-                    handledException,
-                    cancellationToken);
-                readyLogger ??= GetAmbientOrScopedModuleLogger(
-                    scope.ServiceProvider,
-                    moduleType) as IInternalModuleLogger;
-                FinalizeReadyLoggerAfterFailure(
-                    readyLogger,
-                    moduleState,
-                    moduleType,
-                    handledException);
-
-                if (_pipelineOptions.Value.FailureMode == FailureMode.FailFast)
-                {
-                    if (ReferenceEquals(handledException, ex))
+                    if (executionLimit is not null)
                     {
-                        throw;
+                        executionLimitHandle = await executionLimit.WaitAsync(cancellationToken).ConfigureAwait(false);
                     }
 
-                    throw handledException;
+                    var allowHistoricalResultWhenSkipped = !await HasRunnableArtifactConsumerAsync(
+                            moduleType,
+                            scheduler,
+                            cancellationToken)
+                        .ConfigureAwait(false);
+
+                    if (moduleState.TryStartReadyEvents())
+                    {
+                        var pipelineContext = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
+                        var readyLifecycleContext = CreateLifecycleContext(
+                            moduleState,
+                            pipelineContext,
+                            scope.ServiceProvider,
+                            cancellationToken);
+                        readyLogger = readyLifecycleContext.ConsoleWriter as IInternalModuleLogger;
+                        await _pipelineSetupExecutor
+                            .OnModuleReadyAsync(moduleState, readyLifecycleContext.ConsoleWriter)
+                            .ConfigureAwait(false);
+                        await InvokeReadyEventAsync(moduleState, readyLifecycleContext).ConfigureAwait(false);
+                    }
+
+                    using var limiterCancellationTokenSource = CreateLimiterCancellationTokenSource(
+                        module, cancellationToken, honorCallerCancellation: executionLimit is not null);
+                    limiterCancellationToken = limiterCancellationTokenSource?.Token
+                        ?? _engineCancellationToken.NonFailureCancellationToken;
+                    using var semaphoreHandle = await _parallelLimitHandler
+                        .AcquireParallelLimitAsync(moduleType, limiterCancellationToken)
+                        .ConfigureAwait(false);
+                    using var executionHintHandle = await _parallelLimitHandler
+                        .AcquireExecutionHintLimitAsync(moduleState, limiterCancellationToken)
+                        .ConfigureAwait(false);
+
+                    // Check constraints again after acquiring execution slots. Keeping the module queued
+                    // until this point prevents limiter wait time from being reported as execution time.
+                    if (!TryStartModuleExecution(moduleState, scheduler, scope.ServiceProvider, ref readyLogger))
+                    {
+                        return; // Module will be rescheduled by the scheduler
+                    }
+
+                    _logger.LogDebug("Starting module {ModuleName}", moduleName);
+                    var executionContext = CreateExecutionContext(module, moduleType);
+                    executionContext.HonorCallerCancellation = executionLimit is not null;
+                    ApplyDependencySkip(moduleState, executionContext);
+                    executionContext.AllowHistoricalResultWhenSkipped = allowHistoricalResultWhenSkipped;
+
+                    await ExecuteModuleWithPipeline(
+                            moduleState,
+                            scheduler,
+                            scope.ServiceProvider,
+                            executionContext,
+                            cancellationToken)
+                        .ConfigureAwait(false);
+
+                    MarkExecutionCompleted(moduleState, scheduler);
+                }
+                catch (Exception ex)
+                {
+                    HandleScopedExecutionFailure(
+                        moduleState,
+                        scheduler,
+                        ex,
+                        scope.ServiceProvider,
+                        readyLogger,
+                        cancellationToken,
+                        limiterCancellationToken);
                 }
             }
         }
+        finally
+        {
+            // Keep the slot until module hooks and asynchronous scope disposal have finished.
+            executionLimitHandle?.Dispose();
+        }
+    }
+
+    private Task WaitForDependenciesAsync(
+        ModuleState moduleState,
+        IModuleScheduler? scheduler,
+        IServiceProvider scopedServiceProvider,
+        CancellationToken cancellationToken,
+        bool skipDependencyWait)
+    {
+        if (skipDependencyWait)
+        {
+            _logger.LogDebug("Skipping dependency wait for late-started AlwaysRun module: {ModuleName}", moduleState.ModuleType.Name);
+            return Task.CompletedTask;
+        }
+
+        return _dependencyWaiter.WaitForDependenciesAsync(
+            moduleState, scheduler!, scopedServiceProvider, cancellationToken);
+    }
+
+    private static void MarkExecutionCompleted(ModuleState moduleState, IModuleScheduler? scheduler)
+    {
+        scheduler?.MarkModuleCompleted(
+            moduleState.ModuleType,
+            moduleState.Result?.Status != ModuleStatus.Cancelled,
+            statusOverride: moduleState.Result?.Status);
+    }
+
+    private void HandleScopedExecutionFailure(
+        ModuleState moduleState,
+        IModuleScheduler? scheduler,
+        Exception exception,
+        IServiceProvider scopedServiceProvider,
+        IInternalModuleLogger? readyLogger,
+        CancellationToken cancellationToken,
+        CancellationToken limiterCancellationToken)
+    {
+        var handledException = NormalizeLimiterCancellation(
+            exception, cancellationToken, limiterCancellationToken);
+        HandleExecutionFailure(moduleState, scheduler, handledException, cancellationToken);
+        FinalizeReadyLoggerAfterFailure(
+            readyLogger, scopedServiceProvider, moduleState, moduleState.ModuleType, handledException);
+
+        if (_pipelineOptions.Value.FailureMode == FailureMode.FailFast)
+        {
+            ExceptionDispatchInfo.Capture(handledException).Throw();
+        }
+    }
+
+    private CancellationTokenSource? CreateLimiterCancellationTokenSource(
+        IModule module, CancellationToken cancellationToken, bool honorCallerCancellation)
+    {
+        if (module.Configuration.AlwaysRun && !honorCallerCancellation)
+        {
+            return null;
+        }
+
+        var engineToken = module.Configuration.AlwaysRun
+            ? _engineCancellationToken.NonFailureCancellationToken
+            : _engineCancellationToken.Token;
+        return CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, engineToken);
     }
 
     private static IModuleScheduler? GetScheduler(ModuleState moduleState, bool skipDependencyWait)
@@ -270,17 +322,37 @@ internal class ModuleRunner : IModuleRunner
         return moduleState.Scheduler;
     }
 
-    private static bool TryMarkModuleStarted(IModuleScheduler? scheduler, Type moduleType)
+    private bool TryStartModuleExecution(
+        ModuleState moduleState,
+        IModuleScheduler? scheduler,
+        IServiceProvider scopedServiceProvider,
+        ref IInternalModuleLogger? readyLogger)
     {
-        return scheduler?.MarkModuleStarted(moduleType) ?? true;
+        var moduleType = moduleState.ModuleType;
+        if (scheduler?.MarkModuleStarted(moduleType) ?? true)
+        {
+            return true;
+        }
+
+        moduleState.ExecutionDeferred = true;
+        readyLogger ??= GetAmbientOrScopedModuleLogger(
+            scopedServiceProvider,
+            moduleType) as IInternalModuleLogger;
+        readyLogger?.PreserveBufferForDeferredExecution();
+        _logger.LogDebug("Module {ModuleName} deferred due to constraint check failure", moduleType.Name);
+        return false;
     }
 
     private void FinalizeReadyLoggerAfterFailure(
         IInternalModuleLogger? readyLogger,
+        IServiceProvider scopedServiceProvider,
         ModuleState moduleState,
         Type moduleType,
         Exception exception)
     {
+        readyLogger ??= GetAmbientOrScopedModuleLogger(
+            scopedServiceProvider,
+            moduleType) as IInternalModuleLogger;
         if (readyLogger is null)
         {
             return;
@@ -448,12 +520,15 @@ internal class ModuleRunner : IModuleRunner
         }
     }
 
+    private bool ManageArtifactsLocally(IModuleScheduler? scheduler) =>
+        _manageArtifactsLocally || scheduler is not null;
+
     private async Task UploadProducedArtifactsAsync(
         Type moduleType,
         IModuleScheduler? scheduler,
         CancellationToken cancellationToken)
     {
-        if (!_manageArtifactsLocally
+        if (!ManageArtifactsLocally(scheduler)
             || !_localArtifactConsumers.TryGetValue(moduleType, out var consumersByArtifact))
         {
             return;
@@ -559,7 +634,7 @@ internal class ModuleRunner : IModuleRunner
         IModuleScheduler? scheduler,
         CancellationToken cancellationToken)
     {
-        if (!_manageArtifactsLocally || !_localArtifactConsumers.ContainsKey(producerType))
+        if (!ManageArtifactsLocally(scheduler) || !_localArtifactConsumers.ContainsKey(producerType))
         {
             return false;
         }
@@ -1155,7 +1230,7 @@ internal class ModuleRunner : IModuleRunner
             .ConfigureAwait(false);
         await _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, executionContext.Status, result).ConfigureAwait(false);
 
-        if (!_manageArtifactsLocally
+        if (!ManageArtifactsLocally(scheduler)
             || executionContext.Status is not (
                 ModuleStatus.Succeeded or ModuleStatus.RestoredFromHistory or ModuleStatus.RestoredFromCache))
         {
@@ -1246,7 +1321,7 @@ internal class ModuleRunner : IModuleRunner
         Func<IModuleResult, CancellationToken, Task> finalizeExecutionAsync,
         CancellationToken cancellationToken)
     {
-        Func<CancellationToken, Task>? prepareExecutionAsync = _manageArtifactsLocally
+        Func<CancellationToken, Task>? prepareExecutionAsync = ManageArtifactsLocally(scheduler)
             ? token => _artifactLifecycleManager.DownloadConsumedArtifactsAsync(
                 module.GetType(),
                 failIfMissing: true,

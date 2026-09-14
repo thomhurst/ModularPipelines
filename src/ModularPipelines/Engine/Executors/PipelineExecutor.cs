@@ -14,6 +14,7 @@ internal class PipelineExecutor : IPipelineExecutor
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
     private readonly IExecutionBackend _executionBackend;
     private readonly IExecutionBackendContext _executionBackendContext;
+    private readonly IExecutionBackendContextFactory _executionBackendContextFactory;
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly ILogger<PipelineExecutor> _logger;
     private readonly IExceptionRethrowService _exceptionRethrowService;
@@ -25,6 +26,7 @@ internal class PipelineExecutor : IPipelineExecutor
         IPipelineSetupExecutor pipelineSetupExecutor,
         IExecutionBackend executionBackend,
         IExecutionBackendContext executionBackendContext,
+        IExecutionBackendContextFactory executionBackendContextFactory,
         EngineCancellationToken engineCancellationToken,
         ILogger<PipelineExecutor> logger,
         IExceptionRethrowService exceptionRethrowService,
@@ -35,6 +37,7 @@ internal class PipelineExecutor : IPipelineExecutor
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _executionBackend = executionBackend;
         _executionBackendContext = executionBackendContext;
+        _executionBackendContextFactory = executionBackendContextFactory;
         _engineCancellationToken = engineCancellationToken;
         _logger = logger;
         _exceptionRethrowService = exceptionRethrowService;
@@ -55,13 +58,27 @@ internal class PipelineExecutor : IPipelineExecutor
             var estimatedDurations = organizedModules.RunnableModules.ToDictionary(
                 runnable => runnable.Module.GetType(),
                 runnable => runnable.EstimatedDuration);
-            var results = await _executionBackend.ExecuteAsync(
-                    runnableModules,
-                    estimatedDurations,
-                    _executionBackendContext,
-                    _engineCancellationToken.Token)
-                .ConfigureAwait(false);
-            ApplyBackendResults(runnableModules, results);
+            // Only custom backends need shared dispatch state; the built-in backend owns its scheduler directly.
+            var context = _executionBackend is ModuleExecutor
+                ? null
+                : _executionBackendContextFactory.Create(_executionBackendContext, runnableModules, estimatedDurations, _engineCancellationToken);
+            try
+            {
+                var results = await _executionBackend.ExecuteAsync(
+                        runnableModules,
+                        estimatedDurations,
+                        context ?? _executionBackendContext,
+                        _engineCancellationToken.Token)
+                    .ConfigureAwait(false);
+                ApplyBackendResults(runnableModules, results);
+            }
+            finally
+            {
+                if (context is IAsyncDisposable contextLifetime)
+                {
+                    await contextLifetime.DisposeAsync().ConfigureAwait(false);
+                }
+            }
         }
         finally
         {

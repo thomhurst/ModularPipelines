@@ -36,22 +36,30 @@ public class LoggingSecretTests
     }
 
     [Test]
-    [Arguments("Shh!")]
-    [Arguments("SuperSecret!")]
-    [Arguments("🤐")]
-    public async Task SecretIsCensored(string secretValue)
+    [Arguments("Shh!", false)]
+    [Arguments("SuperSecret!", false)]
+    [Arguments("🤐", false)]
+    [Arguments("Shh!", true)]
+    [Arguments("SuperSecret!", true)]
+    [Arguments("🤐", true)]
+    public async Task SecretIsCensored(string secretValue, bool customBackend)
     {
         var stringBuilder = new StringBuilder();
 
-        await TestPipelineBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .ConfigureServices(collection =>
             {
                 collection
                     .AddSingleton<ILogger<SecretValueLoggingModule1>>(new StringLogger<SecretValueLoggingModule1>(stringBuilder))
                     .AddModule<SecretValueLoggingModule1>()
                     .Configure<MySecretSettings>(settings => settings.Secret1 = secretValue);
-            })
-            .RunAsync();
+            });
+        if (customBackend)
+        {
+            builder.AddExecutionBackend<ModularPipelines.ExecutionBackend.TestFixtures.InProcessExecutionBackend>();
+        }
+
+        await builder.RunAsync();
 
         var actualLogResult = stringBuilder.ToString().Trim();
         await Assert.That(actualLogResult).Contains($"My Secret Value is: **********");

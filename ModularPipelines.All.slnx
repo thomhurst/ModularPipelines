@@ -93,6 +93,7 @@
     <Project Path="test/ModularPipelines.Email.UnitTests/ModularPipelines.Email.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Flux.UnitTests/ModularPipelines.Flux.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Flyway.UnitTests/ModularPipelines.Flyway.UnitTests.csproj" />
+    <Project Path="test/ModularPipelines.ExecutionBackend.TestFixtures/ModularPipelines.ExecutionBackend.TestFixtures.csproj" />
     <Project Path="test/ModularPipelines.FSharp.TestFixtures/ModularPipelines.FSharp.TestFixtures.fsproj" />
     <Project Path="test/ModularPipelines.Ftp.UnitTests/ModularPipelines.Ftp.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Git.UnitTests/ModularPipelines.Git.UnitTests.csproj" />

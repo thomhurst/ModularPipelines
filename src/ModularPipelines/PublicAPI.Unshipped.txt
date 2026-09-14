@@ -1844,6 +1844,7 @@ ModularPipelines.IExecutionBackend
 ModularPipelines.IExecutionBackend.ExecuteAsync(System.Collections.Generic.IReadOnlyList<ModularPipelines.Modules.IModule!>! modules, System.Collections.Generic.IReadOnlyDictionary<System.Type!, System.TimeSpan>! estimatedDurations, ModularPipelines.IExecutionBackendContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.IModuleResult!>!>!
 ModularPipelines.IExecutionBackend.OwnsEntirePlan.get -> bool
 ModularPipelines.IExecutionBackendContext
+ModularPipelines.IExecutionBackendContext.ExecuteModuleAsync(ModularPipelines.Modules.IModule! module, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.IModuleResult!>!
 ModularPipelines.IExecutionBackendContext.TryApplyResult(ModularPipelines.Modules.IModule! module, ModularPipelines.Models.IModuleResult! result) -> bool
 ModularPipelines.IGroupedConditionAttribute
 ModularPipelines.IGroupedConditionAttribute.ConditionGroupType.get -> System.Type!

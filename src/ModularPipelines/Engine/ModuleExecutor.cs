@@ -39,7 +39,7 @@ internal class ModuleExecutor(
     IModuleMetadataRegistry metadataRegistry,
     ISecondaryExceptionContainer secondaryExceptionContainer,
     IOptions<PipelineOptions> pipelineOptions,
-    ILogger<ModuleExecutor> logger) : IExecutionBackend
+    ILogger<ModuleExecutor> logger) : IExecutionBackend, IExecutionBackendContextFactory
 {
     private readonly IModuleSchedulerFactory _schedulerFactory = schedulerFactory;
     private readonly IModuleRunner _moduleRunner = moduleRunner;
@@ -123,6 +123,15 @@ internal class ModuleExecutor(
     internal Task<IReadOnlyList<IModuleResult>> ExecuteAsync(IReadOnlyList<IModule> modules) =>
         ExecuteAsync(modules, new Dictionary<Type, TimeSpan>());
 
+    IExecutionBackendContext IExecutionBackendContextFactory.Create(
+        IExecutionBackendContext resultContext,
+        IReadOnlyList<IModule> modules,
+        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations,
+        EngineCancellationToken engineCancellationToken) =>
+        new InProcessExecutionBackendContext(
+            resultContext, _moduleRunner, modules, () => InitializeSchedulerAsync(modules, estimatedDurations),
+            _parallelLimitProvider.GetMaxDegreeOfParallelism(), engineCancellationToken);
+
     internal Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
         IReadOnlyList<IModule> modules,
         IReadOnlyDictionary<Type, TimeSpan> estimatedDurations)
@@ -171,13 +180,21 @@ internal class ModuleExecutor(
             UsedHistoryModuleSchedulerInitializer.GetPrecompletedModuleTypes(modules, _resultRegistry));
 
         var scheduler = _schedulerFactory.Create();
-        scheduler.InitializeModules(modules, estimatedDurations);
-        UsedHistoryModuleSchedulerInitializer.Precomplete(
-            modules,
-            scheduler,
-            _resultRegistry);
+        try
+        {
+            scheduler.InitializeModules(modules, estimatedDurations);
+            UsedHistoryModuleSchedulerInitializer.Precomplete(
+                modules,
+                scheduler,
+                _resultRegistry);
 
-        return scheduler;
+            return scheduler;
+        }
+        catch
+        {
+            scheduler.Dispose();
+            throw;
+        }
     }
 
     private async Task ExecuteWithSchedulerAsync(
@@ -279,10 +296,15 @@ internal class ModuleExecutor(
                 async (moduleState, ct) =>
                 {
                     using var executionCancellation = CreateExecutionCancellationSource(moduleState, ct, cancellationToken);
-                    var executionToken = executionCancellation?.Token ?? ct;
+                    // AlwaysRun teardown must survive FailFast cancellation of the pool.
+                    // ModuleRunner still observes non-failure engine cancellation for execution.
+                    var executionToken = moduleState.Module.Configuration.AlwaysRun
+                        ? CancellationToken.None
+                        : executionCancellation?.Token ?? ct;
                     try
                     {
                         executionToken.ThrowIfCancellationRequested();
+                        // The scheduler owns deferred retries, so an attempt must release this worker slot.
                         await _moduleRunner.ExecuteAsync(moduleState, executionToken).ConfigureAwait(false);
                     }
                     catch (OperationCanceledException ex) when (

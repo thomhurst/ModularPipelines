@@ -9,8 +9,8 @@ namespace ModularPipelines;
 /// <remarks>
 /// Implement this interface to provide a custom orchestration backend that supplies module results,
 /// for example by submitting modules to a cloud task queue or to remote processes and returning the
-/// results they produce. The engine's module runner is not public, so a custom backend cannot drive a
-/// module through the in-process lifecycle itself; the built-in local and distributed backends do that.
+/// results they produce, or by calling <see cref="IExecutionBackendContext.ExecuteModuleAsync"/>
+/// to execute planned modules through the engine's in-process lifecycle.
 /// A backend that <see cref="OwnsEntirePlan"/> must either return or apply a result for every planned
 /// module before completing.
 /// </remarks>
@@ -32,7 +32,7 @@ public interface IExecutionBackend
     /// Historical duration estimates keyed by module type, used to prioritise scheduling. Modules
     /// without history are absent from the dictionary.
     /// </param>
-    /// <param name="context">Operations supplied by the engine for applying remotely produced results.</param>
+    /// <param name="context">Operations for executing planned modules locally and applying remotely produced results.</param>
     /// <param name="cancellationToken">A token that requests pipeline cancellation.</param>
     /// <returns>
     /// The completed module results. Each returned result must provide its module's fully qualified
