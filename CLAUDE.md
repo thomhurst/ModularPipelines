@@ -5,6 +5,7 @@ ModularPipelines is a C# pipeline framework with dependency-driven, parallel mod
 ## Build and test
 
 - Use the SDK pinned in `global.json`.
+- [Directory.Build.props](Directory.Build.props) enables preview C#, including collection-expression arguments such as `[with(StringComparer.Ordinal), ...]`. The pinned SDK compiles this syntax and `dotnet format` emits it. Verify syntax concerns with that toolchain rather than older language-version assumptions.
 - Run every local `dotnet` command through `scripts/Invoke-AgentDotNet.ps1`, in-process as below. From another shell, use `pwsh -Command "& scripts/Invoke-AgentDotNet.ps1 ..."`; `pwsh scripts/Invoke-AgentDotNet.ps1 ...` loses array binding.
 - The guard defaults to 10 minutes and 2 GB, disables reusable build servers, and cleans up the process tree. Allow any outer execution timeout at least 30 seconds beyond `-TimeoutSeconds`. Exit `124` means timeout; `137` means memory limit. Report the validation limit and defer the expensive check to CI; do not automatically raise limits and retry.
 - Build the affected solution: `ModularPipelines.slnx` for core, `ModularPipelines.Tests.slnf` for core plus tests, or `src/ModularPipelines.<Tool>/ModularPipelines.<Tool>.slnx` for one integration (including its tests when present). Analyzer and example solutions are available for those areas.
