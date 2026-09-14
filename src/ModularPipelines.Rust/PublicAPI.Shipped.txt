@@ -5,10 +5,6 @@ ModularPipelines.Context.ModularPipelines_Rust_18222666a5803064ToolsExtensions.e
 ModularPipelines.Rust.Extensions.CargoExtensions
 ModularPipelines.Rust.Options.CargoAddOptions
 ModularPipelines.Rust.Options.CargoAddOptions.CargoAddOptions(ModularPipelines.Rust.Options.CargoAddOptions! original) -> void
-ModularPipelines.Rust.Options.CargoAddOptions.CargoAddOptions(System.Collections.Generic.IEnumerable<string!>! Dep) -> void
-ModularPipelines.Rust.Options.CargoAddOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Dep) -> void
-ModularPipelines.Rust.Options.CargoAddOptions.Dep.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.Rust.Options.CargoAddOptions.Dep.init -> void
 ModularPipelines.Rust.Options.CargoBenchOptions
 ModularPipelines.Rust.Options.CargoBenchOptions.Args.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Rust.Options.CargoBenchOptions.Args.set -> void
