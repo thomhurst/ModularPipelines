@@ -260,7 +260,9 @@ public record CliOptionDefinition
             && compilation.ClassifyConversion(immutableArrayType, propertyType).IsImplicit)
         {
             var immutableArrayName = immutableArrayType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-            return $"{{0}} is {immutableArrayName} {{ IsDefault: true }} ? global::System.Array.Empty<{elementName}>() : global::System.Linq.Enumerable.ToArray({values})";
+            // Object equality compares backing-array identity across element types, so a
+            // default ImmutableArray<string> is also recognized through IEnumerable<object>.
+            return $"default({immutableArrayName}).Equals((object){{0}}) ? global::System.Array.Empty<{elementName}>() : global::System.Linq.Enumerable.ToArray({values})";
         }
 
         return $"global::System.Linq.Enumerable.ToArray({values})";

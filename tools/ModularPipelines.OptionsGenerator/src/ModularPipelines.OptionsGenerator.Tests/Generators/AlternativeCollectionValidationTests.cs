@@ -13,6 +13,12 @@ public partial class RequiredConstructorValidationTests
     [Arguments(true, "System.Collections.Immutable.IImmutableList<string>?")]
     [Arguments(false, "IEnumerable<string>?")]
     [Arguments(true, "IReadOnlyList<string>?")]
+    [Arguments(false, "IEnumerable<object>?")]
+    [Arguments(true, "IEnumerable<object>?")]
+    [Arguments(false, "IReadOnlyList<object>?")]
+    [Arguments(true, "IReadOnlyList<object>?")]
+    [Arguments(false, "System.Collections.IEnumerable?")]
+    [Arguments(true, "System.Collections.IEnumerable?")]
     public async Task Alternative_Default_ImmutableArrays_Are_Absent_And_Allow_Fallback(bool positional, string collectionType)
     {
         var options = Compile(await GenerateAlternativeCollection(positional, collectionType))
@@ -25,6 +31,14 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(retained.Cast<string>()).IsEmpty();
         options.GetProperty("Fallback")!.SetValue(instance, "fallback");
         await Assert.That(validation.Validate(new(instance))).IsEmpty();
+
+        options.GetProperty("Fallback")!.SetValue(instance, null);
+        options.GetProperty("Values")!.SetValue(instance, System.Collections.Immutable.ImmutableArray<string>.Empty);
+        await Assert.That(validation.Validate(new(instance))).Count().IsEqualTo(1);
+        options.GetProperty("Values")!.SetValue(instance, System.Collections.Immutable.ImmutableArray.Create("first", "second"));
+        await Assert.That(validation.Validate(new(instance))).IsEmpty();
+        retained = (IEnumerable) options.GetProperty("Values")!.GetValue(instance)!;
+        await Assert.That(retained.Cast<string>().ToArray()).IsEquivalentTo(["first", "second"]);
     }
 
     [Test]
