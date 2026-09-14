@@ -38,7 +38,7 @@ internal partial class SonarScanner : ISonarScanner
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new SonarScannerExecuteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SonarScannerExecuteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
