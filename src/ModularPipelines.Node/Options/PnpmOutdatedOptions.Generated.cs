@@ -77,7 +77,7 @@ public record PnpmOutdatedOptions : PnpmOptions
     public bool? Json { get; set; }
 
     /// <summary>
-    /// Sorting method. Currently only `name` is supported; the default sorts by the size of the version change, then by name
+    /// Sorting method. Currently only `name` is supported; the default sorts by the size of the version change, then by name [possible values: name]
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
