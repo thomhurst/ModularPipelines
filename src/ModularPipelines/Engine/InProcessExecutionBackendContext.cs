@@ -29,24 +29,32 @@ internal sealed class InProcessExecutionBackendContext : IExecutionBackendContex
         _scheduler = new Lazy<Task<IModuleScheduler>>(async () =>
         {
             var scheduler = await initializeScheduler().ConfigureAwait(false);
-            lock (_sync)
+            try
             {
-                _initializedScheduler = scheduler;
-            }
-
-            foreach (var module in modules)
-            {
-                if (module is IInternalModule internalModule && internalModule.ResultTask is { IsCompletedSuccessfully: true } resultTask)
+                lock (_sync)
                 {
-                    ApplySchedulerResult(scheduler, module, resultTask.Result);
-                }
-            }
+                    // Publish only after replay succeeds. Concurrent remote results either
+                    // participate in this replay or see the fully initialized scheduler.
+                    foreach (var module in modules)
+                    {
+                        if (module is IInternalModule internalModule && internalModule.ResultTask is { IsCompletedSuccessfully: true } resultTask)
+                        {
+                            ApplySchedulerResult(scheduler, module, resultTask.Result);
+                        }
+                    }
 
-            return scheduler;
+                    _initializedScheduler = scheduler;
+                }
+
+                return scheduler;
+            }
+            catch
+            {
+                scheduler.Dispose();
+                throw;
+            }
         });
     }
-
-    internal Task<IModuleScheduler> GetSchedulerAsync() => _scheduler.Value;
 
     public Task<IModuleResult> ExecuteModuleAsync(IModule module, CancellationToken cancellationToken = default)
     {
@@ -101,7 +109,7 @@ internal sealed class InProcessExecutionBackendContext : IExecutionBackendContex
         var token = linkedCancellation.Token;
         try
         {
-            var scheduler = await GetSchedulerAsync().ConfigureAwait(false);
+            var scheduler = await _scheduler.Value.ConfigureAwait(false);
             var state = scheduler.GetModuleState(module.GetType())!;
             var resultTask = module.AsInternal().ResultTask;
             while (state.State != ModuleExecutionState.Completed && !resultTask.IsCompleted)

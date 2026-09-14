@@ -76,14 +76,11 @@ internal class ModuleExecutor(
             return [];
         }
 
-        var localContext = context as InProcessExecutionBackendContext
-            ?? CreateContext(context, modules, estimatedDurations);
-        await using var contextLifetime = localContext.ConfigureAwait(false);
         IModuleScheduler? scheduler = null;
 
         try
         {
-            scheduler = await localContext.GetSchedulerAsync().ConfigureAwait(false);
+            scheduler = await InitializeSchedulerAsync(modules, estimatedDurations).ConfigureAwait(false);
             await ExecuteWithSchedulerAsync(modules, scheduler, cancellationToken).ConfigureAwait(false);
             return _resultRegistry.GetCompletedResults(modules);
         }
@@ -130,13 +127,8 @@ internal class ModuleExecutor(
         IExecutionBackendContext resultContext,
         IReadOnlyList<IModule> modules,
         IReadOnlyDictionary<Type, TimeSpan> estimatedDurations) =>
-        CreateContext(resultContext, modules, estimatedDurations);
-
-    private InProcessExecutionBackendContext CreateContext(
-        IExecutionBackendContext resultContext,
-        IReadOnlyList<IModule> modules,
-        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations) =>
-        new(resultContext, _moduleRunner, modules, () => InitializeSchedulerAsync(modules, estimatedDurations));
+        new InProcessExecutionBackendContext(
+            resultContext, _moduleRunner, modules, () => InitializeSchedulerAsync(modules, estimatedDurations));
 
     internal Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
         IReadOnlyList<IModule> modules,
@@ -186,13 +178,21 @@ internal class ModuleExecutor(
             UsedHistoryModuleSchedulerInitializer.GetPrecompletedModuleTypes(modules, _resultRegistry));
 
         var scheduler = _schedulerFactory.Create();
-        scheduler.InitializeModules(modules, estimatedDurations);
-        UsedHistoryModuleSchedulerInitializer.Precomplete(
-            modules,
-            scheduler,
-            _resultRegistry);
+        try
+        {
+            scheduler.InitializeModules(modules, estimatedDurations);
+            UsedHistoryModuleSchedulerInitializer.Precomplete(
+                modules,
+                scheduler,
+                _resultRegistry);
 
-        return scheduler;
+            return scheduler;
+        }
+        catch
+        {
+            scheduler.Dispose();
+            throw;
+        }
     }
 
     private async Task ExecuteWithSchedulerAsync(
@@ -294,7 +294,11 @@ internal class ModuleExecutor(
                 async (moduleState, ct) =>
                 {
                     using var executionCancellation = CreateExecutionCancellationSource(moduleState, ct, cancellationToken);
-                    var executionToken = executionCancellation?.Token ?? ct;
+                    // AlwaysRun teardown must survive FailFast cancellation of the pool.
+                    // ModuleRunner still observes non-failure engine cancellation for execution.
+                    var executionToken = moduleState.Module.Configuration.AlwaysRun
+                        ? CancellationToken.None
+                        : executionCancellation?.Token ?? ct;
                     try
                     {
                         executionToken.ThrowIfCancellationRequested();

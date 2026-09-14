@@ -2,17 +2,82 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
 using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Execution;
 using ModularPipelines.Exceptions;
 using ModularPipelines.ExecutionBackend.TestFixtures;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Engine;
 
 public class ExecutionBackendTests
 {
+    [Test]
+    public async Task BuiltInBackendExecutesWithoutCustomDispatchContext()
+    {
+        var factory = new Mock<IExecutionBackendContextFactory>(MockBehavior.Strict);
+        await using var pipeline = await TestPipelineBuilder.Create()
+            .AddModule<BackendTestModule>()
+            .ConfigureServices(services => services.AddSingleton(factory.Object))
+            .BuildAsync();
+
+        await pipeline.RunAsync();
+        var module = pipeline.Services.GetServices<IModule>().OfType<BackendTestModule>().Single();
+        await Assert.That((await module).Value).IsEqualTo(42);
+        await Assert.That(module.ExecutionCount).IsEqualTo(1);
+        factory.VerifyNoOtherCalls();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task SchedulerInitializationFailureDisposesScheduler(bool customBackend)
+    {
+        var failure = new InvalidOperationException("Scheduler initialization failed");
+        var scheduler = new Mock<IModuleScheduler>();
+        scheduler.Setup(x => x.InitializeModules(It.IsAny<IEnumerable<IModule>>(),
+                It.IsAny<IReadOnlyDictionary<Type, TimeSpan>>()))
+            .Throws(failure);
+        var factory = new Mock<IModuleSchedulerFactory>();
+        factory.Setup(x => x.Create()).Returns(scheduler.Object);
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<BackendTestModule>()
+            .ConfigureServices(services => services.AddSingleton(factory.Object));
+        if (customBackend)
+        {
+            builder.AddExecutionBackend<InProcessExecutionBackend>();
+        }
+
+        await using var pipeline = await builder.BuildAsync();
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => pipeline.RunAsync());
+
+        await Assert.That(exception).IsSameReferenceAs(failure);
+        scheduler.Verify(x => x.Dispose(), Times.Once);
+    }
+
+    [Test]
+    public async Task ResultReplayFailureDisposesScheduler()
+    {
+        var failure = new InvalidOperationException("Result replay failed");
+        var module = new BackendTestModule();
+        module.CompletionSource.TrySetResult(CreateResult(module));
+        var scheduler = new Mock<IModuleScheduler>();
+        scheduler.Setup(x => x.MarkModuleCompleted(module.GetType(), true, null, ModuleStatus.Succeeded))
+            .Throws(failure);
+        await using var context = new InProcessExecutionBackendContext(
+            Mock.Of<IExecutionBackendContext>(), Mock.Of<IModuleRunner>(), [module],
+            () => Task.FromResult(scheduler.Object));
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => context.ExecuteModuleAsync(module));
+        await context.DisposeAsync();
+
+        await Assert.That(exception).IsSameReferenceAs(failure);
+        scheduler.Verify(x => x.Dispose(), Times.Once);
+    }
+
     [Test]
     public async Task RepeatedExecutionRequestsShareResultAndCompleteScopeDisposal()
     {

@@ -61,6 +61,91 @@ public class ModuleExecutorLoggingTests
 
     [Test]
     [Timeout(30_000)]
+    public async Task FailFast_Does_Not_Cancel_AlwaysRun_Dependency_Wait(CancellationToken cancellationToken)
+    {
+        var failure = new InvalidOperationException("Unrelated module failed");
+        var faulting = new FaultingModule();
+        var dependency = new LaterModule();
+        var cleanup = new QueuedAlwaysRunModule();
+        IModule[] modules = [faulting, dependency, cleanup];
+        var states = modules.ToDictionary(module => module.GetType(), module => new ModuleState(module, module.GetType()));
+        var dependencyState = states[dependency.GetType()];
+        var cleanupState = states[cleanup.GetType()];
+        cleanupState.RecordDependency(dependency.GetType(), optional: false);
+        // MarkModuleCompleted publishes ready dependents before signaling CompletionSource
+        // outside its state lock. Hold that completion signal to reproduce the window.
+        dependencyState.State = ModuleExecutionState.Completed;
+        var readyModules = Channel.CreateUnbounded<ModuleState>();
+        readyModules.Writer.TryWrite(states[faulting.GetType()]);
+        readyModules.Writer.TryWrite(cleanupState);
+        readyModules.Writer.Complete();
+
+        var waitingForDependency = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var workerCancelled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var scheduler = new Mock<IModuleScheduler>();
+        scheduler.SetupGet(x => x.ReadyModules).Returns(readyModules.Reader);
+        scheduler.Setup(x => x.RunSchedulerAsync(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+        scheduler.Setup(x => x.GetModuleState(It.IsAny<Type>())).Returns((Type type) => states[type]);
+        scheduler.Setup(x => x.GetModuleCompletionTask(dependency.GetType())).Returns(dependencyState.CompletionSource.Task);
+        scheduler.Setup(x => x.CancelPendingModules()).Returns([]);
+        var factory = new Mock<IModuleSchedulerFactory>();
+        factory.Setup(x => x.Create()).Returns(scheduler.Object);
+        var limits = new Mock<IParallelLimitProvider>();
+        limits.Setup(x => x.GetMaxDegreeOfParallelism()).Returns(2);
+        var waiter = new DependencyWaiter();
+        var runner = new Mock<IModuleRunner>();
+        var cleanupToken = default(CancellationToken);
+        var cleanupExecuted = false;
+        CancellationTokenRegistration failureCancellation = default;
+        runner.Setup(x => x.ExecuteAsync(It.IsAny<ModuleState>(), It.IsAny<CancellationToken>()))
+            .Returns<ModuleState, CancellationToken>(async (state, token) =>
+            {
+                if (state.Module == faulting)
+                {
+                    failureCancellation = token.Register(() => workerCancelled.TrySetResult());
+                    await waitingForDependency.Task.WaitAsync(cancellationToken);
+                    throw failure;
+                }
+
+                cleanupToken = token;
+                var wait = waiter.WaitForDependenciesAsync(state, scheduler.Object, Mock.Of<IServiceProvider>(), token);
+                waitingForDependency.TrySetResult();
+                await wait;
+                cleanupExecuted = true;
+                cleanup.CompletionSource.TrySetResult(ModuleResult<bool>.CreateSuccess(true,
+                    new ModuleExecutionContext(cleanup, cleanup.GetType()) { Status = ModuleStatus.Succeeded }));
+                state.State = ModuleExecutionState.Completed;
+            });
+        var registry = new ModuleResultRegistry();
+        var executor = new ModuleExecutor(factory.Object, runner.Object, Mock.Of<IAlwaysRunHandler>(),
+            new ModuleResultRegistrar(registry, NullLogger<ModuleResultRegistrar>.Instance), registry,
+            limits.Object, Mock.Of<IRegistrationEventExecutor>(), Mock.Of<IMetricsCollector>(),
+            new ModuleDependencyRegistry(), new ModuleMetadataRegistry(new ModuleAttributeEventService()),
+            new SecondaryExceptionContainer(),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions { FailureMode = FailureMode.FailFast }),
+            NullLogger<ModuleExecutor>.Instance);
+
+        var execution = executor.ExecuteAsync(modules);
+        try
+        {
+            await workerCancelled.Task.WaitAsync(TimeSpan.FromSeconds(10), cancellationToken);
+            await Assert.That(cleanupToken.IsCancellationRequested).IsFalse();
+            dependencyState.CompletionSource.TrySetResult(dependency);
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                async () => await execution.WaitAsync(TimeSpan.FromSeconds(10), cancellationToken));
+            await Assert.That(exception).IsSameReferenceAs(failure);
+            await Assert.That(cleanupExecuted).IsTrue();
+        }
+        finally
+        {
+            dependencyState.CompletionSource.TrySetResult(dependency);
+            await ((Task) execution).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+            failureCancellation.Dispose();
+        }
+    }
+
+    [Test]
+    [Timeout(30_000)]
     public async Task Deferred_Module_Releases_Worker_Slot_For_Unrelated_Work(CancellationToken cancellationToken)
     {
         using var cancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);

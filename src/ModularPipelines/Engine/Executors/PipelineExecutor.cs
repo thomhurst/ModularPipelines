@@ -58,13 +58,16 @@ internal class PipelineExecutor : IPipelineExecutor
             var estimatedDurations = organizedModules.RunnableModules.ToDictionary(
                 runnable => runnable.Module.GetType(),
                 runnable => runnable.EstimatedDuration);
-            var context = _executionBackendContextFactory.Create(_executionBackendContext, runnableModules, estimatedDurations);
+            // Only custom backends need shared dispatch state; the built-in backend owns its scheduler directly.
+            var context = _executionBackend is ModuleExecutor
+                ? null
+                : _executionBackendContextFactory.Create(_executionBackendContext, runnableModules, estimatedDurations);
             try
             {
                 var results = await _executionBackend.ExecuteAsync(
                         runnableModules,
                         estimatedDurations,
-                        context,
+                        context ?? _executionBackendContext,
                         _engineCancellationToken.Token)
                     .ConfigureAwait(false);
                 ApplyBackendResults(runnableModules, results);
