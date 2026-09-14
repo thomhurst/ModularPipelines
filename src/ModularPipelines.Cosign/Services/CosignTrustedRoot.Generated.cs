@@ -44,7 +44,7 @@ public class CosignTrustedRoot : ICosignTrustedRoot
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new CosignTrustedRootOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new CosignTrustedRootOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class CosignTrustedRoot : ICosignTrustedRoot
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new CosignTrustedRootCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new CosignTrustedRootCreateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
