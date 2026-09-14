@@ -1400,14 +1400,16 @@ public abstract partial class CliScraperBase : ICliScraper
         int? descriptionColumn,
         bool looksLikeOptionRow,
         string? nextLine,
-        string? previousLine)
+        string? previousLine,
+        Func<string, bool>? optionRowPredicate = null,
+        bool allowSameColumnDescription = false)
     {
         if (string.IsNullOrWhiteSpace(line))
         {
             return false;
         }
 
-        if (looksLikeOptionRow && StartsNestedOptionDescription(line, nextLine, previousLine))
+        if (looksLikeOptionRow && StartsNestedOptionDescription(line, nextLine, previousLine, optionRowPredicate))
         {
             return false;
         }
@@ -1415,11 +1417,14 @@ public abstract partial class CliScraperBase : ICliScraper
         var indentation = GetIndentation(line);
         var wrappedAtDescriptionColumn = descriptionColumn is null || indentation >= descriptionColumn;
         return (!looksLikeOptionRow || wrappedAtDescriptionColumn)
-               && (declarationIndentation is not { } floor || indentation > floor);
+               && (declarationIndentation is not { } floor || indentation > floor
+                   || (allowSameColumnDescription && indentation == floor && !looksLikeOptionRow
+                       && !IsHelpSectionHeading(line, floor)));
     }
 
-    private static bool StartsNestedOptionDescription(string line, string? nextLine, string? previousLine) =>
-        GetRowDescriptionColumn(line, nextLine) is not null
+    private static bool StartsNestedOptionDescription(
+        string line, string? nextLine, string? previousLine, Func<string, bool>? optionRowPredicate) =>
+        GetRowDescriptionColumn(line, nextLine, optionRowPredicate) is not null
         && (previousLine is null || !SwitchReferenceIntroductionPattern().IsMatch(previousLine));
 
     // Require a reference phrase, not a terminal connector such as "and" or "with":
@@ -1507,26 +1512,15 @@ public abstract partial class CliScraperBase : ICliScraper
                 .Key;
     }
 
-    private static bool IsDescriptionlessOptionRow(string line)
-    {
-        var optionMatch = OptionLinePattern().Match(line);
-        if (!optionMatch.Success)
-        {
-            return false;
-        }
-
-        var remainder = line[optionMatch.Length..].Trim();
-        return remainder.Length == 0 || LooksLikeValueHint(remainder);
-    }
-
-    private static int? GetRowDescriptionColumn(string line, string? nextLine)
+    private static int? GetRowDescriptionColumn(
+        string line, string? nextLine, Func<string, bool>? optionRowPredicate = null)
     {
         var column = GetInlineDescriptionColumn(line);
         if (column is null
             && !string.IsNullOrWhiteSpace(nextLine)
-            && !OptionLinePattern().IsMatch(nextLine)
+            && !(optionRowPredicate?.Invoke(nextLine) ?? OptionLinePattern().IsMatch(nextLine))
             && (GetIndentation(nextLine) > GetIndentation(line)
-                || (GetIndentation(nextLine) == GetIndentation(line) && IsDescriptionlessOptionRow(line))))
+                || (GetIndentation(nextLine) == GetIndentation(line) && IsOptionDeclarationSegment(line.TrimStart()))))
         {
             column = GetIndentation(nextLine);
         }
@@ -1650,6 +1644,9 @@ public abstract partial class CliScraperBase : ICliScraper
         var declaration = lines[declarationIndex];
         var declarationIndentation = GetIndentation(declaration);
         var descriptionColumn = GetCapturedDescriptionColumn(declaration, inlineDescription);
+        var allowSameColumnDescription = descriptionColumn is null
+                                         && looksLikeOptionRow(declaration)
+                                         && IsOptionDeclarationSegment(declaration.TrimStart());
         var parts = new List<string>();
         if (descriptionColumn is not null && inlineDescription is { } group)
         {
@@ -1665,7 +1662,9 @@ public abstract partial class CliScraperBase : ICliScraper
                     descriptionColumn,
                     looksLikeOptionRow(candidate),
                     declarationIndex + 2 < lines.Count ? lines[declarationIndex + 2] : null,
-                    lines[declarationIndex]))
+                    lines[declarationIndex],
+                    looksLikeOptionRow,
+                    allowSameColumnDescription))
             {
                 break;
             }
