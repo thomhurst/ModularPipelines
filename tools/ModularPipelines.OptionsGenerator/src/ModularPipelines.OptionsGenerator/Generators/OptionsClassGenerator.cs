@@ -265,7 +265,7 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine("    {");
         foreach (var parameter in constructorParameters.Where(IsCollectionParameter))
         {
-            if (!IsCollectionType(parameter.CSharpType))
+            if (!CliOptionDefinition.CanAssignMaterializedArray(parameter.CSharpType.TrimEnd('?')))
             {
                 GenerateDeclaredCollectionValidation(sb, parameter);
                 continue;
@@ -274,7 +274,7 @@ public class OptionsClassGenerator : ICodeGenerator
             sb.AppendLine("        {");
             sb.AppendLine($"            global::System.ArgumentNullException.ThrowIfNull({parameter.PropertyName});");
             sb.AppendLine($"            var materialized = global::System.Linq.Enumerable.ToArray({parameter.PropertyName});");
-            sb.AppendLine("            if (materialized.Length == 0)");
+            sb.AppendLine("            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))");
             sb.AppendLine("            {");
             sb.AppendLine("                throw new global::System.ArgumentException(");
             sb.AppendLine("                    \"Required collection must contain at least one value.\",");
@@ -339,22 +339,15 @@ public class OptionsClassGenerator : ICodeGenerator
         StringBuilder sb,
         GeneratorUtils.RequiredConstructorParameter parameter)
     {
-        // An external collection type cannot be replaced by an array. Validate its
-        // enumerable contract while retaining the declared type and original value.
+        // Preserve collection types that cannot accept an array; validate their enumerable contract.
         sb.AppendLine($"        global::System.ArgumentNullException.ThrowIfNull({parameter.PropertyName});");
-        sb.AppendLine($"        if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>({parameter.PropertyName})))");
+        sb.AppendLine($"        if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>({parameter.PropertyName}), static value => value is not null))");
         sb.AppendLine("        {");
         sb.AppendLine("            throw new global::System.ArgumentException(");
         sb.AppendLine("                \"Required collection must contain at least one value.\",");
         sb.AppendLine($"                nameof({parameter.PropertyName}));");
         sb.AppendLine("        }");
     }
-
-    private static bool IsCollectionType(string cSharpType) =>
-        CliOptionDefinition.TryGetCollectionShape(
-            cSharpType.TrimEnd('?'),
-            out var isCollection)
-        && isCollection;
 
     private static void GenerateAlternateInputFactories(
         StringBuilder sb,
@@ -451,13 +444,13 @@ public class OptionsClassGenerator : ICodeGenerator
             : $"{propertyName} is not null";
     }
 
-    private static string FormatChoice(IReadOnlyList<string> propertyNames) =>
-        propertyNames.Count switch
+    private static string FormatChoice(string[] propertyNames) =>
+        propertyNames.Length switch
         {
             0 => "a required value",
             1 => propertyNames[0],
             2 => $"{propertyNames[0]} or {propertyNames[1]}",
-            _ => $"{string.Join(", ", propertyNames.Take(propertyNames.Count - 1))}, or {propertyNames[^1]}",
+            _ => $"{string.Join(", ", propertyNames.Take(propertyNames.Length - 1))}, or {propertyNames[^1]}",
         };
 
     private static void GenerateProperty(
@@ -524,8 +517,11 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static string GetPositionalAttributeString(CliPositionalArgument positional)
     {
-        var parts = new List<string> { positional.PositionIndex.ToString() };
-        parts.Add($"Phase = CommandLinePhase.{positional.Phase}");
+        var parts = new List<string>
+        {
+            positional.PositionIndex.ToString(),
+            $"Phase = CommandLinePhase.{positional.Phase}"
+        };
 
         if (positional.PrependOptionTerminator)
         {

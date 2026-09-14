@@ -8,6 +8,60 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 
 public class RequiredConstructorValidationTests
 {
+    private static readonly string[] SingleValue = ["value"];
+    private static readonly MetadataReference[] CompilationReferences =
+        [.. ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!).Split(Path.PathSeparator).Select(static path => MetadataReference.CreateFromFile(path))];
+
+    [Test]
+    [Arguments("IEnumerable<string>?")]
+    [Arguments("CustomValues?")]
+    public async Task Required_Collections_Reject_Only_Null_Elements(string collectionType)
+    {
+        var options = Compile(await Generate(collectionType, alternateInput: false))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        object CreateValues(string?[] values) => collectionType == "CustomValues?"
+            ? Activator.CreateInstance(options.Assembly.GetType("ModularPipelines.Tool.Options.CustomValues")!, [values])!
+            : values;
+
+        var exception = await Assert.That(() => Activator.CreateInstance(options, [CreateValues([null]), "name"]))
+            .Throws<TargetInvocationException>();
+        await Assert.That(exception!.InnerException).IsTypeOf<ArgumentException>();
+
+        var instance = Activator.CreateInstance(options, [CreateValues([null, "value"]), "name"]);
+        var retained = (IEnumerable<string?>) options.GetProperty("Values")!.GetValue(instance)!;
+        await Assert.That(retained.OfType<string>().ToArray()).IsEquivalentTo(["value"]);
+    }
+
+    [Test]
+    [Arguments("List<string>?")]
+    [Arguments("HashSet<string>?")]
+    [Arguments("ISet<string>?")]
+    [Arguments("IReadOnlySet<string>?")]
+    [Arguments("System.Collections.Immutable.ImmutableArray<string>?")]
+    [Arguments("System.Collections.IEnumerable?")]
+    public async Task Required_Collections_Preserve_Their_Declared_Type(string collectionType)
+    {
+        var options = Compile(await Generate(collectionType, alternateInput: false))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        object CreateValues(string[] values) => collectionType switch
+        {
+            "List<string>?" => values.ToList(),
+            "System.Collections.Immutable.ImmutableArray<string>?" => System.Collections.Immutable.ImmutableArray.CreateRange(values),
+            "System.Collections.IEnumerable?" => new System.Collections.ArrayList(values),
+            _ => values.ToHashSet(),
+        };
+
+        var emptyException = await Assert.That(() => Activator.CreateInstance(options, [CreateValues([]), "name"]))
+            .Throws<TargetInvocationException>();
+        await Assert.That(emptyException!.InnerException).IsTypeOf<ArgumentException>();
+
+        var supplied = CreateValues(["value"]);
+        var instance = Activator.CreateInstance(options, [supplied, "name"]);
+        var retained = options.GetProperty("Values")!.GetValue(instance)!;
+        await Assert.That(retained.GetType()).IsEqualTo(supplied.GetType());
+        await Assert.That(((System.Collections.IEnumerable) retained).Cast<string>().ToArray()).IsEquivalentTo(["value"]);
+    }
+
     [Test]
     [Arguments("IEnumerable<string>?")]
     [Arguments("CustomValues?")]
@@ -40,7 +94,7 @@ public class RequiredConstructorValidationTests
         var options = assembly.GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
         var values = assembly.GetType("ModularPipelines.Tool.Options.CustomValues")!;
         var empty = Activator.CreateInstance(values, [Array.Empty<string>()]);
-        var populated = Activator.CreateInstance(values, [new[] { "value" }]);
+        var populated = Activator.CreateInstance(values, [SingleValue]);
 
         var nullException = await Assert.That(() => Activator.CreateInstance(options, [null, "name"]))
             .Throws<TargetInvocationException>();
@@ -60,7 +114,7 @@ public class RequiredConstructorValidationTests
         var generated = await Generate("IEnumerable<string>?", alternateInput);
         var options = Compile(generated).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
 
-        var nullException = await Assert.That(() => Activator.CreateInstance(options, [new[] { "value" }, null]))
+        var nullException = await Assert.That(() => Activator.CreateInstance(options, [SingleValue, null]))
             .Throws<TargetInvocationException>();
         await Assert.That(nullException!.InnerException).IsTypeOf<ArgumentNullException>();
         if (alternateInput)
@@ -113,10 +167,8 @@ public class RequiredConstructorValidationTests
                 }
             }
             """;
-        var references = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
-            .Split(Path.PathSeparator).Select(static path => MetadataReference.CreateFromFile(path));
         var compilation = CSharpCompilation.Create(Guid.NewGuid().ToString("N"),
-            [CSharpSyntaxTree.ParseText(support), CSharpSyntaxTree.ParseText(generated)], references,
+            [CSharpSyntaxTree.ParseText(support), CSharpSyntaxTree.ParseText(generated)], CompilationReferences,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
         using var stream = new MemoryStream();
         var result = compilation.Emit(stream);

@@ -947,7 +947,7 @@ public class GeneratorHardeningTests
             await Assert.That(generated).Contains("IEnumerable<string> Ids");
             await Assert.That(generated)
                 .Contains("var materialized = global::System.Linq.Enumerable.ToArray(Ids);");
-            await Assert.That(generated).Contains("if (materialized.Length == 0)");
+            await Assert.That(generated).Contains("Cast<object>(materialized), static value => value is not null)");
             await Assert.That(generated).Contains("Ids = materialized;");
             await Assert.That(generated)
                 .Contains("public IEnumerable<string> Ids { get; private init; }");
@@ -1532,11 +1532,10 @@ public class GeneratorHardeningTests
     }
 
     private static string[] EnumBodyLines(string generated) =>
-        generated
+        [.. generated
             .Split(Environment.NewLine)
             .Where(line => line.StartsWith("    ", StringComparison.Ordinal))
-            .Select(line => line.Trim())
-            .ToArray();
+            .Select(line => line.Trim())];
 
     [Test]
     public async Task Case_Variant_Enum_Names_Fail_The_Duplicate_Path_Check()

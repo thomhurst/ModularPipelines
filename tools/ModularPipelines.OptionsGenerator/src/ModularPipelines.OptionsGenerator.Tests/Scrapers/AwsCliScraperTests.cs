@@ -514,6 +514,8 @@ public class AwsCliScraperTests
             "aws s3api get-object",
             "aws bedrock-runtime invoke-model",
         };
+        var generated = await new OptionsClassGenerator().GenerateAsync(
+            scraper.CreateToolDefinition() with { Commands = commands });
 
         using (Assert.Multiple())
         {
@@ -522,15 +524,19 @@ public class AwsCliScraperTests
 
             foreach (var fullCommand in expectedCommands)
             {
-                var outfile = commands.Single(command => command.FullCommand == fullCommand)
-                    .PositionalArguments
-                    .Single();
+                var command = commands.Single(command => command.FullCommand == fullCommand);
+                var outfile = command.PositionalArguments.Single();
                 await Assert.That(outfile.PropertyName).IsEqualTo("Outfile");
                 await Assert.That(outfile.CSharpType).IsEqualTo("string");
                 await Assert.That(outfile.PositionIndex).IsEqualTo(0);
                 await Assert.That(outfile.IsRequired).IsTrue();
                 await Assert.That(outfile.IsVariadic).IsFalse();
                 await Assert.That(outfile.PrependOptionTerminator).IsFalse();
+                // AWS CLI 2.36.44 rejects --cli-input-json on these streaming-output commands.
+                var content = generated.Single(file => file.RelativePath.EndsWith(
+                    $"{command.ClassName}.Generated.cs", StringComparison.Ordinal)).Content;
+                await Assert.That(content).DoesNotContain("FromCliInputJson");
+                await Assert.That(content).DoesNotContain("ForCliSkeleton");
             }
         }
     }

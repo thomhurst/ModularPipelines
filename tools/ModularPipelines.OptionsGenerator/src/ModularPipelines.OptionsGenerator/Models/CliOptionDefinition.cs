@@ -82,6 +82,9 @@ public record CliOptionDefinition
     internal static bool IsKnownReferenceType(string cSharpType) =>
         CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName)).IsReferenceType;
 
+    internal static bool CanAssignMaterializedArray(string cSharpType) =>
+        CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName)).IsArrayAssignable;
+
     internal static int FindIndexBySwitch(
         IReadOnlyList<CliOptionDefinition> options,
         string optionSwitch) =>
@@ -132,14 +135,23 @@ public record CliOptionDefinition
 
         if (propertyType.SpecialType == SpecialType.System_String)
         {
-            return new CollectionShapeResolution(IsResolved: true, IsCollection: false, IsReferenceType: true);
+            return new CollectionShapeResolution(IsResolved: true, IsCollection: false, IsReferenceType: true, IsArrayAssignable: false);
         }
 
         var isCollection = propertyType is IArrayTypeSymbol
                            || propertyType.SpecialType == SpecialType.System_Collections_IEnumerable
                            || propertyType.AllInterfaces.Any(
                                interfaceType => interfaceType.SpecialType == SpecialType.System_Collections_IEnumerable);
-        return new CollectionShapeResolution(IsResolved: true, IsCollection: isCollection, IsReferenceType: propertyType.IsReferenceType);
+        var enumerableType = propertyType.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T
+            ? (INamedTypeSymbol) propertyType
+            : propertyType.AllInterfaces.FirstOrDefault(
+                interfaceType => interfaceType.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T);
+        var isArrayAssignable = enumerableType is not null
+                                && compilation.ClassifyConversion(
+                                    compilation.CreateArrayTypeSymbol(enumerableType.TypeArguments[0]),
+                                    propertyType).IsImplicit;
+        return new CollectionShapeResolution(IsResolved: true, IsCollection: isCollection,
+            IsReferenceType: propertyType.IsReferenceType, IsArrayAssignable: isArrayAssignable);
     }
 
     private static PortableExecutableReference[] GetPlatformReferences()
@@ -168,7 +180,8 @@ public record CliOptionDefinition
             references: GetPlatformReferences(),
             options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
-    private readonly record struct CollectionShapeResolution(bool IsResolved, bool IsCollection, bool IsReferenceType);
+    private readonly record struct CollectionShapeResolution(
+        bool IsResolved, bool IsCollection, bool IsReferenceType, bool IsArrayAssignable);
 
     /// <summary>
     /// Description for XML documentation.
