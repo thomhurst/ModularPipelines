@@ -194,21 +194,13 @@ public record CliOptionDefinition
         CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable,
         bool retainUnsupportedCollections = false)
     {
-        var elementName = elementType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-        var values = $"global::System.Linq.Enumerable.Cast<{elementName}>({{0}})";
         if (isArrayAssignable)
         {
-            var immutableArrayType = compilation.GetTypeByMetadataName("System.Collections.Immutable.ImmutableArray`1")?.Construct(elementType);
-            if (retainUnsupportedCollections && immutableArrayType is not null
-                && compilation.ClassifyConversion(immutableArrayType, propertyType).IsImplicit)
-            {
-                var immutableArrayName = immutableArrayType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-                return $"{{0}} is {immutableArrayName} {{ IsDefault: true }} ? global::System.Array.Empty<{elementName}>() : global::System.Linq.Enumerable.ToArray({values})";
-            }
-
-            return $"global::System.Linq.Enumerable.ToArray({values})";
+            return GetArraySnapshotExpression(compilation, propertyType, elementType, retainUnsupportedCollections);
         }
 
+        var elementName = elementType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+        var values = $"global::System.Linq.Enumerable.Cast<{elementName}>({{0}})";
         foreach (var metadataName in new[]
                  {
                      "System.Collections.Generic.List`1",
@@ -247,6 +239,22 @@ public record CliOptionDefinition
         return arrayList is not null && compilation.ClassifyConversion(arrayList, propertyType).IsImplicit
             ? $"new global::System.Collections.ArrayList(global::System.Linq.Enumerable.ToArray({values}))"
             : null;
+    }
+
+    private static string GetArraySnapshotExpression(
+        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool retainUnsupportedCollections)
+    {
+        var elementName = elementType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+        var values = $"global::System.Linq.Enumerable.Cast<{elementName}>({{0}})";
+        var immutableArrayType = compilation.GetTypeByMetadataName("System.Collections.Immutable.ImmutableArray`1")?.Construct(elementType);
+        if (retainUnsupportedCollections && immutableArrayType is not null
+            && compilation.ClassifyConversion(immutableArrayType, propertyType).IsImplicit)
+        {
+            var immutableArrayName = immutableArrayType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+            return $"{{0}} is {immutableArrayName} {{ IsDefault: true }} ? global::System.Array.Empty<{elementName}>() : global::System.Linq.Enumerable.ToArray({values})";
+        }
+
+        return $"global::System.Linq.Enumerable.ToArray({values})";
     }
 
     private static PortableExecutableReference[] GetPlatformReferences()
