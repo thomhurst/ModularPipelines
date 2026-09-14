@@ -44,7 +44,7 @@ public class GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicated
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicatedOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicatedOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicated
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicatedCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCloudNetworkingInterconnectsAttachmentsDedicatedCreateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

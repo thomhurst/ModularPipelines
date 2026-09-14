@@ -78,7 +78,7 @@ public class GcloudAlloydb : IGcloudAlloydb
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAlloydbOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAlloydbOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -66,7 +66,7 @@ public class GcloudBiglake : IGcloudBiglake
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBiglakeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBiglakeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

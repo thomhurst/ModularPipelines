@@ -114,7 +114,7 @@ public class GcloudVmware : IGcloudVmware
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwareOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwareOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

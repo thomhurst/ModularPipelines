@@ -54,7 +54,7 @@ public class GcloudComputeInstancesOpsAgents
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeInstancesOpsAgentsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeInstancesOpsAgentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

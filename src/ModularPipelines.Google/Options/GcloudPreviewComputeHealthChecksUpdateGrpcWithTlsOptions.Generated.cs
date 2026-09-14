@@ -24,61 +24,61 @@ public record GcloudPreviewComputeHealthChecksUpdateGrpcWithTlsOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// These flags configure the port that the health check monitors. How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. See $ gcloud topic datetimes for information on duration formats.
+    /// How often to perform a health check for an instance. For example, specifying 10s will run the check every 10 seconds. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--check-interval", Format = OptionFormat.EqualsSeparated)]
     public string? CheckInterval { get; set; }
 
     /// <summary>
-    /// These flags configure the port that the health check monitors. A textual description for the gRPC with TLS health check. Pass in an empty string to unset.
+    /// A textual description for the gRPC with TLS health check. Pass in an empty string to unset.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// These flags configure the port that the health check monitors. Enable logging of health check probe results to Stackdriver. Logging is disabled by default. Use --no-enable-logging to disable logging.
+    /// Enable logging of health check probe results to Stackdriver. Logging is disabled by default. Use --no-enable-logging to disable logging.
     /// </summary>
     [CliFlag("--enable-logging")]
     public bool? EnableLogging { get; set; }
 
     /// <summary>
-    /// Negates --enable-logging. These flags configure the port that the health check monitors. Enable logging of health check probe results to Stackdriver. Logging is disabled by default. Use --no-enable-logging to disable logging.
+    /// Negates --enable-logging. Enable logging of health check probe results to Stackdriver. Logging is disabled by default. Use --no-enable-logging to disable logging.
     /// </summary>
     [CliFlag("--no-enable-logging")]
     public bool? NoEnableLogging { get; set; }
 
     /// <summary>
-    /// These flags configure the port that the health check monitors. An optional gRPC service name string of up to 1024 characters to include in the gRPC health check request. Pass in an empty string to unset. Only ASCII characters are allowed.
+    /// An optional gRPC service name string of up to 1024 characters to include in the gRPC health check request. Pass in an empty string to unset. Only ASCII characters are allowed.
     /// </summary>
     [CliOption("--grpc-service-name", Format = OptionFormat.EqualsSeparated)]
     public string? GrpcServiceName { get; set; }
 
     /// <summary>
-    /// These flags configure the port that the health check monitors. The number of consecutive successful health checks before an unhealthy instance is marked as healthy.
+    /// The number of consecutive successful health checks before an unhealthy instance is marked as healthy.
     /// </summary>
     [CliOption("--healthy-threshold", Format = OptionFormat.EqualsSeparated)]
     public string? HealthyThreshold { get; set; }
 
     /// <summary>
-    /// These flags configure the port that the health check monitors. If Google Compute Engine doesn't receive a healthy response from the instance by the time specified by the value of this flag, the health check request is considered a failure. For example, specifying 10s will cause the check to wait for 10 seconds before considering the request a failure. See $ gcloud topic datetimes for information on duration formats.
+    /// If Google Compute Engine doesn't receive a healthy response from the instance by the time specified by the value of this flag, the health check request is considered a failure. For example, specifying 10s will cause the check to wait for 10 seconds before considering the request a failure. See $ gcloud topic datetimes for information on duration formats.
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
     public int? Timeout { get; set; }
 
     /// <summary>
-    /// These flags configure the port that the health check monitors. The number of consecutive health check failures before a healthy instance is marked as unhealthy.
+    /// The number of consecutive health check failures before a healthy instance is marked as unhealthy.
     /// </summary>
     [CliOption("--unhealthy-threshold", Format = OptionFormat.EqualsSeparated)]
     public string? UnhealthyThreshold { get; set; }
 
     /// <summary>
-    /// These flags configure the port that the health check monitors. At most one of these can be specified: If set, the gRPC with TLS health check is global.
+    /// At most one of these can be specified: If set, the gRPC with TLS health check is global.
     /// </summary>
     [CliFlag("--global")]
     public bool? Global { get; set; }
 
     /// <summary>
-    /// These flags configure the port that the health check monitors. At most one of these can be specified: Region of the gRPC with TLS health check to update. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
+    /// At most one of these can be specified: Region of the gRPC with TLS health check to update. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

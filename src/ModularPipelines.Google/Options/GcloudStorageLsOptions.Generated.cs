@@ -23,68 +23,68 @@ namespace ModularPipelines.Google.Options;
 public record GcloudStorageLsOptions : GcloudOptions
 {
     /// <summary>
-    /// --recursive, -R, -r Recursively list the contents of any directories that match the path expression. Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
     /// </summary>
     [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
     public string? AdditionalHeaders { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively list the contents of any directories that match the path expression. Include noncurrent object versions in the listing. This flag is typically only useful for buckets with object versioning (https://cloud.google.com/storage/docs/object-versioning) enabled. If combined with the --long option, the metageneration for each listed object is also included.
+    /// Include noncurrent object versions in the listing. This flag is typically only useful for buckets with object versioning (https://cloud.google.com/storage/docs/object-versioning) enabled. If combined with the --long option, the metageneration for each listed object is also included.
     /// </summary>
     [CliFlag("--all-versions")]
     public bool? AllVersions { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively list the contents of any directories that match the path expression. When given a bucket URL, only return buckets. Useful for avoiding the rule that prints the top-level objects of buckets matching a query. Typically used in combination with --full to get the full metadata of buckets.
+    /// When given a bucket URL, only return buckets. Useful for avoiding the rule that prints the top-level objects of buckets matching a query. Typically used in combination with --full to get the full metadata of buckets.
     /// </summary>
     [CliFlag("--buckets")]
     public bool? Buckets { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively list the contents of any directories that match the path expression. Include ETag metadata in listings that use the --long flag.
+    /// Include ETag metadata in listings that use the --long flag.
     /// </summary>
     [CliFlag("--etag")]
     public bool? Etag { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively list the contents of any directories that match the path expression. For features like soft delete, the API may return an empty list. If present, continue querying. This may incur costs from repeated LIST calls and may not return any additional objects.
+    /// For features like soft delete, the API may return an empty list. If present, continue querying. This may incur costs from repeated LIST calls and may not return any additional objects.
     /// </summary>
     [CliFlag("--exhaustive")]
     public bool? Exhaustive { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively list the contents of any directories that match the path expression. API requests to the LIST endpoint do not fetch the hashes for encrypted objects by default. If this flag is set, a GET request is sent for each encrypted object in order to fetch hashes. This can significantly increase the cost of the command.
+    /// API requests to the LIST endpoint do not fetch the hashes for encrypted objects by default. If this flag is set, a GET request is sent for each encrypted object in order to fetch hashes. This can significantly increase the cost of the command.
     /// </summary>
     [CliFlag("--fetch-encrypted-object-hashes")]
     public bool? FetchEncryptedObjectHashes { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively list the contents of any directories that match the path expression. Use "gsutil" to get the style of the older gsutil CLI. (e.g. "--format=gsutil"). Other format values (e.g. "json") do not work. See different ls flags and commands for alternative formatting.
+    /// Use "gsutil" to get the style of the older gsutil CLI. (e.g. "--format=gsutil"). Other format values (e.g. "json") do not work. See different ls flags and commands for alternative formatting.
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively list the contents of any directories that match the path expression. Server side filtering for objects. Works only for Google Cloud Storage URLs. The filter only works for objects, and not directories or buckets, which means commands like storage ls and storage du will still list directories or buckets even if they do not contain any objects matching the filter. See https://cloud.google.com/storage/docs/listing-objects#filter-by-object-contexts-syntax for more details.
+    /// Server side filtering for objects. Works only for Google Cloud Storage URLs. The filter only works for objects, and not directories or buckets, which means commands like storage ls and storage du will still list directories or buckets even if they do not contain any objects matching the filter. See https://cloud.google.com/storage/docs/listing-objects#filter-by-object-contexts-syntax for more details.
     /// </summary>
     [CliOption("--metadata-filter", Format = OptionFormat.EqualsSeparated)]
     public string? MetadataFilter { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively list the contents of any directories that match the path expression. Page token for resuming LIST calls.
+    /// Page token for resuming LIST calls.
     /// </summary>
     [SecretValue]
     [CliOption("--next-page-token", Format = OptionFormat.EqualsSeparated)]
     public string? NextPageToken { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively list the contents of any directories that match the path expression. Read the list of URLs from stdin.
+    /// Read the list of URLs from stdin.
     /// </summary>
     [CliFlag("--read-paths-from-stdin")]
     public bool? ReadPathsFromStdin { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively list the contents of any directories that match the path expression. When used with --long, print object sizes in human readable format, such as 1 KiB, 234 MiB, or 2 GiB.
+    /// When used with --long, print object sizes in human readable format, such as 1 KiB, 234 MiB, or 2 GiB.
     /// </summary>
     [CliFlag("--readable-sizes")]
     public bool? ReadableSizes { get; set; }

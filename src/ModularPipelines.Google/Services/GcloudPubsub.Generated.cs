@@ -102,7 +102,7 @@ public class GcloudPubsub : IGcloudPubsub
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPubsubOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPubsubOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

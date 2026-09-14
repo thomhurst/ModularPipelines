@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudPreviewComputeInstancesOsInventoryListInstancesOptions : GcloudOptions
 {
     /// <summary>
-    /// Exact match values for OS inventory data: Filter expression for matching against OS inventory criteria
+    /// Filter expression for matching against OS inventory criteria
     /// </summary>
     [CliOption("--inventory-filter", Format = OptionFormat.EqualsSeparated)]
     public string? InventoryFilter { get; set; }
