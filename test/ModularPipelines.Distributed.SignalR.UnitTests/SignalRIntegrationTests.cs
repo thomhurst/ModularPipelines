@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Distributed;
-using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.SignalR;
 using ModularPipelines.Distributed.SignalR.Coordination;
 using ModularPipelines.Distributed.SignalR.Hub;
@@ -551,7 +550,7 @@ public class SignalRIntegrationTests
             await Assert.That(results.Any(r => r.ModuleTypeName == "ModuleC")).IsTrue();
 
             // Signal completion and verify worker receives it
-            await serverHost.HubContext.Clients.All.SendCoreAsync(HubMethodNames.SignalCompletion, Array.Empty<object?>(), cts.Token);
+            await serverHost.HubContext.Clients.All.SendCoreAsync(HubMethodNames.SignalCompletion, [], cts.Token);
             await completionSignalled.Task.WaitAsync(cts.Token);
 
             await worker.DisposeAsync();

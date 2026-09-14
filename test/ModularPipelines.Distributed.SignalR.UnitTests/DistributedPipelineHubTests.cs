@@ -288,6 +288,52 @@ public class DistributedPipelineHubTests
         }
     }
 
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    [Timeout(10_000)]
+    public async Task Admitted_Result_Survives_Replacement_While_Waiting_For_Delivery(
+        bool resumesAssignment,
+        CancellationToken cancellationToken)
+    {
+        var state = new SignalRMasterState();
+        var oldHub = CreateHub(state, "old-connection");
+        var currentHub = CreateHub(state, "current-connection");
+        var assignment = CreateAssignment("CurrentModule");
+        var result = CreateResult(assignment.ModuleTypeName);
+        var waiter = new TaskCompletionSource<SerializedModuleResult>(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        state.ResultWaiters[assignment.ModuleTypeName] = waiter;
+        await oldHub.RegisterWorker(
+            new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
+            resumingModuleTypeName: null);
+        state.Workers["old-connection"].TryAssign(assignment);
+
+        Task publication;
+        using (await state.EnterAssignmentDeliveryFenceAsync(assignment.ModuleTypeName))
+        {
+            publication = oldHub.PublishResult(result);
+            await Assert.That(publication.IsCompleted).IsFalse();
+            await currentHub.RegisterWorker(
+                new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
+                resumesAssignment ? assignment.ModuleTypeName : null);
+        }
+
+        try
+        {
+            await publication.WaitAsync(cancellationToken);
+            await Assert.That(waiter.Task.IsCompletedSuccessfully).IsTrue();
+            await Assert.That(await waiter.Task).IsSameReferenceAs(result);
+            await Assert.That(state.GetPendingReconnect(1)).IsNull();
+            await Assert.That(state.Workers["current-connection"].IsIdle).IsTrue();
+            await Assert.That(state.PendingAssignments).IsEmpty();
+        }
+        finally
+        {
+            state.CompletePendingReconnect(assignment.ModuleTypeName);
+        }
+    }
+
     private static ModuleAssignment CreateAssignment(string moduleTypeName)
     {
         return new ModuleAssignment(

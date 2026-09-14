@@ -8,8 +8,8 @@ namespace ModularPipelines.Distributed.SignalR.Hub;
 /// </summary>
 internal class SignalRMasterState
 {
-    private readonly object _pendingReconnectLock = new();
-    private readonly Dictionary<string, PendingReconnect> _pendingReconnects = new();
+    private readonly Lock _pendingReconnectLock = new();
+    private readonly Dictionary<string, PendingReconnect> _pendingReconnects = [];
     private readonly ConcurrentDictionary<string, SemaphoreSlim> _assignmentDeliveryFences = new();
     private readonly ConcurrentDictionary<int, object> _workerStateLocks = new();
 
@@ -328,8 +328,8 @@ internal class SignalRMasterState
     public async Task<(bool Accepted, IReadOnlyList<WorkerState> WorkersToRelease)>
         TryCompleteWorkerResultAsync(WorkerState worker, SerializedModuleResult result)
     {
-        using var deliveryFence = await EnterAssignmentDeliveryFenceAsync(result.ModuleTypeName)
-            .ConfigureAwait(false);
+        // Admit the result while the connection owns the assignment. A replacement may
+        // revoke later submissions, but must not discard a result already awaiting delivery.
         var workerIndex = worker.Registration.WorkerIndex;
         lock (GetWorkerStateLock(workerIndex))
         {
@@ -345,9 +345,11 @@ internal class SignalRMasterState
             {
                 return (false, []);
             }
-
-            return (true, CompleteResult(result));
         }
+
+        using var deliveryFence = await EnterAssignmentDeliveryFenceAsync(result.ModuleTypeName)
+            .ConfigureAwait(false);
+        return (true, CompleteResult(result));
     }
 
     private IReadOnlyList<WorkerState> CompleteResult(SerializedModuleResult result)

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.SignalR;
 using ModularPipelines.Distributed.SignalR.Hub;
 
@@ -68,7 +67,10 @@ internal class MasterServerHost : IAsyncDisposable
         _app.MapHub<DistributedPipelineHub>(options.HubPath);
 
         var logger = loggerFactory.CreateLogger<MasterServerHost>();
-        logger.LogInformation("Starting SignalR master server at {Url}{Path}", options.MasterUrl, options.HubPath);
+        if (logger.IsEnabled(LogLevel.Information))
+        {
+            logger.LogInformation("Starting SignalR master server at {Url}{Path}", options.MasterUrl, options.HubPath);
+        }
 
         // StartAsync completes only once Kestrel has bound to the port — no race, no wasted time
         await _app.StartAsync(cancellationToken);

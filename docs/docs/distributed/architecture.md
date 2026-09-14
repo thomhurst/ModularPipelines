@@ -7,6 +7,21 @@ sidebar_position: 6
 
 This page describes the internal architecture of distributed mode for contributors and advanced users.
 
+## Upgrading SignalR configuration for v4
+
+`SignalRDistributedOptions.MaximumReceiveMessageSize` is renamed to
+`SignalRDistributedOptions.MaxReceiveMessageSize`. Update property assignments and
+configuration keys to the new name. The value remains a byte count, with a default
+of `1024 * 1024` (1 MB).
+
+```csharp
+// Before
+options.MaximumReceiveMessageSize = 4 * 1024 * 1024;
+
+// v4
+options.MaxReceiveMessageSize = 4 * 1024 * 1024;
+```
+
 ## Execution Flow
 
 ### Master Startup

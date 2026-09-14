@@ -13,7 +13,6 @@ public class RedisDistributedCoordinatorTests
     private const long ServerTimeMicroseconds = 456_000;
     private const long ServerTimeMilliseconds = 1_700_000_000_456;
 
-
     private Mock<IDatabase> _dbMock = null!;
     private Mock<ISubscriber> _subscriberMock = null!;
     private RedisKeyBuilder _keys = null!;
