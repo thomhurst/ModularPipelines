@@ -18,15 +18,41 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "set")]
-public record KubernetesConfigSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PropertyName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PropertyValue
-) : KubernetesOptions
+public record KubernetesConfigSetOptions : KubernetesOptions
 {
+    public KubernetesConfigSetOptions(
+        string PropertyName,
+        string PropertyValue
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PropertyName);
+        this.PropertyName = PropertyName;
+        global::System.ArgumentNullException.ThrowIfNull(PropertyValue);
+        this.PropertyValue = PropertyValue;
+    }
+
+    public void Deconstruct(out string PropertyName, out string PropertyValue)
+    {
+        PropertyName = this.PropertyName;
+        PropertyValue = this.PropertyValue;
+    }
+
     /// <summary>
     /// When writing a []byte PROPERTY_VALUE, write the given string directly without base64 decoding.
     /// </summary>
     [CliFlag("--set-raw-bytes")]
     public bool? SetRawBytes { get; set; }
+
+    /// <summary>
+    /// The PROPERTY_NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PropertyName { get; private init; }
+
+    /// <summary>
+    /// The PROPERTY_VALUE operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PropertyValue { get; private init; }
 
 }

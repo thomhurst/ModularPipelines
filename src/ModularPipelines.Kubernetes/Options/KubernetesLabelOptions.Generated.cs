@@ -19,11 +19,36 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("label")]
-public record KubernetesLabelOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Key_1Val_1,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string KeyNValN
-) : KubernetesOptions
+public record KubernetesLabelOptions : KubernetesOptions
 {
+    public KubernetesLabelOptions(
+        IEnumerable<string> Key_1Val_1,
+        string KeyNValN
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Key_1Val_1);
+            var materialized = global::System.Linq.Enumerable.ToArray(Key_1Val_1);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Key_1Val_1));
+            }
+
+            Key_1Val_1 = materialized;
+        }
+        this.Key_1Val_1 = Key_1Val_1;
+        global::System.ArgumentNullException.ThrowIfNull(KeyNValN);
+        this.KeyNValN = KeyNValN;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Key_1Val_1, out string KeyNValN)
+    {
+        Key_1Val_1 = this.Key_1Val_1;
+        KeyNValN = this.KeyNValN;
+    }
+
     /// <summary>
     /// Select all resources, in the namespace of the specified resource types
     /// </summary>
@@ -125,5 +150,17 @@ public record KubernetesLabelOptions(
     /// </summary>
     [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
     public string? Template { get; set; }
+
+    /// <summary>
+    /// The KEY_1=VAL_1 operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string> Key_1Val_1 { get; private init; }
+
+    /// <summary>
+    /// The KEY_N=VAL_N operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    public string KeyNValN { get; private init; }
 
 }

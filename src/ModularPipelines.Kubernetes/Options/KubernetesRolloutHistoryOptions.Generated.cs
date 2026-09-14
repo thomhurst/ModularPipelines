@@ -19,10 +19,21 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rollout", "history")]
-public record KubernetesRolloutHistoryOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string TypeName
-) : KubernetesOptions
+public record KubernetesRolloutHistoryOptions : KubernetesOptions
 {
+    public KubernetesRolloutHistoryOptions(
+        string TypeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TypeName);
+        this.TypeName = TypeName;
+    }
+
+    public void Deconstruct(out string TypeName)
+    {
+        TypeName = this.TypeName;
+    }
+
     /// <summary>
     /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
     /// </summary>
@@ -76,5 +87,11 @@ public record KubernetesRolloutHistoryOptions(
     /// </summary>
     [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
     public string? Template { get; set; }
+
+    /// <summary>
+    /// The TYPE NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string TypeName { get; private init; }
 
 }

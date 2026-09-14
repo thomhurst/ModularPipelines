@@ -18,10 +18,21 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "set-cluster")]
-public record KubernetesConfigSetClusterOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name
-) : KubernetesOptions
+public record KubernetesConfigSetClusterOptions : KubernetesOptions
 {
+    public KubernetesConfigSetClusterOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Path to certificate-authority file for the cluster entry in kubeconfig
     /// </summary>
@@ -57,5 +68,11 @@ public record KubernetesConfigSetClusterOptions(
     /// </summary>
     [CliOption("--tls-server-name", Format = OptionFormat.EqualsSeparated)]
     public string? TlsServerName { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

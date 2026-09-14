@@ -19,10 +19,21 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rollout", "resume")]
-public record KubernetesRolloutResumeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Resource
-) : KubernetesOptions
+public record KubernetesRolloutResumeOptions : KubernetesOptions
 {
+    public KubernetesRolloutResumeOptions(
+        string Resource
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Resource);
+        this.Resource = Resource;
+    }
+
+    public void Deconstruct(out string Resource)
+    {
+        Resource = this.Resource;
+    }
+
     /// <summary>
     /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
     /// </summary>
@@ -76,5 +87,11 @@ public record KubernetesRolloutResumeOptions(
     /// </summary>
     [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
     public string? Template { get; set; }
+
+    /// <summary>
+    /// The RESOURCE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string Resource { get; private init; }
 
 }

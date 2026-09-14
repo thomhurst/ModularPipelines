@@ -18,11 +18,25 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("debug")]
-public record KubernetesDebugOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Pod,
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)] string CommandArgs
-) : KubernetesOptions
+public record KubernetesDebugOptions : KubernetesOptions
 {
+    public KubernetesDebugOptions(
+        string Pod,
+        string CommandArgs
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Pod);
+        this.Pod = Pod;
+        global::System.ArgumentNullException.ThrowIfNull(CommandArgs);
+        this.CommandArgs = CommandArgs;
+    }
+
+    public void Deconstruct(out string Pod, out string CommandArgs)
+    {
+        Pod = this.Pod;
+        CommandArgs = this.CommandArgs;
+    }
+
     /// <summary>
     /// If specified, everything after -- will be passed to the new container as Args instead of Command.
     /// </summary>
@@ -166,6 +180,18 @@ public record KubernetesDebugOptions(
     /// </summary>
     [CliFlag("--tty", ShortForm = "-t")]
     public bool? Tty { get; set; }
+
+    /// <summary>
+    /// The POD operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string Pod { get; private init; }
+
+    /// <summary>
+    /// The COMMAND [args...] operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+    public string CommandArgs { get; private init; }
 
     /// <summary>
     /// The COMMAND [args...] operand.

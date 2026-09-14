@@ -18,11 +18,25 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("exec")]
-public record KubernetesExecOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Pod,
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, Required = true)] string Command
-) : KubernetesOptions
+public record KubernetesExecOptions : KubernetesOptions
 {
+    public KubernetesExecOptions(
+        string Pod,
+        string Command
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Pod);
+        this.Pod = Pod;
+        global::System.ArgumentNullException.ThrowIfNull(Command);
+        this.Command = Command;
+    }
+
+    public void Deconstruct(out string Pod, out string Command)
+    {
+        Pod = this.Pod;
+        Command = this.Command;
+    }
+
     /// <summary>
     /// Container name. If omitted, use the kubectl.kubernetes.io/default-container annotation for selecting the container to be attached or the first container in the pod will be chosen
     /// </summary>
@@ -58,6 +72,18 @@ public record KubernetesExecOptions(
     /// </summary>
     [CliFlag("--tty", ShortForm = "-t")]
     public bool? Tty { get; set; }
+
+    /// <summary>
+    /// The POD operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string Pod { get; private init; }
+
+    /// <summary>
+    /// The COMMAND operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, Required = true)]
+    public string Command { get; private init; }
 
     /// <summary>
     /// The args operand.

@@ -18,8 +18,25 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "unset")]
-public record KubernetesConfigUnsetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string PropertyName
-) : KubernetesOptions
+public record KubernetesConfigUnsetOptions : KubernetesOptions
 {
+    public KubernetesConfigUnsetOptions(
+        string PropertyName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PropertyName);
+        this.PropertyName = PropertyName;
+    }
+
+    public void Deconstruct(out string PropertyName)
+    {
+        PropertyName = this.PropertyName;
+    }
+
+    /// <summary>
+    /// The PROPERTY_NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string PropertyName { get; private init; }
+
 }

@@ -18,10 +18,21 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs")]
-public record KubernetesLogsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Pod
-) : KubernetesOptions
+public record KubernetesLogsOptions : KubernetesOptions
 {
+    public KubernetesLogsOptions(
+        string Pod
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Pod);
+        this.Pod = Pod;
+    }
+
+    public void Deconstruct(out string Pod)
+    {
+        Pod = this.Pod;
+    }
+
     /// <summary>
     /// Get all containers' logs in the pod(s).
     /// </summary>
@@ -117,5 +128,11 @@ public record KubernetesLogsOptions(
     /// </summary>
     [CliFlag("--timestamps")]
     public bool? Timestamps { get; set; }
+
+    /// <summary>
+    /// The POD operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string Pod { get; private init; }
 
 }

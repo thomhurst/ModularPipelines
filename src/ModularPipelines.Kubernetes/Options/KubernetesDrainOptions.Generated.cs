@@ -19,10 +19,21 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("drain")]
-public record KubernetesDrainOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Node
-) : KubernetesOptions
+public record KubernetesDrainOptions : KubernetesOptions
 {
+    public KubernetesDrainOptions(
+        string Node
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Node);
+        this.Node = Node;
+    }
+
+    public void Deconstruct(out string Node)
+    {
+        Node = this.Node;
+    }
+
     /// <summary>
     /// Return large lists in chunks rather than all at once. Pass 0 to disable.
     /// </summary>
@@ -88,5 +99,11 @@ public record KubernetesDrainOptions(
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
     public string? Timeout { get; set; }
+
+    /// <summary>
+    /// The NODE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string Node { get; private init; }
 
 }

@@ -18,10 +18,21 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "can-i")]
-public record KubernetesAuthCanIOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Verb
-) : KubernetesOptions
+public record KubernetesAuthCanIOptions : KubernetesOptions
 {
+    public KubernetesAuthCanIOptions(
+        string Verb
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Verb);
+        this.Verb = Verb;
+    }
+
+    public void Deconstruct(out string Verb)
+    {
+        Verb = this.Verb;
+    }
+
     /// <summary>
     /// If true, check the specified action in all namespaces.
     /// </summary>
@@ -51,6 +62,12 @@ public record KubernetesAuthCanIOptions(
     /// </summary>
     [CliOption("--subresource", Format = OptionFormat.EqualsSeparated)]
     public string? Subresource { get; set; }
+
+    /// <summary>
+    /// The VERB operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string Verb { get; private init; }
 
     /// <summary>
     /// The TYPE operand.

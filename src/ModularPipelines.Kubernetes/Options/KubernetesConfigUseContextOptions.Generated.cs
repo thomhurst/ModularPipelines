@@ -18,8 +18,25 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "use-context")]
-public record KubernetesConfigUseContextOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ContextName
-) : KubernetesOptions
+public record KubernetesConfigUseContextOptions : KubernetesOptions
 {
+    public KubernetesConfigUseContextOptions(
+        string ContextName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ContextName);
+        this.ContextName = ContextName;
+    }
+
+    public void Deconstruct(out string ContextName)
+    {
+        ContextName = this.ContextName;
+    }
+
+    /// <summary>
+    /// The CONTEXT_NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ContextName { get; private init; }
+
 }

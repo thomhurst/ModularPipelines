@@ -19,10 +19,21 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("uncordon")]
-public record KubernetesUncordonOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Node
-) : KubernetesOptions
+public record KubernetesUncordonOptions : KubernetesOptions
 {
+    public KubernetesUncordonOptions(
+        string Node
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Node);
+        this.Node = Node;
+    }
+
+    public void Deconstruct(out string Node)
+    {
+        Node = this.Node;
+    }
+
     /// <summary>
     /// Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
     /// </summary>
@@ -34,5 +45,11 @@ public record KubernetesUncordonOptions(
     /// </summary>
     [CliOption("--selector", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
     public string? Selector { get; set; }
+
+    /// <summary>
+    /// The NODE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string Node { get; private init; }
 
 }

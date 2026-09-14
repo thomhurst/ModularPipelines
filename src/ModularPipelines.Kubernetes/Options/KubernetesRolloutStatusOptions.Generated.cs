@@ -18,10 +18,21 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rollout", "status")]
-public record KubernetesRolloutStatusOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string TypeName
-) : KubernetesOptions
+public record KubernetesRolloutStatusOptions : KubernetesOptions
 {
+    public KubernetesRolloutStatusOptions(
+        string TypeName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(TypeName);
+        this.TypeName = TypeName;
+    }
+
+    public void Deconstruct(out string TypeName)
+    {
+        TypeName = this.TypeName;
+    }
+
     /// <summary>
     /// Filename, directory, or URL to files identifying the resource to get from a server.
     /// </summary>
@@ -63,5 +74,11 @@ public record KubernetesRolloutStatusOptions(
     /// </summary>
     [CliOption("--watch", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public bool? Watch { get; set; }
+
+    /// <summary>
+    /// The TYPE NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string TypeName { get; private init; }
 
 }

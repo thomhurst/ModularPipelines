@@ -19,10 +19,32 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("annotate")]
-public record KubernetesAnnotateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Annotations
-) : KubernetesOptions
+public record KubernetesAnnotateOptions : KubernetesOptions
 {
+    public KubernetesAnnotateOptions(
+        IEnumerable<string> Annotations
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Annotations);
+            var materialized = global::System.Linq.Enumerable.ToArray(Annotations);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Annotations));
+            }
+
+            Annotations = materialized;
+        }
+        this.Annotations = Annotations;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Annotations)
+    {
+        Annotations = this.Annotations;
+    }
+
     /// <summary>
     /// Select all resources in the namespace of the specified resource types
     /// </summary>
@@ -124,5 +146,11 @@ public record KubernetesAnnotateOptions(
     /// </summary>
     [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
     public string? Template { get; set; }
+
+    /// <summary>
+    /// The KEY_1=VAL_1 operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string> Annotations { get; private init; }
 
 }
