@@ -19,9 +19,9 @@ public enum EksctlUpdateCapabilityType
     [EnumValue("ACK")]
     Ack,
 
-    [EnumValue("KRO")]
-    Kro,
-
     [EnumValue("ARGOCD")]
-    Argocd
+    Argocd,
+
+    [EnumValue("KRO")]
+    Kro
 }
