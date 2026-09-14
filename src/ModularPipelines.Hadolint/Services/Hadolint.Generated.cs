@@ -38,7 +38,7 @@ internal partial class Hadolint : IHadolint
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new HadolintExecuteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new HadolintExecuteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
