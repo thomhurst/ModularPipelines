@@ -44,7 +44,7 @@ public class KubernetesTop : IKubernetesTop
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesTopOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesTopOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class KubernetesTop : IKubernetesTop
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesTopNodeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesTopNodeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class KubernetesTop : IKubernetesTop
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesTopPodOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesTopPodOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
