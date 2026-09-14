@@ -20,10 +20,32 @@ namespace ModularPipelines.Node.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pkg", "set")]
-public record PnpmPkgSetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Pairs
-) : PnpmOptions
+public record PnpmPkgSetOptions : PnpmOptions
 {
+    public PnpmPkgSetOptions(
+        IEnumerable<string> Pairs
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Pairs);
+            var materialized = global::System.Linq.Enumerable.ToArray(Pairs);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Pairs));
+            }
+
+            Pairs = materialized;
+        }
+        this.Pairs = Pairs;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Pairs)
+    {
+        Pairs = this.Pairs;
+    }
+
     /// <summary>
     /// When setting, parse the value as JSON. When getting a single key, return its JSON-encoded form instead of the raw value
     /// </summary>
@@ -215,5 +237,11 @@ public record PnpmPkgSetOptions(
     /// </summary>
     [CliOption("--workspace-packages")]
     public IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
+    /// The &lt;PAIRS&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Pairs { get; private init; }
 
 }

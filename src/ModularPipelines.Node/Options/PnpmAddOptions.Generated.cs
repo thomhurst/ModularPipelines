@@ -20,10 +20,32 @@ namespace ModularPipelines.Node.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("add")]
-public record PnpmAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> PackageNames
-) : PnpmOptions
+public record PnpmAddOptions : PnpmOptions
 {
+    public PnpmAddOptions(
+        IEnumerable<string> PackageNames
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PackageNames);
+            var materialized = global::System.Linq.Enumerable.ToArray(PackageNames);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PackageNames));
+            }
+
+            PackageNames = materialized;
+        }
+        this.PackageNames = PackageNames;
+    }
+
+    public void Deconstruct(out IEnumerable<string> PackageNames)
+    {
+        PackageNames = this.PackageNames;
+    }
+
     /// <summary>
     /// Install the specified packages as regular dependencies
     /// </summary>
@@ -365,5 +387,11 @@ public record PnpmAddOptions(
     /// </summary>
     [CliOption("--workspace-packages")]
     public IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
+    /// The &lt;PACKAGE_NAMES&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> PackageNames { get; private init; }
 
 }

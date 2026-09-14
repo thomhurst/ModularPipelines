@@ -20,10 +20,32 @@ namespace ModularPipelines.Node.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pkg", "delete")]
-public record PnpmPkgDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Keys
-) : PnpmOptions
+public record PnpmPkgDeleteOptions : PnpmOptions
 {
+    public PnpmPkgDeleteOptions(
+        IEnumerable<string> Keys
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Keys);
+            var materialized = global::System.Linq.Enumerable.ToArray(Keys);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Keys));
+            }
+
+            Keys = materialized;
+        }
+        this.Keys = Keys;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Keys)
+    {
+        Keys = this.Keys;
+    }
+
     /// <summary>
     /// When setting, parse the value as JSON. When getting a single key, return its JSON-encoded form instead of the raw value
     /// </summary>
@@ -215,5 +237,11 @@ public record PnpmPkgDeleteOptions(
     /// </summary>
     [CliOption("--workspace-packages")]
     public IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
+    /// The &lt;KEYS&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Keys { get; private init; }
 
 }

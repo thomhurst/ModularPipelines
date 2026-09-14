@@ -20,10 +20,21 @@ namespace ModularPipelines.Node.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("patch-commit")]
-public record PnpmPatchCommitOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string PatchDir
-) : PnpmOptions
+public record PnpmPatchCommitOptions : PnpmOptions
 {
+    public PnpmPatchCommitOptions(
+        string PatchDir
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PatchDir);
+        this.PatchDir = PatchDir;
+    }
+
+    public void Deconstruct(out string PatchDir)
+    {
+        PatchDir = this.PatchDir;
+    }
+
     /// <summary>
     /// The generated patch file will be saved to this directory
     /// </summary>
@@ -215,5 +226,11 @@ public record PnpmPatchCommitOptions(
     /// </summary>
     [CliOption("--workspace-packages")]
     public IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
+    /// The &lt;PATCH_DIR&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string PatchDir { get; private init; }
 
 }

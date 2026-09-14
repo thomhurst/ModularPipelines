@@ -20,10 +20,21 @@ namespace ModularPipelines.Node.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("unstar")]
-public record PnpmUnstarOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string PackageName
-) : PnpmOptions
+public record PnpmUnstarOptions : PnpmOptions
 {
+    public PnpmUnstarOptions(
+        string PackageName
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(PackageName);
+        this.PackageName = PackageName;
+    }
+
+    public void Deconstruct(out string PackageName)
+    {
+        PackageName = this.PackageName;
+    }
+
     /// <summary>
     /// Force colored output
     /// </summary>
@@ -209,5 +220,11 @@ public record PnpmUnstarOptions(
     /// </summary>
     [CliOption("--workspace-packages")]
     public IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
+    /// The &lt;PACKAGE_NAME&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string PackageName { get; private init; }
 
 }

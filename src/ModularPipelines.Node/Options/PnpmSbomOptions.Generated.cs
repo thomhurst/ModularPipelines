@@ -20,10 +20,27 @@ namespace ModularPipelines.Node.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sbom")]
-public record PnpmSbomOptions(
-    [property: CliOption("--sbom-format")] PnpmSbomSbomFormat SbomFormat
-) : PnpmOptions
+public record PnpmSbomOptions : PnpmOptions
 {
+    public PnpmSbomOptions(
+        PnpmSbomSbomFormat SbomFormat
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(SbomFormat);
+        this.SbomFormat = SbomFormat;
+    }
+
+    public void Deconstruct(out PnpmSbomSbomFormat SbomFormat)
+    {
+        SbomFormat = this.SbomFormat;
+    }
+
+    /// <summary>
+    /// The SBOM output format (required)
+    /// </summary>
+    [CliOption("--sbom-format")]
+    public PnpmSbomSbomFormat SbomFormat { get; private init; }
+
     /// <summary>
     /// The component type for the root package (default: library) [default: library]
     /// </summary>

@@ -20,10 +20,21 @@ namespace ModularPipelines.Node.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cat-index")]
-public record PnpmCatIndexOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string WantedDependency
-) : PnpmOptions
+public record PnpmCatIndexOptions : PnpmOptions
 {
+    public PnpmCatIndexOptions(
+        string WantedDependency
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(WantedDependency);
+        this.WantedDependency = WantedDependency;
+    }
+
+    public void Deconstruct(out string WantedDependency)
+    {
+        WantedDependency = this.WantedDependency;
+    }
+
     /// <summary>
     /// Force colored output
     /// </summary>
@@ -209,5 +220,11 @@ public record PnpmCatIndexOptions(
     /// </summary>
     [CliOption("--workspace-packages")]
     public IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
+    /// The &lt;WANTED_DEPENDENCY&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string WantedDependency { get; private init; }
 
 }

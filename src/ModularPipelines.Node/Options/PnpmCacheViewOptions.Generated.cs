@@ -20,10 +20,21 @@ namespace ModularPipelines.Node.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cache", "view")]
-public record PnpmCacheViewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Package
-) : PnpmOptions
+public record PnpmCacheViewOptions : PnpmOptions
 {
+    public PnpmCacheViewOptions(
+        string Package
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Package);
+        this.Package = Package;
+    }
+
+    public void Deconstruct(out string Package)
+    {
+        Package = this.Package;
+    }
+
     /// <summary>
     /// Force colored output
     /// </summary>
@@ -209,5 +220,11 @@ public record PnpmCacheViewOptions(
     /// </summary>
     [CliOption("--workspace-packages")]
     public IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
+    /// The &lt;PACKAGE&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Package { get; private init; }
 
 }

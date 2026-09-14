@@ -1637,7 +1637,6 @@ ModularPipelines.Node.Options.PnpmAddOptions.Optional.set -> void
 ModularPipelines.Node.Options.PnpmAddOptions.Os.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Node.Options.PnpmAddOptions.Os.set -> void
 ModularPipelines.Node.Options.PnpmAddOptions.PackageNames.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.Node.Options.PnpmAddOptions.PackageNames.init -> void
 ModularPipelines.Node.Options.PnpmAddOptions.Parallel.get -> bool?
 ModularPipelines.Node.Options.PnpmAddOptions.Parallel.set -> void
 ModularPipelines.Node.Options.PnpmAddOptions.PnpmAddOptions(System.Collections.Generic.IEnumerable<string!>! PackageNames) -> void
@@ -2245,7 +2244,6 @@ ModularPipelines.Node.Options.PnpmCacheViewOptions.NoSort.set -> void
 ModularPipelines.Node.Options.PnpmCacheViewOptions.NpmrcAuthFile.get -> string?
 ModularPipelines.Node.Options.PnpmCacheViewOptions.NpmrcAuthFile.set -> void
 ModularPipelines.Node.Options.PnpmCacheViewOptions.Package.get -> string!
-ModularPipelines.Node.Options.PnpmCacheViewOptions.Package.init -> void
 ModularPipelines.Node.Options.PnpmCacheViewOptions.Parallel.get -> bool?
 ModularPipelines.Node.Options.PnpmCacheViewOptions.Parallel.set -> void
 ModularPipelines.Node.Options.PnpmCacheViewOptions.PnpmCacheViewOptions(ModularPipelines.Node.Options.PnpmCacheViewOptions! original) -> void
@@ -2295,7 +2293,6 @@ ModularPipelines.Node.Options.PnpmCatFileOptions.Filter.set -> void
 ModularPipelines.Node.Options.PnpmCatFileOptions.FilterProd.get -> string?
 ModularPipelines.Node.Options.PnpmCatFileOptions.FilterProd.set -> void
 ModularPipelines.Node.Options.PnpmCatFileOptions.Hash.get -> string!
-ModularPipelines.Node.Options.PnpmCatFileOptions.Hash.init -> void
 ModularPipelines.Node.Options.PnpmCatFileOptions.HttpProxy.get -> string?
 ModularPipelines.Node.Options.PnpmCatFileOptions.HttpProxy.set -> void
 ModularPipelines.Node.Options.PnpmCatFileOptions.HttpsProxy.get -> string?
@@ -2405,7 +2402,6 @@ ModularPipelines.Node.Options.PnpmCatIndexOptions.TestPattern.set -> void
 ModularPipelines.Node.Options.PnpmCatIndexOptions.UseStderr.get -> bool?
 ModularPipelines.Node.Options.PnpmCatIndexOptions.UseStderr.set -> void
 ModularPipelines.Node.Options.PnpmCatIndexOptions.WantedDependency.get -> string!
-ModularPipelines.Node.Options.PnpmCatIndexOptions.WantedDependency.init -> void
 ModularPipelines.Node.Options.PnpmCatIndexOptions.WorkspaceConcurrency.get -> string?
 ModularPipelines.Node.Options.PnpmCatIndexOptions.WorkspaceConcurrency.set -> void
 ModularPipelines.Node.Options.PnpmCatIndexOptions.WorkspacePackages.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -3609,7 +3605,6 @@ ModularPipelines.Node.Options.PnpmDocsOptions.NoSort.set -> void
 ModularPipelines.Node.Options.PnpmDocsOptions.NpmrcAuthFile.get -> string?
 ModularPipelines.Node.Options.PnpmDocsOptions.NpmrcAuthFile.set -> void
 ModularPipelines.Node.Options.PnpmDocsOptions.Package.get -> string!
-ModularPipelines.Node.Options.PnpmDocsOptions.Package.init -> void
 ModularPipelines.Node.Options.PnpmDocsOptions.Parallel.get -> bool?
 ModularPipelines.Node.Options.PnpmDocsOptions.Parallel.set -> void
 ModularPipelines.Node.Options.PnpmDocsOptions.PnpmDocsOptions(ModularPipelines.Node.Options.PnpmDocsOptions! original) -> void
@@ -3937,7 +3932,6 @@ ModularPipelines.Node.Options.PnpmFindHashOptions.Filter.set -> void
 ModularPipelines.Node.Options.PnpmFindHashOptions.FilterProd.get -> string?
 ModularPipelines.Node.Options.PnpmFindHashOptions.FilterProd.set -> void
 ModularPipelines.Node.Options.PnpmFindHashOptions.Hash.get -> string!
-ModularPipelines.Node.Options.PnpmFindHashOptions.Hash.init -> void
 ModularPipelines.Node.Options.PnpmFindHashOptions.HttpProxy.get -> string?
 ModularPipelines.Node.Options.PnpmFindHashOptions.HttpProxy.set -> void
 ModularPipelines.Node.Options.PnpmFindHashOptions.HttpsProxy.get -> string?
@@ -5429,7 +5423,6 @@ ModularPipelines.Node.Options.PnpmPatchCommitOptions.NpmrcAuthFile.set -> void
 ModularPipelines.Node.Options.PnpmPatchCommitOptions.Parallel.get -> bool?
 ModularPipelines.Node.Options.PnpmPatchCommitOptions.Parallel.set -> void
 ModularPipelines.Node.Options.PnpmPatchCommitOptions.PatchDir.get -> string!
-ModularPipelines.Node.Options.PnpmPatchCommitOptions.PatchDir.init -> void
 ModularPipelines.Node.Options.PnpmPatchCommitOptions.PatchesDir.get -> string?
 ModularPipelines.Node.Options.PnpmPatchCommitOptions.PatchesDir.set -> void
 ModularPipelines.Node.Options.PnpmPatchCommitOptions.PnpmPatchCommitOptions(ModularPipelines.Node.Options.PnpmPatchCommitOptions! original) -> void
@@ -5930,7 +5923,6 @@ ModularPipelines.Node.Options.PnpmPkgDeleteOptions.IncludeWorkspaceRoot.set -> v
 ModularPipelines.Node.Options.PnpmPkgDeleteOptions.Json.get -> bool?
 ModularPipelines.Node.Options.PnpmPkgDeleteOptions.Json.set -> void
 ModularPipelines.Node.Options.PnpmPkgDeleteOptions.Keys.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.Node.Options.PnpmPkgDeleteOptions.Keys.init -> void
 ModularPipelines.Node.Options.PnpmPkgDeleteOptions.Loglevel.get -> ModularPipelines.Node.Enums.PnpmPkgDeleteLoglevel?
 ModularPipelines.Node.Options.PnpmPkgDeleteOptions.Loglevel.set -> void
 ModularPipelines.Node.Options.PnpmPkgDeleteOptions.NoIncludeWorkspaceRoot.get -> bool?
@@ -6213,7 +6205,6 @@ ModularPipelines.Node.Options.PnpmPkgSetOptions.NoSort.set -> void
 ModularPipelines.Node.Options.PnpmPkgSetOptions.NpmrcAuthFile.get -> string?
 ModularPipelines.Node.Options.PnpmPkgSetOptions.NpmrcAuthFile.set -> void
 ModularPipelines.Node.Options.PnpmPkgSetOptions.Pairs.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.Node.Options.PnpmPkgSetOptions.Pairs.init -> void
 ModularPipelines.Node.Options.PnpmPkgSetOptions.Parallel.get -> bool?
 ModularPipelines.Node.Options.PnpmPkgSetOptions.Parallel.set -> void
 ModularPipelines.Node.Options.PnpmPkgSetOptions.PnpmPkgSetOptions(ModularPipelines.Node.Options.PnpmPkgSetOptions! original) -> void
@@ -7125,7 +7116,6 @@ ModularPipelines.Node.Options.PnpmSbomOptions.Reverse.set -> void
 ModularPipelines.Node.Options.PnpmSbomOptions.SbomAuthors.get -> string?
 ModularPipelines.Node.Options.PnpmSbomOptions.SbomAuthors.set -> void
 ModularPipelines.Node.Options.PnpmSbomOptions.SbomFormat.get -> ModularPipelines.Node.Enums.PnpmSbomSbomFormat
-ModularPipelines.Node.Options.PnpmSbomOptions.SbomFormat.init -> void
 ModularPipelines.Node.Options.PnpmSbomOptions.SbomSpecVersion.get -> string?
 ModularPipelines.Node.Options.PnpmSbomOptions.SbomSpecVersion.set -> void
 ModularPipelines.Node.Options.PnpmSbomOptions.SbomSupplier.get -> string?
@@ -7676,7 +7666,6 @@ ModularPipelines.Node.Options.PnpmStarOptions.NoSort.set -> void
 ModularPipelines.Node.Options.PnpmStarOptions.NpmrcAuthFile.get -> string?
 ModularPipelines.Node.Options.PnpmStarOptions.NpmrcAuthFile.set -> void
 ModularPipelines.Node.Options.PnpmStarOptions.PackageName.get -> string!
-ModularPipelines.Node.Options.PnpmStarOptions.PackageName.init -> void
 ModularPipelines.Node.Options.PnpmStarOptions.Parallel.get -> bool?
 ModularPipelines.Node.Options.PnpmStarOptions.Parallel.set -> void
 ModularPipelines.Node.Options.PnpmStarOptions.PnpmStarOptions(ModularPipelines.Node.Options.PnpmStarOptions! original) -> void
@@ -8675,7 +8664,6 @@ ModularPipelines.Node.Options.PnpmUnstarOptions.NoSort.set -> void
 ModularPipelines.Node.Options.PnpmUnstarOptions.NpmrcAuthFile.get -> string?
 ModularPipelines.Node.Options.PnpmUnstarOptions.NpmrcAuthFile.set -> void
 ModularPipelines.Node.Options.PnpmUnstarOptions.PackageName.get -> string!
-ModularPipelines.Node.Options.PnpmUnstarOptions.PackageName.init -> void
 ModularPipelines.Node.Options.PnpmUnstarOptions.Parallel.get -> bool?
 ModularPipelines.Node.Options.PnpmUnstarOptions.Parallel.set -> void
 ModularPipelines.Node.Options.PnpmUnstarOptions.PnpmUnstarOptions(ModularPipelines.Node.Options.PnpmUnstarOptions! original) -> void

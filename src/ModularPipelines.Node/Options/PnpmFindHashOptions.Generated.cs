@@ -20,10 +20,21 @@ namespace ModularPipelines.Node.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("find-hash")]
-public record PnpmFindHashOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Hash
-) : PnpmOptions
+public record PnpmFindHashOptions : PnpmOptions
 {
+    public PnpmFindHashOptions(
+        string Hash
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Hash);
+        this.Hash = Hash;
+    }
+
+    public void Deconstruct(out string Hash)
+    {
+        Hash = this.Hash;
+    }
+
     /// <summary>
     /// Force colored output
     /// </summary>
@@ -209,5 +220,11 @@ public record PnpmFindHashOptions(
     /// </summary>
     [CliOption("--workspace-packages")]
     public IEnumerable<string>? WorkspacePackages { get; set; }
+
+    /// <summary>
+    /// The &lt;HASH&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Hash { get; private init; }
 
 }
