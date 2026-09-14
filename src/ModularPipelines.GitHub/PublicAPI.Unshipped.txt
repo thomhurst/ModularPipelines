@@ -2104,13 +2104,6 @@ ModularPipelines.GitHub.Options.GhSshKeyListOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhSshKeyListOptions.Help.set -> void
 ModularPipelines.GitHub.Options.GhSshKeyOptions.Help.get -> bool?
 ModularPipelines.GitHub.Options.GhSshKeyOptions.Help.set -> void
-ModularPipelines.GitHub.Options.GhStackOptions
-ModularPipelines.GitHub.Options.GhStackOptions.GhStackOptions() -> void
-ModularPipelines.GitHub.Options.GhStackOptions.GhStackOptions(ModularPipelines.GitHub.Options.GhStackOptions! original) -> void
-ModularPipelines.GitHub.Options.GhStackOptions.Help.get -> bool?
-ModularPipelines.GitHub.Options.GhStackOptions.Help.set -> void
-ModularPipelines.GitHub.Options.GhStackOptions.Version.get -> bool?
-ModularPipelines.GitHub.Options.GhStackOptions.Version.set -> void
 ModularPipelines.GitHub.Options.GhVariableDeleteOptions.Deconstruct(out string! VariableName) -> void
 ModularPipelines.GitHub.Options.GhVariableDeleteOptions.GhVariableDeleteOptions(string! VariableName) -> void
 ModularPipelines.GitHub.Options.GhVariableDeleteOptions.VariableName.get -> string!
@@ -2206,7 +2199,6 @@ ModularPipelines.GitHub.Services.IGh.Pr.get -> ModularPipelines.GitHub.Services.
 ModularPipelines.GitHub.Services.IGh.Release.get -> ModularPipelines.GitHub.Services.IGhRelease!
 ModularPipelines.GitHub.Services.IGh.Repo.get -> ModularPipelines.GitHub.Services.IGhRepo!
 ModularPipelines.GitHub.Services.IGh.SshKey.get -> ModularPipelines.GitHub.Services.IGhSshKey!
-ModularPipelines.GitHub.Services.IGh.StackAsync(ModularPipelines.GitHub.Options.GhStackOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.GitHub.Services.IGh.StatusAsync(ModularPipelines.GitHub.Options.GhStatusOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.GitHub.Services.IGhAgentTask
 ModularPipelines.GitHub.Services.IGhAgentTask.CreateAsync(ModularPipelines.GitHub.Options.GhAgentTaskCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
@@ -2887,12 +2879,6 @@ override ModularPipelines.GitHub.Options.GhRepoViewOptions.Equals(object? obj) -
 override ModularPipelines.GitHub.Options.GhRepoViewOptions.GetHashCode() -> int
 override ModularPipelines.GitHub.Options.GhRepoViewOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 override ModularPipelines.GitHub.Options.GhRepoViewOptions.ToString() -> string!
-override ModularPipelines.GitHub.Options.GhStackOptions.<Clone>$() -> ModularPipelines.GitHub.Options.GhStackOptions!
-override ModularPipelines.GitHub.Options.GhStackOptions.EqualityContract.get -> System.Type!
-override ModularPipelines.GitHub.Options.GhStackOptions.Equals(object? obj) -> bool
-override ModularPipelines.GitHub.Options.GhStackOptions.GetHashCode() -> int
-override ModularPipelines.GitHub.Options.GhStackOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
-override ModularPipelines.GitHub.Options.GhStackOptions.ToString() -> string!
 override sealed ModularPipelines.GitHub.Options.GhDiscussionCommentOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
 override sealed ModularPipelines.GitHub.Options.GhDiscussionCreateOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
 override sealed ModularPipelines.GitHub.Options.GhDiscussionEditOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
@@ -2971,7 +2957,6 @@ override sealed ModularPipelines.GitHub.Options.GhRepoSetDefaultOptions.Equals(M
 override sealed ModularPipelines.GitHub.Options.GhRepoSyncOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
 override sealed ModularPipelines.GitHub.Options.GhRepoUnarchiveOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
 override sealed ModularPipelines.GitHub.Options.GhRepoViewOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
-override sealed ModularPipelines.GitHub.Options.GhStackOptions.Equals(ModularPipelines.GitHub.Options.GhOptions? other) -> bool
 static ModularPipelines.GitHub.Options.GhDiscussionCommentOptions.operator !=(ModularPipelines.GitHub.Options.GhDiscussionCommentOptions? left, ModularPipelines.GitHub.Options.GhDiscussionCommentOptions? right) -> bool
 static ModularPipelines.GitHub.Options.GhDiscussionCommentOptions.operator ==(ModularPipelines.GitHub.Options.GhDiscussionCommentOptions? left, ModularPipelines.GitHub.Options.GhDiscussionCommentOptions? right) -> bool
 static ModularPipelines.GitHub.Options.GhDiscussionCreateOptions.operator !=(ModularPipelines.GitHub.Options.GhDiscussionCreateOptions? left, ModularPipelines.GitHub.Options.GhDiscussionCreateOptions? right) -> bool
@@ -3128,8 +3113,6 @@ static ModularPipelines.GitHub.Options.GhRepoUnarchiveOptions.operator !=(Modula
 static ModularPipelines.GitHub.Options.GhRepoUnarchiveOptions.operator ==(ModularPipelines.GitHub.Options.GhRepoUnarchiveOptions? left, ModularPipelines.GitHub.Options.GhRepoUnarchiveOptions? right) -> bool
 static ModularPipelines.GitHub.Options.GhRepoViewOptions.operator !=(ModularPipelines.GitHub.Options.GhRepoViewOptions? left, ModularPipelines.GitHub.Options.GhRepoViewOptions? right) -> bool
 static ModularPipelines.GitHub.Options.GhRepoViewOptions.operator ==(ModularPipelines.GitHub.Options.GhRepoViewOptions? left, ModularPipelines.GitHub.Options.GhRepoViewOptions? right) -> bool
-static ModularPipelines.GitHub.Options.GhStackOptions.operator !=(ModularPipelines.GitHub.Options.GhStackOptions? left, ModularPipelines.GitHub.Options.GhStackOptions? right) -> bool
-static ModularPipelines.GitHub.Options.GhStackOptions.operator ==(ModularPipelines.GitHub.Options.GhStackOptions? left, ModularPipelines.GitHub.Options.GhStackOptions? right) -> bool
 virtual ModularPipelines.GitHub.Options.GhDiscussionCommentOptions.Equals(ModularPipelines.GitHub.Options.GhDiscussionCommentOptions? other) -> bool
 virtual ModularPipelines.GitHub.Options.GhDiscussionCreateOptions.Equals(ModularPipelines.GitHub.Options.GhDiscussionCreateOptions? other) -> bool
 virtual ModularPipelines.GitHub.Options.GhDiscussionEditOptions.Equals(ModularPipelines.GitHub.Options.GhDiscussionEditOptions? other) -> bool
@@ -3208,7 +3191,6 @@ virtual ModularPipelines.GitHub.Options.GhRepoSetDefaultOptions.Equals(ModularPi
 virtual ModularPipelines.GitHub.Options.GhRepoSyncOptions.Equals(ModularPipelines.GitHub.Options.GhRepoSyncOptions? other) -> bool
 virtual ModularPipelines.GitHub.Options.GhRepoUnarchiveOptions.Equals(ModularPipelines.GitHub.Options.GhRepoUnarchiveOptions? other) -> bool
 virtual ModularPipelines.GitHub.Options.GhRepoViewOptions.Equals(ModularPipelines.GitHub.Options.GhRepoViewOptions? other) -> bool
-virtual ModularPipelines.GitHub.Options.GhStackOptions.Equals(ModularPipelines.GitHub.Options.GhStackOptions? other) -> bool
 virtual ModularPipelines.GitHub.Services.GhAgentTask.CreateAsync(ModularPipelines.GitHub.Options.GhAgentTaskCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.GitHub.Services.GhAgentTask.ExecuteAsync(ModularPipelines.GitHub.Options.GhAgentTaskOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 virtual ModularPipelines.GitHub.Services.GhAgentTask.ListAsync(ModularPipelines.GitHub.Options.GhAgentTaskListOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
