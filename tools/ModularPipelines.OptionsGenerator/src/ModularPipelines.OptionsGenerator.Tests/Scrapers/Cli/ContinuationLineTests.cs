@@ -5,6 +5,37 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class ContinuationLineTests
 {
     [Test]
+    [Arguments("--child VALUE")]
+    [Arguments("--child=VALUE")]
+    [Arguments("--child")]
+    public async Task Same_Column_Detached_Descriptions_Belong_To_Their_Nested_Option(string child)
+    {
+        var helpText = $"  --parent VALUE   Configure\n                   {child}\n                   May be specified multiple times";
+        var lines = helpText.Split('\n');
+        var index = 0;
+        var description = CliScraperBase.AccumulateWrappedDescription(
+            lines, ref index, inlineDescription: null,
+            static line => line.TrimStart().StartsWith('-'));
+
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--parent", string.Empty)).IsFalse();
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--child", string.Empty)).IsTrue();
+        await Assert.That(description).IsEmpty();
+        await Assert.That(index).IsEqualTo(0);
+    }
+
+    [Test]
+    [Arguments("  --env VALUE   Combine with --config; may be specified multiple times")]
+    [Arguments("  --env VALUE   Combine with\n                --config values; may be specified multiple times")]
+    [Arguments("  --env VALUE   Combine with:\n                --config\n                Values may be specified multiple times")]
+    public async Task Switch_References_Do_Not_Declare_The_Referenced_Option_Repeatable(string declaration)
+    {
+        var helpText = "  --config VALUE   Select one configuration\n" + declaration;
+
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--config", string.Empty)).IsFalse();
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsTrue();
+    }
+
+    [Test]
     [Arguments("May be specified multiple times:")]
     [Arguments("MAY BE SPECIFIED MULTIPLE TIMES:")]
     [Arguments("Available values include:")]
@@ -189,6 +220,7 @@ public class ContinuationLineTests
         await Assert.That(description).Contains(mention);
         await Assert.That(index).IsEqualTo(1);
     }
+
     [Test]
     [Arguments("", 0)]
     [Arguments("--flag", 0)]

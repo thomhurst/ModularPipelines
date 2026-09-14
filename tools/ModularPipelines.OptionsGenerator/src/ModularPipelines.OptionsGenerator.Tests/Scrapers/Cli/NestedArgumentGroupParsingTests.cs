@@ -10,6 +10,32 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public partial class NestedArgumentGroupParsingTests
 {
     [Test]
+    public async Task Gcloud_Network_Interface_References_Do_Not_Make_Standalone_Flags_Repeatable()
+    {
+        // Unmodified Google Cloud SDK 550.0.0 help captured on Windows.
+        var helpText = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Gcloud", "compute-instances-create-550.txt"));
+        var command = await CreateGcloudScraper().Parse(["gcloud", "compute", "instances", "create"], helpText);
+
+        using (Assert.Multiple())
+        {
+            foreach (var switchName in new[]
+                     {
+                         "--external-ipv6-address", "--internal-ipv6-address", "--internal-ipv6-prefix-length",
+                         "--ipv6-network-tier", "--private-network-ip", "--stack-type",
+                     })
+            {
+                var option = command!.Options.Single(option => option.SwitchName == switchName);
+                await Assert.That(option.AcceptsMultipleValues).IsFalse();
+                await Assert.That(option.CSharpType).IsEqualTo("string?");
+            }
+
+            await Assert.That(command!.Options.Single(option => option.SwitchName == "--network-interface")
+                .AcceptsMultipleValues).IsTrue();
+        }
+    }
+
+    [Test]
     [Arguments("oauth2-client-credentials-config-id", "The client identifier.", false)]
     [Arguments("security-settings-aws-v4-access-key-id", "The AWS access key ID.", false)]
     [Arguments("proxy-secret-version-id", "The ID of the secret version containing proxy credentials.", false)]

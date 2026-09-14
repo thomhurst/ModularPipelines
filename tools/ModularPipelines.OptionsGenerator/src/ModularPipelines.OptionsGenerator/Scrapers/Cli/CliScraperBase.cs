@@ -1259,8 +1259,7 @@ public abstract partial class CliScraperBase : ICliScraper
         for (var index = 0; index < lines.Length; index++)
         {
             var declaration = lines[index];
-            if (!OptionLinePattern().IsMatch(declaration)
-                || !Regex.IsMatch(declaration, optionPattern, RegexOptions.IgnoreCase))
+            if (!OptionLinePattern().IsMatch(declaration))
             {
                 continue;
             }
@@ -1273,12 +1272,18 @@ public abstract partial class CliScraperBase : ICliScraper
             // out at. While the column is still unknown any option-looking line ends the block (a
             // sibling row, a nested row, or a one-word description's neighbour alike).
             var declarationIndentation = GetIndentation(declaration);
-            var descriptionColumn = GetInlineDescriptionColumn(declaration)
+            var inlineDescriptionColumn = GetInlineDescriptionColumn(declaration);
+            var descriptionColumn = inlineDescriptionColumn
                                     ?? GetSectionDescriptionColumn(lines, index, declarationIndentation);
             var start = index;
             index = GetLastDescriptionLine(lines, index, declarationIndentation, descriptionColumn);
 
-            if (RepeatableValuePattern().IsMatch(string.Join('\n', lines, start, index - start + 1)))
+            // Consume every declaration's block before looking for the requested switch. A
+            // wrapped reference inside another option must never become a new declaration.
+            var optionMatch = Regex.Match(declaration, optionPattern, RegexOptions.IgnoreCase);
+            if (optionMatch.Success
+                && (inlineDescriptionColumn is null || GetColumn(declaration, optionMatch.Index) < inlineDescriptionColumn)
+                && RepeatableValuePattern().IsMatch(string.Join('\n', lines, start, index - start + 1)))
             {
                 return true;
             }
@@ -1502,13 +1507,26 @@ public abstract partial class CliScraperBase : ICliScraper
                 .Key;
     }
 
+    private static bool IsDescriptionlessOptionRow(string line)
+    {
+        var optionMatch = OptionLinePattern().Match(line);
+        if (!optionMatch.Success)
+        {
+            return false;
+        }
+
+        var remainder = line[optionMatch.Length..].Trim();
+        return remainder.Length == 0 || LooksLikeValueHint(remainder);
+    }
+
     private static int? GetRowDescriptionColumn(string line, string? nextLine)
     {
         var column = GetInlineDescriptionColumn(line);
         if (column is null
             && !string.IsNullOrWhiteSpace(nextLine)
             && !OptionLinePattern().IsMatch(nextLine)
-            && GetIndentation(nextLine) > GetIndentation(line))
+            && (GetIndentation(nextLine) > GetIndentation(line)
+                || (GetIndentation(nextLine) == GetIndentation(line) && IsDescriptionlessOptionRow(line))))
         {
             column = GetIndentation(nextLine);
         }
