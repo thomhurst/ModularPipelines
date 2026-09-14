@@ -533,7 +533,9 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         }
 
         // Without commas or repeated bullet markers, conjunction prose is ambiguous.
-        return tokens.Length > 2 && tokens.Any(token => token is "and" or "or") ? [] : tokens;
+        return tokens.Length > 2 && tokens.Any(token =>
+            token.Equals("and", StringComparison.OrdinalIgnoreCase)
+            || token.Equals("or", StringComparison.OrdinalIgnoreCase)) ? [] : tokens;
     }
 
     private IReadOnlyList<CliPositionalArgument> GetAwsPositionalArguments(

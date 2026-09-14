@@ -101,6 +101,8 @@ public class AwsCliScraperTests
     [Arguments("Possible values: net8.0, net9.0 or 1st.", "net8.0|net9.0|1st")]
     [Arguments("Allowed values: foo-bar, foo_bar, or PUBLIC.", "foo-bar|foo_bar|PUBLIC")]
     [Arguments("Possible values: and, or", "and|or")]
+    [Arguments("Possible values: AND, OR", "AND|OR")]
+    [Arguments("Possible values: alpha, AND beta", "alpha|beta")]
     [Arguments("Possible values: foo-, bar", "foo-|bar")]
     [Arguments("Possible values: o, O", "o|O")]
     [Arguments("Possible values: o Event o RequestResponse o DryRun Constraints: max: 20", "Event|RequestResponse|DryRun")]
@@ -109,6 +111,17 @@ public class AwsCliScraperTests
         var definition = AwsCliScraper.TryDetectEnum("Mode", "AwsExampleOptions", description);
         await Assert.That(definition).IsNotNull();
         await Assert.That(definition!.Values.Select(value => value.CliValue)).IsEquivalentTo(expected.Split('|'));
+    }
+
+    [Test]
+    [Arguments("AND")]
+    [Arguments("OR")]
+    [Arguments("And")]
+    [Arguments("oR")]
+    public async Task Enum_Detection_Rejects_Ambiguous_Conjunctions_In_Any_Case(string conjunction)
+    {
+        var description = $"Possible values: alpha {conjunction} beta";
+        await Assert.That(AwsCliScraper.TryDetectEnum("Mode", "AwsExampleOptions", description)).IsNull();
     }
 
     [Test]
