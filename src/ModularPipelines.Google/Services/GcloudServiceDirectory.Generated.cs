@@ -72,7 +72,7 @@ public class GcloudServiceDirectory : IGcloudServiceDirectory
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudServiceDirectoryOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudServiceDirectoryOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

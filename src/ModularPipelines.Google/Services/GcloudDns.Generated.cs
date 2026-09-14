@@ -90,7 +90,7 @@ public class GcloudDns : IGcloudDns
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDnsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDnsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -60,7 +60,7 @@ public class GcloudParameterManager : IGcloudParameterManager
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParameterManagerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudParameterManagerOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

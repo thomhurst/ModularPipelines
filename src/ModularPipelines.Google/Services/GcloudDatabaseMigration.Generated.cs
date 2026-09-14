@@ -84,7 +84,7 @@ public class GcloudDatabaseMigration : IGcloudDatabaseMigration
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDatabaseMigrationOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDatabaseMigrationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

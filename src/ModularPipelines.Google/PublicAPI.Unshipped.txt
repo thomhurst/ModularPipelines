@@ -305,11 +305,9 @@
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateWithContainerOptions.ContainerMountTmpfs.get -> System.Collections.Generic.IEnumerable<string!>?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateWithContainerOptions.ContainerRestartPolicy.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateWithContainerOptions.CreateDisk.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
-*REMOVED*ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateWithContainerOptions.ExternalIpv6Address.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateWithContainerOptions.NetworkInterface.get -> ModularPipelines.Google.Enums.GcloudNetworkInterface?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.Accelerator.get -> int?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.CreateDisk.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
-*REMOVED*ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.Ipv6PublicPtrDomain.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.LocalSsd.get -> int?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.NetworkInterface.get -> ModularPipelines.Google.Enums.GcloudNetworkInterface?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.NetworkPerformanceConfigs.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
@@ -318,7 +316,6 @@
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.ContainerMountTmpfs.get -> System.Collections.Generic.IEnumerable<string!>?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.ContainerRestartPolicy.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.CreateDisk.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
-*REMOVED*ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.ExternalIpv6Address.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.NetworkInterface.get -> ModularPipelines.Google.Enums.GcloudNetworkInterface?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.NetworkPerformanceConfigs.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
 *REMOVED*ModularPipelines.Google.Options.GcloudComputeInstancesStopOptions.DiscardLocalSsd.get -> bool?
@@ -595,11 +592,9 @@
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions.ContainerMountTmpfs.get -> System.Collections.Generic.IEnumerable<string!>?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions.ContainerRestartPolicy.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions.CreateDisk.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
-*REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions.ExternalIpv6Address.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions.NetworkInterface.get -> ModularPipelines.Google.Enums.GcloudNetworkInterface?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.Accelerator.get -> int?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.CreateDisk.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
-*REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.Ipv6PublicPtrDomain.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.LocalSsd.get -> int?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.NetworkInterface.get -> ModularPipelines.Google.Enums.GcloudNetworkInterface?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.NetworkPerformanceConfigs.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
@@ -608,7 +603,6 @@
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.ContainerMountTmpfs.get -> System.Collections.Generic.IEnumerable<string!>?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.ContainerRestartPolicy.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.CreateDisk.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
-*REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.ExternalIpv6Address.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.NetworkInterface.get -> ModularPipelines.Google.Enums.GcloudNetworkInterface?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.NetworkPerformanceConfigs.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue!>?
 *REMOVED*ModularPipelines.Google.Options.GcloudPreviewComputeInstancesStopOptions.DiscardLocalSsd.get -> bool?
@@ -12797,7 +12791,6 @@ ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateWithContaine
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateWithContainerOptions.ContainerMountTmpfs.get -> string?
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateWithContainerOptions.ContainerRestartPolicy.get -> ModularPipelines.Google.Enums.GcloudContainerRestartPolicy?
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateWithContainerOptions.CreateDisk.get -> string?
-ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateWithContainerOptions.ExternalIpv6Address.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateWithContainerOptions.IdentityCertificate.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateWithContainerOptions.IdentityCertificate.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstanceTemplatesCreateWithContainerOptions.Image.get -> string?
@@ -12875,7 +12868,6 @@ ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.Image.get ->
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.Image.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.ImageFamily.get -> string?
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.ImageFamily.set -> void
-ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.Ipv6PublicPtrDomain.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.LocalSsd.get -> string?
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.NetworkInterface.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateOptions.NetworkPerformanceConfigs.get -> string?
@@ -12938,7 +12930,6 @@ ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.EnableNestedVirtualization.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.ExposeHostTopology.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.ExposeHostTopology.set -> void
-ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.ExternalIpv6Address.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.GracefulShutdown.get -> bool?
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.GracefulShutdown.set -> void
 ModularPipelines.Google.Options.GcloudComputeInstancesCreateWithContainerOptions.GracefulShutdownMaxDuration.get -> string?
@@ -19213,7 +19204,6 @@ ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateWithC
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions.ContainerMountTmpfs.get -> string?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions.ContainerRestartPolicy.get -> ModularPipelines.Google.Enums.GcloudContainerRestartPolicy?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions.CreateDisk.get -> string?
-ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions.ExternalIpv6Address.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions.IdentityCertificate.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions.IdentityCertificate.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstanceTemplatesCreateWithContainerOptions.Image.get -> string?
@@ -19291,7 +19281,6 @@ ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.Image
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.Image.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.ImageFamily.get -> string?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.ImageFamily.set -> void
-ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.Ipv6PublicPtrDomain.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.LocalSsd.get -> string?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.NetworkInterface.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateOptions.NetworkPerformanceConfigs.get -> string?
@@ -19354,7 +19343,6 @@ ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainer
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.EnableNestedVirtualization.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.ExposeHostTopology.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.ExposeHostTopology.set -> void
-ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.ExternalIpv6Address.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.GracefulShutdown.get -> bool?
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.GracefulShutdown.set -> void
 ModularPipelines.Google.Options.GcloudPreviewComputeInstancesCreateWithContainerOptions.GracefulShutdownMaxDuration.get -> string?

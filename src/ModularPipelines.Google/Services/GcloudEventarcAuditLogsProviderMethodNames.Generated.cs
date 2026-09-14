@@ -44,7 +44,7 @@ public class GcloudEventarcAuditLogsProviderMethodNames
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEventarcAuditLogsProviderMethodNamesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEventarcAuditLogsProviderMethodNamesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class GcloudEventarcAuditLogsProviderMethodNames
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEventarcAuditLogsProviderMethodNamesListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEventarcAuditLogsProviderMethodNamesListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

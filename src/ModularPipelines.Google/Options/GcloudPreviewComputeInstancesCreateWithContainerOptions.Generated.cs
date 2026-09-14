@@ -227,7 +227,7 @@ public record GcloudPreviewComputeInstancesCreateWithContainerOptions(
     /// Custom machine type extensions. Specifies the reservation for the instance. Assigns the given external IPv6 address to the instance that is created. The address must be the first IP address in the range. This option can be used only when creating a single instance.
     /// </summary>
     [CliOption("--external-ipv6-address", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? ExternalIpv6Address { get; set; }
+    public string? ExternalIpv6Address { get; set; }
 
     /// <summary>
     /// Custom machine type extensions. Specifies the reservation for the instance. The prefix length of the external IPv6 address range. This field should be used together with --external-ipv6-address. Only the /96 IP address range is supported, and the default value is 96.

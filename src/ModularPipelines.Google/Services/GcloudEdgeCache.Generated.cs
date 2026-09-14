@@ -72,7 +72,7 @@ public class GcloudEdgeCache : IGcloudEdgeCache
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCacheOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCacheOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

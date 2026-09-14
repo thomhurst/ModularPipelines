@@ -54,7 +54,7 @@ public class GcloudSccCustomModules
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSccCustomModulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudSccCustomModulesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

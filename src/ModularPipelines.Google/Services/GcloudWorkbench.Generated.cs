@@ -66,7 +66,7 @@ public class GcloudWorkbench : IGcloudWorkbench
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudWorkbenchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudWorkbenchOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
