@@ -16,12 +16,12 @@ namespace ModularPipelines.ArgoCd.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum ArgoCdProjSourceIntegrityGitPoliciesUpdateGpgMode
 {
-    [EnumValue("strict")]
-    Strict,
-
     [EnumValue("head")]
     Head,
 
     [EnumValue("none")]
-    None
+    None,
+
+    [EnumValue("strict")]
+    Strict
 }

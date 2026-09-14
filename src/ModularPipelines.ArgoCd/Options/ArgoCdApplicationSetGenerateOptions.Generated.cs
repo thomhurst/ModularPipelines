@@ -20,10 +20,32 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appset", "generate")]
-public record ArgoCdApplicationSetGenerateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Files
-) : ArgoCdOptions
+public record ArgoCdApplicationSetGenerateOptions : ArgoCdOptions
 {
+    public ArgoCdApplicationSetGenerateOptions(
+        IEnumerable<string> Files
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Files);
+            var materialized = global::System.Linq.Enumerable.ToArray(Files);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Files));
+            }
+
+            Files = materialized;
+        }
+        this.Files = Files;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Files)
+    {
+        Files = this.Files;
+    }
+
     /// <summary>
     /// Namespace used for generating Applications (ignored when provided YAML file has namespace set in metadata)
     /// </summary>
@@ -198,5 +220,11 @@ public record ArgoCdApplicationSetGenerateOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// One or more ApplicationSet filenames or URLs.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Files { get; private init; }
 
 }

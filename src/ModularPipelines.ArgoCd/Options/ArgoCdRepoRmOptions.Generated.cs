@@ -20,10 +20,32 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repo", "rm")]
-public record ArgoCdRepoRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Repositories
-) : ArgoCdOptions
+public record ArgoCdRepoRmOptions : ArgoCdOptions
 {
+    public ArgoCdRepoRmOptions(
+        IEnumerable<string> Repositories
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Repositories);
+            var materialized = global::System.Linq.Enumerable.ToArray(Repositories);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Repositories));
+            }
+
+            Repositories = materialized;
+        }
+        this.Repositories = Repositories;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Repositories)
+    {
+        Repositories = this.Repositories;
+    }
+
     /// <summary>
     /// help for rm
     /// </summary>
@@ -192,5 +214,11 @@ public record ArgoCdRepoRmOptions(
     /// </summary>
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
+
+    /// <summary>
+    /// One or more repository URLs.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Repositories { get; private init; }
 
 }
