@@ -17,6 +17,7 @@ namespace ModularPipelines.Node.Options;
 /// <summary>
 /// Generate a Software Bill of Materials (SBOM)
 /// </summary>
+/// <param name="SbomFormat">The SBOM output format (required)</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sbom")]
