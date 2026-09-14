@@ -22,6 +22,7 @@ public abstract partial class CliScraperBase : ICliScraper
     private const int TabWidth = 8;
     private readonly CliScrapeProvenance _scrapeProvenance = new();
     private readonly HashSet<string> _knownCommandGroups = [with(StringComparer.OrdinalIgnoreCase)];
+    private IReadOnlyList<CliOptionDefinition> _unfilteredGlobalOptions = [];
 
     protected readonly ICliCommandExecutor Executor;
     protected readonly IHelpTextCache HelpCache;
@@ -411,7 +412,8 @@ public abstract partial class CliScraperBase : ICliScraper
 
         if (path.Length == 1)
         {
-            GlobalOptions = FilterIgnoredOptions(ParseGlobalOptions(helpText));
+            _unfilteredGlobalOptions = ParseGlobalOptions(helpText);
+            GlobalOptions = FilterIgnoredOptions(_unfilteredGlobalOptions);
         }
 
         if (ShouldSkipPath(path, helpText))
@@ -733,8 +735,10 @@ public abstract partial class CliScraperBase : ICliScraper
     private UsageSynopsisParseResult RemoveIgnoredOptionValues(
         UsageSynopsisParseResult usage, IReadOnlyList<CliOptionDefinition> options)
     {
-        var ignoredOptions = options.Where(IsIgnoredOption).ToArray();
-        if (ignoredOptions.Length == 0)
+        // Retain ignored global metadata for usage ownership without emitting it. A local
+        // definition takes precedence over inherited definitions of the same switch.
+        CliOptionDefinition[] parsedOptions = [.. options, .. _unfilteredGlobalOptions, .. SupplementalGlobalOptions];
+        if (!parsedOptions.Any(IsIgnoredOption))
         {
             return usage;
         }
@@ -743,13 +747,13 @@ public abstract partial class CliScraperBase : ICliScraper
         foreach (var argument in usage.PositionalArguments)
         {
             var owner = argument.AssociatedOptionSwitch is { } optionSwitch
-                ? CliOptionDefinition.FindIndexBySwitch(ignoredOptions, optionSwitch)
+                ? CliOptionDefinition.FindIndexBySwitch(parsedOptions, optionSwitch)
                 : -1;
-            if (owner < 0)
+            if (owner < 0 || !IsIgnoredOption(parsedOptions[owner]))
             {
                 arguments.Add(argument);
             }
-            else if (ignoredOptions[owner].IsFlag)
+            else if (parsedOptions[owner].IsFlag)
             {
                 // A token following a flag is an operand, not a value owned by that flag.
                 arguments.Add(argument with { AssociatedOptionSwitch = null });

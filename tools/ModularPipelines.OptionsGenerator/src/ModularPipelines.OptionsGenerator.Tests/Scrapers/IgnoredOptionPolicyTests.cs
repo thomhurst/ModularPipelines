@@ -10,6 +10,42 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class IgnoredOptionPolicyTests
 {
     [Test]
+    [Arguments(false, false)]
+    [Arguments(true, false)]
+    [Arguments(false, true)]
+    [Arguments(true, true)]
+    public async Task Ignored_Global_Options_Preserve_Usage_Operand_Ownership(bool supplemental, bool isFlag)
+    {
+        var help = Option("--help", "Help") with { IsFlag = isFlag, CSharpType = isFlag ? "bool?" : "string?" };
+        var scraper = new PolicyScraper([], globals: supplemental ? [] : [help],
+            supplemental: supplemental ? [help] : [], synopsis: "--help <INPUT>",
+            operands: isFlag ? [new() { PropertyName = "Input", CSharpType = "string", IsRequired = true, PositionIndex = 0 }] : [],
+            useSubcommand: true);
+        var command = (await Scrape(scraper)).Single();
+        await Assert.That(command.FullCommand).IsEqualTo("probe child");
+        await Assert.That(scraper.EffectiveGlobals).IsEmpty();
+        await Assert.That(command.Options).IsEmpty();
+        await Assert.That(command.UsagePositionalArguments).Count().IsEqualTo(isFlag ? 1 : 0);
+        if (isFlag)
+        {
+            await Assert.That(command.UsagePositionalArguments.Single().AssociatedOptionSwitch).IsNull();
+        }
+    }
+
+    [Test]
+    public async Task Local_Ignored_Flag_Takes_Precedence_Over_Global_Value_Option()
+    {
+        var scraper = new PolicyScraper([Option("--help", "Help")],
+            globals: [Option("--help", "Help") with { IsFlag = false, CSharpType = "string?" }],
+            synopsis: "--help <INPUT>",
+            operands: [new() { PropertyName = "Input", CSharpType = "string", IsRequired = true, PositionIndex = 0 }],
+            useSubcommand: true);
+        var command = (await Scrape(scraper)).Single();
+        await Assert.That(command.UsagePositionalArguments.Single().PropertyName).IsEqualTo("Input");
+        await Assert.That(command.UsagePositionalArguments.Single().AssociatedOptionSwitch).IsNull();
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task Alternative_Members_With_Colliding_Properties_Keep_Their_Identity(bool positional)
@@ -103,6 +139,7 @@ public class IgnoredOptionPolicyTests
         {
             ["--help"] = rootHelp,
             [$"{commandName} --help"] = commandHelp,
+            [$"help {commandName}"] = "OPTIONS\n    The fixture options accept one value each.\n",
         });
         var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
         ICliScraper scraper = tool switch
@@ -291,8 +328,15 @@ public class IgnoredOptionPolicyTests
         IReadOnlyList<CliRequiredAlternativeGroup>? groups = null,
         IReadOnlyList<CliPositionalArgument>? operands = null,
         string synopsis = "[options]",
-        IReadOnlyList<CliArgumentGroup>? argumentGroups = null)
-        : CliScraperBase(new FixtureExecutor(new Dictionary<string, string> { ["--help"] = $"Usage: probe {synopsis}\n\nOptions:\n  --help  Show help.\n" }),
+        IReadOnlyList<CliArgumentGroup>? argumentGroups = null,
+        bool useSubcommand = false)
+        : CliScraperBase(new FixtureExecutor(useSubcommand
+                ? new Dictionary<string, string>
+                {
+                    ["--help"] = "Usage: probe [command]\n\nCommands:\n  child  Run a command.\n",
+                    ["child --help"] = $"Usage: probe child {synopsis}\n\nOptions:\n  --output  Select output.\n",
+                }
+                : new Dictionary<string, string> { ["--help"] = $"Usage: probe {synopsis}\n\nOptions:\n  --help  Show help.\n" }),
             new HelpTextCache(NullLogger<HelpTextCache>.Instance), NullLogger.Instance)
     {
         public override string ToolName => "probe";
@@ -304,11 +348,14 @@ public class IgnoredOptionPolicyTests
         protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) => globals ?? [];
         public IReadOnlyList<CliOptionDefinition> EffectiveGlobals => EffectiveGlobalOptions;
 
+        protected override IEnumerable<string> ExtractSubcommands(string[] commandPath, string helpText) =>
+            useSubcommand && commandPath.Length == 1 ? ["child"] : [];
+
         protected override Task<CliCommandDefinition?> ParseCommandAsync(string[] commandPath, string helpText, CancellationToken cancellationToken) =>
-            Task.FromResult<CliCommandDefinition?>(new()
+            Task.FromResult<CliCommandDefinition?>(useSubcommand && commandPath.Length == 1 ? null : new()
             {
-                FullCommand = "probe",
-                CommandParts = [],
+                FullCommand = string.Join(" ", commandPath),
+                CommandParts = commandPath.Skip(1).ToArray(),
                 ClassName = "ProbeRunOptions",
                 ParentClassName = "ProbeOptions",
                 ToolNamespacePrefix = "Probe",
