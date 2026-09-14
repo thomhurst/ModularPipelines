@@ -2,4 +2,5 @@
 ModularPipelines.Cmd.Extensions.CmdExtensions
 ModularPipelines.Context.ModularPipelines_Cmd_3e922be450af9c26ToolsExtensions
 ModularPipelines.Context.ModularPipelines_Cmd_3e922be450af9c26ToolsExtensions.extension(ModularPipelines.Context.IToolsContext!)
+static ModularPipelines.Cmd.Extensions.CmdExtensions.Cmd(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Cmd.ICmd!
 static ModularPipelines.Cmd.Extensions.CmdExtensions.RegisterCmdContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!

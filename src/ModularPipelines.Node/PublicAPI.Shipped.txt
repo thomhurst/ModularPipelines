@@ -9,9 +9,110 @@ ModularPipelines.Node.INode
 ModularPipelines.Node.INode.Npm.get -> ModularPipelines.Node.INpm!
 ModularPipelines.Node.INode.Npx.get -> ModularPipelines.Node.INpx!
 ModularPipelines.Node.INode.Nvm.get -> ModularPipelines.Node.INvm!
+ModularPipelines.Node.INode.VersionAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Node.INpm
+ModularPipelines.Node.INpm.AccessGetStatusAsync(ModularPipelines.Node.Models.NpmAccessGetStatusOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.AccessGrantAsync(ModularPipelines.Node.Models.NpmAccessGrantOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.AccessListCollaboratorsAsync(ModularPipelines.Node.Models.NpmAccessListCollaboratorsOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.AccessListPackagesAsync(ModularPipelines.Node.Models.NpmAccessListPackagesOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.AccessRevokeAsync(ModularPipelines.Node.Models.NpmAccessRevokeOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.AccessSetAsync(ModularPipelines.Node.Models.NpmAccessSetOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.AdduserAsync(ModularPipelines.Node.Models.NpmAdduserOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.AuditAsync(ModularPipelines.Node.Models.NpmAuditOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.BugsAsync(ModularPipelines.Node.Models.NpmBugsOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.CacheAddAsync(ModularPipelines.Node.Models.NpmCacheAddOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.CacheCleanAsync(ModularPipelines.Node.Models.NpmCacheCleanOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.CacheLsAsync(ModularPipelines.Node.Models.NpmCacheLsOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.CacheVerifyAsync(ModularPipelines.Node.Models.NpmCacheVerifyOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.CiAsync(ModularPipelines.Node.Models.NpmCiOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.CompletionAsync(ModularPipelines.Node.Models.NpmCompletionOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.ConfigDeleteAsync(ModularPipelines.Node.Models.NpmConfigDeleteOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.ConfigEditAsync(ModularPipelines.Node.Models.NpmConfigEditOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.ConfigFixAsync(ModularPipelines.Node.Models.NpmConfigFixOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.ConfigGetAsync(ModularPipelines.Node.Models.NpmConfigGetOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.ConfigListAsync(ModularPipelines.Node.Models.NpmConfigListOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.ConfigSetAsync(ModularPipelines.Node.Models.NpmConfigSetOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.ConfigSetRegistryAsync(ModularPipelines.Node.Models.NpmConfigSetRegistryOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.DedupeAsync(ModularPipelines.Node.Models.NpmDedupeOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.DeprecateAsync(ModularPipelines.Node.Models.NpmDeprecateOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.DiffAsync(ModularPipelines.Node.Models.NpmDiffOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.DocsAsync(ModularPipelines.Node.Models.NpmDocsOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.DoctorAsync(ModularPipelines.Node.Models.NpmDoctorOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.EditAsync(ModularPipelines.Node.Models.NpmEditOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.ExecAsync(ModularPipelines.Node.Models.NpmExecOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.ExecCAsync(ModularPipelines.Node.Models.NpmExecCOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.ExplainAsync(ModularPipelines.Node.Models.NpmExplainOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.ExploreAsync(ModularPipelines.Node.Models.NpmExploreOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.FundAsync(ModularPipelines.Node.Models.NpmFundOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.HelpAsync(ModularPipelines.Node.Models.NpmHelpOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.HookAddAsync(ModularPipelines.Node.Models.NpmHookAddOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.HookLsAsync(ModularPipelines.Node.Models.NpmHookLsOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.HookRmAsync(ModularPipelines.Node.Models.NpmHookRmOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.HookUpdateAsync(ModularPipelines.Node.Models.NpmHookUpdateOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.InitAsync(ModularPipelines.Node.Models.NpmInitOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.InstallAsync(ModularPipelines.Node.Models.NpmInstallOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.LinkAsync(ModularPipelines.Node.Models.NpmLinkOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.LoginAsync(ModularPipelines.Node.Models.NpmLoginOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.LogoutAsync(ModularPipelines.Node.Models.NpmLogoutOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.LsAsync(ModularPipelines.Node.Models.NpmLsOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.NpxAsync(ModularPipelines.Node.Models.NpxOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.NpxCAsync(ModularPipelines.Node.Models.NpxCOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.OrgLsAsync(ModularPipelines.Node.Models.NpmOrgLsOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.OrgRmAsync(ModularPipelines.Node.Models.NpmOrgRmOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.OrgSetAsync(ModularPipelines.Node.Models.NpmOrgSetOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.OutdatedAsync(ModularPipelines.Node.Models.NpmOutdatedOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.OwnerAddAsync(ModularPipelines.Node.Models.NpmOwnerAddOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.OwnerLsAsync(ModularPipelines.Node.Models.NpmOwnerLsOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.OwnerRmAsync(ModularPipelines.Node.Models.NpmOwnerRmOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.PackAsync(ModularPipelines.Node.Models.NpmPackOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.PingAsync(ModularPipelines.Node.Models.NpmPingOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.PkgDeleteAsync(ModularPipelines.Node.Models.NpmPkgDeleteOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.PkgFixAsync(ModularPipelines.Node.Models.NpmPkgFixOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.PkgGetAsync(ModularPipelines.Node.Models.NpmPkgGetOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.PkgSetAsync(ModularPipelines.Node.Models.NpmPkgSetOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.PrefixAsync(ModularPipelines.Node.Models.NpmPrefixOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.ProfileDisable2faAsync(ModularPipelines.Node.Models.NpmProfileDisable2faOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.ProfileEnable2faAsync(ModularPipelines.Node.Models.NpmProfileEnable2faOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.ProfileGetAsync(ModularPipelines.Node.Models.NpmProfileGetOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.ProfileSetAsync(ModularPipelines.Node.Models.NpmProfileSetOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.PruneAsync(ModularPipelines.Node.Models.NpmPruneOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.PublishAsync(ModularPipelines.Node.Models.NpmPublishOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.QueryAsync(ModularPipelines.Node.Models.NpmQueryOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.RebuildAsync(ModularPipelines.Node.Models.NpmRebuildOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.RepoAsync(ModularPipelines.Node.Models.NpmRepoOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.RestartAsync(ModularPipelines.Node.Models.NpmRestartOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.RootAsync(ModularPipelines.Node.Models.NpmRootOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.RunAsync(ModularPipelines.Node.Models.NpmRunOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.SbomAsync(ModularPipelines.Node.Models.NpmSbomOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.SearchAsync(ModularPipelines.Node.Models.NpmSearchOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.ShrinkwrapAsync(ModularPipelines.Node.Models.NpmShrinkwrapOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.StarAsync(ModularPipelines.Node.Models.NpmStarOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.StarsAsync(ModularPipelines.Node.Models.NpmStarsOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.StartAsync(ModularPipelines.Node.Models.NpmStartOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.StopAsync(ModularPipelines.Node.Models.NpmStopOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.TeamAddAsync(ModularPipelines.Node.Models.NpmTeamAddOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.TeamCreateAsync(ModularPipelines.Node.Models.NpmTeamCreateOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.TeamDestroyAsync(ModularPipelines.Node.Models.NpmTeamDestroyOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.TeamLsAsync(ModularPipelines.Node.Models.NpmTeamLsOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.TeamRmAsync(ModularPipelines.Node.Models.NpmTeamRmOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.TestAsync(ModularPipelines.Node.Models.NpmTestOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.TokenCreateAsync(ModularPipelines.Node.Models.NpmTokenCreateOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.TokenListAsync(ModularPipelines.Node.Models.NpmTokenListOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.TokenRevokeAsync(ModularPipelines.Node.Models.NpmTokenRevokeOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.UninstallAsync(ModularPipelines.Node.Models.NpmUninstallOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.UnpublishAsync(ModularPipelines.Node.Models.NpmUnpublishOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.UnstarAsync(ModularPipelines.Node.Models.NpmUnstarOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.UpdateAsync(ModularPipelines.Node.Models.NpmUpdateOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.VersionAsync(ModularPipelines.Node.Models.NpmVersionOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.ViewAsync(ModularPipelines.Node.Models.NpmViewOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INpm.WhoamiAsync(ModularPipelines.Node.Models.NpmWhoamiOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Node.INpx
+ModularPipelines.Node.INpx.ExecuteAsync(ModularPipelines.Node.Models.NpxOptions! npxOptions, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Node.INvm
+ModularPipelines.Node.INvm.InstallAsync(string! version, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INvm.UseAsync(string! version, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INvm.VersionAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.INvm.WhichAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 ModularPipelines.Node.Models.NpmAccessGetStatusOptions
 ModularPipelines.Node.Models.NpmAccessGetStatusOptions.NpmAccessGetStatusOptions() -> void
 ModularPipelines.Node.Models.NpmAccessGetStatusOptions.NpmAccessGetStatusOptions(ModularPipelines.Node.Models.NpmAccessGetStatusOptions! original) -> void
@@ -436,14 +537,17 @@ ModularPipelines.Node.Models.NpxOptions
 ModularPipelines.Node.Models.NpxOptions.NpxOptions() -> void
 ModularPipelines.Node.Models.NpxOptions.NpxOptions(ModularPipelines.Node.Models.NpxOptions! original) -> void
 ModularPipelines.Node.Options.PnpmAddOptions
+ModularPipelines.Node.Options.PnpmAddOptions.AggregateOutput.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.AggregateOutput.set -> void
 ModularPipelines.Node.Options.PnpmAddOptions.AllowBuild.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.AllowBuild.set -> void
 ModularPipelines.Node.Options.PnpmAddOptions.ChangedFilesIgnorePattern.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.ChangedFilesIgnorePattern.set -> void
+ModularPipelines.Node.Options.PnpmAddOptions.Config.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.Config.set -> void
 ModularPipelines.Node.Options.PnpmAddOptions.Dir.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.Dir.set -> void
+ModularPipelines.Node.Options.PnpmAddOptions.FailIfNoMatch.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.FailIfNoMatch.set -> void
 ModularPipelines.Node.Options.PnpmAddOptions.Filter.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.Filter.set -> void
@@ -453,6 +557,7 @@ ModularPipelines.Node.Options.PnpmAddOptions.Global.get -> bool?
 ModularPipelines.Node.Options.PnpmAddOptions.Global.set -> void
 ModularPipelines.Node.Options.PnpmAddOptions.GlobalDir.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.GlobalDir.set -> void
+ModularPipelines.Node.Options.PnpmAddOptions.Help.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.Help.set -> void
 ModularPipelines.Node.Options.PnpmAddOptions.IgnoreScripts.get -> bool?
 ModularPipelines.Node.Options.PnpmAddOptions.IgnoreScripts.set -> void
@@ -460,6 +565,7 @@ ModularPipelines.Node.Options.PnpmAddOptions.Loglevel.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.Loglevel.set -> void
 ModularPipelines.Node.Options.PnpmAddOptions.Offline.get -> bool?
 ModularPipelines.Node.Options.PnpmAddOptions.Offline.set -> void
+ModularPipelines.Node.Options.PnpmAddOptions.PnpmAddOptions() -> void
 ModularPipelines.Node.Options.PnpmAddOptions.PnpmAddOptions(ModularPipelines.Node.Options.PnpmAddOptions! original) -> void
 ModularPipelines.Node.Options.PnpmAddOptions.PreferOffline.get -> bool?
 ModularPipelines.Node.Options.PnpmAddOptions.PreferOffline.set -> void
@@ -467,6 +573,7 @@ ModularPipelines.Node.Options.PnpmAddOptions.Recursive.get -> bool?
 ModularPipelines.Node.Options.PnpmAddOptions.Recursive.set -> void
 ModularPipelines.Node.Options.PnpmAddOptions.Registry.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.Registry.set -> void
+ModularPipelines.Node.Options.PnpmAddOptions.SaveCatalog.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.SaveCatalog.set -> void
 ModularPipelines.Node.Options.PnpmAddOptions.SaveDev.get -> bool?
 ModularPipelines.Node.Options.PnpmAddOptions.SaveDev.set -> void
@@ -474,49 +581,65 @@ ModularPipelines.Node.Options.PnpmAddOptions.SaveOptional.get -> bool?
 ModularPipelines.Node.Options.PnpmAddOptions.SaveOptional.set -> void
 ModularPipelines.Node.Options.PnpmAddOptions.SavePeer.get -> bool?
 ModularPipelines.Node.Options.PnpmAddOptions.SavePeer.set -> void
+ModularPipelines.Node.Options.PnpmAddOptions.SaveProd.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.SaveProd.set -> void
 ModularPipelines.Node.Options.PnpmAddOptions.StoreDir.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.StoreDir.set -> void
+ModularPipelines.Node.Options.PnpmAddOptions.Stream.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.Stream.set -> void
 ModularPipelines.Node.Options.PnpmAddOptions.TestPattern.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.TestPattern.set -> void
+ModularPipelines.Node.Options.PnpmAddOptions.UseStderr.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.UseStderr.set -> void
 ModularPipelines.Node.Options.PnpmAddOptions.VirtualStoreDir.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.VirtualStoreDir.set -> void
+ModularPipelines.Node.Options.PnpmAddOptions.Workspace.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.Workspace.set -> void
+ModularPipelines.Node.Options.PnpmAddOptions.WorkspaceRoot.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.WorkspaceRoot.set -> void
+ModularPipelines.Node.Options.PnpmAddOptions.Yes.get -> string?
 ModularPipelines.Node.Options.PnpmAddOptions.Yes.set -> void
 ModularPipelines.Node.Options.PnpmAuditOptions
 ModularPipelines.Node.Options.PnpmAuditOptions.AuditLevel.get -> string?
 ModularPipelines.Node.Options.PnpmAuditOptions.AuditLevel.set -> void
+ModularPipelines.Node.Options.PnpmAuditOptions.Dev.get -> string?
 ModularPipelines.Node.Options.PnpmAuditOptions.Dev.set -> void
 ModularPipelines.Node.Options.PnpmAuditOptions.Fix.get -> string?
 ModularPipelines.Node.Options.PnpmAuditOptions.Fix.set -> void
 ModularPipelines.Node.Options.PnpmAuditOptions.Ignore.get -> string?
 ModularPipelines.Node.Options.PnpmAuditOptions.Ignore.set -> void
+ModularPipelines.Node.Options.PnpmAuditOptions.IgnoreRegistryErrors.get -> string?
 ModularPipelines.Node.Options.PnpmAuditOptions.IgnoreRegistryErrors.set -> void
+ModularPipelines.Node.Options.PnpmAuditOptions.IgnoreUnfixable.get -> string?
 ModularPipelines.Node.Options.PnpmAuditOptions.IgnoreUnfixable.set -> void
+ModularPipelines.Node.Options.PnpmAuditOptions.Interactive.get -> string?
 ModularPipelines.Node.Options.PnpmAuditOptions.Interactive.set -> void
+ModularPipelines.Node.Options.PnpmAuditOptions.Json.get -> string?
 ModularPipelines.Node.Options.PnpmAuditOptions.Json.set -> void
 ModularPipelines.Node.Options.PnpmAuditOptions.NoOptional.get -> bool?
 ModularPipelines.Node.Options.PnpmAuditOptions.NoOptional.set -> void
 ModularPipelines.Node.Options.PnpmAuditOptions.PnpmAuditOptions() -> void
 ModularPipelines.Node.Options.PnpmAuditOptions.PnpmAuditOptions(ModularPipelines.Node.Options.PnpmAuditOptions! original) -> void
+ModularPipelines.Node.Options.PnpmAuditOptions.Prod.get -> string?
 ModularPipelines.Node.Options.PnpmAuditOptions.Prod.set -> void
 ModularPipelines.Node.Options.PnpmCreateOptions
 ModularPipelines.Node.Options.PnpmCreateOptions.AllowBuild.get -> string?
 ModularPipelines.Node.Options.PnpmCreateOptions.AllowBuild.set -> void
+ModularPipelines.Node.Options.PnpmCreateOptions.PnpmCreateOptions() -> void
 ModularPipelines.Node.Options.PnpmCreateOptions.PnpmCreateOptions(ModularPipelines.Node.Options.PnpmCreateOptions! original) -> void
 ModularPipelines.Node.Options.PnpmDlxOptions
 ModularPipelines.Node.Options.PnpmDlxOptions.AllowBuild.get -> string?
 ModularPipelines.Node.Options.PnpmDlxOptions.AllowBuild.set -> void
 ModularPipelines.Node.Options.PnpmDlxOptions.Package.get -> string?
 ModularPipelines.Node.Options.PnpmDlxOptions.Package.set -> void
+ModularPipelines.Node.Options.PnpmDlxOptions.PnpmDlxOptions() -> void
 ModularPipelines.Node.Options.PnpmDlxOptions.PnpmDlxOptions(ModularPipelines.Node.Options.PnpmDlxOptions! original) -> void
+ModularPipelines.Node.Options.PnpmDlxOptions.ShellMode.get -> string?
 ModularPipelines.Node.Options.PnpmDlxOptions.ShellMode.set -> void
 ModularPipelines.Node.Options.PnpmInitOptions
 ModularPipelines.Node.Options.PnpmInitOptions.Bare.get -> string?
 ModularPipelines.Node.Options.PnpmInitOptions.Bare.set -> void
+ModularPipelines.Node.Options.PnpmInitOptions.InitPackageManager.get -> string?
 ModularPipelines.Node.Options.PnpmInitOptions.InitPackageManager.set -> void
 ModularPipelines.Node.Options.PnpmInitOptions.InitType.get -> string?
 ModularPipelines.Node.Options.PnpmInitOptions.InitType.set -> void
@@ -528,18 +651,23 @@ ModularPipelines.Node.Options.PnpmOptions.PnpmOptions(ModularPipelines.Node.Opti
 ModularPipelines.Node.Options.PnpmPublishOptions
 ModularPipelines.Node.Options.PnpmPublishOptions.Access.get -> string?
 ModularPipelines.Node.Options.PnpmPublishOptions.Access.set -> void
+ModularPipelines.Node.Options.PnpmPublishOptions.Batch.get -> string?
 ModularPipelines.Node.Options.PnpmPublishOptions.Batch.set -> void
 ModularPipelines.Node.Options.PnpmPublishOptions.ChangedFilesIgnorePattern.get -> string?
 ModularPipelines.Node.Options.PnpmPublishOptions.ChangedFilesIgnorePattern.set -> void
+ModularPipelines.Node.Options.PnpmPublishOptions.DryRun.get -> string?
 ModularPipelines.Node.Options.PnpmPublishOptions.DryRun.set -> void
+ModularPipelines.Node.Options.PnpmPublishOptions.FailIfNoMatch.get -> string?
 ModularPipelines.Node.Options.PnpmPublishOptions.FailIfNoMatch.set -> void
 ModularPipelines.Node.Options.PnpmPublishOptions.Filter.get -> string?
 ModularPipelines.Node.Options.PnpmPublishOptions.Filter.set -> void
 ModularPipelines.Node.Options.PnpmPublishOptions.FilterProd.get -> string?
 ModularPipelines.Node.Options.PnpmPublishOptions.FilterProd.set -> void
+ModularPipelines.Node.Options.PnpmPublishOptions.Force.get -> string?
 ModularPipelines.Node.Options.PnpmPublishOptions.Force.set -> void
 ModularPipelines.Node.Options.PnpmPublishOptions.IgnoreScripts.get -> bool?
 ModularPipelines.Node.Options.PnpmPublishOptions.IgnoreScripts.set -> void
+ModularPipelines.Node.Options.PnpmPublishOptions.Json.get -> string?
 ModularPipelines.Node.Options.PnpmPublishOptions.Json.set -> void
 ModularPipelines.Node.Options.PnpmPublishOptions.NoGitChecks.get -> bool?
 ModularPipelines.Node.Options.PnpmPublishOptions.NoGitChecks.set -> void
@@ -551,55 +679,73 @@ ModularPipelines.Node.Options.PnpmPublishOptions.PublishBranch.get -> string?
 ModularPipelines.Node.Options.PnpmPublishOptions.PublishBranch.set -> void
 ModularPipelines.Node.Options.PnpmPublishOptions.Recursive.get -> bool?
 ModularPipelines.Node.Options.PnpmPublishOptions.Recursive.set -> void
+ModularPipelines.Node.Options.PnpmPublishOptions.ReportSummary.get -> string?
 ModularPipelines.Node.Options.PnpmPublishOptions.ReportSummary.set -> void
+ModularPipelines.Node.Options.PnpmPublishOptions.SkipManifestObfuscation.get -> string?
 ModularPipelines.Node.Options.PnpmPublishOptions.SkipManifestObfuscation.set -> void
 ModularPipelines.Node.Options.PnpmPublishOptions.Tag.get -> string?
 ModularPipelines.Node.Options.PnpmPublishOptions.Tag.set -> void
 ModularPipelines.Node.Options.PnpmPublishOptions.TestPattern.get -> string?
 ModularPipelines.Node.Options.PnpmPublishOptions.TestPattern.set -> void
 ModularPipelines.Node.Options.PnpmRunOptions
+ModularPipelines.Node.Options.PnpmRunOptions.AggregateOutput.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.AggregateOutput.set -> void
 ModularPipelines.Node.Options.PnpmRunOptions.ChangedFilesIgnorePattern.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.ChangedFilesIgnorePattern.set -> void
 ModularPipelines.Node.Options.PnpmRunOptions.Dir.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.Dir.set -> void
+ModularPipelines.Node.Options.PnpmRunOptions.FailIfNoMatch.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.FailIfNoMatch.set -> void
 ModularPipelines.Node.Options.PnpmRunOptions.Filter.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.Filter.set -> void
 ModularPipelines.Node.Options.PnpmRunOptions.FilterProd.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.FilterProd.set -> void
+ModularPipelines.Node.Options.PnpmRunOptions.Help.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.Help.set -> void
+ModularPipelines.Node.Options.PnpmRunOptions.IfPresent.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.IfPresent.set -> void
 ModularPipelines.Node.Options.PnpmRunOptions.Loglevel.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.Loglevel.set -> void
 ModularPipelines.Node.Options.PnpmRunOptions.NoBail.get -> bool?
 ModularPipelines.Node.Options.PnpmRunOptions.NoBail.set -> void
+ModularPipelines.Node.Options.PnpmRunOptions.Parallel.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.Parallel.set -> void
+ModularPipelines.Node.Options.PnpmRunOptions.PnpmRunOptions() -> void
 ModularPipelines.Node.Options.PnpmRunOptions.PnpmRunOptions(ModularPipelines.Node.Options.PnpmRunOptions! original) -> void
 ModularPipelines.Node.Options.PnpmRunOptions.Recursive.get -> bool?
 ModularPipelines.Node.Options.PnpmRunOptions.Recursive.set -> void
+ModularPipelines.Node.Options.PnpmRunOptions.ReportSummary.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.ReportSummary.set -> void
+ModularPipelines.Node.Options.PnpmRunOptions.ReporterHidePrefix.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.ReporterHidePrefix.set -> void
 ModularPipelines.Node.Options.PnpmRunOptions.ResumeFrom.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.ResumeFrom.set -> void
+ModularPipelines.Node.Options.PnpmRunOptions.Sequential.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.Sequential.set -> void
+ModularPipelines.Node.Options.PnpmRunOptions.Stream.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.Stream.set -> void
 ModularPipelines.Node.Options.PnpmRunOptions.TestPattern.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.TestPattern.set -> void
+ModularPipelines.Node.Options.PnpmRunOptions.UseStderr.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.UseStderr.set -> void
+ModularPipelines.Node.Options.PnpmRunOptions.WorkspaceRoot.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.WorkspaceRoot.set -> void
+ModularPipelines.Node.Options.PnpmRunOptions.Yes.get -> string?
 ModularPipelines.Node.Options.PnpmRunOptions.Yes.set -> void
 ModularPipelines.Node.Options.PnpmStageOptions
 ModularPipelines.Node.Options.PnpmStageOptions.Access.get -> string?
 ModularPipelines.Node.Options.PnpmStageOptions.Access.set -> void
 ModularPipelines.Node.Options.PnpmStageOptions.ChangedFilesIgnorePattern.get -> string?
 ModularPipelines.Node.Options.PnpmStageOptions.ChangedFilesIgnorePattern.set -> void
+ModularPipelines.Node.Options.PnpmStageOptions.DryRun.get -> string?
 ModularPipelines.Node.Options.PnpmStageOptions.DryRun.set -> void
+ModularPipelines.Node.Options.PnpmStageOptions.FailIfNoMatch.get -> string?
 ModularPipelines.Node.Options.PnpmStageOptions.FailIfNoMatch.set -> void
 ModularPipelines.Node.Options.PnpmStageOptions.Filter.get -> string?
 ModularPipelines.Node.Options.PnpmStageOptions.Filter.set -> void
 ModularPipelines.Node.Options.PnpmStageOptions.FilterProd.get -> string?
 ModularPipelines.Node.Options.PnpmStageOptions.FilterProd.set -> void
+ModularPipelines.Node.Options.PnpmStageOptions.Json.get -> string?
 ModularPipelines.Node.Options.PnpmStageOptions.Json.set -> void
 ModularPipelines.Node.Options.PnpmStageOptions.Otp.get -> string?
 ModularPipelines.Node.Options.PnpmStageOptions.Otp.set -> void
@@ -614,9 +760,11 @@ ModularPipelines.Node.Options.PnpmStageOptions.Tag.set -> void
 ModularPipelines.Node.Options.PnpmStageOptions.TestPattern.get -> string?
 ModularPipelines.Node.Options.PnpmStageOptions.TestPattern.set -> void
 ModularPipelines.Node.Options.PnpmUnlinkOptions
+ModularPipelines.Node.Options.PnpmUnlinkOptions.AggregateOutput.get -> string?
 ModularPipelines.Node.Options.PnpmUnlinkOptions.AggregateOutput.set -> void
 ModularPipelines.Node.Options.PnpmUnlinkOptions.Dir.get -> string?
 ModularPipelines.Node.Options.PnpmUnlinkOptions.Dir.set -> void
+ModularPipelines.Node.Options.PnpmUnlinkOptions.Help.get -> string?
 ModularPipelines.Node.Options.PnpmUnlinkOptions.Help.set -> void
 ModularPipelines.Node.Options.PnpmUnlinkOptions.Loglevel.get -> string?
 ModularPipelines.Node.Options.PnpmUnlinkOptions.Loglevel.set -> void
@@ -624,20 +772,28 @@ ModularPipelines.Node.Options.PnpmUnlinkOptions.PnpmUnlinkOptions() -> void
 ModularPipelines.Node.Options.PnpmUnlinkOptions.PnpmUnlinkOptions(ModularPipelines.Node.Options.PnpmUnlinkOptions! original) -> void
 ModularPipelines.Node.Options.PnpmUnlinkOptions.Recursive.get -> bool?
 ModularPipelines.Node.Options.PnpmUnlinkOptions.Recursive.set -> void
+ModularPipelines.Node.Options.PnpmUnlinkOptions.Stream.get -> string?
 ModularPipelines.Node.Options.PnpmUnlinkOptions.Stream.set -> void
+ModularPipelines.Node.Options.PnpmUnlinkOptions.UseStderr.get -> string?
 ModularPipelines.Node.Options.PnpmUnlinkOptions.UseStderr.set -> void
+ModularPipelines.Node.Options.PnpmUnlinkOptions.WorkspaceRoot.get -> string?
 ModularPipelines.Node.Options.PnpmUnlinkOptions.WorkspaceRoot.set -> void
+ModularPipelines.Node.Options.PnpmUnlinkOptions.Yes.get -> string?
 ModularPipelines.Node.Options.PnpmUnlinkOptions.Yes.set -> void
 ModularPipelines.Node.Options.PnpmWhyOptions
+ModularPipelines.Node.Options.PnpmWhyOptions.AggregateOutput.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.AggregateOutput.set -> void
 ModularPipelines.Node.Options.PnpmWhyOptions.ChangedFilesIgnorePattern.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.ChangedFilesIgnorePattern.set -> void
 ModularPipelines.Node.Options.PnpmWhyOptions.Depth.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.Depth.set -> void
+ModularPipelines.Node.Options.PnpmWhyOptions.Dev.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.Dev.set -> void
 ModularPipelines.Node.Options.PnpmWhyOptions.Dir.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.Dir.set -> void
+ModularPipelines.Node.Options.PnpmWhyOptions.ExcludePeers.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.ExcludePeers.set -> void
+ModularPipelines.Node.Options.PnpmWhyOptions.FailIfNoMatch.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.FailIfNoMatch.set -> void
 ModularPipelines.Node.Options.PnpmWhyOptions.Filter.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.Filter.set -> void
@@ -647,25 +803,45 @@ ModularPipelines.Node.Options.PnpmWhyOptions.Global.get -> bool?
 ModularPipelines.Node.Options.PnpmWhyOptions.Global.set -> void
 ModularPipelines.Node.Options.PnpmWhyOptions.GlobalDir.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.GlobalDir.set -> void
+ModularPipelines.Node.Options.PnpmWhyOptions.Help.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.Help.set -> void
+ModularPipelines.Node.Options.PnpmWhyOptions.Json.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.Json.set -> void
 ModularPipelines.Node.Options.PnpmWhyOptions.Loglevel.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.Loglevel.set -> void
+ModularPipelines.Node.Options.PnpmWhyOptions.Long.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.Long.set -> void
 ModularPipelines.Node.Options.PnpmWhyOptions.NoOptional.get -> bool?
 ModularPipelines.Node.Options.PnpmWhyOptions.NoOptional.set -> void
+ModularPipelines.Node.Options.PnpmWhyOptions.Parseable.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.Parseable.set -> void
+ModularPipelines.Node.Options.PnpmWhyOptions.PnpmWhyOptions() -> void
 ModularPipelines.Node.Options.PnpmWhyOptions.PnpmWhyOptions(ModularPipelines.Node.Options.PnpmWhyOptions! original) -> void
+ModularPipelines.Node.Options.PnpmWhyOptions.Prod.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.Prod.set -> void
 ModularPipelines.Node.Options.PnpmWhyOptions.Recursive.get -> bool?
 ModularPipelines.Node.Options.PnpmWhyOptions.Recursive.set -> void
+ModularPipelines.Node.Options.PnpmWhyOptions.Stream.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.Stream.set -> void
 ModularPipelines.Node.Options.PnpmWhyOptions.TestPattern.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.TestPattern.set -> void
+ModularPipelines.Node.Options.PnpmWhyOptions.UseStderr.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.UseStderr.set -> void
+ModularPipelines.Node.Options.PnpmWhyOptions.WorkspaceRoot.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.WorkspaceRoot.set -> void
+ModularPipelines.Node.Options.PnpmWhyOptions.Yes.get -> string?
 ModularPipelines.Node.Options.PnpmWhyOptions.Yes.set -> void
 ModularPipelines.Node.Services.IPnpm
+ModularPipelines.Node.Services.IPnpm.AddAsync(ModularPipelines.Node.Options.PnpmAddOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.AuditAsync(ModularPipelines.Node.Options.PnpmAuditOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.CreateAsync(ModularPipelines.Node.Options.PnpmCreateOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.DlxAsync(ModularPipelines.Node.Options.PnpmDlxOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.InitAsync(ModularPipelines.Node.Options.PnpmInitOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.PublishAsync(ModularPipelines.Node.Options.PnpmPublishOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.RunAsync(ModularPipelines.Node.Options.PnpmRunOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.StageAsync(ModularPipelines.Node.Options.PnpmStageOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.UnlinkAsync(ModularPipelines.Node.Options.PnpmUnlinkOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Node.Services.IPnpm.WhyAsync(ModularPipelines.Node.Options.PnpmWhyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 override ModularPipelines.Node.Models.NpmAccessGetStatusOptions.<Clone>$() -> ModularPipelines.Node.Models.NpmAccessGetStatusOptions!
 override ModularPipelines.Node.Models.NpmAccessGetStatusOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Node.Models.NpmAccessGetStatusOptions.Equals(object? obj) -> bool
@@ -1417,7 +1593,9 @@ override sealed ModularPipelines.Node.Options.PnpmUnlinkOptions.Equals(ModularPi
 override sealed ModularPipelines.Node.Options.PnpmWhyOptions.Equals(ModularPipelines.Node.Options.PnpmOptions? other) -> bool
 static ModularPipelines.Context.ModularPipelines_Node_1ea6a60d1d2fad82ToolsExtensions.get_Node(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Node.INode!
 static ModularPipelines.Context.ModularPipelines_Node_1ea6a60d1d2fad82ToolsExtensions.get_Pnpm(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Node.Services.IPnpm!
+static ModularPipelines.Node.Extensions.NodeExtensions.Node(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Node.INode!
 static ModularPipelines.Node.Extensions.NodeExtensions.RegisterNodeContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Node.Extensions.PnpmExtensions.Pnpm(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Node.Services.IPnpm!
 static ModularPipelines.Node.Extensions.PnpmExtensions.RegisterPnpmContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.Node.Models.NpmAccessGetStatusOptions.operator !=(ModularPipelines.Node.Models.NpmAccessGetStatusOptions? left, ModularPipelines.Node.Models.NpmAccessGetStatusOptions? right) -> bool
 static ModularPipelines.Node.Models.NpmAccessGetStatusOptions.operator ==(ModularPipelines.Node.Models.NpmAccessGetStatusOptions? left, ModularPipelines.Node.Models.NpmAccessGetStatusOptions? right) -> bool

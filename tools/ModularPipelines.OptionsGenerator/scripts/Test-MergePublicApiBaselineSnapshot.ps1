@@ -78,9 +78,16 @@ try {
         -ShippedOutputPath $shippedOutput `
         -UnshippedOutputPath $unshippedOutput
 
+    # Confirmed removals and signature changes keep their shipped entry and gain a
+    # *REMOVED* marker. Historical markers restore their missing shipped entries;
+    # reintroduced APIs retain that shipped history but lose the stale marker.
     Assert-Lines $shippedOutput @(
         '#nullable enable'
+        'Api.Changed(string)'
         'Api.Existing'
+        'Api.Historical'
+        'Api.Reintroduced'
+        'Api.Removed()'
         'Api.SnapshotMissing'
     )
     Assert-Lines $unshippedOutput @(
@@ -93,7 +100,6 @@ try {
         'Api.Added.Name.get -> string!'
         'Api.Changed(int)'
         'Api.Pending'
-        'Api.Reintroduced'
     )
 
     $shippedHash = (Get-FileHash -LiteralPath $shippedOutput).Hash
@@ -111,6 +117,31 @@ try {
         throw 'Repeated baseline synchronization was not idempotent.'
     }
 
+    # Without newly confirmed removals only historical markers survive.
+    $emptyRemovals = Join-Path $testRoot 'PublicAPI.NoRemovals.txt'
+    $noRemovalShipped = Join-Path $testRoot 'PublicAPI.Shipped.no-removals.txt'
+    $noRemovalUnshipped = Join-Path $testRoot 'PublicAPI.Unshipped.no-removals.txt'
+    @('#nullable enable') | Set-Content -LiteralPath $emptyRemovals
+    & $mergeScript `
+        -OriginalShippedPath $originalShipped `
+        -OriginalUnshippedPath $originalUnshipped `
+        -CurrentApiSnapshotPath $currentSnapshot `
+        -ConfirmedRemovedApiPath $emptyRemovals `
+        -ShippedOutputPath $noRemovalShipped `
+        -UnshippedOutputPath $noRemovalUnshipped
+
+    Assert-Lines $noRemovalShipped @(Get-Content -LiteralPath $shippedOutput)
+    Assert-Lines $noRemovalUnshipped @(
+        '#nullable enable'
+        '*REMOVED*Api.Historical'
+        'Api.Added'
+        'Api.Added.ApiAdded() -> void'
+        'Api.Added.Name.get -> string!'
+        'Api.Changed(int)'
+        'Api.Pending'
+    )
+
+    # Truly empty inputs (no header at all) must still produce empty baselines.
     foreach ($path in @(
             $originalShipped,
             $originalUnshipped,
@@ -149,7 +180,7 @@ try {
     Assert-Lines $freshShippedOutput @()
     Assert-Lines $freshUnshippedOutput @()
 
-    Write-Output 'OK public API additions, removals, signature changes, empty inputs, and idempotency passed.'
+    Write-Output 'OK public API additions, removals, signature changes, empty removals, empty inputs, and idempotency passed.'
 }
 finally {
     if (Test-Path -LiteralPath $resolvedTestRoot) {
