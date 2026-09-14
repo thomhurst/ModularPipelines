@@ -18,10 +18,32 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search")]
-public record BrewSearchOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Text
-) : BrewOptions
+public record BrewSearchOptions : BrewOptions
 {
+    public BrewSearchOptions(
+        IEnumerable<string> Text
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Text);
+            var materialized = global::System.Linq.Enumerable.ToArray(Text);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Text));
+            }
+
+            Text = materialized;
+        }
+        this.Text = Text;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Text)
+    {
+        Text = this.Text;
+    }
+
     /// <summary>
     /// Search for formulae.
     /// </summary>
@@ -135,5 +157,11 @@ public record BrewSearchOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The text operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Text { get; private init; }
 
 }

@@ -18,10 +18,32 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("prof")]
-public record BrewProfOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Command
-) : BrewOptions
+public record BrewProfOptions : BrewOptions
 {
+    public BrewProfOptions(
+        IEnumerable<string> Command
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Command);
+            var materialized = global::System.Linq.Enumerable.ToArray(Command);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Command));
+            }
+
+            Command = materialized;
+        }
+        this.Command = Command;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Command)
+    {
+        Command = this.Command;
+    }
+
     /// <summary>
     /// Use stackprof instead of ruby-prof (the default).
     /// </summary>
@@ -63,5 +85,11 @@ public record BrewProfOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Command { get; private init; }
 
 }

@@ -18,10 +18,32 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("uninstall")]
-public record BrewUninstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> InstalledFormula
-) : BrewOptions
+public record BrewUninstallOptions : BrewOptions
 {
+    public BrewUninstallOptions(
+        IEnumerable<string> InstalledFormula
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(InstalledFormula);
+            var materialized = global::System.Linq.Enumerable.ToArray(InstalledFormula);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(InstalledFormula));
+            }
+
+            InstalledFormula = materialized;
+        }
+        this.InstalledFormula = InstalledFormula;
+    }
+
+    public void Deconstruct(out IEnumerable<string> InstalledFormula)
+    {
+        InstalledFormula = this.InstalledFormula;
+    }
+
     /// <summary>
     /// Delete all installed versions of formula. Uninstall even if cask is not installed, overwrite existing files and ignore errors when removing files.
     /// </summary>
@@ -75,5 +97,11 @@ public record BrewUninstallOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The installed_formula operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> InstalledFormula { get; private init; }
 
 }

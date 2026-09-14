@@ -18,10 +18,32 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("unalias")]
-public record BrewUnaliasOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Alias
-) : BrewOptions
+public record BrewUnaliasOptions : BrewOptions
 {
+    public BrewUnaliasOptions(
+        IEnumerable<string> Alias
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Alias);
+            var materialized = global::System.Linq.Enumerable.ToArray(Alias);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Alias));
+            }
+
+            Alias = materialized;
+        }
+        this.Alias = Alias;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Alias)
+    {
+        Alias = this.Alias;
+    }
+
     /// <summary>
     /// Display any debugging information.
     /// </summary>
@@ -45,5 +67,11 @@ public record BrewUnaliasOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The alias operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Alias { get; private init; }
 
 }

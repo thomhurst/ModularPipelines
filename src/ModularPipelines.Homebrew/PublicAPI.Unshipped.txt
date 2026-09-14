@@ -27,6 +27,7 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBottleOptions.BrewBottleOptions() -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBottleOptions.Committer.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBottleOptions.Committer.set -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewBottleOptions.InstalledFormula.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBottleOptions.RootUrl.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBottleOptions.RootUrlUsing.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBottleOptions.RootUrlUsingValue.get -> string?
@@ -55,6 +56,7 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBumpCaskPrOptions.VersionIntelValue.set -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBumpCaskPrOptions.VersionValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBumpCaskPrOptions.VersionValue.set -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewBumpCompatibilityVersionOptions.Formula.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBumpFormulaPrOptions.ForkOrg.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBumpFormulaPrOptions.ForkOrgValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBumpFormulaPrOptions.ForkOrgValue.set -> void
@@ -97,10 +99,12 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBumpOptions.TapValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBumpOptions.TapValue.set -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBumpRevisionOptions.BrewBumpRevisionOptions() -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewBumpRevisionOptions.Formula.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBumpRevisionOptions.Message.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBumpRevisionOptions.MessageValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBumpRevisionOptions.MessageValue.set -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBumpUnversionedCasksOptions.BrewBumpUnversionedCasksOptions() -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewBumpUnversionedCasksOptions.Cask.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBumpUnversionedCasksOptions.Limit.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBumpUnversionedCasksOptions.LimitValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewBumpUnversionedCasksOptions.LimitValue.set -> void
@@ -168,12 +172,14 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewCasksOptions.BrewCasksOptions() -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewCasksOptions.BrewCasksOptions(ModularPipelines.Homebrew.Options.BrewCasksOptions! original) -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewCatOptions.BrewCatOptions() -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewCatOptions.FormulaOperand.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewCleanupOptions.Prune.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewCleanupOptions.PruneValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewCleanupOptions.PruneValue.set -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewCommandCommandOptions
 *REMOVED*ModularPipelines.Homebrew.Options.BrewCommandCommandOptions.BrewCommandCommandOptions() -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewCommandCommandOptions.BrewCommandCommandOptions(ModularPipelines.Homebrew.Options.BrewCommandCommandOptions! original) -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewCommandOptions.Cmd.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewContributionsOptions.From.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewContributionsOptions.FromValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewContributionsOptions.FromValue.set -> void
@@ -209,6 +215,7 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewCreateOptions.TapValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewCreateOptions.TapValue.set -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewDebuggerOptions.BrewDebuggerOptions() -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewDebuggerOptions.Command.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewDepsOptions.Arch.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewDepsOptions.ArchValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewDepsOptions.ArchValue.set -> void
@@ -220,6 +227,7 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewDescOptions.BrewDescOptions() -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewDescOptions.EvalAll.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewDescOptions.EvalAll.set -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewDescOptions.FormulaOperand.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewDispatchBuildBottleOptions
 *REMOVED*ModularPipelines.Homebrew.Options.BrewDispatchBuildBottleOptions.BrewDispatchBuildBottleOptions() -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewDispatchBuildBottleOptions.BrewDispatchBuildBottleOptions(ModularPipelines.Homebrew.Options.BrewDispatchBuildBottleOptions! original) -> void
@@ -257,6 +265,7 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewFetchOptions.BottleTagValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewFetchOptions.BottleTagValue.set -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewFetchOptions.BrewFetchOptions() -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewFetchOptions.FormulaOperand.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewFetchOptions.Os.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewFetchOptions.OsValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewFetchOptions.OsValue.set -> void
@@ -298,6 +307,7 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewFormulaFormulaOptions
 *REMOVED*ModularPipelines.Homebrew.Options.BrewFormulaFormulaOptions.BrewFormulaFormulaOptions() -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewFormulaFormulaOptions.BrewFormulaFormulaOptions(ModularPipelines.Homebrew.Options.BrewFormulaFormulaOptions! original) -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewFormulaOptions.Formula.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewFormulaeOptions
 *REMOVED*ModularPipelines.Homebrew.Options.BrewFormulaeOptions.BrewFormulaeOptions() -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewFormulaeOptions.BrewFormulaeOptions(ModularPipelines.Homebrew.Options.BrewFormulaeOptions! original) -> void
@@ -335,8 +345,10 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewInstallOptions.Cc.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewInstallOptions.CcValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewInstallOptions.CcValue.set -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewInstallOptions.FormulaOperand.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewIrbOptions.Pry.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewIrbOptions.Pry.set -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewLinkOptions.InstalledFormula.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewLogOptions.MaxCount.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewLogOptions.MaxCountValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewLogOptions.MaxCountValue.set -> void
@@ -348,6 +360,7 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewMcpServerOptions.Debug.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewMcpServerOptions.Debug.set -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewMigrateOptions.BrewMigrateOptions() -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewMigrateOptions.InstalledFormula.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewMissingOptions.Hide.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewMissingOptions.HideValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewMissingOptions.HideValue.set -> void
@@ -361,6 +374,8 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewPinInstalled_formulaOptions
 *REMOVED*ModularPipelines.Homebrew.Options.BrewPinInstalled_formulaOptions.BrewPinInstalled_formulaOptions() -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewPinInstalled_formulaOptions.BrewPinInstalled_formulaOptions(ModularPipelines.Homebrew.Options.BrewPinInstalled_formulaOptions! original) -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewPinOptions.InstalledFormula.init -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewPostinstallOptions.InstalledFormula.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewPrAutomergeOptions
 *REMOVED*ModularPipelines.Homebrew.Options.BrewPrAutomergeOptions.Autosquash.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewPrAutomergeOptions.Autosquash.set -> void
@@ -456,6 +471,7 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewPrUploadOptions.WarnOnUploadFailure.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewPrUploadOptions.WarnOnUploadFailure.set -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewProfOptions.BrewProfOptions() -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewProfOptions.Command.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewReadallOptions.Arch.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewReadallOptions.ArchValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewReadallOptions.ArchValue.set -> void
@@ -467,6 +483,7 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewReinstallOptions.Ask.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewReinstallOptions.Ask.set -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewReinstallOptions.BrewReinstallOptions() -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewReinstallOptions.FormulaOperand.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewReleaseOptions
 *REMOVED*ModularPipelines.Homebrew.Options.BrewReleaseOptions.BrewReleaseOptions() -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewReleaseOptions.BrewReleaseOptions(ModularPipelines.Homebrew.Options.BrewReleaseOptions! original) -> void
@@ -479,7 +496,9 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewRubocopOptions
 *REMOVED*ModularPipelines.Homebrew.Options.BrewRubocopOptions.BrewRubocopOptions() -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewRubocopOptions.BrewRubocopOptions(ModularPipelines.Homebrew.Options.BrewRubocopOptions! original) -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewSandboxExecOptions.Command.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewSearchOptions.BrewSearchOptions() -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewSearchOptions.Text.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewServicesOptions.All.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewServicesOptions.All.set -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewServicesOptions.BrewServicesOptions() -> void
@@ -512,6 +531,7 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewStyleOptions.OnlyCopsValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewStyleOptions.OnlyCopsValue.set -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewTabOptions.BrewTabOptions() -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewTabOptions.InstalledFormula.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewTapInfoOptions.Json.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewTapInfoOptions.JsonValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewTapInfoOptions.JsonValue.set -> void
@@ -556,6 +576,7 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewTestBotOptions.TestingFormulaeValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewTestBotOptions.TestingFormulaeValue.set -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewTestOptions.BrewTestOptions() -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewTestOptions.InstalledFormula.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewTestsOptions.Only.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewTestsOptions.OnlyValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewTestsOptions.OnlyValue.set -> void
@@ -568,6 +589,7 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUnaliasAliasOptions
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUnaliasAliasOptions.BrewUnaliasAliasOptions() -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUnaliasAliasOptions.BrewUnaliasAliasOptions(ModularPipelines.Homebrew.Options.BrewUnaliasAliasOptions! original) -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewUnaliasOptions.Alias.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUnbottledOptions.EvalAll.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUnbottledOptions.EvalAll.set -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUnbottledOptions.Tag.get -> bool?
@@ -576,15 +598,20 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUninstallFormulaOptions
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUninstallFormulaOptions.BrewUninstallFormulaOptions() -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUninstallFormulaOptions.BrewUninstallFormulaOptions(ModularPipelines.Homebrew.Options.BrewUninstallFormulaOptions! original) -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewUninstallOptions.InstalledFormula.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUnlinkOptions.BrewUnlinkOptions() -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewUnlinkOptions.InstalledFormula.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUnpackOptions.BrewUnpackOptions() -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUnpackOptions.Destdir.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUnpackOptions.DestdirValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUnpackOptions.DestdirValue.set -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewUnpackOptions.FormulaOperand.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUnpinInstalled_formulaOptions
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUnpinInstalled_formulaOptions.BrewUnpinInstalled_formulaOptions() -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUnpinInstalled_formulaOptions.BrewUnpinInstalled_formulaOptions(ModularPipelines.Homebrew.Options.BrewUnpinInstalled_formulaOptions! original) -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewUnpinOptions.InstalledFormula.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUntapOptions.BrewUntapOptions() -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewUntapOptions.Tap.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUpdateIfNeededOptions
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUpdateIfNeededOptions.BrewUpdateIfNeededOptions() -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUpdateIfNeededOptions.BrewUpdateIfNeededOptions(ModularPipelines.Homebrew.Options.BrewUpdateIfNeededOptions! original) -> void
@@ -595,6 +622,7 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUpdateMaintainersOptions.BrewUpdateMaintainersOptions() -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUpdateMaintainersOptions.BrewUpdateMaintainersOptions(ModularPipelines.Homebrew.Options.BrewUpdateMaintainersOptions! original) -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUpdatePerlResourcesOptions.BrewUpdatePerlResourcesOptions() -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewUpdatePerlResourcesOptions.Formula.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUpdatePerlResourcesOptions.Silent.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUpdatePerlResourcesOptions.Silent.set -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUpdatePythonResourcesOptions.BrewUpdatePythonResourcesOptions() -> void
@@ -604,6 +632,7 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUpdatePythonResourcesOptions.ExtraPackages.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUpdatePythonResourcesOptions.ExtraPackagesValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUpdatePythonResourcesOptions.ExtraPackagesValue.set -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewUpdatePythonResourcesOptions.Formula.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUpdatePythonResourcesOptions.PackageName.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUpdatePythonResourcesOptions.PackageNameValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUpdatePythonResourcesOptions.PackageNameValue.set -> void
@@ -626,6 +655,7 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUsesOptions.BrewUsesOptions() -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUsesOptions.EvalAll.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewUsesOptions.EvalAll.set -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewUsesOptions.FormulaOperand.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewVendorGemsOptions.Update.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewVendorGemsOptions.UpdateValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewVendorGemsOptions.UpdateValue.set -> void
@@ -636,10 +666,12 @@
 *REMOVED*ModularPipelines.Homebrew.Options.BrewVerifyOptions.BottleTagValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewVerifyOptions.BottleTagValue.set -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewVerifyOptions.BrewVerifyOptions() -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewVerifyOptions.Formula.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewVerifyOptions.Os.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewVerifyOptions.OsValue.get -> string?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewVerifyOptions.OsValue.set -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewWhichFormulaOptions.BrewWhichFormulaOptions() -> void
+*REMOVED*ModularPipelines.Homebrew.Options.BrewWhichFormulaOptions.Command.init -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewWhichFormulaOptions.SkipUpdate.get -> bool?
 *REMOVED*ModularPipelines.Homebrew.Options.BrewWhichFormulaOptions.SkipUpdate.set -> void
 *REMOVED*ModularPipelines.Homebrew.Options.BrewWhichUpdateOptions.BrewWhichUpdateOptions() -> void
@@ -1084,7 +1116,6 @@ ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Deconstruct(out System.Co
 ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Exec.get -> bool?
 ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Exec.set -> void
 ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Formula.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Formula.init -> void
 ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Help.get -> bool?
 ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Help.set -> void
 ModularPipelines.Homebrew.Options.BrewBenchmarkOptions.Quiet.get -> bool?

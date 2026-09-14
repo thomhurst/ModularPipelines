@@ -18,10 +18,32 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("uses")]
-public record BrewUsesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> FormulaOperand
-) : BrewOptions
+public record BrewUsesOptions : BrewOptions
 {
+    public BrewUsesOptions(
+        IEnumerable<string> FormulaOperand
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FormulaOperand);
+            var materialized = global::System.Linq.Enumerable.ToArray(FormulaOperand);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FormulaOperand));
+            }
+
+            FormulaOperand = materialized;
+        }
+        this.FormulaOperand = FormulaOperand;
+    }
+
+    public void Deconstruct(out IEnumerable<string> FormulaOperand)
+    {
+        FormulaOperand = this.FormulaOperand;
+    }
+
     /// <summary>
     /// Resolve more than one level of dependencies.
     /// </summary>
@@ -105,5 +127,11 @@ public record BrewUsesOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The formula operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> FormulaOperand { get; private init; }
 
 }

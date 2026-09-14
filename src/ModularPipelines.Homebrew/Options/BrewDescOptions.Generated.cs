@@ -18,10 +18,32 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("desc")]
-public record BrewDescOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> FormulaOperand
-) : BrewOptions
+public record BrewDescOptions : BrewOptions
 {
+    public BrewDescOptions(
+        IEnumerable<string> FormulaOperand
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FormulaOperand);
+            var materialized = global::System.Linq.Enumerable.ToArray(FormulaOperand);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FormulaOperand));
+            }
+
+            FormulaOperand = materialized;
+        }
+        this.FormulaOperand = FormulaOperand;
+    }
+
+    public void Deconstruct(out IEnumerable<string> FormulaOperand)
+    {
+        FormulaOperand = this.FormulaOperand;
+    }
+
     /// <summary>
     /// Search both names and descriptions for text. If text is flanked by slashes, it is interpreted as a regular expression.
     /// </summary>
@@ -75,5 +97,11 @@ public record BrewDescOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The formula operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> FormulaOperand { get; private init; }
 
 }

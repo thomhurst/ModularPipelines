@@ -18,10 +18,32 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("unpack")]
-public record BrewUnpackOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> FormulaOperand
-) : BrewOptions
+public record BrewUnpackOptions : BrewOptions
 {
+    public BrewUnpackOptions(
+        IEnumerable<string> FormulaOperand
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(FormulaOperand);
+            var materialized = global::System.Linq.Enumerable.ToArray(FormulaOperand);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(FormulaOperand));
+            }
+
+            FormulaOperand = materialized;
+        }
+        this.FormulaOperand = FormulaOperand;
+    }
+
+    public void Deconstruct(out IEnumerable<string> FormulaOperand)
+    {
+        FormulaOperand = this.FormulaOperand;
+    }
+
     /// <summary>
     /// Create subdirectories in the directory named by path instead.
     /// </summary>
@@ -81,5 +103,11 @@ public record BrewUnpackOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The formula operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> FormulaOperand { get; private init; }
 
 }

@@ -18,10 +18,32 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("which-formula")]
-public record BrewWhichFormulaOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Command
-) : BrewOptions
+public record BrewWhichFormulaOptions : BrewOptions
 {
+    public BrewWhichFormulaOptions(
+        IEnumerable<string> Command
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Command);
+            var materialized = global::System.Linq.Enumerable.ToArray(Command);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Command));
+            }
+
+            Command = materialized;
+        }
+        this.Command = Command;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Command)
+    {
+        Command = this.Command;
+    }
+
     /// <summary>
     /// Output explanation of how to get command by installing one of the providing formulae.
     /// </summary>
@@ -51,5 +73,11 @@ public record BrewWhichFormulaOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Command { get; private init; }
 
 }

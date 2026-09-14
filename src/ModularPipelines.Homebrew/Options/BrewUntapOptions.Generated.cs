@@ -18,10 +18,32 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("untap")]
-public record BrewUntapOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Tap
-) : BrewOptions
+public record BrewUntapOptions : BrewOptions
 {
+    public BrewUntapOptions(
+        IEnumerable<string> Tap
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tap);
+            var materialized = global::System.Linq.Enumerable.ToArray(Tap);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tap));
+            }
+
+            Tap = materialized;
+        }
+        this.Tap = Tap;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Tap)
+    {
+        Tap = this.Tap;
+    }
+
     /// <summary>
     /// Uninstall all formulae and casks from this tap with --force before untapping.
     /// </summary>
@@ -51,5 +73,11 @@ public record BrewUntapOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The tap operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Tap { get; private init; }
 
 }

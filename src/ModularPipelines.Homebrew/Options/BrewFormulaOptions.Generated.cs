@@ -18,10 +18,32 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("formula")]
-public record BrewFormulaOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Formula
-) : BrewOptions
+public record BrewFormulaOptions : BrewOptions
 {
+    public BrewFormulaOptions(
+        IEnumerable<string> Formula
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Formula);
+            var materialized = global::System.Linq.Enumerable.ToArray(Formula);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Formula));
+            }
+
+            Formula = materialized;
+        }
+        this.Formula = Formula;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Formula)
+    {
+        Formula = this.Formula;
+    }
+
     /// <summary>
     /// Display any debugging information.
     /// </summary>
@@ -45,5 +67,11 @@ public record BrewFormulaOptions(
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
+
+    /// <summary>
+    /// The formula operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Formula { get; private init; }
 
 }
