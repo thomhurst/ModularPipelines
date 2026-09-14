@@ -20,10 +20,27 @@ namespace ModularPipelines.Snyk.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sbom")]
-public record SnykSbomOptions(
-    [property: CliOption("--format", Format = OptionFormat.EqualsSeparated)] SnykFormat Format
-) : SnykOptions
+public record SnykSbomOptions : SnykOptions
 {
+    public SnykSbomOptions(
+        SnykFormat Format
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Format);
+        this.Format = Format;
+    }
+
+    public void Deconstruct(out SnykFormat Format)
+    {
+        Format = this.Format;
+    }
+
+    /// <summary>
+    /// Required. Specify the output format for the SBOM to be produced.
+    /// </summary>
+    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
+    public SnykFormat Format { get; private init; }
+
     /// <summary>
     /// Specify the &lt;ORG_ID&gt; (name or UUID) to run Snyk commands tied to a specific Snyk Organization. The &lt;ORG_ID&gt; influences some features availability and private test limits.
     /// </summary>

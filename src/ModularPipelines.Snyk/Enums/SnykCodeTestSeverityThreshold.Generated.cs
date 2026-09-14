@@ -16,12 +16,12 @@ namespace ModularPipelines.Snyk.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum SnykCodeTestSeverityThreshold
 {
+    [EnumValue("high")]
+    High,
+
     [EnumValue("low")]
     Low,
 
     [EnumValue("medium")]
-    Medium,
-
-    [EnumValue("high")]
-    High
+    Medium
 }

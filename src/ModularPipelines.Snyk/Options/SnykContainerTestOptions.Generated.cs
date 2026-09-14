@@ -21,10 +21,21 @@ namespace ModularPipelines.Snyk.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "test")]
-public record SnykContainerTestOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
-) : SnykOptions
+public record SnykContainerTestOptions : SnykOptions
 {
+    public SnykContainerTestOptions(
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// Print the dependency tree before sending it for analysis.
     /// </summary>
@@ -145,5 +156,11 @@ public record SnykContainerTestOptions(
     /// </summary>
     [CliFlag("-d")]
     public bool? Debug { get; set; }
+
+    /// <summary>
+    /// Container image to scan
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Image { get; private init; }
 
 }
