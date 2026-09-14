@@ -38,7 +38,7 @@ public record PnpmCreateOptions : PnpmOptions
     /// CPU architectures whose platform-tagged optional dependencies the install should keep. Repeat or comma-separate for multiple
     /// </summary>
     [CliOption("--cpu")]
-    public string? Cpu { get; set; }
+    public IEnumerable<string>? Cpu { get; set; }
 
     /// <summary>
     /// Operating systems whose platform-tagged optional dependencies the install should keep
