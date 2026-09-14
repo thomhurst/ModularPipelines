@@ -92,6 +92,43 @@ public class PnpmCliScraperTests
     }
 
     [Test]
+    public async Task Boolean_Flags_Do_Not_Generate_Unused_Possible_Value_Enums()
+    {
+        const string helpText = """
+            Usage: pnpm install [OPTIONS]
+
+            Options:
+                  --offline
+                      Use cached packages.
+                      [possible values: true, false]
+
+                  --reporter <REPORTER>
+                      Select the output format.
+                      [possible values: default, append-only]
+            """;
+
+        var command = (await new TestPnpmCliScraper().Parse(["pnpm", "install"], helpText))!;
+        var flag = command.Options.Single(option => option.SwitchName == "--offline");
+        var reporter = command.Options.Single(option => option.SwitchName == "--reporter");
+
+        await Assert.That(flag.IsFlag).IsTrue();
+        await Assert.That(flag.CSharpType).IsEqualTo("bool?");
+        await Assert.That(flag.EnumDefinition).IsNull();
+        await Assert.That(command.Enums).IsEquivalentTo([reporter.EnumDefinition!]);
+
+        var generatedEnums = await new EnumGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "pnpm",
+            NamespacePrefix = "Pnpm",
+            TargetNamespace = "ModularPipelines.Node",
+            OutputDirectory = "output",
+            Commands = [command],
+        });
+        await Assert.That(generatedEnums).HasSingleItem();
+        await Assert.That(generatedEnums.Single().Content).Contains("[EnumValue(\"append-only\")]");
+    }
+
+    [Test]
     public async Task Possible_Values_With_Colliding_Member_Names_Are_Preserved()
     {
         const string helpText = """
