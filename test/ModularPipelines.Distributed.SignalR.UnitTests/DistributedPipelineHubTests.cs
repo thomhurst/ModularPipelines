@@ -123,7 +123,8 @@ public class DistributedPipelineHubTests
 
         state.PendingAssignments.Enqueue(CreateAssignment("NextModule"));
         await oldHub.RequestWork([]);
-        await oldHub.PublishResult(CreateResult(currentAssignment.ModuleTypeName));
+        await Assert.That(() => oldHub.PublishResult(CreateResult(currentAssignment.ModuleTypeName)))
+            .Throws<HubException>();
 
         using (Assert.Multiple())
         {
@@ -275,7 +276,8 @@ public class DistributedPipelineHubTests
             Clients = clients.Object,
         };
 
-        await hub.PublishResult(CreateResult(otherAssignment.ModuleTypeName));
+        await Assert.That(() => hub.PublishResult(CreateResult(otherAssignment.ModuleTypeName)))
+            .Throws<HubException>();
 
         using (Assert.Multiple())
         {

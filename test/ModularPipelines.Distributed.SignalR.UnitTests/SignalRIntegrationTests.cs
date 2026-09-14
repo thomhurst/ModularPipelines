@@ -408,6 +408,58 @@ public class SignalRIntegrationTests
     }
 
     [Test]
+    [Timeout(30_000)]
+    public async Task Rejected_Result_Preserves_Assignment_For_Reregistration_And_Resubmission(
+        CancellationToken cancellationToken)
+    {
+        var options = new SignalRDistributedOptions { MasterUrl = "http://127.0.0.1:0" };
+        var state = new SignalRMasterState();
+        await using var serverHost = new MasterServerHost();
+        await serverHost.StartAsync(options, state, NullLoggerFactory.Instance, cancellationToken);
+        await using var original = BuildClient(serverHost.AdvertisedUrl, options.HubPath);
+        await using var replacement = BuildClient(serverHost.AdvertisedUrl, options.HubPath);
+        var coordinator = new SignalRWorkerCoordinator(original, NullLogger<SignalRWorkerCoordinator>.Instance);
+        var deliveries = 0;
+        var firstDelivery = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var deliverySubscription = original.On<ModuleAssignment>(HubMethodNames.ReceiveAssignment, _ =>
+        {
+            Interlocked.Increment(ref deliveries);
+            firstDelivery.TrySetResult();
+        });
+        var registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow);
+        var assignment = new ModuleAssignment("CompletedModule", "System.String", [],
+            DateTimeOffset.UtcNow, new ModuleAssignmentOptions(null, false));
+        var waiter = new TaskCompletionSource<SerializedModuleResult>(TaskCreationOptions.RunContinuationsAsynchronously);
+        state.ResultWaiters[assignment.ModuleTypeName] = waiter;
+        state.PendingAssignments.Enqueue(assignment);
+
+        await original.StartAsync(cancellationToken);
+        await coordinator.RegisterWorkerAsync(registration, cancellationToken);
+        var received = await coordinator.DequeueModuleAsync(new HashSet<Capability>(), cancellationToken);
+        await firstDelivery.Task.WaitAsync(cancellationToken);
+        await Assert.That(received!.ModuleTypeName).IsEqualTo(assignment.ModuleTypeName);
+        await replacement.StartAsync(cancellationToken);
+        await replacement.InvokeAsync(HubMethodNames.RegisterWorker, registration,
+            assignment.ModuleTypeName, cancellationToken);
+
+        var result = new SerializedModuleResult(assignment.ModuleTypeName, assignment.ResultTypeName,
+            1, "{}", DateTimeOffset.UtcNow);
+        await Assert.That(() => coordinator.PublishResultAsync(result, cancellationToken))
+            .Throws<Microsoft.AspNetCore.SignalR.HubException>();
+        await Assert.That(waiter.Task.IsCompleted).IsFalse();
+
+        // Registration uses the coordinator's retained in-flight assignment to reclaim
+        // the completed execution, without receiving or executing another assignment.
+        await coordinator.RegisterWorkerAsync(registration, cancellationToken);
+        await Assert.That(state.Workers[original.ConnectionId!].CurrentAssignment).IsSameReferenceAs(assignment);
+        await coordinator.PublishResultAsync(result, cancellationToken);
+        await Assert.That(await waiter.Task.WaitAsync(cancellationToken)).IsEqualTo(result);
+        await Assert.That(deliveries).IsEqualTo(1);
+        await Assert.That(state.PendingAssignments).IsEmpty();
+        await Assert.That(state.GetPendingReconnect(1)).IsNull();
+    }
+
+    [Test]
     public async Task Worker_Result_Wait_Survives_Disconnect_And_Reconnect()
     {
         var options = new SignalRDistributedOptions { MasterUrl = "http://127.0.0.1:0" };

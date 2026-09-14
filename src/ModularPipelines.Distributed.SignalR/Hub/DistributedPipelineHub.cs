@@ -49,7 +49,8 @@ internal class DistributedPipelineHub(
         if (state.TryRestoreReconnect(
                 workerState,
                 resumingModuleTypeName,
-                out var recoveredAssignment))
+                out var recoveredAssignment)
+            && _logger.IsEnabled(LogLevel.Information))
         {
             _logger.LogInformation(
                 "Worker {Index} reclaimed in-flight {Module}",
@@ -71,8 +72,11 @@ internal class DistributedPipelineHub(
                 Context.ConnectionAborted).ConfigureAwait(false);
         }
 
-        _logger.LogInformation("Worker {Index} registered via connection {ConnectionId} with capabilities: {Capabilities}",
-            registration.WorkerIndex, connectionId, string.Join(", ", registration.Capabilities));
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Worker {Index} registered via connection {ConnectionId} with capabilities: {Capabilities}",
+                registration.WorkerIndex, connectionId, string.Join(", ", registration.Capabilities));
+        }
     }
 
     /// <summary>
@@ -108,22 +112,25 @@ internal class DistributedPipelineHub(
 
         if (!state.Workers.TryGetValue(Context.ConnectionId, out var sendingWorker))
         {
-            return;
+            throw new HubException("Result rejected because this connection is not a registered worker.");
         }
 
-        _logger.LogDebug("Received result for {Module} from worker {Worker}",
-            result.ModuleTypeName, result.WorkerIndex);
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug("Received result for {Module} from worker {Worker}",
+                result.ModuleTypeName, result.WorkerIndex);
+        }
 
         // 1. Complete the result and atomically capture workers involved in reconnect
         // recovery before a concurrent registration can start tracking the assignment.
-        var completion = await state.TryCompleteWorkerResultAsync(sendingWorker, result)
+        var (accepted, reconnectedWorkers) = await state.TryCompleteWorkerResultAsync(sendingWorker, result)
             .ConfigureAwait(false);
-        if (!completion.Accepted)
+        if (!accepted)
         {
-            return;
+            throw new HubException("Result rejected because this connection does not own the assignment.");
         }
 
-        var workersToRelease = completion.WorkersToRelease.ToHashSet();
+        var workersToRelease = reconnectedWorkers.ToHashSet();
         workersToRelease.Add(sendingWorker);
 
         // 2. Mark the sender and any reconnected original worker idle.
@@ -154,6 +161,8 @@ internal class DistributedPipelineHub(
     /// </summary>
     public async Task RequestWork(HashSet<Capability> capabilities)
     {
+        // Keep the positional hub argument; dispatch uses the registered capabilities.
+        _ = capabilities;
         var state = _masterState;
 
         if (!state.Workers.TryGetValue(Context.ConnectionId, out var workerState))
@@ -274,8 +283,11 @@ internal class DistributedPipelineHub(
             // Assign to this worker
             if (workerState.TryAssign(assignment))
             {
-                _logger.LogDebug("Assigning {Module} to worker {Index}",
-                    assignment.ModuleTypeName, workerState.Registration.WorkerIndex);
+                if (_logger.IsEnabled(LogLevel.Debug))
+                {
+                    _logger.LogDebug("Assigning {Module} to worker {Index}",
+                        assignment.ModuleTypeName, workerState.Registration.WorkerIndex);
+                }
 
                 using var deliveryFence =
                     await state.EnterAssignmentDeliveryFenceAsync(assignment.ModuleTypeName);
