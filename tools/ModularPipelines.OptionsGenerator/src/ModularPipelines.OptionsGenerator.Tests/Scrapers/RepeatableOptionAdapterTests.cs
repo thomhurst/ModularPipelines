@@ -126,7 +126,7 @@ public class RepeatableOptionAdapterTests
     [Arguments("This option should be used more than once.", true)]
     [Arguments("Supports multiple values.", true)]
     [Arguments("Takes multiple values.", true)]
-    [Arguments("Value can contain multiple values.", true)]
+    [Arguments("Value can contain multiple values.", false)]
     [Arguments("Repeat or comma-separate for multiple", true)]
     [Arguments("Repeat or comma-separate for multiple values.", true)]
     [Arguments("Repeat or comma-separate for\n                    multiple values.", true)]
