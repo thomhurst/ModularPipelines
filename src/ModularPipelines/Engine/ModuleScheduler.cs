@@ -286,7 +286,7 @@ internal class ModuleScheduler : IModuleScheduler
         foreach (var module in modules)
         {
             var moduleType = module.GetType();
-            if (_moduleStates.TryAdd(moduleType, new ModuleState(module, moduleType)))
+            if (_moduleStates.TryAdd(moduleType, new ModuleState(module, moduleType, this)))
             {
                 _stateCounters.AddPendingModule();
             }
