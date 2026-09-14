@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Export a container group in yaml format.
 /// </summary>
+/// <param name="File">The file path to export the container group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "export")]

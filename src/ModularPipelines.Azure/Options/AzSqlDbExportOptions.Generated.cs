@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Export a database to a bacpac.
 /// </summary>
+/// <param name="AdminUser">Required. Administrator login name.</param>
+/// <param name="StorageKey">Required. Storage key.</param>
+/// <param name="StorageKeyType">Required. Storage key type.  Allowed values: ManagedIdentity, SharedAccessKey, StorageAccessKey.</param>
+/// <param name="StorageUri">Required. Storage Uri.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "export")]
@@ -32,7 +36,7 @@ public record AzSqlDbExportOptions(
     public bool? AdminPassword { get; set; }
 
     /// <summary>
-    /// Authentication type.  Allowed values: ADPassword,
+    /// Authentication type.  Allowed values: ADPassword, ManagedIdentity, SQL.
     /// </summary>
     [CliOption("--auth-type", ShortForm = "-a")]
     public string? AuthType { get; set; }
@@ -44,7 +48,7 @@ public record AzSqlDbExportOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a web app's Azure storage account
 /// </summary>
+/// <param name="CustomId">Name of the share configured within the web app.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "storage-account", "delete")]
@@ -35,7 +36,7 @@ public record AzWebappConfigStorageAccountDeleteOptions(
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure --defaults web=&lt;name&gt;`.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }

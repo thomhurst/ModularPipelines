@@ -15,6 +15,14 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a column's sensitivity classification.
 /// </summary>
+/// <param name="Column">The name of column.</param>
+/// <param name="InformationType">The information type.</param>
+/// <param name="Label">The label name.</param>
+/// <param name="Name">The SQL pool name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Schema">The name of schema.</param>
+/// <param name="Table">The name of table.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "classification", "create")]

@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a SQL role assignment under an Azure Cosmos DB
 /// </summary>
+/// <param name="AccountName">Cosmosdb account name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="RoleAssignmentId">Optional for Create. Unique ID for the Role Assignment. If not provided, a new GUID will be used.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "role", "assignment", "update")]

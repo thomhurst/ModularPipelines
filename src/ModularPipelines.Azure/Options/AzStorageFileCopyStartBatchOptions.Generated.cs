@@ -29,8 +29,8 @@ public record AzStorageFileCopyStartBatchOptions : AzOptions
     /// <summary>
     /// The file share where the source data is copied to.
     /// </summary>
-    [CliFlag("--destination-share")]
-    public bool? DestinationShare { get; set; }
+    [CliOption("--destination-share")]
+    public string? DestinationShare { get; set; }
 
     /// <summary>
     /// If true, the trailing dot will be trimmed from the source URI. Default to False.  Allowed values: false, true.
@@ -57,7 +57,7 @@ public record AzStorageFileCopyStartBatchOptions : AzOptions
     public IEnumerable<string>? Metadata { get; set; }
 
     /// <summary>
-    /// The pattern used for globbing files and blobs. The supported patterns are '*', '?', '[seq]', and '[!seq]'. For more information, please refer to https://do cs.python.org/3/library/fnmatch.html.
+    /// The pattern used for globbing files and blobs. The supported patterns are '*', '?', '[seq]', and '[!seq]'. For more information, please refer to https://do cs.python.org/3/library/fnmatch.html. When you use '*' in --pattern, it will match any character including the the directory separator '/'.
     /// </summary>
     [CliFlag("--pattern")]
     public bool? Pattern { get; set; }
@@ -99,7 +99,7 @@ public record AzStorageFileCopyStartBatchOptions : AzOptions
     public string? SourceShare { get; set; }
 
     /// <summary>
-    /// A URI that specifies a the source file share or blob container.
+    /// A URI that specifies a the source file share or blob container. If the source is in another account, the source must either be public or authenticated via a shared access signature.
     /// </summary>
     [CliOption("--source-uri")]
     public string? SourceUri { get; set; }
@@ -111,25 +111,25 @@ public record AzStorageFileCopyStartBatchOptions : AzOptions
     public bool? AccountKey { get; set; }
 
     /// <summary>
-    /// Storage account name. Related
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
     /// </summary>
     [CliFlag("--account-name")]
     public bool? AccountName { get; set; }
 
     /// <summary>
-    /// Storage account connection string.
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }
 
     /// <summary>
-    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
     [CliFlag("--file-endpoint")]
     public bool? FileEndpoint { get; set; }
 
     /// <summary>
-    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint.
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
     [CliFlag("--sas-token")]
     public bool? SasToken { get; set; }

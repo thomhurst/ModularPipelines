@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get a role assignment by id.
 /// </summary>
+/// <param name="Id">Id of the role that is assigned to the principal.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "role", "assignment", "show")]

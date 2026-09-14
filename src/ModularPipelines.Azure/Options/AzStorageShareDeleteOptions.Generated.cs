@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Mark the specified share for deletion.
 /// </summary>
+/// <param name="Name">The file share name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "share", "delete")]
@@ -29,7 +30,7 @@ public record AzStorageShareDeleteOptions(
     public string? DeleteSnapshots { get; set; }
 
     /// <summary>
-    /// Specify whether to throw an exception when the share doesn't exists.
+    /// Specify whether to throw an exception when the share doesn't exists. False by default.
     /// </summary>
     [CliFlag("--fail-not-exist")]
     public bool? FailNotExist { get; set; }
@@ -59,19 +60,19 @@ public record AzStorageShareDeleteOptions(
     public bool? AccountName { get; set; }
 
     /// <summary>
-    /// Storage account connection string. Environment variable:
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }
 
     /// <summary>
-    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable:
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
     [CliFlag("--file-endpoint")]
     public bool? FileEndpoint { get; set; }
 
     /// <summary>
-    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
     [CliFlag("--sas-token")]
     public bool? SasToken { get; set; }

@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Verify a certificate in an Azure IoT Hub Device Provisioning
 /// </summary>
+/// <param name="CertificateName">A friendly name for the certificate.</param>
+/// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
+/// <param name="Etag">Entity Tag (etag) of the object.</param>
+/// <param name="Path">The path to the file containing the certificate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "certificate", "verify")]

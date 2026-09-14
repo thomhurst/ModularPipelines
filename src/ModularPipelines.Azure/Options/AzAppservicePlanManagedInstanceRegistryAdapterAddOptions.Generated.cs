@@ -16,6 +16,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a registry adapter to a managed
 /// </summary>
+/// <param name="RegistryKey">Registry key for the adapter.</param>
+/// <param name="SecretUri">Key Vault secret URI for the value.</param>
+/// <param name="Type">Type of the registry adapter.  Allowed values: Binary, DWord, Expand_String, Multi_String, QWord, String.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "plan", "managed-instance", "registry-adapter", "add")]

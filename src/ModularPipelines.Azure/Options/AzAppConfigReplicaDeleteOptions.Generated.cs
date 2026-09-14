@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a replica of an App Configuration store.
 /// </summary>
+/// <param name="Name">Name of the replica of the App Configuration store.</param>
+/// <param name="StoreName">Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "replica", "delete")]

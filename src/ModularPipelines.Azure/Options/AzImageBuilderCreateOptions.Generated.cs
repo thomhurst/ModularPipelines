@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an image builder template.
 /// </summary>
+/// <param name="Name">The name of the image template.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "builder", "create")]
@@ -32,8 +34,8 @@ public record AzImageBuilderCreateOptions(
     /// <summary>
     /// Optional configuration of the virtual network to use to deploy the build virtual machine in. Omit if no specific virtual network needs to be used.
     /// </summary>
-    [CliFlag("--build-vm-identities")]
-    public bool? BuildVmIdentities { get; set; }
+    [CliOption("--build-vm-identities")]
+    public string? BuildVmIdentities { get; set; }
 
     /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
@@ -48,7 +50,7 @@ public record AzImageBuilderCreateOptions(
     public IEnumerable<string>? Identity { get; set; }
 
     /// <summary>
-    /// Local path or URL to an image template file. When using
+    /// Local path or URL to an image template file. When using --image-template, all other parameters are ignored except -g and -n. Reference: https://learn.microsoft.com/azure/virtual- machines/linux/image-builder-json.
     /// </summary>
     [CliFlag("--image-template")]
     public bool? ImageTemplate { get; set; }
@@ -56,8 +58,8 @@ public record AzImageBuilderCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

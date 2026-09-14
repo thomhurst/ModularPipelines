@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove action groups from this activity log
 /// </summary>
+/// <param name="ActionGroup">The names or the resource ids of the action groups to be added.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "activity-log", "alert", "action-group", "remove")]

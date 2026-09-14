@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Performs requested failover type in this Managed Instance link.
 /// </summary>
+/// <param name="FailoverType">The failover type, can be ForcedAllowDataLoss or Planned.  Allowed values: ForcedAllowDataLoss, Planned.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "link", "failover")]
@@ -53,7 +54,7 @@ public record AzSqlMiLinkFailoverOptions(
     public bool? LinkName { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

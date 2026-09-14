@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the details for an outbound firewall rule.
 /// </summary>
+/// <param name="OutboundRuleFqdn">The allowed FQDN for the outbound firewall rule.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "outbound-firewall-rule", "show")]

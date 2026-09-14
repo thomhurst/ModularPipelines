@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a shared image gallery.
 /// </summary>
+/// <param name="GalleryName">The name of the Shared Image Gallery.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "create")]
@@ -84,7 +86,7 @@ public record AzSigCreateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// This property allows you to specify the permission of sharing gallery.  Allowed values: Community, Groups,
+    /// This property allows you to specify the permission of sharing gallery.  Allowed values: Community, Groups, Private.
     /// </summary>
     [CliOption("--permissions")]
     public string? Permissions { get; set; }

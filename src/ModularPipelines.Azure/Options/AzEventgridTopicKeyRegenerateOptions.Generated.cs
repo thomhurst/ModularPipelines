@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate a shared access key of a topic.
 /// </summary>
+/// <param name="KeyName">Key name to regenerate key1 or key2.</param>
+/// <param name="Name">Name of the topic.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "topic", "key", "regenerate")]

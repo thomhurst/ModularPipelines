@@ -44,7 +44,7 @@ public class AzSearchOffering
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSearchOfferingListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSearchOfferingListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets information about the specified application package.
 /// </summary>
+/// <param name="ApplicationName">The name of the application. This must be unique within the account. Required.</param>
+/// <param name="Name">Name of the Batch account.</param>
+/// <param name="ResourceGroup">Name of the resource group.</param>
+/// <param name="VersionName">The version of the application. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "application", "package", "show")]

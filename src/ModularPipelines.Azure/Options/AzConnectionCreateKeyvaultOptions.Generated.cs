@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Service Connector local connection to keyvault.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connection", "create", "keyvault")]
@@ -43,8 +44,8 @@ public record AzConnectionCreateKeyvaultOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -53,7 +54,7 @@ public record AzConnectionCreateKeyvaultOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// The resource id of target service. Required if ['--target- resource-group', '--vault'] are not specified.
+    /// The resource id of target service. Required if ['--target-resource-group', '--vault'] are not specified.
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; set; }
@@ -71,13 +72,13 @@ public record AzConnectionCreateKeyvaultOptions(
     public string? Vault { get; set; }
 
     /// <summary>
-    /// The service principal auth info.
+    /// The service principal auth info. Usage: --service-principal client-id=XX secret=XX
     /// </summary>
     [CliFlag("--service-principal")]
     public bool? ServicePrincipal { get; set; }
 
     /// <summary>
-    /// The user account auth info.
+    /// The user account auth info. Usage: --user-account object-id=XX
     /// </summary>
     [CliFlag("--user-account")]
     public bool? UserAccount { get; set; }

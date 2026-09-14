@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Returns the list of group Ids for a
 /// </summary>
+/// <param name="Username">Username is required to fetch the group to which user is part of.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume", "get-groupid-list-for-ldapuser")]

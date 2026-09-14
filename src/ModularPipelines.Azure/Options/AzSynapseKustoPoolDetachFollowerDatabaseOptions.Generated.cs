@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Detaches all followers of a database owned by
 /// </summary>
+/// <param name="Adcn">Resource name of the attached database configuration in the follower cluster.</param>
+/// <param name="KustoPoolResourceId">Resource id of the cluster that follows a database owned by this cluster.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "kusto", "pool", "detach-follower-database")]
@@ -30,7 +32,7 @@ public record AzSynapseKustoPoolDetachFollowerDatabaseOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids")]
     public IEnumerable<string>? Ids { get; set; }

@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a volume group along with specified volumes.
 /// </summary>
+/// <param name="AccountName">The name of the NetApp account.</param>
+/// <param name="GroupName">The name of the volumeGroup.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume-group", "create")]
@@ -55,7 +58,7 @@ public record AzNetappfilesVolumeGroupCreateOptions(
     public bool? Zones { get; set; }
 
     /// <summary>
-    /// Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'.
+    /// Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Allowed values: Microsoft.KeyVault, Microsoft.NetApp.  Default: Microsoft.NetApp.
     /// </summary>
     [CliOption("--encryption-key-source")]
     public string? EncryptionKeySource { get; set; }
@@ -121,7 +124,7 @@ public record AzNetappfilesVolumeGroupCreateOptions(
     public bool? ApplicationIdentifier { get; set; }
 
     /// <summary>
-    /// Application Type.  Allowed values: ORACLE, SAP-HANA.
+    /// Application Type.  Allowed values: ORACLE, SAP-HANA. Default: SAP-HANA.
     /// </summary>
     [CliOption("--application-type")]
     public string? ApplicationType { get; set; }
@@ -199,13 +202,13 @@ public record AzNetappfilesVolumeGroupCreateOptions(
     public bool? LogMirrorThroughput { get; set; }
 
     /// <summary>
-    /// List of volumes from group
+    /// List of volumes from group Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--volumes", GroupValues = true)]
     public IEnumerable<string>? Volumes { get; set; }
 
     /// <summary>
-    /// Network features available to the volumes in the volume group.  Allowed values: Basic, Standard.  Default:
+    /// Network features available to the volumes in the volume group.  Allowed values: Basic, Standard.  Default: Basic.
     /// </summary>
     [CliOption("--network-features", ShortForm = "--shared-network-features")]
     public string? NetworkFeatures { get; set; }
@@ -235,7 +238,7 @@ public record AzNetappfilesVolumeGroupCreateOptions(
     public bool? SharedThroughput { get; set; }
 
     /// <summary>
-    /// Oracle database size in (TiB), used to auto compute storage size and throughput.
+    /// Oracle database size in (TiB), used to auto compute storage size and throughput. Default: 100.
     /// </summary>
     [CliFlag("--database-size")]
     public bool? DatabaseSize { get; set; }
@@ -259,13 +262,13 @@ public record AzNetappfilesVolumeGroupCreateOptions(
     public bool? Memory { get; set; }
 
     /// <summary>
-    /// Total Number of system (SAP- HANA) host in this deployment (currently max 3 nodes can be configured).
+    /// Total Number of system (SAP- HANA) host in this deployment (currently max 3 nodes can be configured). Default: 1.
     /// </summary>
     [CliFlag("--number-of-hosts", ShortForm = "--number-of-hots")]
     public bool? NumberOfHosts { get; set; }
 
     /// <summary>
-    /// Additional memory to store snapshots, must be specified as % of RAM (range 0-200). This is used to auto compute storage size.  Default: 50.
+    /// Additional memory to store snapshots, must be specified as % of RAM (range 0-200). This is used to auto compute storage size.  Default: 50. Default: 50.
     /// </summary>
     [CliFlag("--add-snapshot-capacity")]
     public bool? AddSnapshotCapacity { get; set; }
@@ -277,7 +280,7 @@ public record AzNetappfilesVolumeGroupCreateOptions(
     public string? PoolName { get; set; }
 
     /// <summary>
-    /// The resource id of the
+    /// The resource id of the Proximity Placement Group for volume placement.
     /// </summary>
     [CliOption("--ppg", ShortForm = "--proximity-placement-group")]
     public string? Ppg { get; set; }
@@ -289,31 +292,31 @@ public record AzNetappfilesVolumeGroupCreateOptions(
     public bool? Prefix { get; set; }
 
     /// <summary>
-    /// Enables access based enumeration share property for SMB Shares. Only applicable for
+    /// Enables access based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--smb-access")]
-    public bool? SmbAccess { get; set; }
+    [CliOption("--smb-access")]
+    public string? SmbAccess { get; set; }
 
     /// <summary>
-    /// Enables non-browsable property for SMB Shares.
+    /// Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--smb-browsable")]
-    public bool? SmbBrowsable { get; set; }
+    [CliOption("--smb-browsable")]
+    public string? SmbBrowsable { get; set; }
 
     /// <summary>
-    /// Starting SAP-HANA Host ID. Host ID 1 indicates Master Host. Shared, Data Backup and Log Backup volumes are only provisioned for Master Host i.e. `HostID == 1`.
+    /// Starting SAP-HANA Host ID. Host ID 1 indicates Master Host. Shared, Data Backup and Log Backup volumes are only provisioned for Master Host i.e. `HostID == 1`. Default: 1.
     /// </summary>
     [CliFlag("--start-host-id")]
     public bool? StartHostId { get; set; }
 
     /// <summary>
-    /// The delegated Subnet name.
+    /// The delegated Subnet name. Default: Default.
     /// </summary>
     [CliFlag("--subnet")]
     public bool? Subnet { get; set; }
 
     /// <summary>
-    /// Type of role for the storage account. Primary indicates first of a SAP-HANA Replication (HSR) setup or No HSR. High Availability (HA) specifies local scenario. Default is PRIMARY.  Allowed values: DR, HA, PRIMARY.  Allowed values: DR, HA, PRIMARY.
+    /// Type of role for the storage account. Primary indicates first of a SAP-HANA Replication (HSR) setup or No HSR. High Availability (HA) specifies local scenario. Default is PRIMARY.  Allowed values: DR, HA, PRIMARY.  Allowed values: DR, HA, PRIMARY. Default: PRIMARY.
     /// </summary>
     [CliOption("--system-role")]
     public string? SystemRole { get; set; }

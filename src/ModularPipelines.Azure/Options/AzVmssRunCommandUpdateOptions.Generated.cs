@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// The operation to update the VMSS run command.
 /// </summary>
+/// <param name="Name">The name of the virtual machine run command.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "run-command", "update")]
@@ -41,10 +42,10 @@ public record AzVmssRunCommandUpdateOptions(
     public string? ErrorBlobUri { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -59,13 +60,13 @@ public record AzVmssRunCommandUpdateOptions(
     public string? OutputBlobUri { get; set; }
 
     /// <summary>
-    /// The parameters used by the script.
+    /// The parameters used by the script. Usage: --parameters arg1=XX arg2=XX.
     /// </summary>
     [CliOption("--parameters")]
     public string? Parameters { get; set; }
 
     /// <summary>
-    /// The parameters used by the script.
+    /// The parameters used by the script. Usage: --protected-parameters credentials=somefoo secret=somebar.
     /// </summary>
     [CliOption("--protected-parameters")]
     public string? ProtectedParameters { get; set; }
@@ -103,8 +104,8 @@ public record AzVmssRunCommandUpdateOptions(
     /// <summary>
     /// The timeout in seconds to execute the run command.
     /// </summary>
-    [CliFlag("--timeout-in-seconds")]
-    public bool? TimeoutInSeconds { get; set; }
+    [CliOption("--timeout-in-seconds")]
+    public int? TimeoutInSeconds { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

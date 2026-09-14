@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzSigShowOptions : AzOptions
 {
     /// <summary>
-    /// The select expression to apply on the operation.  Allowed values:
+    /// The select expression to apply on the operation.  Allowed values: Permissions.
     /// </summary>
     [CliOption("--select")]
     public string? Select { get; set; }

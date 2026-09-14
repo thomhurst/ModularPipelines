@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the authentication of a storage account attached
 /// </summary>
+/// <param name="StorageAuth">The type of authentication for the storage account associated with the media services account.  Allowed values: ManagedIdentity, System.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "account", "storage", "set-authentication")]
@@ -25,8 +26,8 @@ public record AzAmsAccountStorageSetAuthenticationOptions(
     /// <summary>
     /// The storage account Id.
     /// </summary>
-    [CliFlag("--storage-account-id")]
-    public bool? StorageAccountId { get; set; }
+    [CliOption("--storage-account-id")]
+    public string? StorageAccountId { get; set; }
 
     /// <summary>
     /// Set the system managed identity on the storage account.  Allowed values: false, true.

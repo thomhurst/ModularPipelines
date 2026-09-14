@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a static app. Return the app updated.
 /// </summary>
+/// <param name="Name">Name of the static site.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "update")]
@@ -35,7 +36,7 @@ public record AzStaticwebappUpdateOptions(
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// The pricing tiers for Static Web App.  Allowed values: Dedicated, Free,
+    /// The pricing tiers for Static Web App.  Allowed values: Dedicated, Free, Standard.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }

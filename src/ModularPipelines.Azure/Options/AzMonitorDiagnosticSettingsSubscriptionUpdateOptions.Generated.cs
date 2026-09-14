@@ -35,8 +35,8 @@ public record AzMonitorDiagnosticSettingsSubscriptionUpdateOptions : AzOptions
     /// <summary>
     /// Location of the resource.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// JSON encoded list of logs settings. Use '@{file}' to load from a file. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -63,7 +63,7 @@ public record AzMonitorDiagnosticSettingsSubscriptionUpdateOptions : AzOptions
     public string? Workspace { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -81,7 +81,7 @@ public record AzMonitorDiagnosticSettingsSubscriptionUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }

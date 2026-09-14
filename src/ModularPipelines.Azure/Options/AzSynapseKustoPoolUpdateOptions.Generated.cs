@@ -45,13 +45,13 @@ public record AzSynapseKustoPoolUpdateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Optimized auto scale definition.
+    /// Optimized auto scale definition. Usage: --optimized-autoscale version=XX is-enabled=XX minimum=XX maximum=XX
     /// </summary>
     [CliFlag("--optimized-autoscale")]
     public bool? OptimizedAutoscale { get; set; }
 
     /// <summary>
-    /// The SKU of the kusto pool.
+    /// The SKU of the kusto pool. Usage: --sku name=XX capacity=XX size=XX
     /// </summary>
     [CliFlag("--sku")]
     public bool? Sku { get; set; }

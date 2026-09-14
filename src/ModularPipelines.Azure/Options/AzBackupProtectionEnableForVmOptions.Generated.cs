@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start protecting a previously unprotected Azure VM as per
 /// </summary>
+/// <param name="PolicyName">Name of the backup policy.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VaultName">Name of the Recovery services vault.</param>
+/// <param name="Vm">Name or ID of the Virtual Machine to be protected.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "protection", "enable-for-vm")]

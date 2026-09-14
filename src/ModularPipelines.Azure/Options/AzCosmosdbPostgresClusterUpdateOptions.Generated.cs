@@ -27,7 +27,7 @@ public record AzCosmosdbPostgresClusterUpdateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Application-specific metadata in the form of key-value pairs.
+    /// Application-specific metadata in the form of key-value pairs. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags")]
     public string? Tags { get; set; }
@@ -51,7 +51,7 @@ public record AzCosmosdbPostgresClusterUpdateOptions : AzOptions
     public bool? CoordPublicIpAccess { get; set; }
 
     /// <summary>
-    /// The edition of a coordinator
+    /// The edition of a coordinator server (default: GeneralPurpose). Required for creation.
     /// </summary>
     [CliFlag("--coord-server-edition", ShortForm = "--coordinator-server-edition")]
     public bool? CoordServerEdition { get; set; }

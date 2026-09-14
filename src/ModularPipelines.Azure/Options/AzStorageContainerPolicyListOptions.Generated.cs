@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List stored access policies on a containing object.
 /// </summary>
+/// <param name="ContainerName">The container name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container", "policy", "list")]
@@ -35,7 +36,7 @@ public record AzStorageContainerPolicyListOptions(
     public bool? LeaseId { get; set; }
 
     /// <summary>
-    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
     [CliFlag("--account-key")]
     public bool? AccountKey { get; set; }
@@ -53,7 +54,7 @@ public record AzStorageContainerPolicyListOptions(
     public bool? BlobEndpoint { get; set; }
 
     /// <summary>
-    /// Storage account connection string. Environment variable:
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }

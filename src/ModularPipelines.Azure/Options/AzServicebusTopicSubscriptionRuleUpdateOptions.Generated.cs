@@ -33,7 +33,7 @@ public record AzServicebusTopicSubscriptionRuleUpdateOptions : AzOptions
     public bool? ActionPreprocessing { get; set; }
 
     /// <summary>
-    /// SQL expression. e.g.
+    /// SQL expression. e.g. MyProperty='ABC'.
     /// </summary>
     [CliFlag("--action-sql-expression")]
     public bool? ActionSqlExpression { get; set; }
@@ -117,19 +117,19 @@ public record AzServicebusTopicSubscriptionRuleUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Filter type that is evaluated against a BrokeredMessage.
+    /// Filter type that is evaluated against a BrokeredMessage. Allowed values: CorrelationFilter, SqlFilter.
     /// </summary>
-    [CliFlag("--filter-type")]
-    public bool? FilterType { get; set; }
+    [CliOption("--filter-type")]
+    public string? FilterType { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids")]
     public IEnumerable<string>? Ids { get; set; }
@@ -143,8 +143,8 @@ public record AzServicebusTopicSubscriptionRuleUpdateOptions : AzOptions
     /// <summary>
     /// The namespace name.
     /// </summary>
-    [CliFlag("--namespace-name")]
-    public bool? NamespaceName { get; set; }
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -155,14 +155,14 @@ public record AzServicebusTopicSubscriptionRuleUpdateOptions : AzOptions
     /// <summary>
     /// The subscription name.
     /// </summary>
-    [CliFlag("--subscription-name")]
-    public bool? SubscriptionName { get; set; }
+    [CliOption("--subscription-name")]
+    public string? SubscriptionName { get; set; }
 
     /// <summary>
     /// The topic name.
     /// </summary>
-    [CliFlag("--topic-name")]
-    public bool? TopicName { get; set; }
+    [CliOption("--topic-name")]
+    public string? TopicName { get; set; }
 
     /// <summary>
     /// This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
@@ -177,7 +177,7 @@ public record AzServicebusTopicSubscriptionRuleUpdateOptions : AzOptions
     public bool? EnableSqlPreprocessing { get; set; }
 
     /// <summary>
-    /// The SQL expression. e.g.
+    /// The SQL expression. e.g. MyProperty='ABC'.
     /// </summary>
     [CliFlag("--filter-sql-expression", ShortForm = "--sql-expression")]
     public bool? FilterSqlExpression { get; set; }

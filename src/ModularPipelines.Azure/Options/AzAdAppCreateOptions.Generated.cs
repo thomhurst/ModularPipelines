@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an application.
 /// </summary>
+/// <param name="DisplayName">The display name of the application.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "create")]
@@ -23,7 +24,7 @@ public record AzAdAppCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Space-separated values. Also known as App ID URI, this value is set when an application is used as a resource app. The identifierUris acts as the prefix for the scopes you'll reference in your API's code, and it must be globally unique. You can use the default value provided, which is in the form `api://&lt;application-client-id&gt;`, or specify a more readable
+    /// Space-separated values. Also known as App ID URI, this value is set when an application is used as a resource app. The identifierUris acts as the prefix for the scopes you'll reference in your API's code, and it must be globally unique. You can use the default value provided, which is in the form `api://&lt;application-client-id&gt;`, or specify a more readable URI like https://contoso.com/api.
     /// </summary>
     [CliOption("--identifier-uris", GroupValues = true)]
     public IEnumerable<string>? IdentifierUris { get; set; }
@@ -41,7 +42,7 @@ public record AzAdAppCreateOptions(
     public bool? ServiceManagementReference { get; set; }
 
     /// <summary>
-    /// Specifies the Microsoft accounts that are supported for the current application.  Allowed values: AzureADMultipleOrgs,
+    /// Specifies the Microsoft accounts that are supported for the current application.  Allowed values: AzureADMultipleOrgs, AzureADMyOrg, AzureADandPersonalMicrosoftAccount, PersonalMicrosoftAccount.
     /// </summary>
     [CliOption("--sign-in-audience")]
     public string? SignInAudience { get; set; }

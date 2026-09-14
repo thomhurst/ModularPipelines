@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all the configurations of a server in
 /// </summary>
+/// <param name="ClusterName">The name of the cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServerName">The name of the server.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "postgres", "configuration", "server", "list")]

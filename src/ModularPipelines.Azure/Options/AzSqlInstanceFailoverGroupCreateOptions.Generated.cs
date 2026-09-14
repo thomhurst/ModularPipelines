@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates an instance failover group between two connected
 /// </summary>
+/// <param name="Mi">Name of the Azure SQL Managed Instance.</param>
+/// <param name="Name">The name of the Instance Failover Group.</param>
+/// <param name="PartnerMi">The name of the partner managed instance of a Instance Failover Group.</param>
+/// <param name="PartnerResourceGroup">The name of the resource group of the partner managed instance.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instance-failover-group", "create")]
@@ -39,7 +44,7 @@ public record AzSqlInstanceFailoverGroupCreateOptions(
     public bool? GracePeriod { get; set; }
 
     /// <summary>
-    /// Intended usage of the secondary instance in the Failover Group. Standby indicates that the secondary instance will be used as a passive replica for disaster recovery only.
+    /// Intended usage of the secondary instance in the Failover Group. Standby indicates that the secondary instance will be used as a passive replica for disaster recovery only. Default: Geo.
     /// </summary>
     [CliFlag("--secondary-type")]
     public bool? SecondaryType { get; set; }

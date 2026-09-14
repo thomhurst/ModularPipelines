@@ -81,7 +81,7 @@ public record AzLoginOptions : AzOptions
     public bool? UseCertSnIssuer { get; set; }
 
     /// <summary>
-    /// Use device code flow. Azure CLI will also use this if it can't launch a browser, e.g. in remote SSH or
+    /// Use device code flow. Azure CLI will also use this if it can't launch a browser, e.g. in remote SSH or Cloud Shell.
     /// </summary>
     [CliFlag("--use-device-code")]
     public bool? UseDeviceCode { get; set; }

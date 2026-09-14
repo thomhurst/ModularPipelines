@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// This operation starts failover simulation on
 /// </summary>
+/// <param name="LinkType">The type of link on which failover test was performed. Allowed values: Primary, Secondary.</param>
+/// <param name="MaintenanceCategory">The type of maintenance test category.  Allowed values: ASPathPrepend, BgpDisconnect.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "start-link-failover-test")]

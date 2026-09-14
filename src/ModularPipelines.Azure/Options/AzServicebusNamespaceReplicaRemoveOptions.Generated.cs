@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove one or more Replica properties to a namespace.
 /// </summary>
+/// <param name="GeoDataReplicationConfig">A list of regions where replicas of the namespace are maintained Object.</param>
+/// <param name="NamespaceName">Name of the Namespace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "namespace", "replica", "remove")]

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start a job.
 /// </summary>
+/// <param name="OutputAssets">Space-separated assets in 'assetName=label' format. An asset without label can be sent like this: 'assetName='.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "job", "start")]

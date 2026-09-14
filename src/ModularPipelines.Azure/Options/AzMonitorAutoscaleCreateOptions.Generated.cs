@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create new autoscale settings.
 /// </summary>
+/// <param name="Count">The numer of instances to use. If used with --min/max-count, the default number of instances to use.</param>
+/// <param name="Resource">Name or ID of the target resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "create")]
@@ -32,8 +34,8 @@ public record AzMonitorAutoscaleCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Name of the autoscale settings.
@@ -60,10 +62,10 @@ public record AzMonitorAutoscaleCreateOptions(
     public bool? MinCount { get; set; }
 
     /// <summary>
-    /// Add an action to fire when a scaling event occurs.
+    /// Add an action to fire when a scaling event occurs. Usage:   --action TYPE KEY [ARG ...] Email:   --action email bob@contoso.com ann@contoso.com Webhook: --action webhook https://www.contoso.com/alert apiKey=value Webhook: --action webhook https://www.contoso.com/alert?apiKey=value Multiple actions can be specified by using more than one `--action` argument.
     /// </summary>
-    [CliFlag("--action", ShortForm = "-a")]
-    public bool? Action { get; set; }
+    [CliOption("--action", ShortForm = "-a")]
+    public string? Action { get; set; }
 
     /// <summary>
     /// Send email to subscription administrator on scaling.  Allowed values: false, true.
@@ -84,7 +86,7 @@ public record AzMonitorAutoscaleCreateOptions(
     public bool? ScaleLookAheadTime { get; set; }
 
     /// <summary>
-    /// The predictive autoscale mode.  Allowed values: Disabled, Enabled,
+    /// The predictive autoscale mode.  Allowed values: Disabled, Enabled, ForecastOnly.
     /// </summary>
     [CliOption("--scale-mode")]
     public string? ScaleMode { get; set; }

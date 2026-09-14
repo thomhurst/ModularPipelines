@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an image builder customizer to an image builder template.
 /// </summary>
+/// <param name="CustomizerName">Name of the customizer.</param>
+/// <param name="Type">Type of customizer to be added to the image template.  Allowed values: file, powershell, shell, windows-restart, windows-update.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "builder", "customizer", "add")]
@@ -30,7 +32,7 @@ public record AzImageBuilderCustomizerAddOptions(
     public bool? Defer { get; set; }
 
     /// <summary>
-    /// The absolute destination path where the file specified in --file- source will be downloaded to in the image.
+    /// The absolute destination path where the file specified in --file-source will be downloaded to in the image.
     /// </summary>
     [CliFlag("--dest-path")]
     public bool? DestPath { get; set; }
@@ -80,14 +82,14 @@ public record AzImageBuilderCustomizerAddOptions(
     /// <summary>
     /// Command to verify that restart succeeded.
     /// </summary>
-    [CliFlag("--restart-check-command")]
-    public bool? RestartCheckCommand { get; set; }
+    [CliOption("--restart-check-command")]
+    public string? RestartCheckCommand { get; set; }
 
     /// <summary>
     /// Command to execute the restart operation.
     /// </summary>
-    [CliFlag("--restart-command")]
-    public bool? RestartCommand { get; set; }
+    [CliOption("--restart-command")]
+    public string? RestartCommand { get; set; }
 
     /// <summary>
     /// Restart timeout specified as a string consisting of a magnitude and unit, e.g. '5m' (5 minutes) or '2h' (2 hours).  Default: 5m.

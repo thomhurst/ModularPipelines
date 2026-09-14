@@ -39,7 +39,7 @@ public record AzAmsAccountSpResetCredentialsOptions : AzOptions
     public bool? Xml { get; set; }
 
     /// <summary>
-    /// Number of years for which the secret will be valid. Default: 1 year.
+    /// Number of years for which the secret will be valid. Default: 1 year. Default: 1.
     /// </summary>
     [CliFlag("--years")]
     public bool? Years { get; set; }

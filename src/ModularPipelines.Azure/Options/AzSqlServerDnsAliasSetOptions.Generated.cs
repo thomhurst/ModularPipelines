@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Sets a server to which DNS alias should point.
 /// </summary>
+/// <param name="Name">Name of the DNS alias.</param>
+/// <param name="OriginalServer">The name of the server to which alias is currently pointing.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "dns-alias", "set")]

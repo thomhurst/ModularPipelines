@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Run a specific triggered webjob hosted on a web app.
 /// </summary>
+/// <param name="WebjobName">The name of the webjob.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "webjob", "triggered", "run")]
@@ -35,7 +36,7 @@ public record AzWebappWebjobTriggeredRunOptions(
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure --defaults web=&lt;name&gt;`.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }

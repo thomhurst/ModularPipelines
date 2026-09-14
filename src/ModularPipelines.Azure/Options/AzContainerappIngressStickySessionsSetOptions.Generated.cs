@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Configure Sticky session for a container app.
 /// </summary>
+/// <param name="Affinity">Whether the affinity for the container app is Sticky or None.  Allowed values: none, sticky.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "ingress", "sticky-sessions", "set")]

@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a deleted table within the same account.
 /// </summary>
+/// <param name="AccountName">Cosmosdb account name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="TableName">Name of the CosmosDB Table name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "table", "restore")]
@@ -25,7 +28,7 @@ public record AzCosmosdbTableRestoreOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Flag to restore with TTL disabled.
+    /// Flag to restore with TTL disabled. Usage:          --disable-ttl True Default: false.
     /// </summary>
     [CliFlag("--disable-ttl")]
     public bool? DisableTtl { get; set; }

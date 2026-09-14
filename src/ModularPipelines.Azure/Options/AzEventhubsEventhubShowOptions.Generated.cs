@@ -23,8 +23,8 @@ public record AzEventhubsEventhubShowOptions : AzOptions
     /// <summary>
     /// The Event Hub name.
     /// </summary>
-    [CliFlag("--event-hub-name", ShortForm = "-n")]
-    public bool? EventHubName { get; set; }
+    [CliOption("--event-hub-name", ShortForm = "-n")]
+    public string? EventHubName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -35,8 +35,8 @@ public record AzEventhubsEventhubShowOptions : AzOptions
     /// <summary>
     /// The Namespace name.
     /// </summary>
-    [CliFlag("--namespace-name")]
-    public bool? NamespaceName { get; set; }
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

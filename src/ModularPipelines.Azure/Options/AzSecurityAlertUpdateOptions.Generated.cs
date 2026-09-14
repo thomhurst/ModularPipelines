@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates a security alert status.
 /// </summary>
+/// <param name="Location">Location of the resource.</param>
+/// <param name="Name">Name of the resource to be fetched.</param>
+/// <param name="Status">Target status of the alert. possible values are "dismiss", "activate", "resolve" and "inprogress".</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "alert", "update")]

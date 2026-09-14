@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzNetworkNsgRuleUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Network traffic is allowed or denied.  Allowed values: Allow,
+    /// Network traffic is allowed or denied.  Allowed values: Allow, Deny.
     /// </summary>
     [CliOption("--access")]
     public string? Access { get; set; }
@@ -33,7 +33,7 @@ public record AzNetworkNsgRuleUpdateOptions : AzOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.  Allowed values:
+    /// Direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.  Allowed values: Inbound, Outbound.
     /// </summary>
     [CliOption("--direction")]
     public string? Direction { get; set; }

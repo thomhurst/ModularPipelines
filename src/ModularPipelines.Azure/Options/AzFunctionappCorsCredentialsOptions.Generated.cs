@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable or disable access-control-allow-credentials.
 /// </summary>
+/// <param name="Enable">Enable/disable access-control-allow-credentials.  Allowed values: false, true.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "cors", "credentials")]

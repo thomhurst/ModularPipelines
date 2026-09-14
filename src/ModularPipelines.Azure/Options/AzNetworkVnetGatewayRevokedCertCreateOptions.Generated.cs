@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Revoke a certificate.
 /// </summary>
+/// <param name="GatewayName">Virtual network gateway name.</param>
+/// <param name="Name">Root certificate name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Thumbprint">Certificate thumbprint.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "revoked-cert", "create")]

@@ -39,16 +39,16 @@ public record AzStorageShareRmUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Access tier for specific share. GpV2 account can choose between
+    /// Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and Cool. FileStorage account can choose Premium.  Allowed values: Cool, Hot, Premium, TransactionOptimized.
     /// </summary>
-    [CliFlag("--access-tier")]
-    public bool? AccessTier { get; set; }
+    [CliOption("--access-tier")]
+    public string? AccessTier { get; set; }
 
     /// <summary>
     /// A name-value pair to associate with the share as metadata.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
@@ -63,7 +63,7 @@ public record AzStorageShareRmUpdateOptions : AzOptions
     public bool? Quota { get; set; }
 
     /// <summary>
-    /// Reduction of the access rights for the remote superuser. The property is for NFS share only. The default is NoRootSquash.  Allowed values:
+    /// Reduction of the access rights for the remote superuser. The property is for NFS share only. The default is NoRootSquash.  Allowed values: AllSquash, NoRootSquash, RootSquash.
     /// </summary>
     [CliOption("--root-squash")]
     public string? RootSquash { get; set; }
@@ -105,7 +105,7 @@ public record AzStorageShareRmUpdateOptions : AzOptions
     public string? AccountName { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids")]
     public IEnumerable<string>? Ids { get; set; }

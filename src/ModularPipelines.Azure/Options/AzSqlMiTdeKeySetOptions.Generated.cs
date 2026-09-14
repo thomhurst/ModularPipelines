@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Sets the SQL Instance's encryption protector.
 /// </summary>
+/// <param name="ServerKeyType">The type of the server key.  Allowed values: AzureKeyVault, ServiceManaged.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "tde-key", "set")]

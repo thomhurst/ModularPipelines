@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzAksSafeguardsListOptions : AzOptions
 {
     /// <summary>
-    /// The fully qualified Azure Resource manager identifier of the
+    /// The fully qualified Azure Resource manager identifier of the Managed Cluster.
     /// </summary>
     [CliFlag("--cluster", ShortForm = "-c")]
     public bool? Cluster { get; set; }

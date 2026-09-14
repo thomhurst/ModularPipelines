@@ -27,7 +27,7 @@ public record AzNetworkTrafficManagerProfileCheckDnsOptions : AzOptions
     public bool? Name { get; set; }
 
     /// <summary>
-    /// The type of the resource.  Default:
+    /// The type of the resource.  Default: Microsoft.Network/trafficManagerProfiles.
     /// </summary>
     [CliFlag("--type")]
     public bool? Type { get; set; }

@@ -23,8 +23,8 @@ public record AzContainerappAuthGoogleUpdateOptions : AzOptions
     /// <summary>
     /// The configuration settings of the allowed list of audiences from which to validate the JWT token.
     /// </summary>
-    [CliFlag("--allowed-audiences", ShortForm = "--allowed-token-audiences")]
-    public bool? AllowedAudiences { get; set; }
+    [CliOption("--allowed-audiences", ShortForm = "--allowed-token-audiences", GroupValues = true)]
+    public IEnumerable<string>? AllowedAudiences { get; set; }
 
     /// <summary>
     /// The Client ID of the app used for login.
@@ -57,7 +57,7 @@ public record AzContainerappAuthGoogleUpdateOptions : AzOptions
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

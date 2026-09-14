@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get details and state of assessments mapped
 /// </summary>
+/// <param name="ControlName">The compliance control name.</param>
+/// <param name="StandardName">The compliance standard name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "regulatory-compliance-assessments", "list")]

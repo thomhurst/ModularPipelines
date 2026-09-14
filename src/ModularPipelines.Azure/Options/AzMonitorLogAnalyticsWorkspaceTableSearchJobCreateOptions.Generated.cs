@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Log Analytics workspace
 /// </summary>
+/// <param name="EndSearchTime">Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).</param>
+/// <param name="Name">Name of the table. The table name needs to end with _SRCH.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="SearchQuery">Search job query.</param>
+/// <param name="StartSearchTime">Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).</param>
+/// <param name="WorkspaceName">Name of the Log Analytics Workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "table", "search-job", "create")]

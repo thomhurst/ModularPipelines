@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Check the give Namespace name availability.
 /// </summary>
+/// <param name="Alias">Name to check the namespace name availability.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "georecovery-alias", "exists")]
@@ -31,8 +32,8 @@ public record AzEventhubsGeorecoveryAliasExistsOptions(
     /// <summary>
     /// The Namespace name.
     /// </summary>
-    [CliFlag("--namespace-name")]
-    public bool? NamespaceName { get; set; }
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

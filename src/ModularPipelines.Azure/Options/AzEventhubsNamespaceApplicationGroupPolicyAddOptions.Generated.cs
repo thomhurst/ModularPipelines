@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Appends an application group policy to the
 /// </summary>
+/// <param name="PolicyConfig">List of Throttling Policy Objects.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "application-group", "policy", "add")]
@@ -23,13 +24,13 @@ public record AzEventhubsNamespaceApplicationGroupPolicyAddOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// One or more resource
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids")]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// Name of Application
+    /// Name of Application Group.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
@@ -41,7 +42,7 @@ public record AzEventhubsNamespaceApplicationGroupPolicyAddOptions(
     public string? NamespaceName { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

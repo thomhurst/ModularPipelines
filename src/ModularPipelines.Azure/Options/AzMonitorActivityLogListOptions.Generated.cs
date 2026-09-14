@@ -75,7 +75,7 @@ public record AzMonitorActivityLogListOptions : AzOptions
     public bool? EndTime { get; set; }
 
     /// <summary>
-    /// Time offset of the query range, in ##d##h format.  Default: 6h.
+    /// Time offset of the query range, in ##d##h format.  Default: 6h. Can be used with either --start-time or --end-time. If used with --start-time, then the end time will be calculated by adding the offset. If used with --end-time (default), then the start time will be calculated by subtracting the offset. If --start-time and --end-time are provided, then --offset will be ignored.
     /// </summary>
     [CliFlag("--offset")]
     public bool? Offset { get; set; }

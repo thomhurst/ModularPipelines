@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a containerapp to confluent-cloud
 /// </summary>
+/// <param name="Connection">Name of the connection.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "connection", "update", "confluent-cloud")]
@@ -101,7 +102,7 @@ public record AzContainerappConnectionUpdateConfluentCloudOptions(
     public bool? SchemaSecret { get; set; }
 
     /// <summary>
-    /// The resource id of a containerapp. Required if ['--resource-group', '
+    /// The resource id of a containerapp. Required if ['--resource-group', ' --name'] are not specified.
     /// </summary>
     [CliOption("--source-id")]
     public string? SourceId { get; set; }

@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes the specified file from the Compute Node.
 /// </summary>
+/// <param name="FilePath">The path to the file or directory. Required.</param>
+/// <param name="NodeId">The ID of the Compute Node. Required.</param>
+/// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "node", "file", "delete")]
@@ -37,19 +40,19 @@ public record AzBatchNodeFileDeleteOptions(
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// Batch service endpoint. Alternatively, set by environment variable:
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>
     [CliOption("--account-endpoint")]
     public string? AccountEndpoint { get; set; }
 
     /// <summary>
-    /// Batch account key. Alternatively, set by environment variable:
+    /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
     /// </summary>
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }
 
     /// <summary>
-    /// Batch account name. Alternatively, set by environment variable:
+    /// Batch account name. Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
     /// </summary>
     [CliOption("--account-name")]
     public string? AccountName { get; set; }

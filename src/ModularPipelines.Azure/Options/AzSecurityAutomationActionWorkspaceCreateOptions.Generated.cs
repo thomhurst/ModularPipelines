@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates security automation workspace action.
 /// </summary>
+/// <param name="WorkspaceResourceId">The fully qualified Log Analytics Workspace Azure Resource ID.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "automation-action-workspace", "create")]

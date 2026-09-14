@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a webhook for an Azure Container Registry.
 /// </summary>
+/// <param name="Actions">Space-separated list of actions that trigger the webhook to post notifications.  Allowed values: chart_delete, chart_push, delete, push, quarantine.</param>
+/// <param name="Name">The name of the webhook.</param>
+/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+/// <param name="Uri">The service URI for the webhook to post notifications.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "webhook", "create")]
@@ -34,8 +38,8 @@ public record AzAcrWebhookCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

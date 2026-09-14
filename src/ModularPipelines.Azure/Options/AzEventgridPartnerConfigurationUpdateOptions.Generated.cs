@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a partner configuration.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "configuration", "update")]
@@ -23,10 +24,10 @@ public record AzEventgridPartnerConfigurationUpdateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Time used to validate the authorization expiration time for each authorized partner. If
+    /// Time used to validate the authorization expiration time for each authorized partner. If DefaultMaximumExpirationTimeInDays is not specified, the default is 7 days. Otherwise, allowed values are between 1 and 365 days.
     /// </summary>
-    [CliFlag("--default-maximum-expiration-time-in-days", ShortForm = "--max-exp-days")]
-    public bool? DefaultMaximumExpirationTimeInDays { get; set; }
+    [CliOption("--default-maximum-expiration-time-in-days", ShortForm = "--max-exp-days")]
+    public string? DefaultMaximumExpirationTimeInDays { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.

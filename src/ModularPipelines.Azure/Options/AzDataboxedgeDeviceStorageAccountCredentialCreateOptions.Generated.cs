@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the storage account credential.
 /// </summary>
+/// <param name="DeviceName">The device name.</param>
+/// <param name="Name">The storage account credential name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="AccountType">Type of storage accessed on the storage account.  Allowed values: BlobStorage, GeneralPurposeStorage.</param>
+/// <param name="Alias">Alias for the storage account.</param>
+/// <param name="SslStatus">Signifies whether SSL needs to be enabled or not.  Allowed values: Disabled, Enabled.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "storage-account-credential", "create")]

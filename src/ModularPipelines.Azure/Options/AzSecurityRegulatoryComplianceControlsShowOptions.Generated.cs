@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Shows a regulatory compliance details state
 /// </summary>
+/// <param name="Name">Name of the resource to be fetched.</param>
+/// <param name="StandardName">The compliance standard name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "regulatory-compliance-controls", "show")]

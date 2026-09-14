@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzStorageAccountFailoverOptions : AzOptions
 {
     /// <summary>
-    /// Specify the failover type. Possible values are: Unplanned, Planned. If not specified, the default failover type is Unplanned.  Allowed values:
+    /// Specify the failover type. Possible values are: Unplanned, Planned. If not specified, the default failover type is Unplanned.  Allowed values: Planned, Unplanned.
     /// </summary>
     [CliOption("--failover-type", ShortForm = "--type")]
     public string? FailoverType { get; set; }

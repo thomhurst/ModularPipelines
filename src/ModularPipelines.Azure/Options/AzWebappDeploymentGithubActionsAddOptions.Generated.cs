@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a GitHub Actions workflow file to the specified
 /// </summary>
+/// <param name="Repo">The GitHub repository to which the workflow file will be added. In the format: `&lt;owner&gt;/&lt;repository-name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "deployment", "github-actions", "add")]

@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new channel for a partner namespace.
 /// </summary>
+/// <param name="ChannelType">The type of the event channel which represents the  direction flow of events.  Allowed values: PartnerDestination, PartnerTopic.</param>
+/// <param name="DestinationRg">Azure Resource Group of the subscriber requesting the creation of the channel resource by the publisher. The corresponding partner resource (either partner topic or partner destination) associated with the channel resource will be created under this resource group.</param>
+/// <param name="DestinationSubId">Azure subscription Id of the subscriber requesting the creation of the channel resource by the publisher. The corresponding partner resource (either partner topic or partner destination) associated with the channel resource will be created under this Azure subscription.</param>
+/// <param name="Name">Name of the channel.</param>
+/// <param name="PartnerNamespaceName">Name of the partner namespace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "namespace", "channel", "create")]
@@ -58,13 +64,13 @@ public record AzEventgridPartnerNamespaceChannelCreateOptions(
     public string? EndpointUrl { get; set; }
 
     /// <summary>
-    /// The kind of event type used.
+    /// The kind of event type used. Allowed values: inline.
     /// </summary>
-    [CliFlag("--event-type-kind")]
-    public bool? EventTypeKind { get; set; }
+    [CliOption("--event-type-kind")]
+    public string? EventTypeKind { get; set; }
 
     /// <summary>
-    /// Create a channel for an existing partner namespace, either of type partner topic or partner destination. You can also add inline event type info if channel type is partner topic. Multiple attributes can be specified by using more than one `--inline- event-type` argument.
+    /// Create a channel for an existing partner namespace, either of type partner topic or partner destination. You can also add inline event type info if channel type is partner topic. Multiple attributes can be specified by using more than one `--inline-event-type` argument. Usage:       --inline-event-type KEY [description={description}] [documentation-url={url}] \ [data-schema-url={url}] Example:     --inline-event-type event1 \ description="My inline event type." \ documentation-url=https://www.microsoft.com \ data-schema-url=https://www.microsoft.com.
     /// </summary>
     [CliFlag("--inline-event-type")]
     public bool? InlineEventType { get; set; }

@@ -16,6 +16,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an App Configuration.
 /// </summary>
+/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+/// <param name="Name">Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "create")]
@@ -74,7 +77,7 @@ public record AzAppConfigCreateOptions(
     public bool? NoReplica { get; set; }
 
     /// <summary>
-    /// Control permission for data plane traffic coming from public networks.  Allowed values: Disabled, Enabled,
+    /// Control permission for data plane traffic coming from public networks.  Allowed values: Disabled, Enabled, SecuredByPerimeter.
     /// </summary>
     [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
@@ -82,8 +85,8 @@ public record AzAppConfigCreateOptions(
     /// <summary>
     /// The location of the replica of the App Configuration store.
     /// </summary>
-    [CliFlag("--replica-location")]
-    public bool? ReplicaLocation { get; set; }
+    [CliOption("--replica-location")]
+    public string? ReplicaLocation { get; set; }
 
     /// <summary>
     /// Name of the replica of the App Configuration store.
@@ -98,7 +101,7 @@ public record AzAppConfigCreateOptions(
     public bool? RetentionDays { get; set; }
 
     /// <summary>
-    /// The sku of the App Configuration store.  Allowed values: Developer, Free, Premium, Standard.  Default:
+    /// The sku of the App Configuration store.  Allowed values: Developer, Free, Premium, Standard.  Default: Standard.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }

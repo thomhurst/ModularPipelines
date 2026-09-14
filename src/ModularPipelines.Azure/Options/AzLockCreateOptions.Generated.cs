@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a lock.
 /// </summary>
+/// <param name="LockType">The type of lock restriction.  Allowed values: CanNotDelete, ReadOnly.</param>
+/// <param name="Name">Name of the lock.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lock", "create")]

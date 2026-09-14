@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Discover available Azure Service Mesh revisions and their
 /// </summary>
+/// <param name="Location">Location in which to discover available Azure Service Mesh revisions.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "mesh", "get-revisions")]

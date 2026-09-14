@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all virtual machines in a VM scale sets.
 /// </summary>
+/// <param name="Name">The name of the VM scale set.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "list-instances")]
@@ -30,10 +32,10 @@ public record AzVmssListInstancesOptions(
     public string? Expand { get; set; }
 
     /// <summary>
-    /// The filter to apply to the operation.
+    /// The filter to apply to the operation. Allowed values are 'startswith(instanceView/statuses/code, 'PowerState') eq true', 'properties/latestModelApplied eq true', 'properties/latestModelApplied eq false'.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Show resiliency status of each instance.
@@ -48,7 +50,7 @@ public record AzVmssListInstancesOptions(
     public string? Select { get; set; }
 
     /// <summary>
-    /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next- token` argument of a subsequent command.
+    /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>
     [CliFlag("--max-items")]
     public bool? MaxItems { get; set; }

@@ -16,6 +16,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create or Update a volume.
 /// </summary>
+/// <param name="AccountName">The name of the NetApp account.</param>
+/// <param name="Name">The name of the volume.</param>
+/// <param name="PoolName">The name of the capacity pool.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="CreationToken">A unique file path for the volume. Used when creating mount targets.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume", "create")]
@@ -28,27 +33,27 @@ public record AzNetappfilesVolumeCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Do not wait for the long- running operation to finish.
+    /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--no-wait")]
+    [CliOption("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Backup Policy
+    /// Backup Policy Resource ID.
     /// </summary>
-    [CliFlag("--backup-policy-id")]
-    public bool? BackupPolicyId { get; set; }
+    [CliOption("--backup-policy-id")]
+    public string? BackupPolicyId { get; set; }
 
     /// <summary>
-    /// Backup Vault
+    /// Backup Vault Resource ID.
     /// </summary>
-    [CliFlag("--backup-vault-id")]
-    public bool? BackupVaultId { get; set; }
+    [CliOption("--backup-vault-id")]
+    public string? BackupVaultId { get; set; }
 
     /// <summary>
-    /// Policy
+    /// Policy Enforced. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--policy-enforced")]
+    [CliOption("--policy-enforced")]
     public bool? PolicyEnforced { get; set; }
 
     /// <summary>
@@ -58,25 +63,25 @@ public record AzNetappfilesVolumeCreateOptions(
     public bool? Location { get; set; }
 
     /// <summary>
-    /// Resource tags.
+    /// Resource tags. Support shorthand- syntax, json- file and yaml- file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags")]
     public string? Tags { get; set; }
 
     /// <summary>
-    /// Availability
+    /// Availability Zone  Support shorthand- syntax, json- file and yaml- file. Try "??" to show more.
     /// </summary>
     [CliFlag("--zones")]
     public bool? Zones { get; set; }
 
     /// <summary>
-    /// Source of key used to encrypt data in volume.
+    /// Source of key used to encrypt data in volume. Applicable if NetApp account has encryption. keySource = 'Mi crosoft.KeyVaul t'. Possible values (case- insensitive) are: 'Microsoft .NetApp, Micros oft.KeyVault'. Allowed values: Microsoft.KeyVa ult, Microsoft. NetApp. Default: Micros oft.NetApp.
     /// </summary>
     [CliOption("--encryption-key-source")]
     public string? EncryptionKeySource { get; set; }
 
     /// <summary>
-    /// The resource ID of private endpoint for
+    /// The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKe ySource = 'Micr osoft.KeyVault' .
     /// </summary>
     [CliOption("--key-vault-private-endpoint-resource-id", ShortForm = "--kv-private-endpoint-id")]
     public string? KeyVaultPrivateEndpointResourceId { get; set; }
@@ -88,112 +93,118 @@ public record AzNetappfilesVolumeCreateOptions(
     public bool? ExportPolicyRules { get; set; }
 
     /// <summary>
-    /// Client ingress specification as comma separated string with
+    /// Client ingress specification as comma separated string with IPv4 CIDRs, IPv4 host addresses and host names. Exists for backwards compatibility, please use --export-policy-rules --rules instead.
     /// </summary>
     [CliFlag("--allowed-clients")]
     public bool? AllowedClients { get; set; }
 
     /// <summary>
-    /// This parameter specifies who is authorized to change the ownership of a file. restricted -
+    /// This parameter specifies who is authorized to change the ownership of a file. restricted - Only root user can change the ownership of the file. unrestricted - Non-root users can change ownership of files that they own.  Allowed values: Restricted, Unrestricted.
     /// </summary>
-    [CliFlag("--chown-mode")]
-    public bool? ChownMode { get; set; }
+    [CliOption("--chown-mode")]
+    public string? ChownMode { get; set; }
 
     /// <summary>
-    /// Allows CIFS protocol.
+    /// Allows CIFS protocol. Enable only for CIFS type volumes. Exists for backwards compatibility, please use --export-policy-rules --rules instead. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--cifs")]
+    [CliOption("--cifs")]
     public bool? Cifs { get; set; }
 
     /// <summary>
-    /// Has root access to volume.
+    /// Has root access to volume. Exists for backwards compatibility, please use --export-policy-rules --rules instead. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--has-root-access")]
+    [CliOption("--has-root-access")]
     public bool? HasRootAccess { get; set; }
 
     /// <summary>
-    /// Kerberos5 Read only access.
+    /// Kerberos5 Read only access. Exists for backwards compatibility, please use --export-policy-rules --rules instead. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--kerberos5-r")]
+    [CliOption("--kerberos5-r")]
     public bool? Kerberos5R { get; set; }
 
     /// <summary>
-    /// Kerberos5 Read and write access. Exists for backwards compatibility, please use
+    /// Kerberos5 Read and write access. Exists for backwards compatibility, please use --export-policy-rules --rules instead. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--kerberos5-rw")]
+    [CliOption("--kerberos5-rw")]
     public bool? Kerberos5Rw { get; set; }
 
     /// <summary>
-    /// Kerberos5i
+    /// Kerberos5i Readonly access. Exists for backwards compatibility, please use --export-policy-rules --rules instead. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--kerberos5i-r")]
+    [CliOption("--kerberos5i-r")]
     public bool? Kerberos5iR { get; set; }
 
     /// <summary>
-    /// Kerberos5i Read and write access. Exists for backwards compatibility, please use
+    /// Kerberos5i Read and write access. Exists for backwards compatibility, please use --export-policy-rules --rules instead. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--kerberos5i-rw")]
+    [CliOption("--kerberos5i-rw")]
     public bool? Kerberos5iRw { get; set; }
 
     /// <summary>
-    /// Kerberos5p
+    /// Kerberos5p Readonly access. Exists for backwards compatibility, please use --export-policy-rules --rules instead. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--kerberos5p-r")]
+    [CliOption("--kerberos5p-r")]
     public bool? Kerberos5pR { get; set; }
 
     /// <summary>
-    /// Kerberos5p Read and write access. Exists for backwards compatibility, please use
+    /// Kerberos5p Read and write access. Exists for backwards compatibility, please use --export-policy-rules --rules instead. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--kerberos5p-rw")]
+    [CliOption("--kerberos5p-rw")]
     public bool? Kerberos5pRw { get; set; }
 
     /// <summary>
-    /// Order index.
+    /// Order index. Exists for backwards compatibility, please use --export-policy-rules --rules instead.
     /// </summary>
     [CliFlag("--rule-index")]
     public bool? RuleIndex { get; set; }
 
     /// <summary>
-    /// Read only access. Exists for backwards compatibility, please use
+    /// Read only access. Exists for backwards compatibility, please use --export-policy-rules (--rules) instead. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--unix-read-only")]
+    [CliOption("--unix-read-only")]
     public bool? UnixReadOnly { get; set; }
 
     /// <summary>
-    /// Read and write access. Exists for backwards compatibility, please use
+    /// Read and write access. Exists for backwards compatibility, please use --export-policy-rules --rules instead. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--unix-read-write")]
+    [CliOption("--unix-read-write")]
     public bool? UnixReadWrite { get; set; }
 
     /// <summary>
-    /// While auto splitting the short term clone volume, if the parent pool does not have enough space to accommodate the volume after split, it will be automatically resized, which will lead to increased billing. To accept capacity pool size auto grow and create a short term clone volume, set the property as accepted.
+    /// While auto splitting the short term clone volume, if the parent pool does not have enough space to accommodate the volume after split, it will be automatically resized, which will lead to increased billing. To accept capacity pool size auto grow and create a short term clone volume, set the property as accepted. Allowed values: Accepted, Declined.
     /// </summary>
-    [CliFlag("--accept-grow-capacity-pool-for-short-term-clone-split", ShortForm = "--grow-pool-clone-split")]
-    public bool? AcceptGrowCapacityPoolForShortTermCloneSplit { get; set; }
+    [CliOption("--accept-grow-capacity-pool-for-short-term-clone-split", ShortForm = "--grow-pool-clone-split")]
+    public string? AcceptGrowCapacityPoolForShortTermCloneSplit { get; set; }
 
     /// <summary>
-    /// Specifies whether the volume is enabled for
+    /// Specifies whether the volume is enabled for Azure VMware Solution (AVS) datastore purpose. Allowed values: Disabled, Enabled. Default: Disabled.
     /// </summary>
-    [CliFlag("--avs-data-store")]
-    public bool? AvsDataStore { get; set; }
+    [CliOption("--avs-data-store")]
+    public string? AvsDataStore { get; set; }
 
     /// <summary>
-    /// Resource identifier used to identify the
+    /// Resource identifier used to identify the Backup.
     /// </summary>
     [CliOption("--backup-id")]
     public string? BackupId { get; set; }
 
     /// <summary>
-    /// Specifies whether the volume operates in Breakthrough
+    /// Specifies whether the volume operates in Breakthrough Mode.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--breakthrough-mode")]
-    public bool? BreakthroughMode { get; set; }
+    [CliOption("--breakthrough-mode")]
+    public string? BreakthroughMode { get; set; }
 
-    [CliFlag("--ca-retrieval-policy", ShortForm = "--cool-access-retrieval-policy")]
-    public bool? CaRetrievalPolicy { get; set; }
+    /// <summary>
+    /// CoolAccessRetri evalPolicy determines the data retrieval behavior from the cool tier to standard storage based on the read pattern for cool access enabled volumes. The possible values for this field are:   Default - Data will be pulled from cool tier to standard storage on random reads. This policy is the default. OnRead - All client-driven data read is pulled from cool tier to standard storage on both sequential and random reads. Never - No client-driven data is pulled from cool tier to standard storage. Allowed values: Default, Never, OnRead.
+    /// </summary>
+    [CliOption("--ca-retrieval-policy", ShortForm = "--cool-access-retrieval-policy")]
+    public string? CaRetrievalPolicy { get; set; }
 
-    [CliFlag("--ca-tiering-policy", ShortForm = "--cool-access-tiering-policy")]
-    public bool? CaTieringPolicy { get; set; }
+    /// <summary>
+    /// CoolAccessTieri ngPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier. Allowed values: Auto, SnapshotOnly.
+    /// </summary>
+    [CliOption("--ca-tiering-policy", ShortForm = "--cool-access-tiering-policy")]
+    public string? CaTieringPolicy { get; set; }
 
     /// <summary>
     /// Pool Resource Id used in case of creating a volume through volume group.
@@ -202,9 +213,9 @@ public record AzNetappfilesVolumeCreateOptions(
     public string? CapacityPoolResourceId { get; set; }
 
     /// <summary>
-    /// Specifies whether Cool
+    /// Specifies whether Cool Access(tiering) is enabled for the volume. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--cool-access")]
+    [CliOption("--cool-access")]
     public bool? CoolAccess { get; set; }
 
     /// <summary>
@@ -214,15 +225,15 @@ public record AzNetappfilesVolumeCreateOptions(
     public bool? CoolnessPeriod { get; set; }
 
     /// <summary>
-    /// If enabled (true) the snapshot the volume was created from will be automatically deleted after the volume create operation has finished.
+    /// If enabled (true) the snapshot the volume was created from will be automatically deleted after the volume create operation has finished. Defaults to false.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--delete-base-snapshot")]
+    [CliOption("--delete-base-snapshot")]
     public bool? DeleteBaseSnapshot { get; set; }
 
     /// <summary>
-    /// Specifies whether volume is a Large
+    /// Specifies whether volume is a Large Volume or Regular Volume. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--is-large-volume")]
+    [CliOption("--is-large-volume")]
     public bool? IsLargeVolume { get; set; }
 
     /// <summary>
@@ -232,16 +243,16 @@ public record AzNetappfilesVolumeCreateOptions(
     public bool? KerberosEnabled { get; set; }
 
     /// <summary>
-    /// Specifies whether LDAP is enabled or not for a given NFS volume.
+    /// Specifies whether LDAP is enabled or not for a given NFS volume. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--ldap-enabled")]
+    [CliOption("--ldap-enabled")]
     public bool? LdapEnabled { get; set; }
 
     /// <summary>
-    /// Basic network, or Standard features available to the volume.
+    /// Basic network, or Standard features available to the volume. Allowed values: Basic, Standard. Default: Standard.
     /// </summary>
-    [CliFlag("--network-features")]
-    public bool? NetworkFeatures { get; set; }
+    [CliOption("--network-features")]
+    public string? NetworkFeatures { get; set; }
 
     /// <summary>
     /// Application specific placement rules for the particular volume  Support shorthand- syntax, json- file and yaml- file. Try "??" to show more.
@@ -256,85 +267,85 @@ public record AzNetappfilesVolumeCreateOptions(
     public bool? Ppg { get; set; }
 
     /// <summary>
-    /// Set of protocol types, default
+    /// Set of protocol types, default NFSv3, CIFS for SMB protocol Support shorthand- syntax, json- file and yaml- file. Try "??" to show more.
     /// </summary>
     [CliFlag("--protocol-types")]
     public bool? ProtocolTypes { get; set; }
 
     /// <summary>
-    /// The security style of volume, default unix, defaults to ntfs for dual protocol or CIFS protocol.
+    /// The security style of volume, default unix, defaults to ntfs for dual protocol or CIFS protocol. Allowed values: ntfs, unix. Default: unix.
     /// </summary>
-    [CliFlag("--security-style")]
-    public bool? SecurityStyle { get; set; }
+    [CliOption("--security-style")]
+    public string? SecurityStyle { get; set; }
 
     /// <summary>
-    /// ServiceLevel.
+    /// ServiceLevel. Allowed values: Flexible, Premium, Standard, StandardZRS, Ultra. Default: Premium.
     /// </summary>
-    [CliFlag("--service-level")]
-    public bool? ServiceLevel { get; set; }
+    [CliOption("--service-level")]
+    public string? ServiceLevel { get; set; }
 
     /// <summary>
-    /// Enables access based enumeration share property for SMB Shares.
+    /// Enables access based enumeration share property for SMB Shares. Only applicable for SMB/DualPro tocol volume. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--smb-access-based-enumeration", ShortForm = "--smb-access-enumeration")]
-    public bool? SmbAccessBasedEnumeration { get; set; }
+    [CliOption("--smb-access-based-enumeration", ShortForm = "--smb-access-enumeration")]
+    public string? SmbAccessBasedEnumeration { get; set; }
 
     /// <summary>
-    /// Enables continuously available share property for smb volume.
+    /// Enables continuously available share property for smb volume. Only applicable for SMB volume. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--smb-ca", ShortForm = "--smb-continuously-avl")]
+    [CliOption("--smb-ca", ShortForm = "--smb-continuously-avl")]
     public bool? SmbCa { get; set; }
 
     /// <summary>
-    /// Enables encryption for in-flight smb3 data. Only applicable for
+    /// Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtoco l volume. To be used with swagger version 2020-08-01 or later.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--smb-encryption")]
+    [CliOption("--smb-encryption")]
     public bool? SmbEncryption { get; set; }
 
     /// <summary>
-    /// Enables non browsable property for
+    /// Enables non browsable property for SMB Shares. Only applicable for SMB/DualPro tocol volume. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--smb-non-browsable")]
-    public bool? SmbNonBrowsable { get; set; }
+    [CliOption("--smb-non-browsable")]
+    public string? SmbNonBrowsable { get; set; }
 
     /// <summary>
-    /// If enabled (true) the volume will contain a read- only snapshot directory which provides access to each of the volume's snapshots (defaults to true).  Allowed values: 0, 1, f, false, n, no, t, true, y,
+    /// If enabled (true) the volume will contain a read- only snapshot directory which provides access to each of the volume's snapshots (defaults to true).  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.  Default: True.
     /// </summary>
     [CliOption("--snapshot-dir-visible", ShortForm = "--snapshot-directory-visible")]
-    public string? SnapshotDirVisible { get; set; }
+    public bool? SnapshotDirVisible { get; set; }
 
     /// <summary>
-    /// Resource identifier used to identify the
+    /// Resource identifier used to identify the Snapshot.
     /// </summary>
     [CliOption("--snapshot-id")]
     public string? SnapshotId { get; set; }
 
     /// <summary>
-    /// The Azure
+    /// The Azure Resource URI for a delegated subnet. Must have the delegation Micr osoft.NetApp/vo lumes. Default: default.
     /// </summary>
     [CliFlag("--subnet", ShortForm = "--subnet-id")]
     public bool? Subnet { get; set; }
 
     /// <summary>
-    /// Maximum throughput in
+    /// Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume.
     /// </summary>
     [CliFlag("--throughput-mibps")]
     public bool? ThroughputMibps { get; set; }
 
     /// <summary>
-    /// UNIX permissions for
+    /// UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives re ad/write/execut e permissions to owner and read/execute to group and other users.
     /// </summary>
     [CliFlag("--unix-permissions")]
     public bool? UnixPermissions { get; set; }
 
     /// <summary>
-    /// Maximum storage quota allowed for a file system in GiB.
+    /// Maximum storage quota allowed for a file system in GiB. Default: 100.
     /// </summary>
     [CliFlag("--usage-threshold")]
     public bool? UsageThreshold { get; set; }
 
     /// <summary>
-    /// Name or
+    /// Name or Resource ID of the vnet. If you want to use a vnet in other resource group, please provide the Resource ID instead of the name of the vnet.
     /// </summary>
     [CliOption("--vnet")]
     public string? Vnet { get; set; }
@@ -346,25 +357,25 @@ public record AzNetappfilesVolumeCreateOptions(
     public bool? VolumeSpecName { get; set; }
 
     /// <summary>
-    /// What type of volume is this.
+    /// What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection.
     /// </summary>
     [CliFlag("--volume-type")]
     public bool? VolumeType { get; set; }
 
     /// <summary>
-    /// The desired value of the
+    /// The desired value of the Advanced Ransomware Protection feature state available to the volume. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--desired-arp-state", ShortForm = "--desired-ransomware-protection-state")]
-    public bool? DesiredArpState { get; set; }
+    [CliOption("--desired-arp-state", ShortForm = "--desired-ransomware-protection-state")]
+    public string? DesiredArpState { get; set; }
 
     /// <summary>
-    /// The Path to a
+    /// The Path to a ONTAP Host.
     /// </summary>
     [CliOption("--external-host-name")]
     public string? ExternalHostName { get; set; }
 
     /// <summary>
-    /// The name of a server on the
+    /// The name of a server on the ONTAP Host.
     /// </summary>
     [CliOption("--external-server-name")]
     public string? ExternalServerName { get; set; }
@@ -382,27 +393,27 @@ public record AzNetappfilesVolumeCreateOptions(
     public string? RemoteVolumeId { get; set; }
 
     /// <summary>
-    /// The remote region for the other end of the Volume
+    /// The remote region for the other end of the Volume Replication.
     /// </summary>
     [CliFlag("--remote-volume-region")]
     public bool? RemoteVolumeRegion { get; set; }
 
     /// <summary>
-    /// Schedule.
+    /// Schedule. Allowed values: _10minutely, daily, hourly.
     /// </summary>
-    [CliFlag("--replication-schedule")]
-    public bool? ReplicationSchedule { get; set; }
+    [CliOption("--replication-schedule")]
+    public string? ReplicationSchedule { get; set; }
 
     /// <summary>
-    /// Snapshot Policy
+    /// Snapshot Policy ResourceId.
     /// </summary>
     [CliFlag("--snapshot-policy-id")]
     public bool? SnapshotPolicyId { get; set; }
 
     /// <summary>
-    /// Has relocation been requested for this volume.
+    /// Has relocation been requested for this volume. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--relocation-requested")]
+    [CliOption("--relocation-requested")]
     public bool? RelocationRequested { get; set; }
 
 }

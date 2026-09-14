@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a credential set.
 /// </summary>
+/// <param name="LoginServer">The login server address of the upstream registry such as 'docker.io'.</param>
+/// <param name="Name">The name of the credential set.</param>
+/// <param name="PasswordId">The Azure Key Vault secret ID of the secret containing the password to the upstream registry.</param>
+/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+/// <param name="UsernameId">The Azure Key Vault secret ID of the secret containing the username to the upstream registry.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "credential-set", "create")]

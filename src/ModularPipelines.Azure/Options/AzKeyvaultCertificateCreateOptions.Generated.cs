@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Key Vault certificate.
 /// </summary>
+/// <param name="Policy">JSON encoded policy definition. Use @{file} to load from a file(e.g. @my_policy.json).</param>
+/// <param name="Name">Name of the certificate.</param>
+/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "create")]

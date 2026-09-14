@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get required identities.
 /// </summary>
+/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+/// <param name="MasterSubnet">Name or ID of master vnet subnet.  If name is supplied, `--vnet` must be supplied.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Version">OpenShift version to use for cluster creation.</param>
+/// <param name="WorkerSubnet">Name or ID of worker vnet subnet.  If name is supplied, `--vnet` must be supplied.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aro", "identity", "get-required")]
@@ -33,7 +38,7 @@ public record AzAroIdentityGetRequiredOptions(
     public bool? DiskEncryptionSet { get; set; }
 
     /// <summary>
-    /// Name or ID of vnet.  If name is supplied, `--vnet-resource- group` must be supplied.
+    /// Name or ID of vnet.  If name is supplied, `--vnet-resource-group` must be supplied.
     /// </summary>
     [CliOption("--vnet")]
     public string? Vnet { get; set; }

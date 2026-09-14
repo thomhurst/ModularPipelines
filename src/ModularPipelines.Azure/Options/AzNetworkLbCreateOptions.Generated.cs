@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a load balancer.
 /// </summary>
+/// <param name="Name">The load balancer name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "create")]
@@ -36,7 +38,7 @@ public record AzNetworkLbCreateOptions(
     public string? EdgeZone { get; set; }
 
     /// <summary>
-    /// The name of the frontend IP configuration.  Default:
+    /// The name of the frontend IP configuration.  Default: LoadBalancerFrontEnd.
     /// </summary>
     [CliOption("--frontend-ip-name")]
     public string? FrontendIpName { get; set; }
@@ -50,8 +52,8 @@ public record AzNetworkLbCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -72,7 +74,7 @@ public record AzNetworkLbCreateOptions(
     public string? PrivateIpAddressVersion { get; set; }
 
     /// <summary>
-    /// Load balancer SKU.  Allowed values: Basic, Gateway, Standard.
+    /// Load balancer SKU.  Allowed values: Basic, Gateway, Standard. Default: Standard.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }
@@ -120,13 +122,13 @@ public record AzNetworkLbCreateOptions(
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// The CIDR address prefix to use when creating a new subnet.
+    /// The CIDR address prefix to use when creating a new subnet. Default: 10.0.0.0/24.
     /// </summary>
     [CliFlag("--subnet-address-prefix")]
     public bool? SubnetAddressPrefix { get; set; }
 
     /// <summary>
-    /// The CIDR address prefix to use when creating a new VNet.
+    /// The CIDR address prefix to use when creating a new VNet. Default: 10.0.0.0/16.
     /// </summary>
     [CliFlag("--vnet-address-prefix")]
     public bool? VnetAddressPrefix { get; set; }

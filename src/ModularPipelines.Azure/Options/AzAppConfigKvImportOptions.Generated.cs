@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Import configurations into your App Configuration store from another
 /// </summary>
+/// <param name="Source">The source of importing. Note that importing feature flags from appservice is not supported.  Allowed values: aks, appconfig, appservice, file.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "kv", "import")]
@@ -131,7 +132,7 @@ public record AzAppConfigKvImportOptions(
     public bool? SrcConnectionString { get; set; }
 
     /// <summary>
-    /// If --src-auth-mode is "login", provide endpoint URL of the source App
+    /// If --src-auth-mode is "login", provide endpoint URL of the source App Configuration store.
     /// </summary>
     [CliFlag("--src-endpoint")]
     public bool? SrcEndpoint { get; set; }

@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get information about the specified private endpoint
 /// </summary>
+/// <param name="AccountName">The name of the Batch account. Required.</param>
+/// <param name="Name">The private endpoint connection name. This must be unique within the account.</param>
+/// <param name="ResourceGroup">Name of the resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "private-endpoint-connection", "show")]

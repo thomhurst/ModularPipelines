@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get access credentials for a managed Kubernetes cluster.
 /// </summary>
+/// <param name="Name">Name of the managed cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "get-credentials")]
@@ -24,7 +26,7 @@ public record AzAksGetCredentialsOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Get cluster administrator credentials.  Default: cluster user credentials.
+    /// Get cluster administrator credentials.  Default: cluster user credentials. On clusters with Azure Active Directory integration, this bypasses normal Azure AD authentication and can be used if you're permanently blocked by not having access to a valid Azure AD group with access to your cluster. Requires 'Azure Kubernetes Service Cluster Admin' role.
     /// </summary>
     [CliFlag("--admin", ShortForm = "-a")]
     public bool? Admin { get; set; }

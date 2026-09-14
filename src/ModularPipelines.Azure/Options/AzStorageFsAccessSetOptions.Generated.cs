@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the access control properties of a path(directory or file) in
 /// </summary>
+/// <param name="FileSystem">File system name (i.e. container name).</param>
+/// <param name="Path">The path to a file or directory in the specified file system.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "access", "set")]
@@ -24,7 +26,7 @@ public record AzStorageFsAccessSetOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Invalid in conjunction with acl. POSIX access control rights on files and directories in the format "[scope:][type]:[id]:[permissions]". e.g. "user::rwx,group::r--,other::---,mask::rwx".
+    /// Invalid in conjunction with acl. POSIX access control rights on files and directories in the format "[scope:][type]:[id]:[permissions]". e.g. "user::rwx,group::r--,other::---,mask::rwx". The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]". The scope must be "default" to indicate the ACE belongs to the default ACL for a directory; otherwise scope is implicit and the ACE belongs to the access ACL. There are four ACE types: "user" grants rights to the owner or a named user, "group" grants rights to the owning group or a named group, "mask" restricts rights granted to named users and the members of groups, and "other" grants rights to all users not found in any of the other entries. The user or group identifier is omitted for entries of type "mask" and "other". The user or group identifier is also omitted for the owner and owning group. For example, the following ACL grants read, write, and execute rights to the file owner an john.doe@contoso, the read right to the owning group, and nothing to everyone else: "user::rwx,user:john.doe@contoso:rwx,group::r--,other::---,mask::rwx". For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data-lake-storage-access- control.
     /// </summary>
     [CliFlag("--acl")]
     public bool? Acl { get; set; }
@@ -54,7 +56,7 @@ public record AzStorageFsAccessSetOptions(
     public bool? Permissions { get; set; }
 
     /// <summary>
-    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
     [CliFlag("--account-key")]
     public bool? AccountKey { get; set; }
@@ -72,13 +74,13 @@ public record AzStorageFsAccessSetOptions(
     public bool? BlobEndpoint { get; set; }
 
     /// <summary>
-    /// Storage account connection string. Environment variable:
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }
 
     /// <summary>
-    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
     [CliFlag("--sas-token")]
     public bool? SasToken { get; set; }

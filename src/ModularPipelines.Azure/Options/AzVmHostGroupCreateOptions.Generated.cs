@@ -15,12 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a dedicated host group.
 /// </summary>
+/// <param name="Name">Name of the Dedicated Host Group.</param>
+/// <param name="PlatformFaultDomainCount">Number of fault domains that the host group can span.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "host", "group", "create")]
 public record AzVmHostGroupCreateOptions(
     [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--platform-fault-domain-count", ShortForm = "-c")] string PlatformFaultDomainCount,
+    [property: CliOption("--platform-fault-domain-count", ShortForm = "-c")] int PlatformFaultDomainCount,
     [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
 ) : AzOptions
 {
@@ -33,8 +36,8 @@ public record AzVmHostGroupCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`. Otherwise, location will default to the resource group's location.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.

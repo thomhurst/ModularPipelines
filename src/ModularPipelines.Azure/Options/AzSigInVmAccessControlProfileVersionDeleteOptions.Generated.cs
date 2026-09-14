@@ -51,7 +51,7 @@ public record AzSigInVmAccessControlProfileVersionDeleteOptions : AzOptions
     public string? ProfileName { get; set; }
 
     /// <summary>
-    /// The name of the gallery in VM access control profile version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format:
+    /// The name of the gallery in VM access control profile version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: MajorVersion.MinorVersion.Patch.
     /// </summary>
     [CliOption("--profile-version", ShortForm = "--version-name")]
     public string? ProfileVersion { get; set; }

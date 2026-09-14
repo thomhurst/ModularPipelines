@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates your automatic provisioning settings on
 /// </summary>
+/// <param name="AutoProvision">Automatic provisioning toggle. possible values are "On" or "Off".</param>
+/// <param name="Name">Name of the resource to be fetched.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "auto-provisioning-setting", "update")]

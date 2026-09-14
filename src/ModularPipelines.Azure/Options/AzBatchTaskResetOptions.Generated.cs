@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reset the properties of a Batch task.
 /// </summary>
+/// <param name="JobId">The ID of the Job containing the Task.</param>
+/// <param name="TaskId">The ID of the Task to update.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "task", "reset")]
@@ -26,17 +28,17 @@ public record AzBatchTaskResetOptions(
     /// <summary>
     /// The file containing pool update properties parameter specification in JSON(formatted to match REST API request body). If this parameter is specified, all 'Pool Update Properties Parameter Arguments' are ignored.
     /// </summary>
-    [CliFlag("--json-file")]
-    public bool? JsonFile { get; set; }
+    [CliOption("--json-file")]
+    public string? JsonFile { get; set; }
 
     /// <summary>
-    /// Batch service endpoint. Alternatively, set by environment variable:
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>
     [CliOption("--account-endpoint")]
     public string? AccountEndpoint { get; set; }
 
     /// <summary>
-    /// The Batch account key. Alternatively, set by environment variable:
+    /// The Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
     /// </summary>
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }
@@ -48,7 +50,7 @@ public record AzBatchTaskResetOptions(
     public string? AccountName { get; set; }
 
     /// <summary>
-    /// The maximum number of times the Task may be retried. The Batch service retries a Task if its exit code is nonzero. Note that this value specifically controls the number of retries for the Task executable due to a nonzero exit code. The Batch service will try the Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the Task after the first attempt. If the maximum retry count is
+    /// The maximum number of times the Task may be retried. The Batch service retries a Task if its exit code is nonzero. Note that this value specifically controls the number of retries for the Task executable due to a nonzero exit code. The Batch service will try the Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the Task after the first attempt. If the maximum retry count is -1, the Batch service retries the Task without limit, however this is not recommended for a start task or any task. The default value is 0 (no retries).
     /// </summary>
     [CliFlag("--max-task-retry-count")]
     public bool? MaxTaskRetryCount { get; set; }

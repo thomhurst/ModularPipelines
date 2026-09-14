@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a certificate issuer record.
 /// </summary>
+/// <param name="IssuerName">Certificate issuer name.</param>
+/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "issuer", "update")]
@@ -50,7 +52,7 @@ public record AzKeyvaultCertificateIssuerUpdateOptions(
     /// <summary>
     /// The organization id.
     /// </summary>
-    [CliFlag("--organization-id")]
-    public bool? OrganizationId { get; set; }
+    [CliOption("--organization-id")]
+    public string? OrganizationId { get; set; }
 
 }

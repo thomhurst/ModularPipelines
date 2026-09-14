@@ -39,7 +39,7 @@ public record AzSearchServiceSharedPrivateLinkResourceUpdateOptions : AzOptions
     public bool? ForceString { get; set; }
 
     /// <summary>
-    /// Remove a property or an element from a list.
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
     public IEnumerable<string>? Remove { get; set; }
@@ -63,7 +63,7 @@ public record AzSearchServiceSharedPrivateLinkResourceUpdateOptions : AzOptions
     public string? PrivateLinkResourceId { get; set; }
 
     /// <summary>
-    /// The provisioning state of the shared private link resource. Valid values are Updating, Deleting, Failed, Succeeded or Incomplete. Allowed values: Deleting, Failed, Incomplete,
+    /// The provisioning state of the shared private link resource. Valid values are Updating, Deleting, Failed, Succeeded or Incomplete. Allowed values: Deleting, Failed, Incomplete, Succeeded, Updating.
     /// </summary>
     [CliOption("--provisioning-state")]
     public string? ProvisioningState { get; set; }
@@ -75,19 +75,19 @@ public record AzSearchServiceSharedPrivateLinkResourceUpdateOptions : AzOptions
     public bool? RequestMessage { get; set; }
 
     /// <summary>
-    /// Optional. Can be used to specify the Azure Resource Manager location of the resource for which a shared private link is being created. This is only required for those resources whose DNS configuration are regional (such as Azure
+    /// Optional. Can be used to specify the Azure Resource Manager location of the resource for which a shared private link is being created. This is only required for those resources whose DNS configuration are regional (such as Azure Kubernetes Service).
     /// </summary>
     [CliFlag("--resource-region")]
     public bool? ResourceRegion { get; set; }
 
     /// <summary>
-    /// Status of the shared private link resource. Valid values are Pending, Approved, Rejected or Disconnected.  Allowed values: Approved,
+    /// Status of the shared private link resource. Valid values are Pending, Approved, Rejected or Disconnected.  Allowed values: Approved, Disconnected, Pending, Rejected.
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

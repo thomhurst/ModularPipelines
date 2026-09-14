@@ -27,7 +27,7 @@ public record AzRelayHycoUpdateOptions : AzOptions
     public bool? RequiresClientAuthorization { get; set; }
 
     /// <summary>
-    /// Enumerates the possible values for the status of a messaging entity.  Allowed values: Active, Disabled,
+    /// Enumerates the possible values for the status of a messaging entity.  Allowed values: Active, Disabled, ReceiveDisabled, SendDisabled.
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; set; }

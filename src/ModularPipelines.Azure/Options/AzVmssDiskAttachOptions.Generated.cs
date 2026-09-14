@@ -33,7 +33,7 @@ public record AzVmssDiskAttachOptions : AzOptions
     public bool? Disk { get; set; }
 
     /// <summary>
-    /// 0-based logical unit number (LUN). Max value depends on the Virtual
+    /// 0-based logical unit number (LUN). Max value depends on the Virtual Machine instance size.
     /// </summary>
     [CliFlag("--lun")]
     public bool? Lun { get; set; }
@@ -45,7 +45,7 @@ public record AzVmssDiskAttachOptions : AzOptions
     public bool? SizeGb { get; set; }
 
     /// <summary>
-    /// Underlying storage SKU.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS,
+    /// Underlying storage SKU.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS, UltraSSD_LRS.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }
@@ -69,7 +69,7 @@ public record AzVmssDiskAttachOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// Scale set name. You can configure the default using `az configure
+    /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
     /// </summary>
     [CliFlag("--vmss-name")]
     public bool? VmssName { get; set; }

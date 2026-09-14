@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create Batch tasks.
 /// </summary>
+/// <param name="JobId">The ID of the job containing the task.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "task", "create")]
@@ -37,8 +38,8 @@ public record AzBatchTaskCreateOptions(
     /// <summary>
     /// The command line of the task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux.
     /// </summary>
-    [CliFlag("--command-line")]
-    public bool? CommandLine { get; set; }
+    [CliOption("--command-line")]
+    public string? CommandLine { get; set; }
 
     /// <summary>
     /// A list of environment variable settings for the task. Space- separated values in 'key=value' format.
@@ -71,7 +72,7 @@ public record AzBatchTaskCreateOptions(
     public IEnumerable<string>? ResourceFiles { get; set; }
 
     /// <summary>
-    /// The default is 7 days, i.e. the Task directory will be retained for 7 days unless the Compute Node is removed or the
+    /// The default is 7 days, i.e. the Task directory will be retained for 7 days unless the Compute Node is removed or the Job is deleted.
     /// </summary>
     [CliFlag("--retention-time")]
     public bool? RetentionTime { get; set; }

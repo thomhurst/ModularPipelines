@@ -39,7 +39,7 @@ public record AzSqlMiPartnerCertShowOptions : AzOptions
     public string? InstanceName { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

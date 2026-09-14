@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new role assignment for a user, group, or service
 /// </summary>
+/// <param name="Role">Role name or id.</param>
+/// <param name="Scope">Scope at which the role assignment or definition applies to, e.g., "/" or "/keys" or "/keys/{keyname}".</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "role", "assignment", "create")]

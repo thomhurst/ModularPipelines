@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Managed Instance link between Sql On-Prem and Sql Managed
 /// </summary>
+/// <param name="InstanceName">Name of the managed instance.</param>
+/// <param name="LinkName">Managed Instance link name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "link", "create")]
@@ -31,16 +34,16 @@ public record AzSqlMiLinkCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Databases in the distributed availability group
+    /// Databases in the distributed availability group Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--databases")]
     public bool? Databases { get; set; }
 
     /// <summary>
-    /// The link failover mode - can be
+    /// The link failover mode - can be Manual if intended to be used for two- way failover with a supported SQL Server, or None for one-way failover to Azure.  Allowed values: Manual, None.
     /// </summary>
-    [CliFlag("--failover-mode")]
-    public bool? FailoverMode { get; set; }
+    [CliOption("--failover-mode")]
+    public string? FailoverMode { get; set; }
 
     /// <summary>
     /// Managed instance side availability group name.
@@ -49,16 +52,16 @@ public record AzSqlMiLinkCreateOptions(
     public bool? InstanceAgName { get; set; }
 
     /// <summary>
-    /// Managed instance side link role.
+    /// Managed instance side link role. Allowed values: Primary, Secondary.
     /// </summary>
-    [CliFlag("--instance-link-role")]
-    public bool? InstanceLinkRole { get; set; }
+    [CliOption("--instance-link-role")]
+    public string? InstanceLinkRole { get; set; }
 
     /// <summary>
-    /// Specifies whether the link operates in single-database or multi-database mode.  Allowed
+    /// Specifies whether the link operates in single-database or multi-database mode.  Allowed values: MultiDatabase, SingleDatabase.
     /// </summary>
-    [CliFlag("--link-mode")]
-    public bool? LinkMode { get; set; }
+    [CliOption("--link-mode")]
+    public string? LinkMode { get; set; }
 
     /// <summary>
     /// SQL server side availability group name.
@@ -67,15 +70,15 @@ public record AzSqlMiLinkCreateOptions(
     public bool? PartnerAgName { get; set; }
 
     /// <summary>
-    /// SQL server side endpoint - IP or
+    /// SQL server side endpoint - IP or DNS resolvable name.
     /// </summary>
     [CliFlag("--partner-endpoint")]
     public bool? PartnerEndpoint { get; set; }
 
     /// <summary>
-    /// Database seeding mode – can be
+    /// Database seeding mode – can be Automatic (default), or Manual for supported scenarios.  Allowed values: Automatic, Manual.  Default: Automatic.
     /// </summary>
-    [CliFlag("--seeding-mode")]
-    public bool? SeedingMode { get; set; }
+    [CliOption("--seeding-mode")]
+    public string? SeedingMode { get; set; }
 
 }

@@ -27,7 +27,7 @@ public record AzIotCentralAppPrivateEndpointConnectionDeleteOptions : AzOptions
     public string? AccountName { get; set; }
 
     /// <summary>
-    /// The ID of the private endpoint connection associated with the IoT Central application. If --account-name --resource-group/-g and
+    /// The ID of the private endpoint connection associated with the IoT Central application. If --account-name --resource-group/-g and --name/-n are specified, this should be omitted.
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; set; }

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Adds an Access Restriction to the function app.
 /// </summary>
+/// <param name="Priority">Priority of the access restriction rule.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "config", "access-restriction", "add")]
@@ -23,7 +24,7 @@ public record AzFunctionappConfigAccessRestrictionAddOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Allow or deny access.  Allowed values: Allow, Deny.  Default:
+    /// Allow or deny access.  Allowed values: Allow, Deny.  Default: Allow.
     /// </summary>
     [CliOption("--action")]
     public string? Action { get; set; }

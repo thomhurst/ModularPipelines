@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start Log Replay service on specified database.
 /// </summary>
+/// <param name="Ss">The authorization Sas token to access storage container where backups are.</param>
+/// <param name="StorageUri">The URI of the storage container where backups are.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "midb", "log-replay", "start")]
@@ -42,13 +44,13 @@ public record AzSqlMidbLogReplayStartOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// The storage container identity to use.  Allowed values:
+    /// The storage container identity to use.  Allowed values: ManagedIdentity, SharedAccessSignature.
     /// </summary>
     [CliOption("--si", ShortForm = "--storage-identity")]
     public string? Si { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

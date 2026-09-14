@@ -44,7 +44,7 @@ public class AzMariadbServerPrivateLinkResource
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMariadbServerPrivateLinkResourceListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMariadbServerPrivateLinkResourceListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -21,13 +21,13 @@ namespace ModularPipelines.Azure.Options;
 public record AzContainerappEnvUpdateOptions : AzOptions
 {
     /// <summary>
-    /// The maximum nodes for this workload profile, --workload- profile-name required.
+    /// The maximum nodes for this workload profile, --workload-profile-name required.
     /// </summary>
     [CliFlag("--max-nodes")]
     public bool? MaxNodes { get; set; }
 
     /// <summary>
-    /// The minimum nodes for this workload profile, --workload- profile-name required.
+    /// The minimum nodes for this workload profile, --workload-profile-name required.
     /// </summary>
     [CliFlag("--min-nodes")]
     public bool? MinNodes { get; set; }
@@ -51,7 +51,7 @@ public record AzContainerappEnvUpdateOptions : AzOptions
     public bool? WorkloadProfileName { get; set; }
 
     /// <summary>
-    /// The type of workload profile to add or update in this environment,
+    /// The type of workload profile to add or update in this environment, --workload-profile-name required.
     /// </summary>
     [CliFlag("--workload-profile-type")]
     public bool? WorkloadProfileType { get; set; }
@@ -117,7 +117,7 @@ public record AzContainerappEnvUpdateOptions : AzOptions
     public bool? EnablePeerToPeerEncryption { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids")]
     public IEnumerable<string>? Ids { get; set; }

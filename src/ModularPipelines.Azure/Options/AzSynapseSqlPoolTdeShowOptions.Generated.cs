@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get a SQL pool's transparent data encryption configuration.
 /// </summary>
+/// <param name="TransparentDataEncryptionName">Name of the transparent data encryption.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "tde", "show")]
@@ -43,7 +44,7 @@ public record AzSynapseSqlPoolTdeShowOptions(
     /// <summary>
     /// The workspace name.
     /// </summary>
-    [CliFlag("--workspace-name")]
-    public bool? WorkspaceName { get; set; }
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 
 }

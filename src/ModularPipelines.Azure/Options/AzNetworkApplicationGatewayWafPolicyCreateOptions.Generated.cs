@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an application gateway WAF policy.
 /// </summary>
+/// <param name="Name">Name of the application gateway WAF policy.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "create")]
@@ -26,8 +28,8 @@ public record AzNetworkApplicationGatewayWafPolicyCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -36,13 +38,13 @@ public record AzNetworkApplicationGatewayWafPolicyCreateOptions(
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Type of the web application firewall rule set.  Allowed values: Microsoft_BotManagerRuleSet, Microsoft_DefaultRuleSet, Microsoft_HTTPDDoSRuleSet, OWASP.  Default:
+    /// Type of the web application firewall rule set.  Allowed values: Microsoft_BotManagerRuleSet, Microsoft_DefaultRuleSet, Microsoft_HTTPDDoSRuleSet, OWASP.  Default: Microsoft_DefaultRuleSet.
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; set; }
 
     /// <summary>
-    /// Version of the web application firewall rule set type. 0.1, 1.0, and 1.1 are used for Microsoft_BotManagerRuleSet.
+    /// Version of the web application firewall rule set type. 0.1, 1.0, and 1.1 are used for Microsoft_BotManagerRuleSet. Default: 2.1.
     /// </summary>
     [CliFlag("--version")]
     public bool? Version { get; set; }

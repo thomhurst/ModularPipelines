@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create peering settings for an ExpressRoute circuit.
 /// </summary>
+/// <param name="CircuitName">ExpressRoute circuit name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "peering", "create")]
@@ -36,7 +38,7 @@ public record AzNetworkExpressRoutePeeringCreateOptions(
     public bool? PeerAsn { get; set; }
 
     /// <summary>
-    /// BGP peering type for the circuit.  Allowed values: AzurePrivatePeering, AzurePublicPeering, MicrosoftPeering. Allowed values: AzurePrivatePeering, AzurePublicPeering,
+    /// BGP peering type for the circuit.  Allowed values: AzurePrivatePeering, AzurePublicPeering, MicrosoftPeering. Allowed values: AzurePrivatePeering, AzurePublicPeering, MicrosoftPeering.
     /// </summary>
     [CliOption("--peering-type")]
     public string? PeeringType { get; set; }
@@ -96,7 +98,7 @@ public record AzNetworkExpressRoutePeeringCreateOptions(
     public string? RouteFilter { get; set; }
 
     /// <summary>
-    /// Internet Routing Registry / Regional Internet Registry. Allowed values: AFRINIC, ALTDB, APNIC, ARIN, LACNIC, LEVEL3, RADB, RIPENCC.  Allowed values: AFRINIC, ALTDB, APNIC, ARIN, LACNIC,
+    /// Internet Routing Registry / Regional Internet Registry. Allowed values: AFRINIC, ALTDB, APNIC, ARIN, LACNIC, LEVEL3, RADB, RIPENCC.  Allowed values: AFRINIC, ALTDB, APNIC, ARIN, LACNIC, LEVEL3, RADB, RIPENCC.
     /// </summary>
     [CliOption("--routing-registry-name")]
     public string? RoutingRegistryName { get; set; }

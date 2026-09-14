@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Aborts a pending copy_blob operation, and leaves a
 /// </summary>
+/// <param name="ContainerName">The container name.</param>
+/// <param name="CopyId">Copy identifier provided in the copy.id of the original copy_blob operation.</param>
+/// <param name="Name">The blob name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "blob", "incremental-copy", "cancel")]
@@ -43,7 +46,7 @@ public record AzStorageBlobIncrementalCopyCancelOptions(
     public bool? Timeout { get; set; }
 
     /// <summary>
-    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
     [CliFlag("--account-key")]
     public bool? AccountKey { get; set; }
@@ -61,7 +64,7 @@ public record AzStorageBlobIncrementalCopyCancelOptions(
     public bool? BlobEndpoint { get; set; }
 
     /// <summary>
-    /// Storage account connection string. Environment variable:
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }

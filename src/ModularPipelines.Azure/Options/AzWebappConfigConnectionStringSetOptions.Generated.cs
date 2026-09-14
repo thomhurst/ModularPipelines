@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzWebappConfigConnectionStringSetOptions : AzOptions
 {
     /// <summary>
-    /// Connection string type.  Allowed values: ApiHub, Custom, DocDb, EventHub, MySql, NotificationHub, PostgreSQL, RedisCache,
+    /// Connection string type.  Allowed values: ApiHub, Custom, DocDb, EventHub, MySql, NotificationHub, PostgreSQL, RedisCache, SQLAzure, SQLServer, ServiceBus.
     /// </summary>
     [CliOption("--connection-string-type", ShortForm = "-t")]
     public string? ConnectionStringType { get; set; }

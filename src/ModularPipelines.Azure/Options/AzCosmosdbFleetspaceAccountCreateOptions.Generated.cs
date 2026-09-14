@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Register an existing Cosmos DB database account to a
 /// </summary>
+/// <param name="Body">Fleetspace Account body with properties.globalDatabaseAccountProperties (fields: armLocation, resourceId). You can enter it as a string or as a file, e.g., --body @fleetspaceAccount.json or --body "{ \"properties\": { \"globalDatabaseAccountProperties\": { \"resourceId\": \"/subscriptions/00000000-0000-0000-0000- 000000000000/resourceGroups/example-rg/providers/Micro soft.DocumentDB/databaseAccounts/example-account\", \"armLocation\": \"East US\" } }</param>
+/// <param name="FleetName">Name of the Cosmos DB Fleet.</param>
+/// <param name="FleetspaceAccountName">Name of the Fleetspace Account resource.</param>
+/// <param name="FleetspaceName">Name of the Fleetspace resource.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "fleetspace", "account", "create")]

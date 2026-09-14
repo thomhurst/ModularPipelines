@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a private link service.
 /// </summary>
+/// <param name="Name">Name of the private link service.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-link-service", "create")]
@@ -68,8 +70,8 @@ public record AzNetworkPrivateLinkServiceCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -108,7 +110,7 @@ public record AzNetworkPrivateLinkServiceCreateOptions(
     public string? PrivateIpAddressVersion { get; set; }
 
     /// <summary>
-    /// Private IP address allocation method.  Allowed values: Dynamic,
+    /// Private IP address allocation method.  Allowed values: Dynamic, Static.
     /// </summary>
     [CliOption("--private-ip-allocation-method")]
     public string? PrivateIpAllocationMethod { get; set; }

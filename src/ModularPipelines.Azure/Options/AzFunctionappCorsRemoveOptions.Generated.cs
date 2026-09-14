@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove allowed origins.
 /// </summary>
+/// <param name="AllowedOrigins">Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*" and remove all other origins from the list.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "cors", "remove")]

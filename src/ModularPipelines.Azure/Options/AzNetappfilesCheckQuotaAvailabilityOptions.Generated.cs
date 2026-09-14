@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Check if a quota is available.
 /// </summary>
+/// <param name="Name">Name of the resource to verify.</param>
+/// <param name="ResourceGroup">Resource group name.</param>
+/// <param name="Type">Resource type used for verification.  Allowed values: Microsoft.NetApp/netAppAccounts, Microsoft.NetApp/netAppAccounts/backupVaults/backups, Microsoft.NetApp/netAppAccounts/capacityPools, Microsoft.NetApp/netAppAccounts/capacityPools/volumes, Microsoft.NetApp/netAppAccounts/capacityPools/volumes/backups, Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots .</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "check-quota-availability")]
@@ -33,7 +36,7 @@ public record AzNetappfilesCheckQuotaAvailabilityOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
 }

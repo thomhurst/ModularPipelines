@@ -45,7 +45,7 @@ public record AzSqlVmUpdateOptions : AzOptions
     public string? AgentRg { get; set; }
 
     /// <summary>
-    /// Day of the week to run assessment.  Allowed values: Friday, Monday, Saturday, Sunday,
+    /// Day of the week to run assessment.  Allowed values: Friday, Monday, Saturday, Sunday, Thursday, Tuesday, Wednesday.
     /// </summary>
     [CliOption("--am-day", ShortForm = "--assessment-day-of-week")]
     public string? AmDay { get; set; }
@@ -72,7 +72,7 @@ public record AzSqlVmUpdateOptions : AzOptions
     /// Number of weeks to schedule between 2 assessment runs. Supports value from 1-6. Allowed values: 1, 2, 3, 4, 5, 6.
     /// </summary>
     [CliOption("--am-week-int", ShortForm = "--assessment-weekly-interval")]
-    public string? AmWeekInt { get; set; }
+    public int? AmWeekInt { get; set; }
 
     /// <summary>
     /// Enable or disable assessment feature. If any assessment settings provided, parameter automatically sets to true.  Allowed values: false, true.
@@ -105,7 +105,7 @@ public record AzSqlVmUpdateOptions : AzOptions
     public bool? BackupPwd { get; set; }
 
     /// <summary>
-    /// Backup schedule type.  Allowed values:
+    /// Backup schedule type.  Allowed values: Automated, Manual.
     /// </summary>
     [CliOption("--backup-schedule-type")]
     public string? BackupScheduleType { get; set; }
@@ -195,19 +195,19 @@ public record AzSqlVmUpdateOptions : AzOptions
     public bool? MaintenanceWindowStartHour { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
 
     /// <summary>
-    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
     /// </summary>
     [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
     /// <summary>
-    /// Remove a property or an element from a list.
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
     public IEnumerable<string>? Remove { get; set; }
@@ -249,7 +249,7 @@ public record AzSqlVmUpdateOptions : AzOptions
     public bool? SpSecret { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
@@ -285,13 +285,13 @@ public record AzSqlVmUpdateOptions : AzOptions
     public string? ImageSku { get; set; }
 
     /// <summary>
-    /// SQL Server license type.  Allowed values: AHUB,
+    /// SQL Server license type.  Allowed values: AHUB, DR, PAYG.
     /// </summary>
     [CliOption("--license-type", ShortForm = "-i")]
     public string? LicenseType { get; set; }
 
     /// <summary>
-    /// SQL Server workload type.  Allowed values: DW,
+    /// SQL Server workload type.  Allowed values: DW, GENERAL, OLTP.
     /// </summary>
     [CliOption("--sql-workload-type")]
     public string? SqlWorkloadType { get; set; }

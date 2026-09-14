@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a connection for Azure Cognitive
 /// </summary>
+/// <param name="ConnectionName">Cognitive Services account connection name.</param>
+/// <param name="File">Path to the connection file in JSON or YAML format.</param>
+/// <param name="Name">Cognitive service account name.</param>
+/// <param name="ProjectName">Cognitive Services account project name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "project", "connection", "create")]

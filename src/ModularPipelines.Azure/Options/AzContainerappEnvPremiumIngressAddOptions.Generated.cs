@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable the premium ingress settings for the
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="WorkloadProfileName">The workload profile to run ingress replicas on. This profile must not be shared with any container app or job.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "premium-ingress", "add")]
@@ -32,8 +34,8 @@ public record AzContainerappEnvPremiumIngressAddOptions(
     /// <summary>
     /// Timeout in minutes for idle requests. Default 4, minimum 4, maximum 30.
     /// </summary>
-    [CliFlag("--request-idle-timeout")]
-    public bool? RequestIdleTimeout { get; set; }
+    [CliOption("--request-idle-timeout")]
+    public int? RequestIdleTimeout { get; set; }
 
     /// <summary>
     /// Time in seconds to drain requests during ingress shutdown. Default 500, minimum 0, maximum 3600.

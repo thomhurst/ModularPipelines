@@ -23,8 +23,8 @@ public record AzBatchPoolCreateOptions : AzOptions
     /// <summary>
     /// The file containing pool create properties parameter specification in JSON(formatted to match REST API request body). If this parameter is specified, all 'Pool Create Properties Parameter Arguments' are ignored.  See https://le arn.microsoft.com/rest/api/batchservice/pools/cre ate-pool?tabs=HTTP#request-body.
     /// </summary>
-    [CliFlag("--json-file")]
-    public bool? JsonFile { get; set; }
+    [CliOption("--json-file")]
+    public string? JsonFile { get; set; }
 
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
@@ -45,7 +45,7 @@ public record AzBatchPoolCreateOptions : AzOptions
     public string? AccountName { get; set; }
 
     /// <summary>
-    /// The list of Packages to be installed on each Compute Node in the Pool. When creating a pool, the package's application ID must be fully qualified (/subscriptions/{subscriptionId}/resour ceGroups/{resourceGroupName}/providers/Microsoft.
+    /// The list of Packages to be installed on each Compute Node in the Pool. When creating a pool, the package's application ID must be fully qualified (/subscriptions/{subscriptionId}/resour ceGroups/{resourceGroupName}/providers/Microsoft. Batch/batchAccounts/{accountName}/applications/{a pplicationName}).  # pylint: disable=line-too- long Changes to Package references affect all new Nodes joining the Pool, but do not affect Compute Nodes that are already in the Pool until they are rebooted or reimaged. There is a maximum of 10 Package references on any given Pool. Space- separated application IDs with optional version in 'id[#version]' format.
     /// </summary>
     [CliOption("--application-package-references", GroupValues = true)]
     public IEnumerable<string>? ApplicationPackageReferences { get; set; }
@@ -63,7 +63,7 @@ public record AzBatchPoolCreateOptions : AzOptions
     public bool? EnableInterNodeCommunication { get; set; }
 
     /// <summary>
-    /// A string that uniquely identifies the Pool within the Account. The ID can contain any combination of alphanumeric characters including hyphens and underscores, and cannot contain more than 64 characters. The ID is case-preserving and case- insensitive (that is, you may not have two Pool IDs within an Account that differ only by case).
+    /// A string that uniquely identifies the Pool within the Account. The ID can contain any combination of alphanumeric characters including hyphens and underscores, and cannot contain more than 64 characters. The ID is case-preserving and case- insensitive (that is, you may not have two Pool IDs within an Account that differ only by case). Required.
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; set; }
@@ -77,8 +77,8 @@ public record AzBatchPoolCreateOptions : AzOptions
     /// <summary>
     /// The timeout for allocation of Compute Nodes to the Pool. This timeout applies only to manual scaling; it has no effect when enableAutoScale is set to true. The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). Expected format is an ISO-8601 duration.
     /// </summary>
-    [CliFlag("--resize-timeout")]
-    public bool? ResizeTimeout { get; set; }
+    [CliOption("--resize-timeout")]
+    public int? ResizeTimeout { get; set; }
 
     /// <summary>
     /// The user-specified tags associated with the pool. The user-defined tags to be associated with the Azure Batch Pool. When specified, these tags are propagated to the backing Azure resources associated with the pool. This property can only be specified when the Batch account was created with the poolAllocationMode property set to 'UserSubscription'. Space-separated values in 'key=value' format.
@@ -111,9 +111,9 @@ public record AzBatchPoolCreateOptions : AzOptions
     public bool? VmSize { get; set; }
 
     /// <summary>
-    /// Whether this pool should enable accelerated networking. Accelerated networking enables single root I/O virtualization (SR-IOV) to a VM, which may lead to improved networking performance. For
+    /// Whether this pool should enable accelerated networking. Accelerated networking enables single root I/O virtualization (SR-IOV) to a VM, which may lead to improved networking performance. For more details, see: https://learn.microsoft.com/azure/virtual- network/accelerated-networking-overview. Set true to enable.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--accelerated-networking")]
+    [CliOption("--accelerated-networking")]
     public bool? AcceleratedNetworking { get; set; }
 
     /// <summary>
@@ -165,10 +165,10 @@ public record AzBatchPoolCreateOptions : AzOptions
     public bool? SecurityType { get; set; }
 
     /// <summary>
-    /// The command line of the StartTask. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh
+    /// The command line of the StartTask. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en- us/azure/batch/batch-compute-node-environment- variables). Required.
     /// </summary>
-    [CliFlag("--start-task-command-line")]
-    public bool? StartTaskCommandLine { get; set; }
+    [CliOption("--start-task-command-line")]
+    public string? StartTaskCommandLine { get; set; }
 
     /// <summary>
     /// A list of environment variable settings for the StartTask. Space-separated values in 'key=value' format.
@@ -213,9 +213,9 @@ public record AzBatchPoolCreateOptions : AzOptions
     public bool? DisableAutoRollback { get; set; }
 
     /// <summary>
-    /// Indicates whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available. :code:`&lt;br /&gt;`:code:`&lt;br /&gt;` If this is set to true for
+    /// Indicates whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available. :code:`&lt;br /&gt;`:code:`&lt;br /&gt;` If this is set to true for Windows based pools, `WindowsConfiguration.enableAutomaticUpdates &lt;https://learn.microsoft.com/en-us/rest/api/batch service/pool/add?tabs=HTTP#windowsconfiguration&gt;` _ cannot be set to true. True if flag present. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-auto-os-upgrade")]
+    [CliOption("--enable-auto-os-upgrade")]
     public bool? EnableAutoOsUpgrade { get; set; }
 
     /// <summary>
@@ -267,13 +267,13 @@ public record AzBatchPoolCreateOptions : AzOptions
     public bool? RollbackFailedInstancesOnPolicyBreach { get; set; }
 
     /// <summary>
-    /// A space separated list of DiskEncryptionTargets. current possible values include OsDisk and
+    /// A space separated list of DiskEncryptionTargets. current possible values include OsDisk and TemporaryDisk.
     /// </summary>
     [CliFlag("--disk-encryption-targets")]
     public bool? DiskEncryptionTargets { get; set; }
 
     /// <summary>
-    /// OS image reference. This can be either 'publisher:offer:sku[:version]' format, or a fully qualified ARM image id of the form '/subscr iptions/{subscriptionId}/resourceGroups/{resource
+    /// OS image reference. This can be either 'publisher:offer:sku[:version]' format, or a fully qualified ARM image id of the form '/subscr iptions/{subscriptionId}/resourceGroups/{resource Group}/providers/Microsoft.Compute/images/{imageN ame}'. If 'publisher:offer:sku[:version]' format, version is optional and if omitted latest will be used. Valid values can be retrieved via 'az batch pool supported-images list'. For example: 'Micros oftWindowsServer:WindowsServer:2012-R2- Datacenter:latest'.
     /// </summary>
     [CliFlag("--image")]
     public bool? Image { get; set; }

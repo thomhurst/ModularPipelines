@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a redis cache firewall rule.
 /// </summary>
+/// <param name="EndIp">Highest IP address included in the range.</param>
+/// <param name="RuleName">The name of the firewall rule.</param>
+/// <param name="StartIp">Lowest IP address included in the range.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "firewall-rules", "update")]

@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List maintenance events for a flexible
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServerName">Name of the server.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "maintenance-event", "list")]
@@ -24,7 +26,7 @@ public record AzPostgresFlexibleServerMaintenanceEventListOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Filter maintenance events by status.  Allowed values: Past,
+    /// Filter maintenance events by status.  Allowed values: Past, Upcoming.
     /// </summary>
     [CliOption("--maintenance-status")]
     public string? MaintenanceStatus { get; set; }

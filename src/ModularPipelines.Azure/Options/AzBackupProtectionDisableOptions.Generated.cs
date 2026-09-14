@@ -21,10 +21,10 @@ namespace ModularPipelines.Azure.Options;
 public record AzBackupProtectionDisableOptions : AzOptions
 {
     /// <summary>
-    /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg:
+    /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name. Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.
     /// </summary>
-    [CliFlag("--backup-management-type")]
-    public bool? BackupManagementType { get; set; }
+    [CliOption("--backup-management-type")]
+    public string? BackupManagementType { get; set; }
 
     /// <summary>
     /// Option to delete existing backed up data in the Recovery services vault.  Allowed values: false, true.
@@ -45,7 +45,7 @@ public record AzBackupProtectionDisableOptions : AzOptions
     public string? TenantId { get; set; }
 
     /// <summary>
-    /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values:
+    /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: AzureFileShare, MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase, SQLDataBase, VM.
     /// </summary>
     [CliOption("--workload-type")]
     public string? WorkloadType { get; set; }
@@ -57,13 +57,13 @@ public record AzBackupProtectionDisableOptions : AzOptions
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then
+    /// Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then BackupManagementType is required.
     /// </summary>
     [CliOption("--container-name", ShortForm = "-c")]
     public string? ContainerName { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids")]
     public IEnumerable<string>? Ids { get; set; }

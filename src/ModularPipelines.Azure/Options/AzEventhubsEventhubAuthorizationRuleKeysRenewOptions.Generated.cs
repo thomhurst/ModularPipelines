@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerates the ACS and SAS connection
 /// </summary>
+/// <param name="Key">The access key to regenerate.  Allowed values: PrimaryKey, SecondaryKey.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "eventhub", "authorization-rule", "keys", "renew")]
@@ -31,14 +32,14 @@ public record AzEventhubsEventhubAuthorizationRuleKeysRenewOptions(
     /// <summary>
     /// The authorization rule name.
     /// </summary>
-    [CliFlag("--authorization-rule-name", ShortForm = "--name")]
-    public bool? AuthorizationRuleName { get; set; }
+    [CliOption("--authorization-rule-name", ShortForm = "--name")]
+    public string? AuthorizationRuleName { get; set; }
 
     /// <summary>
     /// The Event Hub name.
     /// </summary>
-    [CliFlag("--eventhub-name")]
-    public bool? EventhubName { get; set; }
+    [CliOption("--eventhub-name")]
+    public string? EventhubName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -49,8 +50,8 @@ public record AzEventhubsEventhubAuthorizationRuleKeysRenewOptions(
     /// <summary>
     /// The Namespace name.
     /// </summary>
-    [CliFlag("--namespace-name")]
-    public bool? NamespaceName { get; set; }
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an alerts suppression rule with scope
 /// </summary>
+/// <param name="Field">Entity name.</param>
+/// <param name="RuleName">The unique name of the alerts suppression rule.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "alerts-suppression-rule", "upsert_scope")]

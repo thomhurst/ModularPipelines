@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a backup policy for Netapp Account.
 /// </summary>
+/// <param name="AccountName">The name of the NetApp account.</param>
+/// <param name="BackupPolicyName">Backup policy Name which uniquely identify backup policy.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "account", "backup-policy", "create")]
@@ -33,8 +36,8 @@ public record AzNetappfilesAccountBackupPolicyCreateOptions(
     /// <summary>
     /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.

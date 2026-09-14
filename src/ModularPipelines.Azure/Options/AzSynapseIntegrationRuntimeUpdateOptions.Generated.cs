@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an integration runtime.
 /// </summary>
+/// <param name="AutoUpdate">Enable or disable the self-hosted integration runtime auto- update.  Allowed values: Off, On.</param>
+/// <param name="UpdateDelayOffset">The time of the day for the self-hosted integration runtime auto-update.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "integration-runtime", "update")]
@@ -44,7 +46,7 @@ public record AzSynapseIntegrationRuntimeUpdateOptions(
     /// <summary>
     /// The workspace name.
     /// </summary>
-    [CliFlag("--workspace-name")]
-    public bool? WorkspaceName { get; set; }
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 
 }

@@ -93,7 +93,7 @@ public record AzContainerappConnectionCreateMongodbAtlasOptions : AzOptions
     public string? Server { get; set; }
 
     /// <summary>
-    /// The resource id of a containerapp. Required if ['--resource- group', '--name'] are not specified.
+    /// The resource id of a containerapp. Required if ['--resource-group', '--name'] are not specified.
     /// </summary>
     [CliOption("--source-id")]
     public string? SourceId { get; set; }
@@ -111,7 +111,7 @@ public record AzContainerappConnectionCreateMongodbAtlasOptions : AzOptions
     public string? VaultId { get; set; }
 
     /// <summary>
-    /// The connection string for secret auth.
+    /// The connection string for secret auth. Usage: --secret secret=XX
     /// </summary>
     [CliFlag("--secret")]
     public bool? Secret { get; set; }

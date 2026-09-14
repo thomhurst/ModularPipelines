@@ -39,13 +39,13 @@ public record AzAccountGetAccessTokenOptions : AzOptions
     public string? ResourceType { get; set; }
 
     /// <summary>
-    /// Space-separated scopes in Microsoft Entra v2.0. Default to Azure
+    /// Space-separated scopes in Microsoft Entra v2.0. Default to Azure Resource Manager.
     /// </summary>
     [CliOption("--scope", GroupValues = true)]
     public IEnumerable<string>? Scope { get; set; }
 
     /// <summary>
-    /// Tenant ID for which the token is acquired. Only available for user and service principal account, not for managed identity or Cloud
+    /// Tenant ID for which the token is acquired. Only available for user and service principal account, not for managed identity or Cloud Shell account.
     /// </summary>
     [CliFlag("--tenant", ShortForm = "-t")]
     public bool? Tenant { get; set; }

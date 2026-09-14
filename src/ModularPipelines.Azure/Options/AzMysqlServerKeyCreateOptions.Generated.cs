@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create server key.
 /// </summary>
+/// <param name="Kid">The Azure Key Vault key identifier of the server key. An example key identifier is "https://YourVaultName.vault.azure.ne t/keys/YourKeyName/01234567890123456789012345678901".</param>
+/// <param name="Name">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "server", "key", "create")]

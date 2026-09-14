@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Invoke a Spark statement.
 /// </summary>
+/// <param name="Code">The code of Spark statement. This is either the code contents or use `@&lt;file path&gt;` to load the content from a file.</param>
+/// <param name="Language">The language of Spark statement.  Allowed values: CSharp, PySpark, Python, SQL, Scala, Spark, SparkDotNet.</param>
+/// <param name="SessionId">The id of Spark session.</param>
+/// <param name="SparkPoolName">The name of the Spark pool.</param>
+/// <param name="WorkspaceName">The name of the workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "statement", "invoke")]

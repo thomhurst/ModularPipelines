@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add or update alerts in the issue.
 /// </summary>
+/// <param name="Value">A list of related alerts  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "account", "issue", "add-or-update-alert")]

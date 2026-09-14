@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Lists the files in a Task's directory on its Compute Node.
 /// </summary>
+/// <param name="JobId">The ID of the Job that contains the Task. Required.</param>
+/// <param name="TaskId">The ID of the Task whose files you want to list. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "task", "file", "list")]
@@ -30,19 +32,19 @@ public record AzBatchTaskFileListOptions(
     public bool? Recursive { get; set; }
 
     /// <summary>
-    /// Batch service endpoint. Alternatively, set by environment variable:
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>
     [CliOption("--account-endpoint")]
     public string? AccountEndpoint { get; set; }
 
     /// <summary>
-    /// Batch account key. Alternatively, set by environment variable:
+    /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
     /// </summary>
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }
 
     /// <summary>
-    /// Batch account name. Alternatively, set by environment variable:
+    /// Batch account name. Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
     /// </summary>
     [CliOption("--account-name")]
     public string? AccountName { get; set; }

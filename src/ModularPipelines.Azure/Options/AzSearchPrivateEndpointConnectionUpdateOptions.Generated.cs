@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an existing private endpoint connection in
 /// </summary>
+/// <param name="ActionsRequired">Custom 'actions required' message when updating the private endpoint connection resource.</param>
+/// <param name="Description">Custom description when updating the private endpoint connection resource.</param>
+/// <param name="Name">Name of the private endpoint connection resource; for example: {the name of the private endpoint resource}.{guid}.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServiceName">The name of the search service.</param>
+/// <param name="Status">The updated status of the private endpoint connection resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "private-endpoint-connection", "update")]

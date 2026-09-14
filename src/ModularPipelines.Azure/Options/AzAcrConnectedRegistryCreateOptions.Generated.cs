@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a connected registry for an Azure Container Registry.
 /// </summary>
+/// <param name="Name">Name for the connected registry. Name must be between 5 to 40 character long, start with a letter and contain only alphanumeric characters (including ‘_’ or ‘-’). Name must be unique under the Cloud ACR hierarchy.</param>
+/// <param name="Registry">The login server of the Cloud ACR registry. Must be the FQDN to support also Azure Stack.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "connected-registry", "create")]
@@ -42,7 +44,7 @@ public record AzAcrConnectedRegistryCreateOptions(
     public bool? GcSchedule { get; set; }
 
     /// <summary>
-    /// Set the log level for logging on the instance. Accepted log levels are Debug, Information, Warning, Error, and None.  Default:
+    /// Set the log level for logging on the instance. Accepted log levels are Debug, Information, Warning, Error, and None.  Default: Information.
     /// </summary>
     [CliFlag("--log-level")]
     public bool? LogLevel { get; set; }

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List soft-deleted Recovery Services vaults.
 /// </summary>
+/// <param name="Location">Location of the deleted vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "deleted-vault", "list")]

@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets the ACS and SAS connection strings for
 /// </summary>
+/// <param name="AuthorizationRuleName">The authorization rule name.</param>
+/// <param name="EventhubName">The Event Hub name.</param>
+/// <param name="NamespaceName">The Namespace name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "eventhub", "authorization-rule", "keys", "list")]

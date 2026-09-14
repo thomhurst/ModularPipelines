@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a tag value.
 /// </summary>
+/// <param name="Name">The tag name.</param>
+/// <param name="Value">The tag value.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tag", "add-value")]

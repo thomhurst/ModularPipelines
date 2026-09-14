@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Checks whether or not the given search service name
 /// </summary>
+/// <param name="Name">The search service name to validate. Search service names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in length.</param>
+/// <param name="Type">The type of the resource whose name is to be validated. This value must always be 'searchServices'.  Allowed values: searchServices.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "service", "check-name-availability")]

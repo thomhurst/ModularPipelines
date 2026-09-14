@@ -16,6 +16,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove secrets from a container app.
 /// </summary>
+/// <param name="SecretNames">A list of secret(s) for the container app. Space-separated secret values names.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "secret", "remove")]

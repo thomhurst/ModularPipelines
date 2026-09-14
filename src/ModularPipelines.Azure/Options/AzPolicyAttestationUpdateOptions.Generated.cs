@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an existing policy attestation.
 /// </summary>
+/// <param name="AttestationName">The name of the attestation.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "attestation", "update")]
@@ -35,7 +36,7 @@ public record AzPolicyAttestationUpdateOptions(
     public bool? Comments { get; set; }
 
     /// <summary>
-    /// The compliance state that should be set on the resource.  Allowed values: Compliant,
+    /// The compliance state that should be set on the resource.  Allowed values: Compliant, NonCompliant, Unknown.
     /// </summary>
     [CliOption("--compliance-state")]
     public string? ComplianceState { get; set; }

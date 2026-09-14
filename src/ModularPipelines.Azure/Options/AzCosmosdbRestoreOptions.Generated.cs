@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new Azure Cosmos DB database account by restoring from an
 /// </summary>
+/// <param name="AccountName">Name of the source Cosmos DB database account for the restore.</param>
+/// <param name="Location">This is the write region of the restored account. This is also the location of the source account where its backups are located if source_backup_location is not provided.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="RestoreTimestamp">The timestamp to which the account has to be restored to.</param>
+/// <param name="TargetDatabaseAccountName">Name of the new target Cosmos DB database account after the restore.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "restore")]
@@ -33,7 +38,7 @@ public record AzCosmosdbRestoreOptions(
     public IEnumerable<string>? AssignIdentity { get; set; }
 
     /// <summary>
-    /// Add a database and its collection names to restore.
+    /// Add a database and its collection names to restore. Usage:          --databases-to-restore name=DatabaseName collections=collection1 [collection2 ...] Multiple databases can be specified by using more than one `--databases-to-restore` argument.
     /// </summary>
     [CliFlag("--databases-to-restore")]
     public bool? DatabasesToRestore { get; set; }
@@ -57,13 +62,13 @@ public record AzCosmosdbRestoreOptions(
     public bool? DisableTtl { get; set; }
 
     /// <summary>
-    /// Add a gremlin database and its graph names to restore.
+    /// Add a gremlin database and its graph names to restore. Usage:          --gremlin-databases-to-restore name=DatabaseName graphs=graph1 [graph2 ...].
     /// </summary>
     [CliFlag("--gremlin-databases-to-restore")]
     public bool? GremlinDatabasesToRestore { get; set; }
 
     /// <summary>
-    /// Sets public network access in server to either Enabled or Disabled.  Allowed values: DISABLED,
+    /// Sets public network access in server to either Enabled or Disabled.  Allowed values: DISABLED, ENABLED.
     /// </summary>
     [CliOption("--public-network-access", ShortForm = "-p")]
     public string? PublicNetworkAccess { get; set; }
@@ -75,7 +80,7 @@ public record AzCosmosdbRestoreOptions(
     public bool? SourceBackupLocation { get; set; }
 
     /// <summary>
-    /// Add table names to restore.
+    /// Add table names to restore. Usage:          --tables-to-restore table1 [table2 ...].
     /// </summary>
     [CliFlag("--tables-to-restore")]
     public bool? TablesToRestore { get; set; }

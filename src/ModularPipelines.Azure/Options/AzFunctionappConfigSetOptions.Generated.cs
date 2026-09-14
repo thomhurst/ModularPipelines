@@ -129,7 +129,7 @@ public record AzFunctionappConfigSetOptions : AzOptions
     public string? Slot { get; set; }
 
     /// <summary>
-    /// The startup file for linux hosted web apps, e.g. 'process.json' for
+    /// The startup file for linux hosted web apps, e.g. 'process.json' for Node.js web.
     /// </summary>
     [CliFlag("--startup-file")]
     public bool? StartupFile { get; set; }

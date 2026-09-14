@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a capacity pool.
 /// </summary>
+/// <param name="AccountName">The name of the NetApp account.</param>
+/// <param name="Name">The name of the capacity pool.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "pool", "create")]
@@ -33,8 +36,8 @@ public record AzNetappfilesPoolCreateOptions(
     /// <summary>
     /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
@@ -67,7 +70,7 @@ public record AzNetappfilesPoolCreateOptions(
     public string? QosType { get; set; }
 
     /// <summary>
-    /// ServiceLevel.  Allowed values: Flexible, Premium, Standard, StandardZRS, Ultra.  Default:
+    /// ServiceLevel.  Allowed values: Flexible, Premium, Standard, StandardZRS, Ultra.  Default: Premium.
     /// </summary>
     [CliOption("--service-level")]
     public string? ServiceLevel { get; set; }
@@ -79,7 +82,7 @@ public record AzNetappfilesPoolCreateOptions(
     public bool? Size { get; set; }
 
     /// <summary>
-    /// Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). Use either --size or
+    /// Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). Use either --size or --size-in-bytes, not both.
     /// </summary>
     [CliOption("--size-in-bytes")]
     public string? SizeInBytes { get; set; }

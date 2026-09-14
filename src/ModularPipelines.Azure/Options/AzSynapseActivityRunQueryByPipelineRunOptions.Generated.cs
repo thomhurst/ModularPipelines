@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Query activity runs based on input filter
 /// </summary>
+/// <param name="LastUpdatedAfter">The time at or after which the run event was updated in 'ISO 8601' format.</param>
+/// <param name="LastUpdatedBefore">The time at or before which the run event was updated in 'ISO 8601' format.</param>
+/// <param name="Name">The pipeline name.</param>
+/// <param name="RunId">The pipeline run identifier.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "activity-run", "query-by-pipeline-run")]

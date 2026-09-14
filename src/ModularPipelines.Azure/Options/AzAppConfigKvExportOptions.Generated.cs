@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Export configurations to another place from your App Configuration
 /// </summary>
+/// <param name="Destination">The destination of exporting. Note that exporting feature flags to appservice is not supported.  Allowed values: appconfig, appservice, file.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "kv", "export")]

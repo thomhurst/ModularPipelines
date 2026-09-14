@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Sets the ImmutabilityPolicy to Locked state.
 /// </summary>
+/// <param name="AccountName">Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT.</param>
+/// <param name="ContainerName">The container name.</param>
+/// <param name="IfMatch">An ETag value, or the wildcard character (*). Specify this header to perform the operation only if the resource's ETag matches the value specified.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container", "immutability-policy", "lock")]

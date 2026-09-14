@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore soft-deleted path.
 /// </summary>
+/// <param name="DeletedPathName">Specifies the path (file or directory) to restore.</param>
+/// <param name="DeletionId">Specifies the version of the deleted path to restore. :keyword int timeout: Sets the server-side timeout for the operation in seconds. For more details see https://learn.microsoft.com/rest/api/storageservices/setting- timeouts-for-blob-service-operations. This value is not tracked or validated on the client. To configure client-side network timesouts see `here &lt;https://github.com/Azure/azure-sdk-for- python/tree/main/sdk/storage/azure-storage-file-datalake #other-client--per-operation-configuration&gt;`_.</param>
+/// <param name="FileSystem">File system name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "undelete-path")]
@@ -37,7 +40,7 @@ public record AzStorageFsUndeletePathOptions(
     public bool? Timeout { get; set; }
 
     /// <summary>
-    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
     [CliFlag("--account-key")]
     public bool? AccountKey { get; set; }
@@ -55,7 +58,7 @@ public record AzStorageFsUndeletePathOptions(
     public bool? BlobEndpoint { get; set; }
 
     /// <summary>
-    /// Storage account connection string. Environment variable:
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }

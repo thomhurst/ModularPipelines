@@ -21,10 +21,10 @@ namespace ModularPipelines.Azure.Options;
 public record AzNetworkCrossRegionLbWaitOptions : AzOptions
 {
     /// <summary>
-    /// Controls verbosity of the returned load balancer resource. When set to 'Reduced', read-only back-reference collections (e.g., rules referencing frontendIPConfigurations) are omitted from the response.
+    /// Controls verbosity of the returned load balancer resource. When set to 'Reduced', read-only back-reference collections (e.g., rules referencing frontendIPConfigurations) are omitted from the response. Allowed values: Reduced.
     /// </summary>
-    [CliFlag("--detail-level")]
-    public bool? DetailLevel { get; set; }
+    [CliOption("--detail-level")]
+    public string? DetailLevel { get; set; }
 
     /// <summary>
     /// Expands referenced resources. Default value is None.

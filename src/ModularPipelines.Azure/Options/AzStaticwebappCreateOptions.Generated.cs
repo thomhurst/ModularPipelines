@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a static app. To provide content to the static web app and
 /// </summary>
+/// <param name="Name">Name of the static site.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "create")]
@@ -26,20 +28,20 @@ public record AzStaticwebappCreateOptions(
     /// <summary>
     /// Location of your Azure Functions code. For example, '/api' represents a folder called 'api'.
     /// </summary>
-    [CliFlag("--api-location")]
-    public bool? ApiLocation { get; set; }
+    [CliOption("--api-location")]
+    public string? ApiLocation { get; set; }
 
     /// <summary>
     /// Location of your application code. For example, '/' represents the root of your app, while '/app' represents a directory called 'app'.  Default: /.
     /// </summary>
-    [CliFlag("--app-location")]
-    public bool? AppLocation { get; set; }
+    [CliOption("--app-location")]
+    public string? AppLocation { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.  Default: centralus.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -78,7 +80,7 @@ public record AzStaticwebappCreateOptions(
     public bool? LoginWithAdo { get; set; }
 
     /// <summary>
-    /// Interactively log in with Github to retrieve the Personal
+    /// Interactively log in with Github to retrieve the Personal Access Token.
     /// </summary>
     [CliFlag("--login-with-github")]
     public bool? LoginWithGithub { get; set; }

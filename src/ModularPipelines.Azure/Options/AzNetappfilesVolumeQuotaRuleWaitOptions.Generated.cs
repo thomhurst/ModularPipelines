@@ -27,7 +27,7 @@ public record AzNetappfilesVolumeQuotaRuleWaitOptions : AzOptions
     public string? AccountName { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids")]
     public IEnumerable<string>? Ids { get; set; }
@@ -45,7 +45,7 @@ public record AzNetappfilesVolumeQuotaRuleWaitOptions : AzOptions
     public string? PoolName { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
@@ -63,7 +63,7 @@ public record AzNetappfilesVolumeQuotaRuleWaitOptions : AzOptions
     public bool? Created { get; set; }
 
     /// <summary>
-    /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instance
+    /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instance View.statuses[?code=='PowerState/running' ].
     /// </summary>
     [CliFlag("--custom")]
     public bool? Custom { get; set; }

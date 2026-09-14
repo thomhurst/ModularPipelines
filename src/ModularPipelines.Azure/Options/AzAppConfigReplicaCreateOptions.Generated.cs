@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new replica of an App Configuration store.
 /// </summary>
+/// <param name="Location">Location at which to create the replica.</param>
+/// <param name="Name">Name of the replica of the App Configuration store.</param>
+/// <param name="StoreName">Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "replica", "create")]

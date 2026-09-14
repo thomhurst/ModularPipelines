@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Copy a blob asynchronously. Use `az storage blob show` to check the
 /// </summary>
+/// <param name="DestinationBlob">Name of the destination blob. If it exists, it will be overwritten.</param>
+/// <param name="DestinationContainer">The container name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "blob", "copy", "start")]
@@ -36,7 +38,7 @@ public record AzStorageBlobCopyStartOptions(
     public string? DestinationBlobType { get; set; }
 
     /// <summary>
-    /// The lease ID specified for this header must match the lease ID of the destination blob. If the request does not include the lease ID or it is not valid, the operation fails with status code 412 (Precondition
+    /// The lease ID specified for this header must match the lease ID of the destination blob. If the request does not include the lease ID or it is not valid, the operation fails with status code 412 (Precondition Failed).
     /// </summary>
     [CliFlag("--destination-lease-id")]
     public bool? DestinationLeaseId { get; set; }
@@ -110,8 +112,8 @@ public record AzStorageBlobCopyStartOptions(
     /// <summary>
     /// The file path for the source storage account.
     /// </summary>
-    [CliFlag("--source-path")]
-    public bool? SourcePath { get; set; }
+    [CliOption("--source-path")]
+    public string? SourcePath { get; set; }
 
     /// <summary>
     /// The shared access signature for the source storage account.
@@ -186,13 +188,13 @@ public record AzStorageBlobCopyStartOptions(
     public bool? AccountName { get; set; }
 
     /// <summary>
-    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable:
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
     [CliFlag("--blob-endpoint")]
     public bool? BlobEndpoint { get; set; }
 
     /// <summary>
-    /// Storage account connection string. Environment variable:
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }

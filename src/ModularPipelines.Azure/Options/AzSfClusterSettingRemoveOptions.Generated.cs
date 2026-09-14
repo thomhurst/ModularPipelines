@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove settings from a cluster.
 /// </summary>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "cluster", "setting", "remove")]
@@ -36,7 +38,7 @@ public record AzSfClusterSettingRemoveOptions(
     public bool? Section { get; set; }
 
     /// <summary>
-    /// JSON encoded parameters configuration. Use @{file} to load from a file. For example:
+    /// JSON encoded parameters configuration. Use @{file} to load from a file. For example: [{"section": "NamingService","parameter": "MaxOperationTimeout"}].
     /// </summary>
     [CliFlag("--settings-section", ShortForm = "--settings-section-description")]
     public bool? SettingsSection { get; set; }

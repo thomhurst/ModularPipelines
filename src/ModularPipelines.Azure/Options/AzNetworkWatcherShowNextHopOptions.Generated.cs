@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get information on the `next hop` of a VM.
 /// </summary>
+/// <param name="DestIp">Destination IPv4 address.</param>
+/// <param name="SourceIp">Source IPv4 address.</param>
+/// <param name="Vm">Name or ID of the VM to target. If the name of the VM is provided, the `--resource-group` is required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "show-next-hop")]

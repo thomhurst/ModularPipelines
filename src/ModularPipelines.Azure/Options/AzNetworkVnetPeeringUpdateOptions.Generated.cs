@@ -75,7 +75,7 @@ public record AzNetworkVnetPeeringUpdateOptions : AzOptions
     public string? RemoteVnet { get; set; }
 
     /// <summary>
-    /// Parameter indicates the intention to sync the peering with the current address space on the remote vNet after it's updated.
+    /// Parameter indicates the intention to sync the peering with the current address space on the remote vNet after it's updated. Allowed values: true.
     /// </summary>
     [CliOption("--sync-remote")]
     public string? SyncRemote { get; set; }
@@ -105,7 +105,7 @@ public record AzNetworkVnetPeeringUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }

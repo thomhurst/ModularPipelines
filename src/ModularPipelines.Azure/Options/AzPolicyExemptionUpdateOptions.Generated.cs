@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a policy exemption.
 /// </summary>
+/// <param name="Name">The name of the policy exemption.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "exemption", "update")]
@@ -59,7 +60,7 @@ public record AzPolicyExemptionUpdateOptions(
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// The assignment scope validation.  Allowed values:
+    /// The assignment scope validation.  Allowed values: Default, DoNotValidate.
     /// </summary>
     [CliOption("--assignment-scope-validation", ShortForm = "-v")]
     public string? AssignmentScopeValidation { get; set; }
@@ -77,7 +78,7 @@ public record AzPolicyExemptionUpdateOptions(
     public bool? DisplayName { get; set; }
 
     /// <summary>
-    /// The policy exemption category.  Allowed values:
+    /// The policy exemption category.  Allowed values: Mitigated, Waiver.
     /// </summary>
     [CliOption("--exemption-category", ShortForm = "-e")]
     public string? ExemptionCategory { get; set; }

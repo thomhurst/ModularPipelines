@@ -27,7 +27,7 @@ public record AzMonitorActivityLogAlertUpdateOptions : AzOptions
     public IEnumerable<string>? AllOf { get; set; }
 
     /// <summary>
-    /// The condition that will cause the alert rule to activate. The format is FIELD=VALUE[ and FIELD=VALUE...]
+    /// The condition that will cause the alert rule to activate. The format is FIELD=VALUE[ and FIELD=VALUE...] The possible values for the field are 'resourceId', 'category', 'caller', 'level', 'operationName', 'resourceGroup', 'resourceProvider', 'status', 'subStatus', 'resourceType', or anything beginning with 'properties'. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--condition", ShortForm = "-c")]
     public bool? Condition { get; set; }

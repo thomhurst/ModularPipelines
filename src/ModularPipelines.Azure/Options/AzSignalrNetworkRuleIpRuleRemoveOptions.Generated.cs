@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove IP rule from SignalR Service.
 /// </summary>
+/// <param name="IpRule">The IP rule for the hub.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "network-rule", "ip-rule", "remove")]

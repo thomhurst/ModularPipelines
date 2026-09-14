@@ -93,13 +93,13 @@ public record AzSignalrUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Default action to apply when no rule matches.  Allowed values:
+    /// Default action to apply when no rule matches.  Allowed values: Allow, Deny.
     /// </summary>
     [CliOption("--default-action")]
     public string? DefaultAction { get; set; }

@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an API Management service instance.
 /// </summary>
+/// <param name="Name">Unique name of the service instance to be created. The name must be globally unique since it will be included as the gateway hostname like' https://my-api-servicename.azure-api.net'.  See examples.</param>
+/// <param name="PublisherEmail">The e-mail address to receive all system notifications.</param>
+/// <param name="PublisherName">The name of your organization for use in the developer portal and e-mail notifications.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "create")]
@@ -46,8 +50,8 @@ public record AzApimCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -68,7 +72,7 @@ public record AzApimCreateOptions(
     public bool? SkuCapacity { get; set; }
 
     /// <summary>
-    /// The sku of the api management instance.  Allowed values: Basic, Consumption, Developer, Isolated, Premium, Standard.  Default:
+    /// The sku of the api management instance.  Allowed values: Basic, Consumption, Developer, Isolated, Premium, Standard.  Default: Developer.
     /// </summary>
     [CliOption("--sku-name")]
     public string? SkuName { get; set; }

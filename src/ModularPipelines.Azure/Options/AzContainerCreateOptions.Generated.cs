@@ -16,6 +16,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a container group.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "create")]
@@ -26,8 +27,8 @@ public record AzContainerCreateOptions(
     /// <summary>
     /// The command line to run when the container is started, e.g. '/bin/bash -c myscript.sh'.
     /// </summary>
-    [CliFlag("--command-line")]
-    public bool? CommandLine { get; set; }
+    [CliOption("--command-line")]
+    public string? CommandLine { get; set; }
 
     /// <summary>
     /// A list of config map key-value pairs for the container. Space-separated values in 'key=value' format.
@@ -74,8 +75,8 @@ public record AzContainerCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// The required memory of the containers in GB, accurate to one decimal place.
@@ -96,7 +97,7 @@ public record AzContainerCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// The OS type of the containers.  Allowed values:
+    /// The OS type of the containers.  Allowed values: Linux, Windows.
     /// </summary>
     [CliOption("--os-type")]
     public string? OsType { get; set; }
@@ -114,13 +115,13 @@ public record AzContainerCreateOptions(
     public bool? Priority { get; set; }
 
     /// <summary>
-    /// The network protocol to use.  Allowed values:
+    /// The network protocol to use.  Allowed values: TCP, UDP.
     /// </summary>
     [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
     /// <summary>
-    /// Restart policy for all containers within the container group.  Allowed values: Always,
+    /// Restart policy for all containers within the container group.  Allowed values: Always, Never, OnFailure.
     /// </summary>
     [CliOption("--restart-policy")]
     public string? RestartPolicy { get; set; }

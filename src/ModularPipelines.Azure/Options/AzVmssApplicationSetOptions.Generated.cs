@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set applications for VMSS.
 /// </summary>
+/// <param name="AppVersionIds">Space-separated application version ids to set to VM.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "application", "set")]
@@ -29,7 +30,7 @@ public record AzVmssApplicationSetOptions(
     public IEnumerable<string>? AppConfigOverrides { get; set; }
 
     /// <summary>
-    /// Space-separated list of true or false corresponding to the application version ids. If set to true, when a new Gallery Application version is available in PIR/SIG, it will be automatically updated for the
+    /// Space-separated list of true or false corresponding to the application version ids. If set to true, when a new Gallery Application version is available in PIR/SIG, it will be automatically updated for the VM/VMSS.
     /// </summary>
     [CliOption("--enable-auto-upgrade", ShortForm = "--enable-automatic-upgrade", GroupValues = true)]
     public IEnumerable<string>? EnableAutoUpgrade { get; set; }

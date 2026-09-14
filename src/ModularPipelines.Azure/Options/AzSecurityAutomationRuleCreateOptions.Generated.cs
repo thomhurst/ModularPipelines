@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates security automation rule.
 /// </summary>
+/// <param name="ExpectedValue">The expected value.</param>
+/// <param name="Operator">A valid comparer operator to use. A case-insensitive comparison will be applied for String PropertyType.</param>
+/// <param name="PropertyJPath">The JPath of the entity model property that should be checked.</param>
+/// <param name="PropertyType">The data type of the compared operands (string, integer, floating point number or a boolean [true/false]].</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "automation-rule", "create")]

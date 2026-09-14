@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete synapse managed private endpoints in a
 /// </summary>
+/// <param name="PeName">The managed private endpoint name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "managed-private-endpoints", "delete")]
@@ -37,7 +38,7 @@ public record AzSynapseManagedPrivateEndpointsDeleteOptions(
     /// <summary>
     /// The workspace name.
     /// </summary>
-    [CliFlag("--workspace-name")]
-    public bool? WorkspaceName { get; set; }
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 
 }

@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a match
 /// </summary>
+/// <param name="MatchVariables">Space-separated list of variables to use when matching. Variable values: RemoteAddr, RequestMethod, QueryString, PostArgs, RequestUri, RequestHeaders, RequestBody, RequestCookies.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.</param>
+/// <param name="Name">Name of the WAF policy rule.</param>
+/// <param name="Operator">Operator for matching.  Allowed values: Any, BeginsWith, Contains, EndsWith, Equal, GeoMatch, GreaterThan, GreaterThanOrEqual, IPMatch, LessThan, LessThanOrEqual, Regex.</param>
+/// <param name="PolicyName">Name of the application gateway WAF policy.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "custom-rule", "match-condition", "add")]

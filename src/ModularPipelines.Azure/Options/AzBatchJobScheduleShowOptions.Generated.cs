@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets information about the specified Job Schedule.
 /// </summary>
+/// <param name="JobScheduleId">The ID of the Job Schedule to get. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "job-schedule", "show")]
@@ -29,13 +30,13 @@ public record AzBatchJobScheduleShowOptions(
     public string? AccountEndpoint { get; set; }
 
     /// <summary>
-    /// Batch account key. Alternatively, set by environment variable:
+    /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
     /// </summary>
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }
 
     /// <summary>
-    /// Batch account name. Alternatively, set by environment variable:
+    /// Batch account name. Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
     /// </summary>
     [CliOption("--account-name")]
     public string? AccountName { get; set; }

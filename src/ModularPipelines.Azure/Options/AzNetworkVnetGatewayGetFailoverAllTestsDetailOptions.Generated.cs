@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// This operation retrieves the details of
 /// </summary>
+/// <param name="FetchLatest">Fetch only the latest tests for each peering location. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
+/// <param name="Type">The type of failover test.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "get-failover-all-tests-detail")]

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Export the specified template spec version and artifacts (if any) to the
 /// </summary>
+/// <param name="OutputFolder">Existing folder to output export(s).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ts", "export")]

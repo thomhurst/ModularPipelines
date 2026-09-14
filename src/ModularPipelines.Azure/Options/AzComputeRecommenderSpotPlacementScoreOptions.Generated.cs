@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Generate placement scores for Spot VM skus.
 /// </summary>
+/// <param name="DesiredLocations">The desired regions  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+/// <param name="DesiredSizes">The desired resource SKUs.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute-recommender", "spot-placement-score")]
@@ -32,8 +34,8 @@ public record AzComputeRecommenderSpotPlacementScoreOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Defines if the scope is zonal or regional.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.

@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Manage Azure Cognitive Services accounts.
 /// </summary>
+/// <param name="Kind">The API name of cognitive services account. Values from: az cognitiveservices account list- kinds.</param>
+/// <param name="Location">Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+/// <param name="Name">Cognitive service account name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Sku">Name of the Sku of Cognitive Services account/deployment.  Values from: az cognitiveservices account list-skus.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "create")]
@@ -39,13 +44,13 @@ public record AzCognitiveservicesAccountCreateOptions(
     public bool? AssignIdentity { get; set; }
 
     /// <summary>
-    /// User domain assigned to the account. Name is the
+    /// User domain assigned to the account. Name is the CNAME source.
     /// </summary>
     [CliFlag("--custom-domain")]
     public bool? CustomDomain { get; set; }
 
     /// <summary>
-    /// The encryption properties for this resource, in
+    /// The encryption properties for this resource, in JSON format.
     /// </summary>
     [CliFlag("--encryption")]
     public bool? Encryption { get; set; }

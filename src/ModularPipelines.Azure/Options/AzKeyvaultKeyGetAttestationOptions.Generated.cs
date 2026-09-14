@@ -23,8 +23,8 @@ public record AzKeyvaultKeyGetAttestationOptions : AzOptions
     /// <summary>
     /// File to receive the key's attestation if you want to save it.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
     /// <summary>
     /// Name of the HSM. Required if --id is not specified.

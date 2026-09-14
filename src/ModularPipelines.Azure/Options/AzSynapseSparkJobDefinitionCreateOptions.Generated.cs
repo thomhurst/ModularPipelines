@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a spark job definition.
 /// </summary>
+/// <param name="File">Properties may be supplied from a JSON file using the `@{path}` syntax or a JSON string.</param>
+/// <param name="Name">The spark job definition name.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark-job-definition", "create")]

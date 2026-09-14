@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a PrivateLinkAssociation.
 /// </summary>
+/// <param name="ManagementGroupId">The management group id.</param>
+/// <param name="Name">The name of the private link association.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("private-link", "association", "delete")]

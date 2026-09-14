@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Connect to a repo and branch following a disconnect command.
 /// </summary>
+/// <param name="Name">Name of the static site.</param>
+/// <param name="Branch">The target branch in the repository.</param>
+/// <param name="Source">URL for the repository of the static site.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "reconnect")]

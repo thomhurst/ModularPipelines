@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the revision mode of a container app.
 /// </summary>
+/// <param name="Mode">The active revisions mode for the container app.  Allowed values: multiple, single.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "revision", "set-mode")]

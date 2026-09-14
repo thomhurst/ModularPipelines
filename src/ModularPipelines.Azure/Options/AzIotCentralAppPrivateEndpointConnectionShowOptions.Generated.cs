@@ -39,7 +39,7 @@ public record AzIotCentralAppPrivateEndpointConnectionShowOptions : AzOptions
     public string? Name { get; set; }
 
     /// <summary>
-    /// The resource group name of specified IoT Central application. Required if
+    /// The resource group name of specified IoT Central application. Required if --id is not specified.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

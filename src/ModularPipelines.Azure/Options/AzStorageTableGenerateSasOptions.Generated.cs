@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Generate a shared access signature for the table.
 /// </summary>
+/// <param name="Name">The table name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "table", "generate-sas")]
@@ -35,7 +36,7 @@ public record AzStorageTableGenerateSasOptions(
     public bool? EndRk { get; set; }
 
     /// <summary>
-    /// Specifies the UTC datetime (Y-m-d'T'H:M'Z') at which the SAS becomes invalid. Do not use if a stored access policy is referenced with
+    /// Specifies the UTC datetime (Y-m-d'T'H:M'Z') at which the SAS becomes invalid. Do not use if a stored access policy is referenced with --policy-name that specifies this value.
     /// </summary>
     [CliFlag("--expiry")]
     public bool? Expiry { get; set; }
@@ -65,7 +66,7 @@ public record AzStorageTableGenerateSasOptions(
     public string? PolicyName { get; set; }
 
     /// <summary>
-    /// Specifies the UTC datetime (Y-m-d'T'H:M'Z') at which the SAS becomes valid. Do not use if a stored access policy is referenced with
+    /// Specifies the UTC datetime (Y-m-d'T'H:M'Z') at which the SAS becomes valid. Do not use if a stored access policy is referenced with --policy-name that specifies this value. Defaults to the time of the request.
     /// </summary>
     [CliFlag("--start")]
     public bool? Start { get; set; }
@@ -95,13 +96,13 @@ public record AzStorageTableGenerateSasOptions(
     public bool? AccountName { get; set; }
 
     /// <summary>
-    /// Storage account connection string. Environment variable:
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }
 
     /// <summary>
-    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable:
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
     [CliFlag("--table-endpoint")]
     public bool? TableEndpoint { get; set; }

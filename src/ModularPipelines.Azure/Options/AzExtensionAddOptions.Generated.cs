@@ -39,7 +39,7 @@ public record AzExtensionAddOptions : AzOptions
     public bool? Source { get; set; }
 
     /// <summary>
-    /// Use a system directory for the extension.
+    /// Use a system directory for the extension. Default path is azure-cli-extensions folder under the CLI running python environment lib path, configurable by environment variable AZURE_EXTENSION_SYS_DIR. On Windows, you may need to open your shell as Administrator to run with the right permission.
     /// </summary>
     [CliFlag("--system")]
     public bool? System { get; set; }

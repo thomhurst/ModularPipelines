@@ -21,13 +21,13 @@ namespace ModularPipelines.Azure.Options;
 public record AzWebappConfigAccessRestrictionSetOptions : AzOptions
 {
     /// <summary>
-    /// Configure default action for main site.  Allowed values:
+    /// Configure default action for main site.  Allowed values: Allow, Deny.
     /// </summary>
     [CliOption("--default-action")]
     public string? DefaultAction { get; set; }
 
     /// <summary>
-    /// Configure default action for scm site.  Allowed values:
+    /// Configure default action for scm site.  Allowed values: Allow, Deny.
     /// </summary>
     [CliOption("--scm-default-action")]
     public string? ScmDefaultAction { get; set; }

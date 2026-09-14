@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Export the template used to create the deployment stack.
 /// </summary>
+/// <param name="ManagementGroupId">The management group ID to create a deployment stack in.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "mg", "export")]

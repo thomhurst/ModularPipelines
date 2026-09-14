@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Kusto pool.
 /// </summary>
+/// <param name="KustoPoolName">The name of the Kusto pool.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Sku">The SKU of the kusto pool. Usage: --sku name=XX capacity=XX size=XX</param>
+/// <param name="WorkspaceName">The name of the workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "kusto", "pool", "create")]
@@ -50,10 +54,10 @@ public record AzSynapseKustoPoolCreateOptions(
     public bool? IfNoneMatch { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -62,7 +66,7 @@ public record AzSynapseKustoPoolCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Optimized auto scale definition.
+    /// Optimized auto scale definition. Usage: --optimized-autoscale version=XX is-enabled=XX minimum=XX maximum=XX
     /// </summary>
     [CliFlag("--optimized-autoscale")]
     public bool? OptimizedAutoscale { get; set; }

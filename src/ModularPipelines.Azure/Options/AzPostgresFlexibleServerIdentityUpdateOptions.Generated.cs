@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update to enable or disable system assigned
 /// </summary>
+/// <param name="SystemAssigned">Enable or disable system assigned identity to authenticate to cloud services without storing credentials in code. Default is `Disabled`.  Allowed values: Disabled, Enabled.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "identity", "update")]

@@ -87,7 +87,7 @@ public record AzFunctionappConnectionUpdateMongodbAtlasOptions : AzOptions
     public string? VaultId { get; set; }
 
     /// <summary>
-    /// The connection string for secret auth.
+    /// The connection string for secret auth. Usage: --secret secret=XX
     /// </summary>
     [CliFlag("--secret")]
     public bool? Secret { get; set; }

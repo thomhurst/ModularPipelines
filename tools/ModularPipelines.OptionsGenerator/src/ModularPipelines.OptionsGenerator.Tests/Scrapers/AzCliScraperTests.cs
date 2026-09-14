@@ -320,17 +320,23 @@ public class AzCliScraperTests
     }
 
     [Test]
-    public async Task Nonstandard_Description_Only_Values_Are_Not_Flags()
+    [Arguments(null)]
+    [Arguments("'")]
+    [Arguments("\"")]
+    [Arguments("`")]
+    public async Task Nonstandard_Description_Only_Values_Are_Not_Flags(string? quote)
     {
-        const string helpText = """
+        var buildArgExample = quote is null ? "--build-arg" : $"{quote}--build-arg name[=value]{quote}";
+        var secretBuildArgExample = quote is null ? "--secret-build-arg" : $"{quote}--secret-build-arg name[=value]{quote}";
+        var helpText = $"""
             Command
                 az acr build : Queue a registry build.
 
             Optional Arguments
-                --build-arg       : Build argument in '--build-arg name[=value]' format. Multiples are supported by passing --build-arg multiple times.
+                --build-arg       : Build argument in '--build-arg name[=value]' format. Multiples are supported by passing {buildArgExample} multiple times.
                 --file            : The relative path of the docker file.
                 --platform        : The platform where the build is run.
-                --secret-build-arg: Secret build argument in '--secret-build-arg name[=value]' format. Multiples are supported by passing --secret-build-arg multiple times.
+                --secret-build-arg: Secret build argument in '--secret-build-arg name[=value]' format. Multiples are supported by passing {secretBuildArgExample} multiple times.
                 --timeout         : The timeout in seconds.
                 --no-wait         : Do not wait for the build to complete.
             """;
@@ -347,6 +353,10 @@ public class AzCliScraperTests
                 .IsEqualTo("string?");
             await Assert.That(command.Options.Single(option => option.PropertyName == "SecretBuildArg").CSharpType)
                 .IsEqualTo("IEnumerable<string>?");
+            await Assert.That(command.Options.Single(option => option.PropertyName == "BuildArg").GroupValues)
+                .IsFalse();
+            await Assert.That(command.Options.Single(option => option.PropertyName == "SecretBuildArg").GroupValues)
+                .IsFalse();
             await Assert.That(command.Options.Single(option => option.PropertyName == "Timeout").CSharpType)
                 .IsEqualTo("int?");
             await Assert.That(command.Options.Single(option => option.PropertyName == "NoWait").IsFlag)

@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add one backend address into the load
 /// </summary>
+/// <param name="LbName">The name of the load balancer.</param>
+/// <param name="Name">Name of the backend address.</param>
+/// <param name="PoolName">The name of the backend address pool.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="FrontendIp">The frontend IP configuration ID of a regional load balance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "cross-region-lb", "address-pool", "address", "add")]

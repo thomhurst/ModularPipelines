@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzPostgresFlexibleServerAutonomousTuningListTableRecommendationsOptions : AzOptions
 {
     /// <summary>
-    /// Retrieve recommendations based on type.  Allowed values:
+    /// Retrieve recommendations based on type.  Allowed values: AnalyzeTable, VacuumTable.
     /// </summary>
     [CliOption("--recommendation-type", ShortForm = "-r")]
     public string? RecommendationType { get; set; }

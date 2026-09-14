@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set system properties on the file.
 /// </summary>
+/// <param name="Path">The path to the file within the file share.</param>
+/// <param name="ShareName">The file share name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "file", "update")]
@@ -24,10 +26,10 @@ public record AzStorageFileUpdateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided.
+    /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// Required parameter to use with OAuth (Azure AD) Authentication for Files. This will bypass any file/directory level permission checks and allow access, based on the allowed data actions, even if there are ACLs in place for those files/directories.
@@ -36,9 +38,9 @@ public record AzStorageFileUpdateOptions(
     public bool? BackupIntent { get; set; }
 
     /// <summary>
-    /// If this flag is set, then if any one or more of the following properties (--content-cache-control, --content- disposition, --content-encoding,
+    /// If this flag is set, then if any one or more of the following properties (--content-cache-control, --content-disposition, --content-encoding, --content-language, --content-md5, --content-type) is set, then all of these properties are set together. If a value is not provided for a given property when at least one of the properties listed below is set, then that property will be cleared.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--clear-content-settings")]
+    [CliOption("--clear-content-settings")]
     public bool? ClearContentSettings { get; set; }
 
     /// <summary>
@@ -108,7 +110,7 @@ public record AzStorageFileUpdateOptions(
     public bool? Timeout { get; set; }
 
     /// <summary>
-    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
     [CliFlag("--account-key")]
     public bool? AccountKey { get; set; }
@@ -120,7 +122,7 @@ public record AzStorageFileUpdateOptions(
     public bool? AccountName { get; set; }
 
     /// <summary>
-    /// Storage account connection string.
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }

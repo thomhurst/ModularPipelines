@@ -16,6 +16,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Manually trigger a task that might otherwise be waiting for git commits or
 /// </summary>
+/// <param name="Name">The name of the task.</param>
+/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "run")]
@@ -27,8 +29,8 @@ public record AzAcrTaskRunOptions(
     /// <summary>
     /// Build argument in '--arg name[=value]' format. Multiples are supported by passing '--arg name[=value]' multiple times. IMPORTANT: This parameter should not include passwords, access tokens, or sensitive information of any kind. This parameter value will be visible to the ACR team for debugging purposes.
     /// </summary>
-    [CliFlag("--arg")]
-    public bool? Arg { get; set; }
+    [CliOption("--arg")]
+    public string? Arg { get; set; }
 
     /// <summary>
     /// The full URL to the source code repository (Requires '.git' suffix for a github repo) or a remote tarball (e.g., 'http://server/context.tar.gz'), or the repository of an OCI artifact in an Azure container registry (e.g., 'oci://myregistry.azurecr.io/myartifact:mytag'). If '/dev/null' is specified, the value will be set to None and ignored. This is a required argument if the task is not a system task.
@@ -39,8 +41,8 @@ public record AzAcrTaskRunOptions(
     /// <summary>
     /// Relative path of the the task/docker file to the source code root folder. Task files must be suffixed with '.yaml' or piped from the standard input using '-'.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
     /// <summary>
     /// Indicates whether the logs should be displayed in raw format.
@@ -69,8 +71,9 @@ public record AzAcrTaskRunOptions(
     /// <summary>
     /// Secret build argument in '--secret-arg name[=value]' format. Multiples are supported by passing '--secret-arg name[=value]' multiple times. This parameter value is not surfaced to the ACR team and is more suitable for sensitive information.
     /// </summary>
-    [CliFlag("--secret-arg")]
-    public bool? SecretArg { get; set; }
+    [SecretValue]
+    [CliOption("--secret-arg")]
+    public string? SecretArg { get; set; }
 
     /// <summary>
     /// Task value in '--set name[=value]' format. Multiples supported by passing --set multiple times.

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a GitHub Actions workflow file to the
 /// </summary>
+/// <param name="Repo">The GitHub repository to which the workflow file will be added. In the format: `https://github.com/&lt;owner&gt;/&lt;repository-name&gt;` or `&lt;owner&gt;/&lt;repository-name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "deployment", "github-actions", "add")]
@@ -29,7 +30,7 @@ public record AzFunctionappDeploymentGithubActionsAddOptions(
     public bool? Branch { get; set; }
 
     /// <summary>
-    /// Path to the build requirements. Ex: package path, POM XML directory.
+    /// Path to the build requirements. Ex: package path, POM XML directory. Default: ..
     /// </summary>
     [CliOption("--build-path")]
     public string? BuildPath { get; set; }

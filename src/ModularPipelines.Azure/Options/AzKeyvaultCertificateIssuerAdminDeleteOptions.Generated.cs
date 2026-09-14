@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove admin details for the specified certificate
 /// </summary>
+/// <param name="Email">Admin e-mail address. Must be unique within the vault.</param>
+/// <param name="IssuerName">Certificate issuer name.</param>
+/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "issuer", "admin", "delete")]

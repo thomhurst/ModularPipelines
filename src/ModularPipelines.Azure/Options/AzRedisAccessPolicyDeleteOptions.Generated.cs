@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete the Access Policy.
 /// </summary>
+/// <param name="AccessPolicyName">The name of the access policy that is being assigned.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "access-policy", "delete")]

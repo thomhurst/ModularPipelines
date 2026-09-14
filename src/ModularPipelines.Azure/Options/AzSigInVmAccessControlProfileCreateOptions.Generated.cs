@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a gallery in VM access control profile.
 /// </summary>
+/// <param name="GalleryName">The name of the Shared Image Gallery in which the in VM access control profile is to be created.</param>
+/// <param name="Name">The name of the gallery in VM access control profile to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "in-vm-access-control-profile", "create")]
@@ -37,7 +40,7 @@ public record AzSigInVmAccessControlProfileCreateOptions(
     public string? Location { get; set; }
 
     /// <summary>
-    /// This property allows you to specify the Endpoint type for which this profile is defining the access control for. Possible values are: 'WireServer' or 'IMDS'.  Allowed values: IMDS,
+    /// This property allows you to specify the Endpoint type for which this profile is defining the access control for. Possible values are: 'WireServer' or 'IMDS'.  Allowed values: IMDS, WireServer.
     /// </summary>
     [CliOption("--applicable-host-endpoint")]
     public string? ApplicableHostEndpoint { get; set; }

@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a cluster instance.
 /// </summary>
+/// <param name="ClusterName">The name of the Log Analytics cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "cluster", "create")]
@@ -30,7 +32,7 @@ public record AzMonitorLogAnalyticsClusterCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Type of managed service identity.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
+    /// Type of managed service identity.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned. Default: SystemAssigned.
     /// </summary>
     [CliOption("--identity-type", ShortForm = "--type")]
     public string? IdentityType { get; set; }
@@ -54,7 +56,7 @@ public record AzMonitorLogAnalyticsClusterCreateOptions(
     public bool? KeyRsaSize { get; set; }
 
     /// <summary>
-    /// The Key Vault uri which holds they key associated with the
+    /// The Key Vault uri which holds they key associated with the Log Analytics cluster.
     /// </summary>
     [CliOption("--key-vault-uri")]
     public string? KeyVaultUri { get; set; }
@@ -68,8 +70,8 @@ public record AzMonitorLogAnalyticsClusterCreateOptions(
     /// <summary>
     /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -78,7 +80,7 @@ public record AzMonitorLogAnalyticsClusterCreateOptions(
     public string? Tags { get; set; }
 
     /// <summary>
-    /// The cluster's billing type.  Allowed values: Cluster,
+    /// The cluster's billing type.  Allowed values: Cluster, Workspaces.
     /// </summary>
     [CliOption("--billing-type")]
     public string? BillingType { get; set; }
@@ -102,7 +104,7 @@ public record AzMonitorLogAnalyticsClusterCreateOptions(
     public string? SkuCapacity { get; set; }
 
     /// <summary>
-    /// The name of the SKU.  Allowed values: CapacityReservation.
+    /// The name of the SKU.  Allowed values: CapacityReservation. Default: CapacityReservation.
     /// </summary>
     [CliOption("--sku-name")]
     public string? SkuName { get; set; }

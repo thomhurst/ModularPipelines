@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Returns a feature registration.
 /// </summary>
+/// <param name="Name">The feature name.</param>
+/// <param name="ProviderNamespace">The provider namespace. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("feature", "registration", "show")]

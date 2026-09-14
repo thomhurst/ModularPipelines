@@ -15,6 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a gallery image definition.
 /// </summary>
+/// <param name="GalleryImageDefinition">Gallery image definition.</param>
+/// <param name="GalleryName">Gallery name.</param>
+/// <param name="Offer">Image offer.</param>
+/// <param name="OsType">The type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. Allowed values: Linux, Windows.</param>
+/// <param name="Publisher">Image publisher.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Sku">Image sku.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "image-definition", "create")]
@@ -41,7 +48,7 @@ public record AzSigImageDefinitionCreateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// Disk types which would not work with the image, e.g.,
+    /// Disk types which would not work with the image, e.g., Standard_LRS.
     /// </summary>
     [CliFlag("--disallowed-disk-types")]
     public bool? DisallowedDiskTypes { get; set; }
@@ -59,13 +66,13 @@ public record AzSigImageDefinitionCreateOptions(
     public bool? Eula { get; set; }
 
     /// <summary>
-    /// A list of gallery image features. E.g. "IsSecureBootSupported=true
+    /// A list of gallery image features. E.g. "IsSecureBootSupported=true IsMeasuredBootSupported=false".
     /// </summary>
     [CliOption("--features", GroupValues = true)]
     public IEnumerable<string>? Features { get; set; }
 
     /// <summary>
-    /// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.  Allowed values: V1, V2.
+    /// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.  Allowed values: V1, V2. Default: V2.
     /// </summary>
     [CliOption("--hyper-v-generation")]
     public string? HyperVGeneration { get; set; }
@@ -73,8 +80,8 @@ public record AzSigImageDefinitionCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'.  Allowed values: Generalized, Specialized.  Default: Generalized.

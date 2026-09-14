@@ -51,7 +51,7 @@ public record AzAdSpCreateForRbacOptions : AzOptions
     public bool? CreatePassword { get; set; }
 
     /// <summary>
-    /// Number of years for which the credentials will be valid.
+    /// Number of years for which the credentials will be valid. Default: 1 year.
     /// </summary>
     [CliFlag("--years")]
     public bool? Years { get; set; }

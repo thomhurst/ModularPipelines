@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Log in to an Azure Container Registry through the Docker CLI.
 /// </summary>
+/// <param name="Name">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "login")]
@@ -23,7 +24,7 @@ public record AzAcrLoginOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Expose refresh token instead of automatically logging in through Docker
+    /// Expose refresh token instead of automatically logging in through Docker CLI.
     /// </summary>
     [CliFlag("--expose-token", ShortForm = "-t")]
     public bool? ExposeToken { get; set; }

@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Sets a Geo-Disaster Recovery Configuration Alias for the
 /// </summary>
+/// <param name="Alias">Name of the Geo-Disaster Recovery Configuration Alias.</param>
+/// <param name="PartnerNamespace">Name (if within the same resource group) or ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairing.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "georecovery-alias", "set")]

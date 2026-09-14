@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Permanently stop data replication between two database replicas.
 /// </summary>
+/// <param name="PartnerServer">Name of the server that the other replica is in.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "replica", "delete-link")]

@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a new autoscale rule.
 /// </summary>
+/// <param name="AutoscaleName">Name of the autoscale settings.</param>
+/// <param name="Condition">The condition which triggers the scaling action. Usage:  --condition ["NAMESPACE"] METRIC {==,!=,&gt;,&gt;=,&lt;,&lt;=} THRESHOLD {avg,min,max,total,count} PERIOD [where DIMENSION {==,!=} VALUE [or VALUE ...] [and   DIMENSION {==,!=} VALUE [or VALUE ...] ...]]</param>
+/// <param name="Scale">The direction and amount to scale. Usage:          --scale {to,in,out} VAL[%] Fixed Count:    --scale to 5 In by Count:    --scale in 2 Out by Percent: --scale out 10%.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "rule", "create")]
@@ -37,7 +40,7 @@ public record AzMonitorAutoscaleRuleCreateOptions(
     public string? ProfileName { get; set; }
 
     /// <summary>
-    /// The way metrics are polled across instances.  Default: avg 1m.
+    /// The way metrics are polled across instances.  Default: avg 1m. The form of the timegrain is {avg,min,max,sum} VALUE. Values can be obtained from the `az monitor metric` command. Format of VALUE is "##h##m##s".
     /// </summary>
     [CliFlag("--timegrain")]
     public bool? Timegrain { get; set; }

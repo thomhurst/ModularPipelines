@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an instance of an Event Hubs Cluster.
 /// </summary>
+/// <param name="ClusterName">The name of the Event Hubs Cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "cluster", "create")]
@@ -72,7 +74,7 @@ public record AzEventhubsClusterCreateOptions(
     public bool? Capacity { get; set; }
 
     /// <summary>
-    /// Name of this SKU.  Allowed values: Dedicated.  Default:
+    /// Name of this SKU.  Allowed values: Dedicated.  Default: Dedicated.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }

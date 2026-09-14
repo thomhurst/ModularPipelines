@@ -23,8 +23,8 @@ public record AzEventgridEventSubscriptionListOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// The OData query used for filtering the list results. Filtering is currently allowed on the Name property only. The supported operations include: CONTAINS, eq (for equal), ne (for not equal), AND, OR and NOT.
@@ -39,13 +39,13 @@ public record AzEventgridEventSubscriptionListOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// Fully qualified identifier of the Azure resource whose event subscription needs to be listed.
+    /// Fully qualified identifier of the Azure resource whose event subscription needs to be listed. Usage:                      --source-resource-id Azure-Resource-ID For Azure subscription:     --source-resource-id /subscriptions/{SubID} For resource group:         --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1 For EventGrid topic:        --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/providers/Microsoft.EventGrid/topics/t1 For storage account:        --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/providers/Microsoft.Storage/storageaccounts/sa1 For EventGrid domain:       --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/providers/Microsoft.EventGrid/domains/d1 For EventGrid domain topic: --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/p roviders/Microsoft.EventGrid/domains/d1/topics/t1.
     /// </summary>
     [CliFlag("--source-resource-id")]
     public bool? SourceResourceId { get; set; }
 
     /// <summary>
-    /// Name of the topic-type whose event subscriptions need to be listed. When this is specified, you must also specify --location.
+    /// Name of the topic-type whose event subscriptions need to be listed. When this is specified, you must also specify --location. Example 1: List all Storage event subscriptions in WestUS2 --resource-group TestRG --topic-type-name Microsoft.Storage.StorageAccounts --location westus2 Example 2: List all event subscriptions on Azure subscriptions --topic-type-name Microsoft.Resources.Subscriptions --location global.
     /// </summary>
     [CliOption("--topic-type-name")]
     public string? TopicTypeName { get; set; }

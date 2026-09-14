@@ -45,7 +45,7 @@ public record AzNetworkPrivateLinkServiceUpdateOptions : AzOptions
     public IEnumerable<string>? Fqdns { get; set; }
 
     /// <summary>
-    /// Space-separated list of names or IDs of load balancer frontend IP configurations to link to. If names are used, also supply `--lb- name`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of names or IDs of load balancer frontend IP configurations to link to. If names are used, also supply `--lb-name`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--lb-frontend-ip-configs", GroupValues = true)]
     public IEnumerable<string>? LbFrontendIpConfigs { get; set; }
@@ -75,7 +75,7 @@ public record AzNetworkPrivateLinkServiceUpdateOptions : AzOptions
     public IEnumerable<string>? Visibility { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -93,7 +93,7 @@ public record AzNetworkPrivateLinkServiceUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }

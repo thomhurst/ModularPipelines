@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a node pool to the managed Kubernetes cluster.
 /// </summary>
+/// <param name="ClusterName">The cluster name.</param>
+/// <param name="Name">The node pool name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "add")]
@@ -37,7 +40,7 @@ public record AzAksNodepoolAddOptions(
     public IEnumerable<string>? AllowedHostPorts { get; set; }
 
     /// <summary>
-    /// The IDs of the application security groups to which the node pool's network interface should belong. When specified, format should be a space-separated list of
+    /// The IDs of the application security groups to which the node pool's network interface should belong. When specified, format should be a space-separated list of IDs.
     /// </summary>
     [CliOption("--asg-ids", GroupValues = true)]
     public IEnumerable<string>? AsgIds { get; set; }
@@ -181,13 +184,13 @@ public record AzAksNodepoolAddOptions(
     public bool? LocaldnsConfig { get; set; }
 
     /// <summary>
-    /// Maximum nodes count used for autoscaler, when "--enable- cluster-autoscaler" specified. Please specify the value in the range of [0, 1000] for user nodepool, and [1,1000] for system nodepool.
+    /// Maximum nodes count used for autoscaler, when "--enable-cluster-autoscaler" specified. Please specify the value in the range of [0, 1000] for user nodepool, and [1,1000] for system nodepool.
     /// </summary>
     [CliFlag("--max-count")]
     public bool? MaxCount { get; set; }
 
     /// <summary>
-    /// The maximum number of pods deployable to a node.
+    /// The maximum number of pods deployable to a node. If not specified, defaults based on network-plugin. 30 for "azure", 110 for "kubenet", or 250 for "none".
     /// </summary>
     [CliFlag("--max-pods", ShortForm = "-m")]
     public bool? MaxPods { get; set; }
@@ -211,7 +214,7 @@ public record AzAksNodepoolAddOptions(
     public string? MessageOfTheDay { get; set; }
 
     /// <summary>
-    /// Minimum nodes count used for autoscaler, when "--enable- cluster-autoscaler" specified. Please specify the value in the range of [0, 1000] for user nodepool, and [1,1000] for system nodepool.
+    /// Minimum nodes count used for autoscaler, when "--enable-cluster-autoscaler" specified. Please specify the value in the range of [0, 1000] for user nodepool, and [1,1000] for system nodepool.
     /// </summary>
     [CliFlag("--min-count")]
     public bool? MinCount { get; set; }
@@ -247,7 +250,7 @@ public record AzAksNodepoolAddOptions(
     public string? NodeOsdiskType { get; set; }
 
     /// <summary>
-    /// Public IP prefix ID used to assign public IPs to VMSS or
+    /// Public IP prefix ID used to assign public IPs to VMSS or VMs nodes.
     /// </summary>
     [CliFlag("--node-public-ip-prefix-id")]
     public bool? NodePublicIpPrefixId { get; set; }
@@ -277,7 +280,7 @@ public record AzAksNodepoolAddOptions(
     public bool? NodeVmSize { get; set; }
 
     /// <summary>
-    /// The OS SKU of the agent node pool. Ubuntu, Ubuntu2204, Ubuntu2404, AzureLinux, AzureLinux3, or AzureContainerLinux for Linux. Windows2019, Windows2022, or Windows2025 for Windows.  Allowed values: AzureContainerLinux, AzureLinux, AzureLinux3, CBLMariner, Mariner, Ubuntu, Ubuntu2204, Ubuntu2404, Windows2019,
+    /// The OS SKU of the agent node pool. Ubuntu, Ubuntu2204, Ubuntu2404, AzureLinux, AzureLinux3, or AzureContainerLinux for Linux. Windows2019, Windows2022, or Windows2025 for Windows.  Allowed values: AzureContainerLinux, AzureLinux, AzureLinux3, CBLMariner, Mariner, Ubuntu, Ubuntu2204, Ubuntu2404, Windows2019, Windows2022, Windows2025.
     /// </summary>
     [CliOption("--os-sku")]
     public string? OsSku { get; set; }
@@ -289,7 +292,7 @@ public record AzAksNodepoolAddOptions(
     public bool? OsType { get; set; }
 
     /// <summary>
-    /// Set the ip allocation mode for how Pod IPs from the Azure Pod Subnet are allocated to the nodes in the AKS cluster. The choice is between dynamic batches of individual IPs or static allocation of a set of CIDR blocks. Accepted Values are "DynamicIndividual" or "StaticBlock".  Allowed values: DynamicIndividual, StaticBlock.
+    /// Set the ip allocation mode for how Pod IPs from the Azure Pod Subnet are allocated to the nodes in the AKS cluster. The choice is between dynamic batches of individual IPs or static allocation of a set of CIDR blocks. Accepted Values are "DynamicIndividual" or "StaticBlock".  Allowed values: DynamicIndividual, StaticBlock. Used together with the "azure" network plugin. Requires --pod-subnet-id.
     /// </summary>
     [CliOption("--pod-ip-allocation-mode")]
     public string? PodIpAllocationMode { get; set; }
@@ -325,7 +328,7 @@ public record AzAksNodepoolAddOptions(
     public string? SnapshotId { get; set; }
 
     /// <summary>
-    /// It can only be set when --priority is Spot. Specify the maximum price you are willing to pay in US Dollars. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on- demand. It can only include up to 5 decimal places.
+    /// It can only be set when --priority is Spot. Specify the maximum price you are willing to pay in US Dollars. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on- demand. It can only include up to 5 decimal places. Default: nan.
     /// </summary>
     [CliFlag("--spot-max-price")]
     public bool? SpotMaxPrice { get; set; }
@@ -349,7 +352,7 @@ public record AzAksNodepoolAddOptions(
     public bool? VmSetType { get; set; }
 
     /// <summary>
-    /// Comma-separated list of VM sizes. Valid for VirtualMachines node pool only. If `--vm-sizes` not specified but `--node-vm-size` specified, value of `--node-vm-size` will be used. If neither of them specified, defaults to Standard_DS2_v2 for Linux or
+    /// Comma-separated list of VM sizes. Valid for VirtualMachines node pool only. If `--vm-sizes` not specified but `--node-vm-size` specified, value of `--node-vm-size` will be used. If neither of them specified, defaults to Standard_DS2_v2 for Linux or Standard_D2s_v3 for Windows.
     /// </summary>
     [CliFlag("--vm-sizes")]
     public bool? VmSizes { get; set; }
@@ -361,7 +364,7 @@ public record AzAksNodepoolAddOptions(
     public string? VnetSubnetId { get; set; }
 
     /// <summary>
-    /// Set the workload runtime.  Allowed values:
+    /// Set the workload runtime.  Allowed values: KataVmIsolation. Azure provides a different workload-runtime to enable Kata supported workloads in your nodepools. The following values can be specified: - "KataVmIsolation" for Kata.
     /// </summary>
     [CliOption("--workload-runtime")]
     public string? WorkloadRuntime { get; set; }

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an Azure Container Registry.
 /// </summary>
+/// <param name="Name">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "update")]
@@ -41,7 +42,7 @@ public record AzAcrUpdateOptions(
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// The SKU of the container registry.  Allowed values: Basic,
+    /// The SKU of the container registry.  Allowed values: Basic, Premium, Standard.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }

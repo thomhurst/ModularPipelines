@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create NetworkRuleSet for a Namespace.
 /// </summary>
+/// <param name="Name">The Namespace name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "network-rule-set", "create")]
@@ -24,7 +26,7 @@ public record AzEventhubsNamespaceNetworkRuleSetCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Default Action for Network Rule Set.  Allowed values:
+    /// Default Action for Network Rule Set.  Allowed values: Allow, Deny.
     /// </summary>
     [CliOption("--default-action")]
     public string? DefaultAction { get; set; }
@@ -42,7 +44,7 @@ public record AzEventhubsNamespaceNetworkRuleSetCreateOptions(
     public IEnumerable<string>? IpRules { get; set; }
 
     /// <summary>
-    /// This determines if traffic is allowed over public network. By default it is enabled. If value is SecuredByPerimeter then Inbound and Outbound communication is controlled by the network security perimeter and profile's access rules.  Allowed values: Disabled, Enabled, SecuredByPerimeter.  Default:
+    /// This determines if traffic is allowed over public network. By default it is enabled. If value is SecuredByPerimeter then Inbound and Outbound communication is controlled by the network security perimeter and profile's access rules.  Allowed values: Disabled, Enabled, SecuredByPerimeter.  Default: Enabled.
     /// </summary>
     [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }

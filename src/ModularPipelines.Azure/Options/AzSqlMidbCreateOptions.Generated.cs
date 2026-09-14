@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a managed database.
 /// </summary>
+/// <param name="ManagedInstance">Name of the Azure SQL Managed Instance.</param>
+/// <param name="Name">The name of the Azure SQL Managed Database.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "midb", "create")]
@@ -25,7 +28,7 @@ public record AzSqlMidbCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// The collation of the Azure SQL Managed Database collation to use, e.g.: SQL_Latin1_General_CP1_CI_AS or
+    /// The collation of the Azure SQL Managed Database collation to use, e.g.: SQL_Latin1_General_CP1_CI_AS or Latin1_General_100_CS_AS_SC.
     /// </summary>
     [CliFlag("--collation")]
     public bool? Collation { get; set; }

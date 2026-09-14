@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a private endpoint connection request for a
 /// </summary>
+/// <param name="Name">The name of the private endpoint connection.</param>
+/// <param name="RegistryName">The name of the container registry. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "private-endpoint-connection", "delete")]

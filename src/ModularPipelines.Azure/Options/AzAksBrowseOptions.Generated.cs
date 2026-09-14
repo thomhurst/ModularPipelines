@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the dashboard for a Kubernetes cluster in a web browser.
 /// </summary>
+/// <param name="Name">Name of the managed cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "browse")]
@@ -24,19 +26,19 @@ public record AzAksBrowseOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Don't launch a web browser after establishing port-forwarding.
+    /// Don't launch a web browser after establishing port-forwarding. Add this argument when launching a web browser manually, or for automated testing.
     /// </summary>
     [CliFlag("--disable-browser")]
     public bool? DisableBrowser { get; set; }
 
     /// <summary>
-    /// The listening address for the dashboard.  Default: 127.0.0.1.
+    /// The listening address for the dashboard.  Default: 127.0.0.1. Add this argument to listen on a specific IP address.
     /// </summary>
     [CliFlag("--listen-address")]
     public bool? ListenAddress { get; set; }
 
     /// <summary>
-    /// The listening port for the dashboard.  Default: 8001.
+    /// The listening port for the dashboard.  Default: 8001. Add this argument when the default listening port is used by another process or unavailable.
     /// </summary>
     [CliFlag("--listen-port")]
     public bool? ListenPort { get; set; }

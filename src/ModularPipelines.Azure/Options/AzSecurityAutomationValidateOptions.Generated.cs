@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Validates a security automation model before create or update.
 /// </summary>
+/// <param name="Actions">A collection of the actions which are triggered if all the configured rules evaluations, within at least one rule set, are true.</param>
+/// <param name="Name">Name of the resource to be fetched.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Scopes">A collection of scopes on which the security automations logic is applied.</param>
+/// <param name="Sources">A collection of the source event types which evaluate the security automation set of rules.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "automation", "validate")]
@@ -47,8 +52,8 @@ public record AzSecurityAutomationValidateOptions(
     /// <summary>
     /// Location of the resource.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// A list of key value pairs that describe the resource.

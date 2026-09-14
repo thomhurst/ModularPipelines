@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create some linked storage accounts
 /// </summary>
+/// <param name="DataSourceType">Data source type for the linked storage account.  Allowed values: Alerts, AzureWatson, CustomLogs, Ingestion, Query.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="WorkspaceName">The name of the workspace.</param>
+/// <param name="StorageAccounts">List of Name or ID of Azure Storage Account.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "linked-storage", "create")]

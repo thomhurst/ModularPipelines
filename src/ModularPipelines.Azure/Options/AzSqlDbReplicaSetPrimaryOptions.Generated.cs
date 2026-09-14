@@ -45,7 +45,7 @@ public record AzSqlDbReplicaSetPrimaryOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// Name of the server containing the secondary replica that will become the new primary. You can configure the default using `az configure
+    /// Name of the server containing the secondary replica that will become the new primary. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.
     /// </summary>
     [CliOption("--server", ShortForm = "-s")]
     public string? Server { get; set; }

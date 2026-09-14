@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create share on the device.
 /// </summary>
+/// <param name="DeviceName">The device name.</param>
+/// <param name="Name">The share name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="AccessProtocol">Access protocol to be used by the share.  Allowed values: NFS, SMB.</param>
+/// <param name="MonitoringStatus">Current monitoring status of the share.  Allowed values: Disabled, Enabled.</param>
+/// <param name="ShareStatus">Current status of the share.  Allowed values: NeedsAttention, OK, Offline, Unknown, Updating.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "share", "create")]

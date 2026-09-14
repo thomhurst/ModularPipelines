@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create or update a SQL script.
 /// </summary>
+/// <param name="File">The SQL query file path.</param>
+/// <param name="Name">The SQL script name.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql-script", "create")]
@@ -57,13 +60,13 @@ public record AzSynapseSqlScriptCreateOptions(
     /// <summary>
     /// The SQL database name.
     /// </summary>
-    [CliFlag("--sql-database-name")]
-    public bool? SqlDatabaseName { get; set; }
+    [CliOption("--sql-database-name")]
+    public string? SqlDatabaseName { get; set; }
 
     /// <summary>
     /// The SQL pool name.
     /// </summary>
-    [CliFlag("--sql-pool-name")]
-    public bool? SqlPoolName { get; set; }
+    [CliOption("--sql-pool-name")]
+    public string? SqlPoolName { get; set; }
 
 }

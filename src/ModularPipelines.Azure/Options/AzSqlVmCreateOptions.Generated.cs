@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a SQL virtual machine.
 /// </summary>
+/// <param name="Name">Name of the SQL virtual machine. The name of the new SQL virtual machine must be equal to the underlying virtual machine created from SQL marketplace image.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "vm", "create")]
@@ -24,7 +26,7 @@ public record AzSqlVmCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// SQL IaaS Agent Least Privilege Mode. Updates from sysadmin to specific permissions used per feature.  Allowed values:
+    /// SQL IaaS Agent Least Privilege Mode. Updates from sysadmin to specific permissions used per feature.  Allowed values: Enabled, NotSet.
     /// </summary>
     [CliOption("--least-privilege-mode")]
     public string? LeastPrivilegeMode { get; set; }
@@ -32,8 +34,8 @@ public record AzSqlVmCreateOptions(
     /// <summary>
     /// Location. If not provided, virtual machine should be in the same region of resource group.You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -84,7 +86,7 @@ public record AzSqlVmCreateOptions(
     public bool? FullBackupDuration { get; set; }
 
     /// <summary>
-    /// Frequency of full backups. In both cases, full backups begin during the next scheduled time window.  Allowed values: Daily,
+    /// Frequency of full backups. In both cases, full backups begin during the next scheduled time window.  Allowed values: Daily, Weekly.
     /// </summary>
     [CliOption("--full-backup-frequency")]
     public string? FullBackupFrequency { get; set; }
@@ -120,7 +122,7 @@ public record AzSqlVmCreateOptions(
     public bool? StorageAccount { get; set; }
 
     /// <summary>
-    /// Day of week to apply the patch on.  Allowed values: Everyday, Friday, Monday, Saturday, Sunday, Thursday, Tuesday,
+    /// Day of week to apply the patch on.  Allowed values: Everyday, Friday, Monday, Saturday, Sunday, Thursday, Tuesday, Wednesday.
     /// </summary>
     [CliOption("--day-of-week")]
     public string? DayOfWeek { get; set; }
@@ -174,7 +176,7 @@ public record AzSqlVmCreateOptions(
     public bool? SpSecret { get; set; }
 
     /// <summary>
-    /// SQL Server connectivity option.  Allowed values: LOCAL,
+    /// SQL Server connectivity option.  Allowed values: LOCAL, PRIVATE, PUBLIC.
     /// </summary>
     [CliOption("--connectivity-type")]
     public string? ConnectivityType { get; set; }
@@ -198,13 +200,13 @@ public record AzSqlVmCreateOptions(
     public bool? SqlAuthUpdateUsername { get; set; }
 
     /// <summary>
-    /// SQL image offer. Examples include SQL2008R2-WS2008,
+    /// SQL image offer. Examples include SQL2008R2-WS2008, SQL2008-WS2008.
     /// </summary>
     [CliFlag("--image-offer")]
     public bool? ImageOffer { get; set; }
 
     /// <summary>
-    /// SQL image sku.  Allowed values: Developer, Enterprise,
+    /// SQL image sku.  Allowed values: Developer, Enterprise, Express, Standard, Web.
     /// </summary>
     [CliOption("--image-sku")]
     public string? ImageSku { get; set; }

@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a managed instance.
 /// </summary>
+/// <param name="Name">The managed instance name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Subnet">Name or ID of the subnet that allows access to an Azure Sql Managed Instance. If subnet name is provided, --vnet-name must be provided.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "create")]
@@ -61,7 +64,7 @@ public record AzSqlMiCreateOptions(
     public bool? Collation { get; set; }
 
     /// <summary>
-    /// Managed Instance database format specific to the SQL. Allowed values include: AlwaysUpToDate, SQLServer2022.  Allowed values: AlwaysUpToDate,
+    /// Managed Instance database format specific to the SQL. Allowed values include: AlwaysUpToDate, SQLServer2022.  Allowed values: AlwaysUpToDate, SQLServer2022, SQLServer2025.
     /// </summary>
     [CliOption("--database-format")]
     public string? DatabaseFormat { get; set; }
@@ -103,10 +106,10 @@ public record AzSqlMiCreateOptions(
     public bool? Gpv2 { get; set; }
 
     /// <summary>
-    /// Type of Identity to be used. Possible values are
+    /// Type of Identity to be used. Possible values are SystemAsssigned,UserAssigned, SystemAssignedUserAssigned and None.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
     /// </summary>
-    [CliFlag("--identity-type", ShortForm = "-t")]
-    public bool? IdentityType { get; set; }
+    [CliOption("--identity-type", ShortForm = "-t")]
+    public string? IdentityType { get; set; }
 
     /// <summary>
     /// Name of the Instance Pool where managed instance will be placed.
@@ -135,8 +138,8 @@ public record AzSqlMiCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Assign maintenance configuration to this managed instance.
@@ -163,7 +166,7 @@ public record AzSqlMiCreateOptions(
     public string? Pid { get; set; }
 
     /// <summary>
-    /// Managed Instance pricing model. Allowed values include: Regular, Freemium.  Allowed values:
+    /// Managed Instance pricing model. Allowed values include: Regular, Freemium.  Allowed values: Freemium, Regular.
     /// </summary>
     [CliOption("--pricing-model")]
     public string? PricingModel { get; set; }

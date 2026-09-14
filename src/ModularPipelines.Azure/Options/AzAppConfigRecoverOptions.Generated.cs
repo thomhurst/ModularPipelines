@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Recover a previously deleted, but not yet purged App Configuration store.
 /// </summary>
+/// <param name="Name">Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "recover")]
@@ -25,8 +26,8 @@ public record AzAppConfigRecoverOptions(
     /// <summary>
     /// Location of the deleted App Configuration store. Can be viewed using command `az appconfig show-deleted`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Resource group of the deleted App Configuration store.

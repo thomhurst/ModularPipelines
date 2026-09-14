@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Configure a new backup schedule for a web app.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="WebappName">The name of the web app.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "backup", "update")]
@@ -72,7 +74,7 @@ public record AzWebappConfigBackupUpdateOptions(
     public string? DbName { get; set; }
 
     /// <summary>
-    /// Type of database in the backup.  Allowed values: LocalMySql,
+    /// Type of database in the backup.  Allowed values: LocalMySql, MySql, PostgreSql, SqlAzure.
     /// </summary>
     [CliOption("--db-type")]
     public string? DbType { get; set; }

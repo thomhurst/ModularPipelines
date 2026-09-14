@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Retrieves latest restorable timestamp for the
 /// </summary>
+/// <param name="AccountName">Name of the CosmosDB database account.</param>
+/// <param name="DatabaseName">Name of the CosmosDB Gremlin database name.</param>
+/// <param name="GraphName">Name of the CosmosDB Gremlin graph name.</param>
+/// <param name="Location">Location of the account.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "gremlin", "retrieve-latest-backup-time")]

@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the restore point. Updating properties of an existing restore
 /// </summary>
+/// <param name="CollectionName">The name of the restore point collection.</param>
+/// <param name="Name">The name of the restore point.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("restore-point", "create")]
@@ -31,13 +34,13 @@ public record AzRestorePointCreateOptions(
     public string? DataDiskRestorePointEncryptionSet { get; set; }
 
     /// <summary>
-    /// The type of key used to encrypt the data of the data disk restore point.
+    /// The type of key used to encrypt the data of the data disk restore point. Allowed values: Encr yptionAtRestWithCust omerKey, EncryptionA tRestWithPlatformAnd CustomerKeys, Encryp tionAtRestWithPlatfo rmKey.
     /// </summary>
-    [CliFlag("--data-disk-restore-point-encryption-type")]
-    public bool? DataDiskRestorePointEncryptionType { get; set; }
+    [CliOption("--data-disk-restore-point-encryption-type")]
+    public string? DataDiskRestorePointEncryptionType { get; set; }
 
     /// <summary>
-    /// List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included.
+    /// List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included. Usage: --exclude-disks XX XX id: The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/... Multiple actions can be specified by using more than one --exclude-disks argument.
     /// </summary>
     [CliOption("--exclude-disks", GroupValues = true)]
     public IEnumerable<string>? ExcludeDisks { get; set; }
@@ -61,10 +64,10 @@ public record AzRestorePointCreateOptions(
     public string? OsRestorePointEncryptionSet { get; set; }
 
     /// <summary>
-    /// The type of key used to encrypt the data of the OS disk restore point.
+    /// The type of key used to encrypt the data of the OS disk restore point. Allowed values: Encr yptionAtRestWithCust omerKey, EncryptionA tRestWithPlatformAnd CustomerKeys, Encryp tionAtRestWithPlatfo rmKey.
     /// </summary>
-    [CliFlag("--os-restore-point-encryption-type")]
-    public bool? OsRestorePointEncryptionType { get; set; }
+    [CliOption("--os-restore-point-encryption-type")]
+    public string? OsRestorePointEncryptionType { get; set; }
 
     /// <summary>
     /// Resource Id of the source data disk.

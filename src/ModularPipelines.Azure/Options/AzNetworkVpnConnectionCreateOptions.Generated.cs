@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a VPN connection.
 /// </summary>
+/// <param name="Name">Connection name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VnetGateway1">Name or ID of the source virtual network gateway.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vpn-connection", "create")]
@@ -37,7 +40,7 @@ public record AzNetworkVpnConnectionCreateOptions(
     public bool? AuthorizationKey { get; set; }
 
     /// <summary>
-    /// Certificate-based authentication configuration. Provide as JSON string or file path with @ prefix,
+    /// Certificate-based authentication configuration. Provide as JSON string or file path with @ prefix, Expected keys (outboundAuthCertificate, inboundAuthCertificateChain, inboundAuthCertificateSubjectName).
     /// </summary>
     [CliFlag("--cert-auth", ShortForm = "--certificate-authentication")]
     public bool? CertAuth { get; set; }
@@ -57,8 +60,8 @@ public record AzNetworkVpnConnectionCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Connection routing weight.  Default: 10.

@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all the databases and its graphs that can be
 /// </summary>
+/// <param name="InstanceId">InstanceId of the Account.</param>
+/// <param name="Location">Azure Location of the account.</param>
+/// <param name="RestoreLocation">The region of the restore.</param>
+/// <param name="RestoreTimestamp">The timestamp of the restore.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "gremlin", "restorable-resource", "list")]

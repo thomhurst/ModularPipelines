@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set a key-value.
 /// </summary>
+/// <param name="Key">Key to be set. Key cannot be a '.' or '..', or contain the '%' character.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "kv", "set")]

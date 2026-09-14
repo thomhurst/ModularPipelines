@@ -23,14 +23,14 @@ public record AzDataboxedgeDeviceStorageAccountContainerShowOptions : AzOptions
     /// <summary>
     /// The container Name.
     /// </summary>
-    [CliFlag("--container-name", ShortForm = "-n")]
-    public bool? ContainerName { get; set; }
+    [CliOption("--container-name", ShortForm = "-n")]
+    public string? ContainerName { get; set; }
 
     /// <summary>
     /// The device name.
     /// </summary>
-    [CliFlag("--device-name")]
-    public bool? DeviceName { get; set; }
+    [CliOption("--device-name")]
+    public string? DeviceName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -47,7 +47,7 @@ public record AzDataboxedgeDeviceStorageAccountContainerShowOptions : AzOptions
     /// <summary>
     /// The Storage Account Name.
     /// </summary>
-    [CliFlag("--storage-account-name")]
-    public bool? StorageAccountName { get; set; }
+    [CliOption("--storage-account-name")]
+    public string? StorageAccountName { get; set; }
 
 }

@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a virtual network.
 /// </summary>
+/// <param name="Name">The virtual network (VNet) name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet", "create")]
@@ -24,7 +26,7 @@ public record AzNetworkVnetCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Space-separated list of IP address prefixes for the VNet. Default: 10.0.0.0/16. If provided, --ipam- allocations should not be specified. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of IP address prefixes for the VNet. Default: 10.0.0.0/16. If provided, --ipam-allocations should not be specified. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more. Default: ['10.0.0.0/16'].
     /// </summary>
     [CliOption("--address-prefixes", GroupValues = true)]
     public IEnumerable<string>? AddressPrefixes { get; set; }
@@ -66,13 +68,13 @@ public record AzNetworkVnetCreateOptions(
     public bool? EnableEncryption { get; set; }
 
     /// <summary>
-    /// To control if the Virtual Machine without encryption is allowed in encrypted Virtual Network or not.  Allowed values:
+    /// To control if the Virtual Machine without encryption is allowed in encrypted Virtual Network or not.  Allowed values: AllowUnencrypted, DropUnencrypted.
     /// </summary>
     [CliOption("--encryption-enforcement-policy", ShortForm = "--encryption-policy")]
     public string? EncryptionEnforcementPolicy { get; set; }
 
     /// <summary>
-    /// The FlowTimeout value (in minutes) for the
+    /// The FlowTimeout value (in minutes) for the Virtual Network.
     /// </summary>
     [CliFlag("--flowtimeout")]
     public bool? Flowtimeout { get; set; }
@@ -120,7 +122,7 @@ public record AzNetworkVnetCreateOptions(
     public string? NetworkSecurityGroup { get; set; }
 
     /// <summary>
-    /// Name of a new subnet to create within the
+    /// Name of a new subnet to create within the VNet.
     /// </summary>
     [CliOption("--subnet-name")]
     public string? SubnetName { get; set; }

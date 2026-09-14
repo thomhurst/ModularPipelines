@@ -45,7 +45,7 @@ public record AzStorageCopyOptions : AzOptions
     public string? Source { get; set; }
 
     /// <summary>
-    /// The type of blob at the destination.  Allowed values:
+    /// The type of blob at the destination.  Allowed values: AppendBlob, BlockBlob, PageBlob.
     /// </summary>
     [CliOption("--blob-type")]
     public string? BlobType { get; set; }
@@ -119,14 +119,14 @@ public record AzStorageCopyOptions : AzOptions
     /// <summary>
     /// File path in file share of copy destination storage account.
     /// </summary>
-    [CliFlag("--destination-file-path")]
-    public bool? DestinationFilePath { get; set; }
+    [CliOption("--destination-file-path")]
+    public string? DestinationFilePath { get; set; }
 
     /// <summary>
     /// File share name of copy destination storage account.
     /// </summary>
-    [CliFlag("--destination-share")]
-    public bool? DestinationShare { get; set; }
+    [CliOption("--destination-share")]
+    public string? DestinationShare { get; set; }
 
     /// <summary>
     /// Account key of copy source storage account. Must be used in conjunction with source storage account name.
@@ -161,8 +161,8 @@ public record AzStorageCopyOptions : AzOptions
     /// <summary>
     /// File path in file share of copy source storage account.
     /// </summary>
-    [CliFlag("--source-file-path")]
-    public bool? SourceFilePath { get; set; }
+    [CliOption("--source-file-path")]
+    public string? SourceFilePath { get; set; }
 
     /// <summary>
     /// Shared Access Signature (SAS) token of copy source. Must be used in conjunction with source storage account name.
@@ -173,8 +173,8 @@ public record AzStorageCopyOptions : AzOptions
     /// <summary>
     /// File share name of copy source storage account.
     /// </summary>
-    [CliFlag("--source-share")]
-    public bool? SourceShare { get; set; }
+    [CliOption("--source-share")]
+    public string? SourceShare { get; set; }
 
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
@@ -195,13 +195,13 @@ public record AzStorageCopyOptions : AzOptions
     public bool? ConnectionString { get; set; }
 
     /// <summary>
-    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
     [CliFlag("--sas-token")]
     public bool? SasToken { get; set; }
 
     /// <summary>
-    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable:
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
     [CliFlag("--service-endpoint")]
     public bool? ServiceEndpoint { get; set; }

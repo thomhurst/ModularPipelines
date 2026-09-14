@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Configure the Azure VM diagnostics extension.
 /// </summary>
+/// <param name="Settings">Json string or a file path, which defines data to be collected.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "diagnostics", "set")]

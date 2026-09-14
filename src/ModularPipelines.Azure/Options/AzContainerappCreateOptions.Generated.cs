@@ -16,6 +16,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a container app.
 /// </summary>
+/// <param name="Name">The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "create")]
@@ -25,9 +27,9 @@ public record AzContainerappCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Allow insecure connections for ingress traffic.
+    /// Allow insecure connections for ingress traffic. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-insecure")]
+    [CliOption("--allow-insecure")]
     public bool? AllowInsecure { get; set; }
 
     /// <summary>
@@ -55,7 +57,7 @@ public record AzContainerappCreateOptions(
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Duration in seconds a replica is given to gracefully shut down before it is forcefully
+    /// Duration in seconds a replica is given to gracefully shut down before it is forcefully terminated. (Default: 30).
     /// </summary>
     [CliFlag("--termination-grace-period", ShortForm = "--tgp")]
     public bool? TerminationGracePeriod { get; set; }
@@ -97,10 +99,10 @@ public record AzContainerappCreateOptions(
     public bool? RegistryUsername { get; set; }
 
     /// <summary>
-    /// The active revisions mode for the container app.
+    /// The active revisions mode for the container app. Allowed values: multiple, single. Default: single.
     /// </summary>
-    [CliFlag("--revisions-mode")]
-    public bool? RevisionsMode { get; set; }
+    [CliOption("--revisions-mode")]
+    public string? RevisionsMode { get; set; }
 
     /// <summary>
     /// A list of secret(s) for the container app. Space-separated values in 'key=value' format.
@@ -134,7 +136,7 @@ public record AzContainerappCreateOptions(
     public bool? Cpu { get; set; }
 
     /// <summary>
-    /// A list of environment variable(s) for the container. Space- separated values in 'key=value' format. Empty string to clear existing values.
+    /// A list of environment variable(s) for the container. Space- separated values in 'key=value' format. Empty string to clear existing values. Prefix value with 'secretref:' to reference a secret.
     /// </summary>
     [CliOption("--env-vars", GroupValues = true)]
     public IEnumerable<string>? EnvVars { get; set; }
@@ -194,10 +196,10 @@ public record AzContainerappCreateOptions(
     public bool? DaprHttpReadBufferSize { get; set; }
 
     /// <summary>
-    /// Set the log level for the Dapr sidecar.
+    /// Set the log level for the Dapr sidecar. Allowed values: debug, error, info, warn.
     /// </summary>
-    [CliFlag("--dapr-log-level")]
-    public bool? DaprLogLevel { get; set; }
+    [CliOption("--dapr-log-level")]
+    public string? DaprLogLevel { get; set; }
 
     /// <summary>
     /// Boolean indicating if the Dapr side car is enabled.  Allowed values: false, true.
@@ -224,10 +226,10 @@ public record AzContainerappCreateOptions(
     public bool? ExposedPort { get; set; }
 
     /// <summary>
-    /// The ingress type.
+    /// The ingress type. Allowed values: external, internal.
     /// </summary>
-    [CliFlag("--ingress")]
-    public bool? Ingress { get; set; }
+    [CliOption("--ingress")]
+    public string? Ingress { get; set; }
 
     /// <summary>
     /// The application port used for ingress traffic.
@@ -236,10 +238,10 @@ public record AzContainerappCreateOptions(
     public bool? TargetPort { get; set; }
 
     /// <summary>
-    /// The transport protocol used for ingress traffic.
+    /// The transport protocol used for ingress traffic. Allowed values: auto, http, http2, tcp. Default: auto.
     /// </summary>
-    [CliFlag("--transport")]
-    public bool? Transport { get; set; }
+    [CliOption("--transport")]
+    public string? Transport { get; set; }
 
     /// <summary>
     /// The maximum number of replicas.
@@ -260,7 +262,7 @@ public record AzContainerappCreateOptions(
     public bool? ScaleRuleAuth { get; set; }
 
     /// <summary>
-    /// The maximum number of concurrent requests before scale out.
+    /// The maximum number of concurrent requests before scale out. Only supported for http and tcp scale rules.
     /// </summary>
     [CliFlag("--scale-rule-http-concurrency", ShortForm = "--srtc")]
     public bool? ScaleRuleHttpConcurrency { get; set; }
@@ -278,7 +280,7 @@ public record AzContainerappCreateOptions(
     public string? ScaleRuleName { get; set; }
 
     /// <summary>
-    /// The type of the scale rule. Default: http.
+    /// The type of the scale rule. Default: http. For more information please visit https:// learn.microsoft.com/a zure/container- apps/scale-app#scale- triggers.
     /// </summary>
     [CliFlag("--scale-rule-type", ShortForm = "--srt")]
     public bool? ScaleRuleType { get; set; }

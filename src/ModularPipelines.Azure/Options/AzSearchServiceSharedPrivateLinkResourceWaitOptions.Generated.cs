@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzSearchServiceSharedPrivateLinkResourceWaitOptions : AzOptions
 {
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
@@ -51,7 +51,7 @@ public record AzSearchServiceSharedPrivateLinkResourceWaitOptions : AzOptions
     public bool? Created { get; set; }
 
     /// <summary>
-    /// Wait until the condition satisfies a custom
+    /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instanceView.st atuses[?code=='PowerState/running'].
     /// </summary>
     [CliFlag("--custom")]
     public bool? Custom { get; set; }

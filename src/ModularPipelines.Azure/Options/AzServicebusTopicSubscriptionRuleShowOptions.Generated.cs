@@ -35,8 +35,8 @@ public record AzServicebusTopicSubscriptionRuleShowOptions : AzOptions
     /// <summary>
     /// The namespace name.
     /// </summary>
-    [CliFlag("--namespace-name")]
-    public bool? NamespaceName { get; set; }
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -47,13 +47,13 @@ public record AzServicebusTopicSubscriptionRuleShowOptions : AzOptions
     /// <summary>
     /// The subscription name.
     /// </summary>
-    [CliFlag("--subscription-name")]
-    public bool? SubscriptionName { get; set; }
+    [CliOption("--subscription-name")]
+    public string? SubscriptionName { get; set; }
 
     /// <summary>
     /// The topic name.
     /// </summary>
-    [CliFlag("--topic-name")]
-    public bool? TopicName { get; set; }
+    [CliOption("--topic-name")]
+    public string? TopicName { get; set; }
 
 }

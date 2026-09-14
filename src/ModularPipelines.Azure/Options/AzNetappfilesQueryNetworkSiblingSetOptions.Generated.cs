@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Describe a network sibling set.
 /// </summary>
+/// <param name="NetworkSiblingSetId">Network Sibling Set ID for a group of volumes sharing networking resources in a subnet.</param>
+/// <param name="SubnetId">The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes. Example /subscrip tions/subscriptionId/resourceGroups/resourceGroup/provider s/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySu bnet}.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "query-network-sibling-set")]
@@ -30,9 +32,9 @@ public record AzNetappfilesQueryNetworkSiblingSetOptions(
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
 }

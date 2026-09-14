@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Check if a member is in a group.
 /// </summary>
+/// <param name="Group">Group's object id or display name(prefix also works if there is a unique match).</param>
+/// <param name="MemberId">The object ID of the contact, group, user, or service principal.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "group", "member", "check")]

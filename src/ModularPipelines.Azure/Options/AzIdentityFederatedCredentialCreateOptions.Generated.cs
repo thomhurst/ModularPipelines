@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a federated identity credential under an
 /// </summary>
+/// <param name="IdentityName">The name of the identity resource.</param>
+/// <param name="Name">The name of the federated identity credential resource.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "federated-credential", "create")]
@@ -25,7 +28,7 @@ public record AzIdentityFederatedCredentialCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// The aud value in the token sent to Azure for getting the user- assigned managed identity token. The value configured in the federated credential and the one in the incoming token must exactly match for Azure to issue the access token.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// The aud value in the token sent to Azure for getting the user- assigned managed identity token. The value configured in the federated credential and the one in the incoming token must exactly match for Azure to issue the access token.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more. Default: ['api://AzureADTokenExchange'].
     /// </summary>
     [CliFlag("--audiences")]
     public bool? Audiences { get; set; }

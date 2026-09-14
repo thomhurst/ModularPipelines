@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a GitHub Actions workflow to a repository to deploy a
 /// </summary>
+/// <param name="RepoUrl">The GitHub repository to which the workflow file will be added. In the format: `https://github.com/&lt;owner&gt;/&lt;repository-name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "github-action", "add")]
@@ -29,7 +30,7 @@ public record AzContainerappGithubActionAddOptions(
     public bool? Branch { get; set; }
 
     /// <summary>
-    /// Path in the repo from which to run the docker build.
+    /// Path in the repo from which to run the docker build. Defaults to "./".
     /// </summary>
     [CliOption("--context-path")]
     public string? ContextPath { get; set; }
@@ -41,7 +42,7 @@ public record AzContainerappGithubActionAddOptions(
     public bool? Image { get; set; }
 
     /// <summary>
-    /// Interactively log in with Github to retrieve the Personal
+    /// Interactively log in with Github to retrieve the Personal Access Token.
     /// </summary>
     [CliFlag("--login-with-github")]
     public bool? LoginWithGithub { get; set; }
@@ -67,8 +68,8 @@ public record AzContainerappGithubActionAddOptions(
     /// <summary>
     /// The service principal client ID.
     /// </summary>
-    [CliFlag("--service-principal-client-id")]
-    public bool? ServicePrincipalClientId { get; set; }
+    [CliOption("--service-principal-client-id")]
+    public string? ServicePrincipalClientId { get; set; }
 
     /// <summary>
     /// The service principal client secret.
@@ -79,8 +80,8 @@ public record AzContainerappGithubActionAddOptions(
     /// <summary>
     /// The service principal tenant ID.
     /// </summary>
-    [CliFlag("--service-principal-tenant-id")]
-    public bool? ServicePrincipalTenantId { get; set; }
+    [CliOption("--service-principal-tenant-id")]
+    public string? ServicePrincipalTenantId { get; set; }
 
     /// <summary>
     /// A Personal Access Token with write access to the specified repository. For more information: https://help.github.com/en/github/authenticating-to- github/creating-a-personal-access-token-for-the-command- line.

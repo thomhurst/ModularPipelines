@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all the tables that can be restored in the
 /// </summary>
+/// <param name="InstanceId">InstanceId of the Account.</param>
+/// <param name="Location">Azure Location of the account.</param>
+/// <param name="RestoreLocation">The region of the restore.</param>
+/// <param name="RestoreTimestamp">The timestamp of the restore.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "table", "restorable-resource", "list")]

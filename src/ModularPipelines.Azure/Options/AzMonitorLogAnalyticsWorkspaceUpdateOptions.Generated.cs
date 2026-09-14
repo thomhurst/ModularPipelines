@@ -51,7 +51,7 @@ public record AzMonitorLogAnalyticsWorkspaceUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Type of managed service identity.  Allowed values: None,
+    /// Type of managed service identity.  Allowed values: None, SystemAssigned, UserAssigned.
     /// </summary>
     [CliOption("--identity-type", ShortForm = "--type")]
     public string? IdentityType { get; set; }
@@ -129,7 +129,7 @@ public record AzMonitorLogAnalyticsWorkspaceUpdateOptions : AzOptions
     public string? CapacityReservationLevel { get; set; }
 
     /// <summary>
-    /// The name of the SKU.  Allowed values: CapacityReservation, Free, LACluster, PerGB2018, PerNode,
+    /// The name of the SKU.  Allowed values: CapacityReservation, Free, LACluster, PerGB2018, PerNode, Premium, Standalone, Standard.
     /// </summary>
     [CliOption("--sku", ShortForm = "--sku-name")]
     public string? Sku { get; set; }

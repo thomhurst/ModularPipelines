@@ -45,7 +45,7 @@ public record AzNetappfilesPoolUpdateOptions : AzOptions
     public bool? ForceString { get; set; }
 
     /// <summary>
-    /// Remove a property or an element from a list.
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
     public IEnumerable<string>? Remove { get; set; }
@@ -69,7 +69,7 @@ public record AzNetappfilesPoolUpdateOptions : AzOptions
     public bool? CustomThroughput { get; set; }
 
     /// <summary>
-    /// The qos type of the pool.  Allowed values: Auto,
+    /// The qos type of the pool.  Allowed values: Auto, Manual.
     /// </summary>
     [CliOption("--qos-type")]
     public string? QosType { get; set; }
@@ -87,7 +87,7 @@ public record AzNetappfilesPoolUpdateOptions : AzOptions
     public bool? Size { get; set; }
 
     /// <summary>
-    /// Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). Use either --size or
+    /// Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). Use either --size or --size-in-bytes, not both.
     /// </summary>
     [CliOption("--size-in-bytes")]
     public string? SizeInBytes { get; set; }
@@ -99,7 +99,7 @@ public record AzNetappfilesPoolUpdateOptions : AzOptions
     public string? AccountName { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

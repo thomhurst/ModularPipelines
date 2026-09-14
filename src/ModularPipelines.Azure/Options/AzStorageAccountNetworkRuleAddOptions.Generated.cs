@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a network rule.
 /// </summary>
+/// <param name="AccountName">The storage account name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "network-rule", "add")]
@@ -23,7 +24,7 @@ public record AzStorageAccountNetworkRuleAddOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// The action of virtual network rule. Possible value is Allow.
+    /// The action of virtual network rule. Possible value is Allow. Default: Allow.
     /// </summary>
     [CliFlag("--action")]
     public bool? Action { get; set; }

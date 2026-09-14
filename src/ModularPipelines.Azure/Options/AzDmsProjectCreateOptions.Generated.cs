@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a migration project which can contain multiple tasks.
 /// </summary>
+/// <param name="Name">The name of the Project.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServiceName">The name of the Service.</param>
+/// <param name="SourcePlatform">The type of server for the source database. The supported types are: SQL, PostgreSQL, MySQL.</param>
+/// <param name="TargetPlatform">The type of service for the target database. The supported types are: SQLDB, AzureDbForPostgreSQL, AzureDbForMySQL.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dms", "project", "create")]

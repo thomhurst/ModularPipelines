@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create or update a deployment stack at subscription scope.
 /// </summary>
+/// <param name="ActionOnUnmanage">Defines what happens to resources that are no longer managed after the stack is updated or deleted.  Allowed values: deleteAll, deleteResources, detachAll.</param>
+/// <param name="DenySettingsMode">Define which operations are denied on resources managed by the stack.  Allowed values: denyDelete, denyWriteAndDelete, none.</param>
+/// <param name="Location">The location to store the deployment stack.</param>
+/// <param name="Name">The name of the deployment stack.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "sub", "create")]
@@ -110,7 +114,7 @@ public record AzStackSubCreateOptions(
     public string? TemplateUri { get; set; }
 
     /// <summary>
-    /// Validation level for the deployment stack. The default is 'Provider'.  Allowed values: Provider,
+    /// Validation level for the deployment stack. The default is 'Provider'.  Allowed values: Provider, ProviderNoRbac, Template.
     /// </summary>
     [CliOption("--validation-level", ShortForm = "--vl")]
     public string? ValidationLevel { get; set; }

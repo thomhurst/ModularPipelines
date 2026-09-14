@@ -45,7 +45,7 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     public string? GatewayDefaultSite { get; set; }
 
     /// <summary>
-    /// The gateway type.  Allowed values: ExpressRoute,
+    /// The gateway type.  Allowed values: ExpressRoute, LocalGateway, Vpn.
     /// </summary>
     [CliOption("--gateway-type")]
     public string? GatewayType { get; set; }
@@ -81,7 +81,7 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     public string? ResiliencyModel { get; set; }
 
     /// <summary>
-    /// VNet gateway SKU.  Allowed values: Basic, ErGw1AZ, ErGw2AZ, ErGw3AZ, ErGwScale, HighPerformance, Standard, UltraPerformance, VpnGw1, VpnGw1AZ, VpnGw2, VpnGw2AZ, VpnGw3, VpnGw3AZ, VpnGw4,
+    /// VNet gateway SKU.  Allowed values: Basic, ErGw1AZ, ErGw2AZ, ErGw3AZ, ErGwScale, HighPerformance, Standard, UltraPerformance, VpnGw1, VpnGw1AZ, VpnGw2, VpnGw2AZ, VpnGw3, VpnGw3AZ, VpnGw4, VpnGw4AZ, VpnGw5, VpnGw5AZ.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }
@@ -105,7 +105,7 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     public bool? VpnAuthType { get; set; }
 
     /// <summary>
-    /// VPN routing type.  Allowed values: PolicyBased,
+    /// VPN routing type.  Allowed values: PolicyBased, RouteBased.
     /// </summary>
     [CliOption("--vpn-type")]
     public string? VpnType { get; set; }

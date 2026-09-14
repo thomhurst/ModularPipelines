@@ -93,7 +93,7 @@ public record AzEventhubsEventhubUpdateOptions : AzOptions
     public bool? ForceString { get; set; }
 
     /// <summary>
-    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;`
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
     public IEnumerable<string>? Remove { get; set; }
@@ -105,7 +105,7 @@ public record AzEventhubsEventhubUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Denotes the type of timestamp the message will hold.Two types of timestamp types - "AppendTime" and "CreateTime". AppendTime refers the time in which message got appended inside broker log. CreateTime refers to the time in which the message was generated on source side and producers can set this timestamp while sending the message. Default value is AppendTime. If you are using AMQP protocol, CreateTime equals AppendTime and its behavior remains the same.  Allowed values: Create,
+    /// Denotes the type of timestamp the message will hold.Two types of timestamp types - "AppendTime" and "CreateTime". AppendTime refers the time in which message got appended inside broker log. CreateTime refers to the time in which the message was generated on source side and producers can set this timestamp while sending the message. Default value is AppendTime. If you are using AMQP protocol, CreateTime equals AppendTime and its behavior remains the same.  Allowed values: Create, LogAppend.
     /// </summary>
     [CliOption("--timestamp-type")]
     public string? TimestampType { get; set; }
@@ -114,10 +114,10 @@ public record AzEventhubsEventhubUpdateOptions : AzOptions
     /// Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
     /// </summary>
     [CliOption("--partition-count")]
-    public string? PartitionCount { get; set; }
+    public int? PartitionCount { get; set; }
 
     /// <summary>
-    /// Enumerates the possible values for the status of the Event Hub.  Allowed values: Active, Creating, Deleting, Disabled, ReceiveDisabled, Renaming,
+    /// Enumerates the possible values for the status of the Event Hub.  Allowed values: Active, Creating, Deleting, Disabled, ReceiveDisabled, Renaming, Restoring, SendDisabled, Unknown.
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; set; }
@@ -131,8 +131,8 @@ public record AzEventhubsEventhubUpdateOptions : AzOptions
     /// <summary>
     /// The Event Hub name.
     /// </summary>
-    [CliFlag("--event-hub-name", ShortForm = "-n")]
-    public bool? EventHubName { get; set; }
+    [CliOption("--event-hub-name", ShortForm = "-n")]
+    public string? EventHubName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -143,8 +143,8 @@ public record AzEventhubsEventhubUpdateOptions : AzOptions
     /// <summary>
     /// The Namespace name.
     /// </summary>
-    [CliFlag("--namespace-name")]
-    public bool? NamespaceName { get; set; }
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

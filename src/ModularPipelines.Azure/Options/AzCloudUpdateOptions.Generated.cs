@@ -87,7 +87,7 @@ public record AzCloudUpdateOptions : AzOptions
     public string? EndpointVmImageAliasDoc { get; set; }
 
     /// <summary>
-    /// Name of a registered cloud.
+    /// Name of a registered cloud. Default: AzureCloud.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }

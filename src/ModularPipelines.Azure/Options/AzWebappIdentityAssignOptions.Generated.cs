@@ -27,7 +27,7 @@ public record AzWebappIdentityAssignOptions : AzOptions
     public IEnumerable<string>? Identities { get; set; }
 
     /// <summary>
-    /// Role name or id the managed identity will be assigned.  Default:
+    /// Role name or id the managed identity will be assigned.  Default: Contributor.
     /// </summary>
     [CliFlag("--role")]
     public bool? Role { get; set; }

@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a deployment for Azure Cognitive
 /// </summary>
+/// <param name="Name">Cognitive service account name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ModelFormat">Cognitive Services account deployment model format.</param>
+/// <param name="ModelName">Cognitive Services account deployment model name.</param>
+/// <param name="ModelVersion">Cognitive Services account deployment model version.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "deployment", "create")]
@@ -63,7 +68,7 @@ public record AzCognitiveservicesAccountDeploymentCreateOptions(
     public bool? ScaleCapacity { get; set; }
 
     /// <summary>
-    /// Cognitive Services account deployment scale settings scale type.  Allowed values: Manual,
+    /// Cognitive Services account deployment scale settings scale type.  Allowed values: Manual, Standard.
     /// </summary>
     [CliOption("--scale-settings-scale-type", ShortForm = "--scale-type")]
     public string? ScaleSettingsScaleType { get; set; }

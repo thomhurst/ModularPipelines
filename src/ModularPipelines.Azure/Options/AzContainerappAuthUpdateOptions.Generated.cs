@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzContainerappAuthUpdateOptions : AzOptions
 {
     /// <summary>
-    /// The action to take when an unauthenticated client attempts to access the app.  Allowed values: AllowAnonymous, RedirectToLoginPage,
+    /// The action to take when an unauthenticated client attempts to access the app.  Allowed values: AllowAnonymous, RedirectToLoginPage, Return401, Return403.
     /// </summary>
     [CliOption("--action", ShortForm = "--unauthenticated-client-action")]
     public string? Action { get; set; }
@@ -57,7 +57,7 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     public IEnumerable<string>? ExcludedPaths { get; set; }
 
     /// <summary>
-    /// The convention used to determine the url of the request made.  Allowed values: Custom,
+    /// The convention used to determine the url of the request made.  Allowed values: Custom, NoProxy, Standard.
     /// </summary>
     [CliOption("--proxy-convention")]
     public string? ProxyConvention { get; set; }
@@ -123,7 +123,7 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     public string? Name { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

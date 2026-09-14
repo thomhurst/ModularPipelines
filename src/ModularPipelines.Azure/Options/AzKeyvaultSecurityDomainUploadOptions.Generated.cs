@@ -16,6 +16,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start to restore the HSM.
 /// </summary>
+/// <param name="SdFile">This file contains security domain encrypted using SD Exchange file downloaded in security-domain init-recovery command.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "security-domain", "upload")]

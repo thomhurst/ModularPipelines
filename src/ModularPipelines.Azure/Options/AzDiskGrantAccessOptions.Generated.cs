@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Grant a resource access to a managed disk.
 /// </summary>
+/// <param name="DurationInSeconds">Time duration in seconds until the SAS access expires.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("disk", "grant-access")]
@@ -29,7 +30,7 @@ public record AzDiskGrantAccessOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Access level.  Allowed values: None, Read, Write.  Default:
+    /// Access level.  Allowed values: None, Read, Write.  Default: Read.
     /// </summary>
     [CliOption("--access", ShortForm = "--access-level")]
     public string? Access { get; set; }

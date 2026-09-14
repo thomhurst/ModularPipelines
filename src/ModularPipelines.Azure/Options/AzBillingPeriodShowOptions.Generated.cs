@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show a named billing period.
 /// </summary>
+/// <param name="Name">Name of the billing period. Run the az billing period list command to list the name of billing period.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "period", "show")]

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add action groups to this activity log alert
 /// </summary>
+/// <param name="ActionGroup">The names or the resource ids of the action groups to be added.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "activity-log", "alert", "action-group", "add")]
@@ -35,7 +36,7 @@ public record AzMonitorActivityLogAlertActionGroupAddOptions(
     public bool? Strict { get; set; }
 
     /// <summary>
-    /// Space-separated webhook properties in 'key[=value]' format. These properties are associated with the action groups added in this command.
+    /// Space-separated webhook properties in 'key[=value]' format. These properties are associated with the action groups added in this command. For any webhook receiver in these action group, these data are appended to the webhook payload. To attach different webhook properties to different action groups, add the action groups in separate update-action commands. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--webhook-properties", ShortForm = "-w", GroupValues = true)]
     public IEnumerable<string>? WebhookProperties { get; set; }

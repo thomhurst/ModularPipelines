@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates or updates a search service in the given resource group. If
 /// </summary>
+/// <param name="Name">The name of the Azure AI Search service to create or update. Search service names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in length. Search service names must be unique since they are part of the service URI (https://`&lt;name&gt;`.search.windows.net). You cannot change the service name after the service is created.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Sku">The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions. 'serverless': Serverless tier with auto-scaling capabilities.  Allowed values: basic, free, serverless, standard, standard2, standard3, storage_optimized_l1, storage_optimized_l2.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "service", "create")]
@@ -31,19 +34,19 @@ public record AzSearchServiceCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Describes what response the data plane API of a Search service would send for requests that failed authentication.
+    /// Describes what response the data plane API of a Search service would send for requests that failed authentication. Allowed values: http401WithBearerChallenge, http403.
     /// </summary>
-    [CliFlag("--aad-auth-failure-mode")]
-    public bool? AadAuthFailureMode { get; set; }
+    [CliOption("--aad-auth-failure-mode")]
+    public string? AadAuthFailureMode { get; set; }
 
     /// <summary>
-    /// The identity type.  Allowed values: None,
+    /// The identity type.  Allowed values: None, SystemAssigned, SystemAssigned, UserAssigned, UserAssigned.
     /// </summary>
     [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
     /// <summary>
-    /// Possible origins of inbound traffic that can bypass the rules defined in the 'ipRules' section.  Allowed values:
+    /// Possible origins of inbound traffic that can bypass the rules defined in the 'ipRules' section.  Allowed values: AzureServices, None.
     /// </summary>
     [CliOption("--bypass")]
     public string? Bypass { get; set; }
@@ -85,7 +88,7 @@ public record AzSearchServiceCreateOptions(
     public bool? EncryptionWithCmk { get; set; }
 
     /// <summary>
-    /// Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'. Allowed values: default, highDensity.
+    /// Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'. Allowed values: default, highDensity. Default: default.
     /// </summary>
     [CliOption("--hosting-mode")]
     public string? HostingMode { get; set; }
@@ -100,10 +103,10 @@ public record AzSearchServiceCreateOptions(
     /// The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3.  Default: 1.
     /// </summary>
     [CliOption("--partition-count")]
-    public string? PartitionCount { get; set; }
+    public int? PartitionCount { get; set; }
 
     /// <summary>
-    /// This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.  Allowed values: disabled, enabled, securedByPerimeter.
+    /// This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.  Allowed values: disabled, enabled, securedByPerimeter. Default: enabled.
     /// </summary>
     [CliOption("--public-access", ShortForm = "--public-network-access")]
     public string? PublicAccess { get; set; }
@@ -123,8 +126,8 @@ public record AzSearchServiceCreateOptions(
     /// <summary>
     /// The geo-location where the resource lives When not specified, the location of the resource group will be used.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

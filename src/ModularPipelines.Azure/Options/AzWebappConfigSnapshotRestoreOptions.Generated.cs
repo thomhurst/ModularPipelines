@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a web app snapshot.
 /// </summary>
+/// <param name="Time">Timestamp of the snapshot to restore.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "snapshot", "restore")]
@@ -59,7 +60,7 @@ public record AzWebappConfigSnapshotRestoreOptions(
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure --defaults web=&lt;name&gt;`.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }

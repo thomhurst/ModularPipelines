@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new cluster.
 /// </summary>
+/// <param name="Name">The name of the cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Type">Type of HDInsight cluster, like: hadoop, interactivehive, hbase, kafka, storm, spark, rserver, mlservices. See also: https://lea rn.microsoft.com/azure/hdinsight/ hdinsight-hadoop-provision-linux- clusters#cluster-types.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "create")]
@@ -27,8 +30,8 @@ public record AzHdinsightCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Permit timeout error during argument validation phase. If omitted, validation timeout error will be permitted.
@@ -55,13 +58,13 @@ public record AzHdinsightCreateOptions(
     public bool? AutoscaleCount { get; set; }
 
     /// <summary>
-    /// The max workernode count for
+    /// The max workernode count for Load-based atuoscale.
     /// </summary>
     [CliFlag("--autoscale-max-count", ShortForm = "--autoscale-max-workernode-count")]
     public bool? AutoscaleMaxCount { get; set; }
 
     /// <summary>
-    /// The minimal workernode count for
+    /// The minimal workernode count for Load-based atuoscale.
     /// </summary>
     [CliFlag("--autoscale-min-count", ShortForm = "--autoscale-min-workernode-count")]
     public bool? AutoscaleMinCount { get; set; }
@@ -73,7 +76,7 @@ public record AzHdinsightCreateOptions(
     public string? AutoscaleType { get; set; }
 
     /// <summary>
-    /// A space-delimited list of schedule day.  Allowed values: Friday, Monday, Saturday, Sunday,
+    /// A space-delimited list of schedule day.  Allowed values: Friday, Monday, Saturday, Sunday, Thursday, Tuesday, Wednesday.
     /// </summary>
     [CliOption("--days", GroupValues = true)]
     public IEnumerable<string>? Days { get; set; }
@@ -133,7 +136,7 @@ public record AzHdinsightCreateOptions(
     public string? MinimalTlsVersion { get; set; }
 
     /// <summary>
-    /// The HDInsight cluster version.
+    /// The HDInsight cluster version. See also: https://learn.microsoft .com/azure/hdinsight/hdinsight- component-versioning#supported- hdinsight-versions.  Default: default.
     /// </summary>
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
@@ -151,7 +154,7 @@ public record AzHdinsightCreateOptions(
     public bool? HostSku { get; set; }
 
     /// <summary>
-    /// Algorithm identifier for encryption.  Allowed values: RSA-
+    /// Algorithm identifier for encryption.  Allowed values: RSA- OAEP, RSA-OAEP-256, RSA1_5. Default: RSA-OAEP.
     /// </summary>
     [CliOption("--encryption-algorithm")]
     public string? EncryptionAlgorithm { get; set; }
@@ -175,7 +178,7 @@ public record AzHdinsightCreateOptions(
     public bool? EncryptionVaultUri { get; set; }
 
     /// <summary>
-    /// The domain user account that will have admin privileges on the cluster. Required only when create cluster with Enterprise
+    /// The domain user account that will have admin privileges on the cluster. Required only when create cluster with Enterprise Security Package.
     /// </summary>
     [CliFlag("--cluster-admin-account")]
     public bool? ClusterAdminAccount { get; set; }
@@ -187,19 +190,19 @@ public record AzHdinsightCreateOptions(
     public bool? ClusterAdminPassword { get; set; }
 
     /// <summary>
-    /// A space-delimited list of Distinguished Names for cluster user groups. Required only when create cluster with Enterprise
+    /// A space-delimited list of Distinguished Names for cluster user groups. Required only when create cluster with Enterprise Security Package.
     /// </summary>
     [CliOption("--cluster-users-group-dns", GroupValues = true)]
     public IEnumerable<string>? ClusterUsersGroupDns { get; set; }
 
     /// <summary>
-    /// The name or resource ID of the user's Azure Active Directory Domain Service. Required only when create cluster with
+    /// The name or resource ID of the user's Azure Active Directory Domain Service. Required only when create cluster with Enterprise Security Package.
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; set; }
 
     /// <summary>
-    /// A space-delimited list of LDAPS protocol URLs to communicate with the Active Directory. Required only when create cluster with
+    /// A space-delimited list of LDAPS protocol URLs to communicate with the Active Directory. Required only when create cluster with Enterprise Security Package.
     /// </summary>
     [CliOption("--ldaps-urls", GroupValues = true)]
     public IEnumerable<string>? LdapsUrls { get; set; }
@@ -223,7 +226,7 @@ public record AzHdinsightCreateOptions(
     public IEnumerable<string>? EntraUid { get; set; }
 
     /// <summary>
-    /// The Entra user information to associate with the cluster. This can be provided as a JSON string or from a file using the `@{path}` syntax. Each entry should include "objectId", "upn", and "displayName" fields. Please
+    /// The Entra user information to associate with the cluster. This can be provided as a JSON string or from a file using the `@{path}` syntax. Each entry should include "objectId", "upn", and "displayName" fields. Please see: `https://github.com/Azure/azure- cli/blob/dev/src/azure-cli/azure/ cli/command_modules/hdinsight/tes ts/latest/entrauserconfig.json`.
     /// </summary>
     [CliFlag("--entra-uinfo", ShortForm = "--entra-user-full-info")]
     public bool? EntraUinfo { get; set; }
@@ -235,7 +238,7 @@ public record AzHdinsightCreateOptions(
     public bool? HttpPassword { get; set; }
 
     /// <summary>
-    /// HTTP username for the cluster.
+    /// HTTP username for the cluster. Default: admin.
     /// </summary>
     [CliFlag("--http-user", ShortForm = "-u")]
     public bool? HttpUser { get; set; }
@@ -253,7 +256,7 @@ public record AzHdinsightCreateOptions(
     public bool? KafkaClientGroupName { get; set; }
 
     /// <summary>
-    /// The name or ID of user assigned identity. Skip this field when assign_identity_type is
+    /// The name or ID of user assigned identity. Skip this field when assign_identity_type is SystemAssigned.
     /// </summary>
     [CliOption("--assign-identity", GroupValues = true)]
     public IEnumerable<string>? AssignIdentity { get; set; }
@@ -307,10 +310,10 @@ public record AzHdinsightCreateOptions(
     public bool? WorkernodeDataDiskSize { get; set; }
 
     /// <summary>
-    /// The type of storage account that will be used for the data disks: standard_lrs or premium_lrs.
+    /// The type of storage account that will be used for the data disks: standard_lrs or premium_lrs. Allowed values: premium_lrs, standard_lrs.
     /// </summary>
-    [CliFlag("--workernode-data-disk-storage-account-type")]
-    public bool? WorkernodeDataDiskStorageAccountType { get; set; }
+    [CliOption("--workernode-data-disk-storage-account-type")]
+    public string? WorkernodeDataDiskStorageAccountType { get; set; }
 
     /// <summary>
     /// The number of data disks to use per worker node.
@@ -349,19 +352,19 @@ public record AzHdinsightCreateOptions(
     public string? PrivateLinkConfig { get; set; }
 
     /// <summary>
-    /// Gets or sets the ipTag type:
+    /// Gets or sets the ipTag type: Example FirstPartyUsage.
     /// </summary>
     [CliFlag("--public-ip-tag-type")]
     public bool? PublicIpTagType { get; set; }
 
     /// <summary>
-    /// Gets or sets value of the IpTag associated with the public
+    /// Gets or sets value of the IpTag associated with the public IP.Example HDInsight, SQL, Storage etc.
     /// </summary>
     [CliFlag("--public-ip-tag-value")]
     public bool? PublicIpTagValue { get; set; }
 
     /// <summary>
-    /// The resource provider connection type.  Allowed values: Inbound,
+    /// The resource provider connection type.  Allowed values: Inbound, Outbound.
     /// </summary>
     [CliOption("--resource-provider-connection", ShortForm = "--rp-connection")]
     public string? ResourceProviderConnection { get; set; }

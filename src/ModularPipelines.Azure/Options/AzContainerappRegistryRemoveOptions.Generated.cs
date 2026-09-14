@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a container registry's details.
 /// </summary>
+/// <param name="Server">The container registry server, e.g. myregistry.azurecr.io.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "registry", "remove")]

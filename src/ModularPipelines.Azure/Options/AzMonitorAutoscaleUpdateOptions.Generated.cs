@@ -75,10 +75,10 @@ public record AzMonitorAutoscaleUpdateOptions : AzOptions
     public bool? MinCount { get; set; }
 
     /// <summary>
-    /// Add an action to fire when a scaling event occurs.
+    /// Add an action to fire when a scaling event occurs. Usage:   --add-action TYPE KEY [ARG ...] Email:   --add-action email bob@contoso.com ann@contoso.com Webhook: --add-action webhook https://www.contoso.com/alert apiKey=value Webhook: --add-action webhook https://www.contoso.com/alert?apiKey=value Multiple actions can be specified by using more than one `--add-action` argument. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--add-action", ShortForm = "-a")]
-    public bool? AddAction { get; set; }
+    [CliOption("--add-action", ShortForm = "-a")]
+    public string? AddAction { get; set; }
 
     /// <summary>
     /// Send email to subscription administrator on scaling. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -93,19 +93,19 @@ public record AzMonitorAutoscaleUpdateOptions : AzOptions
     public bool? EmailCoadministrators { get; set; }
 
     /// <summary>
-    /// Remove one or more actions.
+    /// Remove one or more actions. Usage:   --remove-action TYPE KEY [KEY ...] Email:   --remove-action email bob@contoso.com ann@contoso.com Webhook: --remove-action webhook https://contoso.com/alert https://alerts.contoso.com. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--remove-action", ShortForm = "-r")]
     public bool? RemoveAction { get; set; }
 
     /// <summary>
-    /// The amount of time to specify by which instances are launched in advance. It must be between 1 minute and 60 minutes in ISO 8601 format (for example, 100 days would be
+    /// The amount of time to specify by which instances are launched in advance. It must be between 1 minute and 60 minutes in ISO 8601 format (for example, 100 days would be P100D).
     /// </summary>
     [CliFlag("--scale-look-ahead-time")]
     public bool? ScaleLookAheadTime { get; set; }
 
     /// <summary>
-    /// The predictive autoscale mode.  Allowed values: Disabled,
+    /// The predictive autoscale mode.  Allowed values: Disabled, Enabled, ForecastOnly.
     /// </summary>
     [CliOption("--scale-mode")]
     public string? ScaleMode { get; set; }

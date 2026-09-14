@@ -16,6 +16,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update security policy settings for a Key Vault.
 /// </summary>
+/// <param name="Name">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "set-policy")]

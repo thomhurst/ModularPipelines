@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete the given cosmosdb service resource.
 /// </summary>
+/// <param name="AccountName">Name of the Cosmos DB database account.</param>
+/// <param name="Name">Service Name.</param>
+/// <param name="ResourceGroupName">Name of the resource group of the database account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "service", "delete")]

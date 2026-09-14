@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a gallery Application Definition.
 /// </summary>
+/// <param name="ApplicationName">The name of the gallery application.</param>
+/// <param name="GalleryName">Gallery name.</param>
+/// <param name="OsType">This property allows you to specify the supported type of the OS that application is built for. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Allowed values: Linux, Windows.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "gallery-application", "create")]
@@ -26,7 +30,7 @@ public record AzSigGalleryApplicationCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// The description of this gallery Application
+    /// The description of this gallery Application Definition resource. This property is updatable.
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }

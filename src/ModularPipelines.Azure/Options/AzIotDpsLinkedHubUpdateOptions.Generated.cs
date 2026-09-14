@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a linked IoT hub in an Azure IoT Hub Device Provisioning
 /// </summary>
+/// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
+/// <param name="LinkedHub">Host name of linked IoT Hub.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "linked-hub", "update")]

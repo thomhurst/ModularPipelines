@@ -15,13 +15,19 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a new autoscale profile to a VirtualMachines agentpool in
 /// </summary>
+/// <param name="ClusterName">The cluster name.</param>
+/// <param name="MaxCount">Maximum number of nodes for autoscaling.</param>
+/// <param name="MinCount">Minimum number of nodes for autoscaling.</param>
+/// <param name="Name">The node pool name.</param>
+/// <param name="NodeVmSize">VM size for the autoscale profile.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "auto-scale", "add")]
 public record AzAksNodepoolAutoScaleAddOptions(
     [property: CliOption("--cluster-name")] string ClusterName,
-    [property: CliOption("--max-count")] string MaxCount,
-    [property: CliOption("--min-count")] string MinCount,
+    [property: CliOption("--max-count")] int MaxCount,
+    [property: CliOption("--min-count")] int MinCount,
     [property: CliOption("--name", ShortForm = "-n")] string Name,
     [property: CliOption("--node-vm-size")] string NodeVmSize,
     [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup

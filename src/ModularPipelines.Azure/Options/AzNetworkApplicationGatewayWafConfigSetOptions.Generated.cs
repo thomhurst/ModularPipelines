@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the firewall configuration of a web
 /// </summary>
+/// <param name="Enabled">Specify whether the application firewall is enabled.  Allowed values: false, true.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-config", "set")]
@@ -35,7 +36,7 @@ public record AzNetworkApplicationGatewayWafConfigSetOptions(
     public IEnumerable<string>? DisabledRules { get; set; }
 
     /// <summary>
-    /// Add an exclusion expression to the WAF check.
+    /// Add an exclusion expression to the WAF check. Usage:   --exclusion VARIABLE OPERATOR VALUE
     /// </summary>
     [CliFlag("--exclusion")]
     public bool? Exclusion { get; set; }
@@ -43,11 +44,11 @@ public record AzNetworkApplicationGatewayWafConfigSetOptions(
     /// <summary>
     /// File upload size limit in MB.
     /// </summary>
-    [CliFlag("--file-upload-limit")]
-    public bool? FileUploadLimit { get; set; }
+    [CliOption("--file-upload-limit")]
+    public string? FileUploadLimit { get; set; }
 
     /// <summary>
-    /// Web application firewall mode.  Allowed values: detection, prevention.
+    /// Web application firewall mode.  Allowed values: detection, prevention. Default: detection.
     /// </summary>
     [CliOption("--firewall-mode")]
     public string? FirewallMode { get; set; }

@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an inbound NAT rule.
 /// </summary>
+/// <param name="LbName">The load balancer name.</param>
+/// <param name="Name">The name of the resource that is unique within the set of inbound NAT rules used by the load balancer.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "inbound-nat-rule", "update")]
@@ -43,7 +46,7 @@ public record AzNetworkLbInboundNatRuleUpdateOptions(
     public bool? ForceString { get; set; }
 
     /// <summary>
-    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;`
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
     public IEnumerable<string>? Remove { get; set; }
@@ -97,7 +100,7 @@ public record AzNetworkLbInboundNatRuleUpdateOptions(
     public bool? FrontendPortRangeEnd { get; set; }
 
     /// <summary>
-    /// The port range start for the external endpoint. This property is used together with
+    /// The port range start for the external endpoint. This property is used together with BackendAddressPool and FrontendPortRangeEnd. Individual inbound NAT rule port mappings will be created for each backend address from BackendAddressPool. Acceptable values range from 1 to 65534.
     /// </summary>
     [CliFlag("--frontend-port-range-start")]
     public bool? FrontendPortRangeStart { get; set; }
@@ -105,11 +108,11 @@ public record AzNetworkLbInboundNatRuleUpdateOptions(
     /// <summary>
     /// The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.
     /// </summary>
-    [CliFlag("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
-    public bool? IdleTimeout { get; set; }
+    [CliOption("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
+    public int? IdleTimeout { get; set; }
 
     /// <summary>
-    /// The reference to the transport protocol used by the load balancing rule.  Allowed values: All, Tcp,
+    /// The reference to the transport protocol used by the load balancing rule.  Allowed values: All, Tcp, Udp.
     /// </summary>
     [CliOption("--protocol")]
     public string? Protocol { get; set; }

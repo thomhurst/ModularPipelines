@@ -45,7 +45,7 @@ public record AzEventhubsNamespaceNetworkRuleSetUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Default Action for Network Rule Set.  Allowed values:
+    /// Default Action for Network Rule Set.  Allowed values: Allow, Deny.
     /// </summary>
     [CliOption("--default-action")]
     public string? DefaultAction { get; set; }

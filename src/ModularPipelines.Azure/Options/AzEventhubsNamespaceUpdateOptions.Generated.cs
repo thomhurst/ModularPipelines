@@ -27,7 +27,7 @@ public record AzEventhubsNamespaceUpdateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -45,7 +45,7 @@ public record AzEventhubsNamespaceUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
@@ -111,7 +111,7 @@ public record AzEventhubsNamespaceUpdateOptions : AzOptions
     public IEnumerable<string>? EndpointConnections { get; set; }
 
     /// <summary>
-    /// The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack).  Allowed values:
+    /// The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack).  Allowed values: DualStack, IPv4.
     /// </summary>
     [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
@@ -141,7 +141,7 @@ public record AzEventhubsNamespaceUpdateOptions : AzOptions
     public bool? PlatformCapabilities { get; set; }
 
     /// <summary>
-    /// This determines if traffic is allowed over public network. By default it is enabled.  Allowed values: Disabled,
+    /// This determines if traffic is allowed over public network. By default it is enabled.  Allowed values: Disabled, Enabled, SecuredByPerimeter.
     /// </summary>
     [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
@@ -153,7 +153,7 @@ public record AzEventhubsNamespaceUpdateOptions : AzOptions
     public bool? ZoneRedundant { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids")]
     public IEnumerable<string>? Ids { get; set; }
@@ -177,13 +177,13 @@ public record AzEventhubsNamespaceUpdateOptions : AzOptions
     public bool? Capacity { get; set; }
 
     /// <summary>
-    /// Name of this SKU.  Allowed values:
+    /// Name of this SKU.  Allowed values: Basic, Premium, Standard.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }
 
     /// <summary>
-    /// The billing tier of this particular SKU. Allowed values: Basic, Premium,
+    /// The billing tier of this particular SKU. Allowed values: Basic, Premium, Standard.
     /// </summary>
     [CliOption("--tier")]
     public string? Tier { get; set; }

@@ -94,7 +94,7 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? NodeCount { get; set; }
 
     /// <summary>
-    /// Whether password authentication is enabled.  Allowed values:
+    /// Whether password authentication is enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
     [SecretValue]
     [CliOption("--password-auth")]
@@ -149,13 +149,13 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Storage throughput in (MB/sec) for the server. This value can only be updated if flexible server is using Premium SSD v2
+    /// Storage throughput in (MB/sec) for the server. This value can only be updated if flexible server is using Premium SSD v2 Disks.
     /// </summary>
     [CliFlag("--throughput")]
     public bool? Throughput { get; set; }
 
     /// <summary>
-    /// Compute tier of the server. Accepted values: Burstable,
+    /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose, MemoryOptimized.
     /// </summary>
     [CliOption("--tier")]
     public string? Tier { get; set; }
@@ -167,7 +167,7 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// Enable or disable high availability feature.  Allowed values:
+    /// Enable or disable high availability feature.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--zonal-resiliency")]
     public string? ZonalResiliency { get; set; }

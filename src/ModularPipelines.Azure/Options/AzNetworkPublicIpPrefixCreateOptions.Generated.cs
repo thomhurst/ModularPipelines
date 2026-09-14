@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a public IP prefix resource.
 /// </summary>
+/// <param name="Name">The name of the public IP prefix.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "public-ip", "prefix", "create")]
@@ -50,8 +52,8 @@ public record AzNetworkPublicIpPrefixCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -66,7 +68,7 @@ public record AzNetworkPublicIpPrefixCreateOptions(
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Tier of a public IP prefix SKU.  Allowed values: Global,
+    /// Tier of a public IP prefix SKU.  Allowed values: Global, Regional.
     /// </summary>
     [CliOption("--tier")]
     public string? Tier { get; set; }

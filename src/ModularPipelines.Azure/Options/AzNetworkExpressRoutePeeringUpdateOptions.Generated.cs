@@ -75,7 +75,7 @@ public record AzNetworkExpressRoutePeeringUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
@@ -111,7 +111,7 @@ public record AzNetworkExpressRoutePeeringUpdateOptions : AzOptions
     public string? RouteFilter { get; set; }
 
     /// <summary>
-    /// Internet Routing Registry / Regional Internet Registry. Allowed values: AFRINIC, ALTDB, APNIC, ARIN, LACNIC, LEVEL3, RADB, RIPENCC.  Allowed values: AFRINIC, ALTDB, APNIC, ARIN, LACNIC,
+    /// Internet Routing Registry / Regional Internet Registry. Allowed values: AFRINIC, ALTDB, APNIC, ARIN, LACNIC, LEVEL3, RADB, RIPENCC.  Allowed values: AFRINIC, ALTDB, APNIC, ARIN, LACNIC, LEVEL3, RADB, RIPENCC.
     /// </summary>
     [CliOption("--routing-registry-name")]
     public string? RoutingRegistryName { get; set; }

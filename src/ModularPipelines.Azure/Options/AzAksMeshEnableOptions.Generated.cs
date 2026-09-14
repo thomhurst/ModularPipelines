@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable Azure Service Mesh.
 /// </summary>
+/// <param name="Name">Name of the managed cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "mesh", "enable")]
@@ -54,7 +56,7 @@ public record AzAksMeshEnableOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Set the proxy redirection mechanism.  Allowed values:
+    /// Set the proxy redirection mechanism.  Allowed values: CNIChaining, InitContainers. Allowed values are "CNIChaining" which uses CNI plugins for traffic redirection, and "InitContainers" which uses privileged init containers.
     /// </summary>
     [CliOption("--proxy-redirection-mechanism")]
     public string? ProxyRedirectionMechanism { get; set; }

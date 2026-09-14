@@ -21,31 +21,31 @@ namespace ModularPipelines.Azure.Options;
 public record AzBackupVaultUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Set backup storage properties for a Recovery Services vault.  Allowed values: GeoRedundant, LocallyRedundant,
+    /// Set backup storage properties for a Recovery Services vault.  Allowed values: GeoRedundant, LocallyRedundant, ZoneRedundant.
     /// </summary>
     [CliOption("--backup-storage-redundancy")]
     public string? BackupStorageRedundancy { get; set; }
 
     /// <summary>
-    /// Use this property to specify whether backup alerts from the classic solution should be received.  Allowed values:
+    /// Use this property to specify whether backup alerts from the classic solution should be received.  Allowed values: Disable, Enable.
     /// </summary>
     [CliOption("--classic-alerts")]
     public string? ClassicAlerts { get; set; }
 
     /// <summary>
-    /// Use this parameter to configure cost management settings for the vault. By default, the property is "VaultLevel" for the vault.  Allowed values:
+    /// Use this parameter to configure cost management settings for the vault. By default, the property is "VaultLevel" for the vault.  Allowed values: ProtectedItemLevel, ProtectedItemWithParentTag, VaultLevel.
     /// </summary>
     [CliOption("--cost-granularity-level", ShortForm = "--cost-management-granularity")]
     public string? CostGranularityLevel { get; set; }
 
     /// <summary>
-    /// Set cross-region-restore feature state for a Recovery Services Vault. Default: False.  Allowed values: Disabled,
+    /// Set cross-region-restore feature state for a Recovery Services Vault. Default: False.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--cross-region-restore-flag")]
     public string? CrossRegionRestoreFlag { get; set; }
 
     /// <summary>
-    /// Use this parameter to configure cross subscription restore settings for the vault. By default, the property is "Enabled" for the vault.  Allowed values: Disable, Enable,
+    /// Use this parameter to configure cross subscription restore settings for the vault. By default, the property is "Enabled" for the vault.  Allowed values: Disable, Enable, PermanentlyDisable.
     /// </summary>
     [CliOption("--cross-subscription-restore-state")]
     public string? CrossSubscriptionRestoreState { get; set; }
@@ -63,7 +63,7 @@ public record AzBackupVaultUpdateOptions : AzOptions
     public string? JobFailureAlerts { get; set; }
 
     /// <summary>
-    /// Use this property to specify whether public network access for the vault should be enabled or disabled. It is enabled by default. For setting up private endpoints, it has to be disabled.  Allowed values: Disable,
+    /// Use this property to specify whether public network access for the vault should be enabled or disabled. It is enabled by default. For setting up private endpoints, it has to be disabled.  Allowed values: Disable, Enable.
     /// </summary>
     [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
@@ -81,7 +81,7 @@ public record AzBackupVaultUpdateOptions : AzOptions
     public string? TenantId { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids")]
     public IEnumerable<string>? Ids { get; set; }

@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Selectively update the set of tags on a specific resource.
 /// </summary>
+/// <param name="Operation">The update operation. Options are Merge, Replace and Delete.  Allowed values: Delete, Merge, Replace.</param>
+/// <param name="ResourceId">The resource identifier for the entity being tagged. A resource, a resource group or a subscription may be tagged.</param>
+/// <param name="Tags">The tags to be updated on the resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tag", "update")]

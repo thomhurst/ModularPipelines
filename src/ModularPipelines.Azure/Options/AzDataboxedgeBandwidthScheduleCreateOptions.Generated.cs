@@ -15,6 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a bandwidth schedule.
 /// </summary>
+/// <param name="Days">The days of the week when this schedule is applicable.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+/// <param name="DeviceName">The device name.</param>
+/// <param name="Name">The bandwidth schedule name which needs to be added/updated.</param>
+/// <param name="RateInMbps">The bandwidth rate in Mbps.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Start">The start time of the schedule in UTC.</param>
+/// <param name="Stop">The stop time of the schedule in UTC.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "bandwidth-schedule", "create")]

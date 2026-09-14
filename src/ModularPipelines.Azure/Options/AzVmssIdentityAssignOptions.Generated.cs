@@ -45,7 +45,7 @@ public record AzVmssIdentityAssignOptions : AzOptions
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// Scale set name. You can configure the default using `az configure
+    /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
     /// </summary>
     [CliFlag("--name", ShortForm = "-n")]
     public bool? Name { get; set; }

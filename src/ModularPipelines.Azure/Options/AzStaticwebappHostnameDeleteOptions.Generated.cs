@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete given hostname of the static app.
 /// </summary>
+/// <param name="Hostname">Custom hostname such as www.example.com. Only support sub domain in preview.</param>
+/// <param name="Name">Name of the static site.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "hostname", "delete")]

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Download log files for a PostgreSQL flexible
 /// </summary>
+/// <param name="Name">Space-separated list of log filenames on the server to download.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "server-logs", "download")]

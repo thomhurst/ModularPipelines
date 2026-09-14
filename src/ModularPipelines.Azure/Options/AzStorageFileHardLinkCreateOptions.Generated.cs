@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// NFS only. Create a hard link to the file specified by path.
 /// </summary>
+/// <param name="Path">The path to the file within the file share.</param>
+/// <param name="ShareName">The file share name.</param>
+/// <param name="Target">Specifies the path of the target file to which the link will be created, up to 2 KiB in length. It should be the full path of the target starting from the root. The target file must be in the same share and the same storage account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "file", "hard-link", "create")]
@@ -25,10 +28,10 @@ public record AzStorageFileHardLinkCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided.
+    /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// Required parameter to use with OAuth (Azure AD) Authentication for Files. This will bypass any file/directory level permission checks and allow access, based on the allowed data actions, even if there are ACLs in place for those files/directories.
@@ -49,7 +52,7 @@ public record AzStorageFileHardLinkCreateOptions(
     public bool? Timeout { get; set; }
 
     /// <summary>
-    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
     [CliFlag("--account-key")]
     public bool? AccountKey { get; set; }
@@ -61,7 +64,7 @@ public record AzStorageFileHardLinkCreateOptions(
     public bool? AccountName { get; set; }
 
     /// <summary>
-    /// Storage account connection string.
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }

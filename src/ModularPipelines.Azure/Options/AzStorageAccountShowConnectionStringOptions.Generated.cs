@@ -33,7 +33,7 @@ public record AzStorageAccountShowConnectionStringOptions : AzOptions
     public bool? FileEndpoint { get; set; }
 
     /// <summary>
-    /// The key to use.  Allowed values: key1, key2, primary, secondary.
+    /// The key to use.  Allowed values: key1, key2, primary, secondary. Default: key1.
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }

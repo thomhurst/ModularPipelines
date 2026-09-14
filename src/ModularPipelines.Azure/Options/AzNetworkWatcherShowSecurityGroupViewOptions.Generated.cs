@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get detailed security information on a VM for the
 /// </summary>
+/// <param name="Vm">Name or ID of the VM to target. If the name of the VM is provided, the `--resource-group` is required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "show-security-group-view")]

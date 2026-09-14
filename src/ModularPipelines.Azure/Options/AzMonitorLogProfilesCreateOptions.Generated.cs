@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a log profile in Azure Monitoring REST API.
 /// </summary>
+/// <param name="Categories">Space-separated categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.'  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+/// <param name="Locations">Space-separated list of regions for which Activity Log events should be stored.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+/// <param name="Name">The name of the log profile.</param>
+/// <param name="Days">The number of days for the retention in days. A value of 0 will retain the events indefinitely.</param>
+/// <param name="Enabled">Whether the retention policy is enabled.  Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-profiles", "create")]
@@ -23,15 +29,15 @@ public record AzMonitorLogProfilesCreateOptions(
     [property: CliOption("--location", ShortForm = "-l")] string Location,
     [property: CliOption("--locations", GroupValues = true)] IEnumerable<string> Locations,
     [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--days")] string Days,
+    [property: CliOption("--days")] int Days,
     [property: CliOption("--enabled")] bool Enabled
 ) : AzOptions
 {
     /// <summary>
-    /// The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource
+    /// The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'.
     /// </summary>
-    [CliFlag("--service-bus-rule-id")]
-    public bool? ServiceBusRuleId { get; set; }
+    [CliOption("--service-bus-rule-id")]
+    public string? ServiceBusRuleId { get; set; }
 
     /// <summary>
     /// The resource id of the storage account to which you would like to send the Activity Log.

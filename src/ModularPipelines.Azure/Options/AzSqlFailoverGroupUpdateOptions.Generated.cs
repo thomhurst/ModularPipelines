@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates the failover group.
 /// </summary>
+/// <param name="Name">The name of the Failover Group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "failover-group", "update")]
@@ -29,7 +30,7 @@ public record AzSqlFailoverGroupUpdateOptions(
     public IEnumerable<string>? AddDb { get; set; }
 
     /// <summary>
-    /// The failover policy of the Failover Group.  Allowed values: Automatic,
+    /// The failover policy of the Failover Group.  Allowed values: Automatic, Manual.
     /// </summary>
     [CliOption("--failover-policy")]
     public string? FailoverPolicy { get; set; }
@@ -65,13 +66,13 @@ public record AzSqlFailoverGroupUpdateOptions(
     public string? RoFailoverPolicy { get; set; }
 
     /// <summary>
-    /// Databases secondary type on partner server.  Allowed values: Geo,
+    /// Databases secondary type on partner server.  Allowed values: Geo, Standby.
     /// </summary>
     [CliOption("--secondary-type")]
     public string? SecondaryType { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -89,7 +90,7 @@ public record AzSqlFailoverGroupUpdateOptions(
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }

@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a dedicated host.
 /// </summary>
+/// <param name="HostGroup">Name of the Dedicated Host Group.</param>
+/// <param name="Name">Name of the Dedicated Host.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Sku">SKU of the dedicated host. Available SKUs: https://azure.microsoft.com/pricing/details/virtual- machines/dedicated-host/.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "host", "create")]
@@ -32,7 +36,7 @@ public record AzVmHostCreateOptions(
     public bool? AutoReplace { get; set; }
 
     /// <summary>
-    /// The software license type that will be applied to the VMs deployed on the dedicated host.  Allowed values: None,
+    /// The software license type that will be applied to the VMs deployed on the dedicated host.  Allowed values: None, Windows_Server_Hybrid, Windows_Server_Perpetual.
     /// </summary>
     [CliOption("--license-type")]
     public string? LicenseType { get; set; }
@@ -40,8 +44,8 @@ public record AzVmHostCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`. Otherwise, location will default to the resource group's location.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Fault domain of the host within a group. Allowed values: 0, 1, 2.

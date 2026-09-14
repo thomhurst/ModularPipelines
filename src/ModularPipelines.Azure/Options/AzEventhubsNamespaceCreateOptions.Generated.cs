@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates the EventHubs Namespace.
 /// </summary>
+/// <param name="Name">Name of Namespace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "create")]
@@ -72,13 +74,13 @@ public record AzEventhubsNamespaceCreateOptions(
     public IEnumerable<string>? GeoDataReplicationConfig { get; set; }
 
     /// <summary>
-    /// A boolean value that indicates whether
+    /// A boolean value that indicates whether Infrastructure Encryption (Double Encryption) is enabled/disabled.  Allowed values: false, true.
     /// </summary>
     [CliOption("--infra-encryption")]
     public bool? InfraEncryption { get; set; }
 
     /// <summary>
-    /// The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dualstack).  Allowed values: DualStack,
+    /// The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dualstack).  Allowed values: DualStack, IPv4.
     /// </summary>
     [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
@@ -86,8 +88,8 @@ public record AzEventhubsNamespaceCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// The maximum acceptable lag for data replication operations from the primary replica to a quorum of secondary replicas.
@@ -96,7 +98,7 @@ public record AzEventhubsNamespaceCreateOptions(
     public bool? MaxLag { get; set; }
 
     /// <summary>
-    /// Upper limit of throughput units when AutoInflate is enabled, vaule should be within 0 to 20 throughput units. ( 0 if
+    /// Upper limit of throughput units when AutoInflate is enabled, vaule should be within 0 to 20 throughput units. ( 0 if AutoInflateEnabled = true).
     /// </summary>
     [CliFlag("--maximum-throughput-units")]
     public bool? MaximumThroughputUnits { get; set; }

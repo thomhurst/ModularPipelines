@@ -16,6 +16,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a container group profile.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "container-group-profile", "create")]
@@ -26,8 +27,8 @@ public record AzContainerContainerGroupProfileCreateOptions(
     /// <summary>
     /// The command line to run when the container is started, e.g. '/bin/bash -c myscript.sh'.
     /// </summary>
-    [CliFlag("--command-line")]
-    public bool? CommandLine { get; set; }
+    [CliOption("--command-line")]
+    public string? CommandLine { get; set; }
 
     /// <summary>
     /// A list of config map key-value pairs for the container. Space-separated values in 'key=value' format.
@@ -60,7 +61,7 @@ public record AzContainerContainerGroupProfileCreateOptions(
     public bool? Image { get; set; }
 
     /// <summary>
-    /// The IP address type of the container group.  Allowed values:
+    /// The IP address type of the container group.  Allowed values: Private, Public.
     /// </summary>
     [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
@@ -68,8 +69,8 @@ public record AzContainerContainerGroupProfileCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// The required memory of the containers in GB, accurate to one decimal place.  Default: 1.5.
@@ -96,7 +97,7 @@ public record AzContainerContainerGroupProfileCreateOptions(
     public string? OsType { get; set; }
 
     /// <summary>
-    /// A list of ports to open. Space-separated list of ports.
+    /// A list of ports to open. Space-separated list of ports. Default: [80].
     /// </summary>
     [CliOption("--ports", GroupValues = true)]
     public IEnumerable<string>? Ports { get; set; }

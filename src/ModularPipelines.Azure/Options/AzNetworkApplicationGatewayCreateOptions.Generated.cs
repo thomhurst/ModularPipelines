@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an application gateway.
 /// </summary>
+/// <param name="Name">Name of the application gateway.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "create")]
@@ -30,10 +32,10 @@ public record AzNetworkApplicationGatewayCreateOptions(
     public IEnumerable<string>? CustomErrorPages { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Upper bound on the number of application gateway instances.
@@ -138,7 +140,7 @@ public record AzNetworkApplicationGatewayCreateOptions(
     public string? HttpSettingsProtocol { get; set; }
 
     /// <summary>
-    /// Use HTTP2 for the application gateway.  Allowed values:
+    /// Use HTTP2 for the application gateway.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--http2")]
     public string? Http2 { get; set; }
@@ -198,19 +200,19 @@ public record AzNetworkApplicationGatewayCreateOptions(
     public bool? PublicIpAddressAllocation { get; set; }
 
     /// <summary>
-    /// Name or ID of the subnet. Will create resource if it does not exist. If name specified, also specify --vnet- name. If you want to use an existing subnet in other resource group or subscription, please provide the ID instead of the name of the subnet.  Default: default.
+    /// Name or ID of the subnet. Will create resource if it does not exist. If name specified, also specify --vnet-name. If you want to use an existing subnet in other resource group or subscription, please provide the ID instead of the name of the subnet.  Default: default.
     /// </summary>
     [CliOption("--subnet")]
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// The CIDR prefix to use when creating a new subnet.
+    /// The CIDR prefix to use when creating a new subnet. Default: 10.0.0.0/24.
     /// </summary>
     [CliFlag("--subnet-address-prefix")]
     public bool? SubnetAddressPrefix { get; set; }
 
     /// <summary>
-    /// The CIDR prefix to use when creating a new VNet.
+    /// The CIDR prefix to use when creating a new VNet. Default: 10.0.0.0/16.
     /// </summary>
     [CliFlag("--vnet-address-prefix")]
     public bool? VnetAddressPrefix { get; set; }
@@ -246,7 +248,7 @@ public record AzNetworkApplicationGatewayCreateOptions(
     public string? PrivateLinkSubnet { get; set; }
 
     /// <summary>
-    /// The CIDR prefix to use when creating a new subnet.
+    /// The CIDR prefix to use when creating a new subnet. Default: 10.0.1.0/24.
     /// </summary>
     [CliFlag("--private-link-subnet-prefix")]
     public bool? PrivateLinkSubnetPrefix { get; set; }

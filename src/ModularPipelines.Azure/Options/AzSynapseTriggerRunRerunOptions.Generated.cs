@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Rerun single trigger instance by runId.
 /// </summary>
+/// <param name="Name">The trigger name.</param>
+/// <param name="RunId">The trigger run identifier.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "trigger-run", "rerun")]

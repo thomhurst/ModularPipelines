@@ -39,13 +39,13 @@ public record AzSnapshotUpdateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// The sku name.  Allowed values: Premium_LRS, Standard_LRS,
+    /// The sku name.  Allowed values: Premium_LRS, Standard_LRS, Standard_ZRS.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }
 
     /// <summary>
-    /// Encryption type.  Allowed values:
+    /// Encryption type.  Allowed values: EncryptionAtRestWithCustomerKey, EncryptionAtRestWithPlatformAndCustomerKeys, EncryptionAtRestWithPlatformKey.
     /// </summary>
     [CliOption("--encryption-type")]
     public string? EncryptionType { get; set; }
@@ -75,7 +75,7 @@ public record AzSnapshotUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Policy for accessing the disk via network.  Allowed values:
+    /// Policy for accessing the disk via network.  Allowed values: AllowAll, AllowPrivate, DenyAll.
     /// </summary>
     [CliOption("--network-access-policy")]
     public string? NetworkAccessPolicy { get; set; }

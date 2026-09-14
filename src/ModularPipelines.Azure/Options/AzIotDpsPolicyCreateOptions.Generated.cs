@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new shared access policy in an Azure IoT Hub Device
 /// </summary>
+/// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
+/// <param name="Pn">A friendly name for DPS access policy.</param>
+/// <param name="Rights">Access rights for the IoT Hub Device Provisioning Service. Use space-separated list for multiple rights.  Allowed values: DeviceConnect, EnrollmentRead, EnrollmentWrite, RegistrationStatusRead, RegistrationStatusWrite, ServiceConfig.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "policy", "create")]

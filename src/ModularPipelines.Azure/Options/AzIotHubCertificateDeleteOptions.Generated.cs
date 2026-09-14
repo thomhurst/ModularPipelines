@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes an Azure IoT Hub certificate.
 /// </summary>
+/// <param name="Etag">Entity Tag (etag) of the object.</param>
+/// <param name="Name">A friendly name for the certificate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "certificate", "delete")]

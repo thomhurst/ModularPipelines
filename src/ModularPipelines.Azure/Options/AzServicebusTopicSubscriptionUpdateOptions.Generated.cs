@@ -39,7 +39,7 @@ public record AzServicebusTopicSubscriptionUpdateOptions : AzOptions
     public bool? IsShared { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -51,7 +51,7 @@ public record AzServicebusTopicSubscriptionUpdateOptions : AzOptions
     public bool? ForceString { get; set; }
 
     /// <summary>
-    /// Remove a property or an element from a list.
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
     public IEnumerable<string>? Remove { get; set; }
@@ -135,13 +135,13 @@ public record AzServicebusTopicSubscriptionUpdateOptions : AzOptions
     public bool? MaxDeliveryCount { get; set; }
 
     /// <summary>
-    /// Enumerates the possible values for the status of a messaging entity.  Allowed values: Active, Creating,
+    /// Enumerates the possible values for the status of a messaging entity.  Allowed values: Active, Creating, Deleting, Disabled, ReceiveDisabled, Renaming, Restoring, SendDisabled, Unknown.
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; set; }
 
     /// <summary>
-    /// Gets and Sets Metadata of
+    /// Gets and Sets Metadata of User.
     /// </summary>
     [CliFlag("--user-metadata")]
     public bool? UserMetadata { get; set; }
@@ -161,11 +161,11 @@ public record AzServicebusTopicSubscriptionUpdateOptions : AzOptions
     /// <summary>
     /// The namespace name.
     /// </summary>
-    [CliFlag("--namespace-name")]
-    public bool? NamespaceName { get; set; }
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
@@ -173,7 +173,7 @@ public record AzServicebusTopicSubscriptionUpdateOptions : AzOptions
     /// <summary>
     /// The topic name.
     /// </summary>
-    [CliFlag("--topic-name")]
-    public bool? TopicName { get; set; }
+    [CliOption("--topic-name")]
+    public string? TopicName { get; set; }
 
 }

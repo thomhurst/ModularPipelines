@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete specified deployment stack from management group scope.
 /// </summary>
+/// <param name="ActionOnUnmanage">Defines what happens to resources that are no longer managed after the stack is updated or deleted. Allowed values: deleteAll, deleteResources, detachAll.</param>
+/// <param name="ManagementGroupId">The management group ID to create a deployment stack in.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "mg", "delete")]

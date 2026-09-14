@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create and start a packet capture on the
 /// </summary>
+/// <param name="Name">The name of the packet capture session.</param>
+/// <param name="NetworkWatcherName">The name of the network watcher.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="StorageLocation">The storage location for a packet capture session.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+/// <param name="Target">The ID of the targeted resource, only AzureVM and AzureVMSS as target type are currently supported.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "network-watcher", "packet-capture", "create")]

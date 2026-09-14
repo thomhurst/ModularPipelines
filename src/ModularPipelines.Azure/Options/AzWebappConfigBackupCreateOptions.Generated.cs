@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a backup of a web app.
 /// </summary>
+/// <param name="ContainerUrl">URL with SAS token to the blob storage container.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="WebappName">The name of the web app.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "backup", "create")]
@@ -49,7 +52,7 @@ public record AzWebappConfigBackupCreateOptions(
     public string? DbName { get; set; }
 
     /// <summary>
-    /// Type of database in the backup.  Allowed values: LocalMySql,
+    /// Type of database in the backup.  Allowed values: LocalMySql, MySql, PostgreSql, SqlAzure.
     /// </summary>
     [CliOption("--db-type")]
     public string? DbType { get; set; }

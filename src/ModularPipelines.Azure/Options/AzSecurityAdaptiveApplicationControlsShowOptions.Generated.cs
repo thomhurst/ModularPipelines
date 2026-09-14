@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Adaptive Application Controls - Get.
 /// </summary>
+/// <param name="GroupName">Name of an application control VM/server group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "adaptive-application-controls", "show")]
@@ -25,7 +26,7 @@ public record AzSecurityAdaptiveApplicationControlsShowOptions(
     /// <summary>
     /// Location of the resource. Possible values are "centralsus", "westeurope". Please use "list" operation to get all resources and locations.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
 }

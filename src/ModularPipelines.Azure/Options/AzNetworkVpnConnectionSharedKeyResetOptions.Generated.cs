@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reset a VPN connection shared key.
 /// </summary>
+/// <param name="KeyLength">The virtual network connection reset shared key length, should between 1 and 128.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vpn-connection", "shared-key", "reset")]

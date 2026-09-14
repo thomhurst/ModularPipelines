@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create subscription diagnostic settings for
 /// </summary>
+/// <param name="Name">The name of the diagnostic setting.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "diagnostic-settings", "subscription", "create")]
@@ -37,8 +38,8 @@ public record AzMonitorDiagnosticSettingsSubscriptionCreateOptions(
     /// <summary>
     /// Location of the resource.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// JSON encoded list of logs settings. Use '@{file}' to load from a file. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

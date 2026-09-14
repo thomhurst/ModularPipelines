@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a managed disk.
 /// </summary>
+/// <param name="Name">The name of the managed disk.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("disk", "create")]
@@ -24,10 +26,10 @@ public record AzDiskCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Determine on how to handle disks with slow I/O.
+    /// Determine on how to handle disks with slow I/O. Allowed values: AutomaticReattach.
     /// </summary>
-    [CliFlag("--action-on-disk-delay")]
-    public bool? ActionOnDiskDelay { get; set; }
+    [CliOption("--action-on-disk-delay")]
+    public string? ActionOnDiskDelay { get; set; }
 
     /// <summary>
     /// CPU architecture.  Allowed values: Arm64, x64.
@@ -90,10 +92,10 @@ public record AzDiskCreateOptions(
     public bool? EnableBursting { get; set; }
 
     /// <summary>
-    /// Encryption type.
+    /// Encryption type. EncryptionAtRestWithPlatformKey: Disk is encrypted with XStore managed key at rest. It is the default encryption type. EncryptionAtRestWithCustomerKey: Disk is encrypted with Customer managed key at rest. Allowed values: EncryptionAtRestWithCustomerKey, EncryptionAtRestWithPlatformAndCustomerKeys, EncryptionAtRestWithPlatformKey.
     /// </summary>
-    [CliFlag("--encryption-type")]
-    public bool? EncryptionType { get; set; }
+    [CliOption("--encryption-type")]
+    public string? EncryptionType { get; set; }
 
     /// <summary>
     /// ID of the Compute, Shared or Community Gallery image version from which to create a disk. For details about valid format, please refer to the help sample.
@@ -128,8 +130,8 @@ public record AzDiskCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`. If location is not specified and no default location specified, location will be automatically set as same as the resource group.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.
@@ -174,7 +176,7 @@ public record AzDiskCreateOptions(
     public bool? PerformancePlus { get; set; }
 
     /// <summary>
-    /// Name or ID of disk encryption set created with
+    /// Name or ID of disk encryption set created with ConfidentialVmEncryptedWithCustomerKey encryption type.
     /// </summary>
     [CliOption("--secure-vm-disk-encryption-set")]
     public string? SecureVmDiskEncryptionSet { get; set; }
@@ -192,13 +194,13 @@ public record AzDiskCreateOptions(
     public bool? SecurityMetadataUri { get; set; }
 
     /// <summary>
-    /// Refer to the security capability of the disk supported to create a Trusted launch or Confidential VM.  Allowed values:
+    /// Refer to the security capability of the disk supported to create a Trusted launch or Confidential VM.  Allowed values: TrustedLaunchAndConfidentialVMSupported, TrustedLaunchSupported.
     /// </summary>
     [CliOption("--security-option", ShortForm = "--supported-security-option")]
     public string? SecurityOption { get; set; }
 
     /// <summary>
-    /// The security type of the VM. Applicable for OS disks only.  Allowed values:
+    /// The security type of the VM. Applicable for OS disks only.  Allowed values: ConfidentialVM_DiskEncryptedWithCustomerKey, ConfidentialVM_DiskEncryptedWithPlatformKey, Con fidentialVM_VMGuestStateOnlyEncryptedWithPlatfor mKey, Standard, TrustedLaunch.
     /// </summary>
     [CliOption("--security-type")]
     public string? SecurityType { get; set; }
@@ -210,7 +212,7 @@ public record AzDiskCreateOptions(
     public bool? SizeGb { get; set; }
 
     /// <summary>
-    /// Underlying storage SKU.  Allowed values:
+    /// Underlying storage SKU.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS, UltraSSD_LRS.  Default: Premium_LRS.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }
@@ -240,7 +242,7 @@ public record AzDiskCreateOptions(
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Performance tier of the disk (e.g, P4, S10) as described here: https://azure.microsoft.com/pric ing/details/managed-disks/. Does not apply to
+    /// Performance tier of the disk (e.g, P4, S10) as described here: https://azure.microsoft.com/pric ing/details/managed-disks/. Does not apply to Ultra disks.
     /// </summary>
     [CliFlag("--tier")]
     public bool? Tier { get; set; }
@@ -252,7 +254,7 @@ public record AzDiskCreateOptions(
     public bool? UploadSizeBytes { get; set; }
 
     /// <summary>
-    /// Create the disk for upload scenario. 'Upload' is for Standard disk only upload. 'UploadWithSecurityData' is for OS Disk upload along with VM Guest State. Please note the 'UploadWithSecurityData' is not valid for data disk upload, it only to be used for OS Disk upload at present.  Allowed values: Upload,
+    /// Create the disk for upload scenario. 'Upload' is for Standard disk only upload. 'UploadWithSecurityData' is for OS Disk upload along with VM Guest State. Please note the 'UploadWithSecurityData' is not valid for data disk upload, it only to be used for OS Disk upload at present.  Allowed values: Upload, UploadWithSecurityData.
     /// </summary>
     [CliOption("--upload-type")]
     public string? UploadType { get; set; }

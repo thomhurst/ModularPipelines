@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update properties for a Batch account.
 /// </summary>
+/// <param name="Name">Name of the Batch account.</param>
+/// <param name="ResourceGroup">Name of the resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "account", "set")]
@@ -30,13 +32,13 @@ public record AzBatchAccountSetOptions(
     public bool? EncryptionKeyIdentifier { get; set; }
 
     /// <summary>
-    /// Part of the encryption configuration for the Batch account. Type of the key source. Can be either Microsoft.Batch or
+    /// Part of the encryption configuration for the Batch account. Type of the key source. Can be either Microsoft.Batch or Microsoft.KeyVault.
     /// </summary>
     [CliFlag("--encryption-key-source")]
     public bool? EncryptionKeySource { get; set; }
 
     /// <summary>
-    /// The network access type for accessing Azure Batch account. Values can either be enabled or disabled.  Allowed values:
+    /// The network access type for accessing Azure Batch account. Values can either be enabled or disabled.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }

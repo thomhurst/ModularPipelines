@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reschedule the ongoing planned maintenance of
 /// </summary>
+/// <param name="MaintenanceName">The name of the maintenance.</param>
+/// <param name="StartTime">The new start time of the rescheduled maintenance.  Default: 2026-09-14T04:49:12+00:00.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "maintenance", "reschedule")]

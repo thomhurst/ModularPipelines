@@ -27,7 +27,7 @@ public record AzFunctionappConnectionListOptions : AzOptions
     public string? Name { get; set; }
 
     /// <summary>
-    /// The resource group which contains the function app. Required if '--source- id' is not specified.None.
+    /// The resource group which contains the function app. Required if '--source-id' is not specified.None.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

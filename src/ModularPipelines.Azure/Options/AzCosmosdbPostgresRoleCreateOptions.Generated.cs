@@ -16,6 +16,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new role or updates an existing role.
 /// </summary>
+/// <param name="ClusterName">The name of the cluster.</param>
+/// <param name="Name">The name of the cluster role.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Password">The password of the cluster role.  If value is blank it's asked from the tty.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "postgres", "role", "create")]

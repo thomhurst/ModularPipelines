@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add or update existing always-ready settings in
 /// </summary>
+/// <param name="Settings">Space-separated configuration for the number of pre-allocated instances in the format `&lt;name&gt;=&lt;value&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "scale", "config", "always-ready", "set")]

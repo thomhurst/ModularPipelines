@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update encryption properties of a Recovery Services Vault.
 /// </summary>
+/// <param name="EncryptionKeyId">The encryption key id you want to use for encryption.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "vault", "encryption", "update")]
@@ -23,7 +24,7 @@ public record AzBackupVaultEncryptionUpdateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Use this parameter to enable/disable infrastructure encryption. This must be set when configuring encryption of the vault for the first time. Once enabled/disabled, infrastructure encryption setting cannot be changed. Default value: Disabled. Allowed values: Enabled, Disabled.  Allowed values: Disabled,
+    /// Use this parameter to enable/disable infrastructure encryption. This must be set when configuring encryption of the vault for the first time. Once enabled/disabled, infrastructure encryption setting cannot be changed. Default value: Disabled. Allowed values: Enabled, Disabled.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--infrastructure-encryption")]
     public string? InfrastructureEncryption { get; set; }

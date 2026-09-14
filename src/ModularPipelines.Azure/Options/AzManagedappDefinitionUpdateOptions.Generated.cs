@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a managed application definition.
 /// </summary>
+/// <param name="Authorizations">Space-separated authorization pairs in a format of `&lt;principalId&gt;:&lt;roleDefinitionId&gt;`.</param>
+/// <param name="Description">The managed application definition description.</param>
+/// <param name="DisplayName">The managed application definition display name.</param>
+/// <param name="LockLevel">The type of lock restriction.  Allowed values: CanNotDelete, None, ReadOnly.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedapp", "definition", "update")]
@@ -32,7 +36,7 @@ public record AzManagedappDefinitionUpdateOptions(
     public bool? CreateUiDefinition { get; set; }
 
     /// <summary>
-    /// The managed application deployment mode.  Allowed values:
+    /// The managed application deployment mode.  Allowed values: Complete, Incremental.
     /// </summary>
     [CliOption("--deployment-mode")]
     public string? DeploymentMode { get; set; }
@@ -40,8 +44,8 @@ public record AzManagedappDefinitionUpdateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// JSON formatted string or a path to a file with such content.

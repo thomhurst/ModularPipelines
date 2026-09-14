@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update SSL profile of the application
 /// </summary>
+/// <param name="GatewayName">Name of the application gateway.</param>
+/// <param name="Name">Name of the SSL profile.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "ssl-profile", "update")]
@@ -43,7 +46,7 @@ public record AzNetworkApplicationGatewaySslProfileUpdateOptions(
     public IEnumerable<string>? TrustedClientCert { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -79,19 +82,19 @@ public record AzNetworkApplicationGatewaySslProfileUpdateOptions(
     public IEnumerable<string>? DisabledProtocols { get; set; }
 
     /// <summary>
-    /// Minimum version of SSL protocol to be supported on application gateway.  Allowed values: TLSv1_0, TLSv1_1, TLSv1_2,
+    /// Minimum version of SSL protocol to be supported on application gateway.  Allowed values: TLSv1_0, TLSv1_1, TLSv1_2, TLSv1_3.
     /// </summary>
     [CliOption("--min-protocol-version")]
     public string? MinProtocolVersion { get; set; }
 
     /// <summary>
-    /// Name of SSL policy.  Allowed values:
+    /// Name of SSL policy.  Allowed values: AppGwSslPolicy20150501, AppGwSslPolicy20170401, AppGwSslPolicy20170401S, AppGwSslPolicy20220101, AppGwSslPolicy20220101S.
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; set; }
 
     /// <summary>
-    /// Type of SSL policy.  Allowed values:
+    /// Type of SSL policy.  Allowed values: Custom, CustomV2, Predefined.
     /// </summary>
     [CliOption("--policy-type")]
     public string? PolicyType { get; set; }

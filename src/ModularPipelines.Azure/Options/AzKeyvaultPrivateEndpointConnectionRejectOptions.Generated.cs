@@ -27,7 +27,7 @@ public record AzKeyvaultPrivateEndpointConnectionRejectOptions : AzOptions
     public bool? Description { get; set; }
 
     /// <summary>
-    /// Name of the HSM. Required if --id is not specified.(--hsm-name and
+    /// Name of the HSM. Required if --id is not specified.(--hsm-name and --vault-name are mutually exclusive, please specify just one of them).
     /// </summary>
     [CliOption("--hsm-name")]
     public string? HsmName { get; set; }

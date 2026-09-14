@@ -39,13 +39,13 @@ public record AzSearchServicePrivateEndpointConnectionUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Describes the current state of an existing Azure Private Link service connection to the private endpoint.
+    /// Describes the current state of an existing Azure Private Link service connection to the private endpoint. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--connection-state", ShortForm = "--private-link-service-connection-state")]
     public bool? ConnectionState { get; set; }
@@ -57,16 +57,16 @@ public record AzSearchServicePrivateEndpointConnectionUpdateOptions : AzOptions
     public bool? GroupId { get; set; }
 
     /// <summary>
-    /// The private endpoint resource from
+    /// The private endpoint resource from Microsoft.Network provider. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--private-endpoint")]
     public bool? PrivateEndpoint { get; set; }
 
     /// <summary>
-    /// The provisioning state of the private link service connection. Valid values are Updating,
+    /// The provisioning state of the private link service connection. Valid values are Updating, Deleting, Failed, Succeeded, Incomplete, or Canceled.  Allowed values: Canceled, Deleting, Failed, Incomplete, Succeeded, Updating.
     /// </summary>
-    [CliFlag("--provisioning-state")]
-    public bool? ProvisioningState { get; set; }
+    [CliOption("--provisioning-state")]
+    public string? ProvisioningState { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

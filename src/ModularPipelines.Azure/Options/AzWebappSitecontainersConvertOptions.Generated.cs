@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Convert a webapp from sitecontainers to a classic custom
 /// </summary>
+/// <param name="Mode">Mode for conversion.  Allowed values: docker, sitecontainers.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "sitecontainers", "convert")]

@@ -15,6 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an extension to the node type.
 /// </summary>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="ExtensionName">Extension name.</param>
+/// <param name="ExtensionType">Specifies the type of the extension; an example is "CustomScriptExtension".</param>
+/// <param name="Name">Node type name.</param>
+/// <param name="Publisher">The name of the extension handler publisher.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="TypeHandlerVersion">Specifies the version of the script handler.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-node-type", "vm-extension", "add")]

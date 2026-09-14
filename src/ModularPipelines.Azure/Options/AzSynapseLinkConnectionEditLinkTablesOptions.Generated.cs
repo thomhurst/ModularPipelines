@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Edit tables for a link connection.
 /// </summary>
+/// <param name="File">The Edit link-tables file path, The file format can be viewed using --help.</param>
+/// <param name="Name">The link connection name.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "link-connection", "edit-link-tables")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzServicebusTopicUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -105,7 +105,7 @@ public record AzServicebusTopicUpdateOptions : AzOptions
     public bool? MaxSize { get; set; }
 
     /// <summary>
-    /// Enumerates the possible values for the status of a messaging entity.  Allowed values: Active, Creating, Deleting,
+    /// Enumerates the possible values for the status of a messaging entity.  Allowed values: Active, Creating, Deleting, Disabled, ReceiveDisabled, Renaming, Restoring, SendDisabled, Unknown.
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; set; }
@@ -131,11 +131,11 @@ public record AzServicebusTopicUpdateOptions : AzOptions
     /// <summary>
     /// The namespace name.
     /// </summary>
-    [CliFlag("--namespace-name")]
-    public bool? NamespaceName { get; set; }
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

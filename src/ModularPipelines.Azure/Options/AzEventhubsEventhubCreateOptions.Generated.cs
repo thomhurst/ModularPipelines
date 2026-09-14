@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates the EventHubs Eventhub.
 /// </summary>
+/// <param name="Name">Name of Eventhub.</param>
+/// <param name="NamespaceName">Name of Namespace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "eventhub", "create")]
@@ -28,7 +31,7 @@ public record AzEventhubsEventhubCreateOptions(
     /// Number of partitions created for the Event Hub. By default, allowed values are 2-32. Lower value of 1 is supported with Kafka enabled namespaces. In presence of a custom quota, the upper limit will match the upper limit of the quota.
     /// </summary>
     [CliOption("--partition-count")]
-    public string? PartitionCount { get; set; }
+    public int? PartitionCount { get; set; }
 
     /// <summary>
     /// A boolean value that indicates whether to Skip Empty.  Allowed values: false, true.
@@ -37,13 +40,13 @@ public record AzEventhubsEventhubCreateOptions(
     public bool? SkipEmptyArchives { get; set; }
 
     /// <summary>
-    /// Status of Eventhub.  Allowed values:
+    /// Status of Eventhub.  Allowed values: Active, Disabled, SendDisabled.
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; set; }
 
     /// <summary>
-    /// Denotes the type of timestamp the message will hold.  Allowed values: Create,
+    /// Denotes the type of timestamp the message will hold.  Allowed values: Create, LogAppend.
     /// </summary>
     [CliOption("--timestamp-type")]
     public string? TimestampType { get; set; }
@@ -85,7 +88,7 @@ public record AzEventhubsEventhubCreateOptions(
     public bool? BlobContainer { get; set; }
 
     /// <summary>
-    /// Name for capture destination, should be
+    /// Name for capture destination, should be EventHubArchive.AzureBlockBlob.
     /// </summary>
     [CliOption("--destination-name")]
     public string? DestinationName { get; set; }

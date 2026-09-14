@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates security automation logic app action.
 /// </summary>
+/// <param name="LogicAppResourceId">The triggered Logic App Azure Resource ID. This can also reside on other subscriptions, given that you have permissions to trigger the Logic App.</param>
+/// <param name="Uri">The Logic App trigger URI endpoint (it will not be included in any response).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "automation-action-logic-app", "create")]

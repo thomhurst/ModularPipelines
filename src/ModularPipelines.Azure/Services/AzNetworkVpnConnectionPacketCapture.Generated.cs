@@ -44,7 +44,7 @@ public class AzNetworkVpnConnectionPacketCapture
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVpnConnectionPacketCaptureStartOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVpnConnectionPacketCaptureStartOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class AzNetworkVpnConnectionPacketCapture
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVpnConnectionPacketCaptureWaitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVpnConnectionPacketCaptureWaitOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

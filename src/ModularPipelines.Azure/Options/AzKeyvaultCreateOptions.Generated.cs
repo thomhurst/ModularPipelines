@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Vault or HSM.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "create")]
@@ -65,10 +66,10 @@ public record AzKeyvaultCreateOptions(
     public string? HsmName { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// [HSM Only] Enable user-assigned managed identities for managed HSM. Accept space-separated list of identity resource IDs.
@@ -95,7 +96,7 @@ public record AzKeyvaultCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Control permission for data plane traffic coming from public networks while private endpoint is enabled.  Allowed values:
+    /// Control permission for data plane traffic coming from public networks while private endpoint is enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
@@ -107,7 +108,7 @@ public record AzKeyvaultCreateOptions(
     public bool? RetentionDays { get; set; }
 
     /// <summary>
-    /// Required. SKU details. Allowed values for Vault: premium, standard. Default: standard. Allowed values for HSM: Standard_B1, Custom_B32, Custom_B6, Custom_C42, Custom_C10.
+    /// Required. SKU details. Allowed values for Vault: premium, standard. Default: standard. Allowed values for HSM: Standard_B1, Custom_B32, Custom_B6, Custom_C42, Custom_C10. Default: Standard_B1.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }
@@ -119,7 +120,7 @@ public record AzKeyvaultCreateOptions(
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Bypass traffic for space-separated uses.  Allowed values:
+    /// Bypass traffic for space-separated uses.  Allowed values: AzureServices, None.
     /// </summary>
     [CliOption("--bypass", GroupValues = true)]
     public IEnumerable<string>? Bypass { get; set; }

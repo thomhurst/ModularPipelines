@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a virtual network link to the specified Private
 /// </summary>
+/// <param name="Name">Name of the virtual network link to the specified private DNS zone.</param>
+/// <param name="RegistrationEnabled">Specify if the link is registration enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VirtualNetwork">Name or ID of the virtual network.</param>
+/// <param name="ZoneName">Name of the private DNS zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-dns", "link", "vnet", "create")]
@@ -39,7 +44,7 @@ public record AzNetworkPrivateDnsLinkVnetCreateOptions(
     public string? Tags { get; set; }
 
     /// <summary>
-    /// The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to 'NxDomainRedirect', Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response.  Allowed values:
+    /// The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to 'NxDomainRedirect', Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response.  Allowed values: Default, NxDomainRedirect.
     /// </summary>
     [CliOption("--resolution-policy")]
     public string? ResolutionPolicy { get; set; }

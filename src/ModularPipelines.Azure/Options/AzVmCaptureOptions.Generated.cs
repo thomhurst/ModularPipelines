@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Capture information for a stopped VM.
 /// </summary>
+/// <param name="VhdNamePrefix">The VHD name prefix specify for the VM disks.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "capture")]
@@ -35,7 +36,7 @@ public record AzVmCaptureOptions(
     public bool? Overwrite { get; set; }
 
     /// <summary>
-    /// The storage account container name in which to save the disks.
+    /// The storage account container name in which to save the disks. Default: vhds.
     /// </summary>
     [CliFlag("--storage-container")]
     public bool? StorageContainer { get; set; }

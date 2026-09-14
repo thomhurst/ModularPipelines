@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a file share within a valid retention days if share soft
 /// </summary>
+/// <param name="DeletedVersion">Identify the version of the deleted share that will be restored.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "share-rm", "restore")]
@@ -37,8 +38,8 @@ public record AzStorageShareRmRestoreOptions(
     /// <summary>
     /// The file share name. Identify the name of the deleted share that will be restored.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

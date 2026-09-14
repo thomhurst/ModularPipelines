@@ -99,7 +99,7 @@ public record AzWebappConnectionCreateStorageFileOptions : AzOptions
     public string? SourceId { get; set; }
 
     /// <summary>
-    /// The resource id of target service. Required if ['--target- resource-group', '--account'] are not specified.
+    /// The resource id of target service. Required if ['--target-resource-group', '--account'] are not specified.
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; set; }
@@ -117,7 +117,7 @@ public record AzWebappConnectionCreateStorageFileOptions : AzOptions
     public string? VaultId { get; set; }
 
     /// <summary>
-    /// The secret auth info.
+    /// The secret auth info. Usage: --secret.
     /// </summary>
     [CliFlag("--secret")]
     public bool? Secret { get; set; }

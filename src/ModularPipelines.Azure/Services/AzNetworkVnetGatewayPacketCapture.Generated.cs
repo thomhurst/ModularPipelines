@@ -44,7 +44,7 @@ public class AzNetworkVnetGatewayPacketCapture
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVnetGatewayPacketCaptureWaitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVnetGatewayPacketCaptureWaitOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

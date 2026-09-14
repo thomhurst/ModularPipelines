@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an Azure IoT hub.
 /// </summary>
+/// <param name="Name">IoT Hub name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "create")]
@@ -24,13 +26,13 @@ public record AzIotHubCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// The number of times the IoT hub will attempt to deliver a cloud-to-device message to a device, between 1 and 100.
+    /// The number of times the IoT hub will attempt to deliver a cloud-to-device message to a device, between 1 and 100. Default: 10.
     /// </summary>
     [CliFlag("--c2d-max-delivery-count", ShortForm = "--cdd")]
     public bool? C2dMaxDeliveryCount { get; set; }
 
     /// <summary>
-    /// The amount of time a message is available for the device to consume before it is expired by IoT Hub, between 1 and 48 hours.
+    /// The amount of time a message is available for the device to consume before it is expired by IoT Hub, between 1 and 48 hours. Default: 1.
     /// </summary>
     [CliFlag("--c2d-ttl", ShortForm = "--ct")]
     public bool? C2dTtl { get; set; }
@@ -54,9 +56,9 @@ public record AzIotHubCreateOptions(
     public bool? DisableModuleSas { get; set; }
 
     /// <summary>
-    /// Enforce data residency for this IoT Hub by disabling cross-region disaster recovery. This property is immutable once set on the resource. Only available in select regions.
+    /// Enforce data residency for this IoT Hub by disabling cross-region disaster recovery. This property is immutable once set on the resource. Only available in select regions. Learn more at https://aka.ms/iothubdisabledr.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--edr", ShortForm = "--enforce-data-residency")]
+    [CliOption("--edr", ShortForm = "--enforce-data-residency")]
     public bool? Edr { get; set; }
 
     /// <summary>
@@ -134,8 +136,8 @@ public record AzIotHubCreateOptions(
     /// <summary>
     /// Location of your IoT Hub. Default is the location of target resource group.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Enable system-assigned managed identity for this hub.  Allowed values: false, true.
@@ -162,7 +164,7 @@ public record AzIotHubCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// The number of partitions of the backing Event Hub for device-to-cloud messages.
+    /// The number of partitions of the backing Event Hub for device-to-cloud messages. Default: 4.
     /// </summary>
     [CliFlag("--partition-count")]
     public bool? PartitionCount { get; set; }

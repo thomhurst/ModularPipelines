@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create PrivateEndpointConnections of
 /// </summary>
+/// <param name="Name">The PrivateEndpointConnection name.</param>
+/// <param name="NamespaceName">The Namespace name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventhubs", "namespace", "private-endpoint-connection", "create")]
@@ -31,13 +34,13 @@ public record AzEventhubsNamespacePrivateEndpointConnectionCreateOptions(
     public string? Description { get; set; }
 
     /// <summary>
-    /// Status of the connection.  Allowed values: Approved, Disconnected,
+    /// Status of the connection.  Allowed values: Approved, Disconnected, Pending, Rejected.
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; set; }
 
     /// <summary>
-    /// Provisioning state of the Private Endpoint Connection.  Allowed values: Canceled, Creating, Deleting, Failed,
+    /// Provisioning state of the Private Endpoint Connection.  Allowed values: Canceled, Creating, Deleting, Failed, Succeeded, Updating.
     /// </summary>
     [CliOption("--provisioning-state")]
     public string? ProvisioningState { get; set; }

@@ -21,13 +21,13 @@ namespace ModularPipelines.Azure.Options;
 public record AzVmssNicShowOptions : AzOptions
 {
     /// <summary>
-    /// Expands referenced resources. Default value is
+    /// Expands referenced resources. Default value is None.
     /// </summary>
     [CliFlag("--expand")]
     public bool? Expand { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

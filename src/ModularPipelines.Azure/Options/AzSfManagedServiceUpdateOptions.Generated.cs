@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a managed service.
 /// </summary>
+/// <param name="Application">Specify the name of the service.</param>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="Name">Specify the name of the service.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-service", "update")]
@@ -26,10 +30,10 @@ public record AzSfManagedServiceUpdateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Specify the default cost for a move. Higher costs make it less likely that the
+    /// Specify the default cost for a move. Higher costs make it less likely that the Cluster Resource Manager will move the replica when trying to balance the cluster. Allowed values: High, Low, Medium, Zero.
     /// </summary>
-    [CliFlag("--default-move-cost")]
-    public bool? DefaultMoveCost { get; set; }
+    [CliOption("--default-move-cost")]
+    public string? DefaultMoveCost { get; set; }
 
     /// <summary>
     /// Specify the instance count for the stateless service. If -1 is used, it means it will run on all the nodes.
@@ -44,13 +48,13 @@ public record AzSfManagedServiceUpdateOptions(
     public bool? KeepDuration { get; set; }
 
     /// <summary>
-    /// Specify the minimum percentage of
+    /// Specify the minimum percentage of InstanceCount that must be up to meet the EnsureAvailability safety check during operations like upgrade or deactivate node. The actual number that is used is max( MinInstanceCount, ceil( MinInstancePer centage/100.0 * InstanceCount) ). Note, if InstanceCount is set to -1, during MinIns tancePercentage computation, -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service. Allowed values are from 0 to 100.
     /// </summary>
-    [CliFlag("--min-inst-pct", ShortForm = "--min-instance-percentage")]
-    public bool? MinInstPct { get; set; }
+    [CliOption("--min-inst-pct", ShortForm = "--min-instance-percentage")]
+    public string? MinInstPct { get; set; }
 
     /// <summary>
-    /// Specify the minimum number of instances that must be up to meet the
+    /// Specify the minimum number of instances that must be up to meet the EnsureAvailability safety check during operations like upgrade or deactivate node. The actual number that is used is max( MinInstanceCount, ceil( MinInstancePer centage/100.0 * InstanceCount) ). Note, if InstanceCount is set to -1, during MinInstanceCount computation -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service.
     /// </summary>
     [CliFlag("--min-instance-count")]
     public bool? MinInstanceCount { get; set; }
@@ -62,7 +66,7 @@ public record AzSfManagedServiceUpdateOptions(
     public bool? MinReplica { get; set; }
 
     /// <summary>
-    /// Specify the placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the
+    /// Specify the placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "(NodeColor == blue)".
     /// </summary>
     [CliFlag("--placement-constraints")]
     public bool? PlacementConstraints { get; set; }

@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the details of a track.
 /// </summary>
+/// <param name="AssetName">The asset name.</param>
+/// <param name="TrackName">The name of the track.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "asset-track", "show")]

@@ -99,7 +99,7 @@ public record AzAppConfigKvListOptions : AzOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Maximum number of items to return. Must be a positive integer.
+    /// Maximum number of items to return. Must be a positive integer. Default to 100.
     /// </summary>
     [CliFlag("--top", ShortForm = "-t")]
     public bool? Top { get; set; }

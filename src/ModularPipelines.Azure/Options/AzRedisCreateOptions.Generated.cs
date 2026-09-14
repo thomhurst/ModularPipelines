@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create new Redis Cache instance.
 /// </summary>
+/// <param name="Location">Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+/// <param name="Name">Name of the Redis cache.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Sku">Type of Redis cache.  Allowed values: Basic, Premium, Standard.</param>
+/// <param name="VmSize">Size of Redis cache to deploy. Basic and Standard Cache sizes start with C. Premium Cache sizes start with P.  Allowed values: c0, c1, c2, c3, c4, c5, c6, p1, p2, p3, p4, p5.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "create")]
@@ -23,7 +28,7 @@ public record AzRedisCreateOptions(
     [property: CliOption("--name", ShortForm = "-n")] string Name,
     [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
     [property: CliOption("--sku")] string Sku,
-    [property: CliOption("--vm-size")] string VmSize
+    [property: CliOption("--vm-size")] int VmSize
 ) : AzOptions
 {
     /// <summary>
@@ -57,7 +62,7 @@ public record AzRedisCreateOptions(
     public string? MinimumTlsVersion { get; set; }
 
     /// <summary>
-    /// A json file used to set redis-configuration settings. You may encounter parse errors if the json file is invalid.
+    /// A json file used to set redis-configuration settings. You may encounter parse errors if the json file is invalid. Usage: --redis-configuration @"{config_file.json}"
     /// </summary>
     [CliFlag("--redis-configuration")]
     public bool? RedisConfiguration { get; set; }
@@ -75,7 +80,7 @@ public record AzRedisCreateOptions(
     public bool? ReplicasPerMaster { get; set; }
 
     /// <summary>
-    /// The number of shards to be created on a Premium
+    /// The number of shards to be created on a Premium Cluster Cache.
     /// </summary>
     [CliFlag("--shard-count")]
     public bool? ShardCount { get; set; }
@@ -111,7 +116,7 @@ public record AzRedisCreateOptions(
     public string? UpdateChannel { get; set; }
 
     /// <summary>
-    /// Specifies how availability zones are allocated to the Redis cache. "Automatic" enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. "UserDefined" will select availability zones passed in by you using the "zones" parameter. "NoZones" will produce a non-zonal cache. If "zonal-allocation-policy" is not passed, it will be set to "UserDefined" when zones are passed in, otherwise, it will be set to "Automatic in regions where zones are supported and "NoZones" in regions where zones are not supported.  Allowed values: Automatic, NoZones,
+    /// Specifies how availability zones are allocated to the Redis cache. "Automatic" enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. "UserDefined" will select availability zones passed in by you using the "zones" parameter. "NoZones" will produce a non-zonal cache. If "zonal-allocation-policy" is not passed, it will be set to "UserDefined" when zones are passed in, otherwise, it will be set to "Automatic in regions where zones are supported and "NoZones" in regions where zones are not supported.  Allowed values: Automatic, NoZones, UserDefined.
     /// </summary>
     [CliOption("--zonal-allocation", ShortForm = "--zonal-allocation-policy")]
     public string? ZonalAllocation { get; set; }

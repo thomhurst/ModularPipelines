@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Download the public part of a stored key.
 /// </summary>
+/// <param name="File">File to receive the key contents.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "key", "download")]
@@ -23,7 +24,7 @@ public record AzKeyvaultKeyDownloadOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Encoding of the key, default: PEM.  Allowed values: DER, PEM.  Default:
+    /// Encoding of the key, default: PEM.  Allowed values: DER, PEM.  Default: PEM.
     /// </summary>
     [CliOption("--encoding", ShortForm = "-e")]
     public string? Encoding { get; set; }

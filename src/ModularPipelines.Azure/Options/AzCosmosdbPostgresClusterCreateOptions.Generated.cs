@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new cluster with nodes.
 /// </summary>
+/// <param name="ClusterName">The name of the cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "postgres", "cluster", "create")]
@@ -32,8 +34,8 @@ public record AzCosmosdbPostgresClusterCreateOptions(
     /// <summary>
     /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -60,7 +62,7 @@ public record AzCosmosdbPostgresClusterCreateOptions(
     public bool? CoordPublicIpAccess { get; set; }
 
     /// <summary>
-    /// The edition of a coordinator
+    /// The edition of a coordinator server (default: GeneralPurpose). Required for creation.
     /// </summary>
     [CliFlag("--coord-server-edition", ShortForm = "--coordinator-server-edition")]
     public bool? CoordServerEdition { get; set; }

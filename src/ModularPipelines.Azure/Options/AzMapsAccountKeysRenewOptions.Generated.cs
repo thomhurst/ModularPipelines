@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate either the primary or secondary key for use with the
 /// </summary>
+/// <param name="AccountName">The name of the maps account.</param>
+/// <param name="Key">Whether the operation refers to the primary or secondary key.  Allowed values: primary, secondary.</param>
+/// <param name="ResourceGroup">Resource group name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("maps", "account", "keys", "renew")]

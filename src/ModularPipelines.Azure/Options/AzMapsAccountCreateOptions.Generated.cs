@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Maps Account. A Maps Account holds the keys which allow access
 /// </summary>
+/// <param name="AccountName">The name of the maps account.</param>
+/// <param name="ResourceGroup">Resource group name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("maps", "account", "create")]
@@ -42,16 +44,16 @@ public record AzMapsAccountCreateOptions(
     public string? Kind { get; set; }
 
     /// <summary>
-    /// Sets the resources to be used for Managed Identities based operations for the Map account resource.
+    /// Sets the resources to be used for Managed Identities based operations for the Map account resource. Usage: --linked-resources unique-name=XX id=XX
     /// </summary>
     [CliFlag("--linked-resources")]
     public bool? LinkedResources { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -60,13 +62,13 @@ public record AzMapsAccountCreateOptions(
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The identity type.  Allowed values: None, SystemAssigned,
+    /// The identity type.  Allowed values: None, SystemAssigned, SystemAssigned, UserAssigned, UserAssigned.
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; set; }
 
     /// <summary>
-    /// The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId} /resourceGroups/{resourceGroupName}/providers/Microsoft.Ma nagedIdentity/userAssignedIdentities/{identityName}'.
+    /// The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId} /resourceGroups/{resourceGroupName}/providers/Microsoft.Ma nagedIdentity/userAssignedIdentities/{identityName}'. Expected value: json-string/@json-file.
     /// </summary>
     [CliOption("--user-identities", GroupValues = true)]
     public IEnumerable<string>? UserIdentities { get; set; }

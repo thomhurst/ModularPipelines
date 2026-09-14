@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzMonitorLogAnalyticsWorkspaceDataExportUpdateOptions : AzOptions
 {
     /// <summary>
-    /// The destination resource ID. It should be a storage account, an event hub namespace. If event hub namespace is provided without
+    /// The destination resource ID. It should be a storage account, an event hub namespace. If event hub namespace is provided without --event-hub-name, event hub would be created for each table automatically.
     /// </summary>
     [CliOption("--destination")]
     public string? Destination { get; set; }
@@ -51,7 +51,7 @@ public record AzMonitorLogAnalyticsWorkspaceDataExportUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }

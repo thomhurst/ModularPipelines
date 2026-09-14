@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Upload service logs from a specified Batch compute node.
 /// </summary>
+/// <param name="NodeId">The ID of the Compute Node for which you want to get the Remote Desktop Protocol file. Required.</param>
+/// <param name="PoolId">The ID of the Pool that contains the Compute Node. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "node", "service-logs", "upload")]
@@ -26,23 +28,23 @@ public record AzBatchNodeServiceLogsUploadOptions(
     /// <summary>
     /// A file containing the content specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Content Arguments' are ignored.
     /// </summary>
-    [CliFlag("--json-file")]
-    public bool? JsonFile { get; set; }
+    [CliOption("--json-file")]
+    public string? JsonFile { get; set; }
 
     /// <summary>
-    /// Batch service endpoint. Alternatively, set by environment variable:
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>
     [CliOption("--account-endpoint")]
     public string? AccountEndpoint { get; set; }
 
     /// <summary>
-    /// Batch account key. Alternatively, set by environment variable:
+    /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
     /// </summary>
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }
 
     /// <summary>
-    /// Batch account name. Alternatively, set by environment variable:
+    /// Batch account name. Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
     /// </summary>
     [CliOption("--account-name")]
     public string? AccountName { get; set; }

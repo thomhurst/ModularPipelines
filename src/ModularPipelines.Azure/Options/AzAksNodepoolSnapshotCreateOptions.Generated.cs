@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a nodepool snapshot.
 /// </summary>
+/// <param name="Name">The nodepool snapshot name.</param>
+/// <param name="NodepoolId">The source nodepool id from which to create this snapshot.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "snapshot", "create")]
@@ -25,7 +28,7 @@ public record AzAksNodepoolSnapshotCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Send custom headers. When specified, format should be
+    /// Send custom headers. When specified, format should be Key1=Value1,Key2=Value2.
     /// </summary>
     [CliFlag("--aks-custom-headers")]
     public bool? AksCustomHeaders { get; set; }
@@ -33,8 +36,8 @@ public record AzAksNodepoolSnapshotCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

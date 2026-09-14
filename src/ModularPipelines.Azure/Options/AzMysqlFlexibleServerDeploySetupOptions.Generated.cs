@@ -16,6 +16,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create GitHub Actions workflow file for MySQL server.
 /// </summary>
+/// <param name="Repo">The name of your github username and repository e.g., Azure/azure-cli.</param>
+/// <param name="SqlFile">The path of the sql file. The sql file should be already in the repository.</param>
+/// <param name="AdminPassword">The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.</param>
+/// <param name="AdminUser">Administrator username for the server. Once set, it cannot be changed.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "deploy", "setup")]

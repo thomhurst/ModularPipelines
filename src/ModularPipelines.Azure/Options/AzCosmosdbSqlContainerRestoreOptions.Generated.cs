@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a deleted sql container within the same account.
 /// </summary>
+/// <param name="AccountName">Cosmosdb account name.</param>
+/// <param name="DatabaseName">Database name.</param>
+/// <param name="Name">Container name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "container", "restore")]
@@ -26,7 +30,7 @@ public record AzCosmosdbSqlContainerRestoreOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Flag to restore with TTL disabled.
+    /// Flag to restore with TTL disabled. Usage:          --disable-ttl True Default: false.
     /// </summary>
     [CliFlag("--disable-ttl")]
     public bool? DisableTtl { get; set; }

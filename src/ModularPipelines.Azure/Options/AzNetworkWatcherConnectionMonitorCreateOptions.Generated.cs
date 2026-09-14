@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a connection monitor.
 /// </summary>
+/// <param name="ConnectionMonitorName">Connection monitor name.</param>
+/// <param name="EndpointDestName">The name of the destination of connection monitor endpoint. If you are creating a V2 Connection Monitor, it's required.</param>
+/// <param name="EndpointSourceName">The name of the source of connection monitor endpoint. If you are creating a V2 Connection Monitor, it's required.</param>
+/// <param name="EndpointSourceResourceId">Resource ID of the source of connection monitor endpoint. If endpoint is intended to used as source, this option is required.</param>
+/// <param name="TestConfigName">The name of the connection monitor test configuration. If you are creating a V2 Connection Monitor, it's required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "connection-monitor", "create")]
@@ -29,8 +34,8 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -63,7 +68,7 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions(
     public bool? EndpointDestAddress { get; set; }
 
     /// <summary>
-    /// Test coverage for the endpoint.  Allowed values: AboveAverage, Average, BelowAverage,
+    /// Test coverage for the endpoint.  Allowed values: AboveAverage, Average, BelowAverage, Default, Full, Low.
     /// </summary>
     [CliOption("--endpoint-dest-coverage-level")]
     public string? EndpointDestCoverageLevel { get; set; }
@@ -75,7 +80,7 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions(
     public string? EndpointDestResourceId { get; set; }
 
     /// <summary>
-    /// The endpoint type.  Allowed values: AzureArcVM, AzureSubnet, AzureVM, AzureVMSS, AzureVNet,
+    /// The endpoint type.  Allowed values: AzureArcVM, AzureSubnet, AzureVM, AzureVMSS, AzureVNet, ExternalAddress, MMAWorkspaceMachine, MMAWorkspaceNetwork.
     /// </summary>
     [CliOption("--endpoint-dest-type")]
     public string? EndpointDestType { get; set; }
@@ -87,22 +92,22 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions(
     public bool? EndpointSourceAddress { get; set; }
 
     /// <summary>
-    /// Test coverage for the endpoint.  Allowed values: AboveAverage, Average, BelowAverage,
+    /// Test coverage for the endpoint.  Allowed values: AboveAverage, Average, BelowAverage, Default, Full, Low.
     /// </summary>
     [CliOption("--endpoint-source-coverage-level")]
     public string? EndpointSourceCoverageLevel { get; set; }
 
     /// <summary>
-    /// The endpoint type.  Allowed values: AzureArcVM, AzureSubnet, AzureVM, AzureVMSS, AzureVNet,
+    /// The endpoint type.  Allowed values: AzureArcVM, AzureSubnet, AzureVM, AzureVMSS, AzureVNet, ExternalAddress, MMAWorkspaceMachine, MMAWorkspaceNetwork.
     /// </summary>
     [CliOption("--endpoint-source-type")]
     public string? EndpointSourceType { get; set; }
 
     /// <summary>
-    /// Connection monitor output destination type. Currently, only "Workspace" is supported.
+    /// Connection monitor output destination type. Currently, only "Workspace" is supported. Allowed values: Workspace.
     /// </summary>
-    [CliFlag("--output-type", ShortForm = "--type")]
-    public bool? OutputType { get; set; }
+    [CliOption("--output-type", ShortForm = "--type")]
+    public string? OutputType { get; set; }
 
     /// <summary>
     /// Space-separated list of ids of log analytics workspace.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -111,13 +116,13 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions(
     public IEnumerable<string>? WorkspaceIds { get; set; }
 
     /// <summary>
-    /// The frequency of test evaluation, in seconds.
+    /// The frequency of test evaluation, in seconds. Default: 60.
     /// </summary>
     [CliFlag("--frequency")]
     public bool? Frequency { get; set; }
 
     /// <summary>
-    /// The HTTP method to use.  Allowed values: Get,
+    /// The HTTP method to use.  Allowed values: Get, Post.
     /// </summary>
     [CliOption("--http-method")]
     public string? HttpMethod { get; set; }
@@ -177,7 +182,7 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions(
     public bool? TcpPort { get; set; }
 
     /// <summary>
-    /// Destination port behavior.  Allowed values:
+    /// Destination port behavior.  Allowed values: ListenIfAvailable, None.
     /// </summary>
     [CliOption("--tcp-port-behavior")]
     public string? TcpPortBehavior { get; set; }
@@ -201,7 +206,7 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions(
     public bool? TestGroupDisable { get; set; }
 
     /// <summary>
-    /// The name of the connection monitor test group.
+    /// The name of the connection monitor test group. Default: DefaultTestGroup.
     /// </summary>
     [CliOption("--test-group-name")]
     public string? TestGroupName { get; set; }

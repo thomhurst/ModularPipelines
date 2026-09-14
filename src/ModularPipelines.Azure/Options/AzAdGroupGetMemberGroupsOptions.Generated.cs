@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get a collection of object IDs of groups of which the specified
 /// </summary>
+/// <param name="Group">Group's object id or display name(prefix also works if there is a unique match).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "group", "get-member-groups")]

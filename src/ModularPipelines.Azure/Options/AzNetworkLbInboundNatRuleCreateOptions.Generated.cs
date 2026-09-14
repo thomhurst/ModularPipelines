@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an inbound NAT rule.
 /// </summary>
+/// <param name="LbName">The load balancer name.</param>
+/// <param name="Name">The name of the resource that is unique within the set of inbound NAT rules used by the load balancer.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="BackendPort">The port used for the internal endpoint. Acceptable values range from 1 to 65535.</param>
+/// <param name="Protocol">The reference to the transport protocol used by the load balancing rule.  Allowed values: All, Tcp, Udp.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "inbound-nat-rule", "create")]
@@ -22,7 +27,7 @@ public record AzNetworkLbInboundNatRuleCreateOptions(
     [property: CliOption("--lb-name")] string LbName,
     [property: CliOption("--name", ShortForm = "-n")] string Name,
     [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--backend-port")] string BackendPort,
+    [property: CliOption("--backend-port")] int BackendPort,
     [property: CliOption("--protocol")] string Protocol
 ) : AzOptions
 {
@@ -69,7 +74,7 @@ public record AzNetworkLbInboundNatRuleCreateOptions(
     public bool? FrontendPortRangeEnd { get; set; }
 
     /// <summary>
-    /// The port range start for the external endpoint. This property is used together with
+    /// The port range start for the external endpoint. This property is used together with BackendAddressPool and FrontendPortRangeEnd. Individual inbound NAT rule port mappings will be created for each backend address from BackendAddressPool. Acceptable values range from 1 to 65534.
     /// </summary>
     [CliFlag("--frontend-port-range-start")]
     public bool? FrontendPortRangeStart { get; set; }
@@ -77,7 +82,7 @@ public record AzNetworkLbInboundNatRuleCreateOptions(
     /// <summary>
     /// The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.
     /// </summary>
-    [CliFlag("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
-    public bool? IdleTimeout { get; set; }
+    [CliOption("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
+    public int? IdleTimeout { get; set; }
 
 }

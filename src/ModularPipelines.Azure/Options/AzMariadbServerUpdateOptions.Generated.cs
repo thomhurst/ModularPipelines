@@ -27,7 +27,7 @@ public record AzMariadbServerUpdateOptions : AzOptions
     public bool? AdminPassword { get; set; }
 
     /// <summary>
-    /// Generate and assign an Microsoft Entra Identity for this server for use with key management services like Azure
+    /// Generate and assign an Microsoft Entra Identity for this server for use with key management services like Azure KeyVault.
     /// </summary>
     [CliFlag("--assign-identity")]
     public bool? AssignIdentity { get; set; }
@@ -57,7 +57,7 @@ public record AzMariadbServerUpdateOptions : AzOptions
     public string? Public { get; set; }
 
     /// <summary>
-    /// The name of the sku. Follows the convention {pricing tier}_{compute generation}_{vCores} in shorthand. Examples:
+    /// The name of the sku. Follows the convention {pricing tier}_{compute generation}_{vCores} in shorthand. Examples: B_Gen5_1, GP_Gen5_4, MO_Gen5_16.
     /// </summary>
     [CliOption("--sku-name")]
     public string? SkuName { get; set; }

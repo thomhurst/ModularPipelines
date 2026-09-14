@@ -16,6 +16,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Transform secrets into a form that can be used by VMs and VMSSes.
 /// </summary>
+/// <param name="Secrets">Space-separated list of key vault secret URIs. Perhaps, produced by 'az keyvault secret list-versions --vault-name vaultname -n cert1 --query "[?attributes.enabled].id" -o tsv'. The command will attempt to resolve the vault ID for each secret. If it is unable to do so, specify the vault ID to use for *all* secrets using: --keyvault NAME --resource-group NAME | --keyvault ID.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "secret", "format")]

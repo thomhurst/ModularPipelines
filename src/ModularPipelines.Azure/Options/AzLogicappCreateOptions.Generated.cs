@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a logic app.
 /// </summary>
+/// <param name="Name">Name of the new logic app.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="StorageAccount">Provide a string value of a Storage Account in the provided Resource Group. Or Resource ID of a Storage Account in a different Resource Group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logicapp", "create")]
@@ -85,7 +88,7 @@ public record AzLogicappCreateOptions(
     public string? DomainNameScope { get; set; }
 
     /// <summary>
-    /// The functions version for logic app.  Allowed values: 4.
+    /// The functions version for logic app.  Allowed values: 4. Default: 4.
     /// </summary>
     [CliOption("--functions-version", ShortForm = "-v")]
     public string? FunctionsVersion { get; set; }

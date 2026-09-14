@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Import an SSL certificate to a function app from Key Vault.
 /// </summary>
+/// <param name="KeyVault">The name or resource ID of the Key Vault.</param>
+/// <param name="KeyVaultCertificateName">The name of the certificate in Key Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "config", "ssl", "import")]
@@ -42,7 +44,7 @@ public record AzFunctionappConfigSslImportOptions(
     public bool? LoadToCode { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

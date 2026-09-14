@@ -69,7 +69,7 @@ public record AzWebappLogConfigOptions : AzOptions
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure --defaults web=&lt;name&gt;`.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }

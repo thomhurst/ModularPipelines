@@ -44,7 +44,7 @@ public class AzAdSignedInUser
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzAdSignedInUserListOwnedObjectsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzAdSignedInUserListOwnedObjectsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

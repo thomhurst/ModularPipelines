@@ -16,6 +16,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an Azure storage account configuration to a web app.
 /// </summary>
+/// <param name="AccessKey">Storage account access key.</param>
+/// <param name="AccountName">Storage account name.</param>
+/// <param name="CustomId">Name of the share configured within the web app.</param>
+/// <param name="ShareName">Name of the file share as given in the storage account.</param>
+/// <param name="StorageType">Storage type.  Allowed values: AzureBlob, AzureFiles.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "storage-account", "add")]
@@ -52,7 +57,7 @@ public record AzWebappConfigStorageAccountAddOptions(
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure --defaults web=&lt;name&gt;`.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }

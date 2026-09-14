@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable uploading ledger digests to an Azure Storage
 /// </summary>
+/// <param name="Endpoint">The endpoint of a digest storage, which can be either an Azure Blob storage or a ledger in Azure Confidential Ledger.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "midb", "ledger-digest-uploads", "enable")]

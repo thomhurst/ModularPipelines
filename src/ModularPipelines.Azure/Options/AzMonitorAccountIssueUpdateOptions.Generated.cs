@@ -75,7 +75,7 @@ public record AzMonitorAccountIssueUpdateOptions : AzOptions
     public string? Severity { get; set; }
 
     /// <summary>
-    /// The issue status.  Allowed values: Canceled, Closed,
+    /// The issue status.  Allowed values: Canceled, Closed, InProgress, Mitigated, New.
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; set; }

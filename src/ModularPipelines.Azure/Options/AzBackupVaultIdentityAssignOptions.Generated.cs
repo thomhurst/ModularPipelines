@@ -21,13 +21,13 @@ namespace ModularPipelines.Azure.Options;
 public record AzBackupVaultIdentityAssignOptions : AzOptions
 {
     /// <summary>
-    /// Provide this flag to enable system assigned identity for Recovery
+    /// Provide this flag to enable system assigned identity for Recovery Services Vault.
     /// </summary>
     [CliFlag("--system-assigned")]
     public bool? SystemAssigned { get; set; }
 
     /// <summary>
-    /// Space-separated list of userassigned identities to be assigned to
+    /// Space-separated list of userassigned identities to be assigned to Recovery Services Vault.
     /// </summary>
     [CliOption("--user-assigned", GroupValues = true)]
     public IEnumerable<string>? UserAssigned { get; set; }

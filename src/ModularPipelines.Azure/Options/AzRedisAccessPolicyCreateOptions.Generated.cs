@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an Access Policy to the Redis Cache.
 /// </summary>
+/// <param name="AccessPolicyName">The name of the access policy that is being assigned.</param>
+/// <param name="Name">Name of the Redis cache.</param>
+/// <param name="Permissions">Permissions for the access policy. Learn how to configure permissions at https://aka.ms/redis/AADPreRequisites.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "access-policy", "create")]

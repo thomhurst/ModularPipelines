@@ -15,13 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create settings.
 /// </summary>
+/// <param name="GatewayName">Name of the application gateway.</param>
+/// <param name="Name">Name of the backend settings.</param>
+/// <param name="Port">Number of the destination port on the backend.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "settings", "create")]
 public record AzNetworkApplicationGatewaySettingsCreateOptions(
     [property: CliOption("--gateway-name")] string GatewayName,
     [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--port")] string Port,
+    [property: CliOption("--port")] int Port,
     [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
 ) : AzOptions
 {

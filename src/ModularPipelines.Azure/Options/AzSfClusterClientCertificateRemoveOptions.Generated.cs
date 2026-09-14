@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove client certificates or subject names used for
 /// </summary>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "cluster", "client-certificate", "remove")]
@@ -36,7 +38,7 @@ public record AzSfClusterClientCertificateRemoveOptions(
     public bool? CertIssuerTp { get; set; }
 
     /// <summary>
-    /// JSON encoded parameters configuration. Use @{file} to load from a file. For example:
+    /// JSON encoded parameters configuration. Use @{file} to load from a file. For example: [{"certificateCommonName": "test.com","certificateIssuerThumbprint": " 22B4AE296B504E512DF880A77A2CAE20200FF922"}] .
     /// </summary>
     [CliFlag("--client-cert-cn", ShortForm = "--client-certificate-common-names")]
     public bool? ClientCertCn { get; set; }

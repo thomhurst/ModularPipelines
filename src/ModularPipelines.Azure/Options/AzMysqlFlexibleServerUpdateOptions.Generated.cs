@@ -63,13 +63,13 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     public bool? DisableDataEncryption { get; set; }
 
     /// <summary>
-    /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled,
+    /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--geo-redundant-backup")]
     public string? GeoRedundantBackup { get; set; }
 
     /// <summary>
-    /// Enable (ZoneRedundant or SameZone) or disable high availability feature. Allowed values: Disabled, SameZone,
+    /// Enable (ZoneRedundant or SameZone) or disable high availability feature. Allowed values: Disabled, SameZone, ZoneRedundant.
     /// </summary>
     [CliOption("--high-availability")]
     public string? HighAvailability { get; set; }
@@ -81,7 +81,7 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     public string? Identity { get; set; }
 
     /// <summary>
-    /// Number of IOPS to be allocated for this server. You will get certain amount of free IOPS based on compute and storage provisioned. The default value for IOPS is free IOPS. To learn more about IOPS based on compute and storage, refer to IOPS in Azure Database for MySQL Flexible
+    /// Number of IOPS to be allocated for this server. You will get certain amount of free IOPS based on compute and storage provisioned. The default value for IOPS is free IOPS. To learn more about IOPS based on compute and storage, refer to IOPS in Azure Database for MySQL Flexible Server.
     /// </summary>
     [CliFlag("--iops")]
     public bool? Iops { get; set; }
@@ -111,7 +111,7 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     public bool? MaintenanceWindow { get; set; }
 
     /// <summary>
-    /// Enable or disable the public access on a server.  Allowed values: Disabled,
+    /// Enable or disable the public access on a server.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--public-access")]
     public string? PublicAccess { get; set; }
@@ -123,7 +123,7 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     public bool? ReplicationRole { get; set; }
 
     /// <summary>
-    /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples:
+    /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.
     /// </summary>
     [CliOption("--sku-name")]
     public string? SkuName { get; set; }
@@ -153,7 +153,7 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose,
+    /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose, MemoryOptimized.
     /// </summary>
     [CliOption("--tier")]
     public string? Tier { get; set; }
@@ -165,7 +165,7 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     public bool? AdminPassword { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -189,7 +189,7 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids")]
     public IEnumerable<string>? Ids { get; set; }
@@ -201,7 +201,7 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     public string? Name { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Retrieve the exchange key of the HSM.
 /// </summary>
+/// <param name="SdExchangeKey">Local file path to store the exported key.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "security-domain", "init-recovery")]

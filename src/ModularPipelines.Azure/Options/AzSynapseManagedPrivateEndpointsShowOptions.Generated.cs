@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get a synapse managed private endpoints.
 /// </summary>
+/// <param name="PeName">The managed private endpoint name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "managed-private-endpoints", "show")]
@@ -31,7 +32,7 @@ public record AzSynapseManagedPrivateEndpointsShowOptions(
     /// <summary>
     /// The workspace name.
     /// </summary>
-    [CliFlag("--workspace-name")]
-    public bool? WorkspaceName { get; set; }
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 
 }

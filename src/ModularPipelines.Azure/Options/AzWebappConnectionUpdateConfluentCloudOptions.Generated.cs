@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a webapp to confluent-cloud connection.
 /// </summary>
+/// <param name="Connection">Name of the connection.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "connection", "update", "confluent-cloud")]
@@ -77,7 +78,7 @@ public record AzWebappConnectionUpdateConfluentCloudOptions(
     public string? OptOut { get; set; }
 
     /// <summary>
-    /// The resource group which contains the webapp. Required if '--source- id' is not specified.None.
+    /// The resource group which contains the webapp. Required if '--source-id' is not specified.None.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

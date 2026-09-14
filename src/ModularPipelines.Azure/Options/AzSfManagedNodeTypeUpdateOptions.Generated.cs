@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update node type on a managed cluster.
 /// </summary>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="Name">Node type name.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-node-type", "update")]
@@ -37,7 +40,7 @@ public record AzSfManagedNodeTypeUpdateOptions(
     public bool? AppStartPort { get; set; }
 
     /// <summary>
-    /// Capacity tags applied to the nodes in the node type as key/value pairs, the cluster resource manager uses these tags to understand how much resource a node has. Updating this will override the current values.for example: --capacity
+    /// Capacity tags applied to the nodes in the node type as key/value pairs, the cluster resource manager uses these tags to understand how much resource a node has. Updating this will override the current values.for example: --capacity ClientConnections=65536 param2=value2.
     /// </summary>
     [CliFlag("--capacity")]
     public bool? Capacity { get; set; }
@@ -61,7 +64,7 @@ public record AzSfManagedNodeTypeUpdateOptions(
     public bool? InstanceCount { get; set; }
 
     /// <summary>
-    /// Placement tags applied to nodes in the node type as key/value pairs, which can be used to indicate where certain services (workload) should run. Updating this will override the current values.for example:
+    /// Placement tags applied to nodes in the node type as key/value pairs, which can be used to indicate where certain services (workload) should run. Updating this will override the current values.for example: --placement-property NodeColor=Green SomeProperty=5.
     /// </summary>
     [CliFlag("--placement-property")]
     public bool? PlacementProperty { get; set; }

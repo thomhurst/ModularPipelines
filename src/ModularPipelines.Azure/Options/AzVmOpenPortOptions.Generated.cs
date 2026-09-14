@@ -15,11 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Opens a VM to inbound traffic on specified ports.
 /// </summary>
+/// <param name="Port">The port or port range (ex: 80-100) to open inbound traffic to. Use '*' to allow traffic to all ports. Use comma separated values to specify more than one port or port range.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "open-port")]
 public record AzVmOpenPortOptions(
-    [property: CliOption("--port")] string Port
+    [property: CliOption("--port")] int Port
 ) : AzOptions
 {
     /// <summary>

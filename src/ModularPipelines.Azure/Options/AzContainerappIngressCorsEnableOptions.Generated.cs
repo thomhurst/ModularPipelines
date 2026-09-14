@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable CORS policy for a container app.
 /// </summary>
+/// <param name="AllowedOrigins">A list of allowed origin(s) for the container app. Values are space-separated. Empty string to clear existing values.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "ingress", "cors", "enable")]

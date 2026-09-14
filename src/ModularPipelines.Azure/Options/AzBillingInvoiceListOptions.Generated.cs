@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the invoices for a subscription.
 /// </summary>
+/// <param name="PeriodEndDate">The end date to fetch the invoices. The date should be specified in YYYY-MM-DD format.</param>
+/// <param name="PeriodStartDate">The start date to fetch the invoices. The date should be specified in YYYY-MM-DD format.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "invoice", "list")]

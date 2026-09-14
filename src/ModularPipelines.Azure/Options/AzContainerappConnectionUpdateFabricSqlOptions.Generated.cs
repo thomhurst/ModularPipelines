@@ -93,13 +93,13 @@ public record AzContainerappConnectionUpdateFabricSqlOptions : AzOptions
     public string? VaultId { get; set; }
 
     /// <summary>
-    /// The flag to use system assigned identity auth info. No additional parameters are needed.
+    /// The flag to use system assigned identity auth info. No additional parameters are needed. Usage: --system-identity.
     /// </summary>
     [CliFlag("--system-identity")]
     public bool? SystemIdentity { get; set; }
 
     /// <summary>
-    /// The user assigned identity auth info.
+    /// The user assigned identity auth info. Usage: --user-identity client-id=XX subs-id=XX
     /// </summary>
     [CliFlag("--user-identity")]
     public bool? UserIdentity { get; set; }

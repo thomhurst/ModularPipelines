@@ -15,13 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove nodes from a node type in a cluster.
 /// </summary>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="NodeType">The Node type name.</param>
+/// <param name="NodesToRemove">Number of nodes to remove.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "cluster", "node", "remove")]
 public record AzSfClusterNodeRemoveOptions(
     [property: CliOption("--cluster-name", ShortForm = "-c")] string ClusterName,
     [property: CliOption("--node-type")] string NodeType,
-    [property: CliOption("--nodes-to-remove", ShortForm = "--number-of-nodes-to-remove")] string NodesToRemove,
+    [property: CliOption("--nodes-to-remove", ShortForm = "--number-of-nodes-to-remove")] int NodesToRemove,
     [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
 ) : AzOptions
 {

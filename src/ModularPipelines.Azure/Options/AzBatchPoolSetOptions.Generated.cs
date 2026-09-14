@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the properties of a Batch pool. Updating a property in a subgroup
 /// </summary>
+/// <param name="PoolId">The ID of the Pool to get. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "pool", "set")]
@@ -25,8 +26,8 @@ public record AzBatchPoolSetOptions(
     /// <summary>
     /// A file containing the pool specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Pool Arguments' are ignored.
     /// </summary>
-    [CliFlag("--json-file")]
-    public bool? JsonFile { get; set; }
+    [CliOption("--json-file")]
+    public string? JsonFile { get; set; }
 
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
@@ -61,8 +62,8 @@ public record AzBatchPoolSetOptions(
     /// <summary>
     /// The command line of the StartTask. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en-us/azure/batch/batch-compute- node-environment-variables). Required.
     /// </summary>
-    [CliFlag("--start-task-command-line")]
-    public bool? StartTaskCommandLine { get; set; }
+    [CliOption("--start-task-command-line")]
+    public string? StartTaskCommandLine { get; set; }
 
     /// <summary>
     /// A list of environment variable settings for the StartTask. Space-separated values in 'key=value' format.

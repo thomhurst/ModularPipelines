@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a deployment slot.
 /// </summary>
+/// <param name="Name">Name of the webapp.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Slot">The name of the slot.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "deployment", "slot", "create")]
@@ -31,7 +34,7 @@ public record AzWebappDeploymentSlotCreateOptions(
     public string? ConfigurationSource { get; set; }
 
     /// <summary>
-    /// The container custom image name and optionally the tag name (e.g., `&lt;registry- name&gt;/&lt;image-name&gt;:&lt;tag&gt;`). Note: if
+    /// The container custom image name and optionally the tag name (e.g., `&lt;registry- name&gt;/&lt;image-name&gt;:&lt;tag&gt;`). Note: if --container-registry-url is also provided, use `&lt;image-name&gt;:&lt;tag&gt;` without the registry name.
     /// </summary>
     [CliFlag("--container-image-name", ShortForm = "-c")]
     public bool? ContainerImageName { get; set; }

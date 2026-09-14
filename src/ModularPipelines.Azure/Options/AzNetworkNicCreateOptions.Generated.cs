@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a network interface.
 /// </summary>
+/// <param name="Name">Name of the network interface (NIC).</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Subnet">Name or ID of an existing subnet. If name specified, please also specify `--vnet-name`; If you want to use an existing subnet in other resource group, please provide the ID instead of the name of the subnet.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nic", "create")]
@@ -45,8 +48,8 @@ public record AzNetworkNicCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Name or ID of an existing network security group.
@@ -139,10 +142,10 @@ public record AzNetworkNicCreateOptions(
     public string? LbName { get; set; }
 
     /// <summary>
-    /// Auxiliary mode of Network Interface resource.
+    /// Auxiliary mode of Network Interface resource. Allowed values: AcceleratedConnections, Floating, MaxConnections, None.
     /// </summary>
-    [CliFlag("--auxiliary-mode")]
-    public bool? AuxiliaryMode { get; set; }
+    [CliOption("--auxiliary-mode")]
+    public string? AuxiliaryMode { get; set; }
 
     /// <summary>
     /// Auxiliary sku of Network Interface resource. Allowed values: A1, A2, A4, A8, None.

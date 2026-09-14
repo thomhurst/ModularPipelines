@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore backed up Azure file shares to the same file-
 /// </summary>
+/// <param name="ResolveConflict">Instruction if there's a conflict with the restored data.  Allowed values: Overwrite, Skip.</param>
+/// <param name="RestoreMode">Specify the restore mode.  Allowed values: AlternateLocation, OriginalLocation.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "restore", "restore-azurefileshare")]
@@ -60,7 +62,7 @@ public record AzBackupRestoreRestoreAzurefileshareOptions(
     public string? ContainerName { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

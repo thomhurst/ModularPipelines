@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Place the CLI in a waiting state until an operation is complete.
 /// </summary>
+/// <param name="Name">The name of the cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "credentials", "wait")]
@@ -30,7 +32,7 @@ public record AzHdinsightCredentialsWaitOptions(
     public bool? Created { get; set; }
 
     /// <summary>
-    /// Wait until the condition satisfies a custom JMESPath query.
+    /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instanceView.statuses[?code=='PowerState/running'].
     /// </summary>
     [CliFlag("--custom")]
     public bool? Custom { get; set; }

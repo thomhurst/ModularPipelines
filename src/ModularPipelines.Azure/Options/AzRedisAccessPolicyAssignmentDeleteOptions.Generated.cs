@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete the Access Policy Assignment (Redis User).
 /// </summary>
+/// <param name="PolicyAssignmentName">The name of the access policy assignment.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "access-policy-assignment", "delete")]

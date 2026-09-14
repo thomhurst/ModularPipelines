@@ -23,8 +23,8 @@ public record AzVmRunCommandShowOptions : AzOptions
     /// <summary>
     /// The command id.
     /// </summary>
-    [CliFlag("--command-id")]
-    public bool? CommandId { get; set; }
+    [CliOption("--command-id")]
+    public string? CommandId { get; set; }
 
     /// <summary>
     /// The instance view of a run command.
@@ -35,8 +35,8 @@ public record AzVmRunCommandShowOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// The name of the virtual machine run command.

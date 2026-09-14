@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates the Azure defender plan for the subscription.
 /// </summary>
+/// <param name="Name">Name of the resource to be fetched.</param>
+/// <param name="Tier">Pricing tier type.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "pricing", "create")]

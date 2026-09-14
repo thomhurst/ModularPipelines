@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a policy definition.
 /// </summary>
+/// <param name="Name">The name of the policy definition.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "definition", "update")]
@@ -65,13 +66,13 @@ public record AzPolicyDefinitionUpdateOptions(
     public bool? DisplayName { get; set; }
 
     /// <summary>
-    /// The details of the source of external evaluation results required by the policy during enforcement evaluation.
+    /// The details of the source of external evaluation results required by the policy during enforcement evaluation. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--external-evaluation-enforcement-settings", ShortForm = "--external-settings")]
     public bool? ExternalEvaluationEnforcementSettings { get; set; }
 
     /// <summary>
-    /// The policy definition metadata.
+    /// The policy definition metadata. Support shorthand-syntax(full value only), json-file and yaml-file.
     /// </summary>
     [CliFlag("--metadata")]
     public bool? Metadata { get; set; }

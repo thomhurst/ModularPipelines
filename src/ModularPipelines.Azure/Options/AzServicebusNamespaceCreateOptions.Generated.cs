@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Service Bus Namespace.
 /// </summary>
+/// <param name="Name">Name of Namespace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "namespace", "create")]
@@ -33,7 +35,7 @@ public record AzServicebusNamespaceCreateOptions(
     /// Number of message units. This property is only applicable to namespaces of Premium SKU. Allowed values: 1, 16, 2, 4, 8.
     /// </summary>
     [CliOption("--capacity")]
-    public string? Capacity { get; set; }
+    public int? Capacity { get; set; }
 
     /// <summary>
     /// A boolean value that indicates whether SAS authentication is enabled/disabled for the Service Bus.  Allowed values: false, true.
@@ -48,19 +50,19 @@ public record AzServicebusNamespaceCreateOptions(
     public IEnumerable<string>? EncryptionConfig { get; set; }
 
     /// <summary>
-    /// A list of regions where replicas of the namespace are maintained
+    /// A list of regions where replicas of the namespace are maintained Object.
     /// </summary>
     [CliOption("--geo-data-replication-config", ShortForm = "--replica-config", GroupValues = true)]
     public IEnumerable<string>? GeoDataReplicationConfig { get; set; }
 
     /// <summary>
-    /// A boolean value that indicates whether Infrastructure
+    /// A boolean value that indicates whether Infrastructure Encryption (Double Encryption). Allowed values: false, true.
     /// </summary>
     [CliOption("--infra-encryption")]
     public bool? InfraEncryption { get; set; }
 
     /// <summary>
-    /// The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dualstack).  Allowed values:
+    /// The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dualstack).  Allowed values: DualStack, IPv4.
     /// </summary>
     [CliOption("--ip-address-type")]
     public string? IpAddressType { get; set; }
@@ -68,8 +70,8 @@ public record AzServicebusNamespaceCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// The maximum acceptable lag for data replication operations from the primary replica to a quorum of secondary replicas.
@@ -90,13 +92,13 @@ public record AzServicebusNamespaceCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// This determines if traffic is allowed over public network. By default it is enabled. If value is SecuredByPerimeter then
+    /// This determines if traffic is allowed over public network. By default it is enabled. If value is SecuredByPerimeter then Inbound and Outbound communication is controlled by the network security perimeter and profile' access rules. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--public-network", ShortForm = "--public-network-access")]
-    public bool? PublicNetwork { get; set; }
+    [CliOption("--public-network", ShortForm = "--public-network-access")]
+    public string? PublicNetwork { get; set; }
 
     /// <summary>
-    /// Namespace SKU.  Allowed values:
+    /// Namespace SKU.  Allowed values: Basic, Premium, Standard. Default: Standard.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }
@@ -108,9 +110,9 @@ public record AzServicebusNamespaceCreateOptions(
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Enabling this property creates a
+    /// Enabling this property creates a ServiceBus Zone Redundant Namespace in regions supported availability zones.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone-redundant")]
+    [CliOption("--zone-redundant")]
     public bool? ZoneRedundant { get; set; }
 
     /// <summary>

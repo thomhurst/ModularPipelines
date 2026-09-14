@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Generates a verification code for an Azure
 /// </summary>
+/// <param name="Etag">Entity Tag (etag) of the object.</param>
+/// <param name="Name">A friendly name for the certificate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "certificate", "generate-verification-code")]

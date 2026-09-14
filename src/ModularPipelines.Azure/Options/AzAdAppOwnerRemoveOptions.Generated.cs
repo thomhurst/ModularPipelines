@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an application owner.
 /// </summary>
+/// <param name="Id">Identifier uri, application id, or object id.</param>
+/// <param name="OwnerObjectId">Owner's object id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "owner", "remove")]

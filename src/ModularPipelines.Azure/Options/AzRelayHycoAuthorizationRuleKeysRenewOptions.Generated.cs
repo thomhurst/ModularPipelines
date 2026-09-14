@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate keys of Authorization Rule for Relay
 /// </summary>
+/// <param name="Key">Specifies Primary or Secondary key needs to be reset.  Allowed values: PrimaryKey, SecondaryKey.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("relay", "hyco", "authorization-rule", "keys", "renew")]

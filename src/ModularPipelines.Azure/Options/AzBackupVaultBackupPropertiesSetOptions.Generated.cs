@@ -21,25 +21,25 @@ namespace ModularPipelines.Azure.Options;
 public record AzBackupVaultBackupPropertiesSetOptions : AzOptions
 {
     /// <summary>
-    /// Set backup storage properties for a Recovery Services vault. Allowed values: GeoRedundant, LocallyRedundant,
+    /// Set backup storage properties for a Recovery Services vault. Allowed values: GeoRedundant, LocallyRedundant, ZoneRedundant.
     /// </summary>
     [CliOption("--backup-storage-redundancy")]
     public string? BackupStorageRedundancy { get; set; }
 
     /// <summary>
-    /// Use this property to specify whether backup alerts from the classic solution should be received.  Allowed values:
+    /// Use this property to specify whether backup alerts from the classic solution should be received.  Allowed values: Disable, Enable.
     /// </summary>
     [CliOption("--classic-alerts")]
     public string? ClassicAlerts { get; set; }
 
     /// <summary>
-    /// Set cross-region-restore feature state for a Recovery Services Vault. Default: False.  Allowed values: False,
+    /// Set cross-region-restore feature state for a Recovery Services Vault. Default: False.  Allowed values: False, True.
     /// </summary>
     [CliOption("--cross-region-restore-flag")]
-    public string? CrossRegionRestoreFlag { get; set; }
+    public bool? CrossRegionRestoreFlag { get; set; }
 
     /// <summary>
-    /// Use this field to set the security features for hybrid backups in a Recovery Services Vault.  Allowed values:
+    /// Use this field to set the security features for hybrid backups in a Recovery Services Vault.  Allowed values: Disable, Enable.
     /// </summary>
     [CliOption("--hybrid-backup-security-features")]
     public string? HybridBackupSecurityFeatures { get; set; }
@@ -51,7 +51,7 @@ public record AzBackupVaultBackupPropertiesSetOptions : AzOptions
     public string? JobFailureAlerts { get; set; }
 
     /// <summary>
-    /// Set soft-delete retention duration time in days for a
+    /// Set soft-delete retention duration time in days for a Recovery Services Vault.
     /// </summary>
     [CliFlag("--soft-delete-duration")]
     public bool? SoftDeleteDuration { get; set; }

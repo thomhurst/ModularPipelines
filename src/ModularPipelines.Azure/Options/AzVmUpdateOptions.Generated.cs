@@ -21,9 +21,9 @@ namespace ModularPipelines.Azure.Options;
 public record AzVmUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Specify whether to implicitly install the ProxyAgent
+    /// Specify whether to implicitly install the ProxyAgent Extension. This option is currently applicable only for Linux OS. Use with --enable-proxy-agent.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--add-proxy-agent-ext", ShortForm = "--add-proxy-agent-extension")]
+    [CliOption("--add-proxy-agent-ext", ShortForm = "--add-proxy-agent-extension")]
     public bool? AddProxyAgentExt { get; set; }
 
     /// <summary>
@@ -33,15 +33,15 @@ public record AzVmUpdateOptions : AzOptions
     public bool? AdditionalEvents { get; set; }
 
     /// <summary>
-    /// Specify whether the regional disks should be aligned/moved to the VM zone. This is applicable only for VMs with placement property set. Please note that this change is irreversible.
+    /// Specify whether the regional disks should be aligned/moved to the VM zone. This is applicable only for VMs with placement property set. Please note that this change is irreversible. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--align-regional-disks", ShortForm = "--align-regional-disks-to-vm-zone")]
+    [CliOption("--align-regional-disks", ShortForm = "--align-regional-disks-to-vm-zone")]
     public bool? AlignRegionalDisks { get; set; }
 
     /// <summary>
-    /// Specifies if
+    /// Specifies if Scheduled Events should be auto- approved when all instances are down. Its default value is true.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--all-instance-down", ShortForm = "--enable-all-instance-down")]
+    [CliOption("--all-instance-down", ShortForm = "--enable-all-instance-down")]
     public bool? AllInstanceDown { get; set; }
 
     /// <summary>
@@ -63,46 +63,46 @@ public record AzVmUpdateOptions : AzOptions
     public bool? DiskCaching { get; set; }
 
     /// <summary>
-    /// The flag that enable or disable hibernation capability on the
+    /// The flag that enable or disable hibernation capability on the VM.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-hibernation")]
+    [CliOption("--enable-hibernation")]
     public bool? EnableHibernation { get; set; }
 
     /// <summary>
-    /// Specify whether metadata security protoco (proxy agent) feature should be enabled on the virtual machine or virtual machine scale set.
+    /// Specify whether metadata security protoco (proxy agent) feature should be enabled on the virtual machine or virtual machine scale set. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-proxy-agent")]
+    [CliOption("--enable-proxy-agent")]
     public bool? EnableProxyAgent { get; set; }
 
     /// <summary>
-    /// The configuration parameter used while publishing scheduled events additional publishing targets.
+    /// The configuration parameter used while publishing scheduled events additional publishing targets. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-reboot", ShortForm = "--enable-user-reboot-scheduled-events")]
+    [CliOption("--enable-reboot", ShortForm = "--enable-user-reboot-scheduled-events")]
     public bool? EnableReboot { get; set; }
 
     /// <summary>
-    /// The configuration parameter used while creating user initiated redeploy scheduled event setting creation.
+    /// The configuration parameter used while creating user initiated redeploy scheduled event setting creation. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-redeploy", ShortForm = "--enable-user-redeploy-scheduled-events")]
+    [CliOption("--enable-redeploy", ShortForm = "--enable-user-redeploy-scheduled-events")]
     public bool? EnableRedeploy { get; set; }
 
     /// <summary>
-    /// Enable secure boot.
+    /// Enable secure boot. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-secure-boot")]
+    [CliOption("--enable-secure-boot")]
     public bool? EnableSecureBoot { get; set; }
 
     /// <summary>
-    /// Enable vTPM.
+    /// Enable vTPM. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--enable-vtpm")]
+    [CliOption("--enable-vtpm")]
     public bool? EnableVtpm { get; set; }
 
     /// <summary>
-    /// Only applicable when used with `--size`. Allows you to choose the
+    /// Only applicable when used with `--size`. Allows you to choose the Ephemeral OS disk provisioning location.  Allowed values: CacheDisk, NvmeDisk, ResourceDisk.
     /// </summary>
-    [CliFlag("--ephemeral-os-disk-placement", ShortForm = "--ephemeral-placement")]
-    public bool? EphemeralOsDiskPlacement { get; set; }
+    [CliOption("--ephemeral-os-disk-placement", ShortForm = "--ephemeral-placement")]
+    public string? EphemeralOsDiskPlacement { get; set; }
 
     /// <summary>
     /// Specify the access control profile version resource id resource id of imds.
@@ -111,7 +111,7 @@ public record AzVmUpdateOptions : AzOptions
     public string? ImdsAccessControlProfileReferenceId { get; set; }
 
     /// <summary>
-    /// Specify the mode that proxy agent will execute on if the feature is enabled.  Allowed values: Audit,
+    /// Specify the mode that proxy agent will execute on if the feature is enabled.  Allowed values: Audit, Enforce.
     /// </summary>
     [CliOption("--imds-mode")]
     public string? ImdsMode { get; set; }
@@ -123,10 +123,10 @@ public record AzVmUpdateOptions : AzOptions
     public bool? KeyIncarnationId { get; set; }
 
     /// <summary>
-    /// Specifies that the
+    /// Specifies that the Windows image or disk was licensed on-premises. To enable Azure Hybrid Benefit for Windows Server, use 'Windows_Server'. To enable Multi- tenant Hosting Rights for Windows 10, use 'Windows_Client'. For more information see the Azure Windows VM online docs. Allowed values: None, RHEL_BASE, RHEL_BASESAPAPPS, RHEL_BASESAPHA, RHEL_BYOS, RHEL_ELS_6, RHEL_EUS, RHEL_SAPAPPS, RHEL_SAPHA, SLES, SLES_BYOS, SLES_HPC, SLES_SAP, SLES_STANDARD, UBUNTU, UBUNTU_PRO, Windows_Client, Windows_Server.
     /// </summary>
-    [CliFlag("--license-type")]
-    public bool? LicenseType { get; set; }
+    [CliOption("--license-type")]
+    public string? LicenseType { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -141,33 +141,33 @@ public record AzVmUpdateOptions : AzOptions
     public bool? OsDisk { get; set; }
 
     /// <summary>
-    /// The name or ID of the proximity placement group the
+    /// The name or ID of the proximity placement group the VM should be associated with.
     /// </summary>
     [CliOption("--ppg")]
     public string? Ppg { get; set; }
 
     /// <summary>
-    /// Priority. Use 'Spot' to run short-lived workloads in a cost-effective way. 'Low' enum will be deprecated in the future. Please use 'Spot' to deploy
+    /// Priority. Use 'Spot' to run short-lived workloads in a cost-effective way. 'Low' enum will be deprecated in the future. Please use 'Spot' to deploy Azure spot VM and/or VMSS. Default to Regular. Allowed values: Low, Regular, Spot.
     /// </summary>
-    [CliFlag("--priority")]
-    public bool? Priority { get; set; }
+    [CliOption("--priority")]
+    public string? Priority { get; set; }
 
     /// <summary>
-    /// Specifies the api- version to determine which
+    /// Specifies the api- version to determine which Scheduled Events configuration schema version will be delivered.
     /// </summary>
     [CliFlag("--scheduled-events-api-version", ShortForm = "--se-api-version")]
     public bool? ScheduledEventsApiVersion { get; set; }
 
     /// <summary>
-    /// Specify the security type of the virtual machine.  Allowed
+    /// Specify the security type of the virtual machine.  Allowed values: ConfidentialVM, Standard, TrustedLaunch.
     /// </summary>
-    [CliFlag("--security-type")]
-    public bool? SecurityType { get; set; }
+    [CliOption("--security-type")]
+    public string? SecurityType { get; set; }
 
     /// <summary>
-    /// Enables or disables the capability to have 1 or more managed data disks with UltraSSD_LRS storage account.
+    /// Enables or disables the capability to have 1 or more managed data disks with UltraSSD_LRS storage account. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--ultra-ssd-enabled")]
+    [CliOption("--ultra-ssd-enabled")]
     public bool? UltraSsdEnabled { get; set; }
 
     /// <summary>
@@ -195,13 +195,13 @@ public record AzVmUpdateOptions : AzOptions
     public string? WireServerAccessControlProfileReferenceId { get; set; }
 
     /// <summary>
-    /// Specify the mode that proxy agent will execute on if the feature is enabled.  Allowed values: Audit,
+    /// Specify the mode that proxy agent will execute on if the feature is enabled.  Allowed values: Audit, Enforce.
     /// </summary>
     [CliOption("--wire-server-mode")]
     public string? WireServerMode { get; set; }
 
     /// <summary>
-    /// Enable/disable disk write accelerator.
+    /// Enable/disable disk write accelerator. Use singular value 'true/false' to apply across, or specify individual disks, e.g.'os=true 1=true 2=true' for os disk and data disks with lun of 1 &amp; 2.
     /// </summary>
     [CliFlag("--write-accelerator")]
     public bool? WriteAccelerator { get; set; }
@@ -213,13 +213,13 @@ public record AzVmUpdateOptions : AzOptions
     public bool? Zone { get; set; }
 
     /// <summary>
-    /// Indicates if zone movement is enabled. By default isEnabled is set to false i.e VM can't be moved from one zone to another.
+    /// Indicates if zone movement is enabled. By default isEnabled is set to false i.e VM can't be moved from one zone to another. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--zone-movement")]
+    [CliOption("--zone-movement")]
     public bool? ZoneMovement { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.lis tProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -237,25 +237,25 @@ public record AzVmUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set pro perty1.property2=&lt;v alue&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// The name of the
+    /// The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

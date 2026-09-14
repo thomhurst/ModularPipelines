@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set legal hold tags.
 /// </summary>
+/// <param name="AccountName">Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT.</param>
+/// <param name="ContainerName">The container name.</param>
+/// <param name="Tags">Space-separated tags. Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container", "legal-hold", "set")]

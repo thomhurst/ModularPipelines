@@ -16,6 +16,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create/update secrets.
 /// </summary>
+/// <param name="Name">The name of the container app job for which the secret needs to be retrieved.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Secrets">A list of secret(s) for the container app job. Space-separated values in 'key=value' or 'key=keyvaultref:keyvaulturl,identityref:identity' format (where 'key' cannot be longer than 20 characters).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "job", "secret", "set")]

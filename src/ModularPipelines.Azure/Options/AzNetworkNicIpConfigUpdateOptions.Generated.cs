@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an IP configuration.
 /// </summary>
+/// <param name="Name">Name of the IP configuration.</param>
+/// <param name="NicName">Name of the network interface (NIC).</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nic", "ip-config", "update")]
@@ -31,7 +34,7 @@ public record AzNetworkNicIpConfigUpdateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Space-separated list of names or IDs of application gateway backend address pools to associate with the NIC. If names are used, `--gateway- name` must be specified.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of names or IDs of application gateway backend address pools to associate with the NIC. If names are used, `--gateway-name` must be specified.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--ag-address-pools", ShortForm = "--app-gateway-address-pools", GroupValues = true)]
     public IEnumerable<string>? AgAddressPools { get; set; }
@@ -61,7 +64,7 @@ public record AzNetworkNicIpConfigUpdateOptions(
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }

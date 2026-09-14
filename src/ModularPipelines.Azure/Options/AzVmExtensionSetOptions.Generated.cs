@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set extensions for a VM.
 /// </summary>
+/// <param name="Name">Name of the extension.  Values from: az vm extension image list.</param>
+/// <param name="Publisher">The name of the extension publisher.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "extension", "set")]

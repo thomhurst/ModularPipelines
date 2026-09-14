@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set a snapshot reference.
 /// </summary>
+/// <param name="Key">Key to be set. Key cannot be a '.' or '..', or contain the '%' character.</param>
+/// <param name="SnapshotName">Name of the snapshot to reference. This is required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "kv", "set-snapshot-reference")]

@@ -45,7 +45,7 @@ public record AzWebappConfigHostnameAddOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// Webapp name. You can configure the default using `az configure
+    /// Webapp name. You can configure the default using `az configure --defaults web=&lt;name&gt;`.
     /// </summary>
     [CliFlag("--webapp-name")]
     public bool? WebappName { get; set; }

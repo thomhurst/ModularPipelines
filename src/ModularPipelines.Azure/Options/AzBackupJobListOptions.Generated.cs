@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all backup jobs of a Recovery Services vault.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VaultName">Name of the Recovery services vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "job", "list")]
@@ -48,7 +50,7 @@ public record AzBackupJobListOptions(
     public bool? StartDate { get; set; }
 
     /// <summary>
-    /// Status of the Job.  Allowed values: Cancelled, Completed,
+    /// Status of the Job.  Allowed values: Cancelled, Completed, CompletedWithWarnings, Failed, InProgress.
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; set; }

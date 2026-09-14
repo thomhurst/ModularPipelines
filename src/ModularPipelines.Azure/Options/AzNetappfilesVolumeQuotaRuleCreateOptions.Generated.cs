@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the specified quota rule within the given
 /// </summary>
+/// <param name="AccountName">The name of the NetApp account.</param>
+/// <param name="Name">The name of volume quota rule.</param>
+/// <param name="PoolName">The name of the capacity pool.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VolumeName">The name of the volume.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume", "quota-rule", "create")]
@@ -35,8 +40,8 @@ public record AzNetappfilesVolumeQuotaRuleCreateOptions(
     /// <summary>
     /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -57,7 +62,7 @@ public record AzNetappfilesVolumeQuotaRuleCreateOptions(
     public bool? QuotaTarget { get; set; }
 
     /// <summary>
-    /// Type of quota.  Allowed values: DefaultGroupQuota,
+    /// Type of quota.  Allowed values: DefaultGroupQuota, DefaultUserQuota, IndividualGroupQuota, IndividualUserQuota.
     /// </summary>
     [CliOption("--quota-type")]
     public string? QuotaType { get; set; }

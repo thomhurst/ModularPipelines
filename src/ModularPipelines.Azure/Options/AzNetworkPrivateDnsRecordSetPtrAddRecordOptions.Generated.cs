@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a PTR record.
 /// </summary>
+/// <param name="Ptrdname">PTR target domain name.</param>
+/// <param name="RecordSetName">The name of the record set relative to the zone. Creates a new record set if one does not exist.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ZoneName">The name of the Private DNS zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-dns", "record-set", "ptr", "add-record")]

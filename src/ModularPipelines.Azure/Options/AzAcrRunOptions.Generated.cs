@@ -16,6 +16,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Queues a quick run providing streamed logs for an Azure Container Registry.
 /// </summary>
+/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "run")]
@@ -32,8 +33,8 @@ public record AzAcrRunOptions(
     /// <summary>
     /// Commands to execute. This also supports additional docker run parameters (https://docs.docker.com/engine/reference/commandline/run/) or even other docker commands (https://docs.docker.com/engine/reference/commandline/docker/).
     /// </summary>
-    [CliFlag("--cmd")]
-    public bool? Cmd { get; set; }
+    [CliOption("--cmd")]
+    public string? Cmd { get; set; }
 
     /// <summary>
     /// The task template/definition file path relative to the source context. It can be '-' to pipe a file from the standard input.
@@ -62,8 +63,8 @@ public record AzAcrRunOptions(
     /// <summary>
     /// The platform where build/task is run, Eg, 'windows' and 'linux'. When it's used in build commands, it also can be specified in 'os/arch/variant' format for the resulting image. Eg, linux/arm/v7. The 'arch' and 'variant' parts are optional.
     /// </summary>
-    [CliFlag("--platform")]
-    public bool? Platform { get; set; }
+    [CliOption("--platform")]
+    public string? Platform { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -93,8 +94,8 @@ public record AzAcrRunOptions(
     /// <summary>
     /// The timeout in seconds.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
 
     /// <summary>
     /// The task values file path relative to the source context.

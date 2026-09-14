@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Flex Consumption app with the same settings as
 /// </summary>
+/// <param name="ResourceGroup">The resource group of the target function app to migrate to.</param>
+/// <param name="SourceName">The name of the source function app to migrate from.</param>
+/// <param name="SourceResourceGroup">The resource group of the source function app to migrate from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "flex-migration", "start")]

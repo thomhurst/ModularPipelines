@@ -16,6 +16,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable to decrypt and encrypt security domain file as
 /// </summary>
+/// <param name="SdExchangeKey">The exchange key for security domain.</param>
+/// <param name="SdFile">This file contains security domain encrypted using SD Exchange file downloaded in security-domain init-recovery command.</param>
+/// <param name="SdFileRestoreBlob">Local file path to store the security domain encrypted with the exchange key.</param>
+/// <param name="SdWrappingKeys">Space-separated file paths to PEM files containing private keys.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "security-domain", "restore-blob")]

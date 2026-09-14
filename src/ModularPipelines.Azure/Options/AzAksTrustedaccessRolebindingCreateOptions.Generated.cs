@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new trusted access role binding.
 /// </summary>
+/// <param name="ClusterName">The cluster name.</param>
+/// <param name="Name">Specify the role binding name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Roles">Specify the comma-separated roles.</param>
+/// <param name="SourceResourceId">Specify the source resource id of the binding.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "trustedaccess", "rolebinding", "create")]

@@ -51,19 +51,19 @@ public record AzEventgridPartnerNamespaceChannelUpdateOptions : AzOptions
     public string? EndpointUrl { get; set; }
 
     /// <summary>
-    /// The kind of event type used.
+    /// The kind of event type used. Allowed values: inline.
     /// </summary>
-    [CliFlag("--event-type-kind")]
-    public bool? EventTypeKind { get; set; }
+    [CliOption("--event-type-kind")]
+    public string? EventTypeKind { get; set; }
 
     /// <summary>
-    /// Add inline event type info. Multiple attributes can be specified by using more than one `--inline-event-type` argument.
+    /// Add inline event type info. Multiple attributes can be specified by using more than one `--inline-event-type` argument. Usage:       --inline-event-type KEY [description={description}] [documentation-url={url}] \ [data-schema-url={url}] Example:     --inline-event-type event1 \ description="My inline event type." \ documentation-url=https://www.microsoft.com \ data-schema-url=https://www.microsoft.com.
     /// </summary>
     [CliFlag("--inline-event-type")]
     public bool? InlineEventType { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids")]
     public IEnumerable<string>? Ids { get; set; }

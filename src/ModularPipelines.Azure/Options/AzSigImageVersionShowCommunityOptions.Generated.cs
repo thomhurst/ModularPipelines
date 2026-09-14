@@ -27,7 +27,7 @@ public record AzSigImageVersionShowCommunityOptions : AzOptions
     public string? GalleryImageDefinition { get; set; }
 
     /// <summary>
-    /// Gallery image version in semantic version pattern. The allowed characters are digit and period. Digits must be within the range of a 32-bit integer, e.g. `&lt;MajorVersion&gt;.&lt;
+    /// Gallery image version in semantic version pattern. The allowed characters are digit and period. Digits must be within the range of a 32-bit integer, e.g. `&lt;MajorVersion&gt;.&lt; MinorVersion&gt;.&lt;Patch&gt;`.
     /// </summary>
     [CliFlag("--gallery-image-version", ShortForm = "-e")]
     public bool? GalleryImageVersion { get; set; }
@@ -39,10 +39,10 @@ public record AzSigImageVersionShowCommunityOptions : AzOptions
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// The public name of the community gallery.

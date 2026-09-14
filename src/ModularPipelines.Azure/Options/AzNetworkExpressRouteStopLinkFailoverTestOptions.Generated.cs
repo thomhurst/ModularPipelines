@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// This operation stops an ongoing failover
 /// </summary>
+/// <param name="CircuitTestCategory">The type of maintenance test category.  Allowed values: ASPathPrepend, BgpDisconnect.</param>
+/// <param name="IsVerified">Whether the customer was able to establish connectivity through this failover link or not.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
+/// <param name="LinkType">The type of link on which failover test was performed. Allowed values: Primary, Secondary.</param>
+/// <param name="SimulationSuccessful">Whether the failover simulation was successful or not. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "stop-link-failover-test")]

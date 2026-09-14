@@ -117,7 +117,7 @@ public record AzSynapseSparkPoolUpdateOptions : AzOptions
     public bool? NodeCount { get; set; }
 
     /// <summary>
-    /// The level of compute power that each node in the Big Data pool has.. Allowed values: Large, Medium, None, Small, XLarge, XXLarge,
+    /// The level of compute power that each node in the Big Data pool has.. Allowed values: Large, Medium, None, Small, XLarge, XXLarge, XXXLarge.
     /// </summary>
     [CliOption("--node-size")]
     public string? NodeSize { get; set; }
@@ -143,7 +143,7 @@ public record AzSynapseSparkPoolUpdateOptions : AzOptions
     /// <summary>
     /// The workspace name.
     /// </summary>
-    [CliFlag("--workspace-name")]
-    public bool? WorkspaceName { get; set; }
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 
 }

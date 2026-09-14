@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a Network rule from a Network Profile.
 /// </summary>
+/// <param name="ResourceGroup">Name of the resource group. If not specified will display currently set account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "account", "network-profile", "network-rule", "add")]
@@ -35,7 +36,7 @@ public record AzBatchAccountNetworkProfileNetworkRuleAddOptions(
     public string? Name { get; set; }
 
     /// <summary>
-    /// Network profile to set.  Allowed values: BatchAccount,
+    /// Network profile to set.  Allowed values: BatchAccount, NodeManagement.
     /// </summary>
     [CliOption("--profile")]
     public string? Profile { get; set; }

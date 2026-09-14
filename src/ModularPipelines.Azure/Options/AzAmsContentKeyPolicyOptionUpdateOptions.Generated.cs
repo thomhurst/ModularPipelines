@@ -16,6 +16,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an option from an existing content key policy.
 /// </summary>
+/// <param name="PolicyOptionId">The content key policy option identifier. This value can be obtained from "policyOptionId" property by running a show operation on a content key policy resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "content-key-policy", "option", "update")]
@@ -60,7 +61,7 @@ public record AzAmsContentKeyPolicyOptionUpdateOptions(
     public bool? FpStorageDurationSeconds { get; set; }
 
     /// <summary>
-    /// The rental and lease key type. Available values:
+    /// The rental and lease key type. Available values: Undefined, DualExpiry, PersistentUnlimited, PersistentLimited.
     /// </summary>
     [CliFlag("--rental-and-lease-key-type")]
     public bool? RentalAndLeaseKeyType { get; set; }
@@ -102,7 +103,7 @@ public record AzAmsContentKeyPolicyOptionUpdateOptions(
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// Creates an alternate token key with either a string (for symmetric key) or a filepath to a certificate (x509) or public key (rsa). Must be used in conjunction with --add- alt-token-key-type.
+    /// Creates an alternate token key with either a string (for symmetric key) or a filepath to a certificate (x509) or public key (rsa). Must be used in conjunction with --add-alt-token-key-type.
     /// </summary>
     [CliFlag("--add-alt-token-key")]
     public bool? AddAltTokenKey { get; set; }

@@ -51,7 +51,7 @@ public record AzCosmosdbPrivateEndpointConnectionRejectOptions : AzOptions
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// The resource group name of specified Cosmos DB account. Required if
+    /// The resource group name of specified Cosmos DB account. Required if --connection-id is not specified.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

@@ -15,11 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update autonomous tuning to be
 /// </summary>
+/// <param name="Enabled">Enable or disable autonomous tuning feature.  Allowed values: False, True.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "autonomous-tuning", "update")]
 public record AzPostgresFlexibleServerAutonomousTuningUpdateOptions(
-    [property: CliOption("--enabled")] string Enabled
+    [property: CliOption("--enabled")] bool Enabled
 ) : AzOptions
 {
     /// <summary>

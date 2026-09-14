@@ -51,7 +51,7 @@ public record AzDataboxedgeDeviceStorageAccountUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Data policy of the storage Account.  Allowed values:
+    /// Data policy of the storage Account.  Allowed values: Cloud, Local.
     /// </summary>
     [CliOption("--data-policy")]
     public string? DataPolicy { get; set; }
@@ -69,7 +69,7 @@ public record AzDataboxedgeDeviceStorageAccountUpdateOptions : AzOptions
     public bool? SacId { get; set; }
 
     /// <summary>
-    /// Current status of the storage account.  Allowed values: NeedsAttention, OK, Offline, Unknown,
+    /// Current status of the storage account.  Allowed values: NeedsAttention, OK, Offline, Unknown, Updating.
     /// </summary>
     [CliOption("--storage-account-status")]
     public string? StorageAccountStatus { get; set; }
@@ -77,11 +77,11 @@ public record AzDataboxedgeDeviceStorageAccountUpdateOptions : AzOptions
     /// <summary>
     /// The device name.
     /// </summary>
-    [CliFlag("--device-name")]
-    public bool? DeviceName { get; set; }
+    [CliOption("--device-name")]
+    public string? DeviceName { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

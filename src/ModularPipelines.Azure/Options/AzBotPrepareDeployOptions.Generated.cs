@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add scripts/config files for publishing with `az webapp deployment`.
 /// </summary>
+/// <param name="Lang">The language or runtime of the bot.  Allowed values: Csharp, Javascript, Typescript.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bot", "prepare-deploy")]

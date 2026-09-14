@@ -27,7 +27,7 @@ public record AzAcrCheckHealthOptions : AzOptions
     public bool? IgnoreErrors { get; set; }
 
     /// <summary>
-    /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure
+    /// The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }

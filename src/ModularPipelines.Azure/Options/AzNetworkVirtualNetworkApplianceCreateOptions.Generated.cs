@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a virtual network appliance.
 /// </summary>
+/// <param name="Name">The name of the virtual network appliance.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "virtual-network-appliance", "create")]
@@ -48,7 +50,7 @@ public record AzNetworkVirtualNetworkApplianceCreateOptions(
     public bool? BandwidthGbps { get; set; }
 
     /// <summary>
-    /// Whether the specific virtual network appliance is IPv4 or Dual Stack. Default is IPv4.  Allowed values: DualStack,
+    /// Whether the specific virtual network appliance is IPv4 or Dual Stack. Default is IPv4.  Allowed values: DualStack, IPv4.
     /// </summary>
     [CliOption("--private-ip-address-version", ShortForm = "--private-ip-version")]
     public string? PrivateIpAddressVersion { get; set; }

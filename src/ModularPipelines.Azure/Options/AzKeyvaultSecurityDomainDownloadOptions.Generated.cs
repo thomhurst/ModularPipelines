@@ -15,11 +15,14 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Download the security domain file from the HSM.
 /// </summary>
+/// <param name="SdQuorum">The minimum number of shares required to decrypt the security domain for recovery.</param>
+/// <param name="SdWrappingKeys">Space-separated file paths to PEM files containing public keys.</param>
+/// <param name="SecurityDomainFile">Path to a file where the JSON blob returned by this command is stored.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "security-domain", "download")]
 public record AzKeyvaultSecurityDomainDownloadOptions(
-    [property: CliOption("--sd-quorum")] string SdQuorum,
+    [property: CliOption("--sd-quorum")] int SdQuorum,
     [property: CliOption("--sd-wrapping-keys", GroupValues = true)] IEnumerable<string> SdWrappingKeys,
     [property: CliOption("--security-domain-file")] string SecurityDomainFile
 ) : AzOptions

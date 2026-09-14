@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List log files for a server.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServerName">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "server-logs", "list")]
@@ -38,7 +40,7 @@ public record AzMysqlFlexibleServerServerLogsListOptions(
     /// <summary>
     /// The file size limitation to filter files.
     /// </summary>
-    [CliFlag("--max-file-size")]
-    public bool? MaxFileSize { get; set; }
+    [CliOption("--max-file-size")]
+    public string? MaxFileSize { get; set; }
 
 }

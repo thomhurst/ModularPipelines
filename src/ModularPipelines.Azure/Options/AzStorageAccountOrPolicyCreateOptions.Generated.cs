@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create Object Replication Service Policy for storage
 /// </summary>
+/// <param name="AccountName">The storage account name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "or-policy", "create")]
@@ -23,7 +24,7 @@ public record AzStorageAccountOrPolicyCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// The destination storage account name or resource Id. Apply
+    /// The destination storage account name or resource Id. Apply --account-name value as destination account when there is no destination account provided in --policy and --destination-account.
     /// </summary>
     [CliOption("--destination-account", ShortForm = "-d")]
     public string? DestinationAccount { get; set; }
@@ -83,7 +84,7 @@ public record AzStorageAccountOrPolicyCreateOptions(
     public bool? Prefix { get; set; }
 
     /// <summary>
-    /// The destination storage container name. Required when no
+    /// The destination storage container name. Required when no --policy provided.
     /// </summary>
     [CliFlag("--dcont", ShortForm = "--destination-container")]
     public bool? Dcont { get; set; }

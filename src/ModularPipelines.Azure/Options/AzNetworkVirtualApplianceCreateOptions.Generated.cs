@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an Azure network virtual appliance.
 /// </summary>
+/// <param name="Name">The name of Network Virtual Appliance.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "virtual-appliance", "create")]
@@ -38,8 +40,8 @@ public record AzNetworkVirtualApplianceCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -60,13 +62,13 @@ public record AzNetworkVirtualApplianceCreateOptions(
     public bool? Asn { get; set; }
 
     /// <summary>
-    /// Space-separated list of
+    /// Space-separated list of BootStrapConfigurationBlobs storage URLs. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--boot-blobs", ShortForm = "--boot-strap-config-blobs", GroupValues = true)]
     public IEnumerable<string>? BootBlobs { get; set; }
 
     /// <summary>
-    /// Space-separated list of
+    /// Space-separated list of CloudInitConfigurationBlob storage URLs. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--cloud-blobs", ShortForm = "--cloud-init-config-blobs", GroupValues = true)]
     public IEnumerable<string>? CloudBlobs { get; set; }

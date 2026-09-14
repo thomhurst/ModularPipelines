@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new service on an Azure Service Fabric cluster.
 /// </summary>
+/// <param name="Application">Specify the name of the service. The application name must be a prefix of the service name, for example: appName~serviceName.</param>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="Name">Specify the name of the service. The application name must be a prefix of the service name, for example: appName~serviceName.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServiceType">Specify the service type name of the application, it should exist in the application manifest.</param>
+/// <param name="State">Specify if the service is stateless or stateful. Allowed values: stateful, stateless.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "service", "create")]
@@ -28,7 +34,7 @@ public record AzSfServiceCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Specify the default cost for a move. Higher costs make it less likely that the Cluster Resource Manager will move the replica when trying to balance the cluster.  Allowed values: High, Low,
+    /// Specify the default cost for a move. Higher costs make it less likely that the Cluster Resource Manager will move the replica when trying to balance the cluster.  Allowed values: High, Low, Medium, Zero.
     /// </summary>
     [CliOption("--default-move-cost")]
     public string? DefaultMoveCost { get; set; }

@@ -51,7 +51,7 @@ public record AzWebappConnectionUpdateMysqlFlexibleOptions : AzOptions
     public bool? CustomizedKeys { get; set; }
 
     /// <summary>
-    /// The resource id of the connection. ['--resource-group', '--name', '
+    /// The resource id of the connection. ['--resource-group', '--name', ' --connection'] are required if '--id' is not specified.
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; set; }
@@ -93,25 +93,25 @@ public record AzWebappConnectionUpdateMysqlFlexibleOptions : AzOptions
     public string? VaultId { get; set; }
 
     /// <summary>
-    /// The secret auth info.
+    /// The secret auth info. Usage: --secret name=XX secret=XX --secret name=XX secret-uri=XX --secret name=XX secret-name=XX
     /// </summary>
     [CliFlag("--secret")]
     public bool? Secret { get; set; }
 
     /// <summary>
-    /// The service principal auth info.
+    /// The service principal auth info. Usage: --service-principal client-id=XX secret=XX
     /// </summary>
     [CliFlag("--service-principal")]
     public bool? ServicePrincipal { get; set; }
 
     /// <summary>
-    /// The system assigned identity auth info.
+    /// The system assigned identity auth info. Usage: --system-identity mysql-identity-id=xx
     /// </summary>
     [CliFlag("--system-identity")]
     public bool? SystemIdentity { get; set; }
 
     /// <summary>
-    /// The user assigned identity auth info.
+    /// The user assigned identity auth info. Usage: --user-identity client-id=XX subs-id=XX
     /// </summary>
     [CliFlag("--user-identity")]
     public bool? UserIdentity { get; set; }

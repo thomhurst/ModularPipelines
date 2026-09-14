@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// The operation to create the run command.
 /// </summary>
+/// <param name="Name">The name of the virtual machine run command.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VmName">The name of the virtual machine.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "run-command", "create")]
@@ -43,10 +46,10 @@ public record AzVmRunCommandCreateOptions(
     public bool? ErrorBlobUri { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -61,13 +64,13 @@ public record AzVmRunCommandCreateOptions(
     public bool? OutputBlobUri { get; set; }
 
     /// <summary>
-    /// The parameters used by the script.
+    /// The parameters used by the script. Usage: --parameters arg1=XX arg2=XX.
     /// </summary>
     [CliOption("--parameters")]
     public string? Parameters { get; set; }
 
     /// <summary>
-    /// The parameters used by the script.
+    /// The parameters used by the script. Usage: --protected-parameters credentials=somefoo secret=somebar.
     /// </summary>
     [CliOption("--protected-parameters")]
     public string? ProtectedParameters { get; set; }
@@ -105,7 +108,7 @@ public record AzVmRunCommandCreateOptions(
     /// <summary>
     /// The timeout in seconds to execute the run command.
     /// </summary>
-    [CliFlag("--timeout-in-seconds")]
-    public bool? TimeoutInSeconds { get; set; }
+    [CliOption("--timeout-in-seconds")]
+    public int? TimeoutInSeconds { get; set; }
 
 }

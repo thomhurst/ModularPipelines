@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a database as a readable secondary replica of an existing
 /// </summary>
+/// <param name="Name">Name of the Azure SQL Database.</param>
+/// <param name="PartnerServer">Name of the server to create the new replica in.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql- server=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "replica", "create")]
@@ -38,7 +42,7 @@ public record AzSqlDbReplicaCreateOptions(
     public bool? AvailabilityZone { get; set; }
 
     /// <summary>
-    /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo,
+    /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo, GeoZone.
     /// </summary>
     [CliOption("--backup-storage-redundancy", ShortForm = "--bsr")]
     public string? BackupStorageRedundancy { get; set; }
@@ -62,7 +66,7 @@ public record AzSqlDbReplicaCreateOptions(
     public bool? FederatedClientId { get; set; }
 
     /// <summary>
-    /// The number of high availability replicas to provision for the database. Only settable for
+    /// The number of high availability replicas to provision for the database. Only settable for Hyperscale edition.
     /// </summary>
     [CliFlag("--ha-replicas", ShortForm = "--read-replicas")]
     public bool? HaReplicas { get; set; }
@@ -128,7 +132,7 @@ public record AzSqlDbReplicaCreateOptions(
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The list of user assigned identity for the SQL
+    /// The list of user assigned identity for the SQL Database.
     /// </summary>
     [CliOption("--umi", ShortForm = "--user-assigned-identity-id", GroupValues = true)]
     public IEnumerable<string>? Umi { get; set; }
@@ -146,7 +150,7 @@ public record AzSqlDbReplicaCreateOptions(
     public string? ElasticPool { get; set; }
 
     /// <summary>
-    /// The service objective for the new database. For example: Basic, S0, P1, GP_Gen4_1, GP_S_Gen5_8,
+    /// The service objective for the new database. For example: Basic, S0, P1, GP_Gen4_1, GP_S_Gen5_8, BC_Gen5_2, HS_Gen5_32.
     /// </summary>
     [CliFlag("--service-level-objective", ShortForm = "--service-objective")]
     public bool? ServiceLevelObjective { get; set; }

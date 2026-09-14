@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Adds a server link to the Redis cache (requires Premium SKU).
 /// </summary>
+/// <param name="Name">Name of the Redis cache.</param>
+/// <param name="ReplicationRole">Role of the redis cache to be linked.  Allowed values: Primary, Secondary.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServerToLink">Resource ID or name of the redis cache to be linked.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "server-link", "create")]

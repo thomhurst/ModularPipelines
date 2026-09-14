@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Copy a file asynchronously.
 /// </summary>
+/// <param name="DestinationPath">The path to the file within the file share.</param>
+/// <param name="DestinationShare">Name of the destination share. The share must exist.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "file", "copy", "start")]
@@ -60,7 +62,7 @@ public record AzStorageFileCopyStartOptions(
     public string? FileModeCopyMode { get; set; }
 
     /// <summary>
-    /// Only applicable to NFS Files. Only work together with parameter `--owner-copy- mode Override`. The owner group identifier (GID) to be set on the directory. The default value is 0 (root group).
+    /// Only applicable to NFS Files. Only work together with parameter `--owner-copy-mode Override`. The owner group identifier (GID) to be set on the directory. The default value is 0 (root group).
     /// </summary>
     [CliFlag("--group")]
     public bool? Group { get; set; }
@@ -72,7 +74,7 @@ public record AzStorageFileCopyStartOptions(
     public IEnumerable<string>? Metadata { get; set; }
 
     /// <summary>
-    /// Only applicable to NFS Files. Only work together with parameter `--owner-copy- mode Override`. The owner user identifier (UID) to be set on the directory. The default value is 0 (root).
+    /// Only applicable to NFS Files. Only work together with parameter `--owner-copy-mode Override`. The owner user identifier (UID) to be set on the directory. The default value is 0 (root).
     /// </summary>
     [CliFlag("--owner")]
     public bool? Owner { get; set; }
@@ -92,8 +94,8 @@ public record AzStorageFileCopyStartOptions(
     /// <summary>
     /// The file snapshot for the source storage account.
     /// </summary>
-    [CliFlag("--file-snapshot")]
-    public bool? FileSnapshot { get; set; }
+    [CliOption("--file-snapshot")]
+    public string? FileSnapshot { get; set; }
 
     /// <summary>
     /// The storage account key of the source blob.
@@ -122,8 +124,8 @@ public record AzStorageFileCopyStartOptions(
     /// <summary>
     /// The file path for the source storage account.
     /// </summary>
-    [CliFlag("--source-path")]
-    public bool? SourcePath { get; set; }
+    [CliOption("--source-path")]
+    public string? SourcePath { get; set; }
 
     /// <summary>
     /// The shared access signature for the source storage account.
@@ -156,25 +158,25 @@ public record AzStorageFileCopyStartOptions(
     public bool? AccountKey { get; set; }
 
     /// <summary>
-    /// Storage account name. Related
+    /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
     /// </summary>
     [CliFlag("--account-name")]
     public bool? AccountName { get; set; }
 
     /// <summary>
-    /// Storage account connection string.
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }
 
     /// <summary>
-    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
     [CliFlag("--file-endpoint")]
     public bool? FileEndpoint { get; set; }
 
     /// <summary>
-    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint.
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
     [CliFlag("--sas-token")]
     public bool? SasToken { get; set; }

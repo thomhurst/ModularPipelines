@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Wait for the Active Directory administrator to satisfy
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServerName">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "ad-admin", "wait")]
@@ -30,7 +32,7 @@ public record AzMysqlFlexibleServerAdAdminWaitOptions(
     public bool? Created { get; set; }
 
     /// <summary>
-    /// Wait until the condition satisfies a custom JMESPath query.
+    /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instanceView.statuses[?code=='PowerState/running'].
     /// </summary>
     [CliFlag("--custom")]
     public bool? Custom { get; set; }

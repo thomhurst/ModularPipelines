@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update namespace on the managed Kubernetes cluster.
 /// </summary>
+/// <param name="ClusterName">Name of the managed cluster.</param>
+/// <param name="Name">The managed namespace name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "namespace", "update")]
@@ -31,7 +34,7 @@ public record AzAksNamespaceUpdateOptions(
     public string? AdoptionPolicy { get; set; }
 
     /// <summary>
-    /// Send custom headers. When specified, format should be
+    /// Send custom headers. When specified, format should be Key1=Value1,Key2=Value2.
     /// </summary>
     [CliFlag("--aks-custom-headers")]
     public bool? AksCustomHeaders { get; set; }
@@ -61,13 +64,13 @@ public record AzAksNamespaceUpdateOptions(
     public string? DeletePolicy { get; set; }
 
     /// <summary>
-    /// Egress policy rule for the network.  Allowed values: AllowAll,
+    /// Egress policy rule for the network.  Allowed values: AllowAll, AllowSameNamespace, DenyAll.
     /// </summary>
     [CliOption("--egress-policy")]
     public string? EgressPolicy { get; set; }
 
     /// <summary>
-    /// Ingress policy rule for the network.  Allowed values: AllowAll,
+    /// Ingress policy rule for the network.  Allowed values: AllowAll, AllowSameNamespace, DenyAll.
     /// </summary>
     [CliOption("--ingress-policy")]
     public string? IngressPolicy { get; set; }

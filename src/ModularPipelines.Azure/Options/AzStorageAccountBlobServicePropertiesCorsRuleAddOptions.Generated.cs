@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a CORS rule for a storage
 /// </summary>
+/// <param name="AccountName">The storage account name.</param>
+/// <param name="AllowedMethods">Space-separated list of HTTP verbs (methods) allowed to be executed by the origin.</param>
+/// <param name="AllowedOrigins">Space-separated list of origin domains that will be allowed via CORS, or "*" to allow all domains.</param>
+/// <param name="MaxAge">The number of seconds that the client/browser should cache a preflight response.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "blob-service-properties", "cors-rule", "add")]
@@ -22,7 +26,7 @@ public record AzStorageAccountBlobServicePropertiesCorsRuleAddOptions(
     [property: CliOption("--account-name", ShortForm = "-n")] string AccountName,
     [property: CliOption("--allowed-methods", ShortForm = "--methods", GroupValues = true)] IEnumerable<string> AllowedMethods,
     [property: CliOption("--allowed-origins", ShortForm = "--origins", GroupValues = true)] IEnumerable<string> AllowedOrigins,
-    [property: CliOption("--max-age", ShortForm = "--max-age-in-seconds")] string MaxAge
+    [property: CliOption("--max-age", ShortForm = "--max-age-in-seconds")] int MaxAge
 ) : AzOptions
 {
     /// <summary>

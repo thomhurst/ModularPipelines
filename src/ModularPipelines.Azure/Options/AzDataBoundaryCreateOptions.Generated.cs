@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create tenant to data boundary.
 /// </summary>
+/// <param name="Default">Default string modeled as parameter for auto generation to work correctly.  Allowed values: default.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-boundary", "create")]

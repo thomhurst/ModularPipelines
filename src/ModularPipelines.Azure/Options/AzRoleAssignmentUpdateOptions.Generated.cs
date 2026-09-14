@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an existing role assignment for a user, group, or service
 /// </summary>
+/// <param name="RoleAssignment">Description of an existing role assignment as JSON, or a path to a file containing a JSON description.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("role", "assignment", "update")]

@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a web app.
 /// </summary>
+/// <param name="Name">Name of the new web app. Web app name can contain only allow alphanumeric characters and hyphens, it cannot start or end in a hyphen, and must be less than 64 characters.</param>
+/// <param name="Plan">Name or resource id of the app service plan. Use 'appservice plan create' to get one.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "create")]
@@ -43,13 +46,13 @@ public record AzWebappCreateOptions(
     public bool? AssignIdentity { get; set; }
 
     /// <summary>
-    /// Enable or disable basic auth for both SCM and FTP Basic Auth Publishing Credentials. Disabled by default for new apps. See https://aka.ms/app-service-basic-auth to learn more.  Allowed values: Disabled,
+    /// Enable or disable basic auth for both SCM and FTP Basic Auth Publishing Credentials. Disabled by default for new apps. See https://aka.ms/app-service-basic-auth to learn more.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--basic-auth")]
     public string? BasicAuth { get; set; }
 
     /// <summary>
-    /// The container custom image name and optionally the tag name (e.g., `&lt;registry- name&gt;/&lt;image-name&gt;:&lt;tag&gt;`). Note: if
+    /// The container custom image name and optionally the tag name (e.g., `&lt;registry- name&gt;/&lt;image-name&gt;:&lt;tag&gt;`). Note: if --container-registry-url is also provided, use `&lt;image-name&gt;:&lt;tag&gt;` without the registry name.
     /// </summary>
     [CliFlag("--container-image-name", ShortForm = "-c")]
     public bool? ContainerImageName { get; set; }
@@ -91,7 +94,7 @@ public record AzWebappCreateOptions(
     public bool? DeploymentSourceUrl { get; set; }
 
     /// <summary>
-    /// Specify the scope of uniqueness for the default hostname during resource creation. Allowed values: NoReuse, ResourceGroupReuse,
+    /// Specify the scope of uniqueness for the default hostname during resource creation. Allowed values: NoReuse, ResourceGroupReuse, SubscriptionReuse, TenantReuse.
     /// </summary>
     [CliOption("--domain-name-scope")]
     public string? DomainNameScope { get; set; }
@@ -151,7 +154,7 @@ public record AzWebappCreateOptions(
     public bool? Role { get; set; }
 
     /// <summary>
-    /// Canonicalized web runtime in the format of
+    /// Canonicalized web runtime in the format of Framework:Version, e.g. "PYTHON:3.14".Use `az webapp list-runtimes` for available list.
     /// </summary>
     [CliFlag("--runtime", ShortForm = "-r")]
     public bool? Runtime { get; set; }
@@ -175,7 +178,7 @@ public record AzWebappCreateOptions(
     public bool? SitecontainersApp { get; set; }
 
     /// <summary>
-    /// Linux only. The web's startup command or script file. Required for FastAPI and other ASGI frameworks (auto-detection is not supported). Example command: "gunicorn
+    /// Linux only. The web's startup command or script file. Required for FastAPI and other ASGI frameworks (auto-detection is not supported). Example command: "gunicorn --bind=0.0.0.0 --timeout 600 app:app". Example for FastAPI: "gunicorn -k uvicorn.workers.UvicornWorker app:app". Example script file: "startup.sh".
     /// </summary>
     [CliFlag("--startup-file")]
     public bool? StartupFile { get; set; }
@@ -193,7 +196,7 @@ public record AzWebappCreateOptions(
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Name or resource ID of the regional virtual network. If there are multiple vnets of the same name across different resource groups, use vnet resource id to specify which vnet to use. If vnet name is used, by default, the vnet in the same resource group as the webapp will be used. Must be used with
+    /// Name or resource ID of the regional virtual network. If there are multiple vnets of the same name across different resource groups, use vnet resource id to specify which vnet to use. If vnet name is used, by default, the vnet in the same resource group as the webapp will be used. Must be used with --subnet argument.
     /// </summary>
     [CliOption("--vnet")]
     public string? Vnet { get; set; }

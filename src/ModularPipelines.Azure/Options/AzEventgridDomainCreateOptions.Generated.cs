@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a domain.
 /// </summary>
+/// <param name="Name">Name of the domain.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "domain", "create")]
@@ -24,7 +26,7 @@ public record AzEventgridDomainCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// List of inbound IP rules.
+    /// List of inbound IP rules. List of inbound IP rules specifying IP Address in CIDR notation e.g., 10.0.0.0/8 along with corresponding Action to perform based on the match or no match of the IpMask. Possible values include - Allow.
     /// </summary>
     [CliOption("--inbound-ip-rules", GroupValues = true)]
     public IEnumerable<string>? InboundIpRules { get; set; }
@@ -42,16 +44,16 @@ public record AzEventgridDomainCreateOptions(
     public string? InputMappingFields { get; set; }
 
     /// <summary>
-    /// Schema in which incoming events will be published to this topic/domain. If you specify customeventschema as the value for this parameter, you must also provide values for at least one of --input_mapping_default_values /
+    /// Schema in which incoming events will be published to this topic/domain. If you specify customeventschema as the value for this parameter, you must also provide values for at least one of --input_mapping_default_values / --input_mapping_fields.  Allowed values: cloudeventschemav1_0, customeventschema, eventgridschema. Default: eventgridschema.
     /// </summary>
-    [CliFlag("--input-schema")]
-    public bool? InputSchema { get; set; }
+    [CliOption("--input-schema")]
+    public string? InputSchema { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Presence of this param indicates that SystemAssigned managed identity will be used.

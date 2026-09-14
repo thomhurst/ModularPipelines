@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an extension to a VMSS or update an existing extension.
 /// </summary>
+/// <param name="Name">Name of the extension.  Values from: az vm extension image list.</param>
+/// <param name="Publisher">The name of the extension publisher.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VmssName">Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "extension", "set")]

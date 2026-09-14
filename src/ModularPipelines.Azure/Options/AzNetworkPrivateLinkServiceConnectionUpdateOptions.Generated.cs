@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a private link service endpoint
 /// </summary>
+/// <param name="ConnectionStatus">Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.  Allowed values: Approved, Rejected, Removed.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-link-service", "connection", "update")]

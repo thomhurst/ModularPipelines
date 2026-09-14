@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an MX record from its record set.
 /// </summary>
+/// <param name="Exchange">Exchange metric.</param>
+/// <param name="Preference">Preference metric.</param>
+/// <param name="RecordSetName">The name of the record set relative to the zone.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ZoneName">The name of the zone.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "dns", "record-set", "mx", "remove-record")]

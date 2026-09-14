@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an Azure IoT Hub Device Provisioning Service instance.
 /// </summary>
+/// <param name="Name">IoT Hub Device Provisioning Service name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "create")]
@@ -32,8 +34,8 @@ public record AzIotDpsCreateOptions(
     /// <summary>
     /// Location of your IoT Hub Device Provisioning Service. Default is the location of target resource group.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Pricing tier for the IoT Hub Device Provisioning Service. Allowed values: S1.  Default: S1.

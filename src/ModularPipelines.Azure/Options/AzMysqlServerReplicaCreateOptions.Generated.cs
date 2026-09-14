@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a read replica for a server.
 /// </summary>
+/// <param name="Name">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="SourceServer">The name or resource ID of the master server to the create replica for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "server", "replica", "create")]
@@ -27,8 +30,8 @@ public record AzMysqlServerReplicaCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. If not provided, the create replica will be in the same location as the master server.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -37,7 +40,7 @@ public record AzMysqlServerReplicaCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// The name of the sku. Follows the convention {pricing tier}_{compute generation}_{vCores} in shorthand. Examples:
+    /// The name of the sku. Follows the convention {pricing tier}_{compute generation}_{vCores} in shorthand. Examples: B_Gen5_1, GP_Gen5_4, MO_Gen5_16.
     /// </summary>
     [CliOption("--sku-name")]
     public string? SkuName { get; set; }

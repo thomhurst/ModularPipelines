@@ -105,13 +105,13 @@ public record AzWebappConnectionCreateRedisEnterpriseOptions : AzOptions
     public string? SourceId { get; set; }
 
     /// <summary>
-    /// The resource id of target service. Required if ['--target- resource-group', '--server', '--database'] are not specified.
+    /// The resource id of target service. Required if ['--target-resource-group', '--server', '--database'] are not specified.
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; set; }
 
     /// <summary>
-    /// The resource group which contains the redis server. Required if '
+    /// The resource group which contains the redis server. Required if ' --target-id' is not specified.
     /// </summary>
     [CliOption("--target-resource-group", ShortForm = "--tg")]
     public string? TargetResourceGroup { get; set; }
@@ -123,7 +123,7 @@ public record AzWebappConnectionCreateRedisEnterpriseOptions : AzOptions
     public string? VaultId { get; set; }
 
     /// <summary>
-    /// The secret auth info.
+    /// The secret auth info. Usage: --secret.
     /// </summary>
     [CliFlag("--secret")]
     public bool? Secret { get; set; }

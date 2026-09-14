@@ -105,19 +105,19 @@ public record AzContainerappRevisionCopyOptions : AzOptions
     public string? ReplaceEnvVars { get; set; }
 
     /// <summary>
-    /// Add or update environment variable(s) in container. Existing environment variables are not modified.
+    /// Add or update environment variable(s) in container. Existing environment variables are not modified. Space-separated values in 'key=value' format. If stored as a secret, value must start with 'secretref:' followed by the secret name.
     /// </summary>
-    [CliFlag("--set-env-vars")]
-    public bool? SetEnvVars { get; set; }
+    [CliOption("--set-env-vars", GroupValues = true)]
+    public IEnumerable<string>? SetEnvVars { get; set; }
 
     /// <summary>
-    /// One or more resource
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids")]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// The name of the
+    /// The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
@@ -147,7 +147,7 @@ public record AzContainerappRevisionCopyOptions : AzOptions
     public bool? ScaleRuleAuth { get; set; }
 
     /// <summary>
-    /// The maximum number of concurrent requests before scale out.
+    /// The maximum number of concurrent requests before scale out. Only supported for http and tcp scale rules.
     /// </summary>
     [CliFlag("--scale-rule-http-concurrency", ShortForm = "--srtc")]
     public bool? ScaleRuleHttpConcurrency { get; set; }
@@ -165,7 +165,7 @@ public record AzContainerappRevisionCopyOptions : AzOptions
     public string? ScaleRuleName { get; set; }
 
     /// <summary>
-    /// The type of the scale rule. Default: http.
+    /// The type of the scale rule. Default: http. For more information please visit https:// learn.microsoft.com/a zure/container- apps/scale-app#scale- triggers.
     /// </summary>
     [CliFlag("--scale-rule-type", ShortForm = "--srt")]
     public bool? ScaleRuleType { get; set; }

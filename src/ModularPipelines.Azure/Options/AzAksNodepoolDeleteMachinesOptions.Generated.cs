@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete specific machines in an agentpool for a managed
 /// </summary>
+/// <param name="ClusterName">The cluster name.</param>
+/// <param name="MachineNames">Space-separated list of machine names from the agent pool to be deleted.</param>
+/// <param name="Name">The node pool name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "delete-machines")]

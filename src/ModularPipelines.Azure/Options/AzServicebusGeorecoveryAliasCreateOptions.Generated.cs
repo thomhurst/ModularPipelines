@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new Alias(Disaster Recovery configuration).
 /// </summary>
+/// <param name="Alias">The Disaster Recovery configuration name.</param>
+/// <param name="NamespaceName">The namespace name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "georecovery-alias", "create")]
@@ -25,7 +28,7 @@ public record AzServicebusGeorecoveryAliasCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Primary/Secondary eventhub namespace name, which is part of GEO
+    /// Primary/Secondary eventhub namespace name, which is part of GEO DR pairing.
     /// </summary>
     [CliFlag("--alternate-name")]
     public bool? AlternateName { get; set; }

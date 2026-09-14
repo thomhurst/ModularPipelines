@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a partner namespace.
 /// </summary>
+/// <param name="Name">Name of the partner namespace.</param>
+/// <param name="PartnerRegistrationId">The fully qualified ARM Id of the partner registration that should be associated with this partner namespace. This takes the following format: /subscriptions/{subscriptionId}/resourceGroups/{reso urceGroupName}/providers/Microsoft.EventGrid/partner Registrations/{partnerRegistrationName}.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("eventgrid", "partner", "namespace", "create")]
@@ -27,11 +30,11 @@ public record AzEventgridPartnerNamespaceCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
-    /// This determines if events published to this partner namespace should use the source attribute in the event payload or use the channel name in the header when matching to the partner topic. If none is specified, source attribute routing will be used to match the partner topic.  Allowed values: ChannelNameHeader, SourceEventAttribute.  Default:
+    /// This determines if events published to this partner namespace should use the source attribute in the event payload or use the channel name in the header when matching to the partner topic. If none is specified, source attribute routing will be used to match the partner topic.  Allowed values: ChannelNameHeader, SourceEventAttribute.  Default: SourceEventAttribute.
     /// </summary>
     [CliOption("--partner-topic-routing-mode", ShortForm = "--route-mode")]
     public string? PartnerTopicRoutingMode { get; set; }

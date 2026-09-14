@@ -27,13 +27,13 @@ public record AzSearchServiceUpdateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Describes what response the data plane API of a Search service would send for requests that failed authentication.
+    /// Describes what response the data plane API of a Search service would send for requests that failed authentication. Allowed values: http401WithBearerChallenge, http403.
     /// </summary>
-    [CliFlag("--aad-auth-failure-mode")]
-    public bool? AadAuthFailureMode { get; set; }
+    [CliOption("--aad-auth-failure-mode")]
+    public string? AadAuthFailureMode { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -57,7 +57,7 @@ public record AzSearchServiceUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// The identity type.  Allowed values: None,
+    /// The identity type.  Allowed values: None, SystemAssigned.
     /// </summary>
     [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
@@ -102,7 +102,7 @@ public record AzSearchServiceUpdateOptions : AzOptions
     /// The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3.
     /// </summary>
     [CliOption("--partition-count")]
-    public string? PartitionCount { get; set; }
+    public int? PartitionCount { get; set; }
 
     /// <summary>
     /// This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.  Allowed values: disabled, enabled, securedByPerimeter.
@@ -123,7 +123,7 @@ public record AzSearchServiceUpdateOptions : AzOptions
     public string? SemanticSearch { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids")]
     public IEnumerable<string>? Ids { get; set; }
@@ -135,16 +135,16 @@ public record AzSearchServiceUpdateOptions : AzOptions
     public string? Name { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property
+    /// The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions. 'serverless': Serverless tier with auto-scaling capabilities.  Allowed values: basic, free, serverless, standard, standard2, standard3, storage_optimized_l1, storage_optimized_l2.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

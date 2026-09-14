@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an exist trigger.
 /// </summary>
+/// <param name="File">Properties may be supplied from a JSON file using the `@{path}` syntax or a JSON string.</param>
+/// <param name="Name">The trigger name.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "trigger", "update")]

@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an IP configuration.
 /// </summary>
+/// <param name="Name">Name of the IP configuration.</param>
+/// <param name="NicName">Name of the network interface (NIC).</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "nic", "ip-config", "create")]
@@ -31,7 +34,7 @@ public record AzNetworkNicIpConfigCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Space-separated list of names or IDs of application gateway backend address pools to associate with the NIC. If names are used, `--gateway- name` must be specified.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of names or IDs of application gateway backend address pools to associate with the NIC. If names are used, `--gateway-name` must be specified.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--ag-address-pools", ShortForm = "--app-gateway-address-pools", GroupValues = true)]
     public IEnumerable<string>? AgAddressPools { get; set; }
@@ -67,7 +70,7 @@ public record AzNetworkNicIpConfigCreateOptions(
     public bool? PrivateIpAddressPrefixLength { get; set; }
 
     /// <summary>
-    /// Version of private IP address to use.  Allowed values: IPv4, IPv6.
+    /// Version of private IP address to use.  Allowed values: IPv4, IPv6. Default: IPv4.
     /// </summary>
     [CliOption("--private-ip-address-version")]
     public string? PrivateIpAddressVersion { get; set; }

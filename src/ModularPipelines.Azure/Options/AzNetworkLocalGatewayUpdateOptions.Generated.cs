@@ -75,7 +75,7 @@ public record AzNetworkLocalGatewayUpdateOptions : AzOptions
     public bool? ForceString { get; set; }
 
     /// <summary>
-    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;`
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
     public IEnumerable<string>? Remove { get; set; }

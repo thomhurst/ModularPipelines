@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the properties of a HSM.
 /// </summary>
+/// <param name="HsmName">Name of the HSM.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "update-hsm")]
@@ -41,7 +42,7 @@ public record AzKeyvaultUpdateHsmOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Control permission for data plane traffic coming from public networks while private endpoint is enabled.  Allowed values:
+    /// Control permission for data plane traffic coming from public networks while private endpoint is enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
@@ -77,19 +78,19 @@ public record AzKeyvaultUpdateHsmOptions(
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Bypass traffic for space-separated uses.  Allowed values:
+    /// Bypass traffic for space-separated uses.  Allowed values: AzureServices, None.
     /// </summary>
     [CliOption("--bypass", GroupValues = true)]
     public IEnumerable<string>? Bypass { get; set; }
 
     /// <summary>
-    /// Default action to apply when no rule matches.  Allowed values:
+    /// Default action to apply when no rule matches.  Allowed values: Allow, Deny.
     /// </summary>
     [CliOption("--default-action")]
     public string? DefaultAction { get; set; }

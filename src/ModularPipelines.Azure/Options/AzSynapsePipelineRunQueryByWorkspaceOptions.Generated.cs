@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Query pipeline runs in the workspace based on input
 /// </summary>
+/// <param name="LastUpdatedAfter">The time at or after which the run event was updated in 'ISO 8601' format.</param>
+/// <param name="LastUpdatedBefore">The time at or before which the run event was updated in 'ISO 8601' format.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "pipeline-run", "query-by-workspace")]

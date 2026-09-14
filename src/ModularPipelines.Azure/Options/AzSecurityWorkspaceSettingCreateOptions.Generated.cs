@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a workspace settings in your subscription - these
 /// </summary>
+/// <param name="Name">Name of the resource to be fetched.</param>
+/// <param name="TargetWorkspace">An ID of the workspace resource that will hold the security data.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "workspace-setting", "create")]

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new database by restoring from a backup.
 /// </summary>
+/// <param name="DestName">Name of the database that will be created as the restore destination.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "restore")]
@@ -35,7 +36,7 @@ public record AzSqlDbRestoreOptions(
     public bool? AvailabilityZone { get; set; }
 
     /// <summary>
-    /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo,
+    /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo, GeoZone.
     /// </summary>
     [CliOption("--backup-storage-redundancy", ShortForm = "--bsr")]
     public string? BackupStorageRedundancy { get; set; }
@@ -59,7 +60,7 @@ public record AzSqlDbRestoreOptions(
     public bool? FederatedClientId { get; set; }
 
     /// <summary>
-    /// The number of high availability replicas to provision for the database. Only settable for
+    /// The number of high availability replicas to provision for the database. Only settable for Hyperscale edition.
     /// </summary>
     [CliFlag("--ha-replicas", ShortForm = "--read-replicas")]
     public bool? HaReplicas { get; set; }
@@ -101,7 +102,7 @@ public record AzSqlDbRestoreOptions(
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The list of user assigned identity for the SQL
+    /// The list of user assigned identity for the SQL Database.
     /// </summary>
     [CliOption("--umi", ShortForm = "--user-assigned-identity-id", GroupValues = true)]
     public IEnumerable<string>? Umi { get; set; }
@@ -119,13 +120,13 @@ public record AzSqlDbRestoreOptions(
     public string? ElasticPool { get; set; }
 
     /// <summary>
-    /// The service objective for the new database. For example: Basic, S0, P1, GP_Gen4_1, GP_S_Gen5_8,
+    /// The service objective for the new database. For example: Basic, S0, P1, GP_Gen4_1, GP_S_Gen5_8, BC_Gen5_2, HS_Gen5_32.
     /// </summary>
     [CliFlag("--service-level-objective", ShortForm = "--service-objective")]
     public bool? ServiceLevelObjective { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
@@ -155,7 +156,7 @@ public record AzSqlDbRestoreOptions(
     public bool? DeletedTime { get; set; }
 
     /// <summary>
-    /// The point in time of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value. Either
+    /// The point in time of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value. Either --time or --deleted-time (or both) must be specified. Time should be in following format: "YYYY-MM-DDTHH:MM:SS".
     /// </summary>
     [CliFlag("--time", ShortForm = "-t")]
     public bool? Time { get; set; }

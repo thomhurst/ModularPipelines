@@ -153,7 +153,7 @@ public record AzWebappConfigSetOptions : AzOptions
     public string? Slot { get; set; }
 
     /// <summary>
-    /// The startup file for linux hosted web apps, e.g. 'process.json' for
+    /// The startup file for linux hosted web apps, e.g. 'process.json' for Node.js web.
     /// </summary>
     [CliFlag("--startup-file")]
     public bool? StartupFile { get; set; }
@@ -189,7 +189,7 @@ public record AzWebappConfigSetOptions : AzOptions
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure --defaults web=&lt;name&gt;`.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }

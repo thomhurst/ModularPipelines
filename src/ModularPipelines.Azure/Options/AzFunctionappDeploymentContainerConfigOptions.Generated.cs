@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Configure continuous deployment via containers.
 /// </summary>
+/// <param name="EnableCd">Enable/disable continuous deployment.  Allowed values: false, true.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "deployment", "container", "config")]

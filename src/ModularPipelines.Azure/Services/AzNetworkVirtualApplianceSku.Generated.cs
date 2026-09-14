@@ -44,7 +44,7 @@ public class AzNetworkVirtualApplianceSku
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceSkuShowOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetworkVirtualApplianceSkuShowOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

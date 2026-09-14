@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a bucket for a volume. A bucket allows additional
 /// </summary>
+/// <param name="AccountName">The name of the NetApp account.</param>
+/// <param name="BucketName">The name of the bucket.</param>
+/// <param name="PoolName">The name of the capacity pool.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VolumeName">The name of the volume.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume", "bucket", "create")]
@@ -39,7 +44,7 @@ public record AzNetappfilesVolumeBucketCreateOptions(
     public bool? CertKvUri { get; set; }
 
     /// <summary>
-    /// The name of the bucket server certificate stored in the Azure Key
+    /// The name of the bucket server certificate stored in the Azure Key Vault.
     /// </summary>
     [CliOption("--certificate-name")]
     public string? CertificateName { get; set; }
@@ -81,13 +86,13 @@ public record AzNetappfilesVolumeBucketCreateOptions(
     public bool? Path { get; set; }
 
     /// <summary>
-    /// Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. Allowed values: ReadOnly, ReadWrite.
+    /// Access permissions for the bucket. Either ReadOnly or ReadWrite. The default is ReadOnly if no value is provided during bucket creation. Allowed values: ReadOnly, ReadWrite. Default: ReadOnly.
     /// </summary>
     [CliOption("--permissions")]
     public string? Permissions { get; set; }
 
     /// <summary>
-    /// Action to take when there is a certificate conflict.  Allowed values:
+    /// Action to take when there is a certificate conflict.  Allowed values: Fail, Update.
     /// </summary>
     [CliOption("--cert-conflict-action", ShortForm = "--on-certificate-conflict-action")]
     public string? CertConflictAction { get; set; }

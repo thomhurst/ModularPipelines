@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Publish a bicep file to a remote module registry.
 /// </summary>
+/// <param name="File">The path to the Bicep module file to publish in the file system.</param>
+/// <param name="Target">The target location where the Bicep module will be published.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "publish")]

@@ -23,8 +23,8 @@ public record AzNetworkWatcherShowTopologyOptions : AzOptions
     /// <summary>
     /// Location. Defaults to the location of the target resource group. Topology information is only shown for resources within the target resource group that are within the specified region.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Name of the target resource group to perform topology on.

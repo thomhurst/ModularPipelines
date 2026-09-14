@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a deployment slot.
 /// </summary>
+/// <param name="Name">Name of the function app.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Slot">The name of the slot.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "deployment", "slot", "create")]
@@ -31,7 +34,7 @@ public record AzFunctionappDeploymentSlotCreateOptions(
     public string? ConfigurationSource { get; set; }
 
     /// <summary>
-    /// Redirect all traffic made to an app using HTTP to HTTPS.  Allowed values: false, true.
+    /// Redirect all traffic made to an app using HTTP to HTTPS.  Allowed values: false, true. Default: True.
     /// </summary>
     [CliOption("--https-only")]
     public bool? HttpsOnly { get; set; }

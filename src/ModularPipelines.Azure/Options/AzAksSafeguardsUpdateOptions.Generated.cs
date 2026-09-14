@@ -81,7 +81,7 @@ public record AzAksSafeguardsUpdateOptions : AzOptions
     public string? Level { get; set; }
 
     /// <summary>
-    /// The pod security standards level. Possible values: Privileged (off), Baseline, Restricted.  Allowed values:
+    /// The pod security standards level. Possible values: Privileged (off), Baseline, Restricted.  Allowed values: Baseline, Privileged, Restricted.
     /// </summary>
     [CliOption("--pss-level")]
     public string? PssLevel { get; set; }

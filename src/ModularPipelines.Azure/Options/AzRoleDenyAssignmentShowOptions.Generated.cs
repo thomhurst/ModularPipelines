@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzRoleDenyAssignmentShowOptions : AzOptions
 {
     /// <summary>
-    /// The fully qualified ID of the deny assignment including scope, e.g. /subscriptions/{id}/providers/Microsoft.Authorization/denyAssignments/{deny
+    /// The fully qualified ID of the deny assignment including scope, e.g. /subscriptions/{id}/providers/Microsoft.Authorization/denyAssignments/{deny AssignmentId}.
     /// </summary>
     [CliFlag("--id")]
     public bool? Id { get; set; }

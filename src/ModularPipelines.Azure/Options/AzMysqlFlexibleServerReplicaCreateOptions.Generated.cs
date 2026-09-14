@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a read replica for a server.
 /// </summary>
+/// <param name="ReplicaName">The name of the server to restore to.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="SourceServer">The name or resource ID of the source server to restore from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "replica", "create")]
@@ -57,8 +60,8 @@ public record AzMysqlFlexibleServerReplicaCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -73,7 +76,7 @@ public record AzMysqlFlexibleServerReplicaCreateOptions(
     public string? PrivateDnsZone { get; set; }
 
     /// <summary>
-    /// Determines the public access.  Allowed values: Disabled,
+    /// Determines the public access.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--public-access")]
     public string? PublicAccess { get; set; }
@@ -103,7 +106,7 @@ public record AzMysqlFlexibleServerReplicaCreateOptions(
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Compute tier of the server. Accepted values: Burstable,
+    /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose, MemoryOptimized.
     /// </summary>
     [CliOption("--tier")]
     public string? Tier { get; set; }

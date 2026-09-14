@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set an exist notebook.
 /// </summary>
+/// <param name="File">Properties may be supplied from a JSON file using the `@{path}` syntax or a JSON string.</param>
+/// <param name="Name">The notebook name.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "notebook", "set")]
@@ -34,7 +37,7 @@ public record AzSynapseNotebookSetOptions(
     /// Number of core and memory to be used for executors allocated in the specified Spark pool for the job.  Allowed values: Large, Medium, Small.  Default: Small.
     /// </summary>
     [CliOption("--executor-size")]
-    public string? ExecutorSize { get; set; }
+    public int? ExecutorSize { get; set; }
 
     /// <summary>
     /// The folder that this notebook is in. If not specified, this notebook will appear at the root level. Eg: folder/subfolder1.

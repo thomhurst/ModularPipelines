@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a maintenance configuration of a managed
 /// </summary>
+/// <param name="ClusterName">The cluster name.</param>
+/// <param name="Name">The config name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "maintenanceconfiguration", "update")]
@@ -97,7 +100,7 @@ public record AzAksMaintenanceconfigurationUpdateOptions(
     public bool? UtcOffset { get; set; }
 
     /// <summary>
-    /// Specify on which instance of the allowed days specified in '-- day-of-week' the maintenance occurs. Applicable to relative monthly schedule type only. Not applicable to default maintenance configuration.  Allowed values: First, Fourth,
+    /// Specify on which instance of the allowed days specified in '-- day-of-week' the maintenance occurs. Applicable to relative monthly schedule type only. Not applicable to default maintenance configuration.  Allowed values: First, Fourth, Last, Second, Third.
     /// </summary>
     [CliOption("--week-index")]
     public string? WeekIndex { get; set; }

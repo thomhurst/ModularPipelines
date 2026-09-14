@@ -15,6 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates an availability group listener.
 /// </summary>
+/// <param name="AgName">Name of the availability group. Please refer to https://learn.microsoft.com/sql/database-engine/availability- groups/windows/use-the-availability-group-wizard-sql-server- management-studio?view=sql-server-2017 to create and availability group.</param>
+/// <param name="GroupName">Name of the SQL virtual machine group.</param>
+/// <param name="Name">Name of the availability group listener.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="IpAddress">Private IP address bound to the availability group listener.</param>
+/// <param name="LoadBalancer">Name or resource ID of the load balancer.</param>
+/// <param name="ProbePort">Probe port.</param>
+/// <param name="Sqlvms">Space-separated list of SQL virtual machine instance name or resource IDs that are enrolled into the availability group.</param>
+/// <param name="Subnet">The name or resource id of the subnet to include in the private IP.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "vm", "group", "ag-listener", "create")]

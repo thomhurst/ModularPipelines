@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a virtual network peering connection.
 /// </summary>
+/// <param name="Name">The name of the VNet peering.</param>
+/// <param name="RemoteVnet">Name or ID of the remote VNet.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VnetName">The virtual network (VNet) name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet", "peering", "create")]
@@ -62,7 +66,7 @@ public record AzNetworkVnetPeeringCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Whether complete virtual network address space is peered. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Whether complete virtual network address space is peered. Allowed values: 0, 1, f, false, n, no, t, true, y, yes. Default: True.
     /// </summary>
     [CliOption("--peer-complete-vnets")]
     public bool? PeerCompleteVnets { get; set; }

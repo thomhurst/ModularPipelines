@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add or update a certificate.
 /// </summary>
+/// <param name="CertificateFile">The filepath of the .pfx or .pem file.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "certificate", "upload")]
@@ -23,7 +24,7 @@ public record AzContainerappEnvCertificateUploadOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Name of the certificate which should be unique within the
+    /// Name of the certificate which should be unique within the Container Apps environment.
     /// </summary>
     [CliOption("--certificate-name", ShortForm = "-c")]
     public string? CertificateName { get; set; }
@@ -31,8 +32,8 @@ public record AzContainerappEnvCertificateUploadOptions(
     /// <summary>
     /// Location of resource. Examples: eastus2, northeurope.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Show prompt to upload an existing certificate.

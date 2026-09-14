@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Import an API Management API.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServiceName">The name of the api management service instance.</param>
+/// <param name="SpecificationFormat">Specify the format of the imported API.  Allowed values: GraphQL, OpenApi, OpenApiJson, Swagger, Wadl, Wsdl.</param>
+/// <param name="Path">Required. Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "import")]
@@ -40,8 +44,8 @@ public record AzApimApiImportOptions(
     /// <summary>
     /// File path specified to import the API.
     /// </summary>
-    [CliFlag("--specification-path")]
-    public bool? SpecificationPath { get; set; }
+    [CliOption("--specification-path")]
+    public string? SpecificationPath { get; set; }
 
     /// <summary>
     /// Url specified to import the API.

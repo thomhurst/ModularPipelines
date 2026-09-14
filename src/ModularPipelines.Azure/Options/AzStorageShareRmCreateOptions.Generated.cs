@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new share under the specified account as described by
 /// </summary>
+/// <param name="AccountName">The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.</param>
+/// <param name="Name">The name of the file share within the specified storage account. File share names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or number.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "share-rm", "create")]
@@ -30,10 +32,10 @@ public record AzStorageShareRmCreateOptions(
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// Access tier for specific share. GpV2 account can choose between
+    /// Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and Cool. FileStorage account can choose Premium.  Allowed values: Cool, Hot, Premium, TransactionOptimized.
     /// </summary>
-    [CliFlag("--access-tier")]
-    public bool? AccessTier { get; set; }
+    [CliOption("--access-tier")]
+    public string? AccessTier { get; set; }
 
     /// <summary>
     /// The authentication protocol that is used for the file share. NFS protocol will be only available for premium file shares (file shares in the FileStorage account type). Can only be specified when creating a share. Allowed values: NFS, SMB.
@@ -54,7 +56,7 @@ public record AzStorageShareRmCreateOptions(
     public bool? Quota { get; set; }
 
     /// <summary>
-    /// Reduction of the access rights for the remote superuser. The property is for NFS share only. The default is NoRootSquash.  Allowed values:
+    /// Reduction of the access rights for the remote superuser. The property is for NFS share only. The default is NoRootSquash.  Allowed values: AllSquash, NoRootSquash, RootSquash.
     /// </summary>
     [CliOption("--root-squash")]
     public string? RootSquash { get; set; }

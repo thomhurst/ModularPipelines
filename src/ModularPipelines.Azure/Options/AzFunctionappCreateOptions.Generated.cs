@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a function app.
 /// </summary>
+/// <param name="Name">Name of the new function app.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="StorageAccount">Provide a string value of a Storage Account in the provided Resource Group. Or Resource ID of a Storage Account in a different Resource Group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "create")]
@@ -115,7 +118,7 @@ public record AzFunctionappCreateOptions(
     public bool? DeploymentSourceUrl { get; set; }
 
     /// <summary>
-    /// The deployment storage account authentication type.  Allowed values:
+    /// The deployment storage account authentication type.  Allowed values: StorageAccountConnectionString, SystemAssignedIdentity, UserAssignedIdentity.
     /// </summary>
     [CliOption("--deployment-storage-auth-type", ShortForm = "--dsat")]
     public string? DeploymentStorageAuthType { get; set; }
@@ -145,7 +148,7 @@ public record AzFunctionappCreateOptions(
     public bool? DisableAppInsights { get; set; }
 
     /// <summary>
-    /// Specify the scope of uniqueness for the default hostname during resource creation.  Allowed values: NoReuse, ResourceGroupReuse,
+    /// Specify the scope of uniqueness for the default hostname during resource creation.  Allowed values: NoReuse, ResourceGroupReuse, SubscriptionReuse, TenantReuse.
     /// </summary>
     [CliOption("--domain-name-scope")]
     public string? DomainNameScope { get; set; }
@@ -163,10 +166,10 @@ public record AzFunctionappCreateOptions(
     public bool? FlexconsumptionLocation { get; set; }
 
     /// <summary>
-    /// The functions app version. NOTE: This will be required starting the next release cycle.
+    /// The functions app version. NOTE: This will be required starting the next release cycle. Allowed values: 4.
     /// </summary>
-    [CliFlag("--functions-version")]
-    public bool? FunctionsVersion { get; set; }
+    [CliOption("--functions-version")]
+    public string? FunctionsVersion { get; set; }
 
     /// <summary>
     /// Redirect all traffic made to an app using HTTP to HTTPS.  Allowed values: false, true.

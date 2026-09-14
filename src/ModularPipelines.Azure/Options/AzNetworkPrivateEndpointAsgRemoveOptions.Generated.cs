@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a private endpoint application security group.
 /// </summary>
+/// <param name="AsgId">ID of application security group in which the private endpoint IP configuration is included.</param>
+/// <param name="EndpointName">Name of the private endpoint.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-endpoint", "asg", "remove")]

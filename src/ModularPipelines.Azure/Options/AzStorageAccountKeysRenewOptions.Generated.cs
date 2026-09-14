@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate one of the access keys or Kerberos keys (if active
 /// </summary>
+/// <param name="AccountName">The storage account name.</param>
+/// <param name="Key">The key options to regenerate.  Allowed values: key1, key2, primary, secondary.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "keys", "renew")]

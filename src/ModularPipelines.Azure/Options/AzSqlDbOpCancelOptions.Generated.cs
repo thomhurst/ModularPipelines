@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Cancels the asynchronous operation on the database.
 /// </summary>
+/// <param name="Name">The unique name of the operation to cancel.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "op", "cancel")]

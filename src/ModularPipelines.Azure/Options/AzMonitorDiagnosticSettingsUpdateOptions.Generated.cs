@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update diagnostic settings for the specified resource.
 /// </summary>
+/// <param name="Name">The name of the diagnostic setting. Required.</param>
+/// <param name="Resource">Name or ID of the target resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "diagnostic-settings", "update")]
@@ -24,7 +26,7 @@ public record AzMonitorDiagnosticSettingsUpdateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -36,7 +38,7 @@ public record AzMonitorDiagnosticSettingsUpdateOptions(
     public bool? ForceString { get; set; }
 
     /// <summary>
-    /// Remove a property or an element from a list.
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
     public IEnumerable<string>? Remove { get; set; }
@@ -72,7 +74,7 @@ public record AzMonitorDiagnosticSettingsUpdateOptions(
     public IEnumerable<string>? Logs { get; set; }
 
     /// <summary>
-    /// The full ARM resource ID of the Marketplace resource to which you would like to send
+    /// The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.
     /// </summary>
     [CliOption("--marketplace-partner-id")]
     public string? MarketplacePartnerId { get; set; }
@@ -120,7 +122,7 @@ public record AzMonitorDiagnosticSettingsUpdateOptions(
     public bool? ResourceParent { get; set; }
 
     /// <summary>
-    /// Target resource type. Can also accept
+    /// Target resource type. Can also accept namespace/type format (Ex: 'Microsoft.Compute/virtualMachines').
     /// </summary>
     [CliFlag("--resource-type")]
     public bool? ResourceType { get; set; }

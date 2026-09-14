@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get groups of which the user is a member.
 /// </summary>
+/// <param name="Id">The object ID or principal name of the user for which to get information.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "user", "get-member-groups")]

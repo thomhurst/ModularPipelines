@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Move resources from one resource group to another (can be under different
 /// </summary>
+/// <param name="DestinationGroup">The destination resource group name.</param>
+/// <param name="Ids">The space-separated resource ids to be moved.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource", "move")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzServicebusTopicSubscriptionShowOptions : AzOptions
 {
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
@@ -35,8 +35,8 @@ public record AzServicebusTopicSubscriptionShowOptions : AzOptions
     /// <summary>
     /// The namespace name.
     /// </summary>
-    [CliFlag("--namespace-name")]
-    public bool? NamespaceName { get; set; }
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -47,7 +47,7 @@ public record AzServicebusTopicSubscriptionShowOptions : AzOptions
     /// <summary>
     /// The topic name.
     /// </summary>
-    [CliFlag("--topic-name")]
-    public bool? TopicName { get; set; }
+    [CliOption("--topic-name")]
+    public string? TopicName { get; set; }
 
 }

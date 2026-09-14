@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzEventgridDomainUpdateOptions : AzOptions
 {
     /// <summary>
-    /// List of inbound IP rules.
+    /// List of inbound IP rules. List of inbound IP rules specifying IP Address in CIDR notation e.g., 10.0.0.0/8 along with corresponding Action to perform based on the match or no match of the IpMask. Possible values include - Allow.
     /// </summary>
     [CliOption("--inbound-ip-rules", GroupValues = true)]
     public IEnumerable<string>? InboundIpRules { get; set; }

@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a cross-region load balancer.
 /// </summary>
+/// <param name="Name">The load balancer name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "cross-region-lb", "create")]
@@ -30,7 +32,7 @@ public record AzNetworkCrossRegionLbCreateOptions(
     public string? BackendPoolName { get; set; }
 
     /// <summary>
-    /// The name of the frontend IP configuration.
+    /// The name of the frontend IP configuration. Default: LoadBalancerFrontEnd.
     /// </summary>
     [CliOption("--frontend-ip-name")]
     public string? FrontendIpName { get; set; }
@@ -44,8 +46,8 @@ public record AzNetworkCrossRegionLbCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -66,7 +68,7 @@ public record AzNetworkCrossRegionLbCreateOptions(
     public bool? Validate { get; set; }
 
     /// <summary>
-    /// IP allocation method.  Allowed values:
+    /// IP allocation method.  Allowed values: Dynamic, Static.
     /// </summary>
     [CliOption("--address-allocation", ShortForm = "--public-ip-address-allocation")]
     public string? AddressAllocation { get; set; }
@@ -78,7 +80,7 @@ public record AzNetworkCrossRegionLbCreateOptions(
     public string? PublicIpAddress { get; set; }
 
     /// <summary>
-    /// Globally unique DNS name for a new public
+    /// Globally unique DNS name for a new public IP.
     /// </summary>
     [CliFlag("--public-ip-dns-name")]
     public bool? PublicIpDnsName { get; set; }

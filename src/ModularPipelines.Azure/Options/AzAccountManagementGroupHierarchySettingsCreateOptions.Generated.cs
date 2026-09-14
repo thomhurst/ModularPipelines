@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create hierarchy settings defined at the
 /// </summary>
+/// <param name="Name">Name of the management group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "management-group", "hierarchy-settings", "create")]
@@ -29,7 +30,7 @@ public record AzAccountManagementGroupHierarchySettingsCreateOptions(
     public bool? DefaultManagementGroup { get; set; }
 
     /// <summary>
-    /// Indicate whether RBAC access is required upon group creation under the root Management Group. True means user will require
+    /// Indicate whether RBAC access is required upon group creation under the root Management Group. True means user will require Microsoft.Management/managementGroups/write action on the root Management Group. Default setting is false.
     /// </summary>
     [CliFlag("--require-authorization-for-group-creation", ShortForm = "-r")]
     public bool? RequireAuthorizationForGroupCreation { get; set; }

@@ -21,19 +21,19 @@ namespace ModularPipelines.Azure.Options;
 public record AzBatchPoolListOptions : AzOptions
 {
     /// <summary>
-    /// Batch service endpoint. Alternatively, set by environment variable:
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>
     [CliOption("--account-endpoint")]
     public string? AccountEndpoint { get; set; }
 
     /// <summary>
-    /// Batch account key. Alternatively, set by environment variable:
+    /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
     /// </summary>
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }
 
     /// <summary>
-    /// Batch account name. Alternatively, set by environment variable:
+    /// Batch account name. Alternatively, set by environment variable: AZURE_BATCH_ACCOUNT.
     /// </summary>
     [CliOption("--account-name")]
     public string? AccountName { get; set; }

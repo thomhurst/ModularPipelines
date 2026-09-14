@@ -29,8 +29,8 @@ public record AzBackupDeletedVaultGetOptions : AzOptions
     /// <summary>
     /// Location of the deleted vault.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Name of the deleted vault.

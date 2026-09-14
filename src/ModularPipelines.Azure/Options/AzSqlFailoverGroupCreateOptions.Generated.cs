@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a failover group.
 /// </summary>
+/// <param name="Name">The name of the Failover Group.</param>
+/// <param name="PartnerServer">The name of the partner server of a Failover Group.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "failover-group", "create")]
@@ -38,7 +42,7 @@ public record AzSqlFailoverGroupCreateOptions(
     public string? FailoverPolicy { get; set; }
 
     /// <summary>
-    /// Interval in hours before automatic failover is initiated if an outage occurs on the primary server. This indicates that Azure SQL Database will not initiate automatic failover before the grace period expires. Please note that failover operation with
+    /// Interval in hours before automatic failover is initiated if an outage occurs on the primary server. This indicates that Azure SQL Database will not initiate automatic failover before the grace period expires. Please note that failover operation with --allow-data-loss option might cause data loss due to the nature of asynchronous synchronization.  Default: 1.
     /// </summary>
     [CliFlag("--grace-period")]
     public bool? GracePeriod { get; set; }
@@ -68,7 +72,7 @@ public record AzSqlFailoverGroupCreateOptions(
     public string? RoFailoverPolicy { get; set; }
 
     /// <summary>
-    /// Databases secondary type on partner server.  Allowed values:
+    /// Databases secondary type on partner server.  Allowed values: Geo, Standby.
     /// </summary>
     [CliOption("--secondary-type")]
     public string? SecondaryType { get; set; }

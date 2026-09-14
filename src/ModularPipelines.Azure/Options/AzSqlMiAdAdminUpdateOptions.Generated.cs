@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates an existing managed instance Active Directory administrator.
 /// </summary>
+/// <param name="DisplayName">Display name of the Azure AD administrator user or group.</param>
+/// <param name="ObjectId">The unique ID of the Azure AD administrator.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "ad-admin", "update")]

@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a database.
 /// </summary>
+/// <param name="Name">Name of the Azure SQL Database.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "create")]
@@ -37,7 +40,7 @@ public record AzSqlDbCreateOptions(
     public bool? AvailabilityZone { get; set; }
 
     /// <summary>
-    /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo,
+    /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo, GeoZone.
     /// </summary>
     [CliOption("--backup-storage-redundancy", ShortForm = "--bsr")]
     public string? BackupStorageRedundancy { get; set; }
@@ -55,7 +58,7 @@ public record AzSqlDbCreateOptions(
     public bool? EncryptionProtectorAutoRotation { get; set; }
 
     /// <summary>
-    /// Specifies the behavior when monthly free limits are exhausted for the free database.AutoPause: The database will be auto paused upon exhaustion of free limits for remainder of the month.BillForUsage: The database will continue to be online upon exhaustion of free limitsand any overage will be billed.  Allowed values: AutoPause,
+    /// Specifies the behavior when monthly free limits are exhausted for the free database.AutoPause: The database will be auto paused upon exhaustion of free limits for remainder of the month.BillForUsage: The database will continue to be online upon exhaustion of free limitsand any overage will be billed.  Allowed values: AutoPause, BillOverUsage.
     /// </summary>
     [CliOption("--exhaustion-behavior", ShortForm = "--free-limit-exhaustion-behavior")]
     public string? ExhaustionBehavior { get; set; }
@@ -73,25 +76,25 @@ public record AzSqlDbCreateOptions(
     public bool? FreeLimit { get; set; }
 
     /// <summary>
-    /// The number of high availability replicas to provision for the database. Only settable for
+    /// The number of high availability replicas to provision for the database. Only settable for Hyperscale edition.
     /// </summary>
     [CliFlag("--ha-replicas", ShortForm = "--read-replicas")]
     public bool? HaReplicas { get; set; }
 
     /// <summary>
-    /// The list of AKV keys for the SQL
+    /// The list of AKV keys for the SQL Database.
     /// </summary>
     [CliOption("--keys", GroupValues = true)]
     public IEnumerable<string>? Keys { get; set; }
 
     /// <summary>
-    /// Create a ledger database, in which the integrity of all data is protected by the ledger feature. All tables in the ledger database must be ledger tables. Note: the value of this property cannot be changed after the database has been created.
+    /// Create a ledger database, in which the integrity of all data is protected by the ledger feature. All tables in the ledger database must be ledger tables. Note: the value of this property cannot be changed after the database has been created. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--ledger-on")]
-    public bool? LedgerOn { get; set; }
+    [CliOption("--ledger-on")]
+    public string? LedgerOn { get; set; }
 
     /// <summary>
-    /// The license type to apply for this database.``LicenseIncluded`` if you need a license, or ``BasePrice``if you have a license and are eligible for the Azure HybridBenefit.  Allowed values: BasePrice,
+    /// The license type to apply for this database.``LicenseIncluded`` if you need a license, or ``BasePrice``if you have a license and are eligible for the Azure HybridBenefit.  Allowed values: BasePrice, LicenseIncluded.
     /// </summary>
     [CliOption("--license-type")]
     public string? LicenseType { get; set; }
@@ -115,13 +118,13 @@ public record AzSqlDbCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Specifies type of enclave for this resource.  Allowed values:
+    /// Specifies type of enclave for this resource.  Allowed values: Default, VBS.
     /// </summary>
     [CliOption("--preferred-enclave-type")]
     public string? PreferredEnclaveType { get; set; }
 
     /// <summary>
-    /// If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica. This property is only settable for Premium and Business Critical databases.  Allowed values:
+    /// If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica. This property is only settable for Premium and Business Critical databases.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--read-scale")]
     public string? ReadScale { get; set; }
@@ -151,7 +154,7 @@ public record AzSqlDbCreateOptions(
     public bool? ZoneRedundant { get; set; }
 
     /// <summary>
-    /// Collation of the metadata catalog.  Allowed values:
+    /// Collation of the metadata catalog.  Allowed values: DATABASE_DEFAULT, SQL_Latin1_General_CP1_CI_AS.
     /// </summary>
     [CliOption("--catalog-collation")]
     public string? CatalogCollation { get; set; }
@@ -163,7 +166,7 @@ public record AzSqlDbCreateOptions(
     public bool? Collation { get; set; }
 
     /// <summary>
-    /// The name of the sample schema to apply when creating thisdatabase.  Allowed values:
+    /// The name of the sample schema to apply when creating thisdatabase.  Allowed values: AdventureWorksLT.
     /// </summary>
     [CliOption("--sample-name")]
     public string? SampleName { get; set; }
@@ -175,7 +178,7 @@ public record AzSqlDbCreateOptions(
     public string? ElasticPool { get; set; }
 
     /// <summary>
-    /// The service objective for the new database. For example: Basic, S0, P1, GP_Gen4_1,
+    /// The service objective for the new database. For example: Basic, S0, P1, GP_Gen4_1, GP_S_Gen5_8, BC_Gen5_2, HS_Gen5_32.
     /// </summary>
     [CliFlag("--service-level-objective", ShortForm = "--service-objective")]
     public bool? ServiceLevelObjective { get; set; }
@@ -187,7 +190,7 @@ public record AzSqlDbCreateOptions(
     public bool? AutoPauseDelay { get; set; }
 
     /// <summary>
-    /// The compute model of the database.  Allowed values:
+    /// The compute model of the database.  Allowed values: Provisioned, Serverless.
     /// </summary>
     [CliOption("--compute-model")]
     public string? ComputeModel { get; set; }

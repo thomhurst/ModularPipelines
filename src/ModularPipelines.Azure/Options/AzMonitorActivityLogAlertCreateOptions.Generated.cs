@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a default activity log alert rule.
 /// </summary>
+/// <param name="ActivityLogAlertName">The name of the activity log alert.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "activity-log", "alert", "create")]
@@ -36,7 +38,7 @@ public record AzMonitorActivityLogAlertCreateOptions(
     public IEnumerable<string>? AllOf { get; set; }
 
     /// <summary>
-    /// The condition that will cause the alert rule to activate. The format is FIELD=VALUE[ and
+    /// The condition that will cause the alert rule to activate. The format is FIELD=VALUE[ and FIELD=VALUE...] The possible values for the field are 'resourceId', 'category', 'caller', 'level', 'operationName', 'resourceGroup', 'resourceProvider', 'status', 'subStatus', 'resourceType', or anything beginning with 'properties'. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--condition", ShortForm = "-c")]
     public bool? Condition { get; set; }
@@ -54,7 +56,7 @@ public record AzMonitorActivityLogAlertCreateOptions(
     public bool? Disable { get; set; }
 
     /// <summary>
-    /// A list of strings that will be used as prefixes.
+    /// A list of strings that will be used as prefixes. The alert rule will only apply to activity logs with resourceIDs that fall under one of these prefixes. If not provided, the subscriptionId will be used. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--scope", ShortForm = "-s", GroupValues = true)]
     public IEnumerable<string>? Scope { get; set; }
@@ -66,7 +68,7 @@ public record AzMonitorActivityLogAlertCreateOptions(
     public bool? Tags { get; set; }
 
     /// <summary>
-    /// Space-separated webhook properties in 'key[=value]' format. These properties are associated with the action groups added in this command.
+    /// Space-separated webhook properties in 'key[=value]' format. These properties are associated with the action groups added in this command. For any webhook receiver in these action group, this data is appended to the webhook payload. To attach different webhook properties to different action groups, add the action groups in separate update-action commands. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--webhook-properties", ShortForm = "-w", GroupValues = true)]
     public IEnumerable<string>? WebhookProperties { get; set; }

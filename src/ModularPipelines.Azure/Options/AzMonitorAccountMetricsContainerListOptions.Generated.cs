@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List metrics containers for a monitoring account.
 /// </summary>
+/// <param name="AzureMonitorWorkspaceName">The name of the Azure Monitor Workspace. The name is case insensitive.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "account", "metrics-container", "list")]
@@ -24,7 +26,7 @@ public record AzMonitorAccountMetricsContainerListOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next- token` argument of a subsequent command.
+    /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>
     [CliFlag("--max-items")]
     public bool? MaxItems { get; set; }

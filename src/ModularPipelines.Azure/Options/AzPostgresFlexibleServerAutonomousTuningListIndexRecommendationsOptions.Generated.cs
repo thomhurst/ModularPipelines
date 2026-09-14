@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzPostgresFlexibleServerAutonomousTuningListIndexRecommendationsOptions : AzOptions
 {
     /// <summary>
-    /// Retrieve recommendations based on type.  Allowed values: CreateIndex,
+    /// Retrieve recommendations based on type.  Allowed values: CreateIndex, DropIndex, ReIndex.
     /// </summary>
     [CliOption("--recommendation-type", ShortForm = "-r")]
     public string? RecommendationType { get; set; }

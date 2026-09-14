@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Install patches on a VM.
 /// </summary>
+/// <param name="MaximumDuration">Specify the maximum amount of time that the operation will run. It must be an ISO 8601-compliant duration string such as PT4H (4 hours).</param>
+/// <param name="RebootSetting">Define when it is acceptable to reboot a VM during a software update operation.  Allowed values: Always, IfRequired, Never.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "install-patches")]
@@ -30,7 +32,7 @@ public record AzVmInstallPatchesOptions(
     public IEnumerable<string>? ClassificationsToIncludeLinux { get; set; }
 
     /// <summary>
-    /// Space-separated list of classifications to include for Windows VM.  Allowed values: Critical, Definition, FeaturePack, Security, ServicePack, Tools, UpdateRollUp,
+    /// Space-separated list of classifications to include for Windows VM.  Allowed values: Critical, Definition, FeaturePack, Security, ServicePack, Tools, UpdateRollUp, Updates.
     /// </summary>
     [CliOption("--classifications-to-include-win", GroupValues = true)]
     public IEnumerable<string>? ClassificationsToIncludeWin { get; set; }

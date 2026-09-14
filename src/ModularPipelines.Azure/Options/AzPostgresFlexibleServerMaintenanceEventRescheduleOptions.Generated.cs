@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reschedule a maintenance event to a
 /// </summary>
+/// <param name="StartTime">New UTC start time to target rescheduling maintenance (ISO8601 format), e.g., 2026-04-10T10:00:00+00:00.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "maintenance-event", "reschedule")]

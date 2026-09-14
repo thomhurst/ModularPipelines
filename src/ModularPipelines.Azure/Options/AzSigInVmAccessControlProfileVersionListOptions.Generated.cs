@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List gallery in VM access control profile
 /// </summary>
+/// <param name="GalleryName">The name of the Shared Image Gallery in which the in VM access control profile resides.</param>
+/// <param name="ProfileName">The name of the gallery in VM access control profile from which the in VM access control profile versions are to be listed.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "in-vm-access-control-profile-version", "list")]

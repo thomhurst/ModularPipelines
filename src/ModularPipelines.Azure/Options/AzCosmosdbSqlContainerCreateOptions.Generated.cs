@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an SQL container under an Azure Cosmos DB SQL
 /// </summary>
+/// <param name="AccountName">Cosmosdb account name.</param>
+/// <param name="DatabaseName">Database name.</param>
+/// <param name="Name">Container name.</param>
+/// <param name="PartitionKeyPath">Partition Key Path, e.g., '/address/zipcode'.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "container", "create")]
@@ -33,25 +38,25 @@ public record AzCosmosdbSqlContainerCreateOptions(
     public bool? AnalyticalStorageTtl { get; set; }
 
     /// <summary>
-    /// Client Encryption Policy, you can enter it as a string or as a file, e.g., --cep @policy-file.json or --cep
+    /// Client Encryption Policy, you can enter it as a string or as a file, e.g., --cep @policy-file.json or --cep "{\"includedPaths\": [{\"path\": \"/path1\",\"clientEncryptionKeyId\": \"key1\",\"encryptionAlgorithm\": \"AEAD_AES_256_CBC_HMAC_SHA256\",\"encryptionType\": \"Deterministic\"}],\"policyFormatVersion\": 2}".
     /// </summary>
     [CliFlag("--cep")]
     public bool? Cep { get; set; }
 
     /// <summary>
-    /// Conflict Resolution Policy, you can enter it as a string or as a file, e.g., --conflict-resolution-policy @policy- file.json or --conflict-resolution-policy "{\"mode\":
+    /// Conflict Resolution Policy, you can enter it as a string or as a file, e.g., --conflict-resolution-policy @policy- file.json or --conflict-resolution-policy "{\"mode\": \"lastWriterWins\", \"conflictResolutionPath\": \"/path\"}".
     /// </summary>
     [CliFlag("--conflict-resolution-policy", ShortForm = "-c")]
     public bool? ConflictResolutionPolicy { get; set; }
 
     /// <summary>
-    /// Full Text Policy, you can enter it as a string or as a file, e.g., --full-text-policy @policy-file.json or --full- text-policy "{\"fullTextPaths\": [{\"path\": \"/ftPath1\", \"language\": \"en-US\" }]}".
+    /// Full Text Policy, you can enter it as a string or as a file, e.g., --full-text-policy @policy-file.json or --full-text-policy "{\"fullTextPaths\": [{\"path\": \"/ftPath1\", \"language\": \"en-US\" }]}".
     /// </summary>
     [CliFlag("--full-text-policy")]
     public bool? FullTextPolicy { get; set; }
 
     /// <summary>
-    /// Indexing Policy, you can enter it as a string or as a file, e.g., --idx @policy-file.json or --idx "{\"indexingMode\": \"consistent\", \"automatic\": true, \"includedPaths\": [{\"path\": \"/*\"}], \"excludedPaths\": [{ \"path\":
+    /// Indexing Policy, you can enter it as a string or as a file, e.g., --idx @policy-file.json or --idx "{\"indexingMode\": \"consistent\", \"automatic\": true, \"includedPaths\": [{\"path\": \"/*\"}], \"excludedPaths\": [{ \"path\": \"/headquarters/employees/?\"}, { \"path\": \"/\\"_etag\\"/?\"}],\"vectorIndexes\": [{\"path\": \"/vector1\",\"type\": \"flat\"}]}".  Default: { "indexingMode": "consistent", "automatic": true, "includedPaths": [ { "path": "/*" } ], "excludedPaths": [ { "path": "/\"_etag\"/?" } ]
     /// </summary>
     [CliFlag("--idx")]
     public bool? Idx { get; set; }
@@ -81,13 +86,13 @@ public record AzCosmosdbSqlContainerCreateOptions(
     public bool? Ttl { get; set; }
 
     /// <summary>
-    /// Unique Key Policy, you can enter it as a string or as a file, e.g., --unique-key-policy @policy-file.json or
+    /// Unique Key Policy, you can enter it as a string or as a file, e.g., --unique-key-policy @policy-file.json or --unique-key-policy "{\"uniqueKeys\": [{\"paths\": [\"/path/to/key1\"]}, {\"paths\": [\"/path/to/key2\"]}]}".
     /// </summary>
     [CliFlag("--unique-key-policy", ShortForm = "-u")]
     public bool? UniqueKeyPolicy { get; set; }
 
     /// <summary>
-    /// Vector Embedding Policy, you can enter it as a string or as a file, e.g., --vector-embeddings @policy-file.json or
+    /// Vector Embedding Policy, you can enter it as a string or as a file, e.g., --vector-embeddings @policy-file.json or --vector-embeddings "{\"vectorEmbeddings\": [{\"path\": \"/vector1\", \"dataType\": \"float32\", \"dimensions\": 2, \"distanceFunction\": \"dotproduct\" }]}".
     /// </summary>
     [CliFlag("--vector-embeddings")]
     public bool? VectorEmbeddings { get; set; }

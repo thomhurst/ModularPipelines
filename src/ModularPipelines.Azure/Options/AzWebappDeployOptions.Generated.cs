@@ -69,7 +69,7 @@ public record AzWebappDeployOptions : AzOptions
     public string? SrcPath { get; set; }
 
     /// <summary>
-    /// URL of the artifact. The webapp will pull the artifact from this URL.
+    /// URL of the artifact. The webapp will pull the artifact from this URL. Ex: "http://mysite.com/files/myapp.war?key=123".
     /// </summary>
     [CliOption("--src-url")]
     public string? SrcUrl { get; set; }
@@ -89,8 +89,8 @@ public record AzWebappDeployOptions : AzOptions
     /// <summary>
     /// Timeout for the deployment operation in milliseconds. Ignored when using "--src-url" since synchronous deployments are not yet supported when using "--src-url".
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
 
     /// <summary>
     /// If true, web app startup status during deployment will be tracked for linux web apps.  Allowed values: false, true.  Default: True.

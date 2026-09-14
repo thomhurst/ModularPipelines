@@ -33,7 +33,7 @@ public record AzSqlElasticPoolUpdateOptions : AzOptions
     public bool? DbDtuMin { get; set; }
 
     /// <summary>
-    /// The number of high availability replicas to provision for the database. Only settable for
+    /// The number of high availability replicas to provision for the database. Only settable for Hyperscale edition.
     /// </summary>
     [CliFlag("--ha-replicas", ShortForm = "--read-replicas")]
     public bool? HaReplicas { get; set; }
@@ -81,7 +81,7 @@ public record AzSqlElasticPoolUpdateOptions : AzOptions
     public bool? ForceString { get; set; }
 
     /// <summary>
-    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;`
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
     public IEnumerable<string>? Remove { get; set; }

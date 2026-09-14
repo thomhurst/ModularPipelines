@@ -33,7 +33,7 @@ public record AzNetappfilesVolumeBucketUpdateOptions : AzOptions
     public bool? CertKvUri { get; set; }
 
     /// <summary>
-    /// The name of the bucket server certificate stored in the Azure Key
+    /// The name of the bucket server certificate stored in the Azure Key Vault.
     /// </summary>
     [CliOption("--certificate-name")]
     public string? CertificateName { get; set; }
@@ -57,7 +57,7 @@ public record AzNetappfilesVolumeBucketUpdateOptions : AzOptions
     public string? SecretName { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -75,7 +75,7 @@ public record AzNetappfilesVolumeBucketUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
@@ -135,7 +135,7 @@ public record AzNetappfilesVolumeBucketUpdateOptions : AzOptions
     public string? VolumeName { get; set; }
 
     /// <summary>
-    /// Action to take when there is a certificate conflict.  Allowed values:
+    /// Action to take when there is a certificate conflict.  Allowed values: Fail, Update.
     /// </summary>
     [CliOption("--cert-conflict-action", ShortForm = "--on-certificate-conflict-action")]
     public string? CertConflictAction { get; set; }

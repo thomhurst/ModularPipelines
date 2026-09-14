@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an App Configuration store.
 /// </summary>
+/// <param name="Name">Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "update")]
@@ -59,7 +60,7 @@ public record AzAppConfigUpdateOptions(
     public bool? KvRevisionRetentionPeriod { get; set; }
 
     /// <summary>
-    /// Control permission for data plane traffic coming from public networks.  Allowed values: Disabled, Enabled,
+    /// Control permission for data plane traffic coming from public networks.  Allowed values: Disabled, Enabled, SecuredByPerimeter.
     /// </summary>
     [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }

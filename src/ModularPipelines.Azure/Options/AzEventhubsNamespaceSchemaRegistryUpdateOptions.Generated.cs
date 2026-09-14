@@ -39,7 +39,7 @@ public record AzEventhubsNamespaceSchemaRegistryUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
@@ -51,7 +51,7 @@ public record AzEventhubsNamespaceSchemaRegistryUpdateOptions : AzOptions
     public bool? GroupProperties { get; set; }
 
     /// <summary>
-    /// Compatibility of Schema.  Allowed values: Backward, Forward,
+    /// Compatibility of Schema.  Allowed values: Backward, Forward, None.
     /// </summary>
     [CliOption("--schema-compatibility")]
     public string? SchemaCompatibility { get; set; }
@@ -63,7 +63,7 @@ public record AzEventhubsNamespaceSchemaRegistryUpdateOptions : AzOptions
     public string? SchemaType { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
@@ -77,8 +77,8 @@ public record AzEventhubsNamespaceSchemaRegistryUpdateOptions : AzOptions
     /// <summary>
     /// The Namespace name.
     /// </summary>
-    [CliFlag("--namespace-name")]
-    public bool? NamespaceName { get; set; }
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

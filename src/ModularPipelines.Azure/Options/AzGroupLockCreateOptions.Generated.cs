@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a resource group lock.
 /// </summary>
+/// <param name="LockType">The type of lock restriction.  Allowed values: CanNotDelete, ReadOnly.</param>
+/// <param name="Name">Name of the lock.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("group", "lock", "create")]

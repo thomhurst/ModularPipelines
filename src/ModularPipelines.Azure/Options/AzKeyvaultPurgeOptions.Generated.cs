@@ -29,8 +29,8 @@ public record AzKeyvaultPurgeOptions : AzOptions
     /// <summary>
     /// Location of the deleted Vault or HSM.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Name of the deleted Vault.

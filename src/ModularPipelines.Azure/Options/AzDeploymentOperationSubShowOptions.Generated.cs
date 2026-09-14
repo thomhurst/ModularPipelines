@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show a deployment operation at subscription scope.
 /// </summary>
+/// <param name="Name">The deployment name.</param>
+/// <param name="OperationIds">A list of operation ids to show.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "operation", "sub", "show")]

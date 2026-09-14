@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzServicebusQueueUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -33,7 +33,7 @@ public record AzServicebusQueueUpdateOptions : AzOptions
     public bool? ForceString { get; set; }
 
     /// <summary>
-    /// Remove a property or an element from a list.
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
     public IEnumerable<string>? Remove { get; set; }
@@ -129,19 +129,19 @@ public record AzServicebusQueueUpdateOptions : AzOptions
     public bool? MaxMessageSize { get; set; }
 
     /// <summary>
-    /// Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic.
+    /// Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic. Default is 1024.
     /// </summary>
     [CliFlag("--max-size", ShortForm = "--max-size-in-megabytes")]
     public bool? MaxSize { get; set; }
 
     /// <summary>
-    /// Enumerates the possible values for the status of a messaging entity.  Allowed values: Active, Creating,
+    /// Enumerates the possible values for the status of a messaging entity.  Allowed values: Active, Creating, Deleting, Disabled, ReceiveDisabled, Renaming, Restoring, SendDisabled, Unknown.
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; set; }
 
     /// <summary>
-    /// Gets and Sets Metadata of
+    /// Gets and Sets Metadata of User.
     /// </summary>
     [CliFlag("--user-metadata")]
     public bool? UserMetadata { get; set; }
@@ -161,11 +161,11 @@ public record AzServicebusQueueUpdateOptions : AzOptions
     /// <summary>
     /// The namespace name.
     /// </summary>
-    [CliFlag("--namespace-name")]
-    public bool? NamespaceName { get; set; }
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

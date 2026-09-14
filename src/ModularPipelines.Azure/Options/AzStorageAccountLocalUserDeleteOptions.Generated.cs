@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a local user.
 /// </summary>
+/// <param name="AccountName">The storage account name.</param>
+/// <param name="Name">The name of local user. The username must contain lowercase letters and numbers only. It must be unique only within the storage account.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "local-user", "delete")]

@@ -33,10 +33,10 @@ public record AzMonitorLogProfilesUpdateOptions : AzOptions
     public IEnumerable<string>? Locations { get; set; }
 
     /// <summary>
-    /// The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource
+    /// The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'.
     /// </summary>
-    [CliFlag("--service-bus-rule-id")]
-    public bool? ServiceBusRuleId { get; set; }
+    [CliOption("--service-bus-rule-id")]
+    public string? ServiceBusRuleId { get; set; }
 
     /// <summary>
     /// The resource id of the storage account to which you would like to send the Activity Log.
@@ -51,7 +51,7 @@ public record AzMonitorLogProfilesUpdateOptions : AzOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -69,7 +69,7 @@ public record AzMonitorLogProfilesUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }

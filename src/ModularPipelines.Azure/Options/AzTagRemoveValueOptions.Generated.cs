@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes a predefined tag value for a predefined tag name.
 /// </summary>
+/// <param name="Name">The tag name.</param>
+/// <param name="Value">The tag value.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tag", "remove-value")]

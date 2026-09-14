@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzNetworkLbShowOptions : AzOptions
 {
     /// <summary>
-    /// Controls verbosity of the returned load balancer resource. When set to 'Reduced', read-only back-reference collections (e.g., rules referencing frontendIPConfigurations) are omitted from the response.  Allowed values:
+    /// Controls verbosity of the returned load balancer resource. When set to 'Reduced', read-only back-reference collections (e.g., rules referencing frontendIPConfigurations) are omitted from the response.  Allowed values: Reduced.
     /// </summary>
     [CliOption("--detail-level")]
     public string? DetailLevel { get; set; }

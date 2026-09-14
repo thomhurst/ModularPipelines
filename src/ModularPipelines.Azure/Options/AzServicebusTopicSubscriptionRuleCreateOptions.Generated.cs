@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the ServiceBus Rule for Subscription.
 /// </summary>
+/// <param name="Name">Name of Rule.</param>
+/// <param name="NamespaceName">Name of Namespace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="SubscriptionName">Name of Subscription.</param>
+/// <param name="TopicName">Name of Topic.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "topic", "subscription", "rule", "create")]
@@ -51,7 +56,7 @@ public record AzServicebusTopicSubscriptionRuleCreateOptions(
     public bool? EnableActionPreprocessing { get; set; }
 
     /// <summary>
-    /// Rule Filter types.  Allowed values:
+    /// Rule Filter types.  Allowed values: CorrelationFilter, SqlFilter.
     /// </summary>
     [CliOption("--filter-type")]
     public string? FilterType { get; set; }

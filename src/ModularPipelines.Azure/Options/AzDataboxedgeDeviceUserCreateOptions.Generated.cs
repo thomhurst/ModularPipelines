@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create user on a Data Box Edge/Data Box Gateway device.
 /// </summary>
+/// <param name="DeviceName">The device name.</param>
+/// <param name="Name">The user name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="UserType">Type of the user.  Allowed values: ARM, LocalManagement, Share.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "user", "create")]

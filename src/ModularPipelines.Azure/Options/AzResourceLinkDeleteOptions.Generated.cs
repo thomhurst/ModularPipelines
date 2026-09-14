@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a link between resources.
 /// </summary>
+/// <param name="Link">Fully-qualified resource ID of the resource link. Format: /subscriptions/{SubID}/resourceGroups/{ResourceGroupID}/providers/{ProviderNamespace }/{ResourceType}/{ResourceName}/providers/Microsoft.Resources/links/{LinkName}.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource", "link", "delete")]

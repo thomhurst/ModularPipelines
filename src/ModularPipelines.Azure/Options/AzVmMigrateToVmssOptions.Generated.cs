@@ -27,13 +27,13 @@ public record AzVmMigrateToVmssOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// The target compute fault domain of VM migration to Flexible Virtual
+    /// The target compute fault domain of VM migration to Flexible Virtual Machine Scale Set.
     /// </summary>
     [CliFlag("--target-fault-domain")]
     public bool? TargetFaultDomain { get; set; }
 
     /// <summary>
-    /// The target Virtual Machine size of VM migration to Flexible Virtual
+    /// The target Virtual Machine size of VM migration to Flexible Virtual Machine Scale Set.
     /// </summary>
     [CliFlag("--target-vm-size")]
     public bool? TargetVmSize { get; set; }

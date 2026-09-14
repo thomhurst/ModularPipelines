@@ -15,13 +15,17 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create HTTP settings.
 /// </summary>
+/// <param name="GatewayName">Name of the application gateway.</param>
+/// <param name="Name">Name of the backend http settings.</param>
+/// <param name="Port">Number of the destination port on the backend.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "http-settings", "create")]
 public record AzNetworkApplicationGatewayHttpSettingsCreateOptions(
     [property: CliOption("--gateway-name")] string GatewayName,
     [property: CliOption("--name", ShortForm = "-n")] string Name,
-    [property: CliOption("--port")] string Port,
+    [property: CliOption("--port")] int Port,
     [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup
 ) : AzOptions
 {
@@ -44,7 +48,7 @@ public record AzNetworkApplicationGatewayHttpSettingsCreateOptions(
     public bool? ConnectionDrainingTimeout { get; set; }
 
     /// <summary>
-    /// Enable or disable cookie-based affinity. Allowed values: Disabled, Enabled.
+    /// Enable or disable cookie-based affinity. Allowed values: Disabled, Enabled. Default: Disabled.
     /// </summary>
     [CliOption("--cookie-based-affinity")]
     public string? CookieBasedAffinity { get; set; }
@@ -92,7 +96,7 @@ public record AzNetworkApplicationGatewayHttpSettingsCreateOptions(
     public string? Protocol { get; set; }
 
     /// <summary>
-    /// Space-separated list of trusted root certificates (Names and IDs) to associate with the HTTP settings. `--host-name` or `--host-name-from- backend-pool` is required when this field is set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of trusted root certificates (Names and IDs) to associate with the HTTP settings. `--host-name` or `--host-name-from-backend-pool` is required when this field is set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--root-certs", GroupValues = true)]
     public IEnumerable<string>? RootCerts { get; set; }

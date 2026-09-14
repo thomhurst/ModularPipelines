@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a policy attestation.
 /// </summary>
+/// <param name="AttestationName">The name of the attestation.</param>
+/// <param name="PolicyAssignment">The resource ID of the policy assignment that the attestation is setting the state for.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "attestation", "create")]
@@ -36,7 +38,7 @@ public record AzPolicyAttestationCreateOptions(
     public bool? Comments { get; set; }
 
     /// <summary>
-    /// The compliance state that should be set on the resource.  Allowed values:
+    /// The compliance state that should be set on the resource.  Allowed values: Compliant, NonCompliant, Unknown.
     /// </summary>
     [CliOption("--compliance-state")]
     public string? ComplianceState { get; set; }
@@ -66,13 +68,13 @@ public record AzPolicyAttestationCreateOptions(
     public string? Metadata { get; set; }
 
     /// <summary>
-    /// The person responsible for setting the state of the resource. This value is typically an Azure Active
+    /// The person responsible for setting the state of the resource. This value is typically an Azure Active Directory object ID.
     /// </summary>
     [CliFlag("--owner")]
     public bool? Owner { get; set; }
 
     /// <summary>
-    /// Provider namespace (Ex:
+    /// Provider namespace (Ex: Microsoft.Provider).
     /// </summary>
     [CliFlag("--namespace")]
     public bool? Namespace { get; set; }

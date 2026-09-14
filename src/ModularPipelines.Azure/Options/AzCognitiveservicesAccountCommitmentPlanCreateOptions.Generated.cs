@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a commitment plan for Azure
 /// </summary>
+/// <param name="AutoRenew">A boolean indicating whether to apply auto renew.  Allowed values: false, true.</param>
+/// <param name="CommitmentPlanName">Cognitive Services account commitment plan name.</param>
+/// <param name="HostingModel">Cognitive Services account hosting model.  Allowed values: ConnectedContainer, DisconnectedContainer, ProvisionedWeb, Web.</param>
+/// <param name="Name">Cognitive service account name.</param>
+/// <param name="PlanType">Cognitive Services account commitment plan type.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "commitment-plan", "create")]

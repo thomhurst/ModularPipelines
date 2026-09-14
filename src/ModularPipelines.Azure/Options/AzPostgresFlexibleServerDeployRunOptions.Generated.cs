@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Run an existing workflow in your github repository.
 /// </summary>
+/// <param name="ActionName">The name of the github action.</param>
+/// <param name="Branch">The name of the branch you want upload github action file. The default will be your current branch.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "deploy", "run")]

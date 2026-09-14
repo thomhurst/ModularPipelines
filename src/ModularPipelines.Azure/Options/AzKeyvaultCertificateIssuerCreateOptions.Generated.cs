@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a certificate issuer record.
 /// </summary>
+/// <param name="IssuerName">Certificate issuer name.</param>
+/// <param name="ProviderName">The certificate provider name. Must be registered with your tenant ID and in your region.</param>
+/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "issuer", "create")]
@@ -45,7 +48,7 @@ public record AzKeyvaultCertificateIssuerCreateOptions(
     /// <summary>
     /// The organization id.
     /// </summary>
-    [CliFlag("--organization-id")]
-    public bool? OrganizationId { get; set; }
+    [CliOption("--organization-id")]
+    public string? OrganizationId { get; set; }
 
 }

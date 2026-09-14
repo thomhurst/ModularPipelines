@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List available built-in stacks which can be used
 /// </summary>
+/// <param name="Location">Limit the output to just the runtimes available in the specified location.</param>
+/// <param name="Runtime">Limit the output to just the specified runtime.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "list-flexconsumption-runtimes")]

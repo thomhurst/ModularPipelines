@@ -16,6 +16,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Upload an SSL certificate to a web app.
 /// </summary>
+/// <param name="CertificateFile">The filepath for the .pfx file.</param>
+/// <param name="CertificatePassword">The ssl cert password.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "ssl", "upload")]

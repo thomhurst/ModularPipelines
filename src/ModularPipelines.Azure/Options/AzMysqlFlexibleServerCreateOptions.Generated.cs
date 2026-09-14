@@ -33,7 +33,7 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     public bool? AddressPrefixes { get; set; }
 
     /// <summary>
-    /// Enable or disable the auto scale iops. Default value is Enabled.  Allowed values: Disabled, Enabled.  Default:
+    /// Enable or disable the auto scale iops. Default value is Enabled.  Allowed values: Disabled, Enabled.  Default: Enabled.
     /// </summary>
     [CliOption("--auto-scale-iops")]
     public string? AutoScaleIops { get; set; }
@@ -57,7 +57,7 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     public string? BackupKey { get; set; }
 
     /// <summary>
-    /// The number of days a backup is retained. Range of 1 to 35 days. Default is 7 days.
+    /// The number of days a backup is retained. Range of 1 to 35 days. Default is 7 days. Default: 7.
     /// </summary>
     [CliFlag("--backup-retention")]
     public bool? BackupRetention { get; set; }
@@ -93,7 +93,7 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     public string? Identity { get; set; }
 
     /// <summary>
-    /// Number of IOPS to be allocated for this server. You will get certain amount of free IOPS based on compute and storage provisioned. The default value for IOPS is free IOPS. To learn more about IOPS based on compute and storage, refer to IOPS in Azure Database for MySQL Flexible
+    /// Number of IOPS to be allocated for this server. You will get certain amount of free IOPS based on compute and storage provisioned. The default value for IOPS is free IOPS. To learn more about IOPS based on compute and storage, refer to IOPS in Azure Database for MySQL Flexible Server.
     /// </summary>
     [CliFlag("--iops")]
     public bool? Iops { get; set; }
@@ -107,8 +107,8 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// The patch strategy of maintenance policy. Accepted values: Regular, VirtualCanary. Default value is Regular.  Allowed values: Regular, VirtualCanary.
@@ -135,7 +135,7 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     public bool? PublicAccess { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
@@ -153,13 +153,13 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     public bool? StandbyZone { get; set; }
 
     /// <summary>
-    /// Enable or disable autogrow of the storage. Default value is Enabled. Allowed values: Disabled, Enabled.
+    /// Enable or disable autogrow of the storage. Default value is Enabled. Allowed values: Disabled, Enabled. Default: Enabled.
     /// </summary>
     [CliOption("--storage-auto-grow")]
     public string? StorageAutoGrow { get; set; }
 
     /// <summary>
-    /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
+    /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB. Default: 32.
     /// </summary>
     [CliFlag("--storage-size")]
     public bool? StorageSize { get; set; }
@@ -171,7 +171,7 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     public string? Subnet { get; set; }
 
     /// <summary>
-    /// The subnet IP address prefix to use when creating a new subnet in CIDR format.
+    /// The subnet IP address prefix to use when creating a new subnet in CIDR format. Default value is 10.0.0.0/24.
     /// </summary>
     [CliOption("--subnet-prefixes")]
     public string? SubnetPrefixes { get; set; }
@@ -219,7 +219,7 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     public bool? AdminPassword { get; set; }
 
     /// <summary>
-    /// Administrator username for the server. Once set, it cannot be changed.  Default: eatablekapi4.
+    /// Administrator username for the server. Once set, it cannot be changed.  Default: crankystork4.
     /// </summary>
     [CliFlag("--admin-user", ShortForm = "-u")]
     public bool? AdminUser { get; set; }

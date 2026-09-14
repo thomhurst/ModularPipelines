@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the billing permissions the caller
 /// </summary>
+/// <param name="BillingAccountName">The ID that uniquely identifies a billing account.</param>
+/// <param name="EnrollmentAccountName">The ID that uniquely identifies an enrollment account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "enrollment-account", "billing-permission", "list")]

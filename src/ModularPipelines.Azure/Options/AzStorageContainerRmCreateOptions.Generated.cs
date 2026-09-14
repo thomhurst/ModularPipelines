@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new container under the specified storage account.
 /// </summary>
+/// <param name="Name">The container name.</param>
+/// <param name="StorageAccount">The name or ID of the storage account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container-rm", "create")]
@@ -48,7 +50,7 @@ public record AzStorageContainerRmCreateOptions(
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// Enable NFSv3 squash on blob container. Allowed values: AllSquash, NoRootSquash,
+    /// Enable NFSv3 squash on blob container. Allowed values: AllSquash, NoRootSquash, RootSquash.
     /// </summary>
     [CliOption("--root-squash")]
     public string? RootSquash { get; set; }

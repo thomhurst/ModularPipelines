@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an application gateway WAF
 /// </summary>
+/// <param name="Name">Name of the WAF policy rule.</param>
+/// <param name="PolicyName">Name of the application gateway WAF policy.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "custom-rule", "update")]
@@ -25,7 +28,7 @@ public record AzNetworkApplicationGatewayWafPolicyCustomRuleUpdateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Action to take.  Allowed values: Allow, Block, JSChallenge,
+    /// Action to take.  Allowed values: Allow, Block, JSChallenge, Log.
     /// </summary>
     [CliOption("--action")]
     public string? Action { get; set; }
@@ -37,7 +40,7 @@ public record AzNetworkApplicationGatewayWafPolicyCustomRuleUpdateOptions(
     public bool? Priority { get; set; }
 
     /// <summary>
-    /// Type of rule.  Allowed values: Invalid, MatchRule,
+    /// Type of rule.  Allowed values: Invalid, MatchRule, RateLimitRule.
     /// </summary>
     [CliOption("--rule-type")]
     public string? RuleType { get; set; }
@@ -85,7 +88,7 @@ public record AzNetworkApplicationGatewayWafPolicyCustomRuleUpdateOptions(
     public IEnumerable<string>? MatchConditions { get; set; }
 
     /// <summary>
-    /// Duration over which Rate Limit policy will be applied. Applies only when ruleType is RateLimitRule.  Allowed values: FiveMins,
+    /// Duration over which Rate Limit policy will be applied. Applies only when ruleType is RateLimitRule.  Allowed values: FiveMins, OneMin.
     /// </summary>
     [CliOption("--rate-limit-duration")]
     public string? RateLimitDuration { get; set; }

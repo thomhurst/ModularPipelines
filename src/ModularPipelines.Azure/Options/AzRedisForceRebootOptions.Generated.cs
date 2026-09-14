@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reboot specified Redis node(s).
 /// </summary>
+/// <param name="RebootType">Which Redis node(s) to reboot. Depending on this value data loss is possible.  Allowed values: AllNodes, PrimaryNode, SecondaryNode.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "force-reboot")]

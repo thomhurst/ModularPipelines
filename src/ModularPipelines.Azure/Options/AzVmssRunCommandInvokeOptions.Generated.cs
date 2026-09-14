@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Execute a specific run command on a Virtual Machine Scale Set
 /// </summary>
+/// <param name="CommandId">The command id.  Values from: az vmss run-command list.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "run-command", "invoke")]
@@ -47,7 +48,7 @@ public record AzVmssRunCommandInvokeOptions(
     public bool? InstanceId { get; set; }
 
     /// <summary>
-    /// Scale set name. You can configure the default using `az configure
+    /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
     /// </summary>
     [CliFlag("--name", ShortForm = "-n")]
     public bool? Name { get; set; }

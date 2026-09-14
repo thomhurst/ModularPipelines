@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new import workflow for flexible server.
 /// </summary>
+/// <param name="DataSource">Data source for importing to Flexible Server. Based on the data source type provide the data source as mentioned below. e.g., mysql_single: The name or resource ID of the Azure MySQL single server. azure_blob: The name or resource ID of the Azure blob container. The storage uri of the azure blob container. Example: https://{blob_name}.blob.core.windows.net/{container_name}. The storage uri should not contain the sas token. If required, sas token can be provided in "data-source-sas-token" parameter.</param>
+/// <param name="DataSourceType">Data source type. e.g., mysql_single: Azure Database for MySQL Servers. azure_blob: Source backup provided in Azure blob container.  Allowed values: azure_blob, mysql_single.</param>
+/// <param name="Name">Name of the server. The name can contain only lowercase letters, numbers, and the hyphen (-) character. Minimum 3 characters and maximum 63 characters.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "import", "create")]
@@ -32,7 +36,7 @@ public record AzMysqlFlexibleServerImportCreateOptions(
     public bool? AddressPrefixes { get; set; }
 
     /// <summary>
-    /// Enable or disable the auto scale iops. Default value is Enabled.  Allowed values: Disabled, Enabled.  Default:
+    /// Enable or disable the auto scale iops. Default value is Enabled.  Allowed values: Disabled, Enabled.  Default: Disabled.
     /// </summary>
     [CliOption("--auto-scale-iops")]
     public string? AutoScaleIops { get; set; }
@@ -58,8 +62,8 @@ public record AzMysqlFlexibleServerImportCreateOptions(
     /// <summary>
     /// Relative path of the directory in which source backup is stored. By default, the backup files will be read from the root of storage. This parameter is valid for storage based data source. Example: azure_blob.
     /// </summary>
-    [CliFlag("--data-source-backup-dir")]
-    public bool? DataSourceBackupDir { get; set; }
+    [CliOption("--data-source-backup-dir")]
+    public string? DataSourceBackupDir { get; set; }
 
     /// <summary>
     /// Sas token for accessing the data source. This parameter is valid for storage based data source. Example: azure_blob.
@@ -74,7 +78,7 @@ public record AzMysqlFlexibleServerImportCreateOptions(
     public string? GeoRedundantBackup { get; set; }
 
     /// <summary>
-    /// Enable (ZoneRedundant or SameZone) or disable high availability feature.  Allowed values: Disabled, SameZone, ZoneRedundant.
+    /// Enable (ZoneRedundant or SameZone) or disable high availability feature.  Allowed values: Disabled, SameZone, ZoneRedundant. Default: Disabled.
     /// </summary>
     [CliOption("--high-availability")]
     public string? HighAvailability { get; set; }
@@ -100,8 +104,8 @@ public record AzMysqlFlexibleServerImportCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Mode of import. Enum values: [Offline, Online]. Default is Offline.  Allowed values: Offline, Online.  Default: Offline.
@@ -164,7 +168,7 @@ public record AzMysqlFlexibleServerImportCreateOptions(
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Compute tier of the server. Accepted values: Burstable,
+    /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose, MemoryOptimized.
     /// </summary>
     [CliOption("--tier")]
     public string? Tier { get; set; }

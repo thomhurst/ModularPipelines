@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create and start a packet capture session.
 /// </summary>
+/// <param name="Name">Name of the packet capture session.</param>
+/// <param name="ResourceGroup">Name of the resource group the target resource is in.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "packet-capture", "create")]
@@ -54,7 +56,7 @@ public record AzNetworkWatcherPacketCaptureCreateOptions(
     public string? Target { get; set; }
 
     /// <summary>
-    /// Resource type of target.  Allowed values: AzureVM, AzureVMSS.
+    /// Resource type of target.  Allowed values: AzureVM, AzureVMSS. Default: AzureVM.
     /// </summary>
     [CliOption("--target-type")]
     public string? TargetType { get; set; }

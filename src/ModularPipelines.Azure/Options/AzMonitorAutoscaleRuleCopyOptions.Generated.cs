@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Copy autoscale rules from one profile to another.
 /// </summary>
+/// <param name="AutoscaleName">Name of the autoscale settings.</param>
+/// <param name="DestSchedule">Name of the profile to copy rules to.</param>
+/// <param name="Index">Space-separated list of rule indices to copy, or '*' to copy all rules.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "rule", "copy")]

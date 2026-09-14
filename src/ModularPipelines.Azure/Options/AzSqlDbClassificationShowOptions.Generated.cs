@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get the sensitivity classification of a given column.
 /// </summary>
+/// <param name="Column">The name of the column.</param>
+/// <param name="Schema">The name of the schema.</param>
+/// <param name="Table">The name of the table.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "classification", "show")]

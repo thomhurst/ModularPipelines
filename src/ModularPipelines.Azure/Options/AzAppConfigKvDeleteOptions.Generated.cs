@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete key-values.
 /// </summary>
+/// <param name="Key">Support star sign as filters, for instance * means all key and abc* means keys with abc as prefix.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "kv", "delete")]

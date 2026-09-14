@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Lists the metric data for a subscription. Parameters can be
 /// </summary>
+/// <param name="Region">The region where the metrics you want reside.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "metrics", "list-sub")]
@@ -41,7 +42,7 @@ public record AzMonitorMetricsListSubOptions(
     public bool? Filter { get; set; }
 
     /// <summary>
-    /// The interval (i.e. timegrain) of the query in ISO 8601 duration format. Defaults to PT1M. Special case for 'FULL' value that returns single datapoint for entire time span requested. *Examples: PT15M,
+    /// The interval (i.e. timegrain) of the query in ISO 8601 duration format. Defaults to PT1M. Special case for 'FULL' value that returns single datapoint for entire time span requested. *Examples: PT15M, PT1H, P1D, FULL*.
     /// </summary>
     [CliFlag("--interval")]
     public bool? Interval { get; set; }

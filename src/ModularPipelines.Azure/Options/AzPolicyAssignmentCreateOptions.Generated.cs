@@ -71,8 +71,8 @@ public record AzPolicyAssignmentCreateOptions : AzOptions
     /// <summary>
     /// The location of the policy assignment.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// The policy version to assign.
@@ -93,13 +93,13 @@ public record AzPolicyAssignmentCreateOptions : AzOptions
     public bool? DisplayName { get; set; }
 
     /// <summary>
-    /// The policy assignment enforcement mode.  Allowed values: Default, DoNotEnforce, Enroll.  Default:
+    /// The policy assignment enforcement mode.  Allowed values: Default, DoNotEnforce, Enroll.  Default: Default.
     /// </summary>
     [CliOption("--enforcement-mode", ShortForm = "-e")]
     public string? EnforcementMode { get; set; }
 
     /// <summary>
-    /// The policy assignment metadata.
+    /// The policy assignment metadata. Support shorthand-syntax(full value only), json-file and yaml-file.
     /// </summary>
     [CliFlag("--metadata")]
     public bool? Metadata { get; set; }
@@ -129,7 +129,7 @@ public record AzPolicyAssignmentCreateOptions : AzOptions
     public bool? PolicySetDefinition { get; set; }
 
     /// <summary>
-    /// The resource selectors list to filter policies by resource properties.
+    /// The resource selectors list to filter policies by resource properties. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--resource-selectors")]
     public string? ResourceSelectors { get; set; }

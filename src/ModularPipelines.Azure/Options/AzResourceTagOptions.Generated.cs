@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Tag a resource.
 /// </summary>
+/// <param name="Tags">Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource", "tag")]

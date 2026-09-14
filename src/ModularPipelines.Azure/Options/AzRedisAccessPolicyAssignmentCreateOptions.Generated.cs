@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an Access Policy Assignment (Redis User) to the
 /// </summary>
+/// <param name="AccessPolicyName">The name of the access policy that is being assigned.</param>
+/// <param name="Name">Name of the Redis cache.</param>
+/// <param name="ObjectId">Object Id to assign access policy to.</param>
+/// <param name="ObjectIdAlias">User friendly name for object id. Also represents username for token based authentication.</param>
+/// <param name="PolicyAssignmentName">The name of the access policy assignment.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "access-policy-assignment", "create")]

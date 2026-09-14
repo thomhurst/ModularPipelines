@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List VM Image Versions in a gallery shared directly to your
 /// </summary>
+/// <param name="GalleryImageDefinition">The name of the Shared Gallery Image Definition from which the Image Versions are to be listed.</param>
+/// <param name="GalleryUniqueName">The unique name of the Shared Gallery.</param>
+/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "image-version", "list-shared")]

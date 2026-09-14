@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore disks of the backed VM from the specified recovery
 /// </summary>
+/// <param name="StorageAccount">Name or ID of the staging storage account. The VM configuration will be restored to this storage account. See the help for --restore-to-staging-storage-account parameter for more info. The ID might be needed for cross-region restores where the storage account and vault are not on the same resource group. In order to get the ID, use the storage account show command as specified here (https://learn.microsoft.com/en- us/azure/storage/common/storage-account-get- info?tabs=azure-cli#get-the-resource-id-for-a-storage- account).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "restore", "restore-disks")]
@@ -77,7 +78,7 @@ public record AzBackupRestoreRestoreDisksOptions(
     public bool? RestoreAsUnmanagedDisks { get; set; }
 
     /// <summary>
-    /// Specify the restore mode.  Allowed values: AlternateLocation, OriginalLocation.  Default:
+    /// Specify the restore mode.  Allowed values: AlternateLocation, OriginalLocation.  Default: AlternateLocation.
     /// </summary>
     [CliOption("--restore-mode")]
     public string? RestoreMode { get; set; }
@@ -107,7 +108,7 @@ public record AzBackupRestoreRestoreDisksOptions(
     public string? StorageAccountResourceGroup { get; set; }
 
     /// <summary>
-    /// Specify the target disk access ID when --disk-access- option is set to EnablePrivateAccessForAllDisks.
+    /// Specify the target disk access ID when --disk-access-option is set to EnablePrivateAccessForAllDisks.
     /// </summary>
     [CliFlag("--target-disk-access-id")]
     public bool? TargetDiskAccessId { get; set; }
@@ -119,7 +120,7 @@ public record AzBackupRestoreRestoreDisksOptions(
     public bool? TargetResourceGroup { get; set; }
 
     /// <summary>
-    /// Name of the subnet in which the target VM should be created, in the case of Alternate Location restore a new
+    /// Name of the subnet in which the target VM should be created, in the case of Alternate Location restore a new VM.
     /// </summary>
     [CliOption("--target-subnet-name")]
     public string? TargetSubnetName { get; set; }
@@ -143,7 +144,7 @@ public record AzBackupRestoreRestoreDisksOptions(
     public string? TargetVnetName { get; set; }
 
     /// <summary>
-    /// Name of the resource group which contains the target VNet, in the case of Alternate Location restore to a new
+    /// Name of the resource group which contains the target VNet, in the case of Alternate Location restore to a new VM.
     /// </summary>
     [CliOption("--target-vnet-resource-group")]
     public string? TargetVnetResourceGroup { get; set; }
@@ -167,7 +168,7 @@ public record AzBackupRestoreRestoreDisksOptions(
     public bool? UseSecondaryRegion { get; set; }
 
     /// <summary>
-    /// Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then
+    /// Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then BackupManagementType is required.
     /// </summary>
     [CliOption("--container-name", ShortForm = "-c")]
     public string? ContainerName { get; set; }

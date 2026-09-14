@@ -47,8 +47,8 @@ public record AzConnectionUpdatePostgresOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -63,13 +63,13 @@ public record AzConnectionUpdatePostgresOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// The secret auth info.
+    /// The secret auth info. Usage: --secret name=XX secret=XX --secret name=XX secret-uri=XX --secret name=XX secret-name=XX
     /// </summary>
     [CliFlag("--secret")]
     public bool? Secret { get; set; }
 
     /// <summary>
-    /// The user account auth info.
+    /// The user account auth info. Usage: --user-account object-id=XX
     /// </summary>
     [CliFlag("--user-account")]
     public bool? UserAccount { get; set; }

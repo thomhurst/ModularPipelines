@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a saved search for a given
 /// </summary>
+/// <param name="Category">The category of the saved search. This helps the user to find a saved search faster.</param>
+/// <param name="DisplayName">Display name of the saved search.</param>
+/// <param name="Name">Name of the saved search and it's unique in a given workspace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="SavedQuery">The query expression for the saved search.</param>
+/// <param name="WorkspaceName">Name of the Log Analytics Workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "saved-search", "create")]
@@ -28,7 +34,7 @@ public record AzMonitorLogAnalyticsWorkspaceSavedSearchCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Function Aliases are short names given to Saved Searches so they can be easily referenced in query. They are required for
+    /// Function Aliases are short names given to Saved Searches so they can be easily referenced in query. They are required for Computer Groups.
     /// </summary>
     [CliFlag("--fa", ShortForm = "--func-alias")]
     public bool? Fa { get; set; }

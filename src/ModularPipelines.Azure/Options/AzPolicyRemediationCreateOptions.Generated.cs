@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a resource policy remediation.
 /// </summary>
+/// <param name="Name">Name of the remediation.</param>
+/// <param name="PolicyAssignment">Name or resource ID of the policy assignment.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "remediation", "create")]
@@ -36,7 +38,7 @@ public record AzPolicyRemediationCreateOptions(
     public bool? LocationFilters { get; set; }
 
     /// <summary>
-    /// The way resources to remediate are discovered. Defaults to ExistingNonCompliant if not specified.  Allowed values:
+    /// The way resources to remediate are discovered. Defaults to ExistingNonCompliant if not specified.  Allowed values: ExistingNonCompliant, ReEvaluateCompliance.
     /// </summary>
     [CliOption("--resource-discovery-mode")]
     public string? ResourceDiscoveryMode { get; set; }

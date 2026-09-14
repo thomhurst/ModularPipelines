@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Retrieve a non-compliance message.
 /// </summary>
+/// <param name="Message">A custom non-compliance message.</param>
+/// <param name="Name">The name of the policy assignment.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "assignment", "non-compliance-message", "show")]
@@ -26,8 +28,8 @@ public record AzPolicyAssignmentNonComplianceMessageShowOptions(
     /// <summary>
     /// The policy definition reference ID.
     /// </summary>
-    [CliFlag("--policy-definition-reference-id", ShortForm = "-r")]
-    public bool? PolicyDefinitionReferenceId { get; set; }
+    [CliOption("--policy-definition-reference-id", ShortForm = "-r")]
+    public string? PolicyDefinitionReferenceId { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

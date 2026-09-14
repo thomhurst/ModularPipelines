@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerates the primary or secondary
 /// </summary>
+/// <param name="Key">The access key to regenerate.  Allowed values: PrimaryKey, SecondaryKey.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "namespace", "authorization-rule", "keys", "renew")]
@@ -31,8 +32,8 @@ public record AzServicebusNamespaceAuthorizationRuleKeysRenewOptions(
     /// <summary>
     /// The authorization rule name.
     /// </summary>
-    [CliFlag("--authorization-rule-name", ShortForm = "-n")]
-    public bool? AuthorizationRuleName { get; set; }
+    [CliOption("--authorization-rule-name", ShortForm = "-n")]
+    public string? AuthorizationRuleName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -43,8 +44,8 @@ public record AzServicebusNamespaceAuthorizationRuleKeysRenewOptions(
     /// <summary>
     /// The namespace name.
     /// </summary>
-    [CliFlag("--namespace-name")]
-    public bool? NamespaceName { get; set; }
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

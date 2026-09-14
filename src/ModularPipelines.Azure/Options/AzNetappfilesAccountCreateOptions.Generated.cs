@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the specified NetApp account within the resource group.
 /// </summary>
+/// <param name="AccountName">The name of the NetApp account.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "account", "create")]
@@ -32,8 +34,8 @@ public record AzNetappfilesAccountCreateOptions(
     /// <summary>
     /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
@@ -48,7 +50,7 @@ public record AzNetappfilesAccountCreateOptions(
     public string? KeyName { get; set; }
 
     /// <summary>
-    /// The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.NetApp, Microsoft.KeyVault.  Allowed values: Microsoft.KeyVault, Microsoft.NetApp.  Default:
+    /// The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.NetApp, Microsoft.KeyVault.  Allowed values: Microsoft.KeyVault, Microsoft.NetApp.  Default: Microsoft.NetApp.
     /// </summary>
     [CliOption("--key-source")]
     public string? KeySource { get; set; }
@@ -78,7 +80,7 @@ public record AzNetappfilesAccountCreateOptions(
     public bool? UserAssignedIdentity { get; set; }
 
     /// <summary>
-    /// Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).  Allowed values: None,
+    /// Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
     /// </summary>
     [CliOption("--identity-type", ShortForm = "--type")]
     public string? IdentityType { get; set; }
@@ -96,7 +98,7 @@ public record AzNetappfilesAccountCreateOptions(
     public bool? MiUserAssigned { get; set; }
 
     /// <summary>
-    /// The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resource
+    /// The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resource Groups/{resourceGroupName}/providers/Microsoft. ManagedIdentity/userAssignedIdentities/{identit yName}. The dictionary values can be empty objects ({}) in requests.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--user-assigned-identities", ShortForm = "--user-ids")]
     public bool? UserAssignedIdentities { get; set; }

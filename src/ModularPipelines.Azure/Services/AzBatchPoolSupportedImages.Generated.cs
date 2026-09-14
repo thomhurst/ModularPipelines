@@ -44,7 +44,7 @@ public class AzBatchPoolSupportedImages
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBatchPoolSupportedImagesListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBatchPoolSupportedImagesListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

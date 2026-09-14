@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the properties of a Batch pool. Unspecified properties which can be
 /// </summary>
+/// <param name="PoolId">The ID of the pool to update.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "pool", "reset")]
@@ -25,8 +26,8 @@ public record AzBatchPoolResetOptions(
     /// <summary>
     /// The file containing pool update properties parameter specification in JSON(formatted to match REST API request body). If this parameter is specified, all 'Pool Update Properties Parameter Arguments' are ignored.
     /// </summary>
-    [CliFlag("--json-file")]
-    public bool? JsonFile { get; set; }
+    [CliOption("--json-file")]
+    public string? JsonFile { get; set; }
 
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
@@ -61,8 +62,8 @@ public record AzBatchPoolResetOptions(
     /// <summary>
     /// The command line of the start task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux.
     /// </summary>
-    [CliFlag("--start-task-command-line")]
-    public bool? StartTaskCommandLine { get; set; }
+    [CliOption("--start-task-command-line")]
+    public string? StartTaskCommandLine { get; set; }
 
     /// <summary>
     /// A list of environment variable settings for the start task. Space-separated values in 'key=value' format.

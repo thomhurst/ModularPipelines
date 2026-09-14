@@ -33,7 +33,7 @@ public record AzNetappfilesVolumeListQuotaReportOptions : AzOptions
     public bool? QuotaTarget { get; set; }
 
     /// <summary>
-    /// Type of quota. If provided, quotaTarget must also be specified. The quotaType and quotaTarget properties are optional, but when filtering by quota type, quotaType and quotaTarget must be supplied together. Service/API will return an error if only one is provided.  Allowed values:
+    /// Type of quota. If provided, quotaTarget must also be specified. The quotaType and quotaTarget properties are optional, but when filtering by quota type, quotaType and quotaTarget must be supplied together. Service/API will return an error if only one is provided.  Allowed values: DefaultGroupQuota, DefaultUserQuota, IndividualGroupQuota, IndividualUserQuota.
     /// </summary>
     [CliOption("--quota-type")]
     public string? QuotaType { get; set; }
@@ -63,7 +63,7 @@ public record AzNetappfilesVolumeListQuotaReportOptions : AzOptions
     public string? PoolName { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

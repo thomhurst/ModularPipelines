@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzAdvisorRecommendationListOptions : AzOptions
 {
     /// <summary>
-    /// Name of recommendation category.  Allowed values: Cost, HighAvailability,
+    /// Name of recommendation category.  Allowed values: Cost, HighAvailability, Performance, Security.
     /// </summary>
     [CliOption("--category", ShortForm = "-c")]
     public string? Category { get; set; }

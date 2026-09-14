@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "az",
-  "toolVersion": "azure-cli                         2.90.0  core                              2.90.0 telemetry                          1.1.0  Extensions: azure-devops                       1.0.6  Dependencies: msal                              1.36.0 azure-mgmt-resource               24.0.0  Python location \u0027/opt/az/bin/python3\u0027 Config directory \u0027/home/runner/.azure\u0027 Extensions directory \u0027/opt/az/azcliextensions\u0027  Python (Linux) 3.14.6 (main, Aug 26 2026, 01:26:46) [GCC 13.3.0]  Legal docs and information: aka.m",
+  "toolVersion": "azure-cli                         2.90.0  core                              2.90.0 telemetry                          1.1.0  Extensions: azure-devops                       1.0.8  Dependencies: msal                              1.36.0 azure-mgmt-resource               24.0.0  Python location \u0027/opt/az/bin/python3\u0027 Config directory \u0027/home/runner/.azure\u0027 Extensions directory \u0027/opt/az/azcliextensions\u0027  Python (Linux) 3.14.6 (main, Aug 26 2026, 01:26:46) [GCC 13.3.0]  Legal docs and information: aka.m",
   "commandCount": 5131,
   "commandTreeSha256": "736fa1fae87fc38298cfb5dbb4ad1c854cb2a4b2145e00c6c4d9cfa8beb20195",
   "commands": [

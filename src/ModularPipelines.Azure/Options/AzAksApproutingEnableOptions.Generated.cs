@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable App Routing.
 /// </summary>
+/// <param name="Name">Name of the managed cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "approuting", "enable")]
@@ -24,19 +26,19 @@ public record AzAksApproutingEnableOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Attach a keyvault id to access secrets and certificates.
+    /// Attach a keyvault id to access secrets and certificates. This optional flag attaches a keyvault id to access secrets and certificates.
     /// </summary>
     [CliFlag("--attach-kv")]
     public bool? AttachKv { get; set; }
 
     /// <summary>
-    /// Enable the keyvault secrets provider.
+    /// Enable the keyvault secrets provider. This optional flag enables the keyvault-secrets-provider addon in given cluster. This is required for most App Routing use-cases.
     /// </summary>
     [CliFlag("--enable-kv")]
     public bool? EnableKv { get; set; }
 
     /// <summary>
-    /// Configure default NginxIngressController resource.  Allowed values: AnnotationControlled, External, Internal, None.
+    /// Configure default NginxIngressController resource.  Allowed values: AnnotationControlled, External, Internal, None. Configure default nginx ingress controller type. Valid values are annotationControlled (default behavior), external, internal, or none.
     /// </summary>
     [CliOption("--nginx")]
     public string? Nginx { get; set; }

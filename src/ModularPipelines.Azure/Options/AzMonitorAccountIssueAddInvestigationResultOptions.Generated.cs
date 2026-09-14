@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Adds investigation result.
 /// </summary>
+/// <param name="Id">The identifier of the investigation.</param>
+/// <param name="Result">The result of this investigation.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "account", "issue", "add-investigation-result")]

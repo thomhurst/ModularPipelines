@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete VMs within a VMSS.
 /// </summary>
+/// <param name="InstanceIds">Space-separated list of IDs (ex: 1 2 3 ...) or * for all instances. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "delete-instances")]
@@ -35,7 +36,7 @@ public record AzVmssDeleteInstancesOptions(
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// Scale set name. You can configure the default using `az configure
+    /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
     /// </summary>
     [CliFlag("--name", ShortForm = "-n")]
     public bool? Name { get; set; }

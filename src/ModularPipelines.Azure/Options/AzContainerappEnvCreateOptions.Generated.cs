@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Container Apps environment.
 /// </summary>
+/// <param name="Name">Name of the Container Apps environment.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "create")]
@@ -24,7 +26,7 @@ public record AzContainerappEnvCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Boolean indicating if the environment is enabled to have workload profiles.  Allowed values: false, true.  Default:
+    /// Boolean indicating if the environment is enabled to have workload profiles.  Allowed values: false, true.  Default: True.
     /// </summary>
     [CliOption("--enable-workload-profiles", ShortForm = "-w")]
     public bool? EnableWorkloadProfiles { get; set; }
@@ -32,8 +34,8 @@ public record AzContainerappEnvCreateOptions(
     /// <summary>
     /// Location of resource. Examples: eastus2, northeurope.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -48,7 +50,7 @@ public record AzContainerappEnvCreateOptions(
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Enable zone redundancy on the environment. Cannot be used without --infrastructure-subnet- resource-id. If used with
+    /// Enable zone redundancy on the environment. Cannot be used without --infrastructure-subnet-resource-id. If used with --location, the subnet's location must match.
     /// </summary>
     [CliFlag("--zone-redundant", ShortForm = "-z")]
     public bool? ZoneRedundant { get; set; }
@@ -132,7 +134,7 @@ public record AzContainerappEnvCreateOptions(
     public bool? InternalOnly { get; set; }
 
     /// <summary>
-    /// IP range in CIDR notation that can be reserved for environment infrastructure IP addresses. It must not overlap with any other
+    /// IP range in CIDR notation that can be reserved for environment infrastructure IP addresses. It must not overlap with any other Subnet IP ranges.
     /// </summary>
     [CliFlag("--platform-reserved-cidr")]
     public bool? PlatformReservedCidr { get; set; }

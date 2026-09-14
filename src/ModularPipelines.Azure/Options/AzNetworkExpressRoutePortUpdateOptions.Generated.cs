@@ -33,7 +33,7 @@ public record AzNetworkExpressRoutePortUpdateOptions : AzOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -51,13 +51,13 @@ public record AzNetworkExpressRoutePortUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// The billing type of the ExpressRoutePort resource.  Allowed values:
+    /// The billing type of the ExpressRoutePort resource.  Allowed values: MeteredData, UnlimitedData.
     /// </summary>
     [CliOption("--billing-type")]
     public string? BillingType { get; set; }

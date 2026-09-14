@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Service Connector local connection to sql.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connection", "create", "sql")]
@@ -49,8 +50,8 @@ public record AzConnectionCreateSqlOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -65,25 +66,25 @@ public record AzConnectionCreateSqlOptions(
     public string? Server { get; set; }
 
     /// <summary>
-    /// The resource id of target service. Required if ['--target- resource-group', '--server', '--database'] are not specified.
+    /// The resource id of target service. Required if ['--target-resource-group', '--server', '--database'] are not specified.
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; set; }
 
     /// <summary>
-    /// The resource group which contains the sql server. Required if '
+    /// The resource group which contains the sql server. Required if ' --target-id' is not specified.
     /// </summary>
     [CliOption("--target-resource-group", ShortForm = "--tg")]
     public string? TargetResourceGroup { get; set; }
 
     /// <summary>
-    /// The secret auth info.
+    /// The secret auth info. Usage: --secret name=XX secret=XX --secret name=XX secret-uri=XX --secret name=XX secret-name=XX
     /// </summary>
     [CliFlag("--secret")]
     public bool? Secret { get; set; }
 
     /// <summary>
-    /// The user account auth info.
+    /// The user account auth info. Usage: --user-account object-id=XX
     /// </summary>
     [CliFlag("--user-account")]
     public bool? UserAccount { get; set; }

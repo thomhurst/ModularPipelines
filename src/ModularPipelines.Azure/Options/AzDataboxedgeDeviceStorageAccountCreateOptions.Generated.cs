@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create storage account on the device.
 /// </summary>
+/// <param name="DeviceName">The device name.</param>
+/// <param name="Name">The StorageAccount name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="DataPolicy">Data policy of the storage Account.  Allowed values: Cloud, Local.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("databoxedge", "device", "storage-account", "create")]
@@ -44,7 +48,7 @@ public record AzDataboxedgeDeviceStorageAccountCreateOptions(
     public bool? SacId { get; set; }
 
     /// <summary>
-    /// Current status of the storage account.  Allowed values: NeedsAttention, OK, Offline, Unknown,
+    /// Current status of the storage account.  Allowed values: NeedsAttention, OK, Offline, Unknown, Updating.
     /// </summary>
     [CliOption("--storage-account-status")]
     public string? StorageAccountStatus { get; set; }

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates a server's secure connection policy.
 /// </summary>
+/// <param name="ConnectionType">The required parameters for updating a secure connection policy. The value is default.  Allowed values: Default, Proxy, Redirect.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "conn-policy", "update")]

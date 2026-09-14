@@ -27,7 +27,7 @@ public record AzSynapseKustoPoolAddLanguageExtensionOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// The list of language extensions.
+    /// The list of language extensions. Usage: --value language-extension-name=XX
     /// </summary>
     [CliOption("--value", GroupValues = true)]
     public IEnumerable<string>? Value { get; set; }

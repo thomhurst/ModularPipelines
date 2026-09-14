@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Detach managed data disks from a scale set or its instances.
 /// </summary>
+/// <param name="Lun">0-based logical unit number (LUN). Max value depends on the Virtual Machine instance size.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "disk", "detach")]
@@ -41,7 +42,7 @@ public record AzVmssDiskDetachOptions(
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// Scale set name. You can configure the default using `az configure
+    /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
     /// </summary>
     [CliFlag("--vmss-name")]
     public bool? VmssName { get; set; }

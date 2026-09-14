@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Check for the availability of the given name for the Namespace.
 /// </summary>
+/// <param name="Name">Namespace name. Name can contain only letters, numbers, and hyphens. The                            namespace must start with a letter, and it must end with a letter or number.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("relay", "namespace", "exists")]

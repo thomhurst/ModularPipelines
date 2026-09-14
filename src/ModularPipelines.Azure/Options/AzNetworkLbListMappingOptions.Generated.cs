@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List inbound NAT rule port mappings.
 /// </summary>
+/// <param name="BackendPoolName">The name of the backend address pool.</param>
+/// <param name="Request">Query inbound NAT rule port mapping request.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "list-mapping")]

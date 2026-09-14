@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a long term retention backup to a new database.
 /// </summary>
+/// <param name="BackupId">The resource id of the long term retention backup to be restored. Use 'az sql db ltr-backup show' or 'az sql db ltr-backup list' for backup id.</param>
+/// <param name="DestDatabase">Name of the database that will be created as the restore destination.</param>
+/// <param name="DestResourceGroup">Name of the resource group of the server to restore database to.</param>
+/// <param name="DestServer">Name of the server to restore database to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "db", "ltr-backup", "restore")]
@@ -38,7 +42,7 @@ public record AzSqlDbLtrBackupRestoreOptions(
     public bool? AvailabilityZone { get; set; }
 
     /// <summary>
-    /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo,
+    /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo, GeoZone.
     /// </summary>
     [CliOption("--backup-storage-redundancy", ShortForm = "--bsr")]
     public string? BackupStorageRedundancy { get; set; }
@@ -62,7 +66,7 @@ public record AzSqlDbLtrBackupRestoreOptions(
     public bool? FederatedClientId { get; set; }
 
     /// <summary>
-    /// The number of high availability replicas to provision for the database. Only settable for
+    /// The number of high availability replicas to provision for the database. Only settable for Hyperscale edition.
     /// </summary>
     [CliFlag("--ha-replicas", ShortForm = "--read-replicas")]
     public bool? HaReplicas { get; set; }
@@ -104,7 +108,7 @@ public record AzSqlDbLtrBackupRestoreOptions(
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The list of user assigned identity for the SQL
+    /// The list of user assigned identity for the SQL Database.
     /// </summary>
     [CliOption("--umi", ShortForm = "--user-assigned-identity-id", GroupValues = true)]
     public IEnumerable<string>? Umi { get; set; }
@@ -122,7 +126,7 @@ public record AzSqlDbLtrBackupRestoreOptions(
     public string? ElasticPool { get; set; }
 
     /// <summary>
-    /// The service objective for the new database. For example: Basic, S0, P1, GP_Gen4_1, GP_S_Gen5_8,
+    /// The service objective for the new database. For example: Basic, S0, P1, GP_Gen4_1, GP_S_Gen5_8, BC_Gen5_2, HS_Gen5_32.
     /// </summary>
     [CliFlag("--service-level-objective", ShortForm = "--service-objective")]
     public bool? ServiceLevelObjective { get; set; }

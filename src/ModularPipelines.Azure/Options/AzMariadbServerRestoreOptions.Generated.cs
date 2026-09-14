@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a server from backup.
 /// </summary>
+/// <param name="PitrTime">The point in time in UTC to restore from (ISO8601 format), e.g., 2017-04-26T02:10:00+08:00.</param>
+/// <param name="SourceServer">The name or resource ID of the source server to restore from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mariadb", "server", "restore")]
@@ -30,7 +32,7 @@ public record AzMariadbServerRestoreOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

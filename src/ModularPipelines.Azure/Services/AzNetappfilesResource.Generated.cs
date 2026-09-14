@@ -54,7 +54,7 @@ public class AzNetappfilesResource
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetappfilesResourceQueryRegionInfoOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzNetappfilesResourceQueryRegionInfoOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

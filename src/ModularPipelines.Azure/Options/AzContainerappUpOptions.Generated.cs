@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create or update a container app as well as any associated resources (ACR,
 /// </summary>
+/// <param name="Name">The name of the Containerapp. A name must consist of lower case alphanumeric characters or '-', start with a letter, end with an alphanumeric character, cannot have '--', and must be less than 32 characters.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "up")]
@@ -43,8 +44,8 @@ public record AzContainerappUpOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -109,8 +110,8 @@ public record AzContainerappUpOptions(
     /// <summary>
     /// The service principal client ID. Used by Github Actions to authenticate with Azure.
     /// </summary>
-    [CliFlag("--service-principal-client-id", ShortForm = "--sp-cid")]
-    public bool? ServicePrincipalClientId { get; set; }
+    [CliOption("--service-principal-client-id", ShortForm = "--sp-cid")]
+    public string? ServicePrincipalClientId { get; set; }
 
     /// <summary>
     /// The service principal client secret. Used by Github Actions to authenticate with Azure.
@@ -121,8 +122,8 @@ public record AzContainerappUpOptions(
     /// <summary>
     /// The service principal tenant ID. Used by Github Actions to authenticate with Azure.
     /// </summary>
-    [CliFlag("--service-principal-tenant-id", ShortForm = "--sp-tid")]
-    public bool? ServicePrincipalTenantId { get; set; }
+    [CliOption("--service-principal-tenant-id", ShortForm = "--sp-tid")]
+    public string? ServicePrincipalTenantId { get; set; }
 
     /// <summary>
     /// A Personal Access Token with write access to the specified repository. For more information: https://help.github.com/en/github/authenticating- to-github/creating-a-personal-access-token-for-the- command-line. If not provided or not found in the cache (and using --repo), a browser page will be opened to authenticate with Github.

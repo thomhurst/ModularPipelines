@@ -29,8 +29,8 @@ public record AzVmAutoShutdownOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Turn off auto-shutdown for VM. Configuration will be cleared.
@@ -39,7 +39,7 @@ public record AzVmAutoShutdownOptions : AzOptions
     public bool? Off { get; set; }
 
     /// <summary>
-    /// The UTC time of day the schedule will occur every day. Format: hhmm.
+    /// The UTC time of day the schedule will occur every day. Format: hhmm. Example: 1730.
     /// </summary>
     [CliFlag("--time")]
     public bool? Time { get; set; }

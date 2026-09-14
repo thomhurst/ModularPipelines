@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Accepts a transfer request.
 /// </summary>
+/// <param name="TransferName">The ID that uniquely identifies a transfer request.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "transfer", "accept-transfer")]

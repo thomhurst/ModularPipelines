@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Manual platform update domain walk to update virtual machines in a
 /// </summary>
+/// <param name="PlatformUpdateDomain">The platform update domain for which a manual recovery walk is requested.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "update-domain-walk")]

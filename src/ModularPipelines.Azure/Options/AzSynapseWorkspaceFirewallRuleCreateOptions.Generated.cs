@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a firewall rule.
 /// </summary>
+/// <param name="EndIpAddress">The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress.</param>
+/// <param name="Name">The IP firewall rule name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="StartIpAddress">The start IP address of the firewall rule. Must be IPv4 format.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "workspace", "firewall-rule", "create")]

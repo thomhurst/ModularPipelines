@@ -33,7 +33,7 @@ public record AzServicebusNamespacePrivateEndpointConnectionRejectOptions : AzOp
     public string? Id { get; set; }
 
     /// <summary>
-    /// The name of the private endpoint connection associated with the Service
+    /// The name of the private endpoint connection associated with the Service Bus Namespace.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }

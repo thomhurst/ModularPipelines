@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Moves Cache  to another Capacity Pool.
 /// </summary>
+/// <param name="NewPoolResourceId">Resource id of the pool to move volume to.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "cache", "pool-change")]

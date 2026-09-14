@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List the metric values for a resource.
 /// </summary>
+/// <param name="Resource">Name or ID of the target resource.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "metrics", "list")]
@@ -35,10 +36,10 @@ public record AzMonitorMetricsListOptions(
     public IEnumerable<string>? Dimension { get; set; }
 
     /// <summary>
-    /// A string used to reduce the set of metric data returned. eg. "BlobType eq '*'".
+    /// A string used to reduce the set of metric data returned. eg. "BlobType eq '*'". For a full list of filters, see the filter string reference at https://learn.microsoft.com/rest/api/monitor/metrics/list.
     /// </summary>
-    [CliOption("--filter")]
-    public string? Filter { get; set; }
+    [CliOption("--filter", GroupValues = true)]
+    public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>
     /// Returns the metadata values instead of metric data.
@@ -101,13 +102,13 @@ public record AzMonitorMetricsListOptions(
     public bool? EndTime { get; set; }
 
     /// <summary>
-    /// The interval over which to aggregate metrics, in ##h##m format.
+    /// The interval over which to aggregate metrics, in ##h##m format. Default: 1m.
     /// </summary>
     [CliFlag("--interval")]
     public bool? Interval { get; set; }
 
     /// <summary>
-    /// Time offset of the query range, in ##d##h format.  Default: 1h.
+    /// Time offset of the query range, in ##d##h format.  Default: 1h. Can be used with either --start-time or --end-time. If used with --start-time, then the end time will be calculated by adding the offset. If used with --end-time (default), then the start time will be calculated by subtracting the offset. If --start-time and --end-time are provided, then --offset will be ignored.
     /// </summary>
     [CliFlag("--offset")]
     public bool? Offset { get; set; }

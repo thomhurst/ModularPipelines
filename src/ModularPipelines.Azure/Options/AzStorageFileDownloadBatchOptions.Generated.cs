@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Download files from an Azure Storage File Share to a local
 /// </summary>
+/// <param name="Destination">The local directory where the files are downloaded to. This directory must already exist.</param>
+/// <param name="Source">The source of the file download operation. The source can be the file share URL or the share name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "file", "download-batch")]
@@ -24,10 +26,10 @@ public record AzStorageFileDownloadBatchOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided.
+    /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// Required parameter to use with OAuth (Azure AD) Authentication for Files. This will bypass any file/directory level permission checks and allow access, based on the allowed data actions, even if there are ACLs in place for those files/directories.
@@ -54,7 +56,7 @@ public record AzStorageFileDownloadBatchOptions(
     public bool? NoProgress { get; set; }
 
     /// <summary>
-    /// The pattern used for file globbing. The supported patterns are '*', '?', '[seq]', and '[!seq]'. For more information, please refer to https://docs.python.org/3/library /fnmatch.html.
+    /// The pattern used for file globbing. The supported patterns are '*', '?', '[seq]', and '[!seq]'. For more information, please refer to https://docs.python.org/3/library /fnmatch.html. When you use '*' in --pattern, it will match any character including the the directory separator '/'.
     /// </summary>
     [CliFlag("--pattern")]
     public bool? Pattern { get; set; }
@@ -66,7 +68,7 @@ public record AzStorageFileDownloadBatchOptions(
     public string? Snapshot { get; set; }
 
     /// <summary>
-    /// If set, calculates an MD5 hash for each range of the file for validation.
+    /// If set, calculates an MD5 hash for each range of the file for validation. The storage service checks the hash of the content that has arrived is identical to the hash that was sent. This is mostly valuable for detecting bitflips during transfer if using HTTP instead of HTTPS. This hash is not stored.
     /// </summary>
     [CliFlag("--validate-content")]
     public bool? ValidateContent { get; set; }
@@ -78,7 +80,7 @@ public record AzStorageFileDownloadBatchOptions(
     public bool? MaxConnections { get; set; }
 
     /// <summary>
-    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
     [CliFlag("--account-key")]
     public bool? AccountKey { get; set; }
@@ -90,7 +92,7 @@ public record AzStorageFileDownloadBatchOptions(
     public bool? AccountName { get; set; }
 
     /// <summary>
-    /// Storage account connection string.
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }

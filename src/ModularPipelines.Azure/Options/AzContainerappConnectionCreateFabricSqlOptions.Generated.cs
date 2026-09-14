@@ -99,13 +99,13 @@ public record AzContainerappConnectionCreateFabricSqlOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// The resource id of a containerapp. Required if ['--resource-group', '
+    /// The resource id of a containerapp. Required if ['--resource-group', ' --name'] are not specified.
     /// </summary>
     [CliOption("--source-id")]
     public string? SourceId { get; set; }
 
     /// <summary>
-    /// The resource id of target service. Required if ['--fabric-workspace- uuid', '--fabric-sql-db-uuid'] are not specified.
+    /// The resource id of target service. Required if ['--fabric-workspace-uuid', '--fabric-sql-db-uuid'] are not specified.
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; set; }
@@ -117,13 +117,13 @@ public record AzContainerappConnectionCreateFabricSqlOptions : AzOptions
     public string? VaultId { get; set; }
 
     /// <summary>
-    /// The flag to use system assigned identity auth info. No additional parameters are needed.
+    /// The flag to use system assigned identity auth info. No additional parameters are needed. Usage: --system-identity.
     /// </summary>
     [CliFlag("--system-identity")]
     public bool? SystemIdentity { get; set; }
 
     /// <summary>
-    /// The user assigned identity auth info.
+    /// The user assigned identity auth info. Usage: --user-identity client-id=XX subs-id=XX
     /// </summary>
     [CliFlag("--user-identity")]
     public bool? UserIdentity { get; set; }

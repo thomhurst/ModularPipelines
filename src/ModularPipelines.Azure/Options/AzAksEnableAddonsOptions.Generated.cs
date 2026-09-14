@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable Kubernetes addons.
 /// </summary>
+/// <param name="Addons">Enable the Kubernetes addons in a comma-separated list.</param>
+/// <param name="Name">Name of the managed cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "enable-addons")]
@@ -25,13 +28,13 @@ public record AzAksEnableAddonsOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Resource ID of Azure Monitor Private Link scope for
+    /// Resource ID of Azure Monitor Private Link scope for Monitoring Addon.
     /// </summary>
     [CliOption("--ampls-resource-id")]
     public string? AmplsResourceId { get; set; }
 
     /// <summary>
-    /// Path to JSON file containing data collection settings for
+    /// Path to JSON file containing data collection settings for Monitoring addon.
     /// </summary>
     [CliOption("--data-collection-settings")]
     public string? DataCollectionSettings { get; set; }

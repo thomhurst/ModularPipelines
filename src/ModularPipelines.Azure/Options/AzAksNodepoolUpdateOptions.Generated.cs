@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a node pool properties.
 /// </summary>
+/// <param name="ClusterName">The cluster name.</param>
+/// <param name="Name">The node pool name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "nodepool", "update")]
@@ -37,7 +40,7 @@ public record AzAksNodepoolUpdateOptions(
     public IEnumerable<string>? AllowedHostPorts { get; set; }
 
     /// <summary>
-    /// The IDs of the application security groups to which the node pool's network interface should belong. When specified, format should be a space-separated list of
+    /// The IDs of the application security groups to which the node pool's network interface should belong. When specified, format should be a space-separated list of IDs.
     /// </summary>
     [CliOption("--asg-ids", GroupValues = true)]
     public IEnumerable<string>? AsgIds { get; set; }
@@ -109,7 +112,7 @@ public record AzAksNodepoolUpdateOptions(
     public bool? EnableVtpm { get; set; }
 
     /// <summary>
-    /// Whether to install driver for GPU node pool. Possible values are "Install" or "None".  Allowed values: Install,
+    /// Whether to install driver for GPU node pool. Possible values are "Install" or "None".  Allowed values: Install, None.
     /// </summary>
     [CliOption("--gpu-driver")]
     public string? GpuDriver { get; set; }
@@ -139,7 +142,7 @@ public record AzAksNodepoolUpdateOptions(
     public bool? LocaldnsConfig { get; set; }
 
     /// <summary>
-    /// Maximum nodes count used for autoscaler, when "--enable- cluster-autoscaler" specified. Please specify the value in the range of [0, 1000] for user nodepool, and [1,1000] for system nodepool.
+    /// Maximum nodes count used for autoscaler, when "--enable-cluster-autoscaler" specified. Please specify the value in the range of [0, 1000] for user nodepool, and [1,1000] for system nodepool.
     /// </summary>
     [CliFlag("--max-count")]
     public bool? MaxCount { get; set; }
@@ -157,7 +160,7 @@ public record AzAksNodepoolUpdateOptions(
     public bool? MaxUnavailable { get; set; }
 
     /// <summary>
-    /// Minimum nodes count used for autoscaler, when "--enable- cluster-autoscaler" specified. Please specify the value in the range of [0, 1000] for user nodepool, and [1,1000] for system nodepool.
+    /// Minimum nodes count used for autoscaler, when "--enable-cluster-autoscaler" specified. Please specify the value in the range of [0, 1000] for user nodepool, and [1,1000] for system nodepool.
     /// </summary>
     [CliFlag("--min-count")]
     public bool? MinCount { get; set; }
@@ -187,7 +190,7 @@ public record AzAksNodepoolUpdateOptions(
     public bool? NodeTaints { get; set; }
 
     /// <summary>
-    /// The os-sku of the agent node pool.  Allowed values: AzureContainerLinux, AzureLinux, AzureLinux3, Ubuntu,
+    /// The os-sku of the agent node pool.  Allowed values: AzureContainerLinux, AzureLinux, AzureLinux3, Ubuntu, Ubuntu2204, Ubuntu2404.
     /// </summary>
     [CliOption("--os-sku")]
     public string? OsSku { get; set; }

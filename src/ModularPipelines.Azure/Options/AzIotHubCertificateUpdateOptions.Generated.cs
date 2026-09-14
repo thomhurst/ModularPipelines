@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an Azure IoT Hub certificate.
 /// </summary>
+/// <param name="Etag">Entity Tag (etag) of the object.</param>
+/// <param name="Name">A friendly name for the certificate.</param>
+/// <param name="Path">The path to the file containing the certificate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "certificate", "update")]

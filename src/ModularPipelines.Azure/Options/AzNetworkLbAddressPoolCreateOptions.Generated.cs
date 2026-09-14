@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create load balancer backend address pool.
 /// </summary>
+/// <param name="AddressPoolName">The name of the backend address pool.</param>
+/// <param name="LbName">The load balancer name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "address-pool", "create")]
@@ -31,7 +34,7 @@ public record AzNetworkLbAddressPoolCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Default administrative state to backend addresses in `--backend-addresses`.  Allowed values: Down, None,
+    /// Default administrative state to backend addresses in `--backend-addresses`.  Allowed values: Down, None, Up.
     /// </summary>
     [CliOption("--admin-state")]
     public string? AdminState { get; set; }
@@ -51,8 +54,8 @@ public record AzNetworkLbAddressPoolCreateOptions(
     /// <summary>
     /// The location of the backend address pool.
     /// </summary>
-    [CliFlag("--location")]
-    public bool? Location { get; set; }
+    [CliOption("--location")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// An array of gateway load balancer tunnel interfaces. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

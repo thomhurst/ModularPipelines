@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a new Azure Cosmos DB database account.
 /// </summary>
+/// <param name="Name">Name of the Cosmos DB database account.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "create")]
@@ -36,7 +38,7 @@ public record AzCosmosdbCreateOptions(
     public bool? Capabilities { get; set; }
 
     /// <summary>
-    /// Default consistency level of the Cosmos DB database account.  Allowed values:
+    /// Default consistency level of the Cosmos DB database account.  Allowed values: BoundedStaleness, ConsistentPrefix, Eventual, Session, Strong.
     /// </summary>
     [CliOption("--default-consistency-level")]
     public string? DefaultConsistencyLevel { get; set; }
@@ -78,7 +80,7 @@ public record AzCosmosdbCreateOptions(
     public bool? EnableAutomaticFailover { get; set; }
 
     /// <summary>
-    /// Flag to Enable/Disable burst capacity feature. Allowed values: false, true.
+    /// Flag to Enable/Disable burst capacity feature. Allowed values: false, true. Usage:    --enable-burst-capacity true Default:  false The accepted values for the enable-burst-capacity are true and false.
     /// </summary>
     [CliOption("--enable-burst-capacity")]
     public bool? EnableBurstCapacity { get; set; }
@@ -102,7 +104,7 @@ public record AzCosmosdbCreateOptions(
     public bool? EnablePbe { get; set; }
 
     /// <summary>
-    /// Flag to Enable/Disable burst capacity feature. Allowed values: false, true.
+    /// Flag to Enable/Disable burst capacity feature. Allowed values: false, true. Usage:    --enable-prpp-autoscale true Default:  false The accepted values for the --enable-prpp-autoscale are true and false.
     /// </summary>
     [CliOption("--enable-prpp-autoscale")]
     public bool? EnablePrppAutoscale { get; set; }
@@ -126,16 +128,16 @@ public record AzCosmosdbCreateOptions(
     public string? KeyUri { get; set; }
 
     /// <summary>
-    /// The type of Cosmos DB database account to create. Allowed values: GlobalDocumentDB, MongoDB, Parse.
+    /// The type of Cosmos DB database account to create. Allowed values: GlobalDocumentDB, MongoDB, Parse. Default: GlobalDocumentDB.
     /// </summary>
     [CliOption("--kind")]
     public string? Kind { get; set; }
 
     /// <summary>
-    /// Add a location to the Cosmos DB database account.
+    /// Add a location to the Cosmos DB database account. Usage:          --locations KEY=VALUE [KEY=VALUE ...] Required Keys:  regionName, failoverPriority Optional Key:   isZoneRedundant Default:        single region account in the location of the specified resource group. Failover priority values are 0 for write regions and greater than 0 for read regions. A failover priority value must be unique and less than the total number of regions. Multiple locations can be specified by using more than one `--locations` argument.
     /// </summary>
-    [CliFlag("--locations")]
-    public bool? Locations { get; set; }
+    [CliOption("--locations")]
+    public string? Locations { get; set; }
 
     /// <summary>
     /// When used with Bounded Staleness consistency, this value represents the time amount of staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400.  Default: 5.
@@ -150,7 +152,7 @@ public record AzCosmosdbCreateOptions(
     public bool? MaxStalenessPrefix { get; set; }
 
     /// <summary>
-    /// Indicate the minimum allowed TLS version. Allowed values: Tls, Tls11, Tls12.
+    /// Indicate the minimum allowed TLS version. Allowed values: Tls, Tls11, Tls12. Usage:    --minimal-tls-version TLSVersion Default:  Tls, except for Cassandra and Mongo APIs, which only work with Tls12 The accepted values for the minimal TLS version are 'Tls', 'Tls11', and 'Tls12', which correspond to the TLS versions 1.0, 1.1, and 1.2.
     /// </summary>
     [CliOption("--minimal-tls-version")]
     public string? MinimalTlsVersion { get; set; }
@@ -168,7 +170,7 @@ public record AzCosmosdbCreateOptions(
     public IEnumerable<string>? NetworkAclBypassResourceIds { get; set; }
 
     /// <summary>
-    /// Sets public network access in server to either Enabled, Disabled, or SecuredByPerimeter. Allowed values: DISABLED, ENABLED,
+    /// Sets public network access in server to either Enabled, Disabled, or SecuredByPerimeter. Allowed values: DISABLED, ENABLED, SECUREDBYPERIMETER.
     /// </summary>
     [CliOption("--public-network-access", ShortForm = "-p")]
     public string? PublicNetworkAccess { get; set; }
@@ -222,19 +224,19 @@ public record AzCosmosdbCreateOptions(
     public bool? BackupRetention { get; set; }
 
     /// <summary>
-    /// The tier of Continuous backup.  Allowed values:
+    /// The tier of Continuous backup.  Allowed values: Continuous30Days, Continuous7Days.
     /// </summary>
     [CliOption("--continuous-tier")]
     public string? ContinuousTier { get; set; }
 
     /// <summary>
-    /// Add a database and its collection names to restore.
+    /// Add a database and its collection names to restore. Usage:          --databases-to-restore name=DatabaseName collections=collection1 [collection2 ...].
     /// </summary>
     [CliFlag("--databases-to-restore")]
     public bool? DatabasesToRestore { get; set; }
 
     /// <summary>
-    /// Add a gremlin database and its graph names to restore.
+    /// Add a gremlin database and its graph names to restore. Usage:          --gremlin-databases-to-restore name=DatabaseName graphs=graph1 [graph2 ...].
     /// </summary>
     [CliFlag("--gremlin-databases-to-restore")]
     public bool? GremlinDatabasesToRestore { get; set; }
@@ -258,7 +260,7 @@ public record AzCosmosdbCreateOptions(
     public bool? RestoreTimestamp { get; set; }
 
     /// <summary>
-    /// Add table names to restore.
+    /// Add table names to restore. Usage:          --tables-to-restore tables=table1 [table2 ...].
     /// </summary>
     [CliFlag("--tables-to-restore")]
     public bool? TablesToRestore { get; set; }

@@ -27,7 +27,7 @@ public record AzNetworkVirtualApplianceUpdateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -59,8 +59,8 @@ public record AzNetworkVirtualApplianceUpdateOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -81,13 +81,13 @@ public record AzNetworkVirtualApplianceUpdateOptions : AzOptions
     public bool? Asn { get; set; }
 
     /// <summary>
-    /// Space-separated list of
+    /// Space-separated list of BootStrapConfigurationBlobs storage URLs. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--boot-blobs", ShortForm = "--boot-strap-config-blobs", GroupValues = true)]
     public IEnumerable<string>? BootBlobs { get; set; }
 
     /// <summary>
-    /// Space-separated list of
+    /// Space-separated list of CloudInitConfigurationBlob storage URLs. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--cloud-blobs", ShortForm = "--cloud-init-config-blobs", GroupValues = true)]
     public IEnumerable<string>? CloudBlobs { get; set; }
@@ -135,7 +135,7 @@ public record AzNetworkVirtualApplianceUpdateOptions : AzOptions
     public string? Name { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

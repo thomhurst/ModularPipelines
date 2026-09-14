@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all of the maintenances of a flexible server.
 /// </summary>
+/// <param name="ResourceGroup">Resource Group Name of the server.</param>
+/// <param name="ServerName">The name of the server.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "maintenance", "list")]

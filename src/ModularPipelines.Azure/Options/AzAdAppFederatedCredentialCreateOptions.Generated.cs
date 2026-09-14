@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create application federated identity credential.
 /// </summary>
+/// <param name="Id">Application's appId, identifierUri, or id (formerly known as objectId).</param>
+/// <param name="Parameters">Parameters for creating federated identity credential. Should be JSON file path or in-line JSON string. See examples for details.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "federated-credential", "create")]

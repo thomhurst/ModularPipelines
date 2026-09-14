@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an API permission.
 /// </summary>
+/// <param name="Api">RequiredResourceAccess.resourceAppId - The unique identifier for the resource that the application requires access to. This should be equal to the appId declared on the target resource application.</param>
+/// <param name="ApiPermissions">Space-separated list of {id}={type}. {id} is resourceAccess.id - The unique identifier for one of the oauth2PermissionScopes or appRole instances that the resource application exposes. {type} is resourceAccess.type - Specifies whether the id property references an oauth2PermissionScopes or an appRole. The possible values are: Scope (for OAuth 2.0 permission scopes) or Role (for app roles).</param>
+/// <param name="Id">Identifier uri, application id, or object id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "permission", "add")]

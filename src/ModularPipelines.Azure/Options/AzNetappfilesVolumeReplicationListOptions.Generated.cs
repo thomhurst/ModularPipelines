@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all replications for a specified volume.
 /// </summary>
+/// <param name="AccountName">The name of the NetApp account.</param>
+/// <param name="Name">The name of the volume.</param>
+/// <param name="PoolName">The name of the capacity pool.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume", "replication", "list")]
@@ -26,7 +30,7 @@ public record AzNetappfilesVolumeReplicationListOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Exclude Replications filter. 'None' returns all replications, 'Deleted' excludes deleted replications. Default is 'None'.  Allowed values: Deleted, None.
+    /// Exclude Replications filter. 'None' returns all replications, 'Deleted' excludes deleted replications. Default is 'None'.  Allowed values: Deleted, None. Default: None.
     /// </summary>
     [CliOption("--exclude")]
     public string? Exclude { get; set; }

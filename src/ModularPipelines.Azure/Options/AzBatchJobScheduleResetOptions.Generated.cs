@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Reset the properties of a job schedule.  An updated job
 /// </summary>
+/// <param name="JobScheduleId">The ID of the Job Schedule to update. Required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "job-schedule", "reset")]
@@ -23,19 +24,19 @@ public record AzBatchJobScheduleResetOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// A file containing the job schedule specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Job Schedule
+    /// A file containing the job schedule specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Job Schedule Arguments' are ignored.
     /// </summary>
-    [CliFlag("--json-file")]
-    public bool? JsonFile { get; set; }
+    [CliOption("--json-file")]
+    public string? JsonFile { get; set; }
 
     /// <summary>
-    /// Batch service endpoint. Alternatively, set
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>
     [CliOption("--account-endpoint")]
     public string? AccountEndpoint { get; set; }
 
     /// <summary>
-    /// Batch account key. Alternatively, set by
+    /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
     /// </summary>
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }
@@ -77,7 +78,7 @@ public record AzBatchJobScheduleResetOptions(
     public bool? OnAllTasksComplete { get; set; }
 
     /// <summary>
-    /// The priority of Jobs created under this schedule. Priority values can range from
+    /// The priority of Jobs created under this schedule. Priority values can range from -1000 to 1000, with -1000 being the lowest priority and 1000 being the highest priority. The default value is 0. This priority is used as the default for all Jobs under the Job Schedule. You can update a Job's priority after it has been created using by using the update Job API.
     /// </summary>
     [CliFlag("--priority")]
     public bool? Priority { get; set; }
@@ -95,7 +96,7 @@ public record AzBatchJobScheduleResetOptions(
     public bool? JobMaxTaskRetryCount { get; set; }
 
     /// <summary>
-    /// The maximum elapsed time that the Job may run, measured from the time the Job is created. If the Job does not complete within the time limit, the Batch service terminates it and any Tasks that are still running. In this case, the termination reason will be MaxWallClockTimeExpiry. If this property is not specified, there is no time limit on how long the Job may run. Expected format is an
+    /// The maximum elapsed time that the Job may run, measured from the time the Job is created. If the Job does not complete within the time limit, the Batch service terminates it and any Tasks that are still running. In this case, the termination reason will be MaxWallClockTimeExpiry. If this property is not specified, there is no time limit on how long the Job may run. Expected format is an ISO-8601 duration.
     /// </summary>
     [CliFlag("--job-max-wall-clock-time")]
     public bool? JobMaxWallClockTime { get; set; }
@@ -109,8 +110,8 @@ public record AzBatchJobScheduleResetOptions(
     /// <summary>
     /// The command line of the Job Manager Task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en- us/azure/batch/batch-compute-node- environment-variables). Required.
     /// </summary>
-    [CliFlag("--job-manager-task-command-line")]
-    public bool? JobManagerTaskCommandLine { get; set; }
+    [CliOption("--job-manager-task-command-line")]
+    public string? JobManagerTaskCommandLine { get; set; }
 
     /// <summary>
     /// A list of environment variable settings for the Job Manager Task. Space-separated values in 'key=value' format.
@@ -119,13 +120,13 @@ public record AzBatchJobScheduleResetOptions(
     public IEnumerable<string>? JobManagerTaskEnvironmentSettings { get; set; }
 
     /// <summary>
-    /// A string that uniquely identifies the Job Manager Task within the Job. The ID can contain any combination of alphanumeric characters including hyphens and underscores and cannot contain more than 64 characters.
+    /// A string that uniquely identifies the Job Manager Task within the Job. The ID can contain any combination of alphanumeric characters including hyphens and underscores and cannot contain more than 64 characters. Required.
     /// </summary>
     [CliOption("--job-manager-task-id")]
     public string? JobManagerTaskId { get; set; }
 
     /// <summary>
-    /// A list of files that the Batch service will download to the Compute Node before running the command line. Files listed under this element are located in the Task's working directory. There is a maximum size for the list of resource files.  When the max size is exceeded, the request will fail and the response error code will be RequestEntityTooLarge. If this occurs, the collection of ResourceFiles must be reduced in size. This can be achieved using .zip files, Application Packages, or Docker
+    /// A list of files that the Batch service will download to the Compute Node before running the command line. Files listed under this element are located in the Task's working directory. There is a maximum size for the list of resource files.  When the max size is exceeded, the request will fail and the response error code will be RequestEntityTooLarge. If this occurs, the collection of ResourceFiles must be reduced in size. This can be achieved using .zip files, Application Packages, or Docker Containers. Space-separated resource references in filename=httpurl format.
     /// </summary>
     [CliOption("--job-manager-task-resource-files", GroupValues = true)]
     public IEnumerable<string>? JobManagerTaskResourceFiles { get; set; }
@@ -155,7 +156,7 @@ public record AzBatchJobScheduleResetOptions(
     public bool? DoNotRunUntil { get; set; }
 
     /// <summary>
-    /// The time interval between the start times of two successive Jobs under the Job Schedule. A Job Schedule can have at most one active Job under it at any given time. Because a Job Schedule can have at most one active Job under it at any given time, if it is time to create a new Job under a Job Schedule, but the previous Job is still running, the Batch service will not create the new Job until the previous Job finishes. If the previous Job does not finish within the startWindow period of the new recurrenceInterval, then no new Job will be scheduled for that interval. For recurring Jobs, you should normally specify a jobManagerTask in the jobSpecification. If you do not use jobManagerTask, you will need an external process to monitor when Jobs are created, add Tasks to the Jobs and terminate the Jobs ready for the next recurrence. The default is that the schedule does not recur: one Job is created, within the startWindow after the doNotRunUntil time, and the schedule is complete as soon as that Job finishes. The minimum value is 1 minute. If you specify a lower value, the Batch service rejects the schedule with an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). Expected format is an
+    /// The time interval between the start times of two successive Jobs under the Job Schedule. A Job Schedule can have at most one active Job under it at any given time. Because a Job Schedule can have at most one active Job under it at any given time, if it is time to create a new Job under a Job Schedule, but the previous Job is still running, the Batch service will not create the new Job until the previous Job finishes. If the previous Job does not finish within the startWindow period of the new recurrenceInterval, then no new Job will be scheduled for that interval. For recurring Jobs, you should normally specify a jobManagerTask in the jobSpecification. If you do not use jobManagerTask, you will need an external process to monitor when Jobs are created, add Tasks to the Jobs and terminate the Jobs ready for the next recurrence. The default is that the schedule does not recur: one Job is created, within the startWindow after the doNotRunUntil time, and the schedule is complete as soon as that Job finishes. The minimum value is 1 minute. If you specify a lower value, the Batch service rejects the schedule with an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). Expected format is an ISO-8601 duration.
     /// </summary>
     [CliFlag("--recurrence-interval")]
     public bool? RecurrenceInterval { get; set; }

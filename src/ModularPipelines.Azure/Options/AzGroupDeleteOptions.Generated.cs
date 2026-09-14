@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete a resource group.
 /// </summary>
+/// <param name="Name">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("group", "delete")]
@@ -23,7 +24,7 @@ public record AzGroupDeleteOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// The resource types you want to force delete.  Allowed values: Microsoft.Compute/virtualMachineScaleSets,
+    /// The resource types you want to force delete.  Allowed values: Microsoft.Compute/virtualMachineScaleSets, Microsoft.Compute/virtualMachines, Microsoft.Databricks/workspaces.
     /// </summary>
     [CliOption("--force-deletion-types", ShortForm = "-f")]
     public string? ForceDeletionTypes { get; set; }

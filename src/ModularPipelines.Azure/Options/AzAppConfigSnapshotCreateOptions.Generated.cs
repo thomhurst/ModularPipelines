@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an app configuration snapshot.
 /// </summary>
+/// <param name="Filters">Space-separated list of escaped JSON objects that represent the key, label and tag filters used to build an App Configuration snapshot.</param>
+/// <param name="SnapshotName">Name of the App Configuration snapshot.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appconfig", "snapshot", "create")]

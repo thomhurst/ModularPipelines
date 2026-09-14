@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a topic in the specified namespace.
 /// </summary>
+/// <param name="Name">The topic name.</param>
+/// <param name="NamespaceName">The namespace name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "topic", "create")]
@@ -85,7 +88,7 @@ public record AzServicebusTopicCreateOptions(
     public bool? MaxSize { get; set; }
 
     /// <summary>
-    /// Enumerates the possible values for the status of a messaging entity.  Allowed values: Active, Creating, Deleting,
+    /// Enumerates the possible values for the status of a messaging entity.  Allowed values: Active, Creating, Deleting, Disabled, ReceiveDisabled, Renaming, Restoring, SendDisabled, Unknown.
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; set; }

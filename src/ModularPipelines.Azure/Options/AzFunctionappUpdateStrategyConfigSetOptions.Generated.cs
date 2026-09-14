@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set or update a function app's update strategy
 /// </summary>
+/// <param name="Type">The update strategy type. Allowed values: Recreate, RollingUpdate. Allowed values: Recreate, RollingUpdate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "update-strategy", "config", "set")]

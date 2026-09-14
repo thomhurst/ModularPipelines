@@ -22,7 +22,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzWebappAuthUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Allowed values: AllowAnonymous,
+    /// Allowed values: AllowAnonymous, LoginWithAzureActiveDirectory, LoginWithFacebook, LoginWithGoogle, LoginWithMicrosoftAccount, LoginWithTwitter.
     /// </summary>
     [CliOption("--action")]
     public string? Action { get; set; }
@@ -40,7 +40,7 @@ public record AzWebappAuthUpdateOptions : AzOptions
     public bool? Enabled { get; set; }
 
     /// <summary>
-    /// Runtime version of the
+    /// Runtime version of the Authentication/Authorization feature in use for the current app.
     /// </summary>
     [CliFlag("--runtime-version")]
     public bool? RuntimeVersion { get; set; }

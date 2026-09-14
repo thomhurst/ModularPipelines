@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a gallery in VM access control
 /// </summary>
+/// <param name="GalleryName">The name of the Shared Image Gallery in which the in VM access control profile resides.</param>
+/// <param name="ProfileName">The name of the gallery in VM access control profile in which the in VM access control profile version is to be created.</param>
+/// <param name="ProfileVersion">The name of the gallery in VM access control profile version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: MajorVersion.MinorVersion.Patch.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="DefaultAccess">This property allows you to specify if the requests will be allowed to access the host endpoints. Possible values are: 'Allow', 'Deny'. Allowed values: Allow, Deny.</param>
+/// <param name="Mode">This property allows you to specify whether the access control rules are in Audit mode, in Enforce mode or Disabled. Possible values are: 'Audit', 'Enforce' or 'Disabled'.  Allowed values: Audit, Disabled, Enforce.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "in-vm-access-control-profile-version", "create")]

@@ -108,8 +108,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Whether Microsoft Entra authentication is enabled.  Allowed values: Disabled, Enabled.  Default: Disabled.
@@ -173,7 +173,7 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     public bool? StandbyZone { get; set; }
 
     /// <summary>
-    /// Enable or disable autogrow of the storage. Default value is Disabled.  Allowed values: Disabled, Enabled.  Default:
+    /// Enable or disable autogrow of the storage. Default value is Disabled.  Allowed values: Disabled, Enabled.  Default: Disabled.
     /// </summary>
     [CliOption("--storage-auto-grow")]
     public string? StorageAutoGrow { get; set; }
@@ -185,7 +185,7 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     public bool? StorageSize { get; set; }
 
     /// <summary>
-    /// Storage type for the server. Allowed values are Premium_LRS and PremiumV2_LRS. Default value is Premium_LRS. Must set
+    /// Storage type for the server. Allowed values are Premium_LRS and PremiumV2_LRS. Default value is Premium_LRS. Must set --iops and --throughput if using PremiumV2_LRS.  Allowed values: PremiumV2_LRS, Premium_LRS.
     /// </summary>
     [CliOption("--storage-type")]
     public string? StorageType { get; set; }
@@ -203,7 +203,7 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Storage throughput in (MB/sec) for the server. This value can only be updated if flexible server is using Premium SSD v2
+    /// Storage throughput in (MB/sec) for the server. This value can only be updated if flexible server is using Premium SSD v2 Disks.
     /// </summary>
     [CliFlag("--throughput")]
     public bool? Throughput { get; set; }
@@ -251,7 +251,7 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     public bool? AdminPassword { get; set; }
 
     /// <summary>
-    /// Administrator username for the server. Once set, it cannot be changed.  Default: dimhinds8.
+    /// Administrator username for the server. Once set, it cannot be changed.  Default: pleasedsnipe7.
     /// </summary>
     [CliFlag("--admin-user", ShortForm = "-u")]
     public bool? AdminUser { get; set; }

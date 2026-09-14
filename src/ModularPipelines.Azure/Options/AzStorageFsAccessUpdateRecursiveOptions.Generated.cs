@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Modify the Access Control on a path and sub-paths in
 /// </summary>
+/// <param name="Acl">The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]".  For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data- lake-storage-access-control.</param>
+/// <param name="FileSystem">File system name (i.e. container name).</param>
+/// <param name="Path">The path to a file or directory in the specified file system.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "access", "update-recursive")]
@@ -43,9 +46,9 @@ public record AzStorageFsAccessUpdateRecursiveOptions(
     public bool? Continuation { get; set; }
 
     /// <summary>
-    /// If set to False, the operation will terminate quickly on encountering user errors (4XX). If True, the operation will ignore user errors and proceed with the operation on other sub-entities of the directory. Continuation token will only be returned when
+    /// If set to False, the operation will terminate quickly on encountering user errors (4XX). If True, the operation will ignore user errors and proceed with the operation on other sub-entities of the directory. Continuation token will only be returned when --continue-on-failure is True in case of user errors. If not set the default value is False for this.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--continue-on-failure")]
+    [CliOption("--continue-on-failure")]
     public bool? ContinueOnFailure { get; set; }
 
     /// <summary>
@@ -61,7 +64,7 @@ public record AzStorageFsAccessUpdateRecursiveOptions(
     public bool? Timeout { get; set; }
 
     /// <summary>
-    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
     [CliFlag("--account-key")]
     public bool? AccountKey { get; set; }
@@ -79,13 +82,13 @@ public record AzStorageFsAccessUpdateRecursiveOptions(
     public bool? BlobEndpoint { get; set; }
 
     /// <summary>
-    /// Storage account connection string. Environment variable:
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }
 
     /// <summary>
-    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
     [CliFlag("--sas-token")]
     public bool? SasToken { get; set; }

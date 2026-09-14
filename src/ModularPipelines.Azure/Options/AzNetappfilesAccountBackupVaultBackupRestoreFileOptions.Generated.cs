@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore the specified files from the
 /// </summary>
+/// <param name="DestinationVolumeId">Resource Id of the destination volume on which the files need to be restored.</param>
+/// <param name="FileList">List of files to be restored  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "account", "backup-vault", "backup", "restore-file")]

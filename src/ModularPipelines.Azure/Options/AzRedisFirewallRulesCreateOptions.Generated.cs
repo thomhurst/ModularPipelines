@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a redis cache firewall rule.
 /// </summary>
+/// <param name="EndIp">Highest IP address included in the range.</param>
+/// <param name="Name">Name of the Redis cache.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="RuleName">The name of the firewall rule.</param>
+/// <param name="StartIp">Lowest IP address included in the range.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "firewall-rules", "create")]

@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new link between resources.
 /// </summary>
+/// <param name="Link">Fully-qualified resource ID of the resource link. Format: /subscriptions/{SubID}/resourceGroups/{ResourceGroupID}/providers/{ProviderNamespace }/{ResourceType}/{ResourceName}/providers/Microsoft.Resources/links/{LinkName}.</param>
+/// <param name="Target">Fully-qualified resource ID of the resource link target.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource", "link", "create")]

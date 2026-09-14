@@ -75,7 +75,7 @@ public record AzAppservicePlanUpdateOptions : AzOptions
     public string? RegistryAdapter { get; set; }
 
     /// <summary>
-    /// SKU of the app service plan. Use this to scale up/down (change machine size), e.g. --sku P1v3.  Allowed values: B1, B2, B3, D1, F1, FREE, I1MV2, I1MV4, I1V2, I1V4, I2MV2, I2MV4, I2V2, I2V4, I3MV2, I3MV4, I3V2, I3V4, I4MV2, I4MV4, I4V2, I4V4, I5MV2, I5MV4, I5V2, I5V4, I6V2, I6V4, P0V3, P0V4, P1MV3, P1MV4, P1V2, P1V3, P1V4, P2MV3, P2MV4, P2V2, P2V3, P2V4, P3MV3, P3MV4, P3V2, P3V3, P3V4, P4MV3, P4MV4, P5MV3, P5MV4, S1, S2, S3, SHARED, WS1,
+    /// SKU of the app service plan. Use this to scale up/down (change machine size), e.g. --sku P1v3.  Allowed values: B1, B2, B3, D1, F1, FREE, I1MV2, I1MV4, I1V2, I1V4, I2MV2, I2MV4, I2V2, I2V4, I3MV2, I3MV4, I3V2, I3V4, I4MV2, I4MV4, I4V2, I4V4, I5MV2, I5MV4, I5V2, I5V4, I6V2, I6V4, P0V3, P0V4, P1MV3, P1MV4, P1V2, P1V3, P1V4, P2MV3, P2MV4, P2V2, P2V3, P2V4, P3MV3, P3MV4, P3V2, P3V3, P3V4, P4MV3, P4MV4, P5MV3, P5MV4, S1, S2, S3, SHARED, WS1, WS2, WS3.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }
@@ -117,13 +117,13 @@ public record AzAppservicePlanUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

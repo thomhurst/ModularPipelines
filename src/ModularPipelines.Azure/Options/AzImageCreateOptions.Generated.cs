@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a custom Virtual Machine Image from managed disks or snapshots.
 /// </summary>
+/// <param name="Name">New image name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Source">OS disk source from the same region, including a virtual machine ID or name, OS disk blob URI, managed OS disk ID or name, or OS snapshot ID or name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "create")]
@@ -51,11 +54,11 @@ public record AzImageCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
-    /// Storage caching type for the image's OS disk.  Allowed values:
+    /// Storage caching type for the image's OS disk.  Allowed values: None, ReadOnly, ReadWrite.
     /// </summary>
     [CliOption("--os-disk-caching")]
     public string? OsDiskCaching { get; set; }
@@ -67,7 +70,7 @@ public record AzImageCreateOptions(
     public string? OsType { get; set; }
 
     /// <summary>
-    /// The SKU of the storage account with which to create the VM image. Unused if source VM is specified.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS,
+    /// The SKU of the storage account with which to create the VM image. Unused if source VM is specified.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS, UltraSSD_LRS.
     /// </summary>
     [CliOption("--storage-sku")]
     public string? StorageSku { get; set; }

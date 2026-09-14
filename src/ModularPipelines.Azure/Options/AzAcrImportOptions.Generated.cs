@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Imports an image to an Azure Container Registry from another Container Registry.
 /// </summary>
+/// <param name="Name">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
+/// <param name="Source">Source image name or fully qualified source containing the registry login server. If `--registry` is used, `--source` will always be interpreted as a source image, even if it contains the login server.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "import")]
@@ -33,7 +35,7 @@ public record AzAcrImportOptions(
     /// The name and tag of the image using the format: '-t repo/image:tag'. Multiple tags are supported by passing -t multiple times.
     /// </summary>
     [CliOption("--image", ShortForm = "-t")]
-    public string? Image { get; set; }
+    public IEnumerable<string>? Image { get; set; }
 
     /// <summary>
     /// Do not wait for the import to complete and return immediately after queuing the import.
@@ -56,8 +58,8 @@ public record AzAcrImportOptions(
     /// <summary>
     /// The repository name for a manifest-only copy of images. Multiple copies supported by passing --repository multiple times.
     /// </summary>
-    [CliFlag("--repository")]
-    public bool? Repository { get; set; }
+    [CliOption("--repository")]
+    public IEnumerable<string>? Repository { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

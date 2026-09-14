@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets an availability group listener.
 /// </summary>
+/// <param name="GroupName">Name of the SQL virtual machine group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "vm", "group", "ag-listener", "show")]
@@ -23,7 +24,7 @@ public record AzSqlVmGroupAgListenerShowOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Get the SQLIaaSExtension configuration settings. To view all settings, use *. To select only a few, the settings must be space- separated.  Allowed values: *, AssessmentSettings,
+    /// Get the SQLIaaSExtension configuration settings. To view all settings, use *. To select only a few, the settings must be space- separated.  Allowed values: *, AssessmentSettings, AutoBackupSettings, AutoPatchingSettings, KeyVaultCredentialSettings, ServerConfigurationsManagementSettings.
     /// </summary>
     [CliOption("--expand")]
     public string? Expand { get; set; }

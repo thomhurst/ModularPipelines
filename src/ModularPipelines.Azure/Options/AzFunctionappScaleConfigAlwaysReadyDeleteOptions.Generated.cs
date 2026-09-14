@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Delete always-ready settings in the scale
 /// </summary>
+/// <param name="SettingNames">Space-separated always-ready setting names.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "scale", "config", "always-ready", "delete")]

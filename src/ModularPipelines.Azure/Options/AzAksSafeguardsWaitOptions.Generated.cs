@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzAksSafeguardsWaitOptions : AzOptions
 {
     /// <summary>
-    /// The fully qualified Azure Resource manager identifier of the
+    /// The fully qualified Azure Resource manager identifier of the Managed Cluster.
     /// </summary>
     [CliFlag("--cluster", ShortForm = "-c")]
     public bool? Cluster { get; set; }
@@ -45,7 +45,7 @@ public record AzAksSafeguardsWaitOptions : AzOptions
     public bool? Created { get; set; }
 
     /// <summary>
-    /// Wait until the condition satisfies a custom JMESPath query.
+    /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instanceView.statuses[?code=='PowerState/running'].
     /// </summary>
     [CliFlag("--custom")]
     public bool? Custom { get; set; }

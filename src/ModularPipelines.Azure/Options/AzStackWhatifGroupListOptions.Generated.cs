@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all deployment stack what-if results in a resource group.
 /// </summary>
+/// <param name="ResourceGroup">The resource group where the deployment stack what-if result exists.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack-whatif", "group", "list")]

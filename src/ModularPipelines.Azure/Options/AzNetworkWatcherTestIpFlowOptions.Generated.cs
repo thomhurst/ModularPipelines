@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Test IP flow to/from a VM given the currently configured
 /// </summary>
+/// <param name="Direction">Direction of the packet relative to the VM.  Allowed values: Inbound, Outbound.</param>
+/// <param name="Local">Private IPv4 address for the VMs NIC and the port of the packet in X.X.X.X:PORT format. `*` can be used for port when direction is outbound.</param>
+/// <param name="Protocol">Protocol to test.  Allowed values: TCP, UDP.</param>
+/// <param name="Remote">IPv4 address and port for the remote side of the packet X.X.X.X:PORT format. `*` can be used for port when the direction is inbound.</param>
+/// <param name="Vm">Name or ID of the VM to target. If the name of the VM is provided, the `--resource-group` is required.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "test-ip-flow")]

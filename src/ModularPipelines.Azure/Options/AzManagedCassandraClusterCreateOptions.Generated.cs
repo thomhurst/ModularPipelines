@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Managed Cassandra Cluster.
 /// </summary>
+/// <param name="ClusterName">Cluster Name.</param>
+/// <param name="DelegatedManagementSubnetId">The resource id of a subnet where the ip address of the cassandra management server will be allocated. This subnet must have connectivity to the delegated_subnet_id subnet of each data center.</param>
+/// <param name="Location">Azure Location of the Cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managed-cassandra", "cluster", "create")]
@@ -26,7 +30,7 @@ public record AzManagedCassandraClusterCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Authentication mode can be None or Cassandra. If None, no authentication will be required to connect to the Cassandra API. If Cassandra, then passwords will be used.  Allowed values:
+    /// Authentication mode can be None or Cassandra. If None, no authentication will be required to connect to the Cassandra API. If Cassandra, then passwords will be used.  Allowed values: Cassandra, None.
     /// </summary>
     [CliOption("--authentication-method")]
     public string? AuthenticationMethod { get; set; }
@@ -68,13 +72,13 @@ public record AzManagedCassandraClusterCreateOptions(
     public bool? HoursBetweenBackups { get; set; }
 
     /// <summary>
-    /// Type of identity used for Customer Managed Disk Key.  Allowed values: None, SystemAssigned.
+    /// Type of identity used for Customer Managed Disk Key.  Allowed values: None, SystemAssigned. Default: None.
     /// </summary>
     [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
     /// <summary>
-    /// The intial password to be configured when a cluster is created for authentication_method
+    /// The intial password to be configured when a cluster is created for authentication_method Cassandra.
     /// </summary>
     [CliFlag("--initial-cassandra-admin-password", ShortForm = "-i")]
     public bool? InitialCassandraAdminPassword { get; set; }

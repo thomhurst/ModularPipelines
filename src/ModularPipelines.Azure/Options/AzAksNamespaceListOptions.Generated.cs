@@ -23,8 +23,8 @@ public record AzAksNamespaceListOptions : AzOptions
     /// <summary>
     /// The cluster name.
     /// </summary>
-    [CliFlag("--cluster-name")]
-    public bool? ClusterName { get; set; }
+    [CliOption("--cluster-name")]
+    public string? ClusterName { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

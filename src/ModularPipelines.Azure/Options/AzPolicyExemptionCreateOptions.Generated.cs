@@ -57,7 +57,7 @@ public record AzPolicyExemptionCreateOptions : AzOptions
     public bool? DisplayName { get; set; }
 
     /// <summary>
-    /// The policy exemption category.  Allowed values:
+    /// The policy exemption category.  Allowed values: Mitigated, Waiver.
     /// </summary>
     [CliOption("--exemption-category", ShortForm = "-e")]
     public string? ExemptionCategory { get; set; }

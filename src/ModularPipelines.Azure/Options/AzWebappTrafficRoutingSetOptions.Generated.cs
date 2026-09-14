@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Configure routing traffic to deployment slots.
 /// </summary>
+/// <param name="Distribution">Space-separated slot routings in a format of `&lt;slot- name&gt;=&lt;percentage&gt;` e.g. staging=50. Unused traffic percentage will go to the Production slot.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "traffic-routing", "set")]
@@ -29,7 +30,7 @@ public record AzWebappTrafficRoutingSetOptions(
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure
+    /// Name of the web app. If left unspecified, a name will be randomly generated. You can configure the default using `az configure --defaults web=&lt;name&gt;`.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }

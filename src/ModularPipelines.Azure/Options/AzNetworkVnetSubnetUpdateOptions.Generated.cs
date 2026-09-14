@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzNetworkVnetSubnetUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Space-separated list of address prefixes in CIDR format.
+    /// Space-separated list of address prefixes in CIDR format. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--address-prefixes", GroupValues = true)]
     public IEnumerable<string>? AddressPrefixes { get; set; }
@@ -33,31 +33,31 @@ public record AzNetworkVnetSubnetUpdateOptions : AzOptions
     public bool? DefaultOutbound { get; set; }
 
     /// <summary>
-    /// Space-separated list of services to whom the subnet should be delegated, e.g.,
+    /// Space-separated list of services to whom the subnet should be delegated, e.g., Microsoft.Sql/servers.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--delegations", GroupValues = true)]
     public IEnumerable<string>? Delegations { get; set; }
 
     /// <summary>
-    /// Disable private endpoint network policies on the subnet. Please note that it will be replaced by `--private- endpoint-network-policies` soon.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Disable private endpoint network policies on the subnet. Please note that it will be replaced by `--private-endpoint-network-policies` soon.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--disable-private-endpoint-network-policies")]
     public bool? DisablePrivateEndpointNetworkPolicies { get; set; }
 
     /// <summary>
-    /// Disable private link service network policies on the subnet. Please note that it will be replaced by `--private-link- service-network-policies` soon. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Disable private link service network policies on the subnet. Please note that it will be replaced by `--private-link-service-network-policies` soon. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--disable-private-link-service-network-policies")]
     public bool? DisablePrivateLinkServiceNetworkPolicies { get; set; }
 
     /// <summary>
-    /// An array of service endpoints.
+    /// An array of service endpoints. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--endpoints")]
     public IEnumerable<string>? Endpoints { get; set; }
 
     /// <summary>
-    /// A list of IPAM Pools for allocating IP address prefixes. A list of IPAM Pools allocating IP address prefixes. If a non- empty value is provided,
+    /// A list of IPAM Pools for allocating IP address prefixes. A list of IPAM Pools allocating IP address prefixes. If a non- empty value is provided, --address-prefixes would be ignored by CLI.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--ipam-allocations", ShortForm = "--ipam-pool-prefix-allocations", GroupValues = true)]
     public IEnumerable<string>? IpamAllocations { get; set; }
@@ -81,7 +81,7 @@ public record AzNetworkVnetSubnetUpdateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Manage network policy for private endpoint.  Allowed values: Disabled, Enabled,
+    /// Manage network policy for private endpoint.  Allowed values: Disabled, Enabled, NetworkSecurityGroupEnabled, RouteTableEnabled.
     /// </summary>
     [CliOption("--ple-network-policies", ShortForm = "--private-endpoint-network-policies")]
     public string? PleNetworkPolicies { get; set; }
@@ -111,7 +111,7 @@ public record AzNetworkVnetSubnetUpdateOptions : AzOptions
     public IEnumerable<string>? ServiceEndpoints { get; set; }
 
     /// <summary>
-    /// Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty.  Allowed values: DelegatedServices,
+    /// Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty.  Allowed values: DelegatedServices, Tenant.
     /// </summary>
     [CliOption("--sharing-scope")]
     public string? SharingScope { get; set; }

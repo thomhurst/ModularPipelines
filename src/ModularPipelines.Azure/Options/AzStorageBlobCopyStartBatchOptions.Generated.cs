@@ -51,7 +51,7 @@ public record AzStorageBlobCopyStartBatchOptions : AzOptions
     public bool? Dryrun { get; set; }
 
     /// <summary>
-    /// The pattern used for globbing files or blobs in the source. The supported patterns are '*', '?', '[seq]', and '[!seq]'. For more information, please refer to https://docs.python.org/3/library/fnmatch.html.
+    /// The pattern used for globbing files or blobs in the source. The supported patterns are '*', '?', '[seq]', and '[!seq]'. For more information, please refer to https://docs.python.org/3/library/fnmatch.html. When you use '*' in --pattern, it will match any character including the the directory separator '/'.
     /// </summary>
     [CliFlag("--pattern")]
     public bool? Pattern { get; set; }
@@ -99,13 +99,13 @@ public record AzStorageBlobCopyStartBatchOptions : AzOptions
     public string? SourceShare { get; set; }
 
     /// <summary>
-    /// A URI specifying a file share or blob container from which the files or blobs are copied.
+    /// A URI specifying a file share or blob container from which the files or blobs are copied. If the source is in another account, the source must either be public or be authenticated by using a shared access signature.
     /// </summary>
     [CliOption("--source-uri")]
     public string? SourceUri { get; set; }
 
     /// <summary>
-    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
     [CliFlag("--account-key")]
     public bool? AccountKey { get; set; }
@@ -123,13 +123,13 @@ public record AzStorageBlobCopyStartBatchOptions : AzOptions
     public bool? BlobEndpoint { get; set; }
 
     /// <summary>
-    /// Storage account connection string. Environment variable:
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }
 
     /// <summary>
-    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
     [CliFlag("--sas-token")]
     public bool? SasToken { get; set; }

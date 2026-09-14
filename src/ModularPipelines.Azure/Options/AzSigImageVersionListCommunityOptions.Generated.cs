@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List VM Image Versions in a gallery community.
 /// </summary>
+/// <param name="GalleryImageDefinition">The name of the community gallery image definition from which the image versions are to be listed.</param>
+/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+/// <param name="PublicGalleryName">The public name of the community gallery.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "image-version", "list-community")]

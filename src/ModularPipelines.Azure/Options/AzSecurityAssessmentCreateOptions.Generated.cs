@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a customer managed security assessment.
 /// </summary>
+/// <param name="Name">Name of the resource to be fetched.</param>
+/// <param name="StatusCode">Programmatic code for the result of the assessment. can be "Healthy", "Unhealthy" or "NotApplicable".</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "assessment", "create")]

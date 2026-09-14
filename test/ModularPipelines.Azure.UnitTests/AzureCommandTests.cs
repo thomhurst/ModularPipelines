@@ -57,7 +57,7 @@ public class AzureCommandTests : TestBase
     {
         var arguments = BuildArguments(new AzSynapseSparkJobSubmitOptions(
             ExecutorSize: "Small",
-            Executors: "1",
+            Executors: 1,
             MainDefinitionFile: "main.py",
             Name: "job",
             SparkPoolName: "pool",

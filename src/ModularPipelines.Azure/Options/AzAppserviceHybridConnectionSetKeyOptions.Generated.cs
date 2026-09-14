@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the key that all apps in an appservice plan use to
 /// </summary>
+/// <param name="HybridConnection">Hybrid connection name.</param>
+/// <param name="KeyType">Which key (primary or secondary) should be used.</param>
+/// <param name="Namespace">Hybrid connection namespace.</param>
+/// <param name="Plan">AppService plan.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "hybrid-connection", "set-key")]

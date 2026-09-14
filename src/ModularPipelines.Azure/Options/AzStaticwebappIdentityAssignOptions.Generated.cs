@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Assign managed identity to the static web app.
 /// </summary>
+/// <param name="Name">Name of the static site.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "identity", "assign")]
@@ -30,7 +32,7 @@ public record AzStaticwebappIdentityAssignOptions(
     public IEnumerable<string>? Identities { get; set; }
 
     /// <summary>
-    /// Role name or id the managed identity will be assigned.
+    /// Role name or id the managed identity will be assigned. Default: Contributor.
     /// </summary>
     [CliFlag("--role")]
     public bool? Role { get; set; }

@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restart the specific hosts of the specified HDInsight cluster.
 /// </summary>
+/// <param name="ClusterName">The name of the cluster.</param>
+/// <param name="HostNames">A space-delimited list of host names that need to be restarted.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "host", "restart")]

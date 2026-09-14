@@ -51,7 +51,7 @@ public record AzMonitorLogAnalyticsWorkspaceLinkedServiceWaitOptions : AzOptions
     public bool? Created { get; set; }
 
     /// <summary>
-    /// Wait until the condition satisfies a custom JMESPath query.
+    /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instanceView.statuses[?code=='PowerState/running'].
     /// </summary>
     [CliFlag("--custom")]
     public bool? Custom { get; set; }

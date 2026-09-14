@@ -23,14 +23,14 @@ public record AzEventhubsEventhubConsumerGroupDeleteOptions : AzOptions
     /// <summary>
     /// The consumer group name.
     /// </summary>
-    [CliFlag("--consumer-group-name", ShortForm = "-n")]
-    public bool? ConsumerGroupName { get; set; }
+    [CliOption("--consumer-group-name", ShortForm = "-n")]
+    public string? ConsumerGroupName { get; set; }
 
     /// <summary>
     /// The Event Hub name.
     /// </summary>
-    [CliFlag("--eventhub-name")]
-    public bool? EventhubName { get; set; }
+    [CliOption("--eventhub-name")]
+    public string? EventhubName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -41,8 +41,8 @@ public record AzEventhubsEventhubConsumerGroupDeleteOptions : AzOptions
     /// <summary>
     /// The Namespace name.
     /// </summary>
-    [CliFlag("--namespace-name")]
-    public bool? NamespaceName { get; set; }
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

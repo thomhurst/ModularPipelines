@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Deletes a single firewall rule in a specified redis cache.
 /// </summary>
+/// <param name="RuleName">The name of the firewall rule.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "firewall-rules", "delete")]

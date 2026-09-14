@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Clear ransomware suspects for the given
 /// </summary>
+/// <param name="Extensions">List of file extensions resolved (PotentialThreat or FalsePositive) Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
+/// <param name="Resolution">ARP report suspect resolution.  Allowed values: FalsePositive, PotentialThreat.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume", "ransomware-report", "clear-suspect")]

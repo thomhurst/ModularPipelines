@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzKeyvaultKeyImportOptions : AzOptions
 {
     /// <summary>
-    /// The curve name of the key to import (only for BYOK).  Allowed values: P-256, P-256K, P-384,
+    /// The curve name of the key to import (only for BYOK).  Allowed values: P-256, P-256K, P-384, P-521.
     /// </summary>
     [CliOption("--curve")]
     public string? Curve { get; set; }

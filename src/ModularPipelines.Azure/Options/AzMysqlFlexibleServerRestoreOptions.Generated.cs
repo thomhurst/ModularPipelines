@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Restore a flexible server from backup.
 /// </summary>
+/// <param name="SourceServer">The name or resource ID of the source server to restore from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "restore")]
@@ -23,7 +24,7 @@ public record AzMysqlFlexibleServerRestoreOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Enable or disable accelerated logs. Only support for Business Critical tier. Default value is Enabled.  Allowed values: Disabled,
+    /// Enable or disable accelerated logs. Only support for Business Critical tier. Default value is Enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--accelerated-logs")]
     public string? AcceleratedLogs { get; set; }
@@ -53,7 +54,7 @@ public record AzMysqlFlexibleServerRestoreOptions(
     public string? FasterRestore { get; set; }
 
     /// <summary>
-    /// Whether or not geo redundant backup is enabled.  Allowed values:
+    /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--geo-redundant-backup")]
     public string? GeoRedundantBackup { get; set; }
@@ -77,7 +78,7 @@ public record AzMysqlFlexibleServerRestoreOptions(
     public string? PublicAccess { get; set; }
 
     /// <summary>
-    /// The point in time in UTC to restore from (ISO8601 format), e.g., 2017-04-26T02:10:00+00:00The default value is set to current time.
+    /// The point in time in UTC to restore from (ISO8601 format), e.g., 2017-04-26T02:10:00+00:00The default value is set to current time. Default: 2026-09-14T04:37:35+00:00.
     /// </summary>
     [CliFlag("--restore-time")]
     public bool? RestoreTime { get; set; }
@@ -95,7 +96,7 @@ public record AzMysqlFlexibleServerRestoreOptions(
     public string? StorageAutoGrow { get; set; }
 
     /// <summary>
-    /// The storage capacity of the server. Minimum is 32 GiB and max is 16
+    /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
     /// </summary>
     [CliFlag("--storage-size")]
     public bool? StorageSize { get; set; }
@@ -119,7 +120,7 @@ public record AzMysqlFlexibleServerRestoreOptions(
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Compute tier of the server. Accepted values: Burstable,
+    /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose, MemoryOptimized.
     /// </summary>
     [CliOption("--tier")]
     public string? Tier { get; set; }

@@ -45,7 +45,7 @@ public record AzSqlMiUpdateOptions : AzOptions
     public string? BackupStorageRedundancy { get; set; }
 
     /// <summary>
-    /// Managed Instance database format specific to the SQL. Allowed values include: AlwaysUpToDate, SQLServer2022.  Allowed values: AlwaysUpToDate,
+    /// Managed Instance database format specific to the SQL. Allowed values include: AlwaysUpToDate, SQLServer2022.  Allowed values: AlwaysUpToDate, SQLServer2022, SQLServer2025.
     /// </summary>
     [CliOption("--database-format")]
     public string? DatabaseFormat { get; set; }
@@ -57,10 +57,10 @@ public record AzSqlMiUpdateOptions : AzOptions
     public bool? Gpv2 { get; set; }
 
     /// <summary>
-    /// Type of Identity to be used. Possible values are
+    /// Type of Identity to be used. Possible values are SystemAsssigned,UserAssigned, SystemAssignedUserAssigned and None.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
     /// </summary>
-    [CliFlag("--identity-type", ShortForm = "-t")]
-    public bool? IdentityType { get; set; }
+    [CliOption("--identity-type", ShortForm = "-t")]
+    public string? IdentityType { get; set; }
 
     /// <summary>
     /// Name of the Instance Pool where managed instance will be placed.
@@ -111,7 +111,7 @@ public record AzSqlMiUpdateOptions : AzOptions
     public string? Pid { get; set; }
 
     /// <summary>
-    /// Managed Instance pricing model. Allowed values include: Regular, Freemium.  Allowed values:
+    /// Managed Instance pricing model. Allowed values include: Regular, Freemium.  Allowed values: Freemium, Regular.
     /// </summary>
     [CliOption("--pricing-model")]
     public string? PricingModel { get; set; }

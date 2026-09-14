@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a shared access policy in an Azure IoT Hub Device Provisioning
 /// </summary>
+/// <param name="DpsName">IoT Hub Device Provisioning Service name.</param>
+/// <param name="Pn">A friendly name for DPS access policy.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "dps", "policy", "update")]
@@ -42,7 +44,7 @@ public record AzIotDpsPolicyUpdateOptions(
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// Access rights for the IoT Hub Device Provisioning Service. Use space-separated list for multiple rights.  Allowed values:
+    /// Access rights for the IoT Hub Device Provisioning Service. Use space-separated list for multiple rights.  Allowed values: DeviceConnect, EnrollmentRead, EnrollmentWrite, RegistrationStatusRead, RegistrationStatusWrite, ServiceConfig.
     /// </summary>
     [CliOption("--rights", ShortForm = "-r", GroupValues = true)]
     public IEnumerable<string>? Rights { get; set; }

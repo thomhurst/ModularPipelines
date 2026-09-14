@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzNetworkPublicIpUpdateOptions : AzOptions
 {
     /// <summary>
-    /// IP address allocation method.  Allowed values:
+    /// IP address allocation method.  Allowed values: Dynamic, Static.
     /// </summary>
     [CliOption("--allocation-method")]
     public string? AllocationMethod { get; set; }
@@ -45,7 +45,7 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     public bool? DnsName { get; set; }
 
     /// <summary>
-    /// The domain name label scope. If a domain name label and a domain name label scope are specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system with a hashed value includes in FQDN.  Allowed values: NoReuse, ResourceGroupReuse,
+    /// The domain name label scope. If a domain name label and a domain name label scope are specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system with a hashed value includes in FQDN.  Allowed values: NoReuse, ResourceGroupReuse, SubscriptionReuse, TenantReuse.
     /// </summary>
     [CliOption("--dns-name-scope")]
     public string? DnsNameScope { get; set; }
@@ -81,7 +81,7 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     public bool? ReverseFqdn { get; set; }
 
     /// <summary>
-    /// Name of a public IP address SKU.  Allowed values:
+    /// Name of a public IP address SKU.  Allowed values: Basic, Standard, StandardV2.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }
@@ -93,7 +93,7 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// IP address type.  Allowed values: IPv4, IPv6.
+    /// IP address type.  Allowed values: IPv4, IPv6. Default: IPv4.
     /// </summary>
     [CliOption("--version")]
     public string? Version { get; set; }
@@ -129,7 +129,7 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

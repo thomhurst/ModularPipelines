@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an encryption scope within storage account.
 /// </summary>
+/// <param name="AccountName">The storage account name.</param>
+/// <param name="Name">The name of the encryption scope within the specified storage account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "encryption-scope", "create")]
@@ -24,7 +26,7 @@ public record AzStorageAccountEncryptionScopeCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// The provider for the encryption scope.  Allowed values: Microsoft.KeyVault, Microsoft.Storage.  Default:
+    /// The provider for the encryption scope.  Allowed values: Microsoft.KeyVault, Microsoft.Storage.  Default: Microsoft.Storage.
     /// </summary>
     [CliOption("--key-source", ShortForm = "-s")]
     public string? KeySource { get; set; }

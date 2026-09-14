@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an SQL trigger under an Azure Cosmos DB SQL container.
 /// </summary>
+/// <param name="AccountName">Cosmosdb account name.</param>
+/// <param name="Body">Trigger body, you can enter it as a string or as a file, e.g., --body @triggerbody-file.json.</param>
+/// <param name="ContainerName">Container name.</param>
+/// <param name="DatabaseName">Database name.</param>
+/// <param name="Name">Trigger name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "sql", "trigger", "create")]
@@ -28,7 +34,7 @@ public record AzCosmosdbSqlTriggerCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// The operation of the trigger.  Allowed values: All, Create,
+    /// The operation of the trigger.  Allowed values: All, Create, Delete, Replace, Update.
     /// </summary>
     [CliOption("--operation")]
     public string? Operation { get; set; }

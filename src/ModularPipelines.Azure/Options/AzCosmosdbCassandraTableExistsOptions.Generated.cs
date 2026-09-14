@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Checks if an Azure Cosmos DB Cassandra table exists.
 /// </summary>
+/// <param name="AccountName">Cosmosdb account name.</param>
+/// <param name="KeyspaceName">Keyspace name.</param>
+/// <param name="Name">Table name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "cassandra", "table", "exists")]

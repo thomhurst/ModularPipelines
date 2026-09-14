@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Checks availability of a cluster name. Cluster
 /// </summary>
+/// <param name="Name">Cluster name to verify.</param>
+/// <param name="Type">Resource type used for verification.  Allowed values: Microsoft.DBforPostgreSQL/serverGroupsv2.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "postgres", "check-name-availability")]

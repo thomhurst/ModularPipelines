@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Format a Bicep file.
 /// </summary>
+/// <param name="File">The path to the Bicep file to format in the file system.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bicep", "format")]
@@ -29,7 +30,7 @@ public record AzBicepFormatOptions(
     public string? IndentKind { get; set; }
 
     /// <summary>
-    /// Number of spaces to indent with (Only valid with --indent-kind set to
+    /// Number of spaces to indent with (Only valid with --indent-kind set to Space).
     /// </summary>
     [CliFlag("--indent-size")]
     public bool? IndentSize { get; set; }

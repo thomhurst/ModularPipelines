@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a SignalR Service.
 /// </summary>
+/// <param name="Name">Name of signalr service.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Sku">The sku name of the signalr service. Allowed values: Premium_P1, Standard_S1, Free_F1.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "create")]
@@ -39,11 +42,11 @@ public record AzSignalrCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
-    /// The service mode which signalr service will be working on. Allowed values: Classic, Default, Serverless.  Default:
+    /// The service mode which signalr service will be working on. Allowed values: Classic, Default, Serverless.  Default: Default.
     /// </summary>
     [CliOption("--service-mode")]
     public string? ServiceMode { get; set; }

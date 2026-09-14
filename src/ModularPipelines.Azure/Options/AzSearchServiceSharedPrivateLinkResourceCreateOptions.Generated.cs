@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create the creation or update of a
 /// </summary>
+/// <param name="Name">The name of the shared private link resource managed by the Azure AI Search service within the specified resource group.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="SearchServiceName">The name of the Azure AI Search service associated with the specified resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "service", "shared-private-link-resource", "create")]
@@ -43,7 +46,7 @@ public record AzSearchServiceSharedPrivateLinkResourceCreateOptions(
     public string? PrivateLinkResourceId { get; set; }
 
     /// <summary>
-    /// The provisioning state of the shared private link resource. Valid values are Updating, Deleting, Failed, Succeeded or Incomplete.  Allowed values: Deleting, Failed, Incomplete,
+    /// The provisioning state of the shared private link resource. Valid values are Updating, Deleting, Failed, Succeeded or Incomplete.  Allowed values: Deleting, Failed, Incomplete, Succeeded, Updating.
     /// </summary>
     [CliOption("--provisioning-state")]
     public string? ProvisioningState { get; set; }
@@ -61,9 +64,9 @@ public record AzSearchServiceSharedPrivateLinkResourceCreateOptions(
     public bool? ResourceRegion { get; set; }
 
     /// <summary>
-    /// Status of the shared private link resource. Valid values are Pending, Approved, Rejected or Disconnected.
+    /// Status of the shared private link resource. Valid values are Pending, Approved, Rejected or Disconnected. Allowed values: Approved, Disconnected, Pending, Rejected.
     /// </summary>
-    [CliFlag("--status")]
-    public bool? Status { get; set; }
+    [CliOption("--status")]
+    public string? Status { get; set; }
 
 }

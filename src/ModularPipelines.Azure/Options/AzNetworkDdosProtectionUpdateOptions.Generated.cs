@@ -27,7 +27,7 @@ public record AzNetworkDdosProtectionUpdateOptions : AzOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Space-separated list of VNets (name or IDs) to associate with the plan.
+    /// Space-separated list of VNets (name or IDs) to associate with the plan. This parameter can only be used if all the VNets are within the same subscription as the DDoS protection plan. If this is not the case, set the protection plan on the VNet directly using the `az network vnet update` command.
     /// </summary>
     [CliOption("--vnets", GroupValues = true)]
     public IEnumerable<string>? Vnets { get; set; }

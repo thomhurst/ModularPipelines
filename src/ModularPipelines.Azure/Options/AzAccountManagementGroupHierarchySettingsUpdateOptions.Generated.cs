@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the hierarchy settings defined at
 /// </summary>
+/// <param name="Name">Name of the management group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("account", "management-group", "hierarchy-settings", "update")]
@@ -29,7 +30,7 @@ public record AzAccountManagementGroupHierarchySettingsUpdateOptions(
     public bool? DefaultManagementGroup { get; set; }
 
     /// <summary>
-    /// Indicate whether RBAC access is required upon group creation under the root Management Group. True means user will require
+    /// Indicate whether RBAC access is required upon group creation under the root Management Group. True means user will require Microsoft.Management/managementGroups/write action on the root Management Group. Default setting is false.
     /// </summary>
     [CliFlag("--require-authorization-for-group-creation", ShortForm = "-r")]
     public bool? RequireAuthorizationForGroupCreation { get; set; }
@@ -41,13 +42,13 @@ public record AzAccountManagementGroupHierarchySettingsUpdateOptions(
     public IEnumerable<string>? Add { get; set; }
 
     /// <summary>
-    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
     /// </summary>
     [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
     /// <summary>
-    /// Remove a property or an element from a list.
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
     public IEnumerable<string>? Remove { get; set; }

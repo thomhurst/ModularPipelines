@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a snapshot.
 /// </summary>
+/// <param name="Name">The name of the snapshot.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("snapshot", "create")]
@@ -24,16 +26,16 @@ public record AzSnapshotCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// CPU architecture.
+    /// CPU architecture. Allowed values: Arm64, x64.
     /// </summary>
-    [CliFlag("--architecture")]
-    public bool? Architecture { get; set; }
+    [CliOption("--architecture")]
+    public string? Architecture { get; set; }
 
     /// <summary>
-    /// If this field is set on a snapshot and createOption is
+    /// If this field is set on a snapshot and createOption is CopyStart, the snapshot will be copied at a quicker speed.  Allowed values: Enhanced, None.
     /// </summary>
-    [CliFlag("--bandwidth-copy-speed")]
-    public bool? BandwidthCopySpeed { get; set; }
+    [CliOption("--bandwidth-copy-speed")]
+    public string? BandwidthCopySpeed { get; set; }
 
     /// <summary>
     /// Create snapshot by using a deep copy process, where the resource creation is considered complete only after all data has been copied from the source.  Allowed values: false, true.
@@ -66,43 +68,43 @@ public record AzSnapshotCreateOptions(
     public bool? ElasticSanId { get; set; }
 
     /// <summary>
-    /// Encryption type.
+    /// Encryption type. EncryptionAtRestWith PlatformKey: Disk is encrypted with XStore managed key at rest. It is the default encryption type. EncryptionAtRe stWithCustomerKey: Disk is encrypted with Customer managed key at rest. Allowed values: Encr yptionAtRestWithCust omerKey, EncryptionA tRestWithPlatformAnd CustomerKeys, Encryp tionAtRestWithPlatfo rmKey.
     /// </summary>
-    [CliFlag("--encryption-type")]
-    public bool? EncryptionType { get; set; }
+    [CliOption("--encryption-type")]
+    public string? EncryptionType { get; set; }
 
     /// <summary>
-    /// Create the snapshot for uploading blobs later on through storage commands.
+    /// Create the snapshot for uploading blobs later on through storage commands. Run "az snapshot grant-access --access-level Write" to retrieve the snapshot's SAS token.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--for-upload")]
+    [CliOption("--for-upload")]
     public bool? ForUpload { get; set; }
 
     /// <summary>
-    /// The hypervisor generation of the
+    /// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.  Allowed values: V1, V2.
     /// </summary>
-    [CliFlag("--hyper-v-generation")]
-    public bool? HyperVGeneration { get; set; }
+    [CliOption("--hyper-v-generation")]
+    public string? HyperVGeneration { get; set; }
 
     /// <summary>
-    /// For snapshots created from Premium SSD v2 or Ultra disk, this property determines the time in minutes the snapshot is retained for instant access to enable faster restore. The disk sku should be
+    /// For snapshots created from Premium SSD v2 or Ultra disk, this property determines the time in minutes the snapshot is retained for instant access to enable faster restore. The disk sku should be UltraSSD_LRS or PremiumV2_LRS.
     /// </summary>
     [CliFlag("--ia-duration", ShortForm = "--instant-access-duration-minutes")]
     public bool? IaDuration { get; set; }
 
     /// <summary>
-    /// Whether a snapshot is incremental.
+    /// Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full snapshots and can be diffed.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--incremental")]
+    [CliOption("--incremental")]
     public bool? Incremental { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location= &lt;location&gt;`. If location is not specified and no default location specified, location will be automatically set as same as the resource group.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
-    /// Policy for accessing the disk via network.  Allowed values: AllowAll,
+    /// Policy for accessing the disk via network.  Allowed values: AllowAll, AllowPrivate, DenyAll.
     /// </summary>
     [CliOption("--network-access-policy")]
     public string? NetworkAccessPolicy { get; set; }
@@ -120,7 +122,7 @@ public record AzSnapshotCreateOptions(
     public bool? SizeGb { get; set; }
 
     /// <summary>
-    /// Allowed values:
+    /// Allowed values: Premium_LRS, Standard_LRS, Standard_ZRS. Default: Standard_LRS.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }

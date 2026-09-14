@@ -15,12 +15,15 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update logging settings for a storage account.
 /// </summary>
+/// <param name="Log">The operations for which to enable logging: (r)ead (w)rite (d)elete. Can be combined.</param>
+/// <param name="Retention">Number of days for which to retain logs. 0 to disable.</param>
+/// <param name="Services">The storage service(s) for which to update logging info: (b)lob (q)ueue (t)able. Can be combined.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "logging", "update")]
 public record AzStorageLoggingUpdateOptions(
     [property: CliOption("--log")] string Log,
-    [property: CliOption("--retention")] string Retention,
+    [property: CliOption("--retention")] int Retention,
     [property: CliOption("--services")] string Services
 ) : AzOptions
 {
@@ -49,19 +52,19 @@ public record AzStorageLoggingUpdateOptions(
     public bool? AccountName { get; set; }
 
     /// <summary>
-    /// Storage account connection string. Environment variable:
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }
 
     /// <summary>
-    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
     [CliFlag("--sas-token")]
     public bool? SasToken { get; set; }
 
     /// <summary>
-    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable:
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
     [CliFlag("--service-endpoint")]
     public bool? ServiceEndpoint { get; set; }

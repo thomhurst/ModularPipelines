@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Manage MACsec configuration of an ExpressRoute Link.
 /// </summary>
+/// <param name="Name">The link name of the ExpressRoute Port.</param>
+/// <param name="PortName">ExpressRoute port name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "port", "link", "update")]
@@ -67,13 +70,13 @@ public record AzNetworkExpressRoutePortLinkUpdateOptions(
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// The connectivity association key (CAK) ID that stored in the
+    /// The connectivity association key (CAK) ID that stored in the KeyVault.
     /// </summary>
     [CliFlag("--macsec-cak-secret-identifier")]
     public bool? MacsecCakSecretIdentifier { get; set; }
 
     /// <summary>
-    /// Cipher Method.  Allowed values: GcmAes128, GcmAes256,
+    /// Cipher Method.  Allowed values: GcmAes128, GcmAes256, GcmAesXpn128, GcmAesXpn256.
     /// </summary>
     [CliOption("--macsec-cipher")]
     public string? MacsecCipher { get; set; }

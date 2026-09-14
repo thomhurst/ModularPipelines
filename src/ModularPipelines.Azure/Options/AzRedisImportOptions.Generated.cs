@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Import data into a Redis cache. Deletes all preexisting cache data.
 /// </summary>
+/// <param name="Files">SAS url for blobs that needs to be imported.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "import")]
@@ -23,7 +24,7 @@ public record AzRedisImportOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Preferred auth method to communicate to storage account used for data archive, default value is SAS.  Allowed values:
+    /// Preferred auth method to communicate to storage account used for data archive, default value is SAS.  Allowed values: ManagedIdentity, SAS.
     /// </summary>
     [CliOption("--auth-method", ShortForm = "--preferred-data-archive-auth-method")]
     public string? AuthMethod { get; set; }
@@ -59,7 +60,7 @@ public record AzRedisImportOptions(
     public string? Name { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

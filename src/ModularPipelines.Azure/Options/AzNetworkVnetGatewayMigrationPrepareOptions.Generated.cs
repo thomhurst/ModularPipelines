@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Trigger prepare migration for the virtual network
 /// </summary>
+/// <param name="MigrationType">MigrationType for the virtual network gateway.  Allowed values: UpgradeDeploymentToStandardIP.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "migration", "prepare")]

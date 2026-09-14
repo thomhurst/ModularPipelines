@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Execute a deployment What-If operation at subscription scope.
 /// </summary>
+/// <param name="Location">The location to store the deployment What-If operation metadata.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "sub", "what-if")]
@@ -23,7 +24,7 @@ public record AzDeploymentSubWhatIfOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Space-separated list of resource change types to be excluded from What-If results.  Allowed values: Create, Delete, Deploy, Ignore,
+    /// Space-separated list of resource change types to be excluded from What-If results.  Allowed values: Create, Delete, Deploy, Ignore, Modify, NoChange, Unsupported.
     /// </summary>
     [CliOption("--exclude-change-types", ShortForm = "-x", GroupValues = true)]
     public IEnumerable<string>? ExcludeChangeTypes { get; set; }
@@ -47,10 +48,10 @@ public record AzDeploymentSubWhatIfOptions(
     public bool? NoPrompt { get; set; }
 
     /// <summary>
-    /// Supply deployment parameter values.
+    /// Supply deployment parameter values. Parameters may be supplied from a file using the `@{path}` syntax, a JSON string, or as `&lt;KEY=VALUE&gt;` pairs. Parameters are evaluated in order, so when a value is assigned twice, the latter value will be used. It is recommended that you supply your parameters file first, and then override selectively using KEY=VALUE syntax.
     /// </summary>
-    [CliFlag("--parameters", ShortForm = "-p")]
-    public bool? Parameters { get; set; }
+    [CliOption("--parameters", ShortForm = "-p", GroupValues = true)]
+    public IEnumerable<string>? Parameters { get; set; }
 
     /// <summary>
     /// The query string (a SAS token) to be used with the template-uri in the case of linked templates.
@@ -59,7 +60,7 @@ public record AzDeploymentSubWhatIfOptions(
     public string? QueryString { get; set; }
 
     /// <summary>
-    /// The format of What-If results.  Allowed values: FullResourcePayloads, ResourceIdOnly.  Default:
+    /// The format of What-If results.  Allowed values: FullResourcePayloads, ResourceIdOnly.  Default: FullResourcePayloads.
     /// </summary>
     [CliOption("--result-format", ShortForm = "-r")]
     public string? ResultFormat { get; set; }

@@ -95,8 +95,8 @@ public record AzSynapseWorkspaceUpdateOptions : AzOptions
     /// <summary>
     /// The last commit ID.
     /// </summary>
-    [CliFlag("--last-commit-id")]
-    public bool? LastCommitId { get; set; }
+    [CliOption("--last-commit-id")]
+    public string? LastCommitId { get; set; }
 
     /// <summary>
     /// The project name to which you are connecting.
@@ -111,7 +111,7 @@ public record AzSynapseWorkspaceUpdateOptions : AzOptions
     public string? RepositoryName { get; set; }
 
     /// <summary>
-    /// The repository configuration type.  Allowed values:
+    /// The repository configuration type.  Allowed values: AzureDevOpsGit, GitHub.
     /// </summary>
     [CliOption("--repository-type")]
     public string? RepositoryType { get; set; }
@@ -129,7 +129,7 @@ public record AzSynapseWorkspaceUpdateOptions : AzOptions
     public bool? TenantId { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

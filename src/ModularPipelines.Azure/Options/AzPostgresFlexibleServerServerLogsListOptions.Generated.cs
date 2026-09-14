@@ -35,8 +35,8 @@ public record AzPostgresFlexibleServerServerLogsListOptions : AzOptions
     /// <summary>
     /// The file size limitation to filter files.
     /// </summary>
-    [CliFlag("--max-file-size")]
-    public bool? MaxFileSize { get; set; }
+    [CliOption("--max-file-size")]
+    public string? MaxFileSize { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

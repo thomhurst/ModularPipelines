@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a policy enrollment.
 /// </summary>
+/// <param name="Name">The name of the policy enrollment.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "enrollment", "update")]
@@ -59,7 +60,7 @@ public record AzPolicyEnrollmentUpdateOptions(
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// The option whether to validate the enrollment is at or under the assignment scope.  Allowed values: Default,
+    /// The option whether to validate the enrollment is at or under the assignment scope.  Allowed values: Default, DoNotValidate.
     /// </summary>
     [CliOption("--assignment-scope-validation", ShortForm = "-v")]
     public string? AssignmentScopeValidation { get; set; }

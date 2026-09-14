@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show predictive autoscale metric future data.
 /// </summary>
+/// <param name="Aggregation">The list of aggregation types (comma separated) to retrieve.</param>
+/// <param name="Interval">The interval (i.e. timegrain) of the query.</param>
+/// <param name="MetricName">The names of the metrics (comma separated) to retrieve. Special case: If a metricname itself has a comma in it then use %2 to indicate it. Eg: 'Metric,Name1' should be **'Metric%2Name1'**.</param>
+/// <param name="MetricNamespace">Metric namespace to query metric definitions for.</param>
+/// <param name="Timespan">The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "autoscale", "show-predictive-metric")]
@@ -29,11 +34,11 @@ public record AzMonitorAutoscaleShowPredictiveMetricOptions(
     /// <summary>
     /// The autoscale setting name.
     /// </summary>
-    [CliFlag("--autoscale-setting-name")]
-    public bool? AutoscaleSettingName { get; set; }
+    [CliOption("--autoscale-setting-name")]
+    public string? AutoscaleSettingName { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

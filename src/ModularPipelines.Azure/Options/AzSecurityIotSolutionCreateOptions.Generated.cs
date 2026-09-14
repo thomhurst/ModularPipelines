@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create your IoT Security solution.
 /// </summary>
+/// <param name="DisplayName">Resource display name.</param>
+/// <param name="IotHubs">IoT Hub resource IDs.</param>
+/// <param name="Location">Location of the resource.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="SolutionName">Name of the IoT Security solution.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "iot-solution", "create")]

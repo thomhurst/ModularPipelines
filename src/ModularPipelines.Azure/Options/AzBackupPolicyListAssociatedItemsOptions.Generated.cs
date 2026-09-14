@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzBackupPolicyListAssociatedItemsOptions : AzOptions
 {
     /// <summary>
-    /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name.  Allowed values:
+    /// Specify the backup management type. Define how Azure Backup manages the backup of entities within the ARM resource. For eg: AzureWorkloads refers to workloads installed within Azure VMs, AzureStorage refers to entities within Storage account. Required only if friendly name is used as Container name.  Allowed values: AzureIaasVM, AzureStorage, AzureWorkload.
     /// </summary>
     [CliOption("--backup-management-type")]
     public string? BackupManagementType { get; set; }

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Resize or stop resizing a Batch pool.
 /// </summary>
+/// <param name="PoolId">The ID of the pool.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "pool", "resize")]
@@ -59,7 +60,7 @@ public record AzBatchPoolResizeOptions(
     public string? AccountEndpoint { get; set; }
 
     /// <summary>
-    /// The Batch account key. Alternatively, set by environment variable:
+    /// The Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
     /// </summary>
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }

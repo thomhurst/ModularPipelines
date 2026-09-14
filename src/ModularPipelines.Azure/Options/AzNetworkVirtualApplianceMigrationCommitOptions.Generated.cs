@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Commit the migration of a Network Virtual
 /// </summary>
+/// <param name="MigrationType">The type of migration workflow to commit for the Network Virtual Appliance. Must match the type used in the prepare and execute phases.  Allowed values: MigrateToNewILBArchitecture, MigrateToNewOSVersion.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "virtual-appliance", "migration", "commit")]

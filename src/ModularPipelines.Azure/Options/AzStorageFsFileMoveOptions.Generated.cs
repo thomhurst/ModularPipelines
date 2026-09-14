@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Move a file in ADLS Gen2 Account.
 /// </summary>
+/// <param name="FileSystem">File system name (i.e. container name).</param>
+/// <param name="NewPath">The new path the users want to move to. The value must have the following format: "{filesystem}/{directory}/{subdirectory}/{file}".</param>
+/// <param name="Path">The original file path users want to move in a file system.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "file", "move")]
@@ -79,7 +82,7 @@ public record AzStorageFsFileMoveOptions(
     public bool? AccountName { get; set; }
 
     /// <summary>
-    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable:
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
     [CliFlag("--blob-endpoint")]
     public bool? BlobEndpoint { get; set; }
@@ -91,7 +94,7 @@ public record AzStorageFsFileMoveOptions(
     public bool? ConnectionString { get; set; }
 
     /// <summary>
-    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
     [CliFlag("--sas-token")]
     public bool? SasToken { get; set; }

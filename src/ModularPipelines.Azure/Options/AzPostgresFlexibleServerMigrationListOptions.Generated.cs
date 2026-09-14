@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzPostgresFlexibleServerMigrationListOptions : AzOptions
 {
     /// <summary>
-    /// Indicate whether all the migrations or just the Active migrations are returned. Valid values are: Active and All.  Allowed values: Active, All.
+    /// Indicate whether all the migrations or just the Active migrations are returned. Valid values are: Active and All.  Allowed values: Active, All. Default: Active.
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }

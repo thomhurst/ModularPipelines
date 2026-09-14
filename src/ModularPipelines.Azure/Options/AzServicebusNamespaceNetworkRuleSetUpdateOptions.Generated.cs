@@ -45,7 +45,7 @@ public record AzServicebusNamespaceNetworkRuleSetUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Default Action for Network Rule Set.  Allowed values:
+    /// Default Action for Network Rule Set.  Allowed values: Allow, Deny.
     /// </summary>
     [CliOption("--default-action")]
     public string? DefaultAction { get; set; }
@@ -63,7 +63,7 @@ public record AzServicebusNamespaceNetworkRuleSetUpdateOptions : AzOptions
     public IEnumerable<string>? IpRules { get; set; }
 
     /// <summary>
-    /// This determines if traffic is allowed over public network. By default it is enabled.  Allowed values: Disabled,
+    /// This determines if traffic is allowed over public network. By default it is enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
@@ -83,8 +83,8 @@ public record AzServicebusNamespaceNetworkRuleSetUpdateOptions : AzOptions
     /// <summary>
     /// The namespace name.
     /// </summary>
-    [CliFlag("--namespace-name")]
-    public bool? NamespaceName { get; set; }
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

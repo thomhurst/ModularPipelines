@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show properties for specified encryption scope within
 /// </summary>
+/// <param name="AccountName">The storage account name.</param>
+/// <param name="Name">The name of the encryption scope within the specified storage account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "encryption-scope", "show")]

@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzFunctionappConfigAccessRestrictionRemoveOptions : AzOptions
 {
     /// <summary>
-    /// Allow or deny access.  Allowed values: Allow, Deny.  Default:
+    /// Allow or deny access.  Allowed values: Allow, Deny.  Default: Allow.
     /// </summary>
     [CliOption("--action")]
     public string? Action { get; set; }

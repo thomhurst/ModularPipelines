@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Sets Service Bus Geo-Disaster Recovery Configuration Alias
 /// </summary>
+/// <param name="Alias">Name of the Geo-Disaster Recovery Configuration Alias.</param>
+/// <param name="PartnerNamespace">Name (if within the same resource group) or ARM Id of Primary/Secondary Service Bus  namespace name, which is part of GEO DR pairing.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("servicebus", "georecovery-alias", "set")]

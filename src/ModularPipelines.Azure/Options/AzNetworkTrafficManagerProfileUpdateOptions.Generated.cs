@@ -33,13 +33,13 @@ public record AzNetworkTrafficManagerProfileUpdateOptions : AzOptions
     public string? RecordType { get; set; }
 
     /// <summary>
-    /// Routing method.  Allowed values: Geographic, Multivalue, Performance,
+    /// Routing method.  Allowed values: Geographic, Multivalue, Performance, Priority, Subnet, Weighted.
     /// </summary>
     [CliOption("--routing-method")]
     public string? RoutingMethod { get; set; }
 
     /// <summary>
-    /// Status of the Traffic Manager profile.  Allowed values: Disabled,
+    /// Status of the Traffic Manager profile.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; set; }

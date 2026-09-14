@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new managed Kubernetes cluster.
 /// </summary>
+/// <param name="Name">Name of the managed cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "create")]
@@ -42,7 +44,7 @@ public record AzAksCreateOptions(
     public string? AciSubnetName { get; set; }
 
     /// <summary>
-    /// Enable advanced network policies (None, FQDN or L7) on a cluster when enabling advanced networking features with "-- enable-acns".  Allowed values: FQDN, L7,
+    /// Enable advanced network policies (None, FQDN or L7) on a cluster when enabling advanced networking features with "-- enable-acns".  Allowed values: FQDN, L7, None.
     /// </summary>
     [CliOption("--acns-advanced-networkpolicies")]
     public string? AcnsAdvancedNetworkpolicies { get; set; }
@@ -54,7 +56,7 @@ public record AzAksCreateOptions(
     public string? AcnsDatapathAccelerationMode { get; set; }
 
     /// <summary>
-    /// Set transit encryption type for ACNS security.  Allowed values: None, WireGuard.
+    /// Set transit encryption type for ACNS security.  Allowed values: None, WireGuard. Configures pod-to-pod encryption for Cilium-based clusters. Once enabled, all traffic between Cilium managed pods will be encrypted when it leaves the node boundary. Valid values are "WireGuard" and "None". On cluster creation, this must be used together with "--enable-acns".
     /// </summary>
     [CliOption("--acns-transit-encryption-type")]
     public string? AcnsTransitEncryptionType { get; set; }
@@ -84,13 +86,13 @@ public record AzAksCreateOptions(
     public bool? ApiServerAuthorizedIpRanges { get; set; }
 
     /// <summary>
-    /// The ID of a subnet in an existing VNet into which to assign control plane apiserver pods(requires --enable-apiserver-vnet- integration).
+    /// The ID of a subnet in an existing VNet into which to assign control plane apiserver pods(requires --enable-apiserver-vnet-integration).
     /// </summary>
     [CliOption("--apiserver-subnet-id")]
     public string? ApiServerSubnetId { get; set; }
 
     /// <summary>
-    /// Configure default nginx ingress controller type. Valid values are annotationControlled (default behavior), external, internal, or none.  Allowed values:
+    /// Configure default nginx ingress controller type. Valid values are annotationControlled (default behavior), external, internal, or none.  Allowed values: AnnotationControlled, External, Internal, None.
     /// </summary>
     [CliOption("--app-routing-default-nginx-controller", ShortForm = "--ardnc")]
     public string? AppRoutingDefaultNginxController { get; set; }
@@ -126,7 +128,7 @@ public record AzAksCreateOptions(
     public string? AzureKeyvaultKmsKeyId { get; set; }
 
     /// <summary>
-    /// Network Access of Azure Key Vault.  Allowed values: Private, Public.
+    /// Network Access of Azure Key Vault.  Allowed values: Private, Public. Allowed values are "Public", "Private". If not set, defaults to type "Public". Requires --azure-keyvault-kms-key-id to be used.
     /// </summary>
     [CliOption("--azure-keyvault-kms-key-vault-network-access")]
     public string? AzureKeyvaultKmsKeyVaultNetworkAccess { get; set; }
@@ -144,7 +146,7 @@ public record AzAksCreateOptions(
     public string? AzureMonitorWorkspaceResourceId { get; set; }
 
     /// <summary>
-    /// Configure artifact source when bootstraping the cluster.  Allowed values: Cache, Direct.  Default: Direct.
+    /// Configure artifact source when bootstraping the cluster.  Allowed values: Cache, Direct.  Default: Direct. The artifacts include the addon image. Use "Direct" to download artifacts from MCR, "Cache" to downalod artifacts from Azure Container Registry.
     /// </summary>
     [CliOption("--bootstrap-artifact-source")]
     public string? BootstrapArtifactSource { get; set; }
@@ -156,7 +158,7 @@ public record AzAksCreateOptions(
     public string? BootstrapContainerRegistryResourceId { get; set; }
 
     /// <summary>
-    /// Path to a file containing up to 10 blank line separated certificates. Only valid for
+    /// Path to a file containing up to 10 blank line separated certificates. Only valid for Linux nodes. These certificates are used by Custom CA Trust feature and will be added to trust stores of nodes.
     /// </summary>
     [CliOption("--ca-certs", ShortForm = "--custom-ca-trust-certificates")]
     public string? CaCerts { get; set; }
@@ -180,7 +182,7 @@ public record AzAksCreateOptions(
     public string? ContainerStorageVersion { get; set; }
 
     /// <summary>
-    /// The crg id used to associate the new cluster with the existed Capacity
+    /// The crg id used to associate the new cluster with the existed Capacity Reservation Group resource.
     /// </summary>
     [CliFlag("--crg-id")]
     public bool? CrgId { get; set; }
@@ -192,7 +194,7 @@ public record AzAksCreateOptions(
     public string? DataCollectionSettings { get; set; }
 
     /// <summary>
-    /// Path to JSON file containing Microsoft
+    /// Path to JSON file containing Microsoft Defender profile configurations.
     /// </summary>
     [CliOption("--defender-config")]
     public string? DefenderConfig { get; set; }
@@ -234,7 +236,7 @@ public record AzAksCreateOptions(
     public bool? DisablePublicFqdn { get; set; }
 
     /// <summary>
-    /// Disable Kubernetes Role-Based Access
+    /// Disable Kubernetes Role-Based Access Control.
     /// </summary>
     [CliFlag("--disable-rbac")]
     public bool? DisableRbac { get; set; }
@@ -258,7 +260,7 @@ public record AzAksCreateOptions(
     public bool? DnsNamePrefix { get; set; }
 
     /// <summary>
-    /// An IP address assigned to the Kubernetes
+    /// An IP address assigned to the Kubernetes DNS service. This address must be within the Kubernetes service address range specified by "--service-cidr". For example, 10.0.0.10.
     /// </summary>
     [CliFlag("--dns-service-ip")]
     public bool? DnsServiceIp { get; set; }
@@ -282,7 +284,7 @@ public record AzAksCreateOptions(
     public bool? EnableAcns { get; set; }
 
     /// <summary>
-    /// Enable the Kubernetes addons in a comma- separated list.
+    /// Enable the Kubernetes addons in a comma- separated list. These addons are available: - http_application_routing : configure ingress with automatic public DNS name creation. - monitoring               : turn on Log Analytics monitoring. Uses the Log Analytics Default Workspace if it exists, else creates one. Specify "--workspace-resource-id" to use an existing workspace. Specify "--enable-msi-auth-for-monitoring" to use Managed Identity Auth. Specify "--enable-syslog" to enable syslog data collection from nodes. Note MSI must be enabled Specify "--data-collection-settings" to configure data collection settings Specify "--ampls-resource-id" for private link. Note MSI must be enabled. Specify "--enable-high-log-scale-mode" to enable high log scale mode for container logs. Note MSI must be enabled. If monitoring addon is enabled --no-wait argument will have no effect - azure-policy             : enable Azure policy. The Azure Policy add-on for AKS enables at-scale enforcements and safeguards on your clusters in a centralized, consistent manner. Learn more at aka.ms/aks/policy. - virtual-node             : enable AKS Virtual Node. Requires --aci-subnet-name to provide the name of an existing subnet for the Virtual Node to use. aci-subnet-name must be in the same vnet which is specified by --vnet-subnet-id (required as well). - confcom                  : enable confcom addon, this will enable SGX device plugin by default. - open-service-mesh        : enable Open Service Mesh addon. - azure-keyvault-secrets-provider : enable Azure Keyvault Secrets Provider addon.
     /// </summary>
     [CliFlag("--enable-addons", ShortForm = "-a")]
     public bool? EnableAddons { get; set; }
@@ -312,7 +314,7 @@ public record AzAksCreateOptions(
     public bool? EnableAppRouting { get; set; }
 
     /// <summary>
-    /// Enable Gateway API based ingress on App Routing via Istio without service mesh functionality.
+    /// Enable Gateway API based ingress on App Routing via Istio without service mesh functionality. This enables an ingress-only version of Istio that reconciles Gateway API resources for App Routing. It does not provide service mesh functionality (e.g. mTLS, traffic management between services). Cannot be used simultaneously with the Istio service mesh add-on (--enable-azure-service-mesh).
     /// </summary>
     [CliFlag("--enable-app-routing-istio", ShortForm = "--enable-ari")]
     public bool? EnableAppRoutingIstio { get; set; }
@@ -330,7 +332,7 @@ public record AzAksCreateOptions(
     public bool? EnableAzureContainerStorage { get; set; }
 
     /// <summary>
-    /// Enable Azure KeyVault Key Management
+    /// Enable Azure KeyVault Key Management Service.
     /// </summary>
     [CliFlag("--enable-azure-keyvault-kms")]
     public bool? EnableAzureKeyvaultKms { get; set; }
@@ -360,7 +362,7 @@ public record AzAksCreateOptions(
     public bool? EnableBlobDriver { get; set; }
 
     /// <summary>
-    /// Enable cluster autoscaler, default value is false.
+    /// Enable cluster autoscaler, default value is false. If specified, please make sure the kubernetes version is larger than 1.10.6.
     /// </summary>
     [CliFlag("--enable-cluster-autoscaler")]
     public bool? EnableClusterAutoscaler { get; set; }
@@ -372,7 +374,7 @@ public record AzAksCreateOptions(
     public bool? EnableContainerNetworkLogs { get; set; }
 
     /// <summary>
-    /// Enable collection of Azure Monitor managed Prometheus control plane metrics for managed cluster components (controlplane- apiserver and controlplane-etcd targets by default). Requires Azure Monitor metrics to be enabled (already enabled or via
+    /// Enable collection of Azure Monitor managed Prometheus control plane metrics for managed cluster components (controlplane- apiserver and controlplane-etcd targets by default). Requires Azure Monitor metrics to be enabled (already enabled or via --enable-azure-monitor-metrics).
     /// </summary>
     [CliFlag("--enable-control-plane-metrics", ShortForm = "--enable-cp-metrics")]
     public bool? EnableControlPlaneMetrics { get; set; }
@@ -408,13 +410,13 @@ public record AzAksCreateOptions(
     public bool? EnableGatewayApi { get; set; }
 
     /// <summary>
-    /// Enable High Log Scale Mode for Container Logs. Auto-enabled when --enable-container- network-logs is specified.  Allowed values: false, true.
+    /// Enable High Log Scale Mode for Container Logs. Auto-enabled when --enable-container-network-logs is specified.  Allowed values: false, true.
     /// </summary>
     [CliOption("--enable-high-log-scale-mode")]
     public bool? EnableHighLogScaleMode { get; set; }
 
     /// <summary>
-    /// (Automatic SKU) Explicitly opt in to a Managed System Pool for the Automatic cluster.
+    /// (Automatic SKU) Explicitly opt in to a Managed System Pool for the Automatic cluster. Only valid with `--sku automatic`. Use this flag when you want to deterministically request a Managed System Pool regardless of region defaults. It is also implied when you supply the bring-your-own VNet subnet trio (`--system-node-subnet-id`, `--node-subnet-id`, `--apiserver-subnet-id`).
     /// </summary>
     [CliFlag("--enable-hosted-system")]
     public bool? EnableHostedSystem { get; set; }
@@ -438,7 +440,7 @@ public record AzAksCreateOptions(
     public bool? EnableManagedIdentity { get; set; }
 
     /// <summary>
-    /// Enable Managed Identity Auth for Monitoring addon.  Allowed values: false, true.
+    /// Enable Managed Identity Auth for Monitoring addon.  Allowed values: false, true. Default: True.
     /// </summary>
     [CliOption("--enable-msi-auth-for-monitoring")]
     public bool? EnableMsiAuthForMonitoring { get; set; }
@@ -534,13 +536,13 @@ public record AzAksCreateOptions(
     public bool? EnableWorkloadIdentity { get; set; }
 
     /// <summary>
-    /// Set ephemeral disk volume type for azure container storage.  Allowed values: Basic,
+    /// Set ephemeral disk volume type for azure container storage.  Allowed values: Basic, Premium, Standard.
     /// </summary>
     [CliOption("--ephemeral-disk-nvme-perf-tier")]
     public string? EphemeralDiskNvmePerfTier { get; set; }
 
     /// <summary>
-    /// Set ephemeral disk volume type for azure container storage.  Allowed values:
+    /// Set ephemeral disk volume type for azure container storage.  Allowed values: EphemeralVolumeOnly, PersistentVolumeWithAnnotation.
     /// </summary>
     [CliOption("--ephemeral-disk-volume-type")]
     public string? EphemeralDiskVolumeType { get; set; }
@@ -558,25 +560,25 @@ public record AzAksCreateOptions(
     public bool? GenerateSshKeys { get; set; }
 
     /// <summary>
-    /// Specify DNS server for Windows gmsa for this cluster.
+    /// Specify DNS server for Windows gmsa for this cluster. You do not need to set this if you have set DNS server in the VNET used by the cluster. You must set or not set --gmsa-dns-server and --gmsa-root-domain-name at the same time when setting --enable-windows-gmsa.
     /// </summary>
     [CliFlag("--gmsa-dns-server")]
     public bool? GmsaDnsServer { get; set; }
 
     /// <summary>
-    /// Specify root domain name for Windows gmsa for this cluster.
+    /// Specify root domain name for Windows gmsa for this cluster. You do not need to set this if you have set DNS server in the VNET used by the cluster. You must set or not set --gmsa-dns-server and --gmsa-root-domain-name at the same time when setting --enable-windows-gmsa.
     /// </summary>
     [CliFlag("--gmsa-root-domain-name")]
     public bool? GmsaRootDomainName { get; set; }
 
     /// <summary>
-    /// GPU instance profile to partition multi-gpu Nvidia GPUs.  Allowed values: MIG1g, MIG2g,
+    /// GPU instance profile to partition multi-gpu Nvidia GPUs.  Allowed values: MIG1g, MIG2g, MIG3g, MIG4g, MIG7g.
     /// </summary>
     [CliOption("--gpu-instance-profile")]
     public string? GpuInstanceProfile { get; set; }
 
     /// <summary>
-    /// Resource ID of the Azure Managed Grafana
+    /// Resource ID of the Azure Managed Grafana Workspace.
     /// </summary>
     [CliOption("--grafana-resource-id")]
     public string? GrafanaResourceId { get; set; }
@@ -612,13 +614,13 @@ public record AzAksCreateOptions(
     public bool? ImageCleanerIntervalHours { get; set; }
 
     /// <summary>
-    /// A comma-separated list of IP versions to use for cluster networking.
+    /// A comma-separated list of IP versions to use for cluster networking. Each IP version should be in the format IPvN. For example, IPv4.
     /// </summary>
     [CliFlag("--ip-families")]
     public bool? IpFamilies { get; set; }
 
     /// <summary>
-    /// Choose from "KubernetesOfficial" or "AKSLongTermSupport", with "AKSLongTermSupport" you get 1 extra year of CVE patchs.  Allowed values:
+    /// Choose from "KubernetesOfficial" or "AKSLongTermSupport", with "AKSLongTermSupport" you get 1 extra year of CVE patchs.  Allowed values: AKSLongTermSupport, KubernetesOfficial.
     /// </summary>
     [CliOption("--k8s-support-plan")]
     public string? K8sSupportPlan { get; set; }
@@ -654,49 +656,49 @@ public record AzAksCreateOptions(
     public string? LinuxOsConfig { get; set; }
 
     /// <summary>
-    /// Load balancer backend pool type.  Allowed values: nodeIP, nodeIPConfiguration.
+    /// Load balancer backend pool type.  Allowed values: nodeIP, nodeIPConfiguration. Define the LoadBalancer backend pool type of managed inbound backend pool. The nodeIP means the VMs will be attached to the LoadBalancer by adding its private IP address to the backend pool. The nodeIPConfiguration means the VMs will be attached to the LoadBalancer by referencing the backend pool ID in the VM's NIC.
     /// </summary>
     [CliOption("--load-balancer-backend-pool-type")]
     public string? LoadBalancerBackendPoolType { get; set; }
 
     /// <summary>
-    /// Load balancer idle timeout in minutes.
+    /// Load balancer idle timeout in minutes. Desired idle timeout for load balancer outbound flows, default is 30 minutes. Please specify a value in the range of [4, 100].
     /// </summary>
     [CliFlag("--load-balancer-idle-timeout")]
     public bool? LoadBalancerIdleTimeout { get; set; }
 
     /// <summary>
-    /// Load balancer managed outbound IP count.
+    /// Load balancer managed outbound IP count. Desired number of managed outbound IPs for load balancer outbound connection. Valid for Standard SKU load balancer cluster only.
     /// </summary>
     [CliFlag("--load-balancer-managed-outbound-ip-count")]
     public bool? LoadBalancerManagedOutboundIpCount { get; set; }
 
     /// <summary>
-    /// Load balancer managed outbound IPv6 IP count.
+    /// Load balancer managed outbound IPv6 IP count. Desired number of managed outbound IPv6 IPs for load balancer outbound connection. Valid for dual-stack (--ip-families IPv4,IPv6) only.
     /// </summary>
     [CliFlag("--load-balancer-managed-outbound-ipv6-count")]
     public bool? LoadBalancerManagedOutboundIpv6Count { get; set; }
 
     /// <summary>
-    /// Load balancer outbound IP prefix resource
+    /// Load balancer outbound IP prefix resource IDs. Comma-separated public IP prefix resource IDs for load balancer outbound connection. Valid for Standard SKU load balancer cluster only.
     /// </summary>
     [CliFlag("--load-balancer-outbound-ip-prefixes")]
     public bool? LoadBalancerOutboundIpPrefixes { get; set; }
 
     /// <summary>
-    /// Load balancer outbound IP resource IDs.
+    /// Load balancer outbound IP resource IDs. Comma-separated public IP resource IDs for load balancer outbound connection. Valid for Standard SKU load balancer cluster only.
     /// </summary>
     [CliFlag("--load-balancer-outbound-ips")]
     public bool? LoadBalancerOutboundIps { get; set; }
 
     /// <summary>
-    /// Load balancer outbound allocated ports.
+    /// Load balancer outbound allocated ports. Desired static number of outbound ports per VM in the load balancer backend pool. By default, set to 0 which uses the default allocation based on the number of VMs.
     /// </summary>
     [CliFlag("--load-balancer-outbound-ports")]
     public bool? LoadBalancerOutboundPorts { get; set; }
 
     /// <summary>
-    /// Azure Load Balancer SKU selection for your cluster. basic or standard. Defaults to 'standard'.  Allowed values: basic, standard.
+    /// Azure Load Balancer SKU selection for your cluster. basic or standard. Defaults to 'standard'.  Allowed values: basic, standard. Select between Basic or Standard Azure Load Balancer SKU for your AKS cluster.
     /// </summary>
     [CliOption("--load-balancer-sku")]
     public string? LoadBalancerSku { get; set; }
@@ -704,8 +706,8 @@ public record AzAksCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Maximum nodes count used for autoscaler, when "--enable-cluster-autoscaler" specified. Please specify the value in the range of [1, 1000].
@@ -714,7 +716,7 @@ public record AzAksCreateOptions(
     public bool? MaxCount { get; set; }
 
     /// <summary>
-    /// The maximum number of pods deployable to a node.
+    /// The maximum number of pods deployable to a node. If not specified, defaults based on network-plugin. 30 for "azure", 110 for "kubenet", or 250 for "none".
     /// </summary>
     [CliFlag("--max-pods", ShortForm = "-m")]
     public bool? MaxPods { get; set; }
@@ -732,43 +734,43 @@ public record AzAksCreateOptions(
     public bool? MinCount { get; set; }
 
     /// <summary>
-    /// NAT gateway idle timeout in minutes.
+    /// NAT gateway idle timeout in minutes. Desired idle timeout for NAT gateway outbound flows, default is 4 minutes. Please specify a value in the range of [4, 120]. Valid for Standard SKU load balancer cluster with managedNATGateway outbound type only.
     /// </summary>
     [CliFlag("--nat-gateway-idle-timeout")]
     public bool? NatGatewayIdleTimeout { get; set; }
 
     /// <summary>
-    /// NAT gateway managed outbound IP count.
+    /// NAT gateway managed outbound IP count. Desired number of managed outbound IPs for NAT gateway outbound connection. Please specify a value in the range of [1, 16]. Valid for Standard SKU load balancer cluster with managedNATGateway outbound type only.
     /// </summary>
     [CliFlag("--nat-gateway-managed-outbound-ip-count")]
     public bool? NatGatewayManagedOutboundIpCount { get; set; }
 
     /// <summary>
-    /// The network dataplane to use.  Allowed values: azure, cilium.
+    /// The network dataplane to use.  Allowed values: azure, cilium. Network dataplane used in the Kubernetes cluster. Specify "azure" to use the Azure dataplane (default) or "cilium" to enable Cilium dataplane.
     /// </summary>
     [CliOption("--network-dataplane")]
     public string? NetworkDataplane { get; set; }
 
     /// <summary>
-    /// The Kubernetes network plugin to use. Allowed values: azure, kubenet, none.
+    /// The Kubernetes network plugin to use. Allowed values: azure, kubenet, none. Specify "azure" for highly scalable networking, "kubenet" for IP assignment from subnet NAT- based routing, or "none" for no networking configured. Defaults to "azure".
     /// </summary>
     [CliOption("--network-plugin")]
     public string? NetworkPlugin { get; set; }
 
     /// <summary>
-    /// The network plugin mode to use.  Allowed values: overlay.
+    /// The network plugin mode to use.  Allowed values: overlay. Used to control the mode the network plugin should operate in. Defaults to "overlay". If not specified with "azure" as network plugin, pods are given routable IPs from VNET.
     /// </summary>
     [CliOption("--network-plugin-mode")]
     public string? NetworkPluginMode { get; set; }
 
     /// <summary>
-    /// Network Policy Engine to use.
+    /// Network Policy Engine to use. Azure provides three Network Policy Engines for enforcing network policies that can be used together with "azure" network plugin. The following values can be specified: - "azure" for Azure Network Policy Manager, - "cilium" for Azure CNI Powered by Cilium, - "calico" for open-source network and network security solution founded by Tigera, - "none" when no Network Policy Engine is installed (default value). Defaults to "none" (network policy disabled).
     /// </summary>
     [CliFlag("--network-policy")]
     public bool? NetworkPolicy { get; set; }
 
     /// <summary>
-    /// Do not use or create a local SSH key.
+    /// Do not use or create a local SSH key. If omitted and no local public key exists, the CLI will default to this behavior. To access nodes after creating a cluster with this option, use the Azure Portal.
     /// </summary>
     [CliFlag("--no-ssh-key", ShortForm = "-x")]
     public bool? NoSshKey { get; set; }
@@ -786,7 +788,7 @@ public record AzAksCreateOptions(
     public int? NodeCount { get; set; }
 
     /// <summary>
-    /// Manner in which the OS on your nodes is updated. It could be NodeImage, None, SecurityPatch or Unmanaged.  Allowed values: NodeImage, None, SecurityPatch,
+    /// Manner in which the OS on your nodes is updated. It could be NodeImage, None, SecurityPatch or Unmanaged.  Allowed values: NodeImage, None, SecurityPatch, Unmanaged.
     /// </summary>
     [CliOption("--node-os-upgrade-channel")]
     public string? NodeOsUpgradeChannel { get; set; }
@@ -804,19 +806,19 @@ public record AzAksCreateOptions(
     public bool? NodeOsdiskSize { get; set; }
 
     /// <summary>
-    /// OS disk type to be used for machines in a given agent pool: Ephemeral or Managed. Defaults to 'Ephemeral' when possible in conjunction with VM size and OS disk size. May not be changed for this pool after creation.  Allowed values: Ephemeral,
+    /// OS disk type to be used for machines in a given agent pool: Ephemeral or Managed. Defaults to 'Ephemeral' when possible in conjunction with VM size and OS disk size. May not be changed for this pool after creation.  Allowed values: Ephemeral, Managed.
     /// </summary>
     [CliOption("--node-osdisk-type")]
     public string? NodeOsdiskType { get; set; }
 
     /// <summary>
-    /// The set of default Karpenter NodePools configured for node provisioning. Valid values are "Auto" and "None".  Allowed values: Auto, None.
+    /// The set of default Karpenter NodePools configured for node provisioning. Valid values are "Auto" and "None".  Allowed values: Auto, None. The set of default Karpenter NodePools configured for node provisioning. Valid values are "Auto" and "None". Auto: A standard set of Karpenter NodePools are provisioned. None: No Karpenter NodePools are provisioned. WARNING: Changing this from Auto to None on an existing cluster will cause the default Karpenter NodePools to be deleted, which will in turn drain and delete the nodes associated with those pools. It is strongly recommended to not do this unless there are idle nodes ready to take the pods evicted by that action.
     /// </summary>
     [CliOption("--node-provisioning-default-pools")]
     public string? NodeProvisioningDefaultPools { get; set; }
 
     /// <summary>
-    /// Set the node provisioning mode of the cluster. Valid values are "Auto" and "Manual". For more information on "Auto" mode see aka.ms/aks/nap.  Allowed values:
+    /// Set the node provisioning mode of the cluster. Valid values are "Auto" and "Manual". For more information on "Auto" mode see aka.ms/aks/nap.  Allowed values: Auto, Manual.
     /// </summary>
     [CliOption("--node-provisioning-mode")]
     public string? NodeProvisioningMode { get; set; }
@@ -840,7 +842,7 @@ public record AzAksCreateOptions(
     public bool? NodeResourceGroup { get; set; }
 
     /// <summary>
-    /// (Automatic SKU) The ID of a subnet in an existing VNet to be used by user node pools in an Automatic cluster.
+    /// (Automatic SKU) The ID of a subnet in an existing VNet to be used by user node pools in an Automatic cluster. Bring-your-own VNet for an Automatic cluster requires three subnets supplied together: `--system-node-subnet-id` (for the Managed System Pool), `--node-subnet-id` (this flag, for user node pools), and `--apiserver-subnet-id` (for the control plane API server). All three subnets must belong to the same VNet and can only be used with `--sku automatic`.
     /// </summary>
     [CliFlag("--node-subnet-id")]
     public bool? NodeSubnetId { get; set; }
@@ -888,37 +890,37 @@ public record AzAksCreateOptions(
     public bool? NodepoolTaints { get; set; }
 
     /// <summary>
-    /// Restriction level on the managed node resource group.  Allowed values: ReadOnly,
+    /// Restriction level on the managed node resource group.  Allowed values: ReadOnly, Unrestricted. The restriction level of permissions allowed on the cluster's managed node resource group, supported values are Unrestricted, and ReadOnly (recommended ReadOnly).
     /// </summary>
     [CliOption("--nrg-lockdown-restriction-level")]
     public string? NrgLockdownRestrictionLevel { get; set; }
 
     /// <summary>
-    /// The OS SKU of the agent node pool. Ubuntu,
+    /// The OS SKU of the agent node pool. Ubuntu, AzureLinux, AzureLinux3, AzureContainerLinux, Ubuntu2204, or Ubuntu2404.  Allowed values: AzureContainerLinux, AzureLinux, AzureLinux3, CBLMariner, Mariner, Ubuntu, Ubuntu2204, Ubuntu2404.
     /// </summary>
-    [CliFlag("--os-sku")]
-    public bool? OsSku { get; set; }
+    [CliOption("--os-sku")]
+    public string? OsSku { get; set; }
 
     /// <summary>
-    /// How outbound traffic will be configured for a cluster.  Allowed values: loadBalancer, managedNATGateway, none, userAssignedNATGateway, userDefinedRouting.
+    /// How outbound traffic will be configured for a cluster.  Allowed values: loadBalancer, managedNATGateway, none, userAssignedNATGateway, userDefinedRouting. Select between loadBalancer, userDefinedRouting, managedNATGateway, userAssignedNATGateway and none. If not set, defaults to type loadBalancer. Requires --vnet-subnet-id to be provided with a preconfigured route table and --load-balancer-sku to be Standard.
     /// </summary>
     [CliOption("--outbound-type")]
     public string? OutboundType { get; set; }
 
     /// <summary>
-    /// A CIDR notation IP range from which to assign pod IPs when Azure CNI Overlay or Kubenet is used (On 31 March 2028, Kubenet will be retired).
+    /// A CIDR notation IP range from which to assign pod IPs when Azure CNI Overlay or Kubenet is used (On 31 March 2028, Kubenet will be retired). This range must not overlap with any Subnet IP ranges. For example, 172.244.0.0/16. See https://aka.ms/aks/azure-cni-overlay.
     /// </summary>
     [CliFlag("--pod-cidr")]
     public bool? PodCidr { get; set; }
 
     /// <summary>
-    /// A comma-separated list of CIDR notation IP ranges from which to assign pod IPs when Azure CNI Overlay or Kubenet is used (On 31 March 2028, Kubenet will be retired).
+    /// A comma-separated list of CIDR notation IP ranges from which to assign pod IPs when Azure CNI Overlay or Kubenet is used (On 31 March 2028, Kubenet will be retired). Each range must not overlap with any Subnet IP ranges. For example, "172.244.0.0/16,fd0:abcd::/64". See https://aka.ms/aks/azure-cni-overlay.
     /// </summary>
     [CliFlag("--pod-cidrs")]
     public bool? PodCidrs { get; set; }
 
     /// <summary>
-    /// Set the ip allocation mode for how Pod IPs from the Azure Pod Subnet are allocated to the nodes in the AKS cluster. The choice is between dynamic batches of individual IPs or static allocation of a set of CIDR blocks. Accepted Values are "DynamicIndividual" or "StaticBlock".
+    /// Set the ip allocation mode for how Pod IPs from the Azure Pod Subnet are allocated to the nodes in the AKS cluster. The choice is between dynamic batches of individual IPs or static allocation of a set of CIDR blocks. Accepted Values are "DynamicIndividual" or "StaticBlock". Allowed values: DynamicIndividual, StaticBlock. Used together with the "azure" network plugin. Requires --pod-subnet-id.
     /// </summary>
     [CliOption("--pod-ip-allocation-mode")]
     public string? PodIpAllocationMode { get; set; }
@@ -936,10 +938,10 @@ public record AzAksCreateOptions(
     public string? Ppg { get; set; }
 
     /// <summary>
-    /// Private dns zone mode for private cluster.
+    /// Private dns zone mode for private cluster. Allowed values are "system", "none" or custom private dns zone resource id. If not set, defaults to type system. Requires --enable-private-cluster to be used.
     /// </summary>
-    [CliFlag("--private-dns-zone")]
-    public bool? PrivateDnsZone { get; set; }
+    [CliOption("--private-dns-zone")]
+    public string? PrivateDnsZone { get; set; }
 
     /// <summary>
     /// Azure Service Mesh revision to install.
@@ -954,13 +956,13 @@ public record AzAksCreateOptions(
     public bool? RotationPollInterval { get; set; }
 
     /// <summary>
-    /// A CIDR notation IP range from which to assign service cluster IPs.
+    /// A CIDR notation IP range from which to assign service cluster IPs. This range must not overlap with any Subnet IP ranges. For example, 10.0.0.0/16.
     /// </summary>
     [CliFlag("--service-cidr")]
     public bool? ServiceCidr { get; set; }
 
     /// <summary>
-    /// A comma-separated list of CIDR notation IP ranges from which to assign service cluster
+    /// A comma-separated list of CIDR notation IP ranges from which to assign service cluster IPs. Each range must not overlap with any Subnet IP ranges. For example, "10.0.0.0/16,2001:abcd::/108".
     /// </summary>
     [CliFlag("--service-cidrs")]
     public bool? ServiceCidrs { get; set; }
@@ -972,7 +974,7 @@ public record AzAksCreateOptions(
     public bool? ServicePrincipal { get; set; }
 
     /// <summary>
-    /// Skip role assignment for subnet (advanced networking).
+    /// Skip role assignment for subnet (advanced networking). If specified, please make sure your service principal has the access to your subnet.
     /// </summary>
     [CliFlag("--skip-subnet-role-assignment")]
     public bool? SkipSubnetRoleAssignment { get; set; }
@@ -990,7 +992,7 @@ public record AzAksCreateOptions(
     public string? SnapshotId { get; set; }
 
     /// <summary>
-    /// Public key path or key contents to install on node VMs for SSH access. For example, 'ssh-rsa AAAAB...snip...UcyupgH
+    /// Public key path or key contents to install on node VMs for SSH access. For example, 'ssh-rsa AAAAB...snip...UcyupgH azureuser@linuxvm'.  Default: ~/.ssh/id_rsa.pub. If omitted: - The CLI will use '~/.ssh/id_rsa.pub' when present - If that file is not present the CLI will default to server-side generated keys (equivalent to using --no-ssh-key).
     /// </summary>
     [CliFlag("--ssh-key-value")]
     public bool? SshKeyValue { get; set; }
@@ -1002,7 +1004,7 @@ public record AzAksCreateOptions(
     public bool? StoragePoolName { get; set; }
 
     /// <summary>
-    /// Set ephemeral disk storage pool option for azure container storage.  Allowed values:
+    /// Set ephemeral disk storage pool option for azure container storage.  Allowed values: NVMe, Temp.
     /// </summary>
     [CliOption("--storage-pool-option")]
     public string? StoragePoolOption { get; set; }
@@ -1014,13 +1016,13 @@ public record AzAksCreateOptions(
     public bool? StoragePoolSize { get; set; }
 
     /// <summary>
-    /// Set azure disk type storage pool sku for azure container storage.  Allowed values:
+    /// Set azure disk type storage pool sku for azure container storage.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS, UltraSSD_LRS.
     /// </summary>
     [CliOption("--storage-pool-sku")]
     public string? StoragePoolSku { get; set; }
 
     /// <summary>
-    /// (Automatic SKU) The ID of a subnet in an existing VNet to be used by the Managed System Pool in an Automatic cluster.
+    /// (Automatic SKU) The ID of a subnet in an existing VNet to be used by the Managed System Pool in an Automatic cluster. Bring-your-own VNet for an Automatic cluster requires three subnets supplied together: `--system-node-subnet-id` (this flag, for the Managed System Pool), `--node-subnet-id` (for user node pools), and `--apiserver-subnet-id` (for the control plane API server). All three subnets must belong to the same VNet and can only be used with `--sku automatic`.
     /// </summary>
     [CliFlag("--system-node-subnet-id")]
     public bool? SystemNodeSubnetId { get; set; }
@@ -1038,13 +1040,13 @@ public record AzAksCreateOptions(
     public string? Tier { get; set; }
 
     /// <summary>
-    /// Agent pool vm set type.
+    /// Agent pool vm set type. VirtualMachineScaleSets or AvailabilitySet or VirtualMachines. Defaults to 'VirtualMachineScaleSets'.
     /// </summary>
     [CliFlag("--vm-set-type")]
     public bool? VmSetType { get; set; }
 
     /// <summary>
-    /// Comma-separated list of VM sizes. Valid for VirtualMachines node pool only. If `--vm- sizes` not specified but `--node-vm-size` specified, value of `--node-vm-size` will be used. If neither of them specified, defaults to Standard_DS2_v2 for Linux or
+    /// Comma-separated list of VM sizes. Valid for VirtualMachines node pool only. If `--vm-sizes` not specified but `--node-vm-size` specified, value of `--node-vm-size` will be used. If neither of them specified, defaults to Standard_DS2_v2 for Linux or Standard_D2s_v3 for Windows.
     /// </summary>
     [CliFlag("--vm-sizes")]
     public bool? VmSizes { get; set; }
@@ -1056,19 +1058,19 @@ public record AzAksCreateOptions(
     public string? VnetSubnetId { get; set; }
 
     /// <summary>
-    /// User account password to use on windows node VMs.
+    /// User account password to use on windows node VMs. Rules for windows-admin-password: - Minimum-length: 14 characters - Max-length: 123 characters - Complexity requirements: 3 out of 4 conditions below need to be fulfilled * Has lower characters * Has upper characters * Has a digit * Has a special character (Regex match [\W_]) - Disallowed values:  "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" Reference: https://learn.microsoft.com/dotnet/api/microsoft.azure.management.compute.models. virtualmachinescalesetosprofile.adminpassword?view=azure-dotnet.
     /// </summary>
     [CliFlag("--windows-admin-password")]
     public bool? WindowsAdminPassword { get; set; }
 
     /// <summary>
-    /// User account to create on windows node VMs.
+    /// User account to create on windows node VMs. Rules for windows-admin-username: - restriction: Cannot end in "." - Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". - Minimum-length: 1 character - Max-length: 20 characters Reference: https://learn.microsoft.com/dotnet/api/microsoft.azure.management.compute.models. virtualmachinescalesetosprofile.adminusername?view=azure-dotnet.
     /// </summary>
     [CliFlag("--windows-admin-username")]
     public bool? WindowsAdminUsername { get; set; }
 
     /// <summary>
-    /// Set the workload runtime.  Allowed values:
+    /// Set the workload runtime.  Allowed values: KataVmIsolation. Azure provides a different workload-runtime to enable Kata supported workloads in your nodepools. The following values can be specified: - "KataVmIsolation" for Kata.
     /// </summary>
     [CliOption("--workload-runtime")]
     public string? WorkloadRuntime { get; set; }

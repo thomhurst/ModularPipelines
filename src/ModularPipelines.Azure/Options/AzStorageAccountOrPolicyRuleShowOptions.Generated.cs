@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show the properties of specified rule in Object
 /// </summary>
+/// <param name="AccountName">The storage account name.</param>
+/// <param name="PolicyId">The ID of object replication policy or "default" if the policy ID is unknown. Policy Id will be auto-generated when setting on destination account. Required when setting on source account.</param>
+/// <param name="RuleId">Rule Id is auto-generated for each new rule on destination account. It is required for put policy on source account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "or-policy", "rule", "show")]

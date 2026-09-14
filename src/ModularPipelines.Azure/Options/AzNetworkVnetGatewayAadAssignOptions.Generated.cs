@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Assign/Update AAD(Azure Active Directory) authentication to
 /// </summary>
+/// <param name="GatewayName">Virtual network gateway name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Audience">The AADAudience ID of the VirtualNetworkGateway.</param>
+/// <param name="Issuer">The AADIssuer URI of the VirtualNetworkGateway.</param>
+/// <param name="Tenant">The AADTenant URI of the VirtualNetworkGateway.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "aad", "assign")]

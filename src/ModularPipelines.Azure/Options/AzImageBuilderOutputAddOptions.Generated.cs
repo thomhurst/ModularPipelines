@@ -53,11 +53,11 @@ public record AzImageBuilderOutputAddOptions : AzOptions
     /// <summary>
     /// Location where the customized image will be created. Defaults to resource group's location.
     /// </summary>
-    [CliFlag("--managed-image-location")]
-    public bool? ManagedImageLocation { get; set; }
+    [CliOption("--managed-image-location")]
+    public string? ManagedImageLocation { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

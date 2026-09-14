@@ -27,7 +27,7 @@ public record AzNetworkVnetGatewayListBgpPeerStatusOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// The IP address of the peer to retrieve the status of. Default value is
+    /// The IP address of the peer to retrieve the status of. Default value is None.
     /// </summary>
     [CliFlag("--peer")]
     public bool? Peer { get; set; }

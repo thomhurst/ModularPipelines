@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Upload certificate to a managed environment, add hostname to an app
 /// </summary>
+/// <param name="CertificateFile">The filepath of the .pfx or .pem file.</param>
+/// <param name="Environment">Name or resource id of the Container App environment.</param>
+/// <param name="Hostname">The custom domain name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "ssl", "upload")]
@@ -25,7 +28,7 @@ public record AzContainerappSslUploadOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Name of the certificate which should be unique within the
+    /// Name of the certificate which should be unique within the Container Apps environment.
     /// </summary>
     [CliOption("--certificate-name", ShortForm = "-c")]
     public string? CertificateName { get; set; }
@@ -33,8 +36,8 @@ public record AzContainerappSslUploadOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// The certificate file password.

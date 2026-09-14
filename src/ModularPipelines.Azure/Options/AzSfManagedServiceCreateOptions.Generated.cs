@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new managed service on an Azure Service Fabric managed
 /// </summary>
+/// <param name="Application">Specify the name of the service.</param>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="Name">Specify the name of the service.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServiceType">Specify the service type name of the application, it should exist in the application manifest.</param>
+/// <param name="State">Specify if the service is stateless or stateful. Allowed values: Stateful, Stateless.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-service", "create")]
@@ -34,19 +40,19 @@ public record AzSfManagedServiceCreateOptions(
     public bool? ActivationMode { get; set; }
 
     /// <summary>
-    /// Specify the default cost for a move. Higher costs make it less likely that the Cluster
+    /// Specify the default cost for a move. Higher costs make it less likely that the Cluster Resource Manager will move the replica when trying to balance the cluster. Allowed values: High, Low, Medium, Zero.
     /// </summary>
-    [CliFlag("--default-move-cost")]
-    public bool? DefaultMoveCost { get; set; }
+    [CliOption("--default-move-cost")]
+    public string? DefaultMoveCost { get; set; }
 
     /// <summary>
-    /// Determines whether this is a persistent service which stores states on the local disk. If it is then the value of this property is true, if not it is false.
+    /// Determines whether this is a persistent service which stores states on the local disk. If it is then the value of this property is true, if not it is false. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--has-persisted-state")]
+    [CliOption("--has-persisted-state")]
     public bool? HasPersistedState { get; set; }
 
     /// <summary>
-    /// Specify the upper bound of the partition key range that should be split between the partition ‘Count’ This is only used with
+    /// Specify the upper bound of the partition key range that should be split between the partition ‘Count’ This is only used with UniformInt64 partition scheme.
     /// </summary>
     [CliFlag("--high-key")]
     public bool? HighKey { get; set; }
@@ -58,25 +64,25 @@ public record AzSfManagedServiceCreateOptions(
     public bool? InstanceCount { get; set; }
 
     /// <summary>
-    /// Specify the definition on how long StandBy replicas should be maintained before being removed, represented in
+    /// Specify the definition on how long StandBy replicas should be maintained before being removed, represented in ISO 8601 format "hh:mm:ss".
     /// </summary>
     [CliFlag("--keep-duration", ShortForm = "--stand-by-replica-keep-duration")]
     public bool? KeepDuration { get; set; }
 
     /// <summary>
-    /// Specify the lower bound of the partition key range that should be split between the partition ‘Count’ This is only used with
+    /// Specify the lower bound of the partition key range that should be split between the partition ‘Count’ This is only used with UniformInt64 partition scheme.
     /// </summary>
     [CliFlag("--low-key")]
     public bool? LowKey { get; set; }
 
     /// <summary>
-    /// Specify the minimum percentage of
+    /// Specify the minimum percentage of InstanceCount that must be up to meet the Ensu reAvailability safety check during operations like upgrade or deactivate node. The actual number that is used is max( Min InstanceCount, ceil( MinInstanc ePercentage/100. 0 * InstanceCount) ). Note, if InstanceCount is set to -1, during MinInstan cePercentage computation, -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service. Allowed values are from 0 to 100.
     /// </summary>
-    [CliFlag("--min-inst-pct", ShortForm = "--min-instance-percentage")]
-    public bool? MinInstPct { get; set; }
+    [CliOption("--min-inst-pct", ShortForm = "--min-instance-percentage")]
+    public string? MinInstPct { get; set; }
 
     /// <summary>
-    /// Specify the minimum number of instances that must be up to meet the Ensu reAvailability safety check during operations like upgrade or deactivate node.
+    /// Specify the minimum number of instances that must be up to meet the Ensu reAvailability safety check during operations like upgrade or deactivate node. The actual number that is used is max( Min InstanceCount, ceil( MinInstanc ePercentage/100. 0 * InstanceCount) ). Note, if InstanceCount is set to -1, during MinInstanceCount computation -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service.
     /// </summary>
     [CliFlag("--min-instance-count")]
     public bool? MinInstanceCount { get; set; }
@@ -88,7 +94,7 @@ public record AzSfManagedServiceCreateOptions(
     public bool? MinReplica { get; set; }
 
     /// <summary>
-    /// Specify the number of partitions. This is only used with
+    /// Specify the number of partitions. This is only used with UniformInt64 partition scheme.
     /// </summary>
     [CliFlag("--partition-count")]
     public bool? PartitionCount { get; set; }
@@ -100,37 +106,37 @@ public record AzSfManagedServiceCreateOptions(
     public bool? PartitionNames { get; set; }
 
     /// <summary>
-    /// Specify what partition scheme to use.
+    /// Specify what partition scheme to use. Singleton partitions are typically used when the service does not require any additional routing. UniformInt64 means that each partition owns a range of int64 keys. Named is usually for services with data that can be bucketed, within a bounded set. Some common examples of data fields used as named partition keys would be regions, postal codes, customer groups, or other business boundaries. Allowed values: Named, Singleton, Unifo rmInt64Range. Default: singleton.
     /// </summary>
-    [CliFlag("--partition-scheme")]
-    public bool? PartitionScheme { get; set; }
+    [CliOption("--partition-scheme")]
+    public string? PartitionScheme { get; set; }
 
     /// <summary>
-    /// Specify the placement constraints as a string.
+    /// Specify the placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)".
     /// </summary>
     [CliFlag("--placement-constraints")]
     public bool? PlacementConstraints { get; set; }
 
     /// <summary>
-    /// Specify the duration for which replicas can stay InBuild before reporting that build is stuck, represented in
+    /// Specify the duration for which replicas can stay InBuild before reporting that build is stuck, represented in ISO 8601 format "hh:mm:ss".
     /// </summary>
     [CliFlag("--plcmt-time-limit", ShortForm = "--service-placement-time-limit")]
     public bool? PlcmtTimeLimit { get; set; }
 
     /// <summary>
-    /// Specify the maximum duration for which a partition is allowed to be in a state of quorum loss, represented in
+    /// Specify the maximum duration for which a partition is allowed to be in a state of quorum loss, represented in ISO 8601 format "hh:mm:ss".
     /// </summary>
     [CliFlag("--quorum-loss-wait", ShortForm = "--quorum-loss-wait-duration")]
     public bool? QuorumLossWait { get; set; }
 
     /// <summary>
-    /// Specify the duration between when a replica goes down and when a new replica is created, represented in
+    /// Specify the duration between when a replica goes down and when a new replica is created, represented in ISO 8601 format "hh:mm:ss".
     /// </summary>
     [CliFlag("--replica-restart-wait", ShortForm = "--replica-restart-wait-duration")]
     public bool? ReplicaRestartWait { get; set; }
 
     /// <summary>
-    /// Space-separated
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

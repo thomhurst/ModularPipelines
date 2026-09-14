@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all the versions of all the gremlin
 /// </summary>
+/// <param name="InstanceId">InstanceId of the Account.</param>
+/// <param name="Location">Location.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "gremlin", "restorable-database", "list")]

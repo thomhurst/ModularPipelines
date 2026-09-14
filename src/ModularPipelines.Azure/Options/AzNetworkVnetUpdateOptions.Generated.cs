@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzNetworkVnetUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Space-separated list of IP address prefixes for the VNet. Default: 10.0.0.0/16. If provided, --ipam- allocations should not be specified. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of IP address prefixes for the VNet. Default: 10.0.0.0/16. If provided, --ipam-allocations should not be specified. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--address-prefixes", GroupValues = true)]
     public IEnumerable<string>? AddressPrefixes { get; set; }
@@ -57,13 +57,13 @@ public record AzNetworkVnetUpdateOptions : AzOptions
     public bool? EnableEncryption { get; set; }
 
     /// <summary>
-    /// To control if the Virtual Machine without encryption is allowed in encrypted Virtual Network or not.  Allowed values:
+    /// To control if the Virtual Machine without encryption is allowed in encrypted Virtual Network or not.  Allowed values: AllowUnencrypted, DropUnencrypted.
     /// </summary>
     [CliOption("--encryption-enforcement-policy", ShortForm = "--encryption-policy")]
     public string? EncryptionEnforcementPolicy { get; set; }
 
     /// <summary>
-    /// The FlowTimeout value (in minutes) for the
+    /// The FlowTimeout value (in minutes) for the Virtual Network.
     /// </summary>
     [CliFlag("--flowtimeout")]
     public bool? Flowtimeout { get; set; }
@@ -93,7 +93,7 @@ public record AzNetworkVnetUpdateOptions : AzOptions
     public IEnumerable<string>? IpamAllocations { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -117,7 +117,7 @@ public record AzNetworkVnetUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids")]
     public IEnumerable<string>? Ids { get; set; }
@@ -129,7 +129,7 @@ public record AzNetworkVnetUpdateOptions : AzOptions
     public string? Name { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

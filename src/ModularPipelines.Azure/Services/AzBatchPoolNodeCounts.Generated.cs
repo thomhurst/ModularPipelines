@@ -44,7 +44,7 @@ public class AzBatchPoolNodeCounts
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBatchPoolNodeCountsListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBatchPoolNodeCountsListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

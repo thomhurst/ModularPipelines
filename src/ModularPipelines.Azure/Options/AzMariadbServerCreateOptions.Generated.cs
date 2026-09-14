@@ -21,13 +21,13 @@ namespace ModularPipelines.Azure.Options;
 public record AzMariadbServerCreateOptions : AzOptions
 {
     /// <summary>
-    /// Generate and assign an Microsoft Entra Identity for this server for use with key management services like Azure
+    /// Generate and assign an Microsoft Entra Identity for this server for use with key management services like Azure KeyVault.
     /// </summary>
     [CliFlag("--assign-identity")]
     public bool? AssignIdentity { get; set; }
 
     /// <summary>
-    /// Enable or disable autogrow of the storage. Default value is Enabled.  Allowed values: Disabled, Enabled.  Default:
+    /// Enable or disable autogrow of the storage. Default value is Enabled.  Allowed values: Disabled, Enabled.  Default: Enabled.
     /// </summary>
     [CliOption("--auto-grow")]
     public string? AutoGrow { get; set; }
@@ -53,8 +53,8 @@ public record AzMariadbServerCreateOptions : AzOptions
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Set the minimal TLS version for connections to server when SSL is enabled. Default is TLSEnforcementDisabled.  Allowed values: TLS1_0, TLS1_1, TLS1_2, TLSEnforcementDisabled.
@@ -117,7 +117,7 @@ public record AzMariadbServerCreateOptions : AzOptions
     public bool? AdminPassword { get; set; }
 
     /// <summary>
-    /// Administrator username for the server. Once set, it cannot be changed.  Default: loyaldingo1.
+    /// Administrator username for the server. Once set, it cannot be changed.  Default: excitedgranola5.
     /// </summary>
     [CliFlag("--admin-user", ShortForm = "-u")]
     public bool? AdminUser { get; set; }

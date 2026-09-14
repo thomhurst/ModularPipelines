@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Offline the specified region for the specified Azure Cosmos DB
 /// </summary>
+/// <param name="Region">The region to offline for the CosmosDB account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "offline-region")]

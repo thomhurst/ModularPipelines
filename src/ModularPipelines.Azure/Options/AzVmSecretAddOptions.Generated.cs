@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a secret to a VM.
 /// </summary>
+/// <param name="Certificate">Key vault certificate name or its full secret URL.</param>
+/// <param name="Keyvault">Name or ID of the key vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "secret", "add")]

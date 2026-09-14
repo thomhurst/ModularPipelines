@@ -45,7 +45,7 @@ public record AzSigImageDefinitionUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
@@ -63,13 +63,13 @@ public record AzSigImageDefinitionUpdateOptions : AzOptions
     public string? GalleryImageDefinition { get; set; }
 
     /// <summary>
-    /// The name of the Shared Image Gallery in which the Image
+    /// The name of the Shared Image Gallery in which the Image Definition resides.
     /// </summary>
     [CliOption("--gallery-name", ShortForm = "-r")]
     public string? GalleryName { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzServicebusNamespacePrivateEndpointConnectionWaitOptions : AzOptions
 {
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
@@ -35,8 +35,8 @@ public record AzServicebusNamespacePrivateEndpointConnectionWaitOptions : AzOpti
     /// <summary>
     /// The namespace name.
     /// </summary>
-    [CliFlag("--namespace-name")]
-    public bool? NamespaceName { get; set; }
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -51,7 +51,7 @@ public record AzServicebusNamespacePrivateEndpointConnectionWaitOptions : AzOpti
     public bool? Created { get; set; }
 
     /// <summary>
-    /// Wait until the condition satisfies a custom
+    /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instanceView.sta tuses[?code=='PowerState/running'].
     /// </summary>
     [CliFlag("--custom")]
     public bool? Custom { get; set; }

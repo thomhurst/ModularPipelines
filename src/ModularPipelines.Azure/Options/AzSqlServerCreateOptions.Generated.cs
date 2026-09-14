@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a server.
 /// </summary>
+/// <param name="Name">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "create")]
@@ -60,19 +62,19 @@ public record AzSqlServerCreateOptions(
     public bool? ExternalAdminPrincipalType { get; set; }
 
     /// <summary>
-    /// The unique ID of the Azure AD administrator. Object Id for User or Group, Client Id for
+    /// The unique ID of the Azure AD administrator. Object Id for User or Group, Client Id for Applications.
     /// </summary>
     [CliFlag("--external-admin-sid")]
     public bool? ExternalAdminSid { get; set; }
 
     /// <summary>
-    /// The federated client id used in cross tenant
+    /// The federated client id used in cross tenant CMK scenario.
     /// </summary>
     [CliFlag("--federated-client-id", ShortForm = "--fid")]
     public bool? FederatedClientId { get; set; }
 
     /// <summary>
-    /// Type of Identity to be used. Possible values are SystemAsssigned,UserAssigned, SystemAssigned,UserAssigned and None.  Allowed values: None, SystemAssigned,
+    /// Type of Identity to be used. Possible values are SystemAsssigned,UserAssigned, SystemAssigned,UserAssigned and None.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
     /// </summary>
     [CliOption("--identity-type", ShortForm = "-t")]
     public string? IdentityType { get; set; }
@@ -86,8 +88,8 @@ public record AzSqlServerCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// The minimal TLS version enforced by the sql server for inbound connections.  Allowed values: 1.0, 1.1, 1.2, 1.3.

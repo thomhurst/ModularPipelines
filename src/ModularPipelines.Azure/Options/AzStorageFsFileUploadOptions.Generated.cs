@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Upload a file to a file path in ADLS Gen2 file system.
 /// </summary>
+/// <param name="FileSystem">File system name (i.e. container name).</param>
+/// <param name="Path">The file path in a file system.</param>
+/// <param name="Source">Path of the local file to upload as the file content.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "file", "upload")]
@@ -133,7 +136,7 @@ public record AzStorageFsFileUploadOptions(
     public bool? AccountName { get; set; }
 
     /// <summary>
-    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable:
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
     [CliFlag("--blob-endpoint")]
     public bool? BlobEndpoint { get; set; }
@@ -145,7 +148,7 @@ public record AzStorageFsFileUploadOptions(
     public bool? ConnectionString { get; set; }
 
     /// <summary>
-    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
     [CliFlag("--sas-token")]
     public bool? SasToken { get; set; }

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Validate/Begin migrating a storage account to enable
 /// </summary>
+/// <param name="RequestType">Start a validation request for migration or start a migration request.  Allowed values: upgrade, validation.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "hns-migration", "start")]

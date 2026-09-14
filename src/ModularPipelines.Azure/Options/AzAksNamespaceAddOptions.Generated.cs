@@ -15,6 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add namespace to the managed Kubernetes cluster.
 /// </summary>
+/// <param name="ClusterName">Name of the managed cluster.</param>
+/// <param name="CpuLimit">CPU limit of the namespace.</param>
+/// <param name="CpuRequest">CPU request of the namespace.</param>
+/// <param name="MemoryLimit">Memory limit of the namespace.</param>
+/// <param name="MemoryRequest">Memory request of the namespace.</param>
+/// <param name="Name">The managed namespace name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aks", "namespace", "add")]
@@ -29,13 +36,13 @@ public record AzAksNamespaceAddOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Action if Kubernetes namespace with same name already exists. The default value is Never.  Allowed values: Always,
+    /// Action if Kubernetes namespace with same name already exists. The default value is Never.  Allowed values: Always, IfIdentical, Never.
     /// </summary>
     [CliOption("--adoption-policy")]
     public string? AdoptionPolicy { get; set; }
 
     /// <summary>
-    /// Send custom headers. When specified, format should be
+    /// Send custom headers. When specified, format should be Key1=Value1,Key2=Value2.
     /// </summary>
     [CliFlag("--aks-custom-headers")]
     public bool? AksCustomHeaders { get; set; }
@@ -59,7 +66,7 @@ public record AzAksNamespaceAddOptions(
     public string? EgressPolicy { get; set; }
 
     /// <summary>
-    /// Ingress policy for the network. The default value is AllowSameNamespace.  Allowed values: AllowAll,
+    /// Ingress policy for the network. The default value is AllowSameNamespace.  Allowed values: AllowAll, AllowSameNamespace, DenyAll.
     /// </summary>
     [CliOption("--ingress-policy")]
     public string? IngressPolicy { get; set; }

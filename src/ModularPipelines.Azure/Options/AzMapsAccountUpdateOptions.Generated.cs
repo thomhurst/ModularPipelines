@@ -33,7 +33,7 @@ public record AzMapsAccountUpdateOptions : AzOptions
     public string? Kind { get; set; }
 
     /// <summary>
-    /// Sets the resources to be used for Managed Identities based operations for the Map account resource.
+    /// Sets the resources to be used for Managed Identities based operations for the Map account resource. Usage: --linked-resources unique-name=XX id=XX
     /// </summary>
     [CliFlag("--linked-resources")]
     public bool? LinkedResources { get; set; }
@@ -45,7 +45,7 @@ public record AzMapsAccountUpdateOptions : AzOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The identity type.  Allowed values: None, SystemAssigned,
+    /// The identity type.  Allowed values: None, SystemAssigned, SystemAssigned, UserAssigned, UserAssigned.
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; set; }

@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Batch account with the specified parameters.
 /// </summary>
+/// <param name="Location">The region in which to create the account.</param>
+/// <param name="Name">Name of the Batch account.</param>
+/// <param name="ResourceGroup">Name of the resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "account", "create")]
@@ -31,7 +34,7 @@ public record AzBatchAccountCreateOptions(
     public bool? EncryptionKeyIdentifier { get; set; }
 
     /// <summary>
-    /// Part of the encryption configuration for the Batch account. Type of the key source. Can be either Microsoft.Batch or Microsoft.KeyVault.  Allowed values: Microsoft.Batch,
+    /// Part of the encryption configuration for the Batch account. Type of the key source. Can be either Microsoft.Batch or Microsoft.KeyVault.  Allowed values: Microsoft.Batch, Microsoft.KeyVault.
     /// </summary>
     [CliOption("--encryption-key-source")]
     public string? EncryptionKeySource { get; set; }
@@ -49,7 +52,7 @@ public record AzBatchAccountCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// The network access type for accessing Azure Batch account. Values can either be enabled or disabled.  Allowed values:
+    /// The network access type for accessing Azure Batch account. Values can either be enabled or disabled.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }

@@ -15,6 +15,14 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a SQL virtual machine group.
 /// </summary>
+/// <param name="Name">Name of the SQL virtual machine group.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ImageOffer">SQL image offer. Examples may include SQL2016-WS2016, SQL2017-WS2016.</param>
+/// <param name="ImageSku">SQL image sku.  Allowed values: Developer, Enterprise.</param>
+/// <param name="DomainFqdn">Fully qualified name of the domain.</param>
+/// <param name="OperatorAcc">Account name used for operating cluster i.e. will be part of administrators group on all the participating virtual machines in the cluster.</param>
+/// <param name="ServiceAcc">Account name under which SQL service will run on all participating SQL virtual machines in the cluster.</param>
+/// <param name="StorageAccount">Storage account url of the witness storage account.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "vm", "group", "create")]
@@ -32,8 +40,8 @@ public record AzSqlVmGroupCreateOptions(
     /// <summary>
     /// Location. If not provided, group will be created in the same reosurce group location.You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -56,8 +64,8 @@ public record AzSqlVmGroupCreateOptions(
     /// <summary>
     /// Optional path for fileshare witness.
     /// </summary>
-    [CliFlag("--fsw-path")]
-    public bool? FswPath { get; set; }
+    [CliOption("--fsw-path")]
+    public string? FswPath { get; set; }
 
     /// <summary>
     /// Organizational Unit path in which the nodes and cluster will be present. Example: OU=WSCluster,DC=testdomain,DC=com.

@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Export an API Management API.
 /// </summary>
+/// <param name="Ef">Specify the format of the exporting API.  Allowed values: OpenApiJsonFile, OpenApiJsonUrl, OpenApiYamlFile, OpenApiYamlUrl, SwaggerFile, SwaggerUrl, WadlFile, WadlUrl, WsdlFile, WsdlUrl.</param>
+/// <param name="ResourceGroup">The name of the resource group. The name is case insensitive.</param>
+/// <param name="ServiceName">The name of the api management service instance.</param>
+/// <param name="ApiId">API identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. Regex pattern: ^[^*#&amp;+:&lt;&gt;?]+$.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "export")]
@@ -28,7 +32,7 @@ public record AzApimApiExportOptions(
     /// <summary>
     /// File path specified to export the API.
     /// </summary>
-    [CliFlag("--file-path", ShortForm = "-f")]
-    public bool? FilePath { get; set; }
+    [CliOption("--file-path", ShortForm = "-f")]
+    public string? FilePath { get; set; }
 
 }

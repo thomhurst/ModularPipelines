@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Move a directory in ADLS Gen2 file system.
 /// </summary>
+/// <param name="FileSystem">File system name (i.e. container name).</param>
+/// <param name="Name">The name of directory.</param>
+/// <param name="NewDirectory">The new directory name the users want to move to. The value must have the following format: "{filesystem}/{directory}/{subdirectory}".</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "directory", "move")]
@@ -37,7 +40,7 @@ public record AzStorageFsDirectoryMoveOptions(
     public bool? Timeout { get; set; }
 
     /// <summary>
-    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
     [CliFlag("--account-key")]
     public bool? AccountKey { get; set; }
@@ -55,7 +58,7 @@ public record AzStorageFsDirectoryMoveOptions(
     public bool? BlobEndpoint { get; set; }
 
     /// <summary>
-    /// Storage account connection string. Environment variable:
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }

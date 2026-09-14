@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a role assignment.
 /// </summary>
+/// <param name="Role">The role name/id that is assigned to the principal.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "role", "assignment", "create")]
@@ -48,7 +50,7 @@ public record AzSynapseRoleAssignmentCreateOptions(
     public bool? AssignmentId { get; set; }
 
     /// <summary>
-    /// Item granted access in the workspace. Using with
+    /// Item granted access in the workspace. Using with --item-type to combine the scope of assignment.
     /// </summary>
     [CliFlag("--item")]
     public bool? Item { get; set; }

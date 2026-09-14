@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Start a deployment at management group.
 /// </summary>
+/// <param name="Location">The location to store the deployment metadata.</param>
+/// <param name="ManagementGroupId">The management group id to create deployment at.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "mg", "create")]
@@ -54,10 +56,10 @@ public record AzDeploymentMgCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Supply deployment parameter values.
+    /// Supply deployment parameter values. Parameters may be supplied from a file using the `@{path}` syntax, a JSON string, or as `&lt;KEY=VALUE&gt;` pairs. Parameters are evaluated in order, so when a value is assigned twice, the latter value will be used. It is recommended that you supply your parameters file first, and then override selectively using KEY=VALUE syntax.
     /// </summary>
-    [CliFlag("--parameters", ShortForm = "-p")]
-    public bool? Parameters { get; set; }
+    [CliOption("--parameters", ShortForm = "-p", GroupValues = true)]
+    public IEnumerable<string>? Parameters { get; set; }
 
     /// <summary>
     /// Instruct the command to execute the deployment if the What-If result contains no resource changes. Applicable when --confirm-with-what-if is set.
@@ -90,7 +92,7 @@ public record AzDeploymentMgCreateOptions(
     public string? TemplateUri { get; set; }
 
     /// <summary>
-    /// The deployment validation level. May be set to "Provider" (the default), "Template", or "ProviderNoRbac". With a validation level of "provider", ARM will perform full validation and check that you have sufficient permission to deploy all resources in the template. With a validation level of "providerNoRbac", ARM will perform full validation but only check for read permissions on each resource. With a validation level of "template", only static validation will be performed: preflight and permissions checks will be skipped.  Allowed values: Provider,
+    /// The deployment validation level. May be set to "Provider" (the default), "Template", or "ProviderNoRbac". With a validation level of "provider", ARM will perform full validation and check that you have sufficient permission to deploy all resources in the template. With a validation level of "providerNoRbac", ARM will perform full validation but only check for read permissions on each resource. With a validation level of "template", only static validation will be performed: preflight and permissions checks will be skipped.  Allowed values: Provider, ProviderNoRbac, Template.
     /// </summary>
     [CliOption("--validation-level")]
     public string? ValidationLevel { get; set; }
@@ -102,13 +104,13 @@ public record AzDeploymentMgCreateOptions(
     public bool? WhatIf { get; set; }
 
     /// <summary>
-    /// Space-separated list of resource change types to be excluded from What-If results. Applicable when --confirm-with-what-if is set.  Allowed values: Create, Delete, Deploy, Ignore, Modify,
+    /// Space-separated list of resource change types to be excluded from What-If results. Applicable when --confirm-with-what-if is set.  Allowed values: Create, Delete, Deploy, Ignore, Modify, NoChange, Unsupported.
     /// </summary>
     [CliOption("--what-if-exclude-change-types", ShortForm = "-x", GroupValues = true)]
     public IEnumerable<string>? WhatIfExcludeChangeTypes { get; set; }
 
     /// <summary>
-    /// The format of What-If results. Applicable when `--confirm-with-what-if` is set.  Allowed values: FullResourcePayloads, ResourceIdOnly.
+    /// The format of What-If results. Applicable when `--confirm-with-what-if` is set.  Allowed values: FullResourcePayloads, ResourceIdOnly. Default: FullResourcePayloads.
     /// </summary>
     [CliOption("--what-if-result-format", ShortForm = "-r")]
     public string? WhatIfResultFormat { get; set; }

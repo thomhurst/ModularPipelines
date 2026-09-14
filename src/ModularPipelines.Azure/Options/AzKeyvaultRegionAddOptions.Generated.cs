@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add regions for the managed HSM Pool.
 /// </summary>
+/// <param name="HsmName">Name of the HSM.</param>
+/// <param name="Region">The region name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "region", "add")]

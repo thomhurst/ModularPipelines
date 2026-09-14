@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a token associated with a scope map for an Azure Container
 /// </summary>
+/// <param name="Name">The name of the token.</param>
+/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "token", "create")]
@@ -66,7 +68,7 @@ public record AzAcrTokenCreateOptions(
     public string? ScopeMap { get; set; }
 
     /// <summary>
-    /// The status of the token.  Allowed values: disabled, enabled.
+    /// The status of the token.  Allowed values: disabled, enabled. Default: enabled.
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; set; }

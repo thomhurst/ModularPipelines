@@ -16,6 +16,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a managed cluster.
 /// </summary>
+/// <param name="AdminPassword">Admin password used for the virtual machines.</param>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-cluster", "create")]
@@ -26,7 +29,7 @@ public record AzSfManagedClusterCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Admin user used for the virtual
+    /// Admin user used for the virtual machines.  Default: vmadmin.
     /// </summary>
     [CliFlag("--admin-user-name")]
     public bool? AdminUserName { get; set; }
@@ -38,9 +41,9 @@ public record AzSfManagedClusterCreateOptions(
     public bool? CertCommonName { get; set; }
 
     /// <summary>
-    /// Client authentication type.
+    /// Client authentication type. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--cert-is-admin", ShortForm = "--client-cert-is-admin")]
+    [CliOption("--cert-is-admin", ShortForm = "--client-cert-is-admin")]
     public bool? CertIsAdmin { get; set; }
 
     /// <summary>
@@ -56,7 +59,7 @@ public record AzSfManagedClusterCreateOptions(
     public bool? CertThumbprint { get; set; }
 
     /// <summary>
-    /// Port used for client connections to the
+    /// Port used for client connections to the cluster.  Default: 19000.
     /// </summary>
     [CliFlag("--client-connection-port", ShortForm = "--client-port")]
     public bool? ClientConnectionPort { get; set; }
@@ -68,16 +71,16 @@ public record AzSfManagedClusterCreateOptions(
     public bool? ClusterCodeVersion { get; set; }
 
     /// <summary>
-    /// The upgrade mode of the cluster when new
+    /// The upgrade mode of the cluster when new Service Fabric runtime version is available Wave0: Cluster upgrade starts immediately after a new version is rolled out. Recommended for Test/Dev clusters.Wave1: Cluster upgrade starts 7 days after a new version is rolled out. Recommended for Pre- prod clusters.Wave2: Cluster upgrade starts 14 days after a new version is rolled out. Recommended for Production clusters. Allowed values: Wave0, Wave1, Wave2.
     /// </summary>
-    [CliFlag("--cluster-upgrade-cadence", ShortForm = "--upgrade-cadence")]
-    public bool? ClusterUpgradeCadence { get; set; }
+    [CliOption("--cluster-upgrade-cadence", ShortForm = "--upgrade-cadence")]
+    public string? ClusterUpgradeCadence { get; set; }
 
     /// <summary>
-    /// The upgrade mode of the cluster when new
+    /// The upgrade mode of the cluster when new Service Fabric runtime version is available Automatic: The cluster will be automatically upgraded to the latest Service Fabric runtime version, upgrade_cadence will determine when the upgrade starts after the new version becomes available.Manual: The cluster will not be automatically upgraded to the latest Service Fabric runtime version. The cluster is upgraded by setting the code_version property in the cluster resource. Allowed values: Automatic, Manual.
     /// </summary>
-    [CliFlag("--cluster-upgrade-mode", ShortForm = "--upgrade-mode")]
-    public bool? ClusterUpgradeMode { get; set; }
+    [CliOption("--cluster-upgrade-mode", ShortForm = "--upgrade-mode")]
+    public string? ClusterUpgradeMode { get; set; }
 
     /// <summary>
     /// Cluster's dns name.
@@ -86,19 +89,19 @@ public record AzSfManagedClusterCreateOptions(
     public bool? DnsName { get; set; }
 
     /// <summary>
-    /// Port used for http connections to the
+    /// Port used for http connections to the cluster.  Default: 19080.
     /// </summary>
     [CliFlag("--gateway-connection-port", ShortForm = "--gateway-port")]
     public bool? GatewayConnectionPort { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location= &lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
-    /// Cluster's Sku, the
+    /// Cluster's Sku, the options are Basic: it will have a minimum of 3 seed nodes and only allows 1 node type and Standard: it will have a minimum of 5 seed nodes and allows multiple node types.  Default: Basic.
     /// </summary>
     [CliFlag("--sku")]
     public bool? Sku { get; set; }

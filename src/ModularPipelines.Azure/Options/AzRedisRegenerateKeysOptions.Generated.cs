@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate Redis cache's access keys.
 /// </summary>
+/// <param name="KeyType">The Redis access key to regenerate.  Allowed values: Primary, Secondary.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "regenerate-keys")]

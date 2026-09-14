@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a customer managed security assessment type.
 /// </summary>
+/// <param name="Description">Detailed string that will help users to understand the assessment and how it is calculated.</param>
+/// <param name="DisplayName">Human readable title for this object.</param>
+/// <param name="Name">Name of the resource to be fetched.</param>
+/// <param name="Severity">Indicates the importance of the security risk if the assessment is unhealthy.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "assessment-metadata", "create")]

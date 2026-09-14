@@ -39,7 +39,7 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     public bool? EnableFips { get; set; }
 
     /// <summary>
-    /// Use HTTP2 for the application gateway.  Allowed values: Disabled,
+    /// Use HTTP2 for the application gateway.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--http2")]
     public string? Http2 { get; set; }
@@ -69,7 +69,7 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Name of an application gateway SKU.  Allowed values: Basic, Standard_Large, Standard_Medium, Standard_Small, Standard_v2,
+    /// Name of an application gateway SKU.  Allowed values: Basic, Standard_Large, Standard_Medium, Standard_Small, Standard_v2, WAF_Large, WAF_Medium, WAF_v2.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }
@@ -87,7 +87,7 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -105,7 +105,7 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
@@ -129,7 +129,7 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// Family of an application gateway SKU.  Allowed values: Generation_1,
+    /// Family of an application gateway SKU.  Allowed values: Generation_1, Generation_2.
     /// </summary>
     [CliOption("--family")]
     public string? Family { get; set; }

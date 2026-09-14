@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create/Update resource guard mapping of the
 /// </summary>
+/// <param name="ResourceGuardId">ARM ID of the Resource Guard to be associated with the vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "vault", "resource-guard-mapping", "update")]
@@ -23,7 +24,7 @@ public record AzBackupVaultResourceGuardMappingUpdateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// ID of the tenant where the Resource Guard exists in Cross-
+    /// ID of the tenant where the Resource Guard exists in Cross- Tenant scenarios.
     /// </summary>
     [CliOption("--tenant-id")]
     public string? TenantId { get; set; }

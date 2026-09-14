@@ -63,13 +63,13 @@ public record AzNetworkExpressRouteUpdateOptions : AzOptions
     public string? Provider { get; set; }
 
     /// <summary>
-    /// Chosen SKU family of ExpressRoute circuit.  Allowed values: MeteredData, UnlimitedData.  Allowed values: MeteredData,
+    /// Chosen SKU family of ExpressRoute circuit.  Allowed values: MeteredData, UnlimitedData.  Allowed values: MeteredData, UnlimitedData.
     /// </summary>
     [CliOption("--sku-family")]
     public string? SkuFamily { get; set; }
 
     /// <summary>
-    /// SKU Tier of ExpressRoute circuit.  Allowed values: Basic, Local, Premium, Standard.  Allowed values: Basic, Local, Premium,
+    /// SKU Tier of ExpressRoute circuit.  Allowed values: Basic, Local, Premium, Standard.  Allowed values: Basic, Local, Premium, Standard.
     /// </summary>
     [CliOption("--sku-tier")]
     public string? SkuTier { get; set; }
@@ -99,7 +99,7 @@ public record AzNetworkExpressRouteUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }

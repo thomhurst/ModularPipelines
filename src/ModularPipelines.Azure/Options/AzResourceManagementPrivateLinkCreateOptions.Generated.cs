@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a resource management group private link.
 /// </summary>
+/// <param name="Location">The region to create the resource management private link.</param>
+/// <param name="Name">The name of the resource management private link.</param>
+/// <param name="ResourceGroup">The name of the resource group.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resourcemanagement", "private-link", "create")]

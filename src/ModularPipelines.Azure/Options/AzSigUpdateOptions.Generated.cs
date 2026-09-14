@@ -99,7 +99,7 @@ public record AzSigUpdateOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// This property allows you to specify the permission of sharing gallery.  Allowed values: Community, Groups,
+    /// This property allows you to specify the permission of sharing gallery.  Allowed values: Community, Groups, Private.
     /// </summary>
     [CliOption("--permissions")]
     public string? Permissions { get; set; }

@@ -15,6 +15,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create or update a storage.
 /// </summary>
+/// <param name="AccessMode">Access mode for the AzureFile storage.  Allowed values: ReadOnly, ReadWrite.</param>
+/// <param name="AccountName">Name of the AzureFile storage account.</param>
+/// <param name="AzureFileAccountKey">Key of the AzureFile storage account.</param>
+/// <param name="AzureFileShareName">Name of the share on the AzureFile storage.</param>
+/// <param name="Name">Name of the Container Apps environment.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="StorageName">Name of the storage.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "storage", "set")]

@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a scope map for an Azure Container Registry.
 /// </summary>
+/// <param name="Name">The name of the scope map.</param>
+/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "scope-map", "update")]
@@ -48,7 +50,7 @@ public record AzAcrScopeMapUpdateOptions(
     public bool? RemoveGateway { get; set; }
 
     /// <summary>
-    /// Repository permissions to be removed. Use the format "--remove- repository REPO [ACTION1 ACTION2 ...]" per flag. Valid actions are ['content/delete', 'content/read', 'content/write', 'metadata/read', 'metadata/write'].
+    /// Repository permissions to be removed. Use the format "--remove-repository REPO [ACTION1 ACTION2 ...]" per flag. Valid actions are ['content/delete', 'content/read', 'content/write', 'metadata/read', 'metadata/write'].
     /// </summary>
     [CliFlag("--remove-repository")]
     public bool? RemoveRepository { get; set; }

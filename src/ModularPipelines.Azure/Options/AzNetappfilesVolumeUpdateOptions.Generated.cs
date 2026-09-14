@@ -51,7 +51,7 @@ public record AzNetappfilesVolumeUpdateOptions : AzOptions
     public string? Tags { get; set; }
 
     /// <summary>
-    /// Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'.
+    /// Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case- insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault'. Allowed values: Microsoft.KeyVault, Microsoft.NetApp.
     /// </summary>
     [CliOption("--encryption-key-source")]
     public string? EncryptionKeySource { get; set; }
@@ -75,7 +75,7 @@ public record AzNetappfilesVolumeUpdateOptions : AzOptions
     public bool? ExportPolicyRules { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -87,7 +87,7 @@ public record AzNetappfilesVolumeUpdateOptions : AzOptions
     public bool? ForceString { get; set; }
 
     /// <summary>
-    /// Remove a property or an element from a list.
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
     public IEnumerable<string>? Remove { get; set; }
@@ -99,13 +99,13 @@ public record AzNetappfilesVolumeUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// CoolAccessRetrievalPolicy determines the data retrieval behavior from the cool tier to standard storage based on the read pattern for cool access enabled volumes. The possible values for this field are:   Default - Data will be pulled from cool tier to standard storage on random reads. This policy is the default.  OnRead - All client-driven data read is pulled from cool tier to standard storage on both sequential and random reads. Never - No client-driven data is pulled from cool tier to standard storage.
+    /// CoolAccessRetrievalPolicy determines the data retrieval behavior from the cool tier to standard storage based on the read pattern for cool access enabled volumes. The possible values for this field are:   Default - Data will be pulled from cool tier to standard storage on random reads. This policy is the default.  OnRead - All client-driven data read is pulled from cool tier to standard storage on both sequential and random reads. Never - No client-driven data is pulled from cool tier to standard storage. Allowed values: Default, Never, OnRead.
     /// </summary>
-    [CliFlag("--ca-retrieval-policy", ShortForm = "--cool-access-retrieval-policy")]
-    public bool? CaRetrievalPolicy { get; set; }
+    [CliOption("--ca-retrieval-policy", ShortForm = "--cool-access-retrieval-policy")]
+    public string? CaRetrievalPolicy { get; set; }
 
     /// <summary>
-    /// CoolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier.  Allowed values: Auto,
+    /// CoolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier.  Allowed values: Auto, SnapshotOnly.
     /// </summary>
     [CliOption("--ca-tiering-policy", ShortForm = "--cool-access-tiering-policy")]
     public string? CaTieringPolicy { get; set; }
@@ -117,9 +117,9 @@ public record AzNetappfilesVolumeUpdateOptions : AzOptions
     public string? CapacityPoolResourceId { get; set; }
 
     /// <summary>
-    /// Specifies whether Cool
+    /// Specifies whether Cool Access(tiering) is enabled for the volume.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--cool-access")]
+    [CliOption("--cool-access")]
     public bool? CoolAccess { get; set; }
 
     /// <summary>
@@ -153,16 +153,16 @@ public record AzNetappfilesVolumeUpdateOptions : AzOptions
     public bool? ProtocolTypes { get; set; }
 
     /// <summary>
-    /// ServiceLevel.  Allowed values: Flexible, Premium,
+    /// ServiceLevel.  Allowed values: Flexible, Premium, Standard, StandardZRS, Ultra.
     /// </summary>
     [CliOption("--service-level")]
     public string? ServiceLevel { get; set; }
 
     /// <summary>
-    /// Enables access based enumeration share property for SMB Shares. Only applicable for
+    /// Enables access based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--smb-access-based-enumeration", ShortForm = "--smb-access-enumeration")]
-    public bool? SmbAccessBasedEnumeration { get; set; }
+    [CliOption("--smb-access-based-enumeration", ShortForm = "--smb-access-enumeration")]
+    public string? SmbAccessBasedEnumeration { get; set; }
 
     /// <summary>
     /// Enables continuously available share property for smb volume. Only applicable for SMB volume.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -171,16 +171,16 @@ public record AzNetappfilesVolumeUpdateOptions : AzOptions
     public bool? SmbCa { get; set; }
 
     /// <summary>
-    /// Enables encryption for in- flight smb3 data. Only applicable for
+    /// Enables encryption for in- flight smb3 data. Only applicable for SMB/DualProtocol volume. To be used with swagger version 2020-08-01 or later. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliFlag("--smb-encryption")]
+    [CliOption("--smb-encryption")]
     public bool? SmbEncryption { get; set; }
 
     /// <summary>
-    /// Enables non browsable property for SMB Shares.
+    /// Enables non browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliFlag("--smb-non-browsable")]
-    public bool? SmbNonBrowsable { get; set; }
+    [CliOption("--smb-non-browsable")]
+    public string? SmbNonBrowsable { get; set; }
 
     /// <summary>
     /// If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (defaults to true).  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -189,7 +189,7 @@ public record AzNetappfilesVolumeUpdateOptions : AzOptions
     public bool? SnapshotDirVisible { get; set; }
 
     /// <summary>
-    /// The Azure Resource URI for a delegated subnet. Must have the delegation
+    /// The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes.
     /// </summary>
     [CliFlag("--subnet", ShortForm = "--subnet-id")]
     public bool? Subnet { get; set; }
@@ -201,13 +201,13 @@ public record AzNetappfilesVolumeUpdateOptions : AzOptions
     public bool? ThroughputMibps { get; set; }
 
     /// <summary>
-    /// UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1).
+    /// UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users.
     /// </summary>
     [CliFlag("--unix-permissions")]
     public bool? UnixPermissions { get; set; }
 
     /// <summary>
-    /// Maximum storage quota allowed for a file system in
+    /// Maximum storage quota allowed for a file system in GiB.
     /// </summary>
     [CliFlag("--usage-threshold")]
     public bool? UsageThreshold { get; set; }
@@ -225,7 +225,7 @@ public record AzNetappfilesVolumeUpdateOptions : AzOptions
     public bool? VolumeSpecName { get; set; }
 
     /// <summary>
-    /// The remote region for the other end of the Volume
+    /// The remote region for the other end of the Volume Replication.
     /// </summary>
     [CliFlag("--remote-volume-region")]
     public bool? RemoteVolumeRegion { get; set; }
@@ -243,7 +243,7 @@ public record AzNetappfilesVolumeUpdateOptions : AzOptions
     public string? AccountName { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
@@ -261,7 +261,7 @@ public record AzNetappfilesVolumeUpdateOptions : AzOptions
     public string? PoolName { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

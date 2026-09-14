@@ -29,7 +29,7 @@ public record AzCosmosdbRestorableDatabaseAccountListOptions : AzOptions
     /// <summary>
     /// Location.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
 }

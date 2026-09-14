@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove an AkamaiAccessControl from an existing
 /// </summary>
+/// <param name="Identifier">The identifier for the authentication key. This is the nonce provided by Akamai.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "streaming-endpoint", "akamai", "remove")]

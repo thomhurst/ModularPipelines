@@ -16,6 +16,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a new option to an existing content key policy.
 /// </summary>
+/// <param name="PolicyOptionName">The content key policy option name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "content-key-policy", "option", "add")]
@@ -60,7 +61,7 @@ public record AzAmsContentKeyPolicyOptionAddOptions(
     public bool? FpStorageDurationSeconds { get; set; }
 
     /// <summary>
-    /// The rental and lease key type. Available values:
+    /// The rental and lease key type. Available values: Undefined, DualExpiry, PersistentUnlimited, PersistentLimited.
     /// </summary>
     [CliFlag("--rental-and-lease-key-type")]
     public bool? RentalAndLeaseKeyType { get; set; }

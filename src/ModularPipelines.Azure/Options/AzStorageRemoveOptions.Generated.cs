@@ -29,8 +29,8 @@ public record AzStorageRemoveOptions : AzOptions
     /// <summary>
     /// The container name.
     /// </summary>
-    [CliFlag("--container-name", ShortForm = "-c")]
-    public bool? ContainerName { get; set; }
+    [CliOption("--container-name", ShortForm = "-c")]
+    public string? ContainerName { get; set; }
 
     /// <summary>
     /// The blob name.
@@ -53,8 +53,8 @@ public record AzStorageRemoveOptions : AzOptions
     /// <summary>
     /// The file share name.
     /// </summary>
-    [CliFlag("--share-name", ShortForm = "-s")]
-    public bool? ShareName { get; set; }
+    [CliOption("--share-name", ShortForm = "-s")]
+    public string? ShareName { get; set; }
 
     /// <summary>
     /// Exclude these paths. This option does not support wildcard characters (*). Checks relative path prefix. For example: myFolder;myFolder/subDirName/file.pdf.
@@ -93,19 +93,19 @@ public record AzStorageRemoveOptions : AzOptions
     public bool? AccountName { get; set; }
 
     /// <summary>
-    /// Storage account connection string. Environment variable:
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }
 
     /// <summary>
-    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
     [CliFlag("--sas-token")]
     public bool? SasToken { get; set; }
 
     /// <summary>
-    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable:
+    /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
     [CliFlag("--service-endpoint")]
     public bool? ServiceEndpoint { get; set; }

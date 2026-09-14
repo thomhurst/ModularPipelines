@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Troubleshoot issues with VPN connections or gateway
 /// </summary>
+/// <param name="Resource">Name or ID of the resource to troubleshoot.</param>
+/// <param name="StorageAccount">Name or ID of the storage account in which to store the troubleshooting results.</param>
+/// <param name="StoragePath">Fully qualified URI to the storage blob container in which to store the troubleshooting results.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "troubleshooting", "start")]

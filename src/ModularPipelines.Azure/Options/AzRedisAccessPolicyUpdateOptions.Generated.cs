@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an Access Policy of the Redis Cache.
 /// </summary>
+/// <param name="AccessPolicyName">The name of the access policy that is being assigned.</param>
+/// <param name="Permissions">Permissions for the access policy. Learn how to configure permissions at https://aka.ms/redis/AADPreRequisites.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "access-policy", "update")]

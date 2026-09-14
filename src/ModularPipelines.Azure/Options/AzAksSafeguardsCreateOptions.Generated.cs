@@ -57,7 +57,7 @@ public record AzAksSafeguardsCreateOptions : AzOptions
     public string? Level { get; set; }
 
     /// <summary>
-    /// The pod security standards level.  Allowed values:
+    /// The pod security standards level.  Allowed values: Baseline, Privileged, Restricted.
     /// </summary>
     [CliOption("--pss-level")]
     public string? PssLevel { get; set; }

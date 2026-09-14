@@ -15,11 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Change the number of VMs within a VMSS.
 /// </summary>
+/// <param name="NewCapacity">Number of VMs in the VMSS.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "scale")]
 public record AzVmssScaleOptions(
-    [property: CliOption("--new-capacity")] string NewCapacity
+    [property: CliOption("--new-capacity")] int NewCapacity
 ) : AzOptions
 {
     /// <summary>
@@ -35,7 +36,7 @@ public record AzVmssScaleOptions(
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// Scale set name. You can configure the default using `az configure
+    /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
     /// </summary>
     [CliFlag("--name", ShortForm = "-n")]
     public bool? Name { get; set; }

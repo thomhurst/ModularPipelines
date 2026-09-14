@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create or update an unlocked immutability
 /// </summary>
+/// <param name="AccountName">Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT.</param>
+/// <param name="ContainerName">The container name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "container", "immutability-policy", "create")]
@@ -30,9 +32,9 @@ public record AzStorageContainerImmutabilityPolicyCreateOptions(
     public bool? AllowProtectedAppendWrites { get; set; }
 
     /// <summary>
-    /// This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to both 'Append and Block Blobs' while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with
+    /// This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to both 'Append and Block Blobs' while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API. The 'allowProtectedAppendWrites' and 'allowProtectedAppendWritesAll' properties are mutually exclusive.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--allow-protected-append-writes-all", ShortForm = "--w-all")]
+    [CliOption("--allow-protected-append-writes-all", ShortForm = "--w-all")]
     public bool? AllowProtectedAppendWritesAll { get; set; }
 
     /// <summary>

@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get the sensitivity classification of a given column.
 /// </summary>
+/// <param name="Column">The name of column.</param>
+/// <param name="Schema">The name of schema.</param>
+/// <param name="Table">The name of table.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "classification", "show")]
@@ -45,7 +48,7 @@ public record AzSynapseSqlPoolClassificationShowOptions(
     /// <summary>
     /// The workspace name.
     /// </summary>
-    [CliFlag("--workspace-name")]
-    public bool? WorkspaceName { get; set; }
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 
 }

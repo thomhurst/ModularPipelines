@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Execute script actions on the specified HDInsight cluster.
 /// </summary>
+/// <param name="ClusterName">The name of the cluster.</param>
+/// <param name="Name">The name of the script action.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Roles">A space-delimited list of roles (nodes) where the script will be executed. Valid roles are headnode, workernode, zookeepernode, edgenode.</param>
+/// <param name="ScriptUri">The URI to the script.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "script-action", "execute")]

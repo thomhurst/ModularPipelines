@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates or create an alerts suppression rule.
 /// </summary>
+/// <param name="AlertType">Type of the alert to automatically suppress. For all alert types, use "*".</param>
+/// <param name="Reason">The reason for dismissing the alert.</param>
+/// <param name="RuleName">The unique name of the alerts suppression rule.</param>
+/// <param name="State">Possible states of the rule. Possible values are "Enabled" and "Disabled".</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("security", "alerts-suppression-rule", "update")]

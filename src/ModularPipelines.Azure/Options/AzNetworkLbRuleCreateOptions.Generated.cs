@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a load balancing rule.
 /// </summary>
+/// <param name="LbName">The load balancer name.</param>
+/// <param name="Name">The name of the load balancing rule.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="BackendPort">The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note that value 0 enables "Any Port".</param>
+/// <param name="FrontendPort">The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".</param>
+/// <param name="Protocol">The reference to the transport protocol used by the load balancing rule.  Allowed values: All, Tcp, Udp.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "rule", "create")]
@@ -22,8 +28,8 @@ public record AzNetworkLbRuleCreateOptions(
     [property: CliOption("--lb-name")] string LbName,
     [property: CliOption("--name", ShortForm = "-n")] string Name,
     [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--backend-port")] string BackendPort,
-    [property: CliOption("--frontend-port")] string FrontendPort,
+    [property: CliOption("--backend-port")] int BackendPort,
+    [property: CliOption("--frontend-port")] int FrontendPort,
     [property: CliOption("--protocol")] string Protocol
 ) : AzOptions
 {
@@ -66,11 +72,11 @@ public record AzNetworkLbRuleCreateOptions(
     /// <summary>
     /// The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.
     /// </summary>
-    [CliFlag("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
-    public bool? IdleTimeout { get; set; }
+    [CliOption("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
+    public int? IdleTimeout { get; set; }
 
     /// <summary>
-    /// The load distribution policy for this rule.  Allowed values: Default, SourceIP, SourceIPProtocol.
+    /// The load distribution policy for this rule.  Allowed values: Default, SourceIP, SourceIPProtocol. Default: Default.
     /// </summary>
     [CliOption("--load-distribution")]
     public string? LoadDistribution { get; set; }

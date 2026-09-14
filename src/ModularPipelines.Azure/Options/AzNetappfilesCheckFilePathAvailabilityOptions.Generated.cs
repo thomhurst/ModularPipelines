@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Check if a file path is available.
 /// </summary>
+/// <param name="Name">File path to verify.</param>
+/// <param name="SubnetId">The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "check-file-path-availability")]
@@ -38,7 +40,7 @@ public record AzNetappfilesCheckFilePathAvailabilityOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
 }

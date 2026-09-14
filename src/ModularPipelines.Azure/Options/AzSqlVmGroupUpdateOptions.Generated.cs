@@ -27,7 +27,7 @@ public record AzSqlVmGroupUpdateOptions : AzOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or
+    /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -45,7 +45,7 @@ public record AzSqlVmGroupUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
@@ -89,8 +89,8 @@ public record AzSqlVmGroupUpdateOptions : AzOptions
     /// <summary>
     /// Optional path for fileshare witness.
     /// </summary>
-    [CliFlag("--fsw-path")]
-    public bool? FswPath { get; set; }
+    [CliOption("--fsw-path")]
+    public string? FswPath { get; set; }
 
     /// <summary>
     /// Account name used for operating cluster i.e. will be part of administrators group on all the participating virtual machines in the cluster.

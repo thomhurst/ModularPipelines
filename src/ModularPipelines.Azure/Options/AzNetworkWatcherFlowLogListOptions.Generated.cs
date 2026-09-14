@@ -23,8 +23,8 @@ public record AzNetworkWatcherFlowLogListOptions : AzOptions
     /// <summary>
     /// Location to identify the exclusive Network Watcher under a region. Only one Network Watcher can be existed per subscription and region.  When not specified, the location of the resource group will be used.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.

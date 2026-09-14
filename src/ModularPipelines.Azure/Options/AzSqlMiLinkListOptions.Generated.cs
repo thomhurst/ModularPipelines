@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get a list of Managed Instance links in instance.
 /// </summary>
+/// <param name="InstanceName">Name of the managed instance.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "mi", "link", "list")]
@@ -24,7 +26,7 @@ public record AzSqlMiLinkListOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output.
+    /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>
     [CliFlag("--max-items")]
     public bool? MaxItems { get; set; }

@@ -15,6 +15,16 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a virtual network gateway IPSec policy.
 /// </summary>
+/// <param name="GatewayName">Virtual network gateway name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="DhGroup">The DH Group used in initial SA.  Allowed values: DHGroup1, DHGroup14, DHGroup2, DHGroup2048, DHGroup24, ECP256, ECP384, None.</param>
+/// <param name="IpsecEncryption">The IPSec encryption algorithm.  Allowed values: AES128, AES192, AES256, DES, DES3, GCMAES128, GCMAES192, GCMAES256, None.</param>
+/// <param name="IpsecIntegrity">The IPSec integrity algorithm.  Allowed values: GCMAES128, GCMAES192, GCMAES256, MD5, SHA1, SHA256.</param>
+/// <param name="IkeEncryption">The IKE encryption algorithm.  Allowed values: AES128, AES192, AES256, DES, DES3, GCMAES128, GCMAES256.</param>
+/// <param name="IkeIntegrity">The IKE integrity algorithm.  Allowed values: GCMAES128, GCMAES256, MD5, SHA1, SHA256, SHA384.</param>
+/// <param name="PfsGroup">The Pfs Group used for new child SA.  Allowed values: ECP256, ECP384, None, PFS1, PFS14, PFS2, PFS2048, PFS24, PFSMM.</param>
+/// <param name="SaLifetime">The lifetime in seconds for P2S client.</param>
+/// <param name="SaMaxSize">The payload size in KB for P2S client.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "ipsec-policy", "add")]

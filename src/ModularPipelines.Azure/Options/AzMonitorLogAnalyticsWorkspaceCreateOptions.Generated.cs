@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a workspace instance.
 /// </summary>
+/// <param name="Name">Name of the Log Analytics Workspace.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitor", "log-analytics", "workspace", "create")]
@@ -30,7 +32,7 @@ public record AzMonitorLogAnalyticsWorkspaceCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Type of managed service identity.  Allowed values: None,
+    /// Type of managed service identity.  Allowed values: None, SystemAssigned, UserAssigned.
     /// </summary>
     [CliOption("--identity-type", ShortForm = "--type")]
     public string? IdentityType { get; set; }
@@ -44,8 +46,8 @@ public record AzMonitorLogAnalyticsWorkspaceCreateOptions(
     /// <summary>
     /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -54,13 +56,13 @@ public record AzMonitorLogAnalyticsWorkspaceCreateOptions(
     public string? Tags { get; set; }
 
     /// <summary>
-    /// The public network access type to access workspace ingestion.  Allowed values: Disabled, Enabled.  Default:
+    /// The public network access type to access workspace ingestion.  Allowed values: Disabled, Enabled.  Default: Enabled.
     /// </summary>
     [CliOption("--ingestion-access")]
     public string? IngestionAccess { get; set; }
 
     /// <summary>
-    /// The public network access type to access workspace query.  Allowed values: Disabled, Enabled.  Default:
+    /// The public network access type to access workspace query.  Allowed values: Disabled, Enabled.  Default: Enabled.
     /// </summary>
     [CliOption("--query-access")]
     public string? QueryAccess { get; set; }
@@ -86,8 +88,8 @@ public record AzMonitorLogAnalyticsWorkspaceCreateOptions(
     /// <summary>
     /// The location of the replication.
     /// </summary>
-    [CliFlag("--replication-location")]
-    public bool? ReplicationLocation { get; set; }
+    [CliOption("--replication-location")]
+    public string? ReplicationLocation { get; set; }
 
     /// <summary>
     /// The capacity reservation level for this workspace, when CapacityReservation sku is selected. The maximum value is 1000 and must be in multiples of 100. If you want to increase the limit, please contact LAIngestionRate@microsoft.com.  Allowed values: 100, 1000, 10000, 200, 2000, 25000, 300, 400, 500, 5000, 50000.
@@ -96,7 +98,7 @@ public record AzMonitorLogAnalyticsWorkspaceCreateOptions(
     public string? CapacityReservationLevel { get; set; }
 
     /// <summary>
-    /// The name of the SKU.  Allowed values: CapacityReservation, Free, LACluster, PerGB2018, PerNode, Premium, Standalone, Standard.  Default:
+    /// The name of the SKU.  Allowed values: CapacityReservation, Free, LACluster, PerGB2018, PerNode, Premium, Standalone, Standard.  Default: PerGB2018.
     /// </summary>
     [CliOption("--sku", ShortForm = "--sku-name")]
     public string? Sku { get; set; }

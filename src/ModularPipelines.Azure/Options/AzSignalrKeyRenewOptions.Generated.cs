@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate the access key for a SignalR Service.
 /// </summary>
+/// <param name="KeyType">The name of access key to regenerate.  Allowed values: primary, secondary.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "key", "renew")]

@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a track for an Azure Media Services asset.
 /// </summary>
+/// <param name="AccountName">The name of the Azure Media Services account.</param>
+/// <param name="AssetName">The asset name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="TrackName">The name of the track.</param>
+/// <param name="TrackType">The type of track. Allowed values: Text.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "asset-track", "create")]

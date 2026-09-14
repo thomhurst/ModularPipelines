@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate an access key for an Azure Cosmos DB database account.
 /// </summary>
+/// <param name="KeyKind">The access key to regenerate.  Allowed values: primary, primaryReadonly, secondary, secondaryReadonly.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "keys", "regenerate")]

@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an outbound-rule.
 /// </summary>
+/// <param name="LbName">The load balancer name.</param>
+/// <param name="Name">The name of the outbound rule.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="AddressPool">The name or ID of the backend address pool.</param>
+/// <param name="Protocol">The protocol for the outbound rule in load balancer.  Allowed values: All, Tcp, Udp.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "outbound-rule", "create")]
@@ -33,7 +38,7 @@ public record AzNetworkLbOutboundRuleCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// The number of outbound ports to be used for
+    /// The number of outbound ports to be used for NAT.
     /// </summary>
     [CliFlag("--allocated-outbound-ports", ShortForm = "--outbound-ports")]
     public bool? AllocatedOutboundPorts { get; set; }
@@ -53,7 +58,7 @@ public record AzNetworkLbOutboundRuleCreateOptions(
     /// <summary>
     /// The timeout for the TCP idle connection.
     /// </summary>
-    [CliFlag("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
-    public bool? IdleTimeout { get; set; }
+    [CliOption("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
+    public int? IdleTimeout { get; set; }
 
 }

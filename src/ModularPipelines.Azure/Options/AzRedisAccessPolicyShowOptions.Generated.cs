@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get the detailed information about an Access Policy of the Redis
 /// </summary>
+/// <param name="AccessPolicyName">The name of the access policy that is being assigned.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "access-policy", "show")]

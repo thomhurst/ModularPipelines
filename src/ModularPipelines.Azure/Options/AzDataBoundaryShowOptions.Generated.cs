@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get data boundary at specified scope.
 /// </summary>
+/// <param name="Default">Default string modeled as parameter for auto generation to work correctly.  Allowed values: default.</param>
+/// <param name="Scope">The scope at which the operation is performed.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-boundary", "show")]

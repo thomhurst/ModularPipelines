@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a streaming policy.
 /// </summary>
+/// <param name="AccountName">The name of the Azure Media Services account.</param>
+/// <param name="Name">The name of the streaming policy.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "streaming-policy", "create")]
@@ -31,7 +34,7 @@ public record AzAmsStreamingPolicyCreateOptions(
     public bool? DefaultContentKeyPolicyName { get; set; }
 
     /// <summary>
-    /// Space-separated list of enabled protocols for NoEncryption. Allowed values: Download, Dash, HLS,
+    /// Space-separated list of enabled protocols for NoEncryption. Allowed values: Download, Dash, HLS, SmoothStreaming.
     /// </summary>
     [CliOption("--no-encryption-protocols", GroupValues = true)]
     public IEnumerable<string>? NoEncryptionProtocols { get; set; }
@@ -73,7 +76,7 @@ public record AzAmsStreamingPolicyCreateOptions(
     public bool? CbcsKeyToTrackMappings { get; set; }
 
     /// <summary>
-    /// Space-separated list of enabled protocols for Common Encryption CBCS. Allowed values: Download, Dash,
+    /// Space-separated list of enabled protocols for Common Encryption CBCS. Allowed values: Download, Dash, HLS, SmoothStreaming.
     /// </summary>
     [CliOption("--cbcs-protocols", GroupValues = true)]
     public IEnumerable<string>? CbcsProtocols { get; set; }
@@ -97,15 +100,15 @@ public record AzAmsStreamingPolicyCreateOptions(
     public bool? CencDefaultKeyPolicyName { get; set; }
 
     /// <summary>
-    /// If specified, no PlayReady cenc DRM will be configured. If --cenc-disable-play-ready is set,
+    /// If specified, no PlayReady cenc DRM will be configured. If --cenc-disable-play-ready is set, --cenc-disable-widevine cannot also be set.  Allowed values: false, true.
     /// </summary>
-    [CliFlag("--cenc-disable-play-ready")]
+    [CliOption("--cenc-disable-play-ready")]
     public bool? CencDisablePlayReady { get; set; }
 
     /// <summary>
-    /// If specified, no Widevine cenc DRM will be configured. If --cenc-disable-widevine is set,
+    /// If specified, no Widevine cenc DRM will be configured. If --cenc-disable-widevine is set, --cenc-disable-play-ready cannot also be set. Allowed values: false, true.
     /// </summary>
-    [CliFlag("--cenc-disable-widevine")]
+    [CliOption("--cenc-disable-widevine")]
     public bool? CencDisableWidevine { get; set; }
 
     /// <summary>
@@ -127,7 +130,7 @@ public record AzAmsStreamingPolicyCreateOptions(
     public bool? CencPlayReadyTemplate { get; set; }
 
     /// <summary>
-    /// Space-separated list of enabled protocols for Common Encryption CENC. Allowed values: Download, Dash,
+    /// Space-separated list of enabled protocols for Common Encryption CENC. Allowed values: Download, Dash, HLS, SmoothStreaming.
     /// </summary>
     [CliOption("--cenc-protocols", GroupValues = true)]
     public IEnumerable<string>? CencProtocols { get; set; }
@@ -163,7 +166,7 @@ public record AzAmsStreamingPolicyCreateOptions(
     public bool? EnvelopeKeyToTrackMappings { get; set; }
 
     /// <summary>
-    /// Space-separated list of enabled protocols for Envelope Encryption. Allowed values: Download, Dash,
+    /// Space-separated list of enabled protocols for Envelope Encryption. Allowed values: Download, Dash, HLS, SmoothStreaming.
     /// </summary>
     [CliOption("--envelope-protocols", GroupValues = true)]
     public IEnumerable<string>? EnvelopeProtocols { get; set; }

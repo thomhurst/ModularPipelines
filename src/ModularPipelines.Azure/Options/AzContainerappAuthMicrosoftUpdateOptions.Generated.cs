@@ -23,8 +23,8 @@ public record AzContainerappAuthMicrosoftUpdateOptions : AzOptions
     /// <summary>
     /// The configuration settings of the allowed list of audiences from which to validate the JWT token.
     /// </summary>
-    [CliFlag("--allowed-audiences", ShortForm = "--allowed-token-audiences")]
-    public bool? AllowedAudiences { get; set; }
+    [CliOption("--allowed-audiences", ShortForm = "--allowed-token-audiences", GroupValues = true)]
+    public IEnumerable<string>? AllowedAudiences { get; set; }
 
     /// <summary>
     /// Alternative to AAD Client Secret and thumbprint, issuer of a certificate used for signing purposes.

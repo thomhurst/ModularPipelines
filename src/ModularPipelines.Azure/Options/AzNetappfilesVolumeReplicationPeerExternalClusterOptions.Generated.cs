@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Starts peering the external cluster
 /// </summary>
+/// <param name="PeerIpAddresses">A list of IC-LIF IPs that can be used to connect to the On-prem cluster  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume", "replication", "peer-external-cluster")]

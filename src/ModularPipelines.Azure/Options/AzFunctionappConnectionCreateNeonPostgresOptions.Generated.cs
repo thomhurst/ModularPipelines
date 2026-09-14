@@ -105,7 +105,7 @@ public record AzFunctionappConnectionCreateNeonPostgresOptions : AzOptions
     public string? VaultId { get; set; }
 
     /// <summary>
-    /// The secret auth info.
+    /// The secret auth info. Usage: --secret name=XX secret=XX --secret name=XX secret-uri=XX --secret name=XX secret-name=XX
     /// </summary>
     [CliFlag("--secret")]
     public bool? Secret { get; set; }

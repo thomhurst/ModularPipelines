@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a backup under the Backup Vault.
 /// </summary>
+/// <param name="AccountName">The name of the NetApp account.</param>
+/// <param name="BackupName">The name of the backup.</param>
+/// <param name="BackupVaultName">The name of the Backup Vault.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VolumeResourceId">ResourceId used to identify the Volume.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "account", "backup-vault", "backup", "create")]

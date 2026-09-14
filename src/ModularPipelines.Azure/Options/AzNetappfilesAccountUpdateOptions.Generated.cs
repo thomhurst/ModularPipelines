@@ -39,7 +39,7 @@ public record AzNetappfilesAccountUpdateOptions : AzOptions
     public string? KeyName { get; set; }
 
     /// <summary>
-    /// The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.NetApp, Microsoft.KeyVault.  Allowed values:
+    /// The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.NetApp, Microsoft.KeyVault.  Allowed values: Microsoft.KeyVault, Microsoft.NetApp.
     /// </summary>
     [CliOption("--key-source")]
     public string? KeySource { get; set; }
@@ -69,7 +69,7 @@ public record AzNetappfilesAccountUpdateOptions : AzOptions
     public bool? UserAssignedIdentity { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -81,7 +81,7 @@ public record AzNetappfilesAccountUpdateOptions : AzOptions
     public bool? ForceString { get; set; }
 
     /// <summary>
-    /// Remove a property or an element from a list.
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
     public IEnumerable<string>? Remove { get; set; }
@@ -93,13 +93,13 @@ public record AzNetappfilesAccountUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).  Allowed values: None,
+    /// Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
     /// </summary>
     [CliOption("--identity-type", ShortForm = "--type")]
     public string? IdentityType { get; set; }
 
     /// <summary>
-    /// The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resource
+    /// The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resource Groups/{resourceGroupName}/providers/Microsoft. ManagedIdentity/userAssignedIdentities/{identit yName}. The dictionary values can be empty objects ({}) in requests.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--user-assigned-identities", ShortForm = "--user-ids")]
     public bool? UserAssignedIdentities { get; set; }
@@ -123,7 +123,7 @@ public record AzNetappfilesAccountUpdateOptions : AzOptions
     public string? AccountName { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

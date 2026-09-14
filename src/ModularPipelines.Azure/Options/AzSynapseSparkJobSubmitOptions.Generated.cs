@@ -15,12 +15,18 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Submit a Spark job.
 /// </summary>
+/// <param name="ExecutorSize">The executor size.  Allowed values: Large, Medium, Small.</param>
+/// <param name="Executors">The number of executors.</param>
+/// <param name="MainDefinitionFile">The main file used for the job.</param>
+/// <param name="Name">The Spark job name.</param>
+/// <param name="SparkPoolName">The name of the Spark pool.</param>
+/// <param name="WorkspaceName">The name of the workspace.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "job", "submit")]
 public record AzSynapseSparkJobSubmitOptions(
     [property: CliOption("--executor-size")] string ExecutorSize,
-    [property: CliOption("--executors")] string Executors,
+    [property: CliOption("--executors")] int Executors,
     [property: CliOption("--main-definition-file")] string MainDefinitionFile,
     [property: CliOption("--name", ShortForm = "-n")] string Name,
     [property: CliOption("--spark-pool-name")] string SparkPoolName,
@@ -42,8 +48,8 @@ public record AzSynapseSparkJobSubmitOptions(
     /// <summary>
     /// The configuration of Spark job.
     /// </summary>
-    [CliFlag("--configuration")]
-    public bool? Configuration { get; set; }
+    [CliOption("--configuration")]
+    public string? Configuration { get; set; }
 
     /// <summary>
     /// The Spark job language.  Allowed values: CSharp, PySpark, Python, Scala, Spark, SparkDotNet.  Default: Scala.
@@ -54,8 +60,8 @@ public record AzSynapseSparkJobSubmitOptions(
     /// <summary>
     /// The fully-qualified identifier or the main class that is in the main definition file.
     /// </summary>
-    [CliFlag("--main-class-name")]
-    public bool? MainClassName { get; set; }
+    [CliOption("--main-class-name")]
+    public string? MainClassName { get; set; }
 
     /// <summary>
     /// The array of files used for refenence in the main python definition file.  Examples include custom whl files and custom python files.  May pass multiple files such as `az synapse spark job sumbit &lt;other_args&gt; --python_files abfss://file1 abss://file2`.
@@ -66,8 +72,8 @@ public record AzSynapseSparkJobSubmitOptions(
     /// <summary>
     /// Additional files used for reference in the main definition file.
     /// </summary>
-    [CliFlag("--reference-files")]
-    public bool? ReferenceFiles { get; set; }
+    [CliOption("--reference-files")]
+    public IEnumerable<string>? ReferenceFiles { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.

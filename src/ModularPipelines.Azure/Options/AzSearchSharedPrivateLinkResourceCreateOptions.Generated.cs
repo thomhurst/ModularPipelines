@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create shared privatelink resources in a Search
 /// </summary>
+/// <param name="GroupId">The group id of the resource; for example: blob, sql or vault.</param>
+/// <param name="Name">Name of the shared private link resource.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ResourceId">Fully qualified resource ID for the resource. for example: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupNa me}/providers/ {resourceProviderNamespace}/{resourceType}/{resourceName}.</param>
+/// <param name="ServiceName">The name of the search service.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search", "shared-private-link-resource", "create")]

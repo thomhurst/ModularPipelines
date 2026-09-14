@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a private endpoint.
 /// </summary>
+/// <param name="ConnectionName">Name of the private link service connection.</param>
+/// <param name="Name">Name of the private endpoint.</param>
+/// <param name="PrivateConnectionResourceId">The resource id of the private endpoint to connect to.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Subnet">Name or ID of an existing subnet. If name specified, also specify --vnet-name. If you want to use an existing subnet in other resource group or subscription, please provide the ID instead of the name of the subnet and do not specify the--vnet-name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "private-endpoint", "create")]
@@ -33,16 +38,16 @@ public record AzNetworkPrivateEndpointCreateOptions(
     public string? EdgeZone { get; set; }
 
     /// <summary>
-    /// The ID of the group obtained from the remote resource that this private endpoint should connect to. You can use "az network private-link-resource list" to obtain the supported group ids. You must provide this except for
+    /// The ID of the group obtained from the remote resource that this private endpoint should connect to. You can use "az network private-link-resource list" to obtain the supported group ids. You must provide this except for PrivateLinkService.,  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--group-id", ShortForm = "--group-ids")]
     public string? GroupId { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Use manual request to establish the connection. Configure it as 'true' when you don't have access to the subscription of private link service.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -81,7 +86,7 @@ public record AzNetworkPrivateEndpointCreateOptions(
     public string? VnetName { get; set; }
 
     /// <summary>
-    /// The private endpoint application security groups.
+    /// The private endpoint application security groups. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.  Singular flags: `--asg`.
     /// </summary>
     [CliFlag("--asg", ShortForm = "--asgs")]
     public bool? Asg { get; set; }
@@ -99,7 +104,7 @@ public record AzNetworkPrivateEndpointCreateOptions(
     public bool? DefaultOutboundAccess { get; set; }
 
     /// <summary>
-    /// Specifies the IP version type for the private IPs of the private endpoint. If not defined, this defaults to IPv4.  Allowed values:
+    /// Specifies the IP version type for the private IPs of the private endpoint. If not defined, this defaults to IPv4.  Allowed values: DualStack, IPv4, IPv6. Default: IPv4.
     /// </summary>
     [CliOption("--ip-version-type")]
     public string? IpVersionType { get; set; }
@@ -117,7 +122,7 @@ public record AzNetworkPrivateEndpointCreateOptions(
     public bool? ServiceGateway { get; set; }
 
     /// <summary>
-    /// Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty.  Allowed values:
+    /// Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty.  Allowed values: DelegatedServices, Tenant.
     /// </summary>
     [CliOption("--sharing-scope")]
     public string? SharingScope { get; set; }

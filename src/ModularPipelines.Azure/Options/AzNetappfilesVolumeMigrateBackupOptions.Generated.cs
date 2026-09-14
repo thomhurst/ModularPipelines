@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Migrate the backups under volume to backup vault.
 /// </summary>
+/// <param name="BackupVaultId">The ResourceId of the Backup Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("netappfiles", "volume", "migrate-backup")]

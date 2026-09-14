@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Gets the Batch service quotas for the specified subscription at
 /// </summary>
+/// <param name="Location">The region for which to display the Batch service quotas.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "location", "quotas", "show")]

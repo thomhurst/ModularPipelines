@@ -29,8 +29,8 @@ public record AzContainerappEnvCertificateDeleteOptions : AzOptions
     /// <summary>
     /// Location of resource. Examples: eastus2, northeurope.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Thumbprint of the certificate.

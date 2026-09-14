@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new Fleetspace under a Cosmos DB Fleet.
 /// </summary>
+/// <param name="Body">Fleetspace body with properties.serviceTier (required), properties.dataRegions (required), and properties.throughputPoolConfiguration (fields: minThroughput, maxThroughput). You can enter it as a string or as a file, e.g., --body @fleetspace.json or --body "{ \"properties\": { \"serviceTier\": \"GeneralPurpose\", \"dataRegions\": [\"West US 2\"], \"throughputPoolConfiguration\": { \"minThroughput\": 100000, \"maxThroughput\": 300000 } }</param>
+/// <param name="FleetName">Name of the Cosmos DB Fleet.</param>
+/// <param name="FleetspaceName">Name of the Fleetspace resource.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cosmosdb", "fleetspace", "create")]

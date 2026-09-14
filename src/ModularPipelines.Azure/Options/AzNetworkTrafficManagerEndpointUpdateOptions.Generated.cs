@@ -35,8 +35,8 @@ public record AzNetworkTrafficManagerEndpointUpdateOptions : AzOptions
     /// <summary>
     /// Location of the external or nested endpoints when using the 'Performance' routing method.
     /// </summary>
-    [CliFlag("--endpoint-location")]
-    public bool? EndpointLocation { get; set; }
+    [CliOption("--endpoint-location")]
+    public string? EndpointLocation { get; set; }
 
     /// <summary>
     /// The monitoring status of the endpoint.

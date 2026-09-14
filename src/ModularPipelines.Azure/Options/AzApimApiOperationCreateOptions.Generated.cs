@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Creates a new operation in the API.
 /// </summary>
+/// <param name="DisplayName">Required. Operation Name.</param>
+/// <param name="Method">Required. A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ServiceName">The name of the API Management service instance.</param>
+/// <param name="UrlTemplate">Relative URL template identifying the target resource for this operation. May include parameters.</param>
+/// <param name="ApiId">API identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apim", "api", "operation", "create")]

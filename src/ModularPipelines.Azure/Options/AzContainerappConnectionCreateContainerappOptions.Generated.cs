@@ -87,7 +87,7 @@ public record AzContainerappConnectionCreateContainerappOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// The resource id of a containerapp. Required if ['--resource- group', '--name'] are not specified.
+    /// The resource id of a containerapp. Required if ['--resource-group', '--name'] are not specified.
     /// </summary>
     [CliOption("--source-id")]
     public string? SourceId { get; set; }
@@ -99,7 +99,7 @@ public record AzContainerappConnectionCreateContainerappOptions : AzOptions
     public string? TargetAppName { get; set; }
 
     /// <summary>
-    /// The resource id of target service. Required if ['--target- resource-group', '--target-app-name'] are not specified.
+    /// The resource id of target service. Required if ['--target-resource-group', '--target-app-name'] are not specified.
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; set; }

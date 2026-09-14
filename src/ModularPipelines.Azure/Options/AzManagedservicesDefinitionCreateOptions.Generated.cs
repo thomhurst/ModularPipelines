@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a registration definition.
 /// </summary>
+/// <param name="Name">Name of the registration definition.</param>
+/// <param name="PrincipalId">The principal id.</param>
+/// <param name="RoleDefinitionId">The role definition id.</param>
+/// <param name="TenantId">Id of the managedBy tenant.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("managedservices", "definition", "create")]
@@ -46,8 +50,8 @@ public record AzManagedservicesDefinitionCreateOptions(
     /// <summary>
     /// The plan name.
     /// </summary>
-    [CliFlag("--plan-name")]
-    public bool? PlanName { get; set; }
+    [CliOption("--plan-name")]
+    public string? PlanName { get; set; }
 
     /// <summary>
     /// The product code.

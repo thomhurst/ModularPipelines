@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// This operation retrieves the details
 /// </summary>
+/// <param name="FailoverTestId">The unique Guid value which identifies the test.</param>
+/// <param name="PeeringLocation">Peering location of the test.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "get-failover-single-test-detail")]

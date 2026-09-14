@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Updates a user entry with the listed roles. Either user details
 /// </summary>
+/// <param name="Name">Name of the static site.</param>
+/// <param name="Roles">Comma-separated default or user-defined role names. Roles that can be assigned to a user are comma separated and case-insensitive (at most 50 roles up to 25 characters each and restricted to 0-9,A-Z,a-z, and _). Define roles in routes.json during root directory of your GitHub repo.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("staticwebapp", "users", "update")]
@@ -24,7 +26,7 @@ public record AzStaticwebappUsersUpdateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Authentication provider of the user identity such as AAD, Facebook,
+    /// Authentication provider of the user identity such as AAD, Facebook, GitHub, Google, Twitter.
     /// </summary>
     [CliFlag("--authentication-provider")]
     public bool? AuthenticationProvider { get; set; }
@@ -36,7 +38,7 @@ public record AzStaticwebappUsersUpdateOptions(
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// Email for AAD, Facebook, and Google. Account name (handle) for
+    /// Email for AAD, Facebook, and Google. Account name (handle) for GitHub and Twitter.
     /// </summary>
     [CliFlag("--user-details")]
     public bool? UserDetails { get; set; }

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all shared galleries shared directly to your subscription or tenant.
 /// </summary>
+/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sig", "list-shared")]
@@ -23,7 +24,7 @@ public record AzSigListSharedOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// The query parameter to decide what shared galleries to fetch when doing listing operations. If not specified, list by subscription id.
+    /// The query parameter to decide what shared galleries to fetch when doing listing operations. If not specified, list by subscription id. Allowed values: tenant.
     /// </summary>
     [CliOption("--shared-to")]
     public string? SharedTo { get; set; }

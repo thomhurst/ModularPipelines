@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create or update a Dapr component.
 /// </summary>
+/// <param name="DaprComponentName">The Dapr component name.</param>
+/// <param name="Name">The environment name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Yaml">Path to a .yaml file with the configuration of a Dapr component. All other parameters will be ignored. For an example, see https://learn.microsoft.com/en- us/azure/container-apps/dapr- overview?tabs=bicep1%2Cyaml#component-schema.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "env", "dapr-component", "set")]

@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a traffic manager profile.
 /// </summary>
+/// <param name="Name">Traffic manager profile name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="RoutingMethod">Routing method.  Allowed values: Geographic, Multivalue, Performance, Priority, Subnet, Weighted.</param>
+/// <param name="UniqueDnsName">Relative DNS name for the traffic manager profile. Resulting FQDN will be `&lt;unique-dns-name&gt;.trafficmanager.net` and must be globally unique.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "traffic-manager", "profile", "create")]
@@ -32,7 +36,7 @@ public record AzNetworkTrafficManagerProfileCreateOptions(
     public bool? MaxReturn { get; set; }
 
     /// <summary>
-    /// When record type is set, a traffic manager profile will allow only endpoints that match this type.  Allowed values: A, AAAA,
+    /// When record type is set, a traffic manager profile will allow only endpoints that match this type.  Allowed values: A, AAAA, CNAME.
     /// </summary>
     [CliOption("--record-type")]
     public string? RecordType { get; set; }
@@ -86,7 +90,7 @@ public record AzNetworkTrafficManagerProfileCreateOptions(
     public bool? Port { get; set; }
 
     /// <summary>
-    /// Monitor protocol.  Allowed values: HTTP, HTTPS, TCP.  Default:
+    /// Monitor protocol.  Allowed values: HTTP, HTTPS, TCP.  Default: HTTP.
     /// </summary>
     [CliOption("--protocol")]
     public string? Protocol { get; set; }

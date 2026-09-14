@@ -45,7 +45,7 @@ public record AzNetworkTrafficManagerEndpointDeleteOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// Endpoint type.  Allowed values: AzureEndpoints, ExternalEndpoints,
+    /// Endpoint type.  Allowed values: AzureEndpoints, ExternalEndpoints, NestedEndpoints.
     /// </summary>
     [CliOption("--type", ShortForm = "-t")]
     public string? Type { get; set; }

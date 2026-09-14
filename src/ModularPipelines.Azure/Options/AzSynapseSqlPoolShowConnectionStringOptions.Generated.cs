@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Generate a connection string to a SQL pool.
 /// </summary>
+/// <param name="Client">Type of client connection provider.  Allowed values: ado.net, jdbc, odbc, php, php_pdo.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "show-connection-string")]
@@ -43,7 +44,7 @@ public record AzSynapseSqlPoolShowConnectionStringOptions(
     /// <summary>
     /// The workspace name.  Default: &lt;workspace name&gt;.
     /// </summary>
-    [CliFlag("--workspace-name")]
-    public bool? WorkspaceName { get; set; }
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 
 }

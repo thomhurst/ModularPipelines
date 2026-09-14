@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List all global reach connections associated
 /// </summary>
+/// <param name="CircuitName">ExpressRoute circuit name.</param>
+/// <param name="PeeringName">Name of BGP peering (i.e. AzurePrivatePeering).</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "peering", "connection", "list")]

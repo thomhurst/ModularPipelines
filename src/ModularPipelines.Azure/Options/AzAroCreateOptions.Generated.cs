@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a cluster.
 /// </summary>
+/// <param name="MasterSubnet">Name or ID of master vnet subnet.  If name is supplied, `--vnet` must be supplied.</param>
+/// <param name="Name">Name of cluster.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="WorkerSubnet">Name or ID of worker vnet subnet.  If name is supplied, `--vnet` must be supplied.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("aro", "create")]
@@ -26,7 +30,7 @@ public record AzAroCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// API server visibility. [Default: Public].  Allowed values: Private,
+    /// API server visibility. [Default: Public].  Allowed values: Private, Public.
     /// </summary>
     [CliOption("--apiserver-visibility")]
     public string? ApiServerVisibility { get; set; }
@@ -74,7 +78,7 @@ public record AzAroCreateOptions(
     public bool? Fips { get; set; }
 
     /// <summary>
-    /// Ingress visibility. [Default: Public].  Allowed values: Private,
+    /// Ingress visibility. [Default: Public].  Allowed values: Private, Public.
     /// </summary>
     [CliOption("--ingress-visibility")]
     public string? IngressVisibility { get; set; }
@@ -88,8 +92,8 @@ public record AzAroCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Encryption at host flag for master VMs. [Default: false].  Allowed values: false, true.
@@ -98,7 +102,7 @@ public record AzAroCreateOptions(
     public bool? MasterEncHost { get; set; }
 
     /// <summary>
-    /// Size of master VMs. [Default:
+    /// Size of master VMs. [Default: Standard_D8s_v5].
     /// </summary>
     [CliFlag("--master-vm-size")]
     public bool? MasterVmSize { get; set; }
@@ -176,7 +180,7 @@ public record AzAroCreateOptions(
     public bool? WorkerVmDiskSizeGb { get; set; }
 
     /// <summary>
-    /// Size of worker VMs. [Default:
+    /// Size of worker VMs. [Default: Standard_D4s_v5].  Default: Standard_D4s_v5.
     /// </summary>
     [CliFlag("--worker-vm-size")]
     public bool? WorkerVmSize { get; set; }

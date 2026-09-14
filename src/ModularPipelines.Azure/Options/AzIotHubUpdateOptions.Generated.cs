@@ -135,7 +135,7 @@ public record AzIotHubUpdateOptions : AzOptions
     public bool? Rd { get; set; }
 
     /// <summary>
-    /// Pricing tier for Azure IoT Hub. Note that only one free IoT hub instance (F1) is allowed in each subscription. Exception will be thrown if free instances exceed one.  Allowed values: B1, B2, B3, F1, S1,
+    /// Pricing tier for Azure IoT Hub. Note that only one free IoT hub instance (F1) is allowed in each subscription. Exception will be thrown if free instances exceed one.  Allowed values: B1, B2, B3, F1, S1, S2, S3.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }
@@ -153,7 +153,7 @@ public record AzIotHubUpdateOptions : AzOptions
     public bool? Unit { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -189,7 +189,7 @@ public record AzIotHubUpdateOptions : AzOptions
     public bool? Name { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }

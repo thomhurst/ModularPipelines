@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Manage Azure Cognitive Services accounts.
 /// </summary>
+/// <param name="Name">Cognitive service account name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cognitiveservices", "account", "update")]
@@ -30,13 +32,13 @@ public record AzCognitiveservicesAccountUpdateOptions(
     public bool? ApiProperties { get; set; }
 
     /// <summary>
-    /// User domain assigned to the account. Name is the
+    /// User domain assigned to the account. Name is the CNAME source.
     /// </summary>
     [CliFlag("--custom-domain")]
     public bool? CustomDomain { get; set; }
 
     /// <summary>
-    /// The encryption properties for this resource, in
+    /// The encryption properties for this resource, in JSON format.
     /// </summary>
     [CliFlag("--encryption")]
     public bool? Encryption { get; set; }
@@ -66,7 +68,7 @@ public record AzCognitiveservicesAccountUpdateOptions(
     public bool? AllowProjectManagement { get; set; }
 
     /// <summary>
-    /// The target API name to transform the existing account into.  Allowed values: AIServices,
+    /// The target API name to transform the existing account into.  Allowed values: AIServices, OpenAI.
     /// </summary>
     [CliOption("--kind")]
     public string? Kind { get; set; }

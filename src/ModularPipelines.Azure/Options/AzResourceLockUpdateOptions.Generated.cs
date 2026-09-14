@@ -27,7 +27,7 @@ public record AzResourceLockUpdateOptions : AzOptions
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// The type of lock restriction.  Allowed values: CanNotDelete,
+    /// The type of lock restriction.  Allowed values: CanNotDelete, ReadOnly.
     /// </summary>
     [CliOption("--lock-type", ShortForm = "-t")]
     public string? LockType { get; set; }

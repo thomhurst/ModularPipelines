@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the rotation policy of a Key Vault key.
 /// </summary>
+/// <param name="Value">The rotation policy file definition as JSON, or a path to a file containing JSON policy definition.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "key", "rotation-policy", "update")]

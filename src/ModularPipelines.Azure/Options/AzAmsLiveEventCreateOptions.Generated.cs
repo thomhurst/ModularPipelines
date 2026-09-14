@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a live event.
 /// </summary>
+/// <param name="AccountName">The name of the Azure Media Services account.</param>
+/// <param name="Name">The name of the live event.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Ips">Space-separated IP addresses for access control. Allowed IP addresses can be specified as either a single IP address (e.g. "10.0.0.1") or as an IP range using an IP address and a CIDR subnet mask (e.g. "10.0.0.1/22"). Use "" to clear existing list. Use "AllowAll" to allow all IP addresses. Allowing all IPs is not recommended for production environments.</param>
+/// <param name="StreamingProtocol">The streaming protocol for the live event. This value is specified at creation time and cannot be updated.  Allowed values: FragmentedMP4, RTMP.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "live-event", "create")]
@@ -51,7 +56,7 @@ public record AzAmsLiveEventCreateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// The options to use for the LiveEvent. This value is specified at creation time and cannot be updated.  Allowed values:
+    /// The options to use for the LiveEvent. This value is specified at creation time and cannot be updated.  Allowed values: Default, LowLatency, LowLatencyV2.
     /// </summary>
     [CliOption("--stream-options")]
     public string? StreamOptions { get; set; }
@@ -87,7 +92,7 @@ public record AzAmsLiveEventCreateOptions(
     public bool? CrossDomainPolicy { get; set; }
 
     /// <summary>
-    /// The encoding type for live event. This value is specified at creation time and cannot be updated. Allowed values:
+    /// The encoding type for live event. This value is specified at creation time and cannot be updated. Allowed values: Premium1080p, None, Standard.
     /// </summary>
     [CliOption("--encoding-type")]
     public string? EncodingType { get; set; }
@@ -123,7 +128,7 @@ public record AzAmsLiveEventCreateOptions(
     public bool? KeyFrameIntervalDuration { get; set; }
 
     /// <summary>
-    /// An Alternative Media Identifier associated with the StreamingLocator created for the preview. This value is specified at creation time and cannot be updated. The identifier can be used in the
+    /// An Alternative Media Identifier associated with the StreamingLocator created for the preview. This value is specified at creation time and cannot be updated. The identifier can be used in the CustomLicenseAcquisitionUrlTemplate or the CustomKeyAcquisitionUrlTemplate of the StreamingPolicy specified in the StreamingPolicyName field.
     /// </summary>
     [CliFlag("--alternative-media-id")]
     public bool? AlternativeMediaId { get; set; }

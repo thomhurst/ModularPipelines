@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an application for a HDInsight cluster.
 /// </summary>
+/// <param name="ClusterName">The name of the cluster.</param>
+/// <param name="Name">The constant value for the application name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ScriptActionName">The name of the script action.</param>
+/// <param name="ScriptUri">The URI to the script.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hdinsight", "application", "create")]
@@ -87,7 +92,7 @@ public record AzHdinsightApplicationCreateOptions(
     public string? VnetName { get; set; }
 
     /// <summary>
-    /// The size of the node. See also: https://learn.microsoft.com/azure/hdinsight/hdinsight-hadoop- provision-linux-clusters#configure-cluster-size.  Default:
+    /// The size of the node. See also: https://learn.microsoft.com/azure/hdinsight/hdinsight-hadoop- provision-linux-clusters#configure-cluster-size.  Default: Standard_D3_V2.
     /// </summary>
     [CliFlag("--edgenode-size")]
     public bool? EdgenodeSize { get; set; }

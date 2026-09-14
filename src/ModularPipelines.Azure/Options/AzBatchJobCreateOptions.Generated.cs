@@ -23,17 +23,17 @@ public record AzBatchJobCreateOptions : AzOptions
     /// <summary>
     /// A file containing the job specification in JSON (formatted to match the respective REST API body). If this parameter is specified, all 'Job Arguments' are ignored.
     /// </summary>
-    [CliFlag("--json-file")]
-    public bool? JsonFile { get; set; }
+    [CliOption("--json-file")]
+    public string? JsonFile { get; set; }
 
     /// <summary>
-    /// Batch service endpoint. Alternatively, set
+    /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
     /// </summary>
     [CliOption("--account-endpoint")]
     public string? AccountEndpoint { get; set; }
 
     /// <summary>
-    /// Batch account key. Alternatively, set by
+    /// Batch account key. Alternatively, set by environment variable: AZURE_BATCH_ACCESS_KEY.
     /// </summary>
     [CliOption("--account-key")]
     public string? AccountKey { get; set; }
@@ -93,7 +93,7 @@ public record AzBatchJobCreateOptions : AzOptions
     public bool? JobMaxTaskRetryCount { get; set; }
 
     /// <summary>
-    /// The maximum elapsed time that the Job may run, measured from the time the Job is created. If the Job does not complete within the time limit, the Batch service terminates it and any Tasks that are still running. In this case, the termination reason will be MaxWallClockTimeExpiry. If this property is not specified, there is no time limit on how long the Job may run. Expected format is an
+    /// The maximum elapsed time that the Job may run, measured from the time the Job is created. If the Job does not complete within the time limit, the Batch service terminates it and any Tasks that are still running. In this case, the termination reason will be MaxWallClockTimeExpiry. If this property is not specified, there is no time limit on how long the Job may run. Expected format is an ISO-8601 duration.
     /// </summary>
     [CliFlag("--job-max-wall-clock-time")]
     public bool? JobMaxWallClockTime { get; set; }
@@ -107,8 +107,8 @@ public record AzBatchJobCreateOptions : AzOptions
     /// <summary>
     /// The command line of the Job Manager Task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en- us/azure/batch/batch-compute-node- environment-variables). Required.
     /// </summary>
-    [CliFlag("--job-manager-task-command-line")]
-    public bool? JobManagerTaskCommandLine { get; set; }
+    [CliOption("--job-manager-task-command-line")]
+    public string? JobManagerTaskCommandLine { get; set; }
 
     /// <summary>
     /// A list of environment variable settings for the Job Manager Task. Space-separated values in 'key=value' format.
@@ -117,13 +117,13 @@ public record AzBatchJobCreateOptions : AzOptions
     public IEnumerable<string>? JobManagerTaskEnvironmentSettings { get; set; }
 
     /// <summary>
-    /// A string that uniquely identifies the Job Manager Task within the Job. The ID can contain any combination of alphanumeric characters including hyphens and underscores and cannot contain more than 64 characters.
+    /// A string that uniquely identifies the Job Manager Task within the Job. The ID can contain any combination of alphanumeric characters including hyphens and underscores and cannot contain more than 64 characters. Required.
     /// </summary>
     [CliOption("--job-manager-task-id")]
     public string? JobManagerTaskId { get; set; }
 
     /// <summary>
-    /// A list of files that the Batch service will download to the Compute Node before running the command line. Files listed under this element are located in the Task's working directory. There is a maximum size for the list of resource files.  When the max size is exceeded, the request will fail and the response error code will be RequestEntityTooLarge. If this occurs, the collection of ResourceFiles must be reduced in size. This can be achieved using .zip files, Application Packages, or Docker
+    /// A list of files that the Batch service will download to the Compute Node before running the command line. Files listed under this element are located in the Task's working directory. There is a maximum size for the list of resource files.  When the max size is exceeded, the request will fail and the response error code will be RequestEntityTooLarge. If this occurs, the collection of ResourceFiles must be reduced in size. This can be achieved using .zip files, Application Packages, or Docker Containers. Space-separated resource references in filename=httpurl format.
     /// </summary>
     [CliOption("--job-manager-task-resource-files", GroupValues = true)]
     public IEnumerable<string>? JobManagerTaskResourceFiles { get; set; }

@@ -51,7 +51,7 @@ public record AzNetworkCrossRegionLbAddressPoolUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Default administrative state to backend addresses in `--backend-addresses`.  Allowed values: Down, None,
+    /// Default administrative state to backend addresses in `--backend-addresses`.  Allowed values: Down, None, Up.
     /// </summary>
     [CliOption("--admin-state")]
     public string? AdminState { get; set; }
@@ -71,8 +71,8 @@ public record AzNetworkCrossRegionLbAddressPoolUpdateOptions : AzOptions
     /// <summary>
     /// The location of the backend address pool.
     /// </summary>
-    [CliFlag("--location")]
-    public bool? Location { get; set; }
+    [CliOption("--location")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// The name of the backend address pool.
@@ -81,7 +81,7 @@ public record AzNetworkCrossRegionLbAddressPoolUpdateOptions : AzOptions
     public string? AddressPoolName { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Merges a certificate or a certificate chain with a key
 /// </summary>
+/// <param name="File">File containing the certificate or certificate chain to merge.</param>
+/// <param name="Name">Name of the pending certificate.</param>
+/// <param name="VaultName">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "certificate", "pending", "merge")]

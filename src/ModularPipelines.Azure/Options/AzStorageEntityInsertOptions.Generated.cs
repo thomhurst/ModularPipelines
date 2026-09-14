@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Insert an entity into a table.
 /// </summary>
+/// <param name="Entity">Space-separated list of key=value pairs. Must contain a PartitionKey and a RowKey. The PartitionKey and RowKey must be unique within the table, and may be up to 64Kb in size. If using an integer value as a key, convert it to a fixed-width string which can be canonically sorted. For example, convert the integer value 1 to the string value "0000001" to ensure proper sorting. To manually specify the value type, an additional key,value pair can be added in the format of `key@odata.type=&lt;EdmType&gt;` where `&lt;EdmType&gt;` can be from the following list: Edm.Binary, Edm.Int64, Edm.Guid, Edm.DateTime, Edm.String, Edm.Int32, Edm.Double, Edm.Boolean.</param>
+/// <param name="TableName">The name of the table to insert the entity into.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "entity", "insert")]
@@ -30,13 +32,13 @@ public record AzStorageEntityInsertOptions(
     public string? AuthMode { get; set; }
 
     /// <summary>
-    /// Behavior when an entity already exists for the specified PartitionKey and RowKey.  Allowed values: fail, merge, replace.
+    /// Behavior when an entity already exists for the specified PartitionKey and RowKey.  Allowed values: fail, merge, replace. Default: fail.
     /// </summary>
     [CliOption("--if-exists")]
     public string? IfExists { get; set; }
 
     /// <summary>
-    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
     [CliFlag("--account-key")]
     public bool? AccountKey { get; set; }
@@ -48,13 +50,13 @@ public record AzStorageEntityInsertOptions(
     public bool? AccountName { get; set; }
 
     /// <summary>
-    /// Storage account connection string. Environment variable:
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }
 
     /// <summary>
-    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
     [CliFlag("--sas-token")]
     public bool? SasToken { get; set; }

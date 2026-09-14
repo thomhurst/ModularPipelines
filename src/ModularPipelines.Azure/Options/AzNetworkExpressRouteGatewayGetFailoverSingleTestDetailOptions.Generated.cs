@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// This operation retrieves the
 /// </summary>
+/// <param name="FailoverTestId">The unique Guid value which identifies the test.</param>
+/// <param name="PeeringLocation">Peering location of the test.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "gateway", "get-failover-single-test-detail")]
@@ -30,7 +32,7 @@ public record AzNetworkExpressRouteGatewayGetFailoverSingleTestDetailOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

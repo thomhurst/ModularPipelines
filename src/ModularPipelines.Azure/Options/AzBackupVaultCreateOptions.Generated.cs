@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new Recovery Services vault or update an existing one.
 /// </summary>
+/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+/// <param name="Name">Name of the Recovery services vault.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup", "vault", "create")]
@@ -25,19 +28,19 @@ public record AzBackupVaultCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Use this property to specify whether backup alerts from the classic solution should be received.  Allowed values:
+    /// Use this property to specify whether backup alerts from the classic solution should be received.  Allowed values: Disable, Enable.
     /// </summary>
     [CliOption("--classic-alerts")]
     public string? ClassicAlerts { get; set; }
 
     /// <summary>
-    /// Use this parameter to configure cost management settings for the vault. By default, the property is "VaultLevel" for the vault.  Allowed values:
+    /// Use this parameter to configure cost management settings for the vault. By default, the property is "VaultLevel" for the vault.  Allowed values: ProtectedItemLevel, ProtectedItemWithParentTag, VaultLevel.
     /// </summary>
     [CliOption("--cost-granularity-level", ShortForm = "--cost-management-granularity")]
     public string? CostGranularityLevel { get; set; }
 
     /// <summary>
-    /// Use this parameter to configure cross subscription restore settings for the vault. By default, the property is "Enabled" for the vault.  Allowed values: Disable, Enable,
+    /// Use this parameter to configure cross subscription restore settings for the vault. By default, the property is "Enabled" for the vault.  Allowed values: Disable, Enable, PermanentlyDisable.
     /// </summary>
     [CliOption("--cross-subscription-restore-state")]
     public string? CrossSubscriptionRestoreState { get; set; }
@@ -55,7 +58,7 @@ public record AzBackupVaultCreateOptions(
     public string? JobFailureAlerts { get; set; }
 
     /// <summary>
-    /// Use this property to specify whether public network access for the vault should be enabled or disabled. It is enabled by default. For setting up private endpoints, it has to be disabled.  Allowed values: Disable,
+    /// Use this property to specify whether public network access for the vault should be enabled or disabled. It is enabled by default. For setting up private endpoints, it has to be disabled.  Allowed values: Disable, Enable.
     /// </summary>
     [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }

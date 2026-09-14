@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Enable bringing your PostgreSQL data into
 /// </summary>
+/// <param name="DatabaseNames">Space-separated list of the database names to be mirrored. Required if --mirroring is enabled.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("postgres", "flexible-server", "fabric-mirroring", "start")]

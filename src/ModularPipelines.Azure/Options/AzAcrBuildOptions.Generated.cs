@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -15,6 +16,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Queues a quick build, providing streaming logs for an Azure Container Registry.
 /// </summary>
+/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "build")]
@@ -31,20 +33,20 @@ public record AzAcrBuildOptions(
     /// <summary>
     /// Build argument in '--build-arg name[=value]' format. Multiples are supported by passing '--build-arg name[=value]' multiple times. IMPORTANT: This parameter should not include passwords, access tokens, or sensitive information of any kind. This parameter value will be visible to the ACR team for debugging purposes.
     /// </summary>
-    [CliFlag("--build-arg")]
-    public bool? BuildArg { get; set; }
+    [CliOption("--build-arg")]
+    public string? BuildArg { get; set; }
 
     /// <summary>
     /// The relative path of the the docker file to the source code root folder. Default to 'Dockerfile'.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
     /// <summary>
     /// The name and tag of the image using the format: '-t repo/image:tag'. Multiple tags are supported by passing -t multiple times.
     /// </summary>
     [CliOption("--image", ShortForm = "-t")]
-    public string? Image { get; set; }
+    public IEnumerable<string>? Image { get; set; }
 
     /// <summary>
     /// Indicates whether the logs should be displayed in raw format.
@@ -73,8 +75,8 @@ public record AzAcrBuildOptions(
     /// <summary>
     /// The platform where build/task is run, Eg, 'windows' and 'linux'. When it's used in build commands, it also can be specified in 'os/arch/variant' format for the resulting image. Eg, linux/arm/v7. The 'arch' and 'variant' parts are optional.
     /// </summary>
-    [CliFlag("--platform")]
-    public bool? Platform { get; set; }
+    [CliOption("--platform")]
+    public string? Platform { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -85,8 +87,9 @@ public record AzAcrBuildOptions(
     /// <summary>
     /// Secret build argument in '--secret-build-arg name[=value]' format. Multiples are supported by passing '--secret-build-arg name[=value]' multiple times. This parameter value is not surfaced to the ACR team and is more suitable for sensitive information.
     /// </summary>
-    [CliFlag("--secret-build-arg")]
-    public bool? SecretBuildArg { get; set; }
+    [SecretValue]
+    [CliOption("--secret-build-arg")]
+    public string? SecretBuildArg { get; set; }
 
     /// <summary>
     /// Assign the identity used for source registry login. Use '[caller]' for caller identity.  Allowed values: [caller], none.
@@ -103,7 +106,7 @@ public record AzAcrBuildOptions(
     /// <summary>
     /// The timeout in seconds.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
 
 }

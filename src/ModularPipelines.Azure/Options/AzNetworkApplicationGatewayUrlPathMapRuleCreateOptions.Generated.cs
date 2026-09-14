@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a rule for a URL path map.
 /// </summary>
+/// <param name="GatewayName">Name of the application gateway.</param>
+/// <param name="Name">Name of the rule for a URL path map.</param>
+/// <param name="PathMapName">Name of the URL path map.</param>
+/// <param name="Paths">Space-separated list of paths to associate with the rule. Valid paths start and end with "/", e.g, "/bar/".  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "url-path-map", "rule", "create")]

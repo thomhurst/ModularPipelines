@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a traffic manager endpoint.
 /// </summary>
+/// <param name="Name">Endpoint name.</param>
+/// <param name="ProfileName">Name of parent profile.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Type">Endpoint type.  Allowed values: azureEndpoints, externalEndpoints, nestedEndpoints.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "traffic-manager", "endpoint", "create")]
@@ -40,8 +44,8 @@ public record AzNetworkTrafficManagerEndpointCreateOptions(
     /// <summary>
     /// Location of the external or nested endpoints when using the 'Performance' routing method.
     /// </summary>
-    [CliFlag("--endpoint-location")]
-    public bool? EndpointLocation { get; set; }
+    [CliOption("--endpoint-location")]
+    public string? EndpointLocation { get; set; }
 
     /// <summary>
     /// The monitoring status of the endpoint.

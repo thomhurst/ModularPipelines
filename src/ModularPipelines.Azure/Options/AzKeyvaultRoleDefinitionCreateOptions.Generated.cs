@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a custom role definition.
 /// </summary>
+/// <param name="RoleDefinition">Description of a role as JSON, or a path to a file containing a JSON description.</param>
+/// <param name="HsmName">Name of the HSM.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "role", "definition", "create")]

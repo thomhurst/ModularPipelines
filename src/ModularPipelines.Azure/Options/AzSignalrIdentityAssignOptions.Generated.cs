@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Assign managed identity for SignalR Service.
 /// </summary>
+/// <param name="Identity">Assigns managed identities to the service. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user- assigned identity. You can only assign either on of them.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "identity", "assign")]

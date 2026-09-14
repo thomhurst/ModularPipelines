@@ -27,7 +27,7 @@ public record AzSqlDbUpdateOptions : AzOptions
     public IEnumerable<string>? AssignIdentity { get; set; }
 
     /// <summary>
-    /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo,
+    /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo, GeoZone.
     /// </summary>
     [CliOption("--backup-storage-redundancy", ShortForm = "--bsr")]
     public string? BackupStorageRedundancy { get; set; }
@@ -45,7 +45,7 @@ public record AzSqlDbUpdateOptions : AzOptions
     public bool? EncryptionProtectorAutoRotation { get; set; }
 
     /// <summary>
-    /// Specifies the behavior when monthly free limits are exhausted for the free database.AutoPause: The database will be auto paused upon exhaustion of free limits for remainder of the month.BillForUsage: The database will continue to be online upon exhaustion of free limitsand any overage will be billed.  Allowed values: AutoPause,
+    /// Specifies the behavior when monthly free limits are exhausted for the free database.AutoPause: The database will be auto paused upon exhaustion of free limits for remainder of the month.BillForUsage: The database will continue to be online upon exhaustion of free limitsand any overage will be billed.  Allowed values: AutoPause, BillOverUsage.
     /// </summary>
     [CliOption("--exhaustion-behavior", ShortForm = "--free-limit-exhaustion-behavior")]
     public string? ExhaustionBehavior { get; set; }
@@ -57,7 +57,7 @@ public record AzSqlDbUpdateOptions : AzOptions
     public bool? FederatedClientId { get; set; }
 
     /// <summary>
-    /// An OData filter expression that filters elements in the collection. Default value is
+    /// An OData filter expression that filters elements in the collection. Default value is None.
     /// </summary>
     [CliFlag("--filter")]
     public bool? Filter { get; set; }
@@ -69,13 +69,13 @@ public record AzSqlDbUpdateOptions : AzOptions
     public bool? FreeLimit { get; set; }
 
     /// <summary>
-    /// The number of high availability replicas to provision for the database. Only settable for
+    /// The number of high availability replicas to provision for the database. Only settable for Hyperscale edition.
     /// </summary>
     [CliFlag("--ha-replicas", ShortForm = "--read-replicas")]
     public bool? HaReplicas { get; set; }
 
     /// <summary>
-    /// The list of AKV keys for the SQL
+    /// The list of AKV keys for the SQL Database.
     /// </summary>
     [CliOption("--keys", GroupValues = true)]
     public IEnumerable<string>? Keys { get; set; }
@@ -117,13 +117,13 @@ public record AzSqlDbUpdateOptions : AzOptions
     public bool? PerformCutover { get; set; }
 
     /// <summary>
-    /// Specifies type of enclave for this resource.  Allowed values:
+    /// Specifies type of enclave for this resource.  Allowed values: Default, VBS.
     /// </summary>
     [CliOption("--preferred-enclave-type")]
     public string? PreferredEnclaveType { get; set; }
 
     /// <summary>
-    /// If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica. This property is only settable for Premium and Business Critical databases.  Allowed values:
+    /// If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica. This property is only settable for Premium and Business Critical databases.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--read-scale")]
     public string? ReadScale { get; set; }
@@ -147,19 +147,19 @@ public record AzSqlDbUpdateOptions : AzOptions
     public IEnumerable<string>? Add { get; set; }
 
     /// <summary>
-    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to
+    /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.
     /// </summary>
     [CliFlag("--force-string")]
     public bool? ForceString { get; set; }
 
     /// <summary>
-    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;`
+    /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
@@ -177,7 +177,7 @@ public record AzSqlDbUpdateOptions : AzOptions
     public string? ServiceObjective { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids")]
     public IEnumerable<string>? Ids { get; set; }
@@ -207,7 +207,7 @@ public record AzSqlDbUpdateOptions : AzOptions
     public bool? AutoPauseDelay { get; set; }
 
     /// <summary>
-    /// The compute model of the database.  Allowed values:
+    /// The compute model of the database.  Allowed values: Provisioned, Serverless.
     /// </summary>
     [CliOption("--compute-model")]
     public string? ComputeModel { get; set; }

@@ -16,6 +16,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add a custom registry login credential to the task.
 /// </summary>
+/// <param name="LoginServer">The login server of the custom registry. For instance, 'myregistry.azurecr.io'.</param>
+/// <param name="Name">The name of the task.</param>
+/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "credential", "add")]

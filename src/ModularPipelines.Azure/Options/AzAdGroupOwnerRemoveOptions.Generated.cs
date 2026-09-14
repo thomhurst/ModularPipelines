@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Remove a group owner.
 /// </summary>
+/// <param name="Group">Group's object id or display name(prefix also works if there is a unique match).</param>
+/// <param name="OwnerObjectId">Owner's object id.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "group", "owner", "remove")]

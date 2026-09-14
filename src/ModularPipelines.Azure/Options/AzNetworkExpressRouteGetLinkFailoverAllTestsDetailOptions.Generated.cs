@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// This operation retrieves the
 /// </summary>
+/// <param name="FetchLatest">Fetch only the latest tests for each peering location.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
+/// <param name="Type">The type of failover test.  Allowed values: All, LinkFailover, MultiSiteFailover, SingleSiteFailover.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "express-route", "get-link-failover-all-tests-detail")]

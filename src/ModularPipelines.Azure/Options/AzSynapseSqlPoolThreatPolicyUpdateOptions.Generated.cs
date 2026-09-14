@@ -75,7 +75,7 @@ public record AzSynapseSqlPoolThreatPolicyUpdateOptions : AzOptions
     public bool? RetentionDays { get; set; }
 
     /// <summary>
-    /// Threat detection policy state.  Allowed values: Disabled,
+    /// Threat detection policy state.  Allowed values: Disabled, Enabled, New.
     /// </summary>
     [CliOption("--state")]
     public string? State { get; set; }
@@ -101,8 +101,8 @@ public record AzSynapseSqlPoolThreatPolicyUpdateOptions : AzOptions
     /// <summary>
     /// The workspace name.
     /// </summary>
-    [CliFlag("--workspace-name")]
-    public bool? WorkspaceName { get; set; }
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 
     /// <summary>
     /// Name of the storage account.

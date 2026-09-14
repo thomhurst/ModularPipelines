@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Allows traffic that met
 /// </summary>
+/// <param name="MatchVariable">The variable on which we evaluate the exception condition.  Allowed values: RemoteAddr, RequestHeader, RequestURI.</param>
+/// <param name="PolicyName">The name of the application gateway WAF policy.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ValueMatchOperator">Operates on the allowed values for the matchVariable.  Allowed values: Contains, EndsWith, Equals, IPMatch, StartsWith.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "managed-rule", "exception", "add")]

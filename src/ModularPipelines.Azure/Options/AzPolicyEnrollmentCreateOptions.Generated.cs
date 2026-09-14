@@ -39,7 +39,7 @@ public record AzPolicyEnrollmentCreateOptions : AzOptions
     public bool? Scope { get; set; }
 
     /// <summary>
-    /// The option whether to validate the enrollment is at or under the assignment scope.  Allowed values: Default,
+    /// The option whether to validate the enrollment is at or under the assignment scope.  Allowed values: Default, DoNotValidate.
     /// </summary>
     [CliOption("--assignment-scope-validation", ShortForm = "-v")]
     public string? AssignmentScopeValidation { get; set; }

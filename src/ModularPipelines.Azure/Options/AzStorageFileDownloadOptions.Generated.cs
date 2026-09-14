@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Download a file to a file path, with automatic chunking and progress
 /// </summary>
+/// <param name="Path">The path to the file within the file share.</param>
+/// <param name="ShareName">The file share name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "file", "download")]
@@ -24,10 +26,10 @@ public record AzStorageFileDownloadOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided.
+    /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
     /// </summary>
-    [CliFlag("--auth-mode")]
-    public bool? AuthMode { get; set; }
+    [CliOption("--auth-mode")]
+    public string? AuthMode { get; set; }
 
     /// <summary>
     /// Required parameter to use with OAuth (Azure AD) Authentication for Files. This will bypass any file/directory level permission checks and allow access, based on the allowed data actions, even if there are ACLs in place for those files/directories.
@@ -48,7 +50,7 @@ public record AzStorageFileDownloadOptions(
     public bool? DisallowTrailingDot { get; set; }
 
     /// <summary>
-    /// End of byte range to use for downloading a section of the file. If --end-range is given, --start-range must be provided. The
+    /// End of byte range to use for downloading a section of the file. If --end-range is given, --start-range must be provided. The --start-range and --end-range params are inclusive. Ex: --start-range=0, --end-range=511 will download first 512 bytes of file.
     /// </summary>
     [CliFlag("--end-range")]
     public bool? EndRange { get; set; }
@@ -66,7 +68,7 @@ public record AzStorageFileDownloadOptions(
     public bool? NoProgress { get; set; }
 
     /// <summary>
-    /// Mode to use when opening the file. Note that specifying append only open_mode prevents parallel download. So, --max- connections must be set to 1 if this
+    /// Mode to use when opening the file. Note that specifying append only open_mode prevents parallel download. So, --max-connections must be set to 1 if this --open-mode is used.  Default: wb.
     /// </summary>
     [CliFlag("--open-mode")]
     public bool? OpenMode { get; set; }
@@ -78,7 +80,7 @@ public record AzStorageFileDownloadOptions(
     public string? Snapshot { get; set; }
 
     /// <summary>
-    /// Start of byte range to use for downloading a section of the file. If no --end-range is given, all bytes after the --start- range will be downloaded. The --start- range and --end-range params are inclusive. Ex: --start-range=0, --end- range=511 will download first 512 bytes of file.
+    /// Start of byte range to use for downloading a section of the file. If no --end-range is given, all bytes after the --start-range will be downloaded. The --start-range and --end-range params are inclusive. Ex: --start-range=0, --end-range=511 will download first 512 bytes of file.
     /// </summary>
     [CliFlag("--start-range")]
     public bool? StartRange { get; set; }
@@ -96,7 +98,7 @@ public record AzStorageFileDownloadOptions(
     public bool? ValidateContent { get; set; }
 
     /// <summary>
-    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
     [CliFlag("--account-key")]
     public bool? AccountKey { get; set; }
@@ -108,7 +110,7 @@ public record AzStorageFileDownloadOptions(
     public bool? AccountName { get; set; }
 
     /// <summary>
-    /// Storage account connection string.
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }

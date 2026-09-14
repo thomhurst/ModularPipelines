@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzSigImageVersionShowOptions : AzOptions
 {
     /// <summary>
-    /// The expand expression to apply on the operation.  Allowed values:
+    /// The expand expression to apply on the operation.  Allowed values: ReplicationStatus, UefiSettings.
     /// </summary>
     [CliOption("--expand")]
     public string? Expand { get; set; }

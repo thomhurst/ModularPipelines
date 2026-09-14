@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show past logs and/or print logs in real time (with the --follow
 /// </summary>
+/// <param name="Name">The name of the Containerapp.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("containerapp", "logs", "show")]
@@ -60,7 +62,7 @@ public record AzContainerappLogsShowOptions(
     public bool? Tail { get; set; }
 
     /// <summary>
-    /// Type of logs to stream.  Allowed values: console, system.
+    /// Type of logs to stream.  Allowed values: console, system. Default: console.
     /// </summary>
     [CliOption("--type", ShortForm = "-t")]
     public string? Type { get; set; }

@@ -16,6 +16,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update landing zone credetial of a
 /// </summary>
+/// <param name="Name">The link connection name.</param>
+/// <param name="SasToken">Value of secure string.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "link-connection", "update-landing-zone-credential")]

@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new managed service correlation
 /// </summary>
+/// <param name="Application">Specify the name of the service.</param>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="CorrelatedName">Specify the Arm Resource ID of the service that the correlation relationship is established with.</param>
+/// <param name="Name">Specify the name of the service.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Scheme">Specify the ServiceCorrelationScheme which describes the relationship between this service and the service specified via correlated_service_name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-service", "correlation-scheme", "create")]

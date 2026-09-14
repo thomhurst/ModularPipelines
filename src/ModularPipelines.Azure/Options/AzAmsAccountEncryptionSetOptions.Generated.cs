@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the encryption settings for an Azure Media Services account.
 /// </summary>
+/// <param name="KeyType">SystemKeyThe encryption key source (provider). Allowed values: , .CustomerKey.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "account", "encryption", "set")]

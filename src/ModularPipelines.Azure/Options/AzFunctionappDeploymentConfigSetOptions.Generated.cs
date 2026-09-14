@@ -21,10 +21,10 @@ namespace ModularPipelines.Azure.Options;
 public record AzFunctionappDeploymentConfigSetOptions : AzOptions
 {
     /// <summary>
-    /// The deployment storage account authentication type.
+    /// The deployment storage account authentication type. Allowed values: StorageAccountConnectionString, SystemAssignedIdentity, UserAssignedIdentity.
     /// </summary>
-    [CliFlag("--deployment-storage-auth-type", ShortForm = "--dsat")]
-    public bool? DeploymentStorageAuthType { get; set; }
+    [CliOption("--deployment-storage-auth-type", ShortForm = "--dsat")]
+    public string? DeploymentStorageAuthType { get; set; }
 
     /// <summary>
     /// The deployment storage account authentication value. For the user-assigned managed identity authentication type, this should be the user assigned identity resource id. For the storage account connection string authentication type, this should be the name of the app setting that will contain the storage account connection string. For the system assigned managed-identity authentication type, this parameter is not applicable and should be left empty.

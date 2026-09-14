@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// List virtual machine SKUs available in a location.
 /// </summary>
+/// <param name="Location">The region for which to display the available Batch VM SKUs.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "location", "list-skus")]

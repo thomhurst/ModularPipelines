@@ -39,7 +39,7 @@ public record AzDiskUpdateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Underlying storage SKU.  Allowed values:
+    /// Underlying storage SKU.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS, UltraSSD_LRS.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }
@@ -51,7 +51,7 @@ public record AzDiskUpdateOptions : AzOptions
     public string? ActionOnDiskDelay { get; set; }
 
     /// <summary>
-    /// Encryption type.  Allowed values:
+    /// Encryption type.  Allowed values: EncryptionAtRestWithCustomerKey, EncryptionAtRestWithPlatformAndCustomerKeys, EncryptionAtRestWithPlatformKey.
     /// </summary>
     [CliOption("--encryption-type")]
     public string? EncryptionType { get; set; }
@@ -69,7 +69,7 @@ public record AzDiskUpdateOptions : AzOptions
     public bool? ForceString { get; set; }
 
     /// <summary>
-    /// Remove a property or an element from a list.
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
     public IEnumerable<string>? Remove { get; set; }
@@ -141,7 +141,7 @@ public record AzDiskUpdateOptions : AzOptions
     public string? DiskName { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
@@ -159,7 +159,7 @@ public record AzDiskUpdateOptions : AzOptions
     public string? Architecture { get; set; }
 
     /// <summary>
-    /// Refer to the security capability of the disk supported to create a Trusted launch or Confidential VM.  Allowed values:
+    /// Refer to the security capability of the disk supported to create a Trusted launch or Confidential VM.  Allowed values: TrustedLaunchAndConfidentialVMSupported, TrustedLaunchSupported.
     /// </summary>
     [CliOption("--security-option", ShortForm = "--supported-security-option")]
     public string? SecurityOption { get; set; }

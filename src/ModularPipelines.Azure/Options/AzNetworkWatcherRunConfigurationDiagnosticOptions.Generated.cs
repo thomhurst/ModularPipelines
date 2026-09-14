@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Run a configuration diagnostic on a target
 /// </summary>
+/// <param name="Resource">Name or ID of the target resource to diagnose. If an ID is given, other resource arguments should not be given.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "watcher", "run-configuration-diagnostic")]
@@ -29,7 +30,7 @@ public record AzNetworkWatcherRunConfigurationDiagnosticOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Traffic destination. Accepted values are '*', IP address/CIDR, or
+    /// Traffic destination. Accepted values are '*', IP address/CIDR, or Service Tag.
     /// </summary>
     [CliOption("--destination")]
     public string? Destination { get; set; }
@@ -59,7 +60,7 @@ public record AzNetworkWatcherRunConfigurationDiagnosticOptions(
     public bool? Queries { get; set; }
 
     /// <summary>
-    /// Traffic source. Accepted values are '*', IP address/CIDR, or Service
+    /// Traffic source. Accepted values are '*', IP address/CIDR, or Service Tag.
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; set; }

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Place the CLI in a waiting state until a condition of a
 /// </summary>
+/// <param name="KeyName">The name of the workspace key.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "workspace", "key", "wait")]
@@ -37,8 +38,8 @@ public record AzSynapseWorkspaceKeyWaitOptions(
     /// <summary>
     /// The workspace name.
     /// </summary>
-    [CliFlag("--workspace-name")]
-    public bool? WorkspaceName { get; set; }
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 
     /// <summary>
     /// Wait until created with 'provisioningState' at 'Succeeded'.

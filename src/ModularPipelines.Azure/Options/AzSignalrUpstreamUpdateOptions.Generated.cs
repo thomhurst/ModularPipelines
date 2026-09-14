@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update order sensitive upstream settings for an existing SignalR
 /// </summary>
+/// <param name="Template">Template item for upstream settings. Use key=value pattern to set properties. Supported keys are "url-template", "hub-pattern", "event- pattern", "category-pattern".</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("signalr", "upstream", "update")]

@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Attach an unmanaged persistent disk to a VM.
 /// </summary>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="VmName">The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "unmanaged-disk", "attach")]
@@ -24,13 +26,13 @@ public record AzVmUnmanagedDiskAttachOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Disk caching policy.  Allowed values: None, ReadOnly,
+    /// Disk caching policy.  Allowed values: None, ReadOnly, ReadWrite.
     /// </summary>
     [CliOption("--caching")]
     public string? Caching { get; set; }
 
     /// <summary>
-    /// 0-based logical unit number (LUN). Max value depends on the
+    /// 0-based logical unit number (LUN). Max value depends on the Virtual Machine size.
     /// </summary>
     [CliFlag("--lun")]
     public bool? Lun { get; set; }

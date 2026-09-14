@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Regenerate keys of a shared access policy of an IoT hub.
 /// </summary>
+/// <param name="RenewKey">Regenerate keys.  Allowed values: primary, secondary, swap.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "policy", "renew-key")]

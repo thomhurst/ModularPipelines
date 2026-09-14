@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new application on an Azure Service Fabric cluster.
 /// </summary>
+/// <param name="ApplicationName">Specify the application name.</param>
+/// <param name="ApplicationTypeName">Specify the application type name.</param>
+/// <param name="ApplicationTypeVersion">Specify the application type version.</param>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "application", "create")]
@@ -27,7 +32,7 @@ public record AzSfApplicationCreateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Specify the application parameters as key/value pairs. These parameters must exist in the application manifest. for example:
+    /// Specify the application parameters as key/value pairs. These parameters must exist in the application manifest. for example: --application-parameters param1=value1 param2=value2.
     /// </summary>
     [CliFlag("--application-parameters", ShortForm = "--parameters")]
     public bool? ApplicationParameters { get; set; }

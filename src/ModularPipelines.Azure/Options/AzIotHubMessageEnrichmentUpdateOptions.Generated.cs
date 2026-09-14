@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a message enrichment in your IoT hub (by key).
 /// </summary>
+/// <param name="Endpoints">Endpoint(s) to apply enrichments to. Use a space-separated list for multiple endpoints.</param>
+/// <param name="Key">The enrichment's key.</param>
+/// <param name="Value">The enrichment's value.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "message-enrichment", "update")]

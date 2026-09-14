@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an outbound-rule.
 /// </summary>
+/// <param name="LbName">The load balancer name.</param>
+/// <param name="Name">The name of the outbound rule.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "outbound-rule", "update")]
@@ -43,7 +46,7 @@ public record AzNetworkLbOutboundRuleUpdateOptions(
     public bool? ForceString { get; set; }
 
     /// <summary>
-    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;`
+    /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
     /// </summary>
     [CliOption("--remove", GroupValues = true)]
     public IEnumerable<string>? Remove { get; set; }
@@ -81,8 +84,8 @@ public record AzNetworkLbOutboundRuleUpdateOptions(
     /// <summary>
     /// The timeout for the TCP idle connection.
     /// </summary>
-    [CliFlag("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
-    public bool? IdleTimeout { get; set; }
+    [CliOption("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
+    public int? IdleTimeout { get; set; }
 
     /// <summary>
     /// The protocol for the outbound rule in load balancer.  Allowed values: All, Tcp, Udp.

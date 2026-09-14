@@ -16,6 +16,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a functionapp connection to confluent-
 /// </summary>
+/// <param name="BootstrapServer">Kafka bootstrap server url.</param>
+/// <param name="KafkaKey">Kafka API-Key (key).</param>
+/// <param name="KafkaSecret">Kafka API-Key (secret).</param>
+/// <param name="SchemaKey">Schema registry API-Key (key).</param>
+/// <param name="SchemaRegistry">Schema registry url.</param>
+/// <param name="SchemaSecret">Schema registry API-Key (secret).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "connection", "create", "confluent-cloud")]
@@ -77,7 +83,7 @@ public record AzFunctionappConnectionCreateConfluentCloudOptions(
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// The resource id of a functionapp. Required if ['--resource- group', '--name'] are not specified.
+    /// The resource id of a functionapp. Required if ['--resource-group', '--name'] are not specified.
     /// </summary>
     [CliOption("--source-id")]
     public string? SourceId { get; set; }

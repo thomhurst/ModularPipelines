@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Check if a private IP address is available for use within a
 /// </summary>
+/// <param name="IpAddress">The private IP address to be verified.</param>
+/// <param name="Name">The virtual network (VNet) name.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet", "check-ip-address")]

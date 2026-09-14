@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a new SQL pool by restoring from a backup.
 /// </summary>
+/// <param name="DestName">Name of the sql pool that will be created as the restore destination.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "sql", "pool", "restore")]
@@ -55,8 +56,8 @@ public record AzSynapseSqlPoolRestoreOptions(
     /// <summary>
     /// The workspace name.
     /// </summary>
-    [CliFlag("--workspace-name")]
-    public bool? WorkspaceName { get; set; }
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 
     /// <summary>
     /// If specified, restore from a deleted database instead of from an existing database. Must match the deleted time of a deleted database in the same server. Either --time or --deleted-time (or both) must be specified. Time should be in following format: "YYYY-MM-DDTHH:MM:SS".
@@ -65,7 +66,7 @@ public record AzSynapseSqlPoolRestoreOptions(
     public bool? DeletedTime { get; set; }
 
     /// <summary>
-    /// The point in time of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value. Either --time or
+    /// The point in time of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value. Either --time or --deleted-time (or both) must be specified. Time should be in following format: "YYYY-MM- DDTHH:MM:SS".
     /// </summary>
     [CliFlag("--time", ShortForm = "-t")]
     public bool? Time { get; set; }

@@ -45,7 +45,7 @@ public record AzRoleDenyAssignmentCreateOptions : AzOptions
     public IEnumerable<string>? ExcludePrincipalIds { get; set; }
 
     /// <summary>
-    /// Space-separated list of principal types corresponding to --exclude- principal-ids. Accepted values: User, Group, ServicePrincipal.
+    /// Space-separated list of principal types corresponding to --exclude-principal-ids. Accepted values: User, Group, ServicePrincipal.
     /// </summary>
     [CliOption("--exclude-principal-types", GroupValues = true)]
     public IEnumerable<string>? ExcludePrincipalTypes { get; set; }

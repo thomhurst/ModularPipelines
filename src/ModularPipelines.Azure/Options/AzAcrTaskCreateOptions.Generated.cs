@@ -16,6 +16,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a series of steps for building, testing and OS &amp; Framework patching
 /// </summary>
+/// <param name="Name">The name of the task.</param>
+/// <param name="Registry">The name of the container registry. It should be specified in lower case. You can configure the default registry name using `az configure --defaults acr=&lt;registry name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("acr", "task", "create")]
@@ -27,8 +29,8 @@ public record AzAcrTaskCreateOptions(
     /// <summary>
     /// Build argument in '--arg name[=value]' format. Multiples are supported by passing '--arg name[=value]' multiple times. IMPORTANT: This parameter should not include passwords, access tokens, or sensitive information of any kind. This parameter value will be visible to the ACR team for debugging purposes.
     /// </summary>
-    [CliFlag("--arg")]
-    public bool? Arg { get; set; }
+    [CliOption("--arg")]
+    public string? Arg { get; set; }
 
     /// <summary>
     /// Assign managed identities to the task. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user-assigned identity. Please see https://aka.ms/acr/tasks/task-create-managed-identity for more information.
@@ -37,7 +39,7 @@ public record AzAcrTaskCreateOptions(
     public IEnumerable<string>? AssignIdentity { get; set; }
 
     /// <summary>
-    /// Auth mode of the source registry.  Allowed values:
+    /// Auth mode of the source registry.  Allowed values: Default, None.
     /// </summary>
     [CliOption("--auth-mode")]
     public string? AuthMode { get; set; }
@@ -45,8 +47,8 @@ public record AzAcrTaskCreateOptions(
     /// <summary>
     /// Commands to execute. This also supports additional docker run parameters (https://docs.docker.com/engine/ reference/commandline/run/) or even other docker commands (https://docs.docker.com/engine/reference/com mandline/docker/).
     /// </summary>
-    [CliFlag("--cmd")]
-    public bool? Cmd { get; set; }
+    [CliOption("--cmd")]
+    public string? Cmd { get; set; }
 
     /// <summary>
     /// The full URL to the source code repository (Requires '.git' suffix for a github repo) or a remote tarball (e.g., 'http://server/context.tar.gz'), or the repository of an OCI artifact in an Azure container registry (e.g., 'oci://myregistry.azurecr.io/myartifact:mytag'). If '/dev/null' is specified, the value will be set to None and ignored. This is a required argument if the task is not a system task.
@@ -57,20 +59,20 @@ public record AzAcrTaskCreateOptions(
     /// <summary>
     /// The CPU configuration in terms of number of cores required for the run.  Default: 2.
     /// </summary>
-    [CliFlag("--cpu")]
-    public bool? Cpu { get; set; }
+    [CliOption("--cpu")]
+    public string? Cpu { get; set; }
 
     /// <summary>
     /// Relative path of the the task/docker file to the source code root folder. Task files must be suffixed with '.yaml' or piped from the standard input using '-'.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
     /// <summary>
     /// The name and tag of the image using the format: '-t repo/image:tag'. Multiple tags are supported by passing -t multiple times.
     /// </summary>
     [CliOption("--image", ShortForm = "-t")]
-    public string? Image { get; set; }
+    public IEnumerable<string>? Image { get; set; }
 
     /// <summary>
     /// Indicates whether the image cache is enabled.  Allowed values: false, true.
@@ -87,8 +89,8 @@ public record AzAcrTaskCreateOptions(
     /// <summary>
     /// The platform where build/task is run, Eg, 'windows' and 'linux'. When it's used in build commands, it also can be specified in 'os/arch/variant' format for the resulting image. Eg, linux/arm/v7. The 'arch' and 'variant' parts are optional.
     /// </summary>
-    [CliFlag("--platform")]
-    public bool? Platform { get; set; }
+    [CliOption("--platform")]
+    public string? Platform { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -97,10 +99,11 @@ public record AzAcrTaskCreateOptions(
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// Secret build argument in '--secret-arg name[=value]' format. Multiples are supported by passing '--secret- arg name[=value]' multiple times. This parameter value is not surfaced to the ACR team and is more suitable for sensitive information.
+    /// Secret build argument in '--secret-arg name[=value]' format. Multiples are supported by passing '--secret-arg name[=value]' multiple times. This parameter value is not surfaced to the ACR team and is more suitable for sensitive information.
     /// </summary>
-    [CliFlag("--secret-arg")]
-    public bool? SecretArg { get; set; }
+    [SecretValue]
+    [CliOption("--secret-arg")]
+    public string? SecretArg { get; set; }
 
     /// <summary>
     /// Task value in '--set name[=value]' format. Multiples supported by passing --set multiple times.
@@ -136,8 +139,8 @@ public record AzAcrTaskCreateOptions(
     /// <summary>
     /// The timeout in seconds.  Default: 3600.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
 
     /// <summary>
     /// The task values/parameters file path relative to the source context.
@@ -158,7 +161,7 @@ public record AzAcrTaskCreateOptions(
     public string? BaseImageTriggerName { get; set; }
 
     /// <summary>
-    /// The type of the auto trigger for base image dependency updates.  Allowed values: All, Runtime.  Default:
+    /// The type of the auto trigger for base image dependency updates.  Allowed values: All, Runtime.  Default: Runtime.
     /// </summary>
     [CliOption("--base-image-trigger-type")]
     public string? BaseImageTriggerType { get; set; }

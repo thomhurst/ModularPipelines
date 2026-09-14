@@ -16,6 +16,13 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a local connection to confluent-cloud.
 /// </summary>
+/// <param name="BootstrapServer">Kafka bootstrap server url.</param>
+/// <param name="KafkaKey">Kafka API-Key (key).</param>
+/// <param name="KafkaSecret">Kafka API-Key (secret).</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="SchemaKey">Schema registry API-Key (key).</param>
+/// <param name="SchemaRegistry">Schema registry url.</param>
+/// <param name="SchemaSecret">Schema registry API-Key (secret).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("connection", "create", "confluent-cloud")]
@@ -50,8 +57,8 @@ public record AzConnectionCreateConfluentCloudOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

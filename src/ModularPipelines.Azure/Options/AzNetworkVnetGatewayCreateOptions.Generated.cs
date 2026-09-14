@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a virtual network gateway.
 /// </summary>
+/// <param name="Name">Name of the VNet gateway.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Vnet">Name or ID of an existing virtual network which has a subnet named 'GatewaySubnet'.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "vnet-gateway", "create")]
@@ -67,7 +70,7 @@ public record AzNetworkVnetGatewayCreateOptions(
     public string? GatewayDefaultSite { get; set; }
 
     /// <summary>
-    /// The gateway type.  Allowed values:
+    /// The gateway type.  Allowed values: ExpressRoute, LocalGateway, Vpn. Default: Vpn.
     /// </summary>
     [CliOption("--gateway-type")]
     public string? GatewayType { get; set; }
@@ -75,8 +78,8 @@ public record AzNetworkVnetGatewayCreateOptions(
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Maximum scale units for auto-scale configuration.
@@ -103,13 +106,13 @@ public record AzNetworkVnetGatewayCreateOptions(
     public bool? PublicIpAddress { get; set; }
 
     /// <summary>
-    /// Indicates if the Express Route Gateway has resiliency model of
+    /// Indicates if the Express Route Gateway has resiliency model of MultiHomed or SingleHomed. Allowed values: MultiHomed, SingleHomed.
     /// </summary>
-    [CliFlag("--resiliency-model")]
-    public bool? ResiliencyModel { get; set; }
+    [CliOption("--resiliency-model")]
+    public string? ResiliencyModel { get; set; }
 
     /// <summary>
-    /// VNet gateway SKU.  Allowed values: Basic, ErGw1AZ, ErGw2AZ, ErGw3AZ,
+    /// VNet gateway SKU.  Allowed values: Basic, ErGw1AZ, ErGw2AZ, ErGw3AZ, ErGwScale, HighPerformance, Standard, UltraPerformance, VpnGw1, VpnGw1AZ, VpnGw2, VpnGw2AZ, VpnGw3, VpnGw3AZ, VpnGw4, VpnGw4AZ, VpnGw5, VpnGw5AZ.  Default: Basic.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }
@@ -121,37 +124,37 @@ public record AzNetworkVnetGatewayCreateOptions(
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// VPN authentication types enabled for the virtual network gateway.
+    /// VPN authentication types enabled for the virtual network gateway. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--vpn-auth-type")]
     public bool? VpnAuthType { get; set; }
 
     /// <summary>
-    /// The generation for the virtual network gateway. vpn_gateway_generation should not be provided if gateway_type is not Vpn.  Allowed values: Generation1,
+    /// The generation for the virtual network gateway. vpn_gateway_generation should not be provided if gateway_type is not Vpn.  Allowed values: Generation1, Generation2, None.
     /// </summary>
     [CliOption("--vpn-gateway-generation")]
     public string? VpnGatewayGeneration { get; set; }
 
     /// <summary>
-    /// VPN routing type.  Allowed values: PolicyBased, RouteBased.  Default:
+    /// VPN routing type.  Allowed values: PolicyBased, RouteBased.  Default: RouteBased.
     /// </summary>
     [CliOption("--vpn-type")]
     public string? VpnType { get; set; }
 
     /// <summary>
-    /// The AADAudience ID of the
+    /// The AADAudience ID of the VirtualNetworkGateway.
     /// </summary>
     [CliFlag("--aad-audience")]
     public bool? AadAudience { get; set; }
 
     /// <summary>
-    /// The AAD Issuer URI of the
+    /// The AAD Issuer URI of the VirtualNetworkGateway.
     /// </summary>
     [CliFlag("--aad-issuer")]
     public bool? AadIssuer { get; set; }
 
     /// <summary>
-    /// The AAD Tenant URI of the
+    /// The AAD Tenant URI of the VirtualNetworkGateway.
     /// </summary>
     [CliFlag("--aad-tenant")]
     public bool? AadTenant { get; set; }
@@ -181,7 +184,7 @@ public record AzNetworkVnetGatewayCreateOptions(
     public bool? MiSystemAssigned { get; set; }
 
     /// <summary>
-    /// Set the user managed identities.
+    /// Set the user managed identities. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--mi-user-assigned", ShortForm = "--user-assigned")]
     public bool? MiUserAssigned { get; set; }
@@ -205,7 +208,7 @@ public record AzNetworkVnetGatewayCreateOptions(
     public bool? RootCertName { get; set; }
 
     /// <summary>
-    /// Space-separated list of CIDR prefixes representing the address space for the P2S Vpnclient.
+    /// Space-separated list of CIDR prefixes representing the address space for the P2S Vpnclient. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.  Singular flags: `--address-prefix`.
     /// </summary>
     [CliOption("--address-prefix", ShortForm = "--address-prefixes", GroupValues = true)]
     public IEnumerable<string>? AddressPrefix { get; set; }
@@ -217,7 +220,7 @@ public record AzNetworkVnetGatewayCreateOptions(
     public string? ClientProtocol { get; set; }
 
     /// <summary>
-    /// Space-separated list of CIDR prefixes representing the custom routes address space specified by the customer for VpnClient.
+    /// Space-separated list of CIDR prefixes representing the custom routes address space specified by the customer for VpnClient. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--custom-routes", GroupValues = true)]
     public IEnumerable<string>? CustomRoutes { get; set; }

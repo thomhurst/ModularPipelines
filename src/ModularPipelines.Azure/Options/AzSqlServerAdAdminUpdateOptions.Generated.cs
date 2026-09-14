@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update an existing server Active Directory administrator.
 /// </summary>
+/// <param name="DisplayName">Display name of the Azure AD administrator user or group.</param>
+/// <param name="ObjectId">The unique ID of the Azure AD administrator.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "server", "ad-admin", "update")]
@@ -42,7 +44,7 @@ public record AzSqlServerAdAdminUpdateOptions(
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }

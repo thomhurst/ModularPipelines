@@ -33,7 +33,7 @@ public record AzEventhubsNamespacePrivateEndpointConnectionDeleteOptions : AzOpt
     public string? Id { get; set; }
 
     /// <summary>
-    /// The name of the private endpoint connection associated with the
+    /// The name of the private endpoint connection associated with the EventHubs Namespace.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }

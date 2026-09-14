@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the properties of a storage account's
 /// </summary>
+/// <param name="AccountName">The storage account name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "blob-service-properties", "update")]
@@ -65,7 +66,7 @@ public record AzStorageAccountBlobServicePropertiesUpdateOptions(
     public bool? ContainerRetention { get; set; }
 
     /// <summary>
-    /// Indicate the number of days that the deleted blob should be retained. The value must be in range [1,365]. It must be provided when `--enable- delete-retention` is true.
+    /// Indicate the number of days that the deleted blob should be retained. The value must be in range [1,365]. It must be provided when `--enable-delete-retention` is true.
     /// </summary>
     [CliFlag("--delete-retention-days")]
     public bool? DeleteRetentionDays { get; set; }
@@ -95,7 +96,7 @@ public record AzStorageAccountBlobServicePropertiesUpdateOptions(
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
@@ -107,7 +108,7 @@ public record AzStorageAccountBlobServicePropertiesUpdateOptions(
     public bool? EnableRestorePolicy { get; set; }
 
     /// <summary>
-    /// The number of days for the blob can be restored. It should be greater than zero and less than Delete
+    /// The number of days for the blob can be restored. It should be greater than zero and less than Delete Retention Days.
     /// </summary>
     [CliFlag("--restore-days")]
     public bool? RestoreDays { get; set; }

@@ -21,13 +21,13 @@ namespace ModularPipelines.Azure.Options;
 public record AzBackupVaultIdentityRemoveOptions : AzOptions
 {
     /// <summary>
-    /// Provide this flag to remove system assigned identity for Recovery
+    /// Provide this flag to remove system assigned identity for Recovery Services Vault.
     /// </summary>
     [CliFlag("--system-assigned")]
     public bool? SystemAssigned { get; set; }
 
     /// <summary>
-    /// Space-separated list of userassigned identities to be removed from
+    /// Space-separated list of userassigned identities to be removed from Recovery Services Vault.
     /// </summary>
     [CliOption("--user-assigned", GroupValues = true)]
     public IEnumerable<string>? UserAssigned { get; set; }

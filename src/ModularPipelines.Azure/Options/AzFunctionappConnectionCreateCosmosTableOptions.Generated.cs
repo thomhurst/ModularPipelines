@@ -81,13 +81,13 @@ public record AzFunctionappConnectionCreateCosmosTableOptions : AzOptions
     public string? OptOut { get; set; }
 
     /// <summary>
-    /// The resource group which contains the function app. Required if '
+    /// The resource group which contains the function app. Required if ' --source-id' is not specified.None.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// The resource id of a functionapp. Required if ['--resource- group', '--name'] are not specified.
+    /// The resource id of a functionapp. Required if ['--resource-group', '--name'] are not specified.
     /// </summary>
     [CliOption("--source-id")]
     public string? SourceId { get; set; }
@@ -99,7 +99,7 @@ public record AzFunctionappConnectionCreateCosmosTableOptions : AzOptions
     public string? Table { get; set; }
 
     /// <summary>
-    /// The resource id of target service. Required if ['--target- resource-group', '--account', '--table'] are not specified.
+    /// The resource id of target service. Required if ['--target-resource-group', '--account', '--table'] are not specified.
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; set; }
@@ -117,25 +117,25 @@ public record AzFunctionappConnectionCreateCosmosTableOptions : AzOptions
     public string? VaultId { get; set; }
 
     /// <summary>
-    /// The secret auth info.
+    /// The secret auth info. Usage: --secret.
     /// </summary>
     [CliFlag("--secret")]
     public bool? Secret { get; set; }
 
     /// <summary>
-    /// The service principal auth info.
+    /// The service principal auth info. Usage: --service-principal client-id=XX secret=XX
     /// </summary>
     [CliFlag("--service-principal")]
     public bool? ServicePrincipal { get; set; }
 
     /// <summary>
-    /// The flag to use system assigned identity auth info. No additional parameters are needed.
+    /// The flag to use system assigned identity auth info. No additional parameters are needed. Usage: --system-identity.
     /// </summary>
     [CliFlag("--system-identity")]
     public bool? SystemIdentity { get; set; }
 
     /// <summary>
-    /// The user assigned identity auth info.
+    /// The user assigned identity auth info. Usage: --user-identity client-id=XX subs-id=XX
     /// </summary>
     [CliFlag("--user-identity")]
     public bool? UserIdentity { get; set; }

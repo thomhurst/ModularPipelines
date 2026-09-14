@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Change ServiceState property for a given service
 /// </summary>
+/// <param name="Action">The action to be performed.  Allowed values: Resume, Suspend.</param>
+/// <param name="ServiceName">The name of the orchestration service.  Allowed values: AutomaticRepairs.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "set-orchestration-service-state")]
@@ -36,7 +38,7 @@ public record AzVmssSetOrchestrationServiceStateOptions(
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// Scale set name. You can configure the default using `az configure
+    /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
     /// </summary>
     [CliFlag("--name", ShortForm = "-n")]
     public bool? Name { get; set; }

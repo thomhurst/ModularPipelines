@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create node type on a managed cluster.
 /// </summary>
+/// <param name="ClusterName">Specify the name of the cluster, if not given it will be same as resource group name.</param>
+/// <param name="InstanceCount">"The number of nodes in the node type.</param>
+/// <param name="Name">Node type name.</param>
+/// <param name="ResourceGroup">Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sf", "managed-node-type", "create")]
@@ -38,7 +42,7 @@ public record AzSfManagedNodeTypeCreateOptions(
     public bool? AppStartPort { get; set; }
 
     /// <summary>
-    /// Capacity tags applied to the nodes in the node type as key/value pairs, the cluster resource manager uses these tags to understand how much resource a node has. Updating this will override the current values.for example: --capacity
+    /// Capacity tags applied to the nodes in the node type as key/value pairs, the cluster resource manager uses these tags to understand how much resource a node has. Updating this will override the current values.for example: --capacity ClientConnections=65536 param2=value2.
     /// </summary>
     [CliFlag("--capacity")]
     public bool? Capacity { get; set; }
@@ -50,10 +54,10 @@ public record AzSfManagedNodeTypeCreateOptions(
     public bool? DataDiskSize { get; set; }
 
     /// <summary>
-    /// Managed data disk type. IOPS and throughput are given by the disk size. To see more information, go to https://learn.microsoft.com/azure/virtual-
+    /// Managed data disk type. IOPS and throughput are given by the disk size. To see more information, go to https://learn.microsoft.com/azure/virtual- machines/disks-types. Default: StandardSSD_LRS. Standard_LRS: Standard HDD locally redundant storage. Best for backup, non-critical, and infrequent access. StandardSSD_LRS: Standard SSD locally redundant storage. Best for web servers, lightly used enterprise applications and dev/test. Premium_LRS: Premium SSD locally redundant storage. Best for production and performance sensitive workloads.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS.
     /// </summary>
-    [CliFlag("--data-disk-type", ShortForm = "--disk-type")]
-    public bool? DataDiskType { get; set; }
+    [CliOption("--data-disk-type", ShortForm = "--disk-type")]
+    public string? DataDiskType { get; set; }
 
     /// <summary>
     /// Ephemeral end port of a range of ports.
@@ -80,7 +84,7 @@ public record AzSfManagedNodeTypeCreateOptions(
     public bool? MultiPlaceGroups { get; set; }
 
     /// <summary>
-    /// Placement tags applied to nodes in the node type as key/value pairs, which can be used to indicate where certain services (workload) should run. Updating this will override the current values.for example: --placement- property NodeColor=Green SomeProperty=5.
+    /// Placement tags applied to nodes in the node type as key/value pairs, which can be used to indicate where certain services (workload) should run. Updating this will override the current values.for example: --placement-property NodeColor=Green SomeProperty=5.
     /// </summary>
     [CliFlag("--placement-property")]
     public bool? PlacementProperty { get; set; }
@@ -104,7 +108,7 @@ public record AzSfManagedNodeTypeCreateOptions(
     public bool? VmImageOffer { get; set; }
 
     /// <summary>
-    /// The publisher of the Azure Virtual Machines Marketplace image.  Default:
+    /// The publisher of the Azure Virtual Machines Marketplace image.  Default: MicrosoftWindowsServer.
     /// </summary>
     [CliFlag("--vm-image-publisher")]
     public bool? VmImagePublisher { get; set; }
@@ -122,7 +126,7 @@ public record AzSfManagedNodeTypeCreateOptions(
     public bool? VmImageVersion { get; set; }
 
     /// <summary>
-    /// The size of virtual machines in the pool. All virtual machines in a pool are the same size.
+    /// The size of virtual machines in the pool. All virtual machines in a pool are the same size. Default: Standard_D2.
     /// </summary>
     [CliFlag("--vm-size")]
     public bool? VmSize { get; set; }

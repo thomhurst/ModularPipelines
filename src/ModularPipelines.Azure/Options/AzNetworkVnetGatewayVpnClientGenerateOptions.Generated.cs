@@ -33,7 +33,7 @@ public record AzNetworkVnetGatewayVpnClientGenerateOptions : AzOptions
     public IEnumerable<string>? ClientRootCertificates { get; set; }
 
     /// <summary>
-    /// Processor architecture of the target system.  Allowed values:
+    /// Processor architecture of the target system.  Allowed values: Amd64, X86.
     /// </summary>
     [CliOption("--processor-architecture")]
     public string? ProcessorArchitecture { get; set; }

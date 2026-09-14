@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Geo-restore a flexible server from backup.
 /// </summary>
+/// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+/// <param name="SourceServer">The name or resource ID of the source server to restore from.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mysql", "flexible-server", "geo-restore")]
@@ -24,7 +26,7 @@ public record AzMysqlFlexibleServerGeoRestoreOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Enable or disable accelerated logs. Only support for Business Critical tier. Default value is Enabled.  Allowed values: Disabled,
+    /// Enable or disable accelerated logs. Only support for Business Critical tier. Default value is Enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--accelerated-logs")]
     public string? AcceleratedLogs { get; set; }
@@ -42,7 +44,7 @@ public record AzMysqlFlexibleServerGeoRestoreOptions(
     public bool? BackupRetention { get; set; }
 
     /// <summary>
-    /// Whether or not geo redundant backup is enabled.  Allowed values:
+    /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--geo-redundant-backup")]
     public string? GeoRedundantBackup { get; set; }
@@ -78,7 +80,7 @@ public record AzMysqlFlexibleServerGeoRestoreOptions(
     public string? StorageAutoGrow { get; set; }
 
     /// <summary>
-    /// The storage capacity of the server. Minimum is 32 GiB and max is 16
+    /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
     /// </summary>
     [CliFlag("--storage-size")]
     public bool? StorageSize { get; set; }
@@ -102,7 +104,7 @@ public record AzMysqlFlexibleServerGeoRestoreOptions(
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Compute tier of the server. Accepted values: Burstable,
+    /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose, MemoryOptimized.
     /// </summary>
     [CliOption("--tier")]
     public string? Tier { get; set; }

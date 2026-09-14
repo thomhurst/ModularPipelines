@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create an event hub consumer group.
 /// </summary>
+/// <param name="HubName">IoT Hub name.</param>
+/// <param name="Name">Event hub consumer group name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "consumer-group", "create")]

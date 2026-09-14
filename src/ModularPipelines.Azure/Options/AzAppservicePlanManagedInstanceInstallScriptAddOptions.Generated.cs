@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Add an install script to a managed
 /// </summary>
+/// <param name="InstallScriptName">Name of the install script.</param>
+/// <param name="SourceUri">Source URI of the install script.</param>
+/// <param name="Type">Type of the install script.  Allowed values: PlatformStorage, RemoteAzureBlob.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("appservice", "plan", "managed-instance", "install-script", "add")]

@@ -15,6 +15,11 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Activates a Batch application package.
 /// </summary>
+/// <param name="ApplicationName">The name of the application.</param>
+/// <param name="Format">The format of the application package binary file.</param>
+/// <param name="Name">Name of the Batch account.</param>
+/// <param name="ResourceGroup">Name of the resource group.</param>
+/// <param name="VersionName">The version name of the application.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("batch", "application", "package", "activate")]

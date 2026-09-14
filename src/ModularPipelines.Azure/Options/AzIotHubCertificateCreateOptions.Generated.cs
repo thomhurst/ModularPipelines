@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create/upload an Azure IoT Hub certificate.
 /// </summary>
+/// <param name="HubName">IoT Hub name.</param>
+/// <param name="Name">A friendly name for the certificate.</param>
+/// <param name="Path">The path to the file containing the certificate.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iot", "hub", "certificate", "create")]

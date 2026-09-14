@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update HTTP settings.
 /// </summary>
+/// <param name="GatewayName">Name of the application gateway.</param>
+/// <param name="Name">Name of the backend http settings.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "http-settings", "update")]
@@ -91,13 +94,13 @@ public record AzNetworkApplicationGatewayHttpSettingsUpdateOptions(
     public string? Probe { get; set; }
 
     /// <summary>
-    /// Protocol used to communicate with the backend.  Allowed values: Http, Https,
+    /// Protocol used to communicate with the backend.  Allowed values: Http, Https, Tcp, Tls.
     /// </summary>
     [CliOption("--protocol")]
     public string? Protocol { get; set; }
 
     /// <summary>
-    /// Space-separated list of trusted root certificates (Names and IDs) to associate with the HTTP settings. `--host-name` or `--host-name-from- backend-pool` is required when this field is set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of trusted root certificates (Names and IDs) to associate with the HTTP settings. `--host-name` or `--host-name-from-backend-pool` is required when this field is set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--root-certs", GroupValues = true)]
     public IEnumerable<string>? RootCerts { get; set; }
@@ -109,7 +112,7 @@ public record AzNetworkApplicationGatewayHttpSettingsUpdateOptions(
     public bool? Timeout { get; set; }
 
     /// <summary>
-    /// Add an object to a list of objects by specifying a path and key value pairs.
+    /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
     /// </summary>
     [CliOption("--add", GroupValues = true)]
     public IEnumerable<string>? Add { get; set; }
@@ -127,7 +130,7 @@ public record AzNetworkApplicationGatewayHttpSettingsUpdateOptions(
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }

@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update the properties of a Vault.
 /// </summary>
+/// <param name="Name">Name of the Vault.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "update")]
@@ -59,7 +60,7 @@ public record AzKeyvaultUpdateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Control permission for data plane traffic coming from public networks while private endpoint is enabled.  Allowed values:
+    /// Control permission for data plane traffic coming from public networks while private endpoint is enabled.  Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
@@ -101,7 +102,7 @@ public record AzKeyvaultUpdateOptions(
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Bypass traffic for space-separated uses.  Allowed values:
+    /// Bypass traffic for space-separated uses.  Allowed values: AzureServices, None.
     /// </summary>
     [CliOption("--bypass", GroupValues = true)]
     public IEnumerable<string>? Bypass { get; set; }

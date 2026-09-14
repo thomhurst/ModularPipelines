@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a rule.
 /// </summary>
+/// <param name="GatewayName">Name of the application gateway.</param>
+/// <param name="Name">Name of the routing rule.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "routing-rule", "update")]
@@ -31,13 +34,13 @@ public record AzNetworkApplicationGatewayRoutingRuleUpdateOptions(
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Priority of the routing rule. Supported SKU tiers are
+    /// Priority of the routing rule. Supported SKU tiers are Standard_v2, WAF_v2.
     /// </summary>
     [CliFlag("--priority")]
     public bool? Priority { get; set; }
 
     /// <summary>
-    /// Type of the routing rule.  Allowed values: Basic,
+    /// Type of the routing rule.  Allowed values: Basic, PathBasedRouting.
     /// </summary>
     [CliOption("--rule-type")]
     public string? RuleType { get; set; }

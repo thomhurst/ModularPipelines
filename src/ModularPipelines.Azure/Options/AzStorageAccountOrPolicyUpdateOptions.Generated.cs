@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update Object Replication Service Policy properties for
 /// </summary>
+/// <param name="AccountName">The storage account name.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "or-policy", "update")]
@@ -23,7 +24,7 @@ public record AzStorageAccountOrPolicyUpdateOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// The destination storage account name or resource Id. Apply
+    /// The destination storage account name or resource Id. Apply --account-name value as destination account when there is no destination account provided in --policy and --destination-account.
     /// </summary>
     [CliOption("--destination-account", ShortForm = "-d")]
     public string? DestinationAccount { get; set; }
@@ -59,7 +60,7 @@ public record AzStorageAccountOrPolicyUpdateOptions(
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// The source storage account name or resource Id. Required when no
+    /// The source storage account name or resource Id. Required when no --policy provided.
     /// </summary>
     [CliOption("--source-account", ShortForm = "-s")]
     public string? SourceAccount { get; set; }
@@ -89,7 +90,7 @@ public record AzStorageAccountOrPolicyUpdateOptions(
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set.
+    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }

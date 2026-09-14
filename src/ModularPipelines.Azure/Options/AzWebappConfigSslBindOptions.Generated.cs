@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Bind an SSL certificate to a web app.
 /// </summary>
+/// <param name="CertificateThumbprint">The ssl cert thumbprint.</param>
+/// <param name="SslType">The ssl cert type.  Allowed values: IP, SNI.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("webapp", "config", "ssl", "bind")]

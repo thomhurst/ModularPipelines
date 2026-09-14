@@ -15,6 +15,7 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set applications for VM.
 /// </summary>
+/// <param name="AppVersionIds">Space-separated application version ids to set to VM.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm", "application", "set")]
@@ -29,7 +30,7 @@ public record AzVmApplicationSetOptions(
     public IEnumerable<string>? AppConfigOverrides { get; set; }
 
     /// <summary>
-    /// Space-separated list of true or false corresponding to the application version ids. If set to true, when a new Gallery Application version is available in PIR/SIG, it will be automatically updated for the
+    /// Space-separated list of true or false corresponding to the application version ids. If set to true, when a new Gallery Application version is available in PIR/SIG, it will be automatically updated for the VM/VMSS.
     /// </summary>
     [CliOption("--enable-auto-upgrade", ShortForm = "--enable-automatic-upgrade", GroupValues = true)]
     public IEnumerable<string>? EnableAutoUpgrade { get; set; }
@@ -53,7 +54,7 @@ public record AzVmApplicationSetOptions(
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// The name of the Virtual Machine. You can configure the default using `az configure
+    /// The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }

@@ -59,7 +59,7 @@ public record AzSynapseWorkspaceFirewallRuleUpdateOptions : AzOptions
     /// <summary>
     /// The workspace name.
     /// </summary>
-    [CliFlag("--workspace-name")]
-    public bool? WorkspaceName { get; set; }
+    [CliOption("--workspace-name")]
+    public string? WorkspaceName { get; set; }
 
 }

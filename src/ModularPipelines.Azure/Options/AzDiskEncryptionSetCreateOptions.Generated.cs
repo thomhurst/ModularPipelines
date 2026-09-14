@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a disk encryption set.
 /// </summary>
+/// <param name="DiskEncryptionSetName">Name of disk encryption set.</param>
+/// <param name="KeyUrl">URL pointing to a key or secret in KeyVault.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("disk-encryption-set", "create")]
@@ -31,10 +34,10 @@ public record AzDiskEncryptionSetCreateOptions(
     public bool? AutoRotation { get; set; }
 
     /// <summary>
-    /// The type of key used to encrypt the data of
+    /// The type of key used to encrypt the data of the disk. EncryptionAtRestWithCustomerKey: Disk is encrypted at rest with Customer managed key that can be changed and revoked by a customer. EncryptionAtRestWithPlatformAndCustomerKeys: Disk is encrypted at rest with 2 layers of encryption. One of the keys is Customer managed and the other key is Platform managed. ConfidentialVmEncryptedWithCustomerKey: An additional encryption type accepted for confidential VM. Disk is encrypted at rest with Customer managed key.  Allowed values: ConfidentialVmEncryptedWithCustomerKey, EncryptionAtRestWithCustomerKey, EncryptionAtRestWithPlatformAndCustomerKeys.
     /// </summary>
-    [CliFlag("--encryption-type")]
-    public bool? EncryptionType { get; set; }
+    [CliOption("--encryption-type")]
+    public string? EncryptionType { get; set; }
 
     /// <summary>
     /// The federated client id used in cross tenant scenario.

@@ -15,6 +15,12 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a Spark pool.
 /// </summary>
+/// <param name="Name">The name of the Spark pool.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="WorkspaceName">The workspace name.</param>
+/// <param name="SparkVersion">The supported Spark version is 2.4 now.</param>
+/// <param name="NodeCount">The number of node.</param>
+/// <param name="NodeSize">The level of compute power that each node in the Big Data pool has..  Allowed values: Large, Medium, None, Small, XLarge, XXLarge, XXXLarge.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("synapse", "spark", "pool", "create")]
@@ -23,7 +29,7 @@ public record AzSynapseSparkPoolCreateOptions(
     [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
     [property: CliOption("--workspace-name")] string WorkspaceName,
     [property: CliOption("--spark-version")] string SparkVersion,
-    [property: CliOption("--node-count")] string NodeCount,
+    [property: CliOption("--node-count")] int NodeCount,
     [property: CliOption("--node-size")] string NodeSize
 ) : AzOptions
 {

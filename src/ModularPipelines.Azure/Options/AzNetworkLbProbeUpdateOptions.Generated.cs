@@ -15,6 +15,9 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Update a probe in the load balancer.
 /// </summary>
+/// <param name="LbName">The load balancer name.</param>
+/// <param name="Name">The name of the probe.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "lb", "probe", "update")]
@@ -85,7 +88,7 @@ public record AzNetworkLbProbeUpdateOptions(
     public bool? ProbeThreshold { get; set; }
 
     /// <summary>
-    /// The protocol of the end point.  Allowed values: Http, Https,
+    /// The protocol of the end point.  Allowed values: Http, Https, Tcp.
     /// </summary>
     [CliOption("--protocol")]
     public string? Protocol { get; set; }

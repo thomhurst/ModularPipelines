@@ -15,6 +15,8 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Show application federated identity credential.
 /// </summary>
+/// <param name="FederatedCredentialId">ID or name of the federated identity credential.</param>
+/// <param name="Id">Application's appId, identifierUri, or id (formerly known as objectId).</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ad", "app", "federated-credential", "show")]

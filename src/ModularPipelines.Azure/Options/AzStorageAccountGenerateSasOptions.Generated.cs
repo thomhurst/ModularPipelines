@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Generate a shared access signature for the storage account.
 /// </summary>
+/// <param name="Expiry">Specifies the UTC datetime (Y-m-d'T'H:M'Z') at which the SAS becomes invalid.</param>
+/// <param name="Permissions">The permissions the SAS grants. Allowed values: (a)dd (c)reate (d)elete (f)ilter_by_tags (i)set_immutability_policy (l)ist (p)rocess (r)ead (t)ag (u)pdate (w)rite (x)delete_previous_version (y)permanent_delete. Can be combined.</param>
+/// <param name="ResourceTypes">The resource types the SAS is applicable for. Allowed values: (s)ervice (c)ontainer (o)bject. Can be combined.</param>
+/// <param name="Services">The storage services the SAS is applicable for. Allowed values: (b)lob (f)ile (q)ueue (t)able. Can be combined.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "account", "generate-sas")]
@@ -50,7 +54,7 @@ public record AzStorageAccountGenerateSasOptions(
     public bool? Start { get; set; }
 
     /// <summary>
-    /// Storage account name. Must be used in conjunction with either storage account key or a SAS token. Environment Variable:
+    /// Storage account name. Must be used in conjunction with either storage account key or a SAS token. Environment Variable: AZURE_STORAGE_ACCOUNT.
     /// </summary>
     [CliFlag("--account-name")]
     public bool? AccountName { get; set; }
@@ -62,7 +66,7 @@ public record AzStorageAccountGenerateSasOptions(
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable:
+    /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
     [CliFlag("--account-key")]
     public bool? AccountKey { get; set; }
@@ -74,7 +78,7 @@ public record AzStorageAccountGenerateSasOptions(
     public bool? BlobEndpoint { get; set; }
 
     /// <summary>
-    /// Storage account connection string. Environment variable:
+    /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
     [CliFlag("--connection-string")]
     public bool? ConnectionString { get; set; }

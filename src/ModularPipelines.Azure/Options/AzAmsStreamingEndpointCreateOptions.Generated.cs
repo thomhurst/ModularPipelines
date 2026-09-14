@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Create a streaming endpoint.
 /// </summary>
+/// <param name="AccountName">The name of the Azure Media Services account.</param>
+/// <param name="Name">The name of the streaming endpoint.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="ScaleUnits">The number of scale units for Premium StreamingEndpoints. For Standard StreamingEndpoints, set this value to 0. Use the Scale operation to adjust this value for Premium StreamingEndpoints.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "streaming-endpoint", "create")]
@@ -22,7 +26,7 @@ public record AzAmsStreamingEndpointCreateOptions(
     [property: CliOption("--account-name", ShortForm = "-a")] string AccountName,
     [property: CliOption("--name", ShortForm = "-n")] string Name,
     [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--scale-units")] string ScaleUnits
+    [property: CliOption("--scale-units")] int ScaleUnits
 ) : AzOptions
 {
     /// <summary>
@@ -80,7 +84,7 @@ public record AzAmsStreamingEndpointCreateOptions(
     public bool? CdnProfile { get; set; }
 
     /// <summary>
-    /// The CDN provider name. Allowed values: StandardVerizon,
+    /// The CDN provider name. Allowed values: StandardVerizon, PremiumVerizon, StandardAkamai.
     /// </summary>
     [CliOption("--cdn-provider")]
     public string? CdnProvider { get; set; }

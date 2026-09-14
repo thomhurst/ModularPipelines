@@ -15,6 +15,10 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Manage rules of a WAF
 /// </summary>
+/// <param name="PolicyName">The name of the web application firewall policy.</param>
+/// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
+/// <param name="Type">The type of the web application firewall rule set.  Allowed values: Microsoft_BotManagerRuleSet, Microsoft_DefaultRuleSet, Microsoft_HTTPDDoSRuleSet, OWASP.</param>
+/// <param name="Version">The version of the web application firewall rule set type. 0.1, 1.0, and 1.1 are used for Microsoft_BotManagerRuleSet.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "application-gateway", "waf-policy", "managed-rule", "rule-set", "update")]
@@ -32,9 +36,9 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetUpdateOption
     public string? GroupName { get; set; }
 
     /// <summary>
-    /// The rule that will be disabled. If none specified, all rules in the group will be disabled. If provided, --group-name must be provided too.
+    /// The rule that will be disabled. If none specified, all rules in the group will be disabled. If provided, --group-name must be provided too. Usage: --rule rule-id=MyID state=MyState action=MyAction sensitivity=MySensitivity Allowed values for sensitivity: High, Medium, Low, None Multiple rules can be specified by using more than one `--rule` argument.
     /// </summary>
-    [CliFlag("--rule")]
-    public bool? Rule { get; set; }
+    [CliOption("--rule")]
+    public string? Rule { get; set; }
 
 }

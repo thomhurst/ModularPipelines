@@ -39,7 +39,7 @@ public record AzSqlMiServerConfigurationOptionWaitOptions : AzOptions
     public string? Name { get; set; }
 
     /// <summary>
-    /// Name of resource group. You can configure the default group using `az configure
+    /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
@@ -69,13 +69,13 @@ public record AzSqlMiServerConfigurationOptionWaitOptions : AzOptions
     public bool? Exists { get; set; }
 
     /// <summary>
-    /// Polling interval in seconds.
+    /// Polling interval in seconds. Default: 30.
     /// </summary>
     [CliFlag("--interval")]
     public bool? Interval { get; set; }
 
     /// <summary>
-    /// Maximum wait in seconds.
+    /// Maximum wait in seconds. Default: 3600.
     /// </summary>
     [CliFlag("--timeout")]
     public bool? Timeout { get; set; }
