@@ -7,6 +7,46 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public partial class NestedArgumentGroupParsingTests
 {
     [Test]
+    public async Task Gcloud_Conditional_Positional_Operand_Requires_Value_When_Selector_Is_Set()
+    {
+        const string help = """
+            NAME
+                gcloud example create - create an example
+            SYNOPSIS
+                gcloud example create [RESOURCE] [--location=LOCATION]
+            POSITIONAL ARGUMENTS
+                 Resource resource - resource to configure.
+                   RESOURCE
+                      This positional argument must be specified if any of the other arguments in this group are specified.
+                   --location=LOCATION
+                      Select the location.
+            """;
+        var command = (await CreateGcloudScraper().Parse(["gcloud", "example", "create"], help))!;
+        var group = command.RequiredAlternativeGroups.Single();
+        await Assert.That(group.IsRequired).IsFalse();
+        await Assert.That(group.Members.Single(member => member.PropertyName == "Resource").IsRequired).IsTrue();
+        var generated = (await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "output",
+            Commands = [command],
+        })).Single().Content;
+        await VerifyGeneratedValidation(generated, command.ClassName, async type =>
+        {
+            for (var mask = 0; mask < 4; mask++)
+            {
+                var instance = Activator.CreateInstance(type)!;
+                type.GetProperty("Resource")!.SetValue(instance, (mask & 1) != 0 ? "resource" : " ");
+                type.GetProperty("Location")!.SetValue(instance, (mask & 2) != 0 ? "location" : null);
+                var errors = ((IValidatableObject) instance).Validate(new(instance));
+                await Assert.That(!errors.Any()).IsEqualTo(mask != 2);
+            }
+        });
+    }
+
+    [Test]
     [Arguments("REQUIRED FLAGS", true)]
     [Arguments("FLAGS", false)]
     [Arguments("OPTIONAL FLAGS", false)]

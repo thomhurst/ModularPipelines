@@ -419,9 +419,12 @@ public partial class GcloudCliScraper : CliScraperBase
         || ArgumentIsConditionallyRequired(argument);
 
     private static bool ArgumentIsConditionallyRequired(CliArgumentDefinition argument) =>
-        argument.Description?.Contains(
+        argument.Description is { } description && (description.Contains(
             "This flag argument must be specified if any of the other arguments in this group are specified.",
-            StringComparison.OrdinalIgnoreCase) == true;
+            StringComparison.OrdinalIgnoreCase)
+            || description.Contains(
+                "This positional argument must be specified if any of the other arguments in this group are specified.",
+                StringComparison.OrdinalIgnoreCase));
 
     private static void ApplyRequiredArguments(
         CliArgumentGroup group,
