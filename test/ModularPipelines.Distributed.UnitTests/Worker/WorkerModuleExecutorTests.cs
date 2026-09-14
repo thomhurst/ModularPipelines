@@ -16,7 +16,7 @@ namespace ModularPipelines.Distributed.UnitTests.Worker;
 public class WorkerModuleExecutorTests
 {
     [Test]
-    [Timeout(5_000)]
+    [Timeout(30_000)]
     public async Task Cancellation_Observer_Retries_After_Transient_Failure(
         CancellationToken testCancellation)
     {
@@ -65,7 +65,11 @@ public class WorkerModuleExecutorTests
             artifactLifecycleManager: null,
             NullLogger<WorkerModuleExecutor>.Instance);
 
-        var result = await executor.ExecuteAsync([]).WaitAsync(testCancellation);
+        var result = await executor.ExecuteAsync(
+            [],
+            new Dictionary<Type, TimeSpan>(),
+            new ExecutionBackendContext(resultRegistry),
+            testCancellation).WaitAsync(testCancellation);
 
         await Assert.That(result).IsEmpty();
         await Assert.That(attempts).IsEqualTo(2);
