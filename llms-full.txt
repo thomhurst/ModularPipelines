@@ -1409,7 +1409,7 @@ This page describes the internal architecture of distributed mode for contributo
 2. The worker registers all available module types for serialization.
 3. The worker builds its capability set from configured capabilities and, by default, the auto-detected operating-system capability.
 4. The worker registers its capabilities with the coordinator via `RegisterWorkerAsync`. During run-report finalization it calls the method again to upsert its final command metrics.
-5. The worker enters its dequeue/execute/publish loop.
+5. The worker starts a bounded execution pool, continuously dequeuing one assignment ahead while up to the configured number of modules execute concurrently.
 
 ### Module Execution (Master Side)[​](#module-execution-master-side "Direct link to Module Execution (Master Side)")
 
@@ -1467,7 +1467,7 @@ Mark module complete/failed
 Schedule dependents
 ```
 
-The master runs a concurrent worker loop that competes with external workers for assignments. All modules go through the work queue — routing is purely capability-based.
+The master runs the same bounded worker pool and competes with external workers for assignments. All modules go through the work queue — routing is purely capability-based.
 
 ### Module Execution (Worker Side)[​](#module-execution-worker-side "Direct link to Module Execution (Worker Side)")
 
@@ -1501,7 +1501,9 @@ Register with coordinator
    └────┘ (loop)
 ```
 
-Workers loop until `DequeueModuleAsync` returns `null`. Coordinators return `null` after the master calls `SignalCompletionAsync`, or when that worker's local cancellation token is canceled.
+Workers execute up to the pipeline's global `Concurrency.MaxParallelism` setting. Each node can lower its own limit with `DistributedOptions.MaxParallelism`; it cannot raise the global limit. The pool keeps one dequeue pending while all execution slots are busy, avoiding idle time between assignments. Workers stop when `DequeueModuleAsync` returns `null`. Coordinators return `null` after the master calls `SignalCompletionAsync`, or when that worker's local cancellation token is canceled.
+
+`ExecutionHint` throttles and `[ParallelLimiter]` semaphores remain process-local. They bound concurrency within each node, but do not coordinate a shared limit across nodes.
 
 ## Custom Execution Backends[​](#custom-execution-backends "Direct link to Custom Execution Backends")
 
@@ -1900,6 +1902,8 @@ builder.AddDistributedMode(o =>
 
     o.TotalInstances = 4;
 
+    o.MaxParallelism = 4;
+
     o.Role = DistributedRole.Master;
 
     o.Capabilities = [Capability.Docker, Capability.Gpu];
@@ -1922,6 +1926,7 @@ builder.AddDistributedMode(o =>
 | `Role`                   | `DistributedRole`           | `Auto`                                                  | Explicit `Master` or `Worker` role. `Auto` derives the role from `InstanceIndex`.                                                                                                                                                                                           |
 | `InstanceIndex`          | `int`                       | `0`                                                     | This instance's unique index. With `Role == Auto`, `0` selects master and values above `0` select worker.                                                                                                                                                                   |
 | `TotalInstances`         | `int`                       | `1`                                                     | Total number of instances (master + workers).                                                                                                                                                                                                                               |
+| `MaxParallelism`         | `int?`                      | `null`                                                  | Optional per-node concurrency limit. It can lower, but cannot raise, the pipeline's global `Concurrency.MaxParallelism` limit.                                                                                                                                              |
 | `Capabilities`           | `IReadOnlyList<Capability>` | `[]`                                                    | Capabilities this worker advertises. Built-in values are available from `Capability`; strings convert implicitly for custom values.                                                                                                                                         |
 | `RunId`                  | `string`                    | `MODULARPIPELINES_RUN_ID` or generated for one instance | Identifier shared by every process in this pipeline run. Multi-instance runs fail fast when neither source is configured.                                                                                                                                                   |
 | `RequireExplicitRunId`   | `bool`                      | `false`                                                 | Reject generated single-instance IDs. Shared Redis backends enable this automatically. S3 artifact-store registrations also require an explicit shared `RunId`, including for single-instance configurations. Custom backends opt in with `builder.RequireExplicitRunId()`. |
@@ -1966,6 +1971,7 @@ Or call `builder.AddDistributedMode()` to bind the standard environment variable
 | ---------------------------------- | -------------------------------------- |
 | `MODULARPIPELINES_INSTANCE_INDEX`  | `InstanceIndex`                        |
 | `MODULARPIPELINES_TOTAL_INSTANCES` | `TotalInstances`                       |
+| `MODULARPIPELINES_MAX_PARALLELISM` | `MaxParallelism`                       |
 | `MODULARPIPELINES_RUN_ID`          | `RunId`                                |
 | `MODULARPIPELINES_ROLE`            | `Role` (`Auto`, `Master`, or `Worker`) |
 
