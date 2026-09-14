@@ -1572,7 +1572,7 @@ public abstract partial class CliScraperBase : ICliScraper
         for (var index = 0; index < segments.Count; index++)
         {
             var (start, text) = segments[index];
-            if (text.Length == 0 || text[0] == '-')
+            if (text.Length == 0 || (text[0] == '-' && (index == 0 || IsOptionDeclarationSegment(text))))
             {
                 continue;
             }
@@ -1590,6 +1590,21 @@ public abstract partial class CliScraperBase : ICliScraper
 
         return null;
     }
+
+    private static bool IsOptionDeclarationSegment(string text)
+    {
+        var option = OptionSegmentPrefixPattern().Match(text);
+        if (!option.Success)
+        {
+            return false;
+        }
+
+        var remainder = text[option.Length..].Trim();
+        return remainder.Length == 0 || LooksLikeValueHint(remainder);
+    }
+
+    [GeneratedRegex(@"^--?[\w-]+(?:[ \t]*,[ \t]*--?[\w-]+)*(?:[ \t=]+|$)")]
+    private static partial Regex OptionSegmentPrefixPattern();
 
     /// <summary>
     /// Returns whether a row segment is a typed or syntactic value hint rather than prose.
