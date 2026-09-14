@@ -18,10 +18,21 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspace", "new")]
-public record TerraformWorkspaceNewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
-) : TerraformOptions
+public record TerraformWorkspaceNewOptions : TerraformOptions
 {
+    public TerraformWorkspaceNewOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Don't hold a state lock during the operation. This is dangerous if others might concurrently run commands against the same workspace.
     /// </summary>
@@ -39,5 +50,11 @@ public record TerraformWorkspaceNewOptions(
     /// </summary>
     [CliOption("-state", Format = OptionFormat.EqualsSeparated)]
     public string? State { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Name { get; private init; }
 
 }

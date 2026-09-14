@@ -18,14 +18,31 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("force-unlock")]
-public record TerraformForceUnlockOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string LockId
-) : TerraformOptions
+public record TerraformForceUnlockOptions : TerraformOptions
 {
+    public TerraformForceUnlockOptions(
+        string LockId
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(LockId);
+        this.LockId = LockId;
+    }
+
+    public void Deconstruct(out string LockId)
+    {
+        LockId = this.LockId;
+    }
+
     /// <summary>
     /// Don't ask for input for unlock confirmation.
     /// </summary>
     [CliFlag("-force")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// The LOCK_ID operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string LockId { get; private init; }
 
 }

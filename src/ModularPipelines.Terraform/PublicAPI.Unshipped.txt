@@ -1,5 +1,8 @@
 #nullable enable
+*REMOVED*ModularPipelines.Terraform.Options.TerraformForceUnlockOptions.LockId.init -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformForceUnlockOptions.TerraformForceUnlockOptions() -> void
+*REMOVED*ModularPipelines.Terraform.Options.TerraformImportOptions.Addr.init -> void
+*REMOVED*ModularPipelines.Terraform.Options.TerraformImportOptions.Id.init -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformImportOptions.TerraformImportOptions() -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformInitOptions.BackendConfig.get -> string?
 *REMOVED*ModularPipelines.Terraform.Options.TerraformInitOptions.BackendConfigValues.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -8,6 +11,7 @@
 *REMOVED*ModularPipelines.Terraform.Options.TerraformMetadataOptions.Subcommand.get -> string!
 *REMOVED*ModularPipelines.Terraform.Options.TerraformMetadataOptions.Subcommand.init -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformMetadataOptions.TerraformMetadataOptions(string! Subcommand) -> void
+*REMOVED*ModularPipelines.Terraform.Options.TerraformProvidersMirrorOptions.TargetDir.init -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformProvidersMirrorOptions.TerraformProvidersMirrorOptions() -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformRefreshOptions.Target.get -> string?
 *REMOVED*ModularPipelines.Terraform.Options.TerraformRefreshOptions.TargetValues.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -82,19 +86,31 @@
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStacksOptions.Command.init -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStacksOptions.Deconstruct(out string! Command) -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStacksOptions.TerraformStacksOptions(string! Command) -> void
+*REMOVED*ModularPipelines.Terraform.Options.TerraformStateMvOptions.Destination.init -> void
+*REMOVED*ModularPipelines.Terraform.Options.TerraformStateMvOptions.Source.init -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStateMvOptions.TerraformStateMvOptions() -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStateOptions.Deconstruct(out string! Subcommand) -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStateOptions.Subcommand.get -> string!
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStateOptions.Subcommand.init -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStateOptions.TerraformStateOptions(string! Subcommand) -> void
+*REMOVED*ModularPipelines.Terraform.Options.TerraformStatePushOptions.Path.init -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStatePushOptions.TerraformStatePushOptions() -> void
+*REMOVED*ModularPipelines.Terraform.Options.TerraformStateReplaceProviderOptions.FromProviderFqn.init -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStateReplaceProviderOptions.TerraformStateReplaceProviderOptions() -> void
+*REMOVED*ModularPipelines.Terraform.Options.TerraformStateReplaceProviderOptions.ToProviderFqn.init -> void
+*REMOVED*ModularPipelines.Terraform.Options.TerraformStateRmOptions.Address.init -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStateRmOptions.TerraformStateRmOptions() -> void
+*REMOVED*ModularPipelines.Terraform.Options.TerraformStateShowOptions.Address.init -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformStateShowOptions.TerraformStateShowOptions() -> void
+*REMOVED*ModularPipelines.Terraform.Options.TerraformTaintOptions.Address.init -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformTaintOptions.TerraformTaintOptions() -> void
+*REMOVED*ModularPipelines.Terraform.Options.TerraformUntaintOptions.Name.init -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformUntaintOptions.TerraformUntaintOptions() -> void
+*REMOVED*ModularPipelines.Terraform.Options.TerraformWorkspaceDeleteOptions.Name.init -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformWorkspaceDeleteOptions.TerraformWorkspaceDeleteOptions() -> void
+*REMOVED*ModularPipelines.Terraform.Options.TerraformWorkspaceNewOptions.Name.init -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformWorkspaceNewOptions.TerraformWorkspaceNewOptions() -> void
+*REMOVED*ModularPipelines.Terraform.Options.TerraformWorkspaceSelectOptions.Name.init -> void
 *REMOVED*ModularPipelines.Terraform.Options.TerraformWorkspaceSelectOptions.TerraformWorkspaceSelectOptions() -> void
 *REMOVED*ModularPipelines.Terraform.Services.ITerraform.ApplyAsync(ModularPipelines.Terraform.Options.TerraformApplyOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Terraform.Services.ITerraform.ConsoleAsync(ModularPipelines.Terraform.Options.TerraformConsoleOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!

@@ -18,10 +18,21 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("state", "show")]
-public record TerraformStateShowOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Address
-) : TerraformOptions
+public record TerraformStateShowOptions : TerraformOptions
 {
+    public TerraformStateShowOptions(
+        string Address
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Address);
+        this.Address = Address;
+    }
+
+    public void Deconstruct(out string Address)
+    {
+        Address = this.Address;
+    }
+
     /// <summary>
     /// Path to a Terraform state file to use to look up Terraform-managed resources. By default it will use the state "terraform.tfstate" if it exists.
     /// </summary>
@@ -33,5 +44,11 @@ public record TerraformStateShowOptions(
     /// </summary>
     [CliFlag("-json")]
     public bool? Json { get; set; }
+
+    /// <summary>
+    /// The ADDRESS operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Address { get; private init; }
 
 }

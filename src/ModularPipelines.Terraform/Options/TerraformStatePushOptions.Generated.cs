@@ -18,10 +18,21 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("state", "push")]
-public record TerraformStatePushOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
-) : TerraformOptions
+public record TerraformStatePushOptions : TerraformOptions
 {
+    public TerraformStatePushOptions(
+        string Path
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Path);
+        this.Path = Path;
+    }
+
+    public void Deconstruct(out string Path)
+    {
+        Path = this.Path;
+    }
+
     /// <summary>
     /// Write the state even if lineages don't match or the remote serial is higher.
     /// </summary>
@@ -45,5 +56,11 @@ public record TerraformStatePushOptions(
     /// </summary>
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
     public string? VarFile { get; set; }
+
+    /// <summary>
+    /// The PATH operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Path { get; private init; }
 
 }

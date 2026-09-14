@@ -18,11 +18,25 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("state", "mv")]
-public record TerraformStateMvOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Source,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Destination
-) : TerraformOptions
+public record TerraformStateMvOptions : TerraformOptions
 {
+    public TerraformStateMvOptions(
+        string Source,
+        string Destination
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Source);
+        this.Source = Source;
+        global::System.ArgumentNullException.ThrowIfNull(Destination);
+        this.Destination = Destination;
+    }
+
+    public void Deconstruct(out string Source, out string Destination)
+    {
+        Source = this.Source;
+        Destination = this.Destination;
+    }
+
     /// <summary>
     /// If set, prints out what would've been moved but doesn't actually move anything.
     /// </summary>
@@ -52,5 +66,17 @@ public record TerraformStateMvOptions(
     /// </summary>
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
     public string? VarFile { get; set; }
+
+    /// <summary>
+    /// The SOURCE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Source { get; private init; }
+
+    /// <summary>
+    /// The DESTINATION operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Destination { get; private init; }
 
 }

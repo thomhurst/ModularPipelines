@@ -18,14 +18,31 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspace", "select")]
-public record TerraformWorkspaceSelectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
-) : TerraformOptions
+public record TerraformWorkspaceSelectOptions : TerraformOptions
 {
+    public TerraformWorkspaceSelectOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Create the Terraform workspace if it doesn't exist.
     /// </summary>
     [CliFlag("-or-create")]
     public bool? OrCreate { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Name { get; private init; }
 
 }

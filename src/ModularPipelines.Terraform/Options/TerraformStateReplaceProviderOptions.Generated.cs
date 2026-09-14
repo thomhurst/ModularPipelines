@@ -18,11 +18,25 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("state", "replace-provider")]
-public record TerraformStateReplaceProviderOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string FromProviderFqn,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string ToProviderFqn
-) : TerraformOptions
+public record TerraformStateReplaceProviderOptions : TerraformOptions
 {
+    public TerraformStateReplaceProviderOptions(
+        string FromProviderFqn,
+        string ToProviderFqn
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(FromProviderFqn);
+        this.FromProviderFqn = FromProviderFqn;
+        global::System.ArgumentNullException.ThrowIfNull(ToProviderFqn);
+        this.ToProviderFqn = ToProviderFqn;
+    }
+
+    public void Deconstruct(out string FromProviderFqn, out string ToProviderFqn)
+    {
+        FromProviderFqn = this.FromProviderFqn;
+        ToProviderFqn = this.ToProviderFqn;
+    }
+
     /// <summary>
     /// Skip interactive approval.
     /// </summary>
@@ -52,5 +66,17 @@ public record TerraformStateReplaceProviderOptions(
     /// </summary>
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
     public string? VarFile { get; set; }
+
+    /// <summary>
+    /// The FROM_PROVIDER_FQN operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string FromProviderFqn { get; private init; }
+
+    /// <summary>
+    /// The TO_PROVIDER_FQN operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string ToProviderFqn { get; private init; }
 
 }
