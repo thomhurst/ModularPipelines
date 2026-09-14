@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -46,8 +47,9 @@ public record AzSfApplicationCertificateAddOptions(
     /// <summary>
     /// The password of the certificate file.
     /// </summary>
-    [CliFlag("--certificate-password")]
-    public bool? CertificatePassword { get; set; }
+    [SecretValue]
+    [CliOption("--certificate-password")]
+    public string? CertificatePassword { get; set; }
 
     /// <summary>
     /// The existing Azure key vault secret URL.

@@ -43,7 +43,7 @@ public class RunCommandModule : Module<CommandResult>
 
 ## Global options
 
-Global options are rendered before the selected subcommand.
+Global options are rendered after the selected subcommand.
 
 | CLI option | Property | Availability | Description |
 | --- | --- | --- | --- |

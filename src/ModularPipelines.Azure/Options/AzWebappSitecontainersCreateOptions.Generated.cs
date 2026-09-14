@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -46,14 +47,15 @@ public record AzWebappSitecontainersCreateOptions(
     /// <summary>
     /// Password used for image registry auth.
     /// </summary>
-    [CliFlag("--registry-password")]
-    public bool? RegistryPassword { get; set; }
+    [SecretValue]
+    [CliOption("--registry-password")]
+    public string? RegistryPassword { get; set; }
 
     /// <summary>
     /// Username used for image registry auth.
     /// </summary>
-    [CliFlag("--registry-username")]
-    public bool? RegistryUsername { get; set; }
+    [CliOption("--registry-username")]
+    public string? RegistryUsername { get; set; }
 
     /// <summary>
     /// If true, the system-assigned identity will be used for auth while pulling image.  Allowed values: false, true.
@@ -64,8 +66,8 @@ public record AzWebappSitecontainersCreateOptions(
     /// <summary>
     /// Path to a json sitecontainer spec file containing a list of sitecontainers, other sitecontainer input args will be ignored if this arg is provided.
     /// </summary>
-    [CliOption("--sitecontainers-spec-file", ShortForm = "--ssf", GroupValues = true)]
-    public IEnumerable<string>? SitecontainersSpecFile { get; set; }
+    [CliOption("--sitecontainers-spec-file", ShortForm = "--ssf")]
+    public string? SitecontainersSpecFile { get; set; }
 
     /// <summary>
     /// Name of the web app slot. Default to the productions slot if not specified.

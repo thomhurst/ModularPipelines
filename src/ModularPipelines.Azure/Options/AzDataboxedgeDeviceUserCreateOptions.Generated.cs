@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -38,7 +39,8 @@ public record AzDataboxedgeDeviceUserCreateOptions(
     /// <summary>
     /// The password details.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--encrypted-password")]
-    public bool? EncryptedPassword { get; set; }
+    [SecretValue]
+    [CliOption("--encrypted-password")]
+    public string? EncryptedPassword { get; set; }
 
 }

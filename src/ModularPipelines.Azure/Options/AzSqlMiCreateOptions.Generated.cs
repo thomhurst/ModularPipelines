@@ -36,8 +36,8 @@ public record AzSqlMiCreateOptions(
     /// <summary>
     /// Administrator username for the managed instance. Canonly be specified when the managed instance is beingcreated (and is required for creation).
     /// </summary>
-    [CliFlag("--admin-user", ShortForm = "-u")]
-    public bool? AdminUser { get; set; }
+    [CliOption("--admin-user", ShortForm = "-u")]
+    public string? AdminUser { get; set; }
 
     /// <summary>
     /// Preferred metadata to use for authentication of synced on-prem users. Default is AzureAD.  Allowed values: AzureAD, Paired, Windows.

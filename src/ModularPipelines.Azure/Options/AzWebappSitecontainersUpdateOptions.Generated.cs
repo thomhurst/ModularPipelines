@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -38,14 +39,15 @@ public record AzWebappSitecontainersUpdateOptions(
     /// <summary>
     /// Password used for image registry auth.
     /// </summary>
-    [CliFlag("--registry-password")]
-    public bool? RegistryPassword { get; set; }
+    [SecretValue]
+    [CliOption("--registry-password")]
+    public string? RegistryPassword { get; set; }
 
     /// <summary>
     /// Username used for image registry auth.
     /// </summary>
-    [CliFlag("--registry-username")]
-    public bool? RegistryUsername { get; set; }
+    [CliOption("--registry-username")]
+    public string? RegistryUsername { get; set; }
 
     /// <summary>
     /// If true, the system-assigned identity will be used for auth while pulling image.  Allowed values: false, true.

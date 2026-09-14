@@ -354,8 +354,8 @@ public record AzAksNodepoolAddOptions(
     /// <summary>
     /// Comma-separated list of VM sizes. Valid for VirtualMachines node pool only. If `--vm-sizes` not specified but `--node-vm-size` specified, value of `--node-vm-size` will be used. If neither of them specified, defaults to Standard_DS2_v2 for Linux or Standard_D2s_v3 for Windows.
     /// </summary>
-    [CliFlag("--vm-sizes")]
-    public bool? VmSizes { get; set; }
+    [CliOption("--vm-sizes", GroupValues = true)]
+    public IEnumerable<string>? VmSizes { get; set; }
 
     /// <summary>
     /// The Resource Id of a subnet in an existing VNet into which to deploy the cluster.

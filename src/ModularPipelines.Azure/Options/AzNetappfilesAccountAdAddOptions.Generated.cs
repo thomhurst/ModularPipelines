@@ -52,8 +52,8 @@ public record AzNetappfilesAccountAdAddOptions(
     /// <summary>
     /// Users to be added to the Built-in Administrators active directory group. A list of unique usernames without domain specifier  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--administrators")]
-    public bool? Administrators { get; set; }
+    [CliOption("--administrators", GroupValues = true)]
+    public IEnumerable<string>? Administrators { get; set; }
 
     /// <summary>
     /// If enabled, AES encryption will be enabled for SMB communication. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -70,8 +70,8 @@ public record AzNetappfilesAccountAdAddOptions(
     /// <summary>
     /// Users to be added to the Built-in Backup Operator active directory group. A list of unique usernames without domain specifier  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--backup-operators")]
-    public bool? BackupOperators { get; set; }
+    [CliOption("--backup-operators", GroupValues = true)]
+    public IEnumerable<string>? BackupOperators { get; set; }
 
     /// <summary>
     /// Comma separated list of DNS server IP addresses (IPv4 only) for the Active Directory domain.
@@ -130,8 +130,8 @@ public record AzNetappfilesAccountAdAddOptions(
     /// <summary>
     /// Domain Users in the Active directory to be given SeSecurityPrivilege privilege (Needed for SMB Continuously available shares for SQL). A list of unique usernames without domain specifier  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--security-operators")]
-    public bool? SecurityOperators { get; set; }
+    [CliOption("--security-operators", GroupValues = true)]
+    public IEnumerable<string>? SecurityOperators { get; set; }
 
     /// <summary>
     /// When LDAP over SSL/TLS is enabled, the LDAP client is required to have base64 encoded Active Directory Certificate Service's self-signed root CA certificate, this optional parameter is used only for dual protocol with LDAP user-mapping volumes.  If value is blank it's asked from the tty.

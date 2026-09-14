@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -35,8 +36,9 @@ public record AzCosmosdbPostgresClusterUpdateOptions : AzOptions
     /// <summary>
     /// The password of the administrator login. Required for creation.  If value is blank it's asked from the tty.
     /// </summary>
-    [CliFlag("--administrator-login-password", ShortForm = "--login-password")]
-    public bool? AdministratorLoginPassword { get; set; }
+    [SecretValue]
+    [CliOption("--administrator-login-password", ShortForm = "--login-password")]
+    public string? AdministratorLoginPassword { get; set; }
 
     /// <summary>
     /// The Citus extension version on all cluster servers.

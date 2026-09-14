@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -46,8 +47,9 @@ public record AzAcrImportOptions(
     /// <summary>
     /// The password of source container registry.
     /// </summary>
-    [CliFlag("--password", ShortForm = "-p")]
-    public bool? Password { get; set; }
+    [SecretValue]
+    [CliOption("--password", ShortForm = "-p")]
+    public string? Password { get; set; }
 
     /// <summary>
     /// The source Azure container registry. This can be name, login server or resource ID of the source registry.
@@ -70,7 +72,7 @@ public record AzAcrImportOptions(
     /// <summary>
     /// The username of source container registry.
     /// </summary>
-    [CliFlag("--username", ShortForm = "-u")]
-    public bool? Username { get; set; }
+    [CliOption("--username", ShortForm = "-u")]
+    public string? Username { get; set; }
 
 }

@@ -83,8 +83,9 @@ public record AzContainerappCreateOptions(
     /// <summary>
     /// The password to log in to container registry. If stored as a secret, value must start with 'secretref:' followed by the secret name.
     /// </summary>
-    [CliFlag("--registry-password")]
-    public bool? RegistryPassword { get; set; }
+    [SecretValue]
+    [CliOption("--registry-password")]
+    public string? RegistryPassword { get; set; }
 
     /// <summary>
     /// The container registry server hostname, e.g. myregi stry.azurecr.io.
@@ -95,8 +96,8 @@ public record AzContainerappCreateOptions(
     /// <summary>
     /// The username to log in to container registry.
     /// </summary>
-    [CliFlag("--registry-username")]
-    public bool? RegistryUsername { get; set; }
+    [CliOption("--registry-username")]
+    public string? RegistryUsername { get; set; }
 
     /// <summary>
     /// The active revisions mode for the container app. Allowed values: multiple, single. Default: single.

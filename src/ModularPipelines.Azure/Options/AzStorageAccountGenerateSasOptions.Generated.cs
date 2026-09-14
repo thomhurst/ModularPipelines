@@ -50,8 +50,8 @@ public record AzStorageAccountGenerateSasOptions(
     /// <summary>
     /// Specifies the UTC datetime (Y-m-d'T'H:M'Z') at which the SAS becomes valid. Defaults to the time of the request.
     /// </summary>
-    [CliFlag("--start")]
-    public bool? Start { get; set; }
+    [CliOption("--start")]
+    public string? Start { get; set; }
 
     /// <summary>
     /// Storage account name. Must be used in conjunction with either storage account key or a SAS token. Environment Variable: AZURE_STORAGE_ACCOUNT.

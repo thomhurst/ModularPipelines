@@ -44,7 +44,7 @@ public record AzAksNodepoolManualScaleUpdateOptions(
     /// <summary>
     /// Comma-separated list of new sizes.
     /// </summary>
-    [CliFlag("--vm-sizes")]
-    public bool? VmSizes { get; set; }
+    [CliOption("--vm-sizes", GroupValues = true)]
+    public IEnumerable<string>? VmSizes { get; set; }
 
 }

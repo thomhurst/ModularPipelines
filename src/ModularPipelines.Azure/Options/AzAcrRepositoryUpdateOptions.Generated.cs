@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -44,8 +45,9 @@ public record AzAcrRepositoryUpdateOptions(
     /// <summary>
     /// The password used to log into a container registry.
     /// </summary>
-    [CliFlag("--password", ShortForm = "-p")]
-    public bool? Password { get; set; }
+    [SecretValue]
+    [CliOption("--password", ShortForm = "-p")]
+    public string? Password { get; set; }
 
     /// <summary>
     /// Indicates whether read operation is allowed.  Allowed values: false, true.
@@ -68,8 +70,8 @@ public record AzAcrRepositoryUpdateOptions(
     /// <summary>
     /// The username used to log into a container registry.
     /// </summary>
-    [CliFlag("--username", ShortForm = "-u")]
-    public bool? Username { get; set; }
+    [CliOption("--username", ShortForm = "-u")]
+    public string? Username { get; set; }
 
     /// <summary>
     /// Indicates whether write or delete operation is allowed.  Allowed values: false, true.

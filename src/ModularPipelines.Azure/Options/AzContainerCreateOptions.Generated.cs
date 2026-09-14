@@ -280,14 +280,15 @@ public record AzContainerCreateOptions(
     /// <summary>
     /// The password to log in container image registry server.
     /// </summary>
-    [CliFlag("--registry-password")]
-    public bool? RegistryPassword { get; set; }
+    [SecretValue]
+    [CliOption("--registry-password")]
+    public string? RegistryPassword { get; set; }
 
     /// <summary>
     /// The username to log in container image registry server.
     /// </summary>
-    [CliFlag("--registry-username")]
-    public bool? RegistryUsername { get; set; }
+    [CliOption("--registry-username")]
+    public string? RegistryUsername { get; set; }
 
     /// <summary>
     /// The Log Analytics workspace name or id. Use the current subscription or use --subscription flag to set the desired subscription.

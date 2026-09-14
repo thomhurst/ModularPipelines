@@ -66,7 +66,7 @@ public record AzDataboxedgeDeviceStorageAccountCredentialCreateOptions(
     /// <summary>
     /// Username for the storage account.
     /// </summary>
-    [CliFlag("--user-name")]
-    public bool? UserName { get; set; }
+    [CliOption("--user-name")]
+    public string? UserName { get; set; }
 
 }

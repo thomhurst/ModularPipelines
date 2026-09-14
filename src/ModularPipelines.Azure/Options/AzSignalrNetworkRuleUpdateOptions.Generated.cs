@@ -35,8 +35,8 @@ public record AzSignalrNetworkRuleUpdateOptions : AzOptions
     /// <summary>
     /// Space-separeted list of private endpoint connection name.
     /// </summary>
-    [CliFlag("--connection-name")]
-    public bool? ConnectionName { get; set; }
+    [CliOption("--connection-name", GroupValues = true)]
+    public IEnumerable<string>? ConnectionName { get; set; }
 
     /// <summary>
     /// Set rules for public network.  Allowed values: false, true.

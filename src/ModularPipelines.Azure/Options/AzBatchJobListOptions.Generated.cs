@@ -23,8 +23,8 @@ public record AzBatchJobListOptions : AzOptions
     /// <summary>
     /// The ID of the job schedule from which you want to get a list of jobs. If omitted, lists all jobs in the account.
     /// </summary>
-    [CliOption("--job-schedule-id", GroupValues = true)]
-    public IEnumerable<string>? JobScheduleId { get; set; }
+    [CliOption("--job-schedule-id")]
+    public string? JobScheduleId { get; set; }
 
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.

@@ -247,13 +247,14 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.
     /// </summary>
-    [CliFlag("--admin-password", ShortForm = "-p")]
-    public bool? AdminPassword { get; set; }
+    [SecretValue]
+    [CliOption("--admin-password", ShortForm = "-p")]
+    public string? AdminPassword { get; set; }
 
     /// <summary>
-    /// Administrator username for the server. Once set, it cannot be changed.  Default: weeklygnat0.
+    /// Administrator username for the server. Once set, it cannot be changed.  Default: rigidmoth9.
     /// </summary>
-    [CliFlag("--admin-user", ShortForm = "-u")]
-    public bool? AdminUser { get; set; }
+    [CliOption("--admin-user", ShortForm = "-u")]
+    public string? AdminUser { get; set; }
 
 }

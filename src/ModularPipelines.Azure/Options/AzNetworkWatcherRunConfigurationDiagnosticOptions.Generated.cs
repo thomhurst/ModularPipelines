@@ -56,8 +56,8 @@ public record AzNetworkWatcherRunConfigurationDiagnosticOptions(
     /// <summary>
     /// JSON list of queries to use. Use `@{path}` to load from a file. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--queries")]
-    public bool? Queries { get; set; }
+    [CliOption("--queries", GroupValues = true)]
+    public IEnumerable<string>? Queries { get; set; }
 
     /// <summary>
     /// Traffic source. Accepted values are '*', IP address/CIDR, or Service Tag.

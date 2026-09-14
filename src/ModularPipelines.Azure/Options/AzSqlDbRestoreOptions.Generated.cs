@@ -158,8 +158,8 @@ public record AzSqlDbRestoreOptions(
     /// <summary>
     /// The point in time of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value. Either --time or --deleted-time (or both) must be specified. Time should be in following format: "YYYY-MM-DDTHH:MM:SS".
     /// </summary>
-    [CliFlag("--time", ShortForm = "-t")]
-    public bool? Time { get; set; }
+    [CliOption("--time", ShortForm = "-t")]
+    public string? Time { get; set; }
 
     /// <summary>
     /// Time in minutes after which database is automatically paused. A value of -1 means that automatic pause is disabled.

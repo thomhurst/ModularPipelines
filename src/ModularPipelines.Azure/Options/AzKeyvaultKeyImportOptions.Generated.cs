@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -143,8 +144,9 @@ public record AzKeyvaultKeyImportOptions : AzOptions
     /// <summary>
     /// Password of PEM file.
     /// </summary>
-    [CliFlag("--pem-password")]
-    public bool? PemPassword { get; set; }
+    [SecretValue]
+    [CliOption("--pem-password")]
+    public string? PemPassword { get; set; }
 
     /// <summary>
     /// PEM string containing the key to be imported.

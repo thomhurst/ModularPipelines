@@ -23,8 +23,8 @@ public record AzVmHostWaitOptions : AzOptions
     /// <summary>
     /// The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the dedicated host. 'UserData' is not supported for dedicated host.  Allowed values: instanceView, userData.
     /// </summary>
-    [CliOption("--expand", GroupValues = true)]
-    public IEnumerable<string>? Expand { get; set; }
+    [CliOption("--expand")]
+    public string? Expand { get; set; }
 
     /// <summary>
     /// The name of the dedicated host group.

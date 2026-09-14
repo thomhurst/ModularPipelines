@@ -108,12 +108,16 @@
 *REMOVED*ModularPipelines.Azure.Options.AzAcrIdentityShowOptions.ResourceGroup.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrImportOptions.AzAcrImportOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzAcrImportOptions.Image.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAcrImportOptions.Password.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrImportOptions.Registry.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrImportOptions.Repository.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrImportOptions.ResourceGroup.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAcrImportOptions.Username.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrListOptions.ResourceGroup.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrLoginOptions.AzAcrLoginOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzAcrLoginOptions.Password.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrLoginOptions.ResourceGroup.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAcrLoginOptions.Username.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrNetworkRuleAddOptions.AzAcrNetworkRuleAddOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzAcrNetworkRuleAddOptions.ResourceGroup.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrNetworkRuleListOptions.AzAcrNetworkRuleListOptions() -> void
@@ -147,17 +151,29 @@
 *REMOVED*ModularPipelines.Azure.Options.AzAcrReplicationUpdateOptions.Tags.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryDeleteOptions.AzAcrRepositoryDeleteOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryDeleteOptions.Image.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryDeleteOptions.Password.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryDeleteOptions.Repository.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryDeleteOptions.Username.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryListOptions.AzAcrRepositoryListOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryListOptions.Password.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryListOptions.Username.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryShowOptions.AzAcrRepositoryShowOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryShowOptions.Image.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryShowOptions.Password.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryShowOptions.Repository.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryShowOptions.Username.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryShowTagsOptions.AzAcrRepositoryShowTagsOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryShowTagsOptions.Orderby.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryShowTagsOptions.Password.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryShowTagsOptions.Username.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryUntagOptions.AzAcrRepositoryUntagOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryUntagOptions.Password.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryUntagOptions.Username.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryUpdateOptions.AzAcrRepositoryUpdateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryUpdateOptions.Image.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryUpdateOptions.Password.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryUpdateOptions.Repository.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAcrRepositoryUpdateOptions.Username.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrRunOptions.AuthMode.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAcrRunOptions.AzAcrRunOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzAcrRunOptions.Cmd.get -> bool?
@@ -367,6 +383,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzAksCommandInvokeOptions.Command.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCommandInvokeOptions.File.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCommandResultOptions.AzAksCommandResultOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.AadAdminGroupObjectIds.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.AadTenantId.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.AciSubnetName.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.AcnsAdvancedNetworkpolicies.get -> bool?
@@ -374,6 +391,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.AcnsTransitEncryptionType.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.AksCustomHeaders.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.AmplsResourceId.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.ApiServerAuthorizedIpRanges.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.ApiserverSubnetId.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.ApiserverSubnetId.set -> void
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.AttachAcr.get -> bool?
@@ -396,7 +414,10 @@
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.GpuInstanceProfile.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.GrafanaResourceId.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.IfMatch.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.IpFamilies.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.K8sSupportPlan.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.KsmMetricAnnotationsAllowList.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.KsmMetricLabelsAllowList.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.KubeletConfig.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.LinuxOsConfig.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.LoadBalancerBackendPoolType.get -> bool?
@@ -416,15 +437,18 @@
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.NrgLockdownRestrictionLevel.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.OsSku.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.OutboundType.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.PodCidrs.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.PodIpAllocationMode.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.PodSubnetId.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.Ppg.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.PrivateDnsZone.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.ServiceCidrs.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.Sku.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.SnapshotId.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.StoragePoolOption.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.StoragePoolSku.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.Tier.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.VmSizes.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.VnetSubnetId.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.WorkloadRuntime.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksCreateOptions.WorkspaceResourceId.get -> bool?
@@ -492,6 +516,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzAksNodepoolAddOptions.SnapshotId.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksNodepoolAddOptions.Tags.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksNodepoolAddOptions.UndrainableNodeBehavior.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAksNodepoolAddOptions.VmSizes.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksNodepoolAddOptions.VnetSubnetId.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksNodepoolAddOptions.WorkloadRuntime.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksNodepoolDeleteMachinesOptions.AzAksNodepoolDeleteMachinesOptions() -> void
@@ -500,6 +525,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzAksNodepoolManualScaleAddOptions.AzAksNodepoolManualScaleAddOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzAksNodepoolManualScaleDeleteOptions.AzAksNodepoolManualScaleDeleteOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzAksNodepoolManualScaleUpdateOptions.AzAksNodepoolManualScaleUpdateOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzAksNodepoolManualScaleUpdateOptions.VmSizes.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksNodepoolOperationAbortOptions.AzAksNodepoolOperationAbortOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzAksNodepoolRollbackOptions.AksCustomHeaders.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksNodepoolRollbackOptions.AzAksNodepoolRollbackOptions() -> void
@@ -542,11 +568,13 @@
 *REMOVED*ModularPipelines.Azure.Options.AzAksStopOptions.AzAksStopOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzAksTrustedaccessRolebindingDeleteOptions.AzAksTrustedaccessRolebindingDeleteOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzAksUpdateCredentialsOptions.AzAksUpdateCredentialsOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.AadAdminGroupObjectIds.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.AadTenantId.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.AcnsAdvancedNetworkpolicies.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.AcnsDatapathAccelerationMode.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.AcnsTransitEncryptionType.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.AksCustomHeaders.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.ApiServerAuthorizedIpRanges.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.ApiserverSubnetId.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.ApiserverSubnetId.set -> void
 *REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.AttachAcr.get -> bool?
@@ -568,7 +596,10 @@
 *REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.EphemeralDiskVolumeType.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.GrafanaResourceId.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.IfMatch.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.IpFamilies.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.K8sSupportPlan.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.KsmMetricAnnotationsAllowList.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.KsmMetricLabelsAllowList.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.LoadBalancerBackendPoolType.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.LoadBalancerSku.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAksUpdateOptions.NetworkDataplane.get -> bool?
@@ -598,6 +629,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzAmsAssetCreateOptions.Container.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAmsAssetCreateOptions.StorageAccount.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAmsAssetFilterCreateOptions.AzAmsAssetFilterCreateOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzAmsAssetGetSasUrlsOptions.Expiry.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAmsAssetGetSasUrlsOptions.Permissions.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzAmsAssetListOptions.AzAmsAssetListOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzAmsAssetTrackCreateOptions.AzAmsAssetTrackCreateOptions() -> void
@@ -2217,6 +2249,8 @@
 *REMOVED*ModularPipelines.Azure.Options.AzContainerappExecOptions.Revision.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzContainerappGithubActionAddOptions.AzContainerappGithubActionAddOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzContainerappGithubActionAddOptions.ContextPath.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzContainerappGithubActionAddOptions.RegistryPassword.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzContainerappGithubActionAddOptions.RegistryUsername.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzContainerappGithubActionAddOptions.ServicePrincipalClientId.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzContainerappGithubActionAddOptions.ServicePrincipalTenantId.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzContainerappHostnameAddOptions.AzContainerappHostnameAddOptions() -> void
@@ -2269,6 +2303,8 @@
 *REMOVED*ModularPipelines.Azure.Options.AzContainerappLogsShowOptions.Type.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzContainerappRegistrySetOptions.AzContainerappRegistrySetOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzContainerappRegistrySetOptions.Identity.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzContainerappRegistrySetOptions.Password.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzContainerappRegistrySetOptions.Username.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzContainerappReplicaListOptions.AzContainerappReplicaListOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzContainerappReplicaListOptions.Revision.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzContainerappReplicaShowOptions.AzContainerappReplicaShowOptions() -> void
@@ -2312,10 +2348,12 @@
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbGremlinDatabaseCreateOptions.AzCosmosdbGremlinDatabaseCreateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbGremlinDatabaseDeleteOptions.AzCosmosdbGremlinDatabaseDeleteOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbGremlinDatabaseRestoreOptions.AzCosmosdbGremlinDatabaseRestoreOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzCosmosdbGremlinDatabaseRestoreOptions.RestoreTimestamp.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbGremlinDatabaseThroughputUpdateOptions.AzCosmosdbGremlinDatabaseThroughputUpdateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbGremlinGraphCreateOptions.AzCosmosdbGremlinGraphCreateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbGremlinGraphDeleteOptions.AzCosmosdbGremlinGraphDeleteOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbGremlinGraphRestoreOptions.AzCosmosdbGremlinGraphRestoreOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzCosmosdbGremlinGraphRestoreOptions.RestoreTimestamp.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbGremlinGraphThroughputUpdateOptions.AzCosmosdbGremlinGraphThroughputUpdateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbGremlinGraphUpdateOptions.AzCosmosdbGremlinGraphUpdateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbGremlinRestorableGraphListOptions.AzCosmosdbGremlinRestorableGraphListOptions() -> void
@@ -2325,11 +2363,13 @@
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbMongodbCollectionCreateOptions.AzCosmosdbMongodbCollectionCreateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbMongodbCollectionDeleteOptions.AzCosmosdbMongodbCollectionDeleteOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbMongodbCollectionRestoreOptions.AzCosmosdbMongodbCollectionRestoreOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzCosmosdbMongodbCollectionRestoreOptions.RestoreTimestamp.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbMongodbCollectionThroughputUpdateOptions.AzCosmosdbMongodbCollectionThroughputUpdateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbMongodbCollectionUpdateOptions.AzCosmosdbMongodbCollectionUpdateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbMongodbDatabaseCreateOptions.AzCosmosdbMongodbDatabaseCreateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbMongodbDatabaseDeleteOptions.AzCosmosdbMongodbDatabaseDeleteOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbMongodbDatabaseRestoreOptions.AzCosmosdbMongodbDatabaseRestoreOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzCosmosdbMongodbDatabaseRestoreOptions.RestoreTimestamp.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbMongodbDatabaseThroughputUpdateOptions.AzCosmosdbMongodbDatabaseThroughputUpdateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbMongodbRestorableCollectionListOptions.AzCosmosdbMongodbRestorableCollectionListOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbMongodbRoleDefinitionDeleteOptions.AzCosmosdbMongodbRoleDefinitionDeleteOptions() -> void
@@ -2359,11 +2399,13 @@
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbSqlContainerCreateOptions.AzCosmosdbSqlContainerCreateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbSqlContainerDeleteOptions.AzCosmosdbSqlContainerDeleteOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbSqlContainerRestoreOptions.AzCosmosdbSqlContainerRestoreOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzCosmosdbSqlContainerRestoreOptions.RestoreTimestamp.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbSqlContainerThroughputUpdateOptions.AzCosmosdbSqlContainerThroughputUpdateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbSqlContainerUpdateOptions.AzCosmosdbSqlContainerUpdateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbSqlDatabaseCreateOptions.AzCosmosdbSqlDatabaseCreateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbSqlDatabaseDeleteOptions.AzCosmosdbSqlDatabaseDeleteOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbSqlDatabaseRestoreOptions.AzCosmosdbSqlDatabaseRestoreOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzCosmosdbSqlDatabaseRestoreOptions.RestoreTimestamp.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbSqlDatabaseThroughputUpdateOptions.AzCosmosdbSqlDatabaseThroughputUpdateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbSqlRestorableContainerListOptions.AzCosmosdbSqlRestorableContainerListOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbSqlRoleAssignmentCreateOptions.AzCosmosdbSqlRoleAssignmentCreateOptions() -> void
@@ -2385,6 +2427,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbTableDeleteOptions.AzCosmosdbTableDeleteOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbTableRestorableTableListOptions.AzCosmosdbTableRestorableTableListOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbTableRestoreOptions.AzCosmosdbTableRestoreOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzCosmosdbTableRestoreOptions.RestoreTimestamp.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbTableThroughputUpdateOptions.AzCosmosdbTableThroughputUpdateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbUpdateOptions.DefaultConsistencyLevel.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzCosmosdbUpdateOptions.DefaultIdentity.get -> bool?
@@ -3294,6 +3337,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzFunctionappDeploymentSourceShowOptions.Slot.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzFunctionappDeploymentSourceSyncOptions.Slot.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzFunctionappDeploymentUserSetOptions.AzFunctionappDeploymentUserSetOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzFunctionappDeploymentUserSetOptions.Password.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzFunctionappFlexMigrationStartOptions.AzFunctionappFlexMigrationStartOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzFunctionappFunctionKeysDeleteOptions.AzFunctionappFunctionKeysDeleteOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzFunctionappFunctionKeysDeleteOptions.FunctionName.get -> bool?
@@ -3821,6 +3865,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzMariadbServerReplicaCreateOptions.SkuName.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzMariadbServerRestoreOptions.AzMariadbServerRestoreOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzMariadbServerShowConnectionStringOptions.DatabaseName.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzMariadbServerUpdateOptions.AdminPassword.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzMariadbServerUpdateOptions.AutoGrow.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzMariadbServerUpdateOptions.MinimalTlsVersion.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzMariadbServerUpdateOptions.SkuName.get -> bool?
@@ -4031,6 +4076,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzMysqlFlexibleServerRestoreOptions.GeoRedundantBackup.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzMysqlFlexibleServerRestoreOptions.PrivateDnsZone.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzMysqlFlexibleServerRestoreOptions.PublicAccess.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzMysqlFlexibleServerRestoreOptions.RestoreTime.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzMysqlFlexibleServerRestoreOptions.SkuName.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzMysqlFlexibleServerRestoreOptions.StorageAutoGrow.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzMysqlFlexibleServerRestoreOptions.Subnet.get -> bool?
@@ -4085,6 +4131,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzMysqlServerReplicaCreateOptions.SkuName.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzMysqlServerRestoreOptions.AzMysqlServerRestoreOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzMysqlServerShowConnectionStringOptions.DatabaseName.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzMysqlServerUpdateOptions.AdminPassword.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzMysqlServerUpdateOptions.AutoGrow.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzMysqlServerUpdateOptions.MinimalTlsVersion.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzMysqlServerUpdateOptions.SkuName.get -> bool?
@@ -4096,12 +4143,18 @@
 *REMOVED*ModularPipelines.Azure.Options.AzMysqlServerVnetRuleUpdateOptions.VnetName.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.ActiveDirectoryId.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.AdName.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.Administrators.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.AzNetappfilesAccountAdAddOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.BackupOperators.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.Domain.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.SecurityOperators.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzNetappfilesAccountAdRemoveOptions.AzNetappfilesAccountAdRemoveOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.AdName.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.Administrators.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.AzNetappfilesAccountAdUpdateOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.BackupOperators.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.Domain.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.SecurityOperators.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzNetappfilesAccountBackupPolicyCreateOptions.AzNetappfilesAccountBackupPolicyCreateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzNetappfilesAccountBackupVaultBackupCreateOptions.AzNetappfilesAccountBackupVaultBackupCreateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzNetappfilesAccountBackupVaultBackupListOptions.AzNetappfilesAccountBackupVaultBackupListOptions() -> void
@@ -5078,6 +5131,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzPostgresFlexibleServerGeoRestoreOptions.GeoRedundantBackup.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzPostgresFlexibleServerGeoRestoreOptions.Identity.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzPostgresFlexibleServerGeoRestoreOptions.Key.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzPostgresFlexibleServerGeoRestoreOptions.RestoreTime.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzPostgresFlexibleServerGeoRestoreOptions.Subnet.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzPostgresFlexibleServerGeoRestoreOptions.Vnet.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzPostgresFlexibleServerIdentityAssignOptions.AzPostgresFlexibleServerIdentityAssignOptions() -> void
@@ -5129,6 +5183,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzPostgresFlexibleServerRestoreOptions.GeoRedundantBackup.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzPostgresFlexibleServerRestoreOptions.Identity.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzPostgresFlexibleServerRestoreOptions.Key.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzPostgresFlexibleServerRestoreOptions.RestoreTime.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzPostgresFlexibleServerRestoreOptions.StorageType.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzPostgresFlexibleServerRestoreOptions.Subnet.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzPostgresFlexibleServerRestoreOptions.Vnet.get -> bool?
@@ -5341,6 +5396,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzServicebusTopicSubscriptionRuleCreateOptions.AzServicebusTopicSubscriptionRuleCreateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzServicebusTopicSubscriptionRuleListOptions.AzServicebusTopicSubscriptionRuleListOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzSfApplicationCertificateAddOptions.AzSfApplicationCertificateAddOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzSfApplicationCertificateAddOptions.CertificatePassword.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzSfApplicationCertificateAddOptions.VaultRg.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzSfApplicationCreateOptions.AzSfApplicationCreateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzSfApplicationUpdateOptions.AzSfApplicationUpdateOptions() -> void
@@ -5348,10 +5404,12 @@
 *REMOVED*ModularPipelines.Azure.Options.AzSfClusterClientCertificateRemoveOptions.AzSfClusterClientCertificateRemoveOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzSfClusterClientCertificateRemoveOptions.Thumbprints.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzSfClusterCreateOptions.AzSfClusterCreateOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzSfClusterCreateOptions.CertificatePassword.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzSfClusterCreateOptions.Location.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzSfClusterCreateOptions.ParameterFile.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzSfClusterCreateOptions.TemplateFile.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzSfClusterCreateOptions.VaultRg.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzSfClusterCreateOptions.VmPassword.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzSfClusterListOptions.ResourceGroup.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzSfClusterNodeTypeAddOptions.AzSfClusterNodeTypeAddOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzSfClusterNodeTypeAddOptions.DurabilityLevel.get -> bool?
@@ -5600,6 +5658,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzSqlInstanceFailoverGroupSetPrimaryOptions.AzSqlInstanceFailoverGroupSetPrimaryOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzSqlInstanceFailoverGroupUpdateOptions.AzSqlInstanceFailoverGroupUpdateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzSqlInstanceFailoverGroupUpdateOptions.FailoverPolicy.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzSqlMiCreateOptions.AdminUser.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzSqlMiCreateOptions.AzSqlMiCreateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzSqlMiCreateOptions.DatabaseFormat.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzSqlMiCreateOptions.DnsZonePartner.get -> bool?
@@ -5647,6 +5706,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzSqlMidbRestoreOptions.DestResourceGroup.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzSqlMidbRestoreOptions.Tags.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzSqlMidbUpdateOptions.Tags.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzSqlServerCreateOptions.AdminUser.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzSqlServerCreateOptions.AzSqlServerCreateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzSqlServerCreateOptions.IdentityType.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzSqlServerCreateOptions.KeyId.get -> bool?
@@ -5914,6 +5974,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzStorageAccountFileServicePropertiesUpdateOptions.AzStorageAccountFileServicePropertiesUpdateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzStorageAccountFileServicePropertiesUpdateOptions.ResourceGroup.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageAccountGenerateSasOptions.AzStorageAccountGenerateSasOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzStorageAccountGenerateSasOptions.Start.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageAccountHnsMigrationStartOptions.AzStorageAccountHnsMigrationStartOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzStorageAccountKeysListOptions.AzStorageAccountKeysListOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzStorageAccountKeysListOptions.ResourceGroup.get -> bool?
@@ -6137,8 +6198,10 @@
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFileExistsOptions.Snapshot.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.AuthMode.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.AzStorageFileGenerateSasOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.Expiry.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.Permissions.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.PolicyName.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.Start.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFileHardLinkCreateOptions.AuthMode.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFileHardLinkCreateOptions.AzStorageFileHardLinkCreateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFileListOptions.AuthMode.get -> bool?
@@ -6199,8 +6262,10 @@
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFsDirectoryExistsOptions.AzStorageFsDirectoryExistsOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.AuthMode.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.AzStorageFsDirectoryGenerateSasOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.Expiry.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.Permissions.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.PolicyName.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.Start.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFsDirectoryListOptions.AuthMode.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFsDirectoryListOptions.AzStorageFsDirectoryListOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFsDirectoryMetadataShowOptions.AuthMode.get -> bool?
@@ -6226,8 +6291,10 @@
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFsFileExistsOptions.AzStorageFsFileExistsOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.AuthMode.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.AzStorageFsFileGenerateSasOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.Expiry.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.Permissions.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.PolicyName.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.Start.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFsFileListOptions.AuthMode.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFsFileListOptions.AzStorageFsFileListOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzStorageFsFileMetadataShowOptions.AuthMode.get -> bool?
@@ -6278,8 +6345,10 @@
 *REMOVED*ModularPipelines.Azure.Options.AzStorageShareExistsOptions.Snapshot.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.AuthMode.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.AzStorageShareGenerateSasOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.Expiry.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.Permissions.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.PolicyName.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.Start.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageShareListHandleOptions.AuthMode.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageShareListHandleOptions.AzStorageShareListHandleOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzStorageShareListHandleOptions.Path.get -> bool?
@@ -6312,8 +6381,10 @@
 *REMOVED*ModularPipelines.Azure.Options.AzStorageTableExistsOptions.AuthMode.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageTableExistsOptions.AzStorageTableExistsOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzStorageTableGenerateSasOptions.AzStorageTableGenerateSasOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzStorageTableGenerateSasOptions.Expiry.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageTableGenerateSasOptions.Permissions.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageTableGenerateSasOptions.PolicyName.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzStorageTableGenerateSasOptions.Start.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageTableListOptions.AuthMode.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageTableListOptions.Marker.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzStorageTablePolicyCreateOptions.AzStorageTablePolicyCreateOptions() -> void
@@ -6606,6 +6677,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzVmRunCommandCreateOptions.Location.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmRunCommandCreateOptions.Parameters.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmRunCommandCreateOptions.ProtectedParameters.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzVmRunCommandCreateOptions.RunAsPassword.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmRunCommandCreateOptions.Tags.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmRunCommandCreateOptions.TimeoutInSeconds.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmRunCommandInvokeOptions.AzVmRunCommandInvokeOptions() -> void
@@ -6620,6 +6692,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzVmRunCommandUpdateOptions.Location.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmRunCommandUpdateOptions.Parameters.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmRunCommandUpdateOptions.ProtectedParameters.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzVmRunCommandUpdateOptions.RunAsPassword.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmRunCommandUpdateOptions.Tags.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmRunCommandUpdateOptions.TimeoutInSeconds.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmRunCommandWaitOptions.CommandId.get -> bool?
@@ -6648,9 +6721,11 @@
 *REMOVED*ModularPipelines.Azure.Options.AzVmssCreateOptions.EdgeZone.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssCreateOptions.EncryptionIdentity.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssCreateOptions.EvictionPolicy.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzVmssCreateOptions.ExcludeZones.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssCreateOptions.HostGroup.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssCreateOptions.Image.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssCreateOptions.ImdsMode.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzVmssCreateOptions.IncludeZones.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssCreateOptions.LicenseType.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssCreateOptions.Location.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssCreateOptions.OrchestrationMode.get -> bool?
@@ -6700,6 +6775,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzVmssRunCommandCreateOptions.OutputBlobUri.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssRunCommandCreateOptions.Parameters.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssRunCommandCreateOptions.ProtectedParameters.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzVmssRunCommandCreateOptions.RunAsPassword.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssRunCommandCreateOptions.Tags.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssRunCommandCreateOptions.TimeoutInSeconds.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssRunCommandInvokeOptions.AzVmssRunCommandInvokeOptions() -> void
@@ -6713,6 +6789,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzVmssRunCommandUpdateOptions.OutputBlobUri.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssRunCommandUpdateOptions.Parameters.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssRunCommandUpdateOptions.ProtectedParameters.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzVmssRunCommandUpdateOptions.RunAsPassword.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssRunCommandUpdateOptions.Tags.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssRunCommandUpdateOptions.TimeoutInSeconds.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssScaleOptions.AzVmssScaleOptions() -> void
@@ -6722,7 +6799,9 @@
 *REMOVED*ModularPipelines.Azure.Options.AzVmssStopOptions.InstanceIds.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssUpdateDomainWalkOptions.AzVmssUpdateDomainWalkOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzVmssUpdateInstancesOptions.AzVmssUpdateInstancesOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzVmssUpdateOptions.ExcludeZones.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssUpdateOptions.ImdsMode.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzVmssUpdateOptions.IncludeZones.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssUpdateOptions.LicenseType.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssUpdateOptions.Ppg.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzVmssUpdateOptions.Priority.get -> bool?
@@ -7391,6 +7470,7 @@
 *REMOVED*ModularPipelines.Azure.Options.AzWebappDeploymentSourceShowOptions.Slot.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzWebappDeploymentSourceSyncOptions.Slot.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzWebappDeploymentUserSetOptions.AzWebappDeploymentUserSetOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzWebappDeploymentUserSetOptions.Password.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzWebappHybridConnectionAddOptions.AzWebappHybridConnectionAddOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzWebappHybridConnectionAddOptions.Slot.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzWebappHybridConnectionListOptions.AzWebappHybridConnectionListOptions() -> void
@@ -7426,6 +7506,8 @@
 *REMOVED*ModularPipelines.Azure.Options.AzWebappSitecontainersConvertOptions.Slot.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.AzWebappSitecontainersCreateOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.ContainerName.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.RegistryPassword.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.RegistryUsername.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.Slot.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzWebappSitecontainersDeleteOptions.AzWebappSitecontainersDeleteOptions() -> void
 *REMOVED*ModularPipelines.Azure.Options.AzWebappSitecontainersDeleteOptions.Slot.get -> bool?
@@ -7438,6 +7520,8 @@
 *REMOVED*ModularPipelines.Azure.Options.AzWebappSitecontainersStatusOptions.ContainerName.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzWebappSitecontainersStatusOptions.Slot.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzWebappSitecontainersUpdateOptions.AzWebappSitecontainersUpdateOptions() -> void
+*REMOVED*ModularPipelines.Azure.Options.AzWebappSitecontainersUpdateOptions.RegistryPassword.get -> bool?
+*REMOVED*ModularPipelines.Azure.Options.AzWebappSitecontainersUpdateOptions.RegistryUsername.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzWebappSitecontainersUpdateOptions.Slot.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzWebappStartOptions.Slot.get -> bool?
 *REMOVED*ModularPipelines.Azure.Options.AzWebappStopOptions.Slot.get -> bool?
@@ -12670,17 +12754,21 @@ ModularPipelines.Azure.Options.AzAcrImportOptions.Deconstruct(out string! Name, 
 ModularPipelines.Azure.Options.AzAcrImportOptions.Image.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrImportOptions.Name.get -> string!
 ModularPipelines.Azure.Options.AzAcrImportOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzAcrImportOptions.Password.get -> string?
 ModularPipelines.Azure.Options.AzAcrImportOptions.Registry.get -> string?
 ModularPipelines.Azure.Options.AzAcrImportOptions.Repository.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAcrImportOptions.ResourceGroup.get -> string?
 ModularPipelines.Azure.Options.AzAcrImportOptions.Source.get -> string!
 ModularPipelines.Azure.Options.AzAcrImportOptions.Source.init -> void
+ModularPipelines.Azure.Options.AzAcrImportOptions.Username.get -> string?
 ModularPipelines.Azure.Options.AzAcrListOptions.ResourceGroup.get -> string?
 ModularPipelines.Azure.Options.AzAcrLoginOptions.AzAcrLoginOptions(string! Name) -> void
 ModularPipelines.Azure.Options.AzAcrLoginOptions.Deconstruct(out string! Name) -> void
 ModularPipelines.Azure.Options.AzAcrLoginOptions.Name.get -> string!
 ModularPipelines.Azure.Options.AzAcrLoginOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzAcrLoginOptions.Password.get -> string?
 ModularPipelines.Azure.Options.AzAcrLoginOptions.ResourceGroup.get -> string?
+ModularPipelines.Azure.Options.AzAcrLoginOptions.Username.get -> string?
 ModularPipelines.Azure.Options.AzAcrNetworkRuleAddOptions.AzAcrNetworkRuleAddOptions(string! Name) -> void
 ModularPipelines.Azure.Options.AzAcrNetworkRuleAddOptions.Deconstruct(out string! Name) -> void
 ModularPipelines.Azure.Options.AzAcrNetworkRuleAddOptions.Name.get -> string!
@@ -12783,36 +12871,48 @@ ModularPipelines.Azure.Options.AzAcrRepositoryDeleteOptions.Deconstruct(out stri
 ModularPipelines.Azure.Options.AzAcrRepositoryDeleteOptions.Image.get -> string?
 ModularPipelines.Azure.Options.AzAcrRepositoryDeleteOptions.Name.get -> string!
 ModularPipelines.Azure.Options.AzAcrRepositoryDeleteOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzAcrRepositoryDeleteOptions.Password.get -> string?
 ModularPipelines.Azure.Options.AzAcrRepositoryDeleteOptions.Repository.get -> string?
+ModularPipelines.Azure.Options.AzAcrRepositoryDeleteOptions.Username.get -> string?
 ModularPipelines.Azure.Options.AzAcrRepositoryListOptions.AzAcrRepositoryListOptions(string! Name) -> void
 ModularPipelines.Azure.Options.AzAcrRepositoryListOptions.Deconstruct(out string! Name) -> void
 ModularPipelines.Azure.Options.AzAcrRepositoryListOptions.Name.get -> string!
 ModularPipelines.Azure.Options.AzAcrRepositoryListOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzAcrRepositoryListOptions.Password.get -> string?
+ModularPipelines.Azure.Options.AzAcrRepositoryListOptions.Username.get -> string?
 ModularPipelines.Azure.Options.AzAcrRepositoryShowOptions.AzAcrRepositoryShowOptions(string! Name) -> void
 ModularPipelines.Azure.Options.AzAcrRepositoryShowOptions.Deconstruct(out string! Name) -> void
 ModularPipelines.Azure.Options.AzAcrRepositoryShowOptions.Image.get -> string?
 ModularPipelines.Azure.Options.AzAcrRepositoryShowOptions.Name.get -> string!
 ModularPipelines.Azure.Options.AzAcrRepositoryShowOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzAcrRepositoryShowOptions.Password.get -> string?
 ModularPipelines.Azure.Options.AzAcrRepositoryShowOptions.Repository.get -> string?
+ModularPipelines.Azure.Options.AzAcrRepositoryShowOptions.Username.get -> string?
 ModularPipelines.Azure.Options.AzAcrRepositoryShowTagsOptions.AzAcrRepositoryShowTagsOptions(string! Name, string! Repository) -> void
 ModularPipelines.Azure.Options.AzAcrRepositoryShowTagsOptions.Deconstruct(out string! Name, out string! Repository) -> void
 ModularPipelines.Azure.Options.AzAcrRepositoryShowTagsOptions.Name.get -> string!
 ModularPipelines.Azure.Options.AzAcrRepositoryShowTagsOptions.Name.init -> void
 ModularPipelines.Azure.Options.AzAcrRepositoryShowTagsOptions.Orderby.get -> string?
+ModularPipelines.Azure.Options.AzAcrRepositoryShowTagsOptions.Password.get -> string?
 ModularPipelines.Azure.Options.AzAcrRepositoryShowTagsOptions.Repository.get -> string!
 ModularPipelines.Azure.Options.AzAcrRepositoryShowTagsOptions.Repository.init -> void
+ModularPipelines.Azure.Options.AzAcrRepositoryShowTagsOptions.Username.get -> string?
 ModularPipelines.Azure.Options.AzAcrRepositoryUntagOptions.AzAcrRepositoryUntagOptions(string! Image, string! Name) -> void
 ModularPipelines.Azure.Options.AzAcrRepositoryUntagOptions.Deconstruct(out string! Image, out string! Name) -> void
 ModularPipelines.Azure.Options.AzAcrRepositoryUntagOptions.Image.get -> string!
 ModularPipelines.Azure.Options.AzAcrRepositoryUntagOptions.Image.init -> void
 ModularPipelines.Azure.Options.AzAcrRepositoryUntagOptions.Name.get -> string!
 ModularPipelines.Azure.Options.AzAcrRepositoryUntagOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzAcrRepositoryUntagOptions.Password.get -> string?
+ModularPipelines.Azure.Options.AzAcrRepositoryUntagOptions.Username.get -> string?
 ModularPipelines.Azure.Options.AzAcrRepositoryUpdateOptions.AzAcrRepositoryUpdateOptions(string! Name) -> void
 ModularPipelines.Azure.Options.AzAcrRepositoryUpdateOptions.Deconstruct(out string! Name) -> void
 ModularPipelines.Azure.Options.AzAcrRepositoryUpdateOptions.Image.get -> string?
 ModularPipelines.Azure.Options.AzAcrRepositoryUpdateOptions.Name.get -> string!
 ModularPipelines.Azure.Options.AzAcrRepositoryUpdateOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzAcrRepositoryUpdateOptions.Password.get -> string?
 ModularPipelines.Azure.Options.AzAcrRepositoryUpdateOptions.Repository.get -> string?
+ModularPipelines.Azure.Options.AzAcrRepositoryUpdateOptions.Username.get -> string?
 ModularPipelines.Azure.Options.AzAcrRunOptions.AuthMode.get -> string?
 ModularPipelines.Azure.Options.AzAcrRunOptions.AzAcrRunOptions(string! Registry) -> void
 ModularPipelines.Azure.Options.AzAcrRunOptions.Cmd.get -> string?
@@ -13770,6 +13870,7 @@ ModularPipelines.Azure.Options.AzAksCommandResultOptions.Name.get -> string!
 ModularPipelines.Azure.Options.AzAksCommandResultOptions.Name.init -> void
 ModularPipelines.Azure.Options.AzAksCommandResultOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzAksCommandResultOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzAksCreateOptions.AadAdminGroupObjectIds.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAksCreateOptions.AadTenantId.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.AciSubnetName.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.AcnsAdvancedNetworkpolicies.get -> string?
@@ -13777,6 +13878,7 @@ ModularPipelines.Azure.Options.AzAksCreateOptions.AcnsDatapathAccelerationMode.g
 ModularPipelines.Azure.Options.AzAksCreateOptions.AcnsTransitEncryptionType.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.AksCustomHeaders.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.AmplsResourceId.get -> string?
+ModularPipelines.Azure.Options.AzAksCreateOptions.ApiServerAuthorizedIpRanges.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAksCreateOptions.ApiServerSubnetId.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.ApiServerSubnetId.set -> void
 ModularPipelines.Azure.Options.AzAksCreateOptions.AppRoutingDefaultNginxController.get -> string?
@@ -13824,7 +13926,10 @@ ModularPipelines.Azure.Options.AzAksCreateOptions.EphemeralDiskVolumeType.get ->
 ModularPipelines.Azure.Options.AzAksCreateOptions.GpuInstanceProfile.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.GrafanaResourceId.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.IfMatch.get -> string?
+ModularPipelines.Azure.Options.AzAksCreateOptions.IpFamilies.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAksCreateOptions.K8sSupportPlan.get -> string?
+ModularPipelines.Azure.Options.AzAksCreateOptions.KsmMetricAnnotationsAllowList.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAksCreateOptions.KsmMetricLabelsAllowList.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAksCreateOptions.KubeletConfig.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.LinuxOsConfig.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.LoadBalancerBackendPoolType.get -> string?
@@ -13846,17 +13951,20 @@ ModularPipelines.Azure.Options.AzAksCreateOptions.NodepoolTags.get -> System.Col
 ModularPipelines.Azure.Options.AzAksCreateOptions.NrgLockdownRestrictionLevel.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.OsSku.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.OutboundType.get -> string?
+ModularPipelines.Azure.Options.AzAksCreateOptions.PodCidrs.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAksCreateOptions.PodIpAllocationMode.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.PodSubnetId.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.Ppg.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.PrivateDnsZone.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzAksCreateOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzAksCreateOptions.ServiceCidrs.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAksCreateOptions.Sku.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.SnapshotId.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.StoragePoolOption.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.StoragePoolSku.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.Tier.get -> string?
+ModularPipelines.Azure.Options.AzAksCreateOptions.VmSizes.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAksCreateOptions.VnetSubnetId.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.WorkloadRuntime.get -> string?
 ModularPipelines.Azure.Options.AzAksCreateOptions.WorkspaceResourceId.get -> string?
@@ -14200,6 +14308,7 @@ ModularPipelines.Azure.Options.AzAksNodepoolAddOptions.ScaleDownMode.get -> stri
 ModularPipelines.Azure.Options.AzAksNodepoolAddOptions.SnapshotId.get -> string?
 ModularPipelines.Azure.Options.AzAksNodepoolAddOptions.Tags.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAksNodepoolAddOptions.UndrainableNodeBehavior.get -> string?
+ModularPipelines.Azure.Options.AzAksNodepoolAddOptions.VmSizes.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAksNodepoolAddOptions.VnetSubnetId.get -> string?
 ModularPipelines.Azure.Options.AzAksNodepoolAddOptions.WorkloadRuntime.get -> string?
 ModularPipelines.Azure.Options.AzAksNodepoolAutoScaleAddOptions
@@ -14335,6 +14444,7 @@ ModularPipelines.Azure.Options.AzAksNodepoolManualScaleUpdateOptions.Name.get ->
 ModularPipelines.Azure.Options.AzAksNodepoolManualScaleUpdateOptions.Name.init -> void
 ModularPipelines.Azure.Options.AzAksNodepoolManualScaleUpdateOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzAksNodepoolManualScaleUpdateOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzAksNodepoolManualScaleUpdateOptions.VmSizes.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAksNodepoolOperationAbortOptions.AzAksNodepoolOperationAbortOptions(string! ClusterName, string! Name, string! ResourceGroup) -> void
 ModularPipelines.Azure.Options.AzAksNodepoolOperationAbortOptions.ClusterName.get -> string!
 ModularPipelines.Azure.Options.AzAksNodepoolOperationAbortOptions.ClusterName.init -> void
@@ -14663,11 +14773,13 @@ ModularPipelines.Azure.Options.AzAksUpdateCredentialsOptions.ResourceGroup.get -
 ModularPipelines.Azure.Options.AzAksUpdateCredentialsOptions.ResourceGroup.init -> void
 ModularPipelines.Azure.Options.AzAksUpdateCredentialsOptions.ServicePrincipal.get -> bool?
 ModularPipelines.Azure.Options.AzAksUpdateCredentialsOptions.ServicePrincipal.set -> void
+ModularPipelines.Azure.Options.AzAksUpdateOptions.AadAdminGroupObjectIds.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAksUpdateOptions.AadTenantId.get -> string?
 ModularPipelines.Azure.Options.AzAksUpdateOptions.AcnsAdvancedNetworkpolicies.get -> string?
 ModularPipelines.Azure.Options.AzAksUpdateOptions.AcnsDatapathAccelerationMode.get -> string?
 ModularPipelines.Azure.Options.AzAksUpdateOptions.AcnsTransitEncryptionType.get -> string?
 ModularPipelines.Azure.Options.AzAksUpdateOptions.AksCustomHeaders.get -> string?
+ModularPipelines.Azure.Options.AzAksUpdateOptions.ApiServerAuthorizedIpRanges.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAksUpdateOptions.ApiServerSubnetId.get -> string?
 ModularPipelines.Azure.Options.AzAksUpdateOptions.ApiServerSubnetId.set -> void
 ModularPipelines.Azure.Options.AzAksUpdateOptions.AttachAcr.get -> string?
@@ -14706,7 +14818,10 @@ ModularPipelines.Azure.Options.AzAksUpdateOptions.EphemeralDiskNvmePerfTier.get 
 ModularPipelines.Azure.Options.AzAksUpdateOptions.EphemeralDiskVolumeType.get -> string?
 ModularPipelines.Azure.Options.AzAksUpdateOptions.GrafanaResourceId.get -> string?
 ModularPipelines.Azure.Options.AzAksUpdateOptions.IfMatch.get -> string?
+ModularPipelines.Azure.Options.AzAksUpdateOptions.IpFamilies.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAksUpdateOptions.K8sSupportPlan.get -> string?
+ModularPipelines.Azure.Options.AzAksUpdateOptions.KsmMetricAnnotationsAllowList.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzAksUpdateOptions.KsmMetricLabelsAllowList.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAksUpdateOptions.LoadBalancerBackendPoolType.get -> string?
 ModularPipelines.Azure.Options.AzAksUpdateOptions.LoadBalancerSku.get -> string?
 ModularPipelines.Azure.Options.AzAksUpdateOptions.Name.get -> string!
@@ -15114,6 +15229,7 @@ ModularPipelines.Azure.Options.AzAmsAssetGetEncryptionKeyOptions.ResourceGroup.g
 ModularPipelines.Azure.Options.AzAmsAssetGetEncryptionKeyOptions.ResourceGroup.set -> void
 ModularPipelines.Azure.Options.AzAmsAssetGetSasUrlsOptions.AccountName.get -> string?
 ModularPipelines.Azure.Options.AzAmsAssetGetSasUrlsOptions.AccountName.set -> void
+ModularPipelines.Azure.Options.AzAmsAssetGetSasUrlsOptions.Expiry.get -> string?
 ModularPipelines.Azure.Options.AzAmsAssetGetSasUrlsOptions.Ids.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzAmsAssetGetSasUrlsOptions.Ids.set -> void
 ModularPipelines.Azure.Options.AzAmsAssetGetSasUrlsOptions.Name.get -> string?
@@ -15269,7 +15385,7 @@ ModularPipelines.Azure.Options.AzAmsContentKeyPolicyCreateOptions.AzAmsContentKe
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyCreateOptions.Deconstruct(out string! AccountName, out string! Name, out string! PolicyOptionName, out string! ResourceGroup) -> void
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyCreateOptions.FairPlayPfx.get -> bool?
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyCreateOptions.FairPlayPfx.set -> void
-ModularPipelines.Azure.Options.AzAmsContentKeyPolicyCreateOptions.FairPlayPfxPassword.get -> bool?
+ModularPipelines.Azure.Options.AzAmsContentKeyPolicyCreateOptions.FairPlayPfxPassword.get -> string?
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyCreateOptions.FairPlayPfxPassword.set -> void
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyCreateOptions.FpPlaybackDurationSeconds.get -> bool?
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyCreateOptions.FpPlaybackDurationSeconds.set -> void
@@ -15336,7 +15452,7 @@ ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionAddOptions.AzAmsConten
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionAddOptions.Deconstruct(out string! PolicyOptionName) -> void
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionAddOptions.FairPlayPfx.get -> bool?
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionAddOptions.FairPlayPfx.set -> void
-ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionAddOptions.FairPlayPfxPassword.get -> bool?
+ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionAddOptions.FairPlayPfxPassword.get -> string?
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionAddOptions.FairPlayPfxPassword.set -> void
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionAddOptions.FpPlaybackDurationSeconds.get -> bool?
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionAddOptions.FpPlaybackDurationSeconds.set -> void
@@ -15400,7 +15516,7 @@ ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionUpdateOptions.AzAmsCon
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionUpdateOptions.Deconstruct(out string! PolicyOptionId) -> void
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionUpdateOptions.FairPlayPfx.get -> bool?
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionUpdateOptions.FairPlayPfx.set -> void
-ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionUpdateOptions.FairPlayPfxPassword.get -> bool?
+ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionUpdateOptions.FairPlayPfxPassword.get -> string?
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionUpdateOptions.FairPlayPfxPassword.set -> void
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionUpdateOptions.FpPlaybackDurationSeconds.get -> bool?
 ModularPipelines.Azure.Options.AzAmsContentKeyPolicyOptionUpdateOptions.FpPlaybackDurationSeconds.set -> void
@@ -19202,7 +19318,7 @@ ModularPipelines.Azure.Options.AzBatchJobListOptions.Expand.get -> bool?
 ModularPipelines.Azure.Options.AzBatchJobListOptions.Expand.set -> void
 ModularPipelines.Azure.Options.AzBatchJobListOptions.Filter.get -> bool?
 ModularPipelines.Azure.Options.AzBatchJobListOptions.Filter.set -> void
-ModularPipelines.Azure.Options.AzBatchJobListOptions.JobScheduleId.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzBatchJobListOptions.JobScheduleId.get -> string?
 ModularPipelines.Azure.Options.AzBatchJobListOptions.Select.get -> bool?
 ModularPipelines.Azure.Options.AzBatchJobListOptions.Select.set -> void
 ModularPipelines.Azure.Options.AzBatchJobPrepReleaseStatusListOptions
@@ -19233,11 +19349,11 @@ ModularPipelines.Azure.Options.AzBatchJobResetOptions.AzBatchJobResetOptions(str
 ModularPipelines.Azure.Options.AzBatchJobResetOptions.Deconstruct(out string! JobId) -> void
 ModularPipelines.Azure.Options.AzBatchJobResetOptions.IfMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchJobResetOptions.IfMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchJobResetOptions.IfModifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchJobResetOptions.IfModifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchJobResetOptions.IfModifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchJobResetOptions.IfNoneMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchJobResetOptions.IfNoneMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchJobResetOptions.IfUnmodifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchJobResetOptions.IfUnmodifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchJobResetOptions.IfUnmodifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchJobResetOptions.JobId.get -> string!
 ModularPipelines.Azure.Options.AzBatchJobResetOptions.JobId.init -> void
@@ -19370,11 +19486,11 @@ ModularPipelines.Azure.Options.AzBatchJobScheduleResetOptions.DoNotRunUntil.get 
 ModularPipelines.Azure.Options.AzBatchJobScheduleResetOptions.DoNotRunUntil.set -> void
 ModularPipelines.Azure.Options.AzBatchJobScheduleResetOptions.IfMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchJobScheduleResetOptions.IfMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchJobScheduleResetOptions.IfModifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchJobScheduleResetOptions.IfModifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchJobScheduleResetOptions.IfModifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchJobScheduleResetOptions.IfNoneMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchJobScheduleResetOptions.IfNoneMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchJobScheduleResetOptions.IfUnmodifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchJobScheduleResetOptions.IfUnmodifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchJobScheduleResetOptions.IfUnmodifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchJobScheduleResetOptions.JobManagerTaskApplicationPackageReferences.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzBatchJobScheduleResetOptions.JobManagerTaskApplicationPackageReferences.set -> void
@@ -19429,11 +19545,11 @@ ModularPipelines.Azure.Options.AzBatchJobScheduleSetOptions.DoNotRunUntil.get ->
 ModularPipelines.Azure.Options.AzBatchJobScheduleSetOptions.DoNotRunUntil.set -> void
 ModularPipelines.Azure.Options.AzBatchJobScheduleSetOptions.IfMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchJobScheduleSetOptions.IfMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchJobScheduleSetOptions.IfModifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchJobScheduleSetOptions.IfModifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchJobScheduleSetOptions.IfModifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchJobScheduleSetOptions.IfNoneMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchJobScheduleSetOptions.IfNoneMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchJobScheduleSetOptions.IfUnmodifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchJobScheduleSetOptions.IfUnmodifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchJobScheduleSetOptions.IfUnmodifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchJobScheduleSetOptions.JobManagerTaskApplicationPackageReferences.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzBatchJobScheduleSetOptions.JobManagerTaskApplicationPackageReferences.set -> void
@@ -19486,11 +19602,11 @@ ModularPipelines.Azure.Options.AzBatchJobScheduleShowOptions.Expand.get -> bool?
 ModularPipelines.Azure.Options.AzBatchJobScheduleShowOptions.Expand.set -> void
 ModularPipelines.Azure.Options.AzBatchJobScheduleShowOptions.IfMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchJobScheduleShowOptions.IfMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchJobScheduleShowOptions.IfModifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchJobScheduleShowOptions.IfModifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchJobScheduleShowOptions.IfModifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchJobScheduleShowOptions.IfNoneMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchJobScheduleShowOptions.IfNoneMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchJobScheduleShowOptions.IfUnmodifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchJobScheduleShowOptions.IfUnmodifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchJobScheduleShowOptions.IfUnmodifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchJobScheduleShowOptions.JobScheduleId.get -> string!
 ModularPipelines.Azure.Options.AzBatchJobScheduleShowOptions.JobScheduleId.init -> void
@@ -19520,11 +19636,11 @@ ModularPipelines.Azure.Options.AzBatchJobSetOptions.AzBatchJobSetOptions(string!
 ModularPipelines.Azure.Options.AzBatchJobSetOptions.Deconstruct(out string! JobId) -> void
 ModularPipelines.Azure.Options.AzBatchJobSetOptions.IfMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchJobSetOptions.IfMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchJobSetOptions.IfModifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchJobSetOptions.IfModifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchJobSetOptions.IfModifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchJobSetOptions.IfNoneMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchJobSetOptions.IfNoneMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchJobSetOptions.IfUnmodifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchJobSetOptions.IfUnmodifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchJobSetOptions.IfUnmodifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchJobSetOptions.JobId.get -> string!
 ModularPipelines.Azure.Options.AzBatchJobSetOptions.JobId.init -> void
@@ -19557,11 +19673,11 @@ ModularPipelines.Azure.Options.AzBatchJobShowOptions.Expand.get -> bool?
 ModularPipelines.Azure.Options.AzBatchJobShowOptions.Expand.set -> void
 ModularPipelines.Azure.Options.AzBatchJobShowOptions.IfMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchJobShowOptions.IfMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchJobShowOptions.IfModifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchJobShowOptions.IfModifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchJobShowOptions.IfModifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchJobShowOptions.IfNoneMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchJobShowOptions.IfNoneMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchJobShowOptions.IfUnmodifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchJobShowOptions.IfUnmodifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchJobShowOptions.IfUnmodifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchJobShowOptions.JobId.get -> string!
 ModularPipelines.Azure.Options.AzBatchJobShowOptions.JobId.init -> void
@@ -19674,9 +19790,9 @@ ModularPipelines.Azure.Options.AzBatchNodeFileShowOptions.AzBatchNodeFileShowOpt
 ModularPipelines.Azure.Options.AzBatchNodeFileShowOptions.Deconstruct(out string! FilePath, out string! NodeId, out string! PoolId) -> void
 ModularPipelines.Azure.Options.AzBatchNodeFileShowOptions.FilePath.get -> string!
 ModularPipelines.Azure.Options.AzBatchNodeFileShowOptions.FilePath.init -> void
-ModularPipelines.Azure.Options.AzBatchNodeFileShowOptions.IfModifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchNodeFileShowOptions.IfModifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchNodeFileShowOptions.IfModifiedSince.set -> void
-ModularPipelines.Azure.Options.AzBatchNodeFileShowOptions.IfUnmodifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchNodeFileShowOptions.IfUnmodifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchNodeFileShowOptions.IfUnmodifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchNodeFileShowOptions.NodeId.get -> string!
 ModularPipelines.Azure.Options.AzBatchNodeFileShowOptions.NodeId.init -> void
@@ -19810,7 +19926,7 @@ ModularPipelines.Azure.Options.AzBatchNodeUserCreateOptions.Name.get -> bool?
 ModularPipelines.Azure.Options.AzBatchNodeUserCreateOptions.Name.set -> void
 ModularPipelines.Azure.Options.AzBatchNodeUserCreateOptions.NodeId.get -> string!
 ModularPipelines.Azure.Options.AzBatchNodeUserCreateOptions.NodeId.init -> void
-ModularPipelines.Azure.Options.AzBatchNodeUserCreateOptions.Password.get -> bool?
+ModularPipelines.Azure.Options.AzBatchNodeUserCreateOptions.Password.get -> string?
 ModularPipelines.Azure.Options.AzBatchNodeUserCreateOptions.Password.set -> void
 ModularPipelines.Azure.Options.AzBatchNodeUserCreateOptions.PoolId.get -> string!
 ModularPipelines.Azure.Options.AzBatchNodeUserCreateOptions.PoolId.init -> void
@@ -19843,7 +19959,7 @@ ModularPipelines.Azure.Options.AzBatchNodeUserResetOptions.ExpiryTime.set -> voi
 ModularPipelines.Azure.Options.AzBatchNodeUserResetOptions.JsonFile.get -> string?
 ModularPipelines.Azure.Options.AzBatchNodeUserResetOptions.NodeId.get -> string!
 ModularPipelines.Azure.Options.AzBatchNodeUserResetOptions.NodeId.init -> void
-ModularPipelines.Azure.Options.AzBatchNodeUserResetOptions.Password.get -> bool?
+ModularPipelines.Azure.Options.AzBatchNodeUserResetOptions.Password.get -> string?
 ModularPipelines.Azure.Options.AzBatchNodeUserResetOptions.Password.set -> void
 ModularPipelines.Azure.Options.AzBatchNodeUserResetOptions.PoolId.get -> string!
 ModularPipelines.Azure.Options.AzBatchNodeUserResetOptions.PoolId.init -> void
@@ -20063,11 +20179,11 @@ ModularPipelines.Azure.Options.AzBatchPoolSetOptions.AzBatchPoolSetOptions(strin
 ModularPipelines.Azure.Options.AzBatchPoolSetOptions.Deconstruct(out string! PoolId) -> void
 ModularPipelines.Azure.Options.AzBatchPoolSetOptions.IfMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchPoolSetOptions.IfMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchPoolSetOptions.IfModifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchPoolSetOptions.IfModifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchPoolSetOptions.IfModifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchPoolSetOptions.IfNoneMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchPoolSetOptions.IfNoneMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchPoolSetOptions.IfUnmodifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchPoolSetOptions.IfUnmodifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchPoolSetOptions.IfUnmodifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchPoolSetOptions.JsonFile.get -> string?
 ModularPipelines.Azure.Options.AzBatchPoolSetOptions.Metadata.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -20098,11 +20214,11 @@ ModularPipelines.Azure.Options.AzBatchPoolShowOptions.Expand.get -> bool?
 ModularPipelines.Azure.Options.AzBatchPoolShowOptions.Expand.set -> void
 ModularPipelines.Azure.Options.AzBatchPoolShowOptions.IfMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchPoolShowOptions.IfMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchPoolShowOptions.IfModifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchPoolShowOptions.IfModifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchPoolShowOptions.IfModifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchPoolShowOptions.IfNoneMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchPoolShowOptions.IfNoneMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchPoolShowOptions.IfUnmodifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchPoolShowOptions.IfUnmodifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchPoolShowOptions.IfUnmodifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchPoolShowOptions.PoolId.get -> string!
 ModularPipelines.Azure.Options.AzBatchPoolShowOptions.PoolId.init -> void
@@ -20252,9 +20368,9 @@ ModularPipelines.Azure.Options.AzBatchTaskFileShowOptions.AzBatchTaskFileShowOpt
 ModularPipelines.Azure.Options.AzBatchTaskFileShowOptions.Deconstruct(out string! FilePath, out string! JobId, out string! TaskId) -> void
 ModularPipelines.Azure.Options.AzBatchTaskFileShowOptions.FilePath.get -> string!
 ModularPipelines.Azure.Options.AzBatchTaskFileShowOptions.FilePath.init -> void
-ModularPipelines.Azure.Options.AzBatchTaskFileShowOptions.IfModifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchTaskFileShowOptions.IfModifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchTaskFileShowOptions.IfModifiedSince.set -> void
-ModularPipelines.Azure.Options.AzBatchTaskFileShowOptions.IfUnmodifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchTaskFileShowOptions.IfUnmodifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchTaskFileShowOptions.IfUnmodifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchTaskFileShowOptions.JobId.get -> string!
 ModularPipelines.Azure.Options.AzBatchTaskFileShowOptions.JobId.init -> void
@@ -20325,11 +20441,11 @@ ModularPipelines.Azure.Options.AzBatchTaskShowOptions.Expand.get -> bool?
 ModularPipelines.Azure.Options.AzBatchTaskShowOptions.Expand.set -> void
 ModularPipelines.Azure.Options.AzBatchTaskShowOptions.IfMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchTaskShowOptions.IfMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchTaskShowOptions.IfModifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchTaskShowOptions.IfModifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchTaskShowOptions.IfModifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchTaskShowOptions.IfNoneMatch.get -> bool?
 ModularPipelines.Azure.Options.AzBatchTaskShowOptions.IfNoneMatch.set -> void
-ModularPipelines.Azure.Options.AzBatchTaskShowOptions.IfUnmodifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzBatchTaskShowOptions.IfUnmodifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzBatchTaskShowOptions.IfUnmodifiedSince.set -> void
 ModularPipelines.Azure.Options.AzBatchTaskShowOptions.JobId.get -> string!
 ModularPipelines.Azure.Options.AzBatchTaskShowOptions.JobId.init -> void
@@ -20485,12 +20601,12 @@ ModularPipelines.Azure.Options.AzBillingTransferShowOptions.AzBillingTransferSho
 ModularPipelines.Azure.Options.AzBillingTransferShowOptions.Deconstruct(out string! TransferName) -> void
 ModularPipelines.Azure.Options.AzBillingTransferShowOptions.TransferName.get -> string!
 ModularPipelines.Azure.Options.AzBillingTransferShowOptions.TransferName.init -> void
-ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.AzBotAuthsettingCreateOptions(string! ClientId, string! ClientSecret, string! Name, string! ProviderScopeString, string! ResourceGroup, System.Collections.Generic.IEnumerable<string!>! Service, string! SettingName) -> void
+ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.AzBotAuthsettingCreateOptions(string! ClientId, string! ClientSecret, string! Name, string! ProviderScopeString, string! ResourceGroup, string! Service, string! SettingName) -> void
 ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.ClientId.get -> string!
 ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.ClientId.init -> void
 ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.ClientSecret.get -> string!
 ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.ClientSecret.init -> void
-ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.Deconstruct(out string! ClientId, out string! ClientSecret, out string! Name, out string! ProviderScopeString, out string! ResourceGroup, out System.Collections.Generic.IEnumerable<string!>! Service, out string! SettingName) -> void
+ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.Deconstruct(out string! ClientId, out string! ClientSecret, out string! Name, out string! ProviderScopeString, out string! ResourceGroup, out string! Service, out string! SettingName) -> void
 ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.Name.get -> string!
 ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.Name.init -> void
 ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.Parameters.get -> string?
@@ -20498,7 +20614,7 @@ ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.ProviderScopeString
 ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.ProviderScopeString.init -> void
 ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.ResourceGroup.init -> void
-ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.Service.get -> System.Collections.Generic.IEnumerable<string!>!
+ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.Service.get -> string!
 ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.Service.init -> void
 ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.SettingName.get -> string!
 ModularPipelines.Azure.Options.AzBotAuthsettingCreateOptions.SettingName.init -> void
@@ -22131,9 +22247,9 @@ ModularPipelines.Azure.Options.AzContainerContainerGroupProfileCreateOptions.Pri
 ModularPipelines.Azure.Options.AzContainerContainerGroupProfileCreateOptions.Protocol.get -> string?
 ModularPipelines.Azure.Options.AzContainerContainerGroupProfileCreateOptions.RegistryLoginServer.get -> bool?
 ModularPipelines.Azure.Options.AzContainerContainerGroupProfileCreateOptions.RegistryLoginServer.set -> void
-ModularPipelines.Azure.Options.AzContainerContainerGroupProfileCreateOptions.RegistryPassword.get -> bool?
+ModularPipelines.Azure.Options.AzContainerContainerGroupProfileCreateOptions.RegistryPassword.get -> string?
 ModularPipelines.Azure.Options.AzContainerContainerGroupProfileCreateOptions.RegistryPassword.set -> void
-ModularPipelines.Azure.Options.AzContainerContainerGroupProfileCreateOptions.RegistryUsername.get -> bool?
+ModularPipelines.Azure.Options.AzContainerContainerGroupProfileCreateOptions.RegistryUsername.get -> string?
 ModularPipelines.Azure.Options.AzContainerContainerGroupProfileCreateOptions.RegistryUsername.set -> void
 ModularPipelines.Azure.Options.AzContainerContainerGroupProfileCreateOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzContainerContainerGroupProfileCreateOptions.ResourceGroup.init -> void
@@ -22235,9 +22351,9 @@ ModularPipelines.Azure.Options.AzContainerCreateOptions.Privileged.set -> void
 ModularPipelines.Azure.Options.AzContainerCreateOptions.Protocol.get -> string?
 ModularPipelines.Azure.Options.AzContainerCreateOptions.RegistryLoginServer.get -> bool?
 ModularPipelines.Azure.Options.AzContainerCreateOptions.RegistryLoginServer.set -> void
-ModularPipelines.Azure.Options.AzContainerCreateOptions.RegistryPassword.get -> bool?
+ModularPipelines.Azure.Options.AzContainerCreateOptions.RegistryPassword.get -> string?
 ModularPipelines.Azure.Options.AzContainerCreateOptions.RegistryPassword.set -> void
-ModularPipelines.Azure.Options.AzContainerCreateOptions.RegistryUsername.get -> bool?
+ModularPipelines.Azure.Options.AzContainerCreateOptions.RegistryUsername.get -> string?
 ModularPipelines.Azure.Options.AzContainerCreateOptions.RegistryUsername.set -> void
 ModularPipelines.Azure.Options.AzContainerCreateOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzContainerCreateOptions.ResourceGroup.init -> void
@@ -22521,11 +22637,11 @@ ModularPipelines.Azure.Options.AzContainerappComposeCreateOptions.Deconstruct(ou
 ModularPipelines.Azure.Options.AzContainerappComposeCreateOptions.Environment.get -> string!
 ModularPipelines.Azure.Options.AzContainerappComposeCreateOptions.Environment.init -> void
 ModularPipelines.Azure.Options.AzContainerappComposeCreateOptions.Location.get -> string?
-ModularPipelines.Azure.Options.AzContainerappComposeCreateOptions.RegistryPassword.get -> bool?
+ModularPipelines.Azure.Options.AzContainerappComposeCreateOptions.RegistryPassword.get -> string?
 ModularPipelines.Azure.Options.AzContainerappComposeCreateOptions.RegistryPassword.set -> void
 ModularPipelines.Azure.Options.AzContainerappComposeCreateOptions.RegistryServer.get -> bool?
 ModularPipelines.Azure.Options.AzContainerappComposeCreateOptions.RegistryServer.set -> void
-ModularPipelines.Azure.Options.AzContainerappComposeCreateOptions.RegistryUsername.get -> bool?
+ModularPipelines.Azure.Options.AzContainerappComposeCreateOptions.RegistryUsername.get -> string?
 ModularPipelines.Azure.Options.AzContainerappComposeCreateOptions.RegistryUsername.set -> void
 ModularPipelines.Azure.Options.AzContainerappComposeCreateOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzContainerappComposeCreateOptions.ResourceGroup.init -> void
@@ -23569,11 +23685,11 @@ ModularPipelines.Azure.Options.AzContainerappCreateOptions.Name.get -> string!
 ModularPipelines.Azure.Options.AzContainerappCreateOptions.Name.init -> void
 ModularPipelines.Azure.Options.AzContainerappCreateOptions.RegistryIdentity.get -> string?
 ModularPipelines.Azure.Options.AzContainerappCreateOptions.RegistryIdentity.set -> void
-ModularPipelines.Azure.Options.AzContainerappCreateOptions.RegistryPassword.get -> bool?
+ModularPipelines.Azure.Options.AzContainerappCreateOptions.RegistryPassword.get -> string?
 ModularPipelines.Azure.Options.AzContainerappCreateOptions.RegistryPassword.set -> void
 ModularPipelines.Azure.Options.AzContainerappCreateOptions.RegistryServer.get -> bool?
 ModularPipelines.Azure.Options.AzContainerappCreateOptions.RegistryServer.set -> void
-ModularPipelines.Azure.Options.AzContainerappCreateOptions.RegistryUsername.get -> bool?
+ModularPipelines.Azure.Options.AzContainerappCreateOptions.RegistryUsername.get -> string?
 ModularPipelines.Azure.Options.AzContainerappCreateOptions.RegistryUsername.set -> void
 ModularPipelines.Azure.Options.AzContainerappCreateOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzContainerappCreateOptions.ResourceGroup.init -> void
@@ -24007,6 +24123,8 @@ ModularPipelines.Azure.Options.AzContainerappGithubActionAddOptions.Ids.get -> S
 ModularPipelines.Azure.Options.AzContainerappGithubActionAddOptions.Ids.set -> void
 ModularPipelines.Azure.Options.AzContainerappGithubActionAddOptions.Name.get -> string?
 ModularPipelines.Azure.Options.AzContainerappGithubActionAddOptions.Name.set -> void
+ModularPipelines.Azure.Options.AzContainerappGithubActionAddOptions.RegistryPassword.get -> string?
+ModularPipelines.Azure.Options.AzContainerappGithubActionAddOptions.RegistryUsername.get -> string?
 ModularPipelines.Azure.Options.AzContainerappGithubActionAddOptions.RepoUrl.get -> string!
 ModularPipelines.Azure.Options.AzContainerappGithubActionAddOptions.RepoUrl.init -> void
 ModularPipelines.Azure.Options.AzContainerappGithubActionAddOptions.ResourceGroup.get -> string?
@@ -24282,11 +24400,11 @@ ModularPipelines.Azure.Options.AzContainerappJobCreateOptions.Rcc.get -> bool?
 ModularPipelines.Azure.Options.AzContainerappJobCreateOptions.Rcc.set -> void
 ModularPipelines.Azure.Options.AzContainerappJobCreateOptions.RegistryIdentity.get -> string?
 ModularPipelines.Azure.Options.AzContainerappJobCreateOptions.RegistryIdentity.set -> void
-ModularPipelines.Azure.Options.AzContainerappJobCreateOptions.RegistryPassword.get -> bool?
+ModularPipelines.Azure.Options.AzContainerappJobCreateOptions.RegistryPassword.get -> string?
 ModularPipelines.Azure.Options.AzContainerappJobCreateOptions.RegistryPassword.set -> void
 ModularPipelines.Azure.Options.AzContainerappJobCreateOptions.RegistryServer.get -> bool?
 ModularPipelines.Azure.Options.AzContainerappJobCreateOptions.RegistryServer.set -> void
-ModularPipelines.Azure.Options.AzContainerappJobCreateOptions.RegistryUsername.get -> bool?
+ModularPipelines.Azure.Options.AzContainerappJobCreateOptions.RegistryUsername.get -> string?
 ModularPipelines.Azure.Options.AzContainerappJobCreateOptions.RegistryUsername.set -> void
 ModularPipelines.Azure.Options.AzContainerappJobCreateOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzContainerappJobCreateOptions.ResourceGroup.init -> void
@@ -24509,10 +24627,12 @@ ModularPipelines.Azure.Options.AzContainerappRegistrySetOptions.Ids.get -> Syste
 ModularPipelines.Azure.Options.AzContainerappRegistrySetOptions.Ids.set -> void
 ModularPipelines.Azure.Options.AzContainerappRegistrySetOptions.Name.get -> string?
 ModularPipelines.Azure.Options.AzContainerappRegistrySetOptions.Name.set -> void
+ModularPipelines.Azure.Options.AzContainerappRegistrySetOptions.Password.get -> string?
 ModularPipelines.Azure.Options.AzContainerappRegistrySetOptions.ResourceGroup.get -> string?
 ModularPipelines.Azure.Options.AzContainerappRegistrySetOptions.ResourceGroup.set -> void
 ModularPipelines.Azure.Options.AzContainerappRegistrySetOptions.Server.get -> string!
 ModularPipelines.Azure.Options.AzContainerappRegistrySetOptions.Server.init -> void
+ModularPipelines.Azure.Options.AzContainerappRegistrySetOptions.Username.get -> string?
 ModularPipelines.Azure.Options.AzContainerappRegistryShowOptions
 ModularPipelines.Azure.Options.AzContainerappRegistryShowOptions.AzContainerappRegistryShowOptions(ModularPipelines.Azure.Options.AzContainerappRegistryShowOptions! original) -> void
 ModularPipelines.Azure.Options.AzContainerappRegistryShowOptions.AzContainerappRegistryShowOptions(string! Server) -> void
@@ -24764,11 +24884,11 @@ ModularPipelines.Azure.Options.AzContainerappUpOptions.LogsWorkspaceKey.get -> b
 ModularPipelines.Azure.Options.AzContainerappUpOptions.LogsWorkspaceKey.set -> void
 ModularPipelines.Azure.Options.AzContainerappUpOptions.Name.get -> string!
 ModularPipelines.Azure.Options.AzContainerappUpOptions.Name.init -> void
-ModularPipelines.Azure.Options.AzContainerappUpOptions.RegistryPassword.get -> bool?
+ModularPipelines.Azure.Options.AzContainerappUpOptions.RegistryPassword.get -> string?
 ModularPipelines.Azure.Options.AzContainerappUpOptions.RegistryPassword.set -> void
 ModularPipelines.Azure.Options.AzContainerappUpOptions.RegistryServer.get -> bool?
 ModularPipelines.Azure.Options.AzContainerappUpOptions.RegistryServer.set -> void
-ModularPipelines.Azure.Options.AzContainerappUpOptions.RegistryUsername.get -> bool?
+ModularPipelines.Azure.Options.AzContainerappUpOptions.RegistryUsername.get -> string?
 ModularPipelines.Azure.Options.AzContainerappUpOptions.RegistryUsername.set -> void
 ModularPipelines.Azure.Options.AzContainerappUpOptions.Repo.get -> bool?
 ModularPipelines.Azure.Options.AzContainerappUpOptions.Repo.set -> void
@@ -25053,7 +25173,7 @@ ModularPipelines.Azure.Options.AzCosmosdbCreateOptions.ResourceGroup.get -> stri
 ModularPipelines.Azure.Options.AzCosmosdbCreateOptions.ResourceGroup.init -> void
 ModularPipelines.Azure.Options.AzCosmosdbCreateOptions.RestoreSource.get -> bool?
 ModularPipelines.Azure.Options.AzCosmosdbCreateOptions.RestoreSource.set -> void
-ModularPipelines.Azure.Options.AzCosmosdbCreateOptions.RestoreTimestamp.get -> bool?
+ModularPipelines.Azure.Options.AzCosmosdbCreateOptions.RestoreTimestamp.get -> string?
 ModularPipelines.Azure.Options.AzCosmosdbCreateOptions.RestoreTimestamp.set -> void
 ModularPipelines.Azure.Options.AzCosmosdbCreateOptions.ServerVersion.get -> string?
 ModularPipelines.Azure.Options.AzCosmosdbCreateOptions.TablesToRestore.get -> bool?
@@ -25258,6 +25378,7 @@ ModularPipelines.Azure.Options.AzCosmosdbGremlinDatabaseRestoreOptions.Name.get 
 ModularPipelines.Azure.Options.AzCosmosdbGremlinDatabaseRestoreOptions.Name.init -> void
 ModularPipelines.Azure.Options.AzCosmosdbGremlinDatabaseRestoreOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzCosmosdbGremlinDatabaseRestoreOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzCosmosdbGremlinDatabaseRestoreOptions.RestoreTimestamp.get -> string?
 ModularPipelines.Azure.Options.AzCosmosdbGremlinDatabaseShowOptions
 ModularPipelines.Azure.Options.AzCosmosdbGremlinDatabaseShowOptions.AccountName.get -> string!
 ModularPipelines.Azure.Options.AzCosmosdbGremlinDatabaseShowOptions.AccountName.init -> void
@@ -25352,6 +25473,7 @@ ModularPipelines.Azure.Options.AzCosmosdbGremlinGraphRestoreOptions.Name.get -> 
 ModularPipelines.Azure.Options.AzCosmosdbGremlinGraphRestoreOptions.Name.init -> void
 ModularPipelines.Azure.Options.AzCosmosdbGremlinGraphRestoreOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzCosmosdbGremlinGraphRestoreOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzCosmosdbGremlinGraphRestoreOptions.RestoreTimestamp.get -> string?
 ModularPipelines.Azure.Options.AzCosmosdbGremlinGraphShowOptions
 ModularPipelines.Azure.Options.AzCosmosdbGremlinGraphShowOptions.AccountName.get -> string!
 ModularPipelines.Azure.Options.AzCosmosdbGremlinGraphShowOptions.AccountName.init -> void
@@ -25530,6 +25652,7 @@ ModularPipelines.Azure.Options.AzCosmosdbMongodbCollectionRestoreOptions.Name.ge
 ModularPipelines.Azure.Options.AzCosmosdbMongodbCollectionRestoreOptions.Name.init -> void
 ModularPipelines.Azure.Options.AzCosmosdbMongodbCollectionRestoreOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzCosmosdbMongodbCollectionRestoreOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzCosmosdbMongodbCollectionRestoreOptions.RestoreTimestamp.get -> string?
 ModularPipelines.Azure.Options.AzCosmosdbMongodbCollectionShowOptions
 ModularPipelines.Azure.Options.AzCosmosdbMongodbCollectionShowOptions.AccountName.get -> string!
 ModularPipelines.Azure.Options.AzCosmosdbMongodbCollectionShowOptions.AccountName.init -> void
@@ -25630,6 +25753,7 @@ ModularPipelines.Azure.Options.AzCosmosdbMongodbDatabaseRestoreOptions.Name.get 
 ModularPipelines.Azure.Options.AzCosmosdbMongodbDatabaseRestoreOptions.Name.init -> void
 ModularPipelines.Azure.Options.AzCosmosdbMongodbDatabaseRestoreOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzCosmosdbMongodbDatabaseRestoreOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzCosmosdbMongodbDatabaseRestoreOptions.RestoreTimestamp.get -> string?
 ModularPipelines.Azure.Options.AzCosmosdbMongodbDatabaseShowOptions
 ModularPipelines.Azure.Options.AzCosmosdbMongodbDatabaseShowOptions.AccountName.get -> string!
 ModularPipelines.Azure.Options.AzCosmosdbMongodbDatabaseShowOptions.AccountName.init -> void
@@ -25882,7 +26006,7 @@ ModularPipelines.Azure.Options.AzCosmosdbPostgresCheckNameAvailabilityOptions.Na
 ModularPipelines.Azure.Options.AzCosmosdbPostgresCheckNameAvailabilityOptions.Name.init -> void
 ModularPipelines.Azure.Options.AzCosmosdbPostgresCheckNameAvailabilityOptions.Type.get -> string!
 ModularPipelines.Azure.Options.AzCosmosdbPostgresCheckNameAvailabilityOptions.Type.init -> void
-ModularPipelines.Azure.Options.AzCosmosdbPostgresClusterCreateOptions.AdministratorLoginPassword.get -> bool?
+ModularPipelines.Azure.Options.AzCosmosdbPostgresClusterCreateOptions.AdministratorLoginPassword.get -> string?
 ModularPipelines.Azure.Options.AzCosmosdbPostgresClusterCreateOptions.AdministratorLoginPassword.set -> void
 ModularPipelines.Azure.Options.AzCosmosdbPostgresClusterCreateOptions.AzCosmosdbPostgresClusterCreateOptions(string! ClusterName, string! ResourceGroup) -> void
 ModularPipelines.Azure.Options.AzCosmosdbPostgresClusterCreateOptions.CitusVersion.get -> bool?
@@ -25989,7 +26113,7 @@ ModularPipelines.Azure.Options.AzCosmosdbPostgresClusterStopOptions.Ids.get -> S
 ModularPipelines.Azure.Options.AzCosmosdbPostgresClusterStopOptions.Ids.set -> void
 ModularPipelines.Azure.Options.AzCosmosdbPostgresClusterStopOptions.ResourceGroup.get -> string?
 ModularPipelines.Azure.Options.AzCosmosdbPostgresClusterStopOptions.ResourceGroup.set -> void
-ModularPipelines.Azure.Options.AzCosmosdbPostgresClusterUpdateOptions.AdministratorLoginPassword.get -> bool?
+ModularPipelines.Azure.Options.AzCosmosdbPostgresClusterUpdateOptions.AdministratorLoginPassword.get -> string?
 ModularPipelines.Azure.Options.AzCosmosdbPostgresClusterUpdateOptions.AdministratorLoginPassword.set -> void
 ModularPipelines.Azure.Options.AzCosmosdbPostgresClusterUpdateOptions.CitusVersion.get -> bool?
 ModularPipelines.Azure.Options.AzCosmosdbPostgresClusterUpdateOptions.CitusVersion.set -> void
@@ -26302,7 +26426,7 @@ ModularPipelines.Azure.Options.AzCosmosdbPostgresRoleUpdateOptions.Ids.get -> Sy
 ModularPipelines.Azure.Options.AzCosmosdbPostgresRoleUpdateOptions.Ids.set -> void
 ModularPipelines.Azure.Options.AzCosmosdbPostgresRoleUpdateOptions.Name.get -> string?
 ModularPipelines.Azure.Options.AzCosmosdbPostgresRoleUpdateOptions.Name.set -> void
-ModularPipelines.Azure.Options.AzCosmosdbPostgresRoleUpdateOptions.Password.get -> bool?
+ModularPipelines.Azure.Options.AzCosmosdbPostgresRoleUpdateOptions.Password.get -> string?
 ModularPipelines.Azure.Options.AzCosmosdbPostgresRoleUpdateOptions.Password.set -> void
 ModularPipelines.Azure.Options.AzCosmosdbPostgresRoleUpdateOptions.Remove.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzCosmosdbPostgresRoleUpdateOptions.Remove.set -> void
@@ -26502,6 +26626,7 @@ ModularPipelines.Azure.Options.AzCosmosdbSqlContainerRestoreOptions.Name.get -> 
 ModularPipelines.Azure.Options.AzCosmosdbSqlContainerRestoreOptions.Name.init -> void
 ModularPipelines.Azure.Options.AzCosmosdbSqlContainerRestoreOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzCosmosdbSqlContainerRestoreOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzCosmosdbSqlContainerRestoreOptions.RestoreTimestamp.get -> string?
 ModularPipelines.Azure.Options.AzCosmosdbSqlContainerShowOptions
 ModularPipelines.Azure.Options.AzCosmosdbSqlContainerShowOptions.AccountName.get -> string!
 ModularPipelines.Azure.Options.AzCosmosdbSqlContainerShowOptions.AccountName.init -> void
@@ -26602,6 +26727,7 @@ ModularPipelines.Azure.Options.AzCosmosdbSqlDatabaseRestoreOptions.Name.get -> s
 ModularPipelines.Azure.Options.AzCosmosdbSqlDatabaseRestoreOptions.Name.init -> void
 ModularPipelines.Azure.Options.AzCosmosdbSqlDatabaseRestoreOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzCosmosdbSqlDatabaseRestoreOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzCosmosdbSqlDatabaseRestoreOptions.RestoreTimestamp.get -> string?
 ModularPipelines.Azure.Options.AzCosmosdbSqlDatabaseShowOptions
 ModularPipelines.Azure.Options.AzCosmosdbSqlDatabaseShowOptions.AccountName.get -> string!
 ModularPipelines.Azure.Options.AzCosmosdbSqlDatabaseShowOptions.AccountName.init -> void
@@ -27104,6 +27230,7 @@ ModularPipelines.Azure.Options.AzCosmosdbTableRestoreOptions.AzCosmosdbTableRest
 ModularPipelines.Azure.Options.AzCosmosdbTableRestoreOptions.Deconstruct(out string! AccountName, out string! ResourceGroup, out string! TableName) -> void
 ModularPipelines.Azure.Options.AzCosmosdbTableRestoreOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzCosmosdbTableRestoreOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzCosmosdbTableRestoreOptions.RestoreTimestamp.get -> string?
 ModularPipelines.Azure.Options.AzCosmosdbTableRestoreOptions.TableName.get -> string!
 ModularPipelines.Azure.Options.AzCosmosdbTableRestoreOptions.TableName.init -> void
 ModularPipelines.Azure.Options.AzCosmosdbTableRetrieveLatestBackupTimeOptions
@@ -27585,7 +27712,7 @@ ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountCredentialCreate
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountCredentialCreateOptions.SslStatus.init -> void
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountCredentialCreateOptions.StorageAccountId.get -> string?
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountCredentialCreateOptions.StorageAccountId.set -> void
-ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountCredentialCreateOptions.UserName.get -> bool?
+ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountCredentialCreateOptions.UserName.get -> string?
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountCredentialCreateOptions.UserName.set -> void
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountCredentialDeleteOptions.DeviceName.get -> string?
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountCredentialDeleteOptions.DeviceName.set -> void
@@ -27648,7 +27775,7 @@ ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountCredentialUpdate
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountCredentialUpdateOptions.SslStatus.set -> void
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountCredentialUpdateOptions.StorageAccountId.get -> string?
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountCredentialUpdateOptions.StorageAccountId.set -> void
-ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountCredentialUpdateOptions.UserName.get -> bool?
+ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountCredentialUpdateOptions.UserName.get -> string?
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountCredentialUpdateOptions.UserName.set -> void
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountDeleteOptions.DeviceName.get -> string?
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceStorageAccountDeleteOptions.DeviceName.set -> void
@@ -27715,7 +27842,7 @@ ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserCreateOptions.AzDataboxedg
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserCreateOptions.Deconstruct(out string! DeviceName, out string! Name, out string! ResourceGroup, out string! UserType) -> void
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserCreateOptions.DeviceName.get -> string!
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserCreateOptions.DeviceName.init -> void
-ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserCreateOptions.EncryptedPassword.get -> bool?
+ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserCreateOptions.EncryptedPassword.get -> string?
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserCreateOptions.EncryptedPassword.set -> void
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserCreateOptions.Name.get -> string!
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserCreateOptions.Name.init -> void
@@ -27756,7 +27883,7 @@ ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserUpdateOptions.Add.get -> S
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserUpdateOptions.Add.set -> void
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserUpdateOptions.DeviceName.get -> string?
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserUpdateOptions.DeviceName.set -> void
-ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserUpdateOptions.EncryptedPassword.get -> bool?
+ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserUpdateOptions.EncryptedPassword.get -> string?
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserUpdateOptions.EncryptedPassword.set -> void
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserUpdateOptions.ForceString.get -> bool?
 ModularPipelines.Azure.Options.AzDataboxedgeDeviceUserUpdateOptions.ForceString.set -> void
@@ -32652,6 +32779,7 @@ ModularPipelines.Azure.Options.AzFunctionappDeploymentSourceSyncOptions.Resource
 ModularPipelines.Azure.Options.AzFunctionappDeploymentSourceSyncOptions.Slot.get -> string?
 ModularPipelines.Azure.Options.AzFunctionappDeploymentUserSetOptions.AzFunctionappDeploymentUserSetOptions(string! UserName) -> void
 ModularPipelines.Azure.Options.AzFunctionappDeploymentUserSetOptions.Deconstruct(out string! UserName) -> void
+ModularPipelines.Azure.Options.AzFunctionappDeploymentUserSetOptions.Password.get -> string?
 ModularPipelines.Azure.Options.AzFunctionappDeploymentUserSetOptions.UserName.get -> string!
 ModularPipelines.Azure.Options.AzFunctionappDeploymentUserSetOptions.UserName.init -> void
 ModularPipelines.Azure.Options.AzFunctionappFlexMigrationStartOptions.AzFunctionappFlexMigrationStartOptions(string! ResourceGroup, string! SourceName, string! SourceResourceGroup) -> void
@@ -35357,7 +35485,7 @@ ModularPipelines.Azure.Options.AzKeyvaultKeyImportOptions.Name.set -> void
 ModularPipelines.Azure.Options.AzKeyvaultKeyImportOptions.Ops.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzKeyvaultKeyImportOptions.PemFile.get -> bool?
 ModularPipelines.Azure.Options.AzKeyvaultKeyImportOptions.PemFile.set -> void
-ModularPipelines.Azure.Options.AzKeyvaultKeyImportOptions.PemPassword.get -> bool?
+ModularPipelines.Azure.Options.AzKeyvaultKeyImportOptions.PemPassword.get -> string?
 ModularPipelines.Azure.Options.AzKeyvaultKeyImportOptions.PemPassword.set -> void
 ModularPipelines.Azure.Options.AzKeyvaultKeyImportOptions.PemString.get -> bool?
 ModularPipelines.Azure.Options.AzKeyvaultKeyImportOptions.PemString.set -> void
@@ -36617,9 +36745,9 @@ ModularPipelines.Azure.Options.AzMariadbServerConfigurationShowOptions.ResourceG
 ModularPipelines.Azure.Options.AzMariadbServerConfigurationShowOptions.ResourceGroup.set -> void
 ModularPipelines.Azure.Options.AzMariadbServerConfigurationShowOptions.ServerName.get -> string?
 ModularPipelines.Azure.Options.AzMariadbServerConfigurationShowOptions.ServerName.set -> void
-ModularPipelines.Azure.Options.AzMariadbServerCreateOptions.AdminPassword.get -> bool?
+ModularPipelines.Azure.Options.AzMariadbServerCreateOptions.AdminPassword.get -> string?
 ModularPipelines.Azure.Options.AzMariadbServerCreateOptions.AdminPassword.set -> void
-ModularPipelines.Azure.Options.AzMariadbServerCreateOptions.AdminUser.get -> bool?
+ModularPipelines.Azure.Options.AzMariadbServerCreateOptions.AdminUser.get -> string?
 ModularPipelines.Azure.Options.AzMariadbServerCreateOptions.AdminUser.set -> void
 ModularPipelines.Azure.Options.AzMariadbServerCreateOptions.AutoGrow.get -> string?
 ModularPipelines.Azure.Options.AzMariadbServerCreateOptions.GeoRedundantBackup.get -> string?
@@ -36857,6 +36985,7 @@ ModularPipelines.Azure.Options.AzMariadbServerStopOptions.ResourceGroup.get -> s
 ModularPipelines.Azure.Options.AzMariadbServerStopOptions.ResourceGroup.set -> void
 ModularPipelines.Azure.Options.AzMariadbServerUpdateOptions.Add.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzMariadbServerUpdateOptions.Add.set -> void
+ModularPipelines.Azure.Options.AzMariadbServerUpdateOptions.AdminPassword.get -> string?
 ModularPipelines.Azure.Options.AzMariadbServerUpdateOptions.AutoGrow.get -> string?
 ModularPipelines.Azure.Options.AzMariadbServerUpdateOptions.ForceString.get -> bool?
 ModularPipelines.Azure.Options.AzMariadbServerUpdateOptions.ForceString.set -> void
@@ -38992,7 +39121,7 @@ ModularPipelines.Azure.Options.AzMonitorMetricsListOptions.Deconstruct(out strin
 ModularPipelines.Azure.Options.AzMonitorMetricsListOptions.Dimension.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzMonitorMetricsListOptions.EndTime.get -> bool?
 ModularPipelines.Azure.Options.AzMonitorMetricsListOptions.EndTime.set -> void
-ModularPipelines.Azure.Options.AzMonitorMetricsListOptions.Filter.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzMonitorMetricsListOptions.Filter.get -> string?
 ModularPipelines.Azure.Options.AzMonitorMetricsListOptions.Interval.get -> bool?
 ModularPipelines.Azure.Options.AzMonitorMetricsListOptions.Interval.set -> void
 ModularPipelines.Azure.Options.AzMonitorMetricsListOptions.Metrics.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -39196,9 +39325,9 @@ ModularPipelines.Azure.Options.AzMysqlFlexibleServerBackupShowOptions.Name.init 
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerBackupShowOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerBackupShowOptions.ResourceGroup.init -> void
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerCreateOptions.AcceleratedLogs.get -> string?
-ModularPipelines.Azure.Options.AzMysqlFlexibleServerCreateOptions.AdminPassword.get -> bool?
+ModularPipelines.Azure.Options.AzMysqlFlexibleServerCreateOptions.AdminPassword.get -> string?
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerCreateOptions.AdminPassword.set -> void
-ModularPipelines.Azure.Options.AzMysqlFlexibleServerCreateOptions.AdminUser.get -> bool?
+ModularPipelines.Azure.Options.AzMysqlFlexibleServerCreateOptions.AdminUser.get -> string?
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerCreateOptions.AdminUser.set -> void
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerCreateOptions.AutoScaleIops.get -> string?
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerCreateOptions.BackupIdentity.get -> string?
@@ -39415,9 +39544,9 @@ ModularPipelines.Azure.Options.AzMysqlFlexibleServerIdentityShowOptions.Resource
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerIdentityShowOptions.ResourceGroup.init -> void
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerIdentityShowOptions.ServerName.get -> string!
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerIdentityShowOptions.ServerName.init -> void
-ModularPipelines.Azure.Options.AzMysqlFlexibleServerImportCreateOptions.AdminPassword.get -> bool?
+ModularPipelines.Azure.Options.AzMysqlFlexibleServerImportCreateOptions.AdminPassword.get -> string?
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerImportCreateOptions.AdminPassword.set -> void
-ModularPipelines.Azure.Options.AzMysqlFlexibleServerImportCreateOptions.AdminUser.get -> bool?
+ModularPipelines.Azure.Options.AzMysqlFlexibleServerImportCreateOptions.AdminUser.get -> string?
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerImportCreateOptions.AdminUser.set -> void
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerImportCreateOptions.AutoScaleIops.get -> string?
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerImportCreateOptions.AzMysqlFlexibleServerImportCreateOptions(string! DataSource, string! DataSourceType, string! Name, string! ResourceGroup) -> void
@@ -39602,6 +39731,7 @@ ModularPipelines.Azure.Options.AzMysqlFlexibleServerRestoreOptions.PrivateDnsZon
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerRestoreOptions.PublicAccess.get -> string?
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerRestoreOptions.ResourceGroup.get -> string?
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerRestoreOptions.ResourceGroup.set -> void
+ModularPipelines.Azure.Options.AzMysqlFlexibleServerRestoreOptions.RestoreTime.get -> string?
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerRestoreOptions.SkuName.get -> string?
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerRestoreOptions.SourceServer.get -> string!
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerRestoreOptions.SourceServer.init -> void
@@ -39629,9 +39759,9 @@ ModularPipelines.Azure.Options.AzMysqlFlexibleServerServerLogsListOptions.Resour
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerServerLogsListOptions.ServerName.get -> string!
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerServerLogsListOptions.ServerName.init -> void
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerShowConnectionStringOptions
-ModularPipelines.Azure.Options.AzMysqlFlexibleServerShowConnectionStringOptions.AdminPassword.get -> bool?
+ModularPipelines.Azure.Options.AzMysqlFlexibleServerShowConnectionStringOptions.AdminPassword.get -> string?
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerShowConnectionStringOptions.AdminPassword.set -> void
-ModularPipelines.Azure.Options.AzMysqlFlexibleServerShowConnectionStringOptions.AdminUser.get -> bool?
+ModularPipelines.Azure.Options.AzMysqlFlexibleServerShowConnectionStringOptions.AdminUser.get -> string?
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerShowConnectionStringOptions.AdminUser.set -> void
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerShowConnectionStringOptions.AzMysqlFlexibleServerShowConnectionStringOptions() -> void
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerShowConnectionStringOptions.AzMysqlFlexibleServerShowConnectionStringOptions(ModularPipelines.Azure.Options.AzMysqlFlexibleServerShowConnectionStringOptions! original) -> void
@@ -39665,7 +39795,7 @@ ModularPipelines.Azure.Options.AzMysqlFlexibleServerStopOptions.ResourceGroup.se
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerUpdateOptions.AcceleratedLogs.get -> string?
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerUpdateOptions.Add.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerUpdateOptions.Add.set -> void
-ModularPipelines.Azure.Options.AzMysqlFlexibleServerUpdateOptions.AdminPassword.get -> bool?
+ModularPipelines.Azure.Options.AzMysqlFlexibleServerUpdateOptions.AdminPassword.get -> string?
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerUpdateOptions.AdminPassword.set -> void
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerUpdateOptions.AutoScaleIops.get -> string?
 ModularPipelines.Azure.Options.AzMysqlFlexibleServerUpdateOptions.BackupIdentity.get -> string?
@@ -39801,9 +39931,9 @@ ModularPipelines.Azure.Options.AzMysqlServerConfigurationShowOptions.ResourceGro
 ModularPipelines.Azure.Options.AzMysqlServerConfigurationShowOptions.ResourceGroup.set -> void
 ModularPipelines.Azure.Options.AzMysqlServerConfigurationShowOptions.ServerName.get -> string?
 ModularPipelines.Azure.Options.AzMysqlServerConfigurationShowOptions.ServerName.set -> void
-ModularPipelines.Azure.Options.AzMysqlServerCreateOptions.AdminPassword.get -> bool?
+ModularPipelines.Azure.Options.AzMysqlServerCreateOptions.AdminPassword.get -> string?
 ModularPipelines.Azure.Options.AzMysqlServerCreateOptions.AdminPassword.set -> void
-ModularPipelines.Azure.Options.AzMysqlServerCreateOptions.AdminUser.get -> bool?
+ModularPipelines.Azure.Options.AzMysqlServerCreateOptions.AdminUser.get -> string?
 ModularPipelines.Azure.Options.AzMysqlServerCreateOptions.AdminUser.set -> void
 ModularPipelines.Azure.Options.AzMysqlServerCreateOptions.AutoGrow.get -> string?
 ModularPipelines.Azure.Options.AzMysqlServerCreateOptions.GeoRedundantBackup.get -> string?
@@ -40082,6 +40212,7 @@ ModularPipelines.Azure.Options.AzMysqlServerStopOptions.ResourceGroup.get -> str
 ModularPipelines.Azure.Options.AzMysqlServerStopOptions.ResourceGroup.set -> void
 ModularPipelines.Azure.Options.AzMysqlServerUpdateOptions.Add.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzMysqlServerUpdateOptions.Add.set -> void
+ModularPipelines.Azure.Options.AzMysqlServerUpdateOptions.AdminPassword.get -> string?
 ModularPipelines.Azure.Options.AzMysqlServerUpdateOptions.AutoGrow.get -> string?
 ModularPipelines.Azure.Options.AzMysqlServerUpdateOptions.ForceString.get -> bool?
 ModularPipelines.Azure.Options.AzMysqlServerUpdateOptions.ForceString.set -> void
@@ -40185,15 +40316,18 @@ ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.AccountName.get 
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.AccountName.init -> void
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.ActiveDirectoryId.get -> string?
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.AdName.get -> string?
+ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.Administrators.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.AllowLocalLdapUsers.get -> bool?
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.AllowLocalLdapUsers.set -> void
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.AzNetappfilesAccountAdAddOptions(string! AccountName, string! ResourceGroup) -> void
+ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.BackupOperators.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.Deconstruct(out string! AccountName, out string! ResourceGroup) -> void
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.Domain.get -> string?
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.EncryptDcConn.get -> bool?
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.EncryptDcConn.set -> void
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.SecurityOperators.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.ServerRootCaCert.get -> bool?
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdAddOptions.ServerRootCaCert.set -> void
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdListOptions
@@ -40229,9 +40363,11 @@ ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.ActiveDirecto
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.AdName.get -> string?
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.Add.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.Add.set -> void
+ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.Administrators.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.AllowLocalLdapUsers.get -> bool?
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.AllowLocalLdapUsers.set -> void
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.AzNetappfilesAccountAdUpdateOptions(string! AccountName, string! ActiveDirectoryId, string! ResourceGroup) -> void
+ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.BackupOperators.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.Deconstruct(out string! AccountName, out string! ActiveDirectoryId, out string! ResourceGroup) -> void
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.Domain.get -> string?
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.ForceString.get -> bool?
@@ -40240,6 +40376,7 @@ ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.Remove.get ->
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.Remove.set -> void
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.SecurityOperators.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.ServerRootCaCert.get -> bool?
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.ServerRootCaCert.set -> void
 ModularPipelines.Azure.Options.AzNetappfilesAccountAdUpdateOptions.Set.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -53481,7 +53618,7 @@ ModularPipelines.Azure.Options.AzNetworkWatcherRunConfigurationDiagnosticOptions
 ModularPipelines.Azure.Options.AzNetworkWatcherRunConfigurationDiagnosticOptions.Port.set -> void
 ModularPipelines.Azure.Options.AzNetworkWatcherRunConfigurationDiagnosticOptions.Protocol.get -> string?
 ModularPipelines.Azure.Options.AzNetworkWatcherRunConfigurationDiagnosticOptions.Protocol.set -> void
-ModularPipelines.Azure.Options.AzNetworkWatcherRunConfigurationDiagnosticOptions.Queries.get -> bool?
+ModularPipelines.Azure.Options.AzNetworkWatcherRunConfigurationDiagnosticOptions.Queries.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzNetworkWatcherRunConfigurationDiagnosticOptions.Queries.set -> void
 ModularPipelines.Azure.Options.AzNetworkWatcherRunConfigurationDiagnosticOptions.Resource.get -> string!
 ModularPipelines.Azure.Options.AzNetworkWatcherRunConfigurationDiagnosticOptions.Resource.init -> void
@@ -54392,10 +54529,10 @@ ModularPipelines.Azure.Options.AzPostgresFlexibleServerBackupShowOptions.Resourc
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerBackupShowOptions.ResourceGroup.set -> void
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerBackupShowOptions.ServerName.get -> string?
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerBackupShowOptions.ServerName.set -> void
-ModularPipelines.Azure.Options.AzPostgresFlexibleServerCreateOptions.AdminPassword.get -> bool?
+ModularPipelines.Azure.Options.AzPostgresFlexibleServerCreateOptions.AdminPassword.get -> string?
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerCreateOptions.AdminPassword.set -> void
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerCreateOptions.AdminType.get -> string?
-ModularPipelines.Azure.Options.AzPostgresFlexibleServerCreateOptions.AdminUser.get -> bool?
+ModularPipelines.Azure.Options.AzPostgresFlexibleServerCreateOptions.AdminUser.get -> string?
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerCreateOptions.AdminUser.set -> void
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerCreateOptions.BackupIdentity.get -> string?
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerCreateOptions.BackupKey.get -> string?
@@ -54578,6 +54715,7 @@ ModularPipelines.Azure.Options.AzPostgresFlexibleServerGeoRestoreOptions.Name.ge
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerGeoRestoreOptions.Name.set -> void
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerGeoRestoreOptions.ResourceGroup.get -> string?
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerGeoRestoreOptions.ResourceGroup.set -> void
+ModularPipelines.Azure.Options.AzPostgresFlexibleServerGeoRestoreOptions.RestoreTime.get -> string?
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerGeoRestoreOptions.SourceServer.get -> string!
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerGeoRestoreOptions.SourceServer.init -> void
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerGeoRestoreOptions.Subnet.get -> string?
@@ -54957,6 +55095,7 @@ ModularPipelines.Azure.Options.AzPostgresFlexibleServerRestoreOptions.Name.get -
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerRestoreOptions.Name.set -> void
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerRestoreOptions.ResourceGroup.get -> string?
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerRestoreOptions.ResourceGroup.set -> void
+ModularPipelines.Azure.Options.AzPostgresFlexibleServerRestoreOptions.RestoreTime.get -> string?
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerRestoreOptions.SourceServer.get -> string!
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerRestoreOptions.SourceServer.init -> void
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerRestoreOptions.StorageType.get -> string?
@@ -55000,9 +55139,9 @@ ModularPipelines.Azure.Options.AzPostgresFlexibleServerServerLogsListOptions.Res
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerServerLogsListOptions.ResourceGroup.set -> void
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerServerLogsListOptions.ServerName.get -> string?
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerServerLogsListOptions.ServerName.set -> void
-ModularPipelines.Azure.Options.AzPostgresFlexibleServerShowConnectionStringOptions.AdminPassword.get -> bool?
+ModularPipelines.Azure.Options.AzPostgresFlexibleServerShowConnectionStringOptions.AdminPassword.get -> string?
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerShowConnectionStringOptions.AdminPassword.set -> void
-ModularPipelines.Azure.Options.AzPostgresFlexibleServerShowConnectionStringOptions.AdminUser.get -> bool?
+ModularPipelines.Azure.Options.AzPostgresFlexibleServerShowConnectionStringOptions.AdminUser.get -> string?
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerShowConnectionStringOptions.AdminUser.set -> void
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerShowConnectionStringOptions.DatabaseName.get -> string?
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerShowConnectionStringOptions.DatabaseName.set -> void
@@ -55033,7 +55172,7 @@ ModularPipelines.Azure.Options.AzPostgresFlexibleServerStopOptions.ResourceGroup
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerStopOptions.ResourceGroup.set -> void
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerUpdateOptions.Add.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerUpdateOptions.Add.set -> void
-ModularPipelines.Azure.Options.AzPostgresFlexibleServerUpdateOptions.AdminPassword.get -> bool?
+ModularPipelines.Azure.Options.AzPostgresFlexibleServerUpdateOptions.AdminPassword.get -> string?
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerUpdateOptions.AdminPassword.set -> void
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerUpdateOptions.BackupIdentity.get -> string?
 ModularPipelines.Azure.Options.AzPostgresFlexibleServerUpdateOptions.BackupKey.get -> string?
@@ -59157,6 +59296,7 @@ ModularPipelines.Azure.Options.AzSfApplicationCertificateAddOptions.CertOutFolde
 ModularPipelines.Azure.Options.AzSfApplicationCertificateAddOptions.CertOutFolder.set -> void
 ModularPipelines.Azure.Options.AzSfApplicationCertificateAddOptions.CertSubjectName.get -> bool?
 ModularPipelines.Azure.Options.AzSfApplicationCertificateAddOptions.CertSubjectName.set -> void
+ModularPipelines.Azure.Options.AzSfApplicationCertificateAddOptions.CertificatePassword.get -> string?
 ModularPipelines.Azure.Options.AzSfApplicationCertificateAddOptions.ClusterName.get -> string!
 ModularPipelines.Azure.Options.AzSfApplicationCertificateAddOptions.ClusterName.init -> void
 ModularPipelines.Azure.Options.AzSfApplicationCertificateAddOptions.Deconstruct(out string! ClusterName, out string! ResourceGroup) -> void
@@ -59321,6 +59461,7 @@ ModularPipelines.Azure.Options.AzSfClusterCreateOptions.CertOutFolder.get -> boo
 ModularPipelines.Azure.Options.AzSfClusterCreateOptions.CertOutFolder.set -> void
 ModularPipelines.Azure.Options.AzSfClusterCreateOptions.CertSubjectName.get -> bool?
 ModularPipelines.Azure.Options.AzSfClusterCreateOptions.CertSubjectName.set -> void
+ModularPipelines.Azure.Options.AzSfClusterCreateOptions.CertificatePassword.get -> string?
 ModularPipelines.Azure.Options.AzSfClusterCreateOptions.Deconstruct(out string! ResourceGroup) -> void
 ModularPipelines.Azure.Options.AzSfClusterCreateOptions.Location.get -> string?
 ModularPipelines.Azure.Options.AzSfClusterCreateOptions.Os.get -> string?
@@ -59330,6 +59471,7 @@ ModularPipelines.Azure.Options.AzSfClusterCreateOptions.ResourceGroup.get -> str
 ModularPipelines.Azure.Options.AzSfClusterCreateOptions.ResourceGroup.init -> void
 ModularPipelines.Azure.Options.AzSfClusterCreateOptions.TemplateFile.get -> string?
 ModularPipelines.Azure.Options.AzSfClusterCreateOptions.VaultRg.get -> string?
+ModularPipelines.Azure.Options.AzSfClusterCreateOptions.VmPassword.get -> string?
 ModularPipelines.Azure.Options.AzSfClusterDurabilityUpdateOptions
 ModularPipelines.Azure.Options.AzSfClusterDurabilityUpdateOptions.AzSfClusterDurabilityUpdateOptions(ModularPipelines.Azure.Options.AzSfClusterDurabilityUpdateOptions! original) -> void
 ModularPipelines.Azure.Options.AzSfClusterDurabilityUpdateOptions.AzSfClusterDurabilityUpdateOptions(string! ClusterName, string! DurabilityLevel, string! NodeType, string! ResourceGroup) -> void
@@ -60688,7 +60830,7 @@ ModularPipelines.Azure.Options.AzSigInVmAccessControlProfileWaitOptions.Timeout.
 ModularPipelines.Azure.Options.AzSigInVmAccessControlProfileWaitOptions.Updated.get -> bool?
 ModularPipelines.Azure.Options.AzSigInVmAccessControlProfileWaitOptions.Updated.set -> void
 ModularPipelines.Azure.Options.AzSigListCommunityOptions.Location.get -> string?
-ModularPipelines.Azure.Options.AzSigListCommunityOptions.Marker.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzSigListCommunityOptions.Marker.get -> string?
 ModularPipelines.Azure.Options.AzSigListOptions.MaxItems.get -> bool?
 ModularPipelines.Azure.Options.AzSigListOptions.MaxItems.set -> void
 ModularPipelines.Azure.Options.AzSigListOptions.NextToken.get -> bool?
@@ -61099,7 +61241,7 @@ ModularPipelines.Azure.Options.AzSignalrNetworkRuleListOptions.Name.init -> void
 ModularPipelines.Azure.Options.AzSignalrNetworkRuleListOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzSignalrNetworkRuleListOptions.ResourceGroup.init -> void
 ModularPipelines.Azure.Options.AzSignalrNetworkRuleUpdateOptions.Allow.get -> System.Collections.Generic.IEnumerable<string!>?
-ModularPipelines.Azure.Options.AzSignalrNetworkRuleUpdateOptions.ConnectionName.get -> bool?
+ModularPipelines.Azure.Options.AzSignalrNetworkRuleUpdateOptions.ConnectionName.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzSignalrNetworkRuleUpdateOptions.ConnectionName.set -> void
 ModularPipelines.Azure.Options.AzSignalrNetworkRuleUpdateOptions.Deny.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzSignalrNetworkRuleUpdateOptions.Ids.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -62131,7 +62273,7 @@ ModularPipelines.Azure.Options.AzSqlDbRestoreOptions.Server.set -> void
 ModularPipelines.Azure.Options.AzSqlDbRestoreOptions.ServiceLevelObjective.get -> bool?
 ModularPipelines.Azure.Options.AzSqlDbRestoreOptions.ServiceLevelObjective.set -> void
 ModularPipelines.Azure.Options.AzSqlDbRestoreOptions.Tags.get -> System.Collections.Generic.IEnumerable<string!>?
-ModularPipelines.Azure.Options.AzSqlDbRestoreOptions.Time.get -> bool?
+ModularPipelines.Azure.Options.AzSqlDbRestoreOptions.Time.get -> string?
 ModularPipelines.Azure.Options.AzSqlDbRestoreOptions.Time.set -> void
 ModularPipelines.Azure.Options.AzSqlDbRestoreOptions.Umi.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzSqlDbRestoreOptions.Umi.set -> void
@@ -62745,6 +62887,7 @@ ModularPipelines.Azure.Options.AzSqlMiAdvancedThreatProtectionSettingUpdateOptio
 ModularPipelines.Azure.Options.AzSqlMiAdvancedThreatProtectionSettingUpdateOptions.ResourceGroup.set -> void
 ModularPipelines.Azure.Options.AzSqlMiAdvancedThreatProtectionSettingUpdateOptions.Set.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzSqlMiAdvancedThreatProtectionSettingUpdateOptions.Set.set -> void
+ModularPipelines.Azure.Options.AzSqlMiCreateOptions.AdminUser.get -> string?
 ModularPipelines.Azure.Options.AzSqlMiCreateOptions.Am.get -> string?
 ModularPipelines.Azure.Options.AzSqlMiCreateOptions.Am.set -> void
 ModularPipelines.Azure.Options.AzSqlMiCreateOptions.AzSqlMiCreateOptions(string! Name, string! ResourceGroup, string! Subnet) -> void
@@ -63833,6 +63976,7 @@ ModularPipelines.Azure.Options.AzSqlServerConnPolicyUpdateOptions.ResourceGroup.
 ModularPipelines.Azure.Options.AzSqlServerConnPolicyUpdateOptions.ResourceGroup.set -> void
 ModularPipelines.Azure.Options.AzSqlServerConnPolicyUpdateOptions.Server.get -> string?
 ModularPipelines.Azure.Options.AzSqlServerConnPolicyUpdateOptions.Server.set -> void
+ModularPipelines.Azure.Options.AzSqlServerCreateOptions.AdminUser.get -> string?
 ModularPipelines.Azure.Options.AzSqlServerCreateOptions.AzSqlServerCreateOptions(string! Name, string! ResourceGroup) -> void
 ModularPipelines.Azure.Options.AzSqlServerCreateOptions.Deconstruct(out string! Name, out string! ResourceGroup) -> void
 ModularPipelines.Azure.Options.AzSqlServerCreateOptions.FederatedClientId.get -> bool?
@@ -64334,23 +64478,23 @@ ModularPipelines.Azure.Options.AzSqlVirtualClusterShowOptions.ResourceGroup.set 
 ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions
 ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.AzSqlVmAddToGroupOptions(ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions! original) -> void
 ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.AzSqlVmAddToGroupOptions(string! SqlvmGroup) -> void
-ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.BootstrapAccPwd.get -> bool?
+ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.BootstrapAccPwd.get -> string?
 ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.BootstrapAccPwd.set -> void
 ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.Deconstruct(out string! SqlvmGroup) -> void
 ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.Ids.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.Ids.set -> void
 ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.Name.get -> string?
 ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.Name.set -> void
-ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.OperatorAccPwd.get -> bool?
+ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.OperatorAccPwd.get -> string?
 ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.OperatorAccPwd.set -> void
 ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.ResourceGroup.get -> string?
 ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.ResourceGroup.set -> void
-ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.ServiceAccPwd.get -> bool?
+ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.ServiceAccPwd.get -> string?
 ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.ServiceAccPwd.set -> void
 ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.SqlvmGroup.get -> string!
 ModularPipelines.Azure.Options.AzSqlVmAddToGroupOptions.SqlvmGroup.init -> void
 ModularPipelines.Azure.Options.AzSqlVmCreateOptions.AzSqlVmCreateOptions(string! Name, string! ResourceGroup) -> void
-ModularPipelines.Azure.Options.AzSqlVmCreateOptions.BackupPwd.get -> bool?
+ModularPipelines.Azure.Options.AzSqlVmCreateOptions.BackupPwd.get -> string?
 ModularPipelines.Azure.Options.AzSqlVmCreateOptions.BackupPwd.set -> void
 ModularPipelines.Azure.Options.AzSqlVmCreateOptions.BackupScheduleType.get -> string?
 ModularPipelines.Azure.Options.AzSqlVmCreateOptions.BackupScheduleType.set -> void
@@ -64628,7 +64772,7 @@ ModularPipelines.Azure.Options.AzSqlVmUpdateOptions.AmTime.get -> bool?
 ModularPipelines.Azure.Options.AzSqlVmUpdateOptions.AmTime.set -> void
 ModularPipelines.Azure.Options.AzSqlVmUpdateOptions.AmWeekInt.get -> int?
 ModularPipelines.Azure.Options.AzSqlVmUpdateOptions.AmWeekInt.set -> void
-ModularPipelines.Azure.Options.AzSqlVmUpdateOptions.BackupPwd.get -> bool?
+ModularPipelines.Azure.Options.AzSqlVmUpdateOptions.BackupPwd.get -> string?
 ModularPipelines.Azure.Options.AzSqlVmUpdateOptions.BackupPwd.set -> void
 ModularPipelines.Azure.Options.AzSqlVmUpdateOptions.BackupScheduleType.get -> string?
 ModularPipelines.Azure.Options.AzSqlVmUpdateOptions.BackupScheduleType.set -> void
@@ -65722,7 +65866,7 @@ ModularPipelines.Azure.Options.AzStorageAccountEncryptionScopeListOptions.Accoun
 ModularPipelines.Azure.Options.AzStorageAccountEncryptionScopeListOptions.AzStorageAccountEncryptionScopeListOptions(string! AccountName) -> void
 ModularPipelines.Azure.Options.AzStorageAccountEncryptionScopeListOptions.Deconstruct(out string! AccountName) -> void
 ModularPipelines.Azure.Options.AzStorageAccountEncryptionScopeListOptions.Include.get -> string?
-ModularPipelines.Azure.Options.AzStorageAccountEncryptionScopeListOptions.Marker.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStorageAccountEncryptionScopeListOptions.Marker.get -> string?
 ModularPipelines.Azure.Options.AzStorageAccountEncryptionScopeListOptions.ResourceGroup.get -> string?
 ModularPipelines.Azure.Options.AzStorageAccountEncryptionScopeShowOptions.AccountName.get -> string!
 ModularPipelines.Azure.Options.AzStorageAccountEncryptionScopeShowOptions.AccountName.init -> void
@@ -65813,6 +65957,7 @@ ModularPipelines.Azure.Options.AzStorageAccountGenerateSasOptions.ResourceTypes.
 ModularPipelines.Azure.Options.AzStorageAccountGenerateSasOptions.ResourceTypes.init -> void
 ModularPipelines.Azure.Options.AzStorageAccountGenerateSasOptions.Services.get -> string!
 ModularPipelines.Azure.Options.AzStorageAccountGenerateSasOptions.Services.init -> void
+ModularPipelines.Azure.Options.AzStorageAccountGenerateSasOptions.Start.get -> string?
 ModularPipelines.Azure.Options.AzStorageAccountHnsMigrationStartOptions.AzStorageAccountHnsMigrationStartOptions(string! RequestType) -> void
 ModularPipelines.Azure.Options.AzStorageAccountHnsMigrationStartOptions.Deconstruct(out string! RequestType) -> void
 ModularPipelines.Azure.Options.AzStorageAccountHnsMigrationStartOptions.Ids.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -66313,11 +66458,11 @@ ModularPipelines.Azure.Options.AzStorageBlobCopyStartOptions.DestinationContaine
 ModularPipelines.Azure.Options.AzStorageBlobCopyStartOptions.DestinationContainer.init -> void
 ModularPipelines.Azure.Options.AzStorageBlobCopyStartOptions.DestinationIfMatch.get -> bool?
 ModularPipelines.Azure.Options.AzStorageBlobCopyStartOptions.DestinationIfMatch.set -> void
-ModularPipelines.Azure.Options.AzStorageBlobCopyStartOptions.DestinationIfModifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzStorageBlobCopyStartOptions.DestinationIfModifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzStorageBlobCopyStartOptions.DestinationIfModifiedSince.set -> void
 ModularPipelines.Azure.Options.AzStorageBlobCopyStartOptions.DestinationIfNoneMatch.get -> bool?
 ModularPipelines.Azure.Options.AzStorageBlobCopyStartOptions.DestinationIfNoneMatch.set -> void
-ModularPipelines.Azure.Options.AzStorageBlobCopyStartOptions.DestinationIfUnmodifiedSince.get -> bool?
+ModularPipelines.Azure.Options.AzStorageBlobCopyStartOptions.DestinationIfUnmodifiedSince.get -> string?
 ModularPipelines.Azure.Options.AzStorageBlobCopyStartOptions.DestinationIfUnmodifiedSince.set -> void
 ModularPipelines.Azure.Options.AzStorageBlobCopyStartOptions.DestinationTagsCondition.get -> bool?
 ModularPipelines.Azure.Options.AzStorageBlobCopyStartOptions.DestinationTagsCondition.set -> void
@@ -67629,6 +67774,7 @@ ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.BackupIntent.set 
 ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.ConnectionString.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.ConnectionString.set -> void
 ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.Deconstruct(out string! Path, out string! ShareName) -> void
+ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.Expiry.get -> string?
 ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.FileEndpoint.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.FileEndpoint.set -> void
 ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.Path.get -> string!
@@ -67637,6 +67783,7 @@ ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.Permissions.get -
 ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.PolicyName.get -> string?
 ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.ShareName.get -> string!
 ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.ShareName.init -> void
+ModularPipelines.Azure.Options.AzStorageFileGenerateSasOptions.Start.get -> string?
 ModularPipelines.Azure.Options.AzStorageFileHardLinkCreateOptions.AccountKey.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFileHardLinkCreateOptions.AccountKey.set -> void
 ModularPipelines.Azure.Options.AzStorageFileHardLinkCreateOptions.AccountName.get -> bool?
@@ -67671,7 +67818,7 @@ ModularPipelines.Azure.Options.AzStorageFileListOptions.ConnectionString.set -> 
 ModularPipelines.Azure.Options.AzStorageFileListOptions.Deconstruct(out string! ShareName) -> void
 ModularPipelines.Azure.Options.AzStorageFileListOptions.FileEndpoint.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFileListOptions.FileEndpoint.set -> void
-ModularPipelines.Azure.Options.AzStorageFileListOptions.Marker.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStorageFileListOptions.Marker.get -> string?
 ModularPipelines.Azure.Options.AzStorageFileListOptions.SasToken.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFileListOptions.SasToken.set -> void
 ModularPipelines.Azure.Options.AzStorageFileListOptions.ShareName.get -> string!
@@ -67900,15 +68047,15 @@ ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.AccountKe
 ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.AccountKey.set -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.AccountName.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.AccountName.set -> void
-ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.Acl.get -> System.Collections.Generic.IEnumerable<string!>!
+ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.Acl.get -> string!
 ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.Acl.init -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.AuthMode.get -> string?
-ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.AzStorageFsAccessRemoveRecursiveOptions(System.Collections.Generic.IEnumerable<string!>! Acl, string! FileSystem, string! Path) -> void
+ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.AzStorageFsAccessRemoveRecursiveOptions(string! Acl, string! FileSystem, string! Path) -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.BlobEndpoint.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.BlobEndpoint.set -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.ConnectionString.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.ConnectionString.set -> void
-ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Acl, out string! FileSystem, out string! Path) -> void
+ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.Deconstruct(out string! Acl, out string! FileSystem, out string! Path) -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.FileSystem.get -> string!
 ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.FileSystem.init -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessRemoveRecursiveOptions.Path.get -> string!
@@ -67936,15 +68083,15 @@ ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.AccountKey.g
 ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.AccountKey.set -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.AccountName.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.AccountName.set -> void
-ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.Acl.get -> System.Collections.Generic.IEnumerable<string!>!
+ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.Acl.get -> string!
 ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.Acl.init -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.AuthMode.get -> string?
-ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.AzStorageFsAccessSetRecursiveOptions(System.Collections.Generic.IEnumerable<string!>! Acl, string! FileSystem, string! Path) -> void
+ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.AzStorageFsAccessSetRecursiveOptions(string! Acl, string! FileSystem, string! Path) -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.BlobEndpoint.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.BlobEndpoint.set -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.ConnectionString.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.ConnectionString.set -> void
-ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Acl, out string! FileSystem, out string! Path) -> void
+ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.Deconstruct(out string! Acl, out string! FileSystem, out string! Path) -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.FileSystem.get -> string!
 ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.FileSystem.init -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessSetRecursiveOptions.Path.get -> string!
@@ -67972,15 +68119,15 @@ ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.AccountKe
 ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.AccountKey.set -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.AccountName.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.AccountName.set -> void
-ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.Acl.get -> System.Collections.Generic.IEnumerable<string!>!
+ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.Acl.get -> string!
 ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.Acl.init -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.AuthMode.get -> string?
-ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.AzStorageFsAccessUpdateRecursiveOptions(System.Collections.Generic.IEnumerable<string!>! Acl, string! FileSystem, string! Path) -> void
+ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.AzStorageFsAccessUpdateRecursiveOptions(string! Acl, string! FileSystem, string! Path) -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.BlobEndpoint.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.BlobEndpoint.set -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.ConnectionString.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.ConnectionString.set -> void
-ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Acl, out string! FileSystem, out string! Path) -> void
+ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.Deconstruct(out string! Acl, out string! FileSystem, out string! Path) -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.FileSystem.get -> string!
 ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.FileSystem.init -> void
 ModularPipelines.Azure.Options.AzStorageFsAccessUpdateRecursiveOptions.Path.get -> string!
@@ -68086,12 +68233,14 @@ ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.BlobEndpoi
 ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.ConnectionString.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.ConnectionString.set -> void
 ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.Deconstruct(out string! FileSystem, out string! Name) -> void
+ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.Expiry.get -> string?
 ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.FileSystem.get -> string!
 ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.FileSystem.init -> void
 ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.Name.get -> string!
 ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.Name.init -> void
 ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.Permissions.get -> string?
 ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.PolicyName.get -> string?
+ModularPipelines.Azure.Options.AzStorageFsDirectoryGenerateSasOptions.Start.get -> string?
 ModularPipelines.Azure.Options.AzStorageFsDirectoryListOptions.AccountKey.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFsDirectoryListOptions.AccountKey.set -> void
 ModularPipelines.Azure.Options.AzStorageFsDirectoryListOptions.AccountName.get -> bool?
@@ -68295,12 +68444,14 @@ ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.BlobEndpoint.se
 ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.ConnectionString.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.ConnectionString.set -> void
 ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.Deconstruct(out string! FileSystem, out string! Path) -> void
+ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.Expiry.get -> string?
 ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.FileSystem.get -> string!
 ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.FileSystem.init -> void
 ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.Path.get -> string!
 ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.Path.init -> void
 ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.Permissions.get -> string?
 ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.PolicyName.get -> string?
+ModularPipelines.Azure.Options.AzStorageFsFileGenerateSasOptions.Start.get -> string?
 ModularPipelines.Azure.Options.AzStorageFsFileListOptions.AccountKey.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFsFileListOptions.AccountKey.set -> void
 ModularPipelines.Azure.Options.AzStorageFsFileListOptions.AccountName.get -> bool?
@@ -68452,7 +68603,7 @@ ModularPipelines.Azure.Options.AzStorageFsListDeletedPathOptions.ConnectionStrin
 ModularPipelines.Azure.Options.AzStorageFsListDeletedPathOptions.Deconstruct(out string! FileSystem) -> void
 ModularPipelines.Azure.Options.AzStorageFsListDeletedPathOptions.FileSystem.get -> string!
 ModularPipelines.Azure.Options.AzStorageFsListDeletedPathOptions.FileSystem.init -> void
-ModularPipelines.Azure.Options.AzStorageFsListDeletedPathOptions.Marker.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStorageFsListDeletedPathOptions.Marker.get -> string?
 ModularPipelines.Azure.Options.AzStorageFsListDeletedPathOptions.SasToken.get -> bool?
 ModularPipelines.Azure.Options.AzStorageFsListDeletedPathOptions.SasToken.set -> void
 ModularPipelines.Azure.Options.AzStorageFsListOptions.AccountKey.get -> bool?
@@ -68720,12 +68871,14 @@ ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.BackupIntent.set
 ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.ConnectionString.get -> bool?
 ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.ConnectionString.set -> void
 ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.Deconstruct(out string! Name) -> void
+ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.Expiry.get -> string?
 ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.FileEndpoint.get -> bool?
 ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.FileEndpoint.set -> void
 ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.Name.get -> string!
 ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.Name.init -> void
 ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.Permissions.get -> string?
 ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.PolicyName.get -> string?
+ModularPipelines.Azure.Options.AzStorageShareGenerateSasOptions.Start.get -> string?
 ModularPipelines.Azure.Options.AzStorageShareListHandleOptions.AccountKey.get -> bool?
 ModularPipelines.Azure.Options.AzStorageShareListHandleOptions.AccountKey.set -> void
 ModularPipelines.Azure.Options.AzStorageShareListHandleOptions.AccountName.get -> bool?
@@ -69122,10 +69275,12 @@ ModularPipelines.Azure.Options.AzStorageTableGenerateSasOptions.AzStorageTableGe
 ModularPipelines.Azure.Options.AzStorageTableGenerateSasOptions.ConnectionString.get -> bool?
 ModularPipelines.Azure.Options.AzStorageTableGenerateSasOptions.ConnectionString.set -> void
 ModularPipelines.Azure.Options.AzStorageTableGenerateSasOptions.Deconstruct(out string! Name) -> void
+ModularPipelines.Azure.Options.AzStorageTableGenerateSasOptions.Expiry.get -> string?
 ModularPipelines.Azure.Options.AzStorageTableGenerateSasOptions.Name.get -> string!
 ModularPipelines.Azure.Options.AzStorageTableGenerateSasOptions.Name.init -> void
 ModularPipelines.Azure.Options.AzStorageTableGenerateSasOptions.Permissions.get -> string?
 ModularPipelines.Azure.Options.AzStorageTableGenerateSasOptions.PolicyName.get -> string?
+ModularPipelines.Azure.Options.AzStorageTableGenerateSasOptions.Start.get -> string?
 ModularPipelines.Azure.Options.AzStorageTableGenerateSasOptions.TableEndpoint.get -> bool?
 ModularPipelines.Azure.Options.AzStorageTableGenerateSasOptions.TableEndpoint.set -> void
 ModularPipelines.Azure.Options.AzStorageTableListOptions.AccountKey.get -> bool?
@@ -69135,7 +69290,7 @@ ModularPipelines.Azure.Options.AzStorageTableListOptions.AccountName.set -> void
 ModularPipelines.Azure.Options.AzStorageTableListOptions.AuthMode.get -> string?
 ModularPipelines.Azure.Options.AzStorageTableListOptions.ConnectionString.get -> bool?
 ModularPipelines.Azure.Options.AzStorageTableListOptions.ConnectionString.set -> void
-ModularPipelines.Azure.Options.AzStorageTableListOptions.Marker.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzStorageTableListOptions.Marker.get -> string?
 ModularPipelines.Azure.Options.AzStorageTableListOptions.SasToken.get -> bool?
 ModularPipelines.Azure.Options.AzStorageTableListOptions.SasToken.set -> void
 ModularPipelines.Azure.Options.AzStorageTableListOptions.TableEndpoint.get -> bool?
@@ -70854,7 +71009,7 @@ ModularPipelines.Azure.Options.AzSynapseSqlPoolRestoreOptions.ResourceGroup.set 
 ModularPipelines.Azure.Options.AzSynapseSqlPoolRestoreOptions.StorageType.get -> string?
 ModularPipelines.Azure.Options.AzSynapseSqlPoolRestoreOptions.StorageType.set -> void
 ModularPipelines.Azure.Options.AzSynapseSqlPoolRestoreOptions.Tags.get -> System.Collections.Generic.IEnumerable<string!>?
-ModularPipelines.Azure.Options.AzSynapseSqlPoolRestoreOptions.Time.get -> bool?
+ModularPipelines.Azure.Options.AzSynapseSqlPoolRestoreOptions.Time.get -> string?
 ModularPipelines.Azure.Options.AzSynapseSqlPoolRestoreOptions.Time.set -> void
 ModularPipelines.Azure.Options.AzSynapseSqlPoolRestoreOptions.WorkspaceName.get -> string?
 ModularPipelines.Azure.Options.AzSynapseSqlPoolRestoreOptions.WorkspaceName.set -> void
@@ -71824,9 +71979,9 @@ ModularPipelines.Azure.Options.AzVmCreateOptions.AddProxyAgentExt.get -> bool?
 ModularPipelines.Azure.Options.AzVmCreateOptions.AddProxyAgentExt.set -> void
 ModularPipelines.Azure.Options.AzVmCreateOptions.AdditionalEvents.get -> bool?
 ModularPipelines.Azure.Options.AzVmCreateOptions.AdditionalEvents.set -> void
-ModularPipelines.Azure.Options.AzVmCreateOptions.AdminPassword.get -> bool?
+ModularPipelines.Azure.Options.AzVmCreateOptions.AdminPassword.get -> string?
 ModularPipelines.Azure.Options.AzVmCreateOptions.AdminPassword.set -> void
-ModularPipelines.Azure.Options.AzVmCreateOptions.AdminUsername.get -> bool?
+ModularPipelines.Azure.Options.AzVmCreateOptions.AdminUsername.get -> string?
 ModularPipelines.Azure.Options.AzVmCreateOptions.AdminUsername.set -> void
 ModularPipelines.Azure.Options.AzVmCreateOptions.AlignRegionalDisks.get -> bool?
 ModularPipelines.Azure.Options.AzVmCreateOptions.AlignRegionalDisks.set -> void
@@ -72307,7 +72462,7 @@ ModularPipelines.Azure.Options.AzVmHostRestartOptions.Ids.get -> System.Collecti
 ModularPipelines.Azure.Options.AzVmHostRestartOptions.Ids.set -> void
 ModularPipelines.Azure.Options.AzVmHostRestartOptions.ResourceGroup.get -> string?
 ModularPipelines.Azure.Options.AzVmHostRestartOptions.ResourceGroup.set -> void
-ModularPipelines.Azure.Options.AzVmHostShowOptions.Expand.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzVmHostShowOptions.Expand.get -> string?
 ModularPipelines.Azure.Options.AzVmHostShowOptions.HostGroup.get -> string?
 ModularPipelines.Azure.Options.AzVmHostShowOptions.HostGroup.set -> void
 ModularPipelines.Azure.Options.AzVmHostShowOptions.HostName.get -> string?
@@ -72343,7 +72498,7 @@ ModularPipelines.Azure.Options.AzVmHostWaitOptions.Deleted.get -> bool?
 ModularPipelines.Azure.Options.AzVmHostWaitOptions.Deleted.set -> void
 ModularPipelines.Azure.Options.AzVmHostWaitOptions.Exists.get -> bool?
 ModularPipelines.Azure.Options.AzVmHostWaitOptions.Exists.set -> void
-ModularPipelines.Azure.Options.AzVmHostWaitOptions.Expand.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzVmHostWaitOptions.Expand.get -> string?
 ModularPipelines.Azure.Options.AzVmHostWaitOptions.HostGroup.get -> string?
 ModularPipelines.Azure.Options.AzVmHostWaitOptions.HostGroup.set -> void
 ModularPipelines.Azure.Options.AzVmHostWaitOptions.HostName.get -> string?
@@ -72549,7 +72704,7 @@ ModularPipelines.Azure.Options.AzVmRedeployOptions.Name.get -> string?
 ModularPipelines.Azure.Options.AzVmRedeployOptions.Name.set -> void
 ModularPipelines.Azure.Options.AzVmRedeployOptions.ResourceGroup.get -> string?
 ModularPipelines.Azure.Options.AzVmRedeployOptions.ResourceGroup.set -> void
-ModularPipelines.Azure.Options.AzVmReimageOptions.AdminPassword.get -> bool?
+ModularPipelines.Azure.Options.AzVmReimageOptions.AdminPassword.get -> string?
 ModularPipelines.Azure.Options.AzVmReimageOptions.AdminPassword.set -> void
 ModularPipelines.Azure.Options.AzVmReimageOptions.CustomData.get -> bool?
 ModularPipelines.Azure.Options.AzVmReimageOptions.CustomData.set -> void
@@ -72588,6 +72743,7 @@ ModularPipelines.Azure.Options.AzVmRunCommandCreateOptions.Parameters.get -> str
 ModularPipelines.Azure.Options.AzVmRunCommandCreateOptions.ProtectedParameters.get -> string?
 ModularPipelines.Azure.Options.AzVmRunCommandCreateOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzVmRunCommandCreateOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzVmRunCommandCreateOptions.RunAsPassword.get -> string?
 ModularPipelines.Azure.Options.AzVmRunCommandCreateOptions.Tags.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzVmRunCommandCreateOptions.TimeoutInSeconds.get -> int?
 ModularPipelines.Azure.Options.AzVmRunCommandCreateOptions.VmName.get -> string!
@@ -72636,6 +72792,7 @@ ModularPipelines.Azure.Options.AzVmRunCommandUpdateOptions.Parameters.get -> str
 ModularPipelines.Azure.Options.AzVmRunCommandUpdateOptions.ProtectedParameters.get -> string?
 ModularPipelines.Azure.Options.AzVmRunCommandUpdateOptions.ResourceGroup.get -> string?
 ModularPipelines.Azure.Options.AzVmRunCommandUpdateOptions.ResourceGroup.set -> void
+ModularPipelines.Azure.Options.AzVmRunCommandUpdateOptions.RunAsPassword.get -> string?
 ModularPipelines.Azure.Options.AzVmRunCommandUpdateOptions.Tags.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzVmRunCommandUpdateOptions.TimeoutInSeconds.get -> int?
 ModularPipelines.Azure.Options.AzVmRunCommandUpdateOptions.VmName.get -> string?
@@ -72874,9 +73031,9 @@ ModularPipelines.Azure.Options.AzVmssCreateOptions.AddProxyAgentExt.get -> bool?
 ModularPipelines.Azure.Options.AzVmssCreateOptions.AddProxyAgentExt.set -> void
 ModularPipelines.Azure.Options.AzVmssCreateOptions.AdditionalEvents.get -> bool?
 ModularPipelines.Azure.Options.AzVmssCreateOptions.AdditionalEvents.set -> void
-ModularPipelines.Azure.Options.AzVmssCreateOptions.AdminPassword.get -> bool?
+ModularPipelines.Azure.Options.AzVmssCreateOptions.AdminPassword.get -> string?
 ModularPipelines.Azure.Options.AzVmssCreateOptions.AdminPassword.set -> void
-ModularPipelines.Azure.Options.AzVmssCreateOptions.AdminUsername.get -> bool?
+ModularPipelines.Azure.Options.AzVmssCreateOptions.AdminUsername.get -> string?
 ModularPipelines.Azure.Options.AzVmssCreateOptions.AdminUsername.set -> void
 ModularPipelines.Azure.Options.AzVmssCreateOptions.AllInstanceDown.get -> bool?
 ModularPipelines.Azure.Options.AzVmssCreateOptions.AllInstanceDown.set -> void
@@ -72944,6 +73101,7 @@ ModularPipelines.Azure.Options.AzVmssCreateOptions.EphemeralOsDiskPlacement.set 
 ModularPipelines.Azure.Options.AzVmssCreateOptions.EvictionPolicy.get -> string?
 ModularPipelines.Azure.Options.AzVmssCreateOptions.ExcludeExtensions.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzVmssCreateOptions.ExcludeExtensions.set -> void
+ModularPipelines.Azure.Options.AzVmssCreateOptions.ExcludeZones.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzVmssCreateOptions.GenerateSshKeys.get -> bool?
 ModularPipelines.Azure.Options.AzVmssCreateOptions.GenerateSshKeys.set -> void
 ModularPipelines.Azure.Options.AzVmssCreateOptions.HostGroup.get -> string?
@@ -72951,6 +73109,7 @@ ModularPipelines.Azure.Options.AzVmssCreateOptions.Image.get -> string?
 ModularPipelines.Azure.Options.AzVmssCreateOptions.ImdsAccessControlProfileReferenceId.get -> string?
 ModularPipelines.Azure.Options.AzVmssCreateOptions.ImdsAccessControlProfileReferenceId.set -> void
 ModularPipelines.Azure.Options.AzVmssCreateOptions.ImdsMode.get -> string?
+ModularPipelines.Azure.Options.AzVmssCreateOptions.IncludeZones.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzVmssCreateOptions.InstancePercentPolicy.get -> bool?
 ModularPipelines.Azure.Options.AzVmssCreateOptions.InstancePercentPolicy.set -> void
 ModularPipelines.Azure.Options.AzVmssCreateOptions.IsOverridable.get -> bool?
@@ -73398,6 +73557,7 @@ ModularPipelines.Azure.Options.AzVmssRunCommandCreateOptions.Parameters.get -> s
 ModularPipelines.Azure.Options.AzVmssRunCommandCreateOptions.ProtectedParameters.get -> string?
 ModularPipelines.Azure.Options.AzVmssRunCommandCreateOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzVmssRunCommandCreateOptions.ResourceGroup.init -> void
+ModularPipelines.Azure.Options.AzVmssRunCommandCreateOptions.RunAsPassword.get -> string?
 ModularPipelines.Azure.Options.AzVmssRunCommandCreateOptions.Tags.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzVmssRunCommandCreateOptions.TimeoutInSeconds.get -> int?
 ModularPipelines.Azure.Options.AzVmssRunCommandCreateOptions.VmssName.get -> string!
@@ -73465,6 +73625,7 @@ ModularPipelines.Azure.Options.AzVmssRunCommandUpdateOptions.Parameters.get -> s
 ModularPipelines.Azure.Options.AzVmssRunCommandUpdateOptions.ProtectedParameters.get -> string?
 ModularPipelines.Azure.Options.AzVmssRunCommandUpdateOptions.ResourceGroup.get -> string?
 ModularPipelines.Azure.Options.AzVmssRunCommandUpdateOptions.ResourceGroup.set -> void
+ModularPipelines.Azure.Options.AzVmssRunCommandUpdateOptions.RunAsPassword.get -> string?
 ModularPipelines.Azure.Options.AzVmssRunCommandUpdateOptions.Tags.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzVmssRunCommandUpdateOptions.TimeoutInSeconds.get -> int?
 ModularPipelines.Azure.Options.AzVmssRunCommandUpdateOptions.VmssName.get -> string?
@@ -73599,6 +73760,7 @@ ModularPipelines.Azure.Options.AzVmssUpdateOptions.EphemeralOsDiskPlacement.get 
 ModularPipelines.Azure.Options.AzVmssUpdateOptions.EphemeralOsDiskPlacement.set -> void
 ModularPipelines.Azure.Options.AzVmssUpdateOptions.ExcludeExtensions.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzVmssUpdateOptions.ExcludeExtensions.set -> void
+ModularPipelines.Azure.Options.AzVmssUpdateOptions.ExcludeZones.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzVmssUpdateOptions.ForceString.get -> bool?
 ModularPipelines.Azure.Options.AzVmssUpdateOptions.ForceString.set -> void
 ModularPipelines.Azure.Options.AzVmssUpdateOptions.Ids.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -73606,6 +73768,7 @@ ModularPipelines.Azure.Options.AzVmssUpdateOptions.Ids.set -> void
 ModularPipelines.Azure.Options.AzVmssUpdateOptions.ImdsAccessControlProfileReferenceId.get -> string?
 ModularPipelines.Azure.Options.AzVmssUpdateOptions.ImdsAccessControlProfileReferenceId.set -> void
 ModularPipelines.Azure.Options.AzVmssUpdateOptions.ImdsMode.get -> string?
+ModularPipelines.Azure.Options.AzVmssUpdateOptions.IncludeZones.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Azure.Options.AzVmssUpdateOptions.InstanceId.get -> bool?
 ModularPipelines.Azure.Options.AzVmssUpdateOptions.InstanceId.set -> void
 ModularPipelines.Azure.Options.AzVmssUpdateOptions.InstancePercentPolicy.get -> bool?
@@ -75393,6 +75556,7 @@ ModularPipelines.Azure.Options.AzWebappDeploymentSourceSyncOptions.ResourceGroup
 ModularPipelines.Azure.Options.AzWebappDeploymentSourceSyncOptions.Slot.get -> string?
 ModularPipelines.Azure.Options.AzWebappDeploymentUserSetOptions.AzWebappDeploymentUserSetOptions(string! UserName) -> void
 ModularPipelines.Azure.Options.AzWebappDeploymentUserSetOptions.Deconstruct(out string! UserName) -> void
+ModularPipelines.Azure.Options.AzWebappDeploymentUserSetOptions.Password.get -> string?
 ModularPipelines.Azure.Options.AzWebappDeploymentUserSetOptions.UserName.get -> string!
 ModularPipelines.Azure.Options.AzWebappDeploymentUserSetOptions.UserName.init -> void
 ModularPipelines.Azure.Options.AzWebappHybridConnectionAddOptions.AzWebappHybridConnectionAddOptions(string! HybridConnection, string! Name, string! Namespace, string! ResourceGroup) -> void
@@ -75536,11 +75700,13 @@ ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.ContainerName
 ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.Deconstruct(out string! Name, out string! ResourceGroup) -> void
 ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.Name.get -> string!
 ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.Name.init -> void
+ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.RegistryPassword.get -> string?
+ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.RegistryUsername.get -> string?
 ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.ResourceGroup.get -> string!
 ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.ResourceGroup.init -> void
 ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.Si.get -> bool?
 ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.Si.set -> void
-ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.SitecontainersSpecFile.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.SitecontainersSpecFile.get -> string?
 ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.SitecontainersSpecFile.set -> void
 ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.Slot.get -> string?
 ModularPipelines.Azure.Options.AzWebappSitecontainersCreateOptions.Ui.get -> bool?
@@ -75601,6 +75767,8 @@ ModularPipelines.Azure.Options.AzWebappSitecontainersUpdateOptions.Ids.get -> Sy
 ModularPipelines.Azure.Options.AzWebappSitecontainersUpdateOptions.Ids.set -> void
 ModularPipelines.Azure.Options.AzWebappSitecontainersUpdateOptions.Name.get -> string?
 ModularPipelines.Azure.Options.AzWebappSitecontainersUpdateOptions.Name.set -> void
+ModularPipelines.Azure.Options.AzWebappSitecontainersUpdateOptions.RegistryPassword.get -> string?
+ModularPipelines.Azure.Options.AzWebappSitecontainersUpdateOptions.RegistryUsername.get -> string?
 ModularPipelines.Azure.Options.AzWebappSitecontainersUpdateOptions.ResourceGroup.get -> string?
 ModularPipelines.Azure.Options.AzWebappSitecontainersUpdateOptions.ResourceGroup.set -> void
 ModularPipelines.Azure.Options.AzWebappSitecontainersUpdateOptions.Si.get -> bool?

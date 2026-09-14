@@ -28,8 +28,8 @@ public record AzAksUpdateOptions(
     /// <summary>
     /// Comma-separated list of aad group object IDs that will be set as cluster admin.
     /// </summary>
-    [CliFlag("--aad-admin-group-object-ids")]
-    public bool? AadAdminGroupObjectIds { get; set; }
+    [CliOption("--aad-admin-group-object-ids", GroupValues = true)]
+    public IEnumerable<string>? AadAdminGroupObjectIds { get; set; }
 
     /// <summary>
     /// The ID of an Azure Active Directory tenant.
@@ -64,8 +64,8 @@ public record AzAksUpdateOptions(
     /// <summary>
     /// Comma-separated list of authorized apiserver IP ranges. Set to "" to allow all traffic on a previously restricted cluster. Set to 0.0.0.0/32 to restrict apiserver traffic to node pools.
     /// </summary>
-    [CliFlag("--api-server-authorized-ip-ranges")]
-    public bool? ApiServerAuthorizedIpRanges { get; set; }
+    [CliOption("--api-server-authorized-ip-ranges", GroupValues = true)]
+    public IEnumerable<string>? ApiServerAuthorizedIpRanges { get; set; }
 
     /// <summary>
     /// The ID of a subnet in an existing VNet into which to assign control plane apiserver pods(requires --enable-apiserver-vnet-integration).
@@ -676,8 +676,8 @@ public record AzAksUpdateOptions(
     /// <summary>
     /// A comma-separated list of IP versions to use for cluster networking. Each IP version should be in the format IPvN. For example, IPv4.
     /// </summary>
-    [CliFlag("--ip-families")]
-    public bool? IpFamilies { get; set; }
+    [CliOption("--ip-families", GroupValues = true)]
+    public IEnumerable<string>? IpFamilies { get; set; }
 
     /// <summary>
     /// Choose from "KubernetesOfficial" or "AKSLongTermSupport", with "AKSLongTermSupport" you get 1 extra year of CVE patchs.  Allowed values: AKSLongTermSupport, KubernetesOfficial.
@@ -688,14 +688,14 @@ public record AzAksUpdateOptions(
     /// <summary>
     /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e. g.'=namespaces=[k8s-label-1,k8s-label- n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
     /// </summary>
-    [CliFlag("--ksm-metric-annotations-allow-list")]
-    public bool? KsmMetricAnnotationsAllowList { get; set; }
+    [CliOption("--ksm-metric-annotations-allow-list", GroupValues = true)]
+    public IEnumerable<string>? KsmMetricAnnotationsAllowList { get; set; }
 
     /// <summary>
     /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g. '=namespaces=[k8s-label-1,k8s- label-n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
     /// </summary>
-    [CliFlag("--ksm-metric-labels-allow-list")]
-    public bool? KsmMetricLabelsAllowList { get; set; }
+    [CliOption("--ksm-metric-labels-allow-list", GroupValues = true)]
+    public IEnumerable<string>? KsmMetricLabelsAllowList { get; set; }
 
     /// <summary>
     /// Load balancer backend pool type.  Allowed values: nodeIP, nodeIPConfiguration. Define the LoadBalancer backend pool type of managed inbound backend pool. The nodeIP means the VMs will be attached to the LoadBalancer by adding its private IP address to the backend pool. The nodeIPConfiguration means the VMs will be attached to the LoadBalancer by referencing the backend pool ID in the VM's NIC.

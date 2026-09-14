@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -80,8 +81,9 @@ public record AzVmssRunCommandCreateOptions(
     /// <summary>
     /// Password if needed for using run-as-user parameter. It will be encrypted and not logged.
     /// </summary>
-    [CliFlag("--run-as-password")]
-    public bool? RunAsPassword { get; set; }
+    [SecretValue]
+    [CliOption("--run-as-password")]
+    public string? RunAsPassword { get; set; }
 
     /// <summary>
     /// By default script process runs under system/root user. Specify custom user to host the process.

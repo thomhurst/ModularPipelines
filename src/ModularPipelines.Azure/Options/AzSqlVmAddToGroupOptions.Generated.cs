@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -44,19 +45,22 @@ public record AzSqlVmAddToGroupOptions(
     /// <summary>
     /// Password for the cluster bootstrap account if provided in the SQL virtual machine group.
     /// </summary>
-    [CliFlag("--bootstrap-acc-pwd", ShortForm = "-b")]
-    public bool? BootstrapAccPwd { get; set; }
+    [SecretValue]
+    [CliOption("--bootstrap-acc-pwd", ShortForm = "-b")]
+    public string? BootstrapAccPwd { get; set; }
 
     /// <summary>
     /// Password for the cluster operator account provided in the SQL virtual machine group.
     /// </summary>
-    [CliFlag("--operator-acc-pwd", ShortForm = "-p")]
-    public bool? OperatorAccPwd { get; set; }
+    [SecretValue]
+    [CliOption("--operator-acc-pwd", ShortForm = "-p")]
+    public string? OperatorAccPwd { get; set; }
 
     /// <summary>
     /// Password for the SQL service account provided in the SQL virtual machine group.
     /// </summary>
-    [CliFlag("--service-acc-pwd", ShortForm = "-s")]
-    public bool? ServiceAccPwd { get; set; }
+    [SecretValue]
+    [CliOption("--service-acc-pwd", ShortForm = "-s")]
+    public string? ServiceAccPwd { get; set; }
 
 }

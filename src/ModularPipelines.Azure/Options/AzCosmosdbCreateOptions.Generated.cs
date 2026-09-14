@@ -256,8 +256,8 @@ public record AzCosmosdbCreateOptions(
     /// <summary>
     /// The timestamp to which the account has to be restored to. Required if --is-restore-request is set to true.
     /// </summary>
-    [CliFlag("--restore-timestamp")]
-    public bool? RestoreTimestamp { get; set; }
+    [CliOption("--restore-timestamp")]
+    public string? RestoreTimestamp { get; set; }
 
     /// <summary>
     /// Add table names to restore. Usage:          --tables-to-restore tables=table1 [table2 ...].
