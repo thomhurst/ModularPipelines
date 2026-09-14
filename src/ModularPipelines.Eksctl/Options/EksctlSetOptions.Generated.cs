@@ -12,6 +12,9 @@ using ModularPipelines.Eksctl.Options;
 
 namespace ModularPipelines.Eksctl.Options;
 
+/// <summary>
+/// Set values
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("set")]

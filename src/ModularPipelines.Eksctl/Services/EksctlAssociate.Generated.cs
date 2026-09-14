@@ -44,7 +44,7 @@ public class EksctlAssociate : IEksctlAssociate
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlAssociateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlAssociateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class EksctlAssociate : IEksctlAssociate
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlAssociateIdentityproviderOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlAssociateIdentityproviderOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
