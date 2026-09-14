@@ -27,6 +27,9 @@ public class ContinuationLineTests
     [Arguments("  --env VALUE   Combine with --config; may be specified multiple times")]
     [Arguments("  --env VALUE   Combine with\n                --config values; may be specified multiple times")]
     [Arguments("  --env VALUE   Combine with:\n                --config\n                Values may be specified multiple times")]
+    [Arguments("  --env VALUE   --config may be specified multiple times")]
+    [Arguments("  --env  VALUE   --config may be specified multiple times")]
+    [Arguments("  --env VALUE\t--config may be specified multiple times")]
     public async Task Switch_References_Do_Not_Declare_The_Referenced_Option_Repeatable(string declaration)
     {
         var helpText = "  --config VALUE   Select one configuration\n" + declaration;
@@ -278,6 +281,10 @@ public class ContinuationLineTests
     [Arguments("  --input  Filename   Read input", "Read")]
     [Arguments("  --host  Hostname   Select host", "Select")]
     [Arguments("  --mode  Enum   Select mode", "Select")]
+    [Arguments("  --env VALUE   --config may be specified multiple times", "--config")]
+    [Arguments("  --env  VALUE   --config may be specified multiple times", "--config")]
+    [Arguments("  --env VALUE\t--config may be specified multiple times", "--config")]
+    [Arguments("  --env  -e VALUE   Set environment variables", "Set")]
     public async Task Inline_Description_Column_Skips_Switches_And_Value_Hints(string line, string descriptionStart)
     {
         var expected = CliScraperBase.GetColumn(line, line.IndexOf(descriptionStart, StringComparison.Ordinal));
