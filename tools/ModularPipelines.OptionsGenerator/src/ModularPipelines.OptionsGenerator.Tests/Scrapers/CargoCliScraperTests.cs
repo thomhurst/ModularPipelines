@@ -11,6 +11,27 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class CargoCliScraperTests
 {
     [Test]
+    [Arguments("--custom <VALUE>", "The authentication token value.", true)]
+    [Arguments("--custom <VALUE>", "Select the output format.", false)]
+    [Arguments("--custom", "Show the authentication token value.", false)]
+    [Arguments("--custom <VALUE>", "The path to the authentication token value.", false)]
+    public async Task Secret_Descriptions_Are_Recognized_Without_A_Type_Enhancer(string declaration, string description, bool expectedSecret)
+    {
+        var help = $"Usage: cargo example [OPTIONS]\n\nOptions:\n  {declaration}  {description}\n";
+        var command = (await new TestCargoCliScraper().Parse(["cargo", "example"], help))!;
+        await Assert.That(command.Options.Single().IsSecret).IsEqualTo(expectedSecret);
+        var generated = await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "cargo",
+            NamespacePrefix = "Cargo",
+            TargetNamespace = "ModularPipelines.Test",
+            OutputDirectory = "src/ModularPipelines.Test",
+            Commands = [command],
+        });
+        await Assert.That(generated.Single().Content.Contains("[SecretValue]")).IsEqualTo(expectedSecret);
+    }
+
+    [Test]
     [Arguments("--quiet")]
     [Arguments("--verbose...")]
     [Arguments("--custom <VALUE>...")]

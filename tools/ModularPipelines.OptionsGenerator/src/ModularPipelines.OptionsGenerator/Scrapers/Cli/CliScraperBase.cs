@@ -1871,7 +1871,7 @@ public abstract partial class CliScraperBase : ICliScraper
             IsNumeric = isFlag && acceptsMultipleValues,
             ValueSeparator = attachedOptionalValue ? "=" : " ",
             EnumDefinition = enumDefinition,
-            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag, block.Description)
         };
     }
 
