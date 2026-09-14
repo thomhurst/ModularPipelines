@@ -5,7 +5,8 @@ namespace ModularPipelines.Azure.UnitTests;
 
 public class AzureCollectionContractTests
 {
-    private static readonly string[] value = new[] { "alice", "bob" };
+    private static readonly string[] UserNames = ["alice", "bob"];
+    private static readonly string[] ScopeNames = ["ClientConnection", "ServerConnection"];
 
     [Test]
     [Arguments("Administrators", "--administrators")]
@@ -16,9 +17,26 @@ public class AzureCollectionContractTests
         var options = new AzNetappfilesAccountAdAddOptions("account", "group");
         var property = options.GetType().GetProperty(propertyName)!;
         await Assert.That(property.PropertyType).IsEqualTo(typeof(IEnumerable<string>));
-        property.SetValue(options, value);
+        property.SetValue(options, UserNames);
 
         await AssertArguments(BuildArguments(options),
             ["--account-name", "account", "--resource-group", "group", switchName, "alice", "bob"]);
+    }
+
+    [Test]
+    [Arguments(typeof(AzSignalrNetworkRuleUpdateOptions), "Allow", "--allow")]
+    [Arguments(typeof(AzSignalrNetworkRuleUpdateOptions), "Deny", "--deny")]
+    [Arguments(typeof(AzSignalrNetworkRuleUpdateOptions), "ConnectionName", "--connection-name")]
+    [Arguments(typeof(AzContainerappAuthGoogleUpdateOptions), "AllowedAudiences", "--allowed-audiences")]
+    [Arguments(typeof(AzContainerappAuthMicrosoftUpdateOptions), "AllowedAudiences", "--allowed-audiences")]
+    public async Task Qualified_Lists_Render_As_Grouped_Values(Type optionsType, string propertyName, string switchName)
+    {
+        var options = Activator.CreateInstance(optionsType)!;
+        var property = optionsType.GetProperty(propertyName)!;
+        var values = switchName is "--allow" or "--deny" ? ScopeNames : UserNames;
+        await Assert.That(property.PropertyType).IsEqualTo(typeof(IEnumerable<string>));
+        property.SetValue(options, values);
+
+        await AssertArguments(BuildArguments(options), [switchName, .. values]);
     }
 }

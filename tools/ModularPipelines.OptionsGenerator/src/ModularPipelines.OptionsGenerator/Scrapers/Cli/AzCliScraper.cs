@@ -554,7 +554,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
 
     // Input definitions may follow an introductory sentence. References to a list
     // exposed elsewhere still describe available choices, not multiple input values.
-    [GeneratedRegex(@"(?:^|(?<=[.!?])\s+)(?:(?:specify|specifies|accepts?|provide|provides|set|sets)\s+)?(?:(?:a|an|the)\s+)?(?:(?:json|ordered|comma-separated|space-separated)\s+)?list\s+of\b(?![^.!?]*\b(?:is|are)\s+(?:available|documented|exposed|listed|published|shown)\b)", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"(?:^|(?<=[.!?])\s+)(?:(?:specify|specifies|accepts?|provide|provides|set|sets)\s+)?(?:(?:a|an|the)\s+)?(?:configuration\s+settings\s+of\s+(?:(?:a|an|the)\s+)?)?(?:(?:json|ordered|allowed|comma-separated|space-separ[ae]ted)\s+)?list\s+of\b(?![^.!?]*\b(?:is|are)\s+(?:available|documented|exposed|listed|published|shown)\b)", RegexOptions.IgnoreCase)]
     private static partial Regex AzListValueDescriptionPattern();
 
     /// <summary>

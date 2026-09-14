@@ -883,6 +883,10 @@ public class AzCliScraperTests
     [Arguments("Accepts a list of resource IDs.", true)]
     [Arguments("Resource tags. A list of key=value pairs.", true)]
     [Arguments("Resource selection. Specify the list of resource IDs.", true)]
+    [Arguments("Space-separeted list of private endpoint connection name.", true)]
+    [Arguments("The configuration settings of the allowed list of audiences from which to validate the JWT token.", true)]
+    [Arguments("The allowed list of audiences.", true)]
+    [Arguments("The allowed list of values is documented elsewhere.", false)]
     [Arguments("The time zone id for the instance to set. A list of time zone ids is exposed through the sys.time_zone_info (Transact-SQL) view.", false)]
     [Arguments("Name of the resource. See the list of allowed values.", false)]
     [Arguments("Username for the VM. Refer to the documentation for a full list of reserved values.", false)]
@@ -908,6 +912,23 @@ public class AzCliScraperTests
         await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
         await Assert.That(option.GroupValues).IsTrue();
         await Assert.That(option.AcceptsMultipleValues).IsTrue();
+    }
+
+    [Test]
+    [Arguments("signalr-network-rule-update-2.84.txt", "Allow")]
+    [Arguments("signalr-network-rule-update-2.84.txt", "Deny")]
+    [Arguments("signalr-network-rule-update-2.84.txt", "ConnectionName")]
+    [Arguments("containerapp-auth-google-update-2.84.txt", "AllowedAudiences")]
+    [Arguments("containerapp-auth-microsoft-update-2.84.txt", "AllowedAudiences")]
+    public async Task Captured_Help_Preserves_Qualified_List_Definitions(string fixture, string propertyName)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Azure", fixture));
+        var command = await new TestAzCliScraper().Parse(["az", "service", "update"], help);
+        var option = command!.Options.Single(option => option.PropertyName == propertyName);
+
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(option.GroupValues).IsTrue();
     }
 
     private sealed class TestAzCliScraper()
