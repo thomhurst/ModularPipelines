@@ -442,9 +442,15 @@ public class AwsCliScraperTests
             await Assert.That(autoscalingInterface.Content)
                 .Contains("SetInstanceProtectionAsync(AwsAutoscalingSetInstanceProtectionOptions options,");
             await Assert.That(sendMessageContent)
-                .Contains("public record AwsSqsSendMessageOptions(\n"
-                          + "    [property: CliOption(\"--queue-url\")] string QueueUrl,\n"
-                          + "    [property: CliOption(\"--message-body\")] string MessageBody\n)");
+                .Contains("public AwsSqsSendMessageOptions(\n"
+                          + "        string QueueUrl,\n"
+                          + "        string MessageBody\n    )");
+            await Assert.That(sendMessageContent).Contains("ArgumentNullException.ThrowIfNull(QueueUrl)");
+            await Assert.That(sendMessageContent).Contains("ArgumentNullException.ThrowIfNull(MessageBody)");
+            await Assert.That(sendMessageContent)
+                .Contains("[CliOption(\"--queue-url\")]\n    public string QueueUrl { get; private init; }");
+            await Assert.That(sendMessageContent)
+                .Contains("[CliOption(\"--message-body\")]\n    public string MessageBody { get; private init; }");
             await Assert.That(sqsInterface.Content)
                 .Contains("SendMessageAsync(AwsSqsSendMessageOptions options,");
         }

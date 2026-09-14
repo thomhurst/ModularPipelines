@@ -1156,7 +1156,7 @@ public class GeneratorHardeningTests
 
         await Assert.That(generated).Contains(
             $"using ModularPipelines.Secrets;{Environment.NewLine}using System.CodeDom.Compiler;");
-        await Assert.That(generated).Contains("[property: SecretValue, CliArgument(0");
+        await Assert.That(generated).Contains($"[SecretValue]{Environment.NewLine}    [CliArgument(0");
         await Assert.That(generated).Contains($"[SecretValue]{Environment.NewLine}    [CliArgument(1");
     }
 
@@ -1212,7 +1212,7 @@ public class GeneratorHardeningTests
             await Assert.That(normalized).Contains(
                 $"using ModularPipelines.Secrets;{Environment.NewLine}using System.CodeDom.Compiler;");
             await Assert.That(normalized).Contains(
-                "[property: SecretValue(\"token\"), CliOption(\"--token\")]");
+                $"[SecretValue(\"token\")]{Environment.NewLine}    [CliOption(\"--token\")]");
             await Assert.That(errors).IsEmpty();
         }
     }

@@ -1155,7 +1155,9 @@ public class UsageSynopsisParserTests
         var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
 
         await Assert.That(generated).Contains(
-            "[property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Source");
+            $"[CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]{Environment.NewLine}    public string Source {{ get; private init; }}");
+        await Assert.That(generated).Contains("public ToolUploadOptions(");
+        await Assert.That(generated).Contains("ArgumentNullException.ThrowIfNull(Source)");
         await Assert.That(generated).Contains(
             "[CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]");
         await Assert.That(generated).Contains(
@@ -1477,7 +1479,7 @@ public class UsageSynopsisParserTests
         {
         }
 
-        public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
+        public IReadOnlyList<string> Extract(string helpText) => [.. ExtractSubcommands(helpText)];
     }
 
     private sealed class CountingUsageScraper : CliScraperBase

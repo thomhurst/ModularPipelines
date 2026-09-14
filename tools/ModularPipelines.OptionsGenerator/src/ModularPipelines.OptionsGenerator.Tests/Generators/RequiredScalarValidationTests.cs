@@ -7,6 +7,45 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public partial class RequiredConstructorValidationTests
 {
     [Test]
+    public async Task Scalar_Only_Constructors_Validate_Required_References()
+    {
+        var scalar = new CliOptionDefinition
+        {
+            SwitchName = "--value",
+            PropertyName = "Value",
+            CSharpType = "string?",
+            IsRequired = true,
+        };
+        var assembly = Compile(
+            await GenerateScalar(scalar, "StringOptions"),
+            await GenerateScalar(scalar with { CSharpType = "PrivatePackage.Token?" }, "ReferenceOptions"),
+            await GenerateScalar(scalar with { CSharpType = "PrivatePackage.ValueToken?" }, "ValueOptions"));
+
+        foreach (var className in new[] { "StringOptions", "ReferenceOptions" })
+        {
+            var options = assembly.GetType($"ModularPipelines.Tool.Options.{className}")!;
+            var constructor = options.GetConstructors().Single();
+            var exception = await Assert.That(() => constructor.Invoke([null]))
+                .Throws<TargetInvocationException>();
+            await Assert.That(exception!.InnerException).IsTypeOf<ArgumentNullException>();
+
+            var supplied = className == "StringOptions"
+                ? "value"
+                : Activator.CreateInstance(assembly.GetType("PrivatePackage.Token")!)!;
+            var instance = constructor.Invoke([supplied]);
+            await Assert.That(options.GetProperty("Value")!.GetValue(instance)).IsEqualTo(supplied);
+            var outputs = new object?[1];
+            options.GetMethod("Deconstruct")!.Invoke(instance, outputs);
+            await Assert.That(outputs[0]).IsEqualTo(supplied);
+        }
+
+        var valueOptions = assembly.GetType("ModularPipelines.Tool.Options.ValueOptions")!;
+        var value = Activator.CreateInstance(assembly.GetType("PrivatePackage.ValueToken")!);
+        var valueInstance = valueOptions.GetConstructors().Single().Invoke([value]);
+        await Assert.That(valueOptions.GetProperty("Value")!.GetValue(valueInstance)).IsEqualTo(value);
+    }
+
+    [Test]
     public async Task Required_Negated_Flags_Preserve_Renderer_And_Deconstruction_Contracts()
     {
         var flag = new CliOptionDefinition

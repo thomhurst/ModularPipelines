@@ -53,10 +53,11 @@ public class OptionsClassGenerator : ICodeGenerator
         // optional can't produce two members (CS0102).
         var positionalArguments = CliPositionalArgument.MergeDuplicates(command.PositionalArguments);
         var supportsAlternateInputModes = SupportsAlternateInputModes(command, positionalArguments);
-        var requiresCollectionValidation = GeneratorUtils
+        var requiresValueValidation = GeneratorUtils
             .GetRequiredConstructorParameters(command, positionalArguments)
-            .Any(IsCollectionParameter);
-        var usesExplicitRequiredConstructor = supportsAlternateInputModes || requiresCollectionValidation
+            .Any(parameter => IsCollectionParameter(parameter)
+                              || CliOptionDefinition.MayBeReferenceType(parameter.CSharpType));
+        var usesExplicitRequiredConstructor = supportsAlternateInputModes || requiresValueValidation
             || command.RequiredOptions.Any(RequiresNullableFlagProperty);
         var existingPropertyNames = GenerateClassDeclaration(
             sb,
