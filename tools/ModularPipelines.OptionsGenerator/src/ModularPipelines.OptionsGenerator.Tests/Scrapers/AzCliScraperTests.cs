@@ -881,6 +881,9 @@ public class AzCliScraperTests
     [Arguments("A list of resource IDs.", true)]
     [Arguments("Specify the list of resource IDs.", true)]
     [Arguments("Accepts a list of resource IDs.", true)]
+    [Arguments("Resource tags. A list of key=value pairs.", true)]
+    [Arguments("Resource selection. Specify the list of resource IDs.", true)]
+    [Arguments("The time zone id for the instance to set. A list of time zone ids is exposed through the sys.time_zone_info (Transact-SQL) view.", false)]
     [Arguments("Name of the resource. See the list of allowed values.", false)]
     [Arguments("Username for the VM. Refer to the documentation for a full list of reserved values.", false)]
     public async Task List_Descriptions_Must_Describe_The_Accepted_Input(string description, bool isList)
@@ -891,6 +894,22 @@ public class AzCliScraperTests
         await Assert.That(option.CSharpType).IsEqualTo(isList ? "IEnumerable<string>?" : "string?");
         await Assert.That(option.GroupValues).IsEqualTo(isList);
     }
+
+    [Test]
+    [Arguments("Administrators")]
+    [Arguments("BackupOperators")]
+    [Arguments("SecurityOperators")]
+    public async Task Captured_Netapp_Help_Preserves_Lists_Defined_After_An_Introduction(string propertyName)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Azure", "netappfiles-account-ad-add-2.84.txt"));
+        var command = await new TestAzCliScraper().Parse(["az", "netappfiles", "account", "ad", "add"], help);
+        var option = command!.Options.Single(option => option.PropertyName == propertyName);
+
+        await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(option.GroupValues).IsTrue();
+        await Assert.That(option.AcceptsMultipleValues).IsTrue();
+    }
+
     private sealed class TestAzCliScraper()
         : AzCliScraper(
             new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
