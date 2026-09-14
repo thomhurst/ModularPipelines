@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.OptionsGenerator.Generators;
@@ -336,6 +337,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var requiredSynopsisOptions = GetRequiredSynopsisOptions(helpText);
         var className = GenerateClassName([ToolName, .. commandParts]);
 
         // Find OPTIONS section
@@ -364,6 +366,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
             var (longForm, negatedLongForm) = GetBooleanSwitchPair(
                 firstLongForm,
                 alternateLongForm);
+            negatedLongForm ??= FindWrappedNegatedSwitch(helpText, longForm);
 
             if (string.IsNullOrEmpty(longForm)
                 || seenOptions.Contains(longForm)
@@ -400,18 +403,38 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
                 ? Regex.Replace(descMatch.Groups[1].Value.Trim(), @"\s+", " ")
                 : null;
 
-            var isFlag = (!string.IsNullOrEmpty(negatedLongForm) || IsAwsBooleanType(typeHint))
+            var isBooleanValue = !string.IsNullOrEmpty(typeHint) && IsAwsBooleanType(typeHint);
+            var requiresExplicitBooleanValue = isBooleanValue
+                                               && string.IsNullOrEmpty(negatedLongForm)
+                                               && HelpDeclaresExplicitBooleanValue(description ?? string.Empty);
+            var isFlag = (!string.IsNullOrEmpty(negatedLongForm)
+                          || string.IsNullOrEmpty(typeHint)
+                          || (isBooleanValue && !requiresExplicitBooleanValue))
                          && !ValueOptionsWithoutTypeHints.Contains(longForm);
-            var isArray = typeHint.Contains("list") || typeHint.Contains("...") || (description?.Contains("multiple values") ?? false);
-            var isNumeric = IsNumericType(typeHint);
             var isStructure = typeHint.Contains("structure");
             var isKeyValue = !isStructure
                              && (typeHint.Contains("map") || (description?.Contains("key=value") ?? false));
+            var isArray = typeHint.Contains("list")
+                          || typeHint.Contains("...")
+                          || (!isStructure
+                              && !isKeyValue
+                              && !isFlag
+                              && !isBooleanValue
+                              && HelpDeclaresRepeatableOption(
+                                  helpText,
+                                  longForm,
+                                  description ?? string.Empty));
+            var isNumeric = IsNumericType(typeHint);
 
             var enumDef = isStructure || isKeyValue || isArray || isNumeric
                 ? null
                 : TryDetectEnum(propertyName, className, description, longForm);
-            var csharpType = DetermineCSharpType(isFlag, isArray, isKeyValue, isNumeric, enumDef);
+            var csharpType = DetermineCSharpType(
+                isFlag || isBooleanValue,
+                isArray,
+                isKeyValue,
+                isNumeric,
+                enumDef);
 
             options.Add(new CliOptionDefinition
             {
@@ -421,15 +444,17 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
                 CSharpType = csharpType,
                 Description = description,
                 IsFlag = isFlag,
-                IsRequired = false,
+                IsRequired = match.Groups["required"].Success
+                             || requiredSynopsisOptions.Contains(longForm),
                 AcceptsMultipleValues = isArray,
                 GroupValues = isArray && !isKeyValue,
                 CollectionSeparator = isKeyValue ? "," : null,
                 IsKeyValue = isKeyValue,
+                IsStructuredValue = isStructure || isKeyValue,
                 IsNumeric = isNumeric,
                 ValueSeparator = isFlag ? " " : " ",
                 EnumDefinition = enumDef,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag || isBooleanValue)
             });
         }
 
@@ -458,6 +483,109 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
     private static bool IsNegatedFormOf(string candidate, string positiveSwitch) =>
         candidate.StartsWith("--no-", StringComparison.OrdinalIgnoreCase)
         && candidate[5..].Equals(positiveSwitch[2..], StringComparison.OrdinalIgnoreCase);
+
+    private static string? FindWrappedNegatedSwitch(string helpText, string positiveSwitch)
+    {
+        if (!positiveSwitch.StartsWith("--", StringComparison.Ordinal)
+            || positiveSwitch.StartsWith("--no-", StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        var negatedSwitch = $"--no-{positiveSwitch[2..]}";
+        var wrappedPattern = Regex.Escape(negatedSwitch).Replace("-", @"-\s*");
+        return Regex.IsMatch(helpText, $@"\|\s+""?{wrappedPattern}(?=\s|""|\]|$)", RegexOptions.IgnoreCase)
+            ? negatedSwitch
+            : null;
+    }
+
+    private static HashSet<string> GetRequiredSynopsisOptions(string helpText)
+    {
+        var requiredOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var candidate in GetLogicalSynopsisLines(GetSynopsisLines(helpText)))
+        {
+            if (candidate.StartsWith('['))
+            {
+                continue;
+            }
+
+            var booleanAlternativeMatch = AwsRequiredBooleanAlternativePattern().Match(candidate);
+            if (booleanAlternativeMatch.Success)
+            {
+                var (positive, negative) = GetBooleanSwitchPair(
+                    booleanAlternativeMatch.Groups["first"].Value,
+                    booleanAlternativeMatch.Groups["second"].Value);
+                if (negative is not null)
+                {
+                    requiredOptions.Add(positive);
+                }
+
+                continue;
+            }
+
+            if (candidate.Contains('|'))
+            {
+                continue;
+            }
+
+            var optionMatch = AwsSynopsisOptionPattern().Match(candidate);
+            if (optionMatch.Success)
+            {
+                requiredOptions.Add(optionMatch.Groups["long"].Value);
+            }
+        }
+
+        return requiredOptions;
+    }
+
+    private static IEnumerable<string> GetLogicalSynopsisLines(IReadOnlyList<string> lines)
+    {
+        var logicalLine = new StringBuilder();
+        var optionalDepth = 0;
+
+        for (var index = 0; index < lines.Count; index++)
+        {
+            var line = lines[index];
+            // AWS can wrap inside a hyphenated switch name. Rejoin the token before
+            // interpreting alternatives, without joining the following option declaration.
+            while (index + 1 < lines.Count
+                   && AwsWrappedSynopsisSwitchPattern().IsMatch(line)
+                   && lines[index + 1].Length > 0
+                   && (char.IsLetterOrDigit(lines[index + 1][0]) || lines[index + 1][0] == '_'))
+            {
+                line += lines[++index];
+            }
+
+            if (logicalLine.Length > 0)
+            {
+                logicalLine.Append(' ');
+            }
+
+            logicalLine.Append(line);
+            foreach (var character in line)
+            {
+                if (character == '[')
+                {
+                    optionalDepth++;
+                }
+                else if (character == ']')
+                {
+                    optionalDepth--;
+                }
+            }
+
+            // Wrapped alternatives belong to one declaration. Preserve optional brackets
+            // and pipes on either side of a line break before assigning requiredness.
+            if (optionalDepth != 0 || line.EndsWith('|')
+                || (index + 1 < lines.Count && lines[index + 1].StartsWith('|')))
+            {
+                continue;
+            }
+
+            yield return logicalLine.ToString();
+            logicalLine.Clear();
+        }
+    }
 
     private static bool IsGlobalOption(string optionName)
     {
@@ -662,7 +790,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
     /// --option (type)
     /// --flag
     /// </summary>
-    [GeneratedRegex("""^\s{7}"?(?<long>--[\w-]+)"?(?:\s+\|\s+"?(?<alternate>--[\w-]+)"?)?(?:\s+\((?<type>[^)]+)\))?""", RegexOptions.Multiline)]
+    [GeneratedRegex("""^\s{7}"?(?<long>--[\w-]+)"?(?:\s+\|\s+"?(?<alternate>--[\w-]+)"?)?(?:\s+\((?<type>[^)]+)\))?(?:\s+\[(?<required>required)\])?""", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
     private static partial Regex AwsOptionPattern();
 
     [GeneratedRegex(
@@ -690,6 +818,20 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
 
     [GeneratedRegex(@"^OPTIONS\s*$", RegexOptions.Multiline)]
     private static partial Regex OptionsSectionPattern();
+
+    /// <summary>
+    /// Matches an unbracketed AWS option at the start of a synopsis line.
+    /// </summary>
+    [GeneratedRegex(@"^(?<long>--[\w-]+)(?:\s|$)")]
+    private static partial Regex AwsSynopsisOptionPattern();
+
+    [GeneratedRegex(@"--[\w-]*-$")]
+    private static partial Regex AwsWrappedSynopsisSwitchPattern();
+
+    [GeneratedRegex(
+        @"^(?<first>--[\w-]+)\s*\|\s*(?<second>--[\w-]+)$",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex AwsRequiredBooleanAlternativePattern();
 
     #endregion
 }

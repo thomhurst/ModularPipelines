@@ -622,7 +622,9 @@ public static partial class GeneratorUtils
     internal static void GenerateConstructorXmlDocumentation(
         StringBuilder sb,
         CliCommandDefinition command,
-        IReadOnlyList<RequiredConstructorParameter> parameters)
+        IReadOnlyList<RequiredConstructorParameter> parameters,
+        string indent = "",
+        bool includeParameters = true)
     {
         var description = command.Description;
         if (parameters.Count > 0 && string.IsNullOrWhiteSpace(description))
@@ -630,12 +632,17 @@ public static partial class GeneratorUtils
             description = $"Options for {command.FullCommand}.";
         }
 
-        GenerateXmlDocumentation(sb, description, "");
+        GenerateXmlDocumentation(sb, description, indent);
+        if (!includeParameters)
+        {
+            return;
+        }
+
         foreach (var parameter in parameters)
         {
             var parameterDescription = parameter.Option?.Description ?? parameter.PositionalArgument?.Description;
             var name = parameter.PropertyName.TrimStart('@');
-            sb.AppendLine($"/// <param name=\"{name}\">{EscapeXmlComment(parameterDescription)}</param>");
+            sb.AppendLine($"{indent}/// <param name=\"{name}\">{EscapeXmlComment(parameterDescription)}</param>");
         }
     }
 
