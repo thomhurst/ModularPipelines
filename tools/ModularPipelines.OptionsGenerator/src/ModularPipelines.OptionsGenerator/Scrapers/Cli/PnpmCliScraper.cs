@@ -1,3 +1,4 @@
+using System.Collections.Frozen;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
@@ -29,6 +30,9 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PnpmCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
+    private static readonly IReadOnlySet<string> PnpmIgnoredOptionSwitches =
+        new[] { "--help", "-h" }.ToFrozenSet(StringComparer.Ordinal);
+
     private static readonly string[] ExcludedChildCommands =
     [
         "pnpm audit signatures", "pnpm stage approve", "pnpm stage download",
@@ -42,6 +46,8 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
     public override string TargetNamespace => "ModularPipelines.Node";
 
     public override string OutputDirectory => "src/ModularPipelines.Node";
+
+    protected override IReadOnlySet<string> IgnoredOptionSwitches => PnpmIgnoredOptionSwitches;
 
     public override CliToolDefinition CreateToolDefinition() =>
         base.CreateToolDefinition() with
@@ -301,8 +307,7 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
                     AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow));
 
             var propertyName = NormalizePropertyName(switchName);
-            if (switchName is "--help" or "-h"
-                || propertyName is null
+            if (propertyName is null
                 || !seenOptions.Add(switchName))
             {
                 continue;

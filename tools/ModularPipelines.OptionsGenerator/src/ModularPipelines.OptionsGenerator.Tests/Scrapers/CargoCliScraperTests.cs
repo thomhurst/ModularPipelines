@@ -176,7 +176,7 @@ public class CargoCliScraperTests
         using (Assert.Multiple())
         {
             await Assert.That(command!.Options.Select(option => option.SwitchName))
-                .IsEquivalentTo(["--ignore-rust-version", "--keep-going", "--timings", "--help"]);
+                .IsEquivalentTo(["--ignore-rust-version", "--keep-going", "--timings"]);
             await Assert.That(GetOption(command, "--ignore-rust-version").Description)
                 .IsEqualTo("Ignore `rust-version` specification in packages");
             await Assert.That(GetOption(command, "--keep-going").Description)
@@ -239,7 +239,7 @@ public class CargoCliScraperTests
         {
             await Assert.That(command!.Options.Select(option => option.SwitchName))
                 .IsEquivalentTo([
-                    "--no-default-features", "--help", "--manifest-path",
+                    "--no-default-features", "--manifest-path",
                     "--path", "--git", "--branch", "--dev", "--target",
                 ]);
             await Assert.That(GetOption(command, "--path").Description)
@@ -257,11 +257,14 @@ public class CargoCliScraperTests
             new HelpTextCache(NullLogger<HelpTextCache>.Instance),
             NullLogger<CargoCliScraper>.Instance)
     {
-        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
-            ParseCommandAsync(
+        public async Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
+        {
+            var command = await ParseCommandAsync(
                 commandPath,
                 helpText,
                 UsageSynopsisParser.Parse(helpText, commandPath),
                 CancellationToken.None);
+            return command is null ? null : ApplyIgnoredOptionPolicy(command);
+        }
     }
 }

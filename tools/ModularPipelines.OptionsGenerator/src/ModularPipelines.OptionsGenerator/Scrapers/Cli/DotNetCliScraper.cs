@@ -1,3 +1,4 @@
+using System.Collections.Frozen;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
@@ -47,6 +48,9 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class DotNetCliScraper : CliScraperBase
 {
+    private static readonly IReadOnlySet<string> DotNetIgnoredOptionSwitches =
+        new[] { "--help", "-h" }.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
+
     public DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<DotNetCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -59,6 +63,8 @@ public partial class DotNetCliScraper : CliScraperBase
     public override string TargetNamespace => "ModularPipelines.DotNet";
 
     public override string OutputDirectory => "src/ModularPipelines.DotNet";
+
+    protected override IReadOnlySet<string> IgnoredOptionSwitches => DotNetIgnoredOptionSwitches;
 
 
     /// <summary>
@@ -611,7 +617,7 @@ public partial class DotNetCliScraper : CliScraperBase
     {
         var globalOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
-            "help", "h", "version", "diagnostics", "d"
+            "version", "diagnostics", "d"
         };
 
         return globalOptions.Contains(optionName);

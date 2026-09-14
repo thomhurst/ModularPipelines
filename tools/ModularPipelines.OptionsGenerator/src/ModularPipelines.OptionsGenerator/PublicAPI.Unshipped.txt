@@ -167,3 +167,7 @@ virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.GlobalOpti
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.PreserveCommandGroupPlaceholders.get -> bool
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.UsageSynopsisHeadings.get -> System.Collections.Generic.IReadOnlyList<string!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.PipCliScraper.GetAdditionalUsageSynopses(string![]! commandPath, string! helpText) -> System.Collections.Generic.IEnumerable<string!>!
+virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.IgnoredOptionSwitches.get -> System.Collections.Generic.IReadOnlySet<string!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.DotNetCliScraper.IgnoredOptionSwitches.get -> System.Collections.Generic.IReadOnlySet<string!>!
+ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ApplyIgnoredOptionPolicy(ModularPipelines.OptionsGenerator.Models.CliCommandDefinition! command) -> ModularPipelines.OptionsGenerator.Models.CliCommandDefinition!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.PnpmCliScraper.IgnoredOptionSwitches.get -> System.Collections.Generic.IReadOnlySet<string!>!
