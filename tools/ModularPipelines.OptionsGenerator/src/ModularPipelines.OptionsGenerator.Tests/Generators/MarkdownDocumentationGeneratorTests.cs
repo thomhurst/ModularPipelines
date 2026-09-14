@@ -419,7 +419,9 @@ public class MarkdownDocumentationGeneratorTests
     }
 
     [Test]
-    public async Task GenerateAsync_Documents_Supplemental_Global_Options()
+    [Arguments(true, "before")]
+    [Arguments(false, "after")]
+    public async Task GenerateAsync_Documents_Supplemental_Global_Options(bool beforeSubcommands, string position)
     {
         var tool = new CliToolDefinition
         {
@@ -428,6 +430,7 @@ public class MarkdownDocumentationGeneratorTests
             TargetNamespace = "ModularPipelines.Fake",
             OutputDirectory = "src/ModularPipelines.Fake",
             Commands = [Command("fake run", "FakeRunOptions", ["run"])],
+            GlobalOptionsBeforeSubcommands = beforeSubcommands,
             SupplementalGlobalOptions =
             [
                 new CliOptionDefinition
@@ -451,7 +454,7 @@ public class MarkdownDocumentationGeneratorTests
             .Contains("[`--license-key`](https://example.test/license)");
         await Assert.That(documentation[0].Content).Contains("`LicenseKey`");
         await Assert.That(documentation[0].Content).Contains("Secure edition");
-        await Assert.That(documentation[0].Content).Contains("rendered before the selected subcommand");
+        await Assert.That(documentation[0].Content).Contains($"rendered {position} the selected subcommand");
     }
 
     [Test]
@@ -549,7 +552,7 @@ public class MarkdownDocumentationGeneratorTests
     [Test]
     public async Task ValidateRegisteredTools_RejectsUnclassifiedCli()
     {
-        void ValidateCatalog() =>
+        static void ValidateCatalog() =>
             DocumentationExampleCatalog.ValidateRegisteredTools(["unclassified"]);
 
         await Assert.That(ValidateCatalog)
@@ -816,7 +819,7 @@ public class MarkdownDocumentationGeneratorTests
                 $"        public {property.CSharpType} {property.PropertyName} {{ get; set; }}"));
         var navigationSegments = GetNavigationSegments(tool, command);
         var methodName = navigationSegments[^1];
-        var serviceMembers = GenerateServiceMembers(
+        var (RootMember, NavigationTypes) = GenerateServiceMembers(
             tool,
             command,
             navigationSegments,
@@ -859,7 +862,7 @@ public class MarkdownDocumentationGeneratorTests
 
                 public interface I{{tool.NamespacePrefix}}Service
                 {
-            {{serviceMembers.RootMember}}
+            {{RootMember}}
                 }
 
                 public interface I{{tool.NamespacePrefix}}Tools
@@ -867,7 +870,7 @@ public class MarkdownDocumentationGeneratorTests
                     I{{tool.NamespacePrefix}}Service {{tool.NamespacePrefix}} { get; }
                 }
 
-            {{serviceMembers.NavigationTypes}}
+            {{NavigationTypes}}
 
                 public static class {{tool.NamespacePrefix}}Extensions
                 {
@@ -879,7 +882,7 @@ public class MarkdownDocumentationGeneratorTests
             """;
     }
 
-    private static IReadOnlyList<string> GetNavigationSegments(
+    private static string[] GetNavigationSegments(
         CliToolDefinition tool,
         CliCommandDefinition command)
     {
@@ -891,7 +894,7 @@ public class MarkdownDocumentationGeneratorTests
     private static (string RootMember, string NavigationTypes) GenerateServiceMembers(
         CliToolDefinition tool,
         CliCommandDefinition command,
-        IReadOnlyList<string> navigationSegments,
+        string[] navigationSegments,
         string methodName)
     {
         const string methodIndent = "                    ";
@@ -899,7 +902,7 @@ public class MarkdownDocumentationGeneratorTests
             $"{methodIndent}Task<CommandResult?> {methodName}(\n"
             + $"{methodIndent}    {command.ClassName} options,\n"
             + $"{methodIndent}    CancellationToken cancellationToken = default);";
-        if (navigationSegments.Count == 1)
+        if (navigationSegments.Length == 1)
         {
             return (methodDeclaration, string.Empty);
         }

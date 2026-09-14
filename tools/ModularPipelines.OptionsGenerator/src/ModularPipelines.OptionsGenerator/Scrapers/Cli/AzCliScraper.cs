@@ -51,13 +51,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///     --help -h             : Show this help message and exit.
 ///     ...
 /// </summary>
-public partial class AzCliScraper : CliScraperBase
+public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AzCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    public AzCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AzCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "az";
 
     public override string NamespacePrefix => "Az";
@@ -139,7 +134,7 @@ public partial class AzCliScraper : CliScraperBase
                 sectionEnd = nextSectionMatch.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
 
             // Parse command lines: "    command-name    : description"
             var lines = section.Split('\n');
@@ -293,7 +288,7 @@ public partial class AzCliScraper : CliScraperBase
         string[] lines,
         ref int lineIndex,
         string sectionName,
-        ISet<string> seenOptions)
+        HashSet<string> seenOptions)
     {
         var match = AzOptionPattern().Match(lines[lineIndex]);
         if (!match.Success)
@@ -384,6 +379,7 @@ public partial class AzCliScraper : CliScraperBase
     private static bool HelpDeclaresOptionValue(string switchName, string description) =>
         AzValueDescriptionPattern().IsMatch(description)
         || AzDescriptionOnlyValuePattern().IsMatch(description)
+        || AzCredentialOrDateTimeValuePattern().IsMatch(description)
         || DescriptionNamesValueOption(switchName, description)
         || AzDenySettingsModeDescriptionPattern().IsMatch(description)
         || AzEmbeddedValueDescriptionPattern().IsMatch(description)
@@ -588,6 +584,9 @@ public partial class AzCliScraper : CliScraperBase
 
     [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:(?:additional|build|cpu|fully-qualified|main|optional|relative|secret|spark)\s+)*(?:arguments?|class(?:\s+name)?|commands?|configuration|files?|identifier|(?:geo-)?location|path|platform|timeout)\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzDescriptionOnlyValuePattern();
+
+    [GeneratedRegex(@"^(?:(?:specify|specifies|set|sets)\s+)?(?:(?:a|an|the)\s+)?(?:(?:administrator|admin|database)\s+)?(?:username|password|(?:utc\s+)?(?:datetime|timestamp)|point\s+in\s+time)\b", RegexOptions.IgnoreCase)]
+    private static partial Regex AzCredentialOrDateTimeValuePattern();
 
     [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:maximum\s+|minimum\s+|total\s+)?(?:number|count|port|size|timeout)\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzNumericValueDescriptionPattern();

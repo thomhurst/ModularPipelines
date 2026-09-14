@@ -95,7 +95,8 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
 
         sb.AppendLine("## Global options");
         sb.AppendLine();
-        sb.AppendLine("Global options are rendered before the selected subcommand.");
+        var position = tool.GlobalOptionsBeforeSubcommands ? "before" : "after";
+        sb.AppendLine($"Global options are rendered {position} the selected subcommand.");
         sb.AppendLine();
         sb.AppendLine("| CLI option | Property | Availability | Description |");
         sb.AppendLine("| --- | --- | --- | --- |");
@@ -242,16 +243,10 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
             .FirstOrDefault(candidate => string.Equals(
                 candidate.FullCommand,
                 tool.PreferredDocumentationExampleCommand,
-                StringComparison.OrdinalIgnoreCase));
-
-        if (command is null)
-        {
-            throw new InvalidOperationException(
+                StringComparison.OrdinalIgnoreCase)) ?? throw new InvalidOperationException(
                 $"Preferred documentation example command "
                 + $"'{tool.PreferredDocumentationExampleCommand}' for '{tool.ToolName}' "
                 + "does not match an emitted command.");
-        }
-
         if (!command.IsSafeForDocumentation || command.IsInteractive || command.IsDestructive)
         {
             throw new InvalidOperationException(
@@ -280,14 +275,9 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
                     .FirstOrDefault(candidate => string.Equals(
                         candidate.FullCommand,
                         command.FullCommand,
-                        StringComparison.OrdinalIgnoreCase));
-                if (subDomainParent is null)
-                {
-                    throw new InvalidOperationException(
+                        StringComparison.OrdinalIgnoreCase)) ?? throw new InvalidOperationException(
                         $"Preferred documentation example command '{command.FullCommand}' for "
                         + $"'{tool.ToolName}' is not exposed as a service method.");
-                }
-
                 var subDomain = GeneratorUtils.GetCommandGroupIdentifier(subDomainParent);
                 return $"context.Tools.{tool.NamespacePrefix}.{subDomain}.ExecuteAsync";
             }
@@ -495,12 +485,11 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
             .Select(command => command.ClassName)
             .ToHashSet(StringComparer.Ordinal);
 
-        return tool.Commands
+        return [.. tool.Commands
             .Where(command =>
                 (command.SubDomainGroup is not null ||
                  exposedRootCommands.Contains(command.ClassName)))
-            .DistinctBy(command => command.ClassName)
-            .ToList();
+            .DistinctBy(command => command.ClassName)];
     }
 
     private static string EscapeTableCell(string value) => value.Replace("|", "\\|", StringComparison.Ordinal);

@@ -817,6 +817,39 @@ public class AzCliScraperTests
         }
     }
 
+    [Test]
+    [Arguments("mysql-flexible-server-create-2.84.txt", "AdminUser", false)]
+    [Arguments("mysql-flexible-server-create-2.84.txt", "AdminPassword", true)]
+    [Arguments("postgres-flexible-server-restore-2.84.txt", "RestoreTime", false)]
+    public async Task Captured_Database_Help_Preserves_Scalar_Values(string fixture, string propertyName, bool isSecret)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Azure", fixture));
+        var command = await new TestAzCliScraper().Parse(["az", "service", "create"], help);
+        var option = command!.Options.Single(option => option.PropertyName == propertyName);
+
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.IsSecret).IsEqualTo(isSecret);
+        await Assert.That(command.Options.Single(option => option.PropertyName == "Yes").IsFlag).IsTrue();
+    }
+
+    [Test]
+    [Arguments("expiry", "Specifies the UTC datetime (Y-m-d'T'H:M:S'Z') at which the SAS becomes invalid.")]
+    [Arguments("admin-user", "Administrator username for the server. Once set, it cannot be changed.")]
+    [Arguments("admin-password", "The password of the administrator. Minimum 8 characters.")]
+    [Arguments("restore-time", "The point in time in UTC to restore from (ISO8601 format).")]
+    public async Task Credential_And_DateTime_Descriptions_Declare_Values(string switchName, string description)
+    {
+        var help = $"Command\n    az service create : Create a service.\n\nArguments\n    --{switchName} : {description}\n    --reset-password : Reset the administrator password.\n    --use-current-time : Use the current time.";
+        var command = await new TestAzCliScraper().Parse(["az", "service", "create"], help);
+        var option = command!.Options.Single(option => option.SwitchName == $"--{switchName}");
+
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(command.Options.Single(option => option.PropertyName == "ResetPassword").IsFlag).IsTrue();
+        await Assert.That(command.Options.Single(option => option.PropertyName == "UseCurrentTime").IsFlag).IsTrue();
+    }
+
     private sealed class TestAzCliScraper()
         : AzCliScraper(
             new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
