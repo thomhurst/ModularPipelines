@@ -332,21 +332,8 @@ public partial class GcloudCliScraper : CliScraperBase
         var isStructuredValue = hasCompositeSyntax
                                 || DescriptionDeclaresStructuredValue(description);
         var isKeyValue = IsKeyValue(valueHint, isStructuredValue);
-        var isKnownScalar = ShouldTreatOptionAsScalar(commandParts, longForm);
-        var repeatsSwitch = !isFlag && (RepeatedSwitchDescriptionPattern().IsMatch(argument.Description ?? string.Empty)
-            || HelpOptionBlockMatches(helpText, longForm, RepeatedSwitchDescriptionPattern()));
-        var isDelimitedList = UsesCommaSeparatedList(
-            valueHint, argument.Description, isFlag, isStructuredValue, isKeyValue, isKnownScalar, repeatsSwitch);
-        var acceptsMultipleValues = isDelimitedList
-                                    || (!isKnownScalar && repeatsSwitch)
-                                    || ((!isKnownScalar
-                                     || valueHint.Contains("...", StringComparison.Ordinal))
-                                    && AcceptsMultipleValues(
-                longForm,
-                valueHint,
-                argument.Description,
-                isFlag,
-                hasCompositeSyntax));
+        var (acceptsMultipleValues, isDelimitedList) = GetCollectionBehavior(
+            argument, commandParts, helpText, isFlag, hasCompositeSyntax, isStructuredValue, isKeyValue);
         var isNumeric = IsNumericValue(longForm, valueHint, description, isStructuredValue);
         var enumDefinition = isStructuredValue ? null : TryDetectEnum(propertyName, description);
 
@@ -380,6 +367,28 @@ public partial class GcloudCliScraper : CliScraperBase
         {
             yield return CreateNegatedOption(option, negativeSwitch, description);
         }
+    }
+
+    private (bool AcceptsMultipleValues, bool IsDelimitedList) GetCollectionBehavior(
+        CliArgumentDefinition argument,
+        IReadOnlyList<string> commandParts,
+        string helpText,
+        bool isFlag,
+        bool hasCompositeSyntax,
+        bool isStructuredValue,
+        bool isKeyValue)
+    {
+        var valueHint = argument.ValueHint ?? string.Empty;
+        var isKnownScalar = ShouldTreatOptionAsScalar(commandParts, argument.SwitchName);
+        var repeatsSwitch = !isFlag && (RepeatedSwitchDescriptionPattern().IsMatch(argument.Description ?? string.Empty)
+            || HelpOptionBlockMatches(helpText, argument.SwitchName, RepeatedSwitchDescriptionPattern()));
+        var isDelimitedList = UsesCommaSeparatedList(
+            valueHint, argument.Description, isFlag, isStructuredValue, isKeyValue, isKnownScalar, repeatsSwitch);
+        var acceptsMultipleValues = isDelimitedList
+                                    || (!isKnownScalar && repeatsSwitch)
+                                    || ((!isKnownScalar || valueHint.Contains("...", StringComparison.Ordinal))
+                                        && AcceptsMultipleValues(argument.SwitchName, valueHint, argument.Description, isFlag, hasCompositeSyntax));
+        return (acceptsMultipleValues, isDelimitedList);
     }
 
     private static bool UsesCommaSeparatedList(
