@@ -7,9 +7,15 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public class ConstructorDocumentationTests
 {
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Required_Parameters_Preserve_Escaped_Help_Descriptions(bool positional)
+    [Arguments(false, "Create an item.")]
+    [Arguments(true, "Create an item.")]
+    [Arguments(false, null)]
+    [Arguments(true, null)]
+    [Arguments(false, "")]
+    [Arguments(true, "")]
+    [Arguments(false, "  ")]
+    [Arguments(true, "  ")]
+    public async Task Required_Parameters_Preserve_Escaped_Help_Descriptions(bool positional, string? commandDescription)
     {
         const string description = "Overrides 'TF_STACKS_ORGANIZATION_NAME'.\nUse <name> & account (required).";
         var command = new CliCommandDefinition
@@ -19,7 +25,7 @@ public class ConstructorDocumentationTests
             ClassName = "ToolCreateOptions",
             ParentClassName = "ToolOptions",
             ToolNamespacePrefix = "Tool",
-            Description = "Create an item.",
+            Description = commandDescription,
             Options =
             [
                 new CliOptionDefinition
@@ -55,6 +61,9 @@ public class ConstructorDocumentationTests
         var documentation = XDocument.Parse("<doc>" + string.Join("\n", generated.Split('\n')
             .Where(line => line.StartsWith("///", StringComparison.Ordinal))
             .Select(line => line[3..])) + "</doc>");
+        await Assert.That(documentation.Root!.Elements().First().Name.LocalName).IsEqualTo("summary");
+        await Assert.That(documentation.Root.Element("summary")!.Value.Trim())
+            .IsEqualTo(string.IsNullOrWhiteSpace(commandDescription) ? "Options for tool create." : commandDescription);
         var parameters = documentation.Descendants("param").ToDictionary(parameter => parameter.Attribute("name")!.Value);
 
         await Assert.That(parameters.Keys).IsEquivalentTo(["Name", "Id"]);

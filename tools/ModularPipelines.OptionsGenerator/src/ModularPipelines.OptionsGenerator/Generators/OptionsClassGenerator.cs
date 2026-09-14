@@ -47,13 +47,7 @@ public class OptionsClassGenerator : ICodeGenerator
         var constructorParameters = GeneratorUtils.GetRequiredConstructorParameters(command, positionalArguments);
 
         // XML documentation
-        GeneratorUtils.GenerateXmlDocumentation(sb, command.Description, "");
-        foreach (var parameter in constructorParameters)
-        {
-            var description = parameter.Option?.Description ?? parameter.PositionalArgument?.Description;
-            var name = parameter.PropertyName.TrimStart('@');
-            sb.AppendLine($"/// <param name=\"{name}\">{GeneratorUtils.EscapeXmlComment(description)}</param>");
-        }
+        GeneratorUtils.GenerateConstructorXmlDocumentation(sb, command, constructorParameters);
 
         GenerateClassAttributes(sb, command);
 
@@ -274,13 +268,13 @@ public class OptionsClassGenerator : ICodeGenerator
             : $"{propertyName} is not null";
     }
 
-    private static string FormatChoice(IReadOnlyList<string> propertyNames) =>
-        propertyNames.Count switch
+    private static string FormatChoice(string[] propertyNames) =>
+        propertyNames.Length switch
         {
             0 => "a required value",
             1 => propertyNames[0],
             2 => $"{propertyNames[0]} or {propertyNames[1]}",
-            _ => $"{string.Join(", ", propertyNames.Take(propertyNames.Count - 1))}, or {propertyNames[^1]}",
+            _ => $"{string.Join(", ", propertyNames.Take(propertyNames.Length - 1))}, or {propertyNames[^1]}",
         };
 
     private static void GenerateProperty(StringBuilder sb, CliOptionDefinition option)

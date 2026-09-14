@@ -1499,13 +1499,12 @@ public class ExternalToolDefinitionTests
             var renamedTool = firstTool with
             {
                 NamespacePrefix = "RenamedWidget",
-                Commands = firstTool.Commands
+                Commands = [.. firstTool.Commands
                     .Select(command => command with
                     {
                         ParentClassName = "RenamedWidgetOptions",
                         ToolNamespacePrefix = "RenamedWidget",
-                    })
-                    .ToList(),
+                    })],
             };
             var result = await orchestrator.GenerateFromDefinitionAsync(
                 renamedTool,
@@ -1544,15 +1543,14 @@ public class ExternalToolDefinitionTests
             var renamedTool = tool with
             {
                 NamespacePrefix = "Privatewidget",
-                Commands = tool.Commands
+                Commands = [.. tool.Commands
                     .Select(command => command with
                     {
                         ParentClassName = "PrivatewidgetOptions",
                         ToolNamespacePrefix = "Privatewidget",
-                    })
-                    .ToList(),
+                    })],
             };
-            await orchestrator.GenerateFromDefinitionAsync(renamedTool, outputDirectory);
+            var result = await orchestrator.GenerateFromDefinitionAsync(renamedTool, outputDirectory);
 
             var manifests = Directory.GetFiles(
                     Path.Combine(outputDirectory, ".modular-pipelines-options"),
@@ -1563,6 +1561,8 @@ public class ExternalToolDefinitionTests
                 .ToArray();
             await Assert.That(manifests).HasSingleItem();
             await Assert.That(manifests[0]).IsEqualTo("Privatewidget.files");
+            await Assert.That(result.ChangedPaths).Contains(".modular-pipelines-options/PrivateWidget.files");
+            await Assert.That(result.ChangedPaths).Contains(".modular-pipelines-options/Privatewidget.files");
         }
         finally
         {
