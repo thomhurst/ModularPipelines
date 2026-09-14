@@ -169,15 +169,23 @@ public class PnpmCliScraperTests
     [Arguments("Component type (default: a long\n          value)\n          [default: a long\n          value]", "Component type (default: a long value)")]
     [Arguments("Component type (default: foo(bar))\n          [default: foo(bar)]", "Component type (default: foo(bar))")]
     [Arguments("Component type (default: [a, b])\n          [default: [a, b]]", "Component type (default: [a, b])")]
+    [Arguments("Component type (default: library)\n          [default: library]\n          [default: library]", "Component type (default: library)")]
+    [Arguments("Component type (default: library)\n          [default: library]\n          [possible values: library, application]", "Component type (default: library)")]
     public async Task Clap_Help_Preserves_Bracketed_Prose(string description, string expected)
     {
-        var help = "Usage: pnpm install [OPTIONS]\n\nOptions:\n      --reporter <REPORTER>\n          "
-            + description + "\n      --offline\n          Use cached packages.\n";
-        var command = (await new TestPnpmCliScraper().Parse(["pnpm", "install"], help))!;
-        await Assert.That(command.Options.Single(option => option.SwitchName == "--reporter").Description)
-            .IsEqualTo(expected);
-        await Assert.That(command.Options.Single(option => option.SwitchName == "--offline").Description)
-            .IsEqualTo("Use cached packages.");
+        foreach (var aligned in new[] { false, true })
+        {
+            var optionDescription = aligned
+                ? "  " + description.Replace("\n          ", " ", StringComparison.Ordinal)
+                : "\n          " + description;
+            var help = "Usage: pnpm install [OPTIONS]\n\nOptions:\n      --reporter <REPORTER>"
+                + optionDescription + "\n      --offline\n          Use cached packages.\n";
+            var command = (await new TestPnpmCliScraper().Parse(["pnpm", "install"], help))!;
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--reporter").Description)
+                .IsEqualTo(expected);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--offline").Description)
+                .IsEqualTo("Use cached packages.");
+        }
     }
 
     [Test]

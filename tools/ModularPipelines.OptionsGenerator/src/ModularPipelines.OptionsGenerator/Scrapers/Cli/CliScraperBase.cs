@@ -1585,18 +1585,40 @@ public abstract partial class CliScraperBase : ICliScraper
 
     /// <summary>
     /// Splits a trailing <c>[possible values: a, b]</c> from an inline description, where
-    /// clap's aligned layout appends it to the description text.
+    /// clap's aligned layout appends it to the description text, and removes repeated default trailers.
     /// </summary>
     protected static ClapOptionBlock SplitPossibleValuesTrailer(string description)
     {
         var match = InlinePossibleValuesPattern().Match(description);
         if (!match.Success)
         {
-            return new ClapOptionBlock(description, []);
+            return new ClapOptionBlock(RemoveRepeatedInlineClapDefaults(description), []);
         }
 
         var prose = string.Concat(description[..match.Index], description[(match.Index + match.Length)..]).Trim();
-        return new ClapOptionBlock(prose, [.. ParsePossibleValuesList(match.Groups["value"].Value)]);
+        return new ClapOptionBlock(RemoveRepeatedInlineClapDefaults(prose), [.. ParsePossibleValuesList(match.Groups["value"].Value)]);
+    }
+
+    private static string RemoveRepeatedInlineClapDefaults(string description)
+    {
+        var annotations = ClapDefaultAnnotationStartPattern().Matches(description);
+        for (var i = annotations.Count - 1; i >= 0; i--)
+        {
+            var annotation = annotations[i];
+            if (annotation.Groups["open"].Value != "[")
+            {
+                continue;
+            }
+
+            var trailer = ClapTrailerPattern().Match(description[annotation.Index..]);
+            var prose = description[..annotation.Index].TrimEnd();
+            if (IsRepeatedClapDefault(trailer, [prose]))
+            {
+                description = prose;
+            }
+        }
+
+        return description;
     }
 
     /// <summary>
