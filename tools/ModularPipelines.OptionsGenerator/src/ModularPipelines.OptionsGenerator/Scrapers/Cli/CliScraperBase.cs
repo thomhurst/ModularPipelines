@@ -1536,10 +1536,20 @@ public abstract partial class CliScraperBase : ICliScraper
 
         segments.Add((position, line[position..].TrimEnd()));
 
-        foreach (var (start, text) in segments)
+        for (var index = 0; index < segments.Count; index++)
         {
-            var isSwitch = text.Length == 0 || text[0] == '-';
-            if (!isSwitch && !LooksLikeValueHint(text))
+            var (start, text) = segments[index];
+            if (text.Length == 0 || text[0] == '-')
+            {
+                continue;
+            }
+
+            // A capitalized word in a padded value column can name a tool-specific type.
+            // Require a later segment so terminal one-word descriptions remain prose.
+            var isPaddedValueHint = index < segments.Count - 1
+                                    && char.IsUpper(text[0])
+                                    && text.All(char.IsLetter);
+            if (!isPaddedValueHint && !LooksLikeValueHint(text))
             {
                 return GetColumn(line, start);
             }
