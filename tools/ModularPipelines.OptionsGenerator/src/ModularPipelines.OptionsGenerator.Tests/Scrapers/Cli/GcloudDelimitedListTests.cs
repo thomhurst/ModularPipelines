@@ -132,6 +132,9 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("VALUE", "One or more rule files (separated by commas if multiple).", ",")]
     [Arguments("VALUE", "Path to a file containing values separated by commas.", null)]
     [Arguments("VALUE", "Values for --other, separated by commas if multiple are supplied.", null)]
+    [Arguments("VALUE", "Path of a JSON/YAML file. Multiple scopes can be specified, separated by commas.", null)]
+    [Arguments("VALUE", "Configuration document. Nested fields accept names (separated by commas).", null)]
+    [Arguments("VALUE", "Values to include. This option accepts names, separated by commas.", ",")]
     [Arguments("FLAG=VALUE,[FLAG=VALUE,...]", "Set pool flags.", ",")]
     [Arguments("[FLAG=VALUE,[FLAG=VALUE,...]]", "Set pool flags.", ",")]
     [Arguments("[FLAG=VALUE,[FLAG=VALUE,...]", "Set pool flags.", null)]
@@ -154,6 +157,34 @@ public partial class NestedArgumentGroupParsingTests
         var command = await CreateGcloudScraper().Parse(["gcloud", "example", "update"], helpText);
 
         await Assert.That(command!.Options.Single().CollectionSeparator).IsEqualTo(separator);
+    }
+
+    [Test]
+    public async Task Gcloud_Config_File_Contents_Do_Not_Change_File_Option_Shape()
+    {
+        var helpText = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Gcloud", "container-clusters-create-550.0.0.txt"));
+        var command = await CreateGcloudScraper().Parse(["gcloud", "container", "clusters", "create"], helpText);
+        var option = command!.Options.Single(option => option.SwitchName == "--autoprovisioning-config-file");
+
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.AcceptsMultipleValues).IsFalse();
+        await Assert.That(option.CollectionSeparator).IsNull();
+
+        var scopes = command.Options.Single(option => option.SwitchName == "--autoprovisioning-scopes");
+        await Assert.That(scopes.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(scopes.CollectionSeparator).IsEqualTo(",");
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "output",
+            Commands = [command],
+        })).Single().Content;
+        await Assert.That(generated).Contains("public string? AutoprovisioningConfigFile");
+        await Assert.That(generated).Contains("[CliOption(\"--autoprovisioning-config-file\", Format = OptionFormat.EqualsSeparated)]");
     }
 
     [Test]

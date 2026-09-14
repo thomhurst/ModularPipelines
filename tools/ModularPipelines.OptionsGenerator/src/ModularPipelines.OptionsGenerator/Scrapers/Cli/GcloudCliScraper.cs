@@ -751,7 +751,10 @@ public partial class GcloudCliScraper : CliScraperBase
         + @"(?:(?:accepts?|specif(?:y|ies)|takes?|contains?|(?:must|can|may)\s+be)\s+)?"
         + @"(?:(?:a|the)\s+)?(?:single\s+[\w-]+(?:\s+[\w-]+)*\s+or\s+(?:a\s+)?)?"
         + @"comma[- ](?:sep[ae]rated|delimited)\s+list\b"
-        + @"|(?:^|[.!?]\s+)(?:(?!--)[^.!?])*?[,([]\s*separated\s+by\s+commas\b", RegexOptions.IgnoreCase)]
+        // Unqualified subjects describe the option only in its opening sentence. Later
+        // sentences may describe fields inside a configuration file instead.
+        + @"|(?:^|[.!?]\s+(?:this|the)\s+(?:flag|argument|option)\s+)"
+        + @"(?:(?!--)[^.!?])*?[,([]\s*separated\s+by\s+commas\b", RegexOptions.IgnoreCase)]
     private static partial Regex CommaSeparatedListDescriptionPattern();
 
     [GeneratedRegex(@"^(?<outer>\[)?(?<key>[A-Z][A-Z0-9_]*)=(?<value>[A-Z][A-Z0-9_]*),\[\k<key>=\k<value>,\.{3}\](?(outer)\])$")]
