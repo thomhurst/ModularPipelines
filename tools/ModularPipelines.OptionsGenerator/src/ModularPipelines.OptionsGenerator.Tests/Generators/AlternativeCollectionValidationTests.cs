@@ -1,5 +1,8 @@
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.Attributes;
+using ModularPipelines.Generated;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Generators;
@@ -59,6 +62,8 @@ public partial class RequiredConstructorValidationTests
             await Assert.That(validation.Validate(new(instance))).IsEmpty();
             var retained = ((IEnumerable) property.GetValue(instance)!).Cast<string>().ToArray();
             await Assert.That(retained).IsEquivalentTo(["first", "second"]);
+            await Assert.That(RenderAlternativeCollection(instance, positional))
+                .IsEquivalentTo(positional ? new[] { "first", "second" } : new[] { "--requirement", "first", "--requirement", "second" });
         }
 
         await Assert.That(source.EnumerationCount).IsEqualTo(1);
@@ -235,6 +240,50 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(validation.Validate(new(instance))).Count().IsEqualTo(1);
         options.GetProperty("Fallback")!.SetValue(instance, "fallback");
         await Assert.That(validation.Validate(new(instance))).IsEmpty();
+    }
+    [Test]
+    [Arguments(false, "System.Collections.IEnumerable?")]
+    [Arguments(true, "System.Collections.IEnumerable?")]
+    [Arguments(false, "IEnumerable<char>?")]
+    [Arguments(true, "IEnumerable<char>?")]
+    [Arguments(false, "IReadOnlyList<char>?")]
+    [Arguments(true, "IReadOnlyList<char>?")]
+    [Arguments(false, "List<char>?")]
+    [Arguments(true, "List<char>?")]
+    public async Task Alternative_Character_Sequences_Retain_Scalar_Rendering(bool positional, string collectionType)
+    {
+        var options = Compile(await GenerateAlternativeCollection(positional, collectionType))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var property = options.GetProperty("Values")!;
+        var input = new ScalarCharacterSequence();
+        property.SetValue(instance, input);
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(property.GetValue(instance)).IsSameReferenceAs(input);
+            await Assert.That(property.GetValue(instance)!.ToString()).IsEqualTo("scalar-value");
+            await Assert.That(RenderAlternativeCollection(instance, positional))
+                .IsEquivalentTo(positional ? new[] { "scalar-value" } : new[] { "--requirement", "scalar-value" });
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+        }
+    }
+
+    private sealed class ScalarCharacterSequence : List<char>, IEnumerable<char>
+    {
+        public override string ToString() => "scalar-value";
+
+        IEnumerator<char> IEnumerable<char>.GetEnumerator() =>
+            throw new InvalidOperationException("Scalar character sequences must not be enumerated.");
+
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<char>) this).GetEnumerator();
+    }
+    private static IReadOnlyList<string> RenderAlternativeCollection(object instance, bool positional)
+    {
+        var property = instance.GetType().GetProperty("Values")!;
+        PropertyCommandLinePart part = positional
+            ? new ArgumentPart("Values", property.GetValue, new CliArgumentAttribute(0))
+            : new OptionPart("Values", property.GetValue, new CliOptionAttribute("--requirement"));
+        return new CommandArgumentBuilder().BuildArguments([part], instance);
     }
     private static Task<string> GenerateAlternativeCollection(bool positional, string collectionType, bool? isCollection = null)
     {

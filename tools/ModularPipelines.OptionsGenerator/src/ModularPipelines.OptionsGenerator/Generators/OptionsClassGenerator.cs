@@ -514,9 +514,15 @@ public class OptionsClassGenerator : ICodeGenerator
             return $"!string.IsNullOrWhiteSpace({propertyName})";
         }
 
-        return CliOptionDefinition.IsCollectionType(csharpType, option?.IsCollection ?? positional?.IsVariadic)
-            ? $"{propertyName}?.Cast<object>().Any() == true"
-            : $"{propertyName} is not null";
+        if (!CliOptionDefinition.IsCollectionType(csharpType, option?.IsCollection ?? positional?.IsVariadic))
+        {
+            return $"{propertyName} is not null";
+        }
+
+        // Character sequences use scalar rendering; validation must not consume them.
+        return $"((object?){propertyName} is global::System.Collections.Generic.IEnumerable<char>"
+               + $" ? (object?){propertyName} is not string || !string.IsNullOrWhiteSpace({propertyName}?.ToString())"
+               + $" : {propertyName}?.Cast<object>().Any() == true)";
     }
 
     private static string FormatChoice(string[] propertyNames) =>

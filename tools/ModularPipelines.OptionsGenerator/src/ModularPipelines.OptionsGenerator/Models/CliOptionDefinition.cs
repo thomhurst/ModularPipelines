@@ -102,8 +102,11 @@ public record CliOptionDefinition
 
             // Optional properties must continue accepting every implementation allowed by
             // their declared contract. Retain it when no assignable safe copy is available.
-            return shape.OptionalSnapshotExpression?.Replace("{0}", valueExpression, StringComparison.Ordinal)
-                   ?? valueExpression;
+            var snapshot = shape.OptionalSnapshotExpression?.Replace("{0}", valueExpression, StringComparison.Ordinal)
+                           ?? valueExpression;
+            // CommandArgumentBuilder renders every character sequence as a scalar through
+            // ToString, so copying or enumerating it would change its rendering contract.
+            return $"(object){valueExpression} is global::System.Collections.Generic.IEnumerable<char> ? {valueExpression} : ({snapshot})";
         }
 
         return shape.SnapshotExpression?.Replace("{0}", valueExpression, StringComparison.Ordinal)
@@ -266,12 +269,6 @@ public record CliOptionDefinition
             snapshot = $"default({immutableArrayName}).Equals((object){{0}}) ? global::System.Array.Empty<{elementName}>() : {snapshot}";
         }
 
-        if (retainUnsupportedCollections && compilation.ClassifyConversion(
-                compilation.GetSpecialType(SpecialType.System_String), propertyType).IsImplicit)
-        {
-            // Strings are immutable and render as one CLI value, even through enumerable contracts.
-            return $"{{0}} is string ? {{0}} : ({snapshot})";
-        }
 
         return snapshot;
     }
