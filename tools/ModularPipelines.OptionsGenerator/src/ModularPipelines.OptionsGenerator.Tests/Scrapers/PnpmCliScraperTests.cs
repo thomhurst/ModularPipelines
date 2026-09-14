@@ -10,6 +10,66 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PnpmCliScraperTests
 {
     [Test]
+    [Arguments(1, false)]
+    [Arguments(1, true)]
+    [Arguments(21, false)]
+    [Arguments(21, true)]
+    public async Task Non_Enum_Clap_Values_Preserve_Choices_In_Descriptions(int valueCount, bool blockLayout)
+    {
+        var choices = string.Join(", ", Enumerable.Range(1, valueCount).Select(value => $"format{value}"));
+        var description = $"Select output format. [possible values: {choices}]";
+        var option = blockLayout
+            ? $"      --format <FORMAT>\n          Select output format.\n          [possible values: {choices}]\n"
+            : $"      --format <FORMAT>  {description}\n";
+        var help = "Usage: pnpm install [OPTIONS]\n\nOptions:\n" + option;
+        var command = (await new TestPnpmCliScraper().Parse(["pnpm", "install"], help))!;
+
+        await Assert.That(command.Options.Single().PropertyType).IsEqualTo("string?");
+        await Assert.That(command.Options.Single().EnumDefinition).IsNull();
+        await Assert.That(command.Options.Single().Description).IsEqualTo(description);
+        await Assert.That(command.Enums).IsEmpty();
+    }
+
+    [Test]
+    public async Task Non_Enum_Clap_Value_Preserves_Individual_Documentation()
+    {
+        const string help = """
+            Usage: pnpm install [OPTIONS]
+
+            Options:
+                  --format <FORMAT>
+                      Select output format.
+                      Possible values:
+                      - json: Machine-readable output.
+            """;
+        var command = (await new TestPnpmCliScraper().Parse(["pnpm", "install"], help))!;
+
+        await Assert.That(command.Options.Single().EnumDefinition).IsNull();
+        await Assert.That(command.Options.Single().Description)
+            .IsEqualTo("Select output format. [possible values: json: Machine-readable output.]");
+    }
+
+    [Test]
+    [Arguments("-x  to change the execution mode.")]
+    [Arguments("--example  to change the execution mode.")]
+    public async Task Short_Only_Clap_Block_Keeps_Option_Shaped_Wrapped_Prose(string continuation)
+    {
+        var help = "Usage: pnpm install [OPTIONS]\n\nOptions:\n"
+            + "  -r\n          Process recursively. Combine with\n          " + continuation
+            + "\n  -C <DIR>\n          Starting directory.\n      --offline\n          Use cached packages.\n";
+        var command = (await new TestPnpmCliScraper().Parse(["pnpm", "install"], help))!;
+
+        await Assert.That(command.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["-r", "-C", "--offline"]);
+        await Assert.That(command.Options.Single(option => option.SwitchName == "-r").Description)
+            .IsEqualTo($"Process recursively. Combine with {continuation}");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "-C").Description)
+            .IsEqualTo("Starting directory.");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--offline").Description)
+            .IsEqualTo("Use cached packages.");
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task Short_Only_Clap_Options_Preserve_Values_And_Descriptions(bool blockLayout)

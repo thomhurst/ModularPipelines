@@ -338,7 +338,7 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
             CSharpType = isFlag
                 ? "bool?"
                 : AsCSharpType($"{enumDefinition?.EnumName ?? "string"}?", acceptsMultipleValues),
-            Description = GetOptionDescription(block, optionalValue),
+            Description = GetOptionDescription(block, enumDefinition is not null),
             IsFlag = isFlag,
             ValueArity = optionalValue ? CliOptionValueArity.Optional : CliOptionValueArity.Required,
             IsRequired = false,
@@ -351,9 +351,9 @@ public partial class PnpmCliScraper(ICliCommandExecutor executor, IHelpTextCache
         };
     }
 
-    private static string GetOptionDescription(ClapOptionBlock block, bool optionalValue)
+    private static string GetOptionDescription(ClapOptionBlock block, bool hasEnum)
     {
-        if (!optionalValue || block.PossibleValues.Count == 0)
+        if (hasEnum || block.PossibleValues.Count == 0)
         {
             return block.Description;
         }
