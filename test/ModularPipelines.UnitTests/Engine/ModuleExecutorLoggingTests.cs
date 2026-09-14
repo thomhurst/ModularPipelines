@@ -57,6 +57,106 @@ public class ModuleExecutorLoggingTests
         }
     }
 
+    private sealed class UnrelatedModule : LaterModule;
+
+    [Test]
+    [Timeout(30_000)]
+    public async Task Deferred_Module_Releases_Worker_Slot_For_Unrelated_Work(CancellationToken cancellationToken)
+    {
+        using var cancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        var running = new FaultingModule();
+        var deferred = new LaterModule();
+        var unrelated = new UnrelatedModule();
+        IModule[] modules = [running, deferred, unrelated];
+        var states = modules.ToDictionary(module => module.GetType(), module => new ModuleState(module, module.GetType()));
+        var readyModules = Channel.CreateUnbounded<ModuleState>();
+        foreach (var module in modules)
+        {
+            readyModules.Writer.TryWrite(states[module.GetType()]);
+        }
+
+        var runningStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var deferredAttempted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var unrelatedStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var scheduler = new Mock<IModuleScheduler>();
+        scheduler.SetupGet(x => x.ReadyModules).Returns(readyModules.Reader);
+        scheduler.Setup(x => x.RunSchedulerAsync(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+        scheduler.Setup(x => x.GetModuleState(It.IsAny<Type>()))
+            .Returns((Type moduleType) => states[moduleType]);
+        scheduler.Setup(x => x.CancelPendingModules()).Returns([]);
+        var factory = new Mock<IModuleSchedulerFactory>();
+        factory.Setup(x => x.Create()).Returns(scheduler.Object);
+        var limits = new Mock<IParallelLimitProvider>();
+        limits.Setup(x => x.GetMaxDegreeOfParallelism()).Returns(2);
+        var registry = new ModuleResultRegistry();
+        var attempts = 0;
+        var runner = new Mock<IModuleRunner>();
+        runner.Setup(x => x.ExecuteAsync(It.IsAny<ModuleState>(), It.IsAny<CancellationToken>()))
+            .Returns<ModuleState, CancellationToken>(async (state, token) =>
+            {
+                if (state.Module == running)
+                {
+                    runningStarted.TrySetResult();
+                    await unrelatedStarted.Task.WaitAsync(token);
+                    Complete(state);
+                    // Model the scheduler re-queuing a deferred module when its constraint clears.
+                    readyModules.Writer.TryWrite(states[deferred.GetType()]);
+                    readyModules.Writer.TryComplete();
+                }
+                else if (state.Module == deferred && Interlocked.Increment(ref attempts) == 1)
+                {
+                    await runningStarted.Task.WaitAsync(token);
+                    state.ExecutionDeferred = true;
+                    deferredAttempted.TrySetResult();
+                }
+                else
+                {
+                    if (state.Module == unrelated)
+                    {
+                        await deferredAttempted.Task.WaitAsync(token);
+                        unrelatedStarted.TrySetResult();
+                    }
+
+                    Complete(state);
+                }
+            });
+        var executor = new ModuleExecutor(factory.Object, runner.Object, Mock.Of<IAlwaysRunHandler>(),
+            new ModuleResultRegistrar(registry, NullLogger<ModuleResultRegistrar>.Instance), registry,
+            limits.Object, Mock.Of<IRegistrationEventExecutor>(), Mock.Of<IMetricsCollector>(),
+            new ModuleDependencyRegistry(), new ModuleMetadataRegistry(new ModuleAttributeEventService()),
+            new SecondaryExceptionContainer(),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
+            NullLogger<ModuleExecutor>.Instance);
+
+        var execution = executor.ExecuteAsync(modules, new Dictionary<Type, TimeSpan>(),
+            new ExecutionBackendContext(registry), cancellation.Token);
+        try
+        {
+            await deferredAttempted.Task.WaitAsync(TimeSpan.FromSeconds(10), cancellationToken);
+            await unrelatedStarted.Task.WaitAsync(TimeSpan.FromSeconds(10), cancellationToken);
+            var results = await execution.WaitAsync(TimeSpan.FromSeconds(10), cancellationToken);
+            await Assert.That(results).Count().IsEqualTo(3);
+            await Assert.That(attempts).IsEqualTo(2);
+        }
+        finally
+        {
+            await cancellation.CancelAsync();
+            readyModules.Writer.TryComplete();
+            await ((Task) execution).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+        }
+
+        void Complete(ModuleState state)
+        {
+            var module = (Module<bool>) state.Module;
+            var result = ModuleResult<bool>.CreateSuccess(true,
+                new ModuleExecutionContext(module, module.GetType()) { Status = ModuleStatus.Succeeded });
+            module.CompletionSource.TrySetResult(result);
+            registry.RegisterResult(module.GetType(), result);
+            state.ExecutionDeferred = false;
+            state.State = ModuleExecutionState.Completed;
+        }
+    }
+
     [Test]
     [Arguments(FailureMode.FailFast)]
     [Arguments(FailureMode.ContinueOnFailure)]

@@ -84,7 +84,7 @@ internal class ModuleExecutor(
         try
         {
             scheduler = await localContext.GetSchedulerAsync().ConfigureAwait(false);
-            await ExecuteWithSchedulerAsync(modules, scheduler, localContext, cancellationToken).ConfigureAwait(false);
+            await ExecuteWithSchedulerAsync(modules, scheduler, cancellationToken).ConfigureAwait(false);
             return _resultRegistry.GetCompletedResults(modules);
         }
         catch (Exception outerEx)
@@ -198,7 +198,6 @@ internal class ModuleExecutor(
     private async Task ExecuteWithSchedulerAsync(
         IReadOnlyList<IModule> modules,
         IModuleScheduler scheduler,
-        IExecutionBackendContext context,
         CancellationToken cancellationToken)
     {
         // Cancel ordinary module execution with the caller, but keep scheduling alive
@@ -213,7 +212,7 @@ internal class ModuleExecutor(
 
         try
         {
-            firstFailure = await ExecuteWorkerPoolAsync(scheduler, context, cancellationTokenSource, cancellationToken)
+            firstFailure = await ExecuteWorkerPoolAsync(scheduler, cancellationTokenSource, cancellationToken)
                 .ConfigureAwait(false);
         }
         catch (Exception exception)
@@ -269,7 +268,6 @@ internal class ModuleExecutor(
 
     private async Task<WorkerFailure?> ExecuteWorkerPoolAsync(
         IModuleScheduler scheduler,
-        IExecutionBackendContext context,
         CancellationTokenSource cancellationTokenSource,
         CancellationToken cancellationToken)
     {
@@ -300,7 +298,8 @@ internal class ModuleExecutor(
                     try
                     {
                         executionToken.ThrowIfCancellationRequested();
-                        await context.ExecuteModuleAsync(moduleState.Module, executionToken).ConfigureAwait(false);
+                        // The scheduler owns deferred retries, so an attempt must release this worker slot.
+                        await _moduleRunner.ExecuteAsync(moduleState, executionToken).ConfigureAwait(false);
                     }
                     catch (OperationCanceledException ex) when (
                         cancellationToken.IsCancellationRequested
