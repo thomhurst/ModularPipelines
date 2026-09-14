@@ -49,19 +49,27 @@ internal static class UnixProcessGroupLauncher
         }
 
         using var launchStatus = new AnonymousPipeClientStream(PipeDirection.Out, arguments[4]);
-        const int closeOnExec = 1; // FD_CLOEXEC on the supported Unix platforms.
-        var descriptorFlags = GetDescriptorFlags(launchStatus.SafePipeHandle);
-        if (descriptorFlags < 0 || SetDescriptorFlags(launchStatus.SafePipeHandle, descriptorFlags | closeOnExec) < 0)
+        try
         {
-            Console.Error.WriteLine(
-                $"Unable to prevent launch status inheritance: native error {Marshal.GetLastPInvokeError()}.");
-            return 1;
-        }
+            const int closeOnExec = 1; // FD_CLOEXEC on the supported Unix platforms.
+            var descriptorFlags = GetDescriptorFlags(launchStatus.SafePipeHandle);
+            if (descriptorFlags < 0 || SetDescriptorFlags(launchStatus.SafePipeHandle, descriptorFlags | closeOnExec) < 0)
+            {
+                Console.Error.WriteLine(
+                    $"Unable to prevent launch status inheritance: native error {Marshal.GetLastPInvokeError()}.");
+                return 1;
+            }
 
-        if (SetSessionId() < 0)
+            if (SetSessionId() < 0)
+            {
+                Console.Error.WriteLine(
+                    $"Unable to create process group: native error {Marshal.GetLastPInvokeError()}.");
+                return 1;
+            }
+        }
+        catch (Exception exception) when (exception is DllNotFoundException or EntryPointNotFoundException)
         {
-            Console.Error.WriteLine(
-                $"Unable to create process group: native error {Marshal.GetLastPInvokeError()}.");
+            Console.Error.WriteLine($"Unable to initialize native process isolation: {exception.Message}");
             return 1;
         }
 

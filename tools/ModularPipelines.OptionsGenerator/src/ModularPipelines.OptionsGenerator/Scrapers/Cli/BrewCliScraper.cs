@@ -101,15 +101,14 @@ public partial class BrewCliScraper : CliScraperBase
             return helpText;
         }
 
-        var commandInventory = await Executor.ExecuteAsync(
+        var commandInventory = await ExecuteAndRecordHelpCommandAsync(
+            commandPath,
             ExecutablePath,
             "commands --quiet",
-            cancellationToken);
+            cancellationToken).ConfigureAwait(false);
         if (!commandInventory.Success)
         {
-            Logger.LogWarning(
-                "Could not query the complete Homebrew command inventory; brew commands --quiet exited with {ExitCode}",
-                commandInventory.ExitCode);
+            LogRejectedHelp(commandInventory, "brew commands --quiet", failedCommand: true);
             return helpText;
         }
 
