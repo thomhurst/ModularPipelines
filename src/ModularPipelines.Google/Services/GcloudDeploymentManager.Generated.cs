@@ -78,7 +78,7 @@ public class GcloudDeploymentManager : IGcloudDeploymentManager
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDeploymentManagerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDeploymentManagerOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

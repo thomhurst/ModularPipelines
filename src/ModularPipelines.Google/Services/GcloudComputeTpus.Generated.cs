@@ -84,7 +84,7 @@ public class GcloudComputeTpus
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeTpusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeTpusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

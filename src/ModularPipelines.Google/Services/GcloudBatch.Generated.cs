@@ -60,7 +60,7 @@ public class GcloudBatch : IGcloudBatch
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBatchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudBatchOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

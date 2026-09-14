@@ -66,7 +66,7 @@ public class GcloudMemcache : IGcloudMemcache
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudMemcacheOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudMemcacheOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

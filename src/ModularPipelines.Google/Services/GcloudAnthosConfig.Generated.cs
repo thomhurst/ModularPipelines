@@ -60,7 +60,7 @@ public class GcloudAnthosConfig
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAnthosConfigOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAnthosConfigOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

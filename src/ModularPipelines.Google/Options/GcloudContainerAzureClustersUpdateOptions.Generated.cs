@@ -95,25 +95,25 @@ public record GcloudContainerAzureClustersUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Authentication configuration At most one of these can be specified: Client resource - Azure client to use for cluster update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location. Azure services authentication ID of the client or fully qualified identifier for the client. To set the client attribute: ▸ provide the argument --client on the command line.
+    /// Authentication configuration At most one of these can be specified: Client resource - Azure client to use for cluster update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location. ID of the client or fully qualified identifier for the client. To set the client attribute: ▸ provide the argument --client on the command line.
     /// </summary>
     [CliOption("--client", Format = OptionFormat.EqualsSeparated)]
     public string? Client { get; set; }
 
     /// <summary>
-    /// Authentication configuration At most one of these can be specified: Client resource - Azure client to use for cluster update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location. Azure services authentication ID of the Azure Application to manage Azure resources.
+    /// Azure services authentication ID of the Azure Application to manage Azure resources.
     /// </summary>
     [CliOption("--azure-application-id", Format = OptionFormat.EqualsSeparated)]
     public string? AzureApplicationId { get; set; }
 
     /// <summary>
-    /// Authentication configuration At most one of these can be specified: Client resource - Azure client to use for cluster update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location. Azure services authentication ID of the Azure Tenant to manage Azure resources.
+    /// Azure services authentication ID of the Azure Tenant to manage Azure resources.
     /// </summary>
     [CliOption("--azure-tenant-id", Format = OptionFormat.EqualsSeparated)]
     public string? AzureTenantId { get; set; }
 
     /// <summary>
-    /// Authentication configuration At most one of these can be specified: Client resource - Azure client to use for cluster update. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --client on the command line with a fully specified name; ▸ provide the argument --location on the command line; ▸ set the property container_azure/location. Azure services authentication Clear the Azure client. This flag is required when updating to use Azure workload identity federation from Azure client to manage Azure resources.
+    /// Azure services authentication Clear the Azure client. This flag is required when updating to use Azure workload identity federation from Azure client to manage Azure resources.
     /// </summary>
     [CliFlag("--clear-client")]
     public bool? ClearClient { get; set; }

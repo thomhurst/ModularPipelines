@@ -25,67 +25,67 @@ public record GcloudPreviewComputeNetworksCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// BGP Best Path Selection flags The BGP routing mode for this network. If not specified, defaults to regional. MODE must be one of: global Cloud Routers in this network advertise subnetworks from all regions to their BGP peers, and program instances in all regions with the router's best learned BGP routes. regional Cloud Routers in this network advertise subnetworks from their local region only to their BGP peers, and program instances in their local region only with the router's best learned BGP routes.
+    /// The BGP routing mode for this network. If not specified, defaults to regional. MODE must be one of: global Cloud Routers in this network advertise subnetworks from all regions to their BGP peers, and program instances in all regions with the router's best learned BGP routes. regional Cloud Routers in this network advertise subnetworks from their local region only to their BGP peers, and program instances in their local region only with the router's best learned BGP routes.
     /// </summary>
     [CliOption("--bgp-routing-mode", Format = OptionFormat.EqualsSeparated)]
     public string? BgpRoutingMode { get; set; }
 
     /// <summary>
-    /// BGP Best Path Selection flags An optional, textual description for the network.
+    /// An optional, textual description for the network.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// BGP Best Path Selection flags Enable/disable ULA internal IPv6 on this network. Enabling this feature will assign a /48 from google defined ULA prefix fd20::/20. Use --enable-ula-internal-ipv6 to enable and --no-enable-ula-internal-ipv6 to disable.
+    /// Enable/disable ULA internal IPv6 on this network. Enabling this feature will assign a /48 from google defined ULA prefix fd20::/20. Use --enable-ula-internal-ipv6 to enable and --no-enable-ula-internal-ipv6 to disable.
     /// </summary>
     [CliFlag("--enable-ula-internal-ipv6")]
     public bool? EnableUlaInternalIpv6 { get; set; }
 
     /// <summary>
-    /// Negates --enable-ula-internal-ipv6. BGP Best Path Selection flags Enable/disable ULA internal IPv6 on this network. Enabling this feature will assign a /48 from google defined ULA prefix fd20::/20. Use --enable-ula-internal-ipv6 to enable and --no-enable-ula-internal-ipv6 to disable.
+    /// Negates --enable-ula-internal-ipv6. Enable/disable ULA internal IPv6 on this network. Enabling this feature will assign a /48 from google defined ULA prefix fd20::/20. Use --enable-ula-internal-ipv6 to enable and --no-enable-ula-internal-ipv6 to disable.
     /// </summary>
     [CliFlag("--no-enable-ula-internal-ipv6")]
     public bool? NoEnableUlaInternalIpv6 { get; set; }
 
     /// <summary>
-    /// BGP Best Path Selection flags When enabling ULA internal IPv6, caller can optionally specify the /48 range they want from the google defined ULA prefix fd20::/20. ULA_IPV6_RANGE must be a valid /48 ULA IPv6 address and within the fd20::/20. Operation will fail if the speficied /48 is already in used by another resource. If the field is not speficied, then a /48 range will be randomly allocated from fd20::/20 and returned via this field.
+    /// When enabling ULA internal IPv6, caller can optionally specify the /48 range they want from the google defined ULA prefix fd20::/20. ULA_IPV6_RANGE must be a valid /48 ULA IPv6 address and within the fd20::/20. Operation will fail if the speficied /48 is already in used by another resource. If the field is not speficied, then a /48 range will be randomly allocated from fd20::/20 and returned via this field.
     /// </summary>
     [CliOption("--internal-ipv6-range", Format = OptionFormat.EqualsSeparated)]
     public string? InternalIpv6Range { get; set; }
 
     /// <summary>
-    /// BGP Best Path Selection flags Maximum transmission unit (MTU) is the size of the largest IP packet that can be transmitted on this network. Default value is 1460 bytes. The minimum value is 1300 bytes and the maximum value is 8896 bytes. The MTU advertised via DHCP to all instances attached to this network.
+    /// Maximum transmission unit (MTU) is the size of the largest IP packet that can be transmitted on this network. Default value is 1460 bytes. The minimum value is 1300 bytes and the maximum value is 8896 bytes. The MTU advertised via DHCP to all instances attached to this network.
     /// </summary>
     [CliOption("--mtu", Format = OptionFormat.EqualsSeparated)]
     public string? Mtu { get; set; }
 
     /// <summary>
-    /// BGP Best Path Selection flags The Network Firewall Policy enforcement order of this network. If not specified, defaults to AFTER_CLASSIC_FIREWALL. NETWORK_FIREWALL_POLICY_ENFORCEMENT_ORDER must be one of: AFTER_CLASSIC_FIREWALL Network Firewall Policy is enforced after classic firewall. BEFORE_CLASSIC_FIREWALL Network Firewall Policy is enforced before classic firewall.
+    /// The Network Firewall Policy enforcement order of this network. If not specified, defaults to AFTER_CLASSIC_FIREWALL. NETWORK_FIREWALL_POLICY_ENFORCEMENT_ORDER must be one of: AFTER_CLASSIC_FIREWALL Network Firewall Policy is enforced after classic firewall. BEFORE_CLASSIC_FIREWALL Network Firewall Policy is enforced before classic firewall.
     /// </summary>
     [CliOption("--network-firewall-policy-enforcement-order", Format = OptionFormat.EqualsSeparated)]
     public string? NetworkFirewallPolicyEnforcementOrder { get; set; }
 
     /// <summary>
-    /// BGP Best Path Selection flags The network profile to apply to this network.
+    /// The network profile to apply to this network.
     /// </summary>
     [CliOption("--network-profile", Format = OptionFormat.EqualsSeparated)]
     public string? NetworkProfile { get; set; }
 
     /// <summary>
-    /// BGP Best Path Selection flags Specifies the IPv4 address range of legacy mode networks. The range must be specified in CIDR format: http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing This flag only works if mode is legacy (https://cloud.google.com/compute/docs/vpc/legacy). Using legacy networks is **DEPRECATED**, given that many newer Google Cloud Platform features are not supported on legacy networks. Please be advised that legacy networks may not be supported in the future.
+    /// Specifies the IPv4 address range of legacy mode networks. The range must be specified in CIDR format: http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing This flag only works if mode is legacy (https://cloud.google.com/compute/docs/vpc/legacy). Using legacy networks is **DEPRECATED**, given that many newer Google Cloud Platform features are not supported on legacy networks. Please be advised that legacy networks may not be supported in the future.
     /// </summary>
     [CliOption("--range", Format = OptionFormat.EqualsSeparated)]
     public string? Range { get; set; }
 
     /// <summary>
-    /// BGP Best Path Selection flags A comma-separated list of Resource Manager tags to apply to the network.
+    /// A comma-separated list of Resource Manager tags to apply to the network.
     /// </summary>
     [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
-    /// BGP Best Path Selection flags The subnet mode of the network. If not specified, defaults to AUTO. MODE must be one of: auto Subnets are created automatically. This is the recommended selection. custom Create subnets manually. legacy [Deprecated] Create an old style network that has a range and cannot have subnets. This is not recommended for new networks.
+    /// The subnet mode of the network. If not specified, defaults to AUTO. MODE must be one of: auto Subnets are created automatically. This is the recommended selection. custom Create subnets manually. legacy [Deprecated] Create an old style network that has a range and cannot have subnets. This is not recommended for new networks.
     /// </summary>
     [CliOption("--subnet-mode", Format = OptionFormat.EqualsSeparated)]
     public string? SubnetMode { get; set; }

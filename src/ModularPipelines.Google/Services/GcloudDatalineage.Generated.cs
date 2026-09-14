@@ -72,7 +72,7 @@ public class GcloudDatalineage : IGcloudDatalineage
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDatalineageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDatalineageOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

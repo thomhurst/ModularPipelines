@@ -22,43 +22,43 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIamPrincipalAccessBoundaryPoliciesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Principal access boundary policy details Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Principal access boundary policy details The description of the principal access boundary policy. Must be less than or equal to 63 characters.
+    /// The description of the principal access boundary policy. Must be less than or equal to 63 characters.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Principal access boundary policy details The etag for the principal access boundary. If this is provided on update, it must match the server's etag.
+    /// The etag for the principal access boundary. If this is provided on update, it must match the server's etag.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
 
     /// <summary>
-    /// Principal access boundary policy details Update annotations. At most one of these can be specified: Set annotations to new value. User defined annotations. See https://google.aip.dev/148#annotations for more details such as format and size limitations. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
+    /// Update annotations. At most one of these can be specified: Set annotations to new value. User defined annotations. See https://google.aip.dev/148#annotations for more details such as format and size limitations. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotations { get; set; }
 
     /// <summary>
-    /// Principal access boundary policy details Update annotations. At most one of these can be specified: Or at least one of these can be specified: Update annotations value or add key value pair. User defined annotations. See https://google.aip.dev/148#annotations for more details such as format and size limitations. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-annotations=string=string JSON Example: --update-annotations='{"string": "string"}' File Example: --update-annotations=path_to_file.(yaml|json)
+    /// Update annotations. At most one of these can be specified: Or at least one of these can be specified: Update annotations value or add key value pair. User defined annotations. See https://google.aip.dev/148#annotations for more details such as format and size limitations. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --update-annotations=string=string JSON Example: --update-annotations='{"string": "string"}' File Example: --update-annotations=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--update-annotations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UpdateAnnotations { get; set; }
 
     /// <summary>
-    /// Principal access boundary policy details Update annotations. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear annotations value and set to empty map.
+    /// Update annotations. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear annotations value and set to empty map.
     /// </summary>
     [CliFlag("--clear-annotations")]
     public bool? ClearAnnotations { get; set; }
 
     /// <summary>
-    /// Principal access boundary policy details Update annotations. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map annotations. Sets remove_annotations value. Shorthand Example: --remove-annotations=string,string JSON Example: --remove-annotations=["string"] File Example: --remove-annotations=path_to_file.(yaml|json)
+    /// Update annotations. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from map annotations. Sets remove_annotations value. Shorthand Example: --remove-annotations=string,string JSON Example: --remove-annotations=["string"] File Example: --remove-annotations=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-annotations", Format = OptionFormat.EqualsSeparated)]
     public string? RemoveAnnotations { get; set; }

@@ -23,13 +23,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDataplexDatascansUpdateDataDocumentationOptions : GcloudOptions
 {
     /// <summary>
-    /// Data documentation scan settings. Description of the data documentation scan.
+    /// Description of the data documentation scan.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Data documentation scan settings. Display name of the data documentation scan.
+    /// Display name of the data documentation scan.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }

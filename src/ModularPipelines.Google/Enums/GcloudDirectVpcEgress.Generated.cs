@@ -16,12 +16,12 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudDirectVpcEgress
 {
-    [EnumValue("private-ranges-only")]
-    PrivateRangesOnly,
-
     [EnumValue("all")]
     All,
 
     [EnumValue("all-traffic")]
-    AllTraffic
+    AllTraffic,
+
+    [EnumValue("private-ranges-only")]
+    PrivateRangesOnly
 }

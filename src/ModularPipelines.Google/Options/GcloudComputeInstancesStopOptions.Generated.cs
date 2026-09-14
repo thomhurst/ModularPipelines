@@ -24,7 +24,7 @@ public record GcloudComputeInstancesStopOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// --discard-local-ssd[=DISCARD_LOCAL_SSD] If set to true, local SSD data is discarded. Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }

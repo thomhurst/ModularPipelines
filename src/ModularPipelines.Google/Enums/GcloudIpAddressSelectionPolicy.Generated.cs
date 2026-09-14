@@ -19,9 +19,9 @@ public enum GcloudIpAddressSelectionPolicy
     [EnumValue("IPV4_ONLY")]
     Ipv4Only,
 
-    [EnumValue("PREFER_IPV6")]
-    PreferIpv6,
-
     [EnumValue("IPV6_ONLY")]
-    Ipv6Only
+    Ipv6Only,
+
+    [EnumValue("PREFER_IPV6")]
+    PreferIpv6
 }

@@ -46,61 +46,61 @@ public record GcloudAgentRegistryBindingsUpdateOptions : GcloudOptions
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. The resource name of the target AuthProvider. Format: ◆ projects/{project}/locations/{location}/authProviders/{auth_provider}
+    /// Arguments for the binding. The AuthProvider of the Binding. The resource name of the target AuthProvider. Format: ◆ projects/{project}/locations/{location}/authProviders/{auth_provider}
     /// </summary>
     [CliOption("--auth-provider-binding", Format = OptionFormat.EqualsSeparated)]
     public string? AuthProviderBinding { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. The continue URI of the AuthProvider. The URI is used to reauthenticate the user and finalize the managed OAuth flow.
+    /// Arguments for the binding. The AuthProvider of the Binding. The continue URI of the AuthProvider. The URI is used to reauthenticate the user and finalize the managed OAuth flow.
     /// </summary>
     [CliOption("--auth-provider-binding-continue-uri", Format = OptionFormat.EqualsSeparated)]
     public string? AuthProviderBindingContinueUri { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Set binding.authProviderBinding back to default value.
+    /// Arguments for the binding. The AuthProvider of the Binding. Set binding.authProviderBinding back to default value.
     /// </summary>
     [CliFlag("--clear-auth-provider-binding")]
     public bool? ClearAuthProviderBinding { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Set auth_provider_binding_scopes to new value.
+    /// Arguments for the binding. The AuthProvider of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Set auth_provider_binding_scopes to new value.
     /// </summary>
     [CliOption("--auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AuthProviderBindingScopes { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to auth_provider_binding_scopes list.
+    /// Arguments for the binding. The AuthProvider of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to auth_provider_binding_scopes list.
     /// </summary>
     [CliOption("--add-auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddAuthProviderBindingScopes { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear auth_provider_binding_scopes value and set to empty list.
+    /// Arguments for the binding. The AuthProvider of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear auth_provider_binding_scopes value and set to empty list.
     /// </summary>
     [CliFlag("--clear-auth-provider-binding-scopes")]
     public bool? ClearAuthProviderBindingScopes { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from auth_provider_binding_scopes list.
+    /// Arguments for the binding. The AuthProvider of the Binding. Update auth_provider_binding_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from auth_provider_binding_scopes list.
     /// </summary>
     [CliOption("--remove-auth-provider-binding-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveAuthProviderBindingScopes { get; set; }
 
     /// <summary>
-    /// Arguments for the binding. The AuthProvider of the Binding. The source of the Binding. Set binding.source back to default value.
+    /// The source of the Binding. Set binding.source back to default value.
     /// </summary>
     [CliFlag("--clear-source")]
     public bool? ClearSource { get; set; }
 
     /// <summary>
-    /// Arguments for the source type. The target of the Binding. The identifier of the source Agent. Format: ◆ urn:agent:{publisher}:{namespace}:{name}
+    /// Arguments for the source type. The identifier of the source Agent. Format: ◆ urn:agent:{publisher}:{namespace}:{name}
     /// </summary>
     [CliOption("--source-identifier", Format = OptionFormat.EqualsSeparated)]
     public string? SourceIdentifier { get; set; }
 
     /// <summary>
-    /// Arguments for the source type. The target of the Binding. Set binding.target back to default value.
+    /// The target of the Binding. Set binding.target back to default value.
     /// </summary>
     [CliFlag("--clear-target")]
     public bool? ClearTarget { get; set; }

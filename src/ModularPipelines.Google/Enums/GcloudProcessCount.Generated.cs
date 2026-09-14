@@ -19,8 +19,8 @@ public enum GcloudProcessCount
     [EnumValue("FILE")]
     File,
 
-    [EnumValue("SLICED")]
-    Sliced,
+    [EnumValue("PARALLEL_COMPOSITE")]
+    ParallelComposite,
 
     [EnumValue("STREAMING")]
     Streaming

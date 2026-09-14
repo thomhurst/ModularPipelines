@@ -16,12 +16,12 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudEffect
 {
+    [EnumValue("NoExecute")]
+    NoExecute,
+
     [EnumValue("NoSchedule")]
     NoSchedule,
 
     [EnumValue("PreferNoSchedule")]
-    PreferNoSchedule,
-
-    [EnumValue("NoExecute")]
-    NoExecute
+    PreferNoSchedule
 }

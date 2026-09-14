@@ -11,17 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
-/// Allowed values for --objectsize.
+/// Allowed values for --hapolicyfastipmove.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public enum GcloudObjectSize
+public enum GcloudHaPolicyFastIpMove
 {
-    [EnumValue("FILE")]
-    File,
+    [EnumValue("DISABLED")]
+    Disabled,
 
-    [EnumValue("SLICED")]
-    Sliced,
-
-    [EnumValue("STREAMING")]
-    Streaming
+    [EnumValue("GARP_RA")]
+    GarpRa
 }
