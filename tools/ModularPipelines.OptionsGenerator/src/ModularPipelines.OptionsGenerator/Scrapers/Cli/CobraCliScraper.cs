@@ -25,13 +25,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// Global Flags:
 ///   -g, --global type  Global option
 /// </summary>
-public abstract partial class CobraCliScraper : CliScraperBase
+public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger logger) : CliScraperBase(executor, helpCache, logger)
 {
-    protected CobraCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     // ScrapeAsync is now provided by CliScraperBase - no need to override
 
     /// <inheritdoc />
@@ -62,11 +57,17 @@ public abstract partial class CobraCliScraper : CliScraperBase
         var commandsSectionMatches = CommandsSectionPattern().Matches(normalizedText);
         if (commandsSectionMatches.Count == 0)
         {
-            Logger.LogDebug("[{Tool}] No command sections found in help text using CommandsSectionPattern", ToolName);
+            if (Logger.IsEnabled(LogLevel.Debug))
+            {
+                Logger.LogDebug("[{Tool}] No command sections found in help text using CommandsSectionPattern", ToolName);
+            }
             return subcommands;
         }
 
-        Logger.LogDebug("[{Tool}] Found {Count} command sections in help text", ToolName, commandsSectionMatches.Count);
+        if (Logger.IsEnabled(LogLevel.Debug))
+        {
+            Logger.LogDebug("[{Tool}] Found {Count} command sections in help text", ToolName, commandsSectionMatches.Count);
+        }
 
         foreach (Match commandsSectionMatch in commandsSectionMatches)
         {
@@ -82,8 +83,11 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
             var sectionCommandCount = AddSectionSubcommands(section, seenCommands, subcommands);
 
-            Logger.LogDebug("[{Tool}] Extracted {Count} commands from section '{Section}'",
-                ToolName, sectionCommandCount, commandsSectionMatch.Value.Trim());
+            if (Logger.IsEnabled(LogLevel.Debug))
+            {
+                Logger.LogDebug("[{Tool}] Extracted {Count} commands from section '{Section}'",
+                    ToolName, sectionCommandCount, commandsSectionMatch.Value.Trim());
+            }
         }
 
         // If no subcommands found, log diagnostic info
@@ -104,13 +108,13 @@ public abstract partial class CobraCliScraper : CliScraperBase
         var sectionStart = header.Index + header.Length;
         var nextSection = SectionHeaderPattern().Match(helpText, sectionStart);
         var sectionEnd = nextSection.Success ? nextSection.Index : helpText.Length;
-        return helpText.Substring(sectionStart, sectionEnd - sectionStart);
+        return helpText[sectionStart..sectionEnd];
     }
 
     private static int AddSectionSubcommands(
         string section,
         HashSet<string> seenCommands,
-        ICollection<string> subcommands)
+        List<string> subcommands)
     {
         var count = 0;
         foreach (var line in section.Split('\n'))
@@ -178,14 +182,20 @@ public abstract partial class CobraCliScraper : CliScraperBase
         // Skip commands with invalid parts (e.g., "docker --tlsverify container", "docker run HEALTHCHECK")
         if (commandParts.Any(part => part.StartsWith("--") || !IsValidCommandPart(part)))
         {
-            Logger.LogDebug("Skipping invalid command path: {Command}", string.Join(" ", commandPath));
+            if (Logger.IsEnabled(LogLevel.Debug))
+            {
+                Logger.LogDebug("Skipping invalid command path: {Command}", string.Join(" ", commandPath));
+            }
             return Task.FromResult<CliCommandDefinition?>(null);
         }
 
         // Validate that help output represents a real command (not an error or wrong command)
         if (!IsValidCommandHelp(helpText, commandParts))
         {
-            Logger.LogDebug("Skipping command with invalid help output: {Command}", string.Join(" ", commandPath));
+            if (Logger.IsEnabled(LogLevel.Debug))
+            {
+                Logger.LogDebug("Skipping command with invalid help output: {Command}", string.Join(" ", commandPath));
+            }
             return Task.FromResult<CliCommandDefinition?>(null);
         }
 
@@ -445,7 +455,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
             return "bool";
         }
 
-        if (typeHint == "[]")
+        if (typeHint.StartsWith('[') && typeHint.EndsWith(']'))
         {
             return "stringArray";
         }
@@ -539,7 +549,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 sectionEnd = nextMatch.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
             sections.Add(section);
         }
 
@@ -566,7 +576,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 sectionEnd = nextMatch.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
             sections.Add(section);
         }
 
@@ -660,7 +670,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
             return bulletValues;
         }
 
-        return valuesText
+        return [.. valuesText
             .Replace(" or ", "|")
             .Replace(" and ", "|")
             .Split(['|', ','], StringSplitOptions.RemoveEmptyEntries)
@@ -668,8 +678,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
             // Remove any embedded newlines, carriage returns, or other control characters
             .Select(SanitizeEnumValue)
             .Where(v => !string.IsNullOrWhiteSpace(v) && v.Length < 30)
-            .Distinct()
-            .ToArray();
+            .Distinct()];
     }
 
     private static string ExtractQuotedEnumValue(string value)
@@ -745,11 +754,11 @@ public abstract partial class CobraCliScraper : CliScraperBase
         return new CliEnumDefinition
         {
             EnumName = enumName,
-            Values = values.Select(v => new CliEnumValue
+            Values = [.. values.Select(v => new CliEnumValue
             {
                 MemberName = NormalizeEnumMemberName(v),
                 CliValue = v
-            }).ToList(),
+            })],
             Description = $"Allowed values for the --{propertyName.ToLowerInvariant()} option."
         };
     }
@@ -797,50 +806,56 @@ public abstract partial class CobraCliScraper : CliScraperBase
     /// <summary>
     /// Known boolean type hints.
     /// </summary>
-    private static readonly HashSet<string> KnownBooleanTypes = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> KnownBooleanTypes =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "bool", "boolean"
-    };
+    ];
 
     /// <summary>
     /// Known integer type hints.
     /// </summary>
-    private static readonly HashSet<string> KnownIntegerTypes = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> KnownIntegerTypes =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "int", "int32", "int64", "uint", "uint32", "uint64", "integer", "number", "count"
-    };
+    ];
 
     /// <summary>
     /// Known floating-point type hints.
     /// </summary>
-    private static readonly HashSet<string> KnownFloatTypes = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> KnownFloatTypes =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "float", "float32", "float64", "double", "decimal", "number64", "real"
-    };
+    ];
 
     /// <summary>
     /// Known duration/time type hints.
     /// </summary>
-    private static readonly HashSet<string> KnownDurationTypes = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> KnownDurationTypes =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "duration", "time", "timeout", "interval"
-    };
+    ];
 
     /// <summary>
     /// Known array/list type hints.
     /// </summary>
-    private static readonly HashSet<string> KnownArrayTypes = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> KnownArrayTypes =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "list", "array", "strings", "stringarray", "stringslice", "int64slice", "slice"
-    };
+    ];
 
     /// <summary>
     /// Known key-value/map type hints.
     /// </summary>
-    private static readonly HashSet<string> KnownKeyValueTypes = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> KnownKeyValueTypes =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "map", "stringtostring", "keyvalue", "dict", "dictionary", "mapping"
-    };
+    ];
 
     private static bool IsKnownBooleanType(string typeHint)
     {
@@ -986,9 +1001,9 @@ public abstract partial class CobraCliScraper : CliScraperBase
     ///     -A, --all-namespaces=false:
     ///     --chunk-size=500:
     /// </summary>
-    // A quoted default ('gcr.io/kicbase:v1', "a:b") is captured whole so the colons inside it are
-    // never mistaken for the separator that precedes the description.
-    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:(?<default>=)(?<type>'[^']*'|""[^""]*""|[^:\s]*))?:\s*(?<desc>.*)?$", RegexOptions.Multiline)]
+    // Quoted defaults and bracketed lists are captured whole so their colons do not start
+    // the description. A list item may contain its own brackets, as in an IPv6 URL.
+    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:(?<default>=)(?<type>'[^']*'|""[^""]*""|\[(?:[^\[\]\r\n]|\[[^\[\]\r\n]*\])*\]|[^:\s]*))?:\s*(?<desc>.*)?$", RegexOptions.Multiline)]
     private static partial Regex KubectlOptionPattern();
 
     [GeneratedRegex(@"allowed values:\s*(?<values>[\w-]+(?:\s*,\s*[\w-]+)+|(?:-\s*[\w-]+\s*){2,})", RegexOptions.IgnoreCase)]

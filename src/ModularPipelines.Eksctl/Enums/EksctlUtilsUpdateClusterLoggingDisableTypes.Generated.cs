@@ -19,9 +19,6 @@ public enum EksctlUtilsUpdateClusterLoggingDisableTypes
     [EnumValue("all")]
     All,
 
-    [EnumValue("none")]
-    None,
-
     [EnumValue("api")]
     Api,
 
@@ -33,6 +30,9 @@ public enum EksctlUtilsUpdateClusterLoggingDisableTypes
 
     [EnumValue("controllerManager")]
     ControllerManager,
+
+    [EnumValue("none")]
+    None,
 
     [EnumValue("scheduler")]
     Scheduler

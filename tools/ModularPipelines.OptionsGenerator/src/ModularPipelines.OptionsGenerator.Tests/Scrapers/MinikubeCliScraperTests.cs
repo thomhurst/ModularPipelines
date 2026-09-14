@@ -8,6 +8,38 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class MinikubeCliScraperTests
 {
     [Test]
+    public async Task Current_Start_Help_Preserves_Iso_Url_Lists_And_Documentation()
+    {
+        // Captured with minikube v1.39.0 start --help on Windows.
+        var help = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Minikube", "start-v1.39.0.txt"));
+        var executor = new RecordingExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage: minikube COMMAND
+
+                Available Commands:
+                  start    Starts a local Kubernetes cluster
+                """,
+            ["start --help"] = help,
+        });
+        var scraper = new MinikubeCliScraper(
+            executor,
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<MinikubeCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var urls = commands.Single().Options.Single(option => option.SwitchName == "--iso-url");
+        await Assert.That(urls.Description).IsEqualTo("Locations to fetch the minikube ISO from.");
+        await Assert.That(urls.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(urls.AcceptsMultipleValues).IsTrue();
+    }
+
+    [Test]
     public async Task Reads_Version_From_Minikube_Version_Command()
     {
         var executor = new RecordingExecutor();

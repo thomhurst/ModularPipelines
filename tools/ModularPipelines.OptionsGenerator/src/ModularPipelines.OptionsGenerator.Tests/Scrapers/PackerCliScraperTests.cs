@@ -8,6 +8,32 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PackerCliScraperTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Quoted_Value_Hint_Preserves_Same_Column_Repeatability_Description(bool nested)
+    {
+        var indentation = nested ? "      " : "  ";
+        var helpText = "Usage: packer build [options] TEMPLATE\n\nOptions:\n"
+            + (nested ? "  -color=false  Configure variables\n" : string.Empty)
+            + $"{indentation}-var 'key=value'  \n"
+            + $"{indentation}May be specified multiple times\n"
+            + "  -force  Force a build.\n";
+
+        var command = await new TestPackerCliScraper().Parse(["packer", "build"], helpText);
+        var variable = command!.Options.Single(option => option.SwitchName == "--var");
+        await Assert.That(variable.Description).IsEqualTo("May be specified multiple times");
+        await Assert.That(variable.AcceptsMultipleValues).IsTrue();
+        await Assert.That(variable.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--force").Description)
+            .IsEqualTo("Force a build.");
+        if (nested)
+        {
+            await Assert.That(command.Options.Single(option => option.SwitchName == "--color").Description)
+                .IsEqualTo("Configure variables");
+        }
+    }
+
+    [Test]
     public async Task Wrapped_Descriptions_That_Look_Like_Option_Rows_Stay_Prose()
     {
         // The wrapped "-only=foo,bar  to ..." line deliberately keeps two spaces so it satisfies

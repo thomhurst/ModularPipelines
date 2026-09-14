@@ -1,9 +1,299 @@
+using System.Text.RegularExpressions;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 
 public class ContinuationLineTests
 {
+    [Test]
+    [Arguments("-var 'key=value'")]
+    [Arguments("--custom expression()")]
+    public async Task Caller_Grammar_Preserves_Same_Column_Detached_Descriptions(string declaration)
+    {
+        var lines = $"  --parent VALUE   Configure\n                   {declaration}  \n                   May be specified multiple times\n  --quiet   Suppress output".Split('\n');
+        var pattern = new Regex($@"^\s*{Regex.Escape(declaration)}\s{{2,}}(?<desc>.*)$");
+        Group? CaptureDescription(string line)
+        {
+            var match = pattern.Match(line);
+            return match.Success ? match.Groups["desc"] : null;
+        }
+        var index = 0;
+        var parentDescription = CliScraperBase.AccumulateWrappedDescription(
+            lines, ref index, inlineDescription: null,
+            static line => line.TrimStart().StartsWith('-'), CaptureDescription);
+
+        await Assert.That(parentDescription).IsEmpty();
+        await Assert.That(index).IsEqualTo(0);
+
+        index = 1;
+        var description = CliScraperBase.AccumulateWrappedDescription(
+            lines, ref index, inlineDescription: null,
+            static line => line.TrimStart().StartsWith('-'), CaptureDescription);
+
+        await Assert.That(description).IsEqualTo("May be specified multiple times");
+        await Assert.That(index).IsEqualTo(2);
+    }
+
+    [Test]
+    [Arguments("TLS Configuration:")]
+    [Arguments("HTTP Settings:")]
+    [Arguments("HTTP/2 Support:")]
+    [Arguments("Advanced TLS Configuration:")]
+    [Arguments("TLS CONFIGURATION:")]
+    public async Task Acronym_Section_Headings_End_Repeatability_Lookahead(string heading)
+    {
+        foreach (var declaration in new[] { "  --env VALUE   Set variables", "  --env VALUE" })
+        {
+            var helpText = $"{declaration}\n  {heading}\n  Values may be specified multiple times\n  --quiet   Suppress output";
+
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--quiet", string.Empty)).IsFalse();
+        }
+    }
+
+    [Test]
+    [Arguments("--child VALUE")]
+    [Arguments("--child=VALUE")]
+    [Arguments("--child")]
+    public async Task Same_Column_Detached_Descriptions_Belong_To_Their_Nested_Option(string child)
+    {
+        var helpText = $"  --parent VALUE   Configure\n                   {child}\n                   May be specified multiple times";
+        var lines = helpText.Split('\n');
+        var index = 0;
+        var description = CliScraperBase.AccumulateWrappedDescription(
+            lines, ref index, inlineDescription: null,
+            static line => line.TrimStart().StartsWith('-'));
+
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--parent", string.Empty)).IsFalse();
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--child", string.Empty)).IsTrue();
+        await Assert.That(description).IsEmpty();
+        await Assert.That(index).IsEqualTo(0);
+
+        index = 1;
+        var childDescription = CliScraperBase.AccumulateWrappedDescription(
+            lines, ref index, inlineDescription: null,
+            static line => line.TrimStart().StartsWith('-'));
+
+        await Assert.That(childDescription).IsEqualTo("May be specified multiple times");
+        await Assert.That(index).IsEqualTo(2);
+    }
+
+    [Test]
+    [Arguments("-child=VALUE   May be specified multiple times")]
+    [Arguments("-child=VALUE\n                   May be specified multiple times")]
+    public async Task Caller_Recognized_Single_Dash_Options_End_Their_Parent_Description(string child)
+    {
+        var lines = $"  -parent=VALUE   Configure\n                   {child}".Split('\n');
+        var index = 0;
+        var description = CliScraperBase.AccumulateWrappedDescription(
+            lines, ref index, inlineDescription: null,
+            static line => line.TrimStart().StartsWith('-'));
+
+        await Assert.That(description).IsEmpty();
+        await Assert.That(index).IsEqualTo(0);
+    }
+
+    [Test]
+    [Arguments("  --env VALUE   Combine with --config; may be specified multiple times")]
+    [Arguments("  --env VALUE   Combine with\n                --config values; may be specified multiple times")]
+    [Arguments("  --env VALUE   Combine with:\n                --config\n                Values may be specified multiple times")]
+    [Arguments("  --env VALUE   --config may be specified multiple times")]
+    [Arguments("  --env  VALUE   --config may be specified multiple times")]
+    [Arguments("  --env VALUE\t--config may be specified multiple times")]
+    public async Task Switch_References_Do_Not_Declare_The_Referenced_Option_Repeatable(string declaration)
+    {
+        var helpText = "  --config VALUE   Select one configuration\n" + declaration;
+
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--config", string.Empty)).IsFalse();
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsTrue();
+    }
+
+    [Test]
+    [Arguments("May be specified multiple times:")]
+    [Arguments("MAY BE SPECIFIED MULTIPLE TIMES:")]
+    [Arguments("Available values include:")]
+    public async Task Colon_Terminated_Continuation_Prose_Is_Not_A_Section_Heading(string prose)
+    {
+        var helpText = $"  --env VALUE   Set variables\n  {prose}\n  Values may be specified multiple times\n  --quiet       Suppress output";
+
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsTrue();
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--quiet", string.Empty)).IsFalse();
+    }
+
+    [Test]
+    [Arguments("Repeatable.")]
+    [Arguments("Repeatable")]
+    [Arguments("repeatable")]
+    public async Task Single_Word_Descriptions_End_The_Parent_Option_Block(string description)
+    {
+        foreach (var child in new[] { "--child VALUE", "--child=VALUE", "--child", "--child  VALUE" })
+        {
+            var helpText = $"  --parent  Configure output\n            {child}   {description}";
+            var lines = helpText.Split('\n');
+            var index = 0;
+            var accumulated = CliScraperBase.AccumulateWrappedDescription(
+                lines, ref index, inlineDescription: null,
+                static line => line.TrimStart().StartsWith('-'));
+
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--parent", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--child", string.Empty)).IsTrue();
+            await Assert.That(accumulated).IsEmpty();
+            await Assert.That(index).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    [Arguments("and")]
+    [Arguments("or")]
+    [Arguments("with")]
+    [Arguments("from")]
+    [Arguments("using")]
+    [Arguments("via")]
+    [Arguments("including")]
+    [Arguments("except")]
+    public async Task Terminal_Connectors_Do_Not_Introduce_Nested_Switch_References(string connector)
+    {
+        foreach (var child in new[] { "--child VALUE", "--child=VALUE", "--child" })
+        {
+            var helpText = $"  --parent  Configure output {connector}\n            {child}   May be specified multiple times";
+            var lines = helpText.Split('\n');
+            var index = 0;
+            var description = CliScraperBase.AccumulateWrappedDescription(
+                lines, ref index, inlineDescription: null,
+                static line => line.TrimStart().StartsWith('-'));
+
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--parent", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--child", string.Empty)).IsTrue();
+            await Assert.That(description).IsEmpty();
+            await Assert.That(index).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    [Arguments("Combine with:")]
+    [Arguments("Pair with:")]
+    [Arguments("For example:")]
+    [Arguments("Values from:")]
+    public async Task Punctuated_Introductions_Preserve_Wrapped_Switch_References(string introduction)
+    {
+        var helpText = $"  --env VALUE   Set variables. {introduction}\n                --env-file=PATH  values are merged; may be specified multiple times\n  --quiet       Suppress output";
+        var lines = helpText.Split('\n');
+        var index = 0;
+        var description = CliScraperBase.AccumulateWrappedDescription(
+            lines, ref index, inlineDescription: null,
+            static line => line.TrimStart().StartsWith('-'));
+
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsTrue();
+        await Assert.That(description).Contains("--env-file=PATH");
+        await Assert.That(index).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Uppercase_Repeatability_Notes_Are_Not_Section_Headings()
+    {
+        const string helpText = "  --env VALUE   Set variables\n  MAY BE SPECIFIED MULTIPLE TIMES\n  --quiet       Suppress output";
+
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsTrue();
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--quiet", string.Empty)).IsFalse();
+    }
+
+    [Test]
+    [Arguments("DESCRIPTION")]
+    [Arguments("EXAMPLES")]
+    [Arguments("GLOBAL OPTIONS")]
+    [Arguments("Description:")]
+    [Arguments("Custom Section:")]
+    [Arguments("Repeatable Options:")]
+    [Arguments("REPEATABLE FLAGS")]
+    [Arguments("Repeatable Arguments:")]
+    public async Task Repeatability_In_Another_Section_Does_Not_Apply_To_An_Option(string heading)
+    {
+        var helpText = $"  --env VALUE   Set variables\n{heading}\n  Some other setting may be specified multiple times";
+
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsFalse();
+    }
+
+    [Test]
+    [Arguments("Local options:", "Global options:")]
+    [Arguments("LOCAL OPTIONS", "GLOBAL OPTIONS")]
+    [Arguments("Image Flags", "Client/Server Flags")]
+    [Arguments("", "")]
+    public async Task Repeatable_Lookahead_Uses_The_Containing_Section_Layout(string localHeading, string globalHeading)
+    {
+        var helpText = $"""
+            {localHeading}
+              --format string
+                    Output format.
+              --env stringArray
+                    --env-file=PATH values are merged; may be specified multiple times
+            {globalHeading}
+              --quiet                 Suppress output
+              --verbose               Show detailed output
+              --debug                 Show debug messages
+            """;
+
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsTrue();
+    }
+
+    [Test]
+    [Arguments("            --child VALUE   May be specified multiple times")]
+    [Arguments("            --child  VALUE   may be specified multiple times")]
+    [Arguments("              --child VALUE   May be specified multiple times")]
+    [Arguments("\t\t--child VALUE\tMay be specified multiple times")]
+    [Arguments("            -c, --child VALUE   May be specified multiple times")]
+    [Arguments("            -c VALUE, --child VALUE   May be specified multiple times")]
+    [Arguments("            --child   Can be repeated to increase verbosity")]
+    [Arguments("            --child   can be specified multiple times")]
+    [Arguments("            --child TYPE\n                may be specified multiple times")]
+    [Arguments("            --child  TYPE\n                may be specified multiple times")]
+    [Arguments("            --child\n                may be specified multiple times")]
+    [Arguments("            --child=VALUE   May be specified multiple times")]
+    [Arguments("            --child=VALUE   may be specified multiple times")]
+    [Arguments("            --child=VALUE\n                may be specified multiple times")]
+    public async Task Repeatable_Lookahead_Does_Not_Absorb_Nested_Declarations_At_The_Prose_Column(string child)
+    {
+        var helpText = "  --parent  Configure parent settings\n" + child;
+        var lines = helpText.Split('\n');
+        var index = 0;
+        var description = CliScraperBase.AccumulateWrappedDescription(
+            lines,
+            ref index,
+            inlineDescription: null,
+            static line => line.TrimStart().StartsWith('-'));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--parent", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--child", string.Empty)).IsTrue();
+            await Assert.That(description).IsEmpty();
+            await Assert.That(index).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    [Arguments("--env-file=PATH  to load defaults")]
+    [Arguments("--no-restore  to skip restoration")]
+    [Arguments("--no-restore  may be specified multiple times")]
+    [Arguments("--no-restore  can be combined with other switches")]
+    [Arguments("--env-file=PATH  may be specified multiple times")]
+    public async Task Repeatable_Lookahead_Preserves_Separated_Prose_After_A_Wrapped_Switch_Mention(string mention)
+    {
+        var helpText = $"""
+              --env VALUE   Set variables. Combine with
+                            {mention}; may be specified multiple times
+              --quiet       Suppress output
+            """;
+
+        await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsTrue();
+        var lines = helpText.Split('\n');
+        var index = 0;
+        var description = CliScraperBase.AccumulateWrappedDescription(
+            lines, ref index, inlineDescription: null,
+            static line => line.TrimStart().StartsWith('-'));
+        await Assert.That(description).Contains(mention);
+        await Assert.That(index).IsEqualTo(1);
+    }
+
     [Test]
     [Arguments("", 0)]
     [Arguments("--flag", 0)]
@@ -24,6 +314,220 @@ public class ContinuationLineTests
     public async Task GetColumn_Expands_Tabs_Before_The_Index(string line, int index, int expected)
     {
         await Assert.That(CliScraperBase.GetColumn(line, index)).IsEqualTo(expected);
+    }
+
+    [Test]
+    public async Task Repeatable_Phrase_On_A_Wrapped_Option_Looking_Line_Is_Found()
+    {
+        // --quiet sits above --env so its block must stop at the --env row.
+        const string helpText = """
+                  --quiet             Suppress output
+                  --env stringArray   Set environment variables. Values from
+                                      --env-file=PATH are merged; may be specified
+                                      multiple times
+            """;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsTrue();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--quiet", string.Empty)).IsFalse();
+        }
+    }
+
+    [Test]
+    [Arguments("  --quiet             Suppress output", "Suppress")]
+    [Arguments("  --env  stringArray   Set environment variables", "Set")]
+    [Arguments("-i CODE1,CODE2..    --include=CODE1,CODE2..    Consider only given types", "Consider")]
+    [Arguments("\t--env stringArray\tSet environment variables", "Set")]
+    [Arguments("  --env  String   Set environment variables", "Set")]
+    [Arguments("  --tls  Use TLS  (implies --tlsverify)", "Use")]
+    [Arguments("  --config  KEY VALUE   Set a config value", "Set")]
+    [Arguments("  --env  <key> <value>   Set environment variables", "Set")]
+    [Arguments("  --add  PATH...   Paths to add", "Paths")]
+    [Arguments("  --verbose    Verbose", "Verbose")]
+    [Arguments("  --child VALUE   Repeatable.", "Repeatable.")]
+    [Arguments("  --child   Required", "Required")]
+    [Arguments("  --input  File   Read input", "Read")]
+    [Arguments("  --input  Filename   Read input", "Read")]
+    [Arguments("  --host  Hostname   Select host", "Select")]
+    [Arguments("  --mode  Enum   Select mode", "Select")]
+    [Arguments("  --env VALUE   --config may be specified multiple times", "--config")]
+    [Arguments("  --env  VALUE   --config may be specified multiple times", "--config")]
+    [Arguments("  --env VALUE\t--config may be specified multiple times", "--config")]
+    [Arguments("  --env  -e VALUE   Set environment variables", "Set")]
+    public async Task Inline_Description_Column_Skips_Switches_And_Value_Hints(string line, string descriptionStart)
+    {
+        var expected = CliScraperBase.GetColumn(line, line.IndexOf(descriptionStart, StringComparison.Ordinal));
+
+        await Assert.That(CliScraperBase.GetInlineDescriptionColumn(line)).IsEqualTo(expected);
+    }
+
+    [Test]
+    [Arguments("  --quiet")]
+    [Arguments("  -f, --file string")]
+    [Arguments("  --env  stringArray")]
+    [Arguments("  --env  String")]
+    [Arguments("  --output  <path>")]
+    [Arguments("  --level  DEBUG")]
+    [Arguments("  --config  KEY VALUE")]
+    [Arguments("   ")]
+    public async Task Rows_Without_Prose_Have_No_Inline_Description_Column(string line)
+    {
+        // Typed hints and placeholder tokens leave the description column unknown.
+        await Assert.That(CliScraperBase.GetInlineDescriptionColumn(line)).IsNull();
+    }
+
+    [Test]
+    public async Task Repeatable_Lookahead_Stops_A_Descriptionless_Option_At_Its_Sibling_Row()
+    {
+        // No prose, no wrapped line: the next row at the same indentation is the next option, not
+        // the start of --env's description.
+        const string helpText = """
+              --env  stringArray
+              --env-file=PATH   Read variables from a file; may be specified multiple times
+            """;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env-file", string.Empty)).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Repeatable_Lookahead_Never_Absorbs_An_Option_Row_While_The_Column_Is_Unknown()
+    {
+        // "Configure" is a one-word description that the generic rule cannot tell from a hint, so
+        // the column stays unknown; the deeper --child row must still start the next option.
+        const string helpText = """
+              --parent  Configure
+                  --child value   May be specified multiple times
+            """;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--parent", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--child", string.Empty)).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Repeatable_Lookahead_Borrows_The_Layout_Column_For_A_Descriptionless_Row()
+    {
+        // Go-style help: descriptions start on the next line at a shared column. --env's
+        // description happens to open with a switch mention, so the column learnt from the other
+        // rows is what keeps it in the block.
+        const string helpText = """
+              --format string
+                    Output format.
+              --env stringArray
+                    --env-file=PATH values are merged first; may be specified multiple times
+              --quiet
+                    Suppress output.
+            """;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsTrue();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--format", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--quiet", string.Empty)).IsFalse();
+        }
+    }
+
+    [Test]
+    [Arguments("  --env  stringArray   Set environment variables\n  --quiet              Suppress output\n  --env-file=PATH   Read variables", 23)]
+    [Arguments("  --env stringArray\n        Set environment variables\n  --quiet\n        Suppress output", 8)]
+    [Arguments("  --env stringArray\n  --quiet", null)]
+    [Arguments("  --one   First description\n  --two       Second description", 10)]
+    public async Task Layout_Description_Column_Is_The_Most_Common_Row_Column(string helpText, int? expected)
+    {
+        await Assert.That(CliScraperBase.GetLayoutDescriptionColumn(helpText.Split('\n'))).IsEqualTo(expected);
+    }
+
+    [Test]
+    public async Task Repeatable_Lookahead_Anchors_On_The_Prose_Column_Not_A_Multi_Token_Value_Hint()
+    {
+        // "KEY VALUE" is a hint, so --config's column is the prose column and the shallower
+        // --other row ends its block instead of donating its repeatability note.
+        const string helpText = """
+              --config  KEY VALUE   Set a config value
+                             --other TYPE   Can be repeated to set multiple types
+            """;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--config", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--other", string.Empty)).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Repeatable_Lookahead_Treats_A_TitleCase_Value_Hint_As_A_Hint()
+    {
+        // "String" is a metavariable, not prose: the column is Set's, so the nested row between
+        // the hint and the prose column ends the --env block.
+        const string helpText = """
+              --env  String   Set environment variables
+                        --env-file=PATH   Read variables from a file; may be specified multiple times
+            """;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env-file", string.Empty)).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Repeatable_Lookahead_Does_Not_Anchor_On_A_Terminal_Value_Hint()
+    {
+        // --env's description starts on the next line; the padded hint must not become the
+        // continuation threshold, and the prose column inferred from that line must end the
+        // block at the shallower nested --env-file row.
+        const string helpText = """
+              --env  stringArray
+                                 Set environment variables
+                  --env-file=PATH   Read variables from a file; may be specified multiple times
+            """;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env-file", string.Empty)).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Repeatable_Lookahead_Anchors_On_The_Prose_Column_Not_A_Padded_Value_Hint()
+    {
+        // The nested --env-file row sits deeper than the padded value hint but shallower than
+        // the prose column, so it must end the --env block instead of lending it "multiple times".
+        const string helpText = """
+              --env  stringArray   Set environment variables
+                        --env-file=PATH   Read variables from a file; may be specified multiple times
+            """;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsFalse();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env-file", string.Empty)).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task Repeatable_Lookahead_Accepts_A_Single_Tab_As_The_Description_Separator()
+    {
+        const string helpText =
+            "\t--env stringArray\tSet environment variables. Values from\n"
+            + "\t\t\t\t--env-file=PATH are merged; may be specified\n"
+            + "\t\t\t\tmultiple times\n"
+            + "\t--quiet\tSuppress output";
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--env", string.Empty)).IsTrue();
+            await Assert.That(CliScraperBase.HelpDeclaresRepeatableOption(helpText, "--quiet", string.Empty)).IsFalse();
+        }
     }
 
     [Test]

@@ -1243,7 +1243,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// <summary>
     /// Returns whether help describes an option as repeatable.
     /// </summary>
-    protected static bool HelpDeclaresRepeatableOption(
+    protected internal static bool HelpDeclaresRepeatableOption(
         string helpText,
         string switchName,
         string description)
@@ -1258,27 +1258,59 @@ public abstract partial class CliScraperBase : ICliScraper
 
         for (var index = 0; index < lines.Length; index++)
         {
-            if (!OptionLinePattern().IsMatch(lines[index])
-                || !Regex.IsMatch(lines[index], optionPattern, RegexOptions.IgnoreCase))
+            var declaration = lines[index];
+            if (!OptionLinePattern().IsMatch(declaration))
             {
                 continue;
             }
 
-            var end = index + 1;
-            while (end < lines.Length
-                   && !string.IsNullOrWhiteSpace(lines[end])
-                   && !OptionLinePattern().IsMatch(lines[end]))
-            {
-                end++;
-            }
+            // Blank lines and option rows bound the block, never indentation: gcloud puts
+            // repeatability notes at the flag column. Section headings also end a block; blank
+            // separation is retained. Wrapped prose that starts with a switch is kept only when it
+            // sits at the description column: the row's own inline prose fixes that column, and a
+            // descriptionless row borrows the column its own help section lays its descriptions
+            // out at. While the column is still unknown any option-looking line ends the block (a
+            // sibling row, a nested row, or a one-word description's neighbour alike).
+            var declarationIndentation = GetIndentation(declaration);
+            var inlineDescriptionColumn = GetInlineDescriptionColumn(declaration);
+            var descriptionColumn = inlineDescriptionColumn
+                                    ?? GetSectionDescriptionColumn(lines, index, declarationIndentation);
+            var start = index;
+            index = GetLastDescriptionLine(lines, index, declarationIndentation, descriptionColumn);
 
-            if (RepeatableValuePattern().IsMatch(string.Join('\n', lines[index..end])))
+            // Consume every declaration's block before looking for the requested switch. A
+            // wrapped reference inside another option must never become a new declaration.
+            var optionMatch = Regex.Match(declaration, optionPattern, RegexOptions.IgnoreCase);
+            if (optionMatch.Success
+                && (inlineDescriptionColumn is null || GetColumn(declaration, optionMatch.Index) < inlineDescriptionColumn)
+                && RepeatableValuePattern().IsMatch(string.Join('\n', lines, start, index - start + 1)))
             {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private static int GetLastDescriptionLine(string[] lines, int index, int declarationIndentation, int? descriptionColumn)
+    {
+        while (index + 1 < lines.Length)
+        {
+            var candidate = lines[index + 1];
+            var looksLikeOptionRow = OptionLinePattern().IsMatch(candidate);
+            if (IsHelpSectionHeading(candidate, declarationIndentation)
+                || (looksLikeOptionRow && descriptionColumn is null)
+                || !IsContinuationLine(candidate, declarationIndentation: null, descriptionColumn, looksLikeOptionRow,
+                    index + 2 < lines.Length ? lines[index + 2] : null, lines[index]))
+            {
+                break;
+            }
+
+            index++;
+            descriptionColumn ??= GetIndentation(candidate);
+        }
+
+        return index;
     }
 
     /// <summary>
@@ -1336,11 +1368,18 @@ public abstract partial class CliScraperBase : ICliScraper
     /// Returns whether <paramref name="line"/> continues the description of the option
     /// declared at <paramref name="declarationIndentation"/> instead of starting the next
     /// help row. Formatters wrap prose at or beyond the block's description column, so a
-    /// row that looks like an option declaration but starts at or after that column is
-    /// still wrapped prose (for example a wrapped mention of <c>--flag=value</c>).
+    /// switch mention starting at or after that column can still be wrapped prose. A row with
+    /// its own separated description starts another declaration even at that column.
     /// </summary>
+    /// <remarks>
+    /// This single-line overload cannot inspect detached descriptions or reference introductions
+    /// on surrounding lines. The help-text scans supply that context to the private overload.
+    /// </remarks>
     /// <param name="line">The candidate continuation line.</param>
-    /// <param name="declarationIndentation">Column where the option declaration starts.</param>
+    /// <param name="declarationIndentation">
+    /// Column where the option declaration starts, or <see langword="null"/> when only blank
+    /// lines and option rows bound the block.
+    /// </param>
     /// <param name="descriptionColumn">
     /// Column where the declaration's inline description starts, or <see langword="null"/>
     /// when the description only begins on a following line. Until that column is known any
@@ -1350,11 +1389,28 @@ public abstract partial class CliScraperBase : ICliScraper
     /// <param name="looksLikeOptionRow">Whether the scraper's option pattern matches <paramref name="line"/>.</param>
     protected internal static bool IsContinuationLine(
         string line,
-        int declarationIndentation,
+        int? declarationIndentation,
         int? descriptionColumn,
-        bool looksLikeOptionRow)
+        bool looksLikeOptionRow) =>
+        IsContinuationLine(line, declarationIndentation, descriptionColumn, looksLikeOptionRow, nextLine: null, previousLine: null);
+
+    private static bool IsContinuationLine(
+        string line,
+        int? declarationIndentation,
+        int? descriptionColumn,
+        bool looksLikeOptionRow,
+        string? nextLine,
+        string? previousLine,
+        Func<string, bool>? optionRowPredicate = null,
+        bool allowSameColumnDescription = false,
+        Func<string, Group?>? captureInlineDescription = null)
     {
         if (string.IsNullOrWhiteSpace(line))
+        {
+            return false;
+        }
+
+        if (looksLikeOptionRow && StartsNestedOptionDescription(line, nextLine, previousLine, optionRowPredicate, captureInlineDescription))
         {
             return false;
         }
@@ -1362,8 +1418,217 @@ public abstract partial class CliScraperBase : ICliScraper
         var indentation = GetIndentation(line);
         var wrappedAtDescriptionColumn = descriptionColumn is null || indentation >= descriptionColumn;
         return (!looksLikeOptionRow || wrappedAtDescriptionColumn)
-               && indentation > declarationIndentation;
+               && (declarationIndentation is not { } floor || indentation > floor
+                   || (allowSameColumnDescription && indentation == floor && !looksLikeOptionRow
+                       && !IsHelpSectionHeading(line, floor)));
     }
+
+    private static bool StartsNestedOptionDescription(
+        string line, string? nextLine, string? previousLine, Func<string, bool>? optionRowPredicate,
+        Func<string, Group?>? captureInlineDescription) =>
+        GetRowDescriptionColumn(line, nextLine, optionRowPredicate, captureInlineDescription) is not null
+        && (previousLine is null || !SwitchReferenceIntroductionPattern().IsMatch(previousLine));
+
+    // Require a reference phrase, not a terminal connector such as "and" or "with":
+    // ordinary parent prose can end with those words immediately before a nested declaration.
+    [GeneratedRegex(@"\b(?:(?:combine[ds]?|pair(?:ed|s)?) with|values? from|for example)\s*:?\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex SwitchReferenceIntroductionPattern();
+
+    private static int? GetSectionDescriptionColumn(string[] lines, int declarationIndex, int declarationIndentation)
+    {
+        var start = declarationIndex;
+        while (start > 0 && !string.IsNullOrWhiteSpace(lines[start - 1])
+               && !IsHelpSectionHeading(lines[start - 1], declarationIndentation))
+        {
+            start--;
+        }
+
+        var end = declarationIndex + 1;
+        while (end < lines.Length && !string.IsNullOrWhiteSpace(lines[end])
+               && !IsHelpSectionHeading(lines[end], declarationIndentation))
+        {
+            end++;
+        }
+
+        return GetLayoutDescriptionColumn(lines[start..end]);
+    }
+
+    private static bool IsHelpSectionHeading(string line, int declarationIndentation)
+    {
+        if (string.IsNullOrWhiteSpace(line)
+            || GetIndentation(line) > declarationIndentation
+            || OptionLinePattern().IsMatch(line))
+        {
+            return false;
+        }
+
+        var text = line.Trim();
+        var heading = text.TrimEnd(':');
+        // Sentence punctuation and capitalization alone do not turn a repeatability note
+        // into a section. Custom colon-ended headings must have a title-shaped label.
+        return NamedHelpSectionPattern().IsMatch(heading)
+               || NamedOptionSectionPattern().IsMatch(heading)
+               || (!DescriptionDeclaresRepeatableOption(text)
+                   && text.EndsWith(':') && TitleHelpSectionPattern().IsMatch(heading));
+    }
+
+    [GeneratedRegex(@"^[A-Z][A-Za-z0-9/-]*(?:[ \t]+(?:[A-Z][A-Za-z0-9/-]*|and|or|of|for|the))*$", RegexOptions.CultureInvariant)]
+    private static partial Regex TitleHelpSectionPattern();
+
+    [GeneratedRegex(@"^(?:Usage|Synopsis|Description|Examples?|Environment(?: Variables)?|Notes?|See Also|Exit (?:Status|Codes?)|Commands)$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex NamedHelpSectionPattern();
+
+    [GeneratedRegex(@"^(?:[\w/]+[ \t]+)*(?:Flags|Options|Arguments)$", RegexOptions.IgnoreCase)]
+    private static partial Regex NamedOptionSectionPattern();
+
+    /// <summary>
+    /// Returns the column the help text lays option descriptions out at: the most common column
+    /// across its option rows, taking each row's inline prose column or, for a row without inline
+    /// prose, the indentation of the plain prose line beneath it. <see langword="null"/> when no
+    /// row establishes one.
+    /// </summary>
+    protected internal static int? GetLayoutDescriptionColumn(IReadOnlyList<string> lines)
+    {
+        var columns = new List<int>();
+        for (var index = 0; index < lines.Count; index++)
+        {
+            var line = lines[index];
+            if (!OptionLinePattern().IsMatch(line))
+            {
+                continue;
+            }
+
+            if (GetRowDescriptionColumn(line, index + 1 < lines.Count ? lines[index + 1] : null) is { } known)
+            {
+                columns.Add(known);
+            }
+        }
+
+        return columns.Count == 0
+            ? null
+            : columns
+                .GroupBy(column => column)
+                .OrderByDescending(group => group.Count())
+                .ThenBy(group => group.Key)
+                .First()
+                .Key;
+    }
+
+    private static int? GetRowDescriptionColumn(
+        string line, string? nextLine, Func<string, bool>? optionRowPredicate = null,
+        Func<string, Group?>? captureInlineDescription = null)
+    {
+        var capturedDescription = captureInlineDescription?.Invoke(line);
+        var column = capturedDescription is null
+            ? GetInlineDescriptionColumn(line)
+            : GetCapturedDescriptionColumn(line, capturedDescription);
+        if (column is null
+            && !string.IsNullOrWhiteSpace(nextLine)
+            && !(optionRowPredicate?.Invoke(nextLine) ?? OptionLinePattern().IsMatch(nextLine))
+            && (GetIndentation(nextLine) > GetIndentation(line)
+                || (GetIndentation(nextLine) == GetIndentation(line)
+                    && (capturedDescription is not null || IsOptionDeclarationSegment(line.TrimStart())))))
+        {
+            column = GetIndentation(nextLine);
+        }
+
+        return column;
+    }
+
+    /// <summary>
+    /// Returns the column where an option row's inline description starts, or
+    /// <see langword="null"/> when the row carries no description.
+    /// </summary>
+    private static int? GetCapturedDescriptionColumn(string declaration, Group? inlineDescription)
+    {
+        if (inlineDescription is not { } group || string.IsNullOrWhiteSpace(group.Value))
+        {
+            return null;
+        }
+
+        var leadingWhitespace = group.Value.Length - group.Value.TrimStart().Length;
+        return GetColumn(declaration, group.Index + leadingWhitespace);
+    }
+
+    /// <summary>
+    /// Returns the column where a generic option row's inline description starts, or
+    /// <see langword="null"/> when the row carries no prose. The row is split into segments at
+    /// runs of two or more blanks or at a single tab; switch segments and single-token value
+    /// hints that are followed by more text are skipped, so a padded hint
+    /// (<c>--env  stringArray   Set …</c>), a second switch form
+    /// (<c>-i CODES    --include=CODES    Consider …</c>) and a tab-aligned row
+    /// (<c>\t--env stringArray\tSet …</c>) all resolve to the prose column.
+    /// </summary>
+    protected internal static int? GetInlineDescriptionColumn(string line)
+    {
+        var position = line.Length - line.TrimStart().Length;
+        if (position == line.Length)
+        {
+            return null;
+        }
+
+        var segments = new List<(int Start, string Text)>();
+        foreach (Match separator in InlineSegmentSeparatorPattern().Matches(line, position))
+        {
+            segments.Add((position, line[position..separator.Index]));
+            position = separator.Index + separator.Length;
+        }
+
+        segments.Add((position, line[position..].TrimEnd()));
+
+        for (var index = 0; index < segments.Count; index++)
+        {
+            var (start, text) = segments[index];
+            if (text.Length == 0 || (text[0] == '-' && (index == 0 || IsOptionDeclarationSegment(text))))
+            {
+                continue;
+            }
+
+            // A capitalized word in a padded value column can name a tool-specific type.
+            // Require a later segment so terminal one-word descriptions remain prose.
+            var isPaddedValueHint = index < segments.Count - 1
+                                    && char.IsUpper(text[0])
+                                    && text.All(char.IsLetter);
+            if (!isPaddedValueHint && !LooksLikeValueHint(text))
+            {
+                return GetColumn(line, start);
+            }
+        }
+
+        return null;
+    }
+
+    private static bool IsOptionDeclarationSegment(string text)
+    {
+        var option = OptionSegmentPrefixPattern().Match(text);
+        if (!option.Success)
+        {
+            return false;
+        }
+
+        var remainder = text[option.Length..].Trim();
+        return remainder.Length == 0 || LooksLikeValueHint(remainder);
+    }
+
+    [GeneratedRegex(@"^--?[\w-]+(?:[ \t]*,[ \t]*--?[\w-]+)*(?:[ \t=]+|$)")]
+    private static partial Regex OptionSegmentPrefixPattern();
+
+    /// <summary>
+    /// Returns whether a row segment is a typed or syntactic value hint rather than prose.
+    /// Single-word descriptions remain prose; recognized types and placeholder sequences
+    /// such as <c>stringArray</c>, <c>String</c>, <c>KEY VALUE</c>, and <c>&lt;value&gt;</c>
+    /// leave the column unknown until an inline or wrapped description establishes it.
+    /// </summary>
+    private static bool LooksLikeValueHint(string text) =>
+        ValueTypeHintPattern().IsMatch(text)
+        || text.Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries)
+            .All(static token => PlaceholderTokenPattern().IsMatch(token));
+
+    [GeneratedRegex(@"^(?:bool(?:ean)?|byte|char|decimal|double|duration|float(?:32|64)?|u?int(?:8|16|32|64)?|integer|long|number|object|path|string|time|timestamp)(?:Array|Slice|s)?$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex ValueTypeHintPattern();
+
+    [GeneratedRegex(@"^(?:<[^>]+>|\[[^\]]+\]|\{[^}]+\}|[A-Z][A-Z0-9_:.=/|,-]*|\.\.\.|…)(?:\.\.\.|…)?$")]
+    private static partial Regex PlaceholderTokenPattern();
 
     /// <summary>
     /// Joins an option row's inline description with the prose wrapped beneath it, advancing
@@ -1381,17 +1646,37 @@ public abstract partial class CliScraperBase : ICliScraper
         IReadOnlyList<string> lines,
         ref int declarationIndex,
         Group? inlineDescription,
-        Func<string, bool> looksLikeOptionRow)
+        Func<string, bool> looksLikeOptionRow) =>
+        AccumulateWrappedDescription(lines, ref declarationIndex, inlineDescription, looksLikeOptionRow, null);
+
+    /// <summary>
+    /// Accumulates wrapped prose using caller captures to distinguish nested declarations
+    /// with tool-specific value syntax from option references in prose.
+    /// </summary>
+    /// <param name="lines">The help text lines.</param>
+    /// <param name="declarationIndex">Index of the option row; advanced past consumed prose.</param>
+    /// <param name="inlineDescription">The current row's captured inline description.</param>
+    /// <param name="looksLikeOptionRow">Recognizes candidate option rows.</param>
+    /// <param name="captureInlineDescription">
+    /// Returns the description group for a recognized declaration, including an empty group
+    /// for a declaration without prose, or null when the caller grammar does not match.
+    /// </param>
+    internal static string AccumulateWrappedDescription(
+        IReadOnlyList<string> lines,
+        ref int declarationIndex,
+        Group? inlineDescription,
+        Func<string, bool> looksLikeOptionRow,
+        Func<string, Group?>? captureInlineDescription)
     {
         var declaration = lines[declarationIndex];
         var declarationIndentation = GetIndentation(declaration);
+        var descriptionColumn = GetCapturedDescriptionColumn(declaration, inlineDescription);
+        var allowSameColumnDescription = descriptionColumn is null
+                                         && looksLikeOptionRow(declaration);
         var parts = new List<string>();
-        int? descriptionColumn = null;
-        if (inlineDescription is { } group && !string.IsNullOrWhiteSpace(group.Value))
+        if (descriptionColumn is not null && inlineDescription is { } group)
         {
             parts.Add(group.Value.Trim());
-            var leadingWhitespace = group.Value.Length - group.Value.TrimStart().Length;
-            descriptionColumn = GetColumn(declaration, group.Index + leadingWhitespace);
         }
 
         while (declarationIndex + 1 < lines.Count)
@@ -1401,7 +1686,12 @@ public abstract partial class CliScraperBase : ICliScraper
                     candidate,
                     declarationIndentation,
                     descriptionColumn,
-                    looksLikeOptionRow(candidate)))
+                    looksLikeOptionRow(candidate),
+                    declarationIndex + 2 < lines.Count ? lines[declarationIndex + 2] : null,
+                    lines[declarationIndex],
+                    looksLikeOptionRow,
+                    allowSameColumnDescription,
+                    captureInlineDescription))
             {
                 break;
             }
@@ -1842,6 +2132,13 @@ public abstract partial class CliScraperBase : ICliScraper
         @"^[ \t]*(?:-\w(?:[ \t]+[^,\s]+)?[ \t]*,[ \t]*)?--[\w-]+(?:[ \t]|,|=|$)",
         RegexOptions.Multiline)]
     protected static partial Regex OptionLinePattern();
+
+    /// <summary>
+    /// Separates the segments of a generic option row: a run of two or more blanks, or a
+    /// single tab, which tab-aligned help uses as its column separator.
+    /// </summary>
+    [GeneratedRegex(@"[ \t]{2,}|\t")]
+    private static partial Regex InlineSegmentSeparatorPattern();
 
     [GeneratedRegex(
         @"^[ \t]*Usage:?[ \t]*(?:[^\r\n]*\r?\n[ \t]*){0,2}[^\r\n]*(?:<command>|\[command\])[^\r\n]*\r?$",

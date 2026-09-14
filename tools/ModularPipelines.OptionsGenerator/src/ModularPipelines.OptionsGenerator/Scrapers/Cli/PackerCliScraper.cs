@@ -249,7 +249,12 @@ public partial class PackerCliScraper : CliScraperBase
 
             seenOptions.Add(longForm);
 
-            var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow);
+            var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow,
+                static candidate =>
+                {
+                    var candidateMatch = PackerOptionPattern().Match(candidate);
+                    return candidateMatch.Success ? candidateMatch.Groups["desc"] : null;
+                });
 
             var propertyName = NormalizePropertyName(longForm);
             if (propertyName is null)
