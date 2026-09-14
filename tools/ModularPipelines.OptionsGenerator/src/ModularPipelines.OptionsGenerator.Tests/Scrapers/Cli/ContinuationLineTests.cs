@@ -239,6 +239,10 @@ public class ContinuationLineTests
     [Arguments("  --verbose    Verbose", "Verbose")]
     [Arguments("  --child VALUE   Repeatable.", "Repeatable.")]
     [Arguments("  --child   Required", "Required")]
+    [Arguments("  --input  File   Read input", "Read")]
+    [Arguments("  --input  Filename   Read input", "Read")]
+    [Arguments("  --host  Hostname   Select host", "Select")]
+    [Arguments("  --mode  Enum   Select mode", "Select")]
     public async Task Inline_Description_Column_Skips_Switches_And_Value_Hints(string line, string descriptionStart)
     {
         var expected = CliScraperBase.GetColumn(line, line.IndexOf(descriptionStart, StringComparison.Ordinal));
