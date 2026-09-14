@@ -99,6 +99,9 @@ public class ContinuationLineTests
     [Arguments("GLOBAL OPTIONS")]
     [Arguments("Description:")]
     [Arguments("Custom Section:")]
+    [Arguments("Repeatable Options:")]
+    [Arguments("REPEATABLE FLAGS")]
+    [Arguments("Repeatable Arguments:")]
     public async Task Repeatability_In_Another_Section_Does_Not_Apply_To_An_Option(string heading)
     {
         var helpText = $"  --env VALUE   Set variables\n{heading}\n  Some other setting may be specified multiple times";
