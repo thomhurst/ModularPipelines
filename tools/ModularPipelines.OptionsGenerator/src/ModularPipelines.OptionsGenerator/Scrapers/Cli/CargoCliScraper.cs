@@ -1,6 +1,5 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
-using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -115,7 +114,7 @@ public partial class CargoCliScraper : CliScraperBase
         CancellationToken cancellationToken) =>
         throw new InvalidOperationException("Shared traversal must pass its parsed synopsis.");
 
-    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+    protected override async Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,
         string helpText,
         UsageSynopsisParseResult usage,
@@ -125,17 +124,33 @@ public partial class CargoCliScraper : CliScraperBase
 
         if (commandParts.Length == 0)
         {
-            return Task.FromResult<CliCommandDefinition?>(null);
+            return null;
         }
 
-        var description = ExtractDescription(helpText);
-        var options = ParseOptions(helpText);
+        var className = GenerateClassName(commandPath);
+        var description = ExtractSummaryAboveUsage(helpText.Split('\n'));
+        var options = ParseOptions(helpText, className);
+        var manual = options.Any(static option => !option.IsFlag && !option.AcceptsMultipleValues)
+            ? await GetManualHelpTextAsync(commandPath, cancellationToken).ConfigureAwait(false)
+            : string.Empty;
+        for (var index = 0; index < options.Count; index++)
+        {
+            var option = options[index];
+            if (!option.IsFlag && !option.AcceptsMultipleValues
+                && HelpDeclaresRepeatableOption(manual, option.SwitchName, option.Description ?? ""))
+            {
+                options[index] = option with
+                {
+                    AcceptsMultipleValues = true,
+                    CSharpType = AsCSharpType(option.CSharpType, acceptsMultipleValues: true),
+                };
+            }
+        }
+
         var enums = options
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
             .ToList();
-
-        var className = GenerateClassName(commandPath);
 
         var command = new CliCommandDefinition
         {
@@ -154,46 +169,29 @@ public partial class CargoCliScraper : CliScraperBase
             Enums = enums
         };
 
-        return Task.FromResult<CliCommandDefinition?>(command);
+        return command;
     }
 
     /// <summary>
-    /// Extracts description from help text.
+    /// Reads the installed Cargo manual, which documents repetition omitted by terse clap help.
     /// </summary>
-    private static string? ExtractDescription(string helpText)
+    protected virtual async Task<string> GetManualHelpTextAsync(string[] commandPath, CancellationToken cancellationToken)
     {
-        var lines = helpText.Split('\n');
-
-        // First non-empty line before "Usage:" is usually the description
-        foreach (var line in lines)
+        var arguments = "help " + string.Join(" ", commandPath.Skip(1));
+        var result = await ExecuteAndRecordHelpCommandAsync(commandPath, ExecutablePath, arguments,
+            cancellationToken, preserveRawHelp: true, helpKind: CliHelpKind.Manual).ConfigureAwait(false);
+        if (!result.Success || string.IsNullOrWhiteSpace(result.StandardOutput))
         {
-            var trimmed = line.Trim();
-
-            if (string.IsNullOrWhiteSpace(trimmed))
-            {
-                continue;
-            }
-
-            if (trimmed.StartsWith("Usage:", StringComparison.OrdinalIgnoreCase))
-            {
-                break;
-            }
-
-            if (trimmed.Length > 10 && !trimmed.Contains("--"))
-            {
-                return trimmed;
-            }
+            throw new InvalidOperationException($"Unable to read installed Cargo manual for {string.Join(" ", commandPath)}.");
         }
 
-        return null;
+        return result.StandardOutput;
     }
 
     /// <summary>
-    /// Parses options from cargo help text.
-    /// Format: -V, --version    Print version info
-    ///         --list           List installed commands
+    /// Parses clap options under Cargo's arbitrary option-section headings.
     /// </summary>
-    private static List<CliOptionDefinition> ParseOptions(string helpText)
+    private static List<CliOptionDefinition> ParseOptions(string helpText, string className)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.Ordinal);
@@ -213,62 +211,36 @@ public partial class CargoCliScraper : CliScraperBase
                 continue;
             }
 
-            var match = CargoOptionDeclarationPattern().Match(lines[index]);
+            var line = lines[index];
+            var match = ClapOptionDeclarationPattern().Match(line);
             if (!match.Success)
             {
                 continue;
             }
 
-            var shortForm = match.Groups["short"].Value.Trim();
-            var longForm = match.Groups["long"].Value.Trim();
-            var valueHint = match.Groups["value"].Value.Trim();
-
-            if (string.IsNullOrEmpty(longForm) && string.IsNullOrEmpty(shortForm))
-            {
-                continue;
-            }
-
-            var switchName = !string.IsNullOrEmpty(longForm) ? longForm : shortForm;
-
-            if (!seenOptions.Add(switchName))
-            {
-                continue;
-            }
-
+            var longSwitch = match.Groups["long"];
+            var primarySwitch = longSwitch.Success ? longSwitch : match.Groups["short"];
+            var switchName = primarySwitch.Value.Trim();
+            var switchColumn = GetColumn(line, primarySwitch.Index) + (longSwitch.Success ? 0 : 4);
+            var block = string.IsNullOrWhiteSpace(match.Groups["desc"].Value)
+                ? ReadClapOptionBlock(lines, ref index, switchColumn)
+                : SplitPossibleValuesTrailer(
+                    AccumulateWrappedDescription(lines, ref index, match.Groups["desc"], IsOptionRow));
             var propertyName = NormalizePropertyName(switchName);
-            if (propertyName is null)
+            if (switchName is "--help" or "-h" || propertyName is null || !seenOptions.Add(switchName))
             {
                 continue;
             }
 
-            var isFlag = string.IsNullOrEmpty(valueHint);
-            var csharpType = isFlag ? "bool?" : "string?";
-
-            // Handle common array-type options
-            if (switchName is "--package" or "-p" or "--exclude" or "--features" or "-F")
+            var value = match.Groups["value"];
+            if (value.Value.StartsWith("[<", StringComparison.Ordinal))
             {
-                csharpType = "IEnumerable<string>?";
+                // Cargo uses these brackets for a missing-value diagnostic, not a valid bare switch.
+                var declaration = line[..value.Index] + value.Value[1..^1] + line[(value.Index + value.Length)..];
+                match = ClapOptionDeclarationPattern().Match(declaration);
             }
 
-            // Consumes wrapped description lines so they are not re-read as declarations.
-            var description = AccumulateWrappedDescription(lines, ref index, match.Groups["desc"], IsOptionRow);
-
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = switchName,
-                ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
-                PropertyName = propertyName,
-                CSharpType = csharpType,
-                Description = description,
-                IsFlag = isFlag,
-                IsRequired = false,
-                AcceptsMultipleValues = csharpType.Contains("IEnumerable"),
-                IsKeyValue = false,
-                IsNumeric = false,
-                ValueSeparator = " ",
-                EnumDefinition = null,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-            });
+            options.Add(CreateClapOption(match, className, propertyName, switchName, block));
         }
 
         return options;
@@ -305,7 +277,7 @@ public partial class CargoCliScraper : CliScraperBase
         && (!heading.Contains("command", StringComparison.OrdinalIgnoreCase)
             || heading.EndsWith("Options:", StringComparison.OrdinalIgnoreCase));
 
-    private static bool IsOptionRow(string line) => CargoOptionDeclarationPattern().IsMatch(line);
+    private static bool IsOptionRow(string line) => ClapOptionDeclarationPattern().IsMatch(line);
 
     /// <summary>
     /// Checks if help text indicates the command has options.
@@ -334,15 +306,6 @@ public partial class CargoCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"\n[A-Z][\w\s]+:\s*\n")]
     private static partial Regex NextSectionPattern();
-
-    /// <summary>
-    /// Matches cargo-style option lines:
-    ///   -V, --version             Print version info
-    ///       --list                List installed commands
-    ///   -p, --package <SPEC>      Package to build
-    /// </summary>
-    [GeneratedRegex(@"^\s+(?:(?<short>-\w),\s+)?(?<long>--[\w-]+)(?:\s+<(?<value>[^>]+)>)?(?:\s{2,}(?<desc>.*))?\s*$")]
-    private static partial Regex CargoOptionDeclarationPattern();
 
     #endregion
 }

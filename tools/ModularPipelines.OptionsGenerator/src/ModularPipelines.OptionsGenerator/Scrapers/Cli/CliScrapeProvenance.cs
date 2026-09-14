@@ -28,6 +28,7 @@ internal sealed class CliScrapeProvenance
         _helpInvocations.Values
             .Where(static invocation => invocation.Unavailable)
             .Select(static invocation => invocation.CommandPath)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
             .Order(StringComparer.OrdinalIgnoreCase)
             .ToArray();
 
@@ -35,12 +36,14 @@ internal sealed class CliScrapeProvenance
         IReadOnlyList<string> commandPath,
         string arguments,
         CliCommandResult result,
-        bool preserveRawHelp = false)
+        bool preserveRawHelp = false,
+        CliHelpKind helpKind = CliHelpKind.Help)
     {
         var path = string.Join(' ', commandPath);
-        _helpInvocations[path] = new CliHelpInvocation
+        _helpInvocations[GetKey(path, helpKind)] = new CliHelpInvocation
         {
             CommandPath = path,
+            HelpKind = helpKind.ToString(),
             Arguments = arguments,
             ExitCode = result.ExitCode,
             StandardOutputLength = result.StandardOutput.Length,
@@ -50,12 +53,17 @@ internal sealed class CliScrapeProvenance
             PreserveRawHelp = preserveRawHelp || commandPath.Count == 1 || result.ExitCode != 0,
             Unavailable = result.Unavailable,
         };
+        if (helpKind == CliHelpKind.Manual)
+        {
+            // Keep the parsed help alongside the supplemental manual in failure diagnostics.
+            PreserveGroupHelp(commandPath);
+        }
     }
 
     public void RecordCacheHit(IReadOnlyList<string> commandPath, string helpText)
     {
         var path = string.Join(' ', commandPath);
-        _helpInvocations.TryAdd(path, new CliHelpInvocation
+        _helpInvocations.TryAdd(GetKey(path), new CliHelpInvocation
         {
             CommandPath = path,
             Arguments = "<cached>",
@@ -70,7 +78,7 @@ internal sealed class CliScrapeProvenance
 
     public void PreserveGroupHelp(IReadOnlyList<string> commandPath)
     {
-        var path = string.Join(' ', commandPath);
+        var path = GetKey(string.Join(' ', commandPath));
         if (_helpInvocations.TryGetValue(path, out var invocation))
         {
             _helpInvocations[path] = invocation with
@@ -82,7 +90,7 @@ internal sealed class CliScrapeProvenance
 
     public void DiscardLeafHelp(IReadOnlyList<string> commandPath)
     {
-        var path = string.Join(' ', commandPath);
+        var path = GetKey(string.Join(' ', commandPath));
         if (_helpInvocations.TryGetValue(path, out var invocation)
             && !invocation.PreserveRawHelp)
         {
@@ -100,18 +108,19 @@ internal sealed class CliScrapeProvenance
         var requestedHelpPaths = coverage.RemovedCommands
             .Concat(unavailableHelpPaths)
             .SelectMany(GetAncestorCommands)
+            .Concat(coverage.RemovedCommands)
             .Concat(unavailableHelpPaths)
             .Append(toolName)
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .Order(StringComparer.OrdinalIgnoreCase)
             .ToArray();
+        var invocationsByPath = _helpInvocations.Values.ToLookup(
+            static invocation => invocation.CommandPath, StringComparer.OrdinalIgnoreCase);
         var invocations = requestedHelpPaths
-            .Select(path => _helpInvocations.GetValueOrDefault(path))
-            .Where(static invocation => invocation is not null)
-            .Select(static invocation => invocation!)
+            .SelectMany(path => invocationsByPath[path].OrderBy(static invocation => invocation.HelpKind, StringComparer.Ordinal))
             .ToArray();
         var missingHelpPaths = requestedHelpPaths
-            .Where(path => !_helpInvocations.ContainsKey(path))
+            .Where(path => !_helpInvocations.ContainsKey(GetKey(path)))
             .ToArray();
         var diagnostics = new CliCoverageFailureDiagnostics
         {
@@ -141,6 +150,9 @@ internal sealed class CliScrapeProvenance
         return diagnosticsPath;
     }
 
+    private static string GetKey(string commandPath, CliHelpKind helpKind = CliHelpKind.Help) =>
+        $"{commandPath}\0{helpKind}";
+
     private static IEnumerable<string> GetAncestorCommands(string command)
     {
         var separator = command.LastIndexOf(' ');
@@ -166,9 +178,17 @@ internal sealed class CliScrapeProvenance
         Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(value))).ToLowerInvariant();
 }
 
+internal enum CliHelpKind
+{
+    Help,
+    Manual,
+}
+
 internal sealed record CliHelpInvocation
 {
     public required string CommandPath { get; init; }
+
+    public string HelpKind { get; init; } = nameof(CliHelpKind.Help);
 
     public required string Arguments { get; init; }
 

@@ -10,6 +10,29 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PnpmCliScraperTests
 {
     [Test]
+    [Arguments("-v, --verbose...", "int?", true)]
+    [Arguments("-q, --quiet", "bool?", false)]
+    public async Task Repeated_Clap_Flags_Preserve_Counts(string declaration, string expectedType, bool numeric)
+    {
+        var help = $"Usage: pnpm example [OPTIONS]\n\nOptions:\n  {declaration}  Set output verbosity.\n";
+        var command = (await new TestPnpmCliScraper().Parse(["pnpm", "example"], help))!;
+        var option = command.Options.Single();
+        await Assert.That(option.IsFlag).IsTrue();
+        await Assert.That(option.IsNumeric).IsEqualTo(numeric);
+        await Assert.That(option.PropertyType).IsEqualTo(expectedType);
+        var generated = await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "pnpm",
+            NamespacePrefix = "Pnpm",
+            TargetNamespace = "ModularPipelines.Node",
+            OutputDirectory = "src/ModularPipelines.Node",
+            Commands = [command],
+        });
+        await Assert.That(generated.Single().Content).Contains($"[CliFlag(\"{option.SwitchName}\", ShortForm = \"{option.ShortForm}\")]");
+        await Assert.That(generated.Single().Content).Contains($"public {expectedType} {option.PropertyName} {{ get; set; }}");
+    }
+
+    [Test]
     [Arguments("--verbose", false)]
     [Arguments("--verbose", true)]
     [Arguments("-v", false)]

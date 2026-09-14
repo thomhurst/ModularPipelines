@@ -171,3 +171,6 @@ virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.IgnoredOpt
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.DotNetCliScraper.IgnoredOptionSwitches.get -> System.Collections.Generic.IReadOnlySet<string!>!
 ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ApplyIgnoredOptionPolicy(ModularPipelines.OptionsGenerator.Models.CliCommandDefinition! command) -> ModularPipelines.OptionsGenerator.Models.CliCommandDefinition!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.PnpmCliScraper.IgnoredOptionSwitches.get -> System.Collections.Generic.IReadOnlySet<string!>!
+static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ClapOptionDeclarationPattern() -> System.Text.RegularExpressions.Regex!
+static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.CreateClapOption(System.Text.RegularExpressions.Match! match, string! className, string! propertyName, string! switchName, ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ClapOptionBlock! block) -> ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!
+virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CargoCliScraper.GetManualHelpTextAsync(string![]! commandPath, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<string!>!

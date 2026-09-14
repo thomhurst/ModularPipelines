@@ -861,6 +861,65 @@ public class CommandCoverageGuardTests
         }
     }
 
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CoverageFailureDiagnostics_Preserve_Help_And_Manual_Separately(bool cachedHelp)
+    {
+        var outputDirectory = CreateOutputDirectory();
+        try
+        {
+            var baseline = CommandCoverageGuard.Evaluate(
+                Tool(Command("fake build"), Command("fake status")), outputDirectory, approveShrinkage: false);
+            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
+            var current = CommandCoverageGuard.Evaluate(
+                Tool(Command("fake status")), outputDirectory, approveShrinkage: false);
+            var provenance = new CliScrapeProvenance();
+            provenance.Record(["fake"], "--help", Result("ROOT HELP"));
+            if (cachedHelp)
+            {
+                provenance.RecordCacheHit(["fake", "build"], "PARSED BUILD HELP");
+            }
+            else
+            {
+                provenance.Record(["fake", "build"], "build --help", Result("PARSED BUILD HELP"));
+            }
+
+            provenance.Record(["fake", "build"], "help build", Result("BUILD MANUAL"),
+                preserveRawHelp: true, helpKind: CliHelpKind.Manual);
+            provenance.DiscardLeafHelp(["FAKE", "BUILD"]);
+            var path = await provenance.WriteCoverageFailureDiagnosticsAsync(outputDirectory, current, CancellationToken.None);
+            using var diagnostics = JsonDocument.Parse(await File.ReadAllTextAsync(path!));
+            var invocations = diagnostics.RootElement.GetProperty("helpInvocations").EnumerateArray()
+                .Where(invocation => invocation.GetProperty("commandPath").GetString() == "fake build").ToArray();
+            await Assert.That(invocations.Length).IsEqualTo(2);
+            var help = invocations.Single(invocation => invocation.GetProperty("helpKind").GetString() == "Help");
+            var manual = invocations.Single(invocation => invocation.GetProperty("helpKind").GetString() == "Manual");
+            await Assert.That(help.GetProperty("arguments").GetString()).IsEqualTo(cachedHelp ? "<cached>" : "build --help");
+            await Assert.That(help.GetProperty("rawHelp").GetString()).IsEqualTo("PARSED BUILD HELP");
+            await Assert.That(manual.GetProperty("arguments").GetString()).IsEqualTo("help build");
+            await Assert.That(manual.GetProperty("rawHelp").GetString()).IsEqualTo("BUILD MANUAL");
+            await Assert.That(diagnostics.RootElement.GetProperty("missingHelpPaths").GetArrayLength()).IsEqualTo(0);
+        }
+        finally
+        {
+            Directory.Delete(outputDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Manual_Availability_Is_Not_Overwritten_By_Primary_Help()
+    {
+        var provenance = new CliScrapeProvenance();
+        provenance.Record(["fake", "build"], "help build", Result("", timedOut: true), helpKind: CliHelpKind.Manual);
+        provenance.Record(["fake", "build"], "build --help", Result("", timedOut: true));
+        await Assert.That(provenance.UnavailableHelpPaths).IsEquivalentTo(["fake build"]);
+        provenance.Record(["FAKE", "BUILD"], "build --help", Result("BUILD HELP"));
+        await Assert.That(provenance.UnavailableHelpPaths).IsEquivalentTo(["fake build"]);
+        provenance.Record(["fake", "build"], "help build", Result("BUILD MANUAL"), helpKind: CliHelpKind.Manual);
+        await Assert.That(provenance.UnavailableHelpPaths).IsEmpty();
+    }
+
     private static string CreateOutputDirectory()
     {
         var path = Path.Combine(Path.GetTempPath(), "mp-command-coverage-tests", Guid.NewGuid().ToString("N"));
