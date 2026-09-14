@@ -38,7 +38,7 @@ internal partial class Jq : IJq
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new JqExecuteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new JqExecuteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

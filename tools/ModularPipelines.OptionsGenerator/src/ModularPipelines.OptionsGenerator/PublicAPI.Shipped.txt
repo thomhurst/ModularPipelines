@@ -1,26 +1,4 @@
 #nullable enable
-virtual ModularPipelines.Options.CommandLineToolOptions.<Clone>$() -> ModularPipelines.Options.CommandLineToolOptions!
-abstract ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.NamespacePrefix.get -> string!
-abstract ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.OutputDirectory.get -> string!
-abstract ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.ScrapeAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.Models.CliToolDefinition!>!
-abstract ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.TargetNamespace.get -> string!
-abstract ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.ToolName.get -> string!
-abstract ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.NamespacePrefix.get -> string!
-abstract ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.OutputDirectory.get -> string!
-abstract ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ParseCommandAsync(string![]! commandPath, string! helpText, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.Models.CliCommandDefinition?>!
-abstract ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.TargetNamespace.get -> string!
-abstract ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ToolName.get -> string!
-abstract ModularPipelines.OptionsGenerator.TypeDetection.HelpTextTypeDetectorBase.CanHandle(string! toolName) -> bool
-abstract ModularPipelines.OptionsGenerator.TypeDetection.HelpTextTypeDetectorBase.Name.get -> string!
-abstract ModularPipelines.OptionsGenerator.TypeDetection.HelpTextTypeDetectorBase.ParseOptionFromHelpText(string! helpText, ModularPipelines.OptionsGenerator.TypeDetection.OptionDetectionContext! context) -> ModularPipelines.OptionsGenerator.TypeDetection.OptionTypeDetectionResult!
-abstract ModularPipelines.OptionsGenerator.TypeDetection.HelpTextTypeDetectorBase.Priority.get -> int
-const ModularPipelines.OptionsGenerator.External.ExternalToolDefinitionDocument.CurrentSchemaVersion = 2 -> int
-const ModularPipelines.OptionsGenerator.Generators.GeneratorUtils.ExecutionOptionsParameter = "CommandExecutionOptions? executionOptions = null" -> string!
-const ModularPipelines.OptionsGenerator.Generators.GeneratorUtils.GeneratorName = "ModularPipelines.OptionsGenerator" -> string!
-const ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache.DefaultMaxEntries = 10000 -> int
-const ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache.DefaultSizePerEntry = 1 -> int
-const ModularPipelines.OptionsGenerator.TypeDetection.ResilientCliCommandExecutor.DefaultFailureThreshold = 5 -> int
-const ModularPipelines.OptionsGenerator.TypeDetection.ResilientCliCommandExecutor.DefaultMaxRetries = 3 -> int
 ModularPipelines.Attributes.CliOptionValueArity
 ModularPipelines.Attributes.CliOptionValueArity.Optional = 1 -> ModularPipelines.Attributes.CliOptionValueArity
 ModularPipelines.Attributes.CliOptionValueArity.Required = 0 -> ModularPipelines.Attributes.CliOptionValueArity
@@ -264,10 +242,10 @@ ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.AcceptsMultipleValu
 ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.AcceptsMultipleValues.init -> void
 ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.Availability.get -> string?
 ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.Availability.init -> void
-ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.CliOptionDefinition() -> void
-ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.CliOptionDefinition(ModularPipelines.OptionsGenerator.Models.CliOptionDefinition! original) -> void
 ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.CSharpType.get -> string!
 ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.CSharpType.init -> void
+ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.CliOptionDefinition() -> void
+ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.CliOptionDefinition(ModularPipelines.OptionsGenerator.Models.CliOptionDefinition! original) -> void
 ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.Description.get -> string?
 ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.Description.init -> void
 ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.DocumentationUrl.get -> string?
@@ -311,10 +289,10 @@ ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.ValueSeparator.init
 ModularPipelines.OptionsGenerator.Models.CliPositionalArgument
 ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.AssociatedOptionSwitch.get -> string?
 ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.AssociatedOptionSwitch.init -> void
-ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.CliPositionalArgument() -> void
-ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.CliPositionalArgument(ModularPipelines.OptionsGenerator.Models.CliPositionalArgument! original) -> void
 ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.CSharpType.get -> string!
 ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.CSharpType.init -> void
+ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.CliPositionalArgument() -> void
+ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.CliPositionalArgument(ModularPipelines.OptionsGenerator.Models.CliPositionalArgument! original) -> void
 ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.Description.get -> string?
 ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.Description.init -> void
 ModularPipelines.OptionsGenerator.Models.CliPositionalArgument.IsRequired.get -> bool
@@ -388,8 +366,8 @@ ModularPipelines.OptionsGenerator.Models.CommandTreeNode
 ModularPipelines.OptionsGenerator.Models.CommandTreeNode.Children.get -> System.Collections.Generic.Dictionary<string!, ModularPipelines.OptionsGenerator.Models.CommandTreeNode!>!
 ModularPipelines.OptionsGenerator.Models.CommandTreeNode.ClassName.get -> string!
 ModularPipelines.OptionsGenerator.Models.CommandTreeNode.ClassName.init -> void
-ModularPipelines.OptionsGenerator.Models.CommandTreeNode.Commands.get -> System.Collections.Generic.List<ModularPipelines.OptionsGenerator.Models.CliCommandDefinition!>!
 ModularPipelines.OptionsGenerator.Models.CommandTreeNode.CommandTreeNode() -> void
+ModularPipelines.OptionsGenerator.Models.CommandTreeNode.Commands.get -> System.Collections.Generic.List<ModularPipelines.OptionsGenerator.Models.CliCommandDefinition!>!
 ModularPipelines.OptionsGenerator.Models.CommandTreeNode.Depth.get -> int
 ModularPipelines.OptionsGenerator.Models.CommandTreeNode.Depth.set -> void
 ModularPipelines.OptionsGenerator.Models.CommandTreeNode.HasChildren.get -> bool
@@ -497,8 +475,8 @@ ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache
 ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache.Clear() -> void
 ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache.Dispose() -> void
 ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache.GetStatistics() -> ModularPipelines.OptionsGenerator.Scrapers.Cli.CacheStatistics!
-ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache.HelpTextCache(Microsoft.Extensions.Logging.ILogger<ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache!>! logger, System.TimeSpan ttl, int maxEntries) -> void
 ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache.HelpTextCache(Microsoft.Extensions.Logging.ILogger<ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache!>! logger) -> void
+ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache.HelpTextCache(Microsoft.Extensions.Logging.ILogger<ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache!>! logger, System.TimeSpan ttl, int maxEntries) -> void
 ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache.Set(string! cacheKey, string! helpText) -> void
 ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache.TryGet(string! cacheKey, out string? helpText) -> bool
 ModularPipelines.OptionsGenerator.Scrapers.Cli.ICliScraper
@@ -565,7 +543,6 @@ ModularPipelines.OptionsGenerator.Scrapers.Cli.TerraformCliScraper
 ModularPipelines.OptionsGenerator.Scrapers.Cli.TerraformCliScraper.TerraformCliScraper(ModularPipelines.OptionsGenerator.TypeDetection.ICliCommandExecutor! executor, ModularPipelines.OptionsGenerator.Scrapers.Cli.IHelpTextCache! helpCache, Microsoft.Extensions.Logging.ILogger<ModularPipelines.OptionsGenerator.Scrapers.Cli.TerraformCliScraper!>! logger) -> void
 ModularPipelines.OptionsGenerator.Scrapers.Cli.TrivyCliScraper
 ModularPipelines.OptionsGenerator.Scrapers.Cli.TrivyCliScraper.TrivyCliScraper(ModularPipelines.OptionsGenerator.TypeDetection.ICliCommandExecutor! executor, ModularPipelines.OptionsGenerator.Scrapers.Cli.IHelpTextCache! helpCache, Microsoft.Extensions.Logging.ILogger<ModularPipelines.OptionsGenerator.Scrapers.Cli.TrivyCliScraper!>! logger) -> void
-ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParser
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult.<Clone>$() -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult.CommandMatched.get -> bool
@@ -588,6 +565,7 @@ ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult.Synopsis
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult.UnparsedOperandTokens.get -> System.Collections.Generic.IReadOnlyList<string!>!
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult.UnparsedOperandTokens.init -> void
 ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult.UsageSynopsisParseResult() -> void
+ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParser
 ModularPipelines.OptionsGenerator.Scrapers.Cli.VaultCliScraper
 ModularPipelines.OptionsGenerator.Scrapers.Cli.VaultCliScraper.VaultCliScraper(ModularPipelines.OptionsGenerator.TypeDetection.ICliCommandExecutor! executor, ModularPipelines.OptionsGenerator.Scrapers.Cli.IHelpTextCache! helpCache, Microsoft.Extensions.Logging.ILogger<ModularPipelines.OptionsGenerator.Scrapers.Cli.VaultCliScraper!>! logger) -> void
 ModularPipelines.OptionsGenerator.Scrapers.Cli.WinGetCliScraper
@@ -650,8 +628,8 @@ ModularPipelines.OptionsGenerator.TypeDetection.HeuristicTypeDetector.Name.get -
 ModularPipelines.OptionsGenerator.TypeDetection.HeuristicTypeDetector.Priority.get -> int
 ModularPipelines.OptionsGenerator.TypeDetection.ICliCommandExecutor
 ModularPipelines.OptionsGenerator.TypeDetection.ICliCommandExecutor.ExecuteAsync(string! command, string! arguments, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), string? workingDirectory = null) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult!>!
-ModularPipelines.OptionsGenerator.TypeDetection.ICliCommandExecutor.IsAvailableAsync(string! command, string! arguments, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.OptionsGenerator.TypeDetection.ICliCommandExecutor.IsAvailableAsync(string! command, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<bool>!
+ModularPipelines.OptionsGenerator.TypeDetection.ICliCommandExecutor.IsAvailableAsync(string! command, string! arguments, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.OptionsGenerator.TypeDetection.IOptionTypeDetector
 ModularPipelines.OptionsGenerator.TypeDetection.IOptionTypeDetector.CanHandle(string! toolName) -> bool
 ModularPipelines.OptionsGenerator.TypeDetection.IOptionTypeDetector.DetectTypeAsync(ModularPipelines.OptionsGenerator.TypeDetection.OptionDetectionContext! context, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.TypeDetection.OptionTypeDetectionResult!>!
@@ -723,8 +701,8 @@ ModularPipelines.OptionsGenerator.TypeDetection.OptionTypeEnhancer.EnhanceManual
 ModularPipelines.OptionsGenerator.TypeDetection.OptionTypeEnhancer.OptionTypeEnhancer(ModularPipelines.OptionsGenerator.TypeDetection.OptionTypeDetectorPipeline! pipeline, Microsoft.Extensions.Logging.ILogger<ModularPipelines.OptionsGenerator.TypeDetection.OptionTypeEnhancer!>! logger) -> void
 ModularPipelines.OptionsGenerator.TypeDetection.ProcessCliCommandExecutor
 ModularPipelines.OptionsGenerator.TypeDetection.ProcessCliCommandExecutor.ExecuteAsync(string! command, string! arguments, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), string? workingDirectory = null) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult!>!
-ModularPipelines.OptionsGenerator.TypeDetection.ProcessCliCommandExecutor.IsAvailableAsync(string! command, string! arguments, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.OptionsGenerator.TypeDetection.ProcessCliCommandExecutor.IsAvailableAsync(string! command, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<bool>!
+ModularPipelines.OptionsGenerator.TypeDetection.ProcessCliCommandExecutor.IsAvailableAsync(string! command, string! arguments, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.OptionsGenerator.TypeDetection.ProcessCliCommandExecutor.ProcessCliCommandExecutor(Microsoft.Extensions.Logging.ILogger<ModularPipelines.OptionsGenerator.TypeDetection.ProcessCliCommandExecutor!>! logger, System.TimeSpan? timeout = null) -> void
 ModularPipelines.OptionsGenerator.TypeDetection.ResilienceStatistics
 ModularPipelines.OptionsGenerator.TypeDetection.ResilienceStatistics.CircuitBreakerOpenings.get -> int
@@ -737,16 +715,37 @@ ModularPipelines.OptionsGenerator.TypeDetection.ResilienceStatistics.TotalRetrie
 ModularPipelines.OptionsGenerator.TypeDetection.ResilienceStatistics.TotalRetries.init -> void
 ModularPipelines.OptionsGenerator.TypeDetection.ResilientCliCommandExecutor
 ModularPipelines.OptionsGenerator.TypeDetection.ResilientCliCommandExecutor.ExecuteAsync(string! command, string! arguments, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), string? workingDirectory = null) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult!>!
-ModularPipelines.OptionsGenerator.TypeDetection.ResilientCliCommandExecutor.IsAvailableAsync(string! command, string! arguments, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.OptionsGenerator.TypeDetection.ResilientCliCommandExecutor.IsAvailableAsync(string! command, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<bool>!
-ModularPipelines.OptionsGenerator.TypeDetection.ResilientCliCommandExecutor.ResilientCliCommandExecutor(ModularPipelines.OptionsGenerator.TypeDetection.ICliCommandExecutor! inner, Microsoft.Extensions.Logging.ILogger<ModularPipelines.OptionsGenerator.TypeDetection.ResilientCliCommandExecutor!>! logger, int maxRetries, System.TimeSpan baseDelay, int circuitBreakerThreshold, System.TimeSpan circuitBreakerDuration) -> void
+ModularPipelines.OptionsGenerator.TypeDetection.ResilientCliCommandExecutor.IsAvailableAsync(string! command, string! arguments, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.OptionsGenerator.TypeDetection.ResilientCliCommandExecutor.ResilientCliCommandExecutor(ModularPipelines.OptionsGenerator.TypeDetection.ICliCommandExecutor! inner, Microsoft.Extensions.Logging.ILogger<ModularPipelines.OptionsGenerator.TypeDetection.ResilientCliCommandExecutor!>! logger) -> void
+ModularPipelines.OptionsGenerator.TypeDetection.ResilientCliCommandExecutor.ResilientCliCommandExecutor(ModularPipelines.OptionsGenerator.TypeDetection.ICliCommandExecutor! inner, Microsoft.Extensions.Logging.ILogger<ModularPipelines.OptionsGenerator.TypeDetection.ResilientCliCommandExecutor!>! logger, int maxRetries, System.TimeSpan baseDelay, int circuitBreakerThreshold, System.TimeSpan circuitBreakerDuration) -> void
 ModularPipelines.OptionsGenerator.TypeDetection.ToolOverrides
 ModularPipelines.OptionsGenerator.TypeDetection.ToolOverrides.Commands.get -> System.Collections.Generic.Dictionary<string!, System.Collections.Generic.Dictionary<string!, ModularPipelines.OptionsGenerator.TypeDetection.OptionOverride!>!>!
 ModularPipelines.OptionsGenerator.TypeDetection.ToolOverrides.Commands.set -> void
 ModularPipelines.OptionsGenerator.TypeDetection.ToolOverrides.Global.get -> System.Collections.Generic.Dictionary<string!, ModularPipelines.OptionsGenerator.TypeDetection.OptionOverride!>!
 ModularPipelines.OptionsGenerator.TypeDetection.ToolOverrides.Global.set -> void
 ModularPipelines.OptionsGenerator.TypeDetection.ToolOverrides.ToolOverrides() -> void
+abstract ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.NamespacePrefix.get -> string!
+abstract ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.OutputDirectory.get -> string!
+abstract ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.ScrapeAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.Models.CliToolDefinition!>!
+abstract ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.TargetNamespace.get -> string!
+abstract ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.ToolName.get -> string!
+abstract ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.NamespacePrefix.get -> string!
+abstract ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.OutputDirectory.get -> string!
+abstract ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ParseCommandAsync(string![]! commandPath, string! helpText, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.Models.CliCommandDefinition?>!
+abstract ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.TargetNamespace.get -> string!
+abstract ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ToolName.get -> string!
+abstract ModularPipelines.OptionsGenerator.TypeDetection.HelpTextTypeDetectorBase.CanHandle(string! toolName) -> bool
+abstract ModularPipelines.OptionsGenerator.TypeDetection.HelpTextTypeDetectorBase.Name.get -> string!
+abstract ModularPipelines.OptionsGenerator.TypeDetection.HelpTextTypeDetectorBase.ParseOptionFromHelpText(string! helpText, ModularPipelines.OptionsGenerator.TypeDetection.OptionDetectionContext! context) -> ModularPipelines.OptionsGenerator.TypeDetection.OptionTypeDetectionResult!
+abstract ModularPipelines.OptionsGenerator.TypeDetection.HelpTextTypeDetectorBase.Priority.get -> int
+const ModularPipelines.OptionsGenerator.External.ExternalToolDefinitionDocument.CurrentSchemaVersion = 2 -> int
+const ModularPipelines.OptionsGenerator.Generators.GeneratorUtils.ExecutionOptionsParameter = "CommandExecutionOptions? executionOptions = null" -> string!
+const ModularPipelines.OptionsGenerator.Generators.GeneratorUtils.GeneratorName = "ModularPipelines.OptionsGenerator" -> string!
+const ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache.DefaultMaxEntries = 10000 -> int
+const ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache.DefaultSizePerEntry = 1 -> int
+const ModularPipelines.OptionsGenerator.TypeDetection.ResilientCliCommandExecutor.DefaultFailureThreshold = 5 -> int
+const ModularPipelines.OptionsGenerator.TypeDetection.ResilientCliCommandExecutor.DefaultMaxRetries = 3 -> int
 override ModularPipelines.Options.AdditionalCommandLineArgument.Equals(object? obj) -> bool
 override ModularPipelines.Options.AdditionalCommandLineArgument.GetHashCode() -> int
 override ModularPipelines.Options.AdditionalCommandLineArgument.ToString() -> string!
@@ -1369,8 +1368,8 @@ static ModularPipelines.OptionsGenerator.Models.CliValidationConstraints.operato
 static ModularPipelines.OptionsGenerator.Models.CommandTreeNode.BuildTree(string! toolPrefix, string! subDomain, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliCommandDefinition!>! commands) -> ModularPipelines.OptionsGenerator.Models.CommandTreeNode!
 static ModularPipelines.OptionsGenerator.Models.ScrapingError.operator !=(ModularPipelines.OptionsGenerator.Models.ScrapingError? left, ModularPipelines.OptionsGenerator.Models.ScrapingError? right) -> bool
 static ModularPipelines.OptionsGenerator.Models.ScrapingError.operator ==(ModularPipelines.OptionsGenerator.Models.ScrapingError? left, ModularPipelines.OptionsGenerator.Models.ScrapingError? right) -> bool
-static ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.DetectBooleanFlag(string? description, string? defaultValue, string? acceptedValues = null, string? explicitType = null) -> bool
 static ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.DetectBooleanFlag(string? description, string? defaultValue) -> bool
+static ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.DetectBooleanFlag(string? description, string? defaultValue, string? acceptedValues = null, string? explicitType = null) -> bool
 static ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.DetectEnumValues(string! propertyName, string! commandClassName, string? valueType, string? description) -> ModularPipelines.OptionsGenerator.Models.CliEnumDefinition?
 static ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.DetectMultipleValues(string? description, string? valueType) -> bool
 static ModularPipelines.OptionsGenerator.Scrapers.Base.CliDocumentationScraperBase.DetectNumericType(string? valueType) -> bool
@@ -1382,8 +1381,8 @@ static ModularPipelines.OptionsGenerator.Scrapers.Cli.CacheStatistics.operator !
 static ModularPipelines.OptionsGenerator.Scrapers.Cli.CacheStatistics.operator ==(ModularPipelines.OptionsGenerator.Scrapers.Cli.CacheStatistics? left, ModularPipelines.OptionsGenerator.Scrapers.Cli.CacheStatistics? right) -> bool
 static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.AsCSharpType(string! scalarType, bool acceptsMultipleValues) -> string!
 static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.DescriptionDeclaresRepeatableOption(string! description) -> bool
-static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.GetPositionalArguments(ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult! usage, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>! options) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliPositionalArgument!>!
 static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.GetPositionalArguments(ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult! usage) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliPositionalArgument!>!
+static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.GetPositionalArguments(ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult! usage, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>! options) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliPositionalArgument!>!
 static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.HelpDeclaresExplicitBooleanValue(string! description) -> bool
 static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.HelpDeclaresRepeatableOption(string! helpText, string! switchName, string! description) -> bool
 static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.IsRepeatableValueOption(string! description, bool isFlag, bool isBoolean = false) -> bool
@@ -1393,10 +1392,10 @@ static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.OptionLineP
 static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ParseArgumentGroups(string! section, System.Func<string!, ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition?>! parseArgument) -> ModularPipelines.OptionsGenerator.Models.CliArgumentGroup!
 static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ToPascalCase(string! input) -> string!
 static ModularPipelines.OptionsGenerator.Scrapers.Cli.CobraCliScraper.IsValidCommandHelp(string! helpText, string![]! expectedCommandParts) -> bool
-static ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParser.IsPlaceholderToken(string! token) -> bool
-static ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParser.Parse(string! helpText, System.Collections.Generic.IReadOnlyList<string!>! commandPath, System.Collections.Generic.IEnumerable<string!>? additionalSynopses = null) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
 static ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult.operator !=(ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult? left, ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult? right) -> bool
 static ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult.operator ==(ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult? left, ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult? right) -> bool
+static ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParser.IsPlaceholderToken(string! token) -> bool
+static ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParser.Parse(string! helpText, System.Collections.Generic.IReadOnlyList<string!>! commandPath, System.Collections.Generic.IEnumerable<string!>? additionalSynopses = null) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
 static ModularPipelines.OptionsGenerator.Scrapers.ScrapingOrchestrator.CreateWithDefaultEnhancer(Microsoft.Extensions.Logging.ILoggerFactory! loggerFactory, string? overridesDirectory = null) -> ModularPipelines.OptionsGenerator.Scrapers.ScrapingOrchestrator!
 static ModularPipelines.OptionsGenerator.Scrapers.ScrapingOrchestrator.CreateWithoutEnhancer(Microsoft.Extensions.Logging.ILoggerFactory! loggerFactory) -> ModularPipelines.OptionsGenerator.Scrapers.ScrapingOrchestrator!
 static ModularPipelines.OptionsGenerator.TypeDetection.CliTypeMapper.FromCobraTypeHint(string? cobraType) -> ModularPipelines.OptionsGenerator.TypeDetection.CliOptionType
@@ -1416,6 +1415,7 @@ static readonly ModularPipelines.OptionsGenerator.Scrapers.Cli.HelpTextCache.Def
 static readonly ModularPipelines.OptionsGenerator.TypeDetection.CliTypeMapper.KnownCobraTypes -> System.Collections.Generic.HashSet<string!>!
 static readonly ModularPipelines.OptionsGenerator.TypeDetection.ResilientCliCommandExecutor.DefaultBaseDelay -> System.TimeSpan
 static readonly ModularPipelines.OptionsGenerator.TypeDetection.ResilientCliCommandExecutor.DefaultBreakDuration -> System.TimeSpan
+virtual ModularPipelines.Options.CommandLineToolOptions.<Clone>$() -> ModularPipelines.Options.CommandLineToolOptions!
 virtual ModularPipelines.Options.CommandLineToolOptions.EqualityContract.get -> System.Type!
 virtual ModularPipelines.Options.CommandLineToolOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 virtual ModularPipelines.Options.CommandLineToolOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool

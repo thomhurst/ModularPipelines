@@ -146,13 +146,17 @@ ModularPipelines.Skopeo.Options.SkopeoDeleteOptions.Username.set -> void
 ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions
 ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions.CommandOptions.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions.CommandOptions.set -> void
+ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions.Deconstruct(out string! Prefix) -> void
 ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions.Help.get -> bool?
 ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions.Help.set -> void
 ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions.OutputPrefix.get -> string?
 ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions.OutputPrefix.set -> void
 ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions.PassphraseFile.get -> string?
 ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions.PassphraseFile.set -> void
+ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions.Prefix.get -> string!
+ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions.Prefix.init -> void
 ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions.SkopeoGenerateSigstoreKeyOptions(ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions! original) -> void
+ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions.SkopeoGenerateSigstoreKeyOptions(string! Prefix) -> void
 ModularPipelines.Skopeo.Options.SkopeoInspectOptions
 ModularPipelines.Skopeo.Options.SkopeoInspectOptions.Authfile.get -> string?
 ModularPipelines.Skopeo.Options.SkopeoInspectOptions.Authfile.set -> void
@@ -281,6 +285,7 @@ ModularPipelines.Skopeo.Options.SkopeoOptions.SkopeoOptions(ModularPipelines.Sko
 ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions
 ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.CommandOptions.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.CommandOptions.set -> void
+ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.Deconstruct(out string! Signature, out string! Manifest, out string! DockerReference, out string! KeyFingerprint) -> void
 ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.DockerReference.get -> string!
 ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.DockerReference.init -> void
 ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.Help.get -> bool?
@@ -293,7 +298,10 @@ ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.Output.get -> string
 ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.Output.set -> void
 ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.PassphraseFile.get -> string?
 ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.PassphraseFile.set -> void
+ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.Signature.get -> string!
+ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.Signature.init -> void
 ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.SkopeoStandaloneSignOptions(ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions! original) -> void
+ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions.SkopeoStandaloneSignOptions(string! Signature, string! Manifest, string! DockerReference, string! KeyFingerprint) -> void
 ModularPipelines.Skopeo.Options.SkopeoStandaloneVerifyOptions
 ModularPipelines.Skopeo.Options.SkopeoStandaloneVerifyOptions.Deconstruct(out string! Manifest, out string! DockerReference, out string! KeyFingerprints, out string! Signature) -> void
 ModularPipelines.Skopeo.Options.SkopeoStandaloneVerifyOptions.DockerReference.get -> string!
@@ -319,6 +327,7 @@ ModularPipelines.Skopeo.Options.SkopeoSyncOptions.Authfile.get -> string?
 ModularPipelines.Skopeo.Options.SkopeoSyncOptions.Authfile.set -> void
 ModularPipelines.Skopeo.Options.SkopeoSyncOptions.CommandOptions.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Skopeo.Options.SkopeoSyncOptions.CommandOptions.set -> void
+ModularPipelines.Skopeo.Options.SkopeoSyncOptions.Deconstruct(out string! Transport, out string! Source, out string! Destination) -> void
 ModularPipelines.Skopeo.Options.SkopeoSyncOptions.Dest.get -> string?
 ModularPipelines.Skopeo.Options.SkopeoSyncOptions.Dest.set -> void
 ModularPipelines.Skopeo.Options.SkopeoSyncOptions.DestAuthfile.get -> string?
@@ -364,6 +373,7 @@ ModularPipelines.Skopeo.Options.SkopeoSyncOptions.SignBySigstorePrivateKey.set -
 ModularPipelines.Skopeo.Options.SkopeoSyncOptions.SignPassphraseFile.get -> string?
 ModularPipelines.Skopeo.Options.SkopeoSyncOptions.SignPassphraseFile.set -> void
 ModularPipelines.Skopeo.Options.SkopeoSyncOptions.SkopeoSyncOptions(ModularPipelines.Skopeo.Options.SkopeoSyncOptions! original) -> void
+ModularPipelines.Skopeo.Options.SkopeoSyncOptions.SkopeoSyncOptions(string! Transport, string! Source, string! Destination) -> void
 ModularPipelines.Skopeo.Options.SkopeoSyncOptions.Source.get -> string!
 ModularPipelines.Skopeo.Options.SkopeoSyncOptions.Source.init -> void
 ModularPipelines.Skopeo.Options.SkopeoSyncOptions.Src.get -> string?
@@ -384,7 +394,20 @@ ModularPipelines.Skopeo.Options.SkopeoSyncOptions.SrcTlsVerify.get -> bool?
 ModularPipelines.Skopeo.Options.SkopeoSyncOptions.SrcTlsVerify.set -> void
 ModularPipelines.Skopeo.Options.SkopeoSyncOptions.SrcUsername.get -> string?
 ModularPipelines.Skopeo.Options.SkopeoSyncOptions.SrcUsername.set -> void
+ModularPipelines.Skopeo.Options.SkopeoSyncOptions.Transport.get -> string!
+ModularPipelines.Skopeo.Options.SkopeoSyncOptions.Transport.init -> void
 ModularPipelines.Skopeo.Services.ISkopeo
+ModularPipelines.Skopeo.Services.ISkopeo.CopyAsync(ModularPipelines.Skopeo.Options.SkopeoCopyOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Skopeo.Services.ISkopeo.DeleteAsync(ModularPipelines.Skopeo.Options.SkopeoDeleteOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Skopeo.Services.ISkopeo.GenerateSigstoreKeyAsync(ModularPipelines.Skopeo.Options.SkopeoGenerateSigstoreKeyOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Skopeo.Services.ISkopeo.InspectAsync(ModularPipelines.Skopeo.Options.SkopeoInspectOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Skopeo.Services.ISkopeo.ListTagsAsync(ModularPipelines.Skopeo.Options.SkopeoListTagsOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Skopeo.Services.ISkopeo.LoginAsync(ModularPipelines.Skopeo.Options.SkopeoLoginOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Skopeo.Services.ISkopeo.LogoutAsync(ModularPipelines.Skopeo.Options.SkopeoLogoutOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Skopeo.Services.ISkopeo.ManifestDigestAsync(ModularPipelines.Skopeo.Options.SkopeoManifestDigestOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Skopeo.Services.ISkopeo.StandaloneSignAsync(ModularPipelines.Skopeo.Options.SkopeoStandaloneSignOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Skopeo.Services.ISkopeo.StandaloneVerifyAsync(ModularPipelines.Skopeo.Options.SkopeoStandaloneVerifyOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
+ModularPipelines.Skopeo.Services.ISkopeo.SyncAsync(ModularPipelines.Skopeo.Options.SkopeoSyncOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 override ModularPipelines.Skopeo.Options.SkopeoCopyOptions.<Clone>$() -> ModularPipelines.Skopeo.Options.SkopeoCopyOptions!
 override ModularPipelines.Skopeo.Options.SkopeoCopyOptions.EqualityContract.get -> System.Type!
 override ModularPipelines.Skopeo.Options.SkopeoCopyOptions.Equals(object? obj) -> bool
@@ -471,6 +494,7 @@ override sealed ModularPipelines.Skopeo.Options.SkopeoStandaloneVerifyOptions.Eq
 override sealed ModularPipelines.Skopeo.Options.SkopeoSyncOptions.Equals(ModularPipelines.Skopeo.Options.SkopeoOptions? other) -> bool
 static ModularPipelines.Context.ModularPipelines_Skopeo_f4e3d308fb93648fToolsExtensions.get_Skopeo(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Skopeo.Services.ISkopeo!
 static ModularPipelines.Skopeo.Extensions.SkopeoExtensions.RegisterSkopeoContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Skopeo.Extensions.SkopeoExtensions.Skopeo(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Skopeo.Services.ISkopeo!
 static ModularPipelines.Skopeo.Options.SkopeoCopyOptions.operator !=(ModularPipelines.Skopeo.Options.SkopeoCopyOptions? left, ModularPipelines.Skopeo.Options.SkopeoCopyOptions? right) -> bool
 static ModularPipelines.Skopeo.Options.SkopeoCopyOptions.operator ==(ModularPipelines.Skopeo.Options.SkopeoCopyOptions? left, ModularPipelines.Skopeo.Options.SkopeoCopyOptions? right) -> bool
 static ModularPipelines.Skopeo.Options.SkopeoDeleteOptions.operator !=(ModularPipelines.Skopeo.Options.SkopeoDeleteOptions? left, ModularPipelines.Skopeo.Options.SkopeoDeleteOptions? right) -> bool
