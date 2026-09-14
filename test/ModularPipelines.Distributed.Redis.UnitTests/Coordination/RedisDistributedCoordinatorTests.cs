@@ -13,10 +13,6 @@ public class RedisDistributedCoordinatorTests
     private const long ServerTimeMicroseconds = 456_000;
     private const long ServerTimeMilliseconds = 1_700_000_000_456;
 
-    private static readonly JsonSerializerOptions JsonOptions = new()
-    {
-        Converters = { new ReadOnlySetJsonConverter() },
-    };
 
     private Mock<IDatabase> _dbMock = null!;
     private Mock<ISubscriber> _subscriberMock = null!;
@@ -124,7 +120,7 @@ public class RedisDistributedCoordinatorTests
     public async Task DequeueModuleAsync_ReturnsAssignment_WhenCapabilitiesMatch()
     {
         var assignment = CreateAssignment("Test.Module");
-        var json = JsonSerializer.Serialize(assignment, JsonOptions);
+        var json = JsonSerializer.Serialize(assignment);
 
         _dbMock.Setup(db => db.ScriptEvaluateAsync(
                 It.IsAny<string>(),
@@ -156,7 +152,7 @@ public class RedisDistributedCoordinatorTests
     public async Task DequeueModuleAsync_Deserializes_Unique_Queue_Member()
     {
         var assignment = CreateAssignment("Test.Module");
-        var json = JsonSerializer.Serialize(assignment, JsonOptions);
+        var json = JsonSerializer.Serialize(assignment);
         _dbMock.Setup(db => db.ScriptEvaluateAsync(
                 It.IsAny<string>(),
                 It.IsAny<RedisKey[]?>(),
@@ -175,7 +171,7 @@ public class RedisDistributedCoordinatorTests
     public async Task DequeueModuleAsync_Preserves_Pipe_In_Legacy_Queue_Member()
     {
         var assignment = CreateAssignment("Test|Module");
-        var json = JsonSerializer.Serialize(assignment, JsonOptions);
+        var json = JsonSerializer.Serialize(assignment);
         _dbMock.Setup(db => db.ScriptEvaluateAsync(
                 It.IsAny<string>(),
                 It.IsAny<RedisKey[]?>(),
@@ -312,7 +308,7 @@ public class RedisDistributedCoordinatorTests
     public async Task WaitForResultAsync_ReturnsImmediately_WhenResultExists()
     {
         var serializedResult = CreateResult("Test.Module");
-        var json = JsonSerializer.Serialize(serializedResult, JsonOptions);
+        var json = JsonSerializer.Serialize(serializedResult);
 
         _dbMock.Setup(db => db.HashGetAsync(_keys.Results, (RedisValue) "Test.Module", It.IsAny<CommandFlags>()))
             .ReturnsAsync(json);
@@ -342,12 +338,58 @@ public class RedisDistributedCoordinatorTests
             TimeSpan.FromSeconds(3600),
             It.IsAny<ExpireWhen>(),
             It.IsAny<CommandFlags>()), Times.Once);
+
+        _dbMock.Verify(db => db.HashSetAsync(
+            _keys.WorkerStatuses,
+            (RedisValue) "1",
+            It.Is<RedisValue>(v => v.ToString().Contains("\"WorkerIndex\":1")),
+            When.NotExists,
+            It.IsAny<CommandFlags>()), Times.Once);
+    }
+
+    [Test]
+    public async Task SendHeartbeatAsync_Stores_Status_And_Refreshes_Liveness()
+    {
+        var status = new WorkerStatus(1)
+        {
+            UnattributedCommandCount = 3,
+        };
+
+        await _coordinator.SendHeartbeatAsync(status, CancellationToken.None);
+
+        _dbMock.Verify(db => db.HashSetAsync(
+            _keys.WorkerStatuses,
+            (RedisValue) "1",
+            It.Is<RedisValue>(v => v.ToString().Contains("\"UnattributedCommandCount\":3")),
+            It.IsAny<When>(),
+            It.IsAny<CommandFlags>()), Times.Once);
+        _dbMock.Verify(db => db.HashSetAsync(
+            _keys.Workers,
+            (RedisValue) "heartbeat:1",
+            It.Is<RedisValue>(value => (long) value == ServerTimeMilliseconds),
+            It.IsAny<When>(),
+            It.IsAny<CommandFlags>()), Times.Once);
+    }
+
+    [Test]
+    public async Task GetWorkerStatusesAsync_Returns_Stored_Statuses()
+    {
+        var status = new WorkerStatus(1)
+        {
+            UnattributedCommandCount = 3,
+        };
+        _dbMock.Setup(db => db.HashGetAllAsync(_keys.WorkerStatuses, It.IsAny<CommandFlags>()))
+            .ReturnsAsync([new HashEntry("1", JsonSerializer.Serialize(status))]);
+
+        var statuses = await _coordinator.GetWorkerStatusesAsync(CancellationToken.None);
+
+        await Assert.That(statuses).IsEquivalentTo([status]);
     }
 
     [Test]
     public async Task SendHeartbeatAsync_StoresTimestampInWorkersHash()
     {
-        await _coordinator.SendHeartbeatAsync(7, CancellationToken.None);
+        await _coordinator.SendHeartbeatAsync(new WorkerStatus(7), CancellationToken.None);
 
         _dbMock.Verify(db => db.HashSetAsync(
             _keys.Workers,
@@ -366,8 +408,8 @@ public class RedisDistributedCoordinatorTests
         _dbMock.Setup(db => db.HashGetAllAsync(_keys.Workers, It.IsAny<CommandFlags>()))
             .ReturnsAsync(
             [
-                new HashEntry("1", JsonSerializer.Serialize(worker1, JsonOptions)),
-                new HashEntry("2", JsonSerializer.Serialize(worker2, JsonOptions)),
+                new HashEntry("1", JsonSerializer.Serialize(worker1)),
+                new HashEntry("2", JsonSerializer.Serialize(worker2)),
                 new HashEntry("heartbeat:1", ServerTimeMilliseconds),
                 new HashEntry("heartbeat:2", ServerTimeMilliseconds),
             ]);
@@ -375,6 +417,30 @@ public class RedisDistributedCoordinatorTests
         var workers = await _coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
 
         await Assert.That(workers.Count).IsEqualTo(2);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Expired_Heartbeat_Retains_Only_Workers_With_Final_Status(bool hasFinalMetrics)
+    {
+        var registration = CreateWorkerRegistration(1);
+        var status = new WorkerStatus(1)
+        {
+            UnattributedCommandCount = hasFinalMetrics ? 0 : null,
+        };
+        _dbMock.Setup(db => db.HashGetAllAsync(_keys.Workers, It.IsAny<CommandFlags>()))
+            .ReturnsAsync(
+            [
+                new HashEntry("1", JsonSerializer.Serialize(registration)),
+                new HashEntry("heartbeat:1", ServerTimeMilliseconds - 30_001),
+            ]);
+        _dbMock.Setup(db => db.HashGetAllAsync(_keys.WorkerStatuses, It.IsAny<CommandFlags>()))
+            .ReturnsAsync([new HashEntry("1", JsonSerializer.Serialize(status))]);
+
+        var workers = await _coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
+
+        await Assert.That(workers.Count).IsEqualTo(hasFinalMetrics ? 1 : 0);
     }
 
     [Test]
@@ -413,9 +479,9 @@ public class RedisDistributedCoordinatorTests
         return new ModuleAssignment(
             ModuleTypeName: moduleTypeName,
             ResultTypeName: "System.String",
-            RequiredCapabilities: requiredCapabilities ?? new HashSet<Capability>(),
+            RequiredCapabilities: requiredCapabilities?.ToArray() ?? [],
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, false));
+            Configuration: new ModuleAssignmentOptions(null, false));
     }
 
     private static SerializedModuleResult CreateResult(string moduleTypeName)
@@ -424,7 +490,7 @@ public class RedisDistributedCoordinatorTests
             ModuleTypeName: moduleTypeName,
             ResultTypeName: "System.String",
             WorkerIndex: 1,
-            SerializedJson: "{}",
+            Payload: "{}",
             CompletedAt: DateTimeOffset.UtcNow);
     }
 
@@ -432,7 +498,7 @@ public class RedisDistributedCoordinatorTests
     {
         return new WorkerRegistration(
             WorkerIndex: workerIndex,
-            Capabilities: new HashSet<Capability> { "linux" },
+            Capabilities: ["linux"],
             RegisteredAt: DateTimeOffset.UtcNow);
     }
 }

@@ -126,7 +126,6 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
                 // Match server-side settings: PascalCase, case-insensitive
                 jsonOptions.PayloadSerializerOptions.PropertyNamingPolicy = null;
                 jsonOptions.PayloadSerializerOptions.PropertyNameCaseInsensitive = true;
-                jsonOptions.PayloadSerializerOptions.Converters.Add(new ReadOnlySetJsonConverter());
             });
 
         if (_options.EnableAutoReconnect)

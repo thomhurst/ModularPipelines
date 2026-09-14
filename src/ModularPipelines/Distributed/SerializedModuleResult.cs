@@ -4,7 +4,7 @@ public record SerializedModuleResult(
     string ModuleTypeName,
     string ResultTypeName,
     int WorkerIndex,
-    string SerializedJson,
+    string Payload,
     DateTimeOffset CompletedAt,
     IReadOnlyList<ArtifactReference>? Artifacts = null)
 {

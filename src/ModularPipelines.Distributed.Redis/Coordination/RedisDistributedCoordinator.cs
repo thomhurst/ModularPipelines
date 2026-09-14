@@ -1,7 +1,6 @@
 using System.Text.Json;
 using System.Threading;
 using ModularPipelines.Distributed.Redis;
-using ModularPipelines.Distributed.Serialization;
 using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Redis.Coordination;
@@ -21,7 +20,6 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     private readonly RedisKeyBuilder _keys;
     private readonly TimeSpan _keyExpiration;
     private readonly TimeSpan _workerTimeout;
-    private readonly JsonSerializerOptions _jsonOptions;
     // Lets real-backend contract tests synchronize after the race-closing reads complete.
     private readonly Action? _onWaitReady;
 
@@ -39,15 +37,11 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         _keyExpiration = options.KeyExpiration;
         _workerTimeout = distributedOptions?.WorkerTimeout ?? TimeSpan.FromSeconds(30);
         _onWaitReady = onWaitReady;
-        _jsonOptions = new JsonSerializerOptions
-        {
-            Converters = { new ReadOnlySetJsonConverter() },
-        };
     }
 
     public async Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
     {
-        var json = JsonSerializer.Serialize(assignment, _jsonOptions);
+        var json = JsonSerializer.Serialize(assignment);
         var queueMember = $"{Guid.NewGuid():N}{QueueMemberSeparator}{json}";
         await _database.SortedSetAddAsync(_keys.WorkQueue, queueMember, GetQueueScore(assignment));
         await _database.KeyExpireAsync(_keys.WorkQueue, _keyExpiration);
@@ -138,7 +132,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     public async Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var json = JsonSerializer.Serialize(result, _jsonOptions);
+        var json = JsonSerializer.Serialize(result);
 
         // Redis cannot cancel commands already sent; bound each wait and stop issuing later commands.
         await _database.HashSetAsync(_keys.Results, result.ModuleTypeName, json)
@@ -157,7 +151,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         var existing = await _database.HashGetAsync(_keys.Results, moduleTypeName);
         if (!existing.IsNullOrEmpty)
         {
-            return JsonSerializer.Deserialize<SerializedModuleResult>(existing.ToString(), _jsonOptions)!;
+            return JsonSerializer.Deserialize<SerializedModuleResult>(existing.ToString())!;
         }
 
         // Subscribe and wait
@@ -167,7 +161,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         var subscription = await _subscriber.SubscribeAsync(channel);
         subscription.OnMessage(msg =>
         {
-            var result = JsonSerializer.Deserialize<SerializedModuleResult>(msg.Message.ToString(), _jsonOptions)!;
+            var result = JsonSerializer.Deserialize<SerializedModuleResult>(msg.Message.ToString())!;
             tcs.TrySetResult(result);
         });
 
@@ -177,7 +171,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
             existing = await _database.HashGetAsync(_keys.Results, moduleTypeName);
             if (!existing.IsNullOrEmpty)
             {
-                tcs.TrySetResult(JsonSerializer.Deserialize<SerializedModuleResult>(existing.ToString(), _jsonOptions)!);
+                tcs.TrySetResult(JsonSerializer.Deserialize<SerializedModuleResult>(existing.ToString())!);
             }
 
             if (!tcs.Task.IsCompleted)
@@ -196,13 +190,32 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 
     public async Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
     {
-        var json = JsonSerializer.Serialize(registration, _jsonOptions);
+        var json = JsonSerializer.Serialize(registration);
         await _database.HashSetAsync(_keys.Workers, registration.WorkerIndex.ToString(), json)
             .ConfigureAwait(false);
-        await SendHeartbeatAsync(registration.WorkerIndex, cancellationToken).ConfigureAwait(false);
+        var statusJson = JsonSerializer.Serialize(new WorkerStatus(registration.WorkerIndex)
+        {
+            RunId = registration.RunId,
+        });
+        await _database.HashSetAsync(
+            _keys.WorkerStatuses,
+            registration.WorkerIndex.ToString(),
+            statusJson,
+            When.NotExists).ConfigureAwait(false);
+        await _database.KeyExpireAsync(_keys.WorkerStatuses, _keyExpiration).ConfigureAwait(false);
+        await RefreshHeartbeatAsync(registration.WorkerIndex).ConfigureAwait(false);
     }
 
-    public async Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken)
+    public async Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken)
+    {
+        var json = JsonSerializer.Serialize(status);
+        await _database.HashSetAsync(_keys.WorkerStatuses, status.WorkerIndex.ToString(), json)
+            .ConfigureAwait(false);
+        await _database.KeyExpireAsync(_keys.WorkerStatuses, _keyExpiration).ConfigureAwait(false);
+        await RefreshHeartbeatAsync(status.WorkerIndex).ConfigureAwait(false);
+    }
+
+    private async Task RefreshHeartbeatAsync(int workerIndex)
     {
         var serverTimeMilliseconds = await GetServerTimeMillisecondsAsync().ConfigureAwait(false);
         await _database.HashSetAsync(
@@ -216,6 +229,8 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     {
         var serverTimeMilliseconds = await GetServerTimeMillisecondsAsync().ConfigureAwait(false);
         var entries = await _database.HashGetAllAsync(_keys.Workers).ConfigureAwait(false);
+        var statuses = (await GetWorkerStatusesAsync(cancellationToken).ConfigureAwait(false))
+            .ToDictionary(status => status.WorkerIndex);
         var oldestLiveHeartbeat = serverTimeMilliseconds - _workerTimeout.TotalMilliseconds;
         var heartbeats = entries
             .Where(entry => entry.Name.ToString().StartsWith("heartbeat:", StringComparison.Ordinal))
@@ -226,10 +241,10 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         foreach (var entry in entries.Where(entry => int.TryParse(entry.Name.ToString(), out _)))
         {
             var registration = JsonSerializer.Deserialize<WorkerRegistration>(
-                entry.Value.ToString(),
-                _jsonOptions)!;
-            if (registration.UnattributedCommandCount.HasValue
-                || (heartbeats.TryGetValue(registration.WorkerIndex, out var heartbeat)
+                entry.Value.ToString())!;
+            if (WorkerStatus.IsLive(
+                    statuses.GetValueOrDefault(registration.WorkerIndex),
+                    heartbeats.TryGetValue(registration.WorkerIndex, out var heartbeat)
                     && heartbeat >= oldestLiveHeartbeat))
             {
                 workers.Add(registration);
@@ -237,6 +252,16 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         }
 
         return workers;
+    }
+
+    public async Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(CancellationToken cancellationToken)
+    {
+        var entries = await _database.HashGetAllAsync(_keys.WorkerStatuses).ConfigureAwait(false);
+        return
+        [
+            .. entries.Select(entry => JsonSerializer.Deserialize<WorkerStatus>(
+                entry.Value.ToString())!),
+        ];
     }
 
     public async Task SignalCompletionAsync(CancellationToken cancellationToken)
@@ -405,7 +430,7 @@ return best_item";
         var assignmentJson = hasUniquePrefix
             ? queueMember[(separatorIndex + 1)..]
             : queueMember;
-        return JsonSerializer.Deserialize<ModuleAssignment>(assignmentJson, _jsonOptions);
+        return JsonSerializer.Deserialize<ModuleAssignment>(assignmentJson);
     }
 
     private async Task<long> GetServerTimeMillisecondsAsync()

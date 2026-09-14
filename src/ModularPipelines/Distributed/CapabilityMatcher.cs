@@ -1,13 +1,25 @@
+using System.Runtime.CompilerServices;
+
 namespace ModularPipelines.Distributed;
 
 public static class CapabilityMatcher
 {
+    private static readonly ConditionalWeakTable<WorkerRegistration, IReadOnlySet<Capability>> CapabilitySets = new();
+
     /// <summary>
     /// Checks if a worker can execute a module assignment based on capabilities.
     /// </summary>
     public static bool CanExecute(ModuleAssignment assignment, WorkerRegistration worker)
     {
-        return CanExecute(assignment, worker.Capabilities);
+        if (assignment.RequiredCapabilities.Count == 0)
+        {
+            return true;
+        }
+
+        var capabilitySet = CapabilitySets.GetValue(
+            worker,
+            static registration => registration.Capabilities.ToHashSet());
+        return assignment.RequiredCapabilities.All(capabilitySet.Contains);
     }
 
     /// <summary>

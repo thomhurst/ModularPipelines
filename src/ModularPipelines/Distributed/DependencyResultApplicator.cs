@@ -95,7 +95,7 @@ internal static class DependencyResultApplicator
                 ModuleTypeName: assignment.ModuleTypeName,
                 ResultTypeName: assignment.ResultTypeName,
                 WorkerIndex: workerIndex,
-                SerializedJson: "null",
+                Payload: "null",
                 CompletedAt: DateTimeOffset.UtcNow);
             await DistributedFailurePublisher.PublishAsync(coordinator, failureResult).ConfigureAwait(false);
         }

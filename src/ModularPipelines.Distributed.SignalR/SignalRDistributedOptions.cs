@@ -61,7 +61,7 @@ public class SignalRDistributedOptions
     /// Maximum size in bytes for a single SignalR message (default 1MB).
     /// Increase for large module results.
     /// </summary>
-    public long MaximumReceiveMessageSize { get; set; } = 1024 * 1024;
+    public long MaxReceiveMessageSize { get; set; } = 1024 * 1024;
 
     /// <summary>
     /// When true, the master starts a cloudflared tunnel to expose the SignalR server publicly.

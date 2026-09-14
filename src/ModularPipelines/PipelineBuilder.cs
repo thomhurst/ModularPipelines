@@ -593,9 +593,19 @@ public sealed class PipelineBuilder
 
         public async Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken ct) => await (await GetAsync(ct)).GetRegisteredWorkersAsync(ct);
 
+        public async Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(CancellationToken ct)
+        {
+            var coordinator = await GetAsync(ct).ConfigureAwait(false);
+            return await coordinator.GetWorkerStatusesAsync(ct).ConfigureAwait(false);
+        }
+
         public async Task SignalCompletionAsync(CancellationToken ct) => await (await GetAsync(ct)).SignalCompletionAsync(ct);
 
-        public async Task SendHeartbeatAsync(int workerIndex, CancellationToken ct) => await (await GetAsync(ct)).SendHeartbeatAsync(workerIndex, ct);
+        public async Task SendHeartbeatAsync(WorkerStatus status, CancellationToken ct)
+        {
+            var coordinator = await GetAsync(ct).ConfigureAwait(false);
+            await coordinator.SendHeartbeatAsync(status, ct).ConfigureAwait(false);
+        }
 
         public async Task WaitForCancellationAsync(CancellationToken ct) => await (await GetAsync(ct)).WaitForCancellationAsync(ct);
 
@@ -639,7 +649,11 @@ public sealed class PipelineBuilder
 
         public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct)).RegisterWorkerAsync(r, ct);
 
-        public async Task SendHeartbeatAsync(int workerIndex, CancellationToken ct) => await (await GetAsync(ct)).SendHeartbeatAsync(workerIndex, ct);
+        public async Task SendHeartbeatAsync(WorkerStatus status, CancellationToken ct)
+        {
+            var coordinator = await GetAsync(ct).ConfigureAwait(false);
+            await coordinator.SendHeartbeatAsync(status, ct).ConfigureAwait(false);
+        }
 
         public async Task WaitForCancellationAsync(CancellationToken ct) => await (await GetAsync(ct)).WaitForCancellationAsync(ct);
 

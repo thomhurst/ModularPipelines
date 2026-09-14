@@ -19,8 +19,8 @@ This page describes the internal architecture of distributed mode for contributo
    role, `InstanceIndex == 0` selects master and any other index selects worker. The
    master selects `DistributedModuleExecutor` as the execution backend.
 4. A registered `IDistributedCoordinatorFactory` is wrapped in a deferred coordinator,
-   so its `CreateAsync` method runs when the coordinator is first used. A directly
-   registered `IDistributedCoordinator` is used as-is.
+   so `CreateMasterAsync` or `CreateWorkerAsync` runs when that role's coordinator is
+   first used. Directly registered role-specific coordinators are used as-is.
 5. Before scheduling work, the master registers module types for serialization. Dispatch
    starts immediately by default; `DistributedOptions.MinimumWorkerCount` can opt into a
    startup barrier. Capability-restricted assignments wait only until a matching worker
@@ -35,9 +35,9 @@ This page describes the internal architecture of distributed mode for contributo
 2. The worker registers all available module types for serialization.
 3. The worker builds its capability set from configured capabilities and, by default,
    the auto-detected operating-system capability.
-4. The worker registers its capabilities with the coordinator via
-   `RegisterWorkerAsync`. During run-report finalization it calls the method again to
-   upsert its final command metrics.
+4. The worker registers its identity, run ID, and capabilities via `RegisterWorkerAsync`.
+   Periodic `SendHeartbeatAsync` calls carry `WorkerStatus`. During run-report
+   finalization, a final status adds command metrics without replacing registration.
 5. The worker starts a bounded execution pool, continuously dequeuing one assignment
    ahead while up to the configured number of modules execute concurrently.
 
@@ -195,11 +195,18 @@ This guarantees no result is missed regardless of timing.
 
 Module results are serialized via `ModuleResultSerializer` using `System.Text.Json`. The `ModuleTypeRegistry` maintains a mapping from module type names to their concrete .NET types, so results can be deserialized back to the correct `ModuleResult<T>`.
 
-The `ReadOnlySetJsonConverter` keeps `IReadOnlySet<Capability>` fields (used in `ModuleAssignment.RequiredCapabilities` and `WorkerRegistration.Capabilities`) as plain string arrays on the wire.
+Capability collections on `ModuleAssignment` and `WorkerRegistration` are lists, so the default JSON serializer writes them as plain string arrays on the wire.
+
+`SerializedModuleResult.Payload` contains the serialized result. Assignments carry
+`DependencyResultReference` entries; workers fetch those results from the coordinator's
+result store rather than embedding dependency payloads in each assignment.
 
 ## Implementing a Custom Coordinator
 
-To implement a different transport (HTTP, shared filesystem, message queue, etc.), implement `IDistributedCoordinator` and optionally `IDistributedCoordinatorFactory`:
+To implement a different transport (HTTP, shared filesystem, message queue, etc.), implement
+`IDistributedMasterCoordinator` and optionally `IDistributedCoordinatorFactory`.
+The master interface includes `IDistributedWorkerCoordinator` because the master also
+executes assignments. A factory can return a separate worker-only implementation.
 
 ```csharp
 using System;
@@ -208,7 +215,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ModularPipelines.Distributed;
 
-public sealed class MyCustomCoordinator : IDistributedCoordinator
+public sealed class MyCustomCoordinator : IDistributedMasterCoordinator
 {
     public Task EnqueueModuleAsync(
         ModuleAssignment assignment,
@@ -239,7 +246,22 @@ public sealed class MyCustomCoordinator : IDistributedCoordinator
         CancellationToken cancellationToken) =>
         throw new NotImplementedException();
 
+    public Task SendHeartbeatAsync(
+        WorkerStatus status,
+        CancellationToken cancellationToken) =>
+        throw new NotImplementedException();
+
+    public Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(
+        CancellationToken cancellationToken) =>
+        throw new NotImplementedException();
+
     public Task SignalCompletionAsync(CancellationToken cancellationToken) =>
+        throw new NotImplementedException();
+
+    public Task BroadcastCancellationAsync(CancellationToken cancellationToken) =>
+        throw new NotImplementedException();
+
+    public Task WaitForCancellationAsync(CancellationToken cancellationToken) =>
         throw new NotImplementedException();
 }
 ```
@@ -255,42 +277,43 @@ Or via a factory for async initialization:
 ```csharp
 public sealed class MyCoordinatorFactory : IDistributedCoordinatorFactory
 {
-    public Task<IDistributedCoordinator> CreateAsync(
+    public Task<IDistributedMasterCoordinator> CreateMasterAsync(
         CancellationToken cancellationToken) =>
-        Task.FromResult<IDistributedCoordinator>(new MyCustomCoordinator());
+        Task.FromResult<IDistributedMasterCoordinator>(new MyCustomCoordinator());
+
+    public Task<IDistributedWorkerCoordinator> CreateWorkerAsync(
+        CancellationToken cancellationToken) =>
+        Task.FromResult<IDistributedWorkerCoordinator>(new MyCustomCoordinator());
 }
 
 builder.AddDistributedCoordinatorFactory<MyCoordinatorFactory>();
 ```
 
-## Current Liveness Limitations
+## Worker Liveness and Final Metrics
 
-Worker registration is not a heartbeat. Workers upsert an initial capability record and later
-upsert final command metrics during run-report finalization. The master reads registrations
-while validating capability routes and polls them again after execution to aggregate those
-final metrics. A custom coordinator must therefore retain registration state for the whole
-run and support repeated upserts and post-execution reads.
+`WorkerRegistration` contains immutable identity, run ID, and capabilities. Liveness and
+command metrics arrive through `SendHeartbeatAsync(WorkerStatus, ...)`; the master reads
+the latest statuses with `GetWorkerStatusesAsync`. Coordinators retain final metrics for
+post-execution reads, including after a worker disconnects or its heartbeat expires.
 
-The shipped coordinator contract still has no heartbeat, unregister, or worker-health member.
-After `CapabilityTimeout`, the master fails any queued assignment that no registered worker
-or the master can execute. Later metrics polling reports completion data but does not provide
-continuous liveness detection.
+`GetRegisteredWorkersAsync` returns workers with live heartbeats or retained final metrics.
+Scheduling considers live workers when checking capability routes. After `CapabilityTimeout`,
+the master fails a queued assignment if neither a suitable worker nor the master can execute it.
+Custom coordinators must keep heartbeat timing separate from the worker's registration timestamp.
 
 If a worker disappears after claiming an assignment, the master can wait until
 `ModuleResultTimeout` (45 minutes by default) for that assignment's result. SignalR can react
 to connection state internally, but that behavior is not part of the shared coordinator
-contract. First-class liveness is tracked by
-[#4373](https://github.com/thomhurst/ModularPipelines/issues/4373).
+contract.
 
 ## Cancellation and Completion
 
-Cancellation tokens stop work only in the process where cancellation is requested. The
-shipped coordinator contract does not broadcast cancellation between the master and workers.
+`BroadcastCancellationAsync` signals cancellation to distributed workers, which observe it
+through `WaitForCancellationAsync`. Local cancellation tokens still bound individual operations.
 
 `SignalCompletionAsync` is different from cancellation. When the master receives at least
 one runnable module, it calls this method in a `finally` block after distributed execution
 ends. Coordinators use that signal to wake workers blocked in `DequeueModuleAsync` and let
 their execution loops exit normally. If the runnable set is empty, the master currently
 returns before sending the signal, so external workers remain blocked until their local
-cancellation tokens are canceled. First-class distributed cancellation is also tracked by
-[#4373](https://github.com/thomhurst/ModularPipelines/issues/4373).
+cancellation tokens are canceled.

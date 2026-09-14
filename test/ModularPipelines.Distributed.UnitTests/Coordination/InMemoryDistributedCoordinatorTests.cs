@@ -45,7 +45,7 @@ public class InMemoryDistributedCoordinatorTests
 
         var registration = new WorkerRegistration(
             WorkerIndex: 1,
-            Capabilities: new HashSet<Capability> { "linux" },
+            Capabilities: [ "linux" ],
             RegisteredAt: DateTimeOffset.UtcNow);
 
         await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
@@ -93,7 +93,7 @@ public class InMemoryDistributedCoordinatorTests
                 WorkerTimeout = TimeSpan.FromMilliseconds(10),
             }));
         await coordinator.RegisterWorkerAsync(
-            new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
+            new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
             CancellationToken.None);
 
         await Task.Delay(30);
@@ -124,9 +124,9 @@ public class InMemoryDistributedCoordinatorTests
         var dockerAssignment = new ModuleAssignment(
             ModuleTypeName: "Docker.Module",
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<Capability> { "docker" },
+            RequiredCapabilities: [ "docker" ],
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, false));
+            Configuration: new ModuleAssignmentOptions(null, false));
 
         await coordinator.EnqueueModuleAsync(dockerAssignment, CancellationToken.None);
 
@@ -179,10 +179,10 @@ public class InMemoryDistributedCoordinatorTests
     {
         var coordinator = new InMemoryDistributedCoordinator();
         await coordinator.RegisterWorkerAsync(
-            new WorkerRegistration(1, new HashSet<Capability> { Capability.Linux }, DateTimeOffset.UtcNow),
+            new WorkerRegistration(1, [Capability.Linux], DateTimeOffset.UtcNow),
             CancellationToken.None);
         await coordinator.RegisterWorkerAsync(
-            new WorkerRegistration(2, new HashSet<Capability> { Capability.Windows }, DateTimeOffset.UtcNow),
+            new WorkerRegistration(2, [Capability.Windows], DateTimeOffset.UtcNow),
             CancellationToken.None);
         await coordinator.EnqueueModuleAsync(CreateAssignment("Generic"), CancellationToken.None);
         await coordinator.EnqueueModuleAsync(
@@ -207,9 +207,9 @@ public class InMemoryDistributedCoordinatorTests
         return new ModuleAssignment(
             ModuleTypeName: moduleTypeName,
             ResultTypeName: "System.String",
-            RequiredCapabilities: requiredCapabilities ?? new HashSet<Capability>(),
+            RequiredCapabilities: requiredCapabilities?.ToArray() ?? [],
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, false))
+            Configuration: new ModuleAssignmentOptions(null, false))
         {
             Priority = priority,
             CriticalPathWeight = criticalPathWeight,

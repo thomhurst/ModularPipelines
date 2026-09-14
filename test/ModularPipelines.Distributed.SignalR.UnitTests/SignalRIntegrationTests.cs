@@ -29,7 +29,6 @@ public class SignalRIntegrationTests
             {
                 jsonOptions.PayloadSerializerOptions.PropertyNamingPolicy = null;
                 jsonOptions.PayloadSerializerOptions.PropertyNameCaseInsensitive = true;
-                jsonOptions.PayloadSerializerOptions.Converters.Add(new ReadOnlySetJsonConverter());
             });
 
         if (enableImmediateReconnect)
@@ -68,7 +67,7 @@ public class SignalRIntegrationTests
             // Act — invoke RegisterWorker with a WorkerRegistration containing HashSet<Capability>
             var registration = new WorkerRegistration(
                 WorkerIndex: 1,
-                Capabilities: new HashSet<Capability> { "linux", "x64" },
+                Capabilities: ["linux", "x64"],
                 RegisteredAt: DateTimeOffset.UtcNow);
 
             await connection.InvokeAsync(HubMethodNames.RegisterWorker, registration, null);
@@ -116,7 +115,7 @@ public class SignalRIntegrationTests
 
             await connection.InvokeAsync(
                 HubMethodNames.RegisterWorker,
-                new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
+                new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
                 null);
 
             await cancellationReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
@@ -146,20 +145,21 @@ public class SignalRIntegrationTests
 
             // Register first (required by hub)
             await connection.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
+                new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
                 null);
 
             // Pre-create a result waiter
             var tcs = new TaskCompletionSource<SerializedModuleResult>(
                 TaskCreationOptions.RunContinuationsAsynchronously);
             masterState.ResultWaiters["TestModule"] = tcs;
+            AssignWorker(masterState, 1, "TestModule");
 
             // Act — publish a result
             var result = new SerializedModuleResult(
                 ModuleTypeName: "TestModule",
                 ResultTypeName: "System.String",
                 WorkerIndex: 1,
-                SerializedJson: "{\"Value\":\"hello\"}",
+                Payload: "{\"Value\":\"hello\"}",
                 CompletedAt: DateTimeOffset.UtcNow);
 
             await connection.InvokeAsync(HubMethodNames.PublishResult, result);
@@ -168,7 +168,7 @@ public class SignalRIntegrationTests
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
             var collected = await tcs.Task.WaitAsync(cts.Token);
             await Assert.That(collected.ModuleTypeName).IsEqualTo("TestModule");
-            await Assert.That(collected.SerializedJson).IsEqualTo("{\"Value\":\"hello\"}");
+            await Assert.That(collected.Payload).IsEqualTo("{\"Value\":\"hello\"}");
 
             await connection.DisposeAsync();
         }
@@ -207,16 +207,16 @@ public class SignalRIntegrationTests
 
             // Register as idle worker
             await connection.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(1, new HashSet<Capability> { "linux" }, DateTimeOffset.UtcNow),
+                new WorkerRegistration(1, ["linux"], DateTimeOffset.UtcNow),
                 null);
 
             // Enqueue work via master state (simulating master coordinator)
             var moduleAssignment = new ModuleAssignment(
                 ModuleTypeName: "MyModule",
                 ResultTypeName: "System.Int32",
-                RequiredCapabilities: new HashSet<Capability>(),
+                RequiredCapabilities: [],
                 AssignedAt: DateTimeOffset.UtcNow,
-                Configuration: new ModuleAssignmentConfiguration(null, false));
+                Configuration: new ModuleAssignmentOptions(null, false));
 
             masterState.PendingAssignments.Enqueue(moduleAssignment);
 
@@ -291,33 +291,33 @@ public class SignalRIntegrationTests
             await Task.WhenAll(worker1.StartAsync(), worker2.StartAsync(), worker3.StartAsync());
 
             await worker1.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(1, new HashSet<Capability> { "linux" }, DateTimeOffset.UtcNow),
+                new WorkerRegistration(1, ["linux"], DateTimeOffset.UtcNow),
                 null);
             await worker2.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(2, new HashSet<Capability> { "windows" }, DateTimeOffset.UtcNow),
+                new WorkerRegistration(2, ["windows"], DateTimeOffset.UtcNow),
                 null);
             await worker3.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(3, new HashSet<Capability> { "linux", "docker" }, DateTimeOffset.UtcNow),
+                new WorkerRegistration(3, ["linux", "docker"], DateTimeOffset.UtcNow),
                 null);
 
             // Enqueue 3 modules with different capability requirements
             var windowsModule = new ModuleAssignment(
                 "WindowsBuildModule", "System.String",
-                new HashSet<Capability> { "windows" },
+                ["windows"],
                 DateTimeOffset.UtcNow,
-                new ModuleAssignmentConfiguration(null, false));
+                new ModuleAssignmentOptions(null, false));
 
             var dockerModule = new ModuleAssignment(
                 "DockerBuildModule", "System.String",
-                new HashSet<Capability> { "linux", "docker" },
+                ["linux", "docker"],
                 DateTimeOffset.UtcNow,
-                new ModuleAssignmentConfiguration(null, false));
+                new ModuleAssignmentOptions(null, false));
 
             var genericModule = new ModuleAssignment(
                 "GenericModule", "System.String",
-                new HashSet<Capability>(),
+                [],
                 DateTimeOffset.UtcNow,
-                new ModuleAssignmentConfiguration(null, false));
+                new ModuleAssignmentOptions(null, false));
 
             masterState.PendingAssignments.Enqueue(windowsModule);
             masterState.PendingAssignments.Enqueue(dockerModule);
@@ -369,15 +369,16 @@ public class SignalRIntegrationTests
             await Task.WhenAll(worker1.StartAsync(), worker2.StartAsync());
 
             await worker1.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
+                new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
                 null);
             await worker2.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(2, new HashSet<Capability>(), DateTimeOffset.UtcNow),
+                new WorkerRegistration(2, [], DateTimeOffset.UtcNow),
                 null);
 
             // Pre-create result waiter for the master side
             masterState.ResultWaiters["BuildModule"] = new TaskCompletionSource<SerializedModuleResult>(
                 TaskCreationOptions.RunContinuationsAsynchronously);
+            AssignWorker(masterState, 1, "BuildModule");
 
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
             var resultTask = worker2.InvokeAsync<SerializedModuleResult>(
@@ -391,7 +392,7 @@ public class SignalRIntegrationTests
 
             var fetchedResult = await resultTask;
             await Assert.That(fetchedResult.ModuleTypeName).IsEqualTo("BuildModule");
-            await Assert.That(fetchedResult.SerializedJson).IsEqualTo("{\"Output\":\"build.zip\"}");
+            await Assert.That(fetchedResult.Payload).IsEqualTo("{\"Output\":\"build.zip\"}");
 
             // Master should also have the result
             var masterResult = await masterState.ResultWaiters["BuildModule"].Task;
@@ -439,7 +440,7 @@ public class SignalRIntegrationTests
 
             await connection.StartAsync();
             await coordinator.RegisterWorkerAsync(
-                new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
+                new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
                 CancellationToken.None);
 
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
@@ -515,7 +516,7 @@ public class SignalRIntegrationTests
 
             await worker.StartAsync();
             await worker.InvokeAsync(HubMethodNames.RegisterWorker,
-                new WorkerRegistration(1, new HashSet<Capability>(), DateTimeOffset.UtcNow),
+                new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
                 null);
 
             // Set up result waiters and enqueue 3 modules
@@ -529,8 +530,8 @@ public class SignalRIntegrationTests
                 resultTasks[moduleName] = tcs;
 
                 masterState.PendingAssignments.Enqueue(new ModuleAssignment(
-                    moduleName, "System.String", new HashSet<Capability>(),
-                    DateTimeOffset.UtcNow, new ModuleAssignmentConfiguration(null, false)));
+                    moduleName, "System.String", [],
+                    DateTimeOffset.UtcNow, new ModuleAssignmentOptions(null, false)));
             }
 
             // Worker requests work — will get first assignment, then re-request after each publish
@@ -558,6 +559,24 @@ public class SignalRIntegrationTests
         finally
         {
             await serverHost.DisposeAsync();
+        }
+    }
+
+    private static void AssignWorker(
+        SignalRMasterState state,
+        int workerIndex,
+        string moduleTypeName)
+    {
+        var worker = state.Workers.Values.Single(instance =>
+            instance.Registration.WorkerIndex == workerIndex);
+        if (!worker.TryAssign(new ModuleAssignment(
+                moduleTypeName,
+                "System.String",
+                [],
+                DateTimeOffset.UtcNow,
+                new ModuleAssignmentOptions(null, false))))
+        {
+            throw new InvalidOperationException($"Worker {workerIndex} already has an assignment.");
         }
     }
 }

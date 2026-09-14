@@ -21,6 +21,8 @@ internal class RedisKeyBuilder
 
     public string Workers => $"{_runPrefix}:workers";
 
+    public string WorkerStatuses => $"{_runPrefix}:workers:status";
+
     public string WorkerHeartbeatField(int workerIndex) => $"heartbeat:{workerIndex}";
 
     public string WorkAvailableChannel => $"{_runPrefix}:work:available";
@@ -50,6 +52,7 @@ internal class RedisKeyBuilder
         WorkQueue,
         Results,
         Workers,
+        WorkerStatuses,
         CompletionFlag,
         CancellationFlag,
     ];
