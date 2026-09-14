@@ -874,31 +874,13 @@ public class CodeGeneratorOrchestrator
         };
         if (allCommands.Count == 0)
         {
-            // Availability can change after the first probe. Keep unavailable help
-            // distinct from a successful help invocation that the parser did not recognize.
-            var (coverage, diagnosticsPath) = await EvaluateCommandCoverageAsync(
+            return await GetEmptyCliGenerationFailureAsync(
                 completeToolDefinition,
+                cliScraper.ToolName,
                 outputDirectory,
                 approveCommandCoverageShrinkage,
-                commandCoverageBaselinePath: null,
-                commandCoveragePathComparer: null,
-                allowMissingCommandCoverageManifest: false,
-                scrapeProvenanceProvider: scrapeProvenanceProvider,
-                cancellationToken: cancellationToken);
-            var diagnosticsMessage = diagnosticsPath is null
-                ? string.Empty
-                : $" Raw help diagnostics: {diagnosticsPath}.";
-            if (coverage.UnavailableCommands.Count > 0)
-            {
-                return new CliGenerationFailure(
-                    string.Join(" ", coverage.Violations) + diagnosticsMessage,
-                    coverage);
-            }
-
-            return new CliGenerationFailure(
-                $"The {cliScraper.ToolName} CLI reported itself available but help scraping produced no commands. " +
-                $"Check the scraper's help-text parsing against the currently installed CLI version.{diagnosticsMessage}",
-                coverage);
+                scrapeProvenanceProvider,
+                cancellationToken);
         }
 
         if (_typeEnhancer is not null)
@@ -924,6 +906,41 @@ public class CodeGeneratorOrchestrator
         }
 
         return null;
+    }
+
+    private async Task<CliGenerationFailure> GetEmptyCliGenerationFailureAsync(
+        CliToolDefinition tool,
+        string toolName,
+        string outputDirectory,
+        bool approveCommandCoverageShrinkage,
+        CliScraperBase? scrapeProvenanceProvider,
+        CancellationToken cancellationToken)
+    {
+        // Availability can change after the first probe. Keep unavailable help
+        // distinct from a successful help invocation that the parser did not recognize.
+        var (coverage, diagnosticsPath) = await EvaluateCommandCoverageAsync(
+            tool,
+            outputDirectory,
+            approveCommandCoverageShrinkage,
+            commandCoverageBaselinePath: null,
+            commandCoveragePathComparer: null,
+            allowMissingCommandCoverageManifest: false,
+            scrapeProvenanceProvider: scrapeProvenanceProvider,
+            cancellationToken: cancellationToken);
+        var diagnosticsMessage = diagnosticsPath is null
+            ? string.Empty
+            : $" Raw help diagnostics: {diagnosticsPath}.";
+        if (coverage.UnavailableCommands.Count > 0)
+        {
+            return new CliGenerationFailure(
+                string.Join(" ", coverage.Violations) + diagnosticsMessage,
+                coverage);
+        }
+
+        return new CliGenerationFailure(
+            $"The {toolName} CLI reported itself available but help scraping produced no commands. " +
+            $"Check the scraper's help-text parsing against the currently installed CLI version.{diagnosticsMessage}",
+            coverage);
     }
 
     private sealed record CliGenerationFailure(
@@ -1009,29 +1026,15 @@ public class CodeGeneratorOrchestrator
             await beforeWrite(candidateOwnedPaths, cancellationToken);
         }
 
-        var writtenFullPaths = new HashSet<string>(fileSystemPathComparer);
-        var fileNamesByDirectory = new Dictionary<string, HashSet<string>>(fileSystemPathComparer);
-
-        foreach (var file in generatedFiles)
-        {
-            var fullPath = Path.Combine(outputDirectory, file.RelativePath);
-            var renamedPath = await WriteFileAsync(
-                fullPath,
-                file.Content,
-                cancellationToken,
-                enforceOutputContainment ? outputDirectory : null,
-                "generated file path",
-                fileNamesByDirectory,
-                replaceableExistingPaths);
-            if (renamedPath is not null)
-            {
-                result.FilesDeleted.Add(Path.GetRelativePath(outputDirectory, renamedPath));
-            }
-
-            writtenFullPaths.Add(Path.GetFullPath(fullPath));
-            result.FilesGenerated.Add(file.RelativePath);
-            emittedPaths.Add(file.RelativePath.Replace('\\', '/'));
-        }
+        var writtenFullPaths = await WriteGeneratedFilesAsync(
+            generatedFiles,
+            outputDirectory,
+            result,
+            emittedPaths,
+            fileSystemPathComparer,
+            enforceOutputContainment,
+            replaceableExistingPaths,
+            cancellationToken);
 
         // Only after every replacement is on disk is it safe to prune stale files.
         // External generation reconciles only its recorded ownership after this method returns.
@@ -1066,6 +1069,43 @@ public class CodeGeneratorOrchestrator
             result.FilesGenerated.Add(
                 Path.Combine(toolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
         }
+    }
+
+    private static async Task<HashSet<string>> WriteGeneratedFilesAsync(
+        IReadOnlyList<GeneratedFile> generatedFiles,
+        string outputDirectory,
+        GenerationResult result,
+        HashSet<string> emittedPaths,
+        StringComparer fileSystemPathComparer,
+        bool enforceOutputContainment,
+        IReadOnlySet<string>? replaceableExistingPaths,
+        CancellationToken cancellationToken)
+    {
+        var writtenFullPaths = new HashSet<string>(fileSystemPathComparer);
+        var fileNamesByDirectory = new Dictionary<string, HashSet<string>>(fileSystemPathComparer);
+
+        foreach (var file in generatedFiles)
+        {
+            var fullPath = Path.Combine(outputDirectory, file.RelativePath);
+            var renamedPath = await WriteFileAsync(
+                fullPath,
+                file.Content,
+                cancellationToken,
+                enforceOutputContainment ? outputDirectory : null,
+                "generated file path",
+                fileNamesByDirectory,
+                replaceableExistingPaths);
+            if (renamedPath is not null)
+            {
+                result.FilesDeleted.Add(Path.GetRelativePath(outputDirectory, renamedPath));
+            }
+
+            writtenFullPaths.Add(Path.GetFullPath(fullPath));
+            result.FilesGenerated.Add(file.RelativePath);
+            emittedPaths.Add(file.RelativePath.Replace('\\', '/'));
+        }
+
+        return writtenFullPaths;
     }
 
     private async Task<CommandCoverageEvaluation> ValidateCommandCoverageAsync(
