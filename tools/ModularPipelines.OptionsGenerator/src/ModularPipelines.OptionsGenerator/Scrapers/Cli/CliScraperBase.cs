@@ -1356,13 +1356,12 @@ public abstract partial class CliScraperBase : ICliScraper
     protected internal static bool HelpDeclaresRepeatableOption(
         string helpText,
         string switchName,
-        string description)
-    {
-        if (DescriptionDeclaresRepeatableOption(description))
-        {
-            return true;
-        }
+        string description) =>
+        DescriptionDeclaresRepeatableOption(description)
+        || HelpOptionBlockMatches(helpText, switchName, RepeatableValuePattern());
 
+    private protected static bool HelpOptionBlockMatches(string helpText, string switchName, Regex pattern)
+    {
         var optionPattern = $@"(?<![\w-]){Regex.Escape(switchName)}(?![\w-])";
         var lines = helpText.ReplaceLineEndings("\n").Split('\n');
 
@@ -1393,7 +1392,7 @@ public abstract partial class CliScraperBase : ICliScraper
             var optionMatch = Regex.Match(declaration, optionPattern, RegexOptions.IgnoreCase);
             if (optionMatch.Success
                 && (inlineDescriptionColumn is null || GetColumn(declaration, optionMatch.Index) < inlineDescriptionColumn)
-                && RepeatableValuePattern().IsMatch(string.Join('\n', lines, start, index - start + 1)))
+                && pattern.IsMatch(string.Join('\n', lines, start, index - start + 1)))
             {
                 return true;
             }

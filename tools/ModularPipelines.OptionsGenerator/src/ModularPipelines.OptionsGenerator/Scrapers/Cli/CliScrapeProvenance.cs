@@ -21,6 +21,7 @@ internal sealed class CliScrapeProvenance
     /// <summary>
     /// Help paths whose latest invocation never produced a real response: it timed out after
     /// every retry, was rejected by the circuit breaker, or its process could not execute.
+    /// Required supplemental manuals also count as unavailable when empty or unsuccessful.
     /// Those commands are unavailable in this scrape rather than absent from the tool, so
     /// coverage validation must not report them as removals.
     /// </summary>
@@ -51,7 +52,8 @@ internal sealed class CliScrapeProvenance
             OutputSha256 = Fingerprint(result.CombinedOutput),
             RawHelp = result.CombinedOutput,
             PreserveRawHelp = preserveRawHelp || commandPath.Count == 1 || result.ExitCode != 0,
-            Unavailable = result.Unavailable,
+            Unavailable = result.Unavailable || (helpKind == CliHelpKind.Manual
+                && (!result.Success || string.IsNullOrWhiteSpace(result.StandardOutput))),
         };
         if (helpKind == CliHelpKind.Manual)
         {

@@ -136,13 +136,20 @@ public partial class CargoCliScraper : CliScraperBase
         for (var index = 0; index < options.Count; index++)
         {
             var option = options[index];
-            if (!option.IsFlag && !option.AcceptsMultipleValues
-                && HelpDeclaresRepeatableOption(manual, option.SwitchName, option.Description ?? ""))
+            if (option.IsFlag || option.AcceptsMultipleValues)
+            {
+                continue;
+            }
+
+            var repeated = HelpDeclaresRepeatableOption(manual, option.SwitchName, option.Description ?? "");
+            var commaSeparated = !repeated && HelpOptionBlockMatches(manual, option.SwitchName, CommaSeparatedListPattern());
+            if (repeated || commaSeparated)
             {
                 options[index] = option with
                 {
                     AcceptsMultipleValues = true,
                     CSharpType = AsCSharpType(option.CSharpType, acceptsMultipleValues: true),
+                    CollectionSeparator = commaSeparated ? "," : null,
                 };
             }
         }
@@ -288,6 +295,9 @@ public partial class CargoCliScraper : CliScraperBase
     }
 
     #region Regex Patterns
+
+    [GeneratedRegex(@"\bcomma[ -]separated\s+list\b", RegexOptions.IgnoreCase)]
+    private static partial Regex CommaSeparatedListPattern();
 
     /// <summary>
     /// Matches "Commands:" section.

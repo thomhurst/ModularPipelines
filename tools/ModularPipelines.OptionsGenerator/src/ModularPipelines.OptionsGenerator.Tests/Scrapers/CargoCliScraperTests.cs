@@ -65,6 +65,39 @@ public class CargoCliScraperTests
 
         await Assert.That(commands.Any(command => command.FullCommand == "cargo build")).IsFalse();
         await Assert.That(executor.ManualRequested).IsTrue();
+        await Assert.That(scraper.UnavailableHelpPaths).IsEquivalentTo(["cargo build"]);
+    }
+
+    [Test]
+    public async Task Captured_Tree_Manual_Preserves_Compound_Edge_Values()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "cargo-1.98.1-tree-help.txt"));
+        var manual = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "cargo-1.98.1-tree-manual.txt"));
+        var executor = new CargoHelpExecutor(help, manual, commandName: "tree");
+        var scraper = new CargoCliScraper(executor, new HelpTextCache(NullLogger<HelpTextCache>.Instance), NullLogger<CargoCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var tree = commands.Single(command => command.FullCommand == "cargo tree");
+        var edges = GetOption(tree, "--edges");
+        await Assert.That(edges.PropertyType).IsEqualTo("IEnumerable<CargoTreeEdges>?");
+        await Assert.That(edges.CollectionSeparator).IsEqualTo(",");
+        await Assert.That(GetOption(tree, "--prefix").AcceptsMultipleValues).IsFalse();
+        await Assert.That(GetOption(tree, "--features").AcceptsMultipleValues).IsTrue();
+        await Assert.That(GetOption(tree, "--features").CollectionSeparator).IsNull();
+        var generated = await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "cargo",
+            NamespacePrefix = "Cargo",
+            TargetNamespace = "ModularPipelines.Rust",
+            OutputDirectory = "src/ModularPipelines.Rust",
+            Commands = [tree],
+        });
+        await Assert.That(generated.Single().Content).Contains("CollectionSeparator = \",\"");
+        await Assert.That(generated.Single().Content).Contains("IEnumerable<CargoTreeEdges>? Edges");
     }
 
     [Test]
@@ -464,23 +497,23 @@ public class CargoCliScraperTests
     private static CliOptionDefinition GetOption(CliCommandDefinition command, string switchName) =>
         command.Options.Single(option => option.SwitchName == switchName);
 
-    private sealed class CargoHelpExecutor(string help, string manual, int manualExitCode = 0) : ICliCommandExecutor
+    private sealed class CargoHelpExecutor(string help, string manual, int manualExitCode = 0, string commandName = "build") : ICliCommandExecutor
     {
         public bool ManualRequested { get; private set; }
 
         public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
             CancellationToken cancellationToken = default, string? workingDirectory = null)
         {
-            ManualRequested |= arguments == "help build";
+            ManualRequested |= arguments == $"help {commandName}";
             var output = arguments switch
             {
-                "--help" => "Usage: cargo [COMMAND]\n\nCommands:\n  build  Compile packages\n",
-                "build --help" => help,
-                "help build" => manual,
+                "--help" => $"Usage: cargo [COMMAND]\n\nCommands:\n  {commandName}  Inspect packages\n",
+                _ when arguments == $"{commandName} --help" => help,
+                _ when arguments == $"help {commandName}" => manual,
                 "--version" => "cargo 1.98.1 (797e8a9bc 2026-08-05)",
                 _ => throw new InvalidOperationException($"Unexpected arguments: {arguments}"),
             };
-            return Task.FromResult(new CliCommandResult { StandardOutput = output, StandardError = "", ExitCode = arguments == "help build" ? manualExitCode : 0 });
+            return Task.FromResult(new CliCommandResult { StandardOutput = output, StandardError = "", ExitCode = arguments == $"help {commandName}" ? manualExitCode : 0 });
         }
 
         public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) => Task.FromResult(true);
