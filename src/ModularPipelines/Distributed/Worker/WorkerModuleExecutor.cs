@@ -415,7 +415,11 @@ internal class WorkerModuleExecutor(
                 var failure = ModuleResultFactory.CreateException(
                     resultType,
                     serializationException,
-                    new ModuleExecutionContext(module, module.GetType()));
+                    new ModuleExecutionContext(module, module.GetType())
+                    {
+                        Status = ModuleStatus.Failed,
+                        Exception = serializationException,
+                    });
                 serialized = _serializer.Serialize(
                     failure,
                     assignment.ModuleTypeName,

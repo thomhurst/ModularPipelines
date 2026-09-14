@@ -127,6 +127,7 @@ public class WorkerModuleExecutorTests
 
         await Assert.That(result?.ExceptionOrDefault).IsNotNull();
         await Assert.That(result!.ExceptionOrDefault!.Message).Contains("cycle");
+        await Assert.That(result.Status).IsEqualTo(ModuleStatus.Failed);
         await Assert.That(result.ValueOrDefault).IsNull();
     }
 
@@ -403,9 +404,9 @@ public class WorkerModuleExecutorTests
     private static ModuleAssignment CreateAssignment(IModule module) => new(
         module.GetType().FullName!,
         module.ResultType.FullName!,
-        new HashSet<Capability>(),
+        [],
         DateTimeOffset.UtcNow,
-        new ModuleAssignmentConfiguration(null, false));
+        new ModuleAssignmentOptions(null, false));
 
     private static void UpdateMaximum(ref int maximum, int candidate)
     {

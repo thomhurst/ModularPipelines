@@ -233,9 +233,9 @@ public class DistributedWorkerPoolTests
     private static ModuleAssignment CreateAssignment(string name) => new(
         name,
         typeof(int).FullName!,
-        new HashSet<Capability>(),
+        [],
         DateTimeOffset.UtcNow,
-        new ModuleAssignmentConfiguration(null, false));
+        new ModuleAssignmentOptions(null, false));
 
     private static void UpdateMaximum(ref int maximum, int candidate)
     {
