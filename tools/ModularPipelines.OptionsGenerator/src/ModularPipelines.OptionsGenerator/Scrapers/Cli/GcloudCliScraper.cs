@@ -188,7 +188,7 @@ public partial class GcloudCliScraper : CliScraperBase
 
         // gcloud format: command names are indented with 5+ spaces at line start
         // Example: "     compute"
-        var matches = MyRegex().Matches(section);
+        var matches = IndentedCommandNamePattern().Matches(section);
         foreach (Match match in matches)
         {
             var name = match.Groups[1].Value.Trim();
@@ -678,7 +678,7 @@ public partial class GcloudCliScraper : CliScraperBase
     [GeneratedRegex(@"^[A-Z][A-Z_\s]+$", RegexOptions.Multiline)]
     private static partial Regex SectionHeaderPattern();
     [GeneratedRegex(@"^\s{5}(\w[\w-]*)\s*$", RegexOptions.Multiline)]
-    private static partial Regex MyRegex();
+    private static partial Regex IndentedCommandNamePattern();
 
     #endregion
 }
