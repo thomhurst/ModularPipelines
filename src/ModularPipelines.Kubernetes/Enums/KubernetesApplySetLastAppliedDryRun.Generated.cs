@@ -16,12 +16,12 @@ namespace ModularPipelines.Kubernetes.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum KubernetesApplySetLastAppliedDryRun
 {
+    [EnumValue("client")]
+    Client,
+
     [EnumValue("none")]
     None,
 
     [EnumValue("server")]
-    Server,
-
-    [EnumValue("client")]
-    Client
+    Server
 }
