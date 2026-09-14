@@ -54,7 +54,7 @@ public class TrivyVex : ITrivyVex
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new TrivyVexOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new TrivyVexOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
