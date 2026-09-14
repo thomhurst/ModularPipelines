@@ -62,9 +62,14 @@ public record CliArgumentGroup
 public record CliArgumentDefinition
 {
     /// <summary>
-    /// Normalized switch name, including its leading dashes.
+    /// Normalized argument name, including leading dashes for a named option.
     /// </summary>
     public required string SwitchName { get; init; }
+
+    /// <summary>
+    /// Whether this declaration is a positional operand rather than a named option.
+    /// </summary>
+    public bool IsPositional { get; init; }
 
     /// <summary>
     /// Value placeholder shown by help output.

@@ -1815,18 +1815,23 @@ public abstract partial class CliScraperBase : ICliScraper
         var emittedSwitches = command.Options
             .Select(option => option.SwitchName)
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var missingSwitches = command.ArgumentGroups
+        var emittedOperands = command.PositionalArguments
+            .Select(argument => argument.PropertyName)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var missingArguments = command.ArgumentGroups
             .SelectMany(group => group.FlattenArguments())
+            .Where(argument => argument.IsPositional
+                ? !emittedOperands.Contains(NormalizePropertyName(argument.SwitchName) ?? argument.SwitchName)
+                : !emittedSwitches.Contains(argument.SwitchName))
             .Select(argument => argument.SwitchName)
-            .Where(switchName => !emittedSwitches.Contains(switchName))
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToArray();
 
-        if (missingSwitches.Length != 0)
+        if (missingArguments.Length != 0)
         {
             throw new InvalidOperationException(
                 $"{command.FullCommand} declares grouped arguments that were swallowed or omitted: "
-                + string.Join(", ", missingSwitches));
+                + string.Join(", ", missingArguments));
         }
     }
 

@@ -42,7 +42,12 @@ public partial class NestedArgumentGroupParsingTests
             "Fixtures", "Gcloud", "metastore-services-migrations-start.txt"));
         var command = (await CreateGcloudScraper().Parse(
             ["gcloud", "metastore", "services", "migrations", "start"], help))!;
-        var root = command.ArgumentGroups.Single();
+        var root = command.ArgumentGroups.Single(group =>
+            group.FlattenArguments().Any(argument => argument.SwitchName == "--async"));
+
+        await Assert.That(command.PositionalArguments.Single().PropertyName).IsEqualTo("Service");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--location").Description)
+            .StartsWith("Service resource").And.DoesNotContain("Hive").And.DoesNotContain("Iceberg");
 
         await Assert.That(root.Description).IsNull();
         await Assert.That(root.Groups).Count().IsEqualTo(2);

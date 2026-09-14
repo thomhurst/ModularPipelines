@@ -11,8 +11,9 @@ public static class UsageSynopsisParser
 {
     private static readonly string[] DefaultUsageHeadings = ["usage"];
 
-    private static readonly HashSet<string> ControlTokens = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> ControlTokens =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "arg",
         "args",
         "argument",
@@ -28,25 +29,27 @@ public static class UsageSynopsisParser
         "options",
         "subcommand",
         "subcommands",
-    };
+    ];
 
-    private static readonly HashSet<string> OptionControlTokens = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> OptionControlTokens =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "flag",
         "flags",
         "global option",
         "global options",
         "option",
         "options",
-    };
+    ];
 
-    private static readonly HashSet<string> CommandGroupPlaceholderNames = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> CommandGroupPlaceholderNames =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "Command",
         "Commands",
         "Subcommand",
         "Subcommands",
-    };
+    ];
 
     /// <summary>
     /// Parses the best matching synopsis for a command.
@@ -213,7 +216,7 @@ public static class UsageSynopsisParser
         };
     }
 
-    private static IReadOnlyList<UsageRequiredAlternativeGroup> ParseInlineRequiredAlternativeGroups(
+    private static List<UsageRequiredAlternativeGroup> ParseInlineRequiredAlternativeGroups(
         IEnumerable<string> operandTokens,
         CommandLinePhase phase)
     {
@@ -272,7 +275,7 @@ public static class UsageSynopsisParser
             .ToHashSet(StringComparer.Ordinal);
 
     private static IReadOnlyList<UsageRequiredAlternativeGroup> GetCrossSynopsisRequiredAlternativeGroups(
-        IReadOnlyList<UsageSynopsisParseResult> candidates,
+        List<UsageSynopsisParseResult> candidates,
         IReadOnlyList<CliPositionalArgument> selectedArguments)
     {
         if (candidates.Count <= 1
@@ -363,9 +366,7 @@ public static class UsageSynopsisParser
 
     private static IReadOnlyList<UsageRequiredAlternativeMember> DistinctAlternativeMembers(
         IEnumerable<UsageRequiredAlternativeMember> members) =>
-        members
-            .DistinctBy(GetAlternativeMemberKey, StringComparer.Ordinal)
-            .ToArray();
+        [.. members.DistinctBy(GetAlternativeMemberKey, StringComparer.Ordinal)];
 
     private static IReadOnlyList<UsageRequiredAlternativeMember> CollapseOptionAliases(
         IReadOnlyList<UsageRequiredAlternativeMember> members,
@@ -450,7 +451,7 @@ public static class UsageSynopsisParser
         }
 
         alternatives.Add(content[start..].Trim());
-        return alternatives.Where(static alternative => alternative.Length > 0).ToArray();
+        return [.. alternatives.Where(static alternative => alternative.Length > 0)];
     }
 
     private static ParsedOperands ParseOperandTokens(
@@ -541,9 +542,7 @@ public static class UsageSynopsisParser
             return arguments;
         }
 
-        return arguments
-            .Select(static argument => argument with { PrependOptionTerminator = true })
-            .ToArray();
+        return [.. arguments.Select(static argument => argument with { PrependOptionTerminator = true })];
     }
 
     private static void ClearAssociatedOptionSwitch(
@@ -677,7 +676,7 @@ public static class UsageSynopsisParser
             return selectedArguments;
         }
 
-        return selectedArguments
+        return [.. selectedArguments
             .Select(argument => alternatives.All(alternative =>
                 IsRequiredInAlternative(
                     argument,
@@ -688,8 +687,7 @@ public static class UsageSynopsisParser
                     {
                         CSharpType = $"{argument.CSharpType.TrimEnd('?')}?",
                         IsRequired = false,
-                    })
-            .ToList();
+                    })];
     }
 
     private static bool IsRequiredInAlternative(
@@ -713,7 +711,7 @@ public static class UsageSynopsisParser
                    && candidate.Phase == selectedArgument.Phase);
     }
 
-    private static IReadOnlyList<string> ExtractSynopses(
+    private static List<string> ExtractSynopses(
         string helpText,
         IReadOnlyList<string> acceptedHeadings)
     {
@@ -848,6 +846,7 @@ public static class UsageSynopsisParser
     private static int ReadIndentedSynopses(string[] lines, int startIndex, List<string> synopses)
     {
         var initialSynopsisCount = synopses.Count;
+        var synopsisIndentation = int.MaxValue;
         var index = startIndex;
         for (; index < lines.Length; index++)
         {
@@ -863,12 +862,20 @@ public static class UsageSynopsisParser
                 break;
             }
 
+            var indentation = line.Length - line.TrimStart().Length;
+            if (indentation > synopsisIndentation)
+            {
+                synopses[^1] += " " + trimmed;
+                continue;
+            }
+
             if (LooksLikeSectionHeading(trimmed))
             {
                 break;
             }
 
             synopses.Add(trimmed);
+            synopsisIndentation = indentation;
         }
 
         return index;
@@ -880,7 +887,7 @@ public static class UsageSynopsisParser
             && line.Any(char.IsLetter)
             && line.Where(char.IsLetter).All(char.IsUpper));
 
-    private static IReadOnlyList<string> Tokenize(string synopsis)
+    private static List<string> Tokenize(string synopsis)
     {
         var tokens = new List<string>();
         var index = 0;
@@ -926,7 +933,7 @@ public static class UsageSynopsisParser
     }
 
     private static CommandMatch? FindCommand(
-        IReadOnlyList<string> tokens,
+        List<string> tokens,
         IReadOnlyList<string> commandPath)
     {
         for (var pathStart = 0; pathStart < commandPath.Count; pathStart++)
@@ -1048,17 +1055,39 @@ public static class UsageSynopsisParser
         }
 
         var content = TrimWrapper(normalizedToken).Trim();
+        var nestedTokens = Tokenize(content);
+        if (nestedTokens.Contains(":") && SplitTopLevelAlternatives(content).Count > 1)
+        {
+            throw new InvalidOperationException(
+                $"Usage synopsis has ambiguous alternatives in colon group '{normalizedToken}'.");
+        }
+
+        if (TryParseColonSeparatedOperands(
+                nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments))
+        {
+            return true;
+        }
+
         if (!content.Contains('[') || content.Contains('|'))
         {
             return false;
         }
 
-        var nestedTokens = Tokenize(content);
         if (nestedTokens.Count <= 1)
         {
             return false;
         }
 
+        return TryParseOptionalNestedOperands(nestedTokens, positionIndex, phase, out arguments);
+    }
+
+    private static bool TryParseOptionalNestedOperands(
+        List<string> nestedTokens,
+        int positionIndex,
+        CommandLinePhase phase,
+        out IReadOnlyList<CliPositionalArgument> arguments)
+    {
+        arguments = [];
         var parsedArguments = new List<CliPositionalArgument>();
         string? associatedOptionSwitch = null;
         foreach (var nestedToken in nestedTokens)
@@ -1099,6 +1128,38 @@ public static class UsageSynopsisParser
 
         arguments = parsedArguments;
         return true;
+    }
+
+    private static bool TryParseColonSeparatedOperands(
+        List<string> tokens,
+        bool groupRequired,
+        int positionIndex,
+        CommandLinePhase phase,
+        out IReadOnlyList<CliPositionalArgument> arguments)
+    {
+        arguments = [];
+        var separator = tokens.IndexOf(":");
+        if (separator <= 0)
+        {
+            return false;
+        }
+
+        // A selector-only suffix can come from a fully qualified resource or configuration.
+        // Other colon groups retain operands on both sides of the separator.
+        var hasOnlySelectors = separator < tokens.Count - 1
+                               && tokens.Skip(separator + 1).All(static token =>
+                                   IsOptionControlToken(token) && GetOptionSwitches(token).Count > 0);
+        var operandTokens = hasOnlySelectors
+            ? tokens.Take(separator)
+            : tokens.Where(static token => token != ":");
+        var groupArguments = ParseOperandTokens(operandTokens, phase).Arguments;
+        arguments = [.. groupArguments.Select((argument, index) => argument with
+        {
+            PositionIndex = positionIndex + index,
+            IsRequired = argument.IsRequired && groupRequired,
+            CSharpType = GetCSharpType(argument.IsRequired && groupRequired, argument.IsVariadic),
+        })];
+        return arguments.Count > 0;
     }
 
     private static string TrimTrailingOperandPunctuation(string token) =>
@@ -1190,7 +1251,7 @@ public static class UsageSynopsisParser
             .Replace("\\", " Or ", StringComparison.Ordinal);
     }
 
-    private static IReadOnlyList<string> CollapseAlternatives(IEnumerable<string> sourceTokens)
+    private static List<string> CollapseAlternatives(IEnumerable<string> sourceTokens)
     {
         var tokens = sourceTokens.ToList();
         var collapsed = new List<string>();
@@ -1209,7 +1270,7 @@ public static class UsageSynopsisParser
         return collapsed;
     }
 
-    private static IReadOnlyList<string> TrimTrailingUsageExplanation(IEnumerable<string> sourceTokens)
+    private static List<string> TrimTrailingUsageExplanation(IEnumerable<string> sourceTokens)
     {
         var tokens = sourceTokens.ToList();
         var punctuationBoundaryIndex = tokens.FindIndex(static token =>
@@ -1234,14 +1295,12 @@ public static class UsageSynopsisParser
             boundaryIndex++;
         }
 
-        return tokens.Take(boundaryIndex).ToList();
+        return [.. tokens.Take(boundaryIndex)];
     }
 
     private static string? NormalizeOperandName(string content)
     {
-        var cleaned = new string(content
-            .Select(character => char.IsLetterOrDigit(character) ? character : ' ')
-            .ToArray());
+        var cleaned = new string([.. content.Select(character => char.IsLetterOrDigit(character) ? character : ' ')]);
         var words = cleaned.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         return words.Length == 0
             ? null
@@ -1373,10 +1432,9 @@ public static class UsageSynopsisParser
             return [];
         }
 
-        return alternatives
+        return [.. alternatives
             .SelectMany(GetOptionSwitchesFromAlternative)
-            .Distinct(StringComparer.Ordinal)
-            .ToArray();
+            .Distinct(StringComparer.Ordinal)];
     }
 
     private static IReadOnlyList<string> GetOptionSwitchesFromAlternative(string alternative)
