@@ -290,10 +290,7 @@ public static class UsageSynopsisParser
 
         var candidateMembers = candidates
             .Select(candidate => CollapseOptionAliases(
-                GetRequiredAlternativeMembers(new ParsedOperands(
-                    candidate.PositionalArguments,
-                    candidate.UnparsedOperandTokens,
-                    candidate.RequiredOptionSwitches)),
+                MapAlternativePositionalNames(candidate, selectedArguments),
                 candidate.Synopsis ?? ""))
             .ToArray();
         if (candidateMembers.Any(static members => members.Count == 0))
@@ -332,6 +329,38 @@ public static class UsageSynopsisParser
         return alternatives.Count > 1
             ? [new UsageRequiredAlternativeGroup { Members = alternatives }]
             : [];
+    }
+
+    private static IReadOnlyList<UsageRequiredAlternativeMember> MapAlternativePositionalNames(
+        UsageSynopsisParseResult candidate,
+        IReadOnlyList<CliPositionalArgument> selectedArguments)
+    {
+        var selectedPositionals = selectedArguments.Where(static argument => argument.AssociatedOptionSwitch is null).ToArray();
+        var arguments = candidate.PositionalArguments.ToArray();
+
+        // Alternate forms may name the same operand slot differently (package, URL, or path).
+        // Map occurrences before member deduplication so repeated display names keep every slot.
+        if (selectedPositionals.Length == arguments.Count(static argument => argument.AssociatedOptionSwitch is null))
+        {
+            var position = 0;
+            for (var index = 0; index < arguments.Length; index++)
+            {
+                var argument = arguments[index];
+                if (argument.AssociatedOptionSwitch is not null)
+                {
+                    continue;
+                }
+
+                var selected = selectedPositionals[position++];
+                if (argument.Phase == selected.Phase && argument.IsVariadic == selected.IsVariadic)
+                {
+                    arguments[index] = argument with { PropertyName = selected.PropertyName };
+                }
+            }
+        }
+
+        return GetRequiredAlternativeMembers(new ParsedOperands(
+            arguments, candidate.UnparsedOperandTokens, candidate.RequiredOptionSwitches));
     }
 
     private static bool SupportsRequiredAlternativeInference(IEnumerable<string> operandTokens)

@@ -10,6 +10,33 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class UsageSynopsisParserTests
 {
     [Test]
+    public async Task Repeated_Adapter_Operand_Names_Do_Not_Turn_Required_Slots_Into_Choices()
+    {
+        var usage = UsageSynopsisParser.Parse("""
+            Usage:
+              tool run <source> <destination>
+              tool run <path> <other> --all
+            """, ["tool", "run"]);
+        // An adapter may normalize display names without merging distinct operand slots.
+        usage = usage with
+        {
+            RequirednessCandidates = [.. usage.RequirednessCandidates.Select(candidate =>
+                candidate.Synopsis!.Contains("<path>", StringComparison.Ordinal)
+                    ? candidate with
+                    {
+                        PositionalArguments = [.. candidate.PositionalArguments.Select(argument =>
+                            argument with { PropertyName = "Path" })],
+                    }
+                    : candidate)],
+        };
+
+        var resolved = UsageSynopsisParser.ResolveOptionUsage(usage,
+            [new() { SwitchName = "--all", PropertyName = "All", CSharpType = "bool?", IsFlag = true }]);
+        await Assert.That(resolved.RequiredAlternativeGroups).IsEmpty();
+        await Assert.That(resolved.PositionalArguments.All(argument => argument.IsRequired)).IsTrue();
+    }
+
+    [Test]
     [Arguments("(RESOURCE|ALIAS : --location=LOCATION)")]
     [Arguments("[RESOURCE | ALIAS : --location=LOCATION]")]
     [Arguments("(SOURCE : DESTINATION | ALTERNATIVE)")]

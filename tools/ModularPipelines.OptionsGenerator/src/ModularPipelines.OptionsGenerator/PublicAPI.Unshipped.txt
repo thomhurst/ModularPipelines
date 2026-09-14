@@ -166,3 +166,4 @@ virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.CreateTool
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.GlobalOptionsBeforeSubcommands.get -> bool
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.PreserveCommandGroupPlaceholders.get -> bool
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.UsageSynopsisHeadings.get -> System.Collections.Generic.IReadOnlyList<string!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.PipCliScraper.GetAdditionalUsageSynopses(string![]! commandPath, string! helpText) -> System.Collections.Generic.IEnumerable<string!>!

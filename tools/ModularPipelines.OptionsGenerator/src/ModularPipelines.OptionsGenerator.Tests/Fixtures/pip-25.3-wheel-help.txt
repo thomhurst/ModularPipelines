@@ -1,0 +1,158 @@
+
+Usage:
+  pip wheel [options] <requirement specifier> ...
+  pip wheel [options] -r <requirements file> ...
+  pip wheel [options] [-e] <vcs project url> ...
+  pip wheel [options] [-e] <local project path> ...
+  pip wheel [options] <archive url/path> ...
+
+Description:
+  Build Wheel archives for your requirements and dependencies.
+
+  Wheel is a built-package format, and offers the advantage of not
+  recompiling your software during every install. For more details, see the
+  wheel docs: https://wheel.readthedocs.io/en/latest/
+
+  'pip wheel' uses the build system interface as described here:
+  https://pip.pypa.io/en/stable/reference/build-system/
+
+Wheel Options:
+  -w, --wheel-dir <dir>       Build wheels into <dir>, where the default is
+                              the current working directory.
+  --no-binary <format_control>
+                              Do not use binary packages. Can be supplied
+                              multiple times, and each time adds to the
+                              existing value. Accepts either ":all:" to
+                              disable all binary packages, ":none:" to empty
+                              the set (notice the colons), or one or more
+                              package names with commas between them (no
+                              colons). Note that some packages are tricky to
+                              compile and may fail to install when this option
+                              is used on them.
+  --only-binary <format_control>
+                              Do not use source packages. Can be supplied
+                              multiple times, and each time adds to the
+                              existing value. Accepts either ":all:" to
+                              disable all source packages, ":none:" to empty
+                              the set, or one or more package names with
+                              commas between them. Packages without binary
+                              distributions will fail to install when this
+                              option is used on them.
+  --prefer-binary             Prefer binary packages over source packages,
+                              even if the source packages are newer.
+  --no-build-isolation        Disable isolation when building a modern source
+                              distribution. Build dependencies specified by
+                              PEP 518 must be already installed if this option
+                              is used.
+  --check-build-dependencies  Check the build dependencies.
+  -c, --constraint <file>     Constrain versions using the given constraints
+                              file. This option can be used multiple times.
+  --build-constraint <file>   Constrain build dependencies using the given
+                              constraints file. This option can be used
+                              multiple times.
+  -e, --editable <path/url>   Install a project in editable mode (i.e.
+                              setuptools "develop mode") from a local project
+                              path or a VCS url.
+  -r, --requirement <file>    Install from the given requirements file. This
+                              option can be used multiple times.
+  --src <dir>                 Directory to check out editable projects into.
+                              The default in a virtualenv is "<venv
+                              path>/src". The default for global installs is
+                              "<current dir>/src".
+  --ignore-requires-python    Ignore the Requires-Python information.
+  --no-deps                   Don't install package dependencies.
+  --progress-bar <progress_bar>
+                              Specify whether the progress bar should be used.
+                              In 'auto' mode, --quiet will suppress all
+                              progress bars. [auto, on, off, raw] (default:
+                              auto)
+  --no-verify                 Don't verify if built wheel is valid.
+  -C, --config-settings <settings>
+                              Configuration settings to be passed to the build
+                              backend. Settings take the form KEY=VALUE. Use
+                              multiple --config-settings options to pass
+                              multiple keys to the backend.
+  --pre                       Include pre-release and development versions. By
+                              default, pip only finds stable versions.
+  --require-hashes            Require a hash to check each requirement
+                              against, for repeatable installs. This option is
+                              implied when any package in a requirements file
+                              has a --hash option.
+  --group <[path:]group>      Install a named dependency-group from a
+                              "pyproject.toml" file. If a path is given, the
+                              name of the file must be "pyproject.toml".
+                              Defaults to using "pyproject.toml" in the
+                              current directory.
+  --no-clean                  Don't clean up build directories.
+
+Package Index Options:
+  -i, --index-url <url>       Base URL of the Python Package Index (default
+                              https://pypi.org/simple). This should point to a
+                              repository compliant with PEP 503 (the simple
+                              repository API) or a local directory laid out in
+                              the same format.
+  --extra-index-url <url>     Extra URLs of package indexes to use in addition
+                              to --index-url. Should follow the same rules as
+                              --index-url.
+  --no-index                  Ignore package index (only looking at --find-
+                              links URLs instead).
+  -f, --find-links <url>      If a URL or path to an html file, then parse for
+                              links to archives such as sdist (.tar.gz) or
+                              wheel (.whl) files. If a local path or file://
+                              URL that's a directory, then look for archives
+                              in the directory listing. Links to VCS project
+                              URLs are not supported.
+
+General Options:
+  -h, --help                  Show help.
+  --debug                     Let unhandled exceptions propagate outside the
+                              main subroutine, instead of logging them to
+                              stderr.
+  --isolated                  Run pip in an isolated mode, ignoring
+                              environment variables and user configuration.
+  --require-virtualenv        Allow pip to only run in a virtual environment;
+                              exit with an error otherwise.
+  --python <python>           Run pip with the specified Python interpreter.
+  -v, --verbose               Give more output. Option is additive, and can be
+                              used up to 3 times.
+  -V, --version               Show version and exit.
+  -q, --quiet                 Give less output. Option is additive, and can be
+                              used up to 3 times (corresponding to WARNING,
+                              ERROR, and CRITICAL logging levels).
+  --log <path>                Path to a verbose appending log.
+  --no-input                  Disable prompting for input.
+  --keyring-provider <keyring_provider>
+                              Enable the credential lookup via the keyring
+                              library if user input is allowed. Specify which
+                              mechanism to use [auto, disabled, import,
+                              subprocess]. (default: auto)
+  --proxy <proxy>             Specify a proxy in the form
+                              scheme://[user:passwd@]proxy.server:port.
+  --retries <retries>         Maximum attempts to establish a new HTTP
+                              connection. (default: 5)
+  --timeout <sec>             Set the socket timeout (default 15 seconds).
+  --exists-action <action>    Default action when a path already exists:
+                              (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort.
+  --trusted-host <hostname>   Mark this host or host:port pair as trusted,
+                              even though it does not have valid or any HTTPS.
+  --cert <path>               Path to PEM-encoded CA certificate bundle. If
+                              provided, overrides the default. See 'SSL
+                              Certificate Verification' in pip documentation
+                              for more information.
+  --client-cert <path>        Path to SSL client certificate, a single file
+                              containing the private key and the certificate
+                              in PEM format.
+  --cache-dir <dir>           Store the cache data in <dir>.
+  --no-cache-dir              Disable the cache.
+  --disable-pip-version-check
+                              Don't periodically check PyPI to determine
+                              whether a new version of pip is available for
+                              download. Implied with --no-index.
+  --no-color                  Suppress colored output.
+  --use-feature <feature>     Enable new functionality, that may be backward
+                              incompatible.
+  --use-deprecated <feature>  Enable deprecated functionality, that will be
+                              removed in the future.
+  --resume-retries <resume_retries>
+                              Maximum attempts to resume or restart an
+                              incomplete download. (default: 5)
