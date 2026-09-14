@@ -97,9 +97,22 @@ public record CliOptionDefinition
         IReadOnlyList<CliOptionDefinition> options,
         string optionSwitch) =>
         Enumerable.Range(0, options.Count).FirstOrDefault(index =>
-            options[index].SwitchName.Equals(optionSwitch, StringComparison.Ordinal)
-            || options[index].ShortForm?.Equals(optionSwitch, StringComparison.Ordinal) == true,
+            options[index].GetSwitchNames().Contains(optionSwitch, StringComparer.Ordinal),
             -1);
+
+    internal IEnumerable<string> GetSwitchNames()
+    {
+        yield return SwitchName;
+        if (ShortForm is not null)
+        {
+            yield return ShortForm;
+        }
+
+        if (NegatedSwitchName is not null)
+        {
+            yield return NegatedSwitchName;
+        }
+    }
 
     private static CollectionShapeResolution ResolveCollectionShape(string cSharpType)
     {

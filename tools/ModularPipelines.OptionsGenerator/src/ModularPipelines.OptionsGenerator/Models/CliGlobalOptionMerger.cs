@@ -41,15 +41,9 @@ public static class CliGlobalOptionMerger
                     $"Global options '{existingSwitch}' and '{option.SwitchName}' both generate property '{option.PropertyName}'.");
             }
 
-            RegisterAlias(option.SwitchName, option.SwitchName, primarySwitchByAlias);
-            if (option.ShortForm is not null)
+            foreach (var alias in option.GetSwitchNames())
             {
-                RegisterAlias(option.ShortForm, option.SwitchName, primarySwitchByAlias);
-            }
-
-            if (option.NegatedSwitchName is not null)
-            {
-                RegisterAlias(option.NegatedSwitchName, option.SwitchName, primarySwitchByAlias);
+                RegisterAlias(alias, option.SwitchName, primarySwitchByAlias);
             }
 
             optionsBySwitch.Add(option.SwitchName, option);

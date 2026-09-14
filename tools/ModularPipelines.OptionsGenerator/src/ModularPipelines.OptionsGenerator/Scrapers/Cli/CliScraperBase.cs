@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Collections.Frozen;
 using System.Text.RegularExpressions;
 using System.Threading.Channels;
 using Microsoft.Extensions.Logging;
@@ -16,6 +17,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 public abstract partial class CliScraperBase : ICliScraper
 {
     private static readonly string[] DefaultUsageSynopsisHeadings = ["usage"];
+    private static readonly IReadOnlySet<string> DefaultIgnoredOptionSwitches =
+        new[] { "--help" }.ToFrozenSet(StringComparer.Ordinal);
     private const int TabWidth = 8;
     private readonly CliScrapeProvenance _scrapeProvenance = new();
     private readonly HashSet<string> _knownCommandGroups = [with(StringComparer.OrdinalIgnoreCase)];
@@ -127,6 +130,12 @@ public abstract partial class CliScraperBase : ICliScraper
     protected virtual IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
+    /// Exact option switches and aliases excluded from generated options. Short switches are
+    /// tool-specific: for example, <c>-h</c> can mean hostname instead of help.
+    /// </summary>
+    protected virtual IReadOnlySet<string> IgnoredOptionSwitches => DefaultIgnoredOptionSwitches;
+
+    /// <summary>
     /// Returns whether tool-specific syntax proves an option is scalar despite repeatability prose
     /// elsewhere in the same help block.
     /// </summary>
@@ -153,7 +162,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// The validated union of scraped and supplemental global options.
     /// </summary>
     protected IReadOnlyList<CliOptionDefinition> EffectiveGlobalOptions =>
-        CliGlobalOptionMerger.Merge(GlobalOptions, SupplementalGlobalOptions);
+        CliGlobalOptionMerger.Merge(GlobalOptions, FilterIgnoredOptions(SupplementalGlobalOptions));
 
     /// <summary>
     /// Regex patterns to match against command descriptions for skipping.
@@ -402,7 +411,7 @@ public abstract partial class CliScraperBase : ICliScraper
 
         if (path.Length == 1)
         {
-            GlobalOptions = ParseGlobalOptions(helpText);
+            GlobalOptions = FilterIgnoredOptions(ParseGlobalOptions(helpText));
         }
 
         if (ShouldSkipPath(path, helpText))
@@ -576,17 +585,21 @@ public abstract partial class CliScraperBase : ICliScraper
                 return null;
             }
 
-            ValidateOptionShapes(command, helpText);
-            ValidateArgumentGroups(command);
             usage = NormalizeUsageSynopsis(command, usage);
             usage = UsageSynopsisParser.ResolveOptionUsage(usage, GetUsageOptions(command.Options));
+            var requiredAlternatives = ResolveRequiredAlternativeGroups(command, usage);
+            usage = RemoveIgnoredOptionValues(usage, command.Options);
             command = command with
             {
                 UsageSynopsis = usage.Synopsis,
                 HasOperandTakingUsage = usage.HasOperandTokens,
                 UsagePositionalArguments = usage.PositionalArguments,
-                RequiredAlternativeGroups = ResolveRequiredAlternativeGroups(command, usage),
+                RequiredAlternativeGroups = requiredAlternatives,
             };
+            // Resolve choices against all parsed switches before pruning ignored alternatives.
+            command = ApplyIgnoredOptionPolicy(command);
+            ValidateOptionShapes(command, helpText);
+            ValidateArgumentGroups(command);
             command.ValidateOperandCoverage(
                 usage.HasOperandTokens,
                 usage.Synopsis,
@@ -697,7 +710,7 @@ public abstract partial class CliScraperBase : ICliScraper
             GenerateCommandFacade = GenerateCommandFacade,
             Commands = [],
             GlobalOptions = GlobalOptions,
-            SupplementalGlobalOptions = SupplementalGlobalOptions,
+            SupplementalGlobalOptions = FilterIgnoredOptions(SupplementalGlobalOptions),
             GlobalOptionsBeforeSubcommands = GlobalOptionsBeforeSubcommands,
             Errors = []
         };
@@ -710,6 +723,97 @@ public abstract partial class CliScraperBase : ICliScraper
     #endregion
 
     #region Help Text & Discovery
+
+    private bool IsIgnoredOption(CliOptionDefinition option) =>
+        option.GetSwitchNames().Any(IgnoredOptionSwitches.Contains);
+
+    private IReadOnlyList<CliOptionDefinition> FilterIgnoredOptions(IReadOnlyList<CliOptionDefinition> options) =>
+        options.Any(IsIgnoredOption) ? [.. options.Where(option => !IsIgnoredOption(option))] : options;
+
+    private UsageSynopsisParseResult RemoveIgnoredOptionValues(
+        UsageSynopsisParseResult usage, IReadOnlyList<CliOptionDefinition> options)
+    {
+        var ignoredOptions = options.Where(IsIgnoredOption).ToArray();
+        if (ignoredOptions.Length == 0)
+        {
+            return usage;
+        }
+
+        var arguments = new List<CliPositionalArgument>();
+        foreach (var argument in usage.PositionalArguments)
+        {
+            var owner = argument.AssociatedOptionSwitch is { } optionSwitch
+                ? CliOptionDefinition.FindIndexBySwitch(ignoredOptions, optionSwitch)
+                : -1;
+            if (owner < 0)
+            {
+                arguments.Add(argument);
+            }
+            else if (ignoredOptions[owner].IsFlag)
+            {
+                // A token following a flag is an operand, not a value owned by that flag.
+                arguments.Add(argument with { AssociatedOptionSwitch = null });
+            }
+        }
+
+        return usage with
+        {
+            PositionalArguments = arguments,
+            HasOperandTokens = usage.HasOperandTokens && (arguments.Count > 0 || usage.UnparsedOperandTokens.Count > 0),
+        };
+    }
+
+    /// <summary>
+    /// Applies the shared option policy after parsing, preserving operand inference and discarding
+    /// metadata owned exclusively by ignored options.
+    /// </summary>
+    protected CliCommandDefinition ApplyIgnoredOptionPolicy(CliCommandDefinition command)
+    {
+        var options = FilterIgnoredOptions(command.Options);
+        if (ReferenceEquals(options, command.Options))
+        {
+            return command;
+        }
+
+        var ignoredOptions = command.Options.Where(IsIgnoredOption).ToArray();
+        var ignoredEnumNames = ignoredOptions.Where(option => option.EnumDefinition is not null)
+            .Select(option => option.EnumDefinition!.EnumName).ToHashSet(StringComparer.Ordinal);
+        ignoredEnumNames.ExceptWith(options.Where(option => option.EnumDefinition is not null)
+            .Select(option => option.EnumDefinition!.EnumName));
+        // Operands and explicitly typed options can refer to an enum without owning its definition.
+        ignoredEnumNames.ExceptWith(options.Select(option => option.CSharpType)
+            .Concat(command.PositionalArguments.Select(argument => argument.CSharpType))
+            .SelectMany(type => type.Split(['<', '>', '?', '[', ']', ',', '.', ' '], StringSplitOptions.RemoveEmptyEntries)));
+        var ignoredProperties = ignoredOptions.Select(option => option.PropertyName).ToHashSet(StringComparer.Ordinal);
+        ignoredProperties.ExceptWith(options.Select(option => option.PropertyName));
+        ignoredProperties.ExceptWith(command.PositionalArguments.Select(argument => argument.PropertyName));
+        var ignoredSwitches = ignoredOptions.SelectMany(option => option.GetSwitchNames()).ToHashSet(StringComparer.Ordinal);
+        ignoredSwitches.ExceptWith(options.SelectMany(option => option.GetSwitchNames()));
+
+        return command with
+        {
+            Options = options,
+            Enums = [.. command.Enums.Where(definition => !ignoredEnumNames.Contains(definition.EnumName))],
+            ArgumentGroups = FilterIgnoredArgumentGroups(command.ArgumentGroups, ignoredSwitches),
+            RequiredAlternativeGroups = [.. command.RequiredAlternativeGroups
+                .Select(group => group with
+                {
+                    Members = [.. group.Members.Where(member => member.OptionSwitch is { } optionSwitch
+                        ? !ignoredSwitches.Contains(optionSwitch)
+                        : member.PositionalArgumentPhase is not null || member.PositionalArgumentPositionIndex is not null
+                            || !ignoredProperties.Contains(member.PropertyName))],
+                })
+                .Where(group => group.Members.Count > 0)],
+        };
+    }
+
+    private static IReadOnlyList<CliArgumentGroup> FilterIgnoredArgumentGroups(
+        IReadOnlyList<CliArgumentGroup> groups, IReadOnlySet<string> ignoredSwitches) =>
+        [.. groups.Select(group => group with
+        {
+            Arguments = [.. group.Arguments.Where(argument => !ignoredSwitches.Contains(argument.SwitchName))],
+            Groups = FilterIgnoredArgumentGroups(group.Groups, ignoredSwitches),
+        }).Where(group => group.Arguments.Count > 0 || group.Groups.Count > 0)];
 
     /// <summary>
     /// Gets help text for a command, using cache if available.

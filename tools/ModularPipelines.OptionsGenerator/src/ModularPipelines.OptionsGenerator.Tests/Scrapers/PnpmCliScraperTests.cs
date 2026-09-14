@@ -670,7 +670,7 @@ public class PnpmCliScraperTests
             // neither generated nor covered by a value option fail generation.
             command = command with { UsagePositionalArguments = usage.PositionalArguments };
             command.ValidateOperandCoverage();
-            return command;
+            return ApplyIgnoredOptionPolicy(command);
         }
 
         public IEnumerable<string> Subcommands(string helpText) => ExtractSubcommands(helpText);
