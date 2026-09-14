@@ -23,6 +23,8 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
     private TaskCompletionSource<bool> _connectionTransition = new(
         TaskCreationOptions.RunContinuationsAsynchronously);
     private long _connectionGeneration;
+    private bool _reconnecting;
+    private bool _lastReconnectSucceeded;
     private volatile bool _awaitingAssignment;
 
     public SignalRWorkerCoordinator(HubConnection connection, ILogger<SignalRWorkerCoordinator> logger)
@@ -89,8 +91,24 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
 
     public async Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
     {
-        await _connection.InvokeAsync(HubMethodNames.PublishResult, result, cancellationToken)
-            .ConfigureAwait(false);
+        while (true)
+        {
+            var connectionGeneration = await WaitForRegistrationAsync(cancellationToken).ConfigureAwait(false);
+
+            try
+            {
+                await _connection.InvokeAsync(HubMethodNames.PublishResult, result, cancellationToken)
+                    .ConfigureAwait(false);
+                break;
+            }
+            catch (Exception ex) when (CanRetryHubInvocation(ex, connectionGeneration, cancellationToken))
+            {
+                if (!await WaitForReconnectAsync(connectionGeneration, cancellationToken).ConfigureAwait(false))
+                {
+                    throw;
+                }
+            }
+        }
 
         var assignment = Volatile.Read(ref _inFlightAssignment);
         if (assignment?.ModuleTypeName == result.ModuleTypeName)
@@ -99,13 +117,40 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
         }
     }
 
+    private async Task<long> WaitForRegistrationAsync(CancellationToken cancellationToken)
+    {
+        long connectionGeneration;
+        Task<bool>? registration;
+        lock (_reconnectLock)
+        {
+            connectionGeneration = _connectionGeneration;
+            registration = _reconnecting ? _connectionTransition.Task : null;
+        }
+
+        if (registration is not null
+            && !await registration.WaitAsync(cancellationToken).ConfigureAwait(false))
+        {
+            throw new InvalidOperationException("Worker registration failed after reconnecting to the master.");
+        }
+
+        return connectionGeneration;
+    }
+
+    private bool CanRetryHubInvocation(
+        Exception exception,
+        long connectionGeneration,
+        CancellationToken cancellationToken) =>
+        !cancellationToken.IsCancellationRequested
+        && (exception is not Microsoft.AspNetCore.SignalR.HubException
+            || HasReconnectSince(connectionGeneration));
+
     public async Task<SerializedModuleResult> WaitForResultAsync(
         string moduleTypeName,
         CancellationToken cancellationToken)
     {
         while (true)
         {
-            var connectionGeneration = Volatile.Read(ref _connectionGeneration);
+            var connectionGeneration = await WaitForRegistrationAsync(cancellationToken).ConfigureAwait(false);
             try
             {
                 return await _connection.InvokeAsync<SerializedModuleResult>(
@@ -114,8 +159,7 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
                         cancellationToken)
                     .ConfigureAwait(false);
             }
-            catch (Exception ex) when (!cancellationToken.IsCancellationRequested
-                                       && ex is not Microsoft.AspNetCore.SignalR.HubException)
+            catch (Exception ex) when (CanRetryHubInvocation(ex, connectionGeneration, cancellationToken))
             {
                 if (!await WaitForReconnectAsync(connectionGeneration, cancellationToken)
                         .ConfigureAwait(false))
@@ -134,11 +178,14 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
             registration,
             Volatile.Read(ref _inFlightAssignment)?.ModuleTypeName,
             cancellationToken).ConfigureAwait(false);
-        _logger.LogInformation("Worker {Index} registered with master via SignalR", registration.WorkerIndex);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Worker {Index} registered with master via SignalR", registration.WorkerIndex);
+        }
     }
 
-    public Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken) =>
-        _connection.InvokeAsync(HubMethodNames.Heartbeat, workerIndex, cancellationToken);
+    public Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken) =>
+        _connection.InvokeAsync(HubMethodNames.Heartbeat, status, cancellationToken);
 
     public Task WaitForCancellationAsync(CancellationToken cancellationToken) =>
         _cancellationRequested.Task.WaitAsync(cancellationToken);
@@ -147,6 +194,7 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
     {
         lock (_reconnectLock)
         {
+            _reconnecting = true;
             if (_connectionTransition.Task.IsCompleted)
             {
                 _connectionTransition = new TaskCompletionSource<bool>(
@@ -162,22 +210,19 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
         TaskCompletionSource<bool> connectionTransition;
         lock (_reconnectLock)
         {
-            Interlocked.Increment(ref _connectionGeneration);
             connectionTransition = _connectionTransition;
-            _connectionTransition = new TaskCompletionSource<bool>(
-                TaskCreationOptions.RunContinuationsAsynchronously);
         }
-
-        connectionTransition.TrySetResult(true);
 
         var registration = _lastRegistration;
-        if (registration is null)
-        {
-            return;
-        }
-
+        var registered = false;
         try
         {
+            if (registration is null)
+            {
+                registered = true;
+                return;
+            }
+
             _logger.LogWarning(
                 "Reconnected to master (connection {ConnectionId}); re-registering worker {Index}",
                 connectionId, registration.WorkerIndex);
@@ -195,10 +240,25 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
                 await _connection.InvokeAsync(HubMethodNames.RequestWork, registration.Capabilities)
                     .ConfigureAwait(false);
             }
+
+            registered = true;
         }
         catch (Exception ex)
         {
-            _logger.LogWarning(ex, "Failed to re-register worker {Index} after reconnect", registration.WorkerIndex);
+            _logger.LogWarning(ex, "Failed to re-register worker {Index} after reconnect", registration?.WorkerIndex);
+        }
+        finally
+        {
+            // Publication retries must wait until the master has restored assignment ownership.
+            lock (_reconnectLock)
+            {
+                Interlocked.Increment(ref _connectionGeneration);
+                _lastReconnectSucceeded = registered;
+                _reconnecting = false;
+                connectionTransition.TrySetResult(registered);
+                _connectionTransition = new TaskCompletionSource<bool>(
+                    TaskCreationOptions.RunContinuationsAsynchronously);
+            }
         }
     }
 
@@ -206,6 +266,8 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
     {
         lock (_reconnectLock)
         {
+            _reconnecting = false;
+            _lastReconnectSucceeded = false;
             _connectionTransition.TrySetResult(false);
         }
 
@@ -221,7 +283,7 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
         {
             if (_connectionGeneration != connectionGeneration)
             {
-                return true;
+                return _lastReconnectSucceeded;
             }
 
             connectionTransitionTask = _connectionTransition.Task;
@@ -230,9 +292,20 @@ internal class SignalRWorkerCoordinator : IDistributedWorkerCoordinator
         return await connectionTransitionTask.WaitAsync(cancellationToken).ConfigureAwait(false);
     }
 
+    private bool HasReconnectSince(long connectionGeneration)
+    {
+        lock (_reconnectLock)
+        {
+            return _reconnecting || _connectionGeneration != connectionGeneration;
+        }
+    }
+
     private void OnReceiveAssignment(ModuleAssignment assignment)
     {
-        _logger.LogDebug("Received assignment: {Module}", assignment.ModuleTypeName);
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug("Received assignment: {Module}", assignment.ModuleTypeName);
+        }
         Volatile.Write(ref _inFlightAssignment, assignment);
         _assignmentChannel.Writer.TryWrite(assignment);
     }

@@ -148,16 +148,27 @@ internal class SignalRMasterCoordinator : IDistributedMasterCoordinator
     {
         // Workers register through the hub. This is for the interface contract.
         _state.Registrations[registration.WorkerIndex] = registration;
+        var initialStatus = new WorkerStatus(registration.WorkerIndex)
+        {
+            RunId = registration.RunId,
+        };
+        _state.WorkerStatuses.AddOrUpdate(
+            registration.WorkerIndex,
+            initialStatus,
+            (_, currentStatus) => string.Equals(
+                currentStatus.RunId,
+                registration.RunId,
+                StringComparison.Ordinal)
+                ? currentStatus
+                : initialStatus);
         _state.Heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
         return Task.CompletedTask;
     }
 
-    public Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken)
+    public Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken)
     {
-        if (_state.Registrations.ContainsKey(workerIndex))
-        {
-            _state.Heartbeats[workerIndex] = DateTimeOffset.UtcNow;
-        }
+        _state.WorkerStatuses[status.WorkerIndex] = status;
+        _state.Heartbeats[status.WorkerIndex] = DateTimeOffset.UtcNow;
 
         return Task.CompletedTask;
     }
@@ -168,11 +179,18 @@ internal class SignalRMasterCoordinator : IDistributedMasterCoordinator
         IReadOnlyList<WorkerRegistration> workers =
         [
             .. _state.Registrations.Values.Where(worker =>
-                worker.UnattributedCommandCount.HasValue
-                || (_state.Heartbeats.TryGetValue(worker.WorkerIndex, out var heartbeat)
+                WorkerStatus.IsLive(
+                    _state.WorkerStatuses.GetValueOrDefault(worker.WorkerIndex),
+                    _state.Heartbeats.TryGetValue(worker.WorkerIndex, out var heartbeat)
                     && heartbeat >= oldestLiveHeartbeat)),
         ];
         return Task.FromResult(workers);
+    }
+
+    public Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(CancellationToken cancellationToken)
+    {
+        IReadOnlyList<WorkerStatus> statuses = [.. _state.WorkerStatuses.Values];
+        return Task.FromResult(statuses);
     }
 
     public async Task SignalCompletionAsync(CancellationToken cancellationToken)

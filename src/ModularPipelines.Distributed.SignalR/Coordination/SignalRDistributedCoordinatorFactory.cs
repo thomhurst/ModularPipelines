@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.SignalR.Hub;
 using ModularPipelines.Distributed.SignalR.Server;
 
@@ -11,26 +10,18 @@ namespace ModularPipelines.Distributed.SignalR.Coordination;
 /// <summary>
 /// Factory that creates the appropriate SignalR coordinator based on the detected role (master vs worker).
 /// </summary>
-internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFactory, IAsyncDisposable
+internal class SignalRDistributedCoordinatorFactory(
+    IOptions<SignalRDistributedOptions> options,
+    ILoggerFactory loggerFactory,
+    IServiceProvider serviceProvider,
+    IMasterDiscovery? discovery = null) : IDistributedCoordinatorFactory, IAsyncDisposable
 {
-    private readonly SignalRDistributedOptions _options;
-    private readonly IMasterDiscovery? _discovery;
-    private readonly ILoggerFactory _loggerFactory;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly SignalRDistributedOptions _options = options.Value;
+    private readonly IMasterDiscovery? _discovery = discovery;
+    private readonly ILoggerFactory _loggerFactory = loggerFactory;
+    private readonly IServiceProvider _serviceProvider = serviceProvider;
     private MasterServerHost? _serverHost;
     private HubConnection? _hubConnection;
-
-    public SignalRDistributedCoordinatorFactory(
-        IOptions<SignalRDistributedOptions> options,
-        ILoggerFactory loggerFactory,
-        IServiceProvider serviceProvider,
-        IMasterDiscovery? discovery = null)
-    {
-        _options = options.Value;
-        _discovery = discovery;
-        _loggerFactory = loggerFactory;
-        _serviceProvider = serviceProvider;
-    }
 
     public async Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken)
     {
@@ -78,7 +69,10 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
         using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         timeoutCts.CancelAfter(_options.ConnectionTimeout);
 
-        logger.LogInformation("Connecting to master at {Url}...", hubUrl);
+        if (logger.IsEnabled(LogLevel.Information))
+        {
+            logger.LogInformation("Connecting to master at {Url}...", hubUrl);
+        }
 
         var attempt = 0;
         while (true)
@@ -99,7 +93,10 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
             }
         }
 
-        logger.LogInformation("Connected to master at {Url}", hubUrl);
+        if (logger.IsEnabled(LogLevel.Information))
+        {
+            logger.LogInformation("Connected to master at {Url}", hubUrl);
+        }
 
         return new SignalRWorkerCoordinator(_hubConnection, logger);
     }
@@ -126,7 +123,6 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
                 // Match server-side settings: PascalCase, case-insensitive
                 jsonOptions.PayloadSerializerOptions.PropertyNamingPolicy = null;
                 jsonOptions.PayloadSerializerOptions.PropertyNameCaseInsensitive = true;
-                jsonOptions.PayloadSerializerOptions.Converters.Add(new ReadOnlySetJsonConverter());
             });
 
         if (_options.EnableAutoReconnect)

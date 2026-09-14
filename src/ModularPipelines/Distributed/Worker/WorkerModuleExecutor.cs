@@ -91,6 +91,7 @@ internal class WorkerModuleExecutor(
         await RegisterWorkerAsync(options.InstanceIndex, capabilities, cancellationToken);
         var heartbeatTask = SendHeartbeatsAsync(
             options.InstanceIndex,
+            options.RunId,
             options.WorkerHeartbeatInterval,
             cancellationToken);
         var cancellationTask = ObserveDistributedCancellationAsync(
@@ -145,6 +146,7 @@ internal class WorkerModuleExecutor(
 
     private async Task SendHeartbeatsAsync(
         int workerIndex,
+        string? runIdentifier,
         TimeSpan interval,
         CancellationToken cancellationToken)
     {
@@ -153,7 +155,13 @@ internal class WorkerModuleExecutor(
             try
             {
                 await Task.Delay(interval, cancellationToken);
-                await _coordinator.SendHeartbeatAsync(workerIndex, cancellationToken);
+                await _coordinator.SendHeartbeatAsync(
+                        new WorkerStatus(workerIndex)
+                        {
+                            RunId = runIdentifier,
+                        },
+                        cancellationToken)
+                    .ConfigureAwait(false);
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
@@ -229,7 +237,7 @@ internal class WorkerModuleExecutor(
     {
         var registration = new WorkerRegistration(
             WorkerIndex: instanceIndex,
-            Capabilities: capabilities,
+            Capabilities: [.. capabilities],
             RegisteredAt: DateTimeOffset.UtcNow)
         {
             RunId = _options.Value.RunId,
@@ -380,19 +388,45 @@ internal class WorkerModuleExecutor(
     {
         try
         {
-            var failureResult = ModuleResultFactory.CreateException(
-                resultType,
-                exception,
-                new ModuleExecutionContext(module, module.GetType())
-                {
-                    Status = exception is OperationCanceledException ? ModuleStatus.Cancelled : ModuleStatus.Failed,
-                    Exception = exception,
-                });
-            var serialized = _serializer.Serialize(
-                failureResult,
-                assignment.ModuleTypeName,
-                assignment.ResultTypeName,
-                instanceIndex);
+            var resultTask = module.AsInternal().ResultTask;
+            // A transport failure cannot replace an outcome already accepted by the module.
+            var terminalResult = resultTask.IsCompletedSuccessfully
+                ? resultTask.Result
+                : ModuleResultFactory.CreateException(
+                    resultType,
+                    exception,
+                    new ModuleExecutionContext(module, module.GetType())
+                    {
+                        Status = exception is OperationCanceledException ? ModuleStatus.Cancelled : ModuleStatus.Failed,
+                        Exception = exception,
+                    });
+            SerializedModuleResult serialized;
+            try
+            {
+                serialized = _serializer.Serialize(
+                    terminalResult,
+                    assignment.ModuleTypeName,
+                    assignment.ResultTypeName,
+                    instanceIndex);
+            }
+            catch (Exception serializationException) when (resultTask.IsCompletedSuccessfully)
+            {
+                // An accepted outcome that cannot cross the wire must still complete the master's waiter.
+                var failure = ModuleResultFactory.CreateException(
+                    resultType,
+                    serializationException,
+                    new ModuleExecutionContext(module, module.GetType())
+                    {
+                        Status = ModuleStatus.Failed,
+                        Exception = serializationException,
+                    });
+                serialized = _serializer.Serialize(
+                    failure,
+                    assignment.ModuleTypeName,
+                    assignment.ResultTypeName,
+                    instanceIndex);
+            }
+
             await DistributedFailurePublisher.PublishAsync(_coordinator, serialized).ConfigureAwait(false);
         }
         catch (Exception publishException)

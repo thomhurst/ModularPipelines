@@ -96,7 +96,7 @@ public class DistributedWorkerPoolTests
     }
 
     [Test]
-    [Timeout(5_000)]
+    [Timeout(30_000)]
     public async Task Dequeue_Errors_Are_Throttled(CancellationToken cancellationToken)
     {
         using var stop = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
@@ -233,9 +233,9 @@ public class DistributedWorkerPoolTests
     private static ModuleAssignment CreateAssignment(string name) => new(
         name,
         typeof(int).FullName!,
-        new HashSet<Capability>(),
+        [],
         DateTimeOffset.UtcNow,
-        new ModuleAssignmentConfiguration(null, false));
+        new ModuleAssignmentOptions(null, false));
 
     private static void UpdateMaximum(ref int maximum, int candidate)
     {

@@ -8,9 +8,11 @@ namespace ModularPipelines.Distributed.SignalR.Hub;
 /// </summary>
 internal class SignalRMasterState
 {
-    private readonly object _pendingReconnectLock = new();
-    private readonly Dictionary<string, PendingReconnect> _pendingReconnects = new();
+    private readonly Lock _pendingReconnectLock = new();
+    private readonly Dictionary<string, PendingReconnect> _pendingReconnects = [];
+    private readonly Dictionary<string, int> _admittedWorkerResults = [];
     private readonly ConcurrentDictionary<string, SemaphoreSlim> _assignmentDeliveryFences = new();
+    private readonly ConcurrentDictionary<int, object> _workerStateLocks = new();
 
     /// <summary>
     /// Connected workers indexed by SignalR connection ID.
@@ -21,6 +23,17 @@ internal class SignalRMasterState
     /// Worker registrations indexed by worker index.
     /// </summary>
     public ConcurrentDictionary<int, WorkerRegistration> Registrations { get; } = new();
+
+    /// <summary>
+    /// Latest status reported by each registered worker.
+    /// </summary>
+    public ConcurrentDictionary<int, WorkerStatus> WorkerStatuses { get; } = new();
+
+    /// <summary>
+    /// Status received before a reconnecting connection finishes registration.
+    /// Entries remain connection-scoped until registration proves worker ownership.
+    /// </summary>
+    public ConcurrentDictionary<string, WorkerStatus> PendingWorkerStatuses { get; } = new();
 
     /// <summary>
     /// Latest heartbeat for each registered worker.
@@ -65,6 +78,62 @@ internal class SignalRMasterState
     /// </summary>
     public SemaphoreSlim WorkAvailable { get; } = new(0);
 
+    public WorkerState? RegisterWorker(WorkerState worker)
+    {
+        var registration = worker.Registration;
+        lock (GetWorkerStateLock(registration.WorkerIndex))
+        {
+            var supersededWorker = Workers.Values.FirstOrDefault(candidate =>
+                candidate.Registration.WorkerIndex == registration.WorkerIndex);
+            if (supersededWorker is not null)
+            {
+                Workers.TryRemove(supersededWorker.ConnectionId, out _);
+            }
+
+            Registrations[registration.WorkerIndex] = registration;
+            Workers[worker.ConnectionId] = worker;
+            var pendingStatus = PendingWorkerStatuses.TryRemove(worker.ConnectionId, out var status)
+                                && IsStatusForRegistration(status, registration)
+                ? status
+                : null;
+            var initialStatus = pendingStatus ?? new WorkerStatus(registration.WorkerIndex)
+            {
+                RunId = registration.RunId,
+            };
+            WorkerStatuses.AddOrUpdate(
+                registration.WorkerIndex,
+                initialStatus,
+                (_, currentStatus) => string.Equals(
+                    currentStatus.RunId,
+                    registration.RunId,
+                    StringComparison.Ordinal)
+                    ? pendingStatus ?? currentStatus
+                    : initialStatus);
+            Heartbeats[registration.WorkerIndex] = DateTimeOffset.UtcNow;
+            return supersededWorker;
+        }
+    }
+
+    public void TryRecordHeartbeat(WorkerState worker, WorkerStatus status)
+    {
+        var registration = worker.Registration;
+        lock (GetWorkerStateLock(registration.WorkerIndex))
+        {
+            if (!Registrations.TryGetValue(status.WorkerIndex, out var currentRegistration)
+                || !ReferenceEquals(currentRegistration, registration)
+                || !IsStatusForRegistration(status, registration))
+            {
+                return;
+            }
+
+            WorkerStatuses[status.WorkerIndex] = status;
+            Heartbeats[status.WorkerIndex] = DateTimeOffset.UtcNow;
+        }
+    }
+
+    internal object GetWorkerStateLock(int workerIndex) =>
+        _workerStateLocks.GetOrAdd(workerIndex, static _ => new object());
+
     public PendingReconnect? TrackPendingReconnect(
         WorkerState disconnectedWorker,
         ModuleAssignment assignment)
@@ -74,8 +143,7 @@ internal class SignalRMasterState
 
         lock (_pendingReconnectLock)
         {
-            if (ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var waiter)
-                && waiter.Task.IsCompleted)
+            if (HasAcceptedResult(assignment.ModuleTypeName))
             {
                 return null;
             }
@@ -176,8 +244,7 @@ internal class SignalRMasterState
     {
         lock (_pendingReconnectLock)
         {
-            if (ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var waiter)
-                && waiter.Task.IsCompleted)
+            if (HasAcceptedResult(assignment.ModuleTypeName))
             {
                 return false;
             }
@@ -207,8 +274,7 @@ internal class SignalRMasterState
     {
         lock (_pendingReconnectLock)
         {
-            if (ResultWaiters.TryGetValue(assignment.ModuleTypeName, out var waiter)
-                && waiter.Task.IsCompleted)
+            if (HasAcceptedResult(assignment.ModuleTypeName))
             {
                 return false;
             }
@@ -219,6 +285,11 @@ internal class SignalRMasterState
                    || pending.TryReturnToQueue(worker);
         }
     }
+
+    // Called while holding _pendingReconnectLock so admission and redispatch cannot race.
+    private bool HasAcceptedResult(string moduleTypeName) =>
+        _admittedWorkerResults.ContainsKey(moduleTypeName)
+        || (ResultWaiters.TryGetValue(moduleTypeName, out var waiter) && waiter.Task.IsCompleted);
 
     public async Task<IDisposable> EnterAssignmentDeliveryFenceAsync(
         string moduleTypeName,
@@ -257,6 +328,59 @@ internal class SignalRMasterState
         return CompleteResult(result);
     }
 
+    public async Task<(bool Accepted, IReadOnlyList<WorkerState> WorkersToRelease)>
+        TryCompleteWorkerResultAsync(WorkerState worker, SerializedModuleResult result)
+    {
+        // Admit the result while the connection owns the assignment. A replacement may
+        // revoke later submissions, but must not discard a result already awaiting delivery.
+        var workerIndex = worker.Registration.WorkerIndex;
+        lock (GetWorkerStateLock(workerIndex))
+        {
+            if (workerIndex != result.WorkerIndex
+                || !string.Equals(
+                    worker.CurrentAssignment?.ModuleTypeName,
+                    result.ModuleTypeName,
+                    StringComparison.Ordinal)
+                || !Workers.TryGetValue(worker.ConnectionId, out var currentWorker)
+                || !ReferenceEquals(currentWorker, worker)
+                || !Registrations.TryGetValue(workerIndex, out var currentRegistration)
+                || !ReferenceEquals(currentRegistration, worker.Registration))
+            {
+                return (false, []);
+            }
+
+            // Fence waits must not let reconnect recovery claim an already admitted result.
+            lock (_pendingReconnectLock)
+            {
+                _admittedWorkerResults.TryGetValue(result.ModuleTypeName, out var admissions);
+                _admittedWorkerResults[result.ModuleTypeName] = admissions + 1;
+            }
+        }
+
+        try
+        {
+            using var deliveryFence = await EnterAssignmentDeliveryFenceAsync(result.ModuleTypeName)
+                .ConfigureAwait(false);
+            return (true, CompleteResult(result));
+        }
+        finally
+        {
+            // A failed fence acquisition or result delivery must not leave a reservation
+            // that prevents a later publication or reconnect recovery from making progress.
+            lock (_pendingReconnectLock)
+            {
+                if (_admittedWorkerResults.TryGetValue(result.ModuleTypeName, out var admissions) && admissions > 1)
+                {
+                    _admittedWorkerResults[result.ModuleTypeName] = admissions - 1;
+                }
+                else
+                {
+                    _admittedWorkerResults.Remove(result.ModuleTypeName);
+                }
+            }
+        }
+    }
+
     private IReadOnlyList<WorkerState> CompleteResult(SerializedModuleResult result)
     {
         PendingReconnect? pending = null;
@@ -269,6 +393,7 @@ internal class SignalRMasterState
                 static _ => new TaskCompletionSource<SerializedModuleResult>(
                     TaskCreationOptions.RunContinuationsAsynchronously));
             waiter.TrySetResult(result);
+            _admittedWorkerResults.Remove(result.ModuleTypeName);
 
             if (_pendingReconnects.Remove(result.ModuleTypeName, out pending))
             {
@@ -280,6 +405,15 @@ internal class SignalRMasterState
         pending?.Dispose();
         return trackedWorkers;
     }
+
+    private static bool IsStatusForRegistration(
+        WorkerStatus status,
+        WorkerRegistration registration) =>
+        status.WorkerIndex == registration.WorkerIndex
+        && string.Equals(
+            status.RunId,
+            registration.RunId,
+            StringComparison.Ordinal);
 
     private sealed class SemaphoreReleaser(SemaphoreSlim semaphore) : IDisposable
     {

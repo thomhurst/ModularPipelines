@@ -77,9 +77,9 @@ public class DependencyResultPropagationTests
         var assignment = new ModuleAssignment(
             ModuleTypeName: typeof(ConsumerModule).FullName!,
             ResultTypeName: typeof(string).FullName!,
-            RequiredCapabilities: new HashSet<Capability>(),
+            RequiredCapabilities: [],
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, false),
+            Configuration: new ModuleAssignmentOptions(null, false),
             DependencyResultReferences:
             [
                 new DependencyResultReference(typeof(DependencyModule).FullName!, IsAvailable: true),
@@ -208,9 +208,9 @@ public class DependencyResultPropagationTests
         var assignment = new ModuleAssignment(
             ModuleTypeName: typeof(IndependentModule).FullName!,
             ResultTypeName: typeof(int).FullName!,
-            RequiredCapabilities: new HashSet<Capability>(),
+            RequiredCapabilities: [],
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, false),
+            Configuration: new ModuleAssignmentOptions(null, false),
             DependencyResultReferences: null);
 
         // Act & Assert — should not throw

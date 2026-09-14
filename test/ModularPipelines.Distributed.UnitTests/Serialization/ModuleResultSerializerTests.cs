@@ -50,7 +50,7 @@ public class ModuleResultSerializerTests
         await Assert.That(serialized.ModuleTypeName).IsEqualTo(typeof(SimpleModule).FullName);
         await Assert.That(serialized.WorkerIndex).IsEqualTo(1);
         await Assert.That(serialized.CommandCount).IsEqualTo(3);
-        await Assert.That(serialized.SerializedJson).IsNotNull();
+        await Assert.That(serialized.Payload).IsNotNull();
 
         var deserialized = serializer.Deserialize(serialized);
         await Assert.That(deserialized).IsNotNull();
@@ -68,7 +68,7 @@ public class ModuleResultSerializerTests
             ModuleTypeName: "Unknown.Module",
             ResultTypeName: "Unknown.Result",
             WorkerIndex: 1,
-            SerializedJson: "{}",
+            Payload: "{}",
             CompletedAt: DateTimeOffset.UtcNow);
 
         Assert.Throws<InvalidOperationException>(() => serializer.Deserialize(serialized));

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.SignalR;
 using ModularPipelines.Distributed.SignalR.Hub;
 
@@ -45,7 +44,7 @@ internal class MasterServerHost : IAsyncDisposable
 
         builder.Services.AddSignalR(hubOptions =>
         {
-            hubOptions.MaximumReceiveMessageSize = options.MaximumReceiveMessageSize;
+            hubOptions.MaximumReceiveMessageSize = options.MaxReceiveMessageSize;
             hubOptions.EnableDetailedErrors = true;
 
             // Detect a dead/silent worker quickly so OnDisconnectedAsync fires and its
@@ -60,7 +59,6 @@ internal class MasterServerHost : IAsyncDisposable
             // Match the client's default STJ options: PascalCase, case-insensitive
             jsonOptions.PayloadSerializerOptions.PropertyNamingPolicy = null;
             jsonOptions.PayloadSerializerOptions.PropertyNameCaseInsensitive = true;
-            jsonOptions.PayloadSerializerOptions.Converters.Add(new ReadOnlySetJsonConverter());
         });
         builder.Services.AddSingleton(masterState);
 
@@ -69,7 +67,10 @@ internal class MasterServerHost : IAsyncDisposable
         _app.MapHub<DistributedPipelineHub>(options.HubPath);
 
         var logger = loggerFactory.CreateLogger<MasterServerHost>();
-        logger.LogInformation("Starting SignalR master server at {Url}{Path}", options.MasterUrl, options.HubPath);
+        if (logger.IsEnabled(LogLevel.Information))
+        {
+            logger.LogInformation("Starting SignalR master server at {Url}{Path}", options.MasterUrl, options.HubPath);
+        }
 
         // StartAsync completes only once Kestrel has bound to the port — no race, no wasted time
         await _app.StartAsync(cancellationToken);

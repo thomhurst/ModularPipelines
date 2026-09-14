@@ -64,11 +64,13 @@ public static class DistributedCoordinatorContract
     {
         var registration = new WorkerRegistration(
             1,
-            new HashSet<Capability> { new("dotnet") },
+            [new Capability("dotnet")],
             DateTimeOffset.UtcNow);
 
         await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
-        await coordinator.SendHeartbeatAsync(registration.WorkerIndex, CancellationToken.None);
+        await coordinator.SendHeartbeatAsync(
+            new WorkerStatus(registration.WorkerIndex),
+            CancellationToken.None);
         var workers = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
 
         await Assert.That(workers.Select(worker => worker.WorkerIndex))
@@ -81,7 +83,7 @@ public static class DistributedCoordinatorContract
         await coordinator.EnqueueModuleAsync(
             CreateAssignment("Contract.Common") with
             {
-                RequiredCapabilities = new HashSet<Capability> { "common" },
+                RequiredCapabilities = ["common"],
                 CriticalPathWeight = TimeSpan.FromMinutes(10),
             },
             CancellationToken.None);
@@ -89,17 +91,17 @@ public static class DistributedCoordinatorContract
         await coordinator.EnqueueModuleAsync(
             CreateAssignment("Contract.Linux") with
             {
-                RequiredCapabilities = new HashSet<Capability> { "linux" },
+                RequiredCapabilities = ["linux"],
                 CriticalPathWeight = TimeSpan.FromMinutes(1),
             },
             CancellationToken.None);
 
         // Register after enqueue to verify scarcity is evaluated against the fleet at claim time.
         await coordinator.RegisterWorkerAsync(
-            new WorkerRegistration(1, new HashSet<Capability> { "common", "linux" }, DateTimeOffset.UtcNow),
+            new WorkerRegistration(1, ["common", "linux"], DateTimeOffset.UtcNow),
             CancellationToken.None);
         await coordinator.RegisterWorkerAsync(
-            new WorkerRegistration(2, new HashSet<Capability> { "common" }, DateTimeOffset.UtcNow),
+            new WorkerRegistration(2, ["common"], DateTimeOffset.UtcNow),
             CancellationToken.None);
 
         var claimed = await coordinator.DequeueModuleAsync(
@@ -115,21 +117,25 @@ public static class DistributedCoordinatorContract
     {
         var registration = new WorkerRegistration(
             1,
-            new HashSet<Capability> { new("dotnet") },
-            DateTimeOffset.UtcNow)
+            [new Capability("dotnet")],
+            DateTimeOffset.UtcNow);
+        var finalStatus = new WorkerStatus(registration.WorkerIndex)
         {
             UnattributedCommandCount = 0,
         };
 
         await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
+        await coordinator.SendHeartbeatAsync(finalStatus, CancellationToken.None);
+        await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
         await Task.Delay(heartbeatExpiration);
         var workers = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
+        var statuses = await coordinator.GetWorkerStatusesAsync(CancellationToken.None);
 
         var retainedRegistration = workers.SingleOrDefault(worker =>
             worker.WorkerIndex == registration.WorkerIndex);
         await Assert.That(retainedRegistration).IsNotNull();
-        await Assert.That(retainedRegistration!.UnattributedCommandCount)
-            .IsEqualTo(registration.UnattributedCommandCount);
+        await Assert.That(statuses.Single(status => status.WorkerIndex == registration.WorkerIndex))
+            .IsEqualTo(finalStatus);
     }
 
     public static async Task CancellationKeepsConcurrentObserverSubscribedAsync(
@@ -161,9 +167,9 @@ public static class DistributedCoordinatorContract
         return new ModuleAssignment(
             ModuleTypeName: moduleTypeName,
             ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<Capability>(),
+            RequiredCapabilities: [],
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(null, false));
+            Configuration: new ModuleAssignmentOptions(null, false));
     }
 
     private static SerializedModuleResult CreateResult(string moduleTypeName)
@@ -172,7 +178,7 @@ public static class DistributedCoordinatorContract
             ModuleTypeName: moduleTypeName,
             ResultTypeName: "System.String",
             WorkerIndex: 1,
-            SerializedJson: "{\"value\":\"contract\"}",
+            Payload: "{\"value\":\"contract\"}",
             CompletedAt: DateTimeOffset.UtcNow);
     }
 }

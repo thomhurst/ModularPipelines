@@ -46,10 +46,10 @@ ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.KeepAliveInterval
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.KeepAliveInterval.set -> void
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.MasterUrl.get -> string!
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.MasterUrl.set -> void
+ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.MaxReceiveMessageSize.get -> long
+ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.MaxReceiveMessageSize.set -> void
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.MaxReconnectAttempts.get -> int
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.MaxReconnectAttempts.set -> void
-ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.MaximumReceiveMessageSize.get -> long
-ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.MaximumReceiveMessageSize.set -> void
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.PeerTimeout.get -> System.TimeSpan
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.PeerTimeout.set -> void
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.ReconnectGrace.get -> System.TimeSpan

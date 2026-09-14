@@ -66,9 +66,9 @@ internal class DistributedWorkPublisher(
         return new ModuleAssignment(
             ModuleTypeName: moduleType.FullName!,
             ResultTypeName: resultTypeName,
-            RequiredCapabilities: requiredCapabilities,
+            RequiredCapabilities: [.. requiredCapabilities],
             AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfiguration(
+            Configuration: new ModuleAssignmentOptions(
                 Timeout: config.Timeout,
                 AlwaysRun: config.AlwaysRun
             ),
