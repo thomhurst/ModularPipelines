@@ -64,11 +64,14 @@ public record CliOptionDefinition
                 return true;
             }
 
-            return TryGetCollectionShape(CSharpType, out var isCollection)
-                ? isCollection
-                : IsCollection ?? false;
+            return IsCollectionType(CSharpType, IsCollection);
         }
     }
+
+    internal static bool IsCollectionType(string cSharpType, bool? unresolvedOverride = null) =>
+        TryGetCollectionShape(cSharpType, out var isCollection)
+            ? isCollection
+            : unresolvedOverride == true;
 
     internal static bool TryGetCollectionShape(string cSharpType, out bool isCollection)
     {

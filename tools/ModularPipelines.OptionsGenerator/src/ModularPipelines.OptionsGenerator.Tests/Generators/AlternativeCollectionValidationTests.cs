@@ -140,6 +140,39 @@ public partial class RequiredConstructorValidationTests
     }
 
     [Test]
+    [Arguments("PrivatePackage.CustomValues?", true)]
+    [Arguments("List<string>?", false)]
+    public async Task Alternative_Collections_Use_Explicit_Shape_Only_When_Type_Is_Unresolved(
+        string collectionType, bool isCollection)
+    {
+        const string customCollection = """
+            namespace PrivatePackage;
+            public sealed class CustomValues : System.Collections.Generic.List<string>;
+            """;
+        var generated = await GenerateAlternativeCollection(false, collectionType, isCollection);
+        var assembly = Compile(generated, customCollection);
+        var options = assembly.GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var property = options.GetProperty("Values")!;
+        var input = (IList) Activator.CreateInstance(property.PropertyType)!;
+        property.SetValue(instance, input);
+        var validation = (IValidatableObject) instance;
+        await Assert.That(validation.Validate(new(instance))).Count().IsEqualTo(1);
+        options.GetProperty("Fallback")!.SetValue(instance, "fallback");
+        await Assert.That(validation.Validate(new(instance))).IsEmpty();
+        options.GetProperty("Fallback")!.SetValue(instance, null);
+        input.Add("first");
+        input.Add("second");
+        property.SetValue(instance, input);
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(validation.Validate(new(instance))).IsEmpty();
+            await Assert.That(((IEnumerable) property.GetValue(instance)!).Cast<string>())
+                .IsEquivalentTo(["first", "second"]);
+        }
+    }
+
+    [Test]
     [Arguments("IReadOnlyList<KeyValue>?")]
     [Arguments("List<KeyValue>?")]
     public async Task Alternative_Collections_Retain_Domain_Value_Types(string collectionType)
@@ -159,13 +192,13 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(retained.Cast<object>().ToArray()).IsEquivalentTo(values.Cast<object>());
     }
 
-    private static Task<string> GenerateAlternativeCollection(bool positional, string collectionType)
+    private static Task<string> GenerateAlternativeCollection(bool positional, string collectionType, bool? isCollection = null)
     {
         List<CliOptionDefinition> options =
             [new() { SwitchName = "--fallback", PropertyName = "Fallback", CSharpType = "string?" }];
         if (!positional)
         {
-            options.Add(new() { SwitchName = "--requirement", PropertyName = "Values", CSharpType = collectionType });
+            options.Add(new() { SwitchName = "--requirement", PropertyName = "Values", CSharpType = collectionType, IsCollection = isCollection });
         }
 
         var member = new CliRequiredAlternativeMember

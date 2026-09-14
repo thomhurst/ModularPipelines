@@ -390,9 +390,7 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static bool IsCollectionParameter(
         GeneratorUtils.RequiredConstructorParameter parameter) =>
-        CliOptionDefinition.TryGetCollectionShape(parameter.CSharpType.TrimEnd('?'), out var isCollection)
-            ? isCollection
-            : parameter.Option?.IsCollection == true;
+        CliOptionDefinition.IsCollectionType(parameter.CSharpType.TrimEnd('?'), parameter.Option?.IsCollection);
 
     private static bool RequiresNullableFlagProperty(CliOptionDefinition? option) =>
         option is { IsFlag: true, NegatedSwitchName: not null };
@@ -515,7 +513,7 @@ public class OptionsClassGenerator : ICodeGenerator
             return $"!string.IsNullOrWhiteSpace({propertyName})";
         }
 
-        return CliOptionDefinition.TryGetCollectionShape(csharpType, out var isCollection) && isCollection
+        return CliOptionDefinition.IsCollectionType(csharpType, option?.IsCollection)
             ? $"{propertyName}?.Cast<object>().Any() == true"
             : $"{propertyName} is not null";
     }
@@ -561,7 +559,7 @@ public class OptionsClassGenerator : ICodeGenerator
         var propertyType = option.IsRequired && requiredPropertiesAreNonNullable && !RequiresNullableFlagProperty(option)
             ? option.PropertyType.TrimEnd('?')
             : option.PropertyType;
-        GeneratePropertyDeclaration(sb, propertyType, option.PropertyName, option.IsRequired, participatesInAlternative);
+        GeneratePropertyDeclaration(sb, propertyType, option.PropertyName, option.IsRequired, participatesInAlternative, option.IsCollection);
     }
 
     private static void GeneratePositionalArgument(
@@ -593,13 +591,13 @@ public class OptionsClassGenerator : ICodeGenerator
     }
 
     private static void GeneratePropertyDeclaration(
-        StringBuilder sb, string propertyType, string propertyName, bool isRequired, bool participatesInAlternative)
+        StringBuilder sb, string propertyType, string propertyName, bool isRequired, bool participatesInAlternative, bool? collectionOverride = null)
     {
         var declaration = $"    public {GetNewModifier(propertyName)}{propertyType} {propertyName}";
         // Required collections are already materialized by their constructor. Optional
         // alternative inputs must retain the same values for validation and rendering.
         if (!isRequired && participatesInAlternative
-            && CliOptionDefinition.TryGetCollectionShape(propertyType, out var isCollection) && isCollection)
+            && CliOptionDefinition.IsCollectionType(propertyType, collectionOverride))
         {
             var snapshot = CliOptionDefinition.GetCollectionSnapshotExpression(
                 propertyType, "values", retainUnsupportedCollections: true);
