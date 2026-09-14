@@ -741,9 +741,15 @@ public class DistributedModuleExecutorTests
 
     [Test]
     [Timeout(5_000)]
+    // Exercise the ordering repeatedly under the same parallel CI load as #5101.
+    [Repeat(49)]
     public async Task Cache_Lookups_For_Ready_Modules_Run_Concurrently(
         CancellationToken cancellationToken)
     {
+        var elapsed = System.Diagnostics.Stopwatch.StartNew();
+        var progress = new ConcurrentQueue<string>();
+        void Record(string stage) => progress.Enqueue($"{elapsed.Elapsed.TotalMilliseconds:F1} ms: {stage}");
+        Record("fixture setup");
         var first = new CachedDistributedModule();
         var second = new AnotherCachedDistributedModule();
         var scheduler = CreateMockScheduler(
@@ -762,11 +768,14 @@ public class DistributedModuleExecutorTests
                 {
                     if (ReferenceEquals(module, first))
                     {
+                        Record("first lookup started");
                         firstStarted.TrySetResult();
                         await releaseFirst.Task.WaitAsync(token);
+                        Record("first lookup released");
                     }
                     else
                     {
+                        Record("second lookup started");
                         secondStarted.TrySetResult();
                     }
 
@@ -779,17 +788,52 @@ public class DistributedModuleExecutorTests
             cacheResultRepository: cache.Object,
             applicationStopping: cancellationToken);
 
+        Record("execute called");
         var execution = executor.ExecuteAsync([first, second]);
-        await firstStarted.Task.WaitAsync(cancellationToken);
-        await secondStarted.Task.WaitAsync(cancellationToken);
-        releaseFirst.TrySetResult();
-        await execution;
+        Record("execute returned task");
+        Exception? failure = null;
+        try
+        {
+            await firstStarted.Task.WaitAsync(cancellationToken);
+            Record("first start observed");
+            await secondStarted.Task.WaitAsync(cancellationToken);
+            Record("second start observed");
+            releaseFirst.TrySetResult();
+            Record("release signaled");
+            await execution.WaitAsync(cancellationToken);
+            Record("execution completed");
 
-        scheduler.Verify(instance => instance.MarkModuleCompleted(
-            It.IsAny<Type>(),
-            true,
-            null,
-            ModuleStatus.RestoredFromCache), Times.Exactly(2));
+            scheduler.Verify(instance => instance.MarkModuleCompleted(
+                It.IsAny<Type>(),
+                true,
+                null,
+                ModuleStatus.RestoredFromCache), Times.Exactly(2));
+        }
+        catch (Exception exception)
+        {
+            failure = exception;
+        }
+        finally
+        {
+            releaseFirst.TrySetResult();
+            try
+            {
+                // Observe completion even when the test's timeout token has already fired.
+                await execution.WaitAsync(TestHostSettings.DefaultTestTimeout, CancellationToken.None);
+            }
+            catch (Exception cleanupException)
+            {
+                Record($"cleanup failed: {cleanupException}");
+                failure ??= cleanupException;
+            }
+        }
+
+        if (failure is not null)
+        {
+            throw new InvalidOperationException(
+                $"Cache lookup concurrency failed. Progress:{Environment.NewLine}{string.Join(Environment.NewLine, progress)}",
+                failure);
+        }
     }
 
     [Test]
