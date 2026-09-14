@@ -18,10 +18,32 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("start")]
-public record DockerStartOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Container
-) : DockerOptions
+public record DockerStartOptions : DockerOptions
 {
+    public DockerStartOptions(
+        IEnumerable<string> Container
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Container);
+            var materialized = global::System.Linq.Enumerable.ToArray(Container);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Container));
+            }
+
+            Container = materialized;
+        }
+        this.Container = Container;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Container)
+    {
+        Container = this.Container;
+    }
+
     /// <summary>
     /// Attach STDOUT/STDERR and forward signals
     /// </summary>
@@ -39,5 +61,11 @@ public record DockerStartOptions(
     /// </summary>
     [CliFlag("--interactive", ShortForm = "-i")]
     public bool? Interactive { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Container { get; private init; }
 
 }

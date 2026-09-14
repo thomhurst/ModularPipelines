@@ -18,14 +18,42 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "inspect")]
-public record DockerPluginInspectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Plugin
-) : DockerOptions
+public record DockerPluginInspectOptions : DockerOptions
 {
+    public DockerPluginInspectOptions(
+        IEnumerable<string> Plugin
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Plugin);
+            var materialized = global::System.Linq.Enumerable.ToArray(Plugin);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Plugin));
+            }
+
+            Plugin = materialized;
+        }
+        this.Plugin = Plugin;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Plugin)
+    {
+        Plugin = this.Plugin;
+    }
+
     /// <summary>
     /// Format output using a custom template: 'json':             Print in JSON format 'TEMPLATE':         Print output using the given Go template. Refer to https://docs.docker.com/go/formatting/ for more information about formatting output with templates
     /// </summary>
     [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
+
+    /// <summary>
+    /// The PLUGIN operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Plugin { get; private init; }
 
 }

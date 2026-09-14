@@ -18,14 +18,42 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "inspect")]
-public record DockerTrustInspectOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> ImageTag
-) : DockerOptions
+public record DockerTrustInspectOptions : DockerOptions
 {
+    public DockerTrustInspectOptions(
+        IEnumerable<string> ImageTag
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ImageTag);
+            var materialized = global::System.Linq.Enumerable.ToArray(ImageTag);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ImageTag));
+            }
+
+            ImageTag = materialized;
+        }
+        this.ImageTag = ImageTag;
+    }
+
+    public void Deconstruct(out IEnumerable<string> ImageTag)
+    {
+        ImageTag = this.ImageTag;
+    }
+
     /// <summary>
     /// Print the information in a human friendly format
     /// </summary>
     [CliFlag("--pretty")]
     public bool? Pretty { get; set; }
+
+    /// <summary>
+    /// The IMAGE[:TAG] operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> ImageTag { get; private init; }
 
 }

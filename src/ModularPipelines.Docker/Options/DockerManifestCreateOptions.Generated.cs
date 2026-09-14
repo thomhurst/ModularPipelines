@@ -18,11 +18,36 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "create")]
-public record DockerManifestCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ManifestList,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Manifest
-) : DockerOptions
+public record DockerManifestCreateOptions : DockerOptions
 {
+    public DockerManifestCreateOptions(
+        string ManifestList,
+        IEnumerable<string> Manifest
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Manifest);
+            var materialized = global::System.Linq.Enumerable.ToArray(Manifest);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Manifest));
+            }
+
+            Manifest = materialized;
+        }
+        global::System.ArgumentNullException.ThrowIfNull(ManifestList);
+        this.ManifestList = ManifestList;
+        this.Manifest = Manifest;
+    }
+
+    public void Deconstruct(out string ManifestList, out IEnumerable<string> Manifest)
+    {
+        ManifestList = this.ManifestList;
+        Manifest = this.Manifest;
+    }
+
     /// <summary>
     /// Amend an existing manifest list
     /// </summary>
@@ -34,5 +59,17 @@ public record DockerManifestCreateOptions(
     /// </summary>
     [CliFlag("--insecure")]
     public bool? Insecure { get; set; }
+
+    /// <summary>
+    /// The MANIFEST_LIST operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ManifestList { get; private init; }
+
+    /// <summary>
+    /// The MANIFEST operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Manifest { get; private init; }
 
 }

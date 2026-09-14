@@ -18,15 +18,52 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "signer", "remove")]
-public record DockerTrustSignerRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Repository
-) : DockerOptions
+public record DockerTrustSignerRemoveOptions : DockerOptions
 {
+    public DockerTrustSignerRemoveOptions(
+        string Name,
+        IEnumerable<string> Repository
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Repository);
+            var materialized = global::System.Linq.Enumerable.ToArray(Repository);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Repository));
+            }
+
+            Repository = materialized;
+        }
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+        this.Repository = Repository;
+    }
+
+    public void Deconstruct(out string Name, out IEnumerable<string> Repository)
+    {
+        Name = this.Name;
+        Repository = this.Repository;
+    }
+
     /// <summary>
     /// Do not prompt for confirmation before removing the most recent signer
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Name { get; private init; }
+
+    /// <summary>
+    /// The REPOSITORY operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Repository { get; private init; }
 
 }
