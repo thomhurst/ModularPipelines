@@ -1,6 +1,9 @@
+using System.ComponentModel;
 using System.Diagnostics;
+using System.IO.Pipes;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
 
 namespace ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -12,13 +15,14 @@ internal static class UnixProcessGroupLauncher
         arguments.Length > 0
         && arguments[0].Equals(InvocationArgument, StringComparison.Ordinal);
 
-    public static ProcessLaunch Wrap(ProcessStartInfo targetStartInfo)
+    public static ProcessLaunch Wrap(ProcessStartInfo targetStartInfo, string statusHandle)
     {
         var launcherStartInfo = CreateLauncherStartInfo();
         launcherStartInfo.ArgumentList.Add(InvocationArgument);
         launcherStartInfo.ArgumentList.Add(targetStartInfo.FileName);
         launcherStartInfo.ArgumentList.Add(targetStartInfo.Arguments);
         launcherStartInfo.ArgumentList.Add(targetStartInfo.WorkingDirectory);
+        launcherStartInfo.ArgumentList.Add(statusHandle);
         launcherStartInfo.WorkingDirectory = targetStartInfo.WorkingDirectory;
         launcherStartInfo.RedirectStandardOutput = true;
         launcherStartInfo.RedirectStandardError = true;
@@ -39,15 +43,33 @@ internal static class UnixProcessGroupLauncher
 
     public static async Task<int> RunAsync(string[] arguments)
     {
-        if (arguments.Length != 4 || OperatingSystem.IsWindows())
+        if (arguments.Length != 5 || OperatingSystem.IsWindows())
         {
             return 1;
         }
 
-        if (SetSessionId() < 0)
+        using var launchStatus = new AnonymousPipeClientStream(PipeDirection.Out, arguments[4]);
+        try
         {
-            Console.Error.WriteLine(
-                $"Unable to create process group: native error {Marshal.GetLastPInvokeError()}.");
+            const int closeOnExec = 1; // FD_CLOEXEC on the supported Unix platforms.
+            var descriptorFlags = GetDescriptorFlags(launchStatus.SafePipeHandle);
+            if (descriptorFlags < 0 || SetDescriptorFlags(launchStatus.SafePipeHandle, descriptorFlags | closeOnExec) < 0)
+            {
+                Console.Error.WriteLine(
+                    $"Unable to prevent launch status inheritance: native error {Marshal.GetLastPInvokeError()}.");
+                return 1;
+            }
+
+            if (SetSessionId() < 0)
+            {
+                Console.Error.WriteLine(
+                    $"Unable to create process group: native error {Marshal.GetLastPInvokeError()}.");
+                return 1;
+            }
+        }
+        catch (Exception exception) when (exception is DllNotFoundException or EntryPointNotFoundException)
+        {
+            Console.Error.WriteLine($"Unable to initialize native process isolation: {exception.Message}");
             return 1;
         }
 
@@ -59,14 +81,24 @@ internal static class UnixProcessGroupLauncher
             UseShellExecute = false,
         };
 
-        using var process = Process.Start(startInfo);
-        if (process is null)
+        try
         {
+            using var process = Process.Start(startInfo);
+            if (process is null)
+            {
+                Console.Error.WriteLine("Unable to start the target process.");
+                return 1;
+            }
+
+            launchStatus.WriteByte(1);
+            await process.WaitForExitAsync().ConfigureAwait(false);
+            return process.ExitCode;
+        }
+        catch (Win32Exception exception)
+        {
+            Console.Error.WriteLine($"Unable to start the target process: {exception.Message}");
             return 1;
         }
-
-        await process.WaitForExitAsync();
-        return process.ExitCode;
     }
 
     private static ProcessStartInfo CreateLauncherStartInfo()
@@ -88,6 +120,14 @@ internal static class UnixProcessGroupLauncher
     }
 
 #pragma warning disable SYSLIB1054 // LibraryImport requires unsafe blocks, which this project does not enable.
+    // Use the hosting .NET runtime's fixed-arity fcntl bridge. Calling libc's variadic
+    // fcntl as a fixed-arity P/Invoke is not portable to macOS ARM64.
+    [DllImport("System.Native", EntryPoint = "SystemNative_FcntlGetFD", SetLastError = true)]
+    private static extern int GetDescriptorFlags(SafePipeHandle handle);
+
+    [DllImport("System.Native", EntryPoint = "SystemNative_FcntlSetFD", SetLastError = true)]
+    private static extern int SetDescriptorFlags(SafePipeHandle handle, int flags);
+
     [DllImport("libc", EntryPoint = "setsid", SetLastError = true)]
     private static extern int SetSessionId();
 #pragma warning restore SYSLIB1054

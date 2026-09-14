@@ -6,6 +6,105 @@ namespace ModularPipelines.OptionsGenerator.Tests.TypeDetection;
 public class ResilientCliCommandExecutorTests
 {
     [Test]
+    public async Task Real_Negative_Exit_Code_Is_Not_Retried_Or_Marked_Unavailable()
+    {
+        var response = new CliCommandResult
+        {
+            ExitCode = -1,
+            HasProcessExitCode = true,
+            StandardOutput = "Real command output",
+            StandardError = "Invalid arguments",
+        };
+        var inner = new SequenceExecutor(response, response);
+        var result = await CreateExecutor(inner, maxRetries: 1).ExecuteAsync("test", "--help");
+
+        await Assert.That(result).IsSameReferenceAs(response);
+        await Assert.That(result.Unavailable).IsFalse();
+        await Assert.That(inner.ExecutionCount).IsEqualTo(1);
+    }
+
+    [Test]
+    [Arguments("Temporary process failure", 2)]
+    [Arguments("Executable not found", 1)]
+    public async Task Final_Legacy_System_Failures_Are_Unavailable(string error, int attempts)
+    {
+        var failure = new CliCommandResult
+        {
+            ExitCode = -1,
+            StandardOutput = "Launcher diagnostics",
+            StandardError = error,
+        };
+        var inner = new SequenceExecutor(failure, failure);
+        var result = await CreateExecutor(inner, maxRetries: 1).ExecuteAsync("test", "--help");
+
+        await Assert.That(result.Unavailable).IsTrue();
+        await Assert.That(result.ExecutionFailed).IsTrue();
+        await Assert.That(result.ExitCode).IsEqualTo(-1);
+        await Assert.That(result.StandardOutput).IsEqualTo(failure.StandardOutput);
+        await Assert.That(result.StandardError).IsEqualTo(error);
+        await Assert.That(inner.ExecutionCount).IsEqualTo(attempts);
+    }
+
+    [Test]
+    [Arguments(1, false, true)]
+    [Arguments(124, true, false)]
+    public async Task Retries_Explicit_System_Failures_Regardless_Of_Exit_Code(
+        int exitCode, bool timedOut, bool executionFailed)
+    {
+        var inner = new SequenceExecutor(new CliCommandResult
+        {
+            ExitCode = exitCode,
+            TimedOut = timedOut,
+            ExecutionFailed = executionFailed,
+            StandardOutput = string.Empty,
+            StandardError = "Temporary process failure",
+        }, Success());
+        var result = await CreateExecutor(inner, maxRetries: 1).ExecuteAsync("test", string.Empty);
+
+        await Assert.That(result.Success).IsTrue();
+        await Assert.That(inner.ExecutionCount).IsEqualTo(2);
+    }
+
+    [Test]
+    [Arguments(1, true, false, "Executable not found")]
+    [Arguments(1, false, false, "Invalid arguments")]
+    [Arguments(-2, false, true, "Circuit open")]
+    public async Task Does_Not_Retry_Permanent_Or_Tool_Failures(
+        int exitCode, bool executionFailed, bool circuitOpen, string error)
+    {
+        var failure = new CliCommandResult
+        {
+            ExitCode = exitCode,
+            ExecutionFailed = executionFailed,
+            CircuitOpen = circuitOpen,
+            StandardOutput = string.Empty,
+            StandardError = error,
+        };
+        var inner = new SequenceExecutor(failure, Success());
+        var result = await CreateExecutor(inner, maxRetries: 1).ExecuteAsync("test", string.Empty);
+
+        await Assert.That(result).IsSameReferenceAs(failure);
+        await Assert.That(inner.ExecutionCount).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task CircuitBreaker_Counts_Explicit_Launch_Failures()
+    {
+        var failure = new CliCommandResult
+        {
+            ExitCode = 1,
+            ExecutionFailed = true,
+            StandardOutput = string.Empty,
+            StandardError = "Temporary process failure",
+        };
+        var inner = new SequenceExecutor([.. Enumerable.Repeat(failure, 5), Success()]);
+        var results = await ExecuteAsync(CreateExecutor(inner), 6);
+
+        await Assert.That(results[5].CircuitOpen).IsTrue();
+        await Assert.That(inner.ExecutionCount).IsEqualTo(5);
+    }
+
+    [Test]
     public async Task ToolSpecificAvailabilityProbe_BypassesResilienceShield()
     {
         var inner = new RecordingExecutor();

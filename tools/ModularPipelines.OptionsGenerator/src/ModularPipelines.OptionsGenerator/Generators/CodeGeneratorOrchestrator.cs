@@ -830,8 +830,8 @@ public class CodeGeneratorOrchestrator
         };
         if (allCommands.Count == 0)
         {
-            // The CLI is present (IsAvailableAsync passed), so "not installed" is not the
-            // problem - the scraper failed to parse anything out of the help output.
+            // Availability can change after the first probe. Keep unavailable help
+            // distinct from a successful help invocation that the parser did not recognize.
             var (coverage, diagnosticsPath) = await EvaluateCommandCoverageAsync(
                 completeToolDefinition,
                 outputDirectory,
@@ -844,6 +844,13 @@ public class CodeGeneratorOrchestrator
             var diagnosticsMessage = diagnosticsPath is null
                 ? string.Empty
                 : $" Raw help diagnostics: {diagnosticsPath}.";
+            if (coverage.UnavailableCommands.Count > 0)
+            {
+                return new CliGenerationFailure(
+                    string.Join(" ", coverage.Violations) + diagnosticsMessage,
+                    coverage);
+            }
+
             return new CliGenerationFailure(
                 $"The {cliScraper.ToolName} CLI reported itself available but help scraping produced no commands. " +
                 $"Check the scraper's help-text parsing against the currently installed CLI version.{diagnosticsMessage}",
@@ -1057,7 +1064,8 @@ public class CodeGeneratorOrchestrator
             approveCommandCoverageShrinkage,
             commandCoverageBaselinePath,
             commandCoveragePathComparer,
-            allowMissingCommandCoverageManifest);
+            allowMissingCommandCoverageManifest,
+            scrapeProvenanceProvider?.UnavailableHelpPaths);
         var diagnosticsPath = coverage.Violations.Count == 0
             ? null
             : await TryWriteCoverageFailureDiagnosticsAsync(
@@ -1782,6 +1790,7 @@ public class GenerationResult
 
             AppendDiff(lines, coverage.ChangesApproved ? "Added (approved)" : "Added", coverage.AddedCommands);
             AppendDiff(lines, coverage.ChangesApproved ? "Removed (approved)" : "Removed", coverage.RemovedCommands);
+            AppendDiff(lines, "Unavailable (help failed)", coverage.UnavailableCommands);
             AppendDiff(lines, "Groups without children", coverage.KnownGroupsWithoutChildren);
             AppendDiff(
                 lines,

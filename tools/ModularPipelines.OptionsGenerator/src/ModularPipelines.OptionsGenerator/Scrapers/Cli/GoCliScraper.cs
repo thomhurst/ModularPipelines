@@ -260,7 +260,7 @@ public partial class GoCliScraper : CliScraperBase
             return helpText;
         }
 
-        Logger.LogWarning("No help text for command: {Command}", cacheKey);
+        LogRejectedHelp(result, cacheKey);
         return null;
     }
 

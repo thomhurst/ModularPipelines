@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO.Pipes;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Helpers.Internal;
 
@@ -39,6 +40,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         CancellationToken cancellationToken = default,
         string? workingDirectory = null)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         _logger.LogDebug("Executing: {Command} {Arguments} (WorkingDir: {WorkingDir})", command, arguments, workingDirectory ?? "default");
 
         var executablePath = ResolveExecutablePath(command);
@@ -49,7 +51,8 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             {
                 StandardOutput = string.Empty,
                 StandardError = $"Command not found: {command}",
-                ExitCode = -1
+                ExitCode = -1,
+                ExecutionFailed = true,
             };
         }
 
@@ -60,14 +63,17 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         startInfo.Environment["GIT_PAGER"] = "";    // Git
         startInfo.Environment["NO_COLOR"] = "1";    // Disable color output which can cause parsing issues
 
+        using var launchStatus = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable);
+        var statusHandle = launchStatus.GetClientHandleAsString();
         var processLaunch = OperatingSystem.IsWindows()
-            ? WindowsJobLauncher.Wrap(startInfo)
-            : UnixProcessGroupLauncher.Wrap(startInfo);
+            ? WindowsJobLauncher.Wrap(startInfo, statusHandle)
+            : UnixProcessGroupLauncher.Wrap(startInfo, statusHandle);
 
         try
         {
             return await RunProcessAsync(
                     processLaunch,
+                    launchStatus,
                     command,
                     arguments,
                     cancellationToken)
@@ -75,12 +81,14 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         }
         catch (OperationCanceledException)
         {
-            _logger.LogWarning("Command timed out or cancelled: {Command} {Arguments}", command, arguments);
+            cancellationToken.ThrowIfCancellationRequested();
+            _logger.LogWarning("Command timed out: {Command} {Arguments}", command, arguments);
             return new CliCommandResult
             {
                 StandardOutput = string.Empty,
-                StandardError = "Command timed out or cancelled",
-                ExitCode = -1
+                StandardError = "Command timed out",
+                ExitCode = -1,
+                TimedOut = true,
             };
         }
         catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
@@ -90,13 +98,15 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             {
                 StandardOutput = string.Empty,
                 StandardError = ex.Message,
-                ExitCode = -1
+                ExitCode = -1,
+                ExecutionFailed = true,
             };
         }
     }
 
     private async Task<CliCommandResult> RunProcessAsync(
         ProcessLaunch processLaunch,
+        AnonymousPipeServerStream launchStatus,
         string command,
         string arguments,
         CancellationToken cancellationToken)
@@ -109,6 +119,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         }
 
         process.Start();
+        launchStatus.DisposeLocalCopyOfClientHandle();
         process.StandardInput.Close();
         var descendantTracker = new DescendantProcessTracker(
             process.Id,
@@ -120,6 +131,8 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         {
             var stdoutTask = process.StandardOutput.ReadToEndAsync(cts.Token);
             var stderrTask = process.StandardError.ReadToEndAsync(cts.Token);
+            var acknowledgement = new byte[1];
+            int statusBytesRead;
 
             try
             {
@@ -129,8 +142,9 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
                     cts.CancelAfter(_timeout);
                 }
 
-                await process.WaitForExitAsync(cts.Token);
-                await Task.WhenAll(stdoutTask, stderrTask).WaitAsync(cts.Token);
+                statusBytesRead = await launchStatus.ReadAsync(acknowledgement, cts.Token).ConfigureAwait(false);
+                await process.WaitForExitAsync(cts.Token).ConfigureAwait(false);
+                await Task.WhenAll(stdoutTask, stderrTask).WaitAsync(cts.Token).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -145,6 +159,9 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
 
             var stdout = await stdoutTask;
             var stderr = await stderrTask;
+            // The wrapper acknowledges target startup on a separate channel. A tool's
+            // exit code or stderr cannot be mistaken for a launcher failure.
+            var executionFailed = statusBytesRead != 1 || acknowledgement[0] != 1;
 
             _logger.LogDebug("Command completed with exit code {ExitCode}", process.ExitCode);
             if (process.ExitCode != 0)
@@ -161,7 +178,9 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             {
                 StandardOutput = stdout,
                 StandardError = stderr,
-                ExitCode = process.ExitCode
+                ExitCode = process.ExitCode,
+                HasProcessExitCode = !executionFailed,
+                ExecutionFailed = executionFailed,
             };
         }
         finally
@@ -300,7 +319,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         try
         {
             var result = await ExecuteAsync(command, arguments, cancellationToken);
-            if (result.Success)
+            if (result.Success && !result.Unavailable)
             {
                 return true;
             }
@@ -311,9 +330,9 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
                 result = await ExecuteAsync(command, "--help", cancellationToken);
             }
 
-            return result.ExitCode != -1; // -1 indicates execution failure (command not found)
+            return !result.Unavailable && (result.HasProcessExitCode || result.ExitCode != -1);
         }
-        catch
+        catch (Exception) when (!cancellationToken.IsCancellationRequested)
         {
             return false;
         }

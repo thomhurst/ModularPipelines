@@ -448,13 +448,12 @@ public class ModuleTimeoutTests : TestBase
     public async Task Timeout_Claims_Tokenless_Cooperative_Cancellation()
     {
         var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
-            timeoutToken =>
+            async timeoutToken =>
             {
-                timeoutToken.WaitHandle.WaitOne(TimeSpan.FromSeconds(1));
                 var completion = new TaskCompletionSource<bool>(
                     TaskCreationOptions.RunContinuationsAsynchronously);
-                completion.TrySetCanceled();
-                return completion.Task;
+                using var registration = timeoutToken.Register(() => completion.TrySetCanceled());
+                return await completion.Task;
             },
             TimeSpan.FromMilliseconds(10),
             CancellationToken.None);
@@ -464,6 +463,21 @@ public class ModuleTimeoutTests : TestBase
             await Assert.That(result.TimedOut).IsTrue();
             await Assert.That(result.WasCancellationTokenRespected).IsTrue();
         }
+    }
+
+    [Test]
+    public async Task Tokenless_Cancellation_Published_After_Deadline_Belongs_To_Deadline()
+    {
+        using var attemptCancellation = new CancellationTokenSource();
+        var cancellationSignals = new TimeoutHelper.CancellationSignals<bool>(attemptCancellation);
+        var completion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        cancellationSignals.Deadline.SignalCancellation();
+        completion.SetCanceled();
+        cancellationSignals.PublishExecutionTask(completion.Task);
+
+        await Assert.That(await cancellationSignals.Deadline.Signal.Task).IsFalse();
+        await Assert.That(attemptCancellation.IsCancellationRequested).IsTrue();
     }
 
     private sealed class FactoryCancellationException(

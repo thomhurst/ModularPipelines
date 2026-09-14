@@ -1,4 +1,6 @@
 #nullable enable
+ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult.HasProcessExitCode.get -> bool
+ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult.HasProcessExitCode.init -> void
 ModularPipelines.OptionsGenerator.Models.CliCommandCoveragePolicy.ConditionallyAvailableCommands.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand!>!
 ModularPipelines.OptionsGenerator.Models.CliCommandCoveragePolicy.ConditionallyAvailableCommands.init -> void
 ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand
@@ -12,6 +14,13 @@ ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.NegatedSwitchName.g
 ModularPipelines.OptionsGenerator.Models.CliOptionDefinition.NegatedSwitchName.init -> void
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.GlobalOptionsBeforeSubcommands.get -> bool
 ModularPipelines.OptionsGenerator.Models.CliToolDefinition.GlobalOptionsBeforeSubcommands.init -> void
+ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult.CircuitOpen.get -> bool
+ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult.CircuitOpen.init -> void
+ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult.ExecutionFailed.get -> bool
+ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult.ExecutionFailed.init -> void
+ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult.TimedOut.get -> bool
+ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult.TimedOut.init -> void
+ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult.Unavailable.get -> bool
 override ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.Equals(object? obj) -> bool
 override ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.GetHashCode() -> int
 override ModularPipelines.OptionsGenerator.Models.CliConditionallyAvailableCommand.ToString() -> string!

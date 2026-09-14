@@ -272,6 +272,15 @@ public abstract partial class CliScraperBase : ICliScraper
         // Check availability first
         if (!await IsAvailableAsync(cancellationToken))
         {
+            // The probe only exposes a boolean, so preserve the unavailable root without
+            // inventing a timeout or a raw help response that was never observed.
+            _scrapeProvenance.Record([ToolName], VersionArguments, new CliCommandResult
+            {
+                ExitCode = -1,
+                ExecutionFailed = true,
+                StandardOutput = string.Empty,
+                StandardError = "The traversal availability probe failed.",
+            });
             Logger.LogError("{Tool} is not available on this system (tried: {Path})",
                 ToolName, ExecutablePath);
             yield break;
@@ -714,10 +723,7 @@ public abstract partial class CliScraperBase : ICliScraper
 
         if (!ShouldAcceptHelpResult(commandPath, result))
         {
-            Logger.LogWarning(
-                "Ignoring failed help command for {Command}; exit code {ExitCode}",
-                cacheKey,
-                result.ExitCode);
+            LogRejectedHelp(result, cacheKey, failedCommand: true);
             return null;
         }
 
@@ -732,8 +738,28 @@ public abstract partial class CliScraperBase : ICliScraper
             return helpText;
         }
 
-        Logger.LogWarning("No help text for command: {Command}", cacheKey);
+        LogRejectedHelp(result, cacheKey);
         return null;
+    }
+
+    private protected void LogRejectedHelp(CliCommandResult result, string command, bool failedCommand = false)
+    {
+        // ExecuteAndRecordHelpCommandAsync already reports unavailable help. All adapters
+        // share this gate for empty output and stricter exit-code rejection.
+        if (result.Unavailable)
+        {
+            return;
+        }
+
+        if (failedCommand)
+        {
+            Logger.LogWarning("Ignoring failed help command for {Command}; exit code {ExitCode}",
+                command, result.ExitCode);
+        }
+        else
+        {
+            Logger.LogWarning("No help text for command: {Command}", command);
+        }
     }
 
     private protected async Task<CliCommandResult> ExecuteAndRecordHelpCommandAsync(
@@ -750,7 +776,29 @@ public abstract partial class CliScraperBase : ICliScraper
             cancellationToken,
             workingDirectory);
         _scrapeProvenance.Record(commandPath, arguments, result, preserveRawHelp);
-        return result;
+        if (!result.Unavailable)
+        {
+            return result;
+        }
+
+        // Every scraper's help parsing treats blank output as "no help", so hand back an empty
+        // result instead of the executor's placeholder text. The provenance keeps the path as
+        // unavailable, and coverage validation fails the run instead of reporting a removal.
+        Logger.LogWarning(
+            "Help for {Command} is unavailable in this scrape ({Reason})",
+            string.Join(' ', commandPath),
+            result.TimedOut ? "timed out after all retries"
+                : result.CircuitOpen ? "rejected by the circuit breaker"
+                : "the process could not be executed");
+        return new CliCommandResult
+        {
+            StandardOutput = string.Empty,
+            StandardError = string.Empty,
+            ExitCode = result.ExitCode,
+            TimedOut = result.TimedOut,
+            CircuitOpen = result.CircuitOpen,
+            ExecutionFailed = result.ExecutionFailed,
+        };
     }
 
     internal Task<string?> WriteCoverageFailureDiagnosticsAsync(
@@ -761,6 +809,12 @@ public abstract partial class CliScraperBase : ICliScraper
             outputDirectory,
             coverage,
             cancellationToken);
+
+    /// <summary>
+    /// Help paths whose invocation timed out after every retry or was rejected by the circuit
+    /// breaker, or whose process could not execute during this scrape.
+    /// </summary>
+    internal IReadOnlyList<string> UnavailableHelpPaths => _scrapeProvenance.UnavailableHelpPaths;
 
     internal void PreserveRawHelpForCommandGroups(IEnumerable<string> commandGroups)
     {

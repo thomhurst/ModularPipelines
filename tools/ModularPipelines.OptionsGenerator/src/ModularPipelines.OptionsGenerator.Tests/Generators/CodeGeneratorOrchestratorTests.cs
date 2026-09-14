@@ -93,7 +93,8 @@ public class CodeGeneratorOrchestratorTests
 
     private sealed class DiagnosticCliScraper(
         ICliCommandExecutor executor,
-        bool produceCommand = true)
+        bool produceCommand = true,
+        Func<string, IEnumerable<string>>? extractSubcommands = null)
         : CliScraperBase(
             executor,
             new HelpTextCache(NullLogger<HelpTextCache>.Instance),
@@ -120,7 +121,8 @@ public class CodeGeneratorOrchestratorTests
                 },
             };
 
-        protected override IEnumerable<string> ExtractSubcommands(string helpText) => [];
+        protected override IEnumerable<string> ExtractSubcommands(string helpText) =>
+            extractSubcommands?.Invoke(helpText) ?? [];
 
         protected override Task<CliCommandDefinition?> ParseCommandAsync(
             string[] commandPath,
@@ -168,14 +170,16 @@ public class CodeGeneratorOrchestratorTests
             });
     }
 
-    private sealed class DiagnosticExecutor : ICliCommandExecutor
+    private sealed class DiagnosticExecutor(
+        Func<string, CliCommandResult?>? respond = null,
+        Func<bool>? isAvailable = null) : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
             CancellationToken cancellationToken = default,
             string? workingDirectory = null) =>
-            Task.FromResult(new CliCommandResult
+            Task.FromResult(respond?.Invoke(arguments) ?? new CliCommandResult
             {
                 StandardOutput = arguments == "--version"
                     ? "fake 1.0"
@@ -187,7 +191,7 @@ public class CodeGeneratorOrchestratorTests
         public Task<bool> IsAvailableAsync(
             string command,
             CancellationToken cancellationToken = default) =>
-            Task.FromResult(true);
+            Task.FromResult(isAvailable?.Invoke() ?? true);
     }
 
     private static CliCommandDefinition FakeCommand() => new()
@@ -206,6 +210,35 @@ public class CodeGeneratorOrchestratorTests
             htmlScrapers: [],
             generators,
             NullLogger<CodeGeneratorOrchestrator>.Instance);
+
+    [Test]
+    public async Task Failed_Traversal_Availability_Probe_Is_Unavailable_Not_Removed()
+    {
+        var outputRoot = Directory.CreateTempSubdirectory("mp-availability-").FullName;
+        try
+        {
+            var probeCount = 0;
+            var executor = new DiagnosticExecutor(isAvailable: () => ++probeCount == 1);
+            var scraper = new DiagnosticCliScraper(executor);
+            var baseline = CommandCoverageGuard.Evaluate(
+                new FakeCliScraper().CreateToolDefinition() with { Commands = [FakeCommand()] },
+                outputRoot, approveShrinkage: false);
+            await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
+            var result = await Orchestrator(scraper, new FakeGenerator())
+                .GenerateAsync("fake", outputRoot, approveCommandCoverageShrinkage: true);
+
+            await Assert.That(probeCount).IsEqualTo(2);
+            await Assert.That(result.HasErrors).IsTrue();
+            await Assert.That(result.GetSummary()).Contains("Unavailable (help failed): fake");
+            await Assert.That(result.CommandCoverage.Single().RemovedCommands).IsEmpty();
+            await Assert.That(result.Errors[0].Message).Contains("Help was unavailable");
+            await Assert.That(result.Errors[0].Message).DoesNotContain("below the configured minimum");
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
 
     [Test]
     public async Task FirstGenerationCoverageFailure_WritesRawHelpDiagnostics()
@@ -231,6 +264,61 @@ public class CodeGeneratorOrchestratorTests
             await Assert.That(File.Exists(diagnosticsPath)).IsTrue();
             var diagnostics = await File.ReadAllTextAsync(diagnosticsPath);
             await Assert.That(diagnostics).Contains("RAW ROOT HELP: fake run only");
+        }
+        finally
+        {
+            Directory.Delete(outputRoot, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task TimedOutLeafHelp_FailsGenerationEvenWhenShrinkageIsApproved()
+    {
+        var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(outputRoot);
+        var diagnosticsPath = Path.Combine(
+            outputRoot,
+            "artifacts",
+            "options-generator-diagnostics",
+            "fake",
+            "command-coverage-failure.json");
+
+        try
+        {
+            // "run" never answers; "status" does, so the scrape is not empty.
+            var executor = new DiagnosticExecutor(arguments => arguments switch
+            {
+                "run --help" => new CliCommandResult
+                {
+                    StandardOutput = string.Empty,
+                    StandardError = "Command timed out or cancelled",
+                    ExitCode = -1,
+                    TimedOut = true,
+                },
+                "status --help" => new CliCommandResult
+                {
+                    StandardOutput = "Usage: fake status [flags]\nOptions:\n  --value string",
+                    StandardError = string.Empty,
+                    ExitCode = 0,
+                },
+                _ => null,
+            });
+            var scraper = new DiagnosticCliScraper(
+                executor,
+                extractSubcommands: helpText => helpText.Contains("ROOT", StringComparison.Ordinal) ? ["run", "status"] : []);
+
+            var result = await Orchestrator(scraper, new FakeGenerator())
+                .GenerateAsync("fake", outputRoot, approveCommandCoverageShrinkage: true);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(result.HasErrors).IsTrue();
+                await Assert.That(result.Errors[0].Message).Contains("Help was unavailable after all retries");
+                await Assert.That(result.Errors[0].Message).Contains("fake run");
+                await Assert.That(result.GetSummary()).Contains("Unavailable (help failed): fake run");
+                await Assert.That(File.Exists(diagnosticsPath)).IsTrue();
+                await Assert.That(await File.ReadAllTextAsync(diagnosticsPath)).Contains("\"unavailableHelpPaths\"");
+            }
         }
         finally
         {

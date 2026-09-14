@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO.Pipes;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -7,10 +8,136 @@ namespace ModularPipelines.OptionsGenerator.Tests.TypeDetection;
 public class ProcessCliCommandExecutorTests
 {
     [Test]
+    public async Task Target_Does_Not_Inherit_Launch_Status_Pipe()
+    {
+        using var status = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable);
+        var handle = status.GetClientHandleAsString();
+        var target = OperatingSystem.IsWindows()
+            ? new ProcessStartInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "WindowsPowerShell", "v1.0", "powershell.exe"),
+                $"-NoProfile -NonInteractive -Command \"try {{ $p = [System.IO.Pipes.AnonymousPipeClientStream]::new([System.IO.Pipes.PipeDirection]::Out, '{handle}'); $p.WriteByte(2); $p.Dispose() }} catch {{ }}; exit 0\"")
+            : new ProcessStartInfo("/bin/bash", $"-c \"printf x >&{handle} 2>/dev/null || true\"");
+        var launch = OperatingSystem.IsWindows()
+            ? WindowsJobLauncher.Wrap(target, handle)
+            : UnixProcessGroupLauncher.Wrap(target, handle);
+        using var process = Process.Start(launch.StartInfo)!;
+        status.DisposeLocalCopyOfClientHandle();
+        try
+        {
+            var output = process.StandardOutput.ReadToEndAsync();
+            var error = process.StandardError.ReadToEndAsync();
+            await process.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(30));
+            await Task.WhenAll(output, error);
+
+            if (process.ExitCode != 0)
+            {
+                throw new InvalidOperationException($"Launcher failed: {await error}");
+            }
+
+            await Assert.That(status.ReadByte()).IsEqualTo(1);
+            await Assert.That(status.ReadByte()).IsEqualTo(-1);
+        }
+        finally
+        {
+            if (!process.HasExited)
+            {
+                process.Kill(entireProcessTree: true);
+                await process.WaitForExitAsync();
+            }
+        }
+    }
+
+    [Test]
+    public async Task PreCancelled_Execution_And_Availability_Propagate_Cancellation()
+    {
+        using var source = new CancellationTokenSource();
+        source.Cancel();
+        var executor = new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
+        const string command = "modularpipelines-missing-executable-4688";
+
+        await Assert.That(async () => { await executor.ExecuteAsync(command, "--help", source.Token); })
+            .Throws<OperationCanceledException>();
+        await Assert.That(() => executor.IsAvailableAsync(command, "--help", source.Token))
+            .Throws<OperationCanceledException>();
+    }
+
+    [Test]
     public async Task ExecutableOverrideVariable_Is_Matrix_Scoped()
     {
         await Assert.That(ProcessCliCommandExecutor.ExecutableOverrideVariableName)
             .IsEqualTo("MODULARPIPELINES_CLI_EXECUTABLE");
+    }
+
+    [Test]
+    public async Task Unresolved_Executable_Is_Reported_As_Unavailable()
+    {
+        var executor = new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
+
+        var result = await executor.ExecuteAsync("modularpipelines-missing-executable-4688", "--help");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ExitCode).IsEqualTo(-1);
+            await Assert.That(result.ExecutionFailed).IsTrue();
+            await Assert.That(result.Unavailable).IsTrue();
+            await Assert.That(result.StandardError).Contains("Command not found");
+        }
+    }
+
+    [Test]
+    public async Task Target_Launch_Failure_Is_Reported_As_Unavailable()
+    {
+        var directory = Directory.CreateTempSubdirectory("cli-launch-failure-").FullName;
+        var executable = Path.Combine(directory, "invalid.exe");
+        try
+        {
+            await File.WriteAllTextAsync(executable, "This is not an executable.");
+            if (!OperatingSystem.IsWindows())
+            {
+                File.SetUnixFileMode(executable, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+            }
+
+            var executor = new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
+            var result = await executor.ExecuteAsync(executable, "--help");
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(result.ExecutionFailed).IsTrue();
+                await Assert.That(result.Unavailable).IsTrue();
+                await Assert.That(result.TimedOut).IsFalse();
+                await Assert.That(result.StandardError).IsNotEmpty();
+                await Assert.That(await executor.IsAvailableAsync(executable, "--help")).IsFalse();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(1)]
+    [Arguments(255)]
+    [Arguments(-1)]
+    public async Task Target_Exit_Code_Is_Not_A_Launch_Failure(int exitCode)
+    {
+        var executor = new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
+        var command = OperatingSystem.IsWindows() ? "cmd.exe" : "/bin/sh";
+        var arguments = OperatingSystem.IsWindows()
+            ? $"/d /c \"echo Unable to start the target process 1>&2 & exit {exitCode}\""
+            : $"-c \"echo Unable to start the target process >&2; exit {exitCode & 255}\"";
+
+        var result = await executor.ExecuteAsync(command, arguments);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ExitCode).IsEqualTo(OperatingSystem.IsWindows() ? exitCode : exitCode & 255);
+            await Assert.That(result.HasProcessExitCode).IsTrue();
+            await Assert.That(result.ExecutionFailed).IsFalse();
+            await Assert.That(result.Unavailable).IsFalse();
+            await Assert.That(result.StandardError).Contains("Unable to start the target process");
+            await Assert.That(await executor.IsAvailableAsync(command, arguments)).IsTrue();
+        }
     }
 
     [Test]
@@ -282,13 +409,16 @@ public class ProcessCliCommandExecutorTests
     }
 
     [Test]
-    public async Task Readiness_Failure_Kills_Started_Child_Process()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Readiness_Failure_Or_Caller_Cancellation_Kills_Started_Child_Process(bool cancel)
     {
         var childPidPath = Path.Combine(
             Path.GetTempPath(),
             $"mp-cli-readiness-failure-{Guid.NewGuid():N}.pid");
         string? scriptPath = null;
         int? childPid = null;
+        using var cancellationSource = new CancellationTokenSource();
 
         try
         {
@@ -304,15 +434,28 @@ public class ProcessCliCommandExecutorTests
                     childPid = await WaitForPublishedProcessIdAsync(
                         childPidPath,
                         cancellationToken);
+                    if (cancel)
+                    {
+                        cancellationSource.Cancel();
+                        cancellationToken.ThrowIfCancellationRequested();
+                    }
                     throw new InvalidOperationException("readiness failed");
                 });
 
-            var result = await executor.ExecuteAsync(command.Command, command.Arguments);
+            var execution = executor.ExecuteAsync(command.Command, command.Arguments, cancellationSource.Token);
+            if (cancel)
+            {
+                await Assert.That(async () => await execution).Throws<OperationCanceledException>();
+            }
+            else
+            {
+                var result = await execution;
+                await Assert.That(result.ExitCode).IsEqualTo(-1);
+                await Assert.That(result.StandardError).Contains("readiness failed");
+            }
 
             using (Assert.Multiple())
             {
-                await Assert.That(result.ExitCode).IsEqualTo(-1);
-                await Assert.That(result.StandardError).Contains("readiness failed");
                 await Assert.That(childPid).IsNotNull();
                 await Assert.That(await WaitForProcessExitAsync(childPid!.Value)).IsTrue();
             }

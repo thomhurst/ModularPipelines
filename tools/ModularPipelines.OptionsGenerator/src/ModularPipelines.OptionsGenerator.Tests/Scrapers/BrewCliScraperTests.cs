@@ -30,6 +30,27 @@ public class BrewCliScraperTests
     }
 
     [Test]
+    [Arguments("timeout")]
+    [Arguments("circuit")]
+    [Arguments("launch")]
+    public async Task Unavailable_Command_Inventory_Marks_Root_Unavailable(string failure)
+    {
+        var scraper = new TestBrewCliScraper(new CommandInventoryExecutor(new CliCommandResult
+        {
+            ExitCode = -1,
+            TimedOut = failure == "timeout",
+            CircuitOpen = failure == "circuit",
+            ExecutionFailed = failure == "launch",
+            StandardOutput = string.Empty,
+            StandardError = "The inventory could not be executed.",
+        }));
+
+        await scraper.GetHelp(["brew"]);
+
+        await Assert.That(scraper.UnavailableHelpPaths).IsEquivalentTo(["brew"]);
+    }
+
+    [Test]
     public async Task Rejects_Partial_Help_Output_From_Failed_Command()
     {
         var scraper = new TestBrewCliScraper(new FailedHelpExecutor());
@@ -595,14 +616,20 @@ public class BrewCliScraperTests
             Task.FromResult(true);
     }
 
-    private sealed class CommandInventoryExecutor : ICliCommandExecutor
+    private sealed class CommandInventoryExecutor(CliCommandResult? inventoryResult = null) : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
             CancellationToken cancellationToken = default,
-            string? workingDirectory = null) =>
-            Task.FromResult(new CliCommandResult
+            string? workingDirectory = null)
+        {
+            if (arguments == "commands --quiet" && inventoryResult is not null)
+            {
+                return Task.FromResult(inventoryResult);
+            }
+
+            return Task.FromResult(new CliCommandResult
             {
                 ExitCode = 0,
                 StandardOutput = arguments switch
@@ -615,6 +642,7 @@ public class BrewCliScraperTests
                     ? "warning stale diagnostic"
                     : string.Empty,
             });
+        }
 
         public Task<bool> IsAvailableAsync(
             string command,
