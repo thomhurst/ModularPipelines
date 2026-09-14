@@ -190,16 +190,12 @@ public partial class VaultCliScraper : CliScraperBase
                 continue;
             }
 
-            var longForm = flagName.StartsWith("--") ? flagName : $"--{flagName.TrimStart('-')}";
-
-            if (seenOptions.Contains(longForm))
+            if (!seenOptions.Add(flagName))
             {
                 continue;
             }
 
-            seenOptions.Add(longForm);
-
-            var propertyName = NormalizePropertyName(longForm);
+            var propertyName = NormalizePropertyName(flagName);
             if (propertyName is null)
             {
                 continue;
@@ -210,7 +206,7 @@ public partial class VaultCliScraper : CliScraperBase
 
             options.Add(new CliOptionDefinition
             {
-                SwitchName = longForm,
+                SwitchName = flagName,
                 ShortForm = null,
                 PropertyName = propertyName,
                 CSharpType = csharpType,

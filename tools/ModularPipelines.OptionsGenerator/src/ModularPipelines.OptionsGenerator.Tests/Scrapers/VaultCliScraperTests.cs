@@ -9,6 +9,57 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class VaultCliScraperTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Shared_Traversal_Preserves_Operands_After_Flags(bool alternativeSynopsis)
+    {
+        var helpText = """
+            Usage: vault audit disable -tls-skip-verify <PATH>
+
+            Options:
+                -tls-skip-verify    Skip TLS verification
+                -address=<string>    Address of the Vault server
+            """;
+        if (alternativeSynopsis)
+        {
+            helpText = "Usage: vault audit disable -address <ADDRESS>\n" + helpText;
+        }
+
+        var scraper = new VaultCliScraper(
+            new VaultHelpExecutor(helpText),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<VaultCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var leaf = commands.Single(command => command.FullCommand == "vault audit disable");
+        var path = leaf.PositionalArguments.Single();
+        await Assert.That(path.PropertyName).IsEqualTo("Path");
+        await Assert.That(path.IsRequired).IsEqualTo(!alternativeSynopsis);
+        await Assert.That(path.AssociatedOptionSwitch).IsNull();
+        await Assert.That(leaf.Options.Single(option => option.PropertyName == "TlsSkipVerify").SwitchName)
+            .IsEqualTo("-tls-skip-verify");
+    }
+
+    [Test]
+    public async Task Value_Option_Placeholders_Remain_Excluded_From_Positionals()
+    {
+        const string helpText = """
+            Usage: vault read -address <ADDRESS> <PATH>
+
+            Options:
+                -address=<string>    Address of the Vault server
+            """;
+        var command = await new TestVaultCliScraper().ParseGroup(["vault", "read"], helpText);
+        await Assert.That(command!.PositionalArguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(["Path"]);
+        await Assert.That(command.Options.Single().SwitchName).IsEqualTo("-address");
+    }
+
+    [Test]
     public async Task Shared_Traversal_Preserves_Required_Subcommand()
     {
         var scraper = new VaultCliScraper(
@@ -78,7 +129,7 @@ public class VaultCliScraperTests
         }
     }
 
-    private sealed class VaultHelpExecutor : ICliCommandExecutor
+    private sealed class VaultHelpExecutor(string? leafHelp = null) : ICliCommandExecutor
     {
         private static readonly IReadOnlyDictionary<string, string> Responses =
             new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
@@ -118,7 +169,7 @@ public class VaultCliScraperTests
 
             return Task.FromResult(new CliCommandResult
             {
-                StandardOutput = response,
+                StandardOutput = arguments == "audit disable --help" && leafHelp is not null ? leafHelp : response,
                 StandardError = string.Empty,
                 ExitCode = 0,
             });
