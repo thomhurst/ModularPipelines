@@ -38,7 +38,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayAddOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayAddOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -47,7 +47,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayAuthOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayAuthOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -56,7 +56,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayBaselineOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayBaselineOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -65,7 +65,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayCheckOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayCheckOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -74,7 +74,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayCleanOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayCleanOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -83,7 +83,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayDeployOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayDeployOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -92,7 +92,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayDiffApplyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayDiffApplyOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -101,7 +101,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayDiffOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayDiffOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -110,7 +110,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayDiffTextOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayDiffTextOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -119,7 +119,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayGenerateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayGenerateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -128,7 +128,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayInfoOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayInfoOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -137,7 +137,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayInitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayInitOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -146,7 +146,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayListEnginesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayListEnginesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -155,7 +155,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayMigrateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayMigrateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -164,7 +164,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayPrepareOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayPrepareOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -173,7 +173,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayRepairOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayRepairOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -182,7 +182,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywaySnapshotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywaySnapshotOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -191,7 +191,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayUndoOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayUndoOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -200,7 +200,7 @@ internal partial class Flyway : IFlyway
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayValidateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayValidateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
