@@ -1851,8 +1851,13 @@ public abstract partial class CliScraperBase : ICliScraper
         RegexOptions.IgnoreCase)]
     private static partial Regex ExplicitBooleanValuePattern();
 
-    // Consume quoted spans before looking for markers, without treating possessive apostrophes as opening quotes.
-    [GeneratedRegex(""" "(?:\\.|[^"\\])*" | (?<!\w)'(?:\\.|[^'\\])*' | `[^`]*` | (?<required>\(required\)(?=\s|[.!?]|$)) """,
+    // Consume example sentences and quoted spans before looking for declarations.
+    // Quoted punctuation does not end an example; possessive apostrophes do not open quotes.
+    [GeneratedRegex("""
+        \bfor\s+example\b (?: "(?:\\.|[^"\\])*" | (?<!\w)'(?:\\.|[^'\\])*' | `[^`]*` | [^.!?\r\n] )*
+        | "(?:\\.|[^"\\])*" | (?<!\w)'(?:\\.|[^'\\])*' | `[^`]*`
+        | (?<required>\(required\)(?=\s|[.!?]|$))
+        """,
         RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace)]
     private static partial Regex ExplicitRequiredOptionPattern();
 
