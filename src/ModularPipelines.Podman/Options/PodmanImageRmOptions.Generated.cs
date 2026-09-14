@@ -18,10 +18,32 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "rm")]
-public record PodmanImageRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Image
-) : PodmanOptions
+public record PodmanImageRmOptions : PodmanOptions
 {
+    public PodmanImageRmOptions(
+        IEnumerable<string> Image
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Image);
+            var materialized = global::System.Linq.Enumerable.ToArray(Image);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Image));
+            }
+
+            Image = materialized;
+        }
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// Remove all images
     /// </summary>
@@ -45,5 +67,11 @@ public record PodmanImageRmOptions(
     /// </summary>
     [CliFlag("--no-prune")]
     public bool? NoPrune { get; set; }
+
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Image { get; private init; }
 
 }

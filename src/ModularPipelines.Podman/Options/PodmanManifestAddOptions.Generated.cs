@@ -19,11 +19,36 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "add")]
-public record PodmanManifestAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string List,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Image
-) : PodmanOptions
+public record PodmanManifestAddOptions : PodmanOptions
 {
+    public PodmanManifestAddOptions(
+        string List,
+        IEnumerable<string> Image
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Image);
+            var materialized = global::System.Linq.Enumerable.ToArray(Image);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Image));
+            }
+
+            Image = materialized;
+        }
+        global::System.ArgumentNullException.ThrowIfNull(List);
+        this.List = List;
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string List, out IEnumerable<string> Image)
+    {
+        List = this.List;
+        Image = this.Image;
+    }
+
     /// <summary>
     /// add all of the list's images if the image is a list
     /// </summary>
@@ -132,5 +157,17 @@ public record PodmanManifestAddOptions(
     /// </summary>
     [CliOption("--variant", Format = OptionFormat.EqualsSeparated)]
     public string? Variant { get; set; }
+
+    /// <summary>
+    /// The LIST operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string List { get; private init; }
+
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Image { get; private init; }
 
 }

@@ -18,10 +18,32 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("volume", "rm")]
-public record PodmanVolumeRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Volume
-) : PodmanOptions
+public record PodmanVolumeRmOptions : PodmanOptions
 {
+    public PodmanVolumeRmOptions(
+        IEnumerable<string> Volume
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Volume);
+            var materialized = global::System.Linq.Enumerable.ToArray(Volume);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Volume));
+            }
+
+            Volume = materialized;
+        }
+        this.Volume = Volume;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Volume)
+    {
+        Volume = this.Volume;
+    }
+
     /// <summary>
     /// Remove all volumes
     /// </summary>
@@ -39,5 +61,11 @@ public record PodmanVolumeRmOptions(
     /// </summary>
     [CliOption("--time", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public int? Time { get; set; }
+
+    /// <summary>
+    /// The VOLUME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Volume { get; private init; }
 
 }

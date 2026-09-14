@@ -18,10 +18,32 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "wait")]
-public record PodmanComposeWaitOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Service
-) : PodmanOptions
+public record PodmanComposeWaitOptions : PodmanOptions
 {
+    public PodmanComposeWaitOptions(
+        IEnumerable<string> Service
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Service);
+            var materialized = global::System.Linq.Enumerable.ToArray(Service);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Service));
+            }
+
+            Service = materialized;
+        }
+        this.Service = Service;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Service)
+    {
+        Service = this.Service;
+    }
+
     /// <summary>
     /// Drops project when the first container stops
     /// </summary>
@@ -33,5 +55,11 @@ public record PodmanComposeWaitOptions(
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
+
+    /// <summary>
+    /// The SERVICE operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Service { get; private init; }
 
 }

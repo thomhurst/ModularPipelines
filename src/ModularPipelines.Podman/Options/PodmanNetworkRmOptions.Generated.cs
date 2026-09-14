@@ -18,10 +18,32 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "rm")]
-public record PodmanNetworkRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Network
-) : PodmanOptions
+public record PodmanNetworkRmOptions : PodmanOptions
 {
+    public PodmanNetworkRmOptions(
+        IEnumerable<string> Network
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Network);
+            var materialized = global::System.Linq.Enumerable.ToArray(Network);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Network));
+            }
+
+            Network = materialized;
+        }
+        this.Network = Network;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Network)
+    {
+        Network = this.Network;
+    }
+
     /// <summary>
     /// remove any containers using network
     /// </summary>
@@ -39,5 +61,11 @@ public record PodmanNetworkRmOptions(
     /// </summary>
     [CliOption("--time", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public int? Time { get; set; }
+
+    /// <summary>
+    /// The NETWORK operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Network { get; private init; }
 
 }

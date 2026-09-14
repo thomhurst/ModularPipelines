@@ -18,14 +18,42 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "rm")]
-public record PodmanManifestRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> List
-) : PodmanOptions
+public record PodmanManifestRmOptions : PodmanOptions
 {
+    public PodmanManifestRmOptions(
+        IEnumerable<string> List
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(List);
+            var materialized = global::System.Linq.Enumerable.ToArray(List);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(List));
+            }
+
+            List = materialized;
+        }
+        this.List = List;
+    }
+
+    public void Deconstruct(out IEnumerable<string> List)
+    {
+        List = this.List;
+    }
+
     /// <summary>
     /// Ignore errors when a specified manifest is missing
     /// </summary>
     [CliFlag("--ignore", ShortForm = "-i")]
     public bool? Ignore { get; set; }
+
+    /// <summary>
+    /// The LIST operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> List { get; private init; }
 
 }
