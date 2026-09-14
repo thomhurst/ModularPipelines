@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -53,8 +54,9 @@ public record AzCosmosdbPostgresRoleUpdateOptions : AzOptions
     /// <summary>
     /// The password of the cluster role.  If value is blank it's asked from the tty.
     /// </summary>
-    [CliFlag("--password")]
-    public bool? Password { get; set; }
+    [SecretValue]
+    [CliOption("--password")]
+    public string? Password { get; set; }
 
     /// <summary>
     /// The name of the cluster.

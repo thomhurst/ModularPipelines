@@ -28,8 +28,8 @@ public record AzAksCreateOptions(
     /// <summary>
     /// Comma-separated list of aad group object IDs that will be set as cluster admin.
     /// </summary>
-    [CliFlag("--aad-admin-group-object-ids")]
-    public bool? AadAdminGroupObjectIds { get; set; }
+    [CliOption("--aad-admin-group-object-ids", GroupValues = true)]
+    public IEnumerable<string>? AadAdminGroupObjectIds { get; set; }
 
     /// <summary>
     /// The ID of an Azure Active Directory tenant.
@@ -82,8 +82,8 @@ public record AzAksCreateOptions(
     /// <summary>
     /// Comma-separated list of authorized apiserver IP ranges. Set to 0.0.0.0/32 to restrict apiserver traffic to node pools.
     /// </summary>
-    [CliFlag("--api-server-authorized-ip-ranges")]
-    public bool? ApiServerAuthorizedIpRanges { get; set; }
+    [CliOption("--api-server-authorized-ip-ranges", GroupValues = true)]
+    public IEnumerable<string>? ApiServerAuthorizedIpRanges { get; set; }
 
     /// <summary>
     /// The ID of a subnet in an existing VNet into which to assign control plane apiserver pods(requires --enable-apiserver-vnet-integration).
@@ -616,8 +616,8 @@ public record AzAksCreateOptions(
     /// <summary>
     /// A comma-separated list of IP versions to use for cluster networking. Each IP version should be in the format IPvN. For example, IPv4.
     /// </summary>
-    [CliFlag("--ip-families")]
-    public bool? IpFamilies { get; set; }
+    [CliOption("--ip-families", GroupValues = true)]
+    public IEnumerable<string>? IpFamilies { get; set; }
 
     /// <summary>
     /// Choose from "KubernetesOfficial" or "AKSLongTermSupport", with "AKSLongTermSupport" you get 1 extra year of CVE patchs.  Allowed values: AKSLongTermSupport, KubernetesOfficial.
@@ -628,14 +628,14 @@ public record AzAksCreateOptions(
     /// <summary>
     /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g.'=namespa ces=[k8s-label-1,k8s-label- n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
     /// </summary>
-    [CliFlag("--ksm-metric-annotations-allow-list")]
-    public bool? KsmMetricAnnotationsAllowList { get; set; }
+    [CliOption("--ksm-metric-annotations-allow-list", GroupValues = true)]
+    public IEnumerable<string>? KsmMetricAnnotationsAllowList { get; set; }
 
     /// <summary>
     /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g. '=namesp aces=[k8s-label-1,k8s-label- n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
     /// </summary>
-    [CliFlag("--ksm-metric-labels-allow-list")]
-    public bool? KsmMetricLabelsAllowList { get; set; }
+    [CliOption("--ksm-metric-labels-allow-list", GroupValues = true)]
+    public IEnumerable<string>? KsmMetricLabelsAllowList { get; set; }
 
     /// <summary>
     /// Path to JSON file containing Kubelet configurations for agent nodes. https://aka.ms/aks/custom-node-config.
@@ -916,8 +916,8 @@ public record AzAksCreateOptions(
     /// <summary>
     /// A comma-separated list of CIDR notation IP ranges from which to assign pod IPs when Azure CNI Overlay or Kubenet is used (On 31 March 2028, Kubenet will be retired). Each range must not overlap with any Subnet IP ranges. For example, "172.244.0.0/16,fd0:abcd::/64". See https://aka.ms/aks/azure-cni-overlay.
     /// </summary>
-    [CliFlag("--pod-cidrs")]
-    public bool? PodCidrs { get; set; }
+    [CliOption("--pod-cidrs", GroupValues = true)]
+    public IEnumerable<string>? PodCidrs { get; set; }
 
     /// <summary>
     /// Set the ip allocation mode for how Pod IPs from the Azure Pod Subnet are allocated to the nodes in the AKS cluster. The choice is between dynamic batches of individual IPs or static allocation of a set of CIDR blocks. Accepted Values are "DynamicIndividual" or "StaticBlock". Allowed values: DynamicIndividual, StaticBlock. Used together with the "azure" network plugin. Requires --pod-subnet-id.
@@ -964,8 +964,8 @@ public record AzAksCreateOptions(
     /// <summary>
     /// A comma-separated list of CIDR notation IP ranges from which to assign service cluster IPs. Each range must not overlap with any Subnet IP ranges. For example, "10.0.0.0/16,2001:abcd::/108".
     /// </summary>
-    [CliFlag("--service-cidrs")]
-    public bool? ServiceCidrs { get; set; }
+    [CliOption("--service-cidrs", GroupValues = true)]
+    public IEnumerable<string>? ServiceCidrs { get; set; }
 
     /// <summary>
     /// Service principal used for authentication to Azure APIs.
@@ -1048,8 +1048,8 @@ public record AzAksCreateOptions(
     /// <summary>
     /// Comma-separated list of VM sizes. Valid for VirtualMachines node pool only. If `--vm-sizes` not specified but `--node-vm-size` specified, value of `--node-vm-size` will be used. If neither of them specified, defaults to Standard_DS2_v2 for Linux or Standard_D2s_v3 for Windows.
     /// </summary>
-    [CliFlag("--vm-sizes")]
-    public bool? VmSizes { get; set; }
+    [CliOption("--vm-sizes", GroupValues = true)]
+    public IEnumerable<string>? VmSizes { get; set; }
 
     /// <summary>
     /// The ID of a subnet in an existing VNet into which to deploy the cluster.

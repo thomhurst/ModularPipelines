@@ -56,8 +56,8 @@ public record AzStorageFileListOptions(
     /// <summary>
     /// A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the NextMarker value within the response body if the listing operation did not return all containers remaining to be listed with the current page. If specified, this generator will begin returning results from the point where the previous generator stopped.
     /// </summary>
-    [CliOption("--marker", GroupValues = true)]
-    public IEnumerable<string>? Marker { get; set; }
+    [CliOption("--marker")]
+    public string? Marker { get; set; }
 
     /// <summary>
     /// Specify the maximum number to return. If the request does not specify num_results, or specifies a value greater than 5000, the server will return up to 5000 items. Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remaining of the results. Provide "*" to return all.  Default: 5000.

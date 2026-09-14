@@ -57,8 +57,9 @@ public record AzAmsContentKeyPolicyCreateOptions(
     /// <summary>
     /// The password encrypting FairPlay certificate in PKCS 12 (pfx) format.
     /// </summary>
-    [CliFlag("--fair-play-pfx-password")]
-    public bool? FairPlayPfxPassword { get; set; }
+    [SecretValue]
+    [CliOption("--fair-play-pfx-password")]
+    public string? FairPlayPfxPassword { get; set; }
 
     /// <summary>
     /// Playback duration.

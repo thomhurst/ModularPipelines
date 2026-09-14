@@ -98,8 +98,8 @@ public record AzBatchPoolSetOptions(
     /// <summary>
     /// A timestamp indicating the last modified time of the resource known to the client. The operation will be performed only if the resource on the service has been modified since the specified time.
     /// </summary>
-    [CliFlag("--if-modified-since")]
-    public bool? IfModifiedSince { get; set; }
+    [CliOption("--if-modified-since")]
+    public string? IfModifiedSince { get; set; }
 
     /// <summary>
     /// An ETag value associated with the version of the resource known to the client. The operation will be performed only if the resource's current ETag on the service does not match the value specified by the client.
@@ -110,7 +110,7 @@ public record AzBatchPoolSetOptions(
     /// <summary>
     /// A timestamp indicating the last modified time of the resource known to the client. The operation will be performed only if the resource on the service has been modified since the specified time.
     /// </summary>
-    [CliFlag("--if-unmodified-since")]
-    public bool? IfUnmodifiedSince { get; set; }
+    [CliOption("--if-unmodified-since")]
+    public string? IfUnmodifiedSince { get; set; }
 
 }

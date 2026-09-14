@@ -22,7 +22,7 @@ namespace ModularPipelines.Azure.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "fs", "access", "remove-recursive")]
 public record AzStorageFsAccessRemoveRecursiveOptions(
-    [property: CliOption("--acl", GroupValues = true)] IEnumerable<string> Acl,
+    [property: CliOption("--acl")] string Acl,
     [property: CliOption("--file-system", ShortForm = "-f")] string FileSystem,
     [property: CliOption("--path", ShortForm = "-p")] string Path
 ) : AzOptions

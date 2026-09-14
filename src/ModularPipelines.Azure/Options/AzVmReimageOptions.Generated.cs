@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -29,8 +30,9 @@ public record AzVmReimageOptions : AzOptions
     /// <summary>
     /// Specifies the password of the administrator account.
     /// </summary>
-    [CliFlag("--admin-password")]
-    public bool? AdminPassword { get; set; }
+    [SecretValue]
+    [CliOption("--admin-password")]
+    public string? AdminPassword { get; set; }
 
     /// <summary>
     /// Specifies a base-64 encoded string of custom data.

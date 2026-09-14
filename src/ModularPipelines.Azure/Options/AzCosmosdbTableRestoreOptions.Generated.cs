@@ -36,7 +36,7 @@ public record AzCosmosdbTableRestoreOptions(
     /// <summary>
     /// The timestamp to which the Table needs to be restored to.
     /// </summary>
-    [CliFlag("--restore-timestamp", ShortForm = "-t")]
-    public bool? RestoreTimestamp { get; set; }
+    [CliOption("--restore-timestamp", ShortForm = "-t")]
+    public string? RestoreTimestamp { get; set; }
 
 }

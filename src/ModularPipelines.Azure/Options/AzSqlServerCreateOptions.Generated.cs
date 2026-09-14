@@ -34,8 +34,8 @@ public record AzSqlServerCreateOptions(
     /// <summary>
     /// Administrator username for the server. Oncecreated it cannot be changed.
     /// </summary>
-    [CliFlag("--admin-user", ShortForm = "-u")]
-    public bool? AdminUser { get; set; }
+    [CliOption("--admin-user", ShortForm = "-u")]
+    public string? AdminUser { get; set; }
 
     /// <summary>
     /// Generate and assign an Azure Active Directory Identity for this server for use with key management services like Azure KeyVault.

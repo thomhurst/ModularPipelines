@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -32,14 +33,15 @@ public record AzContainerappRegistrySetOptions(
     /// <summary>
     /// The password of the registry. If using Azure Container Registry, we will try to infer the credentials if not supplied.
     /// </summary>
-    [CliFlag("--password")]
-    public bool? Password { get; set; }
+    [SecretValue]
+    [CliOption("--password")]
+    public string? Password { get; set; }
 
     /// <summary>
     /// The username of the registry. If using Azure Container Registry, we will try to infer the credentials if not supplied.
     /// </summary>
-    [CliFlag("--username")]
-    public bool? Username { get; set; }
+    [CliOption("--username")]
+    public string? Username { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

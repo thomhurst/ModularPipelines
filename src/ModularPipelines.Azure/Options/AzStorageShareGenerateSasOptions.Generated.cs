@@ -68,8 +68,8 @@ public record AzStorageShareGenerateSasOptions(
     /// <summary>
     /// Specifies the UTC datetime (Y-m-d'T'H:M'Z') at which the SAS becomes invalid. Do not use if a stored access policy is referenced with --policy-name that specifies this value.
     /// </summary>
-    [CliFlag("--expiry")]
-    public bool? Expiry { get; set; }
+    [CliOption("--expiry")]
+    public string? Expiry { get; set; }
 
     /// <summary>
     /// Only permit requests made with the HTTPS protocol. If omitted, requests from both the HTTP and HTTPS protocol are permitted.
@@ -98,8 +98,8 @@ public record AzStorageShareGenerateSasOptions(
     /// <summary>
     /// Specifies the UTC datetime (Y-m-d'T'H:M'Z') at which the SAS becomes valid. Do not use if a stored access policy is referenced with --policy-name that specifies this value. Defaults to the time of the request.
     /// </summary>
-    [CliFlag("--start")]
-    public bool? Start { get; set; }
+    [CliOption("--start")]
+    public string? Start { get; set; }
 
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.

@@ -32,7 +32,7 @@ public record AzBotAuthsettingCreateOptions(
     [property: CliOption("--name", ShortForm = "-n")] string Name,
     [property: CliOption("--provider-scope-string")] string ProviderScopeString,
     [property: CliOption("--resource-group", ShortForm = "-g")] string ResourceGroup,
-    [property: CliOption("--service", GroupValues = true)] IEnumerable<string> Service,
+    [property: CliOption("--service")] string Service,
     [property: CliOption("--setting-name", ShortForm = "-c")] string SettingName
 ) : AzOptions
 {

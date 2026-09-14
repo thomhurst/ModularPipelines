@@ -38,7 +38,7 @@ public record AzCosmosdbGremlinGraphRestoreOptions(
     /// <summary>
     /// The timestamp to which the graph needs to be restored to.
     /// </summary>
-    [CliFlag("--restore-timestamp", ShortForm = "-t")]
-    public bool? RestoreTimestamp { get; set; }
+    [CliOption("--restore-timestamp", ShortForm = "-t")]
+    public string? RestoreTimestamp { get; set; }
 
 }

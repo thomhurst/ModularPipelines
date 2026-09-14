@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -376,14 +377,15 @@ public record AzVmCreateOptions(
     /// <summary>
     /// Password for the VM if authentication type is 'Password'.
     /// </summary>
-    [CliFlag("--admin-password")]
-    public bool? AdminPassword { get; set; }
+    [SecretValue]
+    [CliOption("--admin-password")]
+    public string? AdminPassword { get; set; }
 
     /// <summary>
     /// Username for the VM. Default value is current username of OS. If the default value is system reserved, then default value will be set to azureuser. Please refer to https://le arn.microsoft.com/r est/api/compute/vir tualmachines/create orupdate#osprofile to get a full list of reserved values.
     /// </summary>
-    [CliFlag("--admin-username")]
-    public bool? AdminUsername { get; set; }
+    [CliOption("--admin-username")]
+    public string? AdminUsername { get; set; }
 
     /// <summary>
     /// Type of authentication to use with the VM. Defaults to password for Windows and SSH public key for Linux. "all" enables both ssh and password authentication. Allowed values: all, password, ssh.

@@ -82,8 +82,8 @@ public record AzStorageFileGenerateSasOptions(
     /// <summary>
     /// Specifies the UTC datetime (Y-m-d'T'H:M'Z') at which the SAS becomes invalid. Do not use if a stored access policy is referenced with --policy-name that specifies this value.
     /// </summary>
-    [CliFlag("--expiry")]
-    public bool? Expiry { get; set; }
+    [CliOption("--expiry")]
+    public string? Expiry { get; set; }
 
     /// <summary>
     /// Only permit requests made with the HTTPS protocol. If omitted, requests from both the HTTP and HTTPS protocol are permitted.
@@ -112,8 +112,8 @@ public record AzStorageFileGenerateSasOptions(
     /// <summary>
     /// Specifies the UTC datetime (Y-m-d'T'H:M'Z') at which the SAS becomes valid. Do not use if a stored access policy is referenced with --policy-name that specifies this value. Defaults to the time of the request.
     /// </summary>
-    [CliFlag("--start")]
-    public bool? Start { get; set; }
+    [CliOption("--start")]
+    public string? Start { get; set; }
 
     /// <summary>
     /// Specifies the Entra ID of the user that is authorized to use the resulting SAS URL. The resulting SAS URL must be used in conjunction with an Entra ID token that has been issued to the user specified in this value.

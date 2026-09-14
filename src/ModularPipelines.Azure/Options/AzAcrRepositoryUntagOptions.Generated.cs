@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -28,8 +29,9 @@ public record AzAcrRepositoryUntagOptions(
     /// <summary>
     /// The password used to log into a container registry.
     /// </summary>
-    [CliFlag("--password", ShortForm = "-p")]
-    public bool? Password { get; set; }
+    [SecretValue]
+    [CliOption("--password", ShortForm = "-p")]
+    public string? Password { get; set; }
 
     /// <summary>
     /// The tenant suffix in registry login server. You may specify '--suffix tenant' if your registry login server is in the format 'registry- tenant.azurecr.io'. Applicable if you're accessing the registry from a different subscription or you have permission to access images but not the permission to manage the registry resource.
@@ -40,7 +42,7 @@ public record AzAcrRepositoryUntagOptions(
     /// <summary>
     /// The username used to log into a container registry.
     /// </summary>
-    [CliFlag("--username", ShortForm = "-u")]
-    public bool? Username { get; set; }
+    [CliOption("--username", ShortForm = "-u")]
+    public string? Username { get; set; }
 
 }

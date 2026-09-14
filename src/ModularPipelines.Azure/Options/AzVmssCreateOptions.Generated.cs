@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -238,8 +239,8 @@ public record AzVmssCreateOptions(
     /// <summary>
     /// Specify a list of availability zones that must be excluded from placement when --zone-placement-policy is set to Auto. If not specified, no availability zones are excluded.
     /// </summary>
-    [CliFlag("--exclude-zones")]
-    public bool? ExcludeZones { get; set; }
+    [CliOption("--exclude-zones", GroupValues = true)]
+    public IEnumerable<string>? ExcludeZones { get; set; }
 
     /// <summary>
     /// Probe name from the existing load balancer, mainly used for rolling upgrade or automatic repairs.
@@ -274,8 +275,8 @@ public record AzVmssCreateOptions(
     /// <summary>
     /// Specify a list of availability zones that must be considered for placement when --zone-placement-policy is set to Auto. If not specified, all availability zones in the region are considered.
     /// </summary>
-    [CliFlag("--include-zones")]
-    public bool? IncludeZones { get; set; }
+    [CliOption("--include-zones", GroupValues = true)]
+    public IEnumerable<string>? IncludeZones { get; set; }
 
     /// <summary>
     /// Number of VMs in the scale set. Default: 2.
@@ -544,14 +545,15 @@ public record AzVmssCreateOptions(
     /// <summary>
     /// Password for the VM if authentication type is 'Password'.
     /// </summary>
-    [CliFlag("--admin-password")]
-    public bool? AdminPassword { get; set; }
+    [SecretValue]
+    [CliOption("--admin-password")]
+    public string? AdminPassword { get; set; }
 
     /// <summary>
     /// Username for the VM. Default value is current username of OS. If the default value is system reserved, then default value will be set to azureuser. Please refer to https://le arn.microsoft.com/r est/api/compute/vir tualmachines/create orupdate#osprofile to get a full list of reserved values.
     /// </summary>
-    [CliFlag("--admin-username")]
-    public bool? AdminUsername { get; set; }
+    [CliOption("--admin-username")]
+    public string? AdminUsername { get; set; }
 
     /// <summary>
     /// Type of authentication to use with the VM. Defaults to password for Windows and SSH public key for Linux. "all" enables both ssh and password authentication. Allowed values: all, password, ssh.

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -44,8 +45,9 @@ public record AzSfClusterCreateOptions(
     /// <summary>
     /// The password of the certificate file.
     /// </summary>
-    [CliFlag("--certificate-password")]
-    public bool? CertificatePassword { get; set; }
+    [SecretValue]
+    [CliOption("--certificate-password")]
+    public string? CertificatePassword { get; set; }
 
     /// <summary>
     /// Specify the name of the cluster, if not given it will be same as resource group name.
@@ -104,8 +106,9 @@ public record AzSfClusterCreateOptions(
     /// <summary>
     /// The password of the Vm.
     /// </summary>
-    [CliFlag("--vm-password")]
-    public bool? VmPassword { get; set; }
+    [SecretValue]
+    [CliOption("--vm-password")]
+    public string? VmPassword { get; set; }
 
     /// <summary>
     /// VM Sku.

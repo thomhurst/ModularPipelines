@@ -148,8 +148,8 @@ public record AzStorageBlobCopyStartOptions(
     /// <summary>
     /// A DateTime value. Azure expects the date value passed in to be UTC. If timezone is included, any non-UTC datetimes will be converted to UTC. If a date is passed in without timezone info, it is assumed to be UTC. Specify this conditional header to copy the blob only if the destination blob has been modified since the specified date/time. If the destination blob has not been modified, the Blob service returns status code 412 (Precondition Failed).
     /// </summary>
-    [CliFlag("--destination-if-modified-since")]
-    public bool? DestinationIfModifiedSince { get; set; }
+    [CliOption("--destination-if-modified-since")]
+    public string? DestinationIfModifiedSince { get; set; }
 
     /// <summary>
     /// An ETag value, or the wildcard character (*). Specify this header to perform the operation only if the resource's ETag does not match the value specified. Specify the wildcard character (*) to perform the operation only if the resource does not exist, and fail the operation if it does exist.
@@ -160,8 +160,8 @@ public record AzStorageBlobCopyStartOptions(
     /// <summary>
     /// A DateTime value. Azure expects the date value passed in to be UTC. If timezone is included, any non-UTC datetimes will be converted to UTC. If a date is passed in without timezone info, it is assumed to be UTC. Specify this conditional header to copy the blob only if the destination blob has not been modified since the specified date/time. If the destination blob has been modified, the Blob service returns status code 412 (Precondition Failed).
     /// </summary>
-    [CliFlag("--destination-if-unmodified-since")]
-    public bool? DestinationIfUnmodifiedSince { get; set; }
+    [CliOption("--destination-if-unmodified-since")]
+    public string? DestinationIfUnmodifiedSince { get; set; }
 
     /// <summary>
     /// Specify a SQL where clause on blob tags to operate only on blobs with a matching value.

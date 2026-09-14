@@ -38,8 +38,8 @@ public record AzMonitorMetricsListOptions(
     /// <summary>
     /// A string used to reduce the set of metric data returned. eg. "BlobType eq '*'". For a full list of filters, see the filter string reference at https://learn.microsoft.com/rest/api/monitor/metrics/list.
     /// </summary>
-    [CliOption("--filter", GroupValues = true)]
-    public IEnumerable<string>? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Returns the metadata values instead of metric data.

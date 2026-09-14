@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -50,8 +51,9 @@ public record AzContainerappGithubActionAddOptions(
     /// <summary>
     /// The password of the registry. If using Azure Container Registry, we will try to infer the credentials if not supplied.
     /// </summary>
-    [CliFlag("--registry-password")]
-    public bool? RegistryPassword { get; set; }
+    [SecretValue]
+    [CliOption("--registry-password")]
+    public string? RegistryPassword { get; set; }
 
     /// <summary>
     /// The container registry server, e.g. myregistry.azurecr.io.
@@ -62,8 +64,8 @@ public record AzContainerappGithubActionAddOptions(
     /// <summary>
     /// The username of the registry. If using Azure Container Registry, we will try to infer the credentials if not supplied.
     /// </summary>
-    [CliFlag("--registry-username")]
-    public bool? RegistryUsername { get; set; }
+    [CliOption("--registry-username")]
+    public string? RegistryUsername { get; set; }
 
     /// <summary>
     /// The service principal client ID.

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -32,8 +33,9 @@ public record AzAcrRepositoryDeleteOptions(
     /// <summary>
     /// The password used to log into a container registry.
     /// </summary>
-    [CliFlag("--password", ShortForm = "-p")]
-    public bool? Password { get; set; }
+    [SecretValue]
+    [CliOption("--password", ShortForm = "-p")]
+    public string? Password { get; set; }
 
     /// <summary>
     /// The name of the repository.
@@ -50,8 +52,8 @@ public record AzAcrRepositoryDeleteOptions(
     /// <summary>
     /// The username used to log into a container registry.
     /// </summary>
-    [CliFlag("--username", ShortForm = "-u")]
-    public bool? Username { get; set; }
+    [CliOption("--username", ShortForm = "-u")]
+    public string? Username { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

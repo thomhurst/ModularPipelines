@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -101,8 +102,9 @@ public record AzSqlVmUpdateOptions : AzOptions
     /// <summary>
     /// Password for encryption on backup.
     /// </summary>
-    [CliFlag("--backup-pwd")]
-    public bool? BackupPwd { get; set; }
+    [SecretValue]
+    [CliOption("--backup-pwd")]
+    public string? BackupPwd { get; set; }
 
     /// <summary>
     /// Backup schedule type.  Allowed values: Automated, Manual.

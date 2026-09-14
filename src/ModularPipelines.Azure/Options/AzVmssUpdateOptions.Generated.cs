@@ -179,8 +179,8 @@ public record AzVmssUpdateOptions : AzOptions
     /// <summary>
     /// Specify a list of availability zones that must be excluded from placement when --zone-placement-policy is set to Auto. If not specified, no availability zones are excluded.
     /// </summary>
-    [CliFlag("--exclude-zones")]
-    public bool? ExcludeZones { get; set; }
+    [CliOption("--exclude-zones", GroupValues = true)]
+    public IEnumerable<string>? ExcludeZones { get; set; }
 
     /// <summary>
     /// Specify the access control profile version resource id resource id of imds.
@@ -197,8 +197,8 @@ public record AzVmssUpdateOptions : AzOptions
     /// <summary>
     /// Specify a list of availability zones that must be considered for placement when --zone-placement-policy is set to Auto. If not specified, all availability zones in the region are considered.
     /// </summary>
-    [CliFlag("--include-zones")]
-    public bool? IncludeZones { get; set; }
+    [CliOption("--include-zones", GroupValues = true)]
+    public IEnumerable<string>? IncludeZones { get; set; }
 
     /// <summary>
     /// Specify whether maximum percentage of virtual machine instances per zone policy should be enabled on the virtual machine scale set.  Allowed values: false, true.
