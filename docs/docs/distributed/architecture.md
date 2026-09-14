@@ -108,18 +108,47 @@ bound concurrency within each node, but do not coordinate a shared limit across 
 
 `IExecutionBackend` is the public orchestration seam. It receives the planned modules,
 their historical duration estimates keyed by module type (used to prioritise scheduling),
-an `IExecutionBackendContext`, and the pipeline cancellation token. A backend supplies
-results: it can submit modules to an external scheduler or remote processes and return the
-results they produce, or apply results it computed by other means. The engine's own module
-runner (dependency-injection scopes, hooks, artifact handling, retries and logging) is not
-public, so a custom backend cannot drive a module through that lifecycle in-process; the
-built-in local and distributed backends remain the only ones that execute modules
-themselves. Set `OwnsEntirePlan` to `true` when the backend is responsible for completing
+an `IExecutionBackendContext`, and the pipeline cancellation token. A backend can submit
+modules to external processes and apply their results, or call
+`context.ExecuteModuleAsync(module, cancellationToken)` to execute a planned module in
+this process. The public method uses the same engine runner as the built-in local backend,
+including dependency waits, concurrency constraints, dependency-injection scopes, hooks,
+retries, artifact handling, logging, and secret masking.
+
+Set `OwnsEntirePlan` to `true` when the backend is responsible for completing
 every planned module; before returning, such a backend must supply every result either in
 its returned result list or through `IExecutionBackendContext.TryApplyResult`. A partial
 backend sets `OwnsEntirePlan` to `false` and supplies only the results owned by that process.
 Applying a result through the context immediately completes the local module awaitable,
 allowing dependent work to observe remotely produced results.
+
+An in-process backend can request all planned modules concurrently. The engine waits for
+their dependencies and enforces module constraints:
+
+```csharp
+public sealed class MyExecutionBackend : IExecutionBackend
+{
+    public bool OwnsEntirePlan => true;
+
+    public async Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations,
+        IExecutionBackendContext context,
+        CancellationToken cancellationToken)
+    {
+        return await Task.WhenAll(modules.Select(module =>
+            context.ExecuteModuleAsync(module, cancellationToken)));
+    }
+}
+```
+
+Use the exact module instances and context supplied to the backend. Request execution of
+each dependency, or apply its remote result, before awaiting a dependent module alone.
+Concurrent requests for one module share its execution; the first request's cancellation
+token controls the execution, and later callers can cancel their own waits. Await all
+requests before returning. A completed request includes module hooks and scope disposal,
+and failures follow the pipeline's configured failure policy. Do not apply a remote result
+to a module whose local execution is still in progress.
 
 Register a custom backend before building the pipeline:
 

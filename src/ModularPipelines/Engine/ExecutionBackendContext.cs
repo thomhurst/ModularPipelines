@@ -7,6 +7,9 @@ internal sealed class ExecutionBackendContext(IModuleResultRegistry resultRegist
 {
     private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
 
+    public Task<IModuleResult> ExecuteModuleAsync(IModule module, CancellationToken cancellationToken = default) =>
+        throw new InvalidOperationException("Module execution requires the context passed to IExecutionBackend.ExecuteAsync.");
+
     public bool TryApplyResult(IModule module, IModuleResult result)
     {
         ArgumentNullException.ThrowIfNull(module);

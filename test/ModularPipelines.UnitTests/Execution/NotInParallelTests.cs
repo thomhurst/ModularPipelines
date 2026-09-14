@@ -1,3 +1,4 @@
+using ModularPipelines.ExecutionBackend.TestFixtures;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
@@ -52,11 +53,19 @@ public class NotInParallelTests : TestBase
     }
 
     [Test]
-    public async Task NotInParallel()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task NotInParallel(bool customBackend)
     {
         Tracker.Reset();
 
-        await TestPipelineBuilder.Create()
+        var builder = TestPipelineBuilder.Create();
+        if (customBackend)
+        {
+            builder.AddExecutionBackend<InProcessExecutionBackend>();
+        }
+
+        await builder
             .AddModule<Module1>()
             .AddModule<Module2>()
             .RunAsync();

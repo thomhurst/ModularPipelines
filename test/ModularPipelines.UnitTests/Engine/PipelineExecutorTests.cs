@@ -230,10 +230,18 @@ public class PipelineExecutorTests
                 It.IsAny<DateTimeOffset>()))
             .Returns(new PipelineSummary([], [], TimeSpan.Zero, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow));
 
+        var contextFactory = new Mock<IExecutionBackendContextFactory>();
+        contextFactory.Setup(factory => factory.Create(
+                It.IsAny<IExecutionBackendContext>(),
+                It.IsAny<IReadOnlyList<IModule>>(),
+                It.IsAny<IReadOnlyDictionary<Type, TimeSpan>>()))
+            .Returns(executionBackendContext);
+
         return new PipelineExecutor(
             pipelineSetupExecutor.Object,
             executionBackend.Object,
             executionBackendContext,
+            contextFactory.Object,
             engineCancellationToken,
             NullLogger<PipelineExecutor>.Instance,
             exceptionRethrowService,

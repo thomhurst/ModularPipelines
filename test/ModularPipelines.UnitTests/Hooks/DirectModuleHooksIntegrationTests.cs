@@ -238,12 +238,19 @@ public class DirectModuleHooksIntegrationTests : TestBase
     }
 
     [Test]
-    public async Task Global_Attribute_And_Module_Hooks_Have_Documented_Order()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Global_Attribute_And_Module_Hooks_Have_Documented_Order(bool customBackend)
     {
-        var host = await TestPipelineBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule<OrderedHooksModule>()
-            .AddModuleEventHandler<RecordingModuleEventHandler>()
-            .BuildAsync();
+            .AddModuleEventHandler<RecordingModuleEventHandler>();
+        if (customBackend)
+        {
+            builder.AddExecutionBackend<ModularPipelines.ExecutionBackend.TestFixtures.InProcessExecutionBackend>();
+        }
+
+        await using var host = await builder.BuildAsync();
 
         await host.RunAsync();
 

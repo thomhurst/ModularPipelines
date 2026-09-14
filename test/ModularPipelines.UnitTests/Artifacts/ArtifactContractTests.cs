@@ -1,3 +1,4 @@
+using ModularPipelines.ExecutionBackend.TestFixtures;
 using ModularPipelines.Reporting;
 using ModularPipelines.Events;
 using System.Collections.Concurrent;
@@ -70,10 +71,16 @@ public class ArtifactContractTests
     }
 
     [Test]
-    public async Task ArtifactLifecycleLoggingUsesAmbientModuleLogger()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task ArtifactLifecycleLoggingUsesAmbientModuleLogger(bool customBackend)
     {
         var loggerProvider = new RecordingLoggerProvider();
         var builder = TestPipelineBuilder.Create();
+        if (customBackend)
+        {
+            builder.AddExecutionBackend<InProcessExecutionBackend>();
+        }
         builder.ConfigureServices(services => services.AddLogging(logging => logging.AddProvider(loggerProvider)));
         builder.AddModule<AmbientArtifactLoggingProducerModule>();
         builder.AddModule<AmbientArtifactLoggingConsumerModule>();
@@ -1579,7 +1586,10 @@ public class ArtifactContractTests
     }
 
     [Test]
-    public async Task StandaloneExecutionRestoresConsumedArtifact()
+    [Arguments(false, false)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task StandaloneExecutionRestoresConsumedArtifact(bool customBackend, bool distributedMode)
     {
         DeleteLocalArtifacts();
         LocalConsumerModule.ConsumedContent = null;
@@ -1589,6 +1599,18 @@ public class ArtifactContractTests
         try
         {
             var builder = Pipeline.CreateBuilder();
+            if (distributedMode)
+            {
+                builder.AddDistributedMode(options =>
+                {
+                    options.TotalInstances = 2;
+                    options.RunId = "in-process-artifact-test";
+                });
+            }
+            if (customBackend)
+            {
+                builder.AddExecutionBackend<InProcessExecutionBackend>();
+            }
             builder.AddModule<LocalProducerModule>();
             builder.AddModule<LocalConsumerModule>();
 
@@ -1741,13 +1763,19 @@ public class ArtifactContractTests
     }
 
     [Test]
-    public async Task StandaloneExecutionUploadsArtifactsAfterModuleAfterHook()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task StandaloneExecutionUploadsArtifactsAfterModuleAfterHook(bool customBackend)
     {
         DeleteLocalArtifacts();
 
         try
         {
             var builder = Pipeline.CreateBuilder();
+            if (customBackend)
+            {
+                builder.AddExecutionBackend<InProcessExecutionBackend>();
+            }
             builder.AddModule<AfterHookArtifactProducerModule>();
             builder.AddModule<AfterHookArtifactConsumerModule>();
 
@@ -1765,13 +1793,19 @@ public class ArtifactContractTests
     }
 
     [Test]
-    public async Task StandaloneExecutionUploadsArtifactsAfterModuleEndHandler()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task StandaloneExecutionUploadsArtifactsAfterModuleEndHandler(bool customBackend)
     {
         DeleteLocalArtifacts();
 
         try
         {
             var builder = Pipeline.CreateBuilder();
+            if (customBackend)
+            {
+                builder.AddExecutionBackend<InProcessExecutionBackend>();
+            }
             builder.AddModuleEventHandler<EndHookArtifactHandler>();
             builder.AddModule<AfterHookArtifactProducerModule>();
             builder.AddModule<AfterHookArtifactConsumerModule>();
@@ -1895,8 +1929,8 @@ public class ArtifactContractTests
 
         try
         {
-        var builder = Pipeline.CreateBuilder();
-        builder.ConfigureOptions(options => options with
+            var builder = Pipeline.CreateBuilder();
+            builder.ConfigureOptions(options => options with
             {
                 SkippedModules = [nameof(LocalConsumerModule)],
             });
@@ -2127,8 +2161,8 @@ public class ArtifactContractTests
 
         try
         {
-        var builder = Pipeline.CreateBuilder();
-        builder.ConfigureOptions(options => options with
+            var builder = Pipeline.CreateBuilder();
+            builder.ConfigureOptions(options => options with
             {
                 SkippedModules = [nameof(SkippedArtifactConsumerModule)],
             });
@@ -2197,8 +2231,8 @@ public class ArtifactContractTests
 
         try
         {
-        var builder = Pipeline.CreateBuilder();
-        builder.ConfigureOptions(options => options with
+            var builder = Pipeline.CreateBuilder();
+            builder.ConfigureOptions(options => options with
             {
                 SkippedModules = [nameof(SkippedArtifactProducerModule)],
             });
@@ -2307,8 +2341,8 @@ public class ArtifactContractTests
 
         try
         {
-        var builder = Pipeline.CreateBuilder();
-        builder.ConfigureOptions(options => options with
+            var builder = Pipeline.CreateBuilder();
+            builder.ConfigureOptions(options => options with
             {
                 SkippedModules = [nameof(SkippedArtifactProducerModule)],
             });
@@ -2355,8 +2389,8 @@ public class ArtifactContractTests
 
         try
         {
-        var builder = Pipeline.CreateBuilder();
-        builder.ConfigureOptions(options => options with
+            var builder = Pipeline.CreateBuilder();
+            builder.ConfigureOptions(options => options with
             {
                 SkippedModules = [nameof(SkippedArtifactProducerModule)],
             });
@@ -2480,8 +2514,8 @@ public class ArtifactContractTests
 
         try
         {
-        var builder = Pipeline.CreateBuilder();
-        builder.ConfigureOptions(options => options with
+            var builder = Pipeline.CreateBuilder();
+            builder.ConfigureOptions(options => options with
             {
                 SkippedModules = [nameof(SkippedArtifactProducerModule)],
             });
@@ -2524,12 +2558,12 @@ public class ArtifactContractTests
 
         try
         {
-        var builder = Pipeline.CreateBuilder();
-        builder.ConfigureOptions(options => options with
+            var builder = Pipeline.CreateBuilder();
+            builder.ConfigureOptions(options => options with
             {
                 SkippedModules =
-                [
-                    nameof(SkippedArtifactProducerModule),
+                    [
+                        nameof(SkippedArtifactProducerModule),
                     nameof(DependencyOrderedSkippedArtifactProducerModule),
                 ],
             });
@@ -2571,12 +2605,12 @@ public class ArtifactContractTests
 
         try
         {
-        var builder = Pipeline.CreateBuilder();
-        builder.ConfigureOptions(options => options with
+            var builder = Pipeline.CreateBuilder();
+            builder.ConfigureOptions(options => options with
             {
                 SkippedModules =
-                [
-                    nameof(SkippedArtifactProducerModule),
+                    [
+                        nameof(SkippedArtifactProducerModule),
                     nameof(DependencyOrderedSkippedArtifactProducerModule),
                 ],
             });
@@ -2676,12 +2710,12 @@ public class ArtifactContractTests
 
         try
         {
-        var builder = Pipeline.CreateBuilder();
-        builder.ConfigureOptions(options => options with
+            var builder = Pipeline.CreateBuilder();
+            builder.ConfigureOptions(options => options with
             {
                 SkippedModules =
-                [
-                    nameof(SkippedArtifactBlockerModule),
+                    [
+                        nameof(SkippedArtifactBlockerModule),
                     nameof(DependencyOrderedSkippedArtifactProducerModule),
                 ],
             });
@@ -2719,12 +2753,12 @@ public class ArtifactContractTests
 
         try
         {
-        var builder = Pipeline.CreateBuilder();
-        builder.ConfigureOptions(options => options with
+            var builder = Pipeline.CreateBuilder();
+            builder.ConfigureOptions(options => options with
             {
                 SkippedModules =
-                [
-                    nameof(SkippedArtifactBlockerModule),
+                    [
+                        nameof(SkippedArtifactBlockerModule),
                     nameof(DependencyOrderedSkippedArtifactProducerModule),
                 ],
             });
@@ -2798,12 +2832,12 @@ public class ArtifactContractTests
 
         try
         {
-        var builder = Pipeline.CreateBuilder();
-        builder.ConfigureOptions(options => options with
+            var builder = Pipeline.CreateBuilder();
+            builder.ConfigureOptions(options => options with
             {
                 SkippedModules =
-                [
-                    nameof(SkippedArtifactProducerModule),
+                    [
+                        nameof(SkippedArtifactProducerModule),
                     nameof(SkippedArtifactConsumerModule),
                 ],
             });
@@ -2838,8 +2872,8 @@ public class ArtifactContractTests
 
         try
         {
-        var builder = Pipeline.CreateBuilder();
-        builder.ConfigureOptions(options => options with
+            var builder = Pipeline.CreateBuilder();
+            builder.ConfigureOptions(options => options with
             {
                 SkippedModules = [nameof(SkippedArtifactConsumerModule)],
             });

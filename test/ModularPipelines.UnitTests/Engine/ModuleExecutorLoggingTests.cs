@@ -77,6 +77,10 @@ public class ModuleExecutorLoggingTests
         var scheduler = new Mock<IModuleScheduler>();
         scheduler.SetupGet(x => x.ReadyModules).Returns(readyModules.Reader);
         scheduler.Setup(x => x.RunSchedulerAsync(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+        var states = new IModule[] { running, queued, alwaysRun }
+            .ToDictionary(module => module.GetType(), module => new ModuleState(module, module.GetType()));
+        scheduler.Setup(x => x.GetModuleState(It.IsAny<Type>()))
+            .Returns((Type moduleType) => states[moduleType]);
         var factory = new Mock<IModuleSchedulerFactory>();
         factory.Setup(x => x.Create()).Returns(scheduler.Object);
         var limits = new Mock<IParallelLimitProvider>();
@@ -95,6 +99,8 @@ public class ModuleExecutorLoggingTests
                 {
                     token.ThrowIfCancellationRequested();
                     alwaysRunCompleted = true;
+                    alwaysRun.CompletionSource.TrySetResult(
+                        ModuleResult<bool>.CreateSuccess(true, new ModuleExecutionContext(alwaysRun, alwaysRun.GetType())));
                 }
             });
         var registry = new ModuleResultRegistry();
@@ -541,6 +547,8 @@ public class ModuleExecutorLoggingTests
                 }
 
                 laterModuleRan = true;
+                ((LaterModule) moduleState.Module).CompletionSource.TrySetResult(
+                    ModuleResult<bool>.CreateSuccess(true, new ModuleExecutionContext(moduleState.Module, moduleState.ModuleType)));
                 moduleState.Scheduler.MarkModuleCompleted(moduleState.ModuleType, success: true);
                 return Task.CompletedTask;
             });
@@ -600,6 +608,11 @@ public class ModuleExecutorLoggingTests
                 It.IsAny<ModuleStatus?>()))
             .Throws(new InvalidOperationException("Recovery fault"));
 
+        scheduler.Setup(x => x.GetModuleState(typeof(FaultingModule)))
+            .Returns(new ModuleState(faultingModule, typeof(FaultingModule)));
+        scheduler.Setup(x => x.GetModuleState(typeof(LaterModule)))
+            .Returns(new ModuleState(laterModule, typeof(LaterModule)));
+
         var schedulerFactory = new Mock<IModuleSchedulerFactory>();
         schedulerFactory.Setup(x => x.Create()).Returns(scheduler.Object);
 
@@ -624,6 +637,8 @@ public class ModuleExecutorLoggingTests
                 }
 
                 laterModuleRan = true;
+                ((LaterModule) moduleState.Module).CompletionSource.TrySetResult(
+                    ModuleResult<bool>.CreateSuccess(true, new ModuleExecutionContext(moduleState.Module, moduleState.ModuleType)));
                 return Task.CompletedTask;
             });
 
@@ -763,6 +778,12 @@ public class ModuleExecutorLoggingTests
         scheduler.SetupGet(x => x.ReadyModules).Returns(readyModules.Reader);
         scheduler.Setup(x => x.RunSchedulerAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
+
+        scheduler.Setup(x => x.GetModuleState(typeof(FaultingModule)))
+            .Returns(new ModuleState(faultingModule, typeof(FaultingModule)));
+        scheduler.Setup(x => x.GetModuleState(typeof(LaterModule)))
+            .Returns(new ModuleState(laterModule, typeof(LaterModule)));
+        scheduler.Setup(x => x.CancelPendingModules()).Returns([]);
 
         var schedulerFactory = new Mock<IModuleSchedulerFactory>();
         schedulerFactory.Setup(x => x.Create()).Returns(scheduler.Object);

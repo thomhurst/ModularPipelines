@@ -36,16 +36,23 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
     }
 
     [Test]
-    public async Task NotInParallel_If_Same_ConstraintKey()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task NotInParallel_If_Same_ConstraintKey(bool customBackend)
     {
         Tracker.Reset();
 
-        await TestPipelineBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule<ModuleWithAConstraintKey1>()
             .AddModule<ModuleWithAConstraintKey2>()
             .AddModule<ModuleWithBConstraintKey1>()
-            .AddModule<ModuleWithBConstraintKey2>()
-            .RunAsync();
+            .AddModule<ModuleWithBConstraintKey2>();
+        if (customBackend)
+        {
+            builder.AddExecutionBackend<ModularPipelines.ExecutionBackend.TestFixtures.InProcessExecutionBackend>();
+        }
+
+        await builder.RunAsync();
 
         await Assert.That(Tracker.Violations).IsEmpty();
     }

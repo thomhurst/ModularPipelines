@@ -39,7 +39,7 @@ internal class ModuleExecutor(
     IModuleMetadataRegistry metadataRegistry,
     ISecondaryExceptionContainer secondaryExceptionContainer,
     IOptions<PipelineOptions> pipelineOptions,
-    ILogger<ModuleExecutor> logger) : IExecutionBackend
+    ILogger<ModuleExecutor> logger) : IExecutionBackend, IExecutionBackendContextFactory
 {
     private readonly IModuleSchedulerFactory _schedulerFactory = schedulerFactory;
     private readonly IModuleRunner _moduleRunner = moduleRunner;
@@ -76,12 +76,15 @@ internal class ModuleExecutor(
             return [];
         }
 
+        var localContext = context as InProcessExecutionBackendContext
+            ?? CreateContext(context, modules, estimatedDurations);
+        await using var contextLifetime = localContext.ConfigureAwait(false);
         IModuleScheduler? scheduler = null;
 
         try
         {
-            scheduler = await InitializeSchedulerAsync(modules, estimatedDurations).ConfigureAwait(false);
-            await ExecuteWithSchedulerAsync(modules, scheduler, cancellationToken).ConfigureAwait(false);
+            scheduler = await localContext.GetSchedulerAsync().ConfigureAwait(false);
+            await ExecuteWithSchedulerAsync(modules, scheduler, localContext, cancellationToken).ConfigureAwait(false);
             return _resultRegistry.GetCompletedResults(modules);
         }
         catch (Exception outerEx)
@@ -122,6 +125,18 @@ internal class ModuleExecutor(
 
     internal Task<IReadOnlyList<IModuleResult>> ExecuteAsync(IReadOnlyList<IModule> modules) =>
         ExecuteAsync(modules, new Dictionary<Type, TimeSpan>());
+
+    IExecutionBackendContext IExecutionBackendContextFactory.Create(
+        IExecutionBackendContext resultContext,
+        IReadOnlyList<IModule> modules,
+        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations) =>
+        CreateContext(resultContext, modules, estimatedDurations);
+
+    private InProcessExecutionBackendContext CreateContext(
+        IExecutionBackendContext resultContext,
+        IReadOnlyList<IModule> modules,
+        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations) =>
+        new(resultContext, _moduleRunner, modules, () => InitializeSchedulerAsync(modules, estimatedDurations));
 
     internal Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
         IReadOnlyList<IModule> modules,
@@ -183,6 +198,7 @@ internal class ModuleExecutor(
     private async Task ExecuteWithSchedulerAsync(
         IReadOnlyList<IModule> modules,
         IModuleScheduler scheduler,
+        IExecutionBackendContext context,
         CancellationToken cancellationToken)
     {
         // Cancel ordinary module execution with the caller, but keep scheduling alive
@@ -197,7 +213,7 @@ internal class ModuleExecutor(
 
         try
         {
-            firstFailure = await ExecuteWorkerPoolAsync(scheduler, cancellationTokenSource, cancellationToken)
+            firstFailure = await ExecuteWorkerPoolAsync(scheduler, context, cancellationTokenSource, cancellationToken)
                 .ConfigureAwait(false);
         }
         catch (Exception exception)
@@ -253,6 +269,7 @@ internal class ModuleExecutor(
 
     private async Task<WorkerFailure?> ExecuteWorkerPoolAsync(
         IModuleScheduler scheduler,
+        IExecutionBackendContext context,
         CancellationTokenSource cancellationTokenSource,
         CancellationToken cancellationToken)
     {
@@ -283,7 +300,7 @@ internal class ModuleExecutor(
                     try
                     {
                         executionToken.ThrowIfCancellationRequested();
-                        await _moduleRunner.ExecuteAsync(moduleState, executionToken).ConfigureAwait(false);
+                        await context.ExecuteModuleAsync(moduleState.Module, executionToken).ConfigureAwait(false);
                     }
                     catch (OperationCanceledException ex) when (
                         cancellationToken.IsCancellationRequested

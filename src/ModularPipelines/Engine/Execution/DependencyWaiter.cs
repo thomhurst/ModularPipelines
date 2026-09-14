@@ -33,7 +33,7 @@ internal class DependencyWaiter : IDependencyWaiter
             {
                 try
                 {
-                    await dependencyTask.ConfigureAwait(false);
+                    await dependencyTask.WaitAsync(workerCancellationToken).ConfigureAwait(false);
                 }
                 catch (Exception e) when (moduleState.Module.Configuration.AlwaysRun)
                 {

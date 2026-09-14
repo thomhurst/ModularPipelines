@@ -139,6 +139,7 @@ internal class ModuleRunner : IModuleRunner
         bool skipDependencyWait)
     {
         var module = moduleState.Module;
+        moduleState.ExecutionDeferred = false;
         var moduleType = moduleState.ModuleType;
         var moduleName = moduleType.Name;
         var limiterCancellationToken = default(CancellationToken);
@@ -204,6 +205,7 @@ internal class ModuleRunner : IModuleRunner
                 // until this point prevents limiter wait time from being reported as execution time.
                 if (!TryMarkModuleStarted(scheduler, moduleType))
                 {
+                    moduleState.ExecutionDeferred = true;
                     readyLogger ??= GetAmbientOrScopedModuleLogger(
                         scope.ServiceProvider,
                         moduleType) as IInternalModuleLogger;
@@ -448,12 +450,15 @@ internal class ModuleRunner : IModuleRunner
         }
     }
 
+    private bool ManageArtifactsLocally(IModuleScheduler? scheduler) =>
+        _manageArtifactsLocally || scheduler is not null;
+
     private async Task UploadProducedArtifactsAsync(
         Type moduleType,
         IModuleScheduler? scheduler,
         CancellationToken cancellationToken)
     {
-        if (!_manageArtifactsLocally
+        if (!ManageArtifactsLocally(scheduler)
             || !_localArtifactConsumers.TryGetValue(moduleType, out var consumersByArtifact))
         {
             return;
@@ -559,7 +564,7 @@ internal class ModuleRunner : IModuleRunner
         IModuleScheduler? scheduler,
         CancellationToken cancellationToken)
     {
-        if (!_manageArtifactsLocally || !_localArtifactConsumers.ContainsKey(producerType))
+        if (!ManageArtifactsLocally(scheduler) || !_localArtifactConsumers.ContainsKey(producerType))
         {
             return false;
         }
@@ -1155,7 +1160,7 @@ internal class ModuleRunner : IModuleRunner
             .ConfigureAwait(false);
         await _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, executionContext.Status, result).ConfigureAwait(false);
 
-        if (!_manageArtifactsLocally
+        if (!ManageArtifactsLocally(scheduler)
             || executionContext.Status is not (
                 ModuleStatus.Succeeded or ModuleStatus.RestoredFromHistory or ModuleStatus.RestoredFromCache))
         {
@@ -1246,7 +1251,7 @@ internal class ModuleRunner : IModuleRunner
         Func<IModuleResult, CancellationToken, Task> finalizeExecutionAsync,
         CancellationToken cancellationToken)
     {
-        Func<CancellationToken, Task>? prepareExecutionAsync = _manageArtifactsLocally
+        Func<CancellationToken, Task>? prepareExecutionAsync = ManageArtifactsLocally(scheduler)
             ? token => _artifactLifecycleManager.DownloadConsumedArtifactsAsync(
                 module.GetType(),
                 failIfMissing: true,
