@@ -127,6 +127,11 @@ public class RepeatableOptionAdapterTests
     [Arguments("Supports multiple values.", true)]
     [Arguments("Takes multiple values.", true)]
     [Arguments("Value can contain multiple values.", true)]
+    [Arguments("Repeat or comma-separate for multiple", true)]
+    [Arguments("Repeat or comma-separate for multiple values.", true)]
+    [Arguments("Repeat or comma-separate for\n                    multiple values.", true)]
+    [Arguments("Repeat the operation for multiple retries.", false)]
+    [Arguments("Comma-separated values in a single argument.", false)]
     public async Task Packer_Classifies_Explicit_Repeatability_Prose(
         string description,
         bool expected)

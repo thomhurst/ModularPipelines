@@ -1734,6 +1734,7 @@ public abstract partial class CliScraperBase : ICliScraper
         @"\b(?:"
         + @"repeatable"
         + @"|repeat\s+to\s+add\s+more"
+        + @"|repeat\s+or\s+comma-separate\s+for\s+multiple"
         + @"|(?:can|may|must|should)\s+be\s+repeated"
         + @"|(?:is|are)\s+repeated"
         + @"|multiples?\s+(?:are\s+)?supported\s+by\s+passing\s+--?[\w-]+\s+multiple\s+times"

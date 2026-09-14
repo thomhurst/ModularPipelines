@@ -7,6 +7,22 @@ namespace ModularPipelines.Node.UnitTests.Api;
 public class PnpmCommandRenderingTests : TestBase
 {
     [Test]
+    [Arguments(true)]
+    [Arguments(false)]
+    public async Task Cpu_Values_Repeat_The_Switch(bool create)
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        PnpmOptions options = create
+            ? new PnpmCreateOptions { Cpu = ["x64", "arm64"] }
+            : new PnpmDlxOptions { Cpu = ["x64", "arm64"] };
+
+        var commandLine = builder.Build(options);
+
+        await Assert.That(commandLine.ToString())
+            .IsEqualTo($"pnpm {(create ? "create" : "dlx")} --cpu x64 --cpu arm64");
+    }
+
+    [Test]
     public async Task Stage_Publish_Renders_Dry_Run_And_Json_As_Bare_Flags()
     {
         var builder = await GetService<ICommandLineBuilder>();

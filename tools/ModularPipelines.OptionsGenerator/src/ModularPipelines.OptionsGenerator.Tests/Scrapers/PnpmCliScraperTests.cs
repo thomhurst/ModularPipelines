@@ -10,6 +10,39 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PnpmCliScraperTests
 {
     [Test]
+    [Arguments("create", false)]
+    [Arguments("create", true)]
+    [Arguments("dlx", false)]
+    [Arguments("dlx", true)]
+    public async Task Shortened_Repeatability_Prose_Generates_Cpu_Collections(string subcommand, bool blockLayout)
+    {
+        var description = "CPU architectures whose platform-tagged optional dependencies the "
+            + (subcommand == "dlx" ? "dlx " : string.Empty)
+            + "install should keep. Repeat or comma-separate for multiple";
+        var declaration = blockLayout
+            ? "      --cpu <CPU>\n          " + description + "\n"
+            : "      --cpu <CPU>  " + description + "\n";
+        var help = $"Usage: pnpm {subcommand} [OPTIONS]\n\nOptions:\n" + declaration;
+        var command = (await new TestPnpmCliScraper().Parse(["pnpm", subcommand], help))!;
+        var cpu = command.Options.Single();
+        await Assert.That(cpu.AcceptsMultipleValues).IsTrue();
+        await Assert.That(cpu.PropertyType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(cpu.CollectionSeparator).IsNull();
+
+        var generated = await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "pnpm",
+            NamespacePrefix = "Pnpm",
+            TargetNamespace = "ModularPipelines.Node",
+            OutputDirectory = "src/ModularPipelines.Node",
+            Commands = [command],
+        });
+        var content = generated.Single().Content;
+        await Assert.That(content).Contains("[CliOption(\"--cpu\")]");
+        await Assert.That(content).Contains("public IEnumerable<string>? Cpu { get; set; }");
+    }
+
+    [Test]
     [Arguments(1, false)]
     [Arguments(1, true)]
     [Arguments(21, false)]
