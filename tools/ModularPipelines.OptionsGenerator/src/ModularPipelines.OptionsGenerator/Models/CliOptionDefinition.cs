@@ -198,6 +198,14 @@ public record CliOptionDefinition
         var values = $"global::System.Linq.Enumerable.Cast<{elementName}>({{0}})";
         if (isArrayAssignable)
         {
+            var immutableArrayType = compilation.GetTypeByMetadataName("System.Collections.Immutable.ImmutableArray`1")?.Construct(elementType);
+            if (retainUnsupportedCollections && immutableArrayType is not null
+                && compilation.ClassifyConversion(immutableArrayType, propertyType).IsImplicit)
+            {
+                var immutableArrayName = immutableArrayType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                return $"{{0}} is {immutableArrayName} {{ IsDefault: true }} ? global::System.Array.Empty<{elementName}>() : global::System.Linq.Enumerable.ToArray({values})";
+            }
+
             return $"global::System.Linq.Enumerable.ToArray({values})";
         }
 
@@ -224,9 +232,15 @@ public record CliOptionDefinition
                     : $"new {snapshotName}({values}, {{0}} is {snapshotName} sourceSet ? sourceSet.Comparer : throw new global::System.ArgumentException(\"Required set must be a HashSet so its comparer can be preserved.\"))";
             }
 
-            return metadataName == "System.Collections.Immutable.ImmutableArray`1"
-                ? $"{{0}} is {snapshotName} {{ IsDefault: true }} ? throw new global::System.ArgumentException(\"Required collection must contain at least one value.\", nameof({{0}})) : global::System.Collections.Immutable.ImmutableArray.CreateRange({values})"
-                : $"new {snapshotName}({values})";
+            if (metadataName == "System.Collections.Immutable.ImmutableArray`1")
+            {
+                var defaultValue = retainUnsupportedCollections
+                    ? $"{snapshotName}.Empty"
+                    : "throw new global::System.ArgumentException(\"Required collection must contain at least one value.\", nameof({0}))";
+                return $"{{0}} is {snapshotName} {{ IsDefault: true }} ? {defaultValue} : global::System.Collections.Immutable.ImmutableArray.CreateRange({values})";
+            }
+
+            return $"new {snapshotName}({values})";
         }
 
         var arrayList = compilation.GetTypeByMetadataName("System.Collections.ArrayList");

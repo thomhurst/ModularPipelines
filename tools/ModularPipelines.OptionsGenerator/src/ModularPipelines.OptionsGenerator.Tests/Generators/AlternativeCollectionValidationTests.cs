@@ -7,6 +7,27 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public partial class RequiredConstructorValidationTests
 {
     [Test]
+    [Arguments(false, "System.Collections.Immutable.ImmutableArray<string>?")]
+    [Arguments(true, "System.Collections.Immutable.ImmutableArray<string>?")]
+    [Arguments(false, "System.Collections.Immutable.IImmutableList<string>?")]
+    [Arguments(true, "System.Collections.Immutable.IImmutableList<string>?")]
+    [Arguments(false, "IEnumerable<string>?")]
+    [Arguments(true, "IReadOnlyList<string>?")]
+    public async Task Alternative_Default_ImmutableArrays_Are_Absent_And_Allow_Fallback(bool positional, string collectionType)
+    {
+        var options = Compile(await GenerateAlternativeCollection(positional, collectionType))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        options.GetProperty("Values")!.SetValue(instance, default(System.Collections.Immutable.ImmutableArray<string>));
+        var validation = (IValidatableObject) instance;
+        await Assert.That(validation.Validate(new(instance))).Count().IsEqualTo(1);
+        var retained = (IEnumerable) options.GetProperty("Values")!.GetValue(instance)!;
+        await Assert.That(retained.Cast<string>()).IsEmpty();
+        options.GetProperty("Fallback")!.SetValue(instance, "fallback");
+        await Assert.That(validation.Validate(new(instance))).IsEmpty();
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task Alternative_Collections_Retain_SingleUse_Inputs_After_Validation(bool positional)
@@ -41,6 +62,7 @@ public partial class RequiredConstructorValidationTests
 
     [Test]
     [Arguments("List<string>?")]
+    [Arguments("string[]?")]
     [Arguments("IReadOnlyList<string>?")]
     [Arguments("ISet<string>?")]
     [Arguments("System.Collections.Immutable.ImmutableArray<string>?")]
@@ -54,6 +76,7 @@ public partial class RequiredConstructorValidationTests
         List<string> supplied = ["first", "second"];
         object input = collectionType switch
         {
+            "string[]?" => supplied.ToArray(),
             "ISet<string>?" => new HashSet<string>(supplied, StringComparer.OrdinalIgnoreCase),
             "System.Collections.Immutable.ImmutableArray<string>?" => System.Collections.Immutable.ImmutableArray.CreateRange(supplied),
             _ => supplied,
