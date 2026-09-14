@@ -102,11 +102,6 @@ public partial class AwsCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.AmazonWebServices";
 
-
-    /// <summary>
-    /// AWS CLI has 350+ services - use higher parallelism for faster discovery.
-    /// </summary>
-    protected override int MaxParallelism => Math.Max(Environment.ProcessorCount * 2, 16);
     /// <summary>
     /// Skip utility commands and commands that don't have traditional options.
     /// </summary>
