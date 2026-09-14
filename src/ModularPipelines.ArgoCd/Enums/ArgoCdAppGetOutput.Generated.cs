@@ -19,12 +19,12 @@ public enum ArgoCdAppGetOutput
     [EnumValue("json")]
     Json,
 
-    [EnumValue("yaml")]
-    Yaml,
+    [EnumValue("tree")]
+    Tree,
 
     [EnumValue("wide")]
     Wide,
 
-    [EnumValue("tree")]
-    Tree
+    [EnumValue("yaml")]
+    Yaml
 }

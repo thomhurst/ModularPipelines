@@ -19,9 +19,9 @@ public enum ArgoCdGpgListOutput
     [EnumValue("json")]
     Json,
 
-    [EnumValue("yaml")]
-    Yaml,
-
     [EnumValue("wide")]
-    Wide
+    Wide,
+
+    [EnumValue("yaml")]
+    Yaml
 }
