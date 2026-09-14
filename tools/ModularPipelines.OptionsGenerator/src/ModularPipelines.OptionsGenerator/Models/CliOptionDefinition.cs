@@ -85,9 +85,18 @@ public record CliOptionDefinition
         return !resolution.IsResolved || resolution.IsReferenceType;
     }
 
-    internal static string GetCollectionSnapshotExpression(string cSharpType, string valueExpression)
+    internal static string GetCollectionSnapshotExpression(
+        string cSharpType, string valueExpression, bool retainUnsupportedCollections = false)
     {
         var shape = CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName));
+        if (retainUnsupportedCollections)
+        {
+            // Optional properties must continue accepting every implementation allowed by
+            // their declared contract. Retain it when no assignable safe copy is available.
+            return shape.OptionalSnapshotExpression?.Replace("{0}", valueExpression, StringComparison.Ordinal)
+                   ?? valueExpression;
+        }
+
         return shape.SnapshotExpression?.Replace("{0}", valueExpression, StringComparison.Ordinal)
             ?? throw new InvalidOperationException(
                 $"Required collection type '{cSharpType}' cannot safely retain a reusable snapshot. Use a supported collection contract.");
@@ -175,11 +184,15 @@ public record CliOptionDefinition
             : null;
         return new CollectionShapeResolution(IsResolved: true, IsCollection: isCollection,
             IsReferenceType: propertyType.IsReferenceType,
-            SnapshotExpression: snapshotExpression);
+            SnapshotExpression: snapshotExpression,
+            OptionalSnapshotExpression: isCollection
+                ? GetSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, retainUnsupportedCollections: true)
+                : null);
     }
 
     private static string? GetSnapshotExpression(
-        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable)
+        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable,
+        bool retainUnsupportedCollections = false)
     {
         var elementName = elementType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
         var values = $"global::System.Linq.Enumerable.Cast<{elementName}>({{0}})";
@@ -206,7 +219,9 @@ public record CliOptionDefinition
             {
                 // A set may use identity or another non-default equality contract.
                 // Preserve that comparer instead of silently collapsing distinct CLI values.
-                return $"new {snapshotName}({values}, {{0}} is {snapshotName} sourceSet ? sourceSet.Comparer : throw new global::System.ArgumentException(\"Required set must be a HashSet so its comparer can be preserved.\"))";
+                return retainUnsupportedCollections
+                    ? $"{{0}} is {snapshotName} sourceSet ? new {snapshotName}({values}, sourceSet.Comparer) : {{0}}"
+                    : $"new {snapshotName}({values}, {{0}} is {snapshotName} sourceSet ? sourceSet.Comparer : throw new global::System.ArgumentException(\"Required set must be a HashSet so its comparer can be preserved.\"))";
             }
 
             return metadataName == "System.Collections.Immutable.ImmutableArray`1"
@@ -248,7 +263,7 @@ public record CliOptionDefinition
 
     private readonly record struct CollectionShapeResolution(
         bool IsResolved, bool IsCollection, bool IsReferenceType,
-        string? SnapshotExpression = null);
+        string? SnapshotExpression = null, string? OptionalSnapshotExpression = null);
 
     /// <summary>
     /// Description for XML documentation.

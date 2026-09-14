@@ -601,7 +601,8 @@ public class OptionsClassGenerator : ICodeGenerator
         if (!isRequired && participatesInAlternative
             && CliOptionDefinition.TryGetCollectionShape(propertyType, out var isCollection) && isCollection)
         {
-            var snapshot = CliOptionDefinition.GetCollectionSnapshotExpression(propertyType, "values");
+            var snapshot = CliOptionDefinition.GetCollectionSnapshotExpression(
+                propertyType, "values", retainUnsupportedCollections: true);
             sb.AppendLine(declaration);
             sb.AppendLine("    {");
             sb.AppendLine("        get;");

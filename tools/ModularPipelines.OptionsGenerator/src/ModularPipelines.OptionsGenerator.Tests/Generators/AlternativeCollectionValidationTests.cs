@@ -78,6 +78,45 @@ public partial class RequiredConstructorValidationTests
     }
 
     [Test]
+    [Arguments(false, "ISet<string>?")]
+    [Arguments(true, "ISet<string>?")]
+    [Arguments(false, "SortedSet<string>?")]
+    [Arguments(true, "Queue<string>?")]
+    public async Task Alternative_Collections_Accept_Existing_Concrete_Implementations(bool positional, string collectionType)
+    {
+        var options = Compile(await GenerateAlternativeCollection(positional, collectionType))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var property = options.GetProperty("Values")!;
+        object supplied = collectionType == "Queue<string>?"
+            ? new Queue<string>(["first", "second"])
+            : new SortedSet<string>(["first", "second"], StringComparer.OrdinalIgnoreCase);
+        property.SetValue(instance, supplied);
+        await Assert.That(property.GetValue(instance)).IsSameReferenceAs(supplied);
+        var validation = (IValidatableObject) instance;
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(validation.Validate(new(instance))).IsEmpty();
+            await Assert.That(((IEnumerable) property.GetValue(instance)!).Cast<string>().ToArray())
+                .IsEquivalentTo(["first", "second"]);
+        }
+
+        if (supplied is SortedSet<string> set)
+        {
+            await Assert.That(set.Comparer).IsSameReferenceAs(StringComparer.OrdinalIgnoreCase);
+            set.Clear();
+        }
+        else
+        {
+            ((Queue<string>) supplied).Clear();
+        }
+
+        await Assert.That(validation.Validate(new(instance))).Count().IsEqualTo(1);
+        options.GetProperty("Fallback")!.SetValue(instance, "fallback");
+        await Assert.That(validation.Validate(new(instance))).IsEmpty();
+    }
+
+    [Test]
     [Arguments("IReadOnlyList<KeyValue>?")]
     [Arguments("List<KeyValue>?")]
     public async Task Alternative_Collections_Retain_Domain_Value_Types(string collectionType)
