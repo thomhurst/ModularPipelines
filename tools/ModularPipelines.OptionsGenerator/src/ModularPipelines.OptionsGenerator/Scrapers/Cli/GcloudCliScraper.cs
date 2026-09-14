@@ -329,17 +329,23 @@ public partial class GcloudCliScraper : CliScraperBase
         var hasCompositeSyntax = IsCompositeValueHint(valueHint);
         var isStructuredValue = hasCompositeSyntax
                                 || DescriptionDeclaresStructuredValue(description);
-        var acceptsMultipleValues = (!ShouldTreatOptionAsScalar(commandParts, longForm)
+        var isKeyValue = IsKeyValue(valueHint, isStructuredValue);
+        var isKnownScalar = ShouldTreatOptionAsScalar(commandParts, longForm);
+        var isDelimitedList = UsesCommaSeparatedList(
+            valueHint, argument.Description, isFlag, isStructuredValue, isKeyValue, isKnownScalar);
+        var acceptsMultipleValues = isDelimitedList
+                                    || ((!isKnownScalar
                                      || valueHint.Contains("...", StringComparison.Ordinal))
                                     && AcceptsMultipleValues(
                 longForm,
                 valueHint,
                 description,
                 isFlag,
-                hasCompositeSyntax);
+                hasCompositeSyntax));
         var isNumeric = IsNumericValue(longForm, valueHint, description, isStructuredValue);
-        var isKeyValue = IsKeyValue(valueHint, isStructuredValue);
         var enumDefinition = isStructuredValue ? null : TryDetectEnum(propertyName, description);
+
+        description = AddDelimitedListGuidance(description, isDelimitedList, isNumeric, enumDefinition);
 
         var option = new CliOptionDefinition
         {
@@ -355,6 +361,7 @@ public partial class GcloudCliScraper : CliScraperBase
             IsFlag = isFlag,
             IsRequired = false,
             AcceptsMultipleValues = acceptsMultipleValues,
+            CollectionSeparator = isDelimitedList ? "," : null,
             IsKeyValue = isKeyValue,
             IsNumeric = isNumeric,
             ValueSeparator = isFlag ? " " : "=",
@@ -370,6 +377,40 @@ public partial class GcloudCliScraper : CliScraperBase
         {
             yield return CreateNegatedOption(option, negativeSwitch);
         }
+    }
+
+    private static bool UsesCommaSeparatedList(
+        string valueHint,
+        string? description,
+        bool isFlag,
+        bool isStructuredValue,
+        bool isKeyValue,
+        bool isKnownScalar) =>
+        !isFlag
+        && !isStructuredValue
+        && !isKeyValue
+        && !isKnownScalar
+        // Repeating a switch preserves boundaries between structured records. Merely
+        // accepting multiple values does not distinguish a list from repeated switches.
+        && !RepeatedSwitchDescriptionPattern().IsMatch(description ?? string.Empty)
+        && ((valueHint.Contains(',') && valueHint.Contains("...", StringComparison.Ordinal))
+            || CommaSeparatedListDescriptionPattern().IsMatch(description ?? string.Empty));
+
+    private static string? AddDelimitedListGuidance(
+        string? description,
+        bool isDelimitedList,
+        bool isNumeric,
+        CliEnumDefinition? enumDefinition)
+    {
+        if (!isDelimitedList || isNumeric || enumDefinition is not null)
+        {
+            return description;
+        }
+
+        const string guidance = "Collection entries are joined with commas into one option value. "
+            + "For entries containing commas, supply one pre-escaped list value using gcloud topic escaping "
+            + "(https://cloud.google.com/sdk/gcloud/reference/topic/escaping).";
+        return string.IsNullOrWhiteSpace(description) ? guidance : $"{description} {guidance}";
     }
 
     private static bool AcceptsMultipleValues(
@@ -414,6 +455,7 @@ public partial class GcloudCliScraper : CliScraperBase
             ValueArity = CliOptionValueArity.Required,
             AcceptsMultipleValues = false,
             GroupValues = false,
+            CollectionSeparator = null,
             IsCollection = false,
             IsKeyValue = false,
             IsNumeric = false,
@@ -664,6 +706,12 @@ public partial class GcloudCliScraper : CliScraperBase
     #endregion
 
     #region Regex Patterns
+
+    [GeneratedRegex(@"(?:^|[.!?]\s+)(?:(?:this|the)\s+)?(?:(?:is\s+(?:a|an)\s+)?(?:repeatable|repeated)\s+(?:flag|argument|option)|(?:flag|argument|option)\s+(?:(?:can|may|must|should)\s+be|is)\s+(?:repeatable|repeated|(?:specified|supplied|provided|used|passed|set|given)\s+(?:multiple\s+times|more\s+than\s+once)))\b", RegexOptions.IgnoreCase)]
+    private static partial Regex RepeatedSwitchDescriptionPattern();
+
+    [GeneratedRegex(@"^(?:\((?:DEPRECATED|ALPHA|BETA)\)\s+)*(?:(?:a|the)\s+)?comma[- ](?:separated|delimited)\s+list\b", RegexOptions.IgnoreCase)]
+    private static partial Regex CommaSeparatedListDescriptionPattern();
 
     /// <summary>
     /// Matches gcloud flag patterns:
