@@ -20,10 +20,32 @@ namespace ModularPipelines.Cosign.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verify-attestation")]
-public record CosignVerifyAttestationOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Images
-) : CosignOptions
+public record CosignVerifyAttestationOptions : CosignOptions
 {
+    public CosignVerifyAttestationOptions(
+        IEnumerable<string> Images
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Images);
+            var materialized = global::System.Linq.Enumerable.ToArray(Images);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Images));
+            }
+
+            Images = materialized;
+        }
+        this.Images = Images;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Images)
+    {
+        Images = this.Images;
+    }
+
     /// <summary>
     /// allow X.509 certificate chains in bundle verification material for v0.3+ bundles
     /// </summary>
@@ -247,5 +269,8 @@ public record CosignVerifyAttestationOptions(
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-d")]
     public bool? Verbose { get; set; }
+
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Images { get; private init; }
 
 }

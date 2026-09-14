@@ -71,6 +71,7 @@
 *REMOVED*ModularPipelines.Cosign.Enums.CosignVerifySlot.KeyManagement = 3 -> ModularPipelines.Cosign.Enums.CosignVerifySlot
 *REMOVED*ModularPipelines.Cosign.Enums.CosignVerifySlot.Signature = 1 -> ModularPipelines.Cosign.Enums.CosignVerifySlot
 *REMOVED*ModularPipelines.Cosign.Options.CosignAttestBlobOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignAttestBlobSlot?
+*REMOVED*ModularPipelines.Cosign.Options.CosignAttestOptions.Images.init -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignAttestOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignAttestSlot?
 *REMOVED*ModularPipelines.Cosign.Options.CosignBundleCreateOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignBundleCreateSlot?
 *REMOVED*ModularPipelines.Cosign.Options.CosignBundleExecuteOptions
@@ -84,6 +85,10 @@
 *REMOVED*ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Timeout.set -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Verbose.get -> bool?
 *REMOVED*ModularPipelines.Cosign.Options.CosignBundleExecuteOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignBundleInspectOptions.Bundle.init -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignBundleUpgradeOptions.Bundle.init -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignCleanOptions.Image.init -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignDownloadAttestationOptions.Image.init -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions
 *REMOVED*ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.CosignDownloadExecuteOptions() -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.CosignDownloadExecuteOptions(ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions! original) -> void
@@ -95,6 +100,9 @@
 *REMOVED*ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Timeout.set -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Verbose.get -> bool?
 *REMOVED*ModularPipelines.Cosign.Options.CosignDownloadExecuteOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignDownloadSbomOptions.Image.init -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignDownloadSignatureOptions.Image.init -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignLoadOptions.Image.init -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions
 *REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.CosignPivToolAttestationOptions() -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions.CosignPivToolAttestationOptions(ModularPipelines.Cosign.Options.CosignPivToolAttestationOptions! original) -> void
@@ -279,7 +287,10 @@
 *REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Verbose.get -> bool?
 *REMOVED*ModularPipelines.Cosign.Options.CosignPkcs11ToolListTokensOptions.Verbose.set -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignPublicKeyOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignPublicKeySlot?
+*REMOVED*ModularPipelines.Cosign.Options.CosignSaveOptions.Image.init -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignSignBlobOptions.Blobs.init -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignSignBlobOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignSignBlobSlot?
+*REMOVED*ModularPipelines.Cosign.Options.CosignSignOptions.Images.init -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignSignOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignSignSlot?
 *REMOVED*ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions
 *REMOVED*ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.CosignSigningConfigExecuteOptions() -> void
@@ -292,6 +303,7 @@
 *REMOVED*ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Timeout.set -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Verbose.get -> bool?
 *REMOVED*ModularPipelines.Cosign.Options.CosignSigningConfigExecuteOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignTreeOptions.Image.init -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions
 *REMOVED*ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.CosignTrustedRootExecuteOptions() -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.CosignTrustedRootExecuteOptions(ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions! original) -> void
@@ -303,11 +315,14 @@
 *REMOVED*ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Timeout.set -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Verbose.get -> bool?
 *REMOVED*ModularPipelines.Cosign.Options.CosignTrustedRootExecuteOptions.Verbose.set -> void
+*REMOVED*ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.Images.init -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignVerifyAttestationOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignVerifyAttestationSlot?
 *REMOVED*ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.Digestalg.get -> string?
 *REMOVED*ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.Digestalg.set -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignVerifyBlobAttestationOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignVerifyBlobAttestationSlot?
+*REMOVED*ModularPipelines.Cosign.Options.CosignVerifyBlobOptions.Blob.init -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignVerifyBlobOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignVerifyBlobSlot?
+*REMOVED*ModularPipelines.Cosign.Options.CosignVerifyOptions.Images.init -> void
 *REMOVED*ModularPipelines.Cosign.Options.CosignVerifyOptions.Slot.get -> ModularPipelines.Cosign.Enums.CosignVerifySlot?
 *REMOVED*ModularPipelines.Cosign.Services.CosignBundle.CosignBundle(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void
 *REMOVED*ModularPipelines.Cosign.Services.CosignDownload.CosignDownload(ModularPipelines.Context.Domains.Shell.ICommandContext! command) -> void

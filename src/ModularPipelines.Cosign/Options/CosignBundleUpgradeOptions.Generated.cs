@@ -18,10 +18,21 @@ namespace ModularPipelines.Cosign.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bundle", "upgrade")]
-public record CosignBundleUpgradeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Bundle
-) : CosignOptions
+public record CosignBundleUpgradeOptions : CosignOptions
 {
+    public CosignBundleUpgradeOptions(
+        string Bundle
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Bundle);
+        this.Bundle = Bundle;
+    }
+
+    public void Deconstruct(out string Bundle)
+    {
+        Bundle = this.Bundle;
+    }
+
     /// <summary>
     /// help for upgrade
     /// </summary>
@@ -35,7 +46,7 @@ public record CosignBundleUpgradeOptions(
     public string? Out { get; set; }
 
     /// <summary>
-    /// //rekor.sigstore.dev': URL of the transparency log
+    /// URL of the transparency log
     /// </summary>
     [CliOption("--rekor-url", Format = OptionFormat.EqualsSeparated)]
     public string? RekorUrl { get; set; }
@@ -57,5 +68,8 @@ public record CosignBundleUpgradeOptions(
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-d")]
     public bool? Verbose { get; set; }
+
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Bundle { get; private init; }
 
 }

@@ -19,10 +19,32 @@ namespace ModularPipelines.Cosign.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("attest")]
-public record CosignAttestOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Images
-) : CosignOptions
+public record CosignAttestOptions : CosignOptions
 {
+    public CosignAttestOptions(
+        IEnumerable<string> Images
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Images);
+            var materialized = global::System.Linq.Enumerable.ToArray(Images);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Images));
+            }
+
+            Images = materialized;
+        }
+        this.Images = Images;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Images)
+    {
+        Images = this.Images;
+    }
+
     /// <summary>
     /// whether to allow using HTTP protocol while connecting to registries. Don't use this for anything but testing
     /// </summary>
@@ -260,5 +282,8 @@ public record CosignAttestOptions(
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-d")]
     public bool? Verbose { get; set; }
+
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Images { get; private init; }
 
 }

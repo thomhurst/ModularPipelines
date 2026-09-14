@@ -19,10 +19,21 @@ namespace ModularPipelines.Cosign.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("download", "signature")]
-public record CosignDownloadSignatureOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Image
-) : CosignOptions
+public record CosignDownloadSignatureOptions : CosignOptions
 {
+    public CosignDownloadSignatureOptions(
+        string Image
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Image);
+        this.Image = Image;
+    }
+
+    public void Deconstruct(out string Image)
+    {
+        Image = this.Image;
+    }
+
     /// <summary>
     /// whether to allow using HTTP protocol while connecting to registries. Don't use this for anything but testing
     /// </summary>
@@ -108,5 +119,8 @@ public record CosignDownloadSignatureOptions(
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-d")]
     public bool? Verbose { get; set; }
+
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Image { get; private init; }
 
 }
