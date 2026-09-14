@@ -1015,6 +1015,34 @@ public class AwsCliScraperTests
             Task.FromResult(true);
     }
 
+    [Test]
+    public async Task Required_Map_Options_Generate_Collection_Guards()
+    {
+        const string helpText = """
+            SYNOPSIS
+                   apply
+                   --attributes <value>
+
+            OPTIONS
+                   --attributes (map) [required]
+                    Attribute names and values.
+            """;
+        var scraper = new TestAwsCliScraper();
+        var command = (await scraper.Parse(["fixture", "apply"], helpText))!;
+        var option = command.Options.Single();
+        await Assert.That(option.CSharpType).IsEqualTo("IReadOnlyList<KeyValue>?");
+        await Assert.That(option.IsKeyValue).IsTrue();
+        await Assert.That(option.IsCollection).IsNull();
+
+        var generated = await new OptionsClassGenerator().GenerateAsync(
+            scraper.CreateToolDefinition() with { Commands = [command] });
+        var content = generated.Single().Content;
+        await Assert.That(content).Contains("ArgumentNullException.ThrowIfNull(Attributes)");
+        await Assert.That(content).Contains("Enumerable.ToArray(Attributes)");
+        await Assert.That(content).Contains("static value => value is not null");
+        await Assert.That(content).Contains("Required collection must contain at least one value.");
+    }
+
     private sealed class TestAwsCliScraper()
         : AwsCliScraper(
             new AwsFixtureExecutor(string.Empty),

@@ -620,12 +620,19 @@ jobs:
             COVERAGE_ARGS+=(--approve-command-coverage-shrinkage)
           fi
 
+          COMMAND_TIMEOUT_SECONDS=30
+          if [[ "${{ matrix.tool }}" == "aws" ]]; then
+            # Large QuickSight/WAF help pages exceed 30 seconds even without network access.
+            COMMAND_TIMEOUT_SECONDS=180
+          fi
+
           dotnet run \
             --project "$GITHUB_WORKSPACE/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.csproj" \
             -c Release -- \
             --tools "${{ matrix.tool }}" \
             --output-dir "$GITHUB_WORKSPACE" \
             --change-manifest "$RUNNER_TEMP/generated-paths.txt" \
+            --command-timeout-seconds "$COMMAND_TIMEOUT_SECONDS" \
             "${COVERAGE_ARGS[@]}" | tee "$RUNNER_TEMP/generator-output.log"
 
           if ! grep -Eq -- '- Files generated: [1-9][0-9]*$' "$RUNNER_TEMP/generator-output.log"; then
