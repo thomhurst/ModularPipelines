@@ -56,25 +56,27 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///        --instance-ids (list)
 ///        The instance IDs...
 /// </summary>
-public partial class AwsCliScraper : CliScraperBase
+public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AwsCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
     private static readonly string[] AwsUsageSynopsisHeadings = ["usage", "synopsis"];
 
-    private static readonly HashSet<string> ValueOptionsWithoutTypeHints = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> ValueOptionsWithoutTypeHints =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "--cli-input-json",
         "--generate-cli-skeleton",
-    };
+    ];
 
-    private static readonly HashSet<string> FreeFormValueDescriptionTokens = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> FreeFormValueDescriptionTokens =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "alphanumeric",
         "character",
         "characters",
         "letters",
         "numbers",
         "punctuation",
-    };
+    ];
 
     protected override IReadOnlyList<string> UsageSynopsisHeadings => AwsUsageSynopsisHeadings;
 
@@ -87,11 +89,6 @@ public partial class AwsCliScraper : CliScraperBase
         {
             yield return string.Join(' ', synopsisLines);
         }
-    }
-
-    public AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<AwsCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
     }
 
     public override string ToolName => "aws";
@@ -245,7 +242,7 @@ public partial class AwsCliScraper : CliScraperBase
     {
         // Leaf commands have OPTIONS section with actual options, not just global options
         // Service-level commands have AVAILABLE COMMANDS but minimal OPTIONS
-        return Regex.IsMatch(helpText, @"^OPTIONS\s*$", RegexOptions.Multiline) &&
+        return OptionsSectionPattern().IsMatch(helpText) &&
                !Regex.IsMatch(helpText, @"^AVAILABLE COMMANDS\s*$", RegexOptions.Multiline);
     }
 
@@ -254,7 +251,7 @@ public partial class AwsCliScraper : CliScraperBase
     /// </summary>
     protected override bool HasOptions(string helpText)
     {
-        return Regex.IsMatch(helpText, @"^OPTIONS\s*$", RegexOptions.Multiline) ||
+        return OptionsSectionPattern().IsMatch(helpText) ||
                helpText.Contains("--");
     }
 
@@ -688,6 +685,9 @@ public partial class AwsCliScraper : CliScraperBase
 
     [GeneratedRegex(@"\s+(?:and|or)\s+", RegexOptions.IgnoreCase)]
     private static partial Regex EnumConjunctionPattern();
+
+    [GeneratedRegex(@"^OPTIONS\s*$", RegexOptions.Multiline)]
+    private static partial Regex OptionsSectionPattern();
 
     #endregion
 }

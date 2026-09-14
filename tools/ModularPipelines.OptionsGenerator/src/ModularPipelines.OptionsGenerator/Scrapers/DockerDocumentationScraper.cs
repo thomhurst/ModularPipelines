@@ -11,7 +11,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers;
 /// Scrapes Docker CLI documentation from docs.docker.com.
 /// Docker docs use hierarchical URLs like /reference/cli/docker/container/run/.
 /// </summary>
-public partial class DockerDocumentationScraper : CliDocumentationScraperBase
+public partial class DockerDocumentationScraper(HttpClient httpClient, ILogger<DockerDocumentationScraper> logger) : CliDocumentationScraperBase(httpClient, logger)
 {
     private const string BaseUrl = "https://docs.docker.com/reference/cli/docker/";
 
@@ -35,11 +35,6 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
         "ps", "images", "create", "start", "stop", "restart", "kill",
         "rm", "rmi", "tag", "search", "version", "info", "inspect"
     ];
-
-    public DockerDocumentationScraper(HttpClient httpClient, ILogger<DockerDocumentationScraper> logger)
-        : base(httpClient, logger)
-    {
-    }
 
     public override async Task<CliToolDefinition> ScrapeAsync(CancellationToken cancellationToken = default)
     {
@@ -257,7 +252,7 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
                 continue;
             }
 
-            var rows = table.QuerySelectorAll("tbody tr, tr").Skip(headers.Any() ? 0 : 1);
+            var rows = table.QuerySelectorAll("tbody tr, tr").Skip(headers.Length != 0 ? 0 : 1);
             foreach (var row in rows)
             {
                 var cells = row.QuerySelectorAll("td").ToArray();
@@ -327,7 +322,7 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
         return options;
     }
 
-    private CliOptionDefinition? ParseOptionRow(IElement[] cells, string className)
+    private static CliOptionDefinition? ParseOptionRow(IElement[] cells, string className)
     {
         if (cells.Length < 2)
         {

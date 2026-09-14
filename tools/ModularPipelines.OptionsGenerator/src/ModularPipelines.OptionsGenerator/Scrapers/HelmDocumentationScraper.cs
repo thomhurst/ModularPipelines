@@ -11,7 +11,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers;
 /// Scrapes Helm CLI documentation from helm.sh.
 /// Helm docs use underscore-separated URLs like helm_install, helm_repo_add.
 /// </summary>
-public partial class HelmDocumentationScraper : CliDocumentationScraperBase
+public partial class HelmDocumentationScraper(HttpClient httpClient, ILogger<HelmDocumentationScraper> logger) : CliDocumentationScraperBase(httpClient, logger)
 {
     private const string BaseUrl = "https://helm.sh/docs/helm/helm/";
     private const string CommandBaseUrl = "https://helm.sh/docs/helm/";
@@ -20,11 +20,6 @@ public partial class HelmDocumentationScraper : CliDocumentationScraperBase
     public override string NamespacePrefix => "Helm";
     public override string TargetNamespace => "ModularPipelines.Helm";
     public override string OutputDirectory => "src/ModularPipelines.Helm";
-
-    public HelmDocumentationScraper(HttpClient httpClient, ILogger<HelmDocumentationScraper> logger)
-        : base(httpClient, logger)
-    {
-    }
 
     public override async Task<CliToolDefinition> ScrapeAsync(CancellationToken cancellationToken = default)
     {
@@ -86,7 +81,7 @@ public partial class HelmDocumentationScraper : CliDocumentationScraperBase
         };
     }
 
-    private List<(string Url, string CommandName)> ExtractCommandLinks(IDocument doc)
+    private static List<(string Url, string CommandName)> ExtractCommandLinks(IDocument doc)
     {
         var links = new List<(string, string)>();
 

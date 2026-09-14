@@ -12,7 +12,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers;
 /// Scrapes .NET CLI documentation from learn.microsoft.com.
 /// .NET docs use URLs like /dotnet/core/tools/dotnet-[command].
 /// </summary>
-public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
+public partial class DotNetCliDocumentationScraper(HttpClient httpClient, ILogger<DotNetCliDocumentationScraper> logger) : CliDocumentationScraperBase(httpClient, logger)
 {
     private const string BaseUrl = "https://learn.microsoft.com/en-us/dotnet/core/tools/";
     private const string IndexUrl = $"{BaseUrl}dotnet";
@@ -46,11 +46,6 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
         ["workload"] = ["install", "list", "repair", "restore", "search", "uninstall", "update"],
         ["sdk"] = ["check"]
     };
-
-    public DotNetCliDocumentationScraper(HttpClient httpClient, ILogger<DotNetCliDocumentationScraper> logger)
-        : base(httpClient, logger)
-    {
-    }
 
     public override async Task<CliToolDefinition> ScrapeAsync(CancellationToken cancellationToken = default)
     {
@@ -231,7 +226,7 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
                 continue;
             }
 
-            var rows = table.QuerySelectorAll("tbody tr, tr").Skip(headers.Any() ? 0 : 1);
+            var rows = table.QuerySelectorAll("tbody tr, tr").Skip(headers.Length != 0 ? 0 : 1);
             foreach (var row in rows)
             {
                 var cells = row.QuerySelectorAll("td").ToArray();
@@ -301,7 +296,7 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
         return options;
     }
 
-    private CliOptionDefinition? ParseDefinitionListItem(IElement dt, IElement? dd, string className)
+    private static CliOptionDefinition? ParseDefinitionListItem(IElement dt, IElement? dd, string className)
     {
         var text = dt.TextContent.Trim();
         var description = dd?.TextContent.Trim();
@@ -362,7 +357,7 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
         };
     }
 
-    private CliOptionDefinition? ParseTableRow(IElement[] cells, string className)
+    private static CliOptionDefinition? ParseTableRow(IElement[] cells, string className)
     {
         if (cells.Length < 2)
         {
