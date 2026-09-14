@@ -269,7 +269,7 @@ internal static partial class CliArgumentGroupParser
             Description = Description,
             Kind = Classify(Description),
             Arguments = Arguments,
-            Groups = Groups.Select(group => group.Build()).ToArray(),
+            Groups = [.. Groups.Select(group => group.Build())],
         };
     }
 
