@@ -661,6 +661,12 @@ public class GeneratorUtilsTests
     [Arguments("PASSWORD")]
     [Arguments("UserPassword")]
     [Arguments("PasswordHash")]
+    [Arguments("Pwd")]
+    [Arguments("pwd")]
+    [Arguments("BootstrapAccPwd")]
+    [Arguments("OperatorAccPwd")]
+    [Arguments("ServiceAccPwd")]
+    [Arguments("BackupPwd")]
     public async Task IsSecretOption_Returns_True_For_Password_Variants(string propertyName)
     {
         var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
@@ -779,6 +785,11 @@ public class GeneratorUtilsTests
     [Arguments("RdbSnapshotPeriod")]
     [Arguments("AutopilotPrivilegedAdmission")]
     [Arguments("CredsHelper")]
+    [Arguments("PwdFile")]
+    [Arguments("PwdPath")]
+    [Arguments("PwdName")]
+    [Arguments("PwdId")]
+    [Arguments("SpwdEntry")]
     public async Task IsSecretOption_Returns_False_For_Non_Secret_Names(string propertyName)
     {
         var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);

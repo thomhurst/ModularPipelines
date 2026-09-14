@@ -958,6 +958,7 @@ public static partial class GeneratorUtils
         var hasSecretKeyword = SecretKeywords.Any(keyword =>
                                    propertyName.Contains(keyword, StringComparison.OrdinalIgnoreCase))
                                || ContainsIdentifierSegment(propertyName, "Otp")
+                               || ContainsIdentifierSegment(propertyName, "Pwd")
                                || propertyName.EndsWith("Creds", StringComparison.OrdinalIgnoreCase);
         if (hasSecretKeyword)
         {

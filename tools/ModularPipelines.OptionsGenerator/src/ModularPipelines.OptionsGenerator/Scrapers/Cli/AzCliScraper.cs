@@ -493,7 +493,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         // Check for list types (space-separated or multiple values)
         if (HelpDeclaresSpaceSeparatedList(lowerDesc)
             || DescriptionDeclaresRepeatableOption(lowerDesc)
-            || lowerDesc.Contains("list of")
+            || AzListValueDescriptionPattern().IsMatch(description)
             || AzCollectionValueDescriptionPattern().IsMatch(description)
             || HelpDeclaresOrderedParameterValues(lowerDesc))
         {
@@ -516,7 +516,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
 
     private static bool HelpDeclaresGroupedValues(string description) =>
         HelpDeclaresSpaceSeparatedList(description)
-        || (description.Contains("list of", StringComparison.OrdinalIgnoreCase)
+        || (AzListValueDescriptionPattern().IsMatch(description)
             && !DescriptionDeclaresRepeatableOption(description))
         || HelpDeclaresOrderedParameterValues(description);
 
@@ -550,6 +550,11 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     }
 
     #region Regex Patterns
+
+    // Only the option's input definition establishes a list; later references to
+    // allowed or reserved values describe scalar constraints.
+    [GeneratedRegex(@"^(?:(?:specify|specifies|accepts?|provide|provides|set|sets)\s+)?(?:(?:a|an|the)\s+)?(?:(?:json|ordered|comma-separated|space-separated)\s+)?list\s+of\b", RegexOptions.IgnoreCase)]
+    private static partial Regex AzListValueDescriptionPattern();
 
     /// <summary>
     /// Matches section headers like "Arguments", "Global Arguments", "Subgroups:", etc.

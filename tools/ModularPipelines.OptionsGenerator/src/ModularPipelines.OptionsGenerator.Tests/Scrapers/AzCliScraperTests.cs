@@ -850,6 +850,47 @@ public class AzCliScraperTests
         await Assert.That(command.Options.Single(option => option.PropertyName == "UseCurrentTime").IsFlag).IsTrue();
     }
 
+    [Test]
+    [Arguments("vm-create-2.84.txt")]
+    [Arguments("vmss-create-2.84.txt")]
+    public async Task Captured_Vm_Help_Keeps_Admin_Username_Scalar(string fixture)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Azure", fixture));
+        var command = await new TestAzCliScraper().Parse(["az", "vm", "create"], help);
+        var option = command!.Options.Single(option => option.PropertyName == "AdminUsername");
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.GroupValues).IsFalse();
+        await Assert.That(option.AcceptsMultipleValues).IsFalse();
+    }
+
+    [Test]
+    public async Task Captured_Sql_Vm_Help_Classifies_Account_Passwords_As_Secrets()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Azure", "sql-vm-add-to-group-2.84.txt"));
+        var command = await new TestAzCliScraper().Parse(["az", "sql", "vm", "add-to-group"], help);
+        foreach (var propertyName in new[] { "BootstrapAccPwd", "OperatorAccPwd", "ServiceAccPwd" })
+        {
+            var option = command!.Options.Single(option => option.PropertyName == propertyName);
+            await Assert.That(option.CSharpType).IsEqualTo("string?");
+            await Assert.That(option.IsSecret).IsTrue();
+        }
+    }
+
+    [Test]
+    [Arguments("List of resource IDs.", true)]
+    [Arguments("A list of resource IDs.", true)]
+    [Arguments("Specify the list of resource IDs.", true)]
+    [Arguments("Accepts a list of resource IDs.", true)]
+    [Arguments("Name of the resource. See the list of allowed values.", false)]
+    [Arguments("Username for the VM. Refer to the documentation for a full list of reserved values.", false)]
+    public async Task List_Descriptions_Must_Describe_The_Accepted_Input(string description, bool isList)
+    {
+        var help = $"Command\n    az service create : Create a service.\n\nArguments\n    --value VALUE : {description}";
+        var command = await new TestAzCliScraper().Parse(["az", "service", "create"], help);
+        var option = command!.Options.Single();
+        await Assert.That(option.CSharpType).IsEqualTo(isList ? "IEnumerable<string>?" : "string?");
+        await Assert.That(option.GroupValues).IsEqualTo(isList);
+    }
     private sealed class TestAzCliScraper()
         : AzCliScraper(
             new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
