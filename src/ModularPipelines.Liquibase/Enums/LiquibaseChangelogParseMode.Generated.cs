@@ -16,9 +16,9 @@ namespace ModularPipelines.Liquibase.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum LiquibaseChangelogParseMode
 {
-    [EnumValue("strict")]
-    Strict,
-
     [EnumValue("lax")]
-    Lax
+    Lax,
+
+    [EnumValue("strict")]
+    Strict
 }

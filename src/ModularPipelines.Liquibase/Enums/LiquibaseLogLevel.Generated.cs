@@ -16,6 +16,12 @@ namespace ModularPipelines.Liquibase.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum LiquibaseLogLevel
 {
+    [EnumValue("fine")]
+    Fine,
+
+    [EnumValue("info")]
+    Info,
+
     [EnumValue("off")]
     Off,
 
@@ -23,11 +29,5 @@ public enum LiquibaseLogLevel
     Severe,
 
     [EnumValue("warning")]
-    Warning,
-
-    [EnumValue("info")]
-    Info,
-
-    [EnumValue("fine")]
-    Fine
+    Warning
 }
