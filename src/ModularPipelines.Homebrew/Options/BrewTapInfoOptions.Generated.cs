@@ -56,4 +56,10 @@ public record BrewTapInfoOptions : BrewOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
+    /// <summary>
+    /// The tap operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Tap { get; set; }
+
 }

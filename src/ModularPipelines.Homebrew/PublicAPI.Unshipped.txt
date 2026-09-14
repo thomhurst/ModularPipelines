@@ -1181,6 +1181,8 @@ ModularPipelines.Homebrew.Options.BrewShOptions.Env.get -> string?
 ModularPipelines.Homebrew.Options.BrewStyleOptions.ExceptCops.get -> string?
 ModularPipelines.Homebrew.Options.BrewStyleOptions.OnlyCops.get -> string?
 ModularPipelines.Homebrew.Options.BrewTapInfoOptions.Json.get -> string?
+ModularPipelines.Homebrew.Options.BrewTapInfoOptions.Tap.get -> System.Collections.Generic.IEnumerable<string!>?
+ModularPipelines.Homebrew.Options.BrewTapInfoOptions.Tap.set -> void
 ModularPipelines.Homebrew.Options.BrewTapNewOptions.Branch.get -> string?
 ModularPipelines.Homebrew.Options.BrewTestBotOptions.AddedFormulae.get -> string?
 ModularPipelines.Homebrew.Options.BrewTestBotOptions.DeletedFormulae.get -> string?
