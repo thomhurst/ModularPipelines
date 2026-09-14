@@ -318,13 +318,8 @@ public partial class GcloudCliScraper : CliScraperBase
             return;
         }
 
-        if (group.Kind.HasFlag(CliArgumentGroupKind.Alternative))
-        {
-            return;
-        }
-
         if (allowPresenceRequirements
-            && (required || group.Description?.Contains("This must be specified.", StringComparison.OrdinalIgnoreCase) == true))
+            && (required || DescribesRequiredBundle(group)))
         {
             if (ApplyMandatoryGroup(group, options, positionalArguments, requiredAlternativeGroups, required))
             {
@@ -350,9 +345,15 @@ public partial class GcloudCliScraper : CliScraperBase
         }
     }
 
+    private static bool DescribesRequiredBundle(CliArgumentGroup group) =>
+        RequiredBundleMarkerPattern().IsMatch(group.Description ?? string.Empty);
+
+    [GeneratedRegex(@"\bThis must be specified(?:[.:]|$)", RegexOptions.IgnoreCase)]
+    private static partial Regex RequiredBundleMarkerPattern();
+
     private static bool IsOrdinaryArgumentBundle(CliArgumentGroup group) =>
         group.Kind == CliArgumentGroupKind.None
-        && group.Description?.Contains("This must be specified.", StringComparison.OrdinalIgnoreCase) != true
+        && !DescribesRequiredBundle(group)
         && !group.Arguments.Any(ArgumentIsConditionallyRequired);
 
     private static bool ApplyMandatoryGroup(
@@ -406,7 +407,7 @@ public partial class GcloudCliScraper : CliScraperBase
         return new CliRequiredAlternativeGroup
         {
             IsRequired = group.Kind.HasFlag(CliArgumentGroupKind.AtLeastOne)
-                         || group.Description?.Contains("This must be specified", StringComparison.OrdinalIgnoreCase) == true,
+                         || DescribesRequiredBundle(group),
             IsChoice = isChoice,
             IsMutuallyExclusive = group.Kind.HasFlag(CliArgumentGroupKind.AtMostOne),
             Members = members,

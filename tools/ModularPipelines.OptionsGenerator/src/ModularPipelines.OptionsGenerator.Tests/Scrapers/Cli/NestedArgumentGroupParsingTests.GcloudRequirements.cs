@@ -147,6 +147,54 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    [Arguments(".")]
+    [Arguments(":")]
+    [Arguments("")]
+    public async Task Gcloud_Mandatory_Bundle_Markers_Use_Consistent_Punctuation(string punctuation)
+    {
+        var help = $$"""
+            NAME
+                gcloud example create - create an example
+            FLAGS
+                 Configuration. This must be specified{{punctuation}}
+                   --config=CONFIG
+                      Inline configuration.
+                   --profile=PROFILE
+                      Saved configuration.
+            """;
+        var command = (await CreateGcloudScraper().Parse(["gcloud", "example", "create"], help))!;
+        var group = command.RequiredAlternativeGroups.Single();
+        await Assert.That(group.IsRequired).IsTrue();
+        await Assert.That(group.IsChoice).IsFalse();
+        await Assert.That(group.PropertyNames).IsEquivalentTo(["Config", "Profile"]);
+        await Assert.That(GeneratorUtils.RequiresOptionsParameter(command)).IsTrue();
+    }
+
+    [Test]
+    public async Task Gcloud_Mid_Sentence_Alternative_Prose_Preserves_Nested_Requirements()
+    {
+        const string help = """
+            NAME
+                gcloud example create - create an example
+            FLAGS
+                 Compute configuration of the job. Or specify existing resources.
+                   --project=PROJECT
+                      Project to use.
+                   Exactly one of these must be specified:
+                     --config=CONFIG
+                        Inline configuration.
+                     --profile=PROFILE
+                        Saved configuration.
+            """;
+        var command = (await CreateGcloudScraper().Parse(["gcloud", "example", "create"], help))!;
+        await Assert.That(command.Options.Select(option => option.PropertyName)).IsEquivalentTo(["Project", "Config", "Profile"]);
+        var group = command.RequiredAlternativeGroups.Single();
+        await Assert.That(group.IsRequired).IsTrue();
+        await Assert.That(group.IsMutuallyExclusive).IsTrue();
+        await Assert.That(group.PropertyNames).IsEquivalentTo(["Config", "Profile"]);
+    }
+
+    [Test]
     public async Task Gcloud_Plain_Mandatory_Bundle_Rejects_Absent_Input_In_Generated_Validation()
     {
         const string help = """
