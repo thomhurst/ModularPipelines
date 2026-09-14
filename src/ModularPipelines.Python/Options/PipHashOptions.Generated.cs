@@ -18,10 +18,32 @@ namespace ModularPipelines.Python.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hash")]
-public record PipHashOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> File
-) : PipOptions
+public record PipHashOptions : PipOptions
 {
+    public PipHashOptions(
+        IEnumerable<string> File
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(File);
+            var materialized = global::System.Linq.Enumerable.ToArray(File);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(File));
+            }
+
+            File = materialized;
+        }
+        this.File = File;
+    }
+
+    public void Deconstruct(out IEnumerable<string> File)
+    {
+        File = this.File;
+    }
+
     /// <summary>
     /// Show help.
     /// </summary>
@@ -153,5 +175,11 @@ public record PipHashOptions(
     /// </summary>
     [CliOption("--use-deprecated")]
     public string? UseDeprecated { get; set; }
+
+    /// <summary>
+    /// The &lt;file&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> File { get; private init; }
 
 }

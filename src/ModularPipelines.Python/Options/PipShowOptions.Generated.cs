@@ -18,10 +18,32 @@ namespace ModularPipelines.Python.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("show")]
-public record PipShowOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Package
-) : PipOptions
+public record PipShowOptions : PipOptions
 {
+    public PipShowOptions(
+        IEnumerable<string> Package
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Package);
+            var materialized = global::System.Linq.Enumerable.ToArray(Package);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Package));
+            }
+
+            Package = materialized;
+        }
+        this.Package = Package;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Package)
+    {
+        Package = this.Package;
+    }
+
     /// <summary>
     /// Show the full list of installed files for each package.
     /// </summary>
@@ -159,5 +181,11 @@ public record PipShowOptions(
     /// </summary>
     [CliOption("--use-deprecated")]
     public string? UseDeprecated { get; set; }
+
+    /// <summary>
+    /// The &lt;package&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Package { get; private init; }
 
 }

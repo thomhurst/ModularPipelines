@@ -18,10 +18,32 @@ namespace ModularPipelines.Python.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wheel")]
-public record PipWheelOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> RequirementSpecifier
-) : PipOptions
+public record PipWheelOptions : PipOptions
 {
+    public PipWheelOptions(
+        IEnumerable<string> RequirementSpecifier
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(RequirementSpecifier);
+            var materialized = global::System.Linq.Enumerable.ToArray(RequirementSpecifier);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(RequirementSpecifier));
+            }
+
+            RequirementSpecifier = materialized;
+        }
+        this.RequirementSpecifier = RequirementSpecifier;
+    }
+
+    public void Deconstruct(out IEnumerable<string> RequirementSpecifier)
+    {
+        RequirementSpecifier = this.RequirementSpecifier;
+    }
+
     /// <summary>
     /// Build wheels into &lt;dir&gt;, where the default is the current working directory.
     /// </summary>
@@ -279,5 +301,11 @@ public record PipWheelOptions(
     /// </summary>
     [CliOption("--use-deprecated")]
     public string? UseDeprecated { get; set; }
+
+    /// <summary>
+    /// The &lt;requirement specifier&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> RequirementSpecifier { get; private init; }
 
 }

@@ -50,7 +50,6 @@ ModularPipelines.Python.Options.PipFreezeOptions.Path.get -> System.Collections.
 ModularPipelines.Python.Options.PipFreezeOptions.Requirement.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Python.Options.PipHashOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! File) -> void
 ModularPipelines.Python.Options.PipHashOptions.File.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.Python.Options.PipHashOptions.File.init -> void
 ModularPipelines.Python.Options.PipHashOptions.PipHashOptions(System.Collections.Generic.IEnumerable<string!>! File) -> void
 ModularPipelines.Python.Options.PipIndexOptions.Abi.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Python.Options.PipIndexOptions.Platform.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -69,11 +68,9 @@ ModularPipelines.Python.Options.PipSearchOptions.Query.get -> string!
 ModularPipelines.Python.Options.PipSearchOptions.Query.init -> void
 ModularPipelines.Python.Options.PipShowOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Package) -> void
 ModularPipelines.Python.Options.PipShowOptions.Package.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.Python.Options.PipShowOptions.Package.init -> void
 ModularPipelines.Python.Options.PipShowOptions.PipShowOptions(System.Collections.Generic.IEnumerable<string!>! Package) -> void
 ModularPipelines.Python.Options.PipUninstallOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Package) -> void
 ModularPipelines.Python.Options.PipUninstallOptions.Package.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.Python.Options.PipUninstallOptions.Package.init -> void
 ModularPipelines.Python.Options.PipUninstallOptions.PipUninstallOptions(System.Collections.Generic.IEnumerable<string!>! Package) -> void
 ModularPipelines.Python.Options.PipUninstallOptions.Requirement.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Python.Options.PipWheelOptions.Constraint.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -82,7 +79,6 @@ ModularPipelines.Python.Options.PipWheelOptions.PipWheelOptions(System.Collectio
 ModularPipelines.Python.Options.PipWheelOptions.RequireHashes.get -> bool?
 ModularPipelines.Python.Options.PipWheelOptions.Requirement.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Python.Options.PipWheelOptions.RequirementSpecifier.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.Python.Options.PipWheelOptions.RequirementSpecifier.init -> void
 ModularPipelines.Python.Services.IPip.CacheAsync(ModularPipelines.Python.Options.PipCacheOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Python.Services.IPip.CheckAsync(ModularPipelines.Python.Options.PipCheckOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Python.Services.IPip.ConfigAsync(ModularPipelines.Python.Options.PipConfigOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
