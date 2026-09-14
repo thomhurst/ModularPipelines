@@ -266,8 +266,11 @@ public abstract partial class CliScraperBase : ICliScraper
     public virtual async IAsyncEnumerable<CliCommandDefinition> ScrapeAsync(
         [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        Logger.LogInformation("Discovering {Tool} commands via CLI (executable: {Path}, parallelism: {Parallelism})...",
-            ToolName, ExecutablePath, MaxParallelism);
+        if (Logger.IsEnabled(LogLevel.Information))
+        {
+            Logger.LogInformation("Discovering {Tool} commands via CLI (executable: {Path}, parallelism: {Parallelism})...",
+                ToolName, ExecutablePath, MaxParallelism);
+        }
 
         // Check availability first
         if (!await IsAvailableAsync(cancellationToken))
@@ -328,11 +331,17 @@ public abstract partial class CliScraperBase : ICliScraper
         await foreach (var command in commandChannel.Reader.ReadAllAsync(cancellationToken))
         {
             commandCount++;
-            Logger.LogInformation("Yielding command {Count}: {Command}", commandCount, command.FullCommand);
+            if (Logger.IsEnabled(LogLevel.Information))
+            {
+                Logger.LogInformation("Yielding command {Count}: {Command}", commandCount, command.FullCommand);
+            }
             yield return command;
         }
 
-        Logger.LogInformation("Finished scraping {Tool}. Total commands: {Count}", ToolName, commandCount);
+        if (Logger.IsEnabled(LogLevel.Information))
+        {
+            Logger.LogInformation("Finished scraping {Tool}. Total commands: {Count}", ToolName, commandCount);
+        }
     }
 
     /// <summary>
@@ -432,7 +441,7 @@ public abstract partial class CliScraperBase : ICliScraper
 
     private void PreserveGroupHelp(
         string[] path,
-        IReadOnlyCollection<string> subcommands,
+        List<string> subcommands,
         bool declaresCommandGroup)
     {
         if (subcommands.Count > 0 || declaresCommandGroup)
@@ -460,7 +469,7 @@ public abstract partial class CliScraperBase : ICliScraper
 
     private void DiscardLeafHelp(
         string[] path,
-        IReadOnlyCollection<string> subcommands,
+        List<string> subcommands,
         bool declaresCommandGroup)
     {
         if (subcommands.Count == 0
@@ -490,7 +499,10 @@ public abstract partial class CliScraperBase : ICliScraper
             return false;
         }
 
-        Logger.LogDebug("Skipping command based on help text filter: {Command}", string.Join(" ", path));
+        if (Logger.IsEnabled(LogLevel.Debug))
+        {
+            Logger.LogDebug("Skipping command based on help text filter: {Command}", string.Join(" ", path));
+        }
         return true;
     }
 
@@ -604,11 +616,14 @@ public abstract partial class CliScraperBase : ICliScraper
             return;
         }
 
-        Logger.LogDebug(
-            "Selected usage synopsis for {Command} from {Count} matching candidates: {Synopsis}",
-            string.Join(" ", commandPath),
-            usage.MatchedSynopsisCount,
-            usage.Synopsis);
+        if (Logger.IsEnabled(LogLevel.Debug))
+        {
+            Logger.LogDebug(
+                "Selected usage synopsis for {Command} from {Count} matching candidates: {Synopsis}",
+                string.Join(" ", commandPath),
+                usage.MatchedSynopsisCount,
+                usage.Synopsis);
+        }
     }
 
     private async Task EnqueueSubcommandsAsync(
