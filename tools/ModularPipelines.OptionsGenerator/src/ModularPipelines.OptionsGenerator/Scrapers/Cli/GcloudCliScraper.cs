@@ -245,7 +245,7 @@ public partial class GcloudCliScraper : CliScraperBase
             argumentGroups.Add(group);
             foreach (var argument in group.FlattenArguments().Where(argument => !argument.IsPositional))
             {
-                foreach (var option in CreateOptions(argument, commandParts))
+                foreach (var option in CreateOptions(argument, commandParts, helpText))
                 {
                     if (!seenOptions.Add(option.SwitchName))
                     {
@@ -309,7 +309,8 @@ public partial class GcloudCliScraper : CliScraperBase
 
     private IEnumerable<CliOptionDefinition> CreateOptions(
         CliArgumentDefinition argument,
-        IReadOnlyList<string> commandParts)
+        IReadOnlyList<string> commandParts,
+        string helpText)
     {
         var longForm = argument.SwitchName;
         if (string.IsNullOrEmpty(longForm))
@@ -331,9 +332,12 @@ public partial class GcloudCliScraper : CliScraperBase
                                 || DescriptionDeclaresStructuredValue(description);
         var isKeyValue = IsKeyValue(valueHint, isStructuredValue);
         var isKnownScalar = ShouldTreatOptionAsScalar(commandParts, longForm);
+        var repeatsSwitch = !isFlag && (RepeatedSwitchDescriptionPattern().IsMatch(argument.Description ?? string.Empty)
+            || HelpOptionBlockMatches(helpText, longForm, RepeatedSwitchDescriptionPattern()));
         var isDelimitedList = UsesCommaSeparatedList(
-            valueHint, argument.Description, isFlag, isStructuredValue, isKeyValue, isKnownScalar);
+            valueHint, argument.Description, isFlag, isStructuredValue, isKeyValue, isKnownScalar, repeatsSwitch);
         var acceptsMultipleValues = isDelimitedList
+                                    || (!isKnownScalar && repeatsSwitch)
                                     || ((!isKnownScalar
                                      || valueHint.Contains("...", StringComparison.Ordinal))
                                     && AcceptsMultipleValues(
@@ -383,13 +387,14 @@ public partial class GcloudCliScraper : CliScraperBase
         bool isFlag,
         bool isStructuredValue,
         bool isKeyValue,
-        bool isKnownScalar) =>
+        bool isKnownScalar,
+        bool repeatsSwitch) =>
         !isFlag
-        && (!isStructuredValue || isKeyValue)
+        && (!isStructuredValue || isKeyValue || RepeatedPairValueHintPattern().IsMatch(valueHint))
         && !isKnownScalar
         // Repeating a switch preserves boundaries between structured records. Merely
         // accepting multiple values does not distinguish a list from repeated switches.
-        && !RepeatedSwitchDescriptionPattern().IsMatch(description ?? string.Empty)
+        && !repeatsSwitch
         && ((valueHint.Contains(',') && valueHint.Contains("...", StringComparison.Ordinal))
             || CommaSeparatedListDescriptionPattern().IsMatch(description ?? string.Empty));
 
@@ -725,17 +730,21 @@ public partial class GcloudCliScraper : CliScraperBase
 
     private const string StatusPrefixPattern = @"(?:\((?:DEPRECATED|ALPHA|BETA)\)\s+)*";
 
-    [GeneratedRegex(@"(?:^|[.!?]\s+)" + StatusPrefixPattern
+    [GeneratedRegex(@"(?:^|[.!?]\s+)\s*" + StatusPrefixPattern
         + @"(?:(?:this|the)\s+)?(?:(?:flag|argument|option)\s+)?"
-        + RepeatableSwitchRegex + @"\b", RegexOptions.IgnoreCase)]
+        + RepeatableSwitchRegex + @"\b", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex RepeatedSwitchDescriptionPattern();
 
     [GeneratedRegex(@"(?:^|[.!?]\s+)" + StatusPrefixPattern
+        + @"(?:(?:(?:at (?:most|least)|exactly) one) of these (?:can|must) be specified:\s+)*"
         + @"(?:(?:this|the)\s+(?:flag|argument|option)\s+)?"
         + @"(?:(?:accepts?|specif(?:y|ies)|takes?|contains?|(?:must|can|may)\s+be)\s+)?"
         + @"(?:(?:a|the)\s+)?(?:single\s+[\w-]+(?:\s+[\w-]+)*\s+or\s+(?:a\s+)?)?"
-        + @"comma[- ](?:separated|delimited)\s+list\b", RegexOptions.IgnoreCase)]
+        + @"comma[- ](?:sep[ae]rated|delimited)\s+list\b", RegexOptions.IgnoreCase)]
     private static partial Regex CommaSeparatedListDescriptionPattern();
+
+    [GeneratedRegex(@"^\[?(?<key>[A-Z][A-Z0-9_]*)=(?<value>[A-Z][A-Z0-9_]*),\[\k<key>=\k<value>,\.{3}\]\]?$")]
+    private static partial Regex RepeatedPairValueHintPattern();
 
     /// <summary>
     /// Matches gcloud flag patterns:

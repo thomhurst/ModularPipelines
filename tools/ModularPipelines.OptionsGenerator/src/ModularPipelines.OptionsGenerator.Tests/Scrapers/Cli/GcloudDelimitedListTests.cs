@@ -57,6 +57,9 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("[VALUE,...]", "Values to include.", ",")]
     [Arguments("VALUES", "A comma-delimited list of values.", ",")]
     [Arguments("VALUES", "A comma separated list of values.", ",")]
+    [Arguments("VALUES", "At most one of these can be specified: Comma-separated list of values.", ",")]
+    [Arguments("VALUES", "Exactly one of these must be specified: Comma-separated list of values.", ",")]
+    [Arguments("VALUE", "Example output: Comma-separated list of values.", null)]
     [Arguments("VALUES", "The comma-separated list of values.", ",")]
     [Arguments("TAGS", "A single tag or a comma-delimited list of tags.", ",")]
     [Arguments("VALUES", "Accepts a single IP address or a comma-separated list of addresses.", ",")]
@@ -173,6 +176,8 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("artifacts-docker-images-scan", "artifacts docker images scan", "--additional-package-types", ",")]
     [Arguments("compute-url-maps-invalidate-cdn-cache", "compute url-maps invalidate-cdn-cache", "--tags", ",")]
     [Arguments("app-logs-read", "app logs read", "--logs", ",")]
+    [Arguments("artifacts-docker-upgrade-migrate", "artifacts docker upgrade migrate", "--projects", ",")]
+    [Arguments("sql-instances-patch", "sql instances patch", "--connection-pool-flags", ",")]
     public async Task Gcloud_Captured_Help_Preserves_Collection_Boundaries(
         string fixture, string commandPath, string switchName, string? separator)
     {
@@ -251,6 +256,29 @@ public partial class NestedArgumentGroupParsingTests
 
         await Assert.That(generated).Contains("public IEnumerable<GcloudTestType>? TestType");
         await Assert.That(generated).Contains("CliOption(\"--test-type\", Format = OptionFormat.EqualsSeparated, CollectionSeparator = \",\")");
+    }
+
+    [Test]
+    public async Task Gcloud_List_Hints_Respect_Repetition_In_The_Whole_Option_Block()
+    {
+        const string helpText = """
+            NAME
+                gcloud example update - update an example
+            SYNOPSIS
+                gcloud example update
+            FLAGS
+                 --values=[VALUE,...]
+                    Values to include.
+                 This flag can be repeated to configure multiple values.
+
+                 --other=[VALUE,...]
+                    Other values to include.
+            """;
+        var command = await CreateGcloudScraper().Parse(["gcloud", "example", "update"], helpText);
+        var repeated = command!.Options.Single(option => option.SwitchName == "--values");
+        await Assert.That(repeated.AcceptsMultipleValues).IsTrue();
+        await Assert.That(repeated.CollectionSeparator).IsNull();
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--other").CollectionSeparator).IsEqualTo(",");
     }
 
     [Test]
