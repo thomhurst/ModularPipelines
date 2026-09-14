@@ -30,7 +30,7 @@ public record MinikubeUnpauseOptions : MinikubeOptions
     /// namespaces to unpause
     /// </summary>
     [CliOption("--namespaces", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
-    public string? Namespaces { get; set; }
+    public IEnumerable<string>? Namespaces { get; set; }
 
     /// <summary>
     /// Format to print stdout in. Options include: [text,json]
