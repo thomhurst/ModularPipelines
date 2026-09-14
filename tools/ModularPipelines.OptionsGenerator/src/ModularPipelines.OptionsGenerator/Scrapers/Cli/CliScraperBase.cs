@@ -800,17 +800,23 @@ public abstract partial class CliScraperBase : ICliScraper
             Options = options,
             Enums = [.. command.Enums.Where(definition => !ignoredEnumNames.Contains(definition.EnumName))],
             ArgumentGroups = FilterIgnoredArgumentGroups(command.ArgumentGroups, ignoredSwitches),
-            RequiredAlternativeGroups = [.. command.RequiredAlternativeGroups
-                .Select(group => group with
-                {
-                    Members = [.. group.Members.Where(member => member.OptionSwitch is { } optionSwitch
-                        ? !ignoredSwitches.Contains(optionSwitch)
-                        : member.PositionalArgumentPhase is not null || member.PositionalArgumentPositionIndex is not null
-                            || !ignoredProperties.Contains(member.PropertyName))],
-                })
-                .Where(group => group.Members.Count > 0)],
+            RequiredAlternativeGroups = FilterIgnoredRequiredAlternativeGroups(
+                command.RequiredAlternativeGroups, ignoredSwitches, ignoredProperties),
         };
     }
+
+    private static IReadOnlyList<CliRequiredAlternativeGroup> FilterIgnoredRequiredAlternativeGroups(
+        IReadOnlyList<CliRequiredAlternativeGroup> groups,
+        IReadOnlySet<string> ignoredSwitches,
+        IReadOnlySet<string> ignoredProperties) =>
+        [.. groups.Select(group => group with
+        {
+            Members = [.. group.Members.Where(member => member.OptionSwitch is { } optionSwitch
+                ? !ignoredSwitches.Contains(optionSwitch)
+                : member.PositionalArgumentPhase is not null || member.PositionalArgumentPositionIndex is not null
+                    || !ignoredProperties.Contains(member.PropertyName))],
+            Groups = FilterIgnoredRequiredAlternativeGroups(group.Groups, ignoredSwitches, ignoredProperties),
+        }).Where(group => group.Members.Count > 0 || group.Groups.Count > 0)];
 
     private static IReadOnlyList<CliArgumentGroup> FilterIgnoredArgumentGroups(
         IReadOnlyList<CliArgumentGroup> groups, IReadOnlySet<string> ignoredSwitches) =>
