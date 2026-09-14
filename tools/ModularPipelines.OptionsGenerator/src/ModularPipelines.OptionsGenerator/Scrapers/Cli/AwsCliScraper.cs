@@ -413,7 +413,7 @@ public partial class AwsCliScraper : CliScraperBase
 
             var enumDef = isStructure || isKeyValue || isArray || isNumeric
                 ? null
-                : TryDetectEnum(propertyName, className, description);
+                : TryDetectEnum(propertyName, className, description, longForm);
             var csharpType = DetermineCSharpType(isFlag, isArray, isKeyValue, isNumeric, enumDef);
 
             options.Add(new CliOptionDefinition
@@ -487,7 +487,7 @@ public partial class AwsCliScraper : CliScraperBase
         return lower.Contains("integer") || lower.Contains("long") || lower.Contains("float") || lower.Contains("double");
     }
 
-    internal static CliEnumDefinition? TryDetectEnum(string propertyName, string className, string? description)
+    internal static CliEnumDefinition? TryDetectEnum(string propertyName, string className, string? description, string? switchName = null)
     {
         if (string.IsNullOrEmpty(description))
         {
@@ -495,29 +495,48 @@ public partial class AwsCliScraper : CliScraperBase
         }
 
         // Pattern: "Possible values: value1, value2, value3" or "Valid values: ..."
-        var match = Regex.Match(description, @"(?:Possible|Valid|Allowed)\s+values?:\s*([a-zA-Z][a-zA-Z0-9_-]*(?:,?\s*[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase);
-        if (match.Success)
+        var match = EnumValuesPattern().Match(description);
+        if (!match.Success)
         {
-            var values = match.Groups[1].Value
-                .Split([',', ' '], StringSplitOptions.RemoveEmptyEntries)
-                .Select(v => v.Trim().TrimEnd('.'))
-                .Where(v => !v.Equals("o", StringComparison.OrdinalIgnoreCase)
-                            && v.Length > 0
-                            && v.Length < 30
-                            && IsValidEnumValue(v))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToArray();
-
-            if (values.Length >= 2
-                && values.Length <= 15
-                && !NumericConstraintValuesPattern().IsMatch(match.Groups[1].Value)
-                && !values.Any(FreeFormValueDescriptionTokens.Contains))
-            {
-                return CreateEnumDefinition(propertyName, className, values);
-            }
+            return null;
         }
 
-        return null;
+        var choices = EnumWhitespacePattern().Replace(match.Groups["values"].Value, " ").Trim();
+        if (NumericConstraintValuesPattern().IsMatch(choices) || choices.Contains("- ", StringComparison.Ordinal))
+        {
+            // An ASCII wrap hyphen may be either inserted by the renderer or part of
+            // the actual CLI value. Keep the string contract instead of guessing.
+            return null;
+        }
+
+        var values = ParseEnumChoices(choices);
+        return values.Length > 0 && values.All(value => EnumValuePattern().IsMatch(value))
+                                 && !values.Any(FreeFormValueDescriptionTokens.Contains)
+            ? OptionEnumFactory.TryCreateFromHint(className, propertyName, switchName ?? propertyName, values)
+            : null;
+    }
+
+    private static string[] ParseEnumChoices(string choices)
+    {
+        if (choices.Contains(','))
+        {
+            var entries = choices.Split(',', StringSplitOptions.TrimEntries);
+            // Conjunctions are prose only when they introduce a final list member.
+            // Standalone literals named "and" or "or" remain valid choices.
+            var last = LeadingEnumConjunctionPattern().Replace(entries[^1], string.Empty);
+            var finalMembers = EnumConjunctionPattern().Split(last);
+            return finalMembers.Length <= 2 ? [.. entries[..^1], .. finalMembers] : [];
+        }
+
+        var tokens = choices.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (tokens.Length >= 4 && tokens.Length % 2 == 0
+                               && tokens.Where((_, index) => index % 2 == 0).All(token => token == "o"))
+        {
+            return [.. tokens.Where((_, index) => index % 2 != 0)];
+        }
+
+        // Without commas or repeated bullet markers, conjunction prose is ambiguous.
+        return tokens.Length > 2 && tokens.Any(token => token is "and" or "or") ? [] : tokens;
     }
 
     private IReadOnlyList<CliPositionalArgument> GetAwsPositionalArguments(
@@ -591,45 +610,6 @@ public partial class AwsCliScraper : CliScraperBase
             IsRequired = true,
         };
 
-    private static bool IsValidEnumValue(string value)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            return false;
-        }
-
-        // Must start with letter
-        if (!char.IsLetter(value[0]))
-        {
-            return false;
-        }
-
-        return value.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_');
-    }
-
-    private static CliEnumDefinition CreateEnumDefinition(string propertyName, string className, string[] values)
-    {
-        var enumName = $"{className.Replace("Options", "")}{propertyName}";
-
-        return new CliEnumDefinition
-        {
-            EnumName = enumName,
-            Values = values.Select(v => new CliEnumValue
-            {
-                MemberName = NormalizeEnumMemberName(v),
-                CliValue = v
-            }).ToList(),
-            Description = $"Allowed values for --{propertyName.ToLowerInvariant()}."
-        };
-    }
-
-    private static string NormalizeEnumMemberName(string value)
-    {
-        var cleaned = value.Replace("-", "_").Replace(".", "_");
-        var parts = cleaned.Split('_', StringSplitOptions.RemoveEmptyEntries);
-        return string.Join("", parts.Select(ToPascalCase));
-    }
-
     private static string DetermineCSharpType(bool isFlag, bool isArray, bool isKeyValue, bool isNumeric, CliEnumDefinition? enumDef)
     {
         if (isFlag)
@@ -690,6 +670,24 @@ public partial class AwsCliScraper : CliScraperBase
         @"\b(?:integer|long|float|double)\s+(?:greater|less)\s+than\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex NumericConstraintValuesPattern();
+
+    // A dot inside a literal is significant; a trailing dot ends the choice list.
+    private const string EnumValueToken = @"[a-zA-Z0-9][a-zA-Z0-9_+-]*(?:\.[a-zA-Z0-9_+-]+)*";
+
+    [GeneratedRegex(@"(?:Possible|Valid|Allowed)\s+values?:\s*(?<values>.*?)(?=\.(?:\s|$)|\s+(?:Constraints|Shorthand Syntax|JSON Syntax):|$)", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
+    private static partial Regex EnumValuesPattern();
+
+    [GeneratedRegex(@"\A" + EnumValueToken + @"\z")]
+    private static partial Regex EnumValuePattern();
+
+    [GeneratedRegex(@"\s+")]
+    private static partial Regex EnumWhitespacePattern();
+
+    [GeneratedRegex(@"^(?:and|or)\s+", RegexOptions.IgnoreCase)]
+    private static partial Regex LeadingEnumConjunctionPattern();
+
+    [GeneratedRegex(@"\s+(?:and|or)\s+", RegexOptions.IgnoreCase)]
+    private static partial Regex EnumConjunctionPattern();
 
     #endregion
 }

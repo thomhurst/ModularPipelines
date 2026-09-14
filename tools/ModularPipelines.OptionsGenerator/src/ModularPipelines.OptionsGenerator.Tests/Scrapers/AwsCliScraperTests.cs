@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -60,7 +61,7 @@ public class AwsCliScraperTests
     }
 
     [Test]
-    public async Task Enum_Detection_Deduplicates_Case_Variant_Values()
+    public async Task Enum_Detection_Preserves_Case_Variant_Values()
     {
         var definition = AwsCliScraper.TryDetectEnum(
             "TrafficRoutingConfig",
@@ -71,10 +72,78 @@ public class AwsCliScraperTests
         using (Assert.Multiple())
         {
             await Assert.That(values.Select(value => value.CliValue))
-                .IsEquivalentTo(["TimeBasedCanary", "TimeBasedLinear", "AllAtOnce"]);
+                .IsEquivalentTo(["TimeBasedCanary", "TimeBasedLinear", "AllAtOnce", "timeBasedCanary", "timeBasedLinear"]);
             await Assert.That(values.Select(value => value.MemberName).Distinct().Count())
                 .IsEqualTo(values.Count);
         }
+    }
+
+    [Test]
+    [Arguments(1, false)]
+    [Arguments(2, true)]
+    [Arguments(16, true)]
+    [Arguments(20, true)]
+    [Arguments(21, false)]
+    public async Task Enum_Detection_Uses_Shared_Member_Limits(int count, bool expectEnum)
+    {
+        var values = Enumerable.Range(1, count).Select(index => $"value{index}").ToArray();
+        var definition = AwsCliScraper.TryDetectEnum("Mode", "AwsExampleOptions", $"Possible values: {string.Join(' ', values)}");
+
+        await Assert.That(definition is not null).IsEqualTo(expectEnum);
+        if (expectEnum)
+        {
+            await Assert.That(definition!.Values.Select(value => value.CliValue)).IsEquivalentTo(values);
+        }
+    }
+
+    [Test]
+    [Arguments("Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot, and scheduled-action.", "cluster|cluster-parameter-group|cluster-security-group|cluster-snapshot|scheduled-action")]
+    [Arguments("Possible values: net8.0, net9.0 or 1st.", "net8.0|net9.0|1st")]
+    [Arguments("Allowed values: foo-bar, foo_bar, or PUBLIC.", "foo-bar|foo_bar|PUBLIC")]
+    [Arguments("Possible values: and, or", "and|or")]
+    [Arguments("Possible values: foo-, bar", "foo-|bar")]
+    [Arguments("Possible values: o, O", "o|O")]
+    [Arguments("Possible values: o Event o RequestResponse o DryRun Constraints: max: 20", "Event|RequestResponse|DryRun")]
+    public async Task Enum_Detection_Separates_Choices_From_List_Grammar(string description, string expected)
+    {
+        var definition = AwsCliScraper.TryDetectEnum("Mode", "AwsExampleOptions", description);
+        await Assert.That(definition).IsNotNull();
+        await Assert.That(definition!.Values.Select(value => value.CliValue)).IsEquivalentTo(expected.Split('|'));
+    }
+
+    [Test]
+    [Arguments("Valid values: cluster, cluster-secu-\n rity-group, and scheduled-action.")]
+    [Arguments("Valid values: cluster, cluster-security-\n group, and scheduled-action.")]
+    [Arguments("Valid values: cluster, cluster-secu- rity-group, and scheduled-action.")]
+    [Arguments("Possible values: alpha, beta for testing.")]
+    [Arguments("Possible values: alpha, beta/gamma")]
+    [Arguments("Possible values: alpha,, beta")]
+    [Arguments("Possible values: alpha, beta,")]
+    [Arguments("Possible values: alpha beta and gamma")]
+    public async Task Ambiguous_Or_Incomplete_Choice_Lists_Use_String_Fallback(string description)
+    {
+        await Assert.That(AwsCliScraper.TryDetectEnum("Mode", "AwsExampleOptions", description)).IsNull();
+    }
+
+    [Test]
+    [Arguments("cluster-secu-\n        rity-group")]
+    [Arguments("cluster-security-\n        group")]
+    public async Task Wrapped_Redshift_Source_Type_Preserves_Free_Form_Input_And_Documentation(string wrappedValue)
+    {
+        var helpText = $"""
+            OPTIONS
+                   --source-type (string)
+                    Valid values: cluster, {wrappedValue}, cluster-snapshot, and scheduled-action.
+            """;
+        var scraper = new TestAwsCliScraper();
+        var command = (await scraper.Parse(["aws", "redshift", "create-event-subscription"], helpText))!;
+        var option = command.Options.Single();
+        await Assert.That(option.EnumDefinition).IsNull();
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.Description).Contains(wrappedValue.Replace("\n        ", " "));
+        var output = await new OptionsClassGenerator().GenerateAsync(scraper.CreateToolDefinition() with { Commands = [command] });
+        await Assert.That(output.Single().Content).Contains("string? SourceType");
+        await Assert.That(output.Single().Content).Contains("scheduled-action");
     }
 
     [Test]
@@ -87,6 +156,37 @@ public class AwsCliScraperTests
 
         await Assert.That(definition!.Values.Select(value => value.CliValue))
             .IsEquivalentTo(["Event", "RequestResponse", "DryRun"]);
+    }
+
+    [Test]
+    public async Task Enum_Detection_Preserves_Punctuation_And_Leading_Digits()
+    {
+        var definition = AwsCliScraper.TryDetectEnum("Mode", "AwsExampleOptions",
+            "Possible values: foo-bar foo_bar net8.0 net9.0 1st");
+
+        await Assert.That(definition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["foo-bar", "foo_bar", "net8.0", "net9.0", "1st"]);
+        await Assert.That(definition.Values.Select(value => value.MemberName).Distinct().Count()).IsEqualTo(5);
+    }
+
+    [Test]
+    [Arguments("Possible values: active inactive. The default is active.", "active|inactive")]
+    [Arguments("Possible values: net8.0, net9.0. The default is net8.0.", "net8.0|net9.0")]
+    [Arguments("Valid values: foo-bar foo_bar 1st. Use the first value.", "foo-bar|foo_bar|1st")]
+    public async Task Enum_Detection_Stops_Before_Following_Sentence(string description, string expected)
+    {
+        var definition = AwsCliScraper.TryDetectEnum("Mode", "AwsExampleOptions", description);
+
+        await Assert.That(definition).IsNotNull();
+        await Assert.That(definition!.Values.Select(value => value.CliValue)).IsEquivalentTo(expected.Split('|'));
+    }
+
+    [Test]
+    [Arguments("Possible values: 0, 1, 2")]
+    [Arguments("Possible values: 1.5 2.5")]
+    public async Task Numeric_Hints_Do_Not_Create_Enums(string description)
+    {
+        await Assert.That(AwsCliScraper.TryDetectEnum("Value", "AwsExampleOptions", description)).IsNull();
     }
 
     [Test]

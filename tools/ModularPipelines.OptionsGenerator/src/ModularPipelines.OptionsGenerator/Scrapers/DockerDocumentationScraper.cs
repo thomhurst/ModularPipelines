@@ -130,7 +130,9 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
             {
                 var href = link.GetAttribute("href");
                 if (string.IsNullOrEmpty(href))
+                {
                     continue;
+                }
 
                 var fullUrl = href.StartsWith("http")
                     ? href
@@ -139,13 +141,17 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
                 // Skip if already processed or is the category page itself
                 if (!processedUrls.Add(fullUrl) ||
                     fullUrl.TrimEnd('/').EndsWith($"/{category}"))
+                {
                     continue;
+                }
 
                 try
                 {
                     var commandParts = ExtractCommandParts(fullUrl, category);
                     if (commandParts.Length == 0)
+                    {
                         continue;
+                    }
 
                     var command = await ScrapeCommandPageAsync(fullUrl, commandParts, cancellationToken);
                     if (command is not null)
@@ -173,7 +179,9 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
         // /reference/cli/docker/container/run/ -> ["container", "run"]
         var match = CommandUrlPattern().Match(url);
         if (!match.Success)
+        {
             return [];
+        }
 
         var path = match.Groups[1].Value.Trim('/');
         return path.Split('/', StringSplitOptions.RemoveEmptyEntries);
@@ -221,7 +229,9 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
         {
             var content = meta.GetAttribute("content");
             if (!string.IsNullOrEmpty(content))
+            {
                 return content;
+            }
         }
 
         var content2 = doc.QuerySelector("article p, .content p, main p");
@@ -243,14 +253,18 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
             var headerText = string.Join(" ", headers.Select(h => h.TextContent.ToLowerInvariant()));
 
             if (!headerText.Contains("option") && !headerText.Contains("flag"))
+            {
                 continue;
+            }
 
             var rows = table.QuerySelectorAll("tbody tr, tr").Skip(headers.Any() ? 0 : 1);
             foreach (var row in rows)
             {
                 var cells = row.QuerySelectorAll("td").ToArray();
                 if (cells.Length < 2)
+                {
                     continue;
+                }
 
                 var option = ParseOptionRow(cells, className);
                 if (option is not null && !options.Any(o => o.SwitchName == option.SwitchName))
@@ -269,7 +283,9 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
             {
                 var longForm = match.Groups["long"].Value.Trim();
                 if (string.IsNullOrEmpty(longForm) || options.Any(o => o.SwitchName == longForm))
+                {
                     continue;
+                }
 
                 var shortForm = match.Groups["short"].Value.Trim();
                 var valueType = match.Groups["type"].Value.Trim();
@@ -278,7 +294,9 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
                 var switchName = longForm;
                 var propertyName = NormalizePropertyName(longForm);
                 if (propertyName is null)
+                {
                     continue;
+                }
 
                 var isFlag = DetectBooleanFlag(description, valueType, null, null);
                 var isNumeric = DetectNumericType(valueType);
@@ -293,7 +311,7 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
                     ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
                     PropertyName = propertyName,
                     CSharpType = csharpType,
-                    Description = description,
+                    Description = OptionEnumFactory.PreserveValueHint(enumDef, description, valueType),
                     IsFlag = isFlag,
                     IsRequired = false,
                     AcceptsMultipleValues = acceptsMultiple,
@@ -312,7 +330,9 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
     private CliOptionDefinition? ParseOptionRow(IElement[] cells, string className)
     {
         if (cells.Length < 2)
+        {
             return null;
+        }
 
         var optionCell = cells[0].TextContent.Trim();
         var descriptionCell = cells.Length > 1 ? cells[1].TextContent.Trim() : string.Empty;
@@ -327,23 +347,32 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
         {
             var cleaned = part.Split(' ', StringSplitOptions.RemoveEmptyEntries)[0];
             if (cleaned.StartsWith("--"))
+            {
                 longForm = cleaned;
+            }
             else if (cleaned.StartsWith("-"))
+            {
                 shortForm = cleaned;
+            }
         }
 
         if (string.IsNullOrEmpty(longForm))
         {
             // If no long form, use short form as the switch
             if (string.IsNullOrEmpty(shortForm))
+            {
                 return null;
+            }
+
             longForm = shortForm;
             shortForm = null;
         }
 
         var propertyName = NormalizePropertyName(longForm);
         if (propertyName is null)
+        {
             return null;
+        }
 
         var isFlag = DetectBooleanFlag(descriptionCell, defaultCell, null, null);
         var isNumeric = DetectNumericType(defaultCell);
@@ -358,7 +387,7 @@ public partial class DockerDocumentationScraper : CliDocumentationScraperBase
             ShortForm = shortForm,
             PropertyName = propertyName,
             CSharpType = csharpType,
-            Description = descriptionCell,
+            Description = OptionEnumFactory.PreserveValueHint(enumDef, descriptionCell, defaultCell),
             IsFlag = isFlag,
             IsRequired = false,
             AcceptsMultipleValues = acceptsMultiple,

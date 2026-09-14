@@ -8,11 +8,12 @@ namespace ModularPipelines.OptionsGenerator.Tests.TypeDetection;
 public class OptionTypeEnhancerTests
 {
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task CreateDefault_Uses_Supplied_Executor_For_Help_Detection(bool timedOut)
+    [Arguments(false, false, 1)]
+    [Arguments(true, false, 4)]
+    [Arguments(true, true, 2)]
+    public async Task CreateDefault_Uses_Supplied_Executor_For_Help_Detection(bool timedOut, bool recovers, int expectedAttempts)
     {
-        var executor = new HelpExecutor(timedOut);
+        var executor = new HelpExecutor(timedOut, recovers);
         var enhancer = OptionTypeEnhancer.CreateDefault(executor, NullLoggerFactory.Instance);
         var tool = new CliToolDefinition
         {
@@ -37,8 +38,8 @@ public class OptionTypeEnhancerTests
         var enhanced = await enhancer.EnhanceAsync(tool);
         var option = enhanced.Commands.Single().Options.Single();
 
-        await Assert.That(executor.Calls).IsEquivalentTo([("kubectl", "example --help")]);
-        if (timedOut)
+        await Assert.That(executor.Calls).IsEquivalentTo(Enumerable.Repeat(("kubectl", "example --help"), expectedAttempts));
+        if (timedOut && !recovers)
         {
             await Assert.That(option.EnumDefinition).IsNull();
             await Assert.That(option.CSharpType).IsEqualTo("string?");
@@ -51,7 +52,7 @@ public class OptionTypeEnhancerTests
         }
     }
 
-    private sealed class HelpExecutor(bool timedOut) : ICliCommandExecutor
+    private sealed class HelpExecutor(bool timedOut, bool recovers) : ICliCommandExecutor
     {
         public List<(string Command, string Arguments)> Calls { get; } = [];
 
@@ -65,12 +66,13 @@ public class OptionTypeEnhancerTests
             string? workingDirectory = null)
         {
             Calls.Add((command, arguments));
+            var attemptTimedOut = timedOut && (!recovers || Calls.Count == 1);
             return Task.FromResult(new CliCommandResult
             {
-                StandardOutput = timedOut ? string.Empty : "  --style string   One of: compact|expanded",
+                StandardOutput = attemptTimedOut ? string.Empty : "  --style string   One of: compact|expanded",
                 StandardError = string.Empty,
-                ExitCode = timedOut ? -1 : 0,
-                TimedOut = timedOut,
+                ExitCode = attemptTimedOut ? -1 : 0,
+                TimedOut = attemptTimedOut,
             });
         }
     }
@@ -121,17 +123,71 @@ public class OptionTypeEnhancerTests
     [Test]
     public async Task EnhanceAsync_Builds_The_Same_Enum_Regardless_Of_Detected_Value_Order()
     {
-        // "PUBLIC" and "public" collide on the member name; the lowercase spelling must win
-        // whichever the detector listed first.
+        // Case variants retain distinct CLI values and deterministic member names.
         var first = await EnhanceWithDetectedEnum(["PUBLIC", "public", "internal"]);
         var second = await EnhanceWithDetectedEnum(["internal", "public", "PUBLIC"]);
 
         using (Assert.Multiple())
         {
             await Assert.That(first.Values.Select(value => value.CliValue))
-                .IsEquivalentTo(["internal", "public"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+                .IsEquivalentTo(["internal", "public", "PUBLIC"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
             await Assert.That(second.Values)
                 .IsEquivalentTo(first.Values, TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        }
+    }
+
+    [Test]
+    [Arguments(3)]
+    [Arguments(21)]
+    public async Task EnhanceAsync_Replaces_Existing_Enum_Without_Losing_Values_Or_Documentation(int valueCount)
+    {
+        string[] values = valueCount == 3 ? ["public", "PUBLIC", "internal"]
+            : [.. Enumerable.Range(1, valueCount).Select(index => $"mode{index}")];
+        var result = new OptionTypeDetectionResult
+        {
+            Type = CliOptionType.Enum,
+            Confidence = 100,
+            Source = "ManualOverride",
+            EnumValues = values,
+        };
+        var pipeline = new OptionTypeDetectorPipeline([new FixedDetector(result)], NullLogger<OptionTypeDetectorPipeline>.Instance);
+        var enhancer = new OptionTypeEnhancer(pipeline, NullLogger<OptionTypeEnhancer>.Instance);
+        var originalEnum = new CliEnumDefinition
+        {
+            EnumName = "DockerBuildVisibility",
+            Values =
+            [
+                new() { CliValue = "public", MemberName = "Public", Description = "Public visibility." },
+                new() { CliValue = "internal", MemberName = "Internal", Description = "Internal visibility." },
+            ],
+        };
+        var original = CreateTool(new CliOptionDefinition
+        {
+            SwitchName = "--visibility",
+            PropertyName = "Visibility",
+            CSharpType = "DockerBuildVisibility?",
+            Description = "Select visibility.",
+            EnumDefinition = originalEnum,
+        });
+        original = original with { Commands = [original.Commands.Single() with { Enums = [originalEnum] }] };
+
+        var enhanced = await enhancer.EnhanceAsync(original);
+        var option = enhanced.Commands.Single().Options.Single();
+
+        if (valueCount == 3)
+        {
+            await Assert.That(enhanced.AllEnums.Single().Values.Select(value => value.CliValue)).IsEquivalentTo(values);
+            await Assert.That(option.EnumDefinition!.Values.Single(value => value.CliValue == "public").Description)
+                .IsEqualTo("Public visibility.");
+        }
+        else
+        {
+            await Assert.That(option.CSharpType).IsEqualTo("string?");
+            await Assert.That(option.EnumDefinition).IsNull();
+            await Assert.That(enhanced.AllEnums).IsEmpty();
+            await Assert.That(option.Description).IsEqualTo($"Select visibility. [possible values: {string.Join(", ", values)}]");
+            var enhancedAgain = await enhancer.EnhanceAsync(enhanced);
+            await Assert.That(enhancedAgain.Commands.Single().Options.Single().Description).IsEqualTo(option.Description);
         }
     }
 

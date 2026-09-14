@@ -1,4 +1,4 @@
-#nullable enable
+﻿#nullable enable
 *REMOVED*override ModularPipelines.OptionsGenerator.Scrapers.Cli.AwsCliScraper.MaxParallelism.get -> int
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.GcloudCliScraper.UsageSynopsisHeadings.get -> System.Collections.Generic.IReadOnlyList<string!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.GcloudCliScraper.ParseCommandAsync(string![]! commandPath, string! helpText, ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult! usage, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.Models.CliCommandDefinition?>!

@@ -1993,32 +1993,8 @@ public abstract partial class CliScraperBase : ICliScraper
         string className,
         string propertyName,
         string switchName,
-        IReadOnlyList<ClapPossibleValue> values)
-    {
-        var members = values
-            .Select(value => new CliEnumValue
-            {
-                MemberName = GeneratorUtils.ToEnumMemberName(value.Value),
-                CliValue = value.Value,
-                Description = value.Description,
-            })
-            .DistinctBy(member => member.CliValue, StringComparer.Ordinal)
-            .ToList();
-        if (members.Count is < 2 or > 20)
-        {
-            return null;
-        }
-
-        var prefix = className.EndsWith("Options", StringComparison.Ordinal)
-            ? className[..^"Options".Length]
-            : className;
-        return new CliEnumDefinition
-        {
-            EnumName = $"{prefix}{propertyName}",
-            Values = members,
-            Description = $"Allowed values for {switchName}.",
-        };
-    }
+        IReadOnlyList<ClapPossibleValue> values) =>
+        OptionEnumFactory.TryCreate(className, propertyName, switchName, values.Select(value => (value.Value, value.Description)));
 
     private static bool IsPossibleValuesTrailer(string trailerName) =>
         trailerName.Equals("possible values", StringComparison.OrdinalIgnoreCase);
