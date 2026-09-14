@@ -1542,7 +1542,7 @@ public abstract partial class CliScraperBase : ICliScraper
         {
             possibleValues.AddRange(ParsePossibleValuesList(trailer.Groups["value"].Value));
         }
-        else
+        else if (!IsRepeatedClapDefault(trailer, prose))
         {
             prose.Add(pendingTrailer);
         }
@@ -1550,6 +1550,38 @@ public abstract partial class CliScraperBase : ICliScraper
         pendingTrailer = string.Empty;
         return true;
     }
+
+    private static bool IsRepeatedClapDefault(Match trailer, IReadOnlyList<string> prose)
+    {
+        if (!trailer.Success || !trailer.Groups["name"].Value.Equals("default", StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        var value = trailer.Groups["value"].Value.Trim();
+        var description = string.Join(' ', prose);
+        foreach (Match annotation in ClapDefaultAnnotationStartPattern().Matches(description))
+        {
+            var remaining = description.AsSpan(annotation.Index + annotation.Length);
+            if (!remaining.StartsWith(value, StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            // Match the entire literal value, including any nested brackets or parentheses.
+            var closing = annotation.Groups["open"].Value[0] == '(' ? ')' : ']';
+            var suffix = remaining[value.Length..].TrimStart();
+            if (!suffix.IsEmpty && suffix[0] == closing)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    [GeneratedRegex(@"(?<open>[\[(])default\s*:\s*", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex ClapDefaultAnnotationStartPattern();
 
     /// <summary>
     /// Splits a trailing <c>[possible values: a, b]</c> from an inline description, where

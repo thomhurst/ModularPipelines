@@ -157,6 +157,18 @@ public class PnpmCliScraperTests
     [Arguments("[env: PNPM_REPORTER=]", "[env: PNPM_REPORTER=]")]
     [Arguments("[default: a long\n          value]", "[default: a long value]")]
     [Arguments("[default: compact]\n          [possible values: compact, verbose]", "[default: compact]")]
+    [Arguments("Component type (default: library)\n          [default: library]", "Component type (default: library)")]
+    [Arguments("Component type (DEFAULT: library)\n          [default: library]", "Component type (DEFAULT: library)")]
+    [Arguments("Component type [default: library]\n          [default: library]", "Component type [default: library]")]
+    [Arguments("[default: library]\n          [default: library]", "[default: library]")]
+    [Arguments("Component type (default: Library)\n          [default: library]", "Component type (default: Library) [default: library]")]
+    [Arguments("Component type (default: library-tools)\n          [default: library]", "Component type (default: library-tools) [default: library]")]
+    [Arguments("Component type (default: application)\n          [default: library]", "Component type (default: application) [default: library]")]
+    [Arguments("Component type (fallback: library)\n          [default: library]", "Component type (fallback: library) [default: library]")]
+    [Arguments("Component type (default: library]\n          [default: library]", "Component type (default: library] [default: library]")]
+    [Arguments("Component type (default: a long\n          value)\n          [default: a long\n          value]", "Component type (default: a long value)")]
+    [Arguments("Component type (default: foo(bar))\n          [default: foo(bar)]", "Component type (default: foo(bar))")]
+    [Arguments("Component type (default: [a, b])\n          [default: [a, b]]", "Component type (default: [a, b])")]
     public async Task Clap_Help_Preserves_Bracketed_Prose(string description, string expected)
     {
         var help = "Usage: pnpm install [OPTIONS]\n\nOptions:\n      --reporter <REPORTER>\n          "
@@ -369,7 +381,7 @@ public class PnpmCliScraperTests
 
             var type = command.Options.Single(option => option.SwitchName == "--sbom-type");
             await Assert.That(type.Description)
-                .IsEqualTo("The component type for the root package (default: library) [default: library]");
+                .IsEqualTo("The component type for the root package (default: library)");
             await Assert.That(type.EnumDefinition).IsNull();
             await Assert.That(type.IsRequired).IsFalse();
 
@@ -426,7 +438,9 @@ public class PnpmCliScraperTests
     }
 
     [Test]
-    public async Task Clap_Possible_Values_List_Documents_Each_Enum_Member()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Clap_Possible_Values_List_Documents_Each_Enum_Member(bool proseDocumentsDefault)
     {
         // clap switches to a "Possible values:" list when any value carries its own help; a
         // long entry wraps onto the next line and a [default] trailer follows the list.
@@ -451,12 +465,14 @@ public class PnpmCliScraperTests
                       When to use colors
             """;
 
-        var command = await new TestPnpmCliScraper().Parse(["pnpm", "install"], helpText);
+        var description = proseDocumentsDefault ? "Reporter output format (default: default)" : "Reporter output format";
+        var command = await new TestPnpmCliScraper().Parse(
+            ["pnpm", "install"], helpText.Replace("Reporter output format", description, StringComparison.Ordinal));
 
         using (Assert.Multiple())
         {
             var reporter = command!.Options.Single(option => option.SwitchName == "--reporter");
-            await Assert.That(reporter.Description).IsEqualTo("Reporter output format [default: default]");
+            await Assert.That(reporter.Description).IsEqualTo(proseDocumentsDefault ? description : $"{description} [default: default]");
             await Assert.That(reporter.CSharpType).IsEqualTo("PnpmInstallReporter?");
             await Assert.That(reporter.EnumDefinition!.Values.Select(value => (value.CliValue, value.MemberName, value.Description ?? string.Empty)))
                 .IsEquivalentTo(
