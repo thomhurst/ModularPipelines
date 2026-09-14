@@ -23,25 +23,25 @@ namespace ModularPipelines.Google.Options;
 public record GcloudKmsEkmConnectionsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Specifies the key management mode for the EkmConnection and associated fields. The filter applied to the endpoints of the resolved service. If no filter is specified, all endpoints will be considered.
+    /// The filter applied to the endpoints of the resolved service. If no filter is specified, all endpoints will be considered.
     /// </summary>
     [CliOption("--endpoint-filter", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointFilter { get; set; }
 
     /// <summary>
-    /// Specifies the key management mode for the EkmConnection and associated fields. The hostname of the EKM replica used at TLS and HTTP layers.
+    /// The hostname of the EKM replica used at TLS and HTTP layers.
     /// </summary>
     [CliOption("--hostname", Format = OptionFormat.EqualsSeparated)]
     public string? Hostname { get; set; }
 
     /// <summary>
-    /// Specifies the key management mode for the EkmConnection and associated fields. A list of filenames of leaf server certificates used to authenticate HTTPS connections to the EKM replica in PEM format. If files are not in PEM, the assumed format will be DER.
+    /// A list of filenames of leaf server certificates used to authenticate HTTPS connections to the EKM replica in PEM format. If files are not in PEM, the assumed format will be DER.
     /// </summary>
     [CliOption("--server-certificates-files", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ServerCertificatesFiles { get; set; }
 
     /// <summary>
-    /// Specifies the key management mode for the EkmConnection and associated fields. The resource name of the Service Directory service pointing to an EKM replica.
+    /// The resource name of the Service Directory service pointing to an EKM replica.
     /// </summary>
     [CliOption("--service-directory-service", Format = OptionFormat.EqualsSeparated)]
     public string? ServiceDirectoryService { get; set; }

@@ -22,37 +22,37 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// SaaS runtime context. Application template description.
+    /// Application template description.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// SaaS runtime context. Application template display name.
+    /// Application template display name.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// SaaS runtime context. Update application_parameters. At most one of these can be specified: Set application_parameters to new value. Parameters to apply to all components in an application. You can specify projectID and region. key The key of the parameter. value The value of the parameter. Shorthand Example: --application-parameters=key=string,value={...} --application-parameters=key=string,value={...} JSON Example: --application-parameters='[{"key": "string", "value": {...}}]' File Example: --application-parameters=path_to_file.(yaml|json)
+    /// Update application_parameters. At most one of these can be specified: Set application_parameters to new value. Parameters to apply to all components in an application. You can specify projectID and region. key The key of the parameter. value The value of the parameter. Shorthand Example: --application-parameters=key=string,value={...} --application-parameters=key=string,value={...} JSON Example: --application-parameters='[{"key": "string", "value": {...}}]' File Example: --application-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--application-parameters", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ApplicationParameters { get; set; }
 
     /// <summary>
-    /// SaaS runtime context. Update application_parameters. At most one of these can be specified: Or at least one of these can be specified: Add new value to application_parameters list. Parameters to apply to all components in an application. You can specify projectID and region. key The key of the parameter. value The value of the parameter. Shorthand Example: --add-application-parameters=key=string,value={...} --add-application-parameters=key=string,value={...} JSON Example: --add-application-parameters='[{"key": "string", "value": {...}}]' File Example: --add-application-parameters=path_to_file.(yaml|json)
+    /// Update application_parameters. At most one of these can be specified: Or at least one of these can be specified: Add new value to application_parameters list. Parameters to apply to all components in an application. You can specify projectID and region. key The key of the parameter. value The value of the parameter. Shorthand Example: --add-application-parameters=key=string,value={...} --add-application-parameters=key=string,value={...} JSON Example: --add-application-parameters='[{"key": "string", "value": {...}}]' File Example: --add-application-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--add-application-parameters", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddApplicationParameters { get; set; }
 
     /// <summary>
-    /// SaaS runtime context. Update application_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear application_parameters value and set to empty list.
+    /// Update application_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear application_parameters value and set to empty list.
     /// </summary>
     [CliFlag("--clear-application-parameters")]
     public bool? ClearApplicationParameters { get; set; }
 
     /// <summary>
-    /// SaaS runtime context. Update application_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from application_parameters list. Parameters to apply to all components in an application. You can specify projectID and region. key The key of the parameter. value The value of the parameter. Shorthand Example: --remove-application-parameters=key=string,value={...} --remove-application-parameters=key=string,value={...} JSON Example: --remove-application-parameters='[{"key": "string", "value": {...}}]' File Example: --remove-application-parameters=path_to_file.(yaml|json)
+    /// Update application_parameters. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from application_parameters list. Parameters to apply to all components in an application. You can specify projectID and region. key The key of the parameter. value The value of the parameter. Shorthand Example: --remove-application-parameters=key=string,value={...} --remove-application-parameters=key=string,value={...} JSON Example: --remove-application-parameters='[{"key": "string", "value": {...}}]' File Example: --remove-application-parameters=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--remove-application-parameters", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveApplicationParameters { get; set; }

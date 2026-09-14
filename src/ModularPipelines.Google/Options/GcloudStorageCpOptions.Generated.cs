@@ -24,73 +24,73 @@ public record GcloudStorageCpOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
     /// </summary>
     [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
     public string? AdditionalHeaders { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Copy all source versions from a source bucket or folder. If not set, only the live version of each source object is copied. Note: This option is only useful when the destination bucket has Object Versioning enabled. Additionally, the generation numbers of copied versions do not necessarily match the order of the original generation numbers.
+    /// Copy all source versions from a source bucket or folder. If not set, only the live version of each source object is copied. Note: This option is only useful when the destination bucket has Object Versioning enabled. Additionally, the generation numbers of copied versions do not necessarily match the order of the original generation numbers.
     /// </summary>
     [CliFlag("--all-versions")]
     public bool? AllVersions { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Do not overwrite existing files or objects at the destination. Skipped items will be printed. This option may perform an additional GET request for cloud objects before attempting an upload.
+    /// Do not overwrite existing files or objects at the destination. Skipped items will be printed. This option may perform an additional GET request for cloud objects before attempting an upload.
     /// </summary>
     [CliFlag("--no-clobber")]
     public bool? NoClobber { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Manually specified MD5 hash digest for the contents of an uploaded file. This flag cannot be used when uploading multiple files. The custom digest is used by the cloud provider for validation.
+    /// Manually specified MD5 hash digest for the contents of an uploaded file. This flag cannot be used when uploading multiple files. The custom digest is used by the cloud provider for validation.
     /// </summary>
     [CliOption("--content-md5", Format = OptionFormat.EqualsSeparated)]
     public string? ContentMd5 { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. If any operations are unsuccessful, the command will exit with a non-zero exit status after completing the remaining operations. This flag takes effect only in sequential execution mode (i.e. processor and thread count are set to 1). Parallelism is default.
+    /// If any operations are unsuccessful, the command will exit with a non-zero exit status after completing the remaining operations. This flag takes effect only in sequential execution mode (i.e. processor and thread count are set to 1). Parallelism is default.
     /// </summary>
     [CliFlag("--continue-on-error")]
     public bool? ContinueOnError { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Copy in "daisy chain" mode, which means copying an object by first downloading it to the machine where the command is run, then uploading it to the destination bucket. The default mode is a "copy in the cloud," where data is copied without uploading or downloading. During a copy in the cloud, a source composite object remains composite at its destination. However, you can use daisy chain mode to change a composite object into a non-composite object. Note: Daisy chain mode is automatically used when copying between providers.
+    /// Copy in "daisy chain" mode, which means copying an object by first downloading it to the machine where the command is run, then uploading it to the destination bucket. The default mode is a "copy in the cloud," where data is copied without uploading or downloading. During a copy in the cloud, a source composite object remains composite at its destination. However, you can use daisy chain mode to change a composite object into a non-composite object. Note: Daisy chain mode is automatically used when copying between providers.
     /// </summary>
     [CliFlag("--daisy-chain")]
     public bool? DaisyChain { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Do not automatically decompress downloaded gzip files.
+    /// Do not automatically decompress downloaded gzip files.
     /// </summary>
     [CliFlag("--do-not-decompress")]
     public bool? DoNotDecompress { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Includes managed folders in command operations. For transfers, gcloud storage will set up managed folders in the destination with the same IAM policy bindings as the source. Managed folders are only included with recursive cloud-to-cloud transfers. Please note that for hierarchical namespace buckets, managed folders are always included. Hence this flag would not be applicable to hierarchical namespace buckets.
+    /// Includes managed folders in command operations. For transfers, gcloud storage will set up managed folders in the destination with the same IAM policy bindings as the source. Managed folders are only included with recursive cloud-to-cloud transfers. Please note that for hierarchical namespace buckets, managed folders are always included. Hence this flag would not be applicable to hierarchical namespace buckets.
     /// </summary>
     [CliFlag("--include-managed-folders")]
     public bool? IncludeManagedFolders { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Outputs a manifest log file with detailed information about each item that was copied. This manifest contains the following information for each item: ◆ Source path. ◆ Destination path. ◆ Source size. ◆ Bytes transferred. ◆ MD5 hash. ◆ Transfer start time and date in UTC and ISO 8601 format. ◆ Transfer completion time and date in UTC and ISO 8601 format. ◆ Final result of the attempted transfer: OK, error, or skipped. ◆ Details, if any. If the manifest file already exists, gcloud storage appends log items to the existing file. Objects that are marked as "OK" or "skipped" in the existing manifest file are not retried by future commands. Objects marked as "error" are retried.
+    /// Outputs a manifest log file with detailed information about each item that was copied. This manifest contains the following information for each item: ◆ Source path. ◆ Destination path. ◆ Source size. ◆ Bytes transferred. ◆ MD5 hash. ◆ Transfer start time and date in UTC and ISO 8601 format. ◆ Transfer completion time and date in UTC and ISO 8601 format. ◆ Final result of the attempted transfer: OK, error, or skipped. ◆ Details, if any. If the manifest file already exists, gcloud storage appends log items to the existing file. Objects that are marked as "OK" or "skipped" in the existing manifest file are not retried by future commands. Objects marked as "error" are retried.
     /// </summary>
     [CliOption("--manifest-path", Format = OptionFormat.EqualsSeparated)]
     public string? ManifestPath { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Causes POSIX attributes to be preserved when objects are copied. With this feature enabled, gcloud storage will copy several fields provided by the stat command: access time, modification time, owner UID, owner group GID, and the mode (permissions) of the file. For uploads, these attributes are read off of local files and stored in the cloud as custom metadata. For downloads, custom cloud metadata is set as POSIX attributes on files after they are downloaded. On Windows, this flag will only set and restore access time and modification time because Windows doesn't have a notion of POSIX UID, GID, and mode.
+    /// Causes POSIX attributes to be preserved when objects are copied. With this feature enabled, gcloud storage will copy several fields provided by the stat command: access time, modification time, owner UID, owner group GID, and the mode (permissions) of the file. For uploads, these attributes are read off of local files and stored in the cloud as custom metadata. For downloads, custom cloud metadata is set as POSIX attributes on files after they are downloaded. On Windows, this flag will only set and restore access time and modification time because Windows doesn't have a notion of POSIX UID, GID, and mode.
     /// </summary>
     [CliFlag("--preserve-posix")]
     public bool? PreservePosix { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Prints the version-specific URL for each copied object.
+    /// Prints the version-specific URL for each copied object.
     /// </summary>
     [CliFlag("--print-created-message")]
     public bool? PrintCreatedMessage { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively copy the contents of any directories that match the source path expression. Read the list of resources to copy from stdin. No need to enter a source argument if this flag is present. Example: "storage cp -I gs://bucket/destination". The input format must consist of one path (e.g., "Documents/data/file1.txt") or one object URL (e.g., "gs://example-bucket/event.log") per line. Use a pipe to send the file list to the command. Example: "cat example-file-list.txt | gcloud storage cp --read-paths-from-stdin gs://example-destination-bucket". Note: To copy the contents of one file directly from stdin, use "-" as the source argument without the "-I" flag.
+    /// Read the list of resources to copy from stdin. No need to enter a source argument if this flag is present. Example: "storage cp -I gs://bucket/destination". The input format must consist of one path (e.g., "Documents/data/file1.txt") or one object URL (e.g., "gs://example-bucket/event.log") per line. Use a pipe to send the file list to the command. Example: "cat example-file-list.txt | gcloud storage cp --read-paths-from-stdin gs://example-destination-bucket". Note: To copy the contents of one file directly from stdin, use "-" as the source argument without the "-I" flag.
     /// </summary>
     [CliFlag("--read-paths-from-stdin")]
     public bool? ReadPathsFromStdin { get; set; }

@@ -66,7 +66,7 @@ public class GcloudEndpoints : IGcloudEndpoints
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEndpointsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEndpointsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

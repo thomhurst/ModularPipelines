@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudMonitoringSnoozesCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Snooze Settings. If any of these are specified, they will overwrite fields in the --snooze-from-file flags if specified. The path to a JSON or YAML file containing the snooze. Use a full or relative path to a local file containing the value of snooze.
+    /// The path to a JSON or YAML file containing the snooze. Use a full or relative path to a local file containing the value of snooze.
     /// </summary>
     [CliOption("--snooze-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? SnoozeFromFile { get; set; }

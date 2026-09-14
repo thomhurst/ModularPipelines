@@ -198,10 +198,6 @@
 *REMOVED*ModularPipelines.Google.Enums.GcloudSubnet
 *REMOVED*ModularPipelines.Google.Enums.GcloudSubnet.Ipv4 = 0 -> ModularPipelines.Google.Enums.GcloudSubnet
 *REMOVED*ModularPipelines.Google.Enums.GcloudSubnet.Ipv6 = 1 -> ModularPipelines.Google.Enums.GcloudSubnet
-*REMOVED*ModularPipelines.Google.Enums.GcloudTestType.DirectConnectivity = 0 -> ModularPipelines.Google.Enums.GcloudTestType
-*REMOVED*ModularPipelines.Google.Enums.GcloudTestType.DownloadThroughput = 1 -> ModularPipelines.Google.Enums.GcloudTestType
-*REMOVED*ModularPipelines.Google.Enums.GcloudTestType.Latency = 2 -> ModularPipelines.Google.Enums.GcloudTestType
-*REMOVED*ModularPipelines.Google.Enums.GcloudTestType.UploadThroughput = 3 -> ModularPipelines.Google.Enums.GcloudTestType
 *REMOVED*ModularPipelines.Google.Enums.GcloudTier.Enterprise = 1 -> ModularPipelines.Google.Enums.GcloudTier
 *REMOVED*ModularPipelines.Google.Enums.GcloudTier.Standard = 0 -> ModularPipelines.Google.Enums.GcloudTier
 *REMOVED*ModularPipelines.Google.Enums.GcloudTitle
@@ -683,15 +679,8 @@
 *REMOVED*ModularPipelines.Google.Options.GcloudStorageBucketsUpdateOptions.RecoveryPointObjective.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudStorageCpOptions.Recursive.get -> bool?
 *REMOVED*ModularPipelines.Google.Options.GcloudStorageCpOptions.Recursive.set -> void
-*REMOVED*ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.Destination.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.DownloadType.get -> string?
-*REMOVED*ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.DownloadType.set -> void
-*REMOVED*ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.LogsPath.get -> string?
-*REMOVED*ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.ObjectCount.get -> int?
-*REMOVED*ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.ProcessCount.get -> int?
-*REMOVED*ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.ThreadCount.get -> int?
 *REMOVED*ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.UploadType.get -> string?
-*REMOVED*ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.UploadType.set -> void
 *REMOVED*ModularPipelines.Google.Options.GcloudStorageDuOptions.ExcludeNamePattern.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudStorageHmacListOptions.ServiceAccount.get -> int?
 *REMOVED*ModularPipelines.Google.Options.GcloudStorageInsightsDatasetConfigsCreateLinkOptions
@@ -748,21 +737,17 @@
 *REMOVED*ModularPipelines.Google.Options.GcloudTasksDescribeOptions.ResponseView.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudTasksQueuesCreateOptions.HttpHeaderOverride.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudTelcoAutomationOrchestrationClusterCreateOptions.CidrBlocks.get -> string?
-*REMOVED*ModularPipelines.Google.Options.GcloudTransferJobsCreateOptions.CustomStorageClass.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudTransferJobsCreateOptions.IncludeModifiedAfterAbsolute.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudTransferJobsCreateOptions.IncludeModifiedAfterRelative.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudTransferJobsCreateOptions.IncludeModifiedBeforeAbsolute.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudTransferJobsCreateOptions.IncludeModifiedBeforeRelative.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudTransferJobsCreateOptions.NotificationPayloadFormat.get -> string?
-*REMOVED*ModularPipelines.Google.Options.GcloudTransferJobsCreateOptions.NotificationPubsubTopic.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudTransferJobsListOptions.JobType.get -> string?
-*REMOVED*ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.CustomStorageClass.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.IncludeModifiedAfterAbsolute.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.IncludeModifiedAfterRelative.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.IncludeModifiedBeforeAbsolute.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.IncludeModifiedBeforeRelative.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.NotificationPayloadFormat.get -> string?
-*REMOVED*ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.NotificationPubsubTopic.get -> string?
 *REMOVED*ModularPipelines.Google.Options.GcloudVmwarePrivateCloudsClustersUpdateOptions.NodeTypeConfig.get -> System.Collections.Generic.IEnumerable<string!>?
 *REMOVED*ModularPipelines.Google.Options.GcloudVmwarePrivateCloudsClustersUpdateOptions.UpdateNodesConfig.get -> int?
 *REMOVED*ModularPipelines.Google.Options.GcloudVmwarePrivateConnectionsUpdateOptions.RoutingMode.get -> string?
@@ -10155,10 +10140,6 @@ ModularPipelines.Google.Enums.GcloudDataDiskType.PdSsd = 2 -> ModularPipelines.G
 ModularPipelines.Google.Enums.GcloudDataDiskType.PdStandard = 3 -> ModularPipelines.Google.Enums.GcloudDataDiskType
 ModularPipelines.Google.Enums.GcloudDatabaseDialect.GoogleStandardSql = 0 -> ModularPipelines.Google.Enums.GcloudDatabaseDialect
 ModularPipelines.Google.Enums.GcloudDatabaseDialect.Postgresql = 1 -> ModularPipelines.Google.Enums.GcloudDatabaseDialect
-ModularPipelines.Google.Enums.GcloudDestination
-ModularPipelines.Google.Enums.GcloudDestination.File = 0 -> ModularPipelines.Google.Enums.GcloudDestination
-ModularPipelines.Google.Enums.GcloudDestination.Sliced = 1 -> ModularPipelines.Google.Enums.GcloudDestination
-ModularPipelines.Google.Enums.GcloudDestination.Streaming = 2 -> ModularPipelines.Google.Enums.GcloudDestination
 ModularPipelines.Google.Enums.GcloudDirectVpcEgress.All = 0 -> ModularPipelines.Google.Enums.GcloudDirectVpcEgress
 ModularPipelines.Google.Enums.GcloudDirectVpcEgress.AllTraffic = 1 -> ModularPipelines.Google.Enums.GcloudDirectVpcEgress
 ModularPipelines.Google.Enums.GcloudDirectVpcEgress.PrivateRangesOnly = 2 -> ModularPipelines.Google.Enums.GcloudDirectVpcEgress
@@ -10170,6 +10151,10 @@ ModularPipelines.Google.Enums.GcloudDiskType.HyperdiskThroughput = 2 -> ModularP
 ModularPipelines.Google.Enums.GcloudDiskType.PdBalanced = 3 -> ModularPipelines.Google.Enums.GcloudDiskType
 ModularPipelines.Google.Enums.GcloudDiskType.PdSsd = 4 -> ModularPipelines.Google.Enums.GcloudDiskType
 ModularPipelines.Google.Enums.GcloudDiskType.PdStandard = 5 -> ModularPipelines.Google.Enums.GcloudDiskType
+ModularPipelines.Google.Enums.GcloudDownloadType
+ModularPipelines.Google.Enums.GcloudDownloadType.File = 0 -> ModularPipelines.Google.Enums.GcloudDownloadType
+ModularPipelines.Google.Enums.GcloudDownloadType.Sliced = 1 -> ModularPipelines.Google.Enums.GcloudDownloadType
+ModularPipelines.Google.Enums.GcloudDownloadType.Streaming = 2 -> ModularPipelines.Google.Enums.GcloudDownloadType
 ModularPipelines.Google.Enums.GcloudDumpParallelLevel
 ModularPipelines.Google.Enums.GcloudDumpParallelLevel.Max = 0 -> ModularPipelines.Google.Enums.GcloudDumpParallelLevel
 ModularPipelines.Google.Enums.GcloudDumpParallelLevel.Min = 1 -> ModularPipelines.Google.Enums.GcloudDumpParallelLevel
@@ -10208,10 +10193,6 @@ ModularPipelines.Google.Enums.GcloudExceedAction.Deny_429 = 3 -> ModularPipeline
 ModularPipelines.Google.Enums.GcloudExceedAction.Deny_502 = 4 -> ModularPipelines.Google.Enums.GcloudExceedAction
 ModularPipelines.Google.Enums.GcloudExceedRedirectType.External_302 = 0 -> ModularPipelines.Google.Enums.GcloudExceedRedirectType
 ModularPipelines.Google.Enums.GcloudExceedRedirectType.GoogleRecaptcha = 1 -> ModularPipelines.Google.Enums.GcloudExceedRedirectType
-ModularPipelines.Google.Enums.GcloudExport
-ModularPipelines.Google.Enums.GcloudExport.File = 0 -> ModularPipelines.Google.Enums.GcloudExport
-ModularPipelines.Google.Enums.GcloudExport.Sliced = 1 -> ModularPipelines.Google.Enums.GcloudExport
-ModularPipelines.Google.Enums.GcloudExport.Streaming = 2 -> ModularPipelines.Google.Enums.GcloudExport
 ModularPipelines.Google.Enums.GcloudExtendedKeyUsages
 ModularPipelines.Google.Enums.GcloudExtendedKeyUsages.ClientAuth = 0 -> ModularPipelines.Google.Enums.GcloudExtendedKeyUsages
 ModularPipelines.Google.Enums.GcloudExtendedKeyUsages.CodeSigning = 1 -> ModularPipelines.Google.Enums.GcloudExtendedKeyUsages
@@ -10328,10 +10309,6 @@ ModularPipelines.Google.Enums.GcloudLoggingConfig.Warning = 8 -> ModularPipeline
 ModularPipelines.Google.Enums.GcloudLoggingOptional.Custom = 0 -> ModularPipelines.Google.Enums.GcloudLoggingOptional
 ModularPipelines.Google.Enums.GcloudLoggingOptional.ExcludeAllOptional = 1 -> ModularPipelines.Google.Enums.GcloudLoggingOptional
 ModularPipelines.Google.Enums.GcloudLoggingOptional.IncludeAllOptional = 2 -> ModularPipelines.Google.Enums.GcloudLoggingOptional
-ModularPipelines.Google.Enums.GcloudLogsPath
-ModularPipelines.Google.Enums.GcloudLogsPath.File = 0 -> ModularPipelines.Google.Enums.GcloudLogsPath
-ModularPipelines.Google.Enums.GcloudLogsPath.Sliced = 1 -> ModularPipelines.Google.Enums.GcloudLogsPath
-ModularPipelines.Google.Enums.GcloudLogsPath.Streaming = 2 -> ModularPipelines.Google.Enums.GcloudLogsPath
 ModularPipelines.Google.Enums.GcloudManagedBy
 ModularPipelines.Google.Enums.GcloudManagedBy.Any = 0 -> ModularPipelines.Google.Enums.GcloudManagedBy
 ModularPipelines.Google.Enums.GcloudManagedBy.System = 1 -> ModularPipelines.Google.Enums.GcloudManagedBy
@@ -10363,18 +10340,6 @@ ModularPipelines.Google.Enums.GcloudNotificationEventTypes.Success = 2 -> Modula
 ModularPipelines.Google.Enums.GcloudNotificationPayloadFormat
 ModularPipelines.Google.Enums.GcloudNotificationPayloadFormat.Json = 0 -> ModularPipelines.Google.Enums.GcloudNotificationPayloadFormat
 ModularPipelines.Google.Enums.GcloudNotificationPayloadFormat.None = 1 -> ModularPipelines.Google.Enums.GcloudNotificationPayloadFormat
-ModularPipelines.Google.Enums.GcloudObjectCount
-ModularPipelines.Google.Enums.GcloudObjectCount.File = 0 -> ModularPipelines.Google.Enums.GcloudObjectCount
-ModularPipelines.Google.Enums.GcloudObjectCount.Sliced = 1 -> ModularPipelines.Google.Enums.GcloudObjectCount
-ModularPipelines.Google.Enums.GcloudObjectCount.Streaming = 2 -> ModularPipelines.Google.Enums.GcloudObjectCount
-ModularPipelines.Google.Enums.GcloudObjectSize
-ModularPipelines.Google.Enums.GcloudObjectSize.File = 0 -> ModularPipelines.Google.Enums.GcloudObjectSize
-ModularPipelines.Google.Enums.GcloudObjectSize.Sliced = 1 -> ModularPipelines.Google.Enums.GcloudObjectSize
-ModularPipelines.Google.Enums.GcloudObjectSize.Streaming = 2 -> ModularPipelines.Google.Enums.GcloudObjectSize
-ModularPipelines.Google.Enums.GcloudObjectSizes
-ModularPipelines.Google.Enums.GcloudObjectSizes.File = 0 -> ModularPipelines.Google.Enums.GcloudObjectSizes
-ModularPipelines.Google.Enums.GcloudObjectSizes.Sliced = 1 -> ModularPipelines.Google.Enums.GcloudObjectSizes
-ModularPipelines.Google.Enums.GcloudObjectSizes.Streaming = 2 -> ModularPipelines.Google.Enums.GcloudObjectSizes
 ModularPipelines.Google.Enums.GcloudOrder
 ModularPipelines.Google.Enums.GcloudOrder.Asc = 0 -> ModularPipelines.Google.Enums.GcloudOrder
 ModularPipelines.Google.Enums.GcloudOrder.Desc = 1 -> ModularPipelines.Google.Enums.GcloudOrder
@@ -10406,10 +10371,6 @@ ModularPipelines.Google.Enums.GcloudPolicyType.DnsPublicIpPolicy = 1 -> ModularP
 ModularPipelines.Google.Enums.GcloudPricingPlan
 ModularPipelines.Google.Enums.GcloudPricingPlan.Package = 0 -> ModularPipelines.Google.Enums.GcloudPricingPlan
 ModularPipelines.Google.Enums.GcloudPricingPlan.PerUse = 1 -> ModularPipelines.Google.Enums.GcloudPricingPlan
-ModularPipelines.Google.Enums.GcloudProcessCount
-ModularPipelines.Google.Enums.GcloudProcessCount.File = 0 -> ModularPipelines.Google.Enums.GcloudProcessCount
-ModularPipelines.Google.Enums.GcloudProcessCount.Sliced = 1 -> ModularPipelines.Google.Enums.GcloudProcessCount
-ModularPipelines.Google.Enums.GcloudProcessCount.Streaming = 2 -> ModularPipelines.Google.Enums.GcloudProcessCount
 ModularPipelines.Google.Enums.GcloudProvider.Cloudsql = 0 -> ModularPipelines.Google.Enums.GcloudProvider
 ModularPipelines.Google.Enums.GcloudProvider.Rds = 1 -> ModularPipelines.Google.Enums.GcloudProvider
 ModularPipelines.Google.Enums.GcloudPublishingEncodingFormat
@@ -10517,13 +10478,6 @@ ModularPipelines.Google.Enums.GcloudSystemCommand.On = 1 -> ModularPipelines.Goo
 ModularPipelines.Google.Enums.GcloudTarballAccess
 ModularPipelines.Google.Enums.GcloudTarballAccess.GoogleCloudSupport = 0 -> ModularPipelines.Google.Enums.GcloudTarballAccess
 ModularPipelines.Google.Enums.GcloudTarballAccess.GoogleDataprocDiagnose = 1 -> ModularPipelines.Google.Enums.GcloudTarballAccess
-ModularPipelines.Google.Enums.GcloudTestType.File = 0 -> ModularPipelines.Google.Enums.GcloudTestType
-ModularPipelines.Google.Enums.GcloudTestType.Sliced = 1 -> ModularPipelines.Google.Enums.GcloudTestType
-ModularPipelines.Google.Enums.GcloudTestType.Streaming = 2 -> ModularPipelines.Google.Enums.GcloudTestType
-ModularPipelines.Google.Enums.GcloudThreadCount
-ModularPipelines.Google.Enums.GcloudThreadCount.File = 0 -> ModularPipelines.Google.Enums.GcloudThreadCount
-ModularPipelines.Google.Enums.GcloudThreadCount.Sliced = 1 -> ModularPipelines.Google.Enums.GcloudThreadCount
-ModularPipelines.Google.Enums.GcloudThreadCount.Streaming = 2 -> ModularPipelines.Google.Enums.GcloudThreadCount
 ModularPipelines.Google.Enums.GcloudTier.Enterprise = 0 -> ModularPipelines.Google.Enums.GcloudTier
 ModularPipelines.Google.Enums.GcloudTier.Standard = 1 -> ModularPipelines.Google.Enums.GcloudTier
 ModularPipelines.Google.Enums.GcloudTokenFormat
@@ -10535,6 +10489,10 @@ ModularPipelines.Google.Enums.GcloudTreeType.Source = 1 -> ModularPipelines.Goog
 ModularPipelines.Google.Enums.GcloudUpdateArchitecture
 ModularPipelines.Google.Enums.GcloudUpdateArchitecture.Arm64 = 0 -> ModularPipelines.Google.Enums.GcloudUpdateArchitecture
 ModularPipelines.Google.Enums.GcloudUpdateArchitecture.X86_64 = 1 -> ModularPipelines.Google.Enums.GcloudUpdateArchitecture
+ModularPipelines.Google.Enums.GcloudUploadType
+ModularPipelines.Google.Enums.GcloudUploadType.File = 0 -> ModularPipelines.Google.Enums.GcloudUploadType
+ModularPipelines.Google.Enums.GcloudUploadType.ParallelComposite = 1 -> ModularPipelines.Google.Enums.GcloudUploadType
+ModularPipelines.Google.Enums.GcloudUploadType.Streaming = 2 -> ModularPipelines.Google.Enums.GcloudUploadType
 ModularPipelines.Google.Enums.GcloudUsePresetProfile
 ModularPipelines.Google.Enums.GcloudUsePresetProfile.LeafClientTls = 0 -> ModularPipelines.Google.Enums.GcloudUsePresetProfile
 ModularPipelines.Google.Enums.GcloudUsePresetProfile.LeafCodeSigning = 1 -> ModularPipelines.Google.Enums.GcloudUsePresetProfile
@@ -22181,15 +22139,12 @@ ModularPipelines.Google.Options.GcloudStorageCpOptions.PreserveAcl.get -> bool?
 ModularPipelines.Google.Options.GcloudStorageCpOptions.PreserveAcl.set -> void
 ModularPipelines.Google.Options.GcloudStorageCpOptions.PreserveSymlinks.get -> bool?
 ModularPipelines.Google.Options.GcloudStorageCpOptions.PreserveSymlinks.set -> void
-ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.Destination.get -> ModularPipelines.Google.Enums.GcloudDestination?
-ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.LogsPath.get -> ModularPipelines.Google.Enums.GcloudLogsPath?
-ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.ObjectCount.get -> ModularPipelines.Google.Enums.GcloudObjectCount?
-ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.ObjectSize.get -> ModularPipelines.Google.Enums.GcloudObjectSize?
+ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.DownloadType.get -> ModularPipelines.Google.Enums.GcloudDownloadType?
+ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.ObjectSize.get -> int?
 ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.ObjectSize.set -> void
-ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.ObjectSizes.get -> ModularPipelines.Google.Enums.GcloudObjectSizes?
+ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.ObjectSizes.get -> System.Collections.Generic.IEnumerable<int>?
 ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.ObjectSizes.set -> void
-ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.ProcessCount.get -> ModularPipelines.Google.Enums.GcloudProcessCount?
-ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.ThreadCount.get -> ModularPipelines.Google.Enums.GcloudThreadCount?
+ModularPipelines.Google.Options.GcloudStorageDiagnoseOptions.UploadType.get -> ModularPipelines.Google.Enums.GcloudUploadType?
 ModularPipelines.Google.Options.GcloudStorageDuOptions.ExcludeNamePattern.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudStorageHashOptions.SkipCrc32c.get -> bool?
 ModularPipelines.Google.Options.GcloudStorageHashOptions.SkipCrc32c.set -> void
@@ -22463,7 +22418,6 @@ ModularPipelines.Google.Options.GcloudTransferAgentsInstallOptions.EnableMultipa
 ModularPipelines.Google.Options.GcloudTransferAgentsInstallOptions.EnableMultipart.set -> void
 ModularPipelines.Google.Options.GcloudTransferAgentsInstallOptions.NoEnableMultipart.get -> bool?
 ModularPipelines.Google.Options.GcloudTransferAgentsInstallOptions.NoEnableMultipart.set -> void
-ModularPipelines.Google.Options.GcloudTransferJobsCreateOptions.CustomStorageClass.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudTransferJobsCreateOptions.EnablePosixTransferLogs.get -> bool?
 ModularPipelines.Google.Options.GcloudTransferJobsCreateOptions.EnablePosixTransferLogs.set -> void
 ModularPipelines.Google.Options.GcloudTransferJobsCreateOptions.IncludeModifiedAfterAbsolute.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -22475,11 +22429,9 @@ ModularPipelines.Google.Options.GcloudTransferJobsCreateOptions.MatchGlob.set ->
 ModularPipelines.Google.Options.GcloudTransferJobsCreateOptions.NoEnablePosixTransferLogs.get -> bool?
 ModularPipelines.Google.Options.GcloudTransferJobsCreateOptions.NoEnablePosixTransferLogs.set -> void
 ModularPipelines.Google.Options.GcloudTransferJobsCreateOptions.NotificationPayloadFormat.get -> ModularPipelines.Google.Enums.GcloudNotificationPayloadFormat?
-ModularPipelines.Google.Options.GcloudTransferJobsCreateOptions.NotificationPubsubTopic.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudTransferJobsListOptions.JobType.get -> ModularPipelines.Google.Enums.GcloudJobType?
 ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.ClearMatchGlob.get -> bool?
 ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.ClearMatchGlob.set -> void
-ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.CustomStorageClass.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.EnablePosixTransferLogs.get -> bool?
 ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.EnablePosixTransferLogs.set -> void
 ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.IncludeModifiedAfterAbsolute.get -> System.Collections.Generic.IEnumerable<string!>?
@@ -22491,7 +22443,6 @@ ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.MatchGlob.set ->
 ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.NoEnablePosixTransferLogs.get -> bool?
 ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.NoEnablePosixTransferLogs.set -> void
 ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.NotificationPayloadFormat.get -> ModularPipelines.Google.Enums.GcloudNotificationPayloadFormat?
-ModularPipelines.Google.Options.GcloudTransferJobsUpdateOptions.NotificationPubsubTopic.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.Google.Options.GcloudVectorSearchCollectionsDataObjectsUpdateOptions.ClearVectors.get -> bool?
 ModularPipelines.Google.Options.GcloudVectorSearchCollectionsDataObjectsUpdateOptions.ClearVectors.set -> void
 ModularPipelines.Google.Options.GcloudVectorSearchCollectionsDataObjectsUpdateOptions.RemoveVectors.get -> string?

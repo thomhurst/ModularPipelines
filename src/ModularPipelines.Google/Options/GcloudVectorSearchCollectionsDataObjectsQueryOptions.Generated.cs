@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVectorSearchCollectionsDataObjectsQueryOptions : GcloudOptions
 {
     /// <summary>
-    /// Output fields A filter expression in JSON format to apply to the query, e.g. '{"genre": {"$eq": "sci-fi"}}'.
+    /// A filter expression in JSON format to apply to the query, e.g. '{"genre": {"$eq": "sci-fi"}}'.
     /// </summary>
     [CliOption("--json-filter", Format = OptionFormat.EqualsSeparated)]
     public string? JsonFilter { get; set; }

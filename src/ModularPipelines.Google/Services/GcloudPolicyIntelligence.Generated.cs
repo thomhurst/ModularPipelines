@@ -60,7 +60,7 @@ public class GcloudPolicyIntelligence : IGcloudPolicyIntelligence
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPolicyIntelligenceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPolicyIntelligenceOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ public class GcloudPolicyIntelligence : IGcloudPolicyIntelligence
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPolicyIntelligenceQueryActivityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudPolicyIntelligenceQueryActivityOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

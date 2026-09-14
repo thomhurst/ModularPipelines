@@ -72,7 +72,7 @@ public class GcloudContainerBareMetal
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerBareMetalOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudContainerBareMetalOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -144,166 +144,166 @@ public record GcloudRunJobsCreateOptions : GcloudOptions
     public IEnumerable<string>? RemoveVolume { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Adds a mount to the current container. Must contain the keys volume=NAME and mount-path=/PATH where NAME is the name of a volume on this resource and PATH is the path within the container's filesystem to mount this volume.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Adds a mount to the current container. Must contain the keys volume=NAME and mount-path=/PATH where NAME is the name of a volume on this resource and PATH is the path within the container's filesystem to mount this volume.
     /// </summary>
     [CliOption("--add-volume-mount", Format = OptionFormat.EqualsSeparated)]
     public string? AddVolumeMount { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Comma-separated arguments passed to the command run by the container image. If not specified and no '--command' is provided, the container image's default Cmd is used. Otherwise, if not specified, no arguments are passed. To reset this field to its default, pass an empty string.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Comma-separated arguments passed to the command run by the container image. If not specified and no '--command' is provided, the container image's default Cmd is used. Otherwise, if not specified, no arguments are passed. To reset this field to its default, pass an empty string.
     /// </summary>
     [CliOption("--args", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Args { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Remove all existing mounts from the current container.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Remove all existing mounts from the current container.
     /// </summary>
     [CliFlag("--clear-volume-mounts")]
     public bool? ClearVolumeMounts { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Entrypoint for the container image. If not specified, the container image's default Entrypoint is run. To reset this field to its default, pass an empty string.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Entrypoint for the container image. If not specified, the container image's default Entrypoint is run. To reset this field to its default, pass an empty string.
     /// </summary>
     [CliOption("--command", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Command { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Set a CPU limit in Kubernetes cpu units. Cloud Run supports values fractional values below 1, 1, 2, 4, and 8. Some CPU values requires a minimum Memory --memory value.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Set a CPU limit in Kubernetes cpu units. Cloud Run supports values fractional values below 1, 1, 2, 4, and 8. Some CPU values requires a minimum Memory --memory value.
     /// </summary>
     [CliOption("--cpu", Format = OptionFormat.EqualsSeparated)]
     public string? Cpu { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. List of container dependencies to add to the current container.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. List of container dependencies to add to the current container.
     /// </summary>
     [CliOption("--depends-on", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DependsOn { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Cloud Run supports values 0 or 1. 1 gpu also requires a minimum 4 --cpu value and a minimum 16Gi --memory value.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Cloud Run supports values 0 or 1. 1 gpu also requires a minimum 4 --cpu value and a minimum 16Gi --memory value.
     /// </summary>
     [CliOption("--gpu", Format = OptionFormat.EqualsSeparated)]
     public string? Gpu { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Name of the container image to deploy (e.g. us-docker.pkg.dev/cloudrun/container/job:latest).
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Name of the container image to deploy (e.g. us-docker.pkg.dev/cloudrun/container/job:latest).
     /// </summary>
     [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
     public string? Image { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Set a memory limit. Ex: 1024Mi, 4Gi.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Set a memory limit. Ex: 1024Mi, 4Gi.
     /// </summary>
     [CliOption("--memory", Format = OptionFormat.EqualsSeparated)]
     public string? Memory { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Removes the volume mounted at the specified path from the current container.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Removes the volume mounted at the specified path from the current container.
     /// </summary>
     [CliOption("--remove-volume-mount", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveVolumeMount { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Comma separated settings for startup probe in the form KEY=VALUE. Each key stands for a field of the probe described in https://cloud.google.com/run/docs/reference/rest/v1/Container#Probe. Currently supported keys are: initialDelaySeconds, timeoutSeconds, periodSeconds, failureThreshold, httpGet.port, httpGet.path, grpc.port, grpc.service, tcpSocket.port. For example, to set a probe with 10s timeout and HTTP probe requests sent to 8080 port of the container: $ --startup-probe=timeoutSeconds=10,httpGet.port=8080 To remove existing probe: $ --startup-probe=""
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Comma separated settings for startup probe in the form KEY=VALUE. Each key stands for a field of the probe described in https://cloud.google.com/run/docs/reference/rest/v1/Container#Probe. Currently supported keys are: initialDelaySeconds, timeoutSeconds, periodSeconds, failureThreshold, httpGet.port, httpGet.path, grpc.port, grpc.service, tcpSocket.port. For example, to set a probe with 10s timeout and HTTP probe requests sent to 8080 port of the container: $ --startup-probe=timeoutSeconds=10,httpGet.port=8080 To remove existing probe: $ --startup-probe=""
     /// </summary>
     [CliOption("--startup-probe", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? StartupProbe { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Working directory of the container process. If not specified, the container image's default working directory is used. To reset this field to its default, pass an empty string.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Working directory of the container process. If not specified, the container image's default working directory is used. To reset this field to its default, pass an empty string.
     /// </summary>
     [CliOption("--workdir", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. At most one of these can be specified: Remove all environment variables.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Remove all environment variables.
     /// </summary>
     [CliFlag("--clear-env-vars")]
     public bool? ClearEnvVars { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. At most one of these can be specified: Path to a local YAML or ENV file with definitions for all environment variables. All existing environment variables will be removed before the new environment variables are added. Example YAML content: KEY_1: "value1" KEY_2: "value 2" Example ENV content: KEY_1="value1" KEY_2="value 2"
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Path to a local YAML or ENV file with definitions for all environment variables. All existing environment variables will be removed before the new environment variables are added. Example YAML content: KEY_1: "value1" KEY_2: "value 2" Example ENV content: KEY_1="value1" KEY_2="value 2"
     /// </summary>
     [CliOption("--env-vars-file", Format = OptionFormat.EqualsSeparated)]
     public string? EnvVarsFile { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. At most one of these can be specified: List of key-value pairs to set as environment variables. All existing environment variables will be removed first.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: List of key-value pairs to set as environment variables. All existing environment variables will be removed first.
     /// </summary>
     [CliOption("--set-env-vars", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? SetEnvVars { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of environment variables to be removed.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of environment variables to be removed.
     /// </summary>
     [CliOption("--remove-env-vars", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveEnvVars { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of key-value pairs to set as environment variables.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Or at least one of these can be specified: Only --update-env-vars and --remove-env-vars can be used together. If both are specified, --remove-env-vars will be applied first. List of key-value pairs to set as environment variables.
     /// </summary>
     [CliOption("--update-env-vars", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateEnvVars { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: Remove all secrets.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: Remove all secrets.
     /// </summary>
     [CliFlag("--clear-secrets")]
     public bool? ClearSecrets { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: List of key-value pairs to set as secrets. All existing secrets will be removed first.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: List of key-value pairs to set as secrets. All existing secrets will be removed first.
     /// </summary>
     [SecretValue]
     [CliOption("--set-secrets", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? SetSecrets { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of secrets to be removed.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of secrets to be removed.
     /// </summary>
     [SecretValue]
     [CliOption("--remove-secrets", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveSecrets { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of key-value pairs to set as secrets.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Specify secrets to mount or provide as environment variables. Keys starting with a forward slash '/' are mount paths. All other keys correspond to environment variables. Values should be in the form SECRET_NAME:SECRET_VERSION. For example: '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1' will mount a volume at '/secrets/api' containing a file 'key' with the latest version of secret 'mysecret'. An environment variable named ENV will also be created whose value is version 1 of secret 'othersecret'. At most one of these can be specified: Or at least one of these can be specified: Only --update-secrets and --remove-secrets can be used together. If both are specified, --remove-secrets will be applied first. List of key-value pairs to set as secrets.
     /// </summary>
     [SecretValue]
     [CliOption("--update-secrets", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateSecrets { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. At most one of these can be specified: Return immediately, without waiting for the operation in progress to complete.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. At most one of these can be specified: Or at least one of these can be specified: --async cannot be used if executing the job after the update. Execute the job immediately after the creation or update completes. gcloud exits once the job has started unless the --wait flag is set.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Or at least one of these can be specified: --async cannot be used if executing the job after the update. Execute the job immediately after the creation or update completes. gcloud exits once the job has started unless the --wait flag is set.
     /// </summary>
     [CliFlag("--execute-now")]
     public bool? ExecuteNow { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. At most one of these can be specified: Or at least one of these can be specified: --async cannot be used if executing the job after the update. Wait until the execution has completed running before exiting. If not set, gcloud exits successfully when the execution has started. Implies --execute-now.
+    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. At most one of these can be specified: Or at least one of these can be specified: --async cannot be used if executing the job after the update. Wait until the execution has completed running before exiting. If not set, gcloud exits successfully when the execution has started. Implies --execute-now.
     /// </summary>
     [CliFlag("--wait")]
     public bool? Wait { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. The VPC network that the Cloud Run job will be able to send traffic to. If --subnet is also specified, subnet must be a subnetwork of the network specified by this --network flag. To clear existing VPC network settings, use --clear-network.
+    /// Direct VPC egress setting flags group. The VPC network that the Cloud Run job will be able to send traffic to. If --subnet is also specified, subnet must be a subnetwork of the network specified by this --network flag. To clear existing VPC network settings, use --clear-network.
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public string? Network { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. Applies the given network tags (comma separated) to the Cloud Run job. To clear existing tags, use --clear-network-tags.
+    /// Direct VPC egress setting flags group. Applies the given network tags (comma separated) to the Cloud Run job. To clear existing tags, use --clear-network-tags.
     /// </summary>
     [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkTags { get; set; }
 
     /// <summary>
-    /// Container Flags If the --container is specified the following arguments may only be specified after a --container flag. Direct VPC egress setting flags group. The VPC subnetwork that the Cloud Run job will get IPs from. The subnetwork must be /26 or larger. If --network is also specified, subnet must be a subnetwork of the network specified by the --network flag. If --network is not specified, network will be looked up from this subnetwork. To clear existing VPC network settings, use --clear-network.
+    /// Direct VPC egress setting flags group. The VPC subnetwork that the Cloud Run job will get IPs from. The subnetwork must be /26 or larger. If --network is also specified, subnet must be a subnetwork of the network specified by the --network flag. If --network is not specified, network will be looked up from this subnetwork. To clear existing VPC network settings, use --clear-network.
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public string? Subnet { get; set; }

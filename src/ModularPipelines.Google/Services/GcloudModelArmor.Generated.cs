@@ -60,7 +60,7 @@ public class GcloudModelArmor : IGcloudModelArmor
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudModelArmorOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudModelArmorOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

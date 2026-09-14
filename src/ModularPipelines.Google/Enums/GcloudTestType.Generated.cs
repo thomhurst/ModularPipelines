@@ -16,12 +16,15 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudTestType
 {
-    [EnumValue("FILE")]
-    File,
+    [EnumValue("DIRECT_CONNECTIVITY")]
+    DirectConnectivity,
 
-    [EnumValue("SLICED")]
-    Sliced,
+    [EnumValue("DOWNLOAD_THROUGHPUT")]
+    DownloadThroughput,
 
-    [EnumValue("STREAMING")]
-    Streaming
+    [EnumValue("LATENCY")]
+    Latency,
+
+    [EnumValue("UPLOAD_THROUGHPUT")]
+    UploadThroughput
 }

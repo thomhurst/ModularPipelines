@@ -24,37 +24,37 @@ public record GcloudPreviewComputeNetworksUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// BGP Best Path Selection flags Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// BGP Best Path Selection flags Enable/disable ULA internal IPv6 on this network. Enabling this feature will assign a /48 from google defined ULA prefix fd20::/20. Use --enable-ula-internal-ipv6 to enable and --no-enable-ula-internal-ipv6 to disable.
+    /// Enable/disable ULA internal IPv6 on this network. Enabling this feature will assign a /48 from google defined ULA prefix fd20::/20. Use --enable-ula-internal-ipv6 to enable and --no-enable-ula-internal-ipv6 to disable.
     /// </summary>
     [CliFlag("--enable-ula-internal-ipv6")]
     public bool? EnableUlaInternalIpv6 { get; set; }
 
     /// <summary>
-    /// Negates --enable-ula-internal-ipv6. BGP Best Path Selection flags Enable/disable ULA internal IPv6 on this network. Enabling this feature will assign a /48 from google defined ULA prefix fd20::/20. Use --enable-ula-internal-ipv6 to enable and --no-enable-ula-internal-ipv6 to disable.
+    /// Negates --enable-ula-internal-ipv6. Enable/disable ULA internal IPv6 on this network. Enabling this feature will assign a /48 from google defined ULA prefix fd20::/20. Use --enable-ula-internal-ipv6 to enable and --no-enable-ula-internal-ipv6 to disable.
     /// </summary>
     [CliFlag("--no-enable-ula-internal-ipv6")]
     public bool? NoEnableUlaInternalIpv6 { get; set; }
 
     /// <summary>
-    /// BGP Best Path Selection flags When enabling ULA internal IPv6, caller can optionally specify the /48 range they want from the google defined ULA prefix fd20::/20. ULA_IPV6_RANGE must be a valid /48 ULA IPv6 address and within the fd20::/20. Operation will fail if the speficied /48 is already in used by another resource. If the field is not speficied, then a /48 range will be randomly allocated from fd20::/20 and returned via this field.
+    /// When enabling ULA internal IPv6, caller can optionally specify the /48 range they want from the google defined ULA prefix fd20::/20. ULA_IPV6_RANGE must be a valid /48 ULA IPv6 address and within the fd20::/20. Operation will fail if the speficied /48 is already in used by another resource. If the field is not speficied, then a /48 range will be randomly allocated from fd20::/20 and returned via this field.
     /// </summary>
     [CliOption("--internal-ipv6-range", Format = OptionFormat.EqualsSeparated)]
     public string? InternalIpv6Range { get; set; }
 
     /// <summary>
-    /// BGP Best Path Selection flags Maximum transmission unit (MTU) is the size of the largest IP packet that can be transmitted on this network. Default value is 1460 bytes. The minimum value is 1300 bytes and the maximum value is 8896 bytes. The MTU advertised via DHCP to all instances attached to this network.
+    /// Maximum transmission unit (MTU) is the size of the largest IP packet that can be transmitted on this network. Default value is 1460 bytes. The minimum value is 1300 bytes and the maximum value is 8896 bytes. The MTU advertised via DHCP to all instances attached to this network.
     /// </summary>
     [CliOption("--mtu", Format = OptionFormat.EqualsSeparated)]
     public string? Mtu { get; set; }
 
     /// <summary>
-    /// BGP Best Path Selection flags The Network Firewall Policy enforcement order of this network. If not specified, defaults to AFTER_CLASSIC_FIREWALL. NETWORK_FIREWALL_POLICY_ENFORCEMENT_ORDER must be one of: AFTER_CLASSIC_FIREWALL Network Firewall Policy is enforced after classic firewall. BEFORE_CLASSIC_FIREWALL Network Firewall Policy is enforced before classic firewall.
+    /// The Network Firewall Policy enforcement order of this network. If not specified, defaults to AFTER_CLASSIC_FIREWALL. NETWORK_FIREWALL_POLICY_ENFORCEMENT_ORDER must be one of: AFTER_CLASSIC_FIREWALL Network Firewall Policy is enforced after classic firewall. BEFORE_CLASSIC_FIREWALL Network Firewall Policy is enforced before classic firewall.
     /// </summary>
     [CliOption("--network-firewall-policy-enforcement-order", Format = OptionFormat.EqualsSeparated)]
     public string? NetworkFirewallPolicyEnforcementOrder { get; set; }

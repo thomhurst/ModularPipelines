@@ -11,10 +11,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
-/// Allowed values for --objectsizes.
+/// Allowed values for --downloadtype.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public enum GcloudObjectSizes
+public enum GcloudDownloadType
 {
     [EnumValue("FILE")]
     File,

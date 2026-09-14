@@ -24,13 +24,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAuthPrintIdentityTokenOptions : GcloudOptions
 {
     /// <summary>
-    /// Parameters for Google Compute Engine instance identity tokens. Intended recipient of the token. Currently, only one audience can be specified.
+    /// Intended recipient of the token. Currently, only one audience can be specified.
     /// </summary>
     [CliOption("--audiences", Format = OptionFormat.EqualsSeparated)]
     public string? Audiences { get; set; }
 
     /// <summary>
-    /// Parameters for Google Compute Engine instance identity tokens. Specify whether or not service account email is included in the identity token. If specified, the token will contain 'email' and 'email_verified' claims. This flag should only be used for impersonate service account.
+    /// Specify whether or not service account email is included in the identity token. If specified, the token will contain 'email' and 'email_verified' claims. This flag should only be used for impersonate service account.
     /// </summary>
     [CliFlag("--include-email")]
     public bool? IncludeEmail { get; set; }

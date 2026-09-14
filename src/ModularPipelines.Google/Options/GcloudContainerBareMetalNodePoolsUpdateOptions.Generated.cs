@@ -23,43 +23,43 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerBareMetalNodePoolsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// Modifiable kubelet configurations for bare metal machines. If set, and the Anthos cluster on bare metal is not found, the update request will try to create a new cluster with the provided configuration.
+    /// If set, and the Anthos cluster on bare metal is not found, the update request will try to create a new cluster with the provided configuration.
     /// </summary>
     [CliFlag("--allow-missing")]
     public bool? AllowMissing { get; set; }
 
     /// <summary>
-    /// Modifiable kubelet configurations for bare metal machines. Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Modifiable kubelet configurations for bare metal machines. Display name for the resource.
+    /// Display name for the resource.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Modifiable kubelet configurations for bare metal machines. If set, only validate the request, but do not actually perform the operation.
+    /// If set, only validate the request, but do not actually perform the operation.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Modifiable kubelet configurations for bare metal machines. Anthos on bare metal node pool configuration. Populate Bare Metal Node Pool node config. At most one of these can be specified: Bare Metal Node Pool node configuration.
+    /// Anthos on bare metal node pool configuration. Populate Bare Metal Node Pool node config. At most one of these can be specified: Bare Metal Node Pool node configuration.
     /// </summary>
     [CliOption("--node-configs", Format = OptionFormat.EqualsSeparated)]
     public string? NodeConfigs { get; set; }
 
     /// <summary>
-    /// Modifiable kubelet configurations for bare metal machines. Labels assigned to nodes of a node pool.
+    /// Labels assigned to nodes of a node pool.
     /// </summary>
     [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? NodeLabels { get; set; }
 
     /// <summary>
-    /// Modifiable kubelet configurations for bare metal machines. Node taint applied to every Kubernetes node in a node pool.
+    /// Node taint applied to every Kubernetes node in a node pool.
     /// </summary>
     [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? NodeTaints { get; set; }
