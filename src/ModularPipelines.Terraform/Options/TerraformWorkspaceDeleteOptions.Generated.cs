@@ -15,14 +15,28 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Delete a Terraform workspace
 /// </summary>
-/// <param name="Name">The NAME operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workspace", "delete")]
-public record TerraformWorkspaceDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
-) : TerraformOptions
+public record TerraformWorkspaceDeleteOptions : TerraformOptions
 {
+    /// <summary>
+    /// Delete a Terraform workspace
+    /// </summary>
+    /// <param name="Name">The NAME operand.</param>
+    public TerraformWorkspaceDeleteOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
     /// <summary>
     /// Remove a workspace even if it is managing resources. Terraform can no longer track or manage the workspace's infrastructure.
     /// </summary>
@@ -40,5 +54,11 @@ public record TerraformWorkspaceDeleteOptions(
     /// </summary>
     [CliOption("-lock-timeout", Format = OptionFormat.EqualsSeparated)]
     public string? LockTimeout { get; set; }
+
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public string Name { get; private init; }
 
 }
