@@ -32,8 +32,7 @@ jobs:
       integration_tool: ${{ steps.generated_integration.outputs.tool }}
       integration_namespace_prefix: ${{ steps.generated_integration.outputs.namespace_prefix }}
       integration_package: ${{ steps.generated_integration.outputs.package }}
-      integration_solution: ${{ steps.generated_integration.outputs.solution }}
-      integration_test_project: ${{ steps.generated_integration.outputs.test_project }}
+      integration_project: ${{ steps.generated_integration.outputs.project }}
     permissions:
       contents: read
     steps:
@@ -43,41 +42,7 @@ jobs:
           persist-credentials: false
       - name: Detect generated integration pull request
         id: generated_integration
-        shell: pwsh
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          BASE_REF: ${{ github.base_ref }}
-          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-          HEAD_REF: ${{ github.head_ref }}
-          HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
-          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
-          REPOSITORY: ${{ github.repository }}
-        run: |
-          $changedPaths = @()
-          $headRef = 'not-a-generated-pull-request'
-
-          if ($env:EVENT_NAME -eq 'pull_request') {
-            $headRef = $env:HEAD_REF
-            $baseSha = git merge-base "origin/$($env:BASE_REF)" $env:PR_HEAD_SHA
-            if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($baseSha)) {
-              Write-Error 'Unable to determine the pull request merge base.'
-              exit 1
-            }
-
-            $changedPaths = @(git diff --name-only --diff-filter=ACMRTD $baseSha $env:PR_HEAD_SHA)
-            if ($LASTEXITCODE -ne 0) {
-              exit $LASTEXITCODE
-            }
-          }
-
-          ./scripts/Resolve-GeneratedIntegrationValidation.ps1 `
-            -HeadRef $headRef `
-            -HeadRepository $env:HEAD_REPOSITORY `
-            -PullRequestAuthor $env:PR_AUTHOR `
-            -Repository $env:REPOSITORY `
-            -ChangedPath $changedPaths `
-            -RepositoryRoot $env:GITHUB_WORKSPACE `
-            -GitHubOutput $env:GITHUB_OUTPUT
+        uses: ./.github/actions/detect-generated-integration
       - name: Reject stale generated snapshots
         # Generated routing includes both shipped and unshipped API baseline updates.
         if: steps.generated_integration.outputs.is_generated_integration == 'true'
@@ -95,29 +60,36 @@ jobs:
             -NamespacePrefix $env:INTEGRATION_NAMESPACE_PREFIX `
             -CurrentBase "origin/$($env:BASE_REF)"
       - name: Test generated integration validation routing
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
         run: ./scripts/Test-ResolveGeneratedIntegrationValidation.ps1
       - name: Test required pipeline context routing
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
         run: ./scripts/Test-RequiredPipelineContext.ps1
       - name: Test generated options provenance
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
         run: ./scripts/Test-GeneratedOptionsProvenance.ps1
       - name: Test public API baseline checks
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
         run: |
           ./scripts/Test-PublicApiRemovedMarker.ps1
           ./tools/ModularPipelines.OptionsGenerator/scripts/Test-RepairPublicApiBaselineHistory.ps1
           ./scripts/Test-AssertPublicApiBaselines.ps1
       - name: Verify public API baseline coverage
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
         run: ./scripts/Assert-PublicApiBaselines.ps1
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
         with:
           node-version: 24
           cache: npm
           cache-dependency-path: src/ModularPipelines.Build/package-lock.json
       - name: Check Markdown formatting
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
         working-directory: src/ModularPipelines.Build
         run: |
           npm ci
@@ -128,9 +100,11 @@ jobs:
             --output
           git diff --exit-code -- ../../README.md ../../README_Template.md
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
         with:
           dotnet-version: 10.0.x
       - name: Cache NuGet
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.nuget/packages
@@ -138,6 +112,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
       - name: Validate pipeline template
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: bash
         run: |
           release_package_version=0.0.0-local
@@ -229,6 +204,7 @@ jobs:
           test -f "$RUNNER_TEMP/relocated-template-run/artifacts/publish/Example.dll"
           test ! -d "$RUNNER_TEMP/published-caller/artifacts"
       - name: Run OptionsGenerator unit tests
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
         run: |
           dotnet restore tools/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.slnx
           dotnet run \
@@ -245,10 +221,11 @@ jobs:
             --report-trx \
             --report-trx-filename test-results.trx
       - name: Verify generated global options
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
         run: tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedGlobalOptions.ps1
       - name: Upload OptionsGenerator test results
-        if: always()
+        if: always() && steps.generated_integration.outputs.is_generated_integration != 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: options-generator-test-results
@@ -259,7 +236,7 @@ jobs:
   analyzers:
     name: analyzers
     needs: fast-fail
-    if: always()
+    if: ${{ always() && (github.event_name != 'pull_request' || needs.fast-fail.outputs.is_generated_integration != 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -671,11 +648,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-generated-
             ${{ runner.os }}-nuget-
-      - name: Build shared core
-        shell: bash
-        run: |
-          dotnet restore ModularPipelines.slnx
-          dotnet build ModularPipelines.slnx -c Release --no-restore
       - name: Increase swap space for generated gcloud validation
         if: needs.fast-fail.outputs.integration_package == 'ModularPipelines.Google'
         shell: bash
@@ -690,26 +662,14 @@ jobs:
         shell: bash
         env:
           INTEGRATION_PACKAGE: ${{ needs.fast-fail.outputs.integration_package }}
-          INTEGRATION_SOLUTION: ${{ needs.fast-fail.outputs.integration_solution }}
+          INTEGRATION_PROJECT: ${{ needs.fast-fail.outputs.integration_project }}
         run: |
           BUILD_ARGS=()
           if [[ "$INTEGRATION_PACKAGE" == "ModularPipelines.Google" ]]; then
             BUILD_ARGS+=(/m:1 -p:UseSharedCompilation=false)
           fi
-          dotnet restore "$INTEGRATION_SOLUTION"
-          dotnet build "$INTEGRATION_SOLUTION" -c Release --no-restore "${BUILD_ARGS[@]}"
-      - name: Test changed integration
-        if: needs.fast-fail.outputs.integration_test_project != ''
-        shell: bash
-        env:
-          TEST_PROJECT: ${{ needs.fast-fail.outputs.integration_test_project }}
-        run: |
-          dotnet run \
-            --project "$TEST_PROJECT" \
-            --configuration Release \
-            --framework net10.0 \
-            --no-build \
-            --no-restore
+          # Project references compile the shared core and source generators automatically.
+          dotnet build "$INTEGRATION_PROJECT" -c Release "${BUILD_ARGS[@]}"
 
   required-pipeline:
     # Stable branch-protection check for either validation route; runs after that route finishes.
@@ -738,7 +698,7 @@ jobs:
   trim-aot:
     name: trim and Native AOT
     needs: fast-fail
-    if: always()
+    if: ${{ always() && (github.event_name != 'pull_request' || needs.fast-fail.outputs.is_generated_integration != 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:

@@ -18,6 +18,7 @@ function New-GeneratedIntegrationValidationResult {
         [string]$Tool = '',
         [string]$NamespacePrefix = '',
         [string]$Package = '',
+        [string]$Project = '',
         [string]$Solution = '',
         [string]$TestProject = ''
     )
@@ -27,6 +28,7 @@ function New-GeneratedIntegrationValidationResult {
         Tool = $Tool
         NamespacePrefix = $NamespacePrefix
         Package = $Package
+        Project = $Project
         Solution = $Solution
         TestProject = $TestProject
         Reason = $Reason
@@ -192,6 +194,13 @@ function Resolve-GeneratedIntegrationValidation {
             -Reason "Changes escape the generated integration: $($unexpectedPaths -join ', ')."
     }
 
+    $project = "src/$package/$package.csproj"
+    if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $project) -PathType Leaf)) {
+        return New-GeneratedIntegrationValidationResult `
+            -IsGeneratedIntegration $false `
+            -Reason "Integration project does not exist: $project."
+    }
+
     $solution = "src/$package/$package.slnx"
     if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $solution) -PathType Leaf)) {
         return New-GeneratedIntegrationValidationResult `
@@ -209,6 +218,7 @@ function Resolve-GeneratedIntegrationValidation {
         -Tool $tool `
         -NamespacePrefix $namespacePrefix `
         -Package $package `
+        -Project $project `
         -Solution $solution `
         -TestProject $testProject `
         -Reason "All changes belong to generated tool '$tool' and package '$package'."
@@ -230,6 +240,7 @@ if ($MyInvocation.InvocationName -ne '.') {
         "tool=$($result.Tool)" | Out-File -FilePath $GitHubOutput -Append
         "namespace_prefix=$($result.NamespacePrefix)" | Out-File -FilePath $GitHubOutput -Append
         "package=$($result.Package)" | Out-File -FilePath $GitHubOutput -Append
+        "project=$($result.Project)" | Out-File -FilePath $GitHubOutput -Append
         "solution=$($result.Solution)" | Out-File -FilePath $GitHubOutput -Append
         "test_project=$($result.TestProject)" | Out-File -FilePath $GitHubOutput -Append
     }

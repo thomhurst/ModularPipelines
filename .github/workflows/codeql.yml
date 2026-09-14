@@ -39,8 +39,25 @@ permissions:
   contents: read
 
 jobs:
+  classify:
+    name: Classify changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      is_generated_integration: ${{ steps.generated_integration.outputs.is_generated_integration }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - id: generated_integration
+        uses: ./.github/actions/detect-generated-integration
+
   analyze:
     name: Analyze (${{ matrix.language }})
+    needs: classify
+    # Generated snapshots receive focused compilation in .NET; main and scheduled scans remain complete.
+    if: needs.classify.outputs.is_generated_integration != 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:

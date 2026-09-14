@@ -38,6 +38,10 @@ Assert-Equal $aws.IsGeneratedIntegration $true 'AWS generated changes should use
 Assert-Equal $aws.Tool 'aws' 'AWS validation selected the wrong tool.'
 Assert-Equal $aws.NamespacePrefix 'Aws' 'AWS validation selected the wrong namespace prefix.'
 Assert-Equal `
+    $aws.Project `
+    'src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.csproj' `
+    'AWS validation must compile the integration library project.'
+Assert-Equal `
     $aws.Solution `
     'src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.slnx' `
     'AWS validation selected the wrong solution.'
@@ -75,6 +79,7 @@ foreach ($case in @(
         $result = Resolve-GeneratedIntegrationValidation @parameters -ChangedPath $paths.Values
         Assert-Equal $result.IsGeneratedIntegration $true "$($case.Tool) baseline updates should use generated validation."
         Assert-Equal $result.NamespacePrefix $case.Prefix 'Shared packages must select the branch tool manifest.'
+        Assert-Equal $result.Project "src/$($case.Package)/$($case.Package).csproj" 'Baseline updates selected the wrong project.'
         Assert-Equal $result.Solution "src/$($case.Package)/$($case.Package).slnx" 'Baseline updates selected the wrong solution.'
     }
 
@@ -84,6 +89,10 @@ foreach ($case in @(
             'src/ModularPipelines/Engine/ModuleScheduler.cs',
             'src/ModularPipelines.Pulumi/PublicAPI.Shipped.txt',
             "src/$($case.Package)/Handwritten.cs",
+            "src/$($case.Package)/$($case.Package).csproj",
+            "test/$($case.Package).UnitTests/ChangedTest.cs",
+            'tools/ModularPipelines.OptionsGenerator/ChangedGenerator.cs',
+            'Directory.Build.props',
             "src/$($case.Package)/Generated/Other.Generation.json"
         )) {
         $result = Resolve-GeneratedIntegrationValidation @parameters `
@@ -187,6 +196,7 @@ try {
                  'tool=aws',
                  'namespace_prefix=Aws',
                  'package=ModularPipelines.AmazonWebServices',
+                 'project=src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.csproj',
                  'solution=src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.slnx',
                  'test_project=test/ModularPipelines.AmazonWebServices.UnitTests/ModularPipelines.AmazonWebServices.UnitTests.csproj'
              )) {
@@ -309,15 +319,60 @@ foreach ($freshnessGuard in @(
 
 $generatedJob = [regex]::Match(
     $workflow,
-    '(?ms)^  generated-integration:.*?(?=^  trim-aot:)').Value
+    '(?ms)^  generated-integration:.*?(?=^  [a-z0-9-]+:|\z)').Value
 if ([string]::IsNullOrWhiteSpace($generatedJob)) {
     throw 'Generated integration validation job was not found.'
 }
 
-if ($generatedJob.Contains(
-        'tools/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.slnx',
-        [StringComparison]::Ordinal)) {
-    throw 'Generated integration validation must not build the unrelated OptionsGenerator solution.'
+if ($generatedJob -match '\.slnx|dotnet (run|test)|TEST_PROJECT|INTEGRATION_SOLUTION') {
+    throw 'Generated integration validation must compile only the library project and its references.'
+}
+if (-not $generatedJob.Contains('dotnet build "$INTEGRATION_PROJECT" -c Release', [StringComparison]::Ordinal)) {
+    throw 'Generated integration validation must compile the selected library project.'
+}
+
+foreach ($step in [regex]::Matches($fastFailJob, '(?ms)^      - .*?(?=^      - |\z)')) {
+    if ($step.Value -match 'actions/checkout@|uses: \./\.github/actions/detect-generated-integration|name: Reject stale generated snapshots') {
+        continue
+    }
+    if (-not $step.Value.Contains("steps.generated_integration.outputs.is_generated_integration != 'true'", [StringComparison]::Ordinal)) {
+        throw "Unrelated fast-fail step runs for generated PRs: $($step.Value.Split([char]10)[0])"
+    }
+}
+
+foreach ($jobName in @('pipeline', 'cross-platform-build', 'analyzers', 'trim-aot')) {
+    $job = [regex]::Match($workflow, "(?ms)^  ${jobName}:.*?(?=^  [a-z0-9-]+:|\z)").Value
+    if (-not $job.Contains("github.event_name != 'pull_request' || needs.fast-fail.outputs.is_generated_integration != 'true'", [StringComparison]::Ordinal)) {
+        throw "Job '$jobName' must skip generated PRs and retain full validation on main."
+    }
+}
+
+$detectionAction = Get-Content -LiteralPath (Join-Path $repositoryRoot '.github/actions/detect-generated-integration/action.yml') -Raw
+foreach ($requiredText in @('git diff --name-only --no-renames', 'Resolve-GeneratedIntegrationValidation.ps1', 'working-directory: ${{ github.workspace }}')) {
+    if (-not $detectionAction.Contains($requiredText, [StringComparison]::Ordinal)) {
+        throw "Shared generated-PR detection omitted '$requiredText'."
+    }
+}
+foreach ($workflowName in @('codeql.yml', 'deploy-pages-test.yml')) {
+    $otherWorkflow = Get-Content -LiteralPath (Join-Path $repositoryRoot ".github/workflows/$workflowName") -Raw
+    if (-not $otherWorkflow.Contains('uses: ./.github/actions/detect-generated-integration', [StringComparison]::Ordinal)) {
+        throw "$workflowName must use the same generated-PR detection as .NET."
+    }
+    if ($workflowName -eq 'codeql.yml') {
+        if ($otherWorkflow -notmatch "needs: classify\s+[^\r\n]*\s+if: needs.classify.outputs.is_generated_integration != 'true'") {
+            throw 'CodeQL analysis must depend on classification and skip generated PRs.'
+        }
+    }
+    else {
+        foreach ($step in [regex]::Matches($otherWorkflow, '(?ms)^      - (?:name|uses|id):.*?(?=^      - |\z)')) {
+            if ($step.Value -match 'actions/checkout@|uses: \./\.github/actions/detect-generated-integration') {
+                continue
+            }
+            if (-not $step.Value.Contains("steps.generated_integration.outputs.is_generated_integration != 'true'", [StringComparison]::Ordinal)) {
+                throw 'Generated documentation must skip dependency installation and the site build.'
+            }
+        }
+    }
 }
 
 foreach ($gcloudSafeguard in @(
