@@ -72,7 +72,7 @@ public class GcloudMl : IGcloudMl
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudMlOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudMlOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

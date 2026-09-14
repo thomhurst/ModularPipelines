@@ -66,7 +66,7 @@ public class GcloudQuotas : IGcloudQuotas
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudQuotasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudQuotasOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

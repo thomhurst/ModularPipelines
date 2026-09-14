@@ -25,79 +25,79 @@ public record GcloudApigeeProductsCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// To impose a quota limit on calls to the API product, specify all of the following: Key-value attribute pairs that may be used to extend the default API product profile with customer-specific metadata. Up to 17 attributes can be specified.
+    /// Key-value attribute pairs that may be used to extend the default API product profile with customer-specific metadata. Up to 17 attributes can be specified.
     /// </summary>
     [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
     public string? Attributes { get; set; }
 
     /// <summary>
-    /// To impose a quota limit on calls to the API product, specify all of the following: Overview of the API product. Include key information about the API product that is not captured by other fields.
+    /// Overview of the API product. Include key information about the API product that is not captured by other fields.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// To impose a quota limit on calls to the API product, specify all of the following: Name to be displayed in the UI or developer portal to developers registering for API access.
+    /// Name to be displayed in the UI or developer portal to developers registering for API access.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// To impose a quota limit on calls to the API product, specify all of the following: Require manual approval of developer requests to access this API product before their consumer keys can be used. If unset, the consumer key is generated in an "approved" state and can be used immediately.
+    /// Require manual approval of developer requests to access this API product before their consumer keys can be used. If unset, the consumer key is generated in an "approved" state and can be used immediately.
     /// </summary>
     [CliFlag("--manual-approval")]
     public bool? ManualApproval { get; set; }
 
     /// <summary>
-    /// To impose a quota limit on calls to the API product, specify all of the following: Comma-separated list of OAuth scopes that are validated at runtime. Apigee validates that the scopes in any access token presented match the scopes defined in the OAuth policy assoicated with the API product.
+    /// Comma-separated list of OAuth scopes that are validated at runtime. Apigee validates that the scopes in any access token presented match the scopes defined in the OAuth policy assoicated with the API product.
     /// </summary>
     [CliOption("--oauth-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OauthScopes { get; set; }
 
     /// <summary>
-    /// To impose a quota limit on calls to the API product, specify all of the following: At most one of these can be specified: Make all environments accessible through this API product.
+    /// At most one of these can be specified: Make all environments accessible through this API product.
     /// </summary>
     [CliFlag("--all-environments")]
     public bool? AllEnvironments { get; set; }
 
     /// <summary>
-    /// To impose a quota limit on calls to the API product, specify all of the following: At most one of these can be specified: Environments to which the API product is bound. Requests to environments that are not listed are rejected, preventing developers from accessing those resources through API Proxies deployed in another environment. For example, this can prevent resources associated with API proxies in a prod environment from also granting access to matching API proxies deployed in a test environment. To get a list of available environments, run: $ gcloud apigee environments list
+    /// At most one of these can be specified: Environments to which the API product is bound. Requests to environments that are not listed are rejected, preventing developers from accessing those resources through API Proxies deployed in another environment. For example, this can prevent resources associated with API proxies in a prod environment from also granting access to matching API proxies deployed in a test environment. To get a list of available environments, run: $ gcloud apigee environments list
     /// </summary>
     [CliOption("--environments", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Environments { get; set; }
 
     /// <summary>
-    /// To impose a quota limit on calls to the API product, specify all of the following: Arguments specifying which API proxies and resources to expose. At most one of these can be specified: Expose all available API proxies and their resources. Must be explicitly specified if neither --apis nor --resources is provided.
+    /// Arguments specifying which API proxies and resources to expose. At most one of these can be specified: Expose all available API proxies and their resources. Must be explicitly specified if neither --apis nor --resources is provided.
     /// </summary>
     [CliFlag("--all-proxies")]
     public bool? AllProxies { get; set; }
 
     /// <summary>
-    /// To impose a quota limit on calls to the API product, specify all of the following: Arguments specifying which API proxies and resources to expose. At most one of these can be specified: Or at least one of these can be specified: Arguments that restrict exposed API proxies. One or both of these may be specified if --all-proxies is not: Comma-separated names of API proxies to which this API product is bound. Only those API proxies will be accessible through the new API product. If not provided, all deployed API proxies will be included in the product, so long as they match the other parameters. The API proxy names must already be deployed to the bound environments, or creation of the API product will fail. To get a list of deployed API proxies, run: $ gcloud apigee deployments list To deploy an API proxy, run: $ gcloud apigee apis deploy
+    /// Arguments specifying which API proxies and resources to expose. At most one of these can be specified: Or at least one of these can be specified: Arguments that restrict exposed API proxies. One or both of these may be specified if --all-proxies is not: Comma-separated names of API proxies to which this API product is bound. Only those API proxies will be accessible through the new API product. If not provided, all deployed API proxies will be included in the product, so long as they match the other parameters. The API proxy names must already be deployed to the bound environments, or creation of the API product will fail. To get a list of deployed API proxies, run: $ gcloud apigee deployments list To deploy an API proxy, run: $ gcloud apigee apis deploy
     /// </summary>
     [CliOption("--apis", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Apis { get; set; }
 
     /// <summary>
-    /// To impose a quota limit on calls to the API product, specify all of the following: Arguments specifying which API proxies and resources to expose. At most one of these can be specified: Or at least one of these can be specified: Arguments that restrict exposed API proxies. One or both of these may be specified if --all-proxies is not: API resources to be bundled in the API product, separated by # signs. By default, the resource paths are mapped from the proxy.pathsuffix variable. The proxy path suffix is defined as the URI fragment following the ProxyEndpoint base path. For example, if /forecastrss is given as an element of this list, and the base path defined for the API proxy is /weather, then only requests to /weather/forecastrss are permitted by the API product. Proxy paths can use asterisks as wildcards; /** indicates that all sub-URIs are included, whereas a single asterisk indicates that only URIs one level down are included. By default, / supports the same resources as /** as well as the base path defined by the API proxy. For example, if the base path of the API proxy is /v1/weatherapikey, then the API product supports requests to /v1/weatherapikey and to any sub-URIs, such as /v1/weatherapikey/forecastrss, /v1/weatherapikey/region/CA, and so on. If not provided, all deployed API resources will be included in the product, so long as they match the other parameters. The API proxy resources must already be deployed to the bound environments, or creation of the API product will fail.
+    /// Arguments specifying which API proxies and resources to expose. At most one of these can be specified: Or at least one of these can be specified: Arguments that restrict exposed API proxies. One or both of these may be specified if --all-proxies is not: API resources to be bundled in the API product, separated by # signs. By default, the resource paths are mapped from the proxy.pathsuffix variable. The proxy path suffix is defined as the URI fragment following the ProxyEndpoint base path. For example, if /forecastrss is given as an element of this list, and the base path defined for the API proxy is /weather, then only requests to /weather/forecastrss are permitted by the API product. Proxy paths can use asterisks as wildcards; /** indicates that all sub-URIs are included, whereas a single asterisk indicates that only URIs one level down are included. By default, / supports the same resources as /** as well as the base path defined by the API proxy. For example, if the base path of the API proxy is /v1/weatherapikey, then the API product supports requests to /v1/weatherapikey and to any sub-URIs, such as /v1/weatherapikey/forecastrss, /v1/weatherapikey/region/CA, and so on. If not provided, all deployed API resources will be included in the product, so long as they match the other parameters. The API proxy resources must already be deployed to the bound environments, or creation of the API product will fail.
     /// </summary>
     [CliOption("--resources", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Resources { get; set; }
 
     /// <summary>
-    /// To impose a quota limit on calls to the API product, specify all of the following: At most one of these can be specified: Prevent external access to this API product.
+    /// At most one of these can be specified: Prevent external access to this API product.
     /// </summary>
     [CliFlag("--internal-access")]
     public bool? InternalAccess { get; set; }
 
     /// <summary>
-    /// To impose a quota limit on calls to the API product, specify all of the following: At most one of these can be specified: Hide this API product in the developer portal but make it accessible by external developers.
+    /// At most one of these can be specified: Hide this API product in the developer portal but make it accessible by external developers.
     /// </summary>
     [CliFlag("--private-access")]
     public bool? PrivateAccess { get; set; }
 
     /// <summary>
-    /// To impose a quota limit on calls to the API product, specify all of the following: At most one of these can be specified: Make this API product visible to developers in the Apigee developer portal.
+    /// At most one of these can be specified: Make this API product visible to developers in the Apigee developer portal.
     /// </summary>
     [CliFlag("--public-access")]
     public bool? PublicAccess { get; set; }

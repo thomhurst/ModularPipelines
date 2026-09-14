@@ -24,43 +24,43 @@ public record GcloudLoggingSinksCreateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Settings for sink exporting data to BigQuery. Writer identity for the sink. This flag can only be used if the destination is a log bucket in a different project. The writer identity is automatically generated when it is not provided for a sink.
+    /// Writer identity for the sink. This flag can only be used if the destination is a log bucket in a different project. The writer identity is automatically generated when it is not provided for a sink.
     /// </summary>
     [CliOption("--custom-writer-identity", Format = OptionFormat.EqualsSeparated)]
     public string? CustomWriterIdentity { get; set; }
 
     /// <summary>
-    /// Settings for sink exporting data to BigQuery. Description of the sink.
+    /// Description of the sink.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Settings for sink exporting data to BigQuery. Sink will be disabled. Disabled sinks do not export logs.
+    /// Sink will be disabled. Disabled sinks do not export logs.
     /// </summary>
     [CliFlag("--disabled")]
     public bool? Disabled { get; set; }
 
     /// <summary>
-    /// Settings for sink exporting data to BigQuery. Specify an exclusion filter for a log entry that is not to be exported. This flag can be repeated. The name and filter attributes are required. The following keys are accepted: name An identifier, such as load-balancer-exclusion. Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. description A description of this exclusion. filter An advanced log filter that matches the log entries to be excluded. disabled If this exclusion should be disabled and not exclude the log entries.
+    /// Specify an exclusion filter for a log entry that is not to be exported. This flag can be repeated. The name and filter attributes are required. The following keys are accepted: name An identifier, such as load-balancer-exclusion. Identifiers are limited to 100 characters and can include only letters, digits, underscores, hyphens, and periods. description A description of this exclusion. filter An advanced log filter that matches the log entries to be excluded. disabled If this exclusion should be disabled and not exclude the log entries.
     /// </summary>
     [CliOption("--exclusion", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Exclusion { get; set; }
 
     /// <summary>
-    /// Settings for sink exporting data to BigQuery. Whether to export logs from all child projects and folders. Only applies to sinks for organizations and folders.
+    /// Whether to export logs from all child projects and folders. Only applies to sinks for organizations and folders.
     /// </summary>
     [CliFlag("--include-children")]
     public bool? IncludeChildren { get; set; }
 
     /// <summary>
-    /// Settings for sink exporting data to BigQuery. Whether to intercept logs from all child projects and folders. Only applies to sinks for organizations and folders.
+    /// Whether to intercept logs from all child projects and folders. Only applies to sinks for organizations and folders.
     /// </summary>
     [CliFlag("--intercept-children")]
     public bool? InterceptChildren { get; set; }
 
     /// <summary>
-    /// Settings for sink exporting data to BigQuery. A filter expression for the sink. If present, the filter specifies which log entries to export.
+    /// A filter expression for the sink. If present, the filter specifies which log entries to export.
     /// </summary>
     [CliOption("--log-filter", Format = OptionFormat.EqualsSeparated)]
     public string? LogFilter { get; set; }

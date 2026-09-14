@@ -23,31 +23,31 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDeveloperConnectAccountConnectorsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Proxy configuration. Allows users to store small amounts of arbitrary data. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
+    /// Allows users to store small amounts of arbitrary data. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotations { get; set; }
 
     /// <summary>
-    /// Proxy configuration. Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Proxy configuration. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding.
+    /// This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
 
     /// <summary>
-    /// Proxy configuration. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
+    /// Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// Proxy configuration. For resources [account_connector, custom-oauth-config-service-directory], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// For resources [account_connector, custom-oauth-config-service-directory], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
@@ -71,75 +71,75 @@ public record GcloudDeveloperConnectAccountConnectorsCreateOptions : GcloudOptio
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ProviderOAuthConfig is the OAuth config for a provider. The OAuth2 authrization server URL. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. The OAuth2 authrization server URL. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--custom-oauth-config-auth-uri", Format = OptionFormat.EqualsSeparated)]
     public string? CustomOauthConfigAuthUri { get; set; }
 
     /// <summary>
-    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ProviderOAuthConfig is the OAuth config for a provider. Client ID of the OAuth application. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. Client ID of the OAuth application. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--custom-oauth-config-client-id", Format = OptionFormat.EqualsSeparated)]
     public string? CustomOauthConfigClientId { get; set; }
 
     /// <summary>
-    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ProviderOAuthConfig is the OAuth config for a provider. Client secret of the OAuth application. It will be provided as plain text, but encrypted and stored in developer connect. As INPUT_ONLY field, it will not be included in the output. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. Client secret of the OAuth application. It will be provided as plain text, but encrypted and stored in developer connect. As INPUT_ONLY field, it will not be included in the output. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [SecretValue]
     [CliOption("--custom-oauth-config-client-secret", Format = OptionFormat.EqualsSeparated)]
     public string? CustomOauthConfigClientSecret { get; set; }
 
     /// <summary>
-    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ProviderOAuthConfig is the OAuth config for a provider. Host URI of the OAuth application. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. Host URI of the OAuth application. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--custom-oauth-config-host-uri", Format = OptionFormat.EqualsSeparated)]
     public string? CustomOauthConfigHostUri { get; set; }
 
     /// <summary>
-    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ProviderOAuthConfig is the OAuth config for a provider. Type of the SCM provider. CUSTOM_OAUTH_CONFIG_SCM_PROVIDER must be one of: bitbucket-data-center BYO Account Connector is an instance of Bitbucket Data Center. github-enterprise BYO Account Connector is an instance of GitHub Enterprise. gitlab-enterprise BYO Account Connector is an instance of GitLab Enterprise. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. Type of the SCM provider. CUSTOM_OAUTH_CONFIG_SCM_PROVIDER must be one of: bitbucket-data-center BYO Account Connector is an instance of Bitbucket Data Center. github-enterprise BYO Account Connector is an instance of GitHub Enterprise. gitlab-enterprise BYO Account Connector is an instance of GitLab Enterprise. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--custom-oauth-config-scm-provider", Format = OptionFormat.EqualsSeparated)]
     public string? CustomOauthConfigScmProvider { get; set; }
 
     /// <summary>
-    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ProviderOAuthConfig is the OAuth config for a provider. Scopes to be requested during OAuth. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. Scopes to be requested during OAuth. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--custom-oauth-config-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CustomOauthConfigScopes { get; set; }
 
     /// <summary>
-    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ProviderOAuthConfig is the OAuth config for a provider. The OAuth2 token request URL. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. The OAuth2 token request URL. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [SecretValue]
     [CliOption("--custom-oauth-config-token-uri", Format = OptionFormat.EqualsSeparated)]
     public string? CustomOauthConfigTokenUri { get; set; }
 
     /// <summary>
-    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ProviderOAuthConfig is the OAuth config for a provider. Disable PKCE for this OAuth config. PKCE is enabled by default.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. Disable PKCE for this OAuth config. PKCE is enabled by default.
     /// </summary>
     [CliFlag("--custom-oauth-config-pkce-disabled")]
     public bool? CustomOauthConfigPkceDisabled { get; set; }
 
     /// <summary>
-    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ProviderOAuthConfig is the OAuth config for a provider. SSL certificate to use for requests to a private service.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. SSL certificate to use for requests to a private service.
     /// </summary>
     [CliOption("--custom-oauth-config-ssl-ca-certificate", Format = OptionFormat.EqualsSeparated)]
     public string? CustomOauthConfigSslCaCertificate { get; set; }
 
     /// <summary>
-    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ProviderOAuthConfig is the OAuth config for a provider. ServiceDirectoryConfig represents Service Directory configuration for a connection. Service resource - The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --location on the command line. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▫ provide the argument --custom-oauth-config-service-directory on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ServiceDirectoryConfig represents Service Directory configuration for a connection. Service resource - The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --location on the command line. This must be specified. ID of the service or fully qualified identifier for the service. To set the service attribute: ▫ provide the argument --custom-oauth-config-service-directory on the command line. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--custom-oauth-config-service-directory", Format = OptionFormat.EqualsSeparated)]
     public string? CustomOauthConfigServiceDirectory { get; set; }
 
     /// <summary>
-    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ProviderOAuthConfig is the OAuth config for a provider. ServiceDirectoryConfig represents Service Directory configuration for a connection. Service resource - The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --location on the command line. This must be specified. The namespace id of the service resource. To set the namespace attribute: ▫ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▫ provide the argument --namespace on the command line.
+    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ServiceDirectoryConfig represents Service Directory configuration for a connection. Service resource - The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▸ provide the argument --location on the command line. This must be specified. The namespace id of the service resource. To set the namespace attribute: ▫ provide the argument --custom-oauth-config-service-directory on the command line with a fully specified name; ▫ provide the argument --namespace on the command line.
     /// </summary>
     [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
     public string? Namespace { get; set; }
 
     /// <summary>
-    /// Proxy configuration. Arguments for the account connector config. At most one of these can be specified: Message for a customized OAuth config. ProviderOAuthConfig is the OAuth config for a provider. User selected scopes to apply to the Oauth config In the event of changing scopes, user records under AccountConnector will be deleted and users will re-auth again. This flag argument must be specified if any of the other arguments in this group are specified.
+    /// Proxy configuration. ProviderOAuthConfig is the OAuth config for a provider. User selected scopes to apply to the Oauth config In the event of changing scopes, user records under AccountConnector will be deleted and users will re-auth again. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--provider-oauth-config-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ProviderOauthConfigScopes { get; set; }

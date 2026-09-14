@@ -54,7 +54,7 @@ public class GcloudVmwarePrivateCloudsHcx
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwarePrivateCloudsHcxOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudVmwarePrivateCloudsHcxOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

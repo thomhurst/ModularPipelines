@@ -46,55 +46,55 @@ public record GcloudAgentRegistryServicesUpdateOptions : GcloudOptions
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// Arguments for the spec. At most one of these can be specified: The spec of the agent. The spec of the endpoint. The spec of the MCP Server. The content of the Agent spec in the JSON format. This payload is validated against the schema for the specified type. The content size is limited to 10KB.
+    /// Arguments for the spec. At most one of these can be specified: The spec of the agent. The content of the Agent spec in the JSON format. This payload is validated against the schema for the specified type. The content size is limited to 10KB.
     /// </summary>
     [CliOption("--agent-spec-content", Format = OptionFormat.EqualsSeparated)]
     public string? AgentSpecContent { get; set; }
 
     /// <summary>
-    /// Arguments for the spec. At most one of these can be specified: The spec of the agent. The spec of the endpoint. The spec of the MCP Server. The type of the agent spec content. AGENT_SPEC_TYPE must be one of: a2a-agent-card The content is an A2A Agent Card following the A2A specification. The interfaces field must be empty. no-spec There is no spec for the Agent. The content field must be empty.
+    /// Arguments for the spec. At most one of these can be specified: The spec of the agent. The type of the agent spec content. AGENT_SPEC_TYPE must be one of: a2a-agent-card The content is an A2A Agent Card following the A2A specification. The interfaces field must be empty. no-spec There is no spec for the Agent. The content field must be empty.
     /// </summary>
     [CliOption("--agent-spec-type", Format = OptionFormat.EqualsSeparated)]
     public string? AgentSpecType { get; set; }
 
     /// <summary>
-    /// Arguments for the spec. At most one of these can be specified: The spec of the agent. The spec of the endpoint. The spec of the MCP Server. Set service.agentSpec back to default value.
+    /// Arguments for the spec. At most one of these can be specified: The spec of the agent. Set service.agentSpec back to default value.
     /// </summary>
     [CliFlag("--clear-agent-spec")]
     public bool? ClearAgentSpec { get; set; }
 
     /// <summary>
-    /// Arguments for the spec. At most one of these can be specified: The spec of the agent. The spec of the endpoint. The spec of the MCP Server. Set service.endpointSpec back to default value.
+    /// The spec of the endpoint. Set service.endpointSpec back to default value.
     /// </summary>
     [CliFlag("--clear-endpoint-spec")]
     public bool? ClearEndpointSpec { get; set; }
 
     /// <summary>
-    /// Arguments for the spec. At most one of these can be specified: The spec of the agent. The spec of the endpoint. The spec of the MCP Server. The content of the endpoint spec. Reserved for future use.
+    /// The spec of the endpoint. The content of the endpoint spec. Reserved for future use.
     /// </summary>
     [CliOption("--endpoint-spec-content", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointSpecContent { get; set; }
 
     /// <summary>
-    /// Arguments for the spec. At most one of these can be specified: The spec of the agent. The spec of the endpoint. The spec of the MCP Server. The type of the endpoint spec content. ENDPOINT_SPEC_TYPE must be (only one value is supported): no-spec There is no spec for the Endpoint. The content field must be empty.
+    /// The spec of the endpoint. The type of the endpoint spec content. ENDPOINT_SPEC_TYPE must be (only one value is supported): no-spec There is no spec for the Endpoint. The content field must be empty.
     /// </summary>
     [CliOption("--endpoint-spec-type", Format = OptionFormat.EqualsSeparated)]
     public string? EndpointSpecType { get; set; }
 
     /// <summary>
-    /// Arguments for the spec. At most one of these can be specified: The spec of the agent. The spec of the endpoint. The spec of the MCP Server. Set service.mcpServerSpec back to default value.
+    /// The spec of the MCP Server. Set service.mcpServerSpec back to default value.
     /// </summary>
     [CliFlag("--clear-mcp-server-spec")]
     public bool? ClearMcpServerSpec { get; set; }
 
     /// <summary>
-    /// Arguments for the spec. At most one of these can be specified: The spec of the agent. The spec of the endpoint. The spec of the MCP Server. The content of the MCP Server spec. This payload is validated against the schema for the specified type. The content size is limited to 10KB.
+    /// The spec of the MCP Server. The content of the MCP Server spec. This payload is validated against the schema for the specified type. The content size is limited to 10KB.
     /// </summary>
     [CliOption("--mcp-server-spec-content", Format = OptionFormat.EqualsSeparated)]
     public string? McpServerSpecContent { get; set; }
 
     /// <summary>
-    /// Arguments for the spec. At most one of these can be specified: The spec of the agent. The spec of the endpoint. The spec of the MCP Server. The type of the MCP Server spec content. MCP_SERVER_SPEC_TYPE must be one of: no-spec There is no spec for the MCP Server. The content field must be empty. tool-spec The content is a MCP Tool Spec following the One MCP specification. The payload is the same as the tools/list response.
+    /// The spec of the MCP Server. The type of the MCP Server spec content. MCP_SERVER_SPEC_TYPE must be one of: no-spec There is no spec for the MCP Server. The content field must be empty. tool-spec The content is a MCP Tool Spec following the One MCP specification. The payload is the same as the tools/list response.
     /// </summary>
     [CliOption("--mcp-server-spec-type", Format = OptionFormat.EqualsSeparated)]
     public string? McpServerSpecType { get; set; }

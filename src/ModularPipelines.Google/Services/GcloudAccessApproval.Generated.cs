@@ -66,7 +66,7 @@ public class GcloudAccessApproval : IGcloudAccessApproval
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAccessApprovalOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAccessApprovalOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

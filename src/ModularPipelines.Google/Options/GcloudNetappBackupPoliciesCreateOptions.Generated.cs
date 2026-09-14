@@ -23,25 +23,25 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetappBackupPoliciesCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Add backup limit arguments. Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Add backup limit arguments. A description of the Cloud NetApp Backup Policy
+    /// A description of the Cloud NetApp Backup Policy
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Add backup limit arguments. The Boolean value indiciating whether backups are made automatically according to the schedules. If enabled, this will be applied to all volumes that have this backup policy attached and enforced on the volume level. If not specified, the default is true.
+    /// The Boolean value indiciating whether backups are made automatically according to the schedules. If enabled, this will be applied to all volumes that have this backup policy attached and enforced on the volume level. If not specified, the default is true.
     /// </summary>
     [CliOption("--enabled", Format = OptionFormat.EqualsSeparated)]
     public string? Enabled { get; set; }
 
     /// <summary>
-    /// Add backup limit arguments. List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
+    /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }

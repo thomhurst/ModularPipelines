@@ -27,9 +27,11 @@ internal static partial class CliArgumentGroupParser
 
         var firstPreludeLines = lines[..declarations[0].LineIndex];
         var firstPrelude = NormalizeDocumentation(firstPreludeLines);
-        var firstPreludeStartsGroup = StartsArgumentGroup(firstPreludeLines, firstPrelude);
+        var firstPreludeIndentation = GetMinimumContentIndentation(firstPreludeLines);
+        var firstPreludeStartsGroup = StartsArgumentGroup(firstPreludeLines, firstPrelude)
+            || firstPreludeIndentation <= declarations[0].Argument.Indentation;
         var root = new ArgumentGroupBuilder(
-            declarations.Min(declaration => declaration.Argument.Indentation),
+            Math.Min(firstPreludeIndentation, declarations.Min(declaration => declaration.Argument.Indentation)),
             firstPreludeStartsGroup ? null : firstPrelude);
         var stack = new Stack<ArgumentGroupBuilder>();
         stack.Push(root);
@@ -52,13 +54,17 @@ internal static partial class CliArgumentGroupParser
             var preludeLines = lines[preludeStart..declaration.LineIndex];
             var prelude = NormalizeDocumentation(preludeLines);
             var preludeIndentation = GetMinimumContentIndentation(preludeLines);
-            var preludeStartsGroup = StartsArgumentGroup(preludeLines, prelude);
             previousDescriptionEnd = descriptionEnd;
 
             MoveToContainingGroup(
                 stack,
                 declaration.Argument.Indentation,
                 preludeIndentation);
+            // Plain prose can separate unnamed groups, but cannot remove a sibling
+            // argument from an established constraint group without an explicit heading.
+            var preludeStartsGroup = StartsArgumentGroup(preludeLines, prelude)
+                || (preludeIndentation <= declaration.Argument.Indentation
+                    && Classify(stack.Peek().Description) == CliArgumentGroupKind.None);
             AddArgument(
                 stack,
                 declaration.Argument with
@@ -266,7 +272,7 @@ internal static partial class CliArgumentGroupParser
             Description = Description,
             Kind = Classify(Description),
             Arguments = Arguments,
-            Groups = Groups.Select(group => group.Build()).ToArray(),
+            Groups = [.. Groups.Select(group => group.Build())],
         };
     }
 

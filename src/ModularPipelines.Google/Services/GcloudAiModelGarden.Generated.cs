@@ -54,7 +54,7 @@ public class GcloudAiModelGarden
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAiModelGardenOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAiModelGardenOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

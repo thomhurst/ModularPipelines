@@ -66,7 +66,7 @@ public class GcloudComputeNetworksVpcAccess
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeNetworksVpcAccessOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeNetworksVpcAccessOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

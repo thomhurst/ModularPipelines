@@ -38,7 +38,10 @@ public partial class GcloudCliScraper : CliScraperBase
         : base(executor, helpCache, logger)
     {
         ExecutablePath = ResolveGcloudPath();
-        Logger.LogInformation("Resolved gcloud path: {Path}", ExecutablePath);
+        if (Logger.IsEnabled(LogLevel.Information))
+        {
+            Logger.LogInformation("Resolved gcloud path: {Path}", ExecutablePath);
+        }
     }
 
     #region Path Resolution
@@ -181,14 +184,14 @@ public partial class GcloudCliScraper : CliScraperBase
         var sectionStart = sectionMatch.Index + sectionMatch.Length;
 
         // Find where section ends (next uppercase section header)
-        var nextMatch = Regex.Match(helpText[sectionStart..], @"^[A-Z][A-Z_\s]+$", RegexOptions.Multiline);
+        var nextMatch = SectionHeaderPattern().Match(helpText[sectionStart..]);
         var sectionEnd = nextMatch.Success ? sectionStart + nextMatch.Index : helpText.Length;
 
         var section = helpText[sectionStart..sectionEnd];
 
         // gcloud format: command names are indented with 5+ spaces at line start
         // Example: "     compute"
-        var matches = Regex.Matches(section, @"^\s{5}(\w[\w-]*)\s*$", RegexOptions.Multiline);
+        var matches = SubcommandPattern().Matches(section);
         foreach (Match match in matches)
         {
             var name = match.Groups[1].Value.Trim();
@@ -204,7 +207,7 @@ public partial class GcloudCliScraper : CliScraperBase
     private static string? ExtractDescription(string helpText)
     {
         // NAME section: "gcloud command - description"
-        var match = Regex.Match(helpText, @"^NAME\s*\n\s+gcloud[^\n]+-\s*(.+?)(?=\n\n|\nSYNOPSIS)", RegexOptions.Singleline);
+        var match = CommandDescriptionPattern().Match(helpText);
         if (match.Success)
         {
             return match.Groups[1].Value.Trim().Replace("\n", " ").Replace("  ", " ");
@@ -220,7 +223,7 @@ public partial class GcloudCliScraper : CliScraperBase
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         // Find FLAGS section
-        var flagsMatch = Regex.Match(helpText, @"^FLAGS\s*$", RegexOptions.Multiline);
+        var flagsMatch = FlagsSectionPattern().Match(helpText);
         if (!flagsMatch.Success)
         {
             return (options, []);
@@ -229,7 +232,7 @@ public partial class GcloudCliScraper : CliScraperBase
         var sectionStart = flagsMatch.Index + flagsMatch.Length;
 
         // Find end of FLAGS section
-        var nextSectionMatch = Regex.Match(helpText[sectionStart..], @"^[A-Z][A-Z_\s]+$", RegexOptions.Multiline);
+        var nextSectionMatch = SectionHeaderPattern().Match(helpText[sectionStart..]);
         var sectionEnd = nextSectionMatch.Success ? sectionStart + nextSectionMatch.Index : helpText.Length;
 
         var flagsSection = helpText[sectionStart..sectionEnd];
@@ -429,20 +432,20 @@ public partial class GcloudCliScraper : CliScraperBase
     {
         var args = new List<CliPositionalArgument>();
 
-        var sectionMatch = Regex.Match(helpText, @"^POSITIONAL ARGUMENTS\s*$", RegexOptions.Multiline);
+        var sectionMatch = PositionalSectionPattern().Match(helpText);
         if (!sectionMatch.Success)
         {
             return args;
         }
 
         var sectionStart = sectionMatch.Index + sectionMatch.Length;
-        var nextMatch = Regex.Match(helpText[sectionStart..], @"^[A-Z][A-Z_\s]+$", RegexOptions.Multiline);
+        var nextMatch = SectionHeaderPattern().Match(helpText[sectionStart..]);
         var sectionEnd = nextMatch.Success ? sectionStart + nextMatch.Index : helpText.Length;
 
         var section = helpText[sectionStart..sectionEnd];
 
         // Match: "     ARG_NAME [ARG_NAME ...]"
-        var argMatch = Regex.Match(section, @"^\s{5}([A-Z][A-Z_]+)(?:\s+\[[A-Z][A-Z_]+\s*\.\.\.\])?", RegexOptions.Multiline);
+        var argMatch = PositionalArgumentPattern().Match(section);
         if (argMatch.Success)
         {
             var argName = argMatch.Groups[1].Value;
@@ -532,7 +535,7 @@ public partial class GcloudCliScraper : CliScraperBase
         }
 
         // Pattern 1: "OPTION must be one of: value1, value2, value3" (comma-separated list)
-        var match = Regex.Match(description, @"must be (?:one of:?\s*)([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase);
+        var match = RequiredEnumValuesPattern().Match(description);
         if (match.Success)
         {
             var values = match.Groups[1].Value
@@ -549,7 +552,7 @@ public partial class GcloudCliScraper : CliScraperBase
         }
 
         // Pattern 2: "; one of value1, value2" at end of description
-        match = Regex.Match(description, @";\s*one of\s+([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase);
+        match = InlineEnumValuesPattern().Match(description);
         if (match.Success)
         {
             var values = match.Groups[1].Value
@@ -576,11 +579,11 @@ public partial class GcloudCliScraper : CliScraperBase
         return new CliEnumDefinition
         {
             EnumName = enumName,
-            Values = values.Select(v => new CliEnumValue
+            Values = [.. values.Select(v => new CliEnumValue
             {
                 MemberName = string.Join("", v.Split(['-', '_'], StringSplitOptions.RemoveEmptyEntries).Select(ToPascalCase)),
                 CliValue = v
-            }).ToList(),
+            })],
             Description = $"Allowed values for --{propertyName.ToLowerInvariant()}."
         };
     }
@@ -620,9 +623,10 @@ public partial class GcloudCliScraper : CliScraperBase
     /// --flag
     /// --[no-]flag
     /// --option=VALUE
+    /// Default annotations are display text and may contain spaces, such as Python enum representations.
     /// </summary>
     [GeneratedRegex(
-        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>[\w-]+)|(?<long>--[\w-]+))(?:=(?<value>[^\r\n;]+?))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?(?:;\s*default=(?:""[^""]*""|'[^']*'|\S+))?$")]
+        @"^(?<indent>[ \t]+)(?:(?<negatable>--\[no-\])(?<negatableName>[\w-]+)|(?<long>--[\w-]+))(?:=(?<value>[^\r\n;]+?))?(?:,\s*-[\w-]+(?:[ =]\S+)?)?(?:;\s*default=[^\r\n]+)?$")]
     private static partial Regex GcloudFlagPattern();
 
     [GeneratedRegex(
@@ -639,6 +643,30 @@ public partial class GcloudCliScraper : CliScraperBase
         @"\bmust be one of:\s*[A-Za-z][A-Za-z0-9_-]*\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex TextualCategoriesPattern();
+
+    [GeneratedRegex(@"^[A-Z][A-Z_\s]+$", RegexOptions.Multiline)]
+    private static partial Regex SectionHeaderPattern();
+
+    [GeneratedRegex(@"^\s{5}(\w[\w-]*)\s*$", RegexOptions.Multiline)]
+    private static partial Regex SubcommandPattern();
+
+    [GeneratedRegex(@"^NAME\s*\n\s+gcloud[^\n]+-\s*(.+?)(?=\n\n|\nSYNOPSIS)", RegexOptions.Singleline)]
+    private static partial Regex CommandDescriptionPattern();
+
+    [GeneratedRegex(@"^FLAGS\s*$", RegexOptions.Multiline)]
+    private static partial Regex FlagsSectionPattern();
+
+    [GeneratedRegex(@"^POSITIONAL ARGUMENTS\s*$", RegexOptions.Multiline)]
+    private static partial Regex PositionalSectionPattern();
+
+    [GeneratedRegex(@"^\s{5}([A-Z][A-Z_]+)(?:\s+\[[A-Z][A-Z_]+\s*\.\.\.\])?", RegexOptions.Multiline)]
+    private static partial Regex PositionalArgumentPattern();
+
+    [GeneratedRegex(@"must be (?:one of:?\s*)([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
+    private static partial Regex RequiredEnumValuesPattern();
+
+    [GeneratedRegex(@";\s*one of\s+([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
+    private static partial Regex InlineEnumValuesPattern();
 
     #endregion
 }

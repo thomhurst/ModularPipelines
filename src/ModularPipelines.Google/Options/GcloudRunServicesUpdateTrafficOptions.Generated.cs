@@ -22,13 +22,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudRunServicesUpdateTrafficOptions : GcloudOptions
 {
     /// <summary>
-    /// Specify traffic tags. Traffic tags can be assigned to a revision by name or to the latest ready revision. Assigning a tag to a revision generates a URL prefixed with the tag that allows addressing that revision directly, regardless of the percent traffic specified. Keys are tags. Values are revision names or "LATEST" for the latest ready revision. For example, Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Specify traffic tags. Traffic tags can be assigned to a revision by name or to the latest ready revision. Assigning a tag to a revision generates a URL prefixed with the tag that allows addressing that revision directly, regardless of the percent traffic specified. Keys are tags. Values are revision names or "LATEST" for the latest ready revision. For example, Region in which the resource can be found. Alternatively, set the property [run/region].
+    /// Region in which the resource can be found. Alternatively, set the property [run/region].
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }

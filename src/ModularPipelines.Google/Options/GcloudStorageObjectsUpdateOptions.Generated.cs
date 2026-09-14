@@ -22,37 +22,37 @@ namespace ModularPipelines.Google.Options;
 public record GcloudStorageObjectsUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
+    /// Includes arbitrary headers in storage API calls. Accepts a comma separated list of key=value pairs, e.g. header1=value1,header2=value2. Overrides the default storage/additional_headers property value for this command invocation.
     /// </summary>
     [CliOption("--additional-headers", Format = OptionFormat.EqualsSeparated)]
     public string? AdditionalHeaders { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Perform the operation on all object versions.
+    /// Perform the operation on all object versions.
     /// </summary>
     [CliFlag("--all-versions")]
     public bool? AllVersions { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. If any operations are unsuccessful, the command will exit with a non-zero exit status after completing the remaining operations. This flag takes effect only in sequential execution mode (i.e. processor and thread count are set to 1). Parallelism is default.
+    /// If any operations are unsuccessful, the command will exit with a non-zero exit status after completing the remaining operations. This flag takes effect only in sequential execution mode (i.e. processor and thread count are set to 1). Parallelism is default.
     /// </summary>
     [CliFlag("--continue-on-error")]
     public bool? ContinueOnError { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Enables or disables an event-based hold on objects. Use --event-based-hold to enable and --no-event-based-hold to disable.
+    /// Enables or disables an event-based hold on objects. Use --event-based-hold to enable and --no-event-based-hold to disable.
     /// </summary>
     [CliFlag("--event-based-hold")]
     public bool? EventBasedHold { get; set; }
 
     /// <summary>
-    /// Negates --event-based-hold. --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Enables or disables an event-based hold on objects. Use --event-based-hold to enable and --no-event-based-hold to disable.
+    /// Negates --event-based-hold. Enables or disables an event-based hold on objects. Use --event-based-hold to enable and --no-event-based-hold to disable.
     /// </summary>
     [CliFlag("--no-event-based-hold")]
     public bool? NoEventBasedHold { get; set; }
 
     /// <summary>
-    /// --recursive, -R, -r Recursively update objects under any buckets or directories that match the URL expression. Read the list of objects to update from stdin. No need to enter a source argument if this flag is present. Example: "storage objects update -I --content-type=new-type"
+    /// Read the list of objects to update from stdin. No need to enter a source argument if this flag is present. Example: "storage objects update -I --content-type=new-type"
     /// </summary>
     [CliFlag("--read-paths-from-stdin")]
     public bool? ReadPathsFromStdin { get; set; }

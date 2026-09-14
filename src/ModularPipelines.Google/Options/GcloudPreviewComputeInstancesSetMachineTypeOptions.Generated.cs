@@ -24,13 +24,13 @@ public record GcloudPreviewComputeInstancesSetMachineTypeOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Custom machine type extensions. Specifies the machine type used for the instances. To get a list of available machine types, run 'gcloud compute machine-types list'. Either this flag, --custom-cpu, or --custom-memory must be specified.
+    /// Specifies the machine type used for the instances. To get a list of available machine types, run 'gcloud compute machine-types list'. Either this flag, --custom-cpu, or --custom-memory must be specified.
     /// </summary>
     [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
     public string? MachineType { get; set; }
 
     /// <summary>
-    /// Custom machine type extensions. Zone of the instance to operate on. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
+    /// Zone of the instance to operate on. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }

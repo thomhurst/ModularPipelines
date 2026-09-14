@@ -72,7 +72,7 @@ public class GcloudDeveloperConnect : IGcloudDeveloperConnect
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDeveloperConnectOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudDeveloperConnectOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

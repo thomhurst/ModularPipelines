@@ -23,61 +23,61 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Description of the resource. Must be less than 256 characters.
+    /// Description of the resource. Must be less than 256 characters.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+    /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update allowed_scopes. At most one of these can be specified: Set allowed_scopes to new value.
+    /// Update allowed_scopes. At most one of these can be specified: Set allowed_scopes to new value.
     /// </summary>
     [CliOption("--allowed-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowedScopes { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to allowed_scopes list.
+    /// Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to allowed_scopes list.
     /// </summary>
     [CliOption("--add-allowed-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddAllowedScopes { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear allowed_scopes value and set to empty list.
+    /// Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear allowed_scopes value and set to empty list.
     /// </summary>
     [CliFlag("--clear-allowed-scopes")]
     public bool? ClearAllowedScopes { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from allowed_scopes list.
+    /// Update allowed_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from allowed_scopes list.
     /// </summary>
     [CliOption("--remove-allowed-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveAllowedScopes { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update blocked_scopes. At most one of these can be specified: Set blocked_scopes to new value.
+    /// Update blocked_scopes. At most one of these can be specified: Set blocked_scopes to new value.
     /// </summary>
     [CliOption("--blocked-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? BlockedScopes { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to blocked_scopes list.
+    /// Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: Add new value to blocked_scopes list.
     /// </summary>
     [CliOption("--add-blocked-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddBlockedScopes { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear blocked_scopes value and set to empty list.
+    /// Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Clear blocked_scopes value and set to empty list.
     /// </summary>
     [CliFlag("--clear-blocked-scopes")]
     public bool? ClearBlockedScopes { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from blocked_scopes list.
+    /// Update blocked_scopes. At most one of these can be specified: Or at least one of these can be specified: At most one of these can be specified: Remove existing value from blocked_scopes list.
     /// </summary>
     [CliOption("--remove-blocked-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveBlockedScopes { get; set; }
@@ -89,71 +89,71 @@ public record GcloudAgentIdentityAuthProvidersUpdateOptions : GcloudOptions
     public bool? ClearAuthProviderTypeParams { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The API key for this auth_provider.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. The API key for this auth_provider.
     /// </summary>
     [SecretValue]
     [CliOption("--api-key", Format = OptionFormat.EqualsSeparated)]
     public string? ApiKey { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The authorization endpoint to send users to for consenting to delegate to the agent. eg. "https://auth.atlassian.com/authorize"
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. The authorization endpoint to send users to for consenting to delegate to the agent. eg. "https://auth.atlassian.com/authorize"
     /// </summary>
     [CliOption("--three-legged-oauth-authorization-url", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthAuthorizationUrl { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The client ID of the OAuth client.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. The client ID of the OAuth client.
     /// </summary>
     [CliOption("--three-legged-oauth-client-id", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthClientId { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The client secret of the OAuth client.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. The client secret of the OAuth client.
     /// </summary>
     [SecretValue]
     [CliOption("--three-legged-oauth-client-secret", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthClientSecret { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The default continue URI for 3LO flow to redirect end users after consent.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. The default continue URI for 3LO flow to redirect end users after consent.
     /// </summary>
     [CliOption("--three-legged-oauth-default-continue-uri", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthDefaultContinueUri { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. Use --three-legged-oauth-enable-pkce to enable and --no-three-legged-oauth-enable-pkce to disable.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. Use --three-legged-oauth-enable-pkce to enable and --no-three-legged-oauth-enable-pkce to disable.
     /// </summary>
     [CliFlag("--three-legged-oauth-enable-pkce")]
     public bool? ThreeLeggedOauthEnablePkce { get; set; }
 
     /// <summary>
-    /// Negates --three-legged-oauth-enable-pkce. AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. Use --three-legged-oauth-enable-pkce to enable and --no-three-legged-oauth-enable-pkce to disable.
+    /// Negates --three-legged-oauth-enable-pkce. AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. Use --three-legged-oauth-enable-pkce to enable and --no-three-legged-oauth-enable-pkce to disable.
     /// </summary>
     [CliFlag("--no-three-legged-oauth-enable-pkce")]
     public bool? NoThreeLeggedOauthEnablePkce { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The token endpoint for requesting tokens on behalf of an end user. eg. "https://auth.atlassian.com/oauth/token"
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing ThreeLeggedOAuth object. The token endpoint for requesting tokens on behalf of an end user. eg. "https://auth.atlassian.com/oauth/token"
     /// </summary>
     [SecretValue]
     [CliOption("--three-legged-oauth-token-url", Format = OptionFormat.EqualsSeparated)]
     public string? ThreeLeggedOauthTokenUrl { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The client ID of the OAuth client.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing TwoLeggedOAuth object. The client ID of the OAuth client.
     /// </summary>
     [CliOption("--two-legged-oauth-client-id", Format = OptionFormat.EqualsSeparated)]
     public string? TwoLeggedOauthClientId { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The client secret of the OAuth client.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing TwoLeggedOAuth object. The client secret of the OAuth client.
     /// </summary>
     [SecretValue]
     [CliOption("--two-legged-oauth-client-secret", Format = OptionFormat.EqualsSeparated)]
     public string? TwoLeggedOauthClientSecret { get; set; }
 
     /// <summary>
-    /// AuthProvider type specific parameters. Required when creating an auth_provider. Arguments for the type. At most one of these can be specified: Message describing ApiKeyParams object. Message describing ThreeLeggedOAuth object. Message describing TwoLeggedOAuth object. The token endpoint of the OAuth client.
+    /// AuthProvider type specific parameters. Required when creating an auth_provider. Message describing TwoLeggedOAuth object. The token endpoint of the OAuth client.
     /// </summary>
     [SecretValue]
     [CliOption("--two-legged-oauth-token-url", Format = OptionFormat.EqualsSeparated)]

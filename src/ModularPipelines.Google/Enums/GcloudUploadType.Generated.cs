@@ -11,16 +11,16 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
-/// Allowed values for --threadcount.
+/// Allowed values for --uploadtype.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public enum GcloudThreadCount
+public enum GcloudUploadType
 {
     [EnumValue("FILE")]
     File,
 
-    [EnumValue("SLICED")]
-    Sliced,
+    [EnumValue("PARALLEL_COMPOSITE")]
+    ParallelComposite,
 
     [EnumValue("STREAMING")]
     Streaming

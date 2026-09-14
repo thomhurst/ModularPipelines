@@ -22,25 +22,25 @@ namespace ModularPipelines.Google.Options;
 public record GcloudVectorSearchCollectionsCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// Represents a customer-managed encryption key specification that can be applied to a Vector Search collection. Return immediately, without waiting for the operation in progress to complete.
+    /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Represents a customer-managed encryption key specification that can be applied to a Vector Search collection. JSON Schema for data. Field names must contain only alphanumeric characters, underscores, and hyphens. The schema must be compliant with JSON Schema Draft 7 (https://json-schema.org/draft-07/schema).
+    /// JSON Schema for data. Field names must contain only alphanumeric characters, underscores, and hyphens. The schema must be compliant with JSON Schema Draft 7 (https://json-schema.org/draft-07/schema).
     /// </summary>
     [CliOption("--data-schema", Format = OptionFormat.EqualsSeparated)]
     public string? DataSchema { get; set; }
 
     /// <summary>
-    /// Represents a customer-managed encryption key specification that can be applied to a Vector Search collection. User-specified description of the collection
+    /// User-specified description of the collection
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Represents a customer-managed encryption key specification that can be applied to a Vector Search collection. User-specified display name of the collection
+    /// User-specified display name of the collection
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
