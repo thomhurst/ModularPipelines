@@ -344,7 +344,6 @@ ModularPipelines.DotNet.Options.DotNetNewDetailsOptions.PackageIdentifier.init -
 ModularPipelines.DotNet.Options.DotNetNewInstallOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Package) -> void
 ModularPipelines.DotNet.Options.DotNetNewInstallOptions.DotNetNewInstallOptions(System.Collections.Generic.IEnumerable<string!>! Package) -> void
 ModularPipelines.DotNet.Options.DotNetNewInstallOptions.Package.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.DotNet.Options.DotNetNewInstallOptions.Package.init -> void
 ModularPipelines.DotNet.Options.DotNetNewOptions.TemplateArgs.get -> System.Collections.Generic.IEnumerable<string!>?
 ModularPipelines.DotNet.Options.DotNetNuGetAddClientCertOptions.FindBy.get -> string?
 ModularPipelines.DotNet.Options.DotNetNuGetAddClientCertOptions.FindValue.get -> string?
@@ -381,7 +380,6 @@ ModularPipelines.DotNet.Options.DotNetNuGetListSourceOptions.Format.get -> strin
 ModularPipelines.DotNet.Options.DotNetNuGetPushOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! PackagePaths) -> void
 ModularPipelines.DotNet.Options.DotNetNuGetPushOptions.DotNetNuGetPushOptions(System.Collections.Generic.IEnumerable<string!>! PackagePaths) -> void
 ModularPipelines.DotNet.Options.DotNetNuGetPushOptions.PackagePaths.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.DotNet.Options.DotNetNuGetPushOptions.PackagePaths.init -> void
 ModularPipelines.DotNet.Options.DotNetNuGetRemoveClientCertOptions.PackageSource.get -> string?
 ModularPipelines.DotNet.Options.DotNetNuGetRemoveSourceOptions.Deconstruct(out string! Name) -> void
 ModularPipelines.DotNet.Options.DotNetNuGetRemoveSourceOptions.DotNetNuGetRemoveSourceOptions(string! Name) -> void
@@ -392,7 +390,6 @@ ModularPipelines.DotNet.Options.DotNetNuGetSignOptions.Deconstruct(out System.Co
 ModularPipelines.DotNet.Options.DotNetNuGetSignOptions.DotNetNuGetSignOptions(System.Collections.Generic.IEnumerable<string!>! PackagePaths) -> void
 ModularPipelines.DotNet.Options.DotNetNuGetSignOptions.HashAlgorithm.get -> string?
 ModularPipelines.DotNet.Options.DotNetNuGetSignOptions.PackagePaths.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.DotNet.Options.DotNetNuGetSignOptions.PackagePaths.init -> void
 ModularPipelines.DotNet.Options.DotNetNuGetSignOptions.TimestampHashAlgorithm.get -> string?
 ModularPipelines.DotNet.Options.DotNetNuGetTrustAuthorOptions.Deconstruct(out string! Name, out string! Package) -> void
 ModularPipelines.DotNet.Options.DotNetNuGetTrustAuthorOptions.DotNetNuGetTrustAuthorOptions(string! Name, string! Package) -> void
@@ -437,7 +434,6 @@ ModularPipelines.DotNet.Options.DotNetNuGetVerifyOptions.CertificateFingerprint.
 ModularPipelines.DotNet.Options.DotNetNuGetVerifyOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! PackagePaths) -> void
 ModularPipelines.DotNet.Options.DotNetNuGetVerifyOptions.DotNetNuGetVerifyOptions(System.Collections.Generic.IEnumerable<string!>! PackagePaths) -> void
 ModularPipelines.DotNet.Options.DotNetNuGetVerifyOptions.PackagePaths.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.DotNet.Options.DotNetNuGetVerifyOptions.PackagePaths.init -> void
 ModularPipelines.DotNet.Options.DotNetPackOptions.Serviceable.get -> bool?
 ModularPipelines.DotNet.Options.DotNetPackageAddOptions.Deconstruct(out string! PackageId) -> void
 ModularPipelines.DotNet.Options.DotNetPackageAddOptions.DotNetPackageAddOptions(string! PackageId) -> void
@@ -446,19 +442,15 @@ ModularPipelines.DotNet.Options.DotNetPackageAddOptions.PackageId.init -> void
 ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! Packages) -> void
 ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.DotNetPackageDownloadOptions(System.Collections.Generic.IEnumerable<string!>! Packages) -> void
 ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Packages.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.DotNet.Options.DotNetPackageDownloadOptions.Packages.init -> void
 ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! PackageName) -> void
 ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.DotNetPackageRemoveOptions(System.Collections.Generic.IEnumerable<string!>! PackageName) -> void
 ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.PackageName.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.DotNet.Options.DotNetPackageRemoveOptions.PackageName.init -> void
 ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! ProjectPath) -> void
 ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.DotNetReferenceAddOptions(System.Collections.Generic.IEnumerable<string!>! ProjectPath) -> void
 ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.ProjectPath.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.DotNet.Options.DotNetReferenceAddOptions.ProjectPath.init -> void
 ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! ProjectPath) -> void
 ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.DotNetReferenceRemoveOptions(System.Collections.Generic.IEnumerable<string!>! ProjectPath) -> void
 ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.ProjectPath.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.DotNet.Options.DotNetReferenceRemoveOptions.ProjectPath.init -> void
 ModularPipelines.DotNet.Options.DotNetStoreOptions.FrameworkVersion.get -> string?
 ModularPipelines.DotNet.Options.DotNetTestOptions.DiagnosticOutputDirectory.get -> string?
 ModularPipelines.DotNet.Options.DotNetTestOptions.ListTests.get -> bool?
@@ -477,11 +469,9 @@ ModularPipelines.DotNet.Options.DotNetToolUninstallOptions.PackageId.init -> voi
 ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! WorkloadId) -> void
 ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.DotNetWorkloadInstallOptions(System.Collections.Generic.IEnumerable<string!>! WorkloadId) -> void
 ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.WorkloadId.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.DotNet.Options.DotNetWorkloadInstallOptions.WorkloadId.init -> void
 ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.Deconstruct(out System.Collections.Generic.IEnumerable<string!>! WorkloadId) -> void
 ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.DotNetWorkloadUninstallOptions(System.Collections.Generic.IEnumerable<string!>! WorkloadId) -> void
 ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.WorkloadId.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.DotNet.Options.DotNetWorkloadUninstallOptions.WorkloadId.init -> void
 ModularPipelines.DotNet.Services.DotNetBuildServer.DotNetBuildServer(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.DotNet.Services.DotNetFormat.DotNetFormat(ModularPipelines.Context.ICommandContext! command) -> void
 ModularPipelines.DotNet.Services.DotNetNew.DotNetNew(ModularPipelines.Context.ICommandContext! command) -> void

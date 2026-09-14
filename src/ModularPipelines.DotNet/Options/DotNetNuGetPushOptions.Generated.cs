@@ -19,10 +19,32 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "push")]
-public record DotNetNuGetPushOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> PackagePaths
-) : DotNetOptions
+public record DotNetNuGetPushOptions : DotNetOptions
 {
+    public DotNetNuGetPushOptions(
+        IEnumerable<string> PackagePaths
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PackagePaths);
+            var materialized = global::System.Linq.Enumerable.ToArray(PackagePaths);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PackagePaths));
+            }
+
+            PackagePaths = materialized;
+        }
+        this.PackagePaths = PackagePaths;
+    }
+
+    public void Deconstruct(out IEnumerable<string> PackagePaths)
+    {
+        PackagePaths = this.PackagePaths;
+    }
+
     /// <summary>
     /// Package source (URL, UNC/folder path or package source name) to use. Defaults to DefaultPushSource if specified in NuGet.Config.
     /// </summary>
@@ -102,5 +124,11 @@ public record DotNetNuGetPushOptions(
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
+
+    /// <summary>
+    /// Specify the path to the package and your API key to push the package to the server.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> PackagePaths { get; private init; }
 
 }

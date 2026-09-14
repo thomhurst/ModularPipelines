@@ -18,10 +18,32 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("new", "install")]
-public record DotNetNewInstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Package
-) : DotNetOptions
+public record DotNetNewInstallOptions : DotNetOptions
 {
+    public DotNetNewInstallOptions(
+        IEnumerable<string> Package
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Package);
+            var materialized = global::System.Linq.Enumerable.ToArray(Package);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Package));
+            }
+
+            Package = materialized;
+        }
+        this.Package = Package;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Package)
+    {
+        Package = this.Package;
+    }
+
     /// <summary>
     /// Allows the command to stop and wait for user input or action (for example to complete authentication). [default: False]
     /// </summary>
@@ -39,5 +61,11 @@ public record DotNetNewInstallOptions(
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]
     public string? Verbosity { get; set; }
+
+    /// <summary>
+    /// NuGet package ID or path to folder or NuGet package to install.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Package { get; private init; }
 
 }

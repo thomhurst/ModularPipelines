@@ -19,10 +19,32 @@ namespace ModularPipelines.DotNet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "sign")]
-public record DotNetNuGetSignOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> PackagePaths
-) : DotNetOptions
+public record DotNetNuGetSignOptions : DotNetOptions
 {
+    public DotNetNuGetSignOptions(
+        IEnumerable<string> PackagePaths
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PackagePaths);
+            var materialized = global::System.Linq.Enumerable.ToArray(PackagePaths);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PackagePaths));
+            }
+
+            PackagePaths = materialized;
+        }
+        this.PackagePaths = PackagePaths;
+    }
+
+    public void Deconstruct(out IEnumerable<string> PackagePaths)
+    {
+        PackagePaths = this.PackagePaths;
+    }
+
     /// <summary>
     /// Directory where the signed package(s) should be saved. By default the original package is overwritten by the signed package.
     /// </summary>
@@ -107,5 +129,11 @@ public record DotNetNuGetSignOptions(
     /// </summary>
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
+
+    /// <summary>
+    /// Signs NuGet packages at &lt;package-paths&gt; with the specified certificate.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> PackagePaths { get; private init; }
 
 }
