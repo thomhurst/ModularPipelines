@@ -10,6 +10,50 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PnpmCliScraperTests
 {
     [Test]
+    [Arguments("--custom <VALUE>", "The authentication token value.", true)]
+    [Arguments("--custom <VALUE>", "Select the output format.", false)]
+    [Arguments("--custom", "Show the authentication token value.", false)]
+    [Arguments("--custom <VALUE>", "The path to the authentication token value.", false)]
+    public async Task Secret_Descriptions_Are_Recognized_Without_A_Type_Enhancer(string declaration, string description, bool expectedSecret)
+    {
+        var help = $"Usage: pnpm example [OPTIONS]\n\nOptions:\n  {declaration}  {description}\n";
+        var command = (await new TestPnpmCliScraper().Parse(["pnpm", "example"], help))!;
+        await Assert.That(command.Options.Single().IsSecret).IsEqualTo(expectedSecret);
+        var generated = await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "pnpm",
+            NamespacePrefix = "Pnpm",
+            TargetNamespace = "ModularPipelines.Test",
+            OutputDirectory = "src/ModularPipelines.Test",
+            Commands = [command],
+        });
+        await Assert.That(generated.Single().Content.Contains("[SecretValue]")).IsEqualTo(expectedSecret);
+    }
+
+    [Test]
+    [Arguments("-v, --verbose...", "int?", true)]
+    [Arguments("-q, --quiet", "bool?", false)]
+    public async Task Repeated_Clap_Flags_Preserve_Counts(string declaration, string expectedType, bool numeric)
+    {
+        var help = $"Usage: pnpm example [OPTIONS]\n\nOptions:\n  {declaration}  Set output verbosity.\n";
+        var command = (await new TestPnpmCliScraper().Parse(["pnpm", "example"], help))!;
+        var option = command.Options.Single();
+        await Assert.That(option.IsFlag).IsTrue();
+        await Assert.That(option.IsNumeric).IsEqualTo(numeric);
+        await Assert.That(option.PropertyType).IsEqualTo(expectedType);
+        var generated = await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "pnpm",
+            NamespacePrefix = "Pnpm",
+            TargetNamespace = "ModularPipelines.Node",
+            OutputDirectory = "src/ModularPipelines.Node",
+            Commands = [command],
+        });
+        await Assert.That(generated.Single().Content).Contains($"[CliFlag(\"{option.SwitchName}\", ShortForm = \"{option.ShortForm}\")]");
+        await Assert.That(generated.Single().Content).Contains($"public {expectedType} {option.PropertyName} {{ get; set; }}");
+    }
+
+    [Test]
     [Arguments("--verbose", false)]
     [Arguments("--verbose", true)]
     [Arguments("-v", false)]

@@ -3,6 +3,7 @@ using System.Collections.Frozen;
 using System.Text.RegularExpressions;
 using System.Threading.Channels;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -897,14 +898,15 @@ public abstract partial class CliScraperBase : ICliScraper
         string arguments,
         CancellationToken cancellationToken,
         string? workingDirectory = null,
-        bool preserveRawHelp = false)
+        bool preserveRawHelp = false,
+        CliHelpKind helpKind = CliHelpKind.Help)
     {
         var result = await Executor.ExecuteAsync(
             executablePath,
             arguments,
             cancellationToken,
             workingDirectory);
-        _scrapeProvenance.Record(commandPath, arguments, result, preserveRawHelp);
+        _scrapeProvenance.Record(commandPath, arguments, result, preserveRawHelp, helpKind);
         if (!result.Unavailable)
         {
             return result;
@@ -1354,13 +1356,12 @@ public abstract partial class CliScraperBase : ICliScraper
     protected internal static bool HelpDeclaresRepeatableOption(
         string helpText,
         string switchName,
-        string description)
-    {
-        if (DescriptionDeclaresRepeatableOption(description))
-        {
-            return true;
-        }
+        string description) =>
+        DescriptionDeclaresRepeatableOption(description)
+        || HelpOptionBlockMatches(helpText, switchName, RepeatableValuePattern());
 
+    private protected static bool HelpOptionBlockMatches(string helpText, string switchName, Regex pattern)
+    {
         var optionPattern = $@"(?<![\w-]){Regex.Escape(switchName)}(?![\w-])";
         var lines = helpText.ReplaceLineEndings("\n").Split('\n');
 
@@ -1391,7 +1392,7 @@ public abstract partial class CliScraperBase : ICliScraper
             var optionMatch = Regex.Match(declaration, optionPattern, RegexOptions.IgnoreCase);
             if (optionMatch.Success
                 && (inlineDescriptionColumn is null || GetColumn(declaration, optionMatch.Index) < inlineDescriptionColumn)
-                && RepeatableValuePattern().IsMatch(string.Join('\n', lines, start, index - start + 1)))
+                && pattern.IsMatch(string.Join('\n', lines, start, index - start + 1)))
             {
                 return true;
             }
@@ -1830,6 +1831,69 @@ public abstract partial class CliScraperBase : ICliScraper
 
     [GeneratedRegex(@"(?<![\w/-])--[A-Za-z0-9][A-Za-z0-9_-]*-$")]
     private static partial Regex WrappedLongOptionPrefixPattern();
+
+    /// <summary>
+    /// Creates a typed option from a clap declaration and its parsed help block.
+    /// </summary>
+    protected static CliOptionDefinition CreateClapOption(
+        Match match,
+        string className,
+        string propertyName,
+        string switchName,
+        ClapOptionBlock block)
+    {
+        var shortForm = match.Groups["short"].Value.Trim();
+        var valueHint = match.Groups["value"].Value.Trim();
+        var isFlag = string.IsNullOrEmpty(valueHint);
+        var acceptsMultipleValues = match.Groups["multi"].Success
+                                    || IsRepeatableValueOption(block.Description, isFlag, isBoolean: false);
+        var attachedOptionalValue = valueHint.StartsWith("[=", StringComparison.Ordinal);
+        var optionalValue = valueHint.StartsWith('[');
+        var enumDefinition = isFlag || optionalValue
+            ? null
+            : TryCreateOptionEnum(className, propertyName, switchName, block.PossibleValues);
+        var flagType = acceptsMultipleValues ? "int?" : "bool?";
+
+        return new CliOptionDefinition
+        {
+            SwitchName = switchName,
+            ShortForm = match.Groups["long"].Success && !string.IsNullOrEmpty(shortForm) ? shortForm : null,
+            PropertyName = propertyName,
+            CSharpType = isFlag
+                ? flagType
+                : AsCSharpType($"{enumDefinition?.EnumName ?? "string"}?", acceptsMultipleValues),
+            Description = GetOptionDescription(block, enumDefinition is not null),
+            IsFlag = isFlag,
+            ValueArity = optionalValue ? CliOptionValueArity.Optional : CliOptionValueArity.Required,
+            IsRequired = false,
+            AcceptsMultipleValues = acceptsMultipleValues,
+            IsKeyValue = false,
+            IsNumeric = isFlag && acceptsMultipleValues,
+            ValueSeparator = attachedOptionalValue ? "=" : " ",
+            EnumDefinition = enumDefinition,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag, block.Description)
+        };
+    }
+
+    private static string GetOptionDescription(ClapOptionBlock block, bool hasEnum)
+    {
+        if (hasEnum || block.PossibleValues.Count == 0)
+        {
+            return block.Description;
+        }
+
+        var choices = string.Join(", ", block.PossibleValues.Select(value =>
+            string.IsNullOrWhiteSpace(value.Description) ? value.Value : $"{value.Value}: {value.Description}"));
+        return $"{block.Description} [possible values: {choices}]".Trim();
+    }
+
+    /// <summary>
+    /// Matches an option declaration row: the switches, an optional value hint such as
+    /// <c>&lt;CPU&gt;...</c> or <c>[=&lt;COLOR&gt;]</c>, and an inline description when the
+    /// layout carries one after two or more spaces.
+    /// </summary>
+    [GeneratedRegex(@"^\s*(?:(?<short>-\w)(?:,\s*(?<long>--[\w-]+))?|(?<long>--[\w-]+))(?:\s*(?<value><[^>]+>|\[[^\]]+\]))?(?<multi>\.\.\.)?(?:\s{2,}(?<desc>.*))?\s*$", RegexOptions.Multiline)]
+    protected static partial Regex ClapOptionDeclarationPattern();
 
     /// <summary>
     /// Returns the paragraph clap-style help prints above its <c>Usage:</c> line, or
