@@ -1402,14 +1402,15 @@ public abstract partial class CliScraperBase : ICliScraper
         string? nextLine,
         string? previousLine,
         Func<string, bool>? optionRowPredicate = null,
-        bool allowSameColumnDescription = false)
+        bool allowSameColumnDescription = false,
+        Func<string, Group?>? captureInlineDescription = null)
     {
         if (string.IsNullOrWhiteSpace(line))
         {
             return false;
         }
 
-        if (looksLikeOptionRow && StartsNestedOptionDescription(line, nextLine, previousLine, optionRowPredicate))
+        if (looksLikeOptionRow && StartsNestedOptionDescription(line, nextLine, previousLine, optionRowPredicate, captureInlineDescription))
         {
             return false;
         }
@@ -1423,8 +1424,9 @@ public abstract partial class CliScraperBase : ICliScraper
     }
 
     private static bool StartsNestedOptionDescription(
-        string line, string? nextLine, string? previousLine, Func<string, bool>? optionRowPredicate) =>
-        GetRowDescriptionColumn(line, nextLine, optionRowPredicate) is not null
+        string line, string? nextLine, string? previousLine, Func<string, bool>? optionRowPredicate,
+        Func<string, Group?>? captureInlineDescription) =>
+        GetRowDescriptionColumn(line, nextLine, optionRowPredicate, captureInlineDescription) is not null
         && (previousLine is null || !SwitchReferenceIntroductionPattern().IsMatch(previousLine));
 
     // Require a reference phrase, not a terminal connector such as "and" or "with":
@@ -1513,14 +1515,19 @@ public abstract partial class CliScraperBase : ICliScraper
     }
 
     private static int? GetRowDescriptionColumn(
-        string line, string? nextLine, Func<string, bool>? optionRowPredicate = null)
+        string line, string? nextLine, Func<string, bool>? optionRowPredicate = null,
+        Func<string, Group?>? captureInlineDescription = null)
     {
-        var column = GetInlineDescriptionColumn(line);
+        var capturedDescription = captureInlineDescription?.Invoke(line);
+        var column = capturedDescription is null
+            ? GetInlineDescriptionColumn(line)
+            : GetCapturedDescriptionColumn(line, capturedDescription);
         if (column is null
             && !string.IsNullOrWhiteSpace(nextLine)
             && !(optionRowPredicate?.Invoke(nextLine) ?? OptionLinePattern().IsMatch(nextLine))
             && (GetIndentation(nextLine) > GetIndentation(line)
-                || (GetIndentation(nextLine) == GetIndentation(line) && IsOptionDeclarationSegment(line.TrimStart()))))
+                || (GetIndentation(nextLine) == GetIndentation(line)
+                    && (capturedDescription is not null || IsOptionDeclarationSegment(line.TrimStart())))))
         {
             column = GetIndentation(nextLine);
         }
@@ -1639,14 +1646,33 @@ public abstract partial class CliScraperBase : ICliScraper
         IReadOnlyList<string> lines,
         ref int declarationIndex,
         Group? inlineDescription,
-        Func<string, bool> looksLikeOptionRow)
+        Func<string, bool> looksLikeOptionRow) =>
+        AccumulateWrappedDescription(lines, ref declarationIndex, inlineDescription, looksLikeOptionRow, null);
+
+    /// <summary>
+    /// Accumulates wrapped prose using caller captures to distinguish nested declarations
+    /// with tool-specific value syntax from option references in prose.
+    /// </summary>
+    /// <param name="lines">The help text lines.</param>
+    /// <param name="declarationIndex">Index of the option row; advanced past consumed prose.</param>
+    /// <param name="inlineDescription">The current row's captured inline description.</param>
+    /// <param name="looksLikeOptionRow">Recognizes candidate option rows.</param>
+    /// <param name="captureInlineDescription">
+    /// Returns the description group for a recognized declaration, including an empty group
+    /// for a declaration without prose, or null when the caller grammar does not match.
+    /// </param>
+    internal static string AccumulateWrappedDescription(
+        IReadOnlyList<string> lines,
+        ref int declarationIndex,
+        Group? inlineDescription,
+        Func<string, bool> looksLikeOptionRow,
+        Func<string, Group?>? captureInlineDescription)
     {
         var declaration = lines[declarationIndex];
         var declarationIndentation = GetIndentation(declaration);
         var descriptionColumn = GetCapturedDescriptionColumn(declaration, inlineDescription);
         var allowSameColumnDescription = descriptionColumn is null
-                                         && looksLikeOptionRow(declaration)
-                                         && IsOptionDeclarationSegment(declaration.TrimStart());
+                                         && looksLikeOptionRow(declaration);
         var parts = new List<string>();
         if (descriptionColumn is not null && inlineDescription is { } group)
         {
@@ -1664,7 +1690,8 @@ public abstract partial class CliScraperBase : ICliScraper
                     declarationIndex + 2 < lines.Count ? lines[declarationIndex + 2] : null,
                     lines[declarationIndex],
                     looksLikeOptionRow,
-                    allowSameColumnDescription))
+                    allowSameColumnDescription,
+                    captureInlineDescription))
             {
                 break;
             }

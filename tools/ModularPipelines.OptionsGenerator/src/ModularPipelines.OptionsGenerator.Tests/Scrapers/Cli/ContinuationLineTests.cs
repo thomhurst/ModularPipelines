@@ -1,9 +1,39 @@
+using System.Text.RegularExpressions;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 
 public class ContinuationLineTests
 {
+    [Test]
+    [Arguments("-var 'key=value'")]
+    [Arguments("--custom expression()")]
+    public async Task Caller_Grammar_Preserves_Same_Column_Detached_Descriptions(string declaration)
+    {
+        var lines = $"  --parent VALUE   Configure\n                   {declaration}  \n                   May be specified multiple times\n  --quiet   Suppress output".Split('\n');
+        var pattern = new Regex($@"^\s*{Regex.Escape(declaration)}\s{{2,}}(?<desc>.*)$");
+        Group? CaptureDescription(string line)
+        {
+            var match = pattern.Match(line);
+            return match.Success ? match.Groups["desc"] : null;
+        }
+        var index = 0;
+        var parentDescription = CliScraperBase.AccumulateWrappedDescription(
+            lines, ref index, inlineDescription: null,
+            static line => line.TrimStart().StartsWith('-'), CaptureDescription);
+
+        await Assert.That(parentDescription).IsEmpty();
+        await Assert.That(index).IsEqualTo(0);
+
+        index = 1;
+        var description = CliScraperBase.AccumulateWrappedDescription(
+            lines, ref index, inlineDescription: null,
+            static line => line.TrimStart().StartsWith('-'), CaptureDescription);
+
+        await Assert.That(description).IsEqualTo("May be specified multiple times");
+        await Assert.That(index).IsEqualTo(2);
+    }
+
     [Test]
     [Arguments("TLS Configuration:")]
     [Arguments("HTTP Settings:")]
