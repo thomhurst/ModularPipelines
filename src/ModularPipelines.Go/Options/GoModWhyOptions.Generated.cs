@@ -18,10 +18,32 @@ namespace ModularPipelines.Go.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mod", "why")]
-public record GoModWhyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> Packages
-) : GoOptions
+public record GoModWhyOptions : GoOptions
 {
+    public GoModWhyOptions(
+        IEnumerable<string> Packages
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Packages);
+            var materialized = global::System.Linq.Enumerable.ToArray(Packages);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Packages));
+            }
+
+            Packages = materialized;
+        }
+        this.Packages = Packages;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Packages)
+    {
+        Packages = this.Packages;
+    }
+
     /// <summary>
     /// The -m option.
     /// </summary>
@@ -33,5 +55,11 @@ public record GoModWhyOptions(
     /// </summary>
     [CliFlag("-vendor")]
     public bool? Vendor { get; set; }
+
+    /// <summary>
+    /// The packages operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
+    public IEnumerable<string> Packages { get; private init; }
 
 }

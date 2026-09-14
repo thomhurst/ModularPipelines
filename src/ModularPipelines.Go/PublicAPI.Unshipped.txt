@@ -672,7 +672,6 @@ ModularPipelines.Go.Options.GoModWhyOptions.GoModWhyOptions(System.Collections.G
 ModularPipelines.Go.Options.GoModWhyOptions.M.get -> bool?
 ModularPipelines.Go.Options.GoModWhyOptions.M.set -> void
 ModularPipelines.Go.Options.GoModWhyOptions.Packages.get -> System.Collections.Generic.IEnumerable<string!>!
-ModularPipelines.Go.Options.GoModWhyOptions.Packages.init -> void
 ModularPipelines.Go.Options.GoModWhyOptions.Vendor.get -> bool?
 ModularPipelines.Go.Options.GoModWhyOptions.Vendor.set -> void
 ModularPipelines.Go.Options.GoRunOptions
