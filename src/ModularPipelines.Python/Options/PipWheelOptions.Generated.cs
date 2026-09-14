@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Python.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Python.Options;
 
@@ -18,9 +19,7 @@ namespace ModularPipelines.Python.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wheel")]
-public record PipWheelOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] IEnumerable<string> RequirementSpecifier
-) : PipOptions
+public record PipWheelOptions : PipOptions, IValidatableObject
 {
     /// <summary>
     /// Build wheels into &lt;dir&gt;, where the default is the current working directory.
@@ -279,5 +278,20 @@ public record PipWheelOptions(
     /// </summary>
     [CliOption("--use-deprecated")]
     public string? UseDeprecated { get; set; }
+
+    /// <summary>
+    /// The &lt;requirement specifier&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? RequirementSpecifier { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(RequirementSpecifier?.Any() == true || Requirement?.Any() == true || !string.IsNullOrWhiteSpace(Editable)))
+        {
+            yield return new ValidationResult("At least one of RequirementSpecifier, Requirement, or Editable must be specified.", [nameof(RequirementSpecifier), nameof(Requirement), nameof(Editable)]);
+        }
+    }
 
 }

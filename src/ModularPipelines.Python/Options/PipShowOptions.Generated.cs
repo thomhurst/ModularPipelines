@@ -15,6 +15,7 @@ namespace ModularPipelines.Python.Options;
 /// <summary>
 /// Show information about one or more installed packages.
 /// </summary>
+/// <param name="Package">The &lt;package&gt; operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("show")]

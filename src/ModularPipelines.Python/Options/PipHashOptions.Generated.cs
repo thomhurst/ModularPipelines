@@ -15,6 +15,7 @@ namespace ModularPipelines.Python.Options;
 /// <summary>
 /// Compute a hash of a local package archive.
 /// </summary>
+/// <param name="File">The &lt;file&gt; operand.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hash")]

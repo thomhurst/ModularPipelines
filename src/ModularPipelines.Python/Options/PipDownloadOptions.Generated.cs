@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Python.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Python.Options;
 
@@ -18,7 +19,7 @@ namespace ModularPipelines.Python.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("download")]
-public record PipDownloadOptions : PipOptions
+public record PipDownloadOptions : PipOptions, IValidatableObject
 {
     /// <summary>
     /// Constrain versions using the given constraints file. This option can be used multiple times.
@@ -277,5 +278,14 @@ public record PipDownloadOptions : PipOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? RequirementSpecifier { get; set; }
+
+    /// <inheritdoc />
+    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+    {
+        if (!(RequirementSpecifier?.Any() == true || Requirement?.Any() == true))
+        {
+            yield return new ValidationResult("At least one of RequirementSpecifier or Requirement must be specified.", [nameof(RequirementSpecifier), nameof(Requirement)]);
+        }
+    }
 
 }
