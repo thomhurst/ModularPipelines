@@ -18,10 +18,32 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "env", "add")]
-public record PulumiConfigEnvAddOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> EnvironmentName
-) : PulumiOptions
+public record PulumiConfigEnvAddOptions : PulumiOptions
 {
+    public PulumiConfigEnvAddOptions(
+        IEnumerable<string> EnvironmentName
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EnvironmentName);
+            var materialized = global::System.Linq.Enumerable.ToArray(EnvironmentName);
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EnvironmentName));
+            }
+
+            EnvironmentName = materialized;
+        }
+        this.EnvironmentName = EnvironmentName;
+    }
+
+    public void Deconstruct(out IEnumerable<string> EnvironmentName)
+    {
+        EnvironmentName = this.EnvironmentName;
+    }
+
     /// <summary>
     /// help for add
     /// </summary>
@@ -129,5 +151,11 @@ public record PulumiConfigEnvAddOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The &lt;environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> EnvironmentName { get; private init; }
 
 }

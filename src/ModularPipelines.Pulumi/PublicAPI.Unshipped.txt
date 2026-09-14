@@ -16,6 +16,8 @@
 *REMOVED*ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewKind.Raw = 0 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewKind
 *REMOVED*ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation.Destroy = 3 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation
 *REMOVED*ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation.Update = 0 -> ModularPipelines.Pulumi.Enums.PulumiStackScheduleNewOperation
+*REMOVED*ModularPipelines.Pulumi.Options.PulumiConfigEnvAddOptions.EnvironmentName.init -> void
+*REMOVED*ModularPipelines.Pulumi.Options.PulumiConfigRemoveAllOptions.Key.init -> void
 *REMOVED*ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAwsClear.get -> bool?
 *REMOVED*ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAwsClear.set -> void
 *REMOVED*ModularPipelines.Pulumi.Options.PulumiDeploymentSettingsEditOptions.OidcAzureClear.get -> bool?
@@ -47,6 +49,7 @@
 *REMOVED*ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.Language.set -> void
 *REMOVED*ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.TemplateMode.get -> bool?
 *REMOVED*ModularPipelines.Pulumi.Options.PulumiProjectNewOptions.TemplateMode.set -> void
+*REMOVED*ModularPipelines.Pulumi.Options.PulumiStateMoveOptions.Urn.init -> void
 *REMOVED*ModularPipelines.Pulumi.Services.IPulumi.CancelAsync(ModularPipelines.Pulumi.Options.PulumiCancelOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Pulumi.Services.IPulumi.ConsoleAsync(ModularPipelines.Pulumi.Options.PulumiConsoleOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Pulumi.Services.IPulumi.ConvertAsync(ModularPipelines.Pulumi.Options.PulumiConvertOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
