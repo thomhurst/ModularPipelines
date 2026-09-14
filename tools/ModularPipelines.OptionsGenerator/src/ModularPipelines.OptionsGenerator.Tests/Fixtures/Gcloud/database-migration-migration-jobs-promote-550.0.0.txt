@@ -1,0 +1,65 @@
+NAME
+    gcloud database-migration migration-jobs promote - promote a Database
+        Migration Service migration job
+
+SYNOPSIS
+    gcloud database-migration migration-jobs promote
+        (MIGRATION_JOB : --region=REGION)
+        [--databases-filter=databaseName,[...]] [GCLOUD_WIDE_FLAG ...]
+
+DESCRIPTION
+    Promote a Database Migration Service migration job.
+
+EXAMPLES
+    To promote a migration job:
+
+        $ gcloud database-migration migration-jobs promote MIGRATION_JOB \
+            --region=us-central1
+
+POSITIONAL ARGUMENTS
+     Migration job resource - The migration job to promote. The arguments in
+     this group can be used to specify the attributes of this resource. (NOTE)
+     Some attributes are not given arguments in this group but can be set in
+     other ways.
+
+     To set the project attribute:
+      * provide the argument migration_job on the command line with a fully
+        specified name;
+      * provide the argument --project on the command line;
+      * set the property core/project.
+
+     This must be specified.
+
+       MIGRATION_JOB
+          ID of the migration_job or fully qualified identifier for the
+          migration_job.
+
+          To set the migration_job attribute:
+          + provide the argument migration_job on the command line.
+
+          This positional argument must be specified if any of the other
+          arguments in this group are specified.
+
+       --region=REGION
+          The Cloud region for the migration_job.
+
+          To set the region attribute:
+          + provide the argument migration_job on the command line with a
+            fully specified name;
+          + provide the argument --region on the command line.
+
+FLAGS
+     The migration job objects config.
+
+       --databases-filter=databaseName,[...]
+          A list of databases to be migrated to the destination instance.
+          Provide databases as a comma separated list. This flag is used only
+          for SQL Server to Cloud SQL SQL Server migrations.
+
+GCLOUD WIDE FLAGS
+    These flags are available to all commands: --access-token-file, --account,
+    --billing-project, --configuration, --flags-file, --flatten, --format,
+    --help, --impersonate-service-account, --log-http, --project, --quiet,
+    --trace-token, --user-output-enabled, --verbosity.
+
+    Run $ gcloud help for details.

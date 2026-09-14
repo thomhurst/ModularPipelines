@@ -137,6 +137,12 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("VALUE", "Values to include. This option accepts names, separated by commas.", ",")]
     [Arguments("VALUE", "Values, seperated by commas if multiple are supplied.", ",")]
     [Arguments("VALUE", "A string of user-to-service-account mappings. Mappings are separated by commas.", ",")]
+    [Arguments("VALUE", "(BETA) A string of labels. Labels are separated by commas.", ",")]
+    [Arguments("VALUE", "(DEPRECATED) (ALPHA) The string of labels. Labels are separated by commas.", ",")]
+    [Arguments("VALUE", "(BETA) Path to a file containing labels. Labels are separated by commas.", null)]
+    [Arguments("VALUE", "A list of databases to migrate. Provide databases as a comma separated list.", ",")]
+    [Arguments("VALUE", "(ALPHA) Supply names as a comma-separated list.", ",")]
+    [Arguments("VALUE", "Provide values for --other as a comma separated list.", null)]
     [Arguments("VALUE", "A string of labels. Mappings are separated by commas.", null)]
     [Arguments("VALUE", "Path to a file containing mappings. Mappings are separated by commas.", null)]
     [Arguments("[VALUE,...]", "Specify the --values flag multiple times.", null)]
@@ -236,6 +242,7 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments("container-hub-policycontroller-enable", "container hub policycontroller enable", "--monitoring", ",")]
     [Arguments("compute-instances-create", "compute instances create", "--local-ssd", null, "550")]
     [Arguments("dataproc-clusters-create", "dataproc clusters create", "--secure-multi-tenancy-user-mapping", ",")]
+    [Arguments("database-migration-migration-jobs-promote", "database-migration migration-jobs promote", "--databases-filter", ",")]
     public async Task Gcloud_Captured_Help_Preserves_Collection_Boundaries(
         string fixture, string commandPath, string switchName, string? separator, string version = "550.0.0")
     {

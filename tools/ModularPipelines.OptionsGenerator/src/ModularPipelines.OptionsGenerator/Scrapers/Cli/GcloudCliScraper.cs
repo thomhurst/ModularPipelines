@@ -770,8 +770,10 @@ public partial class GcloudCliScraper : CliScraperBase
         + @"|(?:^|[.!?]\s+(?:this|the)\s+(?:flag|argument|option)\s+)"
         + @"(?:(?!--)[^.!?])*?[,([]\s*sep[ae]rated\s+by\s+commas\b"
         // A repeated subject links the passive sentence to the option's string value.
-        + @"|^(?:a|the)\s+string\s+of\s+(?:[\w-]+\s+)*(?<subject>[\w-]+)\.\s+"
-        + @"\k<subject>\s+are\s+sep[ae]rated\s+by\s+commas\b", RegexOptions.IgnoreCase)]
+        + @"|^" + StatusPrefixPattern + @"(?:a|the)\s+string\s+of\s+(?:[\w-]+\s+)*(?<subject>[\w-]+)\.\s+"
+        + @"\k<subject>\s+are\s+sep[ae]rated\s+by\s+commas\b"
+        + @"|(?:^|[.!?]\s+)" + StatusPrefixPattern + @"(?:provide|supply|pass|specify|use)\s+"
+        + @"(?:[a-z][\w-]*\s+)+as\s+(?:a\s+)?comma[- ](?:sep[ae]rated|delimited)\s+list\b", RegexOptions.IgnoreCase)]
     private static partial Regex CommaSeparatedListDescriptionPattern();
 
     [GeneratedRegex(@"^(?<outer>\[)?(?<key>[A-Z][A-Z0-9_]*)=(?<value>[A-Z][A-Z0-9_]*),\[\k<key>=\k<value>,\.{3}\](?(outer)\])$")]
