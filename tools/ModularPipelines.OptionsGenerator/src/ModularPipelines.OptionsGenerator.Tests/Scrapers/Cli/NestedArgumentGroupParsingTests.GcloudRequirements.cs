@@ -233,6 +233,52 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
+    [Arguments("At most one of these can be specified:", false, true)]
+    [Arguments("At least one of these must be specified:", true, false)]
+    public async Task Gcloud_Resource_Bundles_Preserve_Explicit_Nested_Choices(string heading, bool required, bool exclusive)
+    {
+        var help = $$"""
+            NAME
+                gcloud example create - create an example
+            FLAGS
+                 Arguments for authentication:
+                   --mode=MODE
+                      Authentication mode.
+                   {{heading}}
+                     --token=TOKEN
+                        Access token.
+                     --profile=PROFILE
+                        Saved profile.
+            """;
+        var command = (await CreateGcloudScraper().Parse(["gcloud", "example", "create"], help))!;
+        var group = command.RequiredAlternativeGroups.Single();
+        await Assert.That(group.IsRequired).IsEqualTo(required);
+        await Assert.That(group.IsMutuallyExclusive).IsEqualTo(exclusive);
+        await Assert.That(group.PropertyNames).IsEquivalentTo(["Token", "Profile"]);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(new CliToolDefinition
+        {
+            ToolName = "gcloud",
+            NamespacePrefix = "Gcloud",
+            TargetNamespace = "ModularPipelines.Google",
+            OutputDirectory = "output",
+            Commands = [command],
+        })).Single().Content;
+        await VerifyGeneratedValidation(generated, command.ClassName, async type =>
+        {
+            for (var mask = 0; mask < 8; mask++)
+            {
+                var instance = Activator.CreateInstance(type)!;
+                type.GetProperty("Token")!.SetValue(instance, (mask & 1) != 0 ? "token" : null);
+                type.GetProperty("Profile")!.SetValue(instance, (mask & 2) != 0 ? "profile" : null);
+                type.GetProperty("Mode")!.SetValue(instance, (mask & 4) != 0 ? "mode" : null);
+                var errors = ((IValidatableObject) instance).Validate(new(instance));
+                var expected = (!required || (mask & 3) != 0) && (!exclusive || (mask & 3) != 3);
+                await Assert.That(!errors.Any()).IsEqualTo(expected);
+            }
+        });
+    }
+
+    [Test]
     [Arguments("FLAGS", false)]
     [Arguments("REQUIRED FLAGS", true)]
     [Arguments("OPTIONAL FLAGS", false)]

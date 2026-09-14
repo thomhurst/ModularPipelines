@@ -333,11 +333,6 @@ public partial class GcloudCliScraper : CliScraperBase
             return;
         }
 
-        if (group.Kind.HasFlag(CliArgumentGroupKind.Resource))
-        {
-            return;
-        }
-
         foreach (var nested in group.Groups)
         {
             var inheritsRequiredness = required && IsOrdinaryArgumentBundle(nested);
