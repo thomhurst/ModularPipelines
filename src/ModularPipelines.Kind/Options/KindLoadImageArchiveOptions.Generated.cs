@@ -18,10 +18,21 @@ namespace ModularPipelines.Kind.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("load", "image-archive")]
-public record KindLoadImageArchiveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImageTar
-) : KindOptions
+public record KindLoadImageArchiveOptions : KindOptions
 {
+    public KindLoadImageArchiveOptions(
+        string ImageTar
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ImageTar);
+        this.ImageTar = ImageTar;
+    }
+
+    public void Deconstruct(out string ImageTar)
+    {
+        ImageTar = this.ImageTar;
+    }
+
     /// <summary>
     /// help for image-archive
     /// </summary>
@@ -51,5 +62,11 @@ public record KindLoadImageArchiveOptions(
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbosity { get; set; }
+
+    /// <summary>
+    /// The &lt;IMAGE.tar&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string ImageTar { get; private init; }
 
 }

@@ -38,6 +38,8 @@
 *REMOVED*ModularPipelines.Kind.Options.KindGetKubeconfigOptions.Quiet.set -> void
 *REMOVED*ModularPipelines.Kind.Options.KindGetKubeconfigOptions.Verbosity.get -> int?
 *REMOVED*ModularPipelines.Kind.Options.KindGetKubeconfigOptions.Verbosity.set -> void
+*REMOVED*ModularPipelines.Kind.Options.KindLoadDockerImageOptions.Image.init -> void
+*REMOVED*ModularPipelines.Kind.Options.KindLoadImageArchiveOptions.ImageTar.init -> void
 *REMOVED*ModularPipelines.Kind.Services.IKindBuild.ExecuteAsync(ModularPipelines.Kind.Options.KindBuildOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Kind.Services.IKindBuild.NodeImageAsync(ModularPipelines.Kind.Options.KindBuildNodeImageOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
 *REMOVED*ModularPipelines.Kind.Services.IKindCreate.ClusterAsync(ModularPipelines.Kind.Options.KindCreateClusterOptions? options = null, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.CommandResult!>!
