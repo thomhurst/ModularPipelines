@@ -643,7 +643,12 @@ public class SecretMaskingPatternTests
             obfuscator.Object,
             provider);
 
-        var firstWrite = Task.Run(() => WriteForModule(writer, typeof(FirstModule), "first output"));
+        // These workers block on test gates, so their startup must not depend on ThreadPool availability.
+        var firstWrite = Task.Factory.StartNew(
+            () => WriteForModule(writer, typeof(FirstModule), "first output"),
+            CancellationToken.None,
+            TaskCreationOptions.LongRunning,
+            TaskScheduler.Default);
         var secondWrite = Task.CompletedTask;
         try
         {
@@ -1933,12 +1938,13 @@ public class SecretMaskingPatternTests
         var childEmission = Task.CompletedTask;
         string? emittedOutput = null;
 
-        var outerEmission = Task.Run(() => provider.ExecuteWithStableSecrets(
+        // Dedicated workers preserve ExecutionContext flow without waiting for ThreadPool injection.
+        var outerEmission = Task.Factory.StartNew(() => provider.ExecuteWithStableSecrets(
             provider,
             outerProvider =>
             {
                 outerProvider.AddSecret(discoveredSecret);
-                childEmission = Task.Run(() => outerProvider.ExecuteWithStableSecrets(
+                childEmission = Task.Factory.StartNew(() => outerProvider.ExecuteWithStableSecrets(
                     childStarted,
                     started =>
                     {
@@ -1947,7 +1953,7 @@ public class SecretMaskingPatternTests
                         {
                             throw new TimeoutException("Timed out waiting to release inherited emission.");
                         }
-                    }));
+                    }), CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
                 if (!childStarted.Wait(TimeSpan.FromSeconds(5)))
                 {
                     throw new TimeoutException("Timed out waiting for inherited emission.");
@@ -1957,7 +1963,7 @@ public class SecretMaskingPatternTests
                     discoveredSecret,
                     value => emittedOutput = obfuscator.Obfuscate(value, null));
                 nestedCompleted.Set();
-            }));
+            }), CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
         try
         {
