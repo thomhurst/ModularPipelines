@@ -16,9 +16,9 @@ namespace ModularPipelines.ArgoCd.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum ArgoCdCertRmCertType
 {
-    [EnumValue("ssh")]
-    Ssh,
-
     [EnumValue("https")]
-    Https
+    Https,
+
+    [EnumValue("ssh")]
+    Ssh
 }

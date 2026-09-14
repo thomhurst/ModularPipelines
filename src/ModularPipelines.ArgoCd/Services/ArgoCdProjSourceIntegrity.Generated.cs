@@ -54,7 +54,7 @@ public class ArgoCdProjSourceIntegrity
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new ArgoCdProjSourceIntegrityOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new ArgoCdProjSourceIntegrityOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
