@@ -203,14 +203,10 @@ internal class ModuleRunner : IModuleRunner
                         await InvokeReadyEventAsync(moduleState, readyLifecycleContext).ConfigureAwait(false);
                     }
 
-                    using var limiterCancellationTokenSource = module.Configuration.AlwaysRun
-                        ? null
-                        : CancellationTokenSource.CreateLinkedTokenSource(
-                            cancellationToken,
-                            _engineCancellationToken.Token);
-                    limiterCancellationToken = module.Configuration.AlwaysRun
-                        ? _engineCancellationToken.NonFailureCancellationToken
-                        : limiterCancellationTokenSource!.Token;
+                    using var limiterCancellationTokenSource = CreateLimiterCancellationTokenSource(
+                        module, cancellationToken, honorCallerCancellation: executionLimit is not null);
+                    limiterCancellationToken = limiterCancellationTokenSource?.Token
+                        ?? _engineCancellationToken.NonFailureCancellationToken;
                     using var semaphoreHandle = await _parallelLimitHandler
                         .AcquireParallelLimitAsync(moduleType, limiterCancellationToken)
                         .ConfigureAwait(false);
@@ -220,19 +216,14 @@ internal class ModuleRunner : IModuleRunner
 
                     // Check constraints again after acquiring execution slots. Keeping the module queued
                     // until this point prevents limiter wait time from being reported as execution time.
-                    if (!TryMarkModuleStarted(scheduler, moduleType))
+                    if (!TryStartModuleExecution(moduleState, scheduler, scope.ServiceProvider, ref readyLogger))
                     {
-                        moduleState.ExecutionDeferred = true;
-                        readyLogger ??= GetAmbientOrScopedModuleLogger(
-                            scope.ServiceProvider,
-                            moduleType) as IInternalModuleLogger;
-                        readyLogger?.PreserveBufferForDeferredExecution();
-                        _logger.LogDebug("Module {ModuleName} deferred due to constraint check failure", moduleName);
                         return; // Module will be rescheduled by the scheduler
                     }
 
                     _logger.LogDebug("Starting module {ModuleName}", moduleName);
                     var executionContext = CreateExecutionContext(module, moduleType);
+                    executionContext.HonorCallerCancellation = executionLimit is not null;
                     ApplyDependencySkip(moduleState, executionContext);
                     executionContext.AllowHistoricalResultWhenSkipped = allowHistoricalResultWhenSkipped;
 
@@ -244,7 +235,10 @@ internal class ModuleRunner : IModuleRunner
                             cancellationToken)
                         .ConfigureAwait(false);
 
-                    scheduler?.MarkModuleCompleted(moduleType, true, statusOverride: moduleState.Result?.Status);
+                    scheduler?.MarkModuleCompleted(
+                        moduleType,
+                        moduleState.Result?.Status != ModuleStatus.Cancelled,
+                        statusOverride: moduleState.Result?.Status);
                 }
                 catch (Exception ex)
                 {
@@ -257,11 +251,9 @@ internal class ModuleRunner : IModuleRunner
                         scheduler,
                         handledException,
                         cancellationToken);
-                    readyLogger ??= GetAmbientOrScopedModuleLogger(
-                        scope.ServiceProvider,
-                        moduleType) as IInternalModuleLogger;
                     FinalizeReadyLoggerAfterFailure(
                         readyLogger,
+                        scope.ServiceProvider,
                         moduleState,
                         moduleType,
                         handledException);
@@ -285,6 +277,20 @@ internal class ModuleRunner : IModuleRunner
         }
     }
 
+    private CancellationTokenSource? CreateLimiterCancellationTokenSource(
+        IModule module, CancellationToken cancellationToken, bool honorCallerCancellation)
+    {
+        if (module.Configuration.AlwaysRun && !honorCallerCancellation)
+        {
+            return null;
+        }
+
+        var engineToken = module.Configuration.AlwaysRun
+            ? _engineCancellationToken.NonFailureCancellationToken
+            : _engineCancellationToken.Token;
+        return CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, engineToken);
+    }
+
     private static IModuleScheduler? GetScheduler(ModuleState moduleState, bool skipDependencyWait)
     {
         if (!skipDependencyWait && moduleState.Scheduler is null)
@@ -295,17 +301,37 @@ internal class ModuleRunner : IModuleRunner
         return moduleState.Scheduler;
     }
 
-    private static bool TryMarkModuleStarted(IModuleScheduler? scheduler, Type moduleType)
+    private bool TryStartModuleExecution(
+        ModuleState moduleState,
+        IModuleScheduler? scheduler,
+        IServiceProvider scopedServiceProvider,
+        ref IInternalModuleLogger? readyLogger)
     {
-        return scheduler?.MarkModuleStarted(moduleType) ?? true;
+        var moduleType = moduleState.ModuleType;
+        if (scheduler?.MarkModuleStarted(moduleType) ?? true)
+        {
+            return true;
+        }
+
+        moduleState.ExecutionDeferred = true;
+        readyLogger ??= GetAmbientOrScopedModuleLogger(
+            scopedServiceProvider,
+            moduleType) as IInternalModuleLogger;
+        readyLogger?.PreserveBufferForDeferredExecution();
+        _logger.LogDebug("Module {ModuleName} deferred due to constraint check failure", moduleType.Name);
+        return false;
     }
 
     private void FinalizeReadyLoggerAfterFailure(
         IInternalModuleLogger? readyLogger,
+        IServiceProvider scopedServiceProvider,
         ModuleState moduleState,
         Type moduleType,
         Exception exception)
     {
+        readyLogger ??= GetAmbientOrScopedModuleLogger(
+            scopedServiceProvider,
+            moduleType) as IInternalModuleLogger;
         if (readyLogger is null)
         {
             return;

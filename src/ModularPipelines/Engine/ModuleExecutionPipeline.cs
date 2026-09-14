@@ -345,19 +345,19 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         ModuleExecutionContext executionContext,
         CancellationToken engineCancellationToken)
     {
-        // AlwaysRun modules don't get cancelled when the engine cancels
+        // Custom requests already filter failure cancellation for AlwaysRun modules.
+        // Built-in AlwaysRun execution retains its independent cancellation source.
         var isAlwaysRun = config.AlwaysRun;
-        if (!isAlwaysRun)
+        if (!isAlwaysRun || executionContext.HonorCallerCancellation)
         {
-            // Create a linked token source that cancels when:
-            // - The engine singleton is cancelled (module failures, external cancellation via Ctrl+C or test timeout)
-            // - The execution caller is cancelled
-            // - The original module token is cancelled (preserves any existing cancellation on the module)
-            // Pipeline-wide external cancellation flows through _engineCancellationToken
-            // (see ExecutionOrchestrator line 108).
+            // Combine caller and original module cancellation with the applicable pipeline token.
+            // AlwaysRun requests observe user cancellation but exclude pipeline failure cancellation.
             var originalToken = executionContext.ModuleCancellationTokenSource.Token;
+            var pipelineToken = isAlwaysRun
+                ? _engineCancellationToken.NonFailureCancellationToken
+                : _engineCancellationToken.Token;
             executionContext.ModuleCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(
-                _engineCancellationToken.Token,
+                pipelineToken,
                 engineCancellationToken,
                 originalToken);
         }
@@ -732,7 +732,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         executionContext.Exception = exception;
 
-        executionContext.Status = ClassifyException(config, exception);
+        executionContext.Status = ClassifyExecutionException(config, executionContext, exception);
 
         // Use the enhanced exception type for detailed timeout logging.
         if (exception is ModuleTimeoutException timeoutException)
@@ -793,6 +793,20 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         // This won't be reached, but compiler needs it
         throw exception;
+    }
+
+    private ModuleStatus ClassifyExecutionException(
+        ModuleConfiguration config,
+        ModuleExecutionContext executionContext,
+        Exception exception)
+    {
+        if (executionContext.HonorCallerCancellation
+            && WorkerCancellationClassifier.IsExpected(exception, executionContext.ModuleCancellationTokenSource.Token))
+        {
+            return ModuleStatus.Cancelled;
+        }
+
+        return ClassifyException(config, exception);
     }
 
     // Internal so tests can pin that classification depends only on the exception and the
