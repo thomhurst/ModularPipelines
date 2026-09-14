@@ -791,6 +791,7 @@ public class DistributedModuleExecutorTests
         Record("execute called");
         var execution = executor.ExecuteAsync([first, second]);
         Record("execute returned task");
+        Exception? failure = null;
         try
         {
             await firstStarted.Task.WaitAsync(cancellationToken);
@@ -799,7 +800,7 @@ public class DistributedModuleExecutorTests
             Record("second start observed");
             releaseFirst.TrySetResult();
             Record("release signaled");
-            await execution;
+            await execution.WaitAsync(cancellationToken);
             Record("execution completed");
 
             scheduler.Verify(instance => instance.MarkModuleCompleted(
@@ -810,18 +811,28 @@ public class DistributedModuleExecutorTests
         }
         catch (Exception exception)
         {
-            throw new InvalidOperationException(
-                $"Cache lookup concurrency failed. Progress:{Environment.NewLine}{string.Join(Environment.NewLine, progress)}",
-                exception);
+            failure = exception;
         }
         finally
         {
             releaseFirst.TrySetResult();
-            if (!execution.IsCompleted)
+            try
             {
-                // Drain cleanup even when the test's timeout token has already fired.
+                // Observe completion even when the test's timeout token has already fired.
                 await execution.WaitAsync(TestHostSettings.DefaultTestTimeout, CancellationToken.None);
             }
+            catch (Exception cleanupException)
+            {
+                Record($"cleanup failed: {cleanupException}");
+                failure ??= cleanupException;
+            }
+        }
+
+        if (failure is not null)
+        {
+            throw new InvalidOperationException(
+                $"Cache lookup concurrency failed. Progress:{Environment.NewLine}{string.Join(Environment.NewLine, progress)}",
+                failure);
         }
     }
 
