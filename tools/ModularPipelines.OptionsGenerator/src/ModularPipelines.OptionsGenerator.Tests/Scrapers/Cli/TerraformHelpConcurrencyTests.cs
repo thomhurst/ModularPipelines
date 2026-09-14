@@ -4,6 +4,8 @@ using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 
+// Each fixture deliberately holds the process-wide manifest gate until its assertions finish.
+[NotInParallel(nameof(TerraformHelpConcurrencyTests))]
 public class TerraformHelpConcurrencyTests
 {
     private static readonly string?[] ExpectedStacksHelp = ["Usage: stacks list -help", "Usage: stacks deployment-run -help"];

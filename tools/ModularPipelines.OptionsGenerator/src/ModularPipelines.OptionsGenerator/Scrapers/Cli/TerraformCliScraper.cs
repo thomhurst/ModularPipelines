@@ -64,13 +64,13 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
     {
         if (commandPath is not [_, "stacks", ..])
         {
-            return await ReadHelpTextAsync(commandPath, cancellationToken);
+            return await ReadHelpTextAsync(commandPath, cancellationToken).ConfigureAwait(false);
         }
 
-        await StacksHelpSemaphore.WaitAsync(cancellationToken);
+        await StacksHelpSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
-            return await ReadHelpTextAsync(commandPath, cancellationToken);
+            return await ReadHelpTextAsync(commandPath, cancellationToken).ConfigureAwait(false);
         }
         finally
         {

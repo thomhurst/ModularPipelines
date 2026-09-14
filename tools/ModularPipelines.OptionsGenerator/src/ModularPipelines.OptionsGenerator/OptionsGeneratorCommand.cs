@@ -196,16 +196,22 @@ internal static class OptionsGeneratorCommand
 
         if (enhanceTypes)
         {
-            builder.Services.AddSingleton(serviceProvider =>
-            {
-                var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
-                var executor = serviceProvider.GetRequiredService<ICliCommandExecutor>();
-                return OptionTypeEnhancer.CreateDefault(executor, loggerFactory);
-            });
+            builder.Services.AddSingleton(CreateTypeEnhancer);
         }
 
         builder.Services.AddSingleton<CodeGeneratorOrchestrator>();
         return builder.Build();
+    }
+
+    internal static OptionTypeEnhancer CreateTypeEnhancer(IServiceProvider serviceProvider)
+    {
+        var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+        // Share the configured process deadline, but keep fallback enhancement independent
+        // of a circuit opened by CLI-first scraping.
+        var executor = new ResilientCliCommandExecutor(
+            serviceProvider.GetRequiredService<ProcessCliCommandExecutor>(),
+            loggerFactory.CreateLogger<ResilientCliCommandExecutor>());
+        return OptionTypeEnhancer.CreateDefault(executor, loggerFactory);
     }
 
     internal static IReadOnlyList<ToolCatalogEntry> CreateToolCatalog()
