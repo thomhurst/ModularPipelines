@@ -94,6 +94,12 @@ public record CliOptionDefinition
         var shape = CollectionShapes.GetOrAdd(cSharpType, static typeName => ResolveCollectionShape(typeName));
         if (retainUnsupportedCollections)
         {
+            if (!shape.IsResolved)
+            {
+                throw new InvalidOperationException(
+                    $"Alternative collection type '{cSharpType}' cannot safely retain a reusable snapshot because its shape is unresolved. Use a supported collection contract.");
+            }
+
             // Optional properties must continue accepting every implementation allowed by
             // their declared contract. Retain it when no assignable safe copy is available.
             return shape.OptionalSnapshotExpression?.Replace("{0}", valueExpression, StringComparison.Ordinal)

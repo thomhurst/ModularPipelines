@@ -140,17 +140,23 @@ public partial class RequiredConstructorValidationTests
     }
 
     [Test]
-    [Arguments("PrivatePackage.CustomValues?", true)]
+    public async Task Alternative_Unresolved_Collections_Require_A_Known_Retention_Contract()
+    {
+        var exception = await Assert.That(async () =>
+        {
+            await GenerateAlternativeCollection(false, "PrivatePackage.SingleUseValues?", isCollection: true);
+        }).Throws<InvalidOperationException>();
+        await Assert.That(exception!.Message).Contains("PrivatePackage.SingleUseValues?");
+        await Assert.That(exception.Message).Contains("reusable snapshot");
+    }
+
+    [Test]
     [Arguments("List<string>?", false)]
     public async Task Alternative_Collections_Use_Explicit_Shape_Only_When_Type_Is_Unresolved(
         string collectionType, bool isCollection)
     {
-        const string customCollection = """
-            namespace PrivatePackage;
-            public sealed class CustomValues : System.Collections.Generic.List<string>;
-            """;
         var generated = await GenerateAlternativeCollection(false, collectionType, isCollection);
-        var assembly = Compile(generated, customCollection);
+        var assembly = Compile(generated);
         var options = assembly.GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
         var instance = Activator.CreateInstance(options)!;
         var property = options.GetProperty("Values")!;
