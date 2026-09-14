@@ -123,7 +123,7 @@ public record GoTestOptions : GoOptions
     public string? Fuzztime { get; set; }
 
     /// <summary>
-    /// Run enough iterations of the fuzz target during each minimization attempt to take t, as specified as a time.Duration (for example, -fuzzminimizetime 30s). The default is 60s. The special syntax Nx means to run the fuzz target N times (for example, -fuzzminimizetime 100x).
+    /// The default is 60s.
     /// </summary>
     [CliOption("-fuzzminimizetime")]
     public string? Fuzzminimizetime { get; set; }
