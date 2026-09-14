@@ -16,12 +16,12 @@ namespace ModularPipelines.Liquibase.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum LiquibaseShowSummaryOutput
 {
-    [EnumValue("log")]
-    Log,
+    [EnumValue("all")]
+    All,
 
     [EnumValue("console")]
     Console,
 
-    [EnumValue("all")]
-    All
+    [EnumValue("log")]
+    Log
 }
