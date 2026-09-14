@@ -362,8 +362,11 @@ public class OptionsClassGenerator : ICodeGenerator
     {
         if (HasOption(command, "--cli-input-json"))
         {
-            sb.AppendLine($"    public static {command.ClassName} FromCliInputJson(string cliInputJson) =>");
-            sb.AppendLine("        new() { CliInputJson = cliInputJson };");
+            sb.AppendLine($"    public static {command.ClassName} FromCliInputJson(string cliInputJson)");
+            sb.AppendLine("    {");
+            sb.AppendLine("        global::System.ArgumentNullException.ThrowIfNull(cliInputJson);");
+            sb.AppendLine("        return new() { CliInputJson = cliInputJson };");
+            sb.AppendLine("    }");
             sb.AppendLine();
         }
 

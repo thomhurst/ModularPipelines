@@ -9,6 +9,28 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public class RequiredConstructorValidationTests
 {
     [Test]
+    [Arguments("IEnumerable<string>?")]
+    [Arguments("CustomValues?")]
+    public async Task Cli_Json_Factories_Reject_Null_Alternate_Input(string collectionType)
+    {
+        var generated = await Generate(collectionType, alternateInput: true);
+        var options = Compile(generated).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var factory = options.GetMethod("FromCliInputJson")!;
+
+        var exception = await Assert.That(() => factory.Invoke(null, [null]))
+            .Throws<TargetInvocationException>();
+        await Assert.That(exception!.InnerException).IsTypeOf<ArgumentNullException>();
+        await Assert.That(((ArgumentNullException) exception.InnerException!).ParamName).IsEqualTo("cliInputJson");
+
+        foreach (var input in new[] { "{}", "file://parameters.json" })
+        {
+            var instance = factory.Invoke(null, [input])!;
+            await Assert.That(options.GetProperty("CliInputJson")!.GetValue(instance)).IsEqualTo(input);
+            await Assert.That(options.GetProperty("Name")!.GetValue(instance)).IsNull();
+        }
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task Required_Custom_Collections_Reject_Null_And_Empty_Values(bool alternateInput)
