@@ -1078,6 +1078,16 @@ public static class UsageSynopsisParser
             return false;
         }
 
+        return TryParseOptionalNestedOperands(nestedTokens, positionIndex, phase, out arguments);
+    }
+
+    private static bool TryParseOptionalNestedOperands(
+        List<string> nestedTokens,
+        int positionIndex,
+        CommandLinePhase phase,
+        out IReadOnlyList<CliPositionalArgument> arguments)
+    {
+        arguments = [];
         var parsedArguments = new List<CliPositionalArgument>();
         string? associatedOptionSwitch = null;
         foreach (var nestedToken in nestedTokens)
